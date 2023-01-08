@@ -716,7 +716,7 @@ namespace Files.App.Filesystem
 		public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
 		{
 			var itemsList = new List<IStorageItemWithPath>();
-      
+
 			if (packageView.Contains(StandardDataFormats.StorageItems))
 			{
 				try
