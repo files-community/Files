@@ -84,9 +84,16 @@ namespace Files.App.Interacts
 
 		public virtual async void CreateShortcut(RoutedEventArgs e)
 		{
+			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
+			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
+				!library.IsEmpty)
+			{
+				currentPath = library.DefaultSaveFolder;
+			}
+
 			foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
 			{
-				var filePath = Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
+				var filePath = Path.Combine(currentPath,
 								string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk");
 
 				await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath);

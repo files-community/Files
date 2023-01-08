@@ -604,22 +604,20 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				var realSavePath = FilesystemHelpers.ResolvePathInLibrary(linkSavePath);
-				var realTargetPath = FilesystemHelpers.ResolvePathInLibrary(targetPath);
-				if (FileExtensionHelpers.IsShortcutFile(realSavePath))
+				if (FileExtensionHelpers.IsShortcutFile(linkSavePath))
 				{
-					using var newLink = new ShellLink(realTargetPath, arguments, workingDirectory);
+					using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
 					newLink.RunAsAdministrator = runAsAdmin;
-					newLink.SaveAs(realSavePath); // Overwrite if exists
+					newLink.SaveAs(linkSavePath); // Overwrite if exists
 					return Task.FromResult(true);
 				}
-				else if (FileExtensionHelpers.IsWebLinkFile(realSavePath))
+				else if (FileExtensionHelpers.IsWebLinkFile(linkSavePath))
 				{
 					return Win32API.StartSTATask(() =>
 					{
 						var ipf = new Url.IUniformResourceLocator();
-						ipf.SetUrl(realTargetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
-						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(realSavePath, false); // Overwrite if exists
+						ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
+						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
 						return true;
 					});
 				}
