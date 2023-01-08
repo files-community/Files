@@ -27,7 +27,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "Bundles".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowBundlesWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowBundlesWidget;
 
 		public BundlesWidget()
 		{
