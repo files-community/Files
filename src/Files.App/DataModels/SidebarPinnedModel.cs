@@ -277,7 +277,7 @@ namespace Files.App.DataModels
 		/// </summary>
 		public async Task AddAllItemsToSidebar()
 		{
-			if (UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
+			if (UserSettingsService.PreferencesSettingsService.ShowFavoritesSection)
 			{
 				foreach (string path in FavoriteItems)
 				{

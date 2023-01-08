@@ -4,6 +4,7 @@
 	{
 		Folder = 0,
 		File = 1,
-		Cancel = 2
+		Shortcut = 2,
+		Cancel = 3
 	}
 }

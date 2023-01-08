@@ -386,10 +386,10 @@ namespace Files.App.ViewModels
 		{
 			switch (e.SettingName)
 			{
-				case nameof(UserSettingsService.AppearanceSettingsService.ShowFoldersWidget):
-				case nameof(UserSettingsService.AppearanceSettingsService.ShowDrivesWidget):
-				case nameof(UserSettingsService.AppearanceSettingsService.ShowBundlesWidget):
-				case nameof(UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget):
+				case nameof(UserSettingsService.PreferencesSettingsService.ShowFoldersWidget): // ToDo: Move this to the widget page, it doesn't belong here.
+				case nameof(UserSettingsService.PreferencesSettingsService.ShowDrivesWidget):
+				case nameof(UserSettingsService.PreferencesSettingsService.ShowBundlesWidget):
+				case nameof(UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget):
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 					OnPropertyChanged(e.SettingName);
 					break;
@@ -790,6 +790,8 @@ namespace Files.App.ViewModels
 		public ICommand? CreateNewFileCommand { get; set; }
 
 		public ICommand? CreateNewFolderCommand { get; set; }
+
+		public ICommand? CreateNewShortcutCommand { get; set; }
 
 		public ICommand? CopyCommand { get; set; }
 
