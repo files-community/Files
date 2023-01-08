@@ -740,14 +740,24 @@ namespace Files.App.Views.LayoutModes
 		{
 			var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(tb =>
 			{
-				// isolated <TextBlock Grid.Column=...>
-				if (tb.ReadLocalValue(Grid.ColumnProperty) != DependencyProperty.UnsetValue)
-					return Grid.GetColumn(tb) == columnIndex;
-				// <TextBlock> nested in <Grid Grid.Column=...>
-				else if (tb.Parent is Grid parentGrid)
-					return Grid.GetColumn(parentGrid) == columnIndex;
+				int columnIndexFromName = tb.Name switch
+				{
+					"ItemName" => 1,
+					"ItemTag" => 2,
+					"ItemOriginalPath" => 3,
+					"ItemDateDeleted" => 4,
+					"ItemDateModified" => 5,
+					"ItemDateCreated" => 6,
+					"ItemType" => 7,
+					"ItemSize" => 8,
+					"ItemStatus" => 9,
+					_ => -1,
+				};
 
-				return false;
+				if (columnIndexFromName == -1)
+					return false;
+
+				return columnIndexFromName == columnIndex;
 			});
 
 			// heuristic: usually, text with more letters are wider than shorter text with wider letters
