@@ -87,7 +87,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			}
 		}
 
-		public override string ToolTipText => string.Concat("RecycleBinSize".GetLocalizedResource(), SpaceUsed.ToSizeString());
+		public override string ToolTipText => SpaceUsed.ToSizeString();
 
 		public RecycleBinLocationItem()
 		{
