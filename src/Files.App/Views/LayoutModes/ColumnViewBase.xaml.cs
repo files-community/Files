@@ -410,12 +410,12 @@ namespace Files.App.Views.LayoutModes
 				if (IsRenamingItem)
 					return;
 
+				e.Handled = true;
+
 				if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
 					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 				else
-					_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-
-				e.Handled = true;
+					await NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
