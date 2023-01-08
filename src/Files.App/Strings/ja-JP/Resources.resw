@@ -1223,10 +1223,10 @@
     <value>フォルダーの追加設定をリセット</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>この設定がオフのときに任意のフォルダーのレイアウトを変更すると、すべてのフォルダーにそのレイアウトが適用されます。</value>
+    <value>この設定がオフのときに変更したフォルダーのレイアウトは、すべてのフォルダーに適用されます。</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>個別のフォルダーごとに設定を変更できるようにする</value>
+    <value>フォルダーごとに設定を保存する</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリック メニューをカスタマイズ</value>
