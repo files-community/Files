@@ -93,6 +93,108 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		public bool IsDualPaneEnabled
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool AlwaysOpenDualPaneInNewTab
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool ShowFoldersWidget
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowRecentFilesWidget
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowDrivesWidget
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowBundlesWidget
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool FoldersWidgetExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool RecentFilesWidgetExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool DrivesWidgetExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool BundlesWidgetExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowFavoritesSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowLibrarySection
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool ShowDrivesSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowCloudDrivesSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowNetworkDrivesSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowWslSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowFileTagsSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -105,6 +207,22 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ContinueLastSessionOnStartUp):
 				case nameof(OpenNewTabOnStartup):
 				case nameof(AlwaysOpenNewInstance):
+				case nameof(IsDualPaneEnabled):
+				case nameof(AlwaysOpenDualPaneInNewTab):
+				case nameof(ShowFoldersWidget):
+				case nameof(ShowRecentFilesWidget):
+				case nameof(ShowDrivesWidget):
+				case nameof(ShowBundlesWidget):
+				case nameof(FoldersWidgetExpanded):
+				case nameof(RecentFilesWidgetExpanded):
+				case nameof(BundlesWidgetExpanded):
+				case nameof(DrivesWidgetExpanded):
+				case nameof(ShowFavoritesSection):
+				case nameof(ShowLibrarySection):
+				case nameof(ShowCloudDrivesSection):
+				case nameof(ShowNetworkDrivesSection):
+				case nameof(ShowWslSection):
+				case nameof(ShowFileTagsSection):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

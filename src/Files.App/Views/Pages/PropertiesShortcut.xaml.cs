@@ -14,9 +14,17 @@ namespace Files.App.Views
 			InitializeComponent();
 		}
 
-		public override async Task<bool> SaveChangesAsync(ListedItem item)
+		public override async Task<bool> SaveChangesAsync()
 		{
-			var shortcutItem = (ShortcutItem)item;
+			var shortcutItem = BaseProperties switch
+			{
+				FileProperties properties => properties.Item,
+				FolderProperties properties => properties.Item,
+				_ => null
+			} as ShortcutItem;
+
+			if (shortcutItem is null)
+				return true;
 
 			await App.Window.DispatcherQueue.EnqueueAsync(() =>
 				UIFilesystemHelpers.UpdateShortcutItemProperties(shortcutItem, 

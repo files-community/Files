@@ -29,8 +29,8 @@
 
 		<Border
 			x:Name="TitlebarArea"
-			HorizontalAlignment="Stretch"
 			Grid.Row="0"
+			HorizontalAlignment="Stretch"
 			Background="Transparent">
 			<NavigationView
 				x:Name="NavigationView"
@@ -57,73 +57,74 @@
 				<!--  Tabs  -->
 				<NavigationView.MenuItems>
 					<NavigationViewItem
-					x:Name="TabGeneral"
-					AccessKey="G"
-					Content="{helpers:ResourceString Name=General}"
-					CornerRadius="0"
-					Tag="General">
+						x:Name="TabGeneral"
+						AccessKey="G"
+						Content="{helpers:ResourceString Name=General}"
+						CornerRadius="0"
+						Tag="General">
 						<NavigationViewItem.Icon>
 							<FontIcon Glyph="&#xE7C3;" />
 						</NavigationViewItem.Icon>
 					</NavigationViewItem>
 					<NavigationViewItem
-					x:Name="TabSecurity"
-					Content="{helpers:ResourceString Name=Security}"
-					CornerRadius="0"
-					Tag="Security">
+						x:Name="TabSecurity"
+						Content="{helpers:ResourceString Name=Security}"
+						CornerRadius="0"
+						Tag="Security"
+						Visibility="Collapsed">
 						<NavigationViewItem.Icon>
 							<FontIcon Glyph="&#xE730;" />
 						</NavigationViewItem.Icon>
 					</NavigationViewItem>
 					<NavigationViewItem
-					x:Name="TabShorcut"
-					AccessKey="S"
-					Content="{helpers:ResourceString Name=Shortcut}"
-					CornerRadius="0"
-					Tag="Shortcut"
-					Visibility="Collapsed">
+						x:Name="TabShorcut"
+						AccessKey="S"
+						Content="{helpers:ResourceString Name=Shortcut}"
+						CornerRadius="0"
+						Tag="Shortcut"
+						Visibility="Collapsed">
 						<NavigationViewItem.Icon>
 							<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
 						</NavigationViewItem.Icon>
 					</NavigationViewItem>
 					<NavigationViewItem
-					x:Name="TabLibrary"
-					AccessKey="L"
-					Content="{helpers:ResourceString Name=Library}"
-					CornerRadius="0"
-					Tag="Library"
-					Visibility="Collapsed">
+						x:Name="TabLibrary"
+						AccessKey="L"
+						Content="{helpers:ResourceString Name=Library}"
+						CornerRadius="0"
+						Tag="Library"
+						Visibility="Collapsed">
 						<NavigationViewItem.Icon>
 							<FontIcon Glyph="&#xE1D3;" />
 						</NavigationViewItem.Icon>
 					</NavigationViewItem>
 					<NavigationViewItem
-					x:Name="TabDetails"
-					AccessKey="D"
-					Content="{helpers:ResourceString Name=Details}"
-					CornerRadius="0"
-					Tag="Details"
-					Visibility="Collapsed">
+						x:Name="TabDetails"
+						AccessKey="D"
+						Content="{helpers:ResourceString Name=Details}"
+						CornerRadius="0"
+						Tag="Details"
+						Visibility="Collapsed">
 						<NavigationViewItem.Icon>
 							<FontIcon Glyph="&#xE946;" />
 						</NavigationViewItem.Icon>
 					</NavigationViewItem>
 					<NavigationViewItem
-					x:Name="TabCustomization"
-					Content="{helpers:ResourceString Name=Customization}"
-					CornerRadius="0"
-					Tag="Customization"
-					Visibility="Collapsed">
+						x:Name="TabCustomization"
+						Content="{helpers:ResourceString Name=Customization}"
+						CornerRadius="0"
+						Tag="Customization"
+						Visibility="Collapsed">
 						<NavigationViewItem.Icon>
 							<FontIcon Glyph="&#xE771;" />
 						</NavigationViewItem.Icon>
 					</NavigationViewItem>
 					<NavigationViewItem
-					x:Name="TabCompatibility"
-					Content="{helpers:ResourceString Name=Compatibility}"
-					CornerRadius="0"
-					Tag="Compatibility"
-					Visibility="Collapsed">
+						x:Name="TabCompatibility"
+						Content="{helpers:ResourceString Name=Compatibility}"
+						CornerRadius="0"
+						Tag="Compatibility"
+						Visibility="Collapsed">
 						<NavigationViewItem.Icon>
 							<FontIcon Glyph="&#xECAA;" />
 						</NavigationViewItem.Icon>
