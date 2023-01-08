@@ -716,7 +716,7 @@ namespace Files.App.Filesystem
 		public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
 		{
 			var itemsList = new List<IStorageItemWithPath>();
-
+      
 			if (packageView.Contains(StandardDataFormats.StorageItems))
 			{
 				try
@@ -760,8 +760,10 @@ namespace Files.App.Filesystem
 							uint filesCount = Shell32.DragQueryFile(dropStructHandle, 0xffffffff, null, 0);
 							for (uint i = 0; i < filesCount; i++)
 							{
-								string buffer = new('\0', Kernel32.MAX_PATH);
-								uint charsCopied = Shell32.DragQueryFile(dropStructHandle, i, buffer, Kernel32.MAX_PATH);
+								uint charsNeeded = Shell32.DragQueryFile(dropStructHandle, i, null, 0);
+								uint bufferSpaceRequired = charsNeeded + 1;	// include space for terminating null character
+								string buffer = new('\0', (int)bufferSpaceRequired);
+								uint charsCopied = Shell32.DragQueryFile(dropStructHandle, i, buffer, bufferSpaceRequired);
 
 								if (charsCopied > 0)
 								{

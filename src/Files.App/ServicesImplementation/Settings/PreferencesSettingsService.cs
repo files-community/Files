@@ -153,6 +153,48 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		public bool ShowFavoritesSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowLibrarySection
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool ShowDrivesSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowCloudDrivesSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowNetworkDrivesSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowWslSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowFileTagsSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -175,6 +217,12 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(RecentFilesWidgetExpanded):
 				case nameof(BundlesWidgetExpanded):
 				case nameof(DrivesWidgetExpanded):
+				case nameof(ShowFavoritesSection):
+				case nameof(ShowLibrarySection):
+				case nameof(ShowCloudDrivesSection):
+				case nameof(ShowNetworkDrivesSection):
+				case nameof(ShowWslSection):
+				case nameof(ShowFileTagsSection):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}
