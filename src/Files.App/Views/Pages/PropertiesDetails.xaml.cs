@@ -40,7 +40,7 @@ namespace Files.App.Views
 			return contentDialog;
 		}
 
-		public override async Task<bool> SaveChangesAsync(ListedItem item)
+		public override async Task<bool> SaveChangesAsync()
 		{
 			while (true)
 			{

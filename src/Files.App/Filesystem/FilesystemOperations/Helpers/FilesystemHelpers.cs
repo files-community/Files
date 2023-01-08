@@ -14,11 +14,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Windows.Storage.Streams;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem
 {
@@ -733,7 +737,7 @@ namespace Files.App.Filesystem
 
 		public static bool HasDraggedStorageItems(DataPackageView packageView)
 		{
-			return packageView is not null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out _)));
+			return packageView is not null && packageView.Contains(StandardDataFormats.StorageItems);
 		}
 
 		public static async Task<bool> CheckDragNeedsFulltrust(DataPackageView packageView)
@@ -761,6 +765,7 @@ namespace Files.App.Filesystem
 		public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
 		{
 			var itemsList = new List<IStorageItemWithPath>();
+			
 			if (packageView.Contains(StandardDataFormats.StorageItems))
 			{
 				try
@@ -778,13 +783,58 @@ namespace Files.App.Filesystem
 					return itemsList;
 				}
 			}
-			if (packageView.Properties.TryGetValue("FileDrop", out var data))
+
+			// workaround for GetStorageItemsAsync() bug that only yields 16 items at most
+			// https://learn.microsoft.com/en-us/windows/win32/shell/clipboard#cf_hdrop
+			if (packageView.Contains("FileDrop"))
 			{
-				if (data is List<IStorageItemWithPath> source)
+				var fileDropData = await packageView.GetDataAsync("FileDrop");
+				if (fileDropData is IRandomAccessStream stream)
 				{
-					itemsList.AddRange(source);
+					stream.Seek(0);
+
+					byte[] dropBytes = new byte[stream.Size];
+					int bytesRead = await stream.AsStreamForRead().ReadAsync(dropBytes);
+
+					if (bytesRead > 0)
+					{
+						IntPtr dropStructPointer = Marshal.AllocHGlobal(dropBytes.Length);
+
+						try
+						{
+							Marshal.Copy(dropBytes, 0, dropStructPointer, dropBytes.Length);
+							HDROP dropStructHandle = new(dropStructPointer);
+
+							var itemPaths = new List<string>();
+							uint filesCount = Shell32.DragQueryFile(dropStructHandle, 0xffffffff, null, 0);
+							for (uint i = 0; i < filesCount; i++)
+							{
+								uint charsNeeded = Shell32.DragQueryFile(dropStructHandle, i, null, 0);
+								uint bufferSpaceRequired = charsNeeded + 1;	// include space for terminating null character
+								string buffer = new('\0', (int)bufferSpaceRequired);
+								uint charsCopied = Shell32.DragQueryFile(dropStructHandle, i, buffer, bufferSpaceRequired);
+
+								if (charsCopied > 0)
+								{
+									string path = buffer[..(int)charsCopied];
+									itemPaths.Add(path);
+								}
+							}
+
+							foreach (var path in itemPaths)
+							{
+								var isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, FileAttributes.Directory);
+								itemsList.Add(StorageHelpers.FromPathAndType(path, isDirectory ? FilesystemItemType.Directory : FilesystemItemType.File));
+							}
+						}
+						finally
+						{
+							Marshal.FreeHGlobal(dropStructPointer);
+						}
+					}
 				}
 			}
+
 			itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path).ToList();
 			return itemsList;
 		}
