@@ -2881,7 +2881,4 @@
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
-  <data name="RecycleBinSize" xml:space="preserve">
-    <value>Recycle Bin size: </value>
-  </data>
 </root>
