@@ -1023,8 +1023,6 @@ namespace Files.App.UserControls
 			dragging = true;
 		}
 
-
-
 		private async void LoadShellMenuItems(CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options)
 		{
 			try
@@ -1056,8 +1054,11 @@ namespace Files.App.UserControls
 
 					var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
 					if (itemsControl is not null)
+					{
+						var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
 						secondaryElements.OfType<FrameworkElement>()
-										 .ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin); // Set items max width to current menu width (#5555)
+										 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
+					}
 
 					itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
 					secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
@@ -1068,7 +1069,9 @@ namespace Files.App.UserControls
 					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem) 
 						return;
 
-					overflowItems.ForEach(i => (overflowItem.Flyout as MenuFlyout)?.Items.Add(i));
+					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
+					if (flyoutItems is not null)
+						overflowItems.ForEach(i => flyoutItems.Add(i));
 					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
 				}
 			}
