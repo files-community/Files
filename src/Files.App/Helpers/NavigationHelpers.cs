@@ -46,12 +46,10 @@ namespace Files.App.Helpers
 		{
 			// Don't open files and folders inside recycle bin
 			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal) ||
-				associatedInstance.SlimContentPage is null ||
-				associatedInstance.SlimContentPage.SelectedItems is null)
+				associatedInstance.SlimContentPage?.SelectedItems is null)
 			{
 				return;
 			}
-
 
 			var forceOpenInNewTab = false;
 			var selectedItems = associatedInstance.SlimContentPage.SelectedItems.ToList();
@@ -200,14 +198,14 @@ namespace Files.App.Helpers
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			if (isHiddenItem)
 			{
-				OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance);
+				await OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance);
 				opened = (FilesystemResult)true;
 			}
 			else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
 			{
 				opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
 				if (opened)
-					OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, library.Text, associatedInstance, selectItems);
+					await OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, library.Text, associatedInstance, selectItems);
 			}
 			return opened;
 		}
@@ -229,13 +227,13 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, shortcutInfo.TargetPath, associatedInstance, selectItems);
+					await OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, shortcutInfo.TargetPath, associatedInstance, selectItems);
 					opened = (FilesystemResult)true;
 				}
 			}
 			else if (isHiddenItem)
 			{
-				OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance);
+				await OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance);
 				opened = (FilesystemResult)true;
 			}
 			else
@@ -251,7 +249,7 @@ namespace Files.App.Helpers
 					opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
 
 				if (opened)
-					OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance, selectItems);
+					await OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance, selectItems);
 				else
 					await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
 			}
@@ -276,7 +274,7 @@ namespace Files.App.Helpers
 					{
 						StorageFileWithPath childFile = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
 						// Add location to Recent Items List
-						if (childFile is not null && childFile.Item is SystemStorageFile)
+						if (childFile?.Item is SystemStorageFile)
 							App.RecentItemsManager.AddToRecentItems(childFile.Path);
 					}
 					await Win32Helpers.InvokeWin32ComponentAsync(shortcutInfo.TargetPath, associatedInstance, $"{args} {shortcutInfo.Arguments}", shortcutInfo.RunAsAdmin, shortcutInfo.WorkingDirectory);
@@ -399,10 +397,10 @@ namespace Files.App.Helpers
 			return obj;
 		}
 
-		private static void OpenPath(bool forceOpenInNewTab, bool openFolderInNewTabSetting, string path, IShellPage associatedInstance, IEnumerable<string>? selectItems = null)
+		private static Task OpenPath(bool forceOpenInNewTab, bool openFolderInNewTabSetting, string path, IShellPage associatedInstance, IEnumerable<string>? selectItems = null)
 			=> OpenPath(forceOpenInNewTab, openFolderInNewTabSetting, path, path, associatedInstance, selectItems);
 
-		private static async void OpenPath(bool forceOpenInNewTab, bool openFolderInNewTabSetting, string path, string text, IShellPage associatedInstance, IEnumerable<string>? selectItems = null)
+		private static async Task OpenPath(bool forceOpenInNewTab, bool openFolderInNewTabSetting, string path, string text, IShellPage associatedInstance, IEnumerable<string>? selectItems = null)
 		{
 			if (forceOpenInNewTab || openFolderInNewTabSetting)
 			{
