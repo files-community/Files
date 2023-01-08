@@ -100,6 +100,11 @@ namespace Files.App.Interacts
 			}
 		}
 
+		public virtual async void CreateShortcutFromDialog(RoutedEventArgs e)
+		{
+			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(associatedInstance);
+		}
+
 		public virtual void SetAsLockscreenBackgroundItem(RoutedEventArgs e)
 		{
 			WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath);

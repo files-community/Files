@@ -85,6 +85,15 @@
 									<FontIcon Glyph="&#xE7C3;" />
 								</MenuFlyoutItem.Icon>
 							</MenuFlyoutItem>
+							<MenuFlyoutItem
+								x:Name="NewShortcut"
+								AutomationProperties.AutomationId="InnerNavigationToolbarNewShortcutButton"
+								Command="{x:Bind ViewModel.CreateNewShortcutCommand, Mode=OneWay}"
+								Text="{helpers:ResourceString Name=Shortcut}">
+								<MenuFlyoutItem.Icon>
+									<FontIcon Glyph="&#xE71B;" />
+								</MenuFlyoutItem.Icon>
+							</MenuFlyoutItem>
 							<MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
 						</MenuFlyout>
 					</AppBarButton.Flyout>
