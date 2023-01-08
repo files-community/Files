@@ -21,7 +21,7 @@ namespace Files.App.DataModels
 {
 	public class SidebarPinnedModel
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private SidebarPinnedController? controller;
 
@@ -44,10 +44,7 @@ namespace Files.App.DataModels
 			}
 		}
 
-		public void SetController(SidebarPinnedController controller)
-		{
-			this.controller = controller;
-		}
+		public void SetController(SidebarPinnedController controller) => this.controller = controller;
 
 		/// <summary>
 		/// Adds the default items to the navigation page
@@ -65,10 +62,7 @@ namespace Files.App.DataModels
 		/// <summary>
 		/// Gets the items from the navigation page
 		/// </summary>
-		public List<string> GetItems()
-		{
-			return FavoriteItems;
-		}
+		public List<string> GetItems() => FavoriteItems;
 
 		/// <summary>
 		/// Adds the item to the navigation page
@@ -183,9 +177,7 @@ namespace Files.App.DataModels
 		/// <param name="collection">The collection in which to find the location item</param>
 		/// <returns>Index of the item</returns>
 		public int IndexOfItem(INavigationControlItem locationItem, List<INavigationControlItem> collection)
-		{
-			return collection.IndexOf(locationItem);
-		}
+			=> collection.IndexOf(locationItem);
 
 		/// <summary>
 		/// Saves the model
@@ -270,13 +262,9 @@ namespace Files.App.DataModels
 		/// </summary>
 		public async Task AddAllItemsToSidebar()
 		{
-			if (UserSettingsService.PreferencesSettingsService.ShowFavoritesSection)
-			{
+			if (userSettingsService.PreferencesSettingsService.ShowFavoritesSection)
 				foreach (string path in FavoriteItems)
-				{
 					await AddItemToSidebarAsync(path);
-				}
-			}
 		}
 
 		/// <summary>

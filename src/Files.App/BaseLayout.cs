@@ -102,7 +102,7 @@ namespace Files.App
 
 		protected AddressToolbar? NavToolbar => (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
 
-		private CollectionViewSource collectionViewSource = new CollectionViewSource()
+		private CollectionViewSource collectionViewSource = new()
 		{
 			IsSourceGrouped = true,
 		};
@@ -317,7 +317,10 @@ namespace Files.App
 
 		public virtual void ResetItemOpacity()
 		{
-			foreach (var item in GetAllItems())
+			var items = GetAllItems();
+			if (items is null)
+				return;
+			foreach (var item in items)
 			{
 				if (item is not null)
 					item.Opacity = item.IsHiddenItem ? Constants.UI.DimItemOpacity : 1.0d;
@@ -326,8 +329,7 @@ namespace Files.App
 
 		protected ListedItem? GetItemFromElement(object element)
 		{
-			var item = element as ContentControl;
-			if (item is null || !CanGetItemFromElement(element))
+			if (element is not ContentControl item || !CanGetItemFromElement(element))
 				return null;
 
 			return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (ItemsControl.ItemFromContainer(item) as ListedItem);
@@ -1093,12 +1095,11 @@ namespace Files.App
 
 		protected void SemanticZoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
 		{
-			if (!e.IsSourceZoomedInView)
-			{
-				// According to the docs this isn't necessary, but it would crash otherwise
-				var destination = e.DestinationItem.Item as GroupedCollection<ListedItem>;
-				e.DestinationItem.Item = destination?.FirstOrDefault();
-			}
+			if (e.IsSourceZoomedInView)
+				return;
+			// According to the docs this isn't necessary, but it would crash otherwise
+			var destination = e.DestinationItem.Item as GroupedCollection<ListedItem>;
+			e.DestinationItem.Item = destination?.FirstOrDefault();
 		}
 
 		protected void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -1124,7 +1125,10 @@ namespace Files.App
 
 		private void ItemManipulationModel_RefreshItemsOpacityInvoked(object? sender, EventArgs e)
 		{
-			foreach (ListedItem listedItem in GetAllItems())
+			var items = GetAllItems();
+			if (items is null)
+				return;
+			foreach (ListedItem listedItem in items)
 			{
 				if (listedItem.IsHiddenItem)
 					listedItem.Opacity = Constants.UI.DimItemOpacity;
@@ -1200,14 +1204,10 @@ namespace Files.App
 	public class ContextMenuExtensions : DependencyObject
 	{
 		public static ItemsControl GetItemsControl(DependencyObject obj)
-		{
-			return (ItemsControl)obj.GetValue(ItemsControlProperty);
-		}
+			=> (ItemsControl)obj.GetValue(ItemsControlProperty);
 
 		public static void SetItemsControl(DependencyObject obj, ItemsControl value)
-		{
-			obj.SetValue(ItemsControlProperty, value);
-		}
+			=> obj.SetValue(ItemsControlProperty, value);
 
 		public static readonly DependencyProperty ItemsControlProperty =
 			DependencyProperty.RegisterAttached("ItemsControl", typeof(ItemsControl), typeof(ContextMenuExtensions), new PropertyMetadata(null));

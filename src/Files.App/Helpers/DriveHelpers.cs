@@ -23,9 +23,7 @@ namespace Files.App.Helpers
 
 			using var cimSession = CimSession.Create(null);
 			foreach (var item in cimSession.QueryInstances(@"root\cimv2", "WQL", query)) // max 1 result because DriveLetter is unique.
-			{
 				return (string?)item.CimInstanceProperties["DeviceID"]?.Value ?? string.Empty;
-			}
 
 			return string.Empty;
 		}

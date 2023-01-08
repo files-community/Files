@@ -64,7 +64,7 @@ namespace Files.App.UserControls.Widgets
 
 	public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
@@ -99,7 +99,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "Drives".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
+		public bool IsWidgetSettingEnabled => userSettingsService.PreferencesSettingsService.ShowDrivesWidget;
 
 		public DrivesWidget()
 		{
@@ -133,9 +133,7 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
+			=> PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
 		private async void EjectDevice_Click(object sender, RoutedEventArgs e)
 		{
@@ -155,7 +153,7 @@ namespace Files.App.UserControls.Widgets
 		private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (await DriveHelpers.CheckEmptyDrive(item?.Path))
+			if (await DriveHelpers.CheckEmptyDrive(item?.Path) || item is null)
 				return;
 			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
 		}
@@ -179,9 +177,7 @@ namespace Files.App.UserControls.Widgets
 		private void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
 		{
 			var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
-			var flyoutParent = presenter?.Parent as Popup;
-			var propertiesItem = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (propertiesItem is null || flyoutParent is null)
+			if (presenter?.Parent is not Popup flyoutParent || ((MenuFlyoutItem)sender).DataContext is not DriveItem propertiesItem)
 				return;
 
 			EventHandler<object> flyoutClosed = null!;
@@ -216,13 +212,12 @@ namespace Files.App.UserControls.Widgets
 
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
-			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
-			{
-				string navigationPath = (sender as Button).Tag.ToString();
-				if (await DriveHelpers.CheckEmptyDrive(navigationPath))
-					return;
-				await NavigationHelpers.OpenPathInNewTab(navigationPath);
-			}
+			if (!e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
+				return;
+			string navigationPath = (sender as Button).Tag.ToString();
+			if (await DriveHelpers.CheckEmptyDrive(navigationPath))
+				return;
+			await NavigationHelpers.OpenPathInNewTab(navigationPath);
 		}
 
 		public class DrivesWidgetInvokedEventArgs : EventArgs

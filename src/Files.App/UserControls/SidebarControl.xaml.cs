@@ -34,7 +34,7 @@ namespace Files.App.UserControls
 {
 	public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
 	{
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
 
@@ -131,7 +131,7 @@ namespace Files.App.UserControls
 
 		private bool IsInPointerPressed = false;
 
-		private DispatcherQueueTimer dragOverSectionTimer, dragOverItemTimer;
+		private readonly DispatcherQueueTimer dragOverSectionTimer, dragOverItemTimer;
 
 		public SidebarControl()
 		{
@@ -329,25 +329,25 @@ namespace Files.App.UserControls
 			switch (rightClickedItem.Section)
 			{
 				case SectionType.Favorites:
-					UserSettingsService.PreferencesSettingsService.ShowFavoritesSection = false;
+					userSettingsService.PreferencesSettingsService.ShowFavoritesSection = false;
 					break;
 				case SectionType.Library:
-					UserSettingsService.PreferencesSettingsService.ShowLibrarySection = false;
+					userSettingsService.PreferencesSettingsService.ShowLibrarySection = false;
 					break;
 				case SectionType.CloudDrives:
-					UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = false;
+					userSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = false;
 					break;
 				case SectionType.Drives:
-					UserSettingsService.PreferencesSettingsService.ShowDrivesSection = false;
+					userSettingsService.PreferencesSettingsService.ShowDrivesSection = false;
 					break;
 				case SectionType.Network:
-					UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = false;
+					userSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = false;
 					break;
 				case SectionType.WSL:
-					UserSettingsService.PreferencesSettingsService.ShowWslSection = false;
+					userSettingsService.PreferencesSettingsService.ShowWslSection = false;
 					break;
 				case SectionType.FileTag:
-					UserSettingsService.PreferencesSettingsService.ShowFileTagsSection = false;
+					userSettingsService.PreferencesSettingsService.ShowFileTagsSection = false;
 					break;
 			}
 		}
@@ -387,25 +387,17 @@ namespace Files.App.UserControls
 				App.SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path);
 		}
 
-		private void MoveItemToTop()
-		{
-			MoveItemToNewIndex(0);
-		}
+		private void MoveItemToTop() 
+			=> MoveItemToNewIndex(0);
 
-		private void MoveItemUp()
-		{
-			MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) - 1);
-		}
+		private void MoveItemUp() 
+			=> MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) - 1);
 
 		private void MoveItemDown()
-		{
-			MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) + 1);
-		}
+			=> MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) + 1);
 
 		private void MoveItemToBottom()
-		{
-			MoveItemToNewIndex(App.SidebarPinnedController.Model.FavoriteItems.Count - 1);
-		}
+			=> MoveItemToNewIndex(App.SidebarPinnedController.Model.FavoriteItems.Count - 1);
 
 		private void MoveItemToNewIndex(int newIndex)
 		{
@@ -496,7 +488,7 @@ namespace Files.App.UserControls
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
+			if (!userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
 				secondaryElements.OfType<FrameworkElement>()
 								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
 
@@ -920,20 +912,16 @@ namespace Files.App.UserControls
 		}
 
 		private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
-		{
-			(this.FindDescendant("TabContentBorder") as Border)!.Child = TabContent;
-		}
+			=> (this.FindDescendant("TabContentBorder") as Border)!.Child = TabContent;
 
 		private void SidebarControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
-		{
-			IsPaneToggleButtonVisible = args.DisplayMode == NavigationViewDisplayMode.Minimal;
-		}
+			=> IsPaneToggleButtonVisible = args.DisplayMode == NavigationViewDisplayMode.Minimal;
 
 		private void Border_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			var ctrl = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control);
 			var step = ctrl.HasFlag(CoreVirtualKeyStates.Down) ? 5 : 1;
-			originalSize = IsPaneOpen ? UserSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
+			originalSize = IsPaneOpen ? userSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
 
 			if (e.Key == VirtualKey.Space || e.Key == VirtualKey.Enter)
 			{
@@ -960,7 +948,7 @@ namespace Files.App.UserControls
 				return;
 			}
 
-			UserSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
+			userSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
 		}
 
 		private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -1017,21 +1005,18 @@ namespace Files.App.UserControls
 			var grid = (Grid)sender;
 			grid.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 			VisualStateManager.GoToState(grid.FindAscendant<SplitView>(), "ResizerNormal", true);
-			UserSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
+			userSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
 			dragging = false;
 		}
 
-		private void ResizeElementBorder_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-		{
-			IsPaneOpen = !IsPaneOpen;
-		}
+		private void ResizeElementBorder_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e) => IsPaneOpen = !IsPaneOpen;
 
 		private void ResizeElementBorder_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
 			if (DisplayMode != NavigationViewDisplayMode.Expanded)
 				return;
 
-			originalSize = IsPaneOpen ? UserSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
+			originalSize = IsPaneOpen ? userSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
 			var grid = (Grid)sender;
 			grid.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 			VisualStateManager.GoToState(grid.FindAscendant<SplitView>(), "ResizerPressed", true);
@@ -1060,7 +1045,7 @@ namespace Files.App.UserControls
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
 					new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
-				if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
+				if (!userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
 				{
 					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
 					if (!secondaryElements.Any())

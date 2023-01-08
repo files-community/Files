@@ -112,7 +112,7 @@ namespace Files.App.Helpers
 		/// <param name="openViaApplicationPicker">Determines whether open file using application picker</param>
 		/// <param name="selectItems">List of filenames that are selected upon navigation</param>
 		/// <param name="forceOpenInNewTab">Open folders in a new tab regardless of the "OpenFoldersInNewTab" option</param>
-		public static async Task<bool> OpenPath(string path, IShellPage associatedInstance, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string>? selectItems = null, string args = default, bool forceOpenInNewTab = false)
+		public static async Task<bool> OpenPath(string path, IShellPage associatedInstance, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string>? selectItems = null, string? args = default, bool forceOpenInNewTab = false)
 		{
 			string previousDir = associatedInstance.FilesystemViewModel.WorkingDirectory;
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
@@ -176,7 +176,7 @@ namespace Files.App.Helpers
 					break;
 
 				case FilesystemItemType.File:
-					opened = await OpenFile(path, associatedInstance, selectItems, shortcutInfo, openViaApplicationPicker, args);
+					opened = await OpenFile(path, associatedInstance, shortcutInfo, openViaApplicationPicker, args);
 					break;
 			};
 
@@ -190,7 +190,7 @@ namespace Files.App.Helpers
 			return opened;
 		}
 
-		private static async Task<FilesystemResult> OpenLibrary(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, bool forceOpenInNewTab)
+		private static async Task<FilesystemResult> OpenLibrary(string path, IShellPage associatedInstance, IEnumerable<string>? selectItems, bool forceOpenInNewTab)
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -210,7 +210,7 @@ namespace Files.App.Helpers
 			return opened;
 		}
 
-		private static async Task<FilesystemResult> OpenDirectory(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool forceOpenInNewTab)
+		private static async Task<FilesystemResult> OpenDirectory(string path, IShellPage associatedInstance, IEnumerable<string>? selectItems, ShellLinkItem shortcutInfo, bool forceOpenInNewTab)
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -256,7 +256,7 @@ namespace Files.App.Helpers
 			return opened;
 		}
 
-		private static async Task<FilesystemResult> OpenFile(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool openViaApplicationPicker = false, string args = default)
+		private static async Task<FilesystemResult> OpenFile(string path, IShellPage associatedInstance, ShellLinkItem shortcutInfo, bool openViaApplicationPicker = false, string? args = default)
 		{
 			var opened = (FilesystemResult)false;
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
@@ -308,17 +308,17 @@ namespace Files.App.Helpers
 							//try using launcher first
 							bool launchSuccess = false;
 
-							BaseStorageFileQueryResult fileQueryResult = null;
+							BaseStorageFileQueryResult? fileQueryResult = null;
 
 							//Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
 							BaseStorageFolder currentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
 
 							if (currentFolder is not null)
 							{
-								QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, null);
+								QueryOptions queryOptions = new(CommonFileQuery.DefaultQuery, null);
 
 								//We can have many sort entries
-								SortEntry sortEntry = new SortEntry()
+								SortEntry sortEntry = new()
 								{
 									AscendingOrder = associatedInstance.InstanceViewModel.FolderSettings.DirectorySortDirection == SortDirection.Ascending
 								};
