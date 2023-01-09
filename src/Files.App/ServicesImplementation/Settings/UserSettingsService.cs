@@ -24,12 +24,6 @@ namespace Files.App.ServicesImplementation.Settings
 			get => GetSettingsService(ref _FoldersSettingsService);
 		}
 
-		private IMultitaskingSettingsService _MultitaskingSettingsService;
-		public IMultitaskingSettingsService MultitaskingSettingsService
-		{
-			get => GetSettingsService(ref _MultitaskingSettingsService);
-		}
-
 		private IAppearanceSettingsService _AppearanceSettingsService;
 		public IAppearanceSettingsService AppearanceSettingsService
 		{

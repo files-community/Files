@@ -9,8 +9,6 @@ namespace Files.App.UserControls
 {
 	public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
 	{
-		public AppModel AppModel => App.AppModel;
-
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
 		{
 			get => (DirectoryPropertiesViewModel)GetValue(DirectoryPropertiesViewModelProperty);
@@ -43,11 +41,6 @@ namespace Files.App.UserControls
 		public StatusBarControl()
 		{
 			this.InitializeComponent();
-		}
-
-		private void FullTrustStatus_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-		{
-			FullTrustStatusTeachingTip.IsOpen = true;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

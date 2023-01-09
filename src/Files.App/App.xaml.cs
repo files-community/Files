@@ -108,7 +108,6 @@ namespace Files.App
 				// Base IUserSettingsService as parent settings store (to get ISettingsSharingContext from)
 				.AddSingleton<IUserSettingsService, UserSettingsService>()
 				// Children settings (from IUserSettingsService)
-				.AddSingleton<IMultitaskingSettingsService, MultitaskingSettingsService>((sp) => new MultitaskingSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<IFoldersSettingsService, FoldersSettingsService>((sp) => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
@@ -192,7 +191,7 @@ namespace Files.App
 		private static async Task InitializeAppComponentsAsync()
 		{
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			var appearanceSettingsService = userSettingsService.AppearanceSettingsService;
+			var preferencesSettingsService = userSettingsService.PreferencesSettingsService;
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.Run(async () =>
@@ -200,11 +199,11 @@ namespace Files.App
 				await Task.WhenAll(
 					StartAppCenter(),
 					DrivesManager.UpdateDrivesAsync(),
-					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), appearanceSettingsService.ShowCloudDrivesSection),
+					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), preferencesSettingsService.ShowCloudDrivesSection),
 					LibraryManager.UpdateLibrariesAsync(),
-					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), appearanceSettingsService.ShowNetworkDrivesSection),
-					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), appearanceSettingsService.ShowWslSection),
-					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), appearanceSettingsService.ShowFileTagsSection),
+					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), preferencesSettingsService.ShowNetworkDrivesSection),
+					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), preferencesSettingsService.ShowWslSection),
+					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), preferencesSettingsService.ShowFileTagsSection),
 					SidebarPinnedController.InitializeAsync()
 				);
 				await Task.WhenAll(
@@ -346,13 +345,13 @@ namespace Files.App
 		}
 
 		// Occurs when an exception is not handled on the UI thread.
-		private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception);
+		private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception, true);
 
 		// Occurs when an exception is not handled on a background thread.
 		// ie. A task is fired and forgotten Task.Run(() => {...})
-		private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception);
+		private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception, false);
 
-		private static void AppUnhandledException(Exception ex)
+		private static void AppUnhandledException(Exception ex, bool shouldShowNotification)
 		{
 			StringBuilder formattedException = new StringBuilder() { Capacity = 200 };
 
@@ -394,49 +393,50 @@ namespace Files.App
 
 			SaveSessionTabs();
 			Logger.UnhandledError(ex, ex.Message);
-			if (ShowErrorNotification)
+
+			if (!ShowErrorNotification || !shouldShowNotification)
+				return;
+
+			var toastContent = new ToastContent()
 			{
-				var toastContent = new ToastContent()
+				Visual = new ToastVisual()
 				{
-					Visual = new ToastVisual()
+					BindingGeneric = new ToastBindingGeneric()
 					{
-						BindingGeneric = new ToastBindingGeneric()
+						Children =
 						{
-							Children =
+							new AdaptiveText()
 							{
-								new AdaptiveText()
-								{
-									Text = "ExceptionNotificationHeader".GetLocalizedResource()
-								},
-								new AdaptiveText()
-								{
-									Text = "ExceptionNotificationBody".GetLocalizedResource()
-								}
+								Text = "ExceptionNotificationHeader".GetLocalizedResource()
 							},
-							AppLogoOverride = new ToastGenericAppLogo()
+							new AdaptiveText()
 							{
-								Source = "ms-appx:///Assets/error.png"
+								Text = "ExceptionNotificationBody".GetLocalizedResource()
 							}
-						}
-					},
-					Actions = new ToastActionsCustom()
-					{
-						Buttons =
+						},
+						AppLogoOverride = new ToastGenericAppLogo()
 						{
-							new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), "report")
-							{
-								ActivationType = ToastActivationType.Foreground
-							}
+							Source = "ms-appx:///Assets/error.png"
 						}
 					}
-				};
+				},
+				Actions = new ToastActionsCustom()
+				{
+					Buttons =
+					{
+						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), "report")
+						{
+							ActivationType = ToastActivationType.Foreground
+						}
+					}
+				}
+			};
 
-				// Create the toast notification
-				var toastNotif = new ToastNotification(toastContent.GetXml());
+			// Create the toast notification
+			var toastNotif = new ToastNotification(toastContent.GetXml());
 
-				// And send the notification
-				ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
-			}
+			// And send the notification
+			ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
 		}
 
 		public static void CloseApp()

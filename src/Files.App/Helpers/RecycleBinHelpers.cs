@@ -1,3 +1,4 @@
+using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Shell;
@@ -22,11 +23,16 @@ namespace Files.App.Helpers
 
 		#endregion Private Members
 
-		public async Task<List<ShellFileItem>> EnumerateRecycleBin()
+		public static async Task<List<ShellFileItem>> EnumerateRecycleBin()
 		{
 			return (await Win32Shell.GetShellFolderAsync(CommonPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
 		}
 
+        public static ulong GetSize()
+        {
+			return (ulong)Win32Shell.QueryRecycleBin().BinSize;
+		}
+		
 		public async Task<bool> IsRecycleBinItem(IStorageItem item)
 		{
 			List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
@@ -147,7 +153,7 @@ namespace Files.App.Helpers
 			return contentDialog;
 		}
 
-		public async Task<bool> HasRecycleBin(string path)
+		public async Task<bool> HasRecycleBin(string? path)
 		{
 			if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\", StringComparison.Ordinal))
 				return false;

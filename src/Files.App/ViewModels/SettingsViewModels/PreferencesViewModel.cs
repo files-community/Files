@@ -268,6 +268,32 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		public bool IsDualPaneEnabled
+		{
+			get => UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
+				{
+					UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool AlwaysOpenDualPaneInNewTab
+		{
+			get => UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab)
+				{
+					UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		private async Task ChangePage()
 		{
 			var folderPicker = this.InitializeWithWindow(new FolderPicker());
@@ -321,19 +347,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			=> string.Format("DateFormatSample".GetLocalizedResource(), DateFormats[SelectedDateTimeFormatIndex].Sample1, DateFormats[SelectedDateTimeFormatIndex].Sample2);
 
 		private DispatcherQueue dispatcherQueue;
-
-		public bool ShowConfirmDeleteDialog
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog = value;
-					OnPropertyChanged();
-				}
-			}
-		}
 
 		public DateTimeFormats DateTimeFormat
 		{
@@ -423,58 +436,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			return state.State;
 		}
 
-		public bool ShowFileExtensions
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowFileExtensions = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowThumbnails
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowThumbnails;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowThumbnails)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowThumbnails = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool SelectFilesOnHover
-		{
-			get => UserSettingsService.PreferencesSettingsService.SelectFilesOnHover;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
-				{
-					UserSettingsService.PreferencesSettingsService.SelectFilesOnHover = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ListAndSortDirectoriesAlongsideFiles
-		{
-			get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles)
-				{
-					UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public bool SearchUnindexedItems
 		{
 			get => UserSettingsService.PreferencesSettingsService.SearchUnindexedItems;
@@ -483,6 +444,137 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.SearchUnindexedItems)
 				{
 					UserSettingsService.PreferencesSettingsService.SearchUnindexedItems = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowFoldersWidget
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowFoldersWidget;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowFoldersWidget)
+					UserSettingsService.PreferencesSettingsService.ShowFoldersWidget = value;
+			}
+		}
+
+		public bool ShowDrivesWidget
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowDrivesWidget)
+					UserSettingsService.PreferencesSettingsService.ShowDrivesWidget = value;
+			}
+		}
+
+		public bool ShowBundlesWidget
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowBundlesWidget;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowBundlesWidget)
+					UserSettingsService.PreferencesSettingsService.ShowBundlesWidget = value;
+			}
+		}
+
+		public bool ShowRecentFilesWidget
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget)
+					UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget = value;
+			}
+		}
+
+		public bool ShowFavoritesSection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowFavoritesSection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowFavoritesSection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowFavoritesSection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowLibrarySection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowLibrarySection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowLibrarySection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowLibrarySection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowDrivesSection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowDrivesSection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowDrivesSection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowDrivesSection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowCloudDrivesSection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowNetworkDrivesSection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowWslSection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowWslSection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowWslSection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowWslSection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowFileTagsSection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowFileTagsSection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowFileTagsSection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowFileTagsSection = value;
 					OnPropertyChanged();
 				}
 			}
