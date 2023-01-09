@@ -99,9 +99,8 @@ namespace Files.App.Filesystem
 			if (string.IsNullOrWhiteSpace(source.Name)
 				|| ContainsRestrictedCharacters(source.Name)
 				|| ContainsRestrictedFileName(source.Name))
-			{
 				return (ReturnResult.Failed, null);
-			}
+			
 
 			var result = await filesystemOperations.CreateAsync(source, progress, cancellationToken);
 
