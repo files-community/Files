@@ -128,7 +128,7 @@ namespace Files.App.Filesystem
 				{
 					if (recycleBinHelpers.IsPathUnderRecycleBin(src.Path))
 					{
-						binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+						binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
 						if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 						{
 							var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src.Path); // Get original file name
@@ -376,7 +376,7 @@ namespace Files.App.Filesystem
 				{
 					if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
 					{
-						binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+						binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
 						if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 						{
 							var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
@@ -521,7 +521,7 @@ namespace Files.App.Filesystem
 			{
 				if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
 				{
-					binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+					binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
 					if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 					{
 						var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
