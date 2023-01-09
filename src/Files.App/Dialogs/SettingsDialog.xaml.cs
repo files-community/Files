@@ -50,7 +50,7 @@ namespace Files.App.Dialogs
 				0 => SettingsContentFrame.Navigate(typeof(Appearance)),
 				1 => SettingsContentFrame.Navigate(typeof(Preferences)),
 				2 => SettingsContentFrame.Navigate(typeof(Folders)),
-				3 => SettingsContentFrame.Navigate(typeof(Experimental)),
+				3 => SettingsContentFrame.Navigate(typeof(Advanced)),
 				4 => SettingsContentFrame.Navigate(typeof(About)),
 				_ => SettingsContentFrame.Navigate(typeof(Appearance))
 			};
