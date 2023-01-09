@@ -9,8 +9,6 @@ namespace Files.App.UserControls
 {
 	public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
 	{
-		public AppModel AppModel => App.AppModel;
-
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
 		{
 			get => (DirectoryPropertiesViewModel)GetValue(DirectoryPropertiesViewModelProperty);
