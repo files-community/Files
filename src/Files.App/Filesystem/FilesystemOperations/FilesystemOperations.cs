@@ -53,7 +53,7 @@ namespace Files.App.Filesystem
 			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress, 1);
 			fsProgress.Report();
 
-			try
+				try
 			{
 				switch (source.ItemType)
 				{

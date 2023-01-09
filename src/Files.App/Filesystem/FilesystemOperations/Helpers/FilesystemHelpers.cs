@@ -96,6 +96,13 @@ namespace Files.App.Filesystem
 			var progress = new Progress<FileSystemProgress>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
+			if (string.IsNullOrWhiteSpace(source.Name)
+				|| ContainsRestrictedCharacters(source.Name)
+				|| ContainsRestrictedFileName(source.Name))
+			{
+				return (ReturnResult.Failed, null);
+			}
+
 			var result = await filesystemOperations.CreateAsync(source, progress, cancellationToken);
 
 			if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
