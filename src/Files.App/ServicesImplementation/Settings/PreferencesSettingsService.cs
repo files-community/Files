@@ -15,30 +15,6 @@ namespace Files.App.ServicesImplementation.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public bool ShowConfirmDeleteDialog
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowFileExtensions
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowThumbnails
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool SelectFilesOnHover
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
 		public bool SearchUnindexedItems
 		{
 			get => Get(false);
@@ -199,9 +175,6 @@ namespace Files.App.ServicesImplementation.Settings
 		{
 			switch (e.SettingName)
 			{
-				case nameof(ShowConfirmDeleteDialog):
-				case nameof(ShowFileExtensions):
-				case nameof(SelectFilesOnHover):
 				case nameof(SearchUnindexedItems):
 				case nameof(OpenSpecificPageOnStartup):
 				case nameof(ContinueLastSessionOnStartUp):

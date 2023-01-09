@@ -962,9 +962,9 @@ namespace Files.App.UserControls
 			if (dragging)
 				return; // keep showing pressed event if currently resizing the sidebar
 
-			var grid = (Grid)sender;
-			grid.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-			VisualStateManager.GoToState(grid.FindAscendant<SplitView>(), "ResizerNormal", true);
+			var border = (Border)sender;
+			border.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+			VisualStateManager.GoToState(border.FindAscendant<SplitView>(), "ResizerNormal", true);
 		}
 
 		private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -972,9 +972,9 @@ namespace Files.App.UserControls
 			if (DisplayMode != NavigationViewDisplayMode.Expanded)
 				return;
 
-			var grid = (Grid)sender;
-			grid.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-			VisualStateManager.GoToState(grid.FindAscendant<SplitView>(), "ResizerPointerOver", true);
+			var border = (Border)sender;
+			border.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			VisualStateManager.GoToState(border.FindAscendant<SplitView>(), "ResizerPointerOver", true);
 		}
 
 		private void SetSize(double val, bool closeImmediatelyOnOversize = false)
@@ -1002,9 +1002,9 @@ namespace Files.App.UserControls
 
 		private void ResizeElementBorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			var grid = (Grid)sender;
-			grid.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-			VisualStateManager.GoToState(grid.FindAscendant<SplitView>(), "ResizerNormal", true);
+			var border = (Border)sender;
+			border.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+			VisualStateManager.GoToState(border.FindAscendant<SplitView>(), "ResizerNormal", true);
 			userSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
 			dragging = false;
 		}
@@ -1017,9 +1017,9 @@ namespace Files.App.UserControls
 				return;
 
 			originalSize = IsPaneOpen ? userSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
-			var grid = (Grid)sender;
-			grid.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-			VisualStateManager.GoToState(grid.FindAscendant<SplitView>(), "ResizerPressed", true);
+			var border = (Border)sender;
+			border.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			VisualStateManager.GoToState(border.FindAscendant<SplitView>(), "ResizerPressed", true);
 			dragging = true;
 		}
 

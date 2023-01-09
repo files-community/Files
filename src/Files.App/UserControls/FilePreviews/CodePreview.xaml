@@ -12,7 +12,6 @@
 	mc:Ignorable="d">
 	<Border>
 		<ScrollViewer
-			Grid.Row="0"
 			HorizontalScrollBarVisibility="Auto"
 			HorizontalScrollMode="Auto">
 			<RichTextBlock

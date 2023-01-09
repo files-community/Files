@@ -374,7 +374,7 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinRefreshRequested(object sender, FileSystemEventArgs e)
 		{
-			if (!@"Shell:RecycleBinFolder".Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
+			if (!CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 			await dispatcherQueue.EnqueueAsync(() =>
 			{
@@ -384,7 +384,7 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinItemDeleted(object sender, FileSystemEventArgs e)
 		{
-			if (!@"Shell:RecycleBinFolder".Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
+			if (!CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 			// get the item that immediately follows matching item to be removed
 			// if the matching item is the last item, try to get the previous item; otherwise, null
@@ -402,12 +402,11 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinItemCreated(object sender, FileSystemEventArgs e)
 		{
-			if (!@"Shell:RecycleBinFolder".Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
+			if (!CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 			using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
 			if (folderItem is null) return;
 			var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
-
 			var newListedItem = await AddFileOrFolderFromShellFile(shellFileItem);
 			if (newListedItem is null)
 				return;
@@ -467,14 +466,14 @@ namespace Files.App.ViewModels
 		{
 			switch (e.SettingName)
 			{
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowFileExtensions):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowThumbnails):
+				case nameof(UserSettingsService.FoldersSettingsService.ShowFileExtensions):
+				case nameof(UserSettingsService.FoldersSettingsService.ShowThumbnails):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowHiddenItems):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowDotFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.CalculateFolderSizes):
-				case nameof(UserSettingsService.PreferencesSettingsService.SelectFilesOnHover):
+				case nameof(UserSettingsService.FoldersSettingsService.SelectFilesOnHover):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
 						if (WorkingDirectory != "Home".GetLocalizedResource())
@@ -815,7 +814,7 @@ namespace Files.App.ViewModels
 			var wasIconLoaded = false;
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
-				if (UserSettingsService.PreferencesSettingsService.ShowThumbnails &&
+				if (UserSettingsService.FoldersSettingsService.ShowThumbnails &&
 					!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 				{
 					var matchingStorageFile = matchingStorageItem?.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);

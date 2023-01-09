@@ -953,7 +953,7 @@ namespace Files.App.Views
 					// Select previous directory
 					if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
 					{
-						if (e.PreviousDirectory.Contains(e.Path, StringComparison.Ordinal) && !e.PreviousDirectory.Contains("Shell:RecycleBinFolder", StringComparison.Ordinal))
+						if (e.PreviousDirectory.Contains(e.Path, StringComparison.Ordinal) && !e.PreviousDirectory.Contains(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 						{
 							// Remove the WorkingDir from previous dir
 							e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty, StringComparison.Ordinal);

@@ -7,26 +7,6 @@ namespace Files.Backend.Services.Settings
 	public interface IPreferencesSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to show the delete confirmation dialog when deleting items.
-		/// </summary>
-		bool ShowConfirmDeleteDialog { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether or not media thumbnails should be visible.
-		/// </summary>
-		bool ShowThumbnails { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to select files and folders when hovering them.
-		/// </summary>
-		bool SelectFilesOnHover { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether or not file extensions should be visible.
-		/// </summary>
-		bool ShowFileExtensions { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating whether or not to search unindexed items.
 		/// </summary>
 		bool SearchUnindexedItems { get; set; }

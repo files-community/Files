@@ -353,6 +353,7 @@ namespace Files.App.Filesystem
 				{
 					var sourceMatch = await recycledSources.Select(x => source.DistinctBy(x => x.Path)
 						.SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
+
 					return new StorageHistory(FileOperationType.Recycle,
 						sourceMatch,
 						await recycledSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
@@ -669,6 +670,7 @@ namespace Files.App.Filesystem
 						.Select(src => StorageHelpers.FromPathAndType(
 							Path.Combine(Path.GetDirectoryName(src.rSrc.Source), Path.GetFileName(src.rSrc.Source).Replace("$R", "$I", StringComparison.Ordinal)),
 							src.oSrc.ItemType)).ToListAsync(), null, true, cancellationToken);
+
 					return new StorageHistory(FileOperationType.Restore,
 						sourceMatch,
 						await movedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
@@ -748,7 +750,7 @@ namespace Files.App.Filesystem
 			{
 				if (recycleBinHelpers.IsPathUnderRecycleBin(src))
 				{
-					binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+					binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
 					if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 					{
 						var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src); // Get original file name
