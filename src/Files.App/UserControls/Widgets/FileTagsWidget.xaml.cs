@@ -26,7 +26,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string AutomationProperties => "File Tags Widget";
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowFileTagsWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget;
 
 		public FileTagsWidget()
 		{

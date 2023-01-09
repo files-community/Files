@@ -47,7 +47,7 @@ namespace Files.App.Helpers
 			}
 			if (typeof(TWidget) == typeof(FileTagsWidget))
 			{
-				return appearanceSettingsService.ShowFileTagsWidget;
+				return preferencesSettingsService.ShowFileTagsWidget;
 			}
 			if (typeof(TWidget) == typeof(BundlesWidget))
 			{

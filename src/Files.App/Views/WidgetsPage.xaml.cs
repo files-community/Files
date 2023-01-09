@@ -91,7 +91,7 @@ namespace Files.App.Views
 			}
 			if (shouldReloadFileTags && fileTagsWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(fileTagsWidget, (value) => UserSettingsService.AppearanceSettingsService.FileTagsWidgetExpanded = value, () => UserSettingsService.AppearanceSettingsService.FileTagsWidgetExpanded), 2);
+				Widgets.ViewModel.InsertWidget(new(fileTagsWidget, (value) => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded), 2);
 				_ = fileTagsWidget.ViewModel.InitAsync();
 			}
 			if (shouldReloadBundles && bundlesWidget is not null)

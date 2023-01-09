@@ -36,7 +36,7 @@ namespace Files.App.ServicesImplementation
 		{
 			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
 			{
-				yield return ""; // TODO: Get tag types
+				yield return "Blue"; // TODO: Get tag types
 			}
 
 			await Task.CompletedTask;

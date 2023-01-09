@@ -8,21 +8,28 @@ using System.Threading.Tasks;
 
 namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 {
-    public sealed partial class FileTagsWidgetViewModel : ObservableObject, IAsyncInitialize
-    {
-        private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
+	public sealed partial class FileTagsWidgetViewModel : ObservableObject, IAsyncInitialize
+	{
+		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 
-        public ObservableCollection<FileTagsContainerViewModel> Containers { get; }
+		public ObservableCollection<FileTagsContainerViewModel> Containers { get; }
 
-        public FileTagsWidgetViewModel()
-        {
-            Containers = new();
-        }
+		public FileTagsWidgetViewModel()
+		{
+			Containers = new();
+		}
 
-        /// <inheritdoc/>
-        public Task InitAsync(CancellationToken cancellationToken = default)
-        {
-            return Task.CompletedTask;
-        }
-    }
+		/// <inheritdoc/>
+		public async Task InitAsync(CancellationToken cancellationToken = default)
+		{
+			await foreach (var item in FileTagsService.GetTagsAsync(cancellationToken))
+			{
+				Containers.Add(new()
+				{
+					TagName = item,
+					TagColor = null // TODO: Add tag color
+				});
+			}
+		}
+	}
 }
