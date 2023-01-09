@@ -699,6 +699,9 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Invalid item</value>
   </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Version:</value>
   </data>

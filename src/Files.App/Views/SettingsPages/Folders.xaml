@@ -38,7 +38,7 @@
 				Padding="0,12,0,4"
 				FontSize="14"
 				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=LayoutAndSorting}" />
+				Text="{helpers:ResourceString Name=Version}" />
 
 			<!--  Folder Overrides  -->
 			<local:SettingsBlockControl
@@ -300,9 +300,9 @@
 			<!--  Confirm Delete  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE107;"/>
+					<FontIcon Glyph="&#xE107;" />
 				</local:SettingsBlockControl.Icon>
-				
+
 				<ToggleSwitch
 					x:Name="ShowConfirmDeleteDialogSwitch"
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}"
@@ -313,9 +313,9 @@
 			<!--  Select On Hover  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE8B0;"/>
+					<FontIcon Glyph="&#xE8B0;" />
 				</local:SettingsBlockControl.Icon>
-				
+
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}"
 					IsOn="{x:Bind ViewModel.SelectFilesOnHover, Mode=TwoWay}"
