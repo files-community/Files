@@ -816,8 +816,8 @@
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Move overflow items into a sub menu</value>
   </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Show a confirmation dialog when deleting files or folders</value>
+  <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
+    <value>Show confirmation dialog when deleting items</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>There was an issue saving some properties.</value>
@@ -2336,9 +2336,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Language</value>
-  </data>
-  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show a confirmation dialog when deleting files or folders</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Ongoing Tasks</value>

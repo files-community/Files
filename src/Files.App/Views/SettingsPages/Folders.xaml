@@ -298,14 +298,14 @@
 			</local:SettingsBlockControl>
 
 			<!--  Confirm Delete  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesShowConfirmDeleteDialog/Title}" HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE107;"/>
 				</local:SettingsBlockControl.Icon>
 				
 				<ToggleSwitch
 					x:Name="ShowConfirmDeleteDialogSwitch"
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowConfirmDeleteDialogToggleSwitch/AutomationProperties/Name}"
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}"
 					IsOn="{x:Bind ViewModel.ShowConfirmDeleteDialog, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
