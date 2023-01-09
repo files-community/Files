@@ -26,14 +26,17 @@ namespace Files.App.ViewModels
 
 		private IPreviewPaneSettingsService PreviewSettingsService { get; } = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
 
-
 		private CancellationTokenSource loadCancellationTokenSource;
 
 		private bool isEnabled;
 		public bool IsEnabled
 		{
 			get => isEnabled;
-			set => SetProperty(ref isEnabled, value);
+			set
+			{
+				PreviewSettingsService.IsEnabled = value;
+				SetProperty(ref isEnabled, value);
+			}
 		}
 
 		private bool isItemSelected;
@@ -286,7 +289,7 @@ namespace Files.App.ViewModels
 			if (e.PropertyName is nameof(IPreviewPaneSettingsService.IsEnabled))
 			{
 				var newEnablingStatus = PreviewSettingsService.IsEnabled;
-				if(isEnabled != newEnablingStatus)
+				if (isEnabled != newEnablingStatus)
 				{
 					isEnabled = newEnablingStatus;
 					OnPropertyChanged(nameof(IsEnabled));
