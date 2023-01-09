@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
+using Files.App.ServicesImplementation.Settings;
 using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.Views;
@@ -34,6 +35,19 @@ namespace Files.App.Helpers
 		{
 			var folderUri = new Uri($"files-uwp:?tab={Uri.EscapeDataString(tabArgs)}");
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
+		}
+
+		public static void OpenInSecondaryPanel(IShellPage associatedInstance, ListedItem listedItem)
+		{
+			if(associatedInstance is null || listedItem is null)
+				return;
+
+			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			if (!userSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
+				return;
+
+			if (listedItem is not null)
+				associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 		}
 
 		public static Task LaunchNewWindowAsync()

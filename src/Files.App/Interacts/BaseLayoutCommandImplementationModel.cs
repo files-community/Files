@@ -261,9 +261,7 @@ namespace Files.App.Interacts
 
 		public virtual void OpenDirectoryInNewPane(RoutedEventArgs e)
 		{
-			ListedItem listedItem = SlimContentPage.SelectedItems.FirstOrDefault();
-			if (listedItem is not null)
-				associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+			NavigationHelpers.OpenInSecondaryPanel(associatedInstance, SlimContentPage.SelectedItems.FirstOrDefault());
 		}
 
 		public virtual async void OpenInNewWindowItem(RoutedEventArgs e)
