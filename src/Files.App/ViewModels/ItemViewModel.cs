@@ -483,14 +483,14 @@ namespace Files.App.ViewModels
 		{
 			switch (e.SettingName)
 			{
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowFileExtensions):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowThumbnails):
+				case nameof(UserSettingsService.FoldersSettingsService.ShowFileExtensions):
+				case nameof(UserSettingsService.FoldersSettingsService.ShowThumbnails):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowHiddenItems):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowDotFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.CalculateFolderSizes):
-				case nameof(UserSettingsService.PreferencesSettingsService.SelectFilesOnHover):
+				case nameof(UserSettingsService.FoldersSettingsService.SelectFilesOnHover):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
 						if (WorkingDirectory != "Home".GetLocalizedResource())
@@ -858,7 +858,7 @@ namespace Files.App.ViewModels
 			var wasIconLoaded = false;
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
-				if (UserSettingsService.PreferencesSettingsService.ShowThumbnails &&
+				if (UserSettingsService.FoldersSettingsService.ShowThumbnails &&
 					!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 				{
 					var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);

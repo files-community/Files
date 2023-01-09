@@ -22,7 +22,14 @@
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
-			<!--  App Version Info  -->
+			<!--  Version  -->
+			<TextBlock
+				Padding="0,12,0,4"
+				FontSize="14"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=Version}" />
+			
+			<!--  App Info  -->
 			<local:SettingsBlockControl
 				Title="{x:Bind ViewModel.AppName}"
 				HorizontalAlignment="Stretch"

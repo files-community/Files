@@ -57,7 +57,14 @@
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
-
+			<!-- Personalization -->
+			<TextBlock
+				Padding="0,12,0,4"
+				FontSize="14"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=Personalization}" />
+			
+			<!-- Theme -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE790;" />
@@ -69,6 +76,7 @@
 					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
 			</local:SettingsBlockControl>
 
+			<!-- App Background -->
 			<local:SettingsBlockControl
 				Title="{helpers:ResourceString Name=Background}"
 				HorizontalAlignment="Stretch"
@@ -107,7 +115,8 @@
 						SelectedItem="{x:Bind ViewModel.SelectedAppBackgroundColor, Mode=TwoWay}" />
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
-			
+
+			<!-- Compact Spacing -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=UseCompactSpacing}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE14C;" />
@@ -118,12 +127,15 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
+			
+			<!-- Right Click Menu -->
 			<TextBlock
 				Padding="0,12,0,4"
 				FontSize="14"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=SettingsContextMenu/Text}" />
 
+			<!-- Overflow Options -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsContextMenuOverflow}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE10C;" />

@@ -345,6 +345,9 @@
   <data name="ItemTypeFile" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="Display" xml:space="preserve">
+    <value>Display</value>
+  </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Enter an item name</value>
   </data>
@@ -696,6 +699,9 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Invalid item</value>
   </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Version:</value>
   </data>
@@ -740,6 +746,12 @@
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Sponsor us on GitHub</value>
+  </data>
+  <data name="Personalization" xml:space="preserve">
+    <value>Personalization</value>
+  </data>
+  <data name="LayoutAndSorting" xml:space="preserve">
+    <value>Layout and sorting</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>We weren't able to create this item</value>
@@ -807,8 +819,8 @@
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Move overflow items into a sub menu</value>
   </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Show a confirmation dialog when deleting files or folders</value>
+  <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
+    <value>Show confirmation dialog when deleting items</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>There was an issue saving some properties.</value>
@@ -2328,9 +2340,6 @@
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Language</value>
   </data>
-  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show a confirmation dialog when deleting files or folders</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Ongoing Tasks</value>
   </data>
@@ -2408,9 +2417,6 @@
   </data>
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restore default</value>
-  </data>
-  <data name="FilesAndFolders" xml:space="preserve">
-    <value>Files and folders</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
     <value>Open new instance when opening directories from the taskbar jumplist</value>
@@ -2653,7 +2659,10 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>Show alternate data streams</value>
+  </data>
+  <data name="Behaviors" xml:space="preserve">
+    <value>Behaviors</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Review Files</value>
