@@ -373,6 +373,9 @@ namespace Files.App.Views.LayoutModes
 
 		private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			if (ParentShellPageInstance is null)
+				return;
+
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
