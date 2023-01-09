@@ -45,11 +45,6 @@ namespace Files.App.UserControls
 			this.InitializeComponent();
 		}
 
-		private void FullTrustStatus_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-		{
-			FullTrustStatusTeachingTip.IsOpen = true;
-		}
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
