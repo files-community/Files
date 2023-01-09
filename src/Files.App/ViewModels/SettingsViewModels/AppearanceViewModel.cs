@@ -110,19 +110,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool ShowFavoritesSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowFavoritesSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public bool UseCompactStyles
 		{
 			get => UserSettingsService.AppearanceSettingsService.UseCompactStyles;
@@ -135,84 +122,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 					App.AppThemeResourcesHelper.SetCompactSpacing(UseCompactStyles);
 					App.AppThemeResourcesHelper.ApplyResources();
 
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowLibrarySection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowLibrarySection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowLibrarySection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowDrivesSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowDrivesSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowDrivesSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowCloudDrivesSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowNetworkDrivesSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowWslSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowWslSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowWslSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowFileTagsSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowFileTagsSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;
 					OnPropertyChanged();
 				}
 			}

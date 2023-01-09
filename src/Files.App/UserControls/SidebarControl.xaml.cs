@@ -331,25 +331,25 @@ namespace Files.App.UserControls
 			switch (rightClickedItem.Section)
 			{
 				case SectionType.Favorites:
-					UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = false;
+					UserSettingsService.PreferencesSettingsService.ShowFavoritesSection = false;
 					break;
 				case SectionType.Library:
-					UserSettingsService.AppearanceSettingsService.ShowLibrarySection = false;
+					UserSettingsService.PreferencesSettingsService.ShowLibrarySection = false;
 					break;
 				case SectionType.CloudDrives:
-					UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = false;
+					UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = false;
 					break;
 				case SectionType.Drives:
-					UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
+					UserSettingsService.PreferencesSettingsService.ShowDrivesSection = false;
 					break;
 				case SectionType.Network:
-					UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = false;
+					UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = false;
 					break;
 				case SectionType.WSL:
-					UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
+					UserSettingsService.PreferencesSettingsService.ShowWslSection = false;
 					break;
 				case SectionType.FileTag:
-					UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = false;
+					UserSettingsService.PreferencesSettingsService.ShowFileTagsSection = false;
 					break;
 			}
 		}
@@ -986,8 +986,8 @@ namespace Files.App.UserControls
 			if (dragging)
 				return; // keep showing pressed event if currently resizing the sidebar
 
-			((Grid)sender).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-			VisualStateManager.GoToState(((Grid)sender).FindAscendant<SplitView>(), "ResizerNormal", true);
+			((Border)sender).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+			VisualStateManager.GoToState(((Border)sender).FindAscendant<SplitView>(), "ResizerNormal", true);
 		}
 
 		private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -995,8 +995,8 @@ namespace Files.App.UserControls
 			if (DisplayMode != NavigationViewDisplayMode.Expanded)
 				return;
 
-			((Grid)sender).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-			VisualStateManager.GoToState(((Grid)sender).FindAscendant<SplitView>(), "ResizerPointerOver", true);
+			((Border)sender).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			VisualStateManager.GoToState(((Border)sender).FindAscendant<SplitView>(), "ResizerPointerOver", true);
 		}
 
 		private void SetSize(double val, bool closeImmediatleyOnOversize = false)
@@ -1024,8 +1024,8 @@ namespace Files.App.UserControls
 
 		private void ResizeElementBorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			((Grid)sender).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-			VisualStateManager.GoToState(((Grid)sender).FindAscendant<SplitView>(), "ResizerNormal", true);
+			((Border)sender).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+			VisualStateManager.GoToState(((Border)sender).FindAscendant<SplitView>(), "ResizerNormal", true);
 			UserSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
 			dragging = false;
 		}
@@ -1041,8 +1041,8 @@ namespace Files.App.UserControls
 				return;
 
 			originalSize = IsPaneOpen ? UserSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
-			((Grid)sender).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-			VisualStateManager.GoToState(((Grid)sender).FindAscendant<SplitView>(), "ResizerPressed", true);
+			((Border)sender).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			VisualStateManager.GoToState(((Border)sender).FindAscendant<SplitView>(), "ResizerPressed", true);
 			dragging = true;
 		}
 

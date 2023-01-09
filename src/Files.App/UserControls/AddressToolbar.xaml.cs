@@ -105,7 +105,7 @@ namespace Files.App.UserControls
 		}
 		private void VisiblePath_LostFocus(object _, RoutedEventArgs e)
 		{
-			var element = FocusManager.GetFocusedElement();
+			var element = FocusManager.GetFocusedElement(XamlRoot);
 			if (element is FlyoutBase or AppBarButton or Popup)
 				return;
 

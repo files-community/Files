@@ -534,7 +534,7 @@ namespace Files.App.Filesystem
 				if (!permanently)
 				{
 					// Enumerate Recycle Bin
-					IEnumerable<ShellFileItem> nameMatchItems, items = await recycleBinHelpers.EnumerateRecycleBin();
+					IEnumerable<ShellFileItem> nameMatchItems, items = await RecycleBinHelpers.EnumerateRecycleBin();
 
 					// Get name matching files
 					if (FileExtensionHelpers.IsShortcutOrUrlFile(source.Path)) // We need to check if it is a shortcut file

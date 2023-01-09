@@ -26,10 +26,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
@@ -37,6 +40,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
+using VA = Vanara.Windows.Shell;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App
@@ -751,11 +755,23 @@ namespace Files.App
 		protected void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
 			SelectedItems!.AddRange(e.Items.OfType<ListedItem>());
+
 			try
 			{
-				// Only support IStorageItem capable paths
-				var itemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
-				e.Data.SetStorageItems(itemList, false);
+				var itemList = e.Items.OfType<ListedItem>().Select(x => new VA.ShellItem(x.ItemPath)).ToArray();
+				var iddo = itemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, itemList);
+				itemList.ForEach(x => x.Dispose());
+				var wfdo = new System.Windows.Forms.DataObject(iddo);
+				var formats = wfdo.GetFormats(false);
+				foreach (var format in formats)
+				{
+					var clipFrmtId = (uint)System.Windows.Forms.DataFormats.GetFormat(format).Id;
+					if (iddo.TryGetData<byte[]>(clipFrmtId, out var data))
+					{
+						var mem = new MemoryStream(data).AsRandomAccessStream();
+						e.Data.SetData(format, mem);
+					}
+				}
 			}
 			catch (Exception)
 			{
@@ -902,7 +918,7 @@ namespace Files.App
 			{
 				container.PointerPressed += FileListItem_PointerPressed;
 				container.RightTapped += FileListItem_RightTapped;
-				if (UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
+				if (UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				{
 					container.PointerEntered += FileListItem_PointerEntered;
 					container.PointerExited += FileListItem_PointerExited;
@@ -955,7 +971,7 @@ namespace Files.App
 
 		protected internal void FileListItem_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			if (!UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
+			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
 
 			var hovered = GetItemFromElement(sender);
@@ -999,7 +1015,7 @@ namespace Files.App
 
 		protected internal void FileListItem_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
-			if (!UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
+			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
 
 			hoverTimer.Stop();

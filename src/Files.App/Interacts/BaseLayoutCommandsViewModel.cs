@@ -28,6 +28,7 @@ namespace Files.App.Interacts
 		{
 			RenameItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RenameItem);
 			CreateShortcutCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CreateShortcut);
+			CreateShortcutFromDialogCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CreateShortcutFromDialog);
 			SetAsLockscreenBackgroundItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsLockscreenBackgroundItem);
 			SetAsDesktopBackgroundItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsDesktopBackgroundItem);
 			SetAsSlideshowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsSlideshowItem);
@@ -89,6 +90,8 @@ namespace Files.App.Interacts
 		public ICommand RenameItemCommand { get; private set; }
 
 		public ICommand CreateShortcutCommand { get; private set; }
+
+		public ICommand CreateShortcutFromDialogCommand { get; private set; }
 
 		public ICommand SetAsLockscreenBackgroundItemCommand { get; private set; }
 

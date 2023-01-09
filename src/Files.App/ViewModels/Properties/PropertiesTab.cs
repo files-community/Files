@@ -74,7 +74,7 @@ namespace Files.App.ViewModels.Properties
 		/// Tries to save changed properties to file.
 		/// </summary>
 		/// <returns>Returns true if properties have been saved successfully.</returns>
-		public abstract Task<bool> SaveChangesAsync(ListedItem item);
+		public abstract Task<bool> SaveChangesAsync();
 
 		public abstract void Dispose();
 	}

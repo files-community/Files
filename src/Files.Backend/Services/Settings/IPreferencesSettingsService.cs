@@ -7,26 +7,6 @@ namespace Files.Backend.Services.Settings
 	public interface IPreferencesSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to show the delete confirmation dialog when deleting items.
-		/// </summary>
-		bool ShowConfirmDeleteDialog { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether or not media thumbnails should be visible.
-		/// </summary>
-		bool ShowThumbnails { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to select files and folders when hovering them.
-		/// </summary>
-		bool SelectFilesOnHover { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether or not file extensions should be visible.
-		/// </summary>
-		bool ShowFileExtensions { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating whether or not to search unindexed items.
 		/// </summary>
 		bool SearchUnindexedItems { get; set; }
@@ -120,5 +100,40 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating whether or not to expand the bundles widget.
 		/// </summary>
 		bool BundlesWidgetExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the favorites section should be visible.
+		/// </summary>
+		bool ShowFavoritesSection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the library section should be visible.
+		/// </summary>
+		bool ShowLibrarySection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the drive section should be visible.
+		/// </summary>
+		bool ShowDrivesSection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the cloud drive section should be visible.
+		/// </summary>
+		bool ShowCloudDrivesSection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the network drive section should be visible.
+		/// </summary>
+		bool ShowNetworkDrivesSection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the wsl section should be visible.
+		/// </summary>
+		bool ShowWslSection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the tags section should be visible.
+		/// </summary>
+		bool ShowFileTagsSection { get; set; }
 	}
 }
