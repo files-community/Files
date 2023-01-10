@@ -16,6 +16,8 @@ namespace Files.App.ServicesImplementation
 {
 	internal sealed class ReleaseNotesService : ObservableObject, IReleaseNotesService
 	{
+		private ILogger? Logger { get; } = Ioc.Default.GetService<ILogger>();
+
 		private string? _releaseNotes;
 		public string? ReleaseNotes
 		{
@@ -40,12 +42,16 @@ namespace Files.App.ServicesImplementation
 				try
 				{
 					ReleaseNotes = await client.GetStringAsync(releaseNotesLocation);
+
+					if (!string.IsNullOrWhiteSpace(ReleaseNotes))
+					{
+						IsReleaseNotesAvailable = true;
+
+						Logger?.Info($"Release Notes Available: {releaseNotesLocation}");
+					}
 				}
 				catch { }
 			}
-
-			if (!string.IsNullOrWhiteSpace(ReleaseNotes))
-				IsReleaseNotesAvailable = true;
 		}
 	}
 }
