@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.Backend.Services;
 using Microsoft.UI.Xaml.Controls;
@@ -20,7 +21,6 @@ namespace Files.App.ServicesImplementation
 		private bool IsMandatory => _updatePackages?.Where(e => e.Mandatory).ToList().Count >= 1;
 
 		private bool _isUpdateAvailable;
-
 		public bool IsUpdateAvailable
 		{
 			get => _isUpdateAvailable;
@@ -28,16 +28,24 @@ namespace Files.App.ServicesImplementation
 		}
 
 		private bool _isUpdating;
-
 		public bool IsUpdating
 		{
 			get => _isUpdating;
 			private set => SetProperty(ref _isUpdating, value);
 		}
 
+		private bool _isAppUpdated;
+		public bool IsAppUpdated
+		{
+			get => _isAppUpdated;
+			private set => SetProperty(ref _isAppUpdated, value);
+		}
+
 		public UpdateService()
 		{
 			_updatePackages = new List<StorePackageUpdate>();
+
+			IsAppUpdated = SystemInformation.Instance.IsAppUpdated;
 		}
 
 		public async Task DownloadUpdates()

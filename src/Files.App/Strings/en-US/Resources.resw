@@ -2874,4 +2874,7 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Edit Settings File</value>
   </data>
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
 </root>
