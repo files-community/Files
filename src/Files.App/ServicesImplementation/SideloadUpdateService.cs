@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI.Helpers;
 using Files.Backend.Services;
 using Files.Shared;
 using System;
@@ -54,6 +55,13 @@ namespace Files.App.ServicesImplementation
 			private set => SetProperty(ref _isUpdating, value);
 		}
 
+		private bool _isAppUpdated;
+		public bool IsAppUpdated
+		{
+			get => _isAppUpdated;
+			private set => SetProperty(ref _isAppUpdated, value);
+		}
+
 		public async Task DownloadUpdates()
 		{
 			await ApplyPackageUpdate();
@@ -62,6 +70,11 @@ namespace Files.App.ServicesImplementation
 		public Task DownloadMandatoryUpdates()
 		{
 			return Task.CompletedTask;
+		}
+
+		public SideloadUpdateService()
+		{
+			IsAppUpdated = SystemInformation.Instance.IsAppUpdated;
 		}
 
 		public async Task CheckForUpdates()
