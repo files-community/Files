@@ -918,7 +918,7 @@ namespace Files.App
 			{
 				container.PointerPressed += FileListItem_PointerPressed;
 				container.RightTapped += FileListItem_RightTapped;
-				if (UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
+				if (UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				{
 					container.PointerEntered += FileListItem_PointerEntered;
 					container.PointerExited += FileListItem_PointerExited;
@@ -971,7 +971,7 @@ namespace Files.App
 
 		protected internal void FileListItem_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			if (!UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
+			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
 
 			var hovered = GetItemFromElement(sender);
@@ -1015,7 +1015,7 @@ namespace Files.App
 
 		protected internal void FileListItem_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
-			if (!UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
+			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
 
 			hoverTimer.Stop();

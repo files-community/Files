@@ -233,6 +233,19 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		public bool ListAndSortDirectoriesAlongsideFiles
+		{
+			get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
+			set
+			{
+				if (value != UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles)
+				{
+					UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public bool CalculateFolderSizes
 		{
 			get => UserSettingsService.FoldersSettingsService.CalculateFolderSizes;
@@ -273,7 +286,59 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
-		
+
+		public bool ShowFileExtensions
+		{
+			get => UserSettingsService.FoldersSettingsService.ShowFileExtensions;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.ShowFileExtensions)
+				{
+					UserSettingsService.FoldersSettingsService.ShowFileExtensions = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowThumbnails
+		{
+			get => UserSettingsService.FoldersSettingsService.ShowThumbnails;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.ShowThumbnails)
+				{
+					UserSettingsService.FoldersSettingsService.ShowThumbnails = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowConfirmDeleteDialog
+		{
+			get => UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog)
+				{
+					UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool SelectFilesOnHover
+		{
+			get => UserSettingsService.FoldersSettingsService.SelectFilesOnHover;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
+				{
+					UserSettingsService.FoldersSettingsService.SelectFilesOnHover = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		// Local methods
 
 		public void ResetLayoutPreferences()

@@ -69,8 +69,8 @@
 				</NavigationViewItem>
 				<NavigationViewItem
 					AccessKey="E"
-					AutomationProperties.AutomationId="SettingsItemExperimental"
-					Content="{helpers:ResourceString Name=SettingsNavExperimental/Content}"
+					AutomationProperties.AutomationId="SettingsItemAdvanced"
+					Content="{helpers:ResourceString Name=Advanced}"
 					CornerRadius="0"
 					Tag="3">
 					<NavigationViewItem.Icon>
