@@ -99,8 +99,12 @@ namespace Files.App.Filesystem
 			if (string.IsNullOrWhiteSpace(source.Name)
 				|| ContainsRestrictedCharacters(source.Name)
 				|| ContainsRestrictedFileName(source.Name))
+			{
+				await DialogDisplayHelper.ShowDialogAsync(
+					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
+					"ErrorDialogNameNotAllowed".GetLocalizedResource());
 				return (ReturnResult.Failed, null);
-			
+			}
 
 			var result = await filesystemOperations.CreateAsync(source, progress, cancellationToken);
 
