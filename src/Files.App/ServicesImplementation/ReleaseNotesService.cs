@@ -33,7 +33,7 @@ namespace Files.App.ServicesImplementation
 		public async Task DownloadReleaseNotes()
 		{
 			var applicationVersion = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
-			var releaseNotesLocation = string.Concat("https://raw.githubusercontent.com/files-community/ReleaseNotes/main/", applicationVersion, ".md");
+			var releaseNotesLocation = string.Concat("https://raw.githubusercontent.com/files-community/Release-Notes/main/", applicationVersion, ".md");
 
 			using (var client = new HttpClient())
 			{
