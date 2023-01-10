@@ -282,9 +282,9 @@ namespace Files.App.Helpers
 				string iconPath = Path.Combine(programFilesFolder, "SeaDrive", "bin", "seadrive.exe");
 				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 101 }).FirstOrDefault();
 
-				results.Add(new CloudProvider(CloudProviders.Nutstore)
+				results.Add(new CloudProvider(CloudProviders.Seadrive)
 				{
-					Name = $"Nutstore",
+					Name = $"Seadrive",
 					SyncFolder = syncFolder,
 					IconData = iconFile?.IconData
 				});			
