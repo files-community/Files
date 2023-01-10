@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.Helpers;
 using Files.Backend.Services;
 using Files.Shared;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
