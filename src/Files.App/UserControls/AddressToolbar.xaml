@@ -364,7 +364,10 @@
 						Height="240"
 						HorizontalScrollMode="Auto"
 						VerticalScrollMode="Auto">
-						<controls:MarkdownTextBlock Background="Transparent" Text="{x:Bind ViewModel.ReleaseNotes, Mode=OneWay}" />
+						<controls:MarkdownTextBlock
+							Background="Transparent"
+							ListGutterWidth="16"
+							Text="{x:Bind ViewModel.ReleaseNotes, Mode=OneWay}" />
 					</ScrollViewer>
 				</TeachingTip.Content>
 			</TeachingTip>
