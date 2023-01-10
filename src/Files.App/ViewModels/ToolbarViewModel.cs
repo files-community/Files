@@ -44,7 +44,6 @@ namespace Files.App.ViewModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
-		public IReleaseNotesService ReleaseNotesService { get; } = Ioc.Default.GetService<IReleaseNotesService>()!;
 
 		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
