@@ -120,7 +120,7 @@ namespace Files.App.Filesystem
 			var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
 			var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
 
-			if (showDialog && UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog) // Check if the setting to show a confirmation dialog is on
+			if (showDialog && UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog) // Check if the setting to show a confirmation dialog is on
 			{
 				var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
 				List<ShellFileItem>? binItems = null;
@@ -128,7 +128,7 @@ namespace Files.App.Filesystem
 				{
 					if (recycleBinHelpers.IsPathUnderRecycleBin(src.Path))
 					{
-						binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+						binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
 						if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 						{
 							var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src.Path); // Get original file name
@@ -253,7 +253,7 @@ namespace Files.App.Filesystem
 				}
 				if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 				{
-					showDialog |= UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog;
+					showDialog |= UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog;
 					return await RecycleItemsFromClipboard(packageView, destination, showDialog, registerHistory);
 				}
 				else if (operation.HasFlag(DataPackageOperation.Copy))
@@ -368,7 +368,7 @@ namespace Files.App.Filesystem
 				{
 					if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
 					{
-						binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+						binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
 						if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 						{
 							var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
@@ -507,7 +507,7 @@ namespace Files.App.Filesystem
 			{
 				if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
 				{
-					binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+					binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
 					if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 					{
 						var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
