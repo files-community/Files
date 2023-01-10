@@ -11,7 +11,7 @@ namespace Files.App.DataModels
 {
 	public class AppModel : ObservableObject
 	{
-		// todo: refactor PaneViewModel, this doesn't belong here
+		// todo: refactor PreviewPaneViewModel, this doesn't belong here
 		public PreviewPaneViewModel PreviewPaneViewModel { get; } = new PreviewPaneViewModel();
 
 		public AppModel()
