@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.Services.Store;
 using WinRT.Interop;
@@ -31,7 +32,20 @@ namespace Files.App.ServicesImplementation
 
 		public async Task DownloadReleaseNotes()
 		{
-			///
+			var applicationVersion = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
+			var releaseNotesLocation = string.Concat("https://raw.githubusercontent.com/files-community/Files/main/", applicationVersion, ".md");
+
+			using (var client = new HttpClient())
+			{
+				try
+				{
+					ReleaseNotes = await client.GetStringAsync(releaseNotesLocation);
+				}
+				catch { }
+			}
+
+			if (!string.IsNullOrWhiteSpace(ReleaseNotes))
+				IsReleaseNotesAvailable = true;
 		}
 	}
 }
