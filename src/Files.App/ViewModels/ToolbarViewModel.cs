@@ -24,6 +24,7 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -253,18 +254,34 @@ namespace Files.App.ViewModels
 
 		public bool IsAdaptiveLayoutEnabled
 			=> UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences;
-		
-		public bool IsUpdateAvailable
-			=> UpdateService.IsUpdateAvailable;
-		
+
+		private bool isUpdating;
 		public bool IsUpdating
-			=> UpdateService.IsUpdating;
+		{
+			get => isUpdating;
+			set => SetProperty(ref isUpdating, value);
+		}
 
-		public bool IsReleaseNotesVisible
-			=> UpdateService.IsAppUpdated && ReleaseNotesService.IsReleaseNotesAvailable;
+		private bool isUpdateAvailable;
+		public bool IsUpdateAvailable
+		{
+			get => isUpdateAvailable;
+			set => SetProperty(ref isUpdateAvailable, value);
+		}
 
+		private string? releaseNotes;
 		public string? ReleaseNotes
-			=> ReleaseNotesService.ReleaseNotes;
+		{
+			get => releaseNotes;
+			set => SetProperty(ref releaseNotes, value);
+		}
+		
+		private bool isReleaseNotesVisible;
+		public bool IsReleaseNotesVisible
+		{
+			get => isReleaseNotesVisible;
+			set => SetProperty(ref isReleaseNotesVisible, value);
+		}
 
 		private bool isReleaseNotesOpen;
 		public bool IsReleaseNotesOpen
@@ -393,6 +410,26 @@ namespace Files.App.ViewModels
 
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			ReleaseNotesService.PropertyChanged += ReleaseNotesService_OnPropertyChanged;
+			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
+		}
+
+		private void ReleaseNotesService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (!UpdateService.IsAppUpdated)
+				return;
+
+			if (ReleaseNotesService.IsReleaseNotesAvailable)
+			{
+				IsReleaseNotesVisible = true;
+				ReleaseNotes = ReleaseNotesService.ReleaseNotes;
+			}				 
+		}
+
+		private void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			IsUpdateAvailable = UpdateService.IsUpdateAvailable;			 
+			IsUpdating = UpdateService.IsUpdating;			 
 		}
 
 		private void DoViewReleaseNotes()
