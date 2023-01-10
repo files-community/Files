@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.UserControls
 {
-	public enum PanePositions : ushort
+	public enum PreviewPanePositions : ushort
 	{
 		None,
 		Right,
@@ -18,7 +18,7 @@ namespace Files.App.UserControls
 
 	public sealed partial class PreviewPane : UserControl
 	{
-		public PanePositions Position { get; private set; } = PanePositions.None;
+		public PreviewPanePositions Position { get; private set; } = PreviewPanePositions.None;
 
 		private IPreviewPaneSettingsService PaneSettingsService { get; } = Ioc.Default.GetService<IPreviewPaneSettingsService>();
 
@@ -32,12 +32,12 @@ namespace Files.App.UserControls
 		{
 			if (panelWidth > 700)
 			{
-				Position = PanePositions.Right;
+				Position = PreviewPanePositions.Right;
 				(MinWidth, MinHeight) = (150, 0);
 			}
 			else
 			{
-				Position = PanePositions.Bottom;
+				Position = PreviewPanePositions.Bottom;
 				(MinWidth, MinHeight) = (0, 140);
 			}
 		}

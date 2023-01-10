@@ -365,11 +365,11 @@ namespace Files.App.Views
 		{
 			switch (PreviewPane?.Position)
 			{
-				case PanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
+				case PreviewPanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
 					UserSettingsService.PreviewPaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
 					UpdatePositioning();
 					break;
-				case PanePositions.Bottom when ContentRow.ActualHeight == ContentRow.MinHeight:
+				case PreviewPanePositions.Bottom when ContentRow.ActualHeight == ContentRow.MinHeight:
 					UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx += e.NewSize.Height - e.PreviousSize.Height;
 					UpdatePositioning();
 					break;
@@ -421,13 +421,13 @@ namespace Files.App.Views
 				PreviewPane.UpdatePosition(RootGrid.ActualWidth, RootGrid.ActualHeight);
 				switch (PreviewPane.Position)
 				{
-					case PanePositions.None:
+					case PreviewPanePositions.None:
 						PaneRow.MinHeight = 0;
 						PaneRow.Height = new GridLength(0);
 						PaneColumn.MinWidth = 0;
 						PaneColumn.Width = new GridLength(0);
 						break;
-					case PanePositions.Right:
+					case PreviewPanePositions.Right:
 						PreviewPane.SetValue(Grid.RowProperty, 1);
 						PreviewPane.SetValue(Grid.ColumnProperty, 2);
 						PaneSplitter.SetValue(Grid.RowProperty, 1);
@@ -442,7 +442,7 @@ namespace Files.App.Views
 						PaneRow.MaxHeight = double.MaxValue;
 						PaneRow.Height = new GridLength(0);
 						break;
-					case PanePositions.Bottom:
+					case PreviewPanePositions.Bottom:
 						PreviewPane.SetValue(Grid.RowProperty, 3);
 						PreviewPane.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.SetValue(Grid.RowProperty, 2);
@@ -465,10 +465,10 @@ namespace Files.App.Views
 		{
 			switch (PreviewPane?.Position)
 			{
-				case PanePositions.Right:
+				case PreviewPanePositions.Right:
 					UserSettingsService.PreviewPaneSettingsService.VerticalSizePx = PreviewPane.ActualWidth;
 					break;
-				case PanePositions.Bottom:
+				case PreviewPanePositions.Bottom:
 					UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx = PreviewPane.ActualHeight;
 					break;
 			}
