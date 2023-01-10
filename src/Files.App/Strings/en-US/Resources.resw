@@ -2877,4 +2877,7 @@
   <data name="ReleaseNotes" xml:space="preserve">
     <value>Release Notes</value>
   </data>
+  <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
+    <value>The item name specfied is invalid</value>
+  </data>
 </root>
