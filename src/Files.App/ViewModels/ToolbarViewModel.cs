@@ -418,6 +418,7 @@ namespace Files.App.ViewModels
 			IsUpdateAvailable = UpdateService.IsUpdateAvailable;			 
 			IsUpdating = UpdateService.IsUpdating;
 
+			// Bad code, result is called twice when checking for release notes
 			if (UpdateService.IsReleaseNotesAvailable)
 				await CheckForReleaseNotesAsync();
 		}

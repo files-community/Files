@@ -150,8 +150,8 @@ namespace Files.App.ServicesImplementation
 
 		public async Task CheckLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
 		{
-			//if (!IsAppUpdated)
-			//	return;
+			if (!IsAppUpdated)
+				return;
 
 			var result = await GetLatestReleaseNotesAsync();
 			

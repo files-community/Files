@@ -34,7 +34,7 @@ namespace Files.Backend.Services
 
 		Task CheckForUpdates();
 
-		Task CheckLatestReleaseNotesAsync();
+		Task CheckLatestReleaseNotesAsync(CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Gets release notes for the latest release
