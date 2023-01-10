@@ -410,31 +410,31 @@ namespace Files.App.ViewModels
 
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-			ReleaseNotesService.PropertyChanged += ReleaseNotesService_OnPropertyChanged;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
-		}
-
-		private void ReleaseNotesService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (!UpdateService.IsAppUpdated)
-				return;
-
-			if (ReleaseNotesService.IsReleaseNotesAvailable)
-			{
-				IsReleaseNotesVisible = true;
-				ReleaseNotes = ReleaseNotesService.ReleaseNotes;
-			}				 
 		}
 
 		private void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			IsUpdateAvailable = UpdateService.IsUpdateAvailable;			 
-			IsUpdating = UpdateService.IsUpdating;			 
+			IsUpdating = UpdateService.IsUpdating;
 		}
 
 		private void DoViewReleaseNotes()
 		{
 			IsReleaseNotesOpen = true;
+		}
+		
+		public async Task CheckForReleaseNotesAsync()
+		{
+			if (!UpdateService.IsAppUpdated)
+				return;
+
+			var result = await UpdateService.GetLatestReleaseNotesAsync();
+			if (result is null)
+				return;
+
+			ReleaseNotes = result;
+			IsReleaseNotesVisible = true;
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)

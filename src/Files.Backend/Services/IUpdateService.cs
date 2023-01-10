@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Files.Backend.Services
@@ -25,5 +28,10 @@ namespace Files.Backend.Services
 		Task DownloadMandatoryUpdates();
 
 		Task CheckForUpdates();
+
+		/// <summary>
+		/// Gets release notes for the latest release
+		/// </summary>
+		Task<string?> GetLatestReleaseNotesAsync(CancellationToken cancellationToken = default);
 	}
 }
