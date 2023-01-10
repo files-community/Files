@@ -207,7 +207,7 @@ namespace Files.App
 						// check if the preview pane is open before updating the model
 						if (PreviewPaneViewModel.IsEnabled)
 						{
-							bool isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.IsPreviewPaneEnabled ?? false;
+							bool isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
 							if (isPaneEnabled)
 								App.PreviewPaneViewModel.UpdateSelectedItemPreview();
 						}

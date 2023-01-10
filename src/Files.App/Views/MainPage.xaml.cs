@@ -407,7 +407,7 @@ namespace Files.App.Views
 		/// </summary>
 		private void UpdatePositioning()
 		{
-			if (PreviewPane is null || !IsPreviewPaneEnabled)
+			if (PreviewPane is null || !ShouldPreviewPaneBeActive)
 			{
 				PaneRow.MinHeight = 0;
 				PaneRow.MaxHeight = double.MaxValue;
@@ -474,7 +474,7 @@ namespace Files.App.Views
 			}
 		}
 
-		public bool IsPreviewPaneEnabled => UserSettingsService.PreviewPaneSettingsService.IsEnabled;
+		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
 
 		public bool ShouldPreviewPaneBeDisplayed
 		{
@@ -491,7 +491,7 @@ namespace Files.App.Views
 
 		private void LoadPaneChanged()
 		{
-			OnPropertyChanged(nameof(IsPreviewPaneEnabled));
+			OnPropertyChanged(nameof(ShouldPreviewPaneBeActive));
 			OnPropertyChanged(nameof(ShouldPreviewPaneBeDisplayed));
 			UpdatePositioning();
 		}
