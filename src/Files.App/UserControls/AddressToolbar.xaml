@@ -296,7 +296,7 @@
 					x:Name="ViewReleaseNotesButton"
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
-					x:Load="{x:Bind ViewModel.IsAppUpdated, Mode=OneWay}"
+					x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
 					AccessKey="2"
 					AutomationProperties.Name="{helpers:ResourceString Name=ReleaseNotes}"
 					Command="{x:Bind ViewModel.ViewReleaseNotesCommand, Mode=OneWay}"
@@ -338,7 +338,6 @@
 			<!--  Release Notes Teaching Tip  -->
 			<TeachingTip
 				x:Name="ReleaseNotesTeachingTip"
-				Title="{helpers:ResourceString Name=ReleaseNotes}"
 				IsLightDismissEnabled="True"
 				IsOpen="{x:Bind ViewModel.IsReleaseNotesOpen, Mode=TwoWay}"
 				Target="{x:Bind ViewReleaseNotesButton}">
@@ -361,13 +360,11 @@
 				<!--  Markdown Content  -->
 				<TeachingTip.Content>
 					<ScrollViewer
+						Width="260"
 						Height="240"
-						HorizontalScrollMode="Disabled"
-						VerticalScrollMode="Enabled">
-						<controls:MarkdownTextBlock
-							Padding="0,12"
-							Background="Transparent"
-							Text="Coming Soon 👀" />
+						HorizontalScrollMode="Auto"
+						VerticalScrollMode="Auto">
+						<controls:MarkdownTextBlock Background="Transparent" Text="{x:Bind ViewModel.ReleaseNotes, Mode=OneWay}" />
 					</ScrollViewer>
 				</TeachingTip.Content>
 			</TeachingTip>

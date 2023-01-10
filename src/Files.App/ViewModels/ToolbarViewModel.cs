@@ -7,6 +7,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.App.ServicesImplementation;
 using Files.App.Shell;
 using Files.App.UserControls;
 using Files.App.Views;
@@ -25,6 +26,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -40,8 +42,8 @@ namespace Files.App.ViewModels
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
+		public IReleaseNotesService ReleaseNotesService { get; } = Ioc.Default.GetService<IReleaseNotesService>()!;
 
 		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -252,14 +254,24 @@ namespace Files.App.ViewModels
 		public bool IsAdaptiveLayoutEnabled
 			=> UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences;
 		
-		public bool IsAppUpdated
-			=> UpdateService.IsAppUpdated;
-		
 		public bool IsUpdateAvailable
 			=> UpdateService.IsUpdateAvailable;
 		
 		public bool IsUpdating
 			=> UpdateService.IsUpdating;
+
+		public bool IsReleaseNotesVisible
+			=> UpdateService.IsAppUpdated && ReleaseNotesService.IsReleaseNotesAvailable;
+
+		public string? ReleaseNotes
+			=> ReleaseNotesService.ReleaseNotes;
+
+		private bool isReleaseNotesOpen;
+		public bool IsReleaseNotesOpen
+		{
+			get => isReleaseNotesOpen;
+			set => SetProperty(ref isReleaseNotesOpen, value);
+		}
 
 		private bool canCopyPathInPage;
 		public bool CanCopyPathInPage
@@ -319,13 +331,6 @@ namespace Files.App.ViewModels
 				if (SetProperty(ref isSearchBoxVisible, value))
 					SearchButtonGlyph = value ? "\uE711" : "\uE721";
 			}
-		}
-
-		private bool isReleaseNotesOpen;
-		public bool IsReleaseNotesOpen
-		{
-			get => isReleaseNotesOpen;
-			set => SetProperty(ref isReleaseNotesOpen, value);
 		}
 
 		private string? pathText;

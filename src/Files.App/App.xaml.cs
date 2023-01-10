@@ -131,6 +131,7 @@ namespace Files.App
 				.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
 				.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
 				.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
+				.AddSingleton<IReleaseNotesService, ReleaseNotesService>()
 
 				// TODO(i): FileSystem operations:
 				// (IFilesystemHelpersService, IFilesystemOperationsService)
@@ -208,6 +209,10 @@ namespace Files.App
 			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
 			await updateService.CheckForUpdates();
 			await updateService.DownloadMandatoryUpdates();
+
+			// Download release notes
+			var releaseNotesService = Ioc.Default.GetRequiredService<IReleaseNotesService>();
+			await releaseNotesService.DownloadReleaseNotes();
 
 			static async Task OptionalTask(Task task, bool condition)
 			{
