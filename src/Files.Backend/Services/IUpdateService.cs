@@ -15,6 +15,11 @@ namespace Files.Backend.Services
 		/// </summary>
 		bool IsUpdating { get; }
 
+		/// <summary>
+		/// Gets a value indicating if the apps being used the first time after an update.
+		/// </summary>
+		bool IsAppUpdated { get; }
+
 		Task DownloadUpdates();
 
 		Task DownloadMandatoryUpdates();

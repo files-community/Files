@@ -809,7 +809,7 @@
 									Grid.Column="1"
 									HorizontalAlignment="Right"
 									AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarShowFileExtensions/AutomationProperties/Name}"
-									IsOn="{x:Bind UserSettingsService.PreferencesSettingsService.ShowFileExtensions, Mode=TwoWay}"
+									IsOn="{x:Bind UserSettingsService.FoldersSettingsService.ShowFileExtensions, Mode=TwoWay}"
 									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 							</Grid>
