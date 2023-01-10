@@ -78,6 +78,7 @@ namespace Files.App.ViewModels
 		{
 			ShowPreviewOnlyInvoked = new RelayCommand(() => UpdateSelectedItemPreview());
 
+			IsEnabled = PreviewSettingsService.IsEnabled;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			PreviewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 		}
