@@ -18,7 +18,6 @@
 	d:DesignHeight="50"
 	d:DesignWidth="800"
 	Loading="NavToolbar_Loading"
-	Loaded="NavToolbar_Loaded"
 	mc:Ignorable="d">
 	<UserControl.Resources>
 		<ResourceDictionary>

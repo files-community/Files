@@ -142,10 +142,5 @@ namespace Files.App.UserControls
 				userSettingsService.AppSettingsService.ShowStatusCenterTeachingTip = false;
 			}
 		}
-
-		private async void NavToolbar_Loaded(object sender, RoutedEventArgs e)
-		{
-			await ViewModel.CheckForReleaseNotesAsync();
-		}
 	}
 }

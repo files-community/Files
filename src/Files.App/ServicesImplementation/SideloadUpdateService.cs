@@ -61,6 +61,12 @@ namespace Files.App.ServicesImplementation
 			get => SystemInformation.Instance.IsAppUpdated;
 		}
 
+		private bool _isReleaseNotesAvailable;
+		public bool IsReleaseNotesAvailable
+		{
+			get => _isReleaseNotesAvailable;
+			private set => SetProperty(ref _isReleaseNotesAvailable, value);
+		}
 		public async Task DownloadUpdates()
 		{
 			await ApplyPackageUpdate();
@@ -88,6 +94,16 @@ namespace Files.App.ServicesImplementation
 					return null;
 				}
 			}
+		}
+
+		public async Task CheckLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
+		{
+			if (!IsAppUpdated)
+				return;
+
+			var result = await GetLatestReleaseNotesAsync();
+			if (result is not null)
+				IsReleaseNotesAvailable = true;
 		}
 
 		public async Task CheckForUpdates()

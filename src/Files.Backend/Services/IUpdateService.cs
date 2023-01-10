@@ -23,11 +23,18 @@ namespace Files.Backend.Services
 		/// </summary>
 		bool IsAppUpdated { get; }
 
+		/// <summary>
+		/// Gets a value indicating if release notes are available.
+		/// </summary>
+		bool IsReleaseNotesAvailable { get; }
+
 		Task DownloadUpdates();
 
 		Task DownloadMandatoryUpdates();
 
 		Task CheckForUpdates();
+
+		Task CheckLatestReleaseNotesAsync();
 
 		/// <summary>
 		/// Gets release notes for the latest release

@@ -36,6 +36,13 @@ namespace Files.App.ServicesImplementation
 			private set => SetProperty(ref _isUpdating, value);
 		}
 
+		private bool _isReleaseNotesAvailable;
+		public bool IsReleaseNotesAvailable
+		{
+			get => _isReleaseNotesAvailable;
+			private set => SetProperty(ref _isReleaseNotesAvailable, value);
+		}
+
 		public bool IsAppUpdated
 		{
 			get => SystemInformation.Instance.IsAppUpdated;
@@ -139,6 +146,17 @@ namespace Files.App.ServicesImplementation
 			ContentDialogResult result = await SetContentDialogRoot(dialog).ShowAsync();
 
 			return result == ContentDialogResult.Primary;
+		}
+
+		public async Task CheckLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
+		{
+			//if (!IsAppUpdated)
+			//	return;
+
+			var result = await GetLatestReleaseNotesAsync();
+			
+			if (result is not null)
+				IsReleaseNotesAvailable = true;
 		}
 
 		public async Task<string?> GetLatestReleaseNotesAsync(CancellationToken cancellationToken = default)

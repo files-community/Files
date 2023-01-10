@@ -30,6 +30,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Text;
@@ -412,10 +413,13 @@ namespace Files.App.ViewModels
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
 		}
 
-		private void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private async void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			IsUpdateAvailable = UpdateService.IsUpdateAvailable;			 
 			IsUpdating = UpdateService.IsUpdating;
+
+			if (UpdateService.IsReleaseNotesAvailable)
+				await CheckForReleaseNotesAsync();
 		}
 
 		private void DoViewReleaseNotes()
@@ -425,9 +429,6 @@ namespace Files.App.ViewModels
 		
 		public async Task CheckForReleaseNotesAsync()
 		{
-			if (!UpdateService.IsAppUpdated)
-				return;
-
 			var result = await UpdateService.GetLatestReleaseNotesAsync();
 			if (result is null)
 				return;
