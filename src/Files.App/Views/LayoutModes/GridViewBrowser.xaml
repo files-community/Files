@@ -585,17 +585,10 @@
 						</GroupStyle>
 					</controls:AdaptiveGridView.GroupStyle>
 
-					<!-- Animates items when resizing the window -->
-					<controls:AdaptiveGridView.ItemContainerTransitions>
-						<TransitionCollection>
-							<AddDeleteThemeTransition />
-						</TransitionCollection>
-					</controls:AdaptiveGridView.ItemContainerTransitions>
-					
-					<!-- Wraps items without affecting the height of other rows -->
+					<!--  Wraps items without affecting the height of other rows  -->
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
-							<controls:WrapPanel />
+							<controls:WrapPanel/>
 						</ItemsPanelTemplate>
 					</ItemsControl.ItemsPanel>
 
