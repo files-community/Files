@@ -251,6 +251,15 @@ namespace Files.App.ViewModels
 
 		public bool IsAdaptiveLayoutEnabled
 			=> UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences;
+		
+		public bool IsAppUpdated
+			=> UpdateService.IsAppUpdated;
+		
+		public bool IsUpdateAvailable
+			=> UpdateService.IsUpdateAvailable;
+		
+		public bool IsUpdating
+			=> UpdateService.IsUpdating;
 
 		private bool canCopyPathInPage;
 		public bool CanCopyPathInPage

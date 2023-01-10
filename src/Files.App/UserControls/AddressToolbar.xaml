@@ -265,18 +265,18 @@
 					x:Name="UpdateButton"
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
-					x:Load="{x:Bind ViewModel.UpdateService.IsUpdateAvailable, Mode=OneWay}"
+					x:Load="{x:Bind ViewModel.IsUpdateAvailable, Mode=OneWay}"
 					AccessKey="1"
 					AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
 					Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.UpdateService.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+					IsEnabled="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}">
 					<Grid>
 						<!--  Icon  -->
 						<FontIcon
 							x:Name="UpdateIcon"
-							x:Load="{x:Bind ViewModel.UpdateService.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+							x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 							FontSize="14"
 							Foreground="{ThemeResource SystemAccentColor}"
 							Glyph="&#xE896;" />
@@ -286,7 +286,7 @@
 							x:Name="UpdateProgressRing"
 							Width="20"
 							Height="20"
-							x:Load="{x:Bind ViewModel.UpdateService.IsUpdating, Mode=OneWay}"
+							x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay}"
 							IsIndeterminate="True" />
 					</Grid>
 				</Button>
@@ -296,7 +296,7 @@
 					x:Name="ViewReleaseNotesButton"
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
-					x:Load="{x:Bind ViewModel.UpdateService.IsAppUpdated, Mode=OneWay}"
+					x:Load="{x:Bind ViewModel.IsAppUpdated, Mode=OneWay}"
 					AccessKey="2"
 					AutomationProperties.Name="{helpers:ResourceString Name=ReleaseNotes}"
 					Command="{x:Bind ViewModel.ViewReleaseNotesCommand, Mode=OneWay}"
