@@ -236,7 +236,7 @@
     <value>Megjelenés</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>Háttérszín</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Kísérleti beállítások</value>
@@ -2924,6 +2924,6 @@
     <value>Rendezés</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>Az előzmények jelenleg le vannak tiltva a Windows Fájlkezelőben.</value>
   </data>
 </root>
