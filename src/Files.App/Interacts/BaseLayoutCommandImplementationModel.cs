@@ -261,7 +261,7 @@ namespace Files.App.Interacts
 
 		public virtual void OpenDirectoryInNewPane(RoutedEventArgs e)
 		{
-			NavigationHelpers.OpenInSecondaryPanel(associatedInstance, SlimContentPage.SelectedItems.FirstOrDefault());
+			NavigationHelpers.OpenInSecondaryPane(associatedInstance, SlimContentPage.SelectedItems.FirstOrDefault());
 		}
 
 		public virtual async void OpenInNewWindowItem(RoutedEventArgs e)

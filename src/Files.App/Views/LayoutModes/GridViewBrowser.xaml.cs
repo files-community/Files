@@ -399,7 +399,7 @@ namespace Files.App.Views.LayoutModes
 				}
 				else if (ctrlPressed && shiftPressed)
 				{
-					NavigationHelpers.OpenInSecondaryPanel(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
+					NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
 				}
 				else
 				{

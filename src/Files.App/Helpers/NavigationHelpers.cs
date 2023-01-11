@@ -37,7 +37,7 @@ namespace Files.App.Helpers
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
-		public static void OpenInSecondaryPanel(IShellPage associatedInstance, ListedItem listedItem)
+		public static void OpenInSecondaryPane(IShellPage associatedInstance, ListedItem listedItem)
 		{
 			if(associatedInstance is null || listedItem is null)
 				return;
