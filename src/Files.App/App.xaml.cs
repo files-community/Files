@@ -208,6 +208,7 @@ namespace Files.App
 			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
 			await updateService.CheckForUpdates();
 			await updateService.DownloadMandatoryUpdates();
+			await updateService.CheckLatestReleaseNotesAsync();
 
 			static async Task OptionalTask(Task task, bool condition)
 			{
