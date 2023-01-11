@@ -331,14 +331,14 @@
 					ResizeBehavior="BasedOnAlignment"
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 
-				<controls:PreviewPane
+                <controls:PreviewPane
 					x:Name="PreviewPane"
 					Grid.Row="1"
 					Grid.Column="2"
 					HorizontalContentAlignment="Stretch"
-					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}"
+					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}" />
 
-				<controls:StatusBarControl
+                <controls:StatusBarControl
 					x:Name="StatusBarControl"
 					Grid.Row="4"
 					Grid.ColumnSpan="3"
