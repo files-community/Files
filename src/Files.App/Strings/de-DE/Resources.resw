@@ -2924,6 +2924,6 @@
     <value>Sortieren nach</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>Zuletzt verwendete Dateien sind derzeit im Windows Explorer deaktiviert.</value>
   </data>
 </root>

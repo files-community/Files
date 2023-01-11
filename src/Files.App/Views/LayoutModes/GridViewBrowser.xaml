@@ -586,11 +586,12 @@
 					</controls:AdaptiveGridView.GroupStyle>
 
 					<!--  Wraps items without affecting the height of other rows  -->
-					<ItemsControl.ItemsPanel>
+					<!-- Disabled as it broke thumbnails -->
+					<!--<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
 							<controls:WrapPanel/>
 						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
+					</ItemsControl.ItemsPanel>-->
 
 					<controls:AdaptiveGridView.Resources>
 						<ResourceDictionary>
