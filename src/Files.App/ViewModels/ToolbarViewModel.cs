@@ -7,6 +7,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.App.ServicesImplementation;
 using Files.App.Shell;
 using Files.App.UserControls;
 using Files.App.Views;
@@ -23,10 +24,13 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Text;
@@ -40,7 +44,6 @@ namespace Files.App.ViewModels
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
 
 		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
@@ -252,8 +255,42 @@ namespace Files.App.ViewModels
 		public bool IsAdaptiveLayoutEnabled
 			=> UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences;
 
-		private bool canCopyPathInPage;
+		private bool isUpdating;
+		public bool IsUpdating
+		{
+			get => isUpdating;
+			set => SetProperty(ref isUpdating, value);
+		}
 
+		private bool isUpdateAvailable;
+		public bool IsUpdateAvailable
+		{
+			get => isUpdateAvailable;
+			set => SetProperty(ref isUpdateAvailable, value);
+		}
+
+		private string? releaseNotes;
+		public string? ReleaseNotes
+		{
+			get => releaseNotes;
+			set => SetProperty(ref releaseNotes, value);
+		}
+		
+		private bool isReleaseNotesVisible;
+		public bool IsReleaseNotesVisible
+		{
+			get => isReleaseNotesVisible;
+			set => SetProperty(ref isReleaseNotesVisible, value);
+		}
+
+		private bool isReleaseNotesOpen;
+		public bool IsReleaseNotesOpen
+		{
+			get => isReleaseNotesOpen;
+			set => SetProperty(ref isReleaseNotesOpen, value);
+		}
+
+		private bool canCopyPathInPage;
 		public bool CanCopyPathInPage
 		{
 			get => canCopyPathInPage;
@@ -261,7 +298,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool canGoBack;
-
 		public bool CanGoBack
 		{
 			get => canGoBack;
@@ -269,7 +305,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool canGoForward;
-
 		public bool CanGoForward
 		{
 			get => canGoForward;
@@ -277,7 +312,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool canNavigateToParent;
-
 		public bool CanNavigateToParent
 		{
 			get => canNavigateToParent;
@@ -285,7 +319,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool previewPaneEnabled;
-
 		public bool PreviewPaneEnabled
 		{
 			get => previewPaneEnabled;
@@ -293,7 +326,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool canRefresh;
-
 		public bool CanRefresh
 		{
 			get => canRefresh;
@@ -301,7 +333,6 @@ namespace Files.App.ViewModels
 		}
 
 		private string searchButtonGlyph = "\uE721";
-
 		public string SearchButtonGlyph
 		{
 			get => searchButtonGlyph;
@@ -309,7 +340,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool isSearchBoxVisible;
-
 		public bool IsSearchBoxVisible
 		{
 			get => isSearchBoxVisible;
@@ -321,7 +351,6 @@ namespace Files.App.ViewModels
 		}
 
 		private string? pathText;
-
 		public string? PathText
 		{
 			get => pathText;
@@ -374,12 +403,39 @@ namespace Files.App.ViewModels
 			ForwardClickCommand = new RelayCommand<RoutedEventArgs>(e => ForwardRequested?.Invoke(this, EventArgs.Empty));
 			UpClickCommand = new RelayCommand<RoutedEventArgs>(e => UpRequested?.Invoke(this, EventArgs.Empty));
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
+			ViewReleaseNotesCommand = new RelayCommand(DoViewReleaseNotes);
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 			dragOverTimer = dispatcherQueue.CreateTimer();
 
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
+		}
+
+		private async void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			IsUpdateAvailable = UpdateService.IsUpdateAvailable;			 
+			IsUpdating = UpdateService.IsUpdating;
+
+			// Bad code, result is called twice when checking for release notes
+			if (UpdateService.IsReleaseNotesAvailable)
+				await CheckForReleaseNotesAsync();
+		}
+
+		private void DoViewReleaseNotes()
+		{
+			IsReleaseNotesOpen = true;
+		}
+		
+		public async Task CheckForReleaseNotesAsync()
+		{
+			var result = await UpdateService.GetLatestReleaseNotesAsync();
+			if (result is null)
+				return;
+
+			ReleaseNotes = result;
+			IsReleaseNotesVisible = true;
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
@@ -622,7 +678,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool manualEntryBoxLoaded;
-
 		public bool ManualEntryBoxLoaded
 		{
 			get => manualEntryBoxLoaded;
@@ -630,7 +685,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool clickablePathLoaded = true;
-
 		public bool ClickablePathLoaded
 		{
 			get => clickablePathLoaded;
@@ -638,7 +692,6 @@ namespace Files.App.ViewModels
 		}
 
 		private string pathControlDisplayText;
-
 		public string PathControlDisplayText
 		{
 			get => pathControlDisplayText;
@@ -649,6 +702,7 @@ namespace Files.App.ViewModels
 		public ICommand ForwardClickCommand { get; }
 		public ICommand UpClickCommand { get; }
 		public ICommand RefreshClickCommand { get; }
+		public ICommand ViewReleaseNotesCommand { get; }
 
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
