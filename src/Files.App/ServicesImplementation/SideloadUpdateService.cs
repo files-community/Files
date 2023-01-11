@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.ApplicationModel;
@@ -55,13 +56,17 @@ namespace Files.App.ServicesImplementation
 			private set => SetProperty(ref _isUpdating, value);
 		}
 
-		private bool _isAppUpdated;
 		public bool IsAppUpdated
 		{
-			get => _isAppUpdated;
-			private set => SetProperty(ref _isAppUpdated, value);
+			get => SystemInformation.Instance.IsAppUpdated;
 		}
 
+		private bool _isReleaseNotesAvailable;
+		public bool IsReleaseNotesAvailable
+		{
+			get => _isReleaseNotesAvailable;
+			private set => SetProperty(ref _isReleaseNotesAvailable, value);
+		}
 		public async Task DownloadUpdates()
 		{
 			await ApplyPackageUpdate();
@@ -72,9 +77,33 @@ namespace Files.App.ServicesImplementation
 			return Task.CompletedTask;
 		}
 
-		public SideloadUpdateService()
+		public async Task<string?> GetLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
 		{
-			IsAppUpdated = SystemInformation.Instance.IsAppUpdated;
+			var applicationVersion = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
+			var releaseNotesLocation = string.Concat("https://raw.githubusercontent.com/files-community/Release-Notes/main/", applicationVersion, ".md");
+
+			using (var client = new HttpClient())
+			{
+				try
+				{
+					var result = await client.GetStringAsync(releaseNotesLocation, cancellationToken);
+					return result == string.Empty ? null : result;
+				}
+				catch
+				{
+					return null;
+				}
+			}
+		}
+
+		public async Task CheckLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
+		{
+			if (!IsAppUpdated)
+				return;
+
+			var result = await GetLatestReleaseNotesAsync();
+			if (result is not null)
+				IsReleaseNotesAvailable = true;
 		}
 
 		public async Task CheckForUpdates()
