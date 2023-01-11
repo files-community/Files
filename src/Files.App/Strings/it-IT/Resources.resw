@@ -2924,6 +2924,6 @@
     <value>Ordina per</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>I file usati di recente sono attualmente disabilitati in Windows File Explorer.</value>
   </data>
 </root>

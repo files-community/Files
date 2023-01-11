@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Services.Store;
 using WinRT.Interop;
@@ -34,18 +36,21 @@ namespace Files.App.ServicesImplementation
 			private set => SetProperty(ref _isUpdating, value);
 		}
 
-		private bool _isAppUpdated;
+		private bool _isReleaseNotesAvailable;
+		public bool IsReleaseNotesAvailable
+		{
+			get => _isReleaseNotesAvailable;
+			private set => SetProperty(ref _isReleaseNotesAvailable, value);
+		}
+
 		public bool IsAppUpdated
 		{
-			get => _isAppUpdated;
-			private set => SetProperty(ref _isAppUpdated, value);
+			get => SystemInformation.Instance.IsAppUpdated;
 		}
 
 		public UpdateService()
 		{
 			_updatePackages = new List<StorePackageUpdate>();
-
-			IsAppUpdated = SystemInformation.Instance.IsAppUpdated;
 		}
 
 		public async Task DownloadUpdates()
@@ -141,6 +146,36 @@ namespace Files.App.ServicesImplementation
 			ContentDialogResult result = await SetContentDialogRoot(dialog).ShowAsync();
 
 			return result == ContentDialogResult.Primary;
+		}
+
+		public async Task CheckLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
+		{
+			if (!IsAppUpdated)
+				return;
+
+			var result = await GetLatestReleaseNotesAsync();
+			
+			if (result is not null)
+				IsReleaseNotesAvailable = true;
+		}
+
+		public async Task<string?> GetLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
+		{
+			var applicationVersion = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
+			var releaseNotesLocation = string.Concat("https://raw.githubusercontent.com/files-community/Release-Notes/main/", applicationVersion, ".md");
+
+			using (var client = new HttpClient())
+			{
+				try
+				{
+					var result = await client.GetStringAsync(releaseNotesLocation, cancellationToken);
+					return result == string.Empty ? null : result;
+				}
+				catch
+				{
+					return null;
+				}
+			}
 		}
 
 		// WINUI3
