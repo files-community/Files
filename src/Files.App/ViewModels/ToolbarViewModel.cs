@@ -619,14 +619,6 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 			var deferral = e.GetDeferral();
 
-			var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-			if (handledByFtp)
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				deferral.Complete();
-				return;
-			}
-
 			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 			if (!storageItems.Any(storageItem =>
