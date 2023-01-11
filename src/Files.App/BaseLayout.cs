@@ -803,18 +803,11 @@ namespace Files.App
 				{
 					e.Handled = true;
 
-					var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 					var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 					if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
 					{
 						e.AcceptedOperation = DataPackageOperation.None;
-					}
-					else if (handledByFtp)
-					{
-						e.DragUIOverride.IsCaptionVisible = true;
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.Name);
-						e.AcceptedOperation = DataPackageOperation.Copy;
 					}
 					else if (!draggedItems.Any())
 					{

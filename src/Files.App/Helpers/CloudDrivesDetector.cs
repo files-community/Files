@@ -26,6 +26,7 @@ namespace Files.App.Helpers
 				SafetyExtensions.IgnoreExceptions(DetectYandexDisk, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectpCloudDrive, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectNutstoreDrive, App.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectSeadriveDrive, App.Logger),
 			};
 
 			await Task.WhenAll(tasks);
@@ -267,6 +268,28 @@ namespace Files.App.Helpers
 				}
 			}
 	
+			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
+		}
+
+		private static Task<IEnumerable<ICloudProvider>> DetectSeadriveDrive()
+		{
+			var results = new List<ICloudProvider>();
+			using var SeadriveKey = Registry.CurrentUser.OpenSubKey(@"Software\SeaDrive\Seafile Drive Client\Settings");
+
+			var syncFolder = (string)SeadriveKey?.GetValue("seadriveRoot");
+			if (SeadriveKey is not null)
+			{
+				string iconPath = Path.Combine(programFilesFolder, "SeaDrive", "bin", "seadrive.exe");
+				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 101 }).FirstOrDefault();
+
+				results.Add(new CloudProvider(CloudProviders.Seadrive)
+				{
+					Name = $"Seadrive",
+					SyncFolder = syncFolder,
+					IconData = iconFile?.IconData
+				});			
+			}
+
 			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
 		}
 	}

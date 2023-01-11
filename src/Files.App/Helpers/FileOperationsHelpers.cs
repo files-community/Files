@@ -45,46 +45,6 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<bool> DragDropAsync(string dropPath)
-		{
-			return Win32API.StartSTATask(() =>
-			{
-				var rdo = new RemoteDataObject(System.Windows.Forms.Clipboard.GetDataObject());
-
-				foreach (RemoteDataObject.DataPackage package in rdo.GetRemoteData())
-				{
-					try
-					{
-						if (package.ItemType == RemoteDataObject.StorageType.File)
-						{
-							string directoryPath = Path.GetDirectoryName(dropPath);
-							if (!Directory.Exists(directoryPath))
-							{
-								Directory.CreateDirectory(directoryPath);
-							}
-
-							string uniqueName = Win32API.GenerateUniquePath(Path.Combine(dropPath, package.Name));
-							using FileStream stream = new FileStream(uniqueName, FileMode.CreateNew);
-							package.ContentStream.CopyTo(stream);
-						}
-						else
-						{
-							string directoryPath = Path.Combine(dropPath, package.Name);
-							if (!Directory.Exists(directoryPath))
-							{
-								Directory.CreateDirectory(directoryPath);
-							}
-						}
-					}
-					finally
-					{
-						package.Dispose();
-					}
-				}
-				return true;
-			});
-		}
-
 		public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, string template = "", byte[]? dataBytes = null)
 		{
 			return Win32API.StartSTATask(async () =>
