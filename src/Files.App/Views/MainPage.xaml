@@ -337,7 +337,7 @@
 					Grid.Column="2"
 					HorizontalContentAlignment="Stretch"
 					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}" />
-
+                
                 <controls:StatusBarControl
 					x:Name="StatusBarControl"
 					Grid.Row="4"
