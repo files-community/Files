@@ -2924,6 +2924,6 @@
     <value>Trier par</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>Les fichiers récemment utilisés sont actuellement désactivés dans l'explorateur de fichiers Windows.</value>
   </data>
 </root>

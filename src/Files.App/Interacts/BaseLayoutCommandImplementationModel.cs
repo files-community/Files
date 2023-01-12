@@ -479,7 +479,6 @@ namespace Files.App.Interacts
 			{
 				e.Handled = true;
 
-				var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 				var draggedItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 				var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
@@ -489,19 +488,6 @@ namespace Files.App.Interacts
 				if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || (draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory)))
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
-				}
-				else if (handledByFtp)
-				{
-					if (pwd.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
-					{
-						e.AcceptedOperation = DataPackageOperation.None;
-					}
-					else
-					{
-						e.DragUIOverride.IsCaptionVisible = true;
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Copy;
-					}
 				}
 				else if (!draggedItems.Any())
 				{

@@ -26,13 +26,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
-using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
@@ -40,7 +37,6 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
-using VA = Vanara.Windows.Shell;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App
@@ -62,7 +58,7 @@ namespace Files.App
 
 		public CurrentInstanceViewModel? InstanceViewModel => ParentShellPageInstance?.InstanceViewModel;
 
-		public IPaneViewModel PaneViewModel => App.PaneViewModel;
+		public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
 
 		public AppModel AppModel => App.AppModel;
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
@@ -209,9 +205,9 @@ namespace Files.App
 						App.PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
 
 						// check if the preview pane is open before updating the model
-						if (PaneViewModel.IsPreviewSelected)
+						if (PreviewPaneViewModel.IsEnabled)
 						{
-							bool isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
+							bool isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
 							if (isPaneEnabled)
 								App.PreviewPaneViewModel.UpdateSelectedItemPreview();
 						}
@@ -755,23 +751,11 @@ namespace Files.App
 		protected void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
 			SelectedItems!.AddRange(e.Items.OfType<ListedItem>());
-
 			try
 			{
-				var itemList = e.Items.OfType<ListedItem>().Select(x => new VA.ShellItem(x.ItemPath)).ToArray();
-				var iddo = itemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, itemList);
-				itemList.ForEach(x => x.Dispose());
-				var wfdo = new System.Windows.Forms.DataObject(iddo);
-				var formats = wfdo.GetFormats(false);
-				foreach (var format in formats)
-				{
-					var clipFrmtId = (uint)System.Windows.Forms.DataFormats.GetFormat(format).Id;
-					if (iddo.TryGetData<byte[]>(clipFrmtId, out var data))
-					{
-						var mem = new MemoryStream(data).AsRandomAccessStream();
-						e.Data.SetData(format, mem);
-					}
-				}
+				// Only support IStorageItem capable paths
+				var itemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
+				e.Data.SetStorageItems(itemList, false);
 			}
 			catch (Exception)
 			{
@@ -819,18 +803,11 @@ namespace Files.App
 				{
 					e.Handled = true;
 
-					var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 					var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 					if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
 					{
 						e.AcceptedOperation = DataPackageOperation.None;
-					}
-					else if (handledByFtp)
-					{
-						e.DragUIOverride.IsCaptionVisible = true;
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.Name);
-						e.AcceptedOperation = DataPackageOperation.Copy;
 					}
 					else if (!draggedItems.Any())
 					{
@@ -1062,7 +1039,7 @@ namespace Files.App
 
 		public virtual void Dispose()
 		{
-			PaneViewModel?.Dispose();
+			PreviewPaneViewModel?.Dispose();
 			UnhookBaseEvents();
 		}
 

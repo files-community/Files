@@ -27,6 +27,8 @@ namespace Files.App.UserControls
 
 		public AppModel AppModel => App.AppModel;
 
+		public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
+
 		public ToolbarViewModel ViewModel
 		{
 			get => (ToolbarViewModel)GetValue(ViewModelProperty);

@@ -17,6 +17,7 @@
 		SynologyDrive,
 		pCloud,
 		AdobeCreativeCloud,
-		Nutstore
+		Nutstore,
+		Seadrive
 	}
 }
