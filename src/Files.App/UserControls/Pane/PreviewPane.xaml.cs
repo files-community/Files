@@ -9,11 +9,18 @@ using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.UserControls
 {
-	public sealed partial class PreviewPane : UserControl, IPane
+	public enum PreviewPanePositions : ushort
 	{
-		public PanePositions Position { get; private set; } = PanePositions.None;
+		None,
+		Right,
+		Bottom,
+	}
 
-		private IPaneSettingsService PaneSettingsService { get; } = Ioc.Default.GetService<IPaneSettingsService>();
+	public sealed partial class PreviewPane : UserControl
+	{
+		public PreviewPanePositions Position { get; private set; } = PreviewPanePositions.None;
+
+		private IPreviewPaneSettingsService PaneSettingsService { get; } = Ioc.Default.GetService<IPreviewPaneSettingsService>();
 
 		private PreviewPaneViewModel ViewModel => App.PreviewPaneViewModel;
 
@@ -25,12 +32,12 @@ namespace Files.App.UserControls
 		{
 			if (panelWidth > 700)
 			{
-				Position = PanePositions.Right;
+				Position = PreviewPanePositions.Right;
 				(MinWidth, MinHeight) = (150, 0);
 			}
 			else
 			{
-				Position = PanePositions.Bottom;
+				Position = PreviewPanePositions.Bottom;
 				(MinWidth, MinHeight) = (0, 140);
 			}
 		}
@@ -39,11 +46,13 @@ namespace Files.App.UserControls
 
 		private void Root_Loading(FrameworkElement sender, object args)
 			=> ViewModel.UpdateSelectedItemPreview();
+
 		private void Root_Unloaded(object sender, RoutedEventArgs e)
 		{
 			PreviewControlPresenter.Content = null;
 			Bindings.StopTracking();
 		}
+
 		private void Root_SizeChanged(object sender, SizeChangedEventArgs e)
 			=> Context.IsHorizontal = Root.ActualWidth >= Root.ActualHeight;
 

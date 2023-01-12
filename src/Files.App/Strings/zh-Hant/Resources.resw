@@ -218,7 +218,7 @@
     <value>日期格式</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>主題</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>顯示已知檔案類型的副檔名</value>
@@ -236,7 +236,7 @@
     <value>外觀</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>背景</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>實驗性功能</value>
@@ -2564,7 +2564,7 @@
     <value>輸入媒體庫名稱</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>計算資料夾大小</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>最近使用過的檔案</value>

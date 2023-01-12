@@ -11,6 +11,7 @@ using Files.Shared.EventArguments;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,10 +24,22 @@ namespace Files.App.ViewModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+		private IPreviewPaneSettingsService PreviewSettingsService { get; } = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
+
 		private CancellationTokenSource loadCancellationTokenSource;
 
-		private bool isItemSelected;
+		private bool isEnabled;
+		public bool IsEnabled
+		{
+			get => isEnabled;
+			set
+			{
+				PreviewSettingsService.IsEnabled = value;
+				SetProperty(ref isEnabled, value);
+			}
+		}
 
+		private bool isItemSelected;
 		public bool IsItemSelected
 		{
 			get => isItemSelected;
@@ -34,7 +47,6 @@ namespace Files.App.ViewModels
 		}
 
 		private ListedItem selectedItem;
-
 		public ListedItem SelectedItem
 		{
 			get => selectedItem;
@@ -42,7 +54,6 @@ namespace Files.App.ViewModels
 		}
 
 		private PreviewPaneStates previewPaneState;
-
 		public PreviewPaneStates PreviewPaneState
 		{
 			get => previewPaneState;
@@ -50,7 +61,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool showCloudItemButton;
-
 		public bool ShowCloudItemButton
 		{
 			get => showCloudItemButton;
@@ -58,7 +68,6 @@ namespace Files.App.ViewModels
 		}
 
 		private UIElement previewPaneContent;
-
 		public UIElement PreviewPaneContent
 		{
 			get => previewPaneContent;
@@ -69,7 +78,9 @@ namespace Files.App.ViewModels
 		{
 			ShowPreviewOnlyInvoked = new RelayCommand(() => UpdateSelectedItemPreview());
 
+			IsEnabled = PreviewSettingsService.IsEnabled;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			PreviewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 		}
 
 		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
@@ -267,10 +278,23 @@ namespace Files.App.ViewModels
 
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
-			if (e.SettingName == nameof(IPaneSettingsService.ShowPreviewOnly))
+			if (e.SettingName is nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
 			{
 				// The preview will need refreshing as the file details won't be accurate
 				needsRefresh = true;
+			}
+		}
+
+		private void PreviewSettingsService_OnPropertyChangedEvent(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(IPreviewPaneSettingsService.IsEnabled))
+			{
+				var newEnablingStatus = PreviewSettingsService.IsEnabled;
+				if (isEnabled != newEnablingStatus)
+				{
+					isEnabled = newEnablingStatus;
+					OnPropertyChanged(nameof(IsEnabled));
+				}
 			}
 		}
 
@@ -308,6 +332,7 @@ namespace Files.App.ViewModels
 		public void Dispose()
 		{
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			PreviewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 		}
 	}
 

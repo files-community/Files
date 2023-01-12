@@ -58,7 +58,7 @@ namespace Files.App
 
 		public CurrentInstanceViewModel? InstanceViewModel => ParentShellPageInstance?.InstanceViewModel;
 
-		public IPaneViewModel PaneViewModel => App.PaneViewModel;
+		public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
 
 		public AppModel AppModel => App.AppModel;
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
@@ -205,9 +205,9 @@ namespace Files.App
 						App.PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
 
 						// check if the preview pane is open before updating the model
-						if (PaneViewModel.IsPreviewSelected)
+						if (PreviewPaneViewModel.IsEnabled)
 						{
-							bool isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
+							bool isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
 							if (isPaneEnabled)
 								App.PreviewPaneViewModel.UpdateSelectedItemPreview();
 						}
@@ -803,18 +803,11 @@ namespace Files.App
 				{
 					e.Handled = true;
 
-					var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 					var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 					if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
 					{
 						e.AcceptedOperation = DataPackageOperation.None;
-					}
-					else if (handledByFtp)
-					{
-						e.DragUIOverride.IsCaptionVisible = true;
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.Name);
-						e.AcceptedOperation = DataPackageOperation.Copy;
 					}
 					else if (!draggedItems.Any())
 					{
@@ -1046,7 +1039,7 @@ namespace Files.App
 
 		public virtual void Dispose()
 		{
-			PaneViewModel?.Dispose();
+			PreviewPaneViewModel?.Dispose();
 			UnhookBaseEvents();
 		}
 
