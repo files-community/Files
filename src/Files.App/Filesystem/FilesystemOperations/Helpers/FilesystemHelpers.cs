@@ -562,6 +562,16 @@ namespace Files.App.Filesystem
 			var progress = new Progress<FileSystemProgress>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
+			if (string.IsNullOrWhiteSpace(newName)
+				|| ContainsRestrictedCharacters(newName)
+				|| ContainsRestrictedFileName(newName))
+			{
+				await DialogDisplayHelper.ShowDialogAsync(
+					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
+					"ErrorDialogNameNotAllowed".GetLocalizedResource());
+				return ReturnResult.Failed;
+			}
+
 			IStorageHistory history = null;
 
 			switch (source.ItemType)
