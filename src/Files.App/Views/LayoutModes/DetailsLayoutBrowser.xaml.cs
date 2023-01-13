@@ -71,29 +71,10 @@ namespace Files.App.Views.LayoutModes
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
 
-		protected override void HookEvents()
-		{
-			UnhookEvents();
-			ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
-			ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
-			ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
-			ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
-			ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
-			ItemManipulationModel.RemoveSelectedItemInvoked += ItemManipulationModel_RemoveSelectedItemInvoked;
-			ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
-			ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
-			ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-		}
-
 		private void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
 			FileList.ScrollIntoView(e);
 			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, true); // Scroll to index * item height
-		}
-
-		private void ItemManipulationModel_StartRenameItemInvoked(object? sender, EventArgs e)
-		{
-			StartRenameItem();
 		}
 
 		private void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
@@ -117,50 +98,10 @@ namespace Files.App.Views.LayoutModes
 				FileList.SelectedItems.Remove(e);
 		}
 
-		private void ItemManipulationModel_InvertSelectionInvoked(object? sender, EventArgs e)
-		{
-			if (SelectedItems.Count < GetAllItems().Count() / 2)
-			{
-				var oldSelectedItems = SelectedItems.ToList();
-				ItemManipulationModel.SelectAllItems();
-				ItemManipulationModel.RemoveSelectedItems(oldSelectedItems);
-			}
-			else
-			{
-				List<ListedItem> newSelectedItems = GetAllItems()
-					.Cast<ListedItem>()
-					.Except(SelectedItems)
-					.ToList();
-
-				ItemManipulationModel.SetSelectedItems(newSelectedItems);
-			}
-		}
-
-		private void ItemManipulationModel_ClearSelectionInvoked(object? sender, EventArgs e)
-		{
-			FileList.SelectedItems.Clear();
-		}
-
 		private void ZoomIn(object? sender, GroupOption option)
 		{
 			if (option == GroupOption.None)
 				RootGridZoom.IsZoomedInViewActive = true;
-		}
-
-		protected override void UnhookEvents()
-		{
-			if (ItemManipulationModel is null)
-				return;
-
-			ItemManipulationModel.FocusFileListInvoked -= ItemManipulationModel_FocusFileListInvoked;
-			ItemManipulationModel.SelectAllItemsInvoked -= ItemManipulationModel_SelectAllItemsInvoked;
-			ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
-			ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
-			ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
-			ItemManipulationModel.RemoveSelectedItemInvoked -= ItemManipulationModel_RemoveSelectedItemInvoked;
-			ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
-			ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
-			ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
 		}
 
 		protected override void InitializeCommandsViewModel()

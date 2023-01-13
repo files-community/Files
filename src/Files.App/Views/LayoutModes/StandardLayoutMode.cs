@@ -1,19 +1,21 @@
-﻿using Files.App.Helpers.XamlHelpers;
+﻿using Files.App.Filesystem;
+using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Files.App.Views.LayoutModes
 {
 	public abstract class StandardLayoutMode : BaseLayout
 	{
-		protected override uint IconSize => throw new System.NotImplementedException();
-
-		protected override bool CanGetItemFromElement(object element)
+		protected override void InitializeCommandsViewModel()
 		{
-			throw new System.NotImplementedException();
+			CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
 		}
 
 		protected override void HookEvents()
@@ -28,11 +30,6 @@ namespace Files.App.Views.LayoutModes
 			ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
 			ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
 			ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-		}
-
-		protected override void InitializeCommandsViewModel()
-		{
-			CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
 		}
 
 		protected override void UnhookEvents()
@@ -51,7 +48,7 @@ namespace Files.App.Views.LayoutModes
 			ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
 		}
 
-		protected void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
+		protected virtual void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
 		{
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
 			var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == ItemsControl;
@@ -59,9 +56,44 @@ namespace Files.App.Views.LayoutModes
 				ItemsControl.Focus(FocusState.Programmatic);
 		}
 
-		protected void ItemManipulationModel_SelectAllItemsInvoked(object? sender, EventArgs e)
+		protected virtual void ItemManipulationModel_SelectAllItemsInvoked(object? sender, EventArgs e)
 		{
-			ItemsControl.SelectAll();
+			FileList.SelectAll();
 		}
+
+		protected virtual void ItemManipulationModel_ClearSelectionInvoked(object? sender, EventArgs e)
+		{
+			FileList.SelectedItems.Clear();
+		}
+
+		protected virtual void ItemManipulationModel_InvertSelectionInvoked(object? sender, EventArgs e)
+		{
+			if (SelectedItems.Count < GetAllItems().Count() / 2)
+			{
+				var oldSelectedItems = SelectedItems.ToList();
+				ItemManipulationModel.SelectAllItems();
+				ItemManipulationModel.RemoveSelectedItems(oldSelectedItems);
+				return;
+			}
+
+			List<ListedItem> newSelectedItems = GetAllItems()
+				.Cast<ListedItem>()
+				.Except(SelectedItems)
+				.ToList();
+
+			ItemManipulationModel.SetSelectedItems(newSelectedItems);
+		}
+		protected virtual void ItemManipulationModel_StartRenameItemInvoked(object? sender, EventArgs e)
+		{
+			StartRenameItem();
+		}
+
+		protected abstract void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e);
+
+		protected abstract void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e);
+
+		protected abstract void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e);
+
+		protected abstract void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e);
 	}
 }

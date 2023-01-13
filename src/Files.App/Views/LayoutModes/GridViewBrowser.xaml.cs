@@ -47,17 +47,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void HookEvents()
 		{
-			// QMK - Override, use base en add the two last lines.
-			UnhookEvents();
-			ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
-			ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
-			ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
-			ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
-			ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
-			ItemManipulationModel.RemoveSelectedItemInvoked += ItemManipulationModel_RemoveSelectedItemInvoked;
-			ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
-			ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
-			ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
+			base.HookEvents();
 			ItemManipulationModel.RefreshItemThumbnailInvoked += ItemManipulationModel_RefreshItemThumbnail;
 			ItemManipulationModel.RefreshItemsThumbnailInvoked += ItemManipulationModel_RefreshItemsThumbnail;
 		}
@@ -75,11 +65,6 @@ namespace Files.App.Views.LayoutModes
 		private void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
 			FileList.ScrollIntoView(e);
-		}
-
-		private void ItemManipulationModel_StartRenameItemInvoked(object? sender, EventArgs e)
-		{
-			StartRenameItem();
 		}
 
 		private void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
@@ -103,30 +88,6 @@ namespace Files.App.Views.LayoutModes
 				FileList.SelectedItems.Remove(e);
 		}
 
-		private void ItemManipulationModel_InvertSelectionInvoked(object? sender, EventArgs e)
-		{
-			if (SelectedItems.Count < GetAllItems().Count() / 2)
-			{
-				var oldSelectedItems = SelectedItems.ToList();
-				ItemManipulationModel.SelectAllItems();
-				ItemManipulationModel.RemoveSelectedItems(oldSelectedItems);
-			}
-			else
-			{
-				List<ListedItem> newSelectedItems = GetAllItems()
-					.Cast<ListedItem>()
-					.Except(SelectedItems)
-					.ToList();
-
-				ItemManipulationModel.SetSelectedItems(newSelectedItems);
-			}
-		}
-
-		private void ItemManipulationModel_ClearSelectionInvoked(object? sender, EventArgs e)
-		{
-			FileList.SelectedItems.Clear();
-		}
-
 		private void ZoomIn(object? sender, GroupOption option)
 		{
 			if (option == GroupOption.None)
@@ -135,19 +96,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void UnhookEvents()
 		{
-			// QMK - Override, use base en add the two last lines.
-			if (ItemManipulationModel is null)
-				return;
-
-			ItemManipulationModel.FocusFileListInvoked -= ItemManipulationModel_FocusFileListInvoked;
-			ItemManipulationModel.SelectAllItemsInvoked -= ItemManipulationModel_SelectAllItemsInvoked;
-			ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
-			ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
-			ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
-			ItemManipulationModel.RemoveSelectedItemInvoked -= ItemManipulationModel_RemoveSelectedItemInvoked;
-			ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
-			ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
-			ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
+			base.UnhookEvents();
 			ItemManipulationModel.RefreshItemThumbnailInvoked -= ItemManipulationModel_RefreshItemThumbnail;
 			ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
 		}
