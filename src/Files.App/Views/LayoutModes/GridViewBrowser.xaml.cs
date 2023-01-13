@@ -14,7 +14,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
 using Windows.System;
@@ -22,13 +21,13 @@ using Windows.UI.Core;
 
 namespace Files.App.Views.LayoutModes
 {
-	public sealed partial class GridViewBrowser : BaseLayout
+	public sealed partial class GridViewBrowser : StandardLayoutMode
 	{
 		private uint currentIconSize;
 
 		protected override uint IconSize => currentIconSize;
 
-		protected override ItemsControl ItemsControl => FileList;
+		protected override ListViewBase ListViewBase => FileList;
 
 		/// <summary>
 		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
@@ -62,12 +61,12 @@ namespace Files.App.Views.LayoutModes
 			ReloadSelectedItemIcon();
 		}
 
-		private void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
 			FileList.ScrollIntoView(e);
 		}
 
-		private void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
+		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems.Any())
 			{
@@ -76,13 +75,13 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
 		{
 			if (FileList?.Items.Contains(e) ?? false)
 				FileList.SelectedItems.Add(e);
 		}
 
-		private void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
 		{
 			if (FileList?.Items.Contains(e) ?? false)
 				FileList.SelectedItems.Remove(e);

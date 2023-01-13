@@ -7,12 +7,23 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App
 {
 	public abstract class StandardLayoutMode : BaseLayout
 	{
+		protected abstract ListViewBase ListViewBase
+		{
+			get;
+		}
+
+		protected override ItemsControl ItemsControl => ListViewBase;
+
+		public StandardLayoutMode() : base()
+		{
+
+		}
+
 		protected override void InitializeCommandsViewModel()
 		{
 			CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
@@ -53,17 +64,17 @@ namespace Files.App.Views.LayoutModes
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
 			var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == ItemsControl;
 			if (!isFileListFocused)
-				ItemsControl.Focus(FocusState.Programmatic);
+				ListViewBase.Focus(FocusState.Programmatic);
 		}
 
 		protected virtual void ItemManipulationModel_SelectAllItemsInvoked(object? sender, EventArgs e)
 		{
-			FileList.SelectAll();
+			ListViewBase.SelectAll();
 		}
 
 		protected virtual void ItemManipulationModel_ClearSelectionInvoked(object? sender, EventArgs e)
 		{
-			FileList.SelectedItems.Clear();
+			ListViewBase.SelectedItems.Clear();
 		}
 
 		protected virtual void ItemManipulationModel_InvertSelectionInvoked(object? sender, EventArgs e)

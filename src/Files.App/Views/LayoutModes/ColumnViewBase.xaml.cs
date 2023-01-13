@@ -26,13 +26,13 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.Views.LayoutModes
 {
-	public sealed partial class ColumnViewBase : BaseLayout
+	public sealed partial class ColumnViewBase : StandardLayoutMode
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
-		protected override ItemsControl ItemsControl => FileList;
+		protected override ListViewBase ListViewBase => FileList;
 
 		private ColumnViewBrowser? columnsOwner;
 		private ListViewItem? openedFolderPresenter;
@@ -73,7 +73,7 @@ namespace Files.App.Views.LayoutModes
 			openedFolderPresenter = null;
 		}
 
-		private void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
 			try
 			{
@@ -85,17 +85,17 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
+		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			FileList.ScrollIntoView(FileList.Items.Last());
 		}
 
-		private void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
 		{
 			FileList?.SelectedItems.Add(e);
 		}
 
-		private void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
 		{
 			FileList?.SelectedItems.Remove(e);
 		}
