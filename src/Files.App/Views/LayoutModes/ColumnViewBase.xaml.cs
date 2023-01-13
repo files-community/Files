@@ -29,7 +29,7 @@ namespace Files.App.Views.LayoutModes
 {
 	public sealed partial class ColumnViewBase : BaseLayout
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
@@ -198,27 +198,15 @@ namespace Files.App.Views.LayoutModes
 		private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
 			=> FileList.Focus(FocusState.Programmatic);
 
-		private async void ReloadItemIcons()
-		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
-			{
-				listedItem.ItemPropertiesInitialized = false;
-				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
-			}
-		}
-
 		override public void StartRenameItem()
 		{
 			RenamingItem = FileList.SelectedItem as ListedItem;
 			if (RenamingItem is null)
 				return;
-			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
-			var listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
-			TextBox? textBox = null;
-			if (listViewItem is null)
+			var extensionLength = RenamingItem.FileExtension?.Length ?? 0;
+			if (FileList.ContainerFromItem(RenamingItem) is not ListViewItem listViewItem)
 				return;
+			TextBox? textBox = null;
 			TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
 			textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
 			textBox!.Text = textBlock!.Text;
@@ -230,7 +218,7 @@ namespace Files.App.Views.LayoutModes
 			textBox.LostFocus += RenameTextBox_LostFocus;
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
-			int selectedTextLength = SelectedItem.Name.Length;
+			var selectedTextLength = SelectedItem.Name.Length;
 			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
 				selectedTextLength -= extensionLength;
 			textBox.Select(0, selectedTextLength);
@@ -363,7 +351,7 @@ namespace Files.App.Views.LayoutModes
 			ItemManipulationModel.SetSelectedItem(objectPressed);
 		}
 
-		private DispatcherQueueTimer tapDebounceTimer;
+		private readonly DispatcherQueueTimer tapDebounceTimer;
 
 		private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
 		{

@@ -103,15 +103,23 @@ namespace Files.App.Views.LayoutModes
 		public override void Dispose()
 		{
 			base.Dispose();
-			ColumnHost.Items.OfType<BladeItem>().Select(x => ((x.Content as Frame)?.Content as ColumnShellPage).SlimContentPage as ColumnViewBase).Where(x => x is not null)
-				.ForEach(x =>
+			var columnHostItems = ColumnHost.Items.OfType<BladeItem>().Select(blade => blade.Content as Frame);
+			foreach (var frame in columnHostItems)
+			{
+				if (frame?.Content is ColumnShellPage shPage)
 				{
-					x.ItemInvoked -= ColumnViewBase_ItemInvoked;
-					x.ItemTapped -= ColumnViewBase_ItemTapped;
-				});
-			ColumnHost.Items.OfType<BladeItem>().ForEach(x => ((x.Content as Frame)?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged);
-			ColumnHost.Items.OfType<BladeItem>().ForEach(x => ((x.Content as Frame)?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus);
-			ColumnHost.Items.OfType<BladeItem>().Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
+					shPage.ContentChanged -= ColumnViewBrowser_ContentChanged;
+					if (shPage.SlimContentPage is ColumnViewBase viewBase)
+					{
+						viewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
+						viewBase.ItemTapped -= ColumnViewBase_ItemTapped;
+					}
+				}
+				if (frame?.Content is UIElement element)
+					element.GotFocus -= ColumnViewBrowser_GotFocus;
+				if (frame?.Content is IDisposable disposable)
+					disposable.Dispose();
+			}
 			UnhookEvents();
 			CommandsViewModel?.Dispose();
 		}
@@ -132,15 +140,16 @@ namespace Files.App.Views.LayoutModes
 				{
 					while (ColumnHost.ActiveBlades.Count > index + 1)
 					{
-						if ((ColumnHost.ActiveBlades[index + 1].Content as Frame)?.Content is IDisposable disposableContent)
+						var frame = ColumnHost.ActiveBlades[index + 1].Content as Frame;
+						if (frame?.Content is IDisposable disposableContent)
 							disposableContent.Dispose();
-						if (((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as ColumnShellPage)?.SlimContentPage is ColumnViewBase columnLayout)
+						if ((frame?.Content as ColumnShellPage)?.SlimContentPage is ColumnViewBase columnLayout)
 						{
 							columnLayout.ItemInvoked -= ColumnViewBase_ItemInvoked;
 							columnLayout.ItemTapped -= ColumnViewBase_ItemTapped;
 						}
-						((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus;
-						((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged;
+						(frame?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus;
+						(frame?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged;
 						ColumnHost.Items.RemoveAt(index + 1);
 						ColumnHost.ActiveBlades.RemoveAt(index + 1);
 					}
@@ -159,8 +168,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void ColumnViewBrowser_GotFocus(object sender, RoutedEventArgs e)
 		{
-			var shPage = sender as IShellPage;
-			if (shPage is null || shPage.IsCurrentInstance)
+			if (sender is not IShellPage shPage || shPage.IsCurrentInstance)
 				return;
 			var currentBlade = ColumnHost.ActiveBlades.Single(x => (x.Content as Frame)?.Content == sender);
 			currentBlade.StartBringIntoView();
@@ -252,7 +260,7 @@ namespace Files.App.Views.LayoutModes
 
 			if (string.IsNullOrEmpty(destPath) || string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath))
 			{
-				ParentShellPageInstance.NavigateToPath(navigationPath, sourcePageType, navArgs);
+				ParentShellPageInstance?.NavigateToPath(navigationPath, sourcePageType, navArgs);
 				return;
 			}
 
@@ -262,7 +270,7 @@ namespace Files.App.Views.LayoutModes
 
 			if (relativeIndex < 0 || destComponents.Count - (lastCommonItemIndex + 1) > 1) // Going above parent or too deep down
 			{
-				ParentShellPageInstance.NavigateToPath(navigationPath, sourcePageType, navArgs);
+				ParentShellPageInstance?.NavigateToPath(navigationPath, sourcePageType, navArgs);
 			}
 			else
 			{
@@ -272,26 +280,19 @@ namespace Files.App.Views.LayoutModes
 				{
 					var (frame, newblade) = CreateAndAddNewBlade();
 
+					var columnParam = new ColumnParam
+					{
+						Column = ColumnHost.ActiveBlades.IndexOf(newblade),
+						NavPathParam = destComponents[ii].Path
+					};
 					if (navArgs is not null)
 					{
-						frame.Navigate(typeof(ColumnShellPage), new ColumnParam
-						{
-							Column = ColumnHost.ActiveBlades.IndexOf(newblade),
-							IsSearchResultPage = navArgs.IsSearchResultPage,
-							SearchQuery = navArgs.SearchQuery,
-							NavPathParam = destComponents[ii].Path,
-							SearchUnindexedItems = navArgs.SearchUnindexedItems,
-							SearchPathParam = navArgs.SearchPathParam
-						});
+						columnParam.IsSearchResultPage = navArgs.IsSearchResultPage;
+						columnParam.SearchQuery = navArgs.SearchQuery;
+						columnParam.SearchUnindexedItems = navArgs.SearchUnindexedItems;
+						columnParam.SearchPathParam = navArgs.SearchPathParam;
 					}
-					else
-					{
-						frame.Navigate(typeof(ColumnShellPage), new ColumnParam
-						{
-							Column = ColumnHost.ActiveBlades.IndexOf(newblade),
-							NavPathParam = destComponents[ii].Path
-						});
-					}
+					frame.Navigate(typeof(ColumnShellPage), columnParam);
 				}
 			}
 		}
