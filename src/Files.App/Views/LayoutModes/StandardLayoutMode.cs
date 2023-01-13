@@ -1,4 +1,5 @@
-﻿using Files.App.Filesystem;
+﻿using CommunityToolkit.WinUI.UI;
+using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
@@ -6,11 +7,13 @@ using Files.App.UserControls.Selection;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.System;
 
 namespace Files.App
 {
@@ -133,6 +136,75 @@ namespace Files.App
 		protected virtual void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
 			ListViewBase.Focus(FocusState.Programmatic);
+		}
+
+		protected virtual async void CommitRename(TextBox textBox)
+		{
+			EndRename(textBox);
+			string newItemName = textBox.Text.Trim().TrimEnd('.');
+			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
+		}
+
+		protected abstract void EndRename(TextBox textBox);
+
+		protected virtual void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			// This check allows the user to use the text box context menu without ending the rename
+			if (!(FocusManager.GetFocusedElement(XamlRoot) is AppBarButton or Popup))
+			{
+				TextBox textBox = (TextBox)e.OriginalSource;
+				CommitRename(textBox);
+			}
+		}
+		protected void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			if (e.Key == VirtualKey.Escape)
+			{
+				TextBox textBox = (TextBox)sender;
+				textBox.LostFocus -= RenameTextBox_LostFocus;
+				textBox.Text = OldItemName;
+				EndRename(textBox);
+				e.Handled = true;
+			}
+			else if (e.Key == VirtualKey.Enter)
+			{
+				TextBox textBox = (TextBox)sender;
+				textBox.LostFocus -= RenameTextBox_LostFocus;
+				CommitRename(textBox);
+				e.Handled = true;
+			}
+		}
+
+		protected virtual void StartRenameItem(string itemNameTextBox)
+		{
+			RenamingItem = SelectedItem;
+			if (RenamingItem is null)
+				return;
+
+			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
+
+			ListViewItem? listViewItem = ListViewBase.ContainerFromItem(RenamingItem) as ListViewItem;
+			if (listViewItem is null)
+				return;
+
+			TextBox? textBox = null;
+			TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+			textBox = listViewItem.FindDescendant(itemNameTextBox) as TextBox;
+			textBox!.Text = textBlock!.Text;
+			OldItemName = textBlock.Text;
+			textBlock.Visibility = Visibility.Collapsed;
+			textBox.Visibility = Visibility.Visible;
+			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
+
+			textBox.Focus(FocusState.Pointer);
+			textBox.LostFocus += RenameTextBox_LostFocus;
+			textBox.KeyDown += RenameTextBox_KeyDown;
+
+			int selectedTextLength = SelectedItem.Name.Length;
+			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
+				selectedTextLength -= extensionLength;
+			textBox.Select(0, selectedTextLength);
+			IsRenamingItem = true;
 		}
 
 		public override void Dispose()

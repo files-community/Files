@@ -226,31 +226,16 @@ namespace Files.App.Views.LayoutModes
 
 		override public void StartRenameItem()
 		{
-			RenamingItem = SelectedItem;
-			if (RenamingItem is null)
+			StartRenameItem("ItemNameTextBox");
+
+			if (FileList.ContainerFromItem(RenamingItem) is not ListViewItem listViewItem)
 				return;
-			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
-			ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
-			TextBox? textBox = null;
-			if (listViewItem is null)
+
+			var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
+			if (textBox is null)
 				return;
-			TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
-			textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-			textBox!.Text = textBlock!.Text;
-			OldItemName = textBlock.Text;
-			textBlock.Visibility = Visibility.Collapsed;
-			textBox.Visibility = Visibility.Visible;
+
 			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
-
-			textBox.Focus(FocusState.Pointer);
-			textBox.LostFocus += RenameTextBox_LostFocus;
-			textBox.KeyDown += RenameTextBox_KeyDown;
-
-			int selectedTextLength = SelectedItem.Name.Length;
-			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
-				selectedTextLength -= extensionLength;
-			textBox.Select(0, selectedTextLength);
-			IsRenamingItem = true;
 		}
 
 		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
@@ -265,45 +250,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
-		{
-			if (e.Key == VirtualKey.Escape)
-			{
-				TextBox? textBox = sender as TextBox;
-				textBox!.LostFocus -= RenameTextBox_LostFocus;
-				textBox.Text = OldItemName;
-				EndRename(textBox);
-				e.Handled = true;
-			}
-			else if (e.Key == VirtualKey.Enter)
-			{
-				TextBox? textBox = sender as TextBox;
-				if (textBox is null)
-					return;
-				textBox.LostFocus -= RenameTextBox_LostFocus;
-				CommitRename(textBox);
-				e.Handled = true;
-			}
-		}
-
-		private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
-		{
-			// This check allows the user to use the text box context menu without ending the rename
-			if (!(FocusManager.GetFocusedElement(XamlRoot) is AppBarButton or Popup))
-			{
-				TextBox? textBox = e.OriginalSource as TextBox;
-				CommitRename(textBox!);
-			}
-		}
-
-		private async void CommitRename(TextBox textBox)
-		{
-			EndRename(textBox);
-			string newItemName = textBox.Text.Trim().TrimEnd('.');
-			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
-		}
-
-		private void EndRename(TextBox textBox)
+		protected override void EndRename(TextBox textBox)
 		{
 			if (textBox is not null && textBox.FindParent<Grid>() is FrameworkElement parent)
 				Grid.SetColumnSpan(parent, 1);
