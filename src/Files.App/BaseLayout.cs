@@ -58,7 +58,7 @@ namespace Files.App
 
 		public CurrentInstanceViewModel? InstanceViewModel => ParentShellPageInstance?.InstanceViewModel;
 
-		public IPaneViewModel PaneViewModel => App.PaneViewModel;
+		public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
 
 		public AppModel AppModel => App.AppModel;
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
@@ -205,9 +205,9 @@ namespace Files.App
 						App.PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
 
 						// check if the preview pane is open before updating the model
-						if (PaneViewModel.IsPreviewSelected)
+						if (PreviewPaneViewModel.IsEnabled)
 						{
-							bool isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
+							bool isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
 							if (isPaneEnabled)
 								App.PreviewPaneViewModel.UpdateSelectedItemPreview();
 						}
@@ -1039,7 +1039,7 @@ namespace Files.App
 
 		public virtual void Dispose()
 		{
-			PaneViewModel?.Dispose();
+			PreviewPaneViewModel?.Dispose();
 			UnhookBaseEvents();
 		}
 
