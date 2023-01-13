@@ -28,7 +28,7 @@ using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.App.Views.LayoutModes
 {
-	public sealed partial class DetailsLayoutBrowser : StandardLayoutMode
+	public sealed partial class DetailsLayoutBrowser : StandardViewBase
 	{
 		private uint currentIconSize;
 
@@ -39,6 +39,8 @@ namespace Files.App.Views.LayoutModes
 		protected override uint IconSize => currentIconSize;
 
 		protected override ListViewBase ListViewBase => FileList;
+
+		protected override SemanticZoom RootZoom => RootGridZoom;
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
@@ -95,12 +97,6 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (FileList?.Items.Contains(e) ?? false)
 				FileList.SelectedItems.Remove(e);
-		}
-
-		private void ZoomIn(object? sender, GroupOption option)
-		{
-			if (option == GroupOption.None)
-				RootGridZoom.IsZoomedInViewActive = true;
 		}
 
 		protected override void InitializeCommandsViewModel()

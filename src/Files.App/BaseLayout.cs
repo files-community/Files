@@ -248,7 +248,6 @@ namespace Files.App
 					}
 
 					NotifyPropertyChanged(nameof(SelectedItems));
-					//ItemManipulationModel.SetDragModeForItems();
 				}
 
 				ParentShellPageInstance!.ToolbarViewModel.SelectedItems = value;

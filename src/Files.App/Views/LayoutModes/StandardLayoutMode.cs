@@ -1,6 +1,7 @@
 ﻿using Files.App.Filesystem;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
+using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -10,7 +11,7 @@ using System.Linq;
 
 namespace Files.App
 {
-	public abstract class StandardLayoutMode : BaseLayout
+	public abstract class StandardViewBase : BaseLayout
 	{
 		protected abstract ListViewBase ListViewBase
 		{
@@ -19,7 +20,12 @@ namespace Files.App
 
 		protected override ItemsControl ItemsControl => ListViewBase;
 
-		public StandardLayoutMode() : base()
+		protected abstract SemanticZoom RootZoom
+		{
+			get;
+		}
+
+		public StandardViewBase() : base()
 		{
 
 		}
@@ -94,6 +100,7 @@ namespace Files.App
 
 			ItemManipulationModel.SetSelectedItems(newSelectedItems);
 		}
+
 		protected virtual void ItemManipulationModel_StartRenameItemInvoked(object? sender, EventArgs e)
 		{
 			StartRenameItem();
@@ -106,5 +113,11 @@ namespace Files.App
 		protected abstract void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e);
 
 		protected abstract void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e);
+
+		protected virtual void ZoomIn(object? sender, GroupOption option)
+		{
+			if (option == GroupOption.None)
+				RootZoom.IsZoomedInViewActive = true;
+		}
 	}
 }

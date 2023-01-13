@@ -21,13 +21,15 @@ using Windows.UI.Core;
 
 namespace Files.App.Views.LayoutModes
 {
-	public sealed partial class GridViewBrowser : StandardLayoutMode
+	public sealed partial class GridViewBrowser : StandardViewBase
 	{
 		private uint currentIconSize;
 
 		protected override uint IconSize => currentIconSize;
 
 		protected override ListViewBase ListViewBase => FileList;
+
+		protected override SemanticZoom RootZoom => RootGridZoom;
 
 		/// <summary>
 		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
@@ -85,12 +87,6 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (FileList?.Items.Contains(e) ?? false)
 				FileList.SelectedItems.Remove(e);
-		}
-
-		private void ZoomIn(object? sender, GroupOption option)
-		{
-			if (option == GroupOption.None)
-				RootGridZoom.IsZoomedInViewActive = true;
 		}
 
 		protected override void UnhookEvents()

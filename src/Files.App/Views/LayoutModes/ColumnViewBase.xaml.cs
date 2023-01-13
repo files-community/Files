@@ -26,13 +26,15 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.Views.LayoutModes
 {
-	public sealed partial class ColumnViewBase : StandardLayoutMode
+	public sealed partial class ColumnViewBase : StandardViewBase
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
 		protected override ListViewBase ListViewBase => FileList;
+
+		protected override SemanticZoom RootZoom => RootGridZoom;
 
 		private ColumnViewBrowser? columnsOwner;
 		private ListViewItem? openedFolderPresenter;
@@ -98,12 +100,6 @@ namespace Files.App.Views.LayoutModes
 		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
 		{
 			FileList?.SelectedItems.Remove(e);
-		}
-
-		private void ZoomIn(object? sender, GroupOption option)
-		{
-			if (option == GroupOption.None)
-				RootGridZoom.IsZoomedInViewActive = true;
 		}
 
 		public event EventHandler? ItemInvoked;
