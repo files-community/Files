@@ -3,12 +3,12 @@ using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings
 {
-	public interface IPaneSettingsService : IBaseSettingsService, INotifyPropertyChanged
+	public interface IPreviewPaneSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
-		/// Gets or sets the selected content.
+		/// Gets or sets a value indicating if the preview pane is enabled.
 		/// </summary>
-		PaneContents Content { get; set; }
+		bool IsEnabled { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating the height of the pane in a horizontal layout.
@@ -21,12 +21,12 @@ namespace Files.Backend.Services.Settings
 		double VerticalSizePx { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating the default volume on media.
+		/// Gets or sets a value indicating the preview pane media volume.
 		/// </summary>
 		double MediaVolume { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if the preview pane should only show the item preview without the details section
+		/// Gets or sets a value indicating if the preview pane should only show the item preview without the details section.
 		/// </summary>
 		bool ShowPreviewOnly { get; set; }
 	}

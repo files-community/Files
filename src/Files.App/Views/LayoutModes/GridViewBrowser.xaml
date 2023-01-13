@@ -180,6 +180,7 @@
 						VerticalAlignment="Stretch"
 						Opacity="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToOpacityConverter}}"
 						Text="{x:Bind Name, Mode=OneWay}"
+						TextAlignment="Center"
 						TextTrimming="CharacterEllipsis"
 						TextWrapping="Wrap" />
 				</Grid>
@@ -584,11 +585,13 @@
 						</GroupStyle>
 					</controls:AdaptiveGridView.GroupStyle>
 
-					<controls:AdaptiveGridView.ItemContainerTransitions>
-						<TransitionCollection>
-							<AddDeleteThemeTransition />
-						</TransitionCollection>
-					</controls:AdaptiveGridView.ItemContainerTransitions>
+					<!--  Wraps items without affecting the height of other rows  -->
+					<!-- Disabled as it broke thumbnails -->
+					<!--<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<controls:WrapPanel/>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>-->
 
 					<controls:AdaptiveGridView.Resources>
 						<ResourceDictionary>

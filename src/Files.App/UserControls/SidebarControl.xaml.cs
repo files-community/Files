@@ -610,18 +610,6 @@ namespace Files.App.UserControls
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
 				}
-				else if (handledByFtp)
-				{
-					if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
-					{
-						e.AcceptedOperation = DataPackageOperation.None;
-					}
-					else
-					{
-						var captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						CompleteDragEventArgs(e, captionText, DataPackageOperation.Copy);
-					}
-				}
 				else if (hasStorageItems is false)
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
@@ -763,7 +751,6 @@ namespace Files.App.UserControls
 			var deferral = e.GetDeferral();
 			e.Handled = true;
 
-			var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 			var hasStorageItems = storageItems.Any();
 
@@ -771,11 +758,6 @@ namespace Files.App.UserControls
 				(hasStorageItems && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
-			}
-			else if (handledByFtp)
-			{
-				var captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
-				CompleteDragEventArgs(e, captionText, DataPackageOperation.Copy);
 			}
 			else if (!hasStorageItems)
 			{
@@ -857,10 +839,9 @@ namespace Files.App.UserControls
 			var deferral = e.GetDeferral();
 			e.Handled = true;
 
-			var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-			if (handledByFtp || !storageItems.Any())
+			if (!storageItems.Any())
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 			}
@@ -891,11 +872,7 @@ namespace Files.App.UserControls
 
 			var deferral = e.GetDeferral();
 
-			var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-			if (handledByFtp)
-				return;
-
-			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 			foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
 			{
 				var listedItem = new ListedItem(null)
