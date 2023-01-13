@@ -141,19 +141,6 @@ namespace Files.App.Views.LayoutModes
 			FileList.SelectedItems.Clear();
 		}
 
-		private void ItemManipulationModel_SelectAllItemsInvoked(object? sender, EventArgs e)
-		{
-			FileList.SelectAll();
-		}
-
-		private void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
-		{
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
-			var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == FileList;
-			if (!isFileListFocused)
-				FileList.Focus(FocusState.Programmatic);
-		}
-
 		private void ZoomIn(object? sender, GroupOption option)
 		{
 			if (option == GroupOption.None)
@@ -492,22 +479,23 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (ParentShellPageInstance is null)
 				return;
-			if (ParentShellPageInstance.CurrentPageType == typeof(DetailsLayoutBrowser) && !IsRenamingItem)
-			{
-				// Don't block the various uses of enter key (key 13)
-				var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
-				var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
-				if (Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
-					|| (focusedElement is Button && !isHeaderFocused) // Allow jumpstring when header is focused
-					|| focusedElement is TextBox
-					|| focusedElement is PasswordBox
-					|| DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
-				{
-					return;
-				}
 
-				base.Page_CharacterReceived(sender, args);
+			if (ParentShellPageInstance.CurrentPageType != typeof(DetailsLayoutBrowser) || IsRenamingItem)
+				return;
+
+			// Don't block the various uses of enter key (key 13)
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
+			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
+			if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
+				|| (focusedElement is Button && !isHeaderFocused) // Allow jumpstring when header is focused
+				|| focusedElement is TextBox
+				|| focusedElement is PasswordBox
+				|| DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
+			{
+				return;
 			}
+
+			base.Page_CharacterReceived(sender, args);
 		}
 
 		protected override bool CanGetItemFromElement(object element)

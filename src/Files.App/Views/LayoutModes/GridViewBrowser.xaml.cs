@@ -47,6 +47,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void HookEvents()
 		{
+			// QMK - Override, use base en add the two last lines.
 			UnhookEvents();
 			ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
 			ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
@@ -126,19 +127,6 @@ namespace Files.App.Views.LayoutModes
 			FileList.SelectedItems.Clear();
 		}
 
-		private void ItemManipulationModel_SelectAllItemsInvoked(object? sender, EventArgs e)
-		{
-			FileList.SelectAll();
-		}
-
-		private void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
-		{
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
-			var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == FileList;
-			if (!isFileListFocused)
-				FileList.Focus(FocusState.Programmatic);
-		}
-
 		private void ZoomIn(object? sender, GroupOption option)
 		{
 			if (option == GroupOption.None)
@@ -147,6 +135,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void UnhookEvents()
 		{
+			// QMK - Override, use base en add the two last lines.
 			if (ItemManipulationModel is null)
 				return;
 

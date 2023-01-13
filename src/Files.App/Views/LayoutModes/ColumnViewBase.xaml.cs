@@ -143,19 +143,6 @@ namespace Files.App.Views.LayoutModes
 			FileList.SelectedItems.Clear();
 		}
 
-		private void ItemManipulationModel_SelectAllItemsInvoked(object? sender, EventArgs e)
-		{
-			FileList.SelectAll();
-		}
-
-		private void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
-		{
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
-			var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == FileList;
-			if (!isFileListFocused)
-				FileList.Focus(FocusState.Programmatic);
-		}
-
 		private void ZoomIn(object? sender, GroupOption option)
 		{
 			if (option == GroupOption.None)
@@ -359,7 +346,6 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-
 		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			if (!IsRenamingItem)
@@ -482,9 +468,7 @@ namespace Files.App.Views.LayoutModes
 			// Don't block the various uses of enter key (key 13)
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
 
-			if
-			(
-				InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
+			if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
 				focusedElement is Button ||
 				focusedElement is TextBox ||
 				focusedElement is PasswordBox ||
