@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Linq;
 using Windows.Storage;
@@ -42,7 +43,7 @@ namespace Files.App.Views.LayoutModes
 			InitializeComponent();
 			this.DataContext = this;
 
-			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+			var selectionRectangle = RectangleSelection.Create(ListViewBase, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
 
@@ -96,11 +97,6 @@ namespace Files.App.Views.LayoutModes
 			ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
 		}
 
-		protected override void InitializeCommandsViewModel()
-		{
-			CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
-		}
-
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
@@ -125,11 +121,6 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatingFrom(e);
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-		}
-
-		private void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
-		{
-			FileList.Focus(FocusState.Programmatic);
 		}
 
 		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
@@ -169,15 +160,6 @@ namespace Files.App.Views.LayoutModes
 		private void SetItemMinWidth()
 		{
 			NotifyPropertyChanged(nameof(GridViewItemMinWidth));
-		}
-
-		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
-			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
-			{
-				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
-			}
 		}
 
 		override public void StartRenameItem()
@@ -496,17 +478,6 @@ namespace Files.App.Views.LayoutModes
 			}
 			ResetRenameDoubleClick();
 		}
-
-		#region IDisposable
-
-		public override void Dispose()
-		{
-			base.Dispose();
-			UnhookEvents();
-			CommandsViewModel?.Dispose();
-		}
-
-		#endregion IDisposable
 
 		private void Grid_Loaded(object sender, RoutedEventArgs e)
 		{

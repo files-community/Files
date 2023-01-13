@@ -4,7 +4,6 @@ using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
-using Files.App.Interacts;
 using Files.App.UserControls;
 using Files.App.UserControls.Selection;
 using Files.App.ViewModels;
@@ -16,6 +15,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Linq;
 using UWPToWinAppSDKUpgradeHelpers;
@@ -67,7 +67,6 @@ namespace Files.App.Views.LayoutModes
 		{
 			InitializeComponent();
 			this.DataContext = this;
-
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
@@ -97,11 +96,6 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (FileList?.Items.Contains(e) ?? false)
 				FileList.SelectedItems.Remove(e);
-		}
-
-		protected override void InitializeCommandsViewModel()
-		{
-			CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -161,6 +155,17 @@ namespace Files.App.Views.LayoutModes
 			RootGrid_SizeChanged(null, null);
 		}
 
+		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+		{
+			base.OnNavigatingFrom(e);
+			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
+			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
+			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+		}
+
 		private void FolderSettings_SortOptionPreferenceUpdated(object? sender, SortOption e)
 		{
 			UpdateSortIndicator();
@@ -204,22 +209,6 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.StatusColumn.Show();
 
 			UpdateSortIndicator();
-		}
-
-		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-		{
-			base.OnNavigatingFrom(e);
-			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
-			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
-			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
-			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
-		}
-
-		private void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
-		{
-			FileList.Focus(FocusState.Programmatic);
 		}
 
 		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
@@ -511,17 +500,6 @@ namespace Files.App.Views.LayoutModes
 			}
 			ResetRenameDoubleClick();
 		}
-
-		#region IDisposable
-
-		public override void Dispose()
-		{
-			base.Dispose();
-			UnhookEvents();
-			CommandsViewModel?.Dispose();
-		}
-
-		#endregion IDisposable
 
 		private void StackPanel_Loaded(object sender, RoutedEventArgs e)
 		{

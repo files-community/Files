@@ -1,10 +1,13 @@
 ﻿using Files.App.Filesystem;
+using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
+using Files.App.UserControls.Selection;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -118,6 +121,25 @@ namespace Files.App
 		{
 			if (option == GroupOption.None)
 				RootZoom.IsZoomedInViewActive = true;
+		}
+
+		protected virtual async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
+				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
+		}
+
+		protected virtual void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
+		{
+			ListViewBase.Focus(FocusState.Programmatic);
+		}
+
+		public override void Dispose()
+		{
+			base.Dispose();
+			UnhookEvents();
+			CommandsViewModel?.Dispose();
 		}
 	}
 }

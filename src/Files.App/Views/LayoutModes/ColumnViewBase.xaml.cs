@@ -15,8 +15,8 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Shapes;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
 using Windows.System;
@@ -42,16 +42,16 @@ namespace Files.App.Views.LayoutModes
 		public ColumnViewBase() : base()
 		{
 			this.InitializeComponent();
-			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
-			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 			tapDebounceTimer = DispatcherQueue.CreateTimer();
 			this.ItemInvoked += ColumnViewBase_ItemInvoked;
 			this.GotFocus += ColumnViewBase_GotFocus;
+			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
 		{
-			if(FileList.SelectedItem == null && openedFolderPresenter != null)
+			if (FileList.SelectedItem == null && openedFolderPresenter != null)
 			{
 				openedFolderPresenter.Focus(FocusState.Programmatic);
 				FileList.SelectedItem = FileList.ItemFromContainer(openedFolderPresenter);
@@ -118,19 +118,9 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 		}
 
-		protected override void InitializeCommandsViewModel()
-		{
-			CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
-		}
-
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
-		}
-
-		private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
-		{
-			FileList.Focus(FocusState.Programmatic);
 		}
 
 		private async void ReloadItemIcons()
@@ -251,35 +241,25 @@ namespace Files.App.Views.LayoutModes
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
-		#region IDisposable
-
 		public override void Dispose()
 		{
 			base.Dispose();
-			UnhookEvents();
-			CommandsViewModel?.Dispose();
 			columnsOwner = null;
 		}
 
-		#endregion IDisposable
-
-		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+			base.FileList_SelectionChanged(sender, e);
+			if (e is null)
+				return;
 
-			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
-				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
+			if (e.AddedItems.Count > 0)
+				columnsOwner?.HandleSelectionChange(this);
 
-			if (e != null)
+			if (e.RemovedItems.Count > 0 && openedFolderPresenter != null)
 			{
-				if (e.AddedItems.Count > 0)
-					columnsOwner?.HandleSelectionChange(this);
-
-				if (e.RemovedItems.Count > 0 && openedFolderPresenter != null)
-				{
-					var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
-					presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
-				}
+				var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
+				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
 			}
 		}
 
