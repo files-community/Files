@@ -46,13 +46,11 @@ namespace Files.App.Views.LayoutModes
 		protected override bool CanGetItemFromElement(object element)
 			=> false;
 
-		private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
+		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
 		{
 			var column = sender as ColumnParam;
-			if (column.ListView.FindAscendant<ColumnViewBrowser>() != this)
-			{
+			if (column?.ListView.FindAscendant<ColumnViewBrowser>() != this)
 				return;
-			}
 
 			var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
 
@@ -61,11 +59,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				DismissOtherBlades(column.ListView);
 
-				var frame = new Frame();
-				frame.Navigated += Frame_Navigated;
-				var newblade = new BladeItem();
-				newblade.Content = frame;
-				ColumnHost.Items.Add(newblade);
+				var (frame, newblade) = CreateAndAddNewBlade();
 
 				frame.Navigate(typeof(ColumnShellPage), new ColumnParam
 				{
@@ -76,9 +70,7 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		private void ContentChanged(IShellPage p)
-		{
-			(ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemArguments);
-		}
+			=> (ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemArguments);
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
@@ -98,9 +90,7 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		protected override void InitializeCommandsViewModel()
-		{
-			CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
-		}
+			=> CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
@@ -113,7 +103,12 @@ namespace Files.App.Views.LayoutModes
 		public override void Dispose()
 		{
 			base.Dispose();
-			ColumnHost.Items.OfType<BladeItem>().Select(x => ((x.Content as Frame)?.Content as ColumnShellPage).SlimContentPage as ColumnViewBase).Where(x => x is not null).ForEach(x => x.ItemInvoked -= ColumnViewBase_ItemInvoked);
+			ColumnHost.Items.OfType<BladeItem>().Select(x => ((x.Content as Frame)?.Content as ColumnShellPage).SlimContentPage as ColumnViewBase).Where(x => x is not null)
+				.ForEach(x =>
+				{
+					x.ItemInvoked -= ColumnViewBase_ItemInvoked;
+					x.ItemTapped -= ColumnViewBase_ItemTapped;
+				});
 			ColumnHost.Items.OfType<BladeItem>().ForEach(x => ((x.Content as Frame)?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged);
 			ColumnHost.Items.OfType<BladeItem>().ForEach(x => ((x.Content as Frame)?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus);
 			ColumnHost.Items.OfType<BladeItem>().Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
@@ -124,14 +119,10 @@ namespace Files.App.Views.LayoutModes
 		#endregion IDisposable
 
 		private void DismissOtherBlades(ListView listView)
-		{
-			DismissOtherBlades(listView.FindAscendant<BladeItem>());
-		}
+			=> DismissOtherBlades(listView.FindAscendant<BladeItem>());
 
 		private void DismissOtherBlades(BladeItem blade)
-		{
-			DismissOtherBlades(ColumnHost.ActiveBlades.IndexOf(blade));
-		}
+			=> DismissOtherBlades(ColumnHost.ActiveBlades.IndexOf(blade));
 
 		private void DismissOtherBlades(int index)
 		{
@@ -142,12 +133,11 @@ namespace Files.App.Views.LayoutModes
 					while (ColumnHost.ActiveBlades.Count > index + 1)
 					{
 						if ((ColumnHost.ActiveBlades[index + 1].Content as Frame)?.Content is IDisposable disposableContent)
-						{
 							disposableContent.Dispose();
-						}
 						if (((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as ColumnShellPage)?.SlimContentPage is ColumnViewBase columnLayout)
 						{
 							columnLayout.ItemInvoked -= ColumnViewBase_ItemInvoked;
+							columnLayout.ItemTapped -= ColumnViewBase_ItemTapped;
 						}
 						((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus;
 						((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged;
@@ -169,21 +159,21 @@ namespace Files.App.Views.LayoutModes
 
 		private void ColumnViewBrowser_GotFocus(object sender, RoutedEventArgs e)
 		{
-			if (!(sender as IShellPage).IsCurrentInstance)
+			var shPage = sender as IShellPage;
+			if (shPage is null || shPage.IsCurrentInstance)
+				return;
+			var currentBlade = ColumnHost.ActiveBlades.Single(x => (x.Content as Frame)?.Content == sender);
+			currentBlade.StartBringIntoView();
+			if (ColumnHost.ActiveBlades is not null)
 			{
-				var currentBlade = ColumnHost.ActiveBlades.Single(x => (x.Content as Frame)?.Content == sender);
-				currentBlade.StartBringIntoView();
-				if (ColumnHost.ActiveBlades is not null)
+				ColumnHost.ActiveBlades.ForEach(x =>
 				{
-					ColumnHost.ActiveBlades.ForEach(x =>
-					{
-						var shellPage = (x.Content as Frame)?.Content as ColumnShellPage;
-						shellPage.IsCurrentInstance = false;
-					});
-				}
-				(sender as IShellPage).IsCurrentInstance = true;
-				ContentChanged(sender as IShellPage);
+					var shellPage = (x.Content as Frame)?.Content as ColumnShellPage;
+					shellPage.IsCurrentInstance = false;
+				});
 			}
+			shPage.IsCurrentInstance = true;
+			ContentChanged(shPage);
 		}
 
 		private void ColumnViewBrowser_ContentChanged(object sender, UserControls.MultitaskingControl.TabItemArguments e)
@@ -201,25 +191,17 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		public void NavigateBack()
-		{
-			(ParentShellPageInstance as ModernShellPage)?.Back_Click();
-		}
+			=> (ParentShellPageInstance as ModernShellPage)?.Back_Click();
 
 		public void NavigateForward()
-		{
-			(ParentShellPageInstance as ModernShellPage)?.Forward_Click();
-		}
+			=> (ParentShellPageInstance as ModernShellPage)?.Forward_Click();
 
 		public void NavigateUp()
 		{
 			if (ColumnHost.ActiveBlades?.Count > 1)
-			{
 				DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count - 2]);
-			}
 			else
-			{
 				(ParentShellPageInstance as ModernShellPage)?.Up_Click();
-			}
 		}
 
 		public void MoveFocusToPreviousBlade(int currentBladeIndex)
@@ -257,12 +239,8 @@ namespace Files.App.Views.LayoutModes
 
 		private ColumnViewBase? RetrieveBladeColumnViewBase(BladeItem blade)
 		{
-			if (blade.Content is not Frame activeBladeFrame)
+			if (blade.Content is not Frame activeBladeFrame || activeBladeFrame.Content is not ColumnShellPage activeBladePage)
 				return null;
-
-			if (activeBladeFrame.Content is not ColumnShellPage activeBladePage)
-				return null;
-
 			return activeBladePage.SlimContentPage as ColumnViewBase;
 		}
 
@@ -272,17 +250,15 @@ namespace Files.App.Views.LayoutModes
 			var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
 			var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
 
-			if (string.IsNullOrEmpty(destPath) || string.IsNullOrEmpty(destPath) || string.IsNullOrEmpty(destPath))
+			if (string.IsNullOrEmpty(destPath) || string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath))
 			{
 				ParentShellPageInstance.NavigateToPath(navigationPath, sourcePageType, navArgs);
 				return;
 			}
 
 			var destComponents = StorageFileExtensions.GetDirectoryPathComponents(destPath);
-			var columnComponents = StorageFileExtensions.GetDirectoryPathComponents(columnPath);
-			var columnFirstComponents = StorageFileExtensions.GetDirectoryPathComponents(columnFirstPath);
 
-			var (lastCommonItemIndex, relativeIndex) = GetLastCommonAndRelativeIndex(destComponents, columnComponents, columnFirstComponents);
+			var (lastCommonItemIndex, relativeIndex) = GetLastCommonAndRelativeIndex(destComponents, columnPath, columnFirstPath);
 
 			if (relativeIndex < 0 || destComponents.Count - (lastCommonItemIndex + 1) > 1) // Going above parent or too deep down
 			{
@@ -294,11 +270,7 @@ namespace Files.App.Views.LayoutModes
 
 				for (int ii = lastCommonItemIndex + 1; ii < destComponents.Count; ii++)
 				{
-					var frame = new Frame();
-					frame.Navigated += Frame_Navigated;
-					var newblade = new BladeItem();
-					newblade.Content = frame;
-					ColumnHost.Items.Add(newblade);
+					var (frame, newblade) = CreateAndAddNewBlade();
 
 					if (navArgs is not null)
 					{
@@ -346,7 +318,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else
 			{
-				DismissOtherBlades(ColumnHost.ActiveBlades[0]);
+				DismissOtherBlades(0);
 			}
 		}
 
@@ -377,19 +349,16 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			var destComponents = StorageFileExtensions.GetDirectoryPathComponents(column.NavPathParam);
-			var columnComponents = StorageFileExtensions.GetDirectoryPathComponents(columnPath);
-			var columnFirstComponents = StorageFileExtensions.GetDirectoryPathComponents(columnFirstPath);
-
-			var (_, relativeIndex) = GetLastCommonAndRelativeIndex(destComponents, columnComponents, columnFirstComponents);
+			var (_, relativeIndex) = GetLastCommonAndRelativeIndex(destComponents, columnPath, columnFirstPath);
 			if (relativeIndex >= 0)
 				DismissOtherBlades(relativeIndex);
 		}
 
-		private (int, int) GetLastCommonAndRelativeIndex(
-			List<PathBoxItem> destComponents, 
-			List<PathBoxItem> columnComponents, 
-			List<PathBoxItem> columnFirstComponents)
+		private (int, int) GetLastCommonAndRelativeIndex(List<PathBoxItem> destComponents, string columnPath, string columnFirstPath)
 		{
+			var columnComponents = StorageFileExtensions.GetDirectoryPathComponents(columnPath);
+			var columnFirstComponents = StorageFileExtensions.GetDirectoryPathComponents(columnFirstPath);
+
 			var lastCommonItemIndex = columnComponents
 				.Select((value, index) => new { value, index })
 				.LastOrDefault(x => x.index < destComponents.Count && x.value.Path == destComponents[x.index].Path)?.index ?? -1;
@@ -397,6 +366,18 @@ namespace Files.App.Views.LayoutModes
 			var relativeIndex = lastCommonItemIndex - (columnFirstComponents.Count - 1);
 
 			return (lastCommonItemIndex, relativeIndex);
+		}
+
+		private (Frame, BladeItem) CreateAndAddNewBlade()
+		{
+			var frame = new Frame();
+			frame.Navigated += Frame_Navigated;
+			var newblade = new BladeItem()
+			{
+				Content = frame
+			};
+			ColumnHost.Items.Add(newblade);
+			return (frame, newblade);
 		}
 	}
 }
