@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using static Files.App.Constants;
 
@@ -188,8 +189,14 @@ namespace Files.App.Views.LayoutModes
 		private void ColumnViewBrowser_ContentChanged(object sender, UserControls.MultitaskingControl.TabItemArguments e)
 		{
 			var c = sender as IShellPage;
-			(c.SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked;
-			(c.SlimContentPage as ColumnViewBase).ItemInvoked += ColumnViewBase_ItemInvoked;
+			var columnView = c?.SlimContentPage as ColumnViewBase;
+			if (columnView is not null)
+			{
+				columnView.ItemInvoked -= ColumnViewBase_ItemInvoked;
+				columnView.ItemInvoked += ColumnViewBase_ItemInvoked;
+				columnView.ItemTapped -= ColumnViewBase_ItemTapped;
+				columnView.ItemTapped += ColumnViewBase_ItemTapped;
+			}
 			ContentChanged(c);
 		}
 
@@ -275,11 +282,7 @@ namespace Files.App.Views.LayoutModes
 			var columnComponents = StorageFileExtensions.GetDirectoryPathComponents(columnPath);
 			var columnFirstComponents = StorageFileExtensions.GetDirectoryPathComponents(columnFirstPath);
 
-			var lastCommonItemIndex = columnComponents
-				.Select((value, index) => new { value, index })
-				.LastOrDefault(x => x.index < destComponents.Count && x.value.Path == destComponents[x.index].Path)?.index ?? -1;
-
-			var relativeIndex = lastCommonItemIndex - (columnFirstComponents.Count - 1);
+			var (lastCommonItemIndex, relativeIndex) = GetLastCommonAndRelativeIndex(destComponents, columnComponents, columnFirstComponents);
 
 			if (relativeIndex < 0 || destComponents.Count - (lastCommonItemIndex + 1) > 1) // Going above parent or too deep down
 			{
@@ -360,6 +363,40 @@ namespace Files.App.Views.LayoutModes
 
 				return ParentShellPageInstance;
 			}
+		}
+
+		private void ColumnViewBase_ItemTapped(object? sender, EventArgs e)
+		{
+			var column = sender as ColumnParam;
+			if (column?.ListView.FindAscendant<ColumnViewBrowser>() != this || string.IsNullOrEmpty(column.NavPathParam))
+				return;
+
+			var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
+			var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
+			if (string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath))
+				return;
+
+			var destComponents = StorageFileExtensions.GetDirectoryPathComponents(column.NavPathParam);
+			var columnComponents = StorageFileExtensions.GetDirectoryPathComponents(columnPath);
+			var columnFirstComponents = StorageFileExtensions.GetDirectoryPathComponents(columnFirstPath);
+
+			var (_, relativeIndex) = GetLastCommonAndRelativeIndex(destComponents, columnComponents, columnFirstComponents);
+			if (relativeIndex >= 0)
+				DismissOtherBlades(relativeIndex);
+		}
+
+		private (int, int) GetLastCommonAndRelativeIndex(
+			List<PathBoxItem> destComponents, 
+			List<PathBoxItem> columnComponents, 
+			List<PathBoxItem> columnFirstComponents)
+		{
+			var lastCommonItemIndex = columnComponents
+				.Select((value, index) => new { value, index })
+				.LastOrDefault(x => x.index < destComponents.Count && x.value.Path == destComponents[x.index].Path)?.index ?? -1;
+
+			var relativeIndex = lastCommonItemIndex - (columnFirstComponents.Count - 1);
+
+			return (lastCommonItemIndex, relativeIndex);
 		}
 	}
 }

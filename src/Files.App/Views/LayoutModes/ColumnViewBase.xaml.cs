@@ -17,6 +17,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Windows.Storage;
 using Windows.System;
@@ -49,7 +50,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
 		{
-			if(FileList.SelectedItem == null && openedFolderPresenter != null)
+			if (FileList.SelectedItem == null && openedFolderPresenter != null)
 			{
 				openedFolderPresenter.Focus(FocusState.Programmatic);
 				FileList.SelectedItem = FileList.ItemFromContainer(openedFolderPresenter);
@@ -179,6 +180,8 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		public event EventHandler? ItemInvoked;
+
+		public event EventHandler? ItemTapped;
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
@@ -512,13 +515,13 @@ namespace Files.App.Views.LayoutModes
 							ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						break;
 					default:
-						ParentShellPageInstance.Up_Click();
+						ParentShellPageInstance?.Up_Click();
 						break;
 				}
 			}
 			else
 			{
-				ParentShellPageInstance.Up_Click();
+				ParentShellPageInstance?.Up_Click();
 			}
 
 			ResetRenameDoubleClick();
@@ -558,9 +561,11 @@ namespace Files.App.Views.LayoutModes
 			if (ctrlPressed || shiftPressed)
 				return;
 
+			var isItemFile = item?.PrimaryItemAttribute is StorageItemTypes.File;
+			var isItemFolder = item?.PrimaryItemAttribute is StorageItemTypes.Folder;
+
 			// Check if the setting to open items with a single click is turned on
-			if (item is not null
-				&& (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
+			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && isItemFile)
 			{
 				ResetRenameDoubleClick();
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -572,18 +577,23 @@ namespace Files.App.Views.LayoutModes
 				{
 					CheckRenameDoubleClick(clickedItem.DataContext);
 				}
-				else if (IsRenamingItem)
+				else if (IsRenamingItem &&
+					FileList.ContainerFromItem(RenamingItem) is ListViewItem listViewItem &&
+					listViewItem.FindDescendant("ListViewTextBoxItemName") is TextBox textBox)
 				{
-					if (FileList.ContainerFromItem(RenamingItem) is ListViewItem listViewItem
-						&& listViewItem.FindDescendant("ListViewTextBoxItemName") is TextBox textBox)
-					{
-						CommitRename(textBox);
-					}
+					CommitRename(textBox);
 				}
-				if (item is not null && item.PrimaryItemAttribute == StorageItemTypes.Folder &&
-					UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+
+				if (isItemFolder && UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 				{
-					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
+					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item!.ItemPath), ListView = FileList }, EventArgs.Empty);
+				}
+				else if (!IsRenamingItem && (isItemFile || isItemFolder))
+				{
+					var itemPath = item!.ItemPath.EndsWith('\\') 
+						? item.ItemPath.Substring(0, item.ItemPath.Length - 1) 
+						: item.ItemPath;
+					ItemTapped?.Invoke(new ColumnParam { NavPathParam = Path.GetDirectoryName(itemPath), ListView = FileList }, EventArgs.Empty);
 				}
 			}
 		}
