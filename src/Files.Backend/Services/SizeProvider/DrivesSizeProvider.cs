@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -9,7 +9,7 @@ namespace Files.Backend.Services.SizeProvider
 {
 	public class DrivesSizeProvider : ISizeProvider
 	{
-		private readonly IDictionary<string, ISizeProvider> providers = new Dictionary<string, ISizeProvider>();
+		private readonly ConcurrentDictionary<string, ISizeProvider> providers = new();
 
 		public event EventHandler<SizeChangedEventArgs>? SizeChanged;
 
@@ -20,11 +20,9 @@ namespace Files.Backend.Services.SizeProvider
 
 			foreach (var oldDriveName in oldDriveNames)
 			{
-				if (providers.ContainsKey(oldDriveName))
-				{
-					providers.Remove(oldDriveName);
-				}
+				providers.TryRemove(oldDriveName, out var _);
 			}
+
 			foreach (var provider in providers.Values)
 			{
 				await provider.CleanAsync();
@@ -69,7 +67,7 @@ namespace Files.Backend.Services.SizeProvider
 		{
 			var provider = new CachedSizeProvider();
 			provider.SizeChanged += Provider_SizeChanged;
-			providers.Add(driveName, provider);
+			providers.TryAdd(driveName, provider);
 		}
 
 		private void Provider_SizeChanged(object? sender, SizeChangedEventArgs e)
