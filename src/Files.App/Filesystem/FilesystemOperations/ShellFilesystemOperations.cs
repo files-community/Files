@@ -279,7 +279,10 @@ namespace Files.App.Filesystem
 			var items = source.Zip(destination, (src, dest, index) => new { src, dest, index }).Where(x => !string.IsNullOrEmpty(x.src.Path) && !string.IsNullOrEmpty(x.dest));
 			foreach (var item in items)
 			{
-				if (await FileOperationsHelpers.CreateOrUpdateLinkAsync(item.dest, item.src.Path))
+				var result = await FileOperationsHelpers.CreateOrUpdateLinkAsync(item.dest, item.src.Path);
+				if (!result)
+					result = await UIFilesystemHelpers.HandleShortcutCannotBeCreated(Path.GetFileName(item.dest), item.src.Path);
+				if (result)
 				{
 					createdSources.Add(item.src);
 					createdDestination.Add(StorageHelpers.FromPathAndType(item.dest, FilesystemItemType.File));

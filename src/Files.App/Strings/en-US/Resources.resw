@@ -2877,4 +2877,10 @@
   <data name="ReleaseNotes" xml:space="preserve">
     <value>Release Notes</value>
   </data>
+  <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
+    <value>Files is not authorized to create a shortcut here.</value>
+  </data>
+  <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
+    <value>Do you want to place the shortcut on the desktop?</value>
+  </data>
 </root>

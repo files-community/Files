@@ -16,7 +16,13 @@ namespace Files.App.ViewModels.Dialogs
 		public readonly string WorkingDirectory;
 
 		// Tells whether destination path exists
-		public bool DestinationPathExists { get; set; } = false;
+		public bool DestinationPathExists { get; set; }
+
+		// Tells wheteher the shortcut has been created
+		public bool ShortcutCreatedSuccessfully { get; private set; }
+
+		// Shortcut name with extension
+		public string ShortcutCompleteName { get; private set; }
 
 		// Destination of the shortcut chosen by the user (can be a path or a URL)
 		private string _destinationItemPath;
@@ -73,7 +79,12 @@ namespace Files.App.ViewModels.Dialogs
 			if (DestinationPathExists)
 			{
 				destinationName = Path.GetFileName(DestinationItemPath);
-				destinationName ??= Path.GetDirectoryName(DestinationItemPath);
+				if (destinationName is null)
+				{
+					if (!DestinationItemPath.EndsWith('\\'))
+						DestinationItemPath += "\\";
+					destinationName = Path.GetDirectoryName(DestinationItemPath);
+				}
 			}
 			else
 			{
@@ -82,19 +93,17 @@ namespace Files.App.ViewModels.Dialogs
 			}
 
 			var shortcutName = string.Format("ShortcutCreateNewSuffix".ToLocalized(), destinationName);
-			var filePath = Path.Combine(
-				WorkingDirectory,
-				shortcutName + extension);
+			ShortcutCompleteName = shortcutName + extension;
+			var filePath = Path.Combine(WorkingDirectory, ShortcutCompleteName);
 
 			int fileNumber = 1;
 			while (Path.Exists(filePath))
 			{
-				filePath = Path.Combine(
-					WorkingDirectory,
-					shortcutName + $" ({++fileNumber})" + extension);
+				ShortcutCompleteName = shortcutName + $" ({++fileNumber})" + extension;
+				filePath = Path.Combine(WorkingDirectory, ShortcutCompleteName);
 			}
 
-			await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, DestinationItemPath);
+			ShortcutCreatedSuccessfully = await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, DestinationItemPath);
 		}
 	}
 }

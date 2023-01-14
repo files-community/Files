@@ -7,6 +7,7 @@ using Files.App.Interacts;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.Enums;
+using Files.Backend.Extensions;
 using Files.Backend.Services;
 using Files.Shared;
 using Files.Shared.Enums;
@@ -395,6 +396,25 @@ namespace Files.App.Helpers
 			var viewModel = new CreateShortcutDialogViewModel(associatedInstance.FilesystemViewModel.WorkingDirectory);
 			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 			await dialogService.ShowDialogAsync(viewModel);
+
+			if (viewModel.ShortcutCreatedSuccessfully)
+				return;
+
+			await HandleShortcutCannotBeCreated(viewModel.ShortcutCompleteName, viewModel.DestinationItemPath);
+		}
+
+		public static async Task<bool> HandleShortcutCannotBeCreated(string shortcutName, string destinationPath)
+		{
+			var result = await DialogDisplayHelper.ShowDialogAsync(
+				"CannotCreateShortcutDialogTitle".ToLocalized(),
+				"CannotCreateShortcutDialogMessage".ToLocalized(),
+				"Create".ToLocalized(),
+				"Cancel".ToLocalized());
+			if (!result)
+				return false;
+
+			var shortcutPath = Path.Combine(CommonPaths.DesktopPath, shortcutName);
+			return await FileOperationsHelpers.CreateOrUpdateLinkAsync(shortcutPath, destinationPath);
 		}
 	}
 }
