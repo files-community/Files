@@ -712,7 +712,7 @@ namespace Files.App.Views.LayoutModes
 			if (maxItemLength == 0)
 				return;
 
-			var columnSizeToFit = new[] { 9 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumnEstimate(columnToResize, 5, maxItemLength);
+			var columnSizeToFit = columnToResize == 9 ? maxItemLength : MeasureTextColumnEstimate(columnToResize, 5, maxItemLength);
 			if (columnSizeToFit > 0)
 			{
 				var column = columnToResize switch
