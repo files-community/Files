@@ -24,7 +24,7 @@ namespace Files.App.Filesystem.Search
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		private const uint defaultStepSize = 500;
 
@@ -189,7 +189,7 @@ namespace Files.App.Filesystem.Search
 		{
 			//var sampler = new IntervalSampler(500);
 			var tags = AQSQuery.Substring("tag:".Length)?.Split(',').Where(t => !string.IsNullOrWhiteSpace(t))
-				.SelectMany(t => FileTagsSettingsService.GetTagsByName(t), (_, t) => t.Uid).ToHashSet();
+				.SelectMany(t => fileTagsSettingsService.GetTagsByName(t), (_, t) => t.Uid).ToHashSet();
 			if (tags?.Any() != true)
 			{
 				return;

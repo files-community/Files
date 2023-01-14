@@ -27,8 +27,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 	public class AdvancedViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private readonly IBundlesSettingsService BundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
-		private readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private readonly IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
+		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 
 		public ICommand EditFileTagsCommand { get; }
@@ -191,7 +191,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 					// Import bundles
 					var bundles = await zipFolder.GetFileAsync(Constants.LocalSettings.BundlesSettingsFileName);
 					string importBundles = await bundles.ReadTextAsync();
-					BundlesSettingsService.ImportSettings(importBundles);
+					bundlesSettingsService.ImportSettings(importBundles);
 					// Import pinned items
 					var pinnedItems = await zipFolder.GetFileAsync(App.SidebarPinnedController.JsonFileName);
 					await pinnedItems.CopyAsync(settingsFolder, pinnedItems.Name, NameCollisionOption.ReplaceExisting);
@@ -199,7 +199,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 					// Import file tags list and DB
 					var fileTagsList = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsFileName);
 					string importTags = await fileTagsList.ReadTextAsync();
-					FileTagsSettingsService.ImportSettings(importTags);
+					fileTagsSettingsService.ImportSettings(importTags);
 					var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath));
 					string importTagsDB = await fileTagsDB.ReadTextAsync();
 					var tagDbInstance = FileTagsHelper.GetDbInstance();
@@ -241,13 +241,13 @@ namespace Files.App.ViewModels.SettingsViewModels
 					var exportSettings = UTF8Encoding.UTF8.GetBytes((string)UserSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportSettings), Constants.LocalSettings.UserSettingsFileName, CreationCollisionOption.ReplaceExisting);
 					// Export bundles
-					var exportBundles = UTF8Encoding.UTF8.GetBytes((string)BundlesSettingsService.ExportSettings());
+					var exportBundles = UTF8Encoding.UTF8.GetBytes((string)bundlesSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportBundles), Constants.LocalSettings.BundlesSettingsFileName, CreationCollisionOption.ReplaceExisting);
 					// Export pinned items
 					var pinnedItems = await BaseStorageFile.GetFileFromPathAsync(Path.Combine(localFolderPath, Constants.LocalSettings.SettingsFolderName, App.SidebarPinnedController.JsonFileName));
 					await pinnedItems.CopyAsync(zipFolder, pinnedItems.Name, NameCollisionOption.ReplaceExisting);
 					// Export file tags list and DB
-					var exportTags = UTF8Encoding.UTF8.GetBytes((string)FileTagsSettingsService.ExportSettings());
+					var exportTags = UTF8Encoding.UTF8.GetBytes((string)fileTagsSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
 					var tagDbInstance = FileTagsHelper.GetDbInstance();
 					byte[] exportTagsDB = UTF8Encoding.UTF8.GetBytes(tagDbInstance.Export());

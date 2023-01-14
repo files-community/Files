@@ -24,7 +24,7 @@ namespace Files.App.ViewModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private readonly IPreviewPaneSettingsService PreviewSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
+		private readonly IPreviewPaneSettingsService previewSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
 
 		private CancellationTokenSource loadCancellationTokenSource;
 
@@ -34,7 +34,7 @@ namespace Files.App.ViewModels
 			get => isEnabled;
 			set
 			{
-				PreviewSettingsService.IsEnabled = value;
+				previewSettingsService.IsEnabled = value;
 				SetProperty(ref isEnabled, value);
 			}
 		}
@@ -78,9 +78,9 @@ namespace Files.App.ViewModels
 		{
 			ShowPreviewOnlyInvoked = new RelayCommand(() => UpdateSelectedItemPreview());
 
-			IsEnabled = PreviewSettingsService.IsEnabled;
+			IsEnabled = previewSettingsService.IsEnabled;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-			PreviewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
+			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 		}
 
 		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
@@ -289,7 +289,7 @@ namespace Files.App.ViewModels
 		{
 			if (e.PropertyName is nameof(IPreviewPaneSettingsService.IsEnabled))
 			{
-				var newEnablingStatus = PreviewSettingsService.IsEnabled;
+				var newEnablingStatus = previewSettingsService.IsEnabled;
 				if (isEnabled != newEnablingStatus)
 				{
 					isEnabled = newEnablingStatus;
@@ -332,7 +332,7 @@ namespace Files.App.ViewModels
 		public void Dispose()
 		{
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
-			PreviewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
+			previewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 		}
 	}
 

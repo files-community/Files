@@ -28,9 +28,9 @@ namespace Files.App.Filesystem
 	{
 		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		protected static readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		protected static readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
-		protected static readonly IDateTimeFormatter DateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
+		protected static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 
 		public bool IsHiddenItem { get; set; } = false;
 
@@ -135,7 +135,7 @@ namespace Files.App.Filesystem
 
 		public IList<FileTagViewModel> FileTagsUI
 		{
-			get => FileTagsSettingsService.GetTagsByIds(FileTags);
+			get => fileTagsSettingsService.GetTagsByIds(FileTags);
 		}
 
 		private Uri customIconSource;
@@ -321,7 +321,7 @@ namespace Files.App.Filesystem
 			get => itemDateModifiedReal;
 			set
 			{
-				ItemDateModified = DateTimeFormatter.ToShortLabel(value);
+				ItemDateModified = dateTimeFormatter.ToShortLabel(value);
 				itemDateModifiedReal = value;
 				OnPropertyChanged(nameof(ItemDateModified));
 			}
@@ -333,7 +333,7 @@ namespace Files.App.Filesystem
 			get => itemDateCreatedReal;
 			set
 			{
-				ItemDateCreated = DateTimeFormatter.ToShortLabel(value);
+				ItemDateCreated = dateTimeFormatter.ToShortLabel(value);
 				itemDateCreatedReal = value;
 				OnPropertyChanged(nameof(ItemDateCreated));
 			}
@@ -345,7 +345,7 @@ namespace Files.App.Filesystem
 			get => itemDateAccessedReal;
 			set
 			{
-				ItemDateAccessed = DateTimeFormatter.ToShortLabel(value);
+				ItemDateAccessed = dateTimeFormatter.ToShortLabel(value);
 				itemDateAccessedReal = value;
 				OnPropertyChanged(nameof(ItemDateAccessed));
 			}
@@ -450,7 +450,7 @@ namespace Files.App.Filesystem
 			get => itemDateDeletedReal;
 			set
 			{
-				ItemDateDeleted = DateTimeFormatter.ToShortLabel(value);
+				ItemDateDeleted = dateTimeFormatter.ToShortLabel(value);
 				itemDateDeletedReal = value;
 			}
 		}

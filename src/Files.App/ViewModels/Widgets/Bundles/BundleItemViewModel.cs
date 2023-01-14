@@ -32,7 +32,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private readonly IBundlesSettingsService BundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
+		private readonly IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
 
 		/// <summary>
 		/// The name of a bundle this item is contained within
@@ -173,11 +173,11 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public void RemoveItem()
 		{
-			if (BundlesSettingsService.SavedBundles.ContainsKey(ParentBundleName))
+			if (bundlesSettingsService.SavedBundles.ContainsKey(ParentBundleName))
 			{
-				Dictionary<string, List<string>> allBundles = BundlesSettingsService.SavedBundles;
+				Dictionary<string, List<string>> allBundles = bundlesSettingsService.SavedBundles;
 				allBundles[ParentBundleName].Remove(Path);
-				BundlesSettingsService.SavedBundles = allBundles;
+				bundlesSettingsService.SavedBundles = allBundles;
 				NotifyItemRemoved(this);
 			}
 		}

@@ -51,11 +51,11 @@ namespace Files.App.Views
 		public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
 		public AppModel AppModel => App.AppModel;
 
-		private readonly IDialogService DialogService = Ioc.Default.GetRequiredService<IDialogService>();
+		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private readonly IUpdateService UpdateSettingsService = Ioc.Default.GetRequiredService<IUpdateService>();
+		private readonly IUpdateService updateSettingsService = Ioc.Default.GetRequiredService<IUpdateService>();
 
 		private bool isCurrentInstance = false;
 		public bool IsCurrentInstance
@@ -271,7 +271,7 @@ namespace Files.App.Views
 			ToolbarViewModel.RotateImageLeftCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.CanExecute(null) == true);
 			ToolbarViewModel.RotateImageRightCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.CanExecute(null) == true);
 			ToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
-			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await UpdateSettingsService.DownloadUpdates());
+			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
 		}
 
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -701,7 +701,7 @@ namespace Files.App.Views
 					if (InstanceViewModel.CanCreateFileInPage)
 					{
 						var addItemDialogViewModel = new AddItemDialogViewModel();
-						await DialogService.ShowDialogAsync(addItemDialogViewModel);
+						await dialogService.ShowDialogAsync(addItemDialogViewModel);
 						if (addItemDialogViewModel.ResultType.ItemType == AddItemDialogItemType.Shortcut)
 							CreateNewShortcutFromDialog();
 						else if (addItemDialogViewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
