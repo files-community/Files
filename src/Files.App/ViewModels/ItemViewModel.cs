@@ -62,10 +62,10 @@ namespace Files.App.ViewModels
 		// files and folders list for manipulating
 		private List<ListedItem> filesAndFolders;
 
-		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
+		private readonly IDialogService DialogService = Ioc.Default.GetRequiredService<IDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
-		private ISizeProvider FolderSizeProvider { get; } = Ioc.Default.GetRequiredService<ISizeProvider>();
+		private readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private readonly ISizeProvider FolderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
 
 		// only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }

@@ -28,9 +28,9 @@ namespace Files.App.Filesystem
 	{
 		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		protected static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		protected static readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
-		protected static IDateTimeFormatter DateTimeFormatter { get; } = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
+		protected static readonly IDateTimeFormatter DateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 
 		public bool IsHiddenItem { get; set; } = false;
 

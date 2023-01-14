@@ -27,8 +27,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 	public class AdvancedViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
-		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private readonly IBundlesSettingsService BundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
+		private readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 
 		public ICommand EditFileTagsCommand { get; }

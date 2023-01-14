@@ -32,7 +32,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
+		private readonly IBundlesSettingsService BundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
 
 		/// <summary>
 		/// The name of a bundle this item is contained within

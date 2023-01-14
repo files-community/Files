@@ -51,11 +51,11 @@ namespace Files.App.Views
 		public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
 		public AppModel AppModel => App.AppModel;
 
-		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
+		private readonly IDialogService DialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetRequiredService<IUpdateService>();
+		private readonly IUpdateService UpdateSettingsService = Ioc.Default.GetRequiredService<IUpdateService>();
 
 		private bool isCurrentInstance = false;
 		public bool IsCurrentInstance

@@ -24,7 +24,7 @@ namespace Files.App.ViewModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private IPreviewPaneSettingsService PreviewSettingsService { get; } = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
+		private readonly IPreviewPaneSettingsService PreviewSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
 
 		private CancellationTokenSource loadCancellationTokenSource;
 
