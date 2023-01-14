@@ -586,7 +586,6 @@ namespace Files.App.UserControls
 				isDropOnProcess = true;
 
 				var isPathNull = string.IsNullOrEmpty(locationItem.Path);
-				var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 				var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 				var hasStorageItems = storageItems.Any();
 
