@@ -22,7 +22,7 @@ namespace Files.App.ViewModels.Dialogs
 		public bool ShortcutCreatedSuccessfully { get; private set; }
 
 		// Shortcut name with extension
-		public string ShortcutCompleteName { get; private set; }
+		public string ShortcutCompleteName { get; private set; } = string.Empty;
 
 		// Destination of the shortcut chosen by the user (can be a path or a URL)
 		private string _destinationItemPath;
