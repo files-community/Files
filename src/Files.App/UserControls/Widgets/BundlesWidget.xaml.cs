@@ -13,7 +13,7 @@ namespace Files.App.UserControls.Widgets
 {
 	public sealed partial class BundlesWidget : UserControl, IWidgetItemModel, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public BundlesViewModel ViewModel
 		{
@@ -27,7 +27,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "Bundles".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowBundlesWidget;
+		public bool IsWidgetSettingEnabled => userSettingsService.PreferencesSettingsService.ShowBundlesWidget;
 
 		public BundlesWidget()
 		{

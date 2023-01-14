@@ -8,7 +8,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 {
 	public class FoldersViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 
 		//FileTag combobox indexes (required to hide SyncStatus)
@@ -25,8 +25,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
 
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
-			SelectedDefaultSortingIndex = UserSettingsService.FoldersSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultSortOption;
-			SelectedDefaultGroupingIndex = UserSettingsService.FoldersSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultGroupOption;
+			SelectedDefaultSortingIndex = userSettingsService.FoldersSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)userSettingsService.FoldersSettingsService.DefaultSortOption;
+			SelectedDefaultGroupingIndex = userSettingsService.FoldersSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)userSettingsService.FoldersSettingsService.DefaultGroupOption;
 		}
 
 		// Properties
@@ -54,12 +54,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool EnableOverridingFolderPreferences
 		{
-			get => UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences;
+			get => userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences)
+				if (value != userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences)
 				{
-					UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences = value;
+					userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences = value;
 					OnPropertyChanged();
 				}
 			}
@@ -67,12 +67,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowFileTagColumn
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowFileTagColumn;
+			get => userSettingsService.FoldersSettingsService.ShowFileTagColumn;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowFileTagColumn)
+				if (value != userSettingsService.FoldersSettingsService.ShowFileTagColumn)
 				{
-					UserSettingsService.FoldersSettingsService.ShowFileTagColumn = value;
+					userSettingsService.FoldersSettingsService.ShowFileTagColumn = value;
 					OnPropertyChanged();
 				}
 			}
@@ -80,12 +80,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowSizeColumn
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowSizeColumn;
+			get => userSettingsService.FoldersSettingsService.ShowSizeColumn;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowSizeColumn)
+				if (value != userSettingsService.FoldersSettingsService.ShowSizeColumn)
 				{
-					UserSettingsService.FoldersSettingsService.ShowSizeColumn = value;
+					userSettingsService.FoldersSettingsService.ShowSizeColumn = value;
 					OnPropertyChanged();
 				}
 			}
@@ -93,12 +93,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowTypeColumn
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowTypeColumn;
+			get => userSettingsService.FoldersSettingsService.ShowTypeColumn;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowTypeColumn)
+				if (value != userSettingsService.FoldersSettingsService.ShowTypeColumn)
 				{
-					UserSettingsService.FoldersSettingsService.ShowTypeColumn = value;
+					userSettingsService.FoldersSettingsService.ShowTypeColumn = value;
 					OnPropertyChanged();
 				}
 			}
@@ -106,12 +106,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowDateCreatedColumn
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowDateCreatedColumn;
+			get => userSettingsService.FoldersSettingsService.ShowDateCreatedColumn;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowDateCreatedColumn)
+				if (value != userSettingsService.FoldersSettingsService.ShowDateCreatedColumn)
 				{
-					UserSettingsService.FoldersSettingsService.ShowDateCreatedColumn = value;
+					userSettingsService.FoldersSettingsService.ShowDateCreatedColumn = value;
 					OnPropertyChanged();
 				}
 			}
@@ -119,24 +119,24 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowDateColumn
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowDateColumn;
+			get => userSettingsService.FoldersSettingsService.ShowDateColumn;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowDateColumn)
+				if (value != userSettingsService.FoldersSettingsService.ShowDateColumn)
 				{
-					UserSettingsService.FoldersSettingsService.ShowDateColumn = value;
+					userSettingsService.FoldersSettingsService.ShowDateColumn = value;
 					OnPropertyChanged();
 				}
 			}
 		}
 		public FolderLayoutModes DefaultLayoutMode
 		{
-			get => UserSettingsService.FoldersSettingsService.DefaultLayoutMode;
+			get => userSettingsService.FoldersSettingsService.DefaultLayoutMode;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.DefaultLayoutMode)
+				if (value != userSettingsService.FoldersSettingsService.DefaultLayoutMode)
 				{
-					UserSettingsService.FoldersSettingsService.DefaultLayoutMode = value;
+					userSettingsService.FoldersSettingsService.DefaultLayoutMode = value;
 					OnPropertyChanged();
 				}
 			}
@@ -144,12 +144,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowHiddenItems
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowHiddenItems;
+			get => userSettingsService.FoldersSettingsService.ShowHiddenItems;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowHiddenItems)
+				if (value != userSettingsService.FoldersSettingsService.ShowHiddenItems)
 				{
-					UserSettingsService.FoldersSettingsService.ShowHiddenItems = value;
+					userSettingsService.FoldersSettingsService.ShowHiddenItems = value;
 					OnPropertyChanged();
 				}
 			}
@@ -157,12 +157,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowProtectedSystemFiles
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles;
+			get => userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles)
+				if (value != userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles)
 				{
-					UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles = value;
+					userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles = value;
 					OnPropertyChanged();
 				}
 			}
@@ -170,12 +170,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool AreAlternateStreamsVisible
 		{
-			get => UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible;
+			get => userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
+				if (value != userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 				{
-					UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible = value;
+					userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible = value;
 					OnPropertyChanged();
 				}
 			}
@@ -183,12 +183,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowDotFiles
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowDotFiles;
+			get => userSettingsService.FoldersSettingsService.ShowDotFiles;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowDotFiles)
+				if (value != userSettingsService.FoldersSettingsService.ShowDotFiles)
 				{
-					UserSettingsService.FoldersSettingsService.ShowDotFiles = value;
+					userSettingsService.FoldersSettingsService.ShowDotFiles = value;
 					OnPropertyChanged();
 				}
 			}
@@ -196,12 +196,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool OpenItemsWithOneClick
 		{
-			get => UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick;
+			get => userSettingsService.FoldersSettingsService.OpenItemsWithOneClick;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+				if (value != userSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 				{
-					UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick = value;
+					userSettingsService.FoldersSettingsService.OpenItemsWithOneClick = value;
 					OnPropertyChanged();
 				}
 			}
@@ -209,12 +209,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ColumnLayoutOpenFoldersWithOneClick
 		{
-			get => UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick;
+			get => userSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+				if (value != userSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 				{
-					UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick = value;
+					userSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick = value;
 					OnPropertyChanged();
 				}
 			}
@@ -222,12 +222,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool OpenFoldersNewTab
 		{
-			get => UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab;
+			get => userSettingsService.FoldersSettingsService.OpenFoldersInNewTab;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab)
+				if (value != userSettingsService.FoldersSettingsService.OpenFoldersInNewTab)
 				{
-					UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab = value;
+					userSettingsService.FoldersSettingsService.OpenFoldersInNewTab = value;
 					OnPropertyChanged();
 				}
 			}
@@ -235,12 +235,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ListAndSortDirectoriesAlongsideFiles
 		{
-			get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
+			get => userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
 			set
 			{
-				if (value != UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles)
+				if (value != userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles)
 				{
-					UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
+					userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
 					OnPropertyChanged();
 				}
 			}
@@ -248,12 +248,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool CalculateFolderSizes
 		{
-			get => UserSettingsService.FoldersSettingsService.CalculateFolderSizes;
+			get => userSettingsService.FoldersSettingsService.CalculateFolderSizes;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.CalculateFolderSizes)
+				if (value != userSettingsService.FoldersSettingsService.CalculateFolderSizes)
 				{
-					UserSettingsService.FoldersSettingsService.CalculateFolderSizes = value;
+					userSettingsService.FoldersSettingsService.CalculateFolderSizes = value;
 					OnPropertyChanged();
 				}
 			}
@@ -268,7 +268,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (SetProperty(ref selectedDefaultSortingIndex, value))
 				{
 					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
-					UserSettingsService.FoldersSettingsService.DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
+					userSettingsService.FoldersSettingsService.DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
 				}
 			}
 		}
@@ -282,19 +282,19 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (SetProperty(ref selectedDefaultGroupingIndex, value))
 				{
 					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
-					UserSettingsService.FoldersSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
+					userSettingsService.FoldersSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
 				}
 			}
 		}
 
 		public bool ShowFileExtensions
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowFileExtensions;
+			get => userSettingsService.FoldersSettingsService.ShowFileExtensions;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowFileExtensions)
+				if (value != userSettingsService.FoldersSettingsService.ShowFileExtensions)
 				{
-					UserSettingsService.FoldersSettingsService.ShowFileExtensions = value;
+					userSettingsService.FoldersSettingsService.ShowFileExtensions = value;
 					OnPropertyChanged();
 				}
 			}
@@ -302,12 +302,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowThumbnails
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowThumbnails;
+			get => userSettingsService.FoldersSettingsService.ShowThumbnails;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowThumbnails)
+				if (value != userSettingsService.FoldersSettingsService.ShowThumbnails)
 				{
-					UserSettingsService.FoldersSettingsService.ShowThumbnails = value;
+					userSettingsService.FoldersSettingsService.ShowThumbnails = value;
 					OnPropertyChanged();
 				}
 			}
@@ -315,12 +315,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowConfirmDeleteDialog
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog;
+			get => userSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog)
+				if (value != userSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog)
 				{
-					UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog = value;
+					userSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog = value;
 					OnPropertyChanged();
 				}
 			}
@@ -328,12 +328,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool SelectFilesOnHover
 		{
-			get => UserSettingsService.FoldersSettingsService.SelectFilesOnHover;
+			get => userSettingsService.FoldersSettingsService.SelectFilesOnHover;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
+				if (value != userSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				{
-					UserSettingsService.FoldersSettingsService.SelectFilesOnHover = value;
+					userSettingsService.FoldersSettingsService.SelectFilesOnHover = value;
 					OnPropertyChanged();
 				}
 			}

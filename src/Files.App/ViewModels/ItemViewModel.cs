@@ -63,7 +63,8 @@ namespace Files.App.ViewModels
 		private List<ListedItem> filesAndFolders;
 
 		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 		private ISizeProvider FolderSizeProvider { get; } = Ioc.Default.GetRequiredService<ISizeProvider>();
 
@@ -376,7 +377,7 @@ namespace Files.App.ViewModels
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
-			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			FileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
 			FolderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
 			RecycleBinManager.Default.RecycleBinItemCreated += RecycleBinItemCreated;
@@ -483,24 +484,24 @@ namespace Files.App.ViewModels
 		{
 			switch (e.SettingName)
 			{
-				case nameof(UserSettingsService.FoldersSettingsService.ShowFileExtensions):
-				case nameof(UserSettingsService.FoldersSettingsService.ShowThumbnails):
-				case nameof(UserSettingsService.FoldersSettingsService.ShowHiddenItems):
-				case nameof(UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles):
-				case nameof(UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible):
-				case nameof(UserSettingsService.FoldersSettingsService.ShowDotFiles):
-				case nameof(UserSettingsService.FoldersSettingsService.CalculateFolderSizes):
-				case nameof(UserSettingsService.FoldersSettingsService.SelectFilesOnHover):
+				case nameof(userSettingsService.FoldersSettingsService.ShowFileExtensions):
+				case nameof(userSettingsService.FoldersSettingsService.ShowThumbnails):
+				case nameof(userSettingsService.FoldersSettingsService.ShowHiddenItems):
+				case nameof(userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles):
+				case nameof(userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible):
+				case nameof(userSettingsService.FoldersSettingsService.ShowDotFiles):
+				case nameof(userSettingsService.FoldersSettingsService.CalculateFolderSizes):
+				case nameof(userSettingsService.FoldersSettingsService.SelectFilesOnHover):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
 						if (WorkingDirectory != "Home".GetLocalizedResource())
 							RefreshItems(null);
 					});
 					break;
-				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortOption):
-				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupOption):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
-				case nameof(UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
+				case nameof(userSettingsService.FoldersSettingsService.DefaultSortOption):
+				case nameof(userSettingsService.FoldersSettingsService.DefaultGroupOption):
+				case nameof(userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
+				case nameof(userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
 						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
@@ -858,7 +859,7 @@ namespace Files.App.ViewModels
 			var wasIconLoaded = false;
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
-				if (UserSettingsService.FoldersSettingsService.ShowThumbnails &&
+				if (userSettingsService.FoldersSettingsService.ShowThumbnails &&
 					!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 				{
 					var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
@@ -2008,7 +2009,7 @@ namespace Files.App.ViewModels
 			{
 				filesAndFolders.Add(item);
 
-				if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
+				if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 				{
 					// New file added, enumerate ADS
 					foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(item.ItemPath))
@@ -2042,9 +2043,9 @@ namespace Files.App.ViewModels
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 			var startWithDot = findData.cFileName.StartsWith('.');
 			if ((isHidden &&
-			   (!UserSettingsService.FoldersSettingsService.ShowHiddenItems ||
-			   (isSystem && !UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) ||
-			   (startWithDot && !UserSettingsService.FoldersSettingsService.ShowDotFiles))
+			   (!userSettingsService.FoldersSettingsService.ShowHiddenItems ||
+			   (isSystem && !userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) ||
+			   (startWithDot && !userSettingsService.FoldersSettingsService.ShowDotFiles))
 			{
 				// Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
 				return null;
@@ -2165,7 +2166,7 @@ namespace Files.App.ViewModels
 				{
 					filesAndFolders.Remove(matchingItem);
 
-					if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
+					if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 					{
 						// Main file is removed, remove connected ADS
 						foreach (var adsItem in filesAndFolders.Where(x => x is AlternateStreamItem ads && ads.MainStreamPath == matchingItem.ItemPath).ToList())
@@ -2234,7 +2235,7 @@ namespace Files.App.ViewModels
 			RecycleBinManager.Default.RecycleBinItemCreated -= RecycleBinItemCreated;
 			RecycleBinManager.Default.RecycleBinItemDeleted -= RecycleBinItemDeleted;
 			RecycleBinManager.Default.RecycleBinRefreshRequested -= RecycleBinRefreshRequested;
-			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			userSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			FileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingImportedEvent;
 			FolderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
 			DefaultIcons.Clear();

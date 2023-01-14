@@ -19,7 +19,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 {
 	public class AppearanceViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public List<string> Themes { get; private set; }
 
@@ -99,12 +99,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool MoveOverflowMenuItemsToSubMenu
 		{
-			get => UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu;
+			get => userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
+				if (value != userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
 				{
-					UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu = value;
+					userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu = value;
 					OnPropertyChanged();
 				}
 			}
@@ -112,12 +112,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool UseCompactStyles
 		{
-			get => UserSettingsService.AppearanceSettingsService.UseCompactStyles;
+			get => userSettingsService.AppearanceSettingsService.UseCompactStyles;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.UseCompactStyles)
+				if (value != userSettingsService.AppearanceSettingsService.UseCompactStyles)
 				{
-					UserSettingsService.AppearanceSettingsService.UseCompactStyles = value;
+					userSettingsService.AppearanceSettingsService.UseCompactStyles = value;
 
 					App.AppThemeResourcesHelper.SetCompactSpacing(UseCompactStyles);
 					App.AppThemeResourcesHelper.ApplyResources();
@@ -129,12 +129,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public Color AppThemeBackgroundColor
 		{
-			get => ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
+			get => ColorHelper.ToColor(userSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
 			set
 			{
-				if (value != ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor))
+				if (value != ColorHelper.ToColor(userSettingsService.AppearanceSettingsService.AppThemeBackgroundColor))
 				{
-					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor = value.ToString();
+					userSettingsService.AppearanceSettingsService.AppThemeBackgroundColor = value.ToString();
 
 					App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(AppThemeBackgroundColor);
 					App.AppThemeResourcesHelper.ApplyResources();

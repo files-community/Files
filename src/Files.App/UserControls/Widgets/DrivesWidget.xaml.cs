@@ -68,7 +68,7 @@ namespace Files.App.UserControls.Widgets
 
 	public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
@@ -103,7 +103,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "Drives".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
+		public bool IsWidgetSettingEnabled => userSettingsService.PreferencesSettingsService.ShowDrivesWidget;
 
 		public DrivesWidget()
 		{

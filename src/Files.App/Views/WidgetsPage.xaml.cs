@@ -20,7 +20,7 @@ namespace Files.App.Views
 {
 	public sealed partial class WidgetsPage : Page, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private IShellPage AppInstance = null;
 		public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
@@ -61,14 +61,14 @@ namespace Files.App.Views
 
 		private void ReloadWidgets()
 		{
-			folderWidget = WidgetsHelpers.TryGetWidget<FolderWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadFolderWidget, folderWidget);
-			drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
-			bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
-			recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
+			folderWidget = WidgetsHelpers.TryGetWidget<FolderWidget>(userSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadFolderWidget, folderWidget);
+			drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(userSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
+			bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(userSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
+			recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(userSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
 			if (shouldReloadFolderWidget && folderWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(folderWidget, (value) => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded), 0);
+				Widgets.ViewModel.InsertWidget(new(folderWidget, (value) => userSettingsService.PreferencesSettingsService.FoldersWidgetExpanded = value, () => userSettingsService.PreferencesSettingsService.FoldersWidgetExpanded), 0);
 
 				folderWidget.LibraryCardInvoked -= FolderWidget_LibraryCardInvoked;
 				folderWidget.LibraryCardNewPaneInvoked -= FolderWidget_LibraryCardNewPaneInvoked;
@@ -81,7 +81,7 @@ namespace Files.App.Views
 			}
 			if (shouldReloadDrivesWidget && drivesWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(drivesWidget, (value) => UserSettingsService.PreferencesSettingsService.DrivesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.DrivesWidgetExpanded), 1);
+				Widgets.ViewModel.InsertWidget(new(drivesWidget, (value) => userSettingsService.PreferencesSettingsService.DrivesWidgetExpanded = value, () => userSettingsService.PreferencesSettingsService.DrivesWidgetExpanded), 1);
 
 				drivesWidget.AppInstance = AppInstance;
 				drivesWidget.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
@@ -91,12 +91,12 @@ namespace Files.App.Views
 			}
 			if (shouldReloadBundles && bundlesWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(bundlesWidget, (value) => UserSettingsService.PreferencesSettingsService.BundlesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.BundlesWidgetExpanded), 2);
+				Widgets.ViewModel.InsertWidget(new(bundlesWidget, (value) => userSettingsService.PreferencesSettingsService.BundlesWidgetExpanded = value, () => userSettingsService.PreferencesSettingsService.BundlesWidgetExpanded), 2);
 				ViewModel.LoadBundlesCommand.Execute(bundlesWidget.ViewModel);
 			}
 			if (shouldReloadRecentFiles && recentFilesWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded), 3);
+				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => userSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded = value, () => userSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded), 3);
 
 				recentFilesWidget.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
 				recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;

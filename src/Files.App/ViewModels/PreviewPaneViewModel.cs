@@ -22,7 +22,7 @@ namespace Files.App.ViewModels
 {
 	public class PreviewPaneViewModel : ObservableObject, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private IPreviewPaneSettingsService PreviewSettingsService { get; } = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
 
@@ -79,7 +79,7 @@ namespace Files.App.ViewModels
 			ShowPreviewOnlyInvoked = new RelayCommand(() => UpdateSelectedItemPreview());
 
 			IsEnabled = PreviewSettingsService.IsEnabled;
-			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			PreviewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 		}
 
@@ -331,7 +331,7 @@ namespace Files.App.ViewModels
 
 		public void Dispose()
 		{
-			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			userSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			PreviewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 		}
 	}

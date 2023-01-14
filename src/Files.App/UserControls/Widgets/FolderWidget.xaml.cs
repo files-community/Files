@@ -86,7 +86,7 @@ namespace Files.App.UserControls.Widgets
 
 	public sealed partial class FolderWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public ObservableCollection<FolderCardItem> ItemsAdded = new();
 
@@ -118,7 +118,7 @@ namespace Files.App.UserControls.Widgets
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowFoldersWidget;
+		public bool IsWidgetSettingEnabled => userSettingsService.PreferencesSettingsService.ShowFoldersWidget;
 
 		public ICommand LibraryCardCommand { get; }
 

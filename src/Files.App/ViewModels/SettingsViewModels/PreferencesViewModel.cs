@@ -25,7 +25,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 {
 	public class PreferencesViewModel : ObservableObject, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private bool disposed;
 		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
@@ -115,8 +115,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
-			if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList is not null)
-				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.PreferencesSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
+			if (userSettingsService.PreferencesSettingsService.TabsOnStartupList is not null)
+				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(userSettingsService.PreferencesSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
 			else
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>();
 
@@ -200,21 +200,21 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (PagesOnStartupList.Count > 0)
-				UserSettingsService.PreferencesSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
+				userSettingsService.PreferencesSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
 			else
-				UserSettingsService.PreferencesSettingsService.TabsOnStartupList = null;
+				userSettingsService.PreferencesSettingsService.TabsOnStartupList = null;
 		}
 
 		public int SelectedStartupSettingIndex => ContinueLastSessionOnStartUp ? 1 : OpenASpecificPageOnStartup ? 2 : 0;
 
 		public bool OpenNewTabPageOnStartup
 		{
-			get => UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup;
+			get => userSettingsService.PreferencesSettingsService.OpenNewTabOnStartup;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup)
+				if (value != userSettingsService.PreferencesSettingsService.OpenNewTabOnStartup)
 				{
-					UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup = value;
+					userSettingsService.PreferencesSettingsService.OpenNewTabOnStartup = value;
 					OnPropertyChanged();
 				}
 			}
@@ -222,12 +222,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ContinueLastSessionOnStartUp
 		{
-			get => UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp;
+			get => userSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
+				if (value != userSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
 				{
-					UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp = value;
+					userSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp = value;
 					OnPropertyChanged();
 				}
 			}
@@ -235,12 +235,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool OpenASpecificPageOnStartup
 		{
-			get => UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup;
+			get => userSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup)
+				if (value != userSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup)
 				{
-					UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup = value;
+					userSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup = value;
 					OnPropertyChanged();
 				}
 			}
@@ -256,12 +256,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool AlwaysOpenANewInstance
 		{
-			get => UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance;
+			get => userSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance)
+				if (value != userSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance)
 				{
-					UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance = value;
+					userSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance = value;
 					ApplicationData.Current.LocalSettings.Values["AlwaysOpenANewInstance"] = value; // Needed in Program.cs
 					OnPropertyChanged();
 				}
@@ -270,12 +270,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool IsDualPaneEnabled
 		{
-			get => UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled;
+			get => userSettingsService.PreferencesSettingsService.IsDualPaneEnabled;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
+				if (value != userSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
 				{
-					UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled = value;
+					userSettingsService.PreferencesSettingsService.IsDualPaneEnabled = value;
 					OnPropertyChanged();
 				}
 			}
@@ -283,12 +283,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool AlwaysOpenDualPaneInNewTab
 		{
-			get => UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;
+			get => userSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab)
+				if (value != userSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab)
 				{
-					UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab = value;
+					userSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab = value;
 					OnPropertyChanged();
 				}
 			}
@@ -350,12 +350,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public DateTimeFormats DateTimeFormat
 		{
-			get => UserSettingsService.PreferencesSettingsService.DateTimeFormat;
+			get => userSettingsService.PreferencesSettingsService.DateTimeFormat;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.DateTimeFormat)
+				if (value != userSettingsService.PreferencesSettingsService.DateTimeFormat)
 				{
-					UserSettingsService.PreferencesSettingsService.DateTimeFormat = value;
+					userSettingsService.PreferencesSettingsService.DateTimeFormat = value;
 					OnPropertyChanged();
 				}
 			}
@@ -438,12 +438,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool SearchUnindexedItems
 		{
-			get => UserSettingsService.PreferencesSettingsService.SearchUnindexedItems;
+			get => userSettingsService.PreferencesSettingsService.SearchUnindexedItems;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.SearchUnindexedItems)
+				if (value != userSettingsService.PreferencesSettingsService.SearchUnindexedItems)
 				{
-					UserSettingsService.PreferencesSettingsService.SearchUnindexedItems = value;
+					userSettingsService.PreferencesSettingsService.SearchUnindexedItems = value;
 					OnPropertyChanged();
 				}
 			}
@@ -451,52 +451,52 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowFoldersWidget
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFoldersWidget;
+			get => userSettingsService.PreferencesSettingsService.ShowFoldersWidget;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowFoldersWidget)
-					UserSettingsService.PreferencesSettingsService.ShowFoldersWidget = value;
+				if (value != userSettingsService.PreferencesSettingsService.ShowFoldersWidget)
+					userSettingsService.PreferencesSettingsService.ShowFoldersWidget = value;
 			}
 		}
 
 		public bool ShowDrivesWidget
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
+			get => userSettingsService.PreferencesSettingsService.ShowDrivesWidget;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowDrivesWidget)
-					UserSettingsService.PreferencesSettingsService.ShowDrivesWidget = value;
+				if (value != userSettingsService.PreferencesSettingsService.ShowDrivesWidget)
+					userSettingsService.PreferencesSettingsService.ShowDrivesWidget = value;
 			}
 		}
 
 		public bool ShowBundlesWidget
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowBundlesWidget;
+			get => userSettingsService.PreferencesSettingsService.ShowBundlesWidget;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowBundlesWidget)
-					UserSettingsService.PreferencesSettingsService.ShowBundlesWidget = value;
+				if (value != userSettingsService.PreferencesSettingsService.ShowBundlesWidget)
+					userSettingsService.PreferencesSettingsService.ShowBundlesWidget = value;
 			}
 		}
 
 		public bool ShowRecentFilesWidget
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget;
+			get => userSettingsService.PreferencesSettingsService.ShowRecentFilesWidget;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget)
-					UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget = value;
+				if (value != userSettingsService.PreferencesSettingsService.ShowRecentFilesWidget)
+					userSettingsService.PreferencesSettingsService.ShowRecentFilesWidget = value;
 			}
 		}
 
 		public bool ShowFavoritesSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFavoritesSection;
+			get => userSettingsService.PreferencesSettingsService.ShowFavoritesSection;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowFavoritesSection)
+				if (value != userSettingsService.PreferencesSettingsService.ShowFavoritesSection)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowFavoritesSection = value;
+					userSettingsService.PreferencesSettingsService.ShowFavoritesSection = value;
 					OnPropertyChanged();
 				}
 			}
@@ -504,12 +504,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowLibrarySection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowLibrarySection;
+			get => userSettingsService.PreferencesSettingsService.ShowLibrarySection;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowLibrarySection)
+				if (value != userSettingsService.PreferencesSettingsService.ShowLibrarySection)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowLibrarySection = value;
+					userSettingsService.PreferencesSettingsService.ShowLibrarySection = value;
 					OnPropertyChanged();
 				}
 			}
@@ -517,12 +517,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowDrivesSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowDrivesSection;
+			get => userSettingsService.PreferencesSettingsService.ShowDrivesSection;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowDrivesSection)
+				if (value != userSettingsService.PreferencesSettingsService.ShowDrivesSection)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowDrivesSection = value;
+					userSettingsService.PreferencesSettingsService.ShowDrivesSection = value;
 					OnPropertyChanged();
 				}
 			}
@@ -530,12 +530,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowCloudDrivesSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection;
+			get => userSettingsService.PreferencesSettingsService.ShowCloudDrivesSection;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection)
+				if (value != userSettingsService.PreferencesSettingsService.ShowCloudDrivesSection)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = value;
+					userSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = value;
 					OnPropertyChanged();
 				}
 			}
@@ -543,12 +543,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowNetworkDrivesSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection;
+			get => userSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection)
+				if (value != userSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = value;
+					userSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = value;
 					OnPropertyChanged();
 				}
 			}
@@ -556,12 +556,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowWslSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowWslSection;
+			get => userSettingsService.PreferencesSettingsService.ShowWslSection;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowWslSection)
+				if (value != userSettingsService.PreferencesSettingsService.ShowWslSection)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowWslSection = value;
+					userSettingsService.PreferencesSettingsService.ShowWslSection = value;
 					OnPropertyChanged();
 				}
 			}
@@ -569,12 +569,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowFileTagsSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFileTagsSection;
+			get => userSettingsService.PreferencesSettingsService.ShowFileTagsSection;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowFileTagsSection)
+				if (value != userSettingsService.PreferencesSettingsService.ShowFileTagsSection)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowFileTagsSection = value;
+					userSettingsService.PreferencesSettingsService.ShowFileTagsSection = value;
 					OnPropertyChanged();
 				}
 			}

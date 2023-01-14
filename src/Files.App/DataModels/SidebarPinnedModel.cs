@@ -21,7 +21,7 @@ namespace Files.App.DataModels
 {
 	public class SidebarPinnedModel
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private SidebarPinnedController? controller;
 
@@ -277,12 +277,12 @@ namespace Files.App.DataModels
 		/// </summary>
 		public async Task AddAllItemsToSidebar()
 		{
-			if (UserSettingsService.PreferencesSettingsService.ShowFavoritesSection)
+			if (!userSettingsService.PreferencesSettingsService.ShowFavoritesSection)
+				return;
+
+			foreach (string path in FavoriteItems)
 			{
-				foreach (string path in FavoriteItems)
-				{
-					await AddItemToSidebarAsync(path);
-				}
+				await AddItemToSidebarAsync(path);
 			}
 		}
 

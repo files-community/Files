@@ -26,10 +26,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 {
 	public class AdvancedViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
 		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
-
 
 		public ICommand EditFileTagsCommand { get; }
 
@@ -187,7 +186,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 					// Import user settings
 					var userSettingsFile = await zipFolder.GetFileAsync(Constants.LocalSettings.UserSettingsFileName);
 					string importSettings = await userSettingsFile.ReadTextAsync();
-					UserSettingsService.ImportSettings(importSettings);
+					userSettingsService.ImportSettings(importSettings);
 					// Import bundles
 					var bundles = await zipFolder.GetFileAsync(Constants.LocalSettings.BundlesSettingsFileName);
 					string importBundles = await bundles.ReadTextAsync();
@@ -238,7 +237,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 					}
 					var localFolderPath = ApplicationData.Current.LocalFolder.Path;
 					// Export user settings
-					var exportSettings = UTF8Encoding.UTF8.GetBytes((string)UserSettingsService.ExportSettings());
+					var exportSettings = UTF8Encoding.UTF8.GetBytes((string)userSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportSettings), Constants.LocalSettings.UserSettingsFileName, CreationCollisionOption.ReplaceExisting);
 					// Export bundles
 					var exportBundles = UTF8Encoding.UTF8.GetBytes((string)BundlesSettingsService.ExportSettings());

@@ -1,27 +1,20 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
-using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
-using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.Storage.Pickers;
 using Windows.System;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
 	public class AboutViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
-
 		public ICommand CopyVersionInfoCommand { get; }
 		public ICommand SupportUsCommand { get; }
 		public ICommand OpenLogLocationCommand { get; }
@@ -30,7 +23,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public ICommand SubmitBugReportCommand { get; }
 		public ICommand OpenGitHubRepoCommand { get; }
 		public ICommand OpenPrivacyPolicyCommand { get; }
-
 
 		public AboutViewModel()
 		{

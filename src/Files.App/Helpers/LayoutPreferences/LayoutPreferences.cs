@@ -7,7 +7,7 @@ namespace Files.App.Helpers.LayoutPreferences
 {
 	public class LayoutPreferences
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public SortOption DirectorySortOption;
 		public SortDirection DirectorySortDirection;
@@ -24,35 +24,35 @@ namespace Files.App.Helpers.LayoutPreferences
 
 		public LayoutPreferences()
 		{
-			var defaultLayout = UserSettingsService.FoldersSettingsService.DefaultLayoutMode;
+			var defaultLayout = userSettingsService.FoldersSettingsService.DefaultLayoutMode;
 
 			this.LayoutMode = defaultLayout is FolderLayoutModes.Adaptive ? FolderLayoutModes.DetailsView : defaultLayout;
-			this.GridViewSize = UserSettingsService.LayoutSettingsService.DefaultGridViewSize;
-			this.DirectorySortOption = UserSettingsService.FoldersSettingsService.DefaultSortOption;
-			this.DirectoryGroupOption = UserSettingsService.FoldersSettingsService.DefaultGroupOption;
-			this.DirectorySortDirection = UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
-			this.SortDirectoriesAlongsideFiles = UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
+			this.GridViewSize = userSettingsService.LayoutSettingsService.DefaultGridViewSize;
+			this.DirectorySortOption = userSettingsService.FoldersSettingsService.DefaultSortOption;
+			this.DirectoryGroupOption = userSettingsService.FoldersSettingsService.DefaultGroupOption;
+			this.DirectorySortDirection = userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
+			this.SortDirectoriesAlongsideFiles = userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
 			this.IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
 
 			this.ColumnsViewModel = new ColumnsViewModel();
-			this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateCreatedColumn;
-			this.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateColumn;
-			this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowTypeColumn;
-			this.ColumnsViewModel.SizeColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowSizeColumn;
-			this.ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowFileTagColumn;
-			this.ColumnsViewModel.DateDeletedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateDeletedColumn;
-			this.ColumnsViewModel.OriginalPathColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowOriginalPathColumn;
-			this.ColumnsViewModel.StatusColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowSyncStatusColumn;
+			this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowDateCreatedColumn;
+			this.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowDateColumn;
+			this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowTypeColumn;
+			this.ColumnsViewModel.SizeColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowSizeColumn;
+			this.ColumnsViewModel.TagColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowFileTagColumn;
+			this.ColumnsViewModel.DateDeletedColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowDateDeletedColumn;
+			this.ColumnsViewModel.OriginalPathColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowOriginalPathColumn;
+			this.ColumnsViewModel.StatusColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowSyncStatusColumn;
 
-			this.ColumnsViewModel.NameColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.NameColumnWidth;
-			this.ColumnsViewModel.DateModifiedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateModifiedColumnWidth;
-			this.ColumnsViewModel.DateCreatedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateCreatedColumnWidth;
-			this.ColumnsViewModel.ItemTypeColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.TypeColumnWidth;
-			this.ColumnsViewModel.SizeColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.SizeColumnWidth;
-			this.ColumnsViewModel.TagColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.TagColumnWidth;
-			this.ColumnsViewModel.DateDeletedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateDeletedColumnWidth;
-			this.ColumnsViewModel.OriginalPathColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.OriginalPathColumnWidth;
-			this.ColumnsViewModel.StatusColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.SyncStatusColumnWidth;
+			this.ColumnsViewModel.NameColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.NameColumnWidth;
+			this.ColumnsViewModel.DateModifiedColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.DateModifiedColumnWidth;
+			this.ColumnsViewModel.DateCreatedColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.DateCreatedColumnWidth;
+			this.ColumnsViewModel.ItemTypeColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.TypeColumnWidth;
+			this.ColumnsViewModel.SizeColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.SizeColumnWidth;
+			this.ColumnsViewModel.TagColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.TagColumnWidth;
+			this.ColumnsViewModel.DateDeletedColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.DateDeletedColumnWidth;
+			this.ColumnsViewModel.OriginalPathColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.OriginalPathColumnWidth;
+			this.ColumnsViewModel.StatusColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.SyncStatusColumnWidth;
 		}
 
 		public override bool Equals(object? obj)

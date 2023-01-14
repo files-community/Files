@@ -30,7 +30,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		#region Properties
 
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
 
@@ -95,7 +95,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public bool OpenInNewPaneLoad
 		{
-			get => UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory;
+			get => userSettingsService.PreferencesSettingsService.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory;
 		}
 
 		#endregion Properties

@@ -27,7 +27,7 @@ namespace Files.App.ViewModels
 
 		public event EventHandler<LayoutPreferenceEventArgs>? LayoutPreferencesUpdateRequired;
 
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public FolderSettingsViewModel()
 		{
@@ -503,10 +503,10 @@ namespace Files.App.ViewModels
 			var prefs = GetLayoutPreferencesForPath(folderPath);
 			switch (settingsName)
 			{
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
+				case nameof(userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
 					SortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
 					break;
-				case nameof(UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
+				case nameof(userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
 					LayoutPreference = prefs;
 					// TODO: update layout
 					break;

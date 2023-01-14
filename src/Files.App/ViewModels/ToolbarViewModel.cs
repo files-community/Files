@@ -43,7 +43,7 @@ namespace Files.App.ViewModels
 {
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
 
 		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
@@ -253,7 +253,7 @@ namespace Files.App.ViewModels
 			&& IsAdaptiveLayoutEnabled;
 
 		public bool IsAdaptiveLayoutEnabled
-			=> UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences;
+			=> userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences;
 
 		private bool isUpdating;
 		public bool IsUpdating
@@ -409,7 +409,7 @@ namespace Files.App.ViewModels
 			dragOverTimer = dispatcherQueue.CreateTimer();
 
 			SearchBox.Escaped += SearchRegion_Escaped;
-			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
 		}
 
@@ -442,14 +442,14 @@ namespace Files.App.ViewModels
 		{
 			switch (e.SettingName)
 			{
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowFoldersWidget): // ToDo: Move this to the widget page, it doesn't belong here.
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowDrivesWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowBundlesWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget):
+				case nameof(userSettingsService.PreferencesSettingsService.ShowFoldersWidget): // ToDo: Move this to the widget page, it doesn't belong here.
+				case nameof(userSettingsService.PreferencesSettingsService.ShowDrivesWidget):
+				case nameof(userSettingsService.PreferencesSettingsService.ShowBundlesWidget):
+				case nameof(userSettingsService.PreferencesSettingsService.ShowRecentFilesWidget):
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 					OnPropertyChanged(e.SettingName);
 					break;
-				case nameof(UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
+				case nameof(userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
 					FolderSettings_LayoutPreferencesUpdateRequired(null, 0);
 					break;
 			}
@@ -1192,7 +1192,7 @@ namespace Files.App.ViewModels
 		public void Dispose()
 		{
 			SearchBox.Escaped -= SearchRegion_Escaped;
-			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			userSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 
 			InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;

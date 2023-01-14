@@ -21,7 +21,7 @@ namespace Files.App.UserControls.Widgets
 {
 	public sealed partial class RecentFilesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService  = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -45,7 +45,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "RecentFiles".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget;
+		public bool IsWidgetSettingEnabled => userSettingsService.PreferencesSettingsService.ShowRecentFilesWidget;
 
 		private Visibility emptyRecentsTextVisibility = Visibility.Collapsed;
 		public Visibility EmptyRecentsTextVisibility

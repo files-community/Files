@@ -26,7 +26,7 @@ namespace Files.App.ViewModels
 {
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public ICommand EmptyRecycleBinCommand { get; private set; }
 
@@ -111,98 +111,98 @@ namespace Files.App.ViewModels
 
 		public bool IsSidebarOpen
 		{
-			get => UserSettingsService.AppearanceSettingsService.IsSidebarOpen;
+			get => userSettingsService.AppearanceSettingsService.IsSidebarOpen;
 			set
 			{
-				if (value == UserSettingsService.AppearanceSettingsService.IsSidebarOpen)
+				if (value == userSettingsService.AppearanceSettingsService.IsSidebarOpen)
 					return;
 
-				UserSettingsService.AppearanceSettingsService.IsSidebarOpen = value;
+				userSettingsService.AppearanceSettingsService.IsSidebarOpen = value;
 				OnPropertyChanged();
 			}
 		}
 
 		public bool ShowFavoritesSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFavoritesSection;
+			get => userSettingsService.PreferencesSettingsService.ShowFavoritesSection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowFavoritesSection)
+				if (value == userSettingsService.PreferencesSettingsService.ShowFavoritesSection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowFavoritesSection = value;
+				userSettingsService.PreferencesSettingsService.ShowFavoritesSection = value;
 			}
 		}
 
 		public bool ShowLibrarySection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowLibrarySection;
+			get => userSettingsService.PreferencesSettingsService.ShowLibrarySection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowLibrarySection)
+				if (value == userSettingsService.PreferencesSettingsService.ShowLibrarySection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowLibrarySection = value;
+				userSettingsService.PreferencesSettingsService.ShowLibrarySection = value;
 			}
 		}
 
 		public bool ShowDrivesSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowDrivesSection;
+			get => userSettingsService.PreferencesSettingsService.ShowDrivesSection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowDrivesSection)
+				if (value == userSettingsService.PreferencesSettingsService.ShowDrivesSection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowDrivesSection = value;
+				userSettingsService.PreferencesSettingsService.ShowDrivesSection = value;
 			}
 		}
 
 		public bool ShowCloudDrivesSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection;
+			get => userSettingsService.PreferencesSettingsService.ShowCloudDrivesSection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection)
+				if (value == userSettingsService.PreferencesSettingsService.ShowCloudDrivesSection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = value;
+				userSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = value;
 			}
 		}
 
 		public bool ShowNetworkDrivesSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection;
+			get => userSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection)
+				if (value == userSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = value;
+				userSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = value;
 			}
 		}
 
 		public bool ShowWslSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowWslSection;
+			get => userSettingsService.PreferencesSettingsService.ShowWslSection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowWslSection)
+				if (value == userSettingsService.PreferencesSettingsService.ShowWslSection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowWslSection = value;
+				userSettingsService.PreferencesSettingsService.ShowWslSection = value;
 			}
 		}
 
 		public bool ShowFileTagsSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFileTagsSection;
+			get => userSettingsService.PreferencesSettingsService.ShowFileTagsSection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowFileTagsSection)
+				if (value == userSettingsService.PreferencesSettingsService.ShowFileTagsSection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowFileTagsSection = value;
+				userSettingsService.PreferencesSettingsService.ShowFileTagsSection = value;
 			}
 		}
 
@@ -220,7 +220,7 @@ namespace Files.App.ViewModels
 
 			SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
 			EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
-			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHome();
 
 			Manager_DataChanged(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -501,7 +501,7 @@ namespace Files.App.ViewModels
 		{
 			if (show)
 			{
-				var preferencesSettingsService = UserSettingsService.PreferencesSettingsService;
+				var preferencesSettingsService = userSettingsService.PreferencesSettingsService;
 
 				Func<Task> action = sectionType switch
 				{
@@ -532,37 +532,37 @@ namespace Files.App.ViewModels
 		{
 			switch (e.SettingName)
 			{
-				case nameof(UserSettingsService.AppearanceSettingsService.IsSidebarOpen):
-					if (UserSettingsService.AppearanceSettingsService.IsSidebarOpen != IsSidebarOpen)
+				case nameof(userSettingsService.AppearanceSettingsService.IsSidebarOpen):
+					if (userSettingsService.AppearanceSettingsService.IsSidebarOpen != IsSidebarOpen)
 					{
 						OnPropertyChanged(nameof(IsSidebarOpen));
 					}
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowFavoritesSection):
+				case nameof(userSettingsService.PreferencesSettingsService.ShowFavoritesSection):
 					UpdateSectionVisibility(SectionType.Favorites, ShowFavoritesSection);
 					OnPropertyChanged(nameof(ShowFavoritesSection));
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowLibrarySection):
+				case nameof(userSettingsService.PreferencesSettingsService.ShowLibrarySection):
 					UpdateSectionVisibility(SectionType.Library, ShowLibrarySection);
 					OnPropertyChanged(nameof(ShowLibrarySection));
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection):
+				case nameof(userSettingsService.PreferencesSettingsService.ShowCloudDrivesSection):
 					UpdateSectionVisibility(SectionType.CloudDrives, ShowCloudDrivesSection);
 					OnPropertyChanged(nameof(ShowCloudDrivesSection));
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowDrivesSection):
+				case nameof(userSettingsService.PreferencesSettingsService.ShowDrivesSection):
 					UpdateSectionVisibility(SectionType.Drives, ShowDrivesSection);
 					OnPropertyChanged(nameof(ShowDrivesSection));
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection):
+				case nameof(userSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection):
 					UpdateSectionVisibility(SectionType.Network, ShowNetworkDrivesSection);
 					OnPropertyChanged(nameof(ShowNetworkDrivesSection));
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowWslSection):
+				case nameof(userSettingsService.PreferencesSettingsService.ShowWslSection):
 					UpdateSectionVisibility(SectionType.WSL, ShowWslSection);
 					OnPropertyChanged(nameof(ShowWslSection));
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowFileTagsSection):
+				case nameof(userSettingsService.PreferencesSettingsService.ShowFileTagsSection):
 					UpdateSectionVisibility(SectionType.FileTag, ShowFileTagsSection);
 					OnPropertyChanged(nameof(ShowFileTagsSection));
 					break;
@@ -571,7 +571,7 @@ namespace Files.App.ViewModels
 
 		public void Dispose()
 		{
-			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			userSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 
 			App.SidebarPinnedController.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;

@@ -63,7 +63,7 @@ namespace Files.App.Views
 
 		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetRequiredService<IUpdateService>();
 
@@ -345,7 +345,7 @@ namespace Files.App.Views
 						Query = sender.Query,
 						Folder = FilesystemViewModel.WorkingDirectory,
 						MaxItemCount = 10,
-						SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems
+						SearchUnindexedItems = userSettingsService.PreferencesSettingsService.SearchUnindexedItems
 					};
 					sender.SetSuggestions((await search.SearchAsync()).Select(suggestion => new SuggestionModel(suggestion)));
 				}
@@ -364,7 +364,7 @@ namespace Files.App.Views
 			}
 			else if (e.ChosenSuggestion is null && !string.IsNullOrWhiteSpace(sender.Query))
 			{
-				SubmitSearch(sender.Query, UserSettingsService.PreferencesSettingsService.SearchUnindexedItems);
+				SubmitSearch(sender.Query, userSettingsService.PreferencesSettingsService.SearchUnindexedItems);
 			}
 		}
 
@@ -776,7 +776,7 @@ namespace Files.App.Views
 					break;
 
 				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-					UserSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
+					userSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
 					break;
 
 				case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
