@@ -1,6 +1,5 @@
 using Files.App.Serialization;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Microsoft.AppCenter.Analytics;
 using System;

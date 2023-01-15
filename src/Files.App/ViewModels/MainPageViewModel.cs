@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Extensions;
 using Files.App.Filesystem;
