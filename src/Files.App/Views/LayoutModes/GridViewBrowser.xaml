@@ -14,46 +14,46 @@
 	xmlns:local2="using:Files.App.Filesystem"
 	xmlns:local3="using:Files.App.Filesystem.Cloud"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vc="using:Files.App.ValueConverters"
-    xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
-    x:Name="PageRoot"
+	x:Name="PageRoot"
 	NavigationCacheMode="Enabled"
 	mc:Ignorable="d">
-    <i:Interaction.Behaviors>
-        <icore:EventTriggerBehavior EventName="PointerWheelChanged">
-            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
-        </icore:EventTriggerBehavior>
-        <icore:EventTriggerBehavior EventName="PointerPressed">
-            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
-        </icore:EventTriggerBehavior>
-    </i:Interaction.Behaviors>
-    <local:BaseLayout.Resources>
-        <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
-        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-        <converters:BoolToVisibilityConverter
+	<i:Interaction.Behaviors>
+		<icore:EventTriggerBehavior EventName="PointerWheelChanged">
+			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
+		</icore:EventTriggerBehavior>
+		<icore:EventTriggerBehavior EventName="PointerPressed">
+			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
+		</icore:EventTriggerBehavior>
+	</i:Interaction.Behaviors>
+	<local:BaseLayout.Resources>
+		<vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
+		<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+		<converters:BoolToVisibilityConverter
 			x:Key="NegatedBoolToVisibilityConverter"
 			FalseValue="Visible"
 			TrueValue="Collapsed" />
-        <converters:EmptyObjectToObjectConverter
+		<converters:EmptyObjectToObjectConverter
 			x:Key="EmptyObjectToObjectConverter"
 			EmptyValue="Collapsed"
 			NotEmptyValue="Visible" />
 
-        <converters:BoolToObjectConverter
+		<converters:BoolToObjectConverter
 			x:Key="NegatedBoolToOpacityConverter"
 			FalseValue="1"
 			TrueValue="0" />
-        <converters:BoolToVisibilityConverter
+		<converters:BoolToVisibilityConverter
 			x:Key="BoolToVisibilityConverter"
 			FalseValue="Collapsed"
 			TrueValue="Visible" />
 
-        <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+		<converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 
-        <DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
-            <Grid
+		<DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
+			<Grid
 				x:Name="GridViewBrowserListedItem"
 				Height="Auto"
 				HorizontalAlignment="Stretch"
@@ -63,18 +63,18 @@
 				IsRightTapEnabled="True"
 				Loaded="Grid_Loaded"
 				ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+				<Grid
 					Grid.Row="0"
 					Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
-                    MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 					Height="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+					MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 					Opacity="{x:Bind Opacity, Mode=OneWay}"
 					Tag="ItemImage">
-                    <ContentPresenter
+					<ContentPresenter
 						x:Name="PictureBorder"
 						Margin="12"
 						HorizontalAlignment="Center"
@@ -82,12 +82,12 @@
 						x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
 						x:Phase="1"
 						CornerRadius="{StaticResource GridViewThumbnailCornerRadius}">
-                        <Image
+						<Image
 							x:Name="Picture"
 							Source="{x:Bind FileImage, Mode=OneWay}"
 							Stretch="Uniform" />
-                    </ContentPresenter>
-                    <Image
+					</ContentPresenter>
+					<Image
 						x:Name="FolderGlyphIcon"
 						MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 						MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
@@ -96,7 +96,7 @@
 						VerticalAlignment="Stretch"
 						x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
 						Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
-                    <Border
+					<Border
 						x:Name="TypeUnknownGlyph"
 						MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 						MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
@@ -106,7 +106,7 @@
 						x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
 						Background="{ThemeResource SystemChromeHighColor}"
 						CornerRadius="4" />
-                    <Image
+					<Image
 						x:Name="IconOverlay"
 						Width="60"
 						Height="60"
@@ -117,7 +117,7 @@
 						x:Phase="1"
 						Source="{x:Bind IconOverlay, Mode=OneWay}"
 						Stretch="Uniform" />
-                    <Viewbox
+					<Viewbox
 						x:Name="WebShortcutGlyph"
 						MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 						MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
@@ -126,9 +126,9 @@
 						VerticalAlignment="Stretch"
 						x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
 						x:Phase="1">
-                        <FontIcon FontSize="28" Glyph="&#xE71B;" />
-                    </Viewbox>
-                    <Border
+						<FontIcon FontSize="28" Glyph="&#xE71B;" />
+					</Viewbox>
+					<Border
 						x:Name="ShortcutGlyphElement"
 						Margin="8,0,0,8"
 						Padding="2"
@@ -139,24 +139,24 @@
 						Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 						BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
 						BorderThickness="1">
-                        <FontIcon
+						<FontIcon
 							FontFamily="{StaticResource CustomGlyph}"
 							FontSize="18"
 							Glyph="&#xF10A;" />
-                    </Border>
-                </Grid>
-                <Grid
+					</Border>
+				</Grid>
+				<Grid
 					Grid.Row="1"
 					MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 					Margin="4,0,4,8"
 					HorizontalAlignment="Center"
 					VerticalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <FontIcon
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<FontIcon
 						x:Name="CloudDriveSyncStatusGlyph"
 						Grid.Column="0"
 						Margin="0,0,4,0"
@@ -165,7 +165,7 @@
 						x:Phase="2"
 						FontSize="12"
 						Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
-                    <Ellipse
+					<Ellipse
 						Grid.Column="1"
 						Width="12"
 						Height="12"
@@ -174,7 +174,7 @@
 						Fill="{x:Bind FileTagsUI[0].ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
 						ToolTipService.ToolTip="{x:Bind FileTagsUI[0].TagName, Mode=OneWay}"
 						Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
-                    <TextBlock
+					<TextBlock
 						x:Name="ItemName"
 						Grid.Column="2"
 						HorizontalAlignment="Stretch"
@@ -184,16 +184,26 @@
 						TextAlignment="Center"
 						TextTrimming="CharacterEllipsis"
 						TextWrapping="Wrap" />
-                </Grid>
-                <CheckBox x:Name="SelectionCheckbox" Checked="ItemSelected_Checked" Unchecked="ItemSelected_Unchecked"
-                    MinWidth="0" MinHeight="0" Margin="6" Padding="0" Width="32" Grid.RowSpan="2" Grid.ColumnSpan="2"
-                    Visibility="{Binding ElementName=PageRoot, Path=Preferences.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <Popup
+				</Grid>
+				<CheckBox
+					x:Name="SelectionCheckbox"
+					Grid.RowSpan="2"
+					Grid.ColumnSpan="2"
+					Width="32"
+					MinWidth="0"
+					MinHeight="0"
+					Margin="6"
+					Padding="0"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Top"
+					Checked="ItemSelected_Checked"
+					Unchecked="ItemSelected_Unchecked"
+					Visibility="{Binding ElementName=PageRoot, Path=Preferences.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+				<Popup
 					x:Name="EditPopup"
 					Grid.Row="1"
 					x:Load="False">
-                    <TextBox
+					<TextBox
 						x:Name="GridViewTextBoxItemName"
 						Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
 						Margin="0"
@@ -204,12 +214,12 @@
 						Text="{x:Bind Name, Mode=OneWay}"
 						TextAlignment="Center"
 						TextWrapping="Wrap" />
-                </Popup>
-            </Grid>
-        </DataTemplate>
+				</Popup>
+			</Grid>
+		</DataTemplate>
 
-        <DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
-            <Grid
+		<DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
+			<Grid
 				MaxHeight="68"
 				Padding="0"
 				HorizontalAlignment="Left"
@@ -219,21 +229,31 @@
 				IsRightTapEnabled="True"
 				Loaded="Grid_Loaded"
 				ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="68" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <CheckBox x:Name="SelectionCheckbox" Checked="ItemSelected_Checked" Unchecked="ItemSelected_Unchecked"
-                    MinWidth="0" MinHeight="0" Margin="6" Padding="0" Width="32" Grid.ColumnSpan="2"
-                    Visibility="{Binding ElementName=PageRoot, Path=Preferences.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <StackPanel Margin="8,4,0,4"
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="68" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<CheckBox
+					x:Name="SelectionCheckbox"
+					Grid.ColumnSpan="2"
+					Width="32"
+					MinWidth="0"
+					MinHeight="0"
+					Margin="6"
+					Padding="0"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Top"
+					Checked="ItemSelected_Checked"
+					Unchecked="ItemSelected_Unchecked"
+					Visibility="{Binding ElementName=PageRoot, Path=Preferences.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+				<StackPanel
 					Width="20"
+					Margin="8,4,0,4"
 					HorizontalAlignment="Center"
 					VerticalAlignment="Center"
 					Orientation="Vertical">
-                    <Ellipse
+					<Ellipse
 						Width="12"
 						Height="12"
 						Margin="0,4,0,4"
@@ -241,32 +261,33 @@
 						Fill="{x:Bind FileTagsUI[0].ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
 						ToolTipService.ToolTip="{x:Bind FileTagsUI[0].TagName, Mode=OneWay}"
 						Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
-                    <FontIcon
+					<FontIcon
 						x:Name="CloudDriveSyncStatusGlyph"
 						x:Phase="2"
 						FontSize="12"
 						Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
 						Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                </StackPanel>
-                <Grid Margin="0,4,0,4"
+				</StackPanel>
+				<Grid
 					Grid.Column="1"
 					Height="60"
+					Margin="0,4,0,4"
 					Opacity="{x:Bind Opacity, Mode=OneWay}"
 					Tag="ItemImage">
-                    <ContentPresenter
+					<ContentPresenter
 						x:Name="PictureBorder"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
 						x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
 						x:Phase="1"
 						CornerRadius="{StaticResource GridViewThumbnailCornerRadius}">
-                        <Image
+						<Image
 							x:Name="Picture"
 							Width="60"
 							Source="{x:Bind FileImage, Mode=OneWay}"
 							Stretch="Uniform" />
-                    </ContentPresenter>
-                    <Image
+					</ContentPresenter>
+					<Image
 						x:Name="FolderGlyphIcon"
 						Width="60"
 						Height="60"
@@ -274,7 +295,7 @@
 						VerticalAlignment="Stretch"
 						x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
 						Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
-                    <Border
+					<Border
 						x:Name="TypeUnknownGlyph"
 						Width="60"
 						Height="60"
@@ -283,7 +304,7 @@
 						x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
 						Background="{ThemeResource SystemChromeHighColor}"
 						CornerRadius="4" />
-                    <Image
+					<Image
 						x:Name="IconOverlay"
 						Width="48"
 						Height="48"
@@ -294,16 +315,16 @@
 						x:Phase="1"
 						Source="{x:Bind IconOverlay, Mode=OneWay}"
 						Stretch="Uniform" />
-                    <Viewbox
+					<Viewbox
 						x:Name="WebShortcutGlyph"
 						MaxWidth="60"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
 						x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
 						x:Phase="1">
-                        <FontIcon FontSize="28" Glyph="&#xE71B;" />
-                    </Viewbox>
-                    <Border
+						<FontIcon FontSize="28" Glyph="&#xE71B;" />
+					</Viewbox>
+					<Border
 						x:Name="ShortcutGlyphElement"
 						Margin="8,0,0,8"
 						Padding="2"
@@ -314,23 +335,24 @@
 						Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 						BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
 						BorderThickness="1">
-                        <FontIcon
+						<FontIcon
 							FontFamily="{StaticResource CustomGlyph}"
 							FontSize="15"
 							Glyph="&#xF10A;" />
-                    </Border>
-                </Grid>
+					</Border>
+				</Grid>
 
-                <Grid Margin="0,4,8,4"
+				<Grid
 					Grid.Column="2"
 					Height="60"
+					Margin="0,4,8,4"
 					RowSpacing="4">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<TextBlock
 						x:Name="ItemName"
 						Grid.Row="0"
 						HorizontalAlignment="Left"
@@ -338,14 +360,14 @@
 						Text="{x:Bind Name, Mode=OneWay}"
 						TextTrimming="CharacterEllipsis"
 						TextWrapping="Wrap" />
-                    <TextBox
+					<TextBox
 						x:Name="TileViewTextBoxItemName"
 						Grid.Row="0"
 						HorizontalAlignment="Left"
 						BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
 						Text="{x:Bind Name, Mode=OneWay}"
 						Visibility="Collapsed" />
-                    <TextBlock
+					<TextBlock
 						Grid.Row="1"
 						HorizontalAlignment="Left"
 						FontSize="12px"
@@ -353,7 +375,7 @@
 						Text="{x:Bind ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 						TextTrimming="CharacterEllipsis"
 						TextWrapping="NoWrap" />
-                    <TextBlock
+					<TextBlock
 						Grid.Row="2"
 						HorizontalAlignment="Left"
 						FontSize="12px"
@@ -361,26 +383,26 @@
 						Text="{x:Bind FileSize, Mode=OneWay}"
 						TextTrimming="CharacterEllipsis"
 						TextWrapping="NoWrap" />
-                </Grid>
-            </Grid>
-        </DataTemplate>
+				</Grid>
+			</Grid>
+		</DataTemplate>
 
-        <Style TargetType="GridViewHeaderItem">
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-            <Setter Property="FontSize" Value="{ThemeResource GridViewHeaderItemThemeFontSize}" />
-            <Setter Property="Background" Value="{ThemeResource GridViewHeaderItemBackground}" />
-            <Setter Property="Margin" Value="0,0,0,4" />
-            <Setter Property="Padding" Value="12,8,12,0" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-            <Setter Property="MinHeight" Value="{ThemeResource GridViewHeaderItemMinHeight}" />
-            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="GridViewHeaderItem">
-                        <Grid
+		<Style TargetType="GridViewHeaderItem">
+			<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+			<Setter Property="FontSize" Value="{ThemeResource GridViewHeaderItemThemeFontSize}" />
+			<Setter Property="Background" Value="{ThemeResource GridViewHeaderItemBackground}" />
+			<Setter Property="Margin" Value="0,0,0,4" />
+			<Setter Property="Padding" Value="12,8,12,0" />
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+			<Setter Property="VerticalContentAlignment" Value="Stretch" />
+			<Setter Property="MinHeight" Value="{ThemeResource GridViewHeaderItemMinHeight}" />
+			<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="GridViewHeaderItem">
+						<Grid
 							x:Name="HeaderItemRootGrid"
 							Margin="0,0,4,0"
 							HorizontalAlignment="Stretch"
@@ -393,11 +415,11 @@
 							PointerExited="StackPanel_PointerCanceled"
 							PointerPressed="RootPanel_PointerPressed"
 							PointerReleased="StackPanel_PointerCanceled">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <ContentPresenter
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<ContentPresenter
 								x:Name="ContentPresenter"
 								Grid.Column="0"
 								Margin="{TemplateBinding Padding}"
@@ -406,7 +428,7 @@
 								Content="{TemplateBinding Content}"
 								ContentTemplate="{TemplateBinding ContentTemplate}"
 								ContentTransitions="{TemplateBinding ContentTransitions}" />
-                            <Rectangle
+							<Rectangle
 								Grid.Column="1"
 								Height="1"
 								HorizontalAlignment="Stretch"
@@ -414,83 +436,83 @@
 								Stroke="{ThemeResource GridViewHeaderItemDividerStroke}"
 								StrokeThickness="0.5" />
 
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal" />
 
-                                    <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                        <VisualState.Setters>
-                                            <!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="PointerOver" />-->
-                                        </VisualState.Setters>
-                                    </VisualState>
+									<VisualState x:Name="PointerOver">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+										<VisualState.Setters>
+											<!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="PointerOver" />-->
+										</VisualState.Setters>
+									</VisualState>
 
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                        <VisualState.Setters>
-                                            <!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="Pressed" />-->
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </local:BaseLayout.Resources>
+									<VisualState x:Name="Pressed">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+										<VisualState.Setters>
+											<!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="Pressed" />-->
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</local:BaseLayout.Resources>
 
-    <Grid
+	<Grid
 		x:Name="RootGrid"
 		Padding="0,0,0,0"
 		VerticalAlignment="Stretch"
 		ContextFlyout="{x:Bind BaseContextMenuFlyout}">
-        <Grid.KeyboardAccelerators>
-            <KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-            <KeyboardAccelerator Key="{x:Bind MinusKey}" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-            <KeyboardAccelerator Key="Add" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-            <KeyboardAccelerator Key="Subtract" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-        </Grid.KeyboardAccelerators>
+		<Grid.KeyboardAccelerators>
+			<KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
+				<i:Interaction.Behaviors>
+					<icore:EventTriggerBehavior EventName="Invoked">
+						<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
+					</icore:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+			</KeyboardAccelerator>
+			<KeyboardAccelerator Key="{x:Bind MinusKey}" Modifiers="Control">
+				<i:Interaction.Behaviors>
+					<icore:EventTriggerBehavior EventName="Invoked">
+						<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
+					</icore:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+			</KeyboardAccelerator>
+			<KeyboardAccelerator Key="Add" Modifiers="Control">
+				<i:Interaction.Behaviors>
+					<icore:EventTriggerBehavior EventName="Invoked">
+						<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
+					</icore:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+			</KeyboardAccelerator>
+			<KeyboardAccelerator Key="Subtract" Modifiers="Control">
+				<i:Interaction.Behaviors>
+					<icore:EventTriggerBehavior EventName="Invoked">
+						<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
+					</icore:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+			</KeyboardAccelerator>
+		</Grid.KeyboardAccelerators>
 
-        <uc:FolderEmptyIndicator
+		<uc:FolderEmptyIndicator
 			Grid.Row="3"
 			Margin="0,125,0,0"
 			HorizontalAlignment="Center"
@@ -498,20 +520,20 @@
 			Canvas.ZIndex="0"
 			EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
-        <TeachingTip
+		<TeachingTip
 			x:Name="FileNameTeachingTip"
 			CloseButtonContent="{helpers:ResourceString Name=FileNameTeachingTip/CloseButtonContent}"
 			PreferredPlacement="Auto"
 			Subtitle="{helpers:ResourceString Name=FileNameTeachingTip/Subtitle}"
 			Visibility="Collapsed" />
 
-        <SemanticZoom
+		<SemanticZoom
 			x:Name="RootGridZoom"
 			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
-            <SemanticZoom.ZoomedInView>
-                <controls:AdaptiveGridView
+			<SemanticZoom.ZoomedInView>
+				<controls:AdaptiveGridView
 					x:Name="FileList"
 					Padding="8"
 					VerticalContentAlignment="Stretch"
@@ -538,25 +560,25 @@
 					ShowsScrollingPlaceholders="True"
 					StretchContentForSingleRow="False"
 					Tapped="FileList_ItemTapped">
-                    <controls:AdaptiveGridView.GroupStyle>
-                        <GroupStyle>
-                            <GroupStyle.HeaderTemplate>
-                                <DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
-                                    <Grid
+					<controls:AdaptiveGridView.GroupStyle>
+						<GroupStyle>
+							<GroupStyle.HeaderTemplate>
+								<DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
+									<Grid
 										Padding="0,0,0,4"
 										AutomationProperties.Name="{x:Bind Model.Text}"
 										ColumnSpacing="8"
 										RowSpacing="8">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <TextBlock
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto" />
+											<RowDefinition Height="Auto" />
+										</Grid.RowDefinitions>
+										<TextBlock
 											Grid.Row="0"
 											Grid.Column="0"
 											VerticalAlignment="Center"
@@ -564,7 +586,7 @@
 											Style="{StaticResource SubtitleTextBlockStyle}"
 											Text="{x:Bind Model.Text, Mode=OneWay}" />
 
-                                        <TextBlock
+										<TextBlock
 											Grid.Row="0"
 											Grid.Column="1"
 											VerticalAlignment="Center"
@@ -572,7 +594,7 @@
 											Text="{x:Bind Model.CountText, Mode=OneWay}"
 											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
-                                        <TextBlock
+										<TextBlock
 											Grid.Row="0"
 											Grid.Column="2"
 											VerticalAlignment="Center"
@@ -581,67 +603,67 @@
 											Text="{x:Bind Model.Subtext, Mode=OneWay}"
 											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-                                        <TextBlock
+										<TextBlock
 											Grid.Row="1"
 											Grid.ColumnSpan="3"
 											Style="{StaticResource BodyTextBlockStyle}"
 											Text="{x:Bind Model.CountText, Mode=OneWay}"
 											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    </Grid>
-                                </DataTemplate>
-                            </GroupStyle.HeaderTemplate>
-                        </GroupStyle>
-                    </controls:AdaptiveGridView.GroupStyle>
+									</Grid>
+								</DataTemplate>
+							</GroupStyle.HeaderTemplate>
+						</GroupStyle>
+					</controls:AdaptiveGridView.GroupStyle>
 
-                    <controls:AdaptiveGridView.Footer>
-                        <StackPanel
+					<controls:AdaptiveGridView.Footer>
+						<StackPanel
 							x:Name="SearchUnindexedItemsPanel"
 							HorizontalAlignment="Stretch"
 							x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
 							Orientation="Vertical">
-                            <TextBlock HorizontalTextAlignment="Center" Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
-                            <HyperlinkButton
+							<TextBlock HorizontalTextAlignment="Center" Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
+							<HyperlinkButton
 								x:Name="SearchUnindexedItemsButton"
 								HorizontalAlignment="Center"
 								Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
 								Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
-                        </StackPanel>
-                    </controls:AdaptiveGridView.Footer>
-                    <controls:AdaptiveGridView.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="HorizontalAlignment" Value="Stretch" />
-                        </Style>
-                    </controls:AdaptiveGridView.ItemContainerStyle>
-                </controls:AdaptiveGridView>
-            </SemanticZoom.ZoomedInView>
+						</StackPanel>
+					</controls:AdaptiveGridView.Footer>
+					<controls:AdaptiveGridView.ItemContainerStyle>
+						<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+							<Setter Property="HorizontalAlignment" Value="Stretch" />
+						</Style>
+					</controls:AdaptiveGridView.ItemContainerStyle>
+				</controls:AdaptiveGridView>
+			</SemanticZoom.ZoomedInView>
 
-            <SemanticZoom.ZoomedOutView>
-                <ListView
+			<SemanticZoom.ZoomedOutView>
+				<ListView
 					Padding="0,12,0,0"
 					HorizontalAlignment="Stretch"
 					VerticalContentAlignment="Center"
 					ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
 					SelectionMode="None">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="ICollectionViewGroup">
-                            <Grid
+					<ListView.ItemTemplate>
+						<DataTemplate x:DataType="ICollectionViewGroup">
+							<Grid
 								Padding="8"
 								VerticalAlignment="Center"
 								AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
 								ColumnSpacing="12"
 								RowSpacing="4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Image
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="*" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+								<Image
 									Grid.Row="0"
 									Grid.RowSpan="2"
 									Grid.Column="0"
@@ -650,7 +672,7 @@
 									VerticalAlignment="Center"
 									Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
 									Stretch="Uniform" />
-                                <FontIcon
+								<FontIcon
 									Grid.Row="0"
 									Grid.RowSpan="2"
 									Grid.Column="0"
@@ -659,7 +681,7 @@
 									FontSize="24"
 									Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
 
-                                <TextBlock
+								<TextBlock
 									Grid.Row="0"
 									Grid.Column="1"
 									VerticalAlignment="Center"
@@ -667,7 +689,7 @@
 									Style="{StaticResource SubtitleTextBlockStyle}"
 									Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
 
-                                <TextBlock
+								<TextBlock
 									Grid.Row="0"
 									Grid.Column="2"
 									VerticalAlignment="Center"
@@ -676,7 +698,7 @@
 									Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
 									Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
-                                <TextBlock
+								<TextBlock
 									Grid.Row="0"
 									Grid.Column="3"
 									VerticalAlignment="Center"
@@ -686,7 +708,7 @@
 									Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
 									Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-                                <TextBlock
+								<TextBlock
 									Grid.Row="1"
 									Grid.Column="1"
 									Grid.ColumnSpan="3"
@@ -694,15 +716,15 @@
 									Style="{StaticResource BodyTextBlockStyle}"
 									Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
 									Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </SemanticZoom.ZoomedOutView>
-        </SemanticZoom>
+							</Grid>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</SemanticZoom.ZoomedOutView>
+		</SemanticZoom>
 
-        <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Rectangle
+		<Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<Rectangle
 				Name="SelectionRectangle"
 				Canvas.Left="0"
 				Canvas.Top="0"
@@ -712,6 +734,6 @@
 				Opacity=".5"
 				Stroke="{ThemeResource SystemAccentColorLight1}"
 				StrokeThickness="1" />
-        </Canvas>
-    </Grid>
+		</Canvas>
+	</Grid>
 </local:BaseLayout>
