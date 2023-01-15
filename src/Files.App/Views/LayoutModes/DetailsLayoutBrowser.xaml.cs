@@ -65,11 +65,11 @@ namespace Files.App.Views.LayoutModes
 
 		public ScrollViewer? ContentScroller { get; private set; }
 
-		public IPreferencesSettingsService Preferences { get; private set; }
+		public IFoldersSettingsService Preferences { get; private set; }
 
 		public DetailsLayoutBrowser() : base()
 		{
-			Preferences = Ioc.Default.GetRequiredService<IUserSettingsService>().PreferencesSettingsService;
+			Preferences = Ioc.Default.GetRequiredService<IUserSettingsService>().FoldersSettingsService;
 			InitializeComponent();
 
 			this.DataContext = this;

@@ -198,7 +198,7 @@
 					VerticalAlignment="Top"
 					Checked="ItemSelected_Checked"
 					Unchecked="ItemSelected_Unchecked"
-					Visibility="{Binding ElementName=PageRoot, Path=Preferences.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+					Visibility="{Binding ElementName=PageRoot, Path=FolderSettings.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
 				<Popup
 					x:Name="EditPopup"
 					Grid.Row="1"
@@ -246,7 +246,7 @@
 					VerticalAlignment="Top"
 					Checked="ItemSelected_Checked"
 					Unchecked="ItemSelected_Unchecked"
-					Visibility="{Binding ElementName=PageRoot, Path=Preferences.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+					Visibility="{Binding ElementName=PageRoot, Path=FolderSettings.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
 				<StackPanel
 					Width="20"
 					Margin="8,4,0,4"

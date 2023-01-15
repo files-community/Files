@@ -219,16 +219,6 @@
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsCheckboxesToSelectItems}" HorizontalAlignment="Stretch">
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xE762;" />
-                </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsCheckboxesToSelectItems}"
-					IsOn="{x:Bind ViewModel.ShowSelectionCheckboxes, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-            </local:SettingsBlockControl>
-
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=Widgets}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xF246;" />

@@ -281,19 +281,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool ShowSelectionCheckboxes
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowSelectionCheckboxes;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowSelectionCheckboxes)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowSelectionCheckboxes = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public bool AlwaysOpenDualPaneInNewTab
 		{
 			get => UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;

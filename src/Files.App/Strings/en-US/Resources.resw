@@ -1425,8 +1425,8 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
-  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
-    <value>Multiselect</value>
+  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
+    <value>Checkbox multiselection</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
