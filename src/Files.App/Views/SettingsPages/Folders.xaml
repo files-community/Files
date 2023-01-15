@@ -170,18 +170,7 @@
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
-
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsCheckboxesToSelectItems}" HorizontalAlignment="Stretch">
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xE762;" />
-                </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsCheckboxesToSelectItems}"
-					IsOn="{x:Bind ViewModel.ShowSelectionCheckboxes, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-            </local:SettingsBlockControl>
-
-            <!--  Layout mode  -->
+			<!--  Layout mode  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=LayoutMode}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE152;" />
@@ -265,6 +254,17 @@
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}"
 					IsOn="{x:Bind ViewModel.ShowThumbnails, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+
+			<!--  Show checkboxes next to file names  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsCheckboxesToSelectItems}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE762;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsCheckboxesToSelectItems}"
+					IsOn="{x:Bind ViewModel.ShowSelectionCheckboxes, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
