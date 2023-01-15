@@ -3,17 +3,19 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
-using Files.App.UserControls.Selection;
+using Files.App.UserControls;
 using Files.Shared.Enums;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.App
 {
@@ -133,46 +135,11 @@ namespace Files.App
 				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
 		}
 
+		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);
+
 		protected virtual void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
 			ListViewBase.Focus(FocusState.Programmatic);
-		}
-
-		protected virtual async void CommitRename(TextBox textBox)
-		{
-			EndRename(textBox);
-			string newItemName = textBox.Text.Trim().TrimEnd('.');
-			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
-		}
-
-		protected abstract void EndRename(TextBox textBox);
-
-		protected virtual void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
-		{
-			// This check allows the user to use the text box context menu without ending the rename
-			if (!(FocusManager.GetFocusedElement(XamlRoot) is AppBarButton or Popup))
-			{
-				TextBox textBox = (TextBox)e.OriginalSource;
-				CommitRename(textBox);
-			}
-		}
-		protected void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
-		{
-			if (e.Key == VirtualKey.Escape)
-			{
-				TextBox textBox = (TextBox)sender;
-				textBox.LostFocus -= RenameTextBox_LostFocus;
-				textBox.Text = OldItemName;
-				EndRename(textBox);
-				e.Handled = true;
-			}
-			else if (e.Key == VirtualKey.Enter)
-			{
-				TextBox textBox = (TextBox)sender;
-				textBox.LostFocus -= RenameTextBox_LostFocus;
-				CommitRename(textBox);
-				e.Handled = true;
-			}
 		}
 
 		protected virtual void StartRenameItem(string itemNameTextBox)
@@ -205,6 +172,65 @@ namespace Files.App
 				selectedTextLength -= extensionLength;
 			textBox.Select(0, selectedTextLength);
 			IsRenamingItem = true;
+		}
+
+		protected abstract void EndRename(TextBox textBox);
+
+		protected virtual async void CommitRename(TextBox textBox)
+		{
+			EndRename(textBox);
+			string newItemName = textBox.Text.Trim().TrimEnd('.');
+			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
+		}
+
+		protected virtual void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			// This check allows the user to use the text box context menu without ending the rename
+			if (!(FocusManager.GetFocusedElement(XamlRoot) is AppBarButton or Popup))
+			{
+				TextBox textBox = (TextBox)e.OriginalSource;
+				CommitRename(textBox);
+			}
+		}
+
+		protected void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			if (e.Key == VirtualKey.Escape)
+			{
+				TextBox textBox = (TextBox)sender;
+				textBox.LostFocus -= RenameTextBox_LostFocus;
+				textBox.Text = OldItemName;
+				EndRename(textBox);
+				e.Handled = true;
+			}
+			else if (e.Key == VirtualKey.Enter)
+			{
+				TextBox textBox = (TextBox)sender;
+				textBox.LostFocus -= RenameTextBox_LostFocus;
+				CommitRename(textBox);
+				e.Handled = true;
+			}
+		}
+
+		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
+		{
+			if (ParentShellPageInstance is null)
+				return;
+
+			if (ParentShellPageInstance.CurrentPageType != this.GetType() || IsRenamingItem)
+				return;
+
+			// Don't block the various uses of enter key (key 13)
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
+			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
+			if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
+				|| (focusedElement is Button && !isHeaderFocused) // Allow jumpstring when header is focused
+				|| focusedElement is TextBox
+				|| focusedElement is PasswordBox
+				|| DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
+				return;
+
+			base.Page_CharacterReceived(sender, args);
 		}
 
 		public override void Dispose()

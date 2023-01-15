@@ -11,11 +11,9 @@ using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Linq;
 using UWPToWinAppSDKUpgradeHelpers;
@@ -213,6 +211,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
+
 		}
 
 		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -277,7 +276,7 @@ namespace Files.App.Views.LayoutModes
 			listViewItem?.Focus(FocusState.Programmatic);
 		}
 
-		private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -345,29 +344,6 @@ namespace Files.App.Views.LayoutModes
 					}
 				}
 			}
-		}
-
-		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
-		{
-			if (ParentShellPageInstance is null)
-				return;
-
-			if (ParentShellPageInstance.CurrentPageType != typeof(DetailsLayoutBrowser) || IsRenamingItem)
-				return;
-
-			// Don't block the various uses of enter key (key 13)
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
-			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
-			if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
-				|| (focusedElement is Button && !isHeaderFocused) // Allow jumpstring when header is focused
-				|| focusedElement is TextBox
-				|| focusedElement is PasswordBox
-				|| DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
-			{
-				return;
-			}
-
-			base.Page_CharacterReceived(sender, args);
 		}
 
 		protected override bool CanGetItemFromElement(object element)
