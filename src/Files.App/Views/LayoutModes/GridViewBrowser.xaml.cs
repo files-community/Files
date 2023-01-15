@@ -34,8 +34,6 @@ namespace Files.App.Views.LayoutModes
 
 		protected override ItemsControl ItemsControl => FileList;
 
-		public IFoldersSettingsService FoldersSettings { get; private set; }
-
 		/// <summary>
 		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
 		/// </summary>
@@ -44,9 +42,6 @@ namespace Files.App.Views.LayoutModes
 		public GridViewBrowser()
 			: base()
 		{
-			FoldersSettings = Ioc.Default.GetRequiredService<IUserSettingsService>().FoldersSettingsService;
-
-
 			InitializeComponent();
 			this.DataContext = this;
 
@@ -534,7 +529,7 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
-			if (ctrlPressed || shiftPressed || FoldersSettings.ShowSelectionCheckboxes)
+			if (ctrlPressed || shiftPressed || AppModel.ShowSelectionCheckboxes)
 				return;
 
 			// Check if the setting to open items with a single click is turned on

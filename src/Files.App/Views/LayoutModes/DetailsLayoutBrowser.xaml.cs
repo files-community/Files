@@ -65,11 +65,8 @@ namespace Files.App.Views.LayoutModes
 
 		public ScrollViewer? ContentScroller { get; private set; }
 
-		public IFoldersSettingsService Preferences { get; private set; }
-
 		public DetailsLayoutBrowser() : base()
 		{
-			Preferences = Ioc.Default.GetRequiredService<IUserSettingsService>().FoldersSettingsService;
 			InitializeComponent();
 
 			this.DataContext = this;
@@ -568,7 +565,7 @@ namespace Files.App.Views.LayoutModes
 			if (item is null)
 				return;
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
-			if (ctrlPressed || shiftPressed || Preferences.ShowSelectionCheckboxes)
+			if (ctrlPressed || shiftPressed || AppModel.ShowSelectionCheckboxes)
 			{
 				e.Handled = true;
 				return;

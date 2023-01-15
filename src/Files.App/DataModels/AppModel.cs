@@ -1,6 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.ServicesImplementation.Settings;
 using Files.App.ViewModels;
 using Files.App.Views;
+using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
@@ -11,12 +14,30 @@ namespace Files.App.DataModels
 {
 	public class AppModel : ObservableObject
 	{
+		private IFoldersSettingsService FoldersSettings;
+
+		public bool ShowSelectionCheckboxes
+		{
+			get => FoldersSettings.ShowSelectionCheckboxes;
+			set => FoldersSettings.ShowSelectionCheckboxes = value;
+		}
+
 		public AppModel()
 		{
+			FoldersSettings = Ioc.Default.GetRequiredService<IUserSettingsService>().FoldersSettingsService;
+			FoldersSettings.PropertyChanged += FoldersSettings_PropertyChanged; ;
 			Clipboard.ContentChanged += Clipboard_ContentChanged;
 
 			//todo: this doesn't belong here
 			DetectFontName();
+		}
+
+		private void FoldersSettings_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(FoldersSettingsService.ShowSelectionCheckboxes))
+			{
+				OnPropertyChanged(nameof(ShowSelectionCheckboxes));
+			}
 		}
 
 		//todo: refactor this method
