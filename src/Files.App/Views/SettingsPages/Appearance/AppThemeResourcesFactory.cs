@@ -1,5 +1,4 @@
-﻿using Files.App.Views.SettingsPages.Appearance;
-using Microsoft.UI.Xaml.Media;
+﻿using Microsoft.UI.Xaml.Media;
 using System.Collections.ObjectModel;
 using Windows.UI;
 

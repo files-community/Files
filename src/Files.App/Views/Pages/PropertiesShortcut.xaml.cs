@@ -2,7 +2,6 @@ using CommunityToolkit.WinUI;
 using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Files.App.Helpers;
-using System;
 using System.Threading.Tasks;
 
 namespace Files.App.Views

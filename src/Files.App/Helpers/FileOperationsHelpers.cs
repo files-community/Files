@@ -1,4 +1,3 @@
-using Files.App.DataModels;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Permissions;
 using Files.App.Shell;
@@ -17,7 +16,6 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Tulpep.ActiveDirectoryObjectPicker;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
