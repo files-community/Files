@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.App.Helpers;
@@ -12,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
 using Windows.UI;
 
 namespace Files.App.ViewModels.SettingsViewModels

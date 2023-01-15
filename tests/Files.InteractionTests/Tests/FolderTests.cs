@@ -1,8 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using System;
 using System.Threading;
-using static System.Collections.Specialized.BitVector32;
 
 namespace Files.InteractionTests.Tests
 {
