@@ -5,14 +5,12 @@ using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
-using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.Storage.Pickers;
 using Windows.System;
 
 namespace Files.App.ViewModels.SettingsViewModels

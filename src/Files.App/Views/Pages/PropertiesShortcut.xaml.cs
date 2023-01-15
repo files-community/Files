@@ -1,4 +1,3 @@
-using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using System.Threading.Tasks;
 

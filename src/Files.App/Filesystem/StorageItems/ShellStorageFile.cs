@@ -1,6 +1,5 @@
 using Files.App.Shell;
 using Files.Shared;
-using Files.Shared.Extensions;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
