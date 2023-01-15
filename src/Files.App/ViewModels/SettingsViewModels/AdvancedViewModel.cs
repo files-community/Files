@@ -5,7 +5,6 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using Files.App.ServicesImplementation.Settings;
 using Files.App.Shell;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
