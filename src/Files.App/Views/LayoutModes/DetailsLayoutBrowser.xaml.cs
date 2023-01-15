@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Converters;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -64,7 +65,9 @@ namespace Files.App.Views.LayoutModes
 
 		public DetailsLayoutBrowser() : base()
 		{
+
 			InitializeComponent();
+
 			this.DataContext = this;
 
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
@@ -310,6 +313,23 @@ namespace Files.App.Views.LayoutModes
 			{
 				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
 			}
+
+
+			// If the selection is not all items, uncheck the select all checkbox and vice versa
+			SelectAllItemsCheckbox.IsChecked = SelectedItems.Count == FileList.Items.Count;
+
+			if (e != null)
+			{
+				foreach (var item in e.AddedItems)
+				{
+					SetCheckboxSelectionState(item);
+				}
+
+				foreach (var item in e.RemovedItems)
+				{
+					SetCheckboxSelectionState(item);
+				}
+			}
 		}
 
 		override public void StartRenameItem()
@@ -545,7 +565,10 @@ namespace Files.App.Views.LayoutModes
 				return;
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
 			if (ctrlPressed || shiftPressed || AppModel.MultiselectEnabled)
+			{
+				e.Handled = true;
 				return;
+			}
 
 			// Check if the setting to open items with a single click is turned on
 			if (item is not null
@@ -579,7 +602,7 @@ namespace Files.App.Views.LayoutModes
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
 				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenPath(item.ItemPath, ParentShellPageInstance);
 			}
 			else
 			{
@@ -608,6 +631,8 @@ namespace Files.App.Views.LayoutModes
 				item = VisualTreeHelper.GetParent(item);
 			if (item is ListViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
+
+			SelectAllItemsCheckbox.IsChecked = FileList.SelectedItems.Count == FileList.Items.Count;
 		}
 
 		private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -632,16 +657,16 @@ namespace Files.App.Views.LayoutModes
 
 		private void UpdateColumnLayout()
 		{
-			ColumnsViewModel.IconColumn.UserLength = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.NameColumn.UserLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.TagColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column10.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.IconColumn.UserLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.NameColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.TagColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column10.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column11.ActualWidth, GridUnitType.Pixel);
 		}
 
 		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)
@@ -696,14 +721,15 @@ namespace Files.App.Views.LayoutModes
 
 			var maxItemLength = columnToResize switch
 			{
-				1 => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
-				2 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.FirstOrDefault()?.TagName?.Length ?? 0).Max(), // file tag column
-				3 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
-				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
-				5 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
-				6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
-				7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
-				8 => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
+				1 => 40, // Check all items columns
+				2 => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
+				3 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.FirstOrDefault()?.TagName?.Length ?? 0).Max(), // file tag column
+				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
+				5 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
+				6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
+				7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
+				8 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
+				9 => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
 				_ => 20 // cloud status column
 			};
 
@@ -712,19 +738,19 @@ namespace Files.App.Views.LayoutModes
 			if (maxItemLength == 0)
 				return;
 
-			var columnSizeToFit = new[] { 9 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumnEstimate(columnToResize, 5, maxItemLength);
-			if (columnSizeToFit > 0)
+			var columnSizeToFit = new[] { 10 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumnEstimate(columnToResize, 5, maxItemLength);
+			if (columnSizeToFit > 1)
 			{
 				var column = columnToResize switch
 				{
-					1 => ColumnsViewModel.NameColumn,
-					2 => ColumnsViewModel.TagColumn,
-					3 => ColumnsViewModel.OriginalPathColumn,
-					4 => ColumnsViewModel.DateDeletedColumn,
-					5 => ColumnsViewModel.DateModifiedColumn,
-					6 => ColumnsViewModel.DateCreatedColumn,
-					7 => ColumnsViewModel.ItemTypeColumn,
-					8 => ColumnsViewModel.SizeColumn,
+					2 => ColumnsViewModel.NameColumn,
+					3 => ColumnsViewModel.TagColumn,
+					4 => ColumnsViewModel.OriginalPathColumn,
+					5 => ColumnsViewModel.DateDeletedColumn,
+					6 => ColumnsViewModel.DateModifiedColumn,
+					7 => ColumnsViewModel.DateCreatedColumn,
+					8 => ColumnsViewModel.ItemTypeColumn,
+					9 => ColumnsViewModel.SizeColumn,
 					_ => ColumnsViewModel.StatusColumn
 				};
 
@@ -790,6 +816,55 @@ namespace Files.App.Views.LayoutModes
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
 			FolderSettings.SetDefaultLayoutPreferences(ColumnsViewModel);
+		}
+
+		private void SelectAllCheckbox_Checked(object sender, RoutedEventArgs e)
+		{
+			FileList.SelectAll();
+		}
+
+		private void SelectAllCheckbox_Unchecked(object sender, RoutedEventArgs e)
+		{
+			// We should only unselect all items if the user clicked the checkbox
+			// We determine this by checking if all items were selected
+			if (SelectedItems.Count == FileList.Items.Count)
+			{
+				FileList.SelectedItem = null;
+			}
+		}
+
+		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
+		{
+			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
+			{
+				FileList.SelectedItems.Add(item);
+			}
+		}
+
+		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
+		{
+			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
+			{
+				FileList.SelectedItems.Remove(item);
+			}
+		}
+
+		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+		{
+			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
+		}
+
+		private void SetCheckboxSelectionState(object item, ListViewItem? lviContainer = null)
+		{
+			var container = lviContainer ?? FileList.ContainerFromItem(item) as ListViewItem;
+			if (container is not null)
+			{
+				var checkbox = container.FindDescendant("SelectionCheckbox") as CheckBox;
+				if (checkbox is not null)
+				{
+					checkbox.IsChecked = FileList.SelectedItems.Contains(item);
+				}
+			}
 		}
 	}
 }
