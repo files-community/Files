@@ -1,4 +1,3 @@
-using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Shell;
