@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.DataModels.NavigationControlItems;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
