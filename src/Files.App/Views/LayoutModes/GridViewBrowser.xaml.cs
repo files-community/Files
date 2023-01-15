@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using Windows.Storage;
 using Windows.System;
@@ -34,6 +35,14 @@ namespace Files.App.Views.LayoutModes
 		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
 		/// </summary>
 		public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
+
+		public Visibility SelectionCheckboxVisible
+		{
+			get { return (Visibility)GetValue(SelectionCheckboxVisibleProperty); }
+			set { SetValue(SelectionCheckboxVisibleProperty, value); }
+		}
+		public static readonly DependencyProperty SelectionCheckboxVisibleProperty =
+			DependencyProperty.Register(nameof(SelectionCheckboxVisible), typeof(Visibility), typeof(GridViewBrowser), new PropertyMetadata(Visibility.Collapsed));
 
 		public GridViewBrowser()
 			: base()
@@ -244,6 +253,19 @@ namespace Files.App.Views.LayoutModes
 			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
 			{
 				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
+			}
+
+			if (e != null)
+			{
+				foreach (var item in e.AddedItems)
+				{
+					SetCheckboxSelectionState(item);
+				}
+
+				foreach (var item in e.RemovedItems)
+				{
+					SetCheckboxSelectionState(item);
+				}
 			}
 		}
 
@@ -562,6 +584,40 @@ namespace Files.App.Views.LayoutModes
 				ParentShellPageInstance.Up_Click();
 			}
 			ResetRenameDoubleClick();
+		}
+
+		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
+		{
+			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
+			{
+				FileList.SelectedItems.Add(item);
+			}
+		}
+
+		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
+		{
+			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
+			{
+				FileList.SelectedItems.Remove(item);
+			}
+		}
+
+		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+		{
+			SetCheckboxSelectionState(args.Item, args.ItemContainer as GridViewItem);
+		}
+
+		private void SetCheckboxSelectionState(object item, GridViewItem? lviContainer = null)
+		{
+			var container = lviContainer ?? FileList.ContainerFromItem(item) as GridViewItem;
+			if (container is not null)
+			{
+				var checkbox = container.FindDescendant("SelectionCheckbox") as CheckBox;
+				if (checkbox is not null)
+				{
+					checkbox.IsChecked = FileList.SelectedItems.Contains(item);
+				}
+			}
 		}
 
 		#region IDisposable
