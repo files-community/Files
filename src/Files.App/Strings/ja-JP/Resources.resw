@@ -1514,7 +1514,7 @@
     <value>ファイル数</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>削除に失敗</value>
+    <value>削除に失敗しました</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>不明なエラーが発生しました。</value>
@@ -1856,10 +1856,10 @@
     <value>{0} ファイルを {1} から {2} へ移動しました</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ファイルを {1} から {2} へ移動に失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動できませんでした</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>{0} ファイルを {1} から {2} へ移動に失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動できませんでした</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
     <value>{0} ファイルの {1} へのコピーがキャンセルされました</value>
@@ -1904,10 +1904,10 @@
     <value>{0} ファイルを {1} から削除しました</value>
   </data>
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ファイルを {1} から削除に失敗しました</value>
+    <value>{0} ファイルを {1} から削除できませんでした</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>{0} ファイルを {1} から削除に失敗しました</value>
+    <value>{0} ファイルを {1} から削除できませんでした</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>ごみ箱</value>
@@ -1919,7 +1919,7 @@
     <value>ファイルをコピーしています</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>ごみ箱から元に戻す操作に失敗しました</value>
+    <value>ごみ箱から元に戻せませんでした</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>ごみ箱から元に戻す操作がキャンセルされました</value>
@@ -2663,10 +2663,10 @@
     <value>コピーに失敗しました</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>{0} ファイルの {1} から {2} へコピーに失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へコピーできませんでした</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ファイルの {1} から {2} へコピーに失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へコピーできませんでした</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>移動に失敗しました</value>
@@ -2837,7 +2837,7 @@
     <value>ゴミ箱を正常に空にしました</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>ゴミ箱を空にする操作に失敗しました</value>
+    <value>ゴミ箱を空にできませんでした</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>書庫のパスワード</value>
