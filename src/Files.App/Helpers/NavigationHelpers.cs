@@ -22,6 +22,8 @@ namespace Files.App.Helpers
 {
 	public static class NavigationHelpers
 	{
+		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		public static Task OpenPathInNewTab(string path)
 			=> MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 
@@ -42,12 +44,10 @@ namespace Files.App.Helpers
 			if(associatedInstance is null || listedItem is null)
 				return;
 
-			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			if (!userSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
 				return;
 
-			if (listedItem is not null)
-				associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+			associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 		}
 
 		public static Task LaunchNewWindowAsync()
