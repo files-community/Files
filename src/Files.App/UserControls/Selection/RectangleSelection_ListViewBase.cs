@@ -102,7 +102,7 @@ namespace Files.App.UserControls.Selection
 					if (prevSelectedItemsDrag is null || !prevSelectedItemsDrag.SequenceEqual(currentSelectedItemsDrag))
 					{
 						// Trigger SelectionChanged event if the selection has changed
-						selectionChanged(sender, null);
+						selectionChanged(sender, new SelectionChangedEventArgs(currentSelectedItemsDrag, new List<object>()));
 						prevSelectedItemsDrag = currentSelectedItemsDrag;
 					}
 				}
