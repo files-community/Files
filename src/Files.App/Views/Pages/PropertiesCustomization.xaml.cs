@@ -1,4 +1,3 @@
-using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
