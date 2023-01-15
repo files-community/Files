@@ -187,7 +187,7 @@
                 </Grid>
                 <CheckBox x:Name="SelectionCheckbox" Checked="ItemSelected_Checked" Unchecked="ItemSelected_Unchecked"
                     MinWidth="0" MinHeight="0" Margin="6" Padding="0" Width="32" Grid.RowSpan="2" Grid.ColumnSpan="2"
-                    Visibility="{Binding ElementName=PageRoot, Path=AppModel.MultiselectEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
+                    Visibility="{Binding ElementName=PageRoot, Path=Preferences.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
                     HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Popup
 					x:Name="EditPopup"
@@ -226,7 +226,7 @@
                 </Grid.ColumnDefinitions>
                 <CheckBox x:Name="SelectionCheckbox" Checked="ItemSelected_Checked" Unchecked="ItemSelected_Unchecked"
                     MinWidth="0" MinHeight="0" Margin="6" Padding="0" Width="32" Grid.ColumnSpan="2"
-                    Visibility="{Binding ElementName=PageRoot, Path=AppModel.MultiselectEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
+                    Visibility="{Binding ElementName=PageRoot, Path=Preferences.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
                     HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <StackPanel Margin="8,4,0,4"
 					Width="20"

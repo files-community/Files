@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Converters;
@@ -9,6 +10,7 @@ using Files.App.Interacts;
 using Files.App.UserControls;
 using Files.App.UserControls.Selection;
 using Files.App.ViewModels;
+using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -63,9 +65,11 @@ namespace Files.App.Views.LayoutModes
 
 		public ScrollViewer? ContentScroller { get; private set; }
 
+		public IPreferencesSettingsService Preferences { get; private set; }
+
 		public DetailsLayoutBrowser() : base()
 		{
-
+			Preferences = Ioc.Default.GetRequiredService<IUserSettingsService>().PreferencesSettingsService;
 			InitializeComponent();
 
 			this.DataContext = this;
@@ -564,7 +568,7 @@ namespace Files.App.Views.LayoutModes
 			if (item is null)
 				return;
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
-			if (ctrlPressed || shiftPressed || AppModel.MultiselectEnabled)
+			if (ctrlPressed || shiftPressed || Preferences.ShowSelectionCheckboxes)
 			{
 				e.Handled = true;
 				return;

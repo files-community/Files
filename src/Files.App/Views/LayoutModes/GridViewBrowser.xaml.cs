@@ -1,10 +1,13 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.UI;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
+using Files.App.SettingsPages;
 using Files.App.UserControls.Selection;
+using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -31,22 +34,19 @@ namespace Files.App.Views.LayoutModes
 
 		protected override ItemsControl ItemsControl => FileList;
 
+		public IPreferencesSettingsService Preferences { get; private set; }
+
 		/// <summary>
 		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
 		/// </summary>
 		public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
 
-		public Visibility SelectionCheckboxVisible
-		{
-			get { return (Visibility)GetValue(SelectionCheckboxVisibleProperty); }
-			set { SetValue(SelectionCheckboxVisibleProperty, value); }
-		}
-		public static readonly DependencyProperty SelectionCheckboxVisibleProperty =
-			DependencyProperty.Register(nameof(SelectionCheckboxVisible), typeof(Visibility), typeof(GridViewBrowser), new PropertyMetadata(Visibility.Collapsed));
-
 		public GridViewBrowser()
 			: base()
 		{
+			Preferences = Ioc.Default.GetRequiredService<IUserSettingsService>().PreferencesSettingsService;
+
+
 			InitializeComponent();
 			this.DataContext = this;
 
@@ -534,7 +534,7 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
-			if (ctrlPressed || shiftPressed || AppModel.MultiselectEnabled)
+			if (ctrlPressed || shiftPressed || Preferences.ShowSelectionCheckboxes)
 				return;
 
 			// Check if the setting to open items with a single click is turned on

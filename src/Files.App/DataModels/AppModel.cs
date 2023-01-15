@@ -70,13 +70,6 @@ namespace Files.App.DataModels
 			set => SetProperty(ref isPasteEnabled, value);
 		}
 
-		private bool multiselectEnabled;
-		public bool MultiselectEnabled
-		{
-			get => multiselectEnabled;
-			set => SetProperty(ref multiselectEnabled, value);
-		}
-
 		private bool isQuickLookAvailable;
 		public bool IsQuickLookAvailable
 		{

@@ -135,5 +135,10 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating if the tags section should be visible.
 		/// </summary>
 		bool ShowFileTagsSection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if CheckBoxes should be displayed to allow selecting items.
+		/// </summary>
+		bool ShowSelectionCheckboxes { get; set; }
 	}
 }

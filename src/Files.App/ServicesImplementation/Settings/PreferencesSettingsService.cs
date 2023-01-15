@@ -171,6 +171,12 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		public bool ShowSelectionCheckboxes
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -196,6 +202,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowNetworkDrivesSection):
 				case nameof(ShowWslSection):
 				case nameof(ShowFileTagsSection):
+				case nameof(ShowSelectionCheckboxes):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}
