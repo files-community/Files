@@ -92,10 +92,10 @@ namespace Files.App.Helpers
 				foldersCount = filesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
 				miscFilesCount = allItemsCount - (mediaCount + imagesCount + foldersCount);
 
-				mediaPercentage = (float)((float)mediaCount / (float)allItemsCount) * 100.0f;
-				imagesPercentage = (float)((float)imagesCount / (float)allItemsCount) * 100.0f;
-				foldersPercentage = (float)((float)foldersCount / (float)allItemsCount) * 100.0f;
-				miscFilesPercentage = (float)((float)miscFilesCount / (float)allItemsCount) * 100.0f;
+				mediaPercentage = (float)(mediaCount / (float)allItemsCount) * 100.0f;
+				imagesPercentage = (float)(imagesCount / (float)allItemsCount) * 100.0f;
+				foldersPercentage = (float)(foldersCount / (float)allItemsCount) * 100.0f;
+				miscFilesPercentage = (float)(miscFilesCount / (float)allItemsCount) * 100.0f;
 
 				// Decide layout mode
 
