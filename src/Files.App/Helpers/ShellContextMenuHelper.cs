@@ -173,15 +173,19 @@ namespace Files.App.Helpers
 					case "install" when isFont:
 						{
 							var userFontDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
-							var destName = Path.Combine(userFontDir, Path.GetFileName(contextMenu.ItemsPath[0]));
-							Win32API.RunPowershellCommand($"-command \"Copy-Item '{contextMenu.ItemsPath[0]}' '{userFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(contextMenu.ItemsPath[0])}' -Path 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{destName}'\"", false);
+							foreach (string path in contextMenu.ItemsPath)
+							{
+								var destName = Path.Combine(userFontDir, Path.GetFileName(path));
+								Win32API.RunPowershellCommand($"-command \"Copy-Item '{path}' '{userFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(path)}' -Path 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{destName}'\"", false);
+							}
 						}
 						break;
 
 					case "installAllUsers" when isFont:
 						{
 							var winFontDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts");
-							Win32API.RunPowershellCommand($"-command \"Copy-Item '{contextMenu.ItemsPath[0]}' '{winFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(contextMenu.ItemsPath[0])}' -Path 'HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{Path.GetFileName(contextMenu.ItemsPath[0])}'\"", true);
+							foreach (string path in contextMenu.ItemsPath)
+								Win32API.RunPowershellCommand($"-command \"Copy-Item '{path}' '{winFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(path)}' -Path 'HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{Path.GetFileName(path)}'\"", true);
 						}
 						break;
 
