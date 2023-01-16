@@ -563,7 +563,7 @@ namespace Files.App.Filesystem.StorageItems
 					{
 						return null;
 					}
-					return (Stream)new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
+					return new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
 				}
 			});
 		}
@@ -631,7 +631,7 @@ namespace Files.App.Filesystem.StorageItems
 
 			public override DateTimeOffset ItemDate => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
 
-			public override ulong Size => (ulong)entry.Size;
+			public override ulong Size => entry.Size;
 		}
 	}
 }
