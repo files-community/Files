@@ -12,10 +12,9 @@
 	d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	d:Height="550"
 	d:Width="850"
-	Background="{ThemeResource RootBackgroundBrush}"
+	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyDown="Page_KeyDown"
 	Loaded="Properties_Loaded"
-	Loading="Page_Loading"
 	Unloaded="Properties_Unloaded"
 	mc:Ignorable="d">
 
@@ -49,7 +48,7 @@
 			Text="{x:Bind DialogTitle}" />
 
 		<ScrollViewer Grid.Row="1">
-			<StackPanel Padding="12,0,12,12" Spacing="8">
+			<StackPanel Padding="12,0,12,12" Spacing="4">
 				<Grid
 					Padding="8"
 					Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"

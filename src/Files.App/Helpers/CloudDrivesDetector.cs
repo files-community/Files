@@ -1,3 +1,4 @@
+using Files.App.Shell;
 using Files.Shared.Cloud;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
@@ -13,6 +14,8 @@ namespace Files.App.Helpers
 	[SupportedOSPlatform("Windows10.0.10240")]
 	public class CloudDrivesDetector
 	{
+		private readonly static string programFilesFolder = Environment.GetEnvironmentVariable("ProgramFiles");
+
 		public static async Task<IEnumerable<ICloudProvider>> DetectCloudDrives()
 		{
 			var tasks = new Task<IEnumerable<ICloudProvider>>[]
@@ -21,6 +24,9 @@ namespace Files.App.Helpers
 				SafetyExtensions.IgnoreExceptions(DetectSharepoint, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectGenericCloudDrive, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectYandexDisk, App.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectpCloudDrive, App.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectNutstoreDrive, App.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectSeadriveDrive, App.Logger),
 			};
 
 			await Task.WhenAll(tasks);
@@ -76,6 +82,12 @@ namespace Files.App.Helpers
 						driveType = appName;
 					}
 
+					// iCloud specific
+					if (driveType.StartsWith("iCloudDrive"))
+						driveType = "iCloudDrive";
+					if (driveType.StartsWith("iCloudPhotos"))
+						driveType = "iCloudPhotos";
+
 					using var bagKey = clsidSubKey.OpenSubKey(@"Instance\InitPropertyBag");
 					var syncedFolder = (string)bagKey?.GetValue("TargetFolderPath");
 					if (syncedFolder is null)
@@ -83,13 +95,16 @@ namespace Files.App.Helpers
 						continue;
 					}
 
-					// Also works for OneDrive, Box, iCloudDrive, Dropbox
+					// Also works for OneDrive, Box, Dropbox
 					CloudProviders? driveID = driveType switch
 					{
 						"MEGA" => CloudProviders.Mega,
 						"Amazon Drive" => CloudProviders.AmazonDrive,
 						"Nextcloud" => CloudProviders.Nextcloud,
 						"Jottacloud" => CloudProviders.Jottacloud,
+						"iCloudDrive" => CloudProviders.AppleCloudDrive,
+						"iCloudPhotos" => CloudProviders.AppleCloudPhotos,
+						"Creative Cloud Files" => CloudProviders.AdobeCreativeCloud,
 						_ => null,
 					};
 					if (driveID is null)
@@ -106,6 +121,9 @@ namespace Files.App.Helpers
 							CloudProviders.AmazonDrive => $"Amazon Drive",
 							CloudProviders.Nextcloud => !string.IsNullOrEmpty(nextCloudValue) ? nextCloudValue : "Nextcloud",
 							CloudProviders.Jottacloud => $"Jottacloud",
+							CloudProviders.AppleCloudDrive => $"iCloud Drive",
+							CloudProviders.AppleCloudPhotos => $"iCloud Photos",
+							CloudProviders.AdobeCreativeCloud => $"Creative Cloud Files",
 							_ => null
 						},
 						SyncFolder = syncedFolder,
@@ -198,6 +216,81 @@ namespace Files.App.Helpers
 			}
 
 			return Task.FromResult<IEnumerable<ICloudProvider>>(sharepointAccounts);
+		}
+
+		private static Task<IEnumerable<ICloudProvider>> DetectpCloudDrive()
+		{
+			var results = new List<ICloudProvider>();
+			using var pCloudDriveKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\pCloud");
+
+			var syncedFolder = (string)pCloudDriveKey?.GetValue("SyncDrive");
+			if (syncedFolder is not null)
+			{
+				string iconPath = Path.Combine(programFilesFolder, "pCloud Drive", "pCloud.exe");
+				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
+
+				results.Add(new CloudProvider(CloudProviders.pCloud)
+				{
+					Name = $"pCloud Drive",
+					SyncFolder = syncedFolder,
+					IconData = iconFile?.IconData
+				});
+			}
+
+			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
+		}
+
+		private static Task<IEnumerable<ICloudProvider>> DetectNutstoreDrive()
+		{
+			var results = new List<ICloudProvider>();
+			using var NutstoreKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Nutstore");
+
+			if (NutstoreKey is not null)
+			{
+				string iconPath = Path.Combine(programFilesFolder, "Nutstore", "Nutstore.exe");
+				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 101 }).FirstOrDefault();
+
+				// get every folder under the Nutstore folder in %userprofile%
+				var mainFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Nutstore");
+				var nutstoreFolders = Directory.GetDirectories(mainFolder, "Nutstore", SearchOption.AllDirectories);
+				foreach (var nutstoreFolder in nutstoreFolders)
+				{
+					var folderName = Path.GetFileName(nutstoreFolder);
+					if (folderName is not null && folderName.StartsWith("Nutstore", StringComparison.OrdinalIgnoreCase))
+					{
+						results.Add(new CloudProvider(CloudProviders.Nutstore)
+						{
+							Name = $"Nutstore",
+							SyncFolder = nutstoreFolder,
+							IconData = iconFile?.IconData
+						});
+					}
+				}
+			}
+	
+			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
+		}
+
+		private static Task<IEnumerable<ICloudProvider>> DetectSeadriveDrive()
+		{
+			var results = new List<ICloudProvider>();
+			using var SeadriveKey = Registry.CurrentUser.OpenSubKey(@"Software\SeaDrive\Seafile Drive Client\Settings");
+
+			var syncFolder = (string)SeadriveKey?.GetValue("seadriveRoot");
+			if (SeadriveKey is not null)
+			{
+				string iconPath = Path.Combine(programFilesFolder, "SeaDrive", "bin", "seadrive.exe");
+				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 101 }).FirstOrDefault();
+
+				results.Add(new CloudProvider(CloudProviders.Seadrive)
+				{
+					Name = $"Seadrive",
+					SyncFolder = syncFolder,
+					IconData = iconFile?.IconData
+				});			
+			}
+
+			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
 		}
 	}
 }

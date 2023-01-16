@@ -26,48 +26,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ShowFavoritesSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowLibrarySection
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ShowDrivesSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowCloudDrivesSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowNetworkDrivesSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowWslSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowFileTagsSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool MoveOverflowMenuItemsToSubMenu
 		{
 			get => Get(true);
@@ -79,51 +37,39 @@ namespace Files.App.ServicesImplementation.Settings
 			get => Get(false);
 			set => Set(value);
 		}
-		public bool ShowFoldersWidget
+
+		/// <inheritdoc/>
+		public String AppThemeBackgroundColor
 		{
-			get => Get(true);
+			get => Get("#00000000");
 			set => Set(value);
 		}
 
-		public bool ShowRecentFilesWidget
+		/// <inheritdoc/>
+		public String AppThemeAddressBarBackgroundColor
 		{
-			get => Get(true);
+			get => Get("");
 			set => Set(value);
 		}
 
-		public bool ShowDrivesWidget
+		/// <inheritdoc/>
+		public String AppThemeSidebarBackgroundColor
 		{
-			get => Get(true);
+			get => Get("");
 			set => Set(value);
 		}
 
-		public bool ShowBundlesWidget
+		/// <inheritdoc/>
+		public String AppThemeFileAreaBackgroundColor
 		{
-			get => Get(false);
+			get => Get("");
 			set => Set(value);
 		}
 
-		public bool FoldersWidgetExpanded
+		/// <inheritdoc/>
+		public String AppThemeFontFamily
 		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool RecentFilesWidgetExpanded
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool DrivesWidgetExpanded
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool BundlesWidgetExpanded
-		{
-			get => Get(true);
+			get => Get("Segoe UI Variable");
 			set => Set(value);
 		}
 
@@ -132,17 +78,11 @@ namespace Files.App.ServicesImplementation.Settings
 			switch (e.SettingName)
 			{
 				case nameof(MoveOverflowMenuItemsToSubMenu):
-				case nameof(ShowFavoritesSection):
-				case nameof(ShowLibrarySection):
-				case nameof(ShowCloudDrivesSection):
-				case nameof(ShowNetworkDrivesSection):
-				case nameof(ShowWslSection):
-				case nameof(ShowFileTagsSection):
 				case nameof(UseCompactStyles):
-				case nameof(ShowFoldersWidget):
-				case nameof(ShowRecentFilesWidget):
-				case nameof(ShowDrivesWidget):
-				case nameof(ShowBundlesWidget):
+				case nameof(AppThemeBackgroundColor):
+				case nameof(AppThemeAddressBarBackgroundColor):
+				case nameof(AppThemeSidebarBackgroundColor):
+				case nameof(AppThemeFileAreaBackgroundColor):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

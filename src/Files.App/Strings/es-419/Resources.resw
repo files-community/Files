@@ -218,7 +218,7 @@
     <value>Formato de fecha</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Elige tu color</value>
+    <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Mostrar las extensiones de archivo para tipos de archivo conocidos</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Apariencia</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Fondo</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimental</value>
@@ -992,16 +995,16 @@
     <value>Editora</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Ruta de miniatura grande</value>
+    <value>Ruta de miniatura larga</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>URL de miniatura grande</value>
+    <value>Ruta de miniatura grande</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
     <value>Ruta de miniatura pequeña</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>URL de miniatura pequeña</value>
+    <value>Ruta de miniatura pequeña</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
     <value>Dirección URL</value>
@@ -1507,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>Predeterminado</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Temas personalizados</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Elementos</value>
   </data>
@@ -1986,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Propietario desconocido</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Más información sobre temas personalizados</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Más información sobre temas personalizados</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Los temas personalizados le brindan una excelente manera de personalizar Files.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Ver documentación.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extraer Archivo</value>
@@ -2687,10 +2675,10 @@
     <value>Etiquetas</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Mostrar sección Etiquetas</value>
+    <value>Mostrar Etiquetas</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar sección Etiquetas</value>
+    <value>Mostrar Etiquetas</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>Utilizar estilos compactos en el diseño de detalles</value>
@@ -2741,7 +2729,7 @@
     <value>Revisar Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>¿Desea escribir una reseña sobre Files?</value>
+    <value>¿Le gustaría hacer una reseña de Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Establecer como fondo de pantalla</value>
@@ -2858,7 +2846,7 @@
     <value>Ruta</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Ordenación y agrupación</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Archivo</value>
@@ -2930,9 +2918,12 @@
     <value>Columna de estado de sincronización</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Agrupar por</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Ordenar por</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Los archivos usados recientemente no están habilitados actualmente en el Explorador de archivos de Windows.</value>
   </data>
 </root>

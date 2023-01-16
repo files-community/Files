@@ -10,7 +10,7 @@ namespace Files.App.ValueConverters
 	{
 		public object? Convert(object value, Type targetType, object parameter, string language)
 		{
-			if (value is not SolidBrushColorModel solidBrushModel) 
+			if (value is not SolidBrushColorModel solidBrushModel)
 				return null;
 
 			return solidBrushModel.IsFromResource

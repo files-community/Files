@@ -386,7 +386,7 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinRefreshRequested(object sender, FileSystemEventArgs e)
 		{
-			if (@"Shell:RecycleBinFolder".Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
+			if (CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 			{
 				await dispatcherQueue.EnqueueAsync(() =>
 				{
@@ -397,7 +397,7 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinItemDeleted(object sender, FileSystemEventArgs e)
 		{
-			if (@"Shell:RecycleBinFolder".Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
+			if (CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 			{
 				// get the item that immediately follows matching item to be removed
 				// if the matching item is the last item, try to get the previous item; otherwise, null
@@ -416,7 +416,7 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinItemCreated(object sender, FileSystemEventArgs e)
 		{
-			if (@"Shell:RecycleBinFolder".Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
+			if (CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 			{
 				using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
 				if (folderItem is null) return;
@@ -483,14 +483,14 @@ namespace Files.App.ViewModels
 		{
 			switch (e.SettingName)
 			{
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowFileExtensions):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowThumbnails):
+				case nameof(UserSettingsService.FoldersSettingsService.ShowFileExtensions):
+				case nameof(UserSettingsService.FoldersSettingsService.ShowThumbnails):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowHiddenItems):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowDotFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.CalculateFolderSizes):
-				case nameof(UserSettingsService.PreferencesSettingsService.SelectFilesOnHover):
+				case nameof(UserSettingsService.FoldersSettingsService.SelectFilesOnHover):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
 						if (WorkingDirectory != "Home".GetLocalizedResource())
@@ -858,7 +858,7 @@ namespace Files.App.ViewModels
 			var wasIconLoaded = false;
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 			{
-				if (UserSettingsService.PreferencesSettingsService.ShowThumbnails &&
+				if (UserSettingsService.FoldersSettingsService.ShowThumbnails &&
 					!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 				{
 					var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
@@ -1262,7 +1262,7 @@ namespace Files.App.ViewModels
 
 				AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, WorkingDirectory, filesAndFolders);
 
-				if (App.PaneViewModel.IsPreviewSelected)
+				if (App.PreviewPaneViewModel.IsEnabled)
 				{
 					// Find and select README file
 					foreach (var item in filesAndFolders)
@@ -1450,9 +1450,7 @@ namespace Files.App.ViewModels
 			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration
 			var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder ?
 				path.StartsWith(boxFolder) : false; // Use storage folder for Box Drive (#4629)
-			var isNetworkFolder = App.DrivesManager.Drives.Any(x => x.Path == Path.GetPathRoot(path) && x.Type == DataModels.NavigationControlItems.DriveType.Network)
-				|| System.Text.RegularExpressions.Regex.IsMatch(path, @"^\\\\(?!\?)"); // Use storage folder for network drives (*FromApp methods return access denied)
-			bool enumFromStorageFolder = isBoxFolder || isNetworkFolder;
+			bool enumFromStorageFolder = isBoxFolder;
 
 			BaseStorageFolder rootFolder = null;
 
@@ -1529,7 +1527,7 @@ namespace Files.App.ViewModels
 
 				CurrentFolder = currentFolder;
 				await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, cancellationToken);
-				return isBoxFolder || isNetworkFolder ? 2 : 1; // Workaround for #7428
+				return isBoxFolder ? 2 : 1; // Workaround for #7428
 			}
 			else
 			{

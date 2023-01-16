@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Extensions;
+using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Interacts;
 using Files.Shared.Enums;
@@ -10,7 +11,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
@@ -173,9 +173,8 @@ namespace Files.App.ViewModels
 
 		#region Public Members
 
-		public readonly Progress<float> Progress;
-
-		public readonly Progress<FileSystemStatusCode> ErrorCode;
+		public readonly FileSystemProgress Progress;
+		public readonly Progress<FileSystemProgress> ProgressEventSource;
 
 		public CancellationToken CancellationToken => cancellationTokenSource?.Token ?? default;
 
@@ -187,9 +186,8 @@ namespace Files.App.ViewModels
 		{
 			this.Banner = banner;
 			this.OngoingTasksActions = OngoingTasksActions;
-
-			this.Progress = new Progress<float>(ReportProgressToBanner);
-			this.ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
+			this.ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
+			this.Progress = new(this.ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
 
 		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions, CancellationTokenSource cancellationTokenSource)
@@ -197,40 +195,74 @@ namespace Files.App.ViewModels
 			this.Banner = banner;
 			this.OngoingTasksActions = OngoingTasksActions;
 			this.cancellationTokenSource = cancellationTokenSource;
-
-			this.Progress = new Progress<float>(ReportProgressToBanner);
-			this.ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
+			this.ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
+			this.Progress = new(this.ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
 
 		#endregion Constructor
 
 		#region Private Helpers
 
-		private void ReportProgressToBanner(float value)
+		private void ReportProgressToBanner(FileSystemProgress value)
 		{
 			if (CancellationToken.IsCancellationRequested) // file operation has been cancelled, so don't update the progress text
 			{
 				return;
 			}
 
-			if (value <= 100.0f)
+			if (value.Status is FileSystemStatusCode status)
+				Banner.Status = status.ToStatus();
+
+			Banner.IsProgressing = (value.Status & FileSystemStatusCode.InProgress) != 0;
+
+			if (value.Percentage is float f)
 			{
-				Banner.IsProgressing = value < 100.0f;
-				Banner.Progress = value;
-				Banner.FullTitle = $"{Banner.Title} ({value:0.00}%)";
-				OngoingTasksActions.UpdateBanner(Banner);
-				OngoingTasksActions.UpdateMedianProgress();
+				Banner.Progress = f;
+				Banner.FullTitle = $"{Banner.Title} ({Banner.Progress:0.00}%)";
+				// TODO: show detailed progress if Size/Count information available
+			}
+			else if (value.EnumerationCompleted)
+			{
+				switch (value.TotalSize, value.ItemsCount)
+				{
+					case (not 0, not 0):
+						Banner.Progress = value.ProcessedSize * 100f / value.TotalSize;
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {Banner.Progress:0.00}%)";
+						break;
+					case (not 0, _):
+						Banner.Progress = value.ProcessedSize * 100f / value.TotalSize;
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {Banner.Progress:0.00}%)";
+						break;
+					case (_, not 0):
+						Banner.Progress = value.ProcessedItemsCount * 100f / value.ItemsCount;
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {Banner.Progress:0.00}%)";
+						break;
+					default:
+						Banner.FullTitle = $"{Banner.Title} (...)";
+						break;
+				}
 			}
 			else
 			{
-				Debugger.Break(); // Argument out of range :(
+				switch (value.ProcessedSize, value.ProcessedItemsCount)
+				{
+					case (not 0, not 0):
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)";
+						break;
+					case (not 0, _):
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / ...)";
+						break;
+					case (_, not 0):
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / ...)";
+						break;
+					default:
+						Banner.FullTitle = $"{Banner.Title} (...)";
+						break;
+				}
 			}
-		}
 
-		private void ReportProgressToBanner(ReturnResult value)
-		{
-			Banner.Status = value;
 			OngoingTasksActions.UpdateBanner(Banner);
+			OngoingTasksActions.UpdateMedianProgress();
 		}
 
 		#endregion Private Helpers

@@ -240,6 +240,13 @@
 													IsTabStop="False" />
 											</Viewbox>
 
+											<ProgressRing
+												x:Name="LoadingIndicator"
+												MaxWidth="{ThemeResource TabViewItemHeaderIconSize}"
+												MaxHeight="{ThemeResource TabViewItemHeaderIconSize}"
+												Margin="{ThemeResource TabViewItemHeaderIconMargin}"
+												Visibility="Collapsed" />
+
 											<!--
 												If we template bind the ContentPresenter's Content property to the TabViewItem.Header property
 												we unfortunately run into the following issue if the header is [null] or empty:
@@ -544,6 +551,16 @@
 													</VisualState.Setters>
 												</VisualState>
 											</VisualStateGroup>
+
+											<VisualStateGroup x:Name="LoadingStates">
+												<VisualState x:Name="NotLoading" />
+												<VisualState x:Name="Loading">
+													<VisualState.Setters>
+														<Setter Target="LoadingIndicator.Visibility" Value="Visible" />
+														<Setter Target="IconBox.Visibility" Value="Collapsed" />
+													</VisualState.Setters>
+												</VisualState>
+											</VisualStateGroup>
 										</VisualStateManager.VisualStateGroups>
 									</Grid>
 								</ControlTemplate>
@@ -605,13 +622,13 @@
 					<ContentPresenter Grid.Column="0" Content="{x:Bind ActionsControl, Mode=OneWay}" />
 
 					<!--  This defines the drag area for the title bar  -->
-					<Grid
-						x:Name="DragAreaGrid"
+					<Rectangle
+						x:Name="DragAreaRectangle"
 						Grid.Column="1"
 						Grid.ColumnSpan="2"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
-						Background="Transparent" />
+						Fill="Transparent" />
 				</Grid>
 			</TabView.TabStripFooter>
 		</TabView>

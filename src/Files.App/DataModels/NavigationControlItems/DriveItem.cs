@@ -120,7 +120,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			get => percentageUsed;
 			set
 			{
-				if (!SetProperty(ref percentageUsed, value)) 
+				if (!SetProperty(ref percentageUsed, value))
 					return;
 
 				if (Type == DriveType.Fixed)
@@ -223,14 +223,10 @@ namespace Files.App.DataModels.NavigationControlItems
 		{
 			if (IconData is null)
 			{
-				if (!string.IsNullOrEmpty(DeviceID))
+				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
 					IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
-
-				if (IconData is null)
-				{
-					var resource = UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
-					IconData = resource?.IconData;
-				}
+				
+				IconData ??= UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			}
 			Icon = await IconData.ToBitmapAsync();
 		}

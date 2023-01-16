@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Represents a storage object that can be modified.
 	/// </summary>
-	public interface IModifiableStorable
+	public interface IModifiableStorable : IStorable
 	{
 	}
 }

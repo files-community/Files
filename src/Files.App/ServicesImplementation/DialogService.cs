@@ -28,7 +28,8 @@ namespace Files.App.ServicesImplementation
 				{ typeof(ElevateConfirmDialogViewModel), () => new ElevateConfirmDialog() },
 				{ typeof(FileSystemDialogViewModel), () => new FilesystemOperationDialog() },
 				{ typeof(DecompressArchiveDialogViewModel), () => new DecompressArchiveDialog() },
-				{ typeof(SettingsDialogViewModel), () => new SettingsDialog() }
+				{ typeof(SettingsDialogViewModel), () => new SettingsDialog() },
+				{ typeof(CreateShortcutDialogViewModel), () => new CreateShortcutDialog() }
 			};
 		}
 

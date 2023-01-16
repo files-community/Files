@@ -36,9 +36,12 @@ namespace Files.App.Helpers
 					"Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
 					"eject", "rename", "explore", "openinfiles", "extract",
 					"copyaspath", "undelete", "empty",
-					Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
-                    Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
-                };
+					Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
+					Win32API.ExtractStringFromDLL("shell32.dll", 5384), // Pin to Start
+					Win32API.ExtractStringFromDLL("shell32.dll", 5385), // Unpin from Start
+					Win32API.ExtractStringFromDLL("shell32.dll", 5386), // Pin to taskbar
+					Win32API.ExtractStringFromDLL("shell32.dll", 5387), // Unpin from taskbar
+				};
 
 				bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem)
 					&& (knownItems.Contains(menuItem) || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase)));
@@ -163,7 +166,7 @@ namespace Files.App.Helpers
 				if (tag is not Win32ContextMenuItem menuItem) return;
 
 				var menuId = menuItem.ID;
-				var isFont = new[] { ".fon", ".otf", ".ttc", ".ttf" }.Contains(Path.GetExtension(contextMenu.ItemsPath[0]), StringComparer.OrdinalIgnoreCase);
+				var isFont = FileExtensionHelpers.IsFontFile(contextMenu.ItemsPath[0]);
 				var verb = menuItem.CommandString;
 				switch (verb)
 				{

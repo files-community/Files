@@ -1,10 +1,13 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Interacts;
 using Files.App.ViewModels;
+using Files.App.ViewModels.Dialogs;
 using Files.Backend.Enums;
+using Files.Backend.Services;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
@@ -47,11 +50,18 @@ namespace Files.App.Helpers
 				try
 				{
 					var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+					if (banner is not null)
+					{
+						banner.Progress.EnumerationCompleted = true;
+						banner.Progress.ItemsCount = items.Count;
+						banner.Progress.ReportStatus(FileSystemStatusCode.InProgress);
+					}
 					await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
 					{
 						if (banner is not null)
 						{
-							((IProgress<float>)banner.Progress).Report(items.Count / (float)itemsCount * 100);
+							banner.Progress.ProcessedItemsCount = itemsCount;
+							banner.Progress.Report();
 						}
 
 						// FTP don't support cut, fallback to copy
@@ -150,11 +160,18 @@ namespace Files.App.Helpers
 
 				try
 				{
+					if (banner is not null)
+					{
+						banner.Progress.EnumerationCompleted = true;
+						banner.Progress.ItemsCount = items.Count;
+						banner.Progress.ReportStatus(FileSystemStatusCode.InProgress);
+					}
 					await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
 					{
 						if (banner is not null)
 						{
-							((IProgress<float>)banner.Progress).Report(items.Count / (float)itemsCount * 100);
+							banner.Progress.ProcessedItemsCount = itemsCount;
+							banner.Progress.Report();
 						}
 
 						if (listedItem is FtpItem ftpItem)
@@ -362,7 +379,7 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Set a single file or folder to hidden or unhidden an refresh the
+		/// Set a single file or folder to hidden or unhidden and refresh the
 		/// view after setting the flag
 		/// </summary>
 		/// <param name="item"></param>
@@ -371,6 +388,29 @@ namespace Files.App.Helpers
 		{
 			item.IsHiddenItem = isHidden;
 			itemManipulationModel.RefreshItemsOpacity();
+		}
+
+		public static async Task CreateShortcutFromDialogAsync(IShellPage associatedInstance)
+		{
+			var viewModel = new CreateShortcutDialogViewModel(associatedInstance.FilesystemViewModel.WorkingDirectory);
+			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			await dialogService.ShowDialogAsync(viewModel);
+		}
+
+		/// <summary>
+		/// Updates ListedItem properties for a shortcut
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="targetPath"></param>
+		/// <param name="arguments"></param>
+		/// <param name="workingDir"></param>
+		/// <param name="runAsAdmin"></param>
+		public static void UpdateShortcutItemProperties(ShortcutItem item, string targetPath, string arguments, string workingDir, bool runAsAdmin)
+		{
+			item.TargetPath = targetPath;
+			item.Arguments = arguments;
+			item.WorkingDirectory = workingDir;
+			item.RunAsAdmin = runAsAdmin;
 		}
 	}
 }

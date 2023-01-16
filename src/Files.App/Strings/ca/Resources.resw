@@ -152,13 +152,13 @@
     <value>Nom de l'element</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Ruta:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Mida:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Mida Descomprimit:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Aquesta acció no pot ser complerta</value>
@@ -218,7 +218,7 @@
     <value>Format de data</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Tria el teu color</value>
+    <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Mostra les extensions per als tipus d'arxius coneguts</value>
@@ -227,13 +227,16 @@
     <value>Ensenya arxius i carpetes ocultes</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Mostra els fitxers de punt</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Aparença</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Fons</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimental</value>
@@ -443,10 +446,10 @@
     <value>Vas esborrar aquesta carpeta?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>El fitxer el qual voleu intentar accedir l'està utilitzant actualment {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>El fitxer el qual voleu intentar accedir l'està utilitzant actualment un altre programa</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>File is in use</value>
@@ -1507,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>Per defecte</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Temes personalitzats</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Suma d'elements</value>
   </data>
@@ -1986,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Unknown owner</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Learn more about custom themes</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Learn more about custom themes</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Custom themes provide a great way for you to personalize Files.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>View documentation.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extract Archive</value>
@@ -2934,5 +2922,8 @@
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Ordena per</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
 </root>

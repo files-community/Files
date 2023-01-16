@@ -15,13 +15,11 @@ namespace Files.Backend.Services.Settings
 
 		IFoldersSettingsService FoldersSettingsService { get; }
 
-		IMultitaskingSettingsService MultitaskingSettingsService { get; }
-
 		IAppearanceSettingsService AppearanceSettingsService { get; }
 
 		IApplicationSettingsService ApplicationSettingsService { get; }
 
-		IPaneSettingsService PaneSettingsService { get; }
+		IPreviewPaneSettingsService PreviewPaneSettingsService { get; }
 
 		ILayoutSettingsService LayoutSettingsService { get; }
 

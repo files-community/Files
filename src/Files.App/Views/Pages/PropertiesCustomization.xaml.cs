@@ -1,4 +1,3 @@
-using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
@@ -29,7 +28,7 @@ namespace Files.App.Views
 			}, new SuppressNavigationTransitionInfo());
 		}
 
-		public override Task<bool> SaveChangesAsync(ListedItem item)
+		public override Task<bool> SaveChangesAsync()
 		{
 			return Task.FromResult(true);
 		}

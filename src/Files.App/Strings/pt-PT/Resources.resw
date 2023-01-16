@@ -218,7 +218,7 @@
     <value>Formato da data</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Escolha a sua cor</value>
+    <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Mostrar extensões para tipos de ficheiros conhecidos</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Aparência</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Fundo</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimental</value>
@@ -347,7 +350,7 @@
     <value>Insira o nome do item</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Insira o nome do item</value>
+    <value>Introduza o nome do item</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Definir nome</value>
@@ -509,7 +512,7 @@
     <value>OK</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>O nome do item não pode ter os seguintes caracteres: \ / : * ? " &lt; &gt; |</value>
+    <value>O nome do item não pode conter os seguintes caracteres: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>item selecionado</value>
@@ -1507,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>Padrão</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Temas personalizados</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>N.º de itens</value>
   </data>
@@ -1987,18 +1987,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Proprietário desconhecido</value>
   </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Saber mais sobre temas personalizados</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Saber mais sobre temas personalizados</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Temas personalizados é uma ótima forma de personalizar o Files.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Ver documentação.</value>
-  </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extrair arquivo</value>
   </data>
@@ -2294,7 +2282,7 @@
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Abrir pasta superior</value>
+    <value>Abrir pasta</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Desconhecido</value>
@@ -2801,10 +2789,10 @@
     <value>Compressão terminada</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} foi compactado</value>
+    <value>{0} foi comprimido</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>Não foi possível compactar {0}</value>
+    <value>Não foi possível comprimir {0}</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Compressão terminada</value>
@@ -2858,7 +2846,7 @@
     <value>Caminho</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Ordenação e agrupamento</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Arquivar</value>
@@ -2894,7 +2882,7 @@
     <value>Rápido</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
-    <value>Nenhum</value>
+    <value>Sem compressão</value>
   </data>
   <data name="SplitArchive" xml:space="preserve">
     <value>Separar arquivo</value>
@@ -2934,5 +2922,8 @@
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Ordenar por</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>A opção Ficheiros recentes está desativada no Explorador de ficheiros do Windows.</value>
   </data>
 </root>

@@ -2,18 +2,20 @@
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
          xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
          xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+         xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
          xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
          xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
          xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
          xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
          xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
          xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
-         IgnorableNamespaces="uap uap5 mp rescap desktop4 desktop">
-    <Identity Name="FilesDev" Publisher="CN=Files" Version="2.4.1.0" />
+         IgnorableNamespaces="uap uap5 mp rescap desktop6 desktop4 desktop">
+    <Identity Name="FilesDev" Publisher="CN=Files" Version="2.4.21.0" />
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
         <PublisherDisplayName>Yair A</PublisherDisplayName>
         <Logo>Assets\AppTiles\Dev\StoreLogo.png</Logo>
+        <desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
     </Properties>
     <Dependencies>
         <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22621.0" />
@@ -126,6 +128,8 @@
         <rescap:Capability Name="runFullTrust" />
         <rescap:Capability Name="broadFileSystemAccess" />
         <rescap:Capability Name="allowElevation"/>
+        <!--The unvirtualizedResources capability is used to support file operations in the AppData directory-->
+        <rescap:Capability Name="unvirtualizedResources" />
         <!--The packageManagement capability is used to download updates in the sideload version of Files. We only use
         this capability in the sideload version and remove it when compiling the store vesion in Azure DevOps-->
         <rescap:Capability Name="packageManagement"/>

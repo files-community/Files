@@ -180,6 +180,7 @@
 						VerticalAlignment="Stretch"
 						Opacity="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToOpacityConverter}}"
 						Text="{x:Bind Name, Mode=OneWay}"
+						TextAlignment="Center"
 						TextTrimming="CharacterEllipsis"
 						TextWrapping="Wrap" />
 				</Grid>
@@ -517,7 +518,10 @@
 					DragItemsStarting="FileList_DragItemsStarting"
 					DragOver="ItemsLayout_DragOver"
 					Drop="ItemsLayout_Drop"
+					FocusVisualPrimaryThickness="0"
+					FocusVisualSecondaryThickness="0"
 					IsDoubleTapEnabled="True"
+					IsTabStop="True"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					ScrollViewer.IsHorizontalScrollChainingEnabled="False"
@@ -581,11 +585,13 @@
 						</GroupStyle>
 					</controls:AdaptiveGridView.GroupStyle>
 
-					<controls:AdaptiveGridView.ItemContainerTransitions>
-						<TransitionCollection>
-							<AddDeleteThemeTransition />
-						</TransitionCollection>
-					</controls:AdaptiveGridView.ItemContainerTransitions>
+					<!--  Wraps items without affecting the height of other rows  -->
+					<!-- Disabled as it broke thumbnails -->
+					<!--<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<controls:WrapPanel/>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>-->
 
 					<controls:AdaptiveGridView.Resources>
 						<ResourceDictionary>

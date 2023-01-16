@@ -220,6 +220,30 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set((long)value);
 		}
 
+		public bool ShowFileExtensions
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowThumbnails
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowConfirmDeleteDialog
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool SelectFilesOnHover
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -245,6 +269,10 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ColumnLayoutOpenFoldersWithOneClick):
 				case nameof(OpenFoldersInNewTab):
 				case nameof(CalculateFolderSizes):
+				case nameof(ShowFileExtensions):
+				case nameof(ShowThumbnails):
+				case nameof(ShowConfirmDeleteDialog):
+				case nameof(SelectFilesOnHover):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

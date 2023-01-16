@@ -152,7 +152,7 @@
     <value>உருப்படிப் பெயர்</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>பாதை:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>அளவு:</value>
@@ -218,7 +218,7 @@
     <value>தேதி வடிவமைப்பு</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>உங்கள் வண்ணத்தைத் தேர்வு செய்க</value>
+    <value>நிற அமைப்பு</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Show extensions for known file types</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>தோற்றம்</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>பின்னணி</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>சோதனை</value>
@@ -446,7 +449,7 @@
     <value>The file you are attempting to access is currently being used by {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>நீங்கள் அணுக முயற்சிக்கும் பைல்ஸ் தற்போது மற்றொரு அப்ளிகேஷன் பயன்படுத்தப்படுகிறது</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>கோப்புப் பயன்பாட்டில் உள்ளது</value>
@@ -545,22 +548,22 @@
     <value>பைட்கள்</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>KB</value>
+    <value>கே.பி</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
-    <value>MB</value>
+    <value>எம்.பி</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>GB</value>
+    <value>ஜி.பி</value>
   </data>
   <data name="TeraByteSymbol" xml:space="preserve">
-    <value>TB</value>
+    <value>டி.பி</value>
   </data>
   <data name="PetaByteSymbol" xml:space="preserve">
-    <value>PB</value>
+    <value>ப்பி.பி</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>B</value>
+    <value>பி</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>நிர்வாகியாக இயக்கு</value>
@@ -723,7 +726,7 @@
     <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>Item no longer exists</value>
+    <value>பொருள் இனி கிடைக்க இயலாது</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
     <value>கொடுக்கப்பட்ட பெயர் செல்லத பெயர்களில் ஒன்றாகும். தயவுசெய்து பெயரை சரிப்பார்த்து மீண்டும் முயலவும். </value>
@@ -732,7 +735,7 @@
     <value>செல்லாத உருப்படி பெயர்</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
+    <value>குறிப்பிடப்பட்ட பொருளின் பெயரின் நீளம் அதிகபட்ச வரம்பை மீறுகிறது. விரும்பிய பெயரைச் சரிபார்த்து, மீண்டும் முயற்சிக்கவும்.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>உருப்படி பெயர் மிகவும் நீளமாக இருந்தது</value>
@@ -1508,9 +1511,6 @@
   <data name="Default" xml:space="preserve">
     <value>இயல்புநிலை</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Custom themes</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>உருப்படி எண்ணிக்கை</value>
   </data>
@@ -1987,18 +1987,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>அறியாத உரிமையாளர்</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Learn more about custom themes</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Learn more about custom themes</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Custom themes provide a great way for you to personalize Files.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>View documentation.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extract Archive</value>
@@ -2935,5 +2923,8 @@
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>இதன்படி வரிசைப்படுத்து</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
 </root>

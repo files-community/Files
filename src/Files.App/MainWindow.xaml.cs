@@ -12,7 +12,6 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.Windows.AppLifecycle;
 using System;
 using System.IO;
 using System.Linq;
@@ -71,7 +70,7 @@ namespace Files.App
 			switch (activatedEventArgs)
 			{
 				case ILaunchActivatedEventArgs launchArgs:
-					if (launchArgs.Arguments is not null && launchArgs.Arguments.Contains($"{Package.Current.Id.FamilyName}\\files.exe", StringComparison.OrdinalIgnoreCase))
+					if (launchArgs.Arguments is not null && launchArgs.Arguments.Contains($"files.exe", StringComparison.OrdinalIgnoreCase))
 					{
 						// WINUI3 bug: when launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
@@ -148,7 +147,7 @@ namespace Files.App
 				case IToastNotificationActivatedEventArgs eventArgsForNotification:
 					if (eventArgsForNotification.Argument == "report")
 					{
-						await Windows.System.Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeedbackUrl));
+						await Windows.System.Launcher.LaunchUriAsync(new Uri(Constants.GitHub.BugReportUrl));
 					}
 					break;
 

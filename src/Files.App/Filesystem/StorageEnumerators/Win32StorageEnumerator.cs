@@ -3,11 +3,9 @@ using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.FileListCache;
-using Files.App.Shell;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
-using Files.Shared;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
@@ -15,7 +13,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.Storage;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
@@ -303,10 +300,10 @@ namespace Files.App.Filesystem.StorageEnumerators
 					IsSymLink = true
 				};
 			}
-			else if (findData.cFileName.EndsWith(".lnk", StringComparison.Ordinal) || findData.cFileName.EndsWith(".url", StringComparison.Ordinal))
+			else if (FileExtensionHelpers.IsShortcutOrUrlFile(findData.cFileName))
 			{
-				var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
-				var shInfo = await ParseLinkAsync(itemPath);
+				var isUrl = FileExtensionHelpers.IsWebLinkFile(findData.cFileName);
+				var shInfo = await FileOperationsHelpers.ParseLinkAsync(itemPath);
 				if (shInfo is null)
 				{
 					return null;
@@ -387,38 +384,6 @@ namespace Files.App.Filesystem.StorageEnumerators
 				}
 			}
 			return null;
-		}
-
-		private async static Task<ShellLinkItem> ParseLinkAsync(string linkPath)
-		{
-			try
-			{
-				if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
-				{
-					using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
-					return ShellFolderExtensions.GetShellLinkItem(link);
-				}
-				else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
-				{
-					var linkUrl = await Win32API.StartSTATask(() =>
-					{
-						var ipf = new Url.IUniformResourceLocator();
-						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
-						ipf.GetUrl(out var retVal);
-						return retVal;
-					});
-					return new ShellLinkItem() { TargetPath = linkUrl };
-				}
-				else
-				{
-					throw new Exception();
-				}
-			}
-			catch (Exception)
-			{
-				// TODO: Log this properly
-				return await Task.FromResult<ShellLinkItem>(null);
-			}
 		}
 	}
 }

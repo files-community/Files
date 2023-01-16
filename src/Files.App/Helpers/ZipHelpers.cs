@@ -1,3 +1,4 @@
+using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using SevenZip;
 using System;
@@ -29,7 +30,7 @@ namespace Files.App.Helpers
 			return zipFile.ArchiveFileData.Any(file => file.Encrypted || file.Method.Contains("Crypto") || file.Method.Contains("AES"));
 		}
 
-		public static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder, string password, IProgress<float> progressDelegate, CancellationToken cancellationToken)
+		public static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder, string password, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
 			using SevenZipExtractor? zipFile = await GetZipFile(archive, password);
 			if (zipFile is null)
@@ -87,6 +88,9 @@ namespace Files.App.Helpers
 			int entriesAmount = fileEntries.Count;
 			int entriesFinished = 0;
 
+			FileSystemProgress fsProgress = new(progress, true, Shared.Enums.FileSystemStatusCode.InProgress, entriesAmount);
+			fsProgress.Report();
+
 			foreach (var entry in fileEntries)
 			{
 				if (cancellationToken.IsCancellationRequested) // Check if canceled
@@ -113,8 +117,8 @@ namespace Files.App.Helpers
 				}
 
 				entriesFinished++;
-				float percentage = (float)((float)entriesFinished / (float)entriesAmount) * 100.0f;
-				progressDelegate?.Report(percentage);
+				fsProgress.ProcessedItemsCount = entriesFinished;
+				fsProgress.Report();
 			}
 		}
 	}

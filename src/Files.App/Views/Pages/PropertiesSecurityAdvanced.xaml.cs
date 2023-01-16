@@ -10,7 +10,6 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
@@ -161,20 +160,6 @@ namespace Files.App.Views
 				else
 				{
 				}
-			}
-		}
-
-		private void Page_Loading(FrameworkElement sender, object args)
-		{
-			// This manually adds the user's theme resources to the page
-			// I was unable to get this to work any other way
-			try
-			{
-				var xaml = XamlReader.Load(App.ExternalResourcesHelper.CurrentThemeResources) as ResourceDictionary;
-				App.Current.Resources.MergedDictionaries.Add(xaml);
-			}
-			catch (Exception)
-			{
 			}
 		}
 

@@ -112,23 +112,20 @@ namespace Files.App.Filesystem.StorageItems
 
 		public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
 		{
-			return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
+			if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
 			{
-				if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
+				return Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();
+			}
+			var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
+			if (marker is not -1)
+			{
+				var containerPath = path.Substring(0, marker + ext.Length);
+				if (CheckAccess(containerPath))
 				{
-					return null;
+					return Task.FromResult((BaseStorageFolder)new ZipStorageFolder(path, containerPath)).AsAsyncOperation();
 				}
-				var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
-				if (marker is not -1)
-				{
-					var containerPath = path.Substring(0, marker + ext.Length);
-					if (CheckAccess(containerPath))
-					{
-						return new ZipStorageFolder(path, containerPath);
-					}
-				}
-				return null;
-			});
+			}
+			return Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();
 		}
 
 		public static IAsyncOperation<BaseStorageFolder> FromStorageFileAsync(BaseStorageFile file)
@@ -566,7 +563,7 @@ namespace Files.App.Filesystem.StorageItems
 					{
 						return null;
 					}
-					return (Stream)new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
+					return new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
 				}
 			});
 		}
@@ -634,7 +631,7 @@ namespace Files.App.Filesystem.StorageItems
 
 			public override DateTimeOffset ItemDate => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
 
-			public override ulong Size => (ulong)entry.Size;
+			public override ulong Size => entry.Size;
 		}
 	}
 }

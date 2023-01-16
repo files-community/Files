@@ -1,13 +1,17 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.App.Helpers;
+using Files.App.Views.SettingsPages.Appearance;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using System.Linq;
+using Windows.UI;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
@@ -15,8 +19,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
-		private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
+		public List<string> Themes { get; private set; }
+
+		public ObservableCollection<AppThemeResource> AppThemeResources { get; }
 
 		public AppearanceViewModel()
 		{
@@ -26,11 +31,51 @@ namespace Files.App.ViewModels.SettingsViewModels
 				"LightTheme".GetLocalizedResource(),
 				"DarkTheme".GetLocalizedResource()
 			};
+
+			AppThemeResources = AppThemeResourceFactory.AppThemeResources;
+			UpdateSelectedBackground();
 		}
 
-		public List<string> Themes { get; private set; }
-		public ObservableCollection<AppTheme> CustomThemes => App.ExternalResourcesHelper.Themes;
+		/// <summary>
+		/// Selects the AppThemeResource corresponding to the AppThemeBackgroundColor setting
+		/// </summary>
+		private void UpdateSelectedBackground()
+		{
+			var backgroundColor = AppThemeBackgroundColor;
 
+			// Add color to the collection if it's not already there
+			if (!AppThemeResources.Any(p => p.BackgroundColor == backgroundColor))
+			{
+				var appThemeBackgroundColor = new AppThemeResource
+				{
+					BackgroundColor = backgroundColor,
+					Name = "Custom"
+				};
+
+				AppThemeResources.Add(appThemeBackgroundColor);
+			}
+
+			SelectedAppThemeResources = AppThemeResources
+				.Where(p => p.BackgroundColor == AppThemeBackgroundColor)
+				.FirstOrDefault() ?? AppThemeResources[0];
+		}
+
+
+		private AppThemeResource selectedAppThemeResources;
+		public AppThemeResource SelectedAppThemeResources
+		{
+			get => selectedAppThemeResources;
+			set
+			{
+				if (SetProperty(ref selectedAppThemeResources, value))
+				{
+					AppThemeBackgroundColor = SelectedAppThemeResources.BackgroundColor;
+					OnPropertyChanged(nameof(selectedAppThemeResources));
+				}
+			}
+		}
+
+		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
 		public int SelectedThemeIndex
 		{
 			get => selectedThemeIndex;
@@ -62,60 +107,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public AppTheme SelectedTheme
-		{
-			get
-			{
-				return selectedTheme;
-			}
-			set
-			{
-				if (SetProperty(ref selectedTheme, value))
-				{
-					if (selectedTheme is not null)
-					{
-						// Remove the old resource file and load the new file
-						App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme)
-							.ContinueWith(t =>
-							{
-								App.AppSettings.SelectedTheme = selectedTheme;
-								ForceReloadResourceFile(); // Force the application to use the correct resource file
-							}, TaskScheduler.FromCurrentSynchronizationContext());
-					}
-				}
-			}
-		}
-
-		/// <summary>
-		/// Forces the application to use the correct resource styles
-		/// </summary>
-		private void ForceReloadResourceFile()
-		{
-			// Get the index of the current theme
-			var selTheme = SelectedThemeIndex;
-
-			// Toggle between the themes to force the controls to use the new resource styles
-			SelectedThemeIndex = 0;
-			SelectedThemeIndex = 1;
-			SelectedThemeIndex = 2;
-
-			// Restore the theme to the correct theme
-			SelectedThemeIndex = selTheme;
-		}
-
-		public bool ShowFavoritesSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowFavoritesSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public bool UseCompactStyles
 		{
 			get => UserSettingsService.AppearanceSettingsService.UseCompactStyles;
@@ -125,147 +116,27 @@ namespace Files.App.ViewModels.SettingsViewModels
 				{
 					UserSettingsService.AppearanceSettingsService.UseCompactStyles = value;
 
-					App.ExternalResourcesHelper.OverrideAppResources(UseCompactStyles); // Override the app resources the correct styles
-					ForceReloadResourceFile(); // Force the application to use the correct resource file
+					App.AppThemeResourcesHelper.SetCompactSpacing(UseCompactStyles);
+					App.AppThemeResourcesHelper.ApplyResources();
 
 					OnPropertyChanged();
 				}
 			}
 		}
 
-		public bool ShowLibrarySection
+		public Color AppThemeBackgroundColor
 		{
-			get => UserSettingsService.AppearanceSettingsService.ShowLibrarySection;
+			get => ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
+				if (value != ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor))
 				{
-					UserSettingsService.AppearanceSettingsService.ShowLibrarySection = value;
-					OnPropertyChanged();
+					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor = value.ToString();
+
+					App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(AppThemeBackgroundColor);
+					App.AppThemeResourcesHelper.ApplyResources();
 				}
 			}
-		}
-
-		public bool ShowDrivesSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowDrivesSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowDrivesSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowCloudDrivesSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowNetworkDrivesSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowWslSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowWslSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowWslSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowFileTagsSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowFileTagsSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowFoldersWidget
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowFoldersWidget;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowFoldersWidget)
-					UserSettingsService.AppearanceSettingsService.ShowFoldersWidget = value;
-			}
-		}
-
-		public bool ShowDrivesWidget
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowDrivesWidget;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesWidget)
-					UserSettingsService.AppearanceSettingsService.ShowDrivesWidget = value;
-			}
-		}
-
-		public bool ShowBundlesWidget
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowBundlesWidget;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowBundlesWidget)
-					UserSettingsService.AppearanceSettingsService.ShowBundlesWidget = value;
-			}
-		}
-
-		public bool ShowRecentFilesWidget
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget)
-					UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget = value;
-			}
-		}
-
-		private bool isLoadingThemes;
-		public bool IsLoadingThemes
-		{
-			get => isLoadingThemes;
-			set
-			{
-				isLoadingThemes = value;
-				OnPropertyChanged();
-			}
-		}
-
-		public Task OpenThemesFolder()
-		{
-			//await CoreApplication.MainView.Dispatcher.YieldAsync(); // WINUI3
-			return NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
 		}
 	}
 }

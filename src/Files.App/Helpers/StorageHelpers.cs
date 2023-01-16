@@ -25,7 +25,7 @@ namespace Files.App.Helpers
 			FilesystemResult<BaseStorageFile> file = null;
 			FilesystemResult<BaseStorageFolder> folder = null;
 
-			if (path.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
+			if (FileExtensionHelpers.IsShortcutOrUrlFile(path))
 			{
 				// TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
 				// we could implement this code here for getting .lnk files
@@ -149,8 +149,8 @@ namespace Files.App.Helpers
 		public static IStorageItemWithPath FromPathAndType(string customPath, FilesystemItemType? itemType)
 		{
 			return (itemType == FilesystemItemType.File) ?
-					(IStorageItemWithPath)new StorageFileWithPath(null, customPath) :
-					(IStorageItemWithPath)new StorageFolderWithPath(null, customPath);
+					new StorageFileWithPath(null, customPath) :
+					new StorageFolderWithPath(null, customPath);
 		}
 
 		public static async Task<FilesystemItemType> GetTypeFromPath(string path)

@@ -113,10 +113,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
-    <value>Abrir en nueva pestaña</value>
+    <value>Abrir en una nueva pestaña</value>
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>Abrir en nueva ventana</value>
+    <value>Abrir en una ventana nueva</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nueva ventana</value>
@@ -167,13 +167,13 @@
     <value>Carpeta de destino</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>es una subcarpeta de la carpeta origen</value>
+    <value>es una subcarpeta de la carpeta de origen</value>
   </data>
   <data name="Skip" xml:space="preserve">
     <value>Omitir</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
-    <value>Seleccionar Todo</value>
+    <value>Seleccionar todo</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Invertir selección</value>
@@ -218,7 +218,7 @@
     <value>Formato de fecha</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Seleccionar color</value>
+    <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Mostrar extensiones de archivos conocidos</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Apariencia</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Fondo</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimental</value>
@@ -305,10 +308,10 @@
     <value>Abrir</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>Abrir en nueva pestaña</value>
+    <value>Abrir en una nueva pestaña</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>Abrir en nueva ventana</value>
+    <value>Abrir en una ventana nueva</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>Establecer como fondo de Escritorio</value>
@@ -353,10 +356,10 @@
     <value>Establecer nombre</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Claro</value>
+    <value>Tema Claro</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Oscuro</value>
+    <value>Tema Oscuro</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplicación</value>
@@ -443,10 +446,10 @@
     <value>¿Eliminó esta carpeta?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>El archivo al que está intentando acceder está siendo utilizado actualmente por {0}</value>
+    <value>El archivo al que intenta acceder está siendo utilizado por {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>El archivo al que está intentando acceder está siendo utilizado actualmente por otra aplicación</value>
+    <value>El archivo al que intenta acceder está siendo utilizado por otra aplicación</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>El archivo se está utilizando</value>
@@ -620,7 +623,7 @@
     <value>Sin resultados</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>No se puede acceder a ningún elemento que se pueda mostrar</value>
+    <value>No se puede acceder a ningún elemento para mostrar</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>Mover a {0}</value>
@@ -1217,7 +1220,7 @@
     <value>Incluir elementos no indexados en los resultados de búsqueda</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Restablecer carpetas anuladas</value>
+    <value>Restablecer valores predeterminados de carpetas</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
     <value>Cuando esta opción está desactivada, cambiar el diseño de un directorio actualizará el diseño de todos los directorios.</value>
@@ -1328,7 +1331,7 @@
     <value>¡Este campo no puede estar vacío!</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>Abrir en nueva pestaña</value>
+    <value>Abrir en una nueva pestaña</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>Abrir ubicación del elemento</value>
@@ -1502,13 +1505,10 @@
     <value>Abrir en nuevo panel</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Mostrar sección Bibliotecas</value>
+    <value>Mostrar sección de bibliotecas</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Predeterminado</value>
-  </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Temas personalizados</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Número de elementos</value>
@@ -1658,16 +1658,16 @@
     <value>Abrir carpetas en nueva pestaña</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Mostrar widget de contenedores</value>
+    <value>Mostrar widget de Contenedores</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Mostrar widget de unidades</value>
+    <value>Mostrar widget de Unidades</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Mostrar widget de carpetas</value>
+    <value>Mostrar widget de Carpetas</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Mostrar widget de archivos recientes</value>
+    <value>Mostrar widget de Archivos Recientes</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>¿No encontró lo que está buscando?</value>
@@ -1987,18 +1987,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Propietario desconocido</value>
   </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Más información acerca de los temas personalizados</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Más información acerca de los temas personalizados</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Los temas personalizados son una buena forma de personalizar Files.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Consultar documentación.</value>
-  </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extraer Archivo</value>
   </data>
@@ -2195,7 +2183,7 @@
     <value>Mostrar sección de unidades en la nube</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar sección de unidades</value>
+    <value>Mostrar sección de unidades de disco</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
     <value>Mostrar sección WSL</value>
@@ -2387,7 +2375,7 @@
     <value>Mostrar elementos ocultos</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar Favoritos</value>
+    <value>Mostrar sección de favoritos</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Abrir carpetas en nueva pestaña</value>
@@ -2402,16 +2390,16 @@
     <value>Mostrar un diálogo de confirmación al eliminar archivos o carpetas</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar sección de unidades</value>
+    <value>Mostrar sección de unidades de disco</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar sección Bibliotecas</value>
+    <value>Mostrar sección de bibliotecas</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar sección de unidades de red</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar sección WSL</value>
+    <value>Mostrar sección de WSL</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tareas en curso</value>
@@ -2690,7 +2678,7 @@
     <value>Mostrar sección Etiquetas</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar sección Etiquetas</value>
+    <value>Mostrar sección de etiquetas</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>Utilizar estilos compactos en el diseño de detalles</value>
@@ -2741,7 +2729,7 @@
     <value>Revisar Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>¿Desea escribir una reseña sobre Files?</value>
+    <value>¿Le gustaría hacer una reseña de Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Establecer como fondo de pantalla</value>
@@ -2858,7 +2846,7 @@
     <value>Ruta</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Ordenación y agrupación</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Archivo</value>
@@ -2930,9 +2918,12 @@
     <value>Columna de estado de sincronización</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Agrupar por</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Ordenar por</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Los archivos usados recientemente no están habilitados actualmente en el Explorador de archivos de Windows.</value>
   </data>
 </root>

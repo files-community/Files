@@ -10,7 +10,6 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Linq;
@@ -29,8 +28,6 @@ namespace Files.App.Views
 
 		private object navParameterItem;
 		private IShellPage AppInstance;
-
-		private ListedItem listedItem;
 
 		public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -58,18 +55,26 @@ namespace Files.App.Views
 			var args = e.Parameter as PropertiesPageNavigationArguments;
 			AppInstance = args.AppInstanceArgument;
 			navParameterItem = args.Item;
-			listedItem = args.Item as ListedItem;
-			TabShorcut.Visibility = listedItem is not null && listedItem.IsShortcut ? Visibility.Visible : Visibility.Collapsed;
-			TabLibrary.Visibility = listedItem is not null && listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
-			TabDetails.Visibility = listedItem is not null && listedItem.FileExtension is not null && !listedItem.IsShortcut && !listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
-			TabSecurity.Visibility = args.Item is DriveItem ||
-				(listedItem is not null && !listedItem.IsLibrary && !listedItem.IsRecycleBinItem) ? Visibility.Visible : Visibility.Collapsed;
-			TabCustomization.Visibility = listedItem is not null && !listedItem.IsLibrary && (
-				(listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsArchive) ||
-				(listedItem.IsShortcut && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
-			TabCompatibility.Visibility = listedItem is not null && (
-					".exe".Equals(listedItem is ShortcutItem sht ? System.IO.Path.GetExtension(sht.TargetPath) : listedItem.FileExtension, StringComparison.OrdinalIgnoreCase)
-				) ? Visibility.Visible : Visibility.Collapsed;
+			if (args.Item is ListedItem listedItem)
+			{
+				var isShortcut = listedItem.IsShortcut;
+				var isLibrary = listedItem.IsLibrary;
+				var fileExt = listedItem.FileExtension;
+				TabShorcut.Visibility = isShortcut ? Visibility.Visible : Visibility.Collapsed;
+				TabLibrary.Visibility = isLibrary ? Visibility.Visible : Visibility.Collapsed;
+				TabDetails.Visibility = fileExt is not null && !isShortcut && !isLibrary ? Visibility.Visible : Visibility.Collapsed;
+				TabCustomization.Visibility = !isLibrary && (
+					(listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsArchive) ||
+					(isShortcut && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
+				TabCompatibility.Visibility = (
+						FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : fileExt, true)
+					) ? Visibility.Visible : Visibility.Collapsed;
+				TabSecurity.Visibility = !isLibrary && !listedItem.IsRecycleBinItem ? Visibility.Visible : Visibility.Collapsed;
+			}
+			else if (args.Item is DriveItem)
+			{
+				TabSecurity.Visibility = Visibility.Visible;
+			}
 			base.OnNavigatedTo(e);
 		}
 
@@ -194,11 +199,11 @@ namespace Files.App.Views
 		{
 			if (contentFrame.Content is PropertiesGeneral propertiesGeneral)
 			{
-				await propertiesGeneral.SaveChangesAsync(listedItem);
+				await propertiesGeneral.SaveChangesAsync();
 			}
 			else
 			{
-				if (!await (contentFrame.Content as PropertiesTab).SaveChangesAsync(listedItem))
+				if (!await (contentFrame.Content as PropertiesTab).SaveChangesAsync())
 					return;
 			}
 
@@ -278,20 +283,6 @@ namespace Files.App.Views
 			public CancellationTokenSource tokenSource;
 			public object navParameter;
 			public IShellPage AppInstanceArgument { get; set; }
-		}
-
-		private void Page_Loading(FrameworkElement sender, object args)
-		{
-			// This manually adds the user's theme resources to the page
-			// I was unable to get this to work any other way
-			try
-			{
-				var xaml = XamlReader.Load(App.ExternalResourcesHelper.CurrentThemeResources) as ResourceDictionary;
-				App.Current.Resources.MergedDictionaries.Add(xaml);
-			}
-			catch (Exception)
-			{
-			}
 		}
 	}
 }
