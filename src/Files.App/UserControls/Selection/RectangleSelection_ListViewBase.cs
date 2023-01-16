@@ -137,7 +137,7 @@ namespace Files.App.UserControls.Selection
 			selectionStrategy = e.KeyModifiers.HasFlag(VirtualKeyModifiers.Control) ?
 					new InvertPreviousItemSelectionStrategy(uiElement.SelectedItems, prevSelectedItems) :
 					e.KeyModifiers.HasFlag(VirtualKeyModifiers.Shift) ?
-						(ItemSelectionStrategy)new ExtendPreviousItemSelectionStrategy(uiElement.SelectedItems, prevSelectedItems) :
+						new ExtendPreviousItemSelectionStrategy(uiElement.SelectedItems, prevSelectedItems) :
 						new IgnorePreviousItemSelectionStrategy(uiElement.SelectedItems);
 
 			selectionStrategy.HandleNoItemSelected();

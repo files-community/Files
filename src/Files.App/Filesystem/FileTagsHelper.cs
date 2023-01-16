@@ -81,7 +81,7 @@ namespace Files.App.Filesystem
 						{
 							var frn = GetFileFRN(file.FilePath);
 							dbInstance.UpdateTag(file.FilePath, frn, null);
-							dbInstance.SetTags(file.FilePath, (ulong?)frn, tag);
+							dbInstance.SetTags(file.FilePath, frn, tag);
 						}, App.Logger))
 						{
 							dbInstance.SetTags(file.FilePath, null, null);
