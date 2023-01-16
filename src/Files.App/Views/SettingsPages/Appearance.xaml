@@ -41,15 +41,27 @@
 						Background="{x:Bind BackgroundColor, Converter={StaticResource ColorToSolidColorBrushConverter}, Mode=OneWay}"
 						CornerRadius="4,4,0,0" />
 
-					<!--  Tab  -->
-					<Border
-						Width="32"
-						Height="12"
-						Margin="4,0,0,0"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Bottom"
-						Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
-						CornerRadius="4,4,0,0" />
+					<!--  Tab Bar  -->
+					<StackPanel Orientation="Horizontal">
+						<Border
+							Width="4"
+							Height="1"
+							VerticalAlignment="Bottom"
+							Background="{ThemeResource ControlElevationBorderBrush}" />
+						<Border
+							Width="32"
+							Height="12"
+							VerticalAlignment="Bottom"
+							Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
+							BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+							BorderThickness="1,1,1,0"
+							CornerRadius="4,4,0,0" />
+						<Border
+							Width="86"
+							Height="1"
+							VerticalAlignment="Bottom"
+							Background="{ThemeResource ControlElevationBorderBrush}" />
+					</StackPanel>
 
 					<!--  File area  -->
 					<Border
