@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.Foundation;
+using Windows.System;
 
 namespace Files.App.ViewModels
 {
@@ -32,9 +33,7 @@ namespace Files.App.ViewModels
 		private readonly List<SuggestionModel> oldQueries = new List<SuggestionModel>();
 
 		public void ClearSuggestions()
-		{
-			Suggestions.Clear();
-		}
+			=> Suggestions.Clear();
 
 		public void SetSuggestions(IEnumerable<SuggestionModel> suggestions)
 		{
@@ -44,9 +43,7 @@ namespace Files.App.ViewModels
 
 			var oldSuggestions = Suggestions.Except(items, suggestionComparer).ToList();
 			foreach (var oldSuggestion in oldSuggestions)
-			{
 				Suggestions.Remove(oldSuggestion);
-			}
 
 			var newSuggestions = items.Except(Suggestions, suggestionComparer).ToList();
 			foreach (var newSuggestion in newSuggestions)
@@ -65,9 +62,7 @@ namespace Files.App.ViewModels
 		}
 
 		public void SearchRegion_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs e)
-		{
-			TextChanged?.Invoke(this, new SearchBoxTextChangedEventArgs(e.Reason));
-		}
+			=> TextChanged?.Invoke(this, new SearchBoxTextChangedEventArgs(e.Reason));
 
 		public void SearchRegion_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs e)
 		{
@@ -95,24 +90,21 @@ namespace Files.App.ViewModels
 
 				// Limit to last 5 queries to improve performance
 				if (oldQueries.Count > 5)
-				{
 					oldQueries.RemoveAt(5);
-				}
 			}
 		}
 
 		public void SearchRegion_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
-		{
-			Escaped?.Invoke(this, this);
-		}
+			=> Escaped?.Invoke(this, this);
 
 		public void SearchRegion_GotFocus(object sender, RoutedEventArgs e)
 		{
 			if (string.IsNullOrWhiteSpace(query))
-			{
 				AddRecentQueries();
-			}
 		}
+
+		public void SearchRegion_KeyDown(object sender, KeyRoutedEventArgs e)
+			=> e.Handled = e.Key == VirtualKey.Left || e.Key == VirtualKey.Right;
 
 		public void AddRecentQueries()
 		{
