@@ -12,7 +12,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
-using static Vanara.PInvoke.Gdi32;
 
 namespace Files.App.Helpers
 {
