@@ -46,6 +46,15 @@ namespace Files.App.Views.LayoutModes
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
+		public bool AreAllItemsSelected
+		{
+			get
+			{
+				return FileList.SelectedItems.Count == FileList.Items.Count;
+			}
+			set { }
+		}
+
 		private double maxWidthForRenameTextbox;
 
 		public double MaxWidthForRenameTextbox
@@ -317,7 +326,7 @@ namespace Files.App.Views.LayoutModes
 
 
 			// If the selection is not all items, uncheck the select all checkbox and vice versa
-			SelectAllItemsCheckbox.IsChecked = SelectedItems.Count == FileList.Items.Count;
+			NotifyPropertyChanged(nameof(AreAllItemsSelected));
 
 			if (e != null)
 			{
@@ -633,7 +642,7 @@ namespace Files.App.Views.LayoutModes
 			if (item is ListViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
 
-			SelectAllItemsCheckbox.IsChecked = FileList.SelectedItems.Count == FileList.Items.Count;
+			NotifyPropertyChanged(nameof(AreAllItemsSelected));
 		}
 
 		private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
