@@ -149,5 +149,25 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating the default grouping option.
 		/// </summary>
 		GroupOption DefaultGroupOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if file extensions should be displayed.
+		/// </summary>
+		bool ShowFileExtensions { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if media thumbnails should be displayed.
+		/// </summary>
+		bool ShowThumbnails { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the delete confirmation dialog when deleting items.
+		/// </summary>
+		bool ShowConfirmDeleteDialog { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to select files and folders when hovering them.
+		/// </summary>
+		bool SelectFilesOnHover { get; set; }
 	}
 }

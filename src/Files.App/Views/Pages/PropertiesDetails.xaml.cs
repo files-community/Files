@@ -1,5 +1,4 @@
 using Files.App.Dialogs;
-using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using Files.Shared.Enums;
@@ -40,7 +39,7 @@ namespace Files.App.Views
 			return contentDialog;
 		}
 
-		public override async Task<bool> SaveChangesAsync(ListedItem item)
+		public override async Task<bool> SaveChangesAsync()
 		{
 			while (true)
 			{

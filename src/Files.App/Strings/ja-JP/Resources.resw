@@ -221,10 +221,10 @@
     <value>テーマ</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>既知のファイル タイプの拡張子を表示</value>
+    <value>既知のファイル タイプの拡張子を表示する</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>すべてのファイルとフォルダーを表示</value>
+    <value>すべてのファイルとフォルダーを表示する</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
     <value>ドットファイルを表示する</value>
@@ -815,7 +815,7 @@
     <value>オーバーフロー項目をサブメニューに移動</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>ファイルやフォルダーを削除するときに確認ダイアログを表示</value>
+    <value>ファイルやフォルダーを削除するときに確認ダイアログを表示する</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>プロパティを保存する際に問題が発生しました。</value>
@@ -1187,7 +1187,7 @@
     <value>検索結果</value>
   </data>
   <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Files の開発への貢献者を見る</value>
+    <value>Files の開発に貢献した人を見る</value>
   </data>
   <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Files の新機能を確認</value>
@@ -1214,7 +1214,7 @@
     <value>更新あり</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>保護されたシステムファイルを表示</value>
+    <value>保護されたシステムファイルを表示する</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>インデックスされていないファイルを検索結果に含める</value>
@@ -1223,10 +1223,10 @@
     <value>フォルダーの追加設定をリセット</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>この設定がオフのときに任意のフォルダーのレイアウトを変更すると、すべてのフォルダーにそのレイアウトが適用されます。</value>
+    <value>この設定がオフのときに変更したフォルダーのレイアウトは、すべてのフォルダーに適用されます。</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>個別のフォルダーごとに設定を変更できるようにする</value>
+    <value>フォルダーごとに設定を保存する</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリック メニューをカスタマイズ</value>
@@ -1304,10 +1304,10 @@
     <value>タイルビュー (Ctrl+Shift+2)</value>
   </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>ファイル拡張子を表示</value>
+    <value>ファイル拡張子を表示する</value>
   </data>
   <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>隠しファイルを表示</value>
+    <value>隠しファイルを表示する</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>削除した日時</value>
@@ -1406,7 +1406,7 @@
     <value>ドキュメンテーション</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Files の資料ページを表示</value>
+    <value>Files のドキュメントを見る</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>進行中のタスクのフライアウト</value>
@@ -1505,7 +1505,7 @@
     <value>新しいペインで開く</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>ライブラリ セクションを表示</value>
+    <value>ライブラリ セクションを表示する</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>既定</value>
@@ -1658,16 +1658,16 @@
     <value>新しいタブでフォルダーを開く</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>バンドル ウィジェットを表示</value>
+    <value>バンドル ウィジェットを表示する</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>ドライブ ウィジェットを表示</value>
+    <value>ドライブ ウィジェットを表示する</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>フォルダー ウィジェットを表示</value>
+    <value>フォルダー ウィジェットを表示する</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>最近使用したファイル ウィジェットを表示</value>
+    <value>最近使用したファイル ウィジェットを表示する</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>お探しのファイルが見つかりませんでしたか?</value>
@@ -2171,7 +2171,7 @@
     <value>完全なプレビューを読み込む</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>クラウドからファイルをダウンロードし、プレビューを表示</value>
+    <value>クラウドからファイルをダウンロードし、プレビューを表示する</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
     <value>{0} 項目 ({1} ファイル、{2} フォルダー)</value>
@@ -2180,16 +2180,16 @@
     <value>圧縮前のサイズ</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>クラウド ドライブ セクションを表示</value>
+    <value>クラウド ドライブ セクションを表示する</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>ドライブ セクションを表示</value>
+    <value>ドライブ セクションを表示する</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>WSL セクションを表示</value>
+    <value>WSL セクションを表示する</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>ネットワーク セクションを表示</value>
+    <value>ネットワーク セクションを表示する</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -2294,7 +2294,7 @@
     <value>ファイル タグを編集</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>お気に入り セクションを表示</value>
+    <value>お気に入り セクションを表示する</value>
   </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
     <value>すべてに適用</value>
@@ -2345,7 +2345,7 @@
     <value>項目は見つかりませんでした</value>
   </data>
   <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>プレビューのみを表示</value>
+    <value>プレビューのみを表示する</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>ログの場所を開く</value>
@@ -2369,13 +2369,13 @@
     <value>タイル</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>ファイル拡張子を表示</value>
+    <value>ファイル拡張子を表示する</value>
   </data>
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>隠しファイルを表示</value>
+    <value>隠しファイルを表示する</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>お気に入り セクションを表示</value>
+    <value>お気に入り セクションを表示する</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>新しいタブでフォルダーを開く</value>
@@ -2384,22 +2384,22 @@
     <value>言語</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>クラウド ドライブ セクションを表示</value>
+    <value>クラウド ドライブ セクションを表示する</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>ファイルやフォルダーを削除するときに確認ダイアログを表示</value>
+    <value>ファイルやフォルダーを削除するときに確認ダイアログを表示する</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>ドライブ セクションを表示</value>
+    <value>ドライブ セクションを表示する</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>ライブラリ セクションを表示</value>
+    <value>ライブラリ セクションを表示する</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>ネットワーク セクションを表示</value>
+    <value>ネットワーク セクションを表示する</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>WSL セクションを表示</value>
+    <value>WSL セクションを表示する</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>進行中のタスク</value>
@@ -2675,10 +2675,10 @@
     <value>タグ</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>タグ セクションを表示</value>
+    <value>タグ セクションを表示する</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>タグ セクションを表示</value>
+    <value>タグ セクションを表示する</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>詳細レイアウトでコンパクトスタイルを使用する</value>

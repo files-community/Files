@@ -150,7 +150,10 @@ namespace Files.App.Views.LayoutModes
 
 		private void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
 		{
-			FileList.Focus(FocusState.Programmatic);
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
+			var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == FileList;
+			if (!isFileListFocused)
+				FileList.Focus(FocusState.Programmatic);
 		}
 
 		private void ZoomIn(object? sender, GroupOption option)
@@ -239,7 +242,7 @@ namespace Files.App.Views.LayoutModes
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
 			int selectedTextLength = SelectedItem.Name.Length;
-			if (!SelectedItem.IsShortcut && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
 				selectedTextLength -= extensionLength;
 			textBox.Select(0, selectedTextLength);
 			IsRenamingItem = true;
@@ -279,7 +282,7 @@ namespace Files.App.Views.LayoutModes
 		private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// This check allows the user to use the text box context menu without ending the rename
-			if (!(FocusManager.GetFocusedElement() is AppBarButton or Popup))
+			if (!(FocusManager.GetFocusedElement(XamlRoot) is AppBarButton or Popup))
 			{
 				TextBox textBox = (TextBox)e.OriginalSource;
 				CommitRename(textBox);
@@ -407,12 +410,12 @@ namespace Files.App.Views.LayoutModes
 				if (IsRenamingItem)
 					return;
 
+				e.Handled = true;
+
 				if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
 					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 				else
-					_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-
-				e.Handled = true;
+					await NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
@@ -430,12 +433,12 @@ namespace Files.App.Views.LayoutModes
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
 			{
 				// Unfocus the GridView so keyboard shortcut can be handled
-				NavToolbar?.Focus(FocusState.Pointer);
+				this.Focus(FocusState.Pointer);
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
 			{
 				// Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
-				NavToolbar?.Focus(FocusState.Pointer);
+				this.Focus(FocusState.Pointer);
 			}
 			else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
 			{
@@ -477,7 +480,7 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			// Don't block the various uses of enter key (key 13)
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
 
 			if
 			(

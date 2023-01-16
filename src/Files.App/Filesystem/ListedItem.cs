@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -270,7 +269,7 @@ namespace Files.App.Filesystem
 				if (PrimaryItemAttribute == StorageItemTypes.File)
 				{
 					var nameWithoutExtension = Path.GetFileNameWithoutExtension(itemNameRaw);
-					if (!string.IsNullOrEmpty(nameWithoutExtension) && !UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+					if (!string.IsNullOrEmpty(nameWithoutExtension) && !UserSettingsService.FoldersSettingsService.ShowFileExtensions)
 					{
 						return nameWithoutExtension;
 					}
@@ -537,7 +536,7 @@ namespace Files.App.Filesystem
 			get
 			{
 				var nameWithoutExtension = Path.GetFileNameWithoutExtension(ItemNameRaw);
-				if (!string.IsNullOrEmpty(nameWithoutExtension) && !UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+				if (!string.IsNullOrEmpty(nameWithoutExtension) && !UserSettingsService.FoldersSettingsService.ShowFileExtensions)
 				{
 					return nameWithoutExtension;
 				}
@@ -588,7 +587,7 @@ namespace Files.App.Filesystem
 			{
 				var nameWithoutExtension = Path.GetFileNameWithoutExtension(ItemNameRaw);
 				var mainStreamNameWithoutExtension = Path.GetFileNameWithoutExtension(MainStreamName);
-				if (!UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+				if (!UserSettingsService.FoldersSettingsService.ShowFileExtensions)
 				{
 					return $"{(string.IsNullOrEmpty(mainStreamNameWithoutExtension) ? MainStreamName : mainStreamNameWithoutExtension)}:{(string.IsNullOrEmpty(nameWithoutExtension) ? ItemNameRaw : nameWithoutExtension)}";
 				}

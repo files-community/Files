@@ -13,7 +13,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -602,44 +601,6 @@ namespace Files.App.Shell
 					}
 				}
 			});
-		}
-
-		public static string GenerateUniquePath(string path)
-		{
-			string uniquePath = path;
-
-			if (File.Exists(path))
-			{
-				string nameWithoutExt = Path.GetFileNameWithoutExtension(path);
-				string extension = Path.GetExtension(path);
-				string directory = Path.GetDirectoryName(path)!;
-				var countMatch = Regex.Match(nameWithoutExt, @"\(\d+\)", RegexOptions.RightToLeft);
-
-				for (ushort count = 1; File.Exists(uniquePath); count++)
-				{
-					if (countMatch.Success)
-						uniquePath = Path.Combine(directory, $"{nameWithoutExt[..countMatch.Index]}({count}){extension}");
-					else
-						uniquePath = Path.Combine(directory, $"{nameWithoutExt} ({count}){extension}");
-				}
-			}
-			else if (Directory.Exists(path))
-			{
-				string? directory = Path.GetDirectoryName(path)!;
-				string Name = Path.GetFileName(path);
-				var countMatch = Regex.Match(Name, @"\(\d+\)", RegexOptions.RightToLeft);
-
-				for (ushort Count = 1; Directory.Exists(uniquePath); Count++)
-				{
-					var pathSuffix = (countMatch.Success) ?
-						$"{Name[..countMatch.Index]}({Count})"
-						: $"{Name} ({Count})";
-
-					uniquePath = Path.Combine(directory, pathSuffix);
-				}
-			}
-
-			return uniquePath;
 		}
 
 		/// <summary>

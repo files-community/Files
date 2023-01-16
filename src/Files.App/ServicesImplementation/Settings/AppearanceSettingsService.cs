@@ -2,7 +2,6 @@ using Files.App.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Microsoft.AppCenter.Analytics;
-using Microsoft.UI.Xaml.Media;
 using System;
 
 namespace Files.App.ServicesImplementation.Settings
@@ -27,48 +26,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ShowFavoritesSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowLibrarySection
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ShowDrivesSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowCloudDrivesSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowNetworkDrivesSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowWslSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowFileTagsSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool MoveOverflowMenuItemsToSubMenu
 		{
 			get => Get(true);
@@ -78,53 +35,6 @@ namespace Files.App.ServicesImplementation.Settings
 		public bool UseCompactStyles
 		{
 			get => Get(false);
-			set => Set(value);
-		}
-		public bool ShowFoldersWidget
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowRecentFilesWidget
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowDrivesWidget
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowBundlesWidget
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool FoldersWidgetExpanded
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool RecentFilesWidgetExpanded
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool DrivesWidgetExpanded
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool BundlesWidgetExpanded
-		{
-			get => Get(true);
 			set => Set(value);
 		}
 
@@ -138,21 +48,21 @@ namespace Files.App.ServicesImplementation.Settings
 		/// <inheritdoc/>
 		public String AppThemeAddressBarBackgroundColor
 		{
-			get => Get("#00000000");
+			get => Get("");
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
 		public String AppThemeSidebarBackgroundColor
 		{
-			get => Get("#00000000");
+			get => Get("");
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
 		public String AppThemeFileAreaBackgroundColor
 		{
-			get => Get("#00000000");
+			get => Get("");
 			set => Set(value);
 		}
 
@@ -168,17 +78,7 @@ namespace Files.App.ServicesImplementation.Settings
 			switch (e.SettingName)
 			{
 				case nameof(MoveOverflowMenuItemsToSubMenu):
-				case nameof(ShowFavoritesSection):
-				case nameof(ShowLibrarySection):
-				case nameof(ShowCloudDrivesSection):
-				case nameof(ShowNetworkDrivesSection):
-				case nameof(ShowWslSection):
-				case nameof(ShowFileTagsSection):
 				case nameof(UseCompactStyles):
-				case nameof(ShowFoldersWidget):
-				case nameof(ShowRecentFilesWidget):
-				case nameof(ShowDrivesWidget):
-				case nameof(ShowBundlesWidget):
 				case nameof(AppThemeBackgroundColor):
 				case nameof(AppThemeAddressBarBackgroundColor):
 				case nameof(AppThemeSidebarBackgroundColor):

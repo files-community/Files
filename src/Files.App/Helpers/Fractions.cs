@@ -28,7 +28,7 @@ namespace Files.App.Helpers
 
 		private static void RoundToMixedFraction(double input, int accuracy, out int whole, out int numerator, out int denominator)
 		{
-			double dblAccuracy = (double)accuracy;
+			double dblAccuracy = accuracy;
 			whole = (int)(Math.Truncate(input));
 			var fraction = Math.Abs(input - whole);
 			if (fraction == 0)

@@ -85,6 +85,15 @@
 									<FontIcon Glyph="&#xE7C3;" />
 								</MenuFlyoutItem.Icon>
 							</MenuFlyoutItem>
+							<MenuFlyoutItem
+								x:Name="NewShortcut"
+								AutomationProperties.AutomationId="InnerNavigationToolbarNewShortcutButton"
+								Command="{x:Bind ViewModel.CreateNewShortcutCommand, Mode=OneWay}"
+								Text="{helpers:ResourceString Name=Shortcut}">
+								<MenuFlyoutItem.Icon>
+									<FontIcon Glyph="&#xE71B;" />
+								</MenuFlyoutItem.Icon>
+							</MenuFlyoutItem>
 							<MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
 						</MenuFlyout>
 					</AppBarButton.Flyout>
@@ -800,7 +809,7 @@
 									Grid.Column="1"
 									HorizontalAlignment="Right"
 									AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarShowFileExtensions/AutomationProperties/Name}"
-									IsOn="{x:Bind UserSettingsService.PreferencesSettingsService.ShowFileExtensions, Mode=TwoWay}"
+									IsOn="{x:Bind UserSettingsService.FoldersSettingsService.ShowFileExtensions, Mode=TwoWay}"
 									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 							</Grid>
@@ -814,7 +823,7 @@
 				MinWidth="40"
 				AccessKey="P"
 				AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneToggle/AutomationProperties/Name}"
-				IsChecked="{x:Bind AppModel.PaneViewModel.IsPreviewSelected, Mode=TwoWay}"
+				IsChecked="{x:Bind PreviewPaneViewModel.IsEnabled, Mode=TwoWay}"
 				IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
 				Label="{helpers:ResourceString Name=PreviewPaneToggle/Label}"
 				LabelPosition="Collapsed"

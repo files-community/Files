@@ -1,4 +1,3 @@
-using Files.App.DataModels;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Permissions;
 using Files.App.Shell;
@@ -17,7 +16,6 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Tulpep.ActiveDirectoryObjectPicker;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -45,46 +43,6 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<bool> DragDropAsync(string dropPath)
-		{
-			return Win32API.StartSTATask(() =>
-			{
-				var rdo = new RemoteDataObject(System.Windows.Forms.Clipboard.GetDataObject());
-
-				foreach (RemoteDataObject.DataPackage package in rdo.GetRemoteData())
-				{
-					try
-					{
-						if (package.ItemType == RemoteDataObject.StorageType.File)
-						{
-							string directoryPath = Path.GetDirectoryName(dropPath);
-							if (!Directory.Exists(directoryPath))
-							{
-								Directory.CreateDirectory(directoryPath);
-							}
-
-							string uniqueName = Win32API.GenerateUniquePath(Path.Combine(dropPath, package.Name));
-							using FileStream stream = new FileStream(uniqueName, FileMode.CreateNew);
-							package.ContentStream.CopyTo(stream);
-						}
-						else
-						{
-							string directoryPath = Path.Combine(dropPath, package.Name);
-							if (!Directory.Exists(directoryPath))
-							{
-								Directory.CreateDirectory(directoryPath);
-							}
-						}
-					}
-					finally
-					{
-						package.Dispose();
-					}
-				}
-				return true;
-			});
-		}
-
 		public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, string template = "", byte[]? dataBytes = null)
 		{
 			return Win32API.StartSTATask(async () =>
@@ -109,7 +67,7 @@ namespace Files.App.Helpers
 					{
 						Succeeded = false,
 						Destination = filePath,
-						HResult = (int)-1
+						HResult = -1
 					});
 				}
 
@@ -174,7 +132,7 @@ namespace Files.App.Helpers
 						{
 							Succeeded = false,
 							Source = fileToDeletePath[i],
-							HResult = (int)-1
+							HResult = -1
 						});
 					}
 				}
@@ -188,7 +146,7 @@ namespace Files.App.Helpers
 						{
 							Succeeded = false,
 							Source = e.SourceItem.GetParsingPath(),
-							HResult = (int)HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
+							HResult = HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
 						});
 						throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
 					}
@@ -198,7 +156,7 @@ namespace Files.App.Helpers
 						{
 							Succeeded = true,
 							Source = e.SourceItem.GetParsingPath(),
-							HResult = (int)HRESULT.COPYENGINE_E_USER_CANCELLED
+							HResult = HRESULT.COPYENGINE_E_USER_CANCELLED
 						});
 						throw new Win32Exception(HRESULT.COPYENGINE_E_USER_CANCELLED); // E_FAIL, stops operation
 					}
@@ -253,7 +211,7 @@ namespace Files.App.Helpers
 						{
 							Succeeded = false,
 							Source = fileToDeletePath[i],
-							HResult = (int)-1
+							HResult = -1
 						});
 					}
 				}
@@ -331,7 +289,7 @@ namespace Files.App.Helpers
 					{
 						Succeeded = false,
 						Source = fileToRenamePath,
-						HResult = (int)-1
+						HResult = -1
 					});
 				}
 
@@ -401,7 +359,7 @@ namespace Files.App.Helpers
 							Succeeded = false,
 							Source = fileToMovePath[i],
 							Destination = moveDestination[i],
-							HResult = (int)-1
+							HResult = -1
 						});
 					}
 				}
@@ -482,7 +440,7 @@ namespace Files.App.Helpers
 							Succeeded = false,
 							Source = fileToCopyPath[i],
 							Destination = copyDestination[i],
-							HResult = (int)-1
+							HResult = -1
 						});
 					}
 				}

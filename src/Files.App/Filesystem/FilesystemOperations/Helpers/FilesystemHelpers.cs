@@ -14,11 +14,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Windows.Storage.Streams;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem
 {
@@ -116,15 +120,15 @@ namespace Files.App.Filesystem
 			var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
 			var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
 
-			if (showDialog && ((!permanently && !canBeSentToBin) || UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog)) // Check if the setting to show a confirmation dialog is on
+			if (showDialog && UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog) // Check if the setting to show a confirmation dialog is on
 			{
 				var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
-				List<ShellFileItem> binItems = null;
+				List<ShellFileItem>? binItems = null;
 				foreach (var src in source)
 				{
 					if (recycleBinHelpers.IsPathUnderRecycleBin(src.Path))
 					{
-						binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+						binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
 						if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 						{
 							var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src.Path); // Get original file name
@@ -147,12 +151,14 @@ namespace Files.App.Filesystem
 				var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 				if (await dialogService.ShowDialogAsync(dialogViewModel) != DialogResult.Primary)
-				{
 					return ReturnResult.Cancelled; // Return if the result isn't delete
-				}
 
 				// Delete selected items if the result is Yes
 				permanently = dialogViewModel.DeletePermanently;
+			}
+			else
+			{
+				permanently |= !canBeSentToBin; // delete permanently if recycle bin is not supported
 			}
 
 			// post the status banner
@@ -169,9 +175,7 @@ namespace Files.App.Filesystem
 			await Task.Yield();
 
 			if (!permanently && registerHistory)
-			{
 				App.HistoryWrapper.AddHistory(history);
-			}
 			var itemsDeleted = history?.Source.Count ?? 0;
 
 			source.ForEach(x => App.JumpList.RemoveFolder(x.Path)); // Remove items from jump list
@@ -249,7 +253,7 @@ namespace Files.App.Filesystem
 				}
 				if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 				{
-					showDialog |= UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog;
+					showDialog |= UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog;
 					return await RecycleItemsFromClipboard(packageView, destination, showDialog, registerHistory);
 				}
 				else if (operation.HasFlag(DataPackageOperation.Copy))
@@ -265,12 +269,8 @@ namespace Files.App.Filesystem
 					// Open with piggybacks off of the link operation, since there isn't one for it
 					if (isTargetExecutable)
 					{
-						var handledByFtp = await CheckDragNeedsFulltrust(packageView);
-						if (!handledByFtp)
-						{
-							var items = await GetDraggedStorageItems(packageView);
-							NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items, destination);
-						}
+						var items = await GetDraggedStorageItems(packageView);
+						NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items, destination);
 						return ReturnResult.Success;
 					}
 					else
@@ -356,11 +356,7 @@ namespace Files.App.Filesystem
 
 		public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
 		{
-			var handledByFtp = await CheckDragNeedsFulltrust(packageView);
 			var source = await GetDraggedStorageItems(packageView);
-
-			if (handledByFtp)
-				return await FileOperationsHelpers.DragDropAsync(associatedInstance.FilesystemViewModel.WorkingDirectory) ? ReturnResult.Success : ReturnResult.Failed;
 
 			if (!source.IsEmpty())
 			{
@@ -372,7 +368,7 @@ namespace Files.App.Filesystem
 				{
 					if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
 					{
-						binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+						binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
 						if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 						{
 							var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
@@ -501,12 +497,6 @@ namespace Files.App.Filesystem
 				return ReturnResult.BadArgumentException;
 			}
 
-			var handledByFtp = await CheckDragNeedsFulltrust(packageView);
-			if (handledByFtp)
-			{
-				// Not supported
-				return ReturnResult.Failed;
-			}
 			var source = await GetDraggedStorageItems(packageView);
 
 			ReturnResult returnStatus = ReturnResult.InProgress;
@@ -517,7 +507,7 @@ namespace Files.App.Filesystem
 			{
 				if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
 				{
-					binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+					binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
 					if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 					{
 						var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
@@ -599,12 +589,6 @@ namespace Files.App.Filesystem
 				return ReturnResult.BadArgumentException;
 			}
 
-			var handledByFtp = await CheckDragNeedsFulltrust(packageView);
-			if (handledByFtp)
-			{
-				// Not supported
-				return ReturnResult.Failed;
-			}
 			var source = await GetDraggedStorageItems(packageView);
 
 			var returnStatus = ReturnResult.InProgress;
@@ -635,13 +619,6 @@ namespace Files.App.Filesystem
 			{
 				// Happens if you copy some text and then you Ctrl+V in Files
 				return ReturnResult.BadArgumentException;
-			}
-
-			var handledByFtp = await CheckDragNeedsFulltrust(packageView);
-			if (handledByFtp)
-			{
-				// Not supported
-				return ReturnResult.Failed;
 			}
 
 			var source = await GetDraggedStorageItems(packageView);
@@ -733,34 +710,13 @@ namespace Files.App.Filesystem
 
 		public static bool HasDraggedStorageItems(DataPackageView packageView)
 		{
-			return packageView is not null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out _)));
-		}
-
-		public static async Task<bool> CheckDragNeedsFulltrust(DataPackageView packageView)
-		{
-			if (packageView.Contains(StandardDataFormats.StorageItems))
-			{
-				try
-				{
-					_ = await packageView.GetStorageItemsAsync();
-					return false;
-				}
-				catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-				{
-					return true;
-				}
-				catch (Exception ex)
-				{
-					App.Logger.Warn(ex, ex.Message);
-					return false;
-				}
-			}
-			return false;
+			return packageView is not null && (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains("FileDrop"));
 		}
 
 		public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
 		{
 			var itemsList = new List<IStorageItemWithPath>();
+
 			if (packageView.Contains(StandardDataFormats.StorageItems))
 			{
 				try
@@ -770,7 +726,7 @@ namespace Files.App.Filesystem
 				}
 				catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
 				{
-					return itemsList;
+					// continue
 				}
 				catch (Exception ex)
 				{
@@ -778,13 +734,58 @@ namespace Files.App.Filesystem
 					return itemsList;
 				}
 			}
-			if (packageView.Properties.TryGetValue("FileDrop", out var data))
+
+			// workaround for GetStorageItemsAsync() bug that only yields 16 items at most
+			// https://learn.microsoft.com/en-us/windows/win32/shell/clipboard#cf_hdrop
+			if (packageView.Contains("FileDrop"))
 			{
-				if (data is List<IStorageItemWithPath> source)
+				var fileDropData = await packageView.GetDataAsync("FileDrop");
+				if (fileDropData is IRandomAccessStream stream)
 				{
-					itemsList.AddRange(source);
+					stream.Seek(0);
+
+					byte[] dropBytes = new byte[stream.Size];
+					int bytesRead = await stream.AsStreamForRead().ReadAsync(dropBytes);
+
+					if (bytesRead > 0)
+					{
+						IntPtr dropStructPointer = Marshal.AllocHGlobal(dropBytes.Length);
+
+						try
+						{
+							Marshal.Copy(dropBytes, 0, dropStructPointer, dropBytes.Length);
+							HDROP dropStructHandle = new(dropStructPointer);
+
+							var itemPaths = new List<string>();
+							uint filesCount = Shell32.DragQueryFile(dropStructHandle, 0xffffffff, null, 0);
+							for (uint i = 0; i < filesCount; i++)
+							{
+								uint charsNeeded = Shell32.DragQueryFile(dropStructHandle, i, null, 0);
+								uint bufferSpaceRequired = charsNeeded + 1;	// include space for terminating null character
+								string buffer = new('\0', (int)bufferSpaceRequired);
+								uint charsCopied = Shell32.DragQueryFile(dropStructHandle, i, buffer, bufferSpaceRequired);
+
+								if (charsCopied > 0)
+								{
+									string path = buffer[..(int)charsCopied];
+									itemPaths.Add(path);
+								}
+							}
+
+							foreach (var path in itemPaths)
+							{
+								var isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, FileAttributes.Directory);
+								itemsList.Add(StorageHelpers.FromPathAndType(path, isDirectory ? FilesystemItemType.Directory : FilesystemItemType.File));
+							}
+						}
+						finally
+						{
+							Marshal.FreeHGlobal(dropStructPointer);
+						}
+					}
 				}
 			}
+
 			itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path).ToList();
 			return itemsList;
 		}

@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.App.Helpers;
@@ -12,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
 using Windows.UI;
 
 namespace Files.App.ViewModels.SettingsViewModels
@@ -51,29 +49,28 @@ namespace Files.App.ViewModels.SettingsViewModels
 				var appThemeBackgroundColor = new AppThemeResource
 				{
 					BackgroundColor = backgroundColor,
-					PreviewColor = new SolidColorBrush(Color.FromArgb(255, backgroundColor.R, backgroundColor.G, backgroundColor.B)),
 					Name = "Custom"
 				};
 
-				AppThemeResources.Insert(1, appThemeBackgroundColor);
+				AppThemeResources.Add(appThemeBackgroundColor);
 			}
 
-			SelectedAppBackgroundColor = AppThemeResources
-					.Where(p => p.BackgroundColor == AppThemeBackgroundColor)
-					.FirstOrDefault() ?? AppThemeResources[0];
+			SelectedAppThemeResources = AppThemeResources
+				.Where(p => p.BackgroundColor == AppThemeBackgroundColor)
+				.FirstOrDefault() ?? AppThemeResources[0];
 		}
 
 
-		private AppThemeResource selectedAppBackgroundColor;
-		public AppThemeResource SelectedAppBackgroundColor
+		private AppThemeResource selectedAppThemeResources;
+		public AppThemeResource SelectedAppThemeResources
 		{
-			get => selectedAppBackgroundColor;
+			get => selectedAppThemeResources;
 			set
 			{
-				if (SetProperty(ref selectedAppBackgroundColor, value))
+				if (SetProperty(ref selectedAppThemeResources, value))
 				{
-					AppThemeBackgroundColor = SelectedAppBackgroundColor.BackgroundColor;
-					OnPropertyChanged(nameof(selectedAppBackgroundColor));
+					AppThemeBackgroundColor = SelectedAppThemeResources.BackgroundColor;
+					OnPropertyChanged(nameof(selectedAppThemeResources));
 				}
 			}
 		}
@@ -110,19 +107,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool ShowFavoritesSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowFavoritesSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public bool UseCompactStyles
 		{
 			get => UserSettingsService.AppearanceSettingsService.UseCompactStyles;
@@ -137,124 +121,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 					OnPropertyChanged();
 				}
-			}
-		}
-
-		public bool ShowLibrarySection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowLibrarySection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowLibrarySection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowDrivesSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowDrivesSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowDrivesSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowCloudDrivesSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowNetworkDrivesSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowWslSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowWslSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowWslSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowFileTagsSection
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowFileTagsSection;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowFoldersWidget
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowFoldersWidget;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowFoldersWidget)
-					UserSettingsService.AppearanceSettingsService.ShowFoldersWidget = value;
-			}
-		}
-
-		public bool ShowDrivesWidget
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowDrivesWidget;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesWidget)
-					UserSettingsService.AppearanceSettingsService.ShowDrivesWidget = value;
-			}
-		}
-
-		public bool ShowBundlesWidget
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowBundlesWidget;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowBundlesWidget)
-					UserSettingsService.AppearanceSettingsService.ShowBundlesWidget = value;
-			}
-		}
-
-		public bool ShowRecentFilesWidget
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget)
-					UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget = value;
 			}
 		}
 

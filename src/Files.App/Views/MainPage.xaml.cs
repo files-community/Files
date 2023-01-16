@@ -12,9 +12,7 @@ using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using Files.Shared.EventArguments;
-using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -29,7 +27,6 @@ using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
-using Windows.UI;
 using ColorHelper = CommunityToolkit.WinUI.Helpers.ColorHelper;
 
 namespace Files.App.Views
@@ -64,7 +61,6 @@ namespace Files.App.Views
 		{
 			InitializeComponent();
 
-			// TODO LayoutDirection is empty, might be an issue with WinAppSdk
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
@@ -81,26 +77,34 @@ namespace Files.App.Views
 			LoadAppResources();
 		}
 
+
+
 		private void LoadAppResources()
 		{
 			var useCompactStyles = UserSettingsService.AppearanceSettingsService.UseCompactStyles;
 			var appThemeBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
-			var appThemeAddressBarBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor);
-			var appThemeSidebarBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor);
-			var appThemeFileAreaBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor);
+			var appThemeAddressBarBackgroundColor = UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor;
+			var appThemeSidebarBackgroundColor = UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor;
+			var appThemeFileAreaBackgroundColor = UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor;
 			var appThemeFontFamily = UserSettingsService.AppearanceSettingsService.AppThemeFontFamily;
 
 			App.AppThemeResourcesHelper.SetCompactSpacing(useCompactStyles);
 			App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(appThemeBackgroundColor);
 
-			if (appThemeAddressBarBackgroundColor != Color.FromArgb(0,0,0,0))
-				App.AppThemeResourcesHelper.SetAppThemeAddressBarBackgroundColor(appThemeAddressBarBackgroundColor);
-			
-			if (appThemeSidebarBackgroundColor != Color.FromArgb(0,0,0,0))
-				App.AppThemeResourcesHelper.SetAppThemeSidebarBackgroundColor(appThemeSidebarBackgroundColor);
+			if (!String.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+				App.AppThemeResourcesHelper.SetAppThemeAddressBarBackgroundColor(ColorHelper.ToColor(appThemeAddressBarBackgroundColor));
+			else
+				UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor = ""; //migrate to new default
 
-			if (appThemeFileAreaBackgroundColor != Color.FromArgb(0,0,0,0))
-				App.AppThemeResourcesHelper.SetAppThemeFileAreaBackgroundColor(appThemeFileAreaBackgroundColor);
+			if (!String.IsNullOrWhiteSpace(appThemeSidebarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+				App.AppThemeResourcesHelper.SetAppThemeSidebarBackgroundColor(ColorHelper.ToColor(appThemeSidebarBackgroundColor));
+			else
+				UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor = ""; //migrate to new default
+
+			if (!String.IsNullOrWhiteSpace(appThemeFileAreaBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+				App.AppThemeResourcesHelper.SetAppThemeFileAreaBackgroundColor(ColorHelper.ToColor(appThemeFileAreaBackgroundColor));
+			else
+				UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor = ""; //migrate to new default
 
 			if (appThemeFontFamily != "Segoe UI Variable")
 				App.AppThemeResourcesHelper.SetAppThemeFontFamily(appThemeFontFamily);
@@ -145,7 +149,7 @@ namespace Files.App.Views
 		{
 			switch (e.SettingName)
 			{
-				case nameof(IPaneSettingsService.Content):
+				case nameof(IPreviewPaneSettingsService.IsEnabled):
 					LoadPaneChanged();
 					break;
 			}
@@ -363,14 +367,14 @@ namespace Files.App.Views
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			switch (Pane?.Position)
+			switch (PreviewPane?.Position)
 			{
-				case PanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
-					UserSettingsService.PaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
+				case PreviewPanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
+					UserSettingsService.PreviewPaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
 					UpdatePositioning();
 					break;
-				case PanePositions.Bottom when ContentRow.ActualHeight == ContentRow.MinHeight:
-					UserSettingsService.PaneSettingsService.HorizontalSizePx += e.NewSize.Height - e.PreviousSize.Height;
+				case PreviewPanePositions.Bottom when ContentRow.ActualHeight == ContentRow.MinHeight:
+					UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx += e.NewSize.Height - e.PreviousSize.Height;
 					UpdatePositioning();
 					break;
 			}
@@ -407,7 +411,7 @@ namespace Files.App.Views
 		/// </summary>
 		private void UpdatePositioning()
 		{
-			if (Pane is null || !IsPaneEnabled)
+			if (PreviewPane is null || !ShouldPreviewPaneBeActive)
 			{
 				PaneRow.MinHeight = 0;
 				PaneRow.MaxHeight = double.MaxValue;
@@ -418,33 +422,33 @@ namespace Files.App.Views
 			}
 			else
 			{
-				Pane.UpdatePosition(RootGrid.ActualWidth, RootGrid.ActualHeight);
-				switch (Pane.Position)
+				PreviewPane.UpdatePosition(RootGrid.ActualWidth, RootGrid.ActualHeight);
+				switch (PreviewPane.Position)
 				{
-					case PanePositions.None:
+					case PreviewPanePositions.None:
 						PaneRow.MinHeight = 0;
 						PaneRow.Height = new GridLength(0);
 						PaneColumn.MinWidth = 0;
 						PaneColumn.Width = new GridLength(0);
 						break;
-					case PanePositions.Right:
-						Pane.SetValue(Grid.RowProperty, 1);
-						Pane.SetValue(Grid.ColumnProperty, 2);
+					case PreviewPanePositions.Right:
+						PreviewPane.SetValue(Grid.RowProperty, 1);
+						PreviewPane.SetValue(Grid.ColumnProperty, 2);
 						PaneSplitter.SetValue(Grid.RowProperty, 1);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 1);
 						PaneSplitter.Width = 2;
 						PaneSplitter.Height = RootGrid.ActualHeight;
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
-						PaneColumn.MinWidth = Pane.MinWidth;
-						PaneColumn.MaxWidth = Pane.MaxWidth;
-						PaneColumn.Width = new GridLength(UserSettingsService.PaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
+						PaneColumn.MinWidth = PreviewPane.MinWidth;
+						PaneColumn.MaxWidth = PreviewPane.MaxWidth;
+						PaneColumn.Width = new GridLength(UserSettingsService.PreviewPaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
 						PaneRow.MinHeight = 0;
 						PaneRow.MaxHeight = double.MaxValue;
 						PaneRow.Height = new GridLength(0);
 						break;
-					case PanePositions.Bottom:
-						Pane.SetValue(Grid.RowProperty, 3);
-						Pane.SetValue(Grid.ColumnProperty, 0);
+					case PreviewPanePositions.Bottom:
+						PreviewPane.SetValue(Grid.RowProperty, 3);
+						PreviewPane.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.SetValue(Grid.RowProperty, 2);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.Height = 2;
@@ -453,9 +457,9 @@ namespace Files.App.Views
 						PaneColumn.MinWidth = 0;
 						PaneColumn.MaxWidth = double.MaxValue;
 						PaneColumn.Width = new GridLength(0);
-						PaneRow.MinHeight = Pane.MinHeight;
-						PaneRow.MaxHeight = Pane.MaxHeight;
-						PaneRow.Height = new GridLength(UserSettingsService.PaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
+						PaneRow.MinHeight = PreviewPane.MinHeight;
+						PaneRow.MaxHeight = PreviewPane.MaxHeight;
+						PaneRow.Height = new GridLength(UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
 						break;
 				}
 			}
@@ -463,24 +467,20 @@ namespace Files.App.Views
 
 		private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			switch (Pane?.Position)
+			switch (PreviewPane?.Position)
 			{
-				case PanePositions.Right:
-					UserSettingsService.PaneSettingsService.VerticalSizePx = Pane.ActualWidth;
+				case PreviewPanePositions.Right:
+					UserSettingsService.PreviewPaneSettingsService.VerticalSizePx = PreviewPane.ActualWidth;
 					break;
-				case PanePositions.Bottom:
-					UserSettingsService.PaneSettingsService.HorizontalSizePx = Pane.ActualHeight;
+				case PreviewPanePositions.Bottom:
+					UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx = PreviewPane.ActualHeight;
 					break;
 			}
 		}
 
-		public bool IsPaneEnabled => UserSettingsService.PaneSettingsService.Content switch
-		{
-			PaneContents.Preview => IsPreviewPaneEnabled,
-			_ => false,
-		};
+		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
 
-		public bool IsPreviewPaneEnabled
+		public bool ShouldPreviewPaneBeDisplayed
 		{
 			get
 			{
@@ -495,8 +495,8 @@ namespace Files.App.Views
 
 		private void LoadPaneChanged()
 		{
-			OnPropertyChanged(nameof(IsPaneEnabled));
-			OnPropertyChanged(nameof(IsPreviewPaneEnabled));
+			OnPropertyChanged(nameof(ShouldPreviewPaneBeActive));
+			OnPropertyChanged(nameof(ShouldPreviewPaneBeDisplayed));
 			UpdatePositioning();
 		}
 
