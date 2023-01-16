@@ -189,7 +189,6 @@ namespace Files.App.ViewModels
 
 		private double normalMaxLength = 800;
 
-		[LiteDB.BsonIgnore]
 		public double NormalMaxLength
 		{
 			get => normalMaxLength;
