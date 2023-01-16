@@ -187,7 +187,6 @@
 				</Grid>
 				<CheckBox
 					x:Name="SelectionCheckbox"
-                    x:Load="False"
 					Grid.RowSpan="2"
 					Grid.ColumnSpan="2"
 					Width="32"
@@ -237,7 +236,6 @@
 				</Grid.ColumnDefinitions>
 				<CheckBox
 					x:Name="SelectionCheckbox"
-                    x:Load="False"
 					Grid.ColumnSpan="2"
 					Width="32"
 					MinWidth="0"

@@ -350,15 +350,16 @@
 								<ColumnDefinition Width="0" />
 							</Grid.ColumnDefinitions>
 
-							<CheckBox
+                            <CheckBox
 								x:Name="SelectAllItemsCheckbox"
 								Grid.Column="0"
 								Width="32"
 								Margin="0,8,0,0"
 								Checked="SelectAllCheckbox_Checked"
-								Unchecked="SelectAllCheckbox_Unchecked" />
+								Unchecked="SelectAllCheckbox_Unchecked" 
+								Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
 
-							<Grid Grid.Column="1" />
+                            <Grid Grid.Column="1" />
 
 							<uc:DataGridHeader
 								x:Name="NameHeader"
@@ -555,12 +556,13 @@
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="{Binding ElementName=SelectAllColumn, Mode=OneWay, Path=Width}" />
 									</Grid.ColumnDefinitions>
-									<CheckBox
+                                    <CheckBox
 										x:Name="SelectionCheckbox"
 										MinWidth="0"
 										Checked="ItemSelected_Checked"
-										Unchecked="ItemSelected_Unchecked" />
-								</Grid>
+										Unchecked="ItemSelected_Unchecked"
+                                        Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                                </Grid>
 
 								<Grid
 									Width="24"
