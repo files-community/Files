@@ -49,29 +49,28 @@ namespace Files.App.ViewModels.SettingsViewModels
 				var appThemeBackgroundColor = new AppThemeResource
 				{
 					BackgroundColor = backgroundColor,
-					PreviewColor = new SolidColorBrush(Color.FromArgb(255, backgroundColor.R, backgroundColor.G, backgroundColor.B)),
 					Name = "Custom"
 				};
 
-				AppThemeResources.Insert(1, appThemeBackgroundColor);
+				AppThemeResources.Add(appThemeBackgroundColor);
 			}
 
-			SelectedAppBackgroundColor = AppThemeResources
-					.Where(p => p.BackgroundColor == AppThemeBackgroundColor)
-					.FirstOrDefault() ?? AppThemeResources[0];
+			SelectedAppThemeResources = AppThemeResources
+				.Where(p => p.BackgroundColor == AppThemeBackgroundColor)
+				.FirstOrDefault() ?? AppThemeResources[0];
 		}
 
 
-		private AppThemeResource selectedAppBackgroundColor;
-		public AppThemeResource SelectedAppBackgroundColor
+		private AppThemeResource selectedAppThemeResources;
+		public AppThemeResource SelectedAppThemeResources
 		{
-			get => selectedAppBackgroundColor;
+			get => selectedAppThemeResources;
 			set
 			{
-				if (SetProperty(ref selectedAppBackgroundColor, value))
+				if (SetProperty(ref selectedAppThemeResources, value))
 				{
-					AppThemeBackgroundColor = SelectedAppBackgroundColor.BackgroundColor;
-					OnPropertyChanged(nameof(selectedAppBackgroundColor));
+					AppThemeBackgroundColor = SelectedAppThemeResources.BackgroundColor;
+					OnPropertyChanged(nameof(selectedAppThemeResources));
 				}
 			}
 		}
