@@ -48,21 +48,21 @@ namespace Files.App.ServicesImplementation.Settings
 		/// <inheritdoc/>
 		public String AppThemeAddressBarBackgroundColor
 		{
-			get => Get("#00000000");
+			get => Get("");
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
 		public String AppThemeSidebarBackgroundColor
 		{
-			get => Get("#00000000");
+			get => Get("");
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
 		public String AppThemeFileAreaBackgroundColor
 		{
-			get => Get("#00000000");
+			get => Get("");
 			set => Set(value);
 		}
 

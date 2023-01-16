@@ -27,7 +27,6 @@ using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
-using Windows.UI;
 using ColorHelper = CommunityToolkit.WinUI.Helpers.ColorHelper;
 
 namespace Files.App.Views
@@ -62,7 +61,6 @@ namespace Files.App.Views
 		{
 			InitializeComponent();
 
-			// TODO LayoutDirection is empty, might be an issue with WinAppSdk
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
@@ -79,26 +77,34 @@ namespace Files.App.Views
 			LoadAppResources();
 		}
 
+
+
 		private void LoadAppResources()
 		{
 			var useCompactStyles = UserSettingsService.AppearanceSettingsService.UseCompactStyles;
 			var appThemeBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
-			var appThemeAddressBarBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor);
-			var appThemeSidebarBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor);
-			var appThemeFileAreaBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor);
+			var appThemeAddressBarBackgroundColor = UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor;
+			var appThemeSidebarBackgroundColor = UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor;
+			var appThemeFileAreaBackgroundColor = UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor;
 			var appThemeFontFamily = UserSettingsService.AppearanceSettingsService.AppThemeFontFamily;
 
 			App.AppThemeResourcesHelper.SetCompactSpacing(useCompactStyles);
 			App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(appThemeBackgroundColor);
 
-			if (appThemeAddressBarBackgroundColor != Color.FromArgb(0,0,0,0))
-				App.AppThemeResourcesHelper.SetAppThemeAddressBarBackgroundColor(appThemeAddressBarBackgroundColor);
-			
-			if (appThemeSidebarBackgroundColor != Color.FromArgb(0,0,0,0))
-				App.AppThemeResourcesHelper.SetAppThemeSidebarBackgroundColor(appThemeSidebarBackgroundColor);
+			if (!String.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+				App.AppThemeResourcesHelper.SetAppThemeAddressBarBackgroundColor(ColorHelper.ToColor(appThemeAddressBarBackgroundColor));
+			else
+				UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor = ""; //migrate to new default
 
-			if (appThemeFileAreaBackgroundColor != Color.FromArgb(0,0,0,0))
-				App.AppThemeResourcesHelper.SetAppThemeFileAreaBackgroundColor(appThemeFileAreaBackgroundColor);
+			if (!String.IsNullOrWhiteSpace(appThemeSidebarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+				App.AppThemeResourcesHelper.SetAppThemeSidebarBackgroundColor(ColorHelper.ToColor(appThemeSidebarBackgroundColor));
+			else
+				UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor = ""; //migrate to new default
+
+			if (!String.IsNullOrWhiteSpace(appThemeFileAreaBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+				App.AppThemeResourcesHelper.SetAppThemeFileAreaBackgroundColor(ColorHelper.ToColor(appThemeFileAreaBackgroundColor));
+			else
+				UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor = ""; //migrate to new default
 
 			if (appThemeFontFamily != "Segoe UI Variable")
 				App.AppThemeResourcesHelper.SetAppThemeFontFamily(appThemeFontFamily);
