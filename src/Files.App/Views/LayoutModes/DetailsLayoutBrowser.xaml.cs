@@ -355,22 +355,28 @@ namespace Files.App.Views.LayoutModes
 
 		private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (e.Key == VirtualKey.Escape)
+			var textBox = (TextBox)sender;
+			switch (e.Key)
 			{
-				TextBox? textBox = sender as TextBox;
-				textBox!.LostFocus -= RenameTextBox_LostFocus;
-				textBox.Text = OldItemName;
-				EndRename(textBox);
-				e.Handled = true;
-			}
-			else if (e.Key == VirtualKey.Enter)
-			{
-				TextBox? textBox = sender as TextBox;
-				if (textBox is null)
-					return;
-				textBox.LostFocus -= RenameTextBox_LostFocus;
-				CommitRename(textBox);
-				e.Handled = true;
+				case VirtualKey.Escape:
+					textBox.LostFocus -= RenameTextBox_LostFocus;
+					textBox.Text = OldItemName;
+					EndRename(textBox);
+					e.Handled = true;
+					break;
+				case VirtualKey.Enter:
+					textBox.LostFocus -= RenameTextBox_LostFocus;
+					CommitRename(textBox);
+					e.Handled = true;
+					break;
+				case VirtualKey.Up:
+					textBox.SelectionStart = 0;
+					e.Handled = true;
+					break;
+				case VirtualKey.Down:
+					textBox.SelectionStart = textBox.Text.Length;
+					e.Handled = true;
+					break;
 			}
 		}
 

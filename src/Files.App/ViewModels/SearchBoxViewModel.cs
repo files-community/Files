@@ -104,7 +104,11 @@ namespace Files.App.ViewModels
 		}
 
 		public void SearchRegion_KeyDown(object sender, KeyRoutedEventArgs e)
-			=> e.Handled = e.Key == VirtualKey.Left || e.Key == VirtualKey.Right;
+		{
+			e.Handled = e.Key == VirtualKey.Left ||
+						e.Key == VirtualKey.Right ||
+						((e.Key == VirtualKey.Up || e.Key == VirtualKey.Down) && Suggestions.Count == 0);
+		}
 
 		public void AddRecentQueries()
 		{
