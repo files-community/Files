@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
+using static Vanara.PInvoke.Gdi32;
 
 namespace Files.App.Helpers
 {
@@ -172,20 +173,15 @@ namespace Files.App.Helpers
 				{
 					case "install" when isFont:
 						{
-							var userFontDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
 							foreach (string path in contextMenu.ItemsPath)
-							{
-								var destName = Path.Combine(userFontDir, Path.GetFileName(path));
-								Win32API.RunPowershellCommand($"-command \"Copy-Item '{path}' '{userFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(path)}' -Path 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{destName}'\"", false);
-							}
+								InstallFont(path, false);
 						}
 						break;
 
 					case "installAllUsers" when isFont:
 						{
-							var winFontDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts");
 							foreach (string path in contextMenu.ItemsPath)
-								Win32API.RunPowershellCommand($"-command \"Copy-Item '{path}' '{winFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(path)}' -Path 'HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{Path.GetFileName(path)}'\"", true);
+								InstallFont(path, true);
 						}
 						break;
 
@@ -203,7 +199,17 @@ namespace Files.App.Helpers
 						await contextMenu.InvokeItem(menuId);
 						break;
 				}
-
+				
+				void InstallFont(string path, bool asAdmin)
+				{
+					string dir;
+					if (asAdmin)
+						dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts");
+					else
+						dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
+					
+					Win32API.RunPowershellCommand($"-command \"Copy-Item '{path}' '{dir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(path)}' -Path 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{dir}'\"", asAdmin);
+				}
 				//contextMenu.Dispose(); // Prevents some menu items from working (TBC)
 			}
 		}
