@@ -552,17 +552,13 @@
 								Orientation="Horizontal"
 								ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 
-								<Grid MaxWidth="32">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="{Binding ElementName=SelectAllColumn, Mode=OneWay, Path=Width}" />
-									</Grid.ColumnDefinitions>
-									<CheckBox
-										x:Name="SelectionCheckbox"
-										MinWidth="0"
-										Checked="ItemSelected_Checked"
-										Unchecked="ItemSelected_Unchecked"
-										Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-								</Grid>
+								<CheckBox
+									x:Name="SelectionCheckbox"
+									Width="{Binding ElementName=SelectAllColumn, Mode=OneWay, Path=Width}"
+									MinWidth="0"
+									Checked="ItemSelected_Checked"
+									Unchecked="ItemSelected_Unchecked"
+									Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
 
 								<Grid
 									Width="24"
