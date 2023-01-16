@@ -5,6 +5,7 @@
 	xmlns:appearance="using:Files.App.Views.SettingsPages.Appearance"
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:converters1="using:Files.App.ValueConverters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
@@ -18,27 +19,54 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<converters1:ColorToSolidColorBrushValueConverter x:Key="ColorToSolidColorBrushConverter" />
 
-			<DataTemplate x:Key="AppThemeBackgroundColorsItemTemplate" x:DataType="appearance:AppThemeResource">
-				<StackPanel
+			<DataTemplate x:Key="AppThemeResourcesItemTemplate" x:DataType="appearance:AppThemeResource">
+				<Grid
+					Width="120"
 					AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
 					BorderBrush="{ThemeResource ControlElevationBorderBrush}"
 					BorderThickness="1"
 					CornerRadius="6"
 					ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="16" />
+						<RowDefinition Height="50" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<!--  Background  -->
 					<Border
-						Width="50"
+						Grid.RowSpan="2"
+						Height="66"
+						Background="{x:Bind BackgroundColor, Converter={StaticResource ColorToSolidColorBrushConverter}, Mode=OneWay}"
+						CornerRadius="4,4,0,0" />
+
+					<!--  Tab  -->
+					<Border
+						Width="32"
 						Height="12"
-						Background="{x:Bind PreviewColor, Mode=OneWay}"
-						CornerRadius="4,4,0,0"
-						Opacity=".5" />
+						Margin="4,0,0,0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Bottom"
+						Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
+						CornerRadius="4,4,0,0" />
+
+					<!--  File area  -->
 					<Border
-						Width="50"
-						Height="38"
-						Background="{x:Bind PreviewColor, Mode=OneWay}"
-						CornerRadius="0,0,4,4"
-						Opacity=".3" />
-				</StackPanel>
+						Grid.Row="1"
+						Height="50"
+						VerticalAlignment="Bottom"
+						Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
+						BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+						BorderThickness="0,0,0,.5" />
+
+					<TextBlock
+						Grid.Row="2"
+						Padding="4"
+						HorizontalAlignment="Center"
+						Text="{x:Bind Name, Mode=OneWay}"
+						TextTrimming="CharacterEllipsis" />
+				</Grid>
 			</DataTemplate>
 		</ResourceDictionary>
 	</Page.Resources>
@@ -57,14 +85,14 @@
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
-			<!-- Personalization -->
+			<!--  Personalization  -->
 			<TextBlock
 				Padding="0,12,0,4"
 				FontSize="14"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=Personalization}" />
-			
-			<!-- Theme -->
+
+			<!--  Theme  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE790;" />
@@ -76,7 +104,7 @@
 					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
 			</local:SettingsBlockControl>
 
-			<!-- App Background -->
+			<!--  App Background  -->
 			<local:SettingsBlockControl
 				Title="{helpers:ResourceString Name=Background}"
 				HorizontalAlignment="Stretch"
@@ -110,13 +138,13 @@
 					<GridView
 						Padding="8"
 						HorizontalAlignment="Stretch"
-						ItemTemplate="{StaticResource AppThemeBackgroundColorsItemTemplate}"
-						ItemsSource="{x:Bind ViewModel.AppThemeResources}"
-						SelectedItem="{x:Bind ViewModel.SelectedAppBackgroundColor, Mode=TwoWay}" />
+						ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
+						ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
+						SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
-			<!-- Compact Spacing -->
+			<!--  Compact Spacing  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=UseCompactSpacing}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE14C;" />
@@ -127,15 +155,15 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
-			
-			<!-- Right Click Menu -->
+
+			<!--  Right Click Menu  -->
 			<TextBlock
 				Padding="0,12,0,4"
 				FontSize="14"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=SettingsContextMenu/Text}" />
 
-			<!-- Overflow Options -->
+			<!--  Overflow Options  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsContextMenuOverflow}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE10C;" />
