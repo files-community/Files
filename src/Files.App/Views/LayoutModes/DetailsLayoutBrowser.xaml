@@ -206,7 +206,6 @@
 			<HyperlinkButton
 				x:Name="SearchUnindexedItemsButton"
 				HorizontalAlignment="Center"
-				Visibility="Visible"
 				Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
 				Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
 		</StackPanel>
