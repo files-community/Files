@@ -1199,7 +1199,7 @@
     <value>GitHub で支援</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>ファイルと一緒にディレクトリを一覧表示して並べ替える</value>
+    <value>ファイルとフォルダーを分けずに並べ替える</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>詳細</value>
@@ -1226,7 +1226,7 @@
     <value>この設定がオフのときに変更したフォルダーのレイアウトは、すべてのフォルダーに適用されます。</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>フォルダーごとに設定を保存する</value>
+    <value>レイアウトをフォルダーごとに設定する</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリック メニューをカスタマイズ</value>
@@ -1955,7 +1955,7 @@
     <value>フル コントロール</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>ディレクトリの内容を一覧表示</value>
+    <value>フォルダーの内容を一覧表示</value>
   </data>
   <data name="SecurityModifyLabel.Text" xml:space="preserve">
     <value>変更</value>
@@ -2474,7 +2474,7 @@
     <value>ファイルとフォルダー</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
-    <value>タスクバーのジャンプリストからディレクトリを開くとき、新しいインスタンスで開く</value>
+    <value>タスクバーのジャンプリストからフォルダーを開くとき、新しいインスタンスで開く</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>スタートアップ設定</value>
@@ -2723,7 +2723,7 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>代替データストリームを表示</value>
+    <value>代替データストリームを表示する</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Files を評価</value>
@@ -2765,7 +2765,7 @@
     <value>リセット</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>この操作を行うと、すべてのディレクトリがデフォルト設定にリセットされます</value>
+    <value>この操作を行うと、すべてのフォルダーがデフォルト設定にリセットされます</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
     <value>よろしいですか？</value>
