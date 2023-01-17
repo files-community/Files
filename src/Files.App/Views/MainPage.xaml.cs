@@ -27,7 +27,6 @@ using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
-using ColorHelper = CommunityToolkit.WinUI.Helpers.ColorHelper;
 
 namespace Files.App.Views
 {
@@ -65,51 +64,11 @@ namespace Files.App.Views
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
 
-			AllowDrop = true;
-
 			ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
 			ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
 			SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-
-			// Load the app theme resources
-			LoadAppResources();
-		}
-
-
-
-		private void LoadAppResources()
-		{
-			var useCompactStyles = UserSettingsService.AppearanceSettingsService.UseCompactStyles;
-			var appThemeBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
-			var appThemeAddressBarBackgroundColor = UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor;
-			var appThemeSidebarBackgroundColor = UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor;
-			var appThemeFileAreaBackgroundColor = UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor;
-			var appThemeFontFamily = UserSettingsService.AppearanceSettingsService.AppThemeFontFamily;
-
-			App.AppThemeResourcesHelper.SetCompactSpacing(useCompactStyles);
-			App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(appThemeBackgroundColor);
-
-			if (!String.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
-				App.AppThemeResourcesHelper.SetAppThemeAddressBarBackgroundColor(ColorHelper.ToColor(appThemeAddressBarBackgroundColor));
-			else
-				UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor = ""; //migrate to new default
-
-			if (!String.IsNullOrWhiteSpace(appThemeSidebarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
-				App.AppThemeResourcesHelper.SetAppThemeSidebarBackgroundColor(ColorHelper.ToColor(appThemeSidebarBackgroundColor));
-			else
-				UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor = ""; //migrate to new default
-
-			if (!String.IsNullOrWhiteSpace(appThemeFileAreaBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
-				App.AppThemeResourcesHelper.SetAppThemeFileAreaBackgroundColor(ColorHelper.ToColor(appThemeFileAreaBackgroundColor));
-			else
-				UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor = ""; //migrate to new default
-
-			if (appThemeFontFamily != "Segoe UI Variable")
-				App.AppThemeResourcesHelper.SetAppThemeFontFamily(appThemeFontFamily);
-
-			App.AppThemeResourcesHelper.ApplyResources();
 		}
 
 		private async Task PromptForReview()
