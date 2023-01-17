@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.App.Helpers;
@@ -12,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
 using Windows.UI;
 
 namespace Files.App.ViewModels.SettingsViewModels
@@ -51,29 +49,28 @@ namespace Files.App.ViewModels.SettingsViewModels
 				var appThemeBackgroundColor = new AppThemeResource
 				{
 					BackgroundColor = backgroundColor,
-					PreviewColor = new SolidColorBrush(Color.FromArgb(255, backgroundColor.R, backgroundColor.G, backgroundColor.B)),
 					Name = "Custom"
 				};
 
-				AppThemeResources.Insert(1, appThemeBackgroundColor);
+				AppThemeResources.Add(appThemeBackgroundColor);
 			}
 
-			SelectedAppBackgroundColor = AppThemeResources
-					.Where(p => p.BackgroundColor == AppThemeBackgroundColor)
-					.FirstOrDefault() ?? AppThemeResources[0];
+			SelectedAppThemeResources = AppThemeResources
+				.Where(p => p.BackgroundColor == AppThemeBackgroundColor)
+				.FirstOrDefault() ?? AppThemeResources[0];
 		}
 
 
-		private AppThemeResource selectedAppBackgroundColor;
-		public AppThemeResource SelectedAppBackgroundColor
+		private AppThemeResource selectedAppThemeResources;
+		public AppThemeResource SelectedAppThemeResources
 		{
-			get => selectedAppBackgroundColor;
+			get => selectedAppThemeResources;
 			set
 			{
-				if (SetProperty(ref selectedAppBackgroundColor, value))
+				if (SetProperty(ref selectedAppThemeResources, value))
 				{
-					AppThemeBackgroundColor = SelectedAppBackgroundColor.BackgroundColor;
-					OnPropertyChanged(nameof(selectedAppBackgroundColor));
+					AppThemeBackgroundColor = SelectedAppThemeResources.BackgroundColor;
+					OnPropertyChanged(nameof(selectedAppThemeResources));
 				}
 			}
 		}

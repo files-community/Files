@@ -425,7 +425,7 @@ namespace Files.App.ViewModels
 
 		public double DrivePercentageValue
 		{
-			get => DriveCapacityValue > 0 ? (double)DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
+			get => DriveCapacityValue > 0 ? DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
 		}
 
 		private bool itemAttributesVisibility = true;
@@ -601,6 +601,24 @@ namespace Files.App.ViewModels
 		{
 			get => isHidden;
 			set => SetProperty(ref isHidden, value);
+		}
+
+		private bool runAsAdmin;
+		public bool RunAsAdmin
+		{
+			get => runAsAdmin;
+			set
+			{
+				RunAsAdminEnabled = true;
+				SetProperty(ref runAsAdmin, value);
+			}
+		}
+
+		private bool runAsAdminEnabled;
+		public bool RunAsAdminEnabled
+		{
+			get => runAsAdminEnabled;
+			set => SetProperty(ref runAsAdminEnabled, value);
 		}
 	}
 }

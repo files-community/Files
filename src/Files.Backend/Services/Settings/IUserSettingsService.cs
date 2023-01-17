@@ -19,7 +19,7 @@ namespace Files.Backend.Services.Settings
 
 		IApplicationSettingsService ApplicationSettingsService { get; }
 
-		IPaneSettingsService PaneSettingsService { get; }
+		IPreviewPaneSettingsService PreviewPaneSettingsService { get; }
 
 		ILayoutSettingsService LayoutSettingsService { get; }
 
