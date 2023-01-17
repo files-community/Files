@@ -13,9 +13,9 @@ namespace Files.App.ValueConverters
 			if (null == value)
 				return null;
 
-			if (value is string)
+			if (value is string colorString)
 			{
-				Color color = ColorHelper.ToColor((string)value);
+				Color color = ColorHelper.ToColor(colorString);
 				return new SolidColorBrush(color);
 			}
 
