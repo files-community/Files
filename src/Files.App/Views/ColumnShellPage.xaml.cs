@@ -113,13 +113,23 @@ namespace Files.App.Views
 		private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
 		{
 			args.Handled = true;
-			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
-			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-			var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
 			var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
 							  CurrentPageType == typeof(GridViewBrowser) ||
 							  CurrentPageType == typeof(ColumnViewBrowser) ||
 							  CurrentPageType == typeof(ColumnViewBase);
+
+			// F2, rename
+			if (args.KeyboardAccelerator.Key is VirtualKey.F2
+				&& tabInstance
+				&& ContentPage.IsItemSelected)
+			{
+				ContentPage.ItemManipulationModel.StartRenameItem();
+				return;
+			}
+			
+			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
+			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
+			var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
 			{
@@ -233,20 +243,6 @@ namespace Files.App.Views
 
 				case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
 					await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl));
-					break;
-			}
-
-			switch (args.KeyboardAccelerator.Key)
-			{
-				case VirtualKey.F2: //F2, rename
-					if ((CurrentPageType == typeof(DetailsLayoutBrowser)
-						|| CurrentPageType == typeof(GridViewBrowser)
-						|| CurrentPageType == typeof(ColumnViewBrowser)
-						|| CurrentPageType == typeof(ColumnViewBase))
-						&& ContentPage.IsItemSelected)
-					{
-						ContentPage.ItemManipulationModel.StartRenameItem();
-					}
 					break;
 			}
 		}
