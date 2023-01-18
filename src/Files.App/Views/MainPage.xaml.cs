@@ -122,7 +122,7 @@ namespace Files.App.Views
 				SecondaryButtonText = "No".ToLocalized()
 			};
 
-			var result = await this.SetContentDialogRoot(promptForReviewDialog).ShowAsync();
+			var result = await SetContentDialogRoot(promptForReviewDialog).ShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 			{
