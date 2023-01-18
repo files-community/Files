@@ -31,9 +31,9 @@ namespace Files.App.UserControls.Widgets
 
 		public BundlesWidget()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
-			this.ViewModel = new BundlesViewModel();
+			ViewModel = new BundlesViewModel();
 		}
 
 		public Task RefreshWidget()
@@ -46,9 +46,9 @@ namespace Files.App.UserControls.Widgets
 		public void Dispose()
 		{
 			// We need dispose to unhook events to avoid memory leaks
-			this.ViewModel?.Dispose();
+			ViewModel?.Dispose();
 
-			this.ViewModel = null;
+			ViewModel = null;
 		}
 
 		#endregion IDisposable
