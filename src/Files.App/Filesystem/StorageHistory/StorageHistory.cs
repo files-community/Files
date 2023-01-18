@@ -19,9 +19,9 @@ namespace Files.App.Filesystem.FilesystemHistory
 
 		public StorageHistory(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination)
 		{
-			this.OperationType = operationType;
-			this.Source = source;
-			this.Destination = destination;
+			OperationType = operationType;
+			Source = source;
+			Destination = destination;
 		}
 
 		public void Modify(IStorageHistory newHistory)

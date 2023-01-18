@@ -89,7 +89,7 @@ namespace Files.App
 			UnhandledException += OnUnhandledException;
 			TaskScheduler.UnobservedTaskException += OnUnobservedException;
 			InitializeComponent();
-			this.Services = ConfigureServices();
+			Services = ConfigureServices();
 			Ioc.Default.ConfigureServices(Services);
 		}
 

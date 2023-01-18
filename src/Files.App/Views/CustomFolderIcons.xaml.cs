@@ -23,7 +23,7 @@ namespace Files.App.Views
 
 		public CustomFolderIcons()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 			RestoreDefaultIconCommand = new AsyncRelayCommand(RestoreDefaultIcon);
 		}
 
