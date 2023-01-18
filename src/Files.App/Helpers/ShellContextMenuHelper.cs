@@ -201,7 +201,7 @@ namespace Files.App.Helpers
 				
 				void InstallFont(string path, bool asAdmin)
 				{
-					string dir;
+					string dir = asAdmin ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts") : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
 					if (asAdmin)
 						dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts");
 					else
