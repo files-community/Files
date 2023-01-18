@@ -10,7 +10,7 @@ namespace Files.Backend.SecureStore
 
 		public DisposableArray(byte[] array)
 		{
-			this.Bytes = array;
+			Bytes = array;
 		}
 
 		public override DisposableArray CreateCopy()

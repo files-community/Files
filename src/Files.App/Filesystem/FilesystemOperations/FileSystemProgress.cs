@@ -56,13 +56,13 @@ namespace Files.App.Filesystem
 			long totalSize = 0,
 			int samplerInterval = 100)
 		{
-			this.StartTime = DateTimeOffset.Now;
+			StartTime = DateTimeOffset.Now;
 			this.progress = progress;
-			this.sampler = new(samplerInterval);
-			this.EnumerationCompleted = enumerationCompleted;
-			this.Status = status;
-			this.ItemsCount = itemsCount;
-			this.TotalSize = totalSize;
+			sampler = new(samplerInterval);
+			EnumerationCompleted = enumerationCompleted;
+			Status = status;
+			ItemsCount = itemsCount;
+			TotalSize = totalSize;
 		}
 
 		public void Report(float? percentage = null)

@@ -21,7 +21,7 @@ namespace Files.App.UserControls
 
 		public PathBreadcrumb()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		private void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args) => ViewModel.PathItemSeparator_DataContextChanged(sender, args);

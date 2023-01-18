@@ -21,7 +21,7 @@ namespace Files.App.Dialogs
 
 		public SettingsDialog()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 			SettingsPane.SelectedItem = SettingsPane.MenuItems[0];
 			App.Window.SizeChanged += Current_SizeChanged;
 			UpdateDialogLayout();

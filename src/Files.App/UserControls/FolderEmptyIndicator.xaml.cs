@@ -22,7 +22,7 @@ namespace Files.App.UserControls
 
 		public FolderEmptyIndicator()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 	}
 

@@ -78,7 +78,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			InitializeComponent();
 
-			this.DataContext = this;
+      DataContext = this
 
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -450,6 +450,9 @@ namespace Files.App.Views.LayoutModes
 
 		private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			if (ParentShellPageInstance is null)
+				return;
+
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
@@ -463,7 +466,7 @@ namespace Files.App.Views.LayoutModes
 
 				e.Handled = true;
 
-				if (ctrlPressed)
+				if (ctrlPressed && !shiftPressed)
 				{
 					var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
 					foreach (ListedItem? folder in folders)
@@ -471,6 +474,10 @@ namespace Files.App.Views.LayoutModes
 						if (folder is not null)
 							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
 					}
+				}
+				else if(ctrlPressed && shiftPressed)
+				{
+					NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
 				}
 				else
 				{
@@ -494,12 +501,12 @@ namespace Files.App.Views.LayoutModes
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
 			{
 				// Unfocus the GridView so keyboard shortcut can be handled
-				this.Focus(FocusState.Pointer);
+				Focus(FocusState.Pointer);
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
 			{
 				// Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
-				this.Focus(FocusState.Pointer);
+				Focus(FocusState.Pointer);
 			}
 			else if (e.Key == VirtualKey.Down)
 			{

@@ -12,7 +12,7 @@ namespace Files.App.Imaging
 
 		public BitmapImageModel(BitmapImage? bitmapImage)
 		{
-			this._bitmapImage = bitmapImage;
+			_bitmapImage = bitmapImage;
 		}
 
 		public override TImage? GetImage<TImage>()

@@ -50,15 +50,10 @@ namespace Files.App.ViewModels
 		}
 
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
-
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
-
 		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
-
 		public IAsyncRelayCommand AddNewInstanceAcceleratorCommand { get; private set; }
-
 		public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
-
 		public ICommand OpenSettingsCommand { get; private set; }
 
 		public MainPageViewModel()
@@ -408,6 +403,10 @@ namespace Files.App.ViewModels
 				else if (e.Parameter is TabItemArguments tabArgs)
 					await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
 			}
+
+
+			// Load the app theme resources
+			App.AppThemeResourcesHelper.LoadAppResources();
 		}
 
 		public static Task AddNewTabAsync()
