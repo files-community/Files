@@ -57,7 +57,7 @@ namespace Files.App.ViewModels.Dialogs
 		public DecompressArchiveDialogViewModel(IStorageFile archive)
 		{
 			this.archive = archive;
-			this.destinationFolderPath = DefaultDestinationFolderPath();
+			destinationFolderPath = DefaultDestinationFolderPath();
 
 			// Create commands
 			SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
@@ -66,7 +66,7 @@ namespace Files.App.ViewModels.Dialogs
 
 		private async Task SelectDestination()
 		{
-			FolderPicker folderPicker = this.InitializeWithWindow(new FolderPicker());
+			FolderPicker folderPicker = InitializeWithWindow(new FolderPicker());
 			folderPicker.FileTypeFilter.Add("*");
 
 			DestinationFolder = await folderPicker.PickSingleFolderAsync();
