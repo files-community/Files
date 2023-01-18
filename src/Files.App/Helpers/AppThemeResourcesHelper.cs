@@ -1,20 +1,25 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI.Helpers;
+using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
+using System;
 using Windows.UI;
 
 namespace Files.App.Helpers
 {
 	public sealed class AppThemeResourcesHelper
 	{
+		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		/// <summary>
-		/// Forces the application to use the correct resource styles
+		/// Applies updated resource styles
 		/// </summary>
 		public void ApplyResources()
 		{
 			// Get the index of the current theme
 			var selTheme = ThemeHelper.RootTheme;
 
-			// Toggle between the themes to force the controls to use the new resource styles
+			// Toggle between the themes to force reload the resource styles
 			ThemeHelper.RootTheme = ElementTheme.Dark;
 			ThemeHelper.RootTheme = ElementTheme.Light;
 
@@ -76,16 +81,47 @@ namespace Files.App.Helpers
 		/// <param name="useCompactSpacing"></param>
 		public void SetCompactSpacing(bool useCompactSpacing)
 		{
-			if (useCompactSpacing)
-			{
-				Application.Current.Resources["ListItemHeight"] = 24;
-				Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 20;
-			}
+			var listItemHeight = useCompactSpacing ? 24 : 36;
+			var navigationViewItemOnLeftMinHeight = useCompactSpacing ? 20 : 32;
+
+			Application.Current.Resources["ListItemHeight"] = listItemHeight;
+			Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = navigationViewItemOnLeftMinHeight;
+		}
+
+		/// <summary>
+		/// Loads the resource styles from settings
+		/// </summary>
+		public void LoadAppResources()
+		{
+			var useCompactStyles = UserSettingsService.AppearanceSettingsService.UseCompactStyles;
+			var appThemeBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
+			var appThemeAddressBarBackgroundColor = UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor;
+			var appThemeSidebarBackgroundColor = UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor;
+			var appThemeFileAreaBackgroundColor = UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor;
+			var appThemeFontFamily = UserSettingsService.AppearanceSettingsService.AppThemeFontFamily;
+
+			SetCompactSpacing(useCompactStyles);
+			SetAppThemeBackgroundColor(appThemeBackgroundColor);
+
+			if (!String.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+				SetAppThemeAddressBarBackgroundColor(ColorHelper.ToColor(appThemeAddressBarBackgroundColor));
 			else
-			{
-				Application.Current.Resources["ListItemHeight"] = 36;
-				Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 32;
-			}
+				UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor = ""; //migrate to new default
+
+			if (!String.IsNullOrWhiteSpace(appThemeSidebarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+				SetAppThemeSidebarBackgroundColor(ColorHelper.ToColor(appThemeSidebarBackgroundColor));
+			else
+				UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor = ""; //migrate to new default
+
+			if (!String.IsNullOrWhiteSpace(appThemeFileAreaBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+				SetAppThemeFileAreaBackgroundColor(ColorHelper.ToColor(appThemeFileAreaBackgroundColor));
+			else
+				UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor = ""; //migrate to new default
+
+			if (appThemeFontFamily != "Segoe UI Variable")
+				SetAppThemeFontFamily(appThemeFontFamily);
+
+			ApplyResources();
 		}
 	}
 }

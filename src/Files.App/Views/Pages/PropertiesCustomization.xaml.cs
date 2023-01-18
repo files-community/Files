@@ -1,4 +1,3 @@
-using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
@@ -13,7 +12,7 @@ namespace Files.App.Views
 	{
 		public PropertiesCustomization()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		private void CustomIconsSelectorFrame_Loaded(object sender, RoutedEventArgs e)

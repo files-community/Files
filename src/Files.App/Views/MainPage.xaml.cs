@@ -12,9 +12,7 @@ using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using Files.Shared.EventArguments;
-using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -29,8 +27,6 @@ using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
-using Windows.UI;
-using ColorHelper = CommunityToolkit.WinUI.Helpers.ColorHelper;
 
 namespace Files.App.Views
 {
@@ -64,48 +60,15 @@ namespace Files.App.Views
 		{
 			InitializeComponent();
 
-			// TODO LayoutDirection is empty, might be an issue with WinAppSdk
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
-
-			AllowDrop = true;
 
 			ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
 			ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
 			SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-
-			// Load the app theme resources
-			LoadAppResources();
-		}
-
-		private void LoadAppResources()
-		{
-			var useCompactStyles = UserSettingsService.AppearanceSettingsService.UseCompactStyles;
-			var appThemeBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
-			var appThemeAddressBarBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor);
-			var appThemeSidebarBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor);
-			var appThemeFileAreaBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor);
-			var appThemeFontFamily = UserSettingsService.AppearanceSettingsService.AppThemeFontFamily;
-
-			App.AppThemeResourcesHelper.SetCompactSpacing(useCompactStyles);
-			App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(appThemeBackgroundColor);
-
-			if (appThemeAddressBarBackgroundColor != Color.FromArgb(0,0,0,0))
-				App.AppThemeResourcesHelper.SetAppThemeAddressBarBackgroundColor(appThemeAddressBarBackgroundColor);
-			
-			if (appThemeSidebarBackgroundColor != Color.FromArgb(0,0,0,0))
-				App.AppThemeResourcesHelper.SetAppThemeSidebarBackgroundColor(appThemeSidebarBackgroundColor);
-
-			if (appThemeFileAreaBackgroundColor != Color.FromArgb(0,0,0,0))
-				App.AppThemeResourcesHelper.SetAppThemeFileAreaBackgroundColor(appThemeFileAreaBackgroundColor);
-
-			if (appThemeFontFamily != "Segoe UI Variable")
-				App.AppThemeResourcesHelper.SetAppThemeFontFamily(appThemeFontFamily);
-
-			App.AppThemeResourcesHelper.ApplyResources();
 		}
 
 		private async Task PromptForReview()
@@ -118,7 +81,7 @@ namespace Files.App.Views
 				SecondaryButtonText = "No".ToLocalized()
 			};
 
-			var result = await this.SetContentDialogRoot(promptForReviewDialog).ShowAsync();
+			var result = await SetContentDialogRoot(promptForReviewDialog).ShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 			{

@@ -30,7 +30,7 @@ namespace Files.App.UserControls
 
 		public ColoredIcon()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		private void ForegroundChanged(DependencyObject sender, DependencyProperty dp)
