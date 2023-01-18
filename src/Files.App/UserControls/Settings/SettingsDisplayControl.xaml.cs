@@ -63,7 +63,7 @@ namespace Files.App.UserControls.Settings
 
 		public SettingsDisplayControl()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 			VisualStateManager.GoToState(this, "NormalState", false);
 		}
 

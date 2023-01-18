@@ -14,7 +14,7 @@ namespace Files.App.UserControls
 
 		public OngoingTasksFlyout()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		// Dismiss banner button event handler

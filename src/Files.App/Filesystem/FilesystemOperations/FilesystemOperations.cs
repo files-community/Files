@@ -172,7 +172,7 @@ namespace Files.App.Filesystem
 						CloseButtonText = "Cancel".GetLocalizedResource()
 					};
 
-					ContentDialogResult result = await this.SetContentDialogRoot(dialog).ShowAsync();
+					ContentDialogResult result = await SetContentDialogRoot(dialog).ShowAsync();
 
 					if (result == ContentDialogResult.Primary)
 					{
@@ -364,7 +364,7 @@ namespace Files.App.Filesystem
 						CloseButtonText = "Cancel".GetLocalizedResource()
 					};
 
-					ContentDialogResult result = await this.SetContentDialogRoot(dialog).ShowAsync();
+					ContentDialogResult result = await SetContentDialogRoot(dialog).ShowAsync();
 
 					if (result == ContentDialogResult.Primary)
 					{
