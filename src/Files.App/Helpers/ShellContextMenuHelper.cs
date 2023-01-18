@@ -12,7 +12,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
-using static Vanara.PInvoke.Gdi32;
 
 namespace Files.App.Helpers
 {
@@ -204,6 +203,7 @@ namespace Files.App.Helpers
 				{
 					string dir = asAdmin ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
 						: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
+
 
 					Win32API.RunPowershellCommand($"-command \"Copy-Item '{path}' '{dir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(path)}' -Path 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{dir}'\"", asAdmin);
 				}

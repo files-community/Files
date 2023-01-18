@@ -420,6 +420,9 @@ namespace Files.App.Views.LayoutModes
 
 		private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			if (ParentShellPageInstance is null)
+				return;
+
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
@@ -433,7 +436,7 @@ namespace Files.App.Views.LayoutModes
 
 				e.Handled = true;
 
-				if (ctrlPressed)
+				if (ctrlPressed && !shiftPressed)
 				{
 					var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
 					foreach (ListedItem? folder in folders)
@@ -441,6 +444,10 @@ namespace Files.App.Views.LayoutModes
 						if (folder is not null)
 							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
 					}
+				}
+				else if(ctrlPressed && shiftPressed)
+				{
+					NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
 				}
 				else
 				{

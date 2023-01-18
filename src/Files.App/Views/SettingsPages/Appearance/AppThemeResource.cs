@@ -6,6 +6,6 @@ namespace Files.App.Views.SettingsPages.Appearance
 	public class AppThemeResource
 	{
 		public string? Name { get; set; }
-		public Color BackgroundColor { get; set; }
+		public string? BackgroundColor { get; set; }
 	}
 }
