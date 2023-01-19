@@ -12,6 +12,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:viewmodels="using:Files.App.ViewModels"
+	AllowDrop="True"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
@@ -331,14 +332,14 @@
 					ResizeBehavior="BasedOnAlignment"
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 
-                <controls:PreviewPane
+				<controls:PreviewPane
 					x:Name="PreviewPane"
 					Grid.Row="1"
 					Grid.Column="2"
 					HorizontalContentAlignment="Stretch"
 					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}" />
-                
-                <controls:StatusBarControl
+
+				<controls:StatusBarControl
 					x:Name="StatusBarControl"
 					Grid.Row="4"
 					Grid.ColumnSpan="3"

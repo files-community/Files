@@ -225,7 +225,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		private async Task ImportBundles()
 		{
-			FileOpenPicker filePicker = this.InitializeWithWindow(new FileOpenPicker());
+			FileOpenPicker filePicker = InitializeWithWindow(new FileOpenPicker());
 			filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName));
 
 			StorageFile file = await filePicker.PickSingleFileAsync();
@@ -249,7 +249,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		private async Task ExportBundles()
 		{
-			FileSavePicker filePicker = this.InitializeWithWindow(new FileSavePicker());
+			FileSavePicker filePicker = InitializeWithWindow(new FileSavePicker());
 			filePicker.FileTypeChoices.Add("Json File", new List<string>() { System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName) });
 
 			StorageFile file = await filePicker.PickSaveFileAsync();
@@ -305,7 +305,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		/// <param name="bundleItemPath"></param>
 		private void NotifyBundleItemRemovedHandle(string bundleContainer, string bundleItemPath)
 		{
-			BundleItemViewModel itemToRemove = this.Items.Where((item) => item.BundleName == bundleContainer).First().Contents.Where((item) => item.Path == bundleItemPath).First();
+			BundleItemViewModel itemToRemove = Items.Where((item) => item.BundleName == bundleContainer).First().Contents.Where((item) => item.Path == bundleItemPath).First();
 			itemToRemove.RemoveItem();
 		}
 

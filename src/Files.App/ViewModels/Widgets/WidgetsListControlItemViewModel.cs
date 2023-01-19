@@ -18,9 +18,9 @@ namespace Files.App.ViewModels.Widgets
 
 		public WidgetsListControlItemViewModel(object widgetControl, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
 		{
-			this.WidgetControl = widgetControl;
-			this._expanderValueChangedCallback = expanderValueChangedCallback;
-			this._expanderValueRequestedCallback = expanderValueRequestedCallback;
+			WidgetControl = widgetControl;
+			_expanderValueChangedCallback = expanderValueChangedCallback;
+			_expanderValueRequestedCallback = expanderValueRequestedCallback;
 		}
 
 		public bool IsExpanded
