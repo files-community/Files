@@ -203,7 +203,7 @@
     <value>ファイルの場所を開く</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>このファイルを削除</value>
+    <value>一覧から削除</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>役に立つリンク</value>
