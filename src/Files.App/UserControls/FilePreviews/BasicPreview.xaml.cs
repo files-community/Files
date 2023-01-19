@@ -12,7 +12,7 @@ namespace Files.App.UserControls.FilePreviews
 		public BasicPreview(BasePreviewModel model)
 		{
 			Model = model;
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 	}
 }

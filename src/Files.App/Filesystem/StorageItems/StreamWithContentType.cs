@@ -17,7 +17,7 @@ namespace Files.App.Filesystem.StorageItems
 		public InputStreamWithDisposeCallback(Stream stream)
 		{
 			this.stream = stream;
-			this.iStream = stream.AsInputStream();
+			iStream = stream.AsInputStream();
 		}
 
 		public IAsyncOperationWithProgress<IBuffer, uint> ReadAsync(IBuffer buffer, uint count, InputStreamOptions options)
@@ -46,8 +46,8 @@ namespace Files.App.Filesystem.StorageItems
 		public NonSeekableRandomAccessStreamForWrite(Stream stream)
 		{
 			this.stream = stream;
-			this.oStream = stream.AsOutputStream();
-			this.imrac = new InMemoryRandomAccessStream();
+			oStream = stream.AsOutputStream();
+			imrac = new InMemoryRandomAccessStream();
 		}
 
 		public IInputStream GetInputStreamAt(ulong position)
@@ -141,11 +141,11 @@ namespace Files.App.Filesystem.StorageItems
 
 		public NonSeekableRandomAccessStreamForRead(Stream baseStream, ulong size)
 		{
-			this.stream = baseStream;
-			this.imrac = new InMemoryRandomAccessStream();
-			this.virtualPosition = 0;
-			this.readToByte = 0;
-			this.byteSize = size;
+			stream = baseStream;
+			imrac = new InMemoryRandomAccessStream();
+			virtualPosition = 0;
+			readToByte = 0;
+			byteSize = size;
 		}
 
 		public IInputStream GetInputStreamAt(ulong position)
@@ -162,7 +162,7 @@ namespace Files.App.Filesystem.StorageItems
 		public void Seek(ulong position)
 		{
 			imrac.Size = Math.Max(imrac.Size, position);
-			this.virtualPosition = position;
+			virtualPosition = position;
 		}
 
 		public IRandomAccessStream CloneStream() => throw new NotSupportedException();

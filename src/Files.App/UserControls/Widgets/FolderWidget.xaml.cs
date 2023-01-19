@@ -59,14 +59,14 @@ namespace Files.App.UserControls.Widgets
 
 		public FolderCardItem(LocationItem item = null, string text = null) : this(text)
 		{
-			this.Item = item;
+			Item = item;
 		}
 
 		public FolderCardItem(string text)
 		{
 			if (!string.IsNullOrWhiteSpace(text))
 			{
-				this.Text = text;
+				Text = text;
 				AutomationProperties = Text;
 			}
 		}

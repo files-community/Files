@@ -80,8 +80,8 @@ namespace Files.App.Filesystem
 		{
 			this.associatedInstance = associatedInstance;
 			this.cancellationToken = cancellationToken;
-			this.filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
-			this.recycleBinHelpers = new RecycleBinHelpers();
+			filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
+			recycleBinHelpers = new RecycleBinHelpers();
 		}
 
 		#endregion Constructor

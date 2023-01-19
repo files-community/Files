@@ -14,16 +14,16 @@
 
 		public ShellLinkItem(ShellFileItem baseItem)
 		{
-			this.RecyclePath = baseItem.RecyclePath;
-			this.FileName = baseItem.FileName;
-			this.FilePath = baseItem.FilePath;
-			this.RecycleDate = baseItem.RecycleDate;
-			this.ModifiedDate = baseItem.ModifiedDate;
-			this.CreatedDate = baseItem.CreatedDate;
-			this.FileSize = baseItem.FileSize;
-			this.FileSizeBytes = baseItem.FileSizeBytes;
-			this.FileType = baseItem.FileType;
-			this.PIDL = baseItem.PIDL;
+			RecyclePath = baseItem.RecyclePath;
+			FileName = baseItem.FileName;
+			FilePath = baseItem.FilePath;
+			RecycleDate = baseItem.RecycleDate;
+			ModifiedDate = baseItem.ModifiedDate;
+			CreatedDate = baseItem.CreatedDate;
+			FileSize = baseItem.FileSize;
+			FileSizeBytes = baseItem.FileSizeBytes;
+			FileType = baseItem.FileType;
+			PIDL = baseItem.PIDL;
 		}
 	}
 }
