@@ -16,9 +16,9 @@ namespace Files.App.UserControls.Widgets
 
 		public WidgetsListControl()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
-			this.ViewModel = new WidgetsListControlViewModel();
+			ViewModel = new WidgetsListControlViewModel();
 		}
 
 		public void Dispose()

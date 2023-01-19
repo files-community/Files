@@ -67,7 +67,7 @@ namespace Files.App.Helpers
 					{
 						Succeeded = false,
 						Destination = filePath,
-						HResult = (int)-1
+						HResult = -1
 					});
 				}
 
@@ -132,7 +132,7 @@ namespace Files.App.Helpers
 						{
 							Succeeded = false,
 							Source = fileToDeletePath[i],
-							HResult = (int)-1
+							HResult = -1
 						});
 					}
 				}
@@ -146,7 +146,7 @@ namespace Files.App.Helpers
 						{
 							Succeeded = false,
 							Source = e.SourceItem.GetParsingPath(),
-							HResult = (int)HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
+							HResult = HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
 						});
 						throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
 					}
@@ -156,7 +156,7 @@ namespace Files.App.Helpers
 						{
 							Succeeded = true,
 							Source = e.SourceItem.GetParsingPath(),
-							HResult = (int)HRESULT.COPYENGINE_E_USER_CANCELLED
+							HResult = HRESULT.COPYENGINE_E_USER_CANCELLED
 						});
 						throw new Win32Exception(HRESULT.COPYENGINE_E_USER_CANCELLED); // E_FAIL, stops operation
 					}
@@ -211,7 +211,7 @@ namespace Files.App.Helpers
 						{
 							Succeeded = false,
 							Source = fileToDeletePath[i],
-							HResult = (int)-1
+							HResult = -1
 						});
 					}
 				}
@@ -289,7 +289,7 @@ namespace Files.App.Helpers
 					{
 						Succeeded = false,
 						Source = fileToRenamePath,
-						HResult = (int)-1
+						HResult = -1
 					});
 				}
 
@@ -359,7 +359,7 @@ namespace Files.App.Helpers
 							Succeeded = false,
 							Source = fileToMovePath[i],
 							Destination = moveDestination[i],
-							HResult = (int)-1
+							HResult = -1
 						});
 					}
 				}
@@ -440,7 +440,7 @@ namespace Files.App.Helpers
 							Succeeded = false,
 							Source = fileToCopyPath[i],
 							Destination = copyDestination[i],
-							HResult = (int)-1
+							HResult = -1
 						});
 					}
 				}

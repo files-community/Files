@@ -61,15 +61,15 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
 		private FileSystemDialogViewModel(FileSystemDialogMode fileSystemDialogMode, IEnumerable<BaseFileSystemDialogItemViewModel> items)
 		{
-			this.FileSystemDialogMode = fileSystemDialogMode;
-			this._dialogClosingCts = new();
-			this._messenger = new WeakReferenceMessenger();
-			this._messenger.Register<FileSystemDialogOptionChangedMessage>(this);
+			FileSystemDialogMode = fileSystemDialogMode;
+			_dialogClosingCts = new();
+			_messenger = new WeakReferenceMessenger();
+			_messenger.Register<FileSystemDialogOptionChangedMessage>(this);
 			foreach (var item in items)
 			{
 				item.Messenger = _messenger;
 			}
-			this.Items = new(items);
+			Items = new(items);
 
 			SecondaryButtonClickCommand = new RelayCommand(SecondaryButtonClick);
 		}

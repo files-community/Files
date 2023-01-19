@@ -24,17 +24,17 @@ namespace Files.Shared
 			bool isFolder, string recyclePath, string fileName, string filePath,
 			DateTime recycleDate, DateTime modifiedDate, DateTime createdDate, string fileSize, ulong fileSizeBytes, string fileType, byte[] pidl)
 		{
-			this.IsFolder = isFolder;
-			this.RecyclePath = recyclePath;
-			this.FileName = fileName;
-			this.FilePath = filePath;
-			this.RecycleDate = recycleDate;
-			this.ModifiedDate = modifiedDate;
-			this.CreatedDate = createdDate;
-			this.FileSize = fileSize;
-			this.FileSizeBytes = fileSizeBytes;
-			this.FileType = fileType;
-			this.PIDL = pidl;
+			IsFolder = isFolder;
+			RecyclePath = recyclePath;
+			FileName = fileName;
+			FilePath = filePath;
+			RecycleDate = recycleDate;
+			ModifiedDate = modifiedDate;
+			CreatedDate = createdDate;
+			FileSize = fileSize;
+			FileSizeBytes = fileSizeBytes;
+			FileType = fileType;
+			PIDL = pidl;
 		}
 	}
 }
