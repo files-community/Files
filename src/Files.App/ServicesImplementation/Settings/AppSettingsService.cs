@@ -10,7 +10,7 @@ namespace Files.App.ServicesImplementation.Settings
 		public AppSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
 			// Initialize settings
-			this.RegisterSettingsContext(settingsSharingContext);
+			RegisterSettingsContext(settingsSharingContext);
 		}
 
 		public bool ShowStatusCenterTeachingTip

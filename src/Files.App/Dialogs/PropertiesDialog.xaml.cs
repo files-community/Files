@@ -8,7 +8,7 @@ namespace Files.App.Dialogs
 	{
 		public PropertiesDialog()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 	}
 }
