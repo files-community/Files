@@ -587,9 +587,7 @@ namespace Files.App.Views.LayoutModes
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{
 			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
-			{
 				FileList.SelectedItems.Add(item);
-			}
 		}
 
 		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
