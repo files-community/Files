@@ -217,14 +217,10 @@ namespace Files.App.ViewModels
 					windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
 				}
 				else
-				{
 					(windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
-				}
 			}
 			else if (navigationArg is string pathArgs)
-			{
 				(windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
-			}
 			if (AppInstances.Count > 1)
 				windowTitle = $"{windowTitle} ({AppInstances.Count})";
 			if (navigationArg == SelectedTabItem?.TabItemArguments?.NavigationArg)
@@ -244,14 +240,10 @@ namespace Files.App.ViewModels
 					tabItem.IconSource = leftTabInfo.tabIcon;
 				}
 				else
-				{
 					(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
-				}
 			}
 			else if (navigationArg is string pathArgs)
-			{
 				(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = await GetSelectedTabInfoAsync(pathArgs);
-			}
 		}
 
 		public static async Task<(string tabLocationHeader, Microsoft.UI.Xaml.Controls.IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
@@ -266,22 +258,16 @@ namespace Files.App.ViewModels
 				iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			}
 			else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
-			{
 				tabLocationHeader = "Desktop".GetLocalizedResource();
-			}
 			else if (currentPath.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
-			{
 				tabLocationHeader = "Downloads".GetLocalizedResource();
-			}
 			else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
 				var localSettings = ApplicationData.Current.LocalSettings;
 				tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
 			}
 			else if (currentPath.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
-			{
 				tabLocationHeader = "SidebarNetworkDrives".GetLocalizedResource();
-			}
 			else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
 			{
 				var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
@@ -293,9 +279,7 @@ namespace Files.App.ViewModels
 				var normalizedCurrentPath = PathNormalization.NormalizePath(currentPath);
 				var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
 				if (matchingCloudDrive is not null)
-				{
 					tabLocationHeader = matchingCloudDrive.Text;
-				}
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
 				{
 					var matchingDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
@@ -344,9 +328,7 @@ namespace Files.App.ViewModels
 					{
 						var items = new TabItemArguments[userSettingsService.PreferencesSettingsService.LastSessionTabList.Count];
 						for (int i = 0; i < items.Length; i++)
-						{
 							items[i] = TabItemArguments.Deserialize(userSettingsService.PreferencesSettingsService.LastSessionTabList[i]);
-						}
 						BaseMultitaskingControl.RecentlyClosedTabs.Add(items);
 					}
 
@@ -363,9 +345,7 @@ namespace Files.App.ViewModels
 						}
 
 						if (!userSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
-						{
 							userSettingsService.PreferencesSettingsService.LastSessionTabList = null;
-						}
 					}
 					else if (userSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup &&
 						userSettingsService.PreferencesSettingsService.TabsOnStartupList is not null)
@@ -385,9 +365,7 @@ namespace Files.App.ViewModels
 						userSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 					}
 					else
-					{
 						await AddNewTabAsync();
-					}
 				}
 				catch (Exception)
 				{

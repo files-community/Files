@@ -274,9 +274,7 @@ namespace Files.App.Filesystem.Search
 				}
 
 				if (!IsAQSQuery && (!hiddenOnlyFromWin32 || userSettingsService.FoldersSettingsService.ShowHiddenItems))
-				{
 					await SearchWithWin32Async(folder, hiddenOnlyFromWin32, UsedMaxItemCount - (uint)results.Count, results, token);
-				}
 			}
 		}
 

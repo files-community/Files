@@ -34,21 +34,15 @@ namespace Files.App.UserControls.FilePreviews
 		private void MediaPlayer_VolumeChanged(MediaPlayer sender, object args)
 		{
 			if (sender.Volume != userSettingsService.PreviewPaneSettingsService.MediaVolume)
-			{
 				userSettingsService.PreviewPaneSettingsService.MediaVolume = sender.Volume;
-			}
 		}
 
 		private void TogglePlaybackRequestInvoked(object sender, EventArgs e)
 		{
 			if (PlayerContext.MediaPlayer.PlaybackSession.PlaybackState is not MediaPlaybackState.Playing)
-			{
 				PlayerContext.MediaPlayer.Play();
-			}
 			else
-			{
 				PlayerContext.MediaPlayer.Pause();
-			}
 		}
 
 		private void TogglePlaybackAcceleratorInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)

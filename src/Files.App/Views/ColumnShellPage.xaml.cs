@@ -318,13 +318,9 @@ namespace Files.App.Views
 					.Select((value, index) => new { value, index })
 					.LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
 				while (ToolbarViewModel.PathComponents.Count > lastCommonItemIndex)
-				{
 					ToolbarViewModel.PathComponents.RemoveAt(lastCommonItemIndex);
-				}
 				foreach (var component in components.Skip(lastCommonItemIndex))
-				{
 					ToolbarViewModel.PathComponents.Add(component);
-				}
 			}
 			else
 			{
@@ -350,22 +346,16 @@ namespace Files.App.Views
 					sender.SetSuggestions((await search.SearchAsync()).Select(suggestion => new SuggestionModel(suggestion)));
 				}
 				else
-				{
 					sender.AddRecentQueries();
-				}
 			}
 		}
 
 		private async void ColumnShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
 		{
 			if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
-			{
 				await NavigationHelpers.OpenPath(item.ItemPath, this);
-			}
 			else if (e.ChosenSuggestion is null && !string.IsNullOrWhiteSpace(sender.Query))
-			{
 				SubmitSearch(sender.Query, userSettingsService.PreferencesSettingsService.SearchUnindexedItems);
-			}
 		}
 
 		private void ColumnShellPage_RefreshRequested(object sender, EventArgs e)
@@ -416,13 +406,9 @@ namespace Files.App.Views
 			if (IsCurrentInstance)
 			{
 				if (args.GetCurrentPoint(this).Properties.IsXButton1Pressed)
-				{
 					Back_Click();
-				}
 				else if (args.GetCurrentPoint(this).Properties.IsXButton2Pressed)
-				{
 					Forward_Click();
-				}
 			}
 		}
 
@@ -459,9 +445,7 @@ namespace Files.App.Views
 		private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "ShowUserConsentOnInit")
-			{
 				DisplayFilesystemConsentDialog();
-			}
 		}
 
 		private async Task<BaseLayout> GetContentOrNullAsync()
@@ -478,9 +462,8 @@ namespace Files.App.Views
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
+
 			return contentDialog;
 		}
 
@@ -508,9 +491,7 @@ namespace Files.App.Views
 				{
 					columnParams = value;
 					if (IsLoaded)
-					{
 						OnNavigationParamsChanged();
-					}
 				}
 			}
 		}
@@ -612,9 +593,7 @@ namespace Files.App.Views
 		{
 			string value = e.Path;
 			if (!string.IsNullOrWhiteSpace(value))
-			{
 				UpdatePathUIToWorkingDirectory(value);
-			}
 		}
 
 		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
@@ -654,24 +633,18 @@ namespace Files.App.Views
 				case (true, false, false, true, VirtualKey.E): // ctrl + e, extract
 					{
 						if (ToolbarViewModel.CanExtract)
-						{
 							ToolbarViewModel.ExtractCommand.Execute(null);
-						}
 						break;
 					}
 
 				case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
 					if (!InstanceViewModel.IsPageTypeSearchResults)
-					{
 						await storageHistoryHelpers.TryUndo();
-					}
 					break;
 
 				case (true, false, false, true, VirtualKey.Y): // ctrl + y, redo
 					if (!InstanceViewModel.IsPageTypeSearchResults)
-					{
 						await storageHistoryHelpers.TryRedo();
-					}
 					break;
 
 				case (true, true, false, true, VirtualKey.C):
@@ -713,34 +686,22 @@ namespace Files.App.Views
 
 				case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-					{
 						await UIFilesystemHelpers.CopyItem(this);
-					}
-
 					break;
 
 				case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
-					{
 						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
-					}
-
 					break;
 
 				case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-					{
 						UIFilesystemHelpers.CutItem(this);
-					}
-
 					break;
 
 				case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-					{
 						SlimContentPage.ItemManipulationModel.SelectAllItems();
-					}
-
 					break;
 
 				case (true, false, false, true, VirtualKey.D): // ctrl + d, delete item
@@ -761,9 +722,7 @@ namespace Files.App.Views
 
 				case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
 					if (ToolbarViewModel.CanRefresh)
-					{
 						Refresh_Click();
-					}
 					break;
 
 				case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
@@ -793,9 +752,7 @@ namespace Files.App.Views
 						|| CurrentPageType == typeof(ColumnViewBase))
 					{
 						if (ContentPage.IsItemSelected)
-						{
 							ContentPage.ItemManipulationModel.StartRenameItem();
-						}
 					}
 					break;
 			}
@@ -838,18 +795,12 @@ namespace Files.App.Views
 				SelectSidebarItemFromPath(previousPageContent.SourcePageType);
 
 				if (previousPageContent.SourcePageType == typeof(WidgetsPage))
-				{
-					ItemDisplayFrame.GoBack(new EntranceNavigationTransitionInfo());
-				}
+					ItemDisplayFrame.GoBack(new EntranceNavigationTransitionInfo())
 				else
-				{
 					ItemDisplayFrame.GoBack();
-				}
 			}
 			else
-			{
 				this.FindAscendant<ColumnViewBrowser>().NavigateBack();
-			}
 		}
 
 		public void Forward_Click()
@@ -860,18 +811,15 @@ namespace Files.App.Views
 				var incomingPageContent = ItemDisplayFrame.ForwardStack[ItemDisplayFrame.ForwardStack.Count - 1];
 				var incomingPageNavPath = incomingPageContent.Parameter as NavigationArguments;
 				incomingPageNavPath.IsLayoutSwitch = false;
-				if (incomingPageContent.SourcePageType != typeof(WidgetsPage))
-				{
-					// Update layout type
+
+				if (incomingPageContent.SourcePageType != typeof(WidgetsPage)) // Update layout type
 					InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
-				}
+
 				SelectSidebarItemFromPath(incomingPageContent.SourcePageType);
 				ItemDisplayFrame.GoForward();
 			}
 			else
-			{
 				this.FindAscendant<ColumnViewBrowser>().NavigateForward();
-			}
 		}
 
 		public void Up_Click()
@@ -882,9 +830,7 @@ namespace Files.App.Views
 		private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
 		{
 			if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType is not null)
-			{
 				ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
-			}
 		}
 
 		public void Dispose()
@@ -926,9 +872,7 @@ namespace Files.App.Views
 			}
 
 			if (ItemDisplayFrame.Content is IDisposable disposableContent)
-			{
 				disposableContent?.Dispose();
-			}
 		}
 
 		private void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
@@ -960,13 +904,9 @@ namespace Files.App.Views
 
 							// Get previous dir name
 							if (e.PreviousDirectory.StartsWith('\\'))
-							{
 								e.PreviousDirectory = e.PreviousDirectory.Remove(0, 1);
-							}
 							if (e.PreviousDirectory.Contains('\\'))
-							{
 								e.PreviousDirectory = e.PreviousDirectory.Split('\\')[0];
-							}
 
 							// Get the first folder and combine it with WorkingDir
 							string folderToSelect = string.Format("{0}\\{1}", e.Path, e.PreviousDirectory);
@@ -975,9 +915,7 @@ namespace Files.App.Views
 							folderToSelect = folderToSelect.Replace("\\\\", "\\", StringComparison.Ordinal);
 
 							if (folderToSelect.EndsWith('\\'))
-							{
 								folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
-							}
 
 							ListedItem itemToSelect = FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
 
@@ -997,9 +935,7 @@ namespace Files.App.Views
 			var multitaskingControls = ((App.Window.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
 
 			foreach (var x in multitaskingControls)
-			{
 				x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control.TabItemContent == PaneHolder), isLoading);
-			}
 		}
 
 		public Task TabItemDragOver(object sender, DragEventArgs e) => SlimContentPage?.CommandsViewModel.CommandsModel.DragOver(e);

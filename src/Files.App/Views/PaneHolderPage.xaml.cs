@@ -121,13 +121,9 @@ namespace Files.App.Views
 					activePane = value;
 					PaneLeft.IsCurrentInstance = false;
 					if (PaneRight is not null)
-					{
 						PaneRight.IsCurrentInstance = false;
-					}
 					if (ActivePane is not null)
-					{
 						ActivePane.IsCurrentInstance = isCurrentInstance;
-					}
 					NotifyPropertyChanged(nameof(ActivePane));
 					NotifyPropertyChanged(nameof(IsLeftPaneActive));
 					NotifyPropertyChanged(nameof(IsRightPaneActive));
@@ -142,9 +138,7 @@ namespace Files.App.Views
 			get
 			{
 				if (ActivePane is not null && ActivePane.IsColumnView)
-				{
 					return (ActivePane.SlimContentPage as ColumnViewBrowser).ActiveColumnShellPage;
-				}
 
 				return ActivePane ?? PaneLeft;
 			}
@@ -161,9 +155,8 @@ namespace Files.App.Views
 				{
 					isRightPaneVisible = value;
 					if (!isRightPaneVisible)
-					{
 						ActivePane = PaneLeft;
-					}
+
 					Pane_ContentChanged(null, null);
 					NotifyPropertyChanged(nameof(IsRightPaneVisible));
 					NotifyPropertyChanged(nameof(IsMultiPaneActive));
@@ -181,13 +174,9 @@ namespace Files.App.Views
 				isCurrentInstance = value;
 				PaneLeft.IsCurrentInstance = false;
 				if (PaneRight is not null)
-				{
 					PaneRight.IsCurrentInstance = false;
-				}
 				if (ActivePane is not null)
-				{
 					ActivePane.IsCurrentInstance = value;
-				}
 			}
 		}
 
@@ -258,9 +247,7 @@ namespace Files.App.Views
 		private void PaneResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			if (PaneRight is not null && PaneRight.ActualWidth <= 300)
-			{
 				IsRightPaneVisible = false;
-			}
 		}
 
 		private void Pane_ContentChanged(object sender, TabItemArguments e)
@@ -298,18 +285,14 @@ namespace Files.App.Views
 			{
 				case (true, true, false, VirtualKey.Left): // ctrl + shift + "<-" select left pane
 					if (userSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
-					{
 						ActivePane = PaneLeft;
-					}
 					break;
 
 				case (true, true, false, VirtualKey.Right): // ctrl + shift + "->" select right pane
 					if (userSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
 					{
 						if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
-						{
 							NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
-						}
 						IsRightPaneVisible = true;
 						ActivePane = PaneRight;
 					}
@@ -324,9 +307,7 @@ namespace Files.App.Views
 					if (userSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
 					{
 						if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
-						{
 							NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
-						}
 						IsRightPaneVisible = true;
 					}
 					break;

@@ -281,9 +281,7 @@ namespace Files.App.DataModels
 				return;
 
 			foreach (string path in FavoriteItems)
-			{
 				await AddItemToSidebarAsync(path);
-			}
 		}
 
 		/// <summary>

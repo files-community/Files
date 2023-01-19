@@ -390,9 +390,7 @@ namespace Files.App.ViewModels
 				case SectionType.Favorites:
 					{
 						if (ShowFavoritesSection == false)
-						{
 							break;
-						}
 
 						section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						section.Font = App.AppModel.SymbolFontFamily;
@@ -402,9 +400,8 @@ namespace Files.App.ViewModels
 				case SectionType.Library:
 					{
 						if (ShowLibrarySection == false)
-						{
 							break;
-						}
+
 						section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.Libraries;
 						break;
@@ -412,9 +409,8 @@ namespace Files.App.ViewModels
 				case SectionType.Drives:
 					{
 						if (ShowDrivesSection == false)
-						{
 							break;
-						}
+
 						section = BuildSection("Drives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.ThisPC;
 						break;
@@ -422,9 +418,8 @@ namespace Files.App.ViewModels
 				case SectionType.CloudDrives:
 					{
 						if (ShowCloudDrivesSection == false || App.CloudDrivesManager.Drives.Any() == false)
-						{
 							break;
-						}
+
 						section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
 						break;
@@ -432,9 +427,8 @@ namespace Files.App.ViewModels
 				case SectionType.Network:
 					{
 						if (!ShowNetworkDrivesSection)
-						{
 							break;
-						}
+
 						section = BuildSection("SidebarNetworkDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.NetworkDrives;
 						break;
@@ -442,9 +436,8 @@ namespace Files.App.ViewModels
 				case SectionType.WSL:
 					{
 						if (ShowWslSection == false || App.WSLDistroManager.Distros.Any() == false)
-						{
 							break;
-						}
+
 						section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
 						break;
@@ -452,9 +445,8 @@ namespace Files.App.ViewModels
 				case SectionType.FileTag:
 					{
 						if (!ShowFileTagsSection)
-						{
 							break;
-						}
+
 						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
 						break;
@@ -464,16 +456,12 @@ namespace Files.App.ViewModels
 			if (section is not null)
 			{
 				if (icon is not null)
-				{
 					section.Icon = icon;
-				}
 
 				AddSectionToSideBar(section);
 
 				if (iconIdex != -1)
-				{
 					section.Icon = await UIHelpers.GetIconResource(iconIdex);
-				}
 			}
 
 			return section;
@@ -518,9 +506,7 @@ namespace Files.App.ViewModels
 				await action();
 			}
 			else
-			{
 				SideBarItems.Remove(SideBarItems.FirstOrDefault(x => x.Section == sectionType));
-			}
 		}
 
 		public async void EmptyRecycleBin(RoutedEventArgs e)
@@ -534,9 +520,7 @@ namespace Files.App.ViewModels
 			{
 				case nameof(userSettingsService.AppearanceSettingsService.IsSidebarOpen):
 					if (userSettingsService.AppearanceSettingsService.IsSidebarOpen != IsSidebarOpen)
-					{
 						OnPropertyChanged(nameof(IsSidebarOpen));
-					}
 					break;
 				case nameof(userSettingsService.PreferencesSettingsService.ShowFavoritesSection):
 					UpdateSectionVisibility(SectionType.Favorites, ShowFavoritesSection);
