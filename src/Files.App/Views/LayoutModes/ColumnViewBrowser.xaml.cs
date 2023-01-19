@@ -70,7 +70,9 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		private void ContentChanged(IShellPage p)
-			=> (ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemArguments);
+		{
+			(ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemArguments);
+		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
@@ -90,7 +92,9 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		protected override void InitializeCommandsViewModel()
-			=> CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
+		{
+			CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
+		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
@@ -127,10 +131,14 @@ namespace Files.App.Views.LayoutModes
 		#endregion IDisposable
 
 		private void DismissOtherBlades(ListView listView)
-			=> DismissOtherBlades(listView.FindAscendant<BladeItem>());
+		{
+			DismissOtherBlades(listView.FindAscendant<BladeItem>());
+		}
 
 		private void DismissOtherBlades(BladeItem blade)
-			=> DismissOtherBlades(ColumnHost.ActiveBlades.IndexOf(blade));
+		{
+			DismissOtherBlades(ColumnHost.ActiveBlades.IndexOf(blade));
+		}
 
 		private void DismissOtherBlades(int index)
 		{
@@ -199,10 +207,14 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		public void NavigateBack()
-			=> (ParentShellPageInstance as ModernShellPage)?.Back_Click();
+		{
+			(ParentShellPageInstance as ModernShellPage)?.Back_Click();
+		}
 
 		public void NavigateForward()
-			=> (ParentShellPageInstance as ModernShellPage)?.Forward_Click();
+		{
+			(ParentShellPageInstance as ModernShellPage)?.Forward_Click();
+		}
 
 		public void NavigateUp()
 		{

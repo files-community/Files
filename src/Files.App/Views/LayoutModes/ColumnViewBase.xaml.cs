@@ -101,16 +101,24 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		private void ItemManipulationModel_StartRenameItemInvoked(object? sender, EventArgs e)
-			=> StartRenameItem();
+		{
+			StartRenameItem();
+		}
 
 		private void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
-			=> FileList.ScrollIntoView(FileList.Items.Last());
+		{
+			FileList.ScrollIntoView(FileList.Items.Last());
+		}
 
 		private void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
-			=> FileList?.SelectedItems.Add(e);
+		{
+			FileList?.SelectedItems.Add(e);
+		}
 
 		private void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
-			=> FileList?.SelectedItems.Remove(e);
+		{
+			FileList?.SelectedItems.Remove(e);
+		}
 
 		private void ItemManipulationModel_InvertSelectionInvoked(object? sender, EventArgs e)
 		{
@@ -136,10 +144,14 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		private void ItemManipulationModel_ClearSelectionInvoked(object? sender, EventArgs e)
-			=> FileList.SelectedItems.Clear();
+		{
+			FileList.SelectedItems.Clear();
+		}
 
 		private void ItemManipulationModel_SelectAllItemsInvoked(object? sender, EventArgs e)
-			=> FileList.SelectAll();
+		{
+			FileList.SelectAll();
+		}
 
 		private void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
 		{
@@ -190,13 +202,19 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		protected override void InitializeCommandsViewModel()
-			=> CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
+		{
+			CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
+		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-			=> base.OnNavigatingFrom(e);
+		{
+			base.OnNavigatingFrom(e);
+		}
 
 		private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
-			=> FileList.Focus(FocusState.Programmatic);
+		{
+			FileList.Focus(FocusState.Programmatic);
+		}
 
 		override public void StartRenameItem()
 		{
@@ -491,7 +509,9 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		private void FileList_Holding(object sender, HoldingRoutedEventArgs e)
-			=> HandleRightClick(sender, e);
+		{
+			HandleRightClick(sender, e);
+		}
 
 		private void HandleRightClick(object sender, HoldingRoutedEventArgs e)
 		{
@@ -590,6 +610,8 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		internal void ClearSelectionIndicator()
-			=> FileList.SelectedItem = null;
+		{
+			FileList.SelectedItem = null;
+		}
 	}
 }
