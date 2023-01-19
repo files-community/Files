@@ -8,7 +8,7 @@
 
 		public SolidBrushColorModel(string colorCode)
 		{
-			this.ColorCode = colorCode;
+			ColorCode = colorCode;
 		}
 
 		public static SolidBrushColorModel FromResource(string resource)

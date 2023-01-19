@@ -20,7 +20,7 @@ namespace Files.App.UserControls
 	{
 		public InnerNavigationToolbar()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();

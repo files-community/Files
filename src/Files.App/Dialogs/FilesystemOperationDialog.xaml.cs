@@ -32,12 +32,12 @@ namespace Files.App.Dialogs
 
 		public FilesystemOperationDialog()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
 			App.Window.SizeChanged += Current_SizeChanged;
 		}
 
-		public new async Task<DialogResult> ShowAsync() => (DialogResult)await this.SetContentDialogRoot(this).ShowAsync();
+		public new async Task<DialogResult> ShowAsync() => (DialogResult)await SetContentDialogRoot(this).ShowAsync();
 
 		// WINUI3
 		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
