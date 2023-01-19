@@ -33,6 +33,10 @@ namespace Files.Backend.Services.SizeProvider
 			providers.Clear();
 		}
 
+		/// <summary>
+		/// Delegate the update to an instance of CachedSizeProvider.
+		/// This method is reentrant (thread safe) to avoid having to await each result.
+		/// </summary>
 		public Task UpdateAsync(string path, CancellationToken cancellationToken)
 		{
 			string driveName = GetDriveName(path);
