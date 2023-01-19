@@ -223,10 +223,14 @@ namespace Files.App.Views
 		}
 
 		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-			=> PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
 
 		protected void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
-			=> InstanceViewModel.IsPageTypeCloudDrive = e.IsTypeCloudDrive;
+		{
+			InstanceViewModel.IsPageTypeCloudDrive = e.IsTypeCloudDrive;
+		}
 
 		protected void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
 		{
@@ -274,7 +278,7 @@ namespace Files.App.Views
 					string path = FilesystemViewModel.WorkingDirectory;
 					if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 						path = SlimContentPage.SelectedItem.ItemPath;
-					
+
 					// TODO open path in Windows Terminal
 					args.Handled = true;
 					break;
@@ -323,25 +327,39 @@ namespace Files.App.Views
 		}
 
 		protected void ShellPage_RefreshRequested(object sender, EventArgs e)
-			=> Refresh_Click();
+		{
+			Refresh_Click();
+		}
 
 		protected void ShellPage_UpNavRequested(object sender, EventArgs e)
-			=> Up_Click();
+		{
+			Up_Click();
+		}
 
 		protected void ShellPage_ForwardNavRequested(object sender, EventArgs e)
-			=> Forward_Click();
+		{
+			Forward_Click();
+		}
 
 		protected void ShellPage_BackNavRequested(object sender, EventArgs e)
-			=> Back_Click();
+		{
+			Back_Click();
+		}
 
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
-			=> FilesystemViewModel?.UpdateSortDirectionStatus();
+		{
+			FilesystemViewModel?.UpdateSortDirectionStatus();
+		}
 
 		protected void AppSettings_SortOptionPreferenceUpdated(object sender, SortOption e)
-			=> FilesystemViewModel?.UpdateSortOptionStatus();
+		{
+			FilesystemViewModel?.UpdateSortOptionStatus();
+		}
 
 		protected void AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
-			=> FilesystemViewModel?.UpdateSortDirectoriesAlongsideFiles();
+		{
+			FilesystemViewModel?.UpdateSortDirectoriesAlongsideFiles();
+		}
 
 		protected void CoreWindow_PointerPressed(object sender, PointerRoutedEventArgs args)
 		{
@@ -360,16 +378,24 @@ namespace Files.App.Views
 		}
 
 		protected void ShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
-			=> ToolbarViewModel.SetAddressBarSuggestions(e.AddressBarTextField, this);
+		{
+			ToolbarViewModel.SetAddressBarSuggestions(e.AddressBarTextField, this);
+		}
 
 		protected async void ShellPage_ToolbarPathItemLoaded(object sender, ToolbarPathItemLoadedEventArgs e)
-			=> await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, e.Item, this);
+		{
+			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, e.Item, this);
+		}
 
 		protected async void ShellPage_ToolbarFlyoutOpened(object sender, ToolbarFlyoutOpenedEventArgs e)
-			=> await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem, this);
+		{
+			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem, this);
+		}
 
 		protected async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
-			=> await ToolbarViewModel.CheckPathInput(e.QueryText, ToolbarViewModel.PathComponents.LastOrDefault()?.Path, this);
+		{
+			await ToolbarViewModel.CheckPathInput(e.QueryText, ToolbarViewModel.PathComponents.LastOrDefault()?.Path, this);
+		}
 
 		protected void NavigationToolbar_EditModeEnabled(object sender, EventArgs e)
 		{
@@ -428,14 +454,24 @@ namespace Files.App.Views
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
-			=> NavigateToPath(navArgs.NavPathParam, sourcePageType, navArgs);
+		{
+			NavigateToPath(navArgs.NavPathParam, sourcePageType, navArgs);
+		}
 
 		public void NavigateToPath(string navigationPath, NavigationArguments? navArgs = null)
-			=> NavigateToPath(navigationPath, FolderSettings.GetLayoutType(navigationPath), navArgs);
+		{
+			NavigateToPath(navigationPath, FolderSettings.GetLayoutType(navigationPath), navArgs);
+		}
 
-		public Task TabItemDragOver(object sender, DragEventArgs e) => SlimContentPage?.CommandsViewModel.CommandsModel.DragOver(e);
+		public Task TabItemDragOver(object sender, DragEventArgs e)
+		{
+			SlimContentPage?.CommandsViewModel.CommandsModel.DragOver(e);
+		}
 
-		public Task TabItemDrop(object sender, DragEventArgs e) => SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);
+		public Task TabItemDrop(object sender, DragEventArgs e)
+		{
+			SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);
+		}
 
 		public async void Refresh_Click()
 		{
@@ -485,10 +521,14 @@ namespace Files.App.Views
 		}
 
 		public void RemoveLastPageFromBackStack()
-			=> ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.Last());
+		{
+			ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.Last());
+		}
 
 		public void RaiseContentChanged(IShellPage instance, TabItemArguments args)
-			=> ContentChanged?.Invoke(instance, args);
+		{
+			ContentChanged?.Invoke(instance, args);
+		}
 
 		protected void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
 		{
@@ -639,7 +679,9 @@ namespace Files.App.Views
 		}
 
 		protected async void CreateNewShortcutFromDialog()
-			=> await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
+		{
+			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
+		}
 
 		// WINUI3
 		protected static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
