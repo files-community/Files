@@ -48,6 +48,7 @@ namespace Files.App.Dialogs
 			{
 				ViewModel.IsLocationValid = false;
 			}
+			ViewModel.DestinationItemPath = DestinationItemPath.Text;
 		}
 	}
 }

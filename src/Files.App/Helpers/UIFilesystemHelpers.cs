@@ -395,9 +395,9 @@ namespace Files.App.Helpers
 		{
 			var viewModel = new CreateShortcutDialogViewModel(associatedInstance.FilesystemViewModel.WorkingDirectory);
 			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-			await dialogService.ShowDialogAsync(viewModel);
+			var result = await dialogService.ShowDialogAsync(viewModel);
 
-			if (viewModel.ShortcutCreatedSuccessfully)
+			if (result != DialogResult.Primary || viewModel.ShortcutCreatedSuccessfully)
 				return;
 
 			await HandleShortcutCannotBeCreated(viewModel.ShortcutCompleteName, viewModel.DestinationItemPath);

@@ -49,7 +49,7 @@ namespace Files.App.ViewModels.Dialogs
 		public CreateShortcutDialogViewModel(string workingDirectory)
 		{
 			WorkingDirectory = workingDirectory;
-			_destinationItemPath = string.Empty;
+			DestinationItemPath = string.Empty;
 
 			SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
 			PrimaryButtonCommand = new AsyncRelayCommand(CreateShortcut);
@@ -72,18 +72,19 @@ namespace Files.App.ViewModels.Dialogs
 		}
 
 		private async Task CreateShortcut()
-		{
+			{
 			string? destinationName;
 			var extension = DestinationPathExists ? ".lnk" : ".url";
 
 			if (DestinationPathExists)
 			{
 				destinationName = Path.GetFileName(DestinationItemPath);
-				if (destinationName is null)
+				if (string.IsNullOrEmpty(destinationName))
 				{
-					if (!DestinationItemPath.EndsWith('\\'))
-						DestinationItemPath += "\\";
-					destinationName = Path.GetDirectoryName(DestinationItemPath);
+					var destinationPath = DestinationItemPath.Replace('/', '\\');
+					if (destinationPath.EndsWith('\\'))
+						destinationPath = destinationPath.Substring(0, destinationPath.Length - 1);
+					destinationName = destinationPath.Substring(destinationPath.LastIndexOf('\\') + 1);
 				}
 			}
 			else

@@ -49,7 +49,6 @@
 				Grid.Column="0"
 				HorizontalAlignment="Stretch"
 				PlaceholderText="C:\Users\"
-				Text="{x:Bind ViewModel.DestinationItemPath, Mode=TwoWay}"
 				TextChanged="DestinationItemPath_TextChanged" />
 			<Button
 				x:Name="SelectDestination"
