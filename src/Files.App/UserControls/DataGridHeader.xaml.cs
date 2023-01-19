@@ -74,7 +74,7 @@ namespace Files.App.UserControls
 
 		public DataGridHeader()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
