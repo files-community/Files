@@ -39,7 +39,7 @@ namespace Files.App.UserControls
 
 		public StatusBarControl()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

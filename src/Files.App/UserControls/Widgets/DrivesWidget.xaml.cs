@@ -41,7 +41,7 @@ namespace Files.App.UserControls.Widgets
 
 		public DriveCardItem(DriveItem item)
 		{
-			this.Item = item;
+			Item = item;
 		}
 
 		public async Task LoadCardThumbnailAsync()

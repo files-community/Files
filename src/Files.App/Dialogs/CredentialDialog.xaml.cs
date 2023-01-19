@@ -20,7 +20,7 @@ namespace Files.App.Dialogs
 
 		public CredentialDialog()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();

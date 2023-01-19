@@ -118,8 +118,8 @@ namespace Files.App.UserControls.Settings
 
 		public SettingsBlockControl()
 		{
-			this.InitializeComponent();
-			this.Loaded += SettingsBlockControl_Loaded;
+			InitializeComponent();
+			Loaded += SettingsBlockControl_Loaded;
 		}
 
 		private void SettingsBlockControl_Loaded(object sender, RoutedEventArgs e)

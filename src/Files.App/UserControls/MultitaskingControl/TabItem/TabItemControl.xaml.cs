@@ -42,7 +42,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		public TabItemControl()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		private void ContentFrame_Navigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)

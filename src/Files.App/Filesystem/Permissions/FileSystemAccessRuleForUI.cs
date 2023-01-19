@@ -426,12 +426,12 @@ namespace Files.App.Filesystem.Permissions
 		{
 			return new FileSystemAccessRule()
 			{
-				AccessControlType = this.AccessControlType,
-				FileSystemRights = this.FileSystemRights,
-				IdentityReference = this.IdentityReference,
-				IsInherited = this.IsInherited,
-				InheritanceFlags = this.InheritanceFlags,
-				PropagationFlags = this.PropagationFlags
+				AccessControlType = AccessControlType,
+				FileSystemRights = FileSystemRights,
+				IdentityReference = IdentityReference,
+				IsInherited = IsInherited,
+				InheritanceFlags = InheritanceFlags,
+				PropagationFlags = PropagationFlags
 			};
 		}
 	}
@@ -497,8 +497,8 @@ namespace Files.App.Filesystem.Permissions
 
 		public GrantedPermission(FileSystemAccessRuleForUI fileSystemAccessRule)
 		{
-			this.fsar = fileSystemAccessRule;
-			this.fsar.PropertyChanged += Fsar_PropertyChanged;
+			fsar = fileSystemAccessRule;
+			fsar.PropertyChanged += Fsar_PropertyChanged;
 		}
 
 		protected virtual void Fsar_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
