@@ -1,10 +1,13 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.UI;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
+using Files.App.SettingsPages;
 using Files.App.UserControls.Selection;
+using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -15,6 +18,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using Windows.Storage;
 using Windows.System;
@@ -244,6 +248,15 @@ namespace Files.App.Views.LayoutModes
 			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
 			{
 				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
+			}
+
+			if (e != null)
+			{
+				foreach (var item in e.AddedItems)
+					SetCheckboxSelectionState(item);
+
+				foreach (var item in e.RemovedItems)
+					SetCheckboxSelectionState(item);
 			}
 		}
 
@@ -519,7 +532,7 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
-			if (ctrlPressed || shiftPressed || AppModel.MultiselectEnabled)
+			if (ctrlPressed || shiftPressed || AppModel.ShowSelectionCheckboxes)
 				return;
 
 			// Check if the setting to open items with a single click is turned on
@@ -569,6 +582,35 @@ namespace Files.App.Views.LayoutModes
 				ParentShellPageInstance.Up_Click();
 			}
 			ResetRenameDoubleClick();
+		}
+
+		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
+		{
+			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
+				FileList.SelectedItems.Add(item);
+		}
+
+		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
+		{
+			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
+				FileList.SelectedItems.Remove(item);
+		}
+
+		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+		{
+			base.FileList_ContainerContentChanging(sender, args);
+			SetCheckboxSelectionState(args.Item, args.ItemContainer as GridViewItem);
+		}
+
+		private void SetCheckboxSelectionState(object item, GridViewItem? lviContainer = null)
+		{
+			var container = lviContainer ?? FileList.ContainerFromItem(item) as GridViewItem;
+			if (container is not null)
+			{
+				var checkbox = container.FindDescendant("SelectionCheckbox") as CheckBox;
+				if (checkbox is not null)
+					checkbox.IsChecked = FileList.SelectedItems.Contains(item);
+			}
 		}
 
 		#region IDisposable

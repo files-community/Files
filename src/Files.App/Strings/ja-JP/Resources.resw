@@ -203,7 +203,7 @@
     <value>ファイルの場所を開く</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>このファイルを削除</value>
+    <value>一覧から削除</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>役に立つリンク</value>
@@ -1199,7 +1199,7 @@
     <value>GitHub で支援</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>ファイルと一緒にディレクトリを一覧表示して並べ替える</value>
+    <value>ファイルとフォルダーを分けずに並べ替える</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>詳細</value>
@@ -1226,7 +1226,7 @@
     <value>この設定がオフのときに変更したフォルダーのレイアウトは、すべてのフォルダーに適用されます。</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>フォルダーごとに設定を保存する</value>
+    <value>レイアウトをフォルダーごとに設定する</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリック メニューをカスタマイズ</value>
@@ -1514,7 +1514,7 @@
     <value>ファイル数</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>削除に失敗</value>
+    <value>削除に失敗しました</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>不明なエラーが発生しました。</value>
@@ -1856,10 +1856,10 @@
     <value>{0} ファイルを {1} から {2} へ移動しました</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ファイルを {1} から {2} へ移動に失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動できませんでした</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>{0} ファイルを {1} から {2} へ移動に失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動できませんでした</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
     <value>{0} ファイルの {1} へのコピーがキャンセルされました</value>
@@ -1904,10 +1904,10 @@
     <value>{0} ファイルを {1} から削除しました</value>
   </data>
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ファイルを {1} から削除に失敗しました</value>
+    <value>{0} ファイルを {1} から削除できませんでした</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>{0} ファイルを {1} から削除に失敗しました</value>
+    <value>{0} ファイルを {1} から削除できませんでした</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>ごみ箱</value>
@@ -1919,7 +1919,7 @@
     <value>ファイルをコピーしています</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>ごみ箱から元に戻す操作に失敗しました</value>
+    <value>ごみ箱から元に戻せませんでした</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>ごみ箱から元に戻す操作がキャンセルされました</value>
@@ -1955,7 +1955,7 @@
     <value>フル コントロール</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>ディレクトリの内容を一覧表示</value>
+    <value>フォルダーの内容を一覧表示</value>
   </data>
   <data name="SecurityModifyLabel.Text" xml:space="preserve">
     <value>変更</value>
@@ -2474,7 +2474,7 @@
     <value>ファイルとフォルダー</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
-    <value>タスクバーのジャンプリストからディレクトリを開くとき、新しいインスタンスで開く</value>
+    <value>タスクバーのジャンプリストからフォルダーを開くとき、新しいインスタンスで開く</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>スタートアップ設定</value>
@@ -2663,10 +2663,10 @@
     <value>コピーに失敗しました</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>{0} ファイルの {1} から {2} へコピーに失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へコピーできませんでした</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ファイルの {1} から {2} へコピーに失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へコピーできませんでした</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>移動に失敗しました</value>
@@ -2723,7 +2723,7 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>代替データストリームを表示</value>
+    <value>代替データストリームを表示する</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Files を評価</value>
@@ -2765,7 +2765,7 @@
     <value>リセット</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>この操作を行うと、すべてのディレクトリがデフォルト設定にリセットされます</value>
+    <value>この操作を行うと、すべてのフォルダーがデフォルト設定にリセットされます</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
     <value>よろしいですか？</value>
@@ -2837,7 +2837,7 @@
     <value>ゴミ箱を正常に空にしました</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>ゴミ箱を空にする操作に失敗しました</value>
+    <value>ゴミ箱を空にできませんでした</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>書庫のパスワード</value>
