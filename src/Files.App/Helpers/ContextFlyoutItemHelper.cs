@@ -688,7 +688,7 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutOpenInNewPane/Text".GetLocalizedResource(),
-					Glyph = "\uE117",
+					Glyph = "\xF117",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
 					ShowItem = userSettingsService.PreferencesSettingsService.IsDualPaneEnabled && areAllItemsFolders,

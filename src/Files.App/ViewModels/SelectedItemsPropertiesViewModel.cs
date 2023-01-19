@@ -425,7 +425,7 @@ namespace Files.App.ViewModels
 
 		public double DrivePercentageValue
 		{
-			get => DriveCapacityValue > 0 ? (double)DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
+			get => DriveCapacityValue > 0 ? DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
 		}
 
 		private bool itemAttributesVisibility = true;
