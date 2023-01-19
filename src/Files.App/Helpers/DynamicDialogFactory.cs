@@ -103,6 +103,18 @@ namespace Files.App.Helpers
 				}
 			};
 
+			inputText.TextChanged += (textBox, args) =>
+			{
+				if (!string.IsNullOrWhiteSpace(inputText.Text))
+				{
+					dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel;
+				}
+				else
+				{
+					dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Cancel;
+				}
+			};
+
 			inputText.Loaded += (s, e) =>
 			{
 				// dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
