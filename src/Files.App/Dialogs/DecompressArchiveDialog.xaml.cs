@@ -17,7 +17,7 @@ namespace Files.App.Dialogs
 
 		public DecompressArchiveDialog()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

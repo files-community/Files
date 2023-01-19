@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -9,7 +9,7 @@ namespace Files.Backend.Services.SizeProvider
 {
 	public class DrivesSizeProvider : ISizeProvider
 	{
-		private readonly IDictionary<string, ISizeProvider> providers = new Dictionary<string, ISizeProvider>();
+		private readonly ConcurrentDictionary<string, ISizeProvider> providers = new();
 
 		public event EventHandler<SizeChangedEventArgs>? SizeChanged;
 
@@ -19,35 +19,31 @@ namespace Files.Backend.Services.SizeProvider
 			var oldDriveNames = providers.Keys.Except(currentDrives).ToArray();
 
 			foreach (var oldDriveName in oldDriveNames)
-			{
-				if (providers.ContainsKey(oldDriveName))
-				{
-					providers.Remove(oldDriveName);
-				}
-			}
+				providers.TryRemove(oldDriveName, out _);
+
 			foreach (var provider in providers.Values)
-			{
 				await provider.CleanAsync();
-			}
 		}
 
 		public async Task ClearAsync()
 		{
-			foreach (var provider in providers)
-			{
-				await provider.Value.ClearAsync();
-			}
+			foreach (var provider in providers.Values)
+				await provider.ClearAsync();
+
 			providers.Clear();
 		}
 
+		/// <summary>
+		/// Delegate the update to an instance of CachedSizeProvider.
+		/// This method is reentrant (thread safe) to avoid having to await each result.
+		/// </summary>
 		public Task UpdateAsync(string path, CancellationToken cancellationToken)
 		{
 			string driveName = GetDriveName(path);
-			if (!providers.ContainsKey(driveName))
+			var provider = providers.GetOrAdd(driveName, (key) =>
 			{
-				CreateProvider(driveName);
-			}
-			var provider = providers[driveName];
+				return CreateProvider();
+			});
 			return provider.UpdateAsync(path, cancellationToken);
 		}
 
@@ -65,11 +61,11 @@ namespace Files.Backend.Services.SizeProvider
 
 		private static string GetDriveName(string path) => Directory.GetDirectoryRoot(path);
 
-		private void CreateProvider(string driveName)
+		private ISizeProvider CreateProvider()
 		{
 			var provider = new CachedSizeProvider();
 			provider.SizeChanged += Provider_SizeChanged;
-			providers.Add(driveName, provider);
+			return provider;
 		}
 
 		private void Provider_SizeChanged(object? sender, SizeChangedEventArgs e)
