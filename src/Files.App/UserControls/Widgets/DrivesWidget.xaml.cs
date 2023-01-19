@@ -133,7 +133,9 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-			=> PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
 
 		private async void EjectDevice_Click(object sender, RoutedEventArgs e)
 		{

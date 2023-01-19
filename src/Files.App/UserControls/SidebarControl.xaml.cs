@@ -387,17 +387,25 @@ namespace Files.App.UserControls
 				App.SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path);
 		}
 
-		private void MoveItemToTop() 
-			=> MoveItemToNewIndex(0);
+		private void MoveItemToTop()
+		{
+			MoveItemToNewIndex(0);
+		}
 
-		private void MoveItemUp() 
-			=> MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) - 1);
+		private void MoveItemUp()
+		{
+			MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) - 1);
+		}
 
 		private void MoveItemDown()
-			=> MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) + 1);
+		{
+			MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) + 1);
+		}
 
 		private void MoveItemToBottom()
-			=> MoveItemToNewIndex(App.SidebarPinnedController.Model.FavoriteItems.Count - 1);
+		{
+			MoveItemToNewIndex(App.SidebarPinnedController.Model.FavoriteItems.Count - 1);
+		}
 
 		private void MoveItemToNewIndex(int newIndex)
 		{
@@ -886,10 +894,14 @@ namespace Files.App.UserControls
 		}
 
 		private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
-			=> (this.FindDescendant("TabContentBorder") as Border)!.Child = TabContent;
+		{
+			(this.FindDescendant("TabContentBorder") as Border)!.Child = TabContent;
+		}
 
 		private void SidebarControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
-			=> IsPaneToggleButtonVisible = args.DisplayMode == NavigationViewDisplayMode.Minimal;
+		{
+			IsPaneToggleButtonVisible = args.DisplayMode == NavigationViewDisplayMode.Minimal;
+		}
 
 		private void Border_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
@@ -983,7 +995,10 @@ namespace Files.App.UserControls
 			dragging = false;
 		}
 
-		private void ResizeElementBorder_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e) => IsPaneOpen = !IsPaneOpen;
+		private void ResizeElementBorder_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			IsPaneOpen = !IsPaneOpen;
+		}
 
 		private void ResizeElementBorder_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{

@@ -401,13 +401,19 @@ namespace Files.App.ViewModels
 		}
 
 		public static Task AddNewTabAsync()
-			=> AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
+		{
+			AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
+		}
 
 		public void AddNewTab()
-			=> AddNewTabAsync();
+		{
+			AddNewTabAsync();
+		}
 
 		public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
-			=> await AddNewTabAsync();
+		{
+			await AddNewTabAsync();
+		}
 
 		public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
 		{

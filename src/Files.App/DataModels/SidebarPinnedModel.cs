@@ -44,7 +44,10 @@ namespace Files.App.DataModels
 			}
 		}
 
-		public void SetController(SidebarPinnedController controller) => this.controller = controller;
+		public void SetController(SidebarPinnedController controller)
+		{
+			this.controller = controller;
+		}
 
 		/// <summary>
 		/// Adds the default items to the navigation page
@@ -62,7 +65,10 @@ namespace Files.App.DataModels
 		/// <summary>
 		/// Gets the items from the navigation page
 		/// </summary>
-		public List<string> GetItems() => FavoriteItems;
+		public List<string> GetItems()
+		{
+			return FavoriteItems;
+		}
 
 		/// <summary>
 		/// Adds the item to the navigation page
@@ -177,12 +183,17 @@ namespace Files.App.DataModels
 		/// <param name="collection">The collection in which to find the location item</param>
 		/// <returns>Index of the item</returns>
 		public int IndexOfItem(INavigationControlItem locationItem, List<INavigationControlItem> collection)
-			=> collection.IndexOf(locationItem);
+		{
+			collection.IndexOf(locationItem);
+		}
 
 		/// <summary>
 		/// Saves the model
 		/// </summary>
-		public void Save() => controller?.SaveModel();
+		public void Save()
+		{
+			controller?.SaveModel();
+		}
 
 		/// <summary>
 		/// Adds the item (from a path) to the navigation sidebar

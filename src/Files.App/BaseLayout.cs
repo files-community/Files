@@ -1181,10 +1181,14 @@ namespace Files.App
 	public class ContextMenuExtensions : DependencyObject
 	{
 		public static ItemsControl GetItemsControl(DependencyObject obj)
-			=> (ItemsControl)obj.GetValue(ItemsControlProperty);
+		{
+			return (ItemsControl)obj.GetValue(ItemsControlProperty);
+		}
 
 		public static void SetItemsControl(DependencyObject obj, ItemsControl value)
-			=> obj.SetValue(ItemsControlProperty, value);
+		{
+			obj.SetValue(ItemsControlProperty, value);
+		}
 
 		public static readonly DependencyProperty ItemsControlProperty =
 			DependencyProperty.RegisterAttached("ItemsControl", typeof(ItemsControl), typeof(ContextMenuExtensions), new PropertyMetadata(null));

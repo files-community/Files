@@ -515,7 +515,9 @@ namespace Files.App.ViewModels
 		}
 
 		public void CancelExtendedPropertiesLoadingForItem(ListedItem item)
-			=> itemLoadQueue.TryUpdate(item.ItemPath, true, false);
+		{
+			itemLoadQueue.TryUpdate(item.ItemPath, true, false);
+		}
 
 		public async Task ApplySingleFileChangeAsync(ListedItem item)
 		{
