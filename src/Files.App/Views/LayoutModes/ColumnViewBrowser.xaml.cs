@@ -21,7 +21,7 @@ namespace Files.App.Views.LayoutModes
 
 		public ColumnViewBrowser() : base()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		public void HandleSelectionChange(ColumnViewBase initiator)
@@ -104,7 +104,7 @@ namespace Files.App.Views.LayoutModes
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
-			this.Dispose();
+			Dispose();
 		}
 
 		#region IDisposable

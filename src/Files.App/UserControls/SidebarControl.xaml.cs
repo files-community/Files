@@ -82,7 +82,7 @@ namespace Files.App.UserControls
 			get => (INavigationControlItem)GetValue(SelectedSidebarItemProperty);
 			set
 			{
-				if (this.IsLoaded)
+				if (IsLoaded)
 					SetValue(SelectedSidebarItemProperty, value);
 			}
 		}

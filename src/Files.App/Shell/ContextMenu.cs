@@ -26,8 +26,8 @@ namespace Files.App.Shell
 		{
 			this.cMenu = cMenu;
 			this.hMenu = hMenu;
-			this.ItemsPath = itemsPath.ToList();
-			this.Items = new List<Win32ContextMenuItem>();
+			ItemsPath = itemsPath.ToList();
+			Items = new List<Win32ContextMenuItem>();
 			this.owningThread = owningThread;
 		}
 

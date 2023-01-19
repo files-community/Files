@@ -12,7 +12,7 @@ namespace Files.App.Views
 
 		public PropertiesCompatibility()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)

@@ -197,7 +197,7 @@ namespace Files.App.Views
 			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
-			this.PointerPressed += CoreWindow_PointerPressed;
+			PointerPressed += CoreWindow_PointerPressed;
 
 			/*
 
@@ -580,7 +580,7 @@ namespace Files.App.Views
 			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			OnNavigationParamsChanged();
-			this.Loaded -= Page_Loaded;
+			Loaded -= Page_Loaded;
 		}
 
 		private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
@@ -738,7 +738,7 @@ namespace Files.App.Views
 				case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
 					{
-						this.SlimContentPage.ItemManipulationModel.SelectAllItems();
+						SlimContentPage.ItemManipulationModel.SelectAllItems();
 					}
 
 					break;
@@ -772,7 +772,7 @@ namespace Files.App.Views
 					break;
 
 				case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
-					await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
+					await NavigationHelpers.OpenPathInNewTab(FilesystemViewModel.WorkingDirectory);
 					break;
 
 				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
@@ -890,7 +890,7 @@ namespace Files.App.Views
 		public void Dispose()
 		{
 			PreviewKeyDown -= ColumnShellPage_PreviewKeyDown;
-			this.PointerPressed -= CoreWindow_PointerPressed;
+			PointerPressed -= CoreWindow_PointerPressed;
 			//SystemNavigationManager.GetForCurrentView().BackRequested -= ColumnShellPage_BackRequested; //WINUI3
 			App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
 

@@ -8,6 +8,8 @@
 	xmlns:converters1="using:Files.App.ValueConverters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:settingsviewmodels="using:Files.App.ViewModels.SettingsViewModels"
@@ -19,7 +21,7 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-			<converters1:ColorToSolidColorBrushValueConverter x:Key="ColorToSolidColorBrushConverter" />
+			<converters1:StringToSolidColorBrushValueConverter x:Key="StringToSolidColorBrushConverter" />
 
 			<DataTemplate x:Key="AppThemeResourcesItemTemplate" x:DataType="appearance:AppThemeResource">
 				<Grid
@@ -38,7 +40,7 @@
 					<Border
 						Grid.RowSpan="2"
 						Height="66"
-						Background="{x:Bind BackgroundColor, Converter={StaticResource ColorToSolidColorBrushConverter}, Mode=OneWay}"
+						Background="{x:Bind BackgroundColor, Converter={StaticResource StringToSolidColorBrushConverter}, Mode=OneWay}"
 						CornerRadius="4,4,0,0" />
 
 					<!--  Tab Bar  -->

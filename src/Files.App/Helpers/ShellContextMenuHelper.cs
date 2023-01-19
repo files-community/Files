@@ -161,16 +161,15 @@ namespace Files.App.Helpers
 				{
 					case "install" when isFont:
 						{
-							var userFontDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
-							var destName = Path.Combine(userFontDir, Path.GetFileName(contextMenu.ItemsPath[0]));
-							Win32API.RunPowershellCommand($"-command \"Copy-Item '{contextMenu.ItemsPath[0]}' '{userFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(contextMenu.ItemsPath[0])}' -Path 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{destName}'\"", false);
+							foreach (string path in contextMenu.ItemsPath)
+								InstallFont(path, false);
 						}
 						break;
 
 					case "installAllUsers" when isFont:
 						{
-							var winFontDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts");
-							Win32API.RunPowershellCommand($"-command \"Copy-Item '{contextMenu.ItemsPath[0]}' '{winFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(contextMenu.ItemsPath[0])}' -Path 'HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{Path.GetFileName(contextMenu.ItemsPath[0])}'\"", true);
+							foreach (string path in contextMenu.ItemsPath)
+								InstallFont(path, true);
 						}
 						break;
 
@@ -188,7 +187,17 @@ namespace Files.App.Helpers
 						await contextMenu.InvokeItem(menuId);
 						break;
 				}
+				
+				void InstallFont(string path, bool asAdmin)
+				{
+					string dir = asAdmin ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
+						: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
 
+					string registryKey = asAdmin ? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts" 
+						: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
+
+					Win32API.RunPowershellCommand($"-command \"Copy-Item '{path}' '{dir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(path)}' -Path '{registryKey}' -PropertyType string -Value '{dir}'\"", asAdmin);
+				}
 				//contextMenu.Dispose(); // Prevents some menu items from working (TBC)
 			}
 		}

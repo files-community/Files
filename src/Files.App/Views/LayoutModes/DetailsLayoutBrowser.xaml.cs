@@ -65,7 +65,7 @@ namespace Files.App.Views.LayoutModes
 		public DetailsLayoutBrowser() : base()
 		{
 			InitializeComponent();
-			this.DataContext = this;
+			DataContext = this;
 
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -471,12 +471,12 @@ namespace Files.App.Views.LayoutModes
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
 			{
 				// Unfocus the GridView so keyboard shortcut can be handled
-				this.Focus(FocusState.Pointer);
+				Focus(FocusState.Pointer);
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
 			{
 				// Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
-				this.Focus(FocusState.Pointer);
+				Focus(FocusState.Pointer);
 			}
 			else if (e.Key == VirtualKey.Down)
 			{

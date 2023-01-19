@@ -24,7 +24,7 @@ namespace Files.App.UserControls
 
 		public MenuFlyoutItemWithImage()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 	}
 }
