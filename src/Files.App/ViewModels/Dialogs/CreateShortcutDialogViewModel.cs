@@ -49,7 +49,7 @@ namespace Files.App.ViewModels.Dialogs
 		public CreateShortcutDialogViewModel(string workingDirectory)
 		{
 			WorkingDirectory = workingDirectory;
-			DestinationItemPath = string.Empty;
+			_destinationItemPath = string.Empty;
 
 			SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
 			PrimaryButtonCommand = new AsyncRelayCommand(CreateShortcut);
@@ -72,7 +72,7 @@ namespace Files.App.ViewModels.Dialogs
 		}
 
 		private async Task CreateShortcut()
-			{
+		{
 			string? destinationName;
 			var extension = DestinationPathExists ? ".lnk" : ".url";
 
