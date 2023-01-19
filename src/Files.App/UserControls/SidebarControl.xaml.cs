@@ -479,9 +479,7 @@ namespace Files.App.UserControls
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			if (sender is not NavigationViewItem sidebarItem ||
 				sidebarItem.DataContext is not INavigationControlItem item)
-			{
 				return;
-			}
 
 			rightClickedItem = item;
 

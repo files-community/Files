@@ -405,7 +405,8 @@ namespace Files.App.ViewModels
 			if (!CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 			using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
-			if (folderItem is null) return;
+			if (folderItem is null) 
+				return;
 			var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
 			var newListedItem = await AddFileOrFolderFromShellFile(shellFileItem);
 			if (newListedItem is null)
