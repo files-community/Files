@@ -330,15 +330,11 @@ namespace Files.App.Views.LayoutModes
 
 			if (e != null)
 			{
-				foreach (var item in e.AddedItems)
-				{
+				foreach (var item in e.AddedItems)	
 					SetCheckboxSelectionState(item);
-				}
-
+				
 				foreach (var item in e.RemovedItems)
-				{
 					SetCheckboxSelectionState(item);
-				}
 			}
 		}
 
@@ -846,17 +842,13 @@ namespace Files.App.Views.LayoutModes
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{
 			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
-			{
 				FileList.SelectedItems.Add(item);
-			}
 		}
 
 		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
-			{
 				FileList.SelectedItems.Remove(item);
-			}
 		}
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -872,9 +864,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				var checkbox = container.FindDescendant("SelectionCheckbox") as CheckBox;
 				if (checkbox is not null)
-				{
 					checkbox.IsChecked = FileList.SelectedItems.Contains(item);
-				}
 			}
 		}
 	}
