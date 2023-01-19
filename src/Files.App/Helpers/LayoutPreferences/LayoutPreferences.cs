@@ -53,6 +53,7 @@ namespace Files.App.Helpers.LayoutPreferences
 			ColumnsViewModel.DateDeletedColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.DateDeletedColumnWidth;
 			ColumnsViewModel.OriginalPathColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.OriginalPathColumnWidth;
 			ColumnsViewModel.StatusColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.SyncStatusColumnWidth;
+		}
 
 		public override bool Equals(object? obj)
 		{

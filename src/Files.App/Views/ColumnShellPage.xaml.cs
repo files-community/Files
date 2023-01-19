@@ -795,7 +795,7 @@ namespace Files.App.Views
 				SelectSidebarItemFromPath(previousPageContent.SourcePageType);
 
 				if (previousPageContent.SourcePageType == typeof(WidgetsPage))
-					ItemDisplayFrame.GoBack(new EntranceNavigationTransitionInfo())
+					ItemDisplayFrame.GoBack(new EntranceNavigationTransitionInfo());
 				else
 					ItemDisplayFrame.GoBack();
 			}
