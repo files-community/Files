@@ -184,19 +184,19 @@ namespace Files.App.ViewModels
 
 		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions)
 		{
-			this.Banner = banner;
+			Banner = banner;
 			this.OngoingTasksActions = OngoingTasksActions;
-			this.ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
-			this.Progress = new(this.ProgressEventSource, status: FileSystemStatusCode.InProgress);
+			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
+			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
 
 		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions, CancellationTokenSource cancellationTokenSource)
 		{
-			this.Banner = banner;
+			Banner = banner;
 			this.OngoingTasksActions = OngoingTasksActions;
 			this.cancellationTokenSource = cancellationTokenSource;
-			this.ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
-			this.Progress = new(this.ProgressEventSource, status: FileSystemStatusCode.InProgress);
+			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
+			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
 
 		#endregion Constructor

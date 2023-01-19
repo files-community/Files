@@ -196,6 +196,20 @@
 			Canvas.ZIndex="0"
 			EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
+		<StackPanel
+			x:Name="SearchUnindexedItemsPanel"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Bottom"
+			x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
+			Orientation="Vertical">
+			<TextBlock Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
+			<HyperlinkButton
+				x:Name="SearchUnindexedItemsButton"
+				HorizontalAlignment="Center"
+				Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
+				Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
+		</StackPanel>
+
 		<TeachingTip
 			x:Name="FileNameTeachingTip"
 			CloseButtonContent="{helpers:ResourceString Name=FileNameTeachingTip/CloseButtonContent}"
@@ -234,7 +248,7 @@
 					ScrollViewer.HorizontalScrollBarVisibility="Auto"
 					ScrollViewer.HorizontalScrollMode="Auto"
 					SelectionChanged="FileList_SelectionChanged"
-					SelectionMode="{x:Bind AppModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
+					SelectionMode="Extended"
 					Tapped="FileList_ItemTapped"
 					Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
 					<ListView.ItemContainerTransitions>
@@ -299,67 +313,78 @@
 								</MenuFlyout>
 							</Grid.ContextFlyout>
 							<Grid.ColumnDefinitions>
+								<ColumnDefinition x:Name="SelectAllColumn" Width="0" />
 								<ColumnDefinition
-									x:Name="Column1"
+									x:Name="Column2"
 									Width="{x:Bind ColumnsViewModel.IconColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.IconColumn.MaxLength, Mode=OneWay}" />
 								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition x:Name="Column2" Width="{x:Bind ColumnsViewModel.NameColumn.Length, Mode=OneWay}" />
+								<ColumnDefinition x:Name="Column3" Width="{x:Bind ColumnsViewModel.NameColumn.Length, Mode=OneWay}" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition
-									x:Name="Column3"
+									x:Name="Column4"
 									Width="{x:Bind ColumnsViewModel.TagColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.TagColumn.MaxLength, Mode=OneWay}" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition
-									x:Name="Column4"
+									x:Name="Column5"
 									Width="{x:Bind ColumnsViewModel.OriginalPathColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.OriginalPathColumn.MaxLength, Mode=OneWay}" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition
-									x:Name="Column5"
+									x:Name="Column6"
 									Width="{x:Bind ColumnsViewModel.DateDeletedColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.DateDeletedColumn.MaxLength, Mode=OneWay}" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition
-									x:Name="Column6"
+									x:Name="Column7"
 									Width="{x:Bind ColumnsViewModel.DateModifiedColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.DateModifiedColumn.MaxLength, Mode=OneWay}" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition
-									x:Name="Column7"
+									x:Name="Column8"
 									Width="{x:Bind ColumnsViewModel.DateCreatedColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.DateCreatedColumn.MaxLength, Mode=OneWay}" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition
-									x:Name="Column8"
+									x:Name="Column9"
 									Width="{x:Bind ColumnsViewModel.ItemTypeColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.ItemTypeColumn.MaxLength, Mode=OneWay}" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition
-									x:Name="Column9"
+									x:Name="Column10"
 									Width="{x:Bind ColumnsViewModel.SizeColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.SizeColumn.MaxLength, Mode=OneWay}" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition
-									x:Name="Column10"
+									x:Name="Column11"
 									Width="{x:Bind ColumnsViewModel.StatusColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.StatusColumn.MaxLength, Mode=OneWay}" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="0" />
 							</Grid.ColumnDefinitions>
 
-							<Grid Grid.Column="0" />
+							<CheckBox
+								x:Name="SelectAllItemsCheckbox"
+								Grid.Column="0"
+								Width="32"
+								Margin="0,8,0,0"
+								Checked="SelectAllCheckbox_Checked"
+								IsChecked="{x:Bind AreAllItemsSelected, Mode=OneWay}"
+								Unchecked="SelectAllCheckbox_Unchecked"
+								Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+
+							<Grid Grid.Column="1" />
 
 							<uc:DataGridHeader
 								x:Name="NameHeader"
-								Grid.Column="2"
+								Grid.Column="3"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Name"
 								Header="{helpers:ResourceString Name=nameColumn/Header}" />
 
 							<controls:GridSplitter
-								Grid.Column="3"
+								Grid.Column="4"
 								AutomationProperties.Name="NameColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -371,14 +396,14 @@
 
 							<uc:DataGridHeader
 								x:Name="TagHeader"
-								Grid.Column="4"
+								Grid.Column="5"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileTag"
 								Header="{helpers:ResourceString Name=Tag}"
 								Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="5"
+								Grid.Column="6"
 								AutomationProperties.Name="TagColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -391,14 +416,14 @@
 
 							<uc:DataGridHeader
 								x:Name="OriginalPathHeader"
-								Grid.Column="6"
+								Grid.Column="7"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="OriginalPath"
 								Header="{helpers:ResourceString Name=originalPathColumn/Header}"
 								Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="7"
+								Grid.Column="8"
 								AutomationProperties.Name="OriginalPathColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -411,14 +436,14 @@
 
 							<uc:DataGridHeader
 								x:Name="DateDeletedHeader"
-								Grid.Column="8"
+								Grid.Column="9"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateDeleted"
 								Header="{helpers:ResourceString Name=DateDeleted}"
 								Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="9"
+								Grid.Column="10"
 								AutomationProperties.Name="DateDeletedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -431,14 +456,14 @@
 
 							<uc:DataGridHeader
 								x:Name="DateModifiedHeader"
-								Grid.Column="10"
+								Grid.Column="11"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateModified"
 								Header="{helpers:ResourceString Name=DateModifiedLowerCase}"
 								Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="11"
+								Grid.Column="12"
 								AutomationProperties.Name="DateModifiedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -451,14 +476,14 @@
 
 							<uc:DataGridHeader
 								x:Name="DateCreatedHeader"
-								Grid.Column="12"
+								Grid.Column="13"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateCreated"
 								Header="{helpers:ResourceString Name=DateCreated}"
 								Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="13"
+								Grid.Column="14"
 								AutomationProperties.Name="DateCreatedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -471,14 +496,14 @@
 
 							<uc:DataGridHeader
 								x:Name="FileTypeHeader"
-								Grid.Column="14"
+								Grid.Column="15"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileType"
 								Header="{helpers:ResourceString Name=Type}"
 								Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="15"
+								Grid.Column="16"
 								AutomationProperties.Name="ItemTypeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -491,14 +516,14 @@
 
 							<uc:DataGridHeader
 								x:Name="ItemSizeHeader"
-								Grid.Column="16"
+								Grid.Column="17"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Size"
 								Header="{helpers:ResourceString Name=Size}"
 								Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="17"
+								Grid.Column="18"
 								AutomationProperties.Name="SizeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -511,7 +536,7 @@
 
 							<uc:DataGridHeader
 								x:Name="SyncStatusHeader"
-								Grid.Column="18"
+								Grid.Column="19"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Left"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
@@ -520,7 +545,7 @@
 								Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="19"
+								Grid.Column="20"
 								AutomationProperties.Name="StatusColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -541,6 +566,15 @@
 								Loaded="StackPanel_Loaded"
 								Orientation="Horizontal"
 								ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
+
+								<CheckBox
+									x:Name="SelectionCheckbox"
+									Width="{Binding ElementName=SelectAllColumn, Mode=OneWay, Path=Width}"
+									MinWidth="0"
+									Checked="ItemSelected_Checked"
+									Unchecked="ItemSelected_Unchecked"
+									Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+
 								<Grid
 									Width="24"
 									Height="Auto"
@@ -877,20 +911,6 @@
 							<ItemsStackPanel AreStickyGroupHeadersEnabled="False" Orientation="Vertical" />
 						</ItemsPanelTemplate>
 					</ListView.ItemsPanel>
-					<ListView.Footer>
-						<StackPanel
-							x:Name="SearchUnindexedItemsPanel"
-							HorizontalAlignment="Stretch"
-							x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
-							Orientation="Vertical">
-							<TextBlock HorizontalTextAlignment="Center" Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
-							<HyperlinkButton
-								x:Name="SearchUnindexedItemsButton"
-								HorizontalAlignment="Center"
-								Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
-								Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
-						</StackPanel>
-					</ListView.Footer>
 				</ListView>
 			</SemanticZoom.ZoomedInView>
 
@@ -980,10 +1000,11 @@
 				<VisualState x:Name="MultiselectDisabled" />
 				<VisualState x:Name="MultiselectEnabled">
 					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind AppModel.MultiselectEnabled, Mode=OneWay}" To="True" />
+						<triggers:IsEqualStateTrigger Value="{x:Bind AppModel.ShowSelectionCheckboxes, Mode=OneWay}" To="True" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="HeaderGrid.Margin" Value="44,0,0,0" />
+						<Setter Target="HeaderGrid.Margin" Value="0,0,0,0" />
+						<Setter Target="SelectAllColumn.Width" Value="32" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
