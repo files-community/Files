@@ -12,7 +12,7 @@ namespace Files.App.ServicesImplementation
 
 		public ThreadingService()
 		{
-			this._dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+			_dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 		}
 
 		public Task ExecuteOnUiThreadAsync(Action action)

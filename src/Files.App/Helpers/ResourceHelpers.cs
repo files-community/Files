@@ -6,16 +6,10 @@ namespace Files.App.Helpers
 	[MarkupExtensionReturnType(ReturnType = typeof(string))]
 	public sealed class ResourceString : MarkupExtension
 	{
-		private static ResourceLoader resourceLoader = new ResourceLoader();
+		private static readonly ResourceLoader resourceLoader = new();
 
-		public string Name
-		{
-			get; set;
-		}
+		public string Name { get; set; } = string.Empty;
 
-		protected override object ProvideValue()
-		{
-			return resourceLoader.GetString(this.Name);
-		}
+		protected override object ProvideValue() => resourceLoader.GetString(Name);
 	}
 }

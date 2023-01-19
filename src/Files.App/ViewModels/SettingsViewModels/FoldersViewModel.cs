@@ -129,6 +129,20 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
+
+		public bool ShowSelectionCheckboxes
+		{
+			get => UserSettingsService.FoldersSettingsService.ShowSelectionCheckboxes;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.ShowSelectionCheckboxes)
+				{
+					UserSettingsService.FoldersSettingsService.ShowSelectionCheckboxes = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public FolderLayoutModes DefaultLayoutMode
 		{
 			get => UserSettingsService.FoldersSettingsService.DefaultLayoutMode;

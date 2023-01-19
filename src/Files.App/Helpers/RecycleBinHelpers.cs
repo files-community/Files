@@ -64,7 +64,7 @@ namespace Files.App.Helpers
 				SecondaryButtonText = "Cancel".GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
 			};
-			ContentDialogResult result = await this.SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
+			ContentDialogResult result = await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 			{
@@ -111,12 +111,12 @@ namespace Files.App.Helpers
 				DefaultButton = ContentDialogButton.Primary
 			};
 
-			ContentDialogResult result = await this.SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
+			ContentDialogResult result = await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 			{
 				associatedInstance.SlimContentPage.ItemManipulationModel.SelectAllItems();
-				await this.RestoreItem(associatedInstance);
+				await RestoreItem(associatedInstance);
 			}
 		}
 
@@ -136,10 +136,10 @@ namespace Files.App.Helpers
 				DefaultButton = ContentDialogButton.Primary
 			};
 
-			ContentDialogResult result = await this.SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
+			ContentDialogResult result = await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
 
 			if (result == ContentDialogResult.Primary)
-				await this.RestoreItem(associatedInstance);
+				await RestoreItem(associatedInstance);
 		}
 
 		//WINUI3

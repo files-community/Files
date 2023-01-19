@@ -13,7 +13,7 @@ namespace Files.App.Interacts
 
 		public BaseLayoutCommandsViewModel(IBaseLayoutCommandImplementationModel commandsModel)
 		{
-			this.CommandsModel = commandsModel;
+			CommandsModel = commandsModel;
 
 			InitializeCommands();
 		}
