@@ -29,7 +29,34 @@ namespace Files.App.ViewModels.Dialogs
 		public string DestinationItemPath
 		{
 			get => _destinationItemPath;
-			set => SetProperty(ref _destinationItemPath, value);
+			set
+			{
+				if (!SetProperty(ref _destinationItemPath, value))
+					return;
+				if (string.IsNullOrWhiteSpace(DestinationItemPath))
+				{
+					IsLocationValid = false;
+					return;
+				}
+
+				try
+				{
+					DestinationPathExists = Path.Exists(DestinationItemPath) && DestinationItemPath != Path.GetPathRoot(DestinationItemPath);
+					if (DestinationPathExists)
+					{
+						IsLocationValid = true;
+					}
+					else
+					{
+						var uri = new Uri(DestinationItemPath);
+						IsLocationValid = uri.IsWellFormedOriginalString();
+					}
+				}
+				catch (Exception)
+				{
+					IsLocationValid = false;
+				}
+			}
 		}
 
 		// Tells if the selected destination is valid (Path exists or URL is well-formed). Used to enable primary button
