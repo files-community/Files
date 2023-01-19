@@ -33,7 +33,9 @@ namespace Files.App.ViewModels
 		private readonly List<SuggestionModel> oldQueries = new List<SuggestionModel>();
 
 		public void ClearSuggestions()
-			=> Suggestions.Clear();
+		{
+			Suggestions.Clear();
+		}
 
 		public void SetSuggestions(IEnumerable<SuggestionModel> suggestions)
 		{
@@ -62,7 +64,9 @@ namespace Files.App.ViewModels
 		}
 
 		public void SearchRegion_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs e)
-			=> TextChanged?.Invoke(this, new SearchBoxTextChangedEventArgs(e.Reason));
+		{
+			TextChanged?.Invoke(this, new SearchBoxTextChangedEventArgs(e.Reason));
+		}
 
 		public void SearchRegion_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs e)
 		{
@@ -95,7 +99,9 @@ namespace Files.App.ViewModels
 		}
 
 		public void SearchRegion_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
-			=> Escaped?.Invoke(this, this);
+		{
+			Escaped?.Invoke(this, this);
+		}
 
 		public void SearchRegion_GotFocus(object sender, RoutedEventArgs e)
 		{
