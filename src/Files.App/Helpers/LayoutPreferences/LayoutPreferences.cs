@@ -26,34 +26,33 @@ namespace Files.App.Helpers.LayoutPreferences
 		{
 			var defaultLayout = userSettingsService.FoldersSettingsService.DefaultLayoutMode;
 
-			this.LayoutMode = defaultLayout is FolderLayoutModes.Adaptive ? FolderLayoutModes.DetailsView : defaultLayout;
-			this.GridViewSize = userSettingsService.LayoutSettingsService.DefaultGridViewSize;
-			this.DirectorySortOption = userSettingsService.FoldersSettingsService.DefaultSortOption;
-			this.DirectoryGroupOption = userSettingsService.FoldersSettingsService.DefaultGroupOption;
-			this.DirectorySortDirection = userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
-			this.SortDirectoriesAlongsideFiles = userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
-			this.IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
+			LayoutMode = defaultLayout is FolderLayoutModes.Adaptive ? FolderLayoutModes.DetailsView : defaultLayout;
+			GridViewSize = userSettingsService.LayoutSettingsService.DefaultGridViewSize;
+			DirectorySortOption = userSettingsService.FoldersSettingsService.DefaultSortOption;
+			DirectoryGroupOption = userSettingsService.FoldersSettingsService.DefaultGroupOption;
+			DirectorySortDirection = userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
+			SortDirectoriesAlongsideFiles = userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
+			IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
 
-			this.ColumnsViewModel = new ColumnsViewModel();
-			this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowDateCreatedColumn;
-			this.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowDateColumn;
-			this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowTypeColumn;
-			this.ColumnsViewModel.SizeColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowSizeColumn;
-			this.ColumnsViewModel.TagColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowFileTagColumn;
-			this.ColumnsViewModel.DateDeletedColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowDateDeletedColumn;
-			this.ColumnsViewModel.OriginalPathColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowOriginalPathColumn;
-			this.ColumnsViewModel.StatusColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowSyncStatusColumn;
+			ColumnsViewModel = new ColumnsViewModel();
+			ColumnsViewModel.DateCreatedColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowDateCreatedColumn;
+			ColumnsViewModel.DateModifiedColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowDateColumn;
+			ColumnsViewModel.ItemTypeColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowTypeColumn;
+			ColumnsViewModel.SizeColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowSizeColumn;
+			ColumnsViewModel.TagColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowFileTagColumn;
+			ColumnsViewModel.DateDeletedColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowDateDeletedColumn;
+			ColumnsViewModel.OriginalPathColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowOriginalPathColumn;
+			ColumnsViewModel.StatusColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowSyncStatusColumn;
 
-			this.ColumnsViewModel.NameColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.NameColumnWidth;
-			this.ColumnsViewModel.DateModifiedColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.DateModifiedColumnWidth;
-			this.ColumnsViewModel.DateCreatedColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.DateCreatedColumnWidth;
-			this.ColumnsViewModel.ItemTypeColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.TypeColumnWidth;
-			this.ColumnsViewModel.SizeColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.SizeColumnWidth;
-			this.ColumnsViewModel.TagColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.TagColumnWidth;
-			this.ColumnsViewModel.DateDeletedColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.DateDeletedColumnWidth;
-			this.ColumnsViewModel.OriginalPathColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.OriginalPathColumnWidth;
-			this.ColumnsViewModel.StatusColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.SyncStatusColumnWidth;
-		}
+			ColumnsViewModel.NameColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.NameColumnWidth;
+			ColumnsViewModel.DateModifiedColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.DateModifiedColumnWidth;
+			ColumnsViewModel.DateCreatedColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.DateCreatedColumnWidth;
+			ColumnsViewModel.ItemTypeColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.TypeColumnWidth;
+			ColumnsViewModel.SizeColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.SizeColumnWidth;
+			ColumnsViewModel.TagColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.TagColumnWidth;
+			ColumnsViewModel.DateDeletedColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.DateDeletedColumnWidth;
+			ColumnsViewModel.OriginalPathColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.OriginalPathColumnWidth;
+			ColumnsViewModel.StatusColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.SyncStatusColumnWidth;
 
 		public override bool Equals(object? obj)
 		{
@@ -66,14 +65,14 @@ namespace Files.App.Helpers.LayoutPreferences
 			if (obj is LayoutPreferences prefs)
 			{
 				return (
-					prefs.LayoutMode == this.LayoutMode &&
-					prefs.GridViewSize == this.GridViewSize &&
-					prefs.DirectoryGroupOption == this.DirectoryGroupOption &&
-					prefs.DirectorySortOption == this.DirectorySortOption &&
-					prefs.DirectorySortDirection == this.DirectorySortDirection &&
-					prefs.SortDirectoriesAlongsideFiles == this.SortDirectoriesAlongsideFiles &&
-					prefs.IsAdaptiveLayoutOverridden == this.IsAdaptiveLayoutOverridden &&
-					prefs.ColumnsViewModel.Equals(this.ColumnsViewModel));
+					prefs.LayoutMode == LayoutMode &&
+					prefs.GridViewSize == GridViewSize &&
+					prefs.DirectoryGroupOption == DirectoryGroupOption &&
+					prefs.DirectorySortOption == DirectorySortOption &&
+					prefs.DirectorySortDirection == DirectorySortDirection &&
+					prefs.SortDirectoriesAlongsideFiles == SortDirectoriesAlongsideFiles &&
+					prefs.IsAdaptiveLayoutOverridden == IsAdaptiveLayoutOverridden &&
+					prefs.ColumnsViewModel.Equals(ColumnsViewModel));
 			}
 			return base.Equals(obj);
 		}

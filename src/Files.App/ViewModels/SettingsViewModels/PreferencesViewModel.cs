@@ -296,7 +296,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		private async Task ChangePage()
 		{
-			var folderPicker = this.InitializeWithWindow(new FolderPicker());
+			var folderPicker = InitializeWithWindow(new FolderPicker());
 			folderPicker.FileTypeFilter.Add("*");
 			StorageFolder folder = await folderPicker.PickSingleFolderAsync();
 
@@ -331,7 +331,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			if (string.IsNullOrWhiteSpace(path))
 			{
-				var folderPicker = this.InitializeWithWindow(new FolderPicker());
+				var folderPicker = InitializeWithWindow(new FolderPicker());
 				folderPicker.FileTypeFilter.Add("*");
 
 				var folder = await folderPicker.PickSingleFolderAsync();

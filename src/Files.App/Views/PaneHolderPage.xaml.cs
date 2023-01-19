@@ -195,12 +195,11 @@ namespace Files.App.Views
 
 		public PaneHolderPage()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 			App.Window.SizeChanged += Current_SizeChanged;
-			this.ActivePane = PaneLeft;
-			this.IsRightPaneVisible = IsMultiPaneEnabled && userSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;
+			ActivePane = PaneLeft;
+			IsRightPaneVisible = IsMultiPaneEnabled && userSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;
 			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-
 			// TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
 		}
 

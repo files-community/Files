@@ -14,6 +14,7 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</local:PropertiesTab.Resources>
@@ -126,6 +127,17 @@
 				x:Load="{x:Bind ViewModel.ShortcutItemWorkingDirVisibility, Mode=OneWay}"
 				Text="{x:Bind ViewModel.ShortcutItemWorkingDir, Mode=TwoWay}" />
 		</Grid>
+
+        <local1:SettingsBlockControl 
+	        x:Name="RunAsAdminCheckbox" 
+	        Title="{helpers:ResourceString Name=RunAsAdministrator}" 
+	        HorizontalAlignment="Stretch" 
+	        x:Load="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}">
+			<ToggleSwitch
+				AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdministrator}"
+				IsOn="{x:Bind ViewModel.RunAsAdmin, Mode=TwoWay}"
+				Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+		</local1:SettingsBlockControl>
 
 		<local1:SettingsBlockControl
 			x:Name="OpenFileLocation"

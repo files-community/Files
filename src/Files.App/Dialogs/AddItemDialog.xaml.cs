@@ -29,7 +29,7 @@ namespace Files.App.Dialogs
 		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			ViewModel.ResultType = (e.ClickedItem as AddItemDialogListItemViewModel).ItemResult;
-			this.Hide();
+			Hide();
 		}
 
 		private async void AddItemDialog_Loaded(object sender, RoutedEventArgs e)

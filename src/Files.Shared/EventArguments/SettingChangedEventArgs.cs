@@ -10,8 +10,8 @@ namespace Files.Shared.EventArguments
 
 		public SettingChangedEventArgs(string settingName, object? newValue)
 		{
-			this.SettingName = settingName;
-			this.NewValue = newValue;
+			SettingName = settingName;
+			NewValue = newValue;
 		}
 	}
 }

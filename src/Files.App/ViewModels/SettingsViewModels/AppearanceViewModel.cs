@@ -1,19 +1,15 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.App.Views.SettingsPages.Appearance;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
-using Windows.UI;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
@@ -35,45 +31,47 @@ namespace Files.App.ViewModels.SettingsViewModels
 			};
 
 			AppThemeResources = AppThemeResourceFactory.AppThemeResources;
-			UpdateSelectedBackground();
+			UpdateSelectedResource();
 		}
 
 		/// <summary>
-		/// Selects the AppThemeResource corresponding to the AppThemeBackgroundColor setting
+		/// Selects the AppThemeResource corresponding to the current settings
 		/// </summary>
-		private void UpdateSelectedBackground()
+		private void UpdateSelectedResource()
 		{
-			var backgroundColor = AppThemeBackgroundColor;
+			var themeBackgroundColor = AppThemeBackgroundColor;
 
 			// Add color to the collection if it's not already there
-			if (!AppThemeResources.Any(p => p.BackgroundColor == backgroundColor))
+			if (!AppThemeResources.Any(p => p.BackgroundColor == themeBackgroundColor))
 			{
+				// Remove current value before adding a new one
+				if (AppThemeResources.Last().Name == "Custom")
+					AppThemeResources.Remove(AppThemeResources.Last());
+
 				var appThemeBackgroundColor = new AppThemeResource
 				{
-					BackgroundColor = backgroundColor,
-					PreviewColor = new SolidColorBrush(Color.FromArgb(255, backgroundColor.R, backgroundColor.G, backgroundColor.B)),
+					BackgroundColor = themeBackgroundColor,
 					Name = "Custom"
 				};
-
-				AppThemeResources.Insert(1, appThemeBackgroundColor);
+				AppThemeResources.Add(appThemeBackgroundColor);
 			}
 
-			SelectedAppBackgroundColor = AppThemeResources
-					.Where(p => p.BackgroundColor == AppThemeBackgroundColor)
-					.FirstOrDefault() ?? AppThemeResources[0];
+			SelectedAppThemeResources = AppThemeResources
+				.Where(p => p.BackgroundColor == themeBackgroundColor)
+				.FirstOrDefault() ?? AppThemeResources[0];
 		}
 
 
-		private AppThemeResource selectedAppBackgroundColor;
-		public AppThemeResource SelectedAppBackgroundColor
+		private AppThemeResource selectedAppThemeResources;
+		public AppThemeResource SelectedAppThemeResources
 		{
-			get => selectedAppBackgroundColor;
+			get => selectedAppThemeResources;
 			set
 			{
-				if (SetProperty(ref selectedAppBackgroundColor, value))
+				if (SetProperty(ref selectedAppThemeResources, value))
 				{
-					AppThemeBackgroundColor = SelectedAppBackgroundColor.BackgroundColor;
-					OnPropertyChanged(nameof(selectedAppBackgroundColor));
+					AppThemeBackgroundColor = SelectedAppThemeResources.BackgroundColor;
+					OnPropertyChanged(nameof(selectedAppThemeResources));
 				}
 			}
 		}
@@ -119,6 +117,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				{
 					userSettingsService.AppearanceSettingsService.UseCompactStyles = value;
 
+					// Apply the updated compact spacing resource
 					App.AppThemeResourcesHelper.SetCompactSpacing(UseCompactStyles);
 					App.AppThemeResourcesHelper.ApplyResources();
 
@@ -127,17 +126,20 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public Color AppThemeBackgroundColor
+		public string AppThemeBackgroundColor
 		{
-			get => ColorHelper.ToColor(userSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
+			get => userSettingsService.AppearanceSettingsService.AppThemeBackgroundColor;
 			set
 			{
-				if (value != ColorHelper.ToColor(userSettingsService.AppearanceSettingsService.AppThemeBackgroundColor))
+				if (value != userSettingsService.AppearanceSettingsService.AppThemeBackgroundColor)
 				{
-					userSettingsService.AppearanceSettingsService.AppThemeBackgroundColor = value.ToString();
-
-					App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(AppThemeBackgroundColor);
+					userSettingsService.AppearanceSettingsService.AppThemeBackgroundColor = value;
+          
+					// Apply the updated background resource
+					App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(ColorHelper.ToColor(value));
 					App.AppThemeResourcesHelper.ApplyResources();
+
+					OnPropertyChanged();
 				}
 			}
 		}

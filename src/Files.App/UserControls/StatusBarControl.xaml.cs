@@ -1,4 +1,3 @@
-using Files.App.DataModels;
 using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -40,7 +39,7 @@ namespace Files.App.UserControls
 
 		public StatusBarControl()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

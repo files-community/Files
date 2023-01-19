@@ -39,7 +39,7 @@ namespace Files.App.Helpers
 				Uri Path150x150 = new Uri("ms-appx:///Assets/tile-0-300x300.png");
 				Uri Path71x71 = new Uri("ms-appx:///Assets/tile-0-250x250.png");
 
-				SecondaryTile tile = this.InitializeWithWindow(new SecondaryTile(
+				SecondaryTile tile = InitializeWithWindow(new SecondaryTile(
 					GetTileID(path),
 					name,
 					path,

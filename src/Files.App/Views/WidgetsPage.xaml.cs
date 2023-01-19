@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.DataModels.NavigationControlItems;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -47,7 +46,7 @@ namespace Files.App.Views
 
 		protected override void OnNavigatedFrom(NavigationEventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 
 			base.OnNavigatedFrom(e);
 		}
