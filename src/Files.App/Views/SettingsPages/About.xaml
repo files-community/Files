@@ -24,7 +24,7 @@
 
 			<!--  Version  -->
 			<TextBlock
-				Padding="0,12,0,4"
+				Padding="0,0,0,4"
 				FontSize="14"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=Version}" />
