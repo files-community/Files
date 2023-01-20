@@ -36,7 +36,7 @@ namespace Files.App.Dialogs
 
 		private void UpdateDialogLayout()
 		{
-			ContainerGrid.Height = App.Window.Bounds.Height <= 760 ? App.Window.Bounds.Height - 70 : 790;
+			ContainerGrid.Height = App.Window.Bounds.Height <= 760 ? App.Window.Bounds.Height - 70 : 690;
 			ContainerGrid.Width = App.Window.Bounds.Width <= 1100 ? App.Window.Bounds.Width : 1100;
 			SettingsPane.PaneDisplayMode = App.Window.Bounds.Width < 700 ? NavigationViewPaneDisplayMode.LeftCompact : NavigationViewPaneDisplayMode.Left;
 		}
