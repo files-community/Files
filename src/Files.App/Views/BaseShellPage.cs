@@ -465,12 +465,12 @@ namespace Files.App.Views
 
 		public Task TabItemDragOver(object sender, DragEventArgs e)
 		{
-			SlimContentPage?.CommandsViewModel.CommandsModel.DragOver(e);
+			return SlimContentPage?.CommandsViewModel.CommandsModel.DragOver(e);
 		}
 
 		public Task TabItemDrop(object sender, DragEventArgs e)
 		{
-			SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);
+			return SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);
 		}
 
 		public async void Refresh_Click()

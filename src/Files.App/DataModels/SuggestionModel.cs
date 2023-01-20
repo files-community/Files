@@ -60,17 +60,17 @@ namespace Files.App.DataModels
 
 		public SuggestionModel(ListedItem item)
 		{
-			this.LoadFileIcon = item.LoadFileIcon;
-			this.NeedsPlaceholderGlyph = item.NeedsPlaceholderGlyph;
-			this.ItemPath = item.ItemPath;
-			this.Name = item.Name;
-			this.FileImage = item.FileImage;
+			LoadFileIcon = item.LoadFileIcon;
+			NeedsPlaceholderGlyph = item.NeedsPlaceholderGlyph;
+			ItemPath = item.ItemPath;
+			Name = item.Name;
+			FileImage = item.FileImage;
 		}
 
 		public SuggestionModel(string itemName, bool isRecentSearch)
 		{
-			this.IsRecentSearch = isRecentSearch;
-			this.Name = itemName;
+			IsRecentSearch = isRecentSearch;
+			Name = itemName;
 		}
 	}
 }

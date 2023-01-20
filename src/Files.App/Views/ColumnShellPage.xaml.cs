@@ -180,7 +180,6 @@ namespace Files.App.Views
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
 						await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
 					}
-
 					break;
 
 				case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
@@ -192,19 +191,16 @@ namespace Files.App.Views
 				case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
 						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
-
 					break;
 
 				case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
 						UIFilesystemHelpers.CutItem(this);
-
 					break;
 
 				case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-						this.SlimContentPage.ItemManipulationModel.SelectAllItems();
-
+						SlimContentPage.ItemManipulationModel.SelectAllItems();
 					break;
 
 				case (true, false, false, true, VirtualKey.D): // ctrl + d, delete item
@@ -216,7 +212,6 @@ namespace Files.App.Views
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
 						await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
 					}
-
 					break;
 
 				case (true, false, false, true, VirtualKey.P): // ctrl + p, toggle preview pane
@@ -234,7 +229,7 @@ namespace Files.App.Views
 					break;
 
 				case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
-					await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
+					await NavigationHelpers.OpenPathInNewTab(FilesystemViewModel.WorkingDirectory);
 					break;
 
 				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
@@ -266,12 +261,18 @@ namespace Files.App.Views
 		}
 
 		public override void Up_Click()
-			=> this.FindAscendant<ColumnViewBrowser>().NavigateUp();
+		{
+			this.FindAscendant<ColumnViewBrowser>().NavigateUp();
+		}
 
 		public override void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
-			=> this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
+		{
+			this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
+		}
 
 		public override void NavigateHome()
-			=> throw new NotImplementedException("Can't show Home page in Column View");
+		{
+			throw new NotImplementedException("Can't show Home page in Column View");
+		}
 	}
 }
