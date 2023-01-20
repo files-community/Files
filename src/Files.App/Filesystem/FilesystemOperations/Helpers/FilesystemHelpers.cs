@@ -96,14 +96,6 @@ namespace Files.App.Filesystem
 			var progress = new Progress<FileSystemProgress>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
-			if (!IsValidForFilename(source.Name))
-			{
-				await DialogDisplayHelper.ShowDialogAsync(
-					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
-					"ErrorDialogNameNotAllowed".GetLocalizedResource());
-				return (ReturnResult.Failed, null);
-			}
-
 			var result = await filesystemOperations.CreateAsync(source, progress, cancellationToken);
 
 			if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
@@ -546,14 +538,6 @@ namespace Files.App.Filesystem
 			var progress = new Progress<FileSystemProgress>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
-			if (!IsValidForFilename(newName))
-			{
-				await DialogDisplayHelper.ShowDialogAsync(
-					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
-					"ErrorDialogNameNotAllowed".GetLocalizedResource());
-				return ReturnResult.Failed;
-			}
-
 			IStorageHistory history = null;
 
 			switch (source.ItemType)
@@ -647,9 +631,6 @@ namespace Files.App.Filesystem
 		}
 
 		#endregion IFilesystemHelpers
-
-		private static bool IsValidForFilename(string name)
-			=> !string.IsNullOrWhiteSpace(name) && !ContainsRestrictedCharacters(name) && !ContainsRestrictedFileName(name);
 
 		private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation, IEnumerable<IFileSystemDialogConflictItemViewModel>)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
 		{
