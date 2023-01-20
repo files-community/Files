@@ -402,7 +402,7 @@ namespace Files.App.ViewModels
 
 		public static Task AddNewTabAsync()
 		{
-			AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
+			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
 		}
 
 		public void AddNewTab()

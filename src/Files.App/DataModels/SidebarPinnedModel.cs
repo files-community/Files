@@ -184,7 +184,7 @@ namespace Files.App.DataModels
 		/// <returns>Index of the item</returns>
 		public int IndexOfItem(INavigationControlItem locationItem, List<INavigationControlItem> collection)
 		{
-			collection.IndexOf(locationItem);
+			return collection.IndexOf(locationItem);
 		}
 
 		/// <summary>
