@@ -76,7 +76,8 @@ namespace Files.App.Helpers
 			{
 				tipText.Opacity = FilesystemHelpers.ContainsRestrictedCharacters(inputText.Text) ? 1.0d : 0.0d;
 				dialog!.ViewModel.DynamicButtonsEnabled = string.IsNullOrWhiteSpace(inputText.Text) || FilesystemHelpers.ContainsRestrictedCharacters(inputText.Text) 
-														? DynamicDialogButtons.Cancel : DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel;
+														? DynamicDialogButtons.Cancel 
+														: DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel;
 			};
 
 			inputText.Loaded += (s, e) =>
