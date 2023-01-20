@@ -96,9 +96,7 @@ namespace Files.App.Filesystem
 			var progress = new Progress<FileSystemProgress>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
-			if (string.IsNullOrWhiteSpace(source.Name)
-				|| ContainsRestrictedCharacters(source.Name)
-				|| ContainsRestrictedFileName(source.Name))
+			if (!IsValidForFilename(source.Name))
 			{
 				await DialogDisplayHelper.ShowDialogAsync(
 					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
@@ -548,9 +546,7 @@ namespace Files.App.Filesystem
 			var progress = new Progress<FileSystemProgress>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
-			if (string.IsNullOrWhiteSpace(newName)
-				|| ContainsRestrictedCharacters(newName)
-				|| ContainsRestrictedFileName(newName))
+			if (!IsValidForFilename(newName))
 			{
 				await DialogDisplayHelper.ShowDialogAsync(
 					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
@@ -651,6 +647,9 @@ namespace Files.App.Filesystem
 		}
 
 		#endregion IFilesystemHelpers
+
+		private static bool IsValidForFilename(string name)
+			=> !string.IsNullOrWhiteSpace(name) && !ContainsRestrictedCharacters(name) && !ContainsRestrictedFileName(name);
 
 		private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation, IEnumerable<IFileSystemDialogConflictItemViewModel>)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
 		{
