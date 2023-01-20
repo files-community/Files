@@ -38,6 +38,7 @@ namespace Files.App.Dialogs
 		{
 			ContainerGrid.Height = App.Window.Bounds.Height <= 860 ? App.Window.Bounds.Height - 70 : 790;
 			ContainerGrid.Width = App.Window.Bounds.Width <= 1100 ? App.Window.Bounds.Width : 1100;
+			SettingsPane.PaneDisplayMode = App.Window.Bounds.Width < 700 ? NavigationViewPaneDisplayMode.LeftCompact : NavigationViewPaneDisplayMode.Left;
 		}
 
 		private void SettingsPane_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
