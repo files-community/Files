@@ -19,12 +19,6 @@
 			<SolidColorBrush x:Key="WindowCaptionBackground" Color="Transparent" />
 			<SolidColorBrush x:Key="WindowCaptionBackgroundDisabled" Color="Transparent" />
 
-			<!--  Removes NavigationView background  -->
-			<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
-			
-			<!--  Removes NavigationView corner radius  -->
-			<CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
-
 			<!--  Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/5441  -->
 			<x:Double x:Key="MediaTransportControlsMinWidth">50</x:Double>
 

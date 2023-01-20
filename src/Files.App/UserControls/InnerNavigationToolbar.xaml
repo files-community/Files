@@ -423,14 +423,6 @@
 				ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSelectionOptions/ToolTipService/ToolTip}">
 				<AppBarButton.Flyout>
 					<MenuFlyout Placement="Bottom">
-						<ToggleMenuFlyoutItem
-							x:Name="MultiselectMFI"
-							IsChecked="{x:Bind AppModel.MultiselectEnabled, Mode=TwoWay}"
-							Text="{helpers:ResourceString Name=NavToolbarMultiselect/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon Glyph="&#xE762;" />
-							</MenuFlyoutItem.Icon>
-						</ToggleMenuFlyoutItem>
 						<MenuFlyoutItem
 							x:Name="SelectAllMFI"
 							Command="{x:Bind ViewModel.SelectAllContentPageItemsCommand, Mode=OneWay}"
