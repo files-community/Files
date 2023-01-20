@@ -48,18 +48,18 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				string fileName;
 
 				// Network Share path
-				if (System.IO.Path.GetPathRoot(this.Path) == this.Path && this.Path.StartsWith(@"\\"))
+				if (System.IO.Path.GetPathRoot(Path) == Path && Path.StartsWith(@"\\"))
 				{
-					fileName = this.Path.Substring(this.Path.LastIndexOf(@"\") + 1);
+					fileName = Path.Substring(Path.LastIndexOf(@"\") + 1);
 				}
 				// Drive path
-				else if (System.IO.Path.GetPathRoot(this.Path) == this.Path)
+				else if (System.IO.Path.GetPathRoot(Path) == Path)
 				{
-					fileName = this.Path;
+					fileName = Path;
 				}
 				else
 				{
-					fileName = System.IO.Path.GetFileName(this.Path);
+					fileName = System.IO.Path.GetFileName(Path);
 				}
 
 				if (FileExtensionHelpers.IsShortcutOrUrlFile(fileName))
@@ -116,8 +116,8 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public BundleItemViewModel(string path, FilesystemItemType targetType)
 		{
-			this.Path = path;
-			this.TargetType = targetType;
+			Path = path;
+			TargetType = targetType;
 
 			// Create commands
 			OpenInNewTabCommand = new RelayCommand(OpenInNewTab);

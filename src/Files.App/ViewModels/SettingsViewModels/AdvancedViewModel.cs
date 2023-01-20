@@ -168,7 +168,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		private async Task ImportSettings()
 		{
-			FileOpenPicker filePicker = this.InitializeWithWindow(new FileOpenPicker());
+			FileOpenPicker filePicker = InitializeWithWindow(new FileOpenPicker());
 			filePicker.FileTypeFilter.Add(".zip");
 
 			StorageFile file = await filePicker.PickSingleFileAsync();
@@ -220,7 +220,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		private async Task ExportSettings()
 		{
-			FileSavePicker filePicker = this.InitializeWithWindow(new FileSavePicker());
+			FileSavePicker filePicker = InitializeWithWindow(new FileSavePicker());
 			filePicker.FileTypeChoices.Add("Zip File", new[] { ".zip" });
 			filePicker.SuggestedFileName = $"Files_{App.AppVersion}";
 

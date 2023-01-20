@@ -60,13 +60,13 @@ namespace Files.App.Shell
 			public Internal(Action payload)
 			{
 				this.payload = () => { payload(); return default; };
-				this.tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
+				tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
 			}
 
 			public Internal(Func<object?> payload)
 			{
 				this.payload = payload;
-				this.tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
+				tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
 			}
 		}
 	}
