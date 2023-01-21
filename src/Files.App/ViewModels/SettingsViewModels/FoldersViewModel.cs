@@ -132,12 +132,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowSelectionCheckboxes
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowSelectionCheckboxes;
+			get => userSettingsService.FoldersSettingsService.ShowSelectionCheckboxes;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowSelectionCheckboxes)
+				if (value != userSettingsService.FoldersSettingsService.ShowSelectionCheckboxes)
 				{
-					UserSettingsService.FoldersSettingsService.ShowSelectionCheckboxes = value;
+					userSettingsService.FoldersSettingsService.ShowSelectionCheckboxes = value;
 					OnPropertyChanged();
 				}
 			}
