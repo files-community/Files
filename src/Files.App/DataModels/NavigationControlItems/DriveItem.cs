@@ -9,10 +9,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Threading.Tasks;
-using Windows.Media.Capture;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using static Vanara.PInvoke.Shell32;
 
 namespace Files.App.DataModels.NavigationControlItems
 {

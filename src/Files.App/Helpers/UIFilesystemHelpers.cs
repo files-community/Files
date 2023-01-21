@@ -379,7 +379,7 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Set a single file or folder to hidden or unhidden an refresh the
+		/// Set a single file or folder to hidden or unhidden and refresh the
 		/// view after setting the flag
 		/// </summary>
 		/// <param name="item"></param>
@@ -402,6 +402,22 @@ namespace Files.App.Helpers
 			var viewModel = new CreateShortcutDialogViewModel(currentPath);
 			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 			await dialogService.ShowDialogAsync(viewModel);
+		}
+
+		/// <summary>
+		/// Updates ListedItem properties for a shortcut
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="targetPath"></param>
+		/// <param name="arguments"></param>
+		/// <param name="workingDir"></param>
+		/// <param name="runAsAdmin"></param>
+		public static void UpdateShortcutItemProperties(ShortcutItem item, string targetPath, string arguments, string workingDir, bool runAsAdmin)
+		{
+			item.TargetPath = targetPath;
+			item.Arguments = arguments;
+			item.WorkingDirectory = workingDir;
+			item.RunAsAdmin = runAsAdmin;
 		}
 	}
 }

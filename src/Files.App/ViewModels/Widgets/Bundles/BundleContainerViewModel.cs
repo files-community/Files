@@ -135,7 +135,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		private async Task AddFolder()
 		{
-			FolderPicker folderPicker = this.InitializeWithWindow(new FolderPicker());
+			FolderPicker folderPicker = InitializeWithWindow(new FolderPicker());
 			folderPicker.FileTypeFilter.Add("*");
 
 			StorageFolder folder = await folderPicker.PickSingleFolderAsync();
@@ -156,7 +156,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		private async Task AddFile()
 		{
-			FileOpenPicker filePicker = this.InitializeWithWindow(new FileOpenPicker());
+			FileOpenPicker filePicker = InitializeWithWindow(new FileOpenPicker());
 			filePicker.FileTypeFilter.Add("*");
 
 			StorageFile file = await filePicker.PickSingleFileAsync();

@@ -2,7 +2,6 @@ using Files.App.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Microsoft.AppCenter.Analytics;
-using Microsoft.UI.Xaml.Media;
 using System;
 
 namespace Files.App.ServicesImplementation.Settings
@@ -49,21 +48,21 @@ namespace Files.App.ServicesImplementation.Settings
 		/// <inheritdoc/>
 		public String AppThemeAddressBarBackgroundColor
 		{
-			get => Get("#00000000");
+			get => Get("");
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
 		public String AppThemeSidebarBackgroundColor
 		{
-			get => Get("#00000000");
+			get => Get("");
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
 		public String AppThemeFileAreaBackgroundColor
 		{
-			get => Get("#00000000");
+			get => Get("");
 			set => Set(value);
 		}
 

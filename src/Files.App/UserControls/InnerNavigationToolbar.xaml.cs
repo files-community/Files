@@ -20,12 +20,14 @@ namespace Files.App.UserControls
 	{
 		public InnerNavigationToolbar()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public AppModel AppModel => App.AppModel;
+
+		public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
 
 		public ToolbarViewModel ViewModel
 		{

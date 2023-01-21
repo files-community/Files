@@ -58,7 +58,7 @@ namespace Files.App
 
 		public CurrentInstanceViewModel? InstanceViewModel => ParentShellPageInstance?.InstanceViewModel;
 
-		public IPaneViewModel PaneViewModel => App.PaneViewModel;
+		public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
 
 		public AppModel AppModel => App.AppModel;
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
@@ -205,9 +205,9 @@ namespace Files.App
 						App.PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
 
 						// check if the preview pane is open before updating the model
-						if (PaneViewModel.IsPreviewSelected)
+						if (PreviewPaneViewModel.IsEnabled)
 						{
-							bool isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
+							bool isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
 							if (isPaneEnabled)
 								App.PreviewPaneViewModel.UpdateSelectedItemPreview();
 						}
@@ -371,7 +371,7 @@ namespace Files.App
 		{
 			base.OnNavigatedTo(eventArgs);
 			// Add item jumping handler
-			this.CharacterReceived += Page_CharacterReceived;
+			CharacterReceived += Page_CharacterReceived;
 			navigationArguments = (NavigationArguments)eventArgs.Parameter;
 			ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
 			InitializeCommandsViewModel();
@@ -491,7 +491,7 @@ namespace Files.App
 		{
 			base.OnNavigatingFrom(e);
 			// Remove item jumping handler
-			this.CharacterReceived -= Page_CharacterReceived;
+			CharacterReceived -= Page_CharacterReceived;
 			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
 			ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
@@ -578,7 +578,7 @@ namespace Files.App
 				itc.MaxHeight = Constants.UI.ContextMenuMaxHeight; // Reset menu max height
 			shellContextMenuItemCancellationToken?.Cancel();
 			shellContextMenuItemCancellationToken = new CancellationTokenSource();
-			SelectedItemsPropertiesViewModel.CheckAllFileExtensions(this.SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
+			SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
 			var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
 			var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, workingDir: ParentShellPageInstance!.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, showOpenMenu: false);
 			ItemContextMenuFlyout.PrimaryCommands.Clear();
@@ -1039,7 +1039,7 @@ namespace Files.App
 
 		public virtual void Dispose()
 		{
-			PaneViewModel?.Dispose();
+			PreviewPaneViewModel?.Dispose();
 			UnhookBaseEvents();
 		}
 
