@@ -158,6 +158,15 @@ namespace Files.App.ViewModels.Properties
 
 			list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
 																						   (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+			// Find Encoding Bitrate property and convert it to kbps
+			var encodingBitrate = list.Find(x => x.Property == "System.Audio.EncodingBitrate");
+			if (encodingBitrate is not null)
+			{
+				string[] sizes = { "Bps", "KBps", "MBps", "GBps" };
+				int order = (int)Math.Floor(Math.Log((uint)encodingBitrate.Value, 1024));
+				double readableSpeed = (uint)encodingBitrate.Value / Math.Pow(1024, order);
+				encodingBitrate.Value = $"{readableSpeed:0.##} {sizes[order]}";
+			}
 
 			var query = list
 				.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
@@ -168,7 +177,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
 			ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value is not null));
 		}
-
+		
 		public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
 		{
 			if (!Lat.HasValue || !Lon.HasValue)
