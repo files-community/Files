@@ -218,7 +218,7 @@
     <value>தேதி வடிவமைப்பு</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>நிற அமைப்பு</value>
+    <value>கருப்பொருள்</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Show extensions for known file types</value>
@@ -1752,7 +1752,7 @@
     <value>மாற்றப்பட்ட தேதி</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Original folder</value>
+    <value>அசல் கோப்புறை</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>வகை</value>
@@ -2043,7 +2043,7 @@
     <value>கோப்புகள்</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
-    <value>this folder</value>
+    <value>இந்தக் கோப்புறை</value>
   </data>
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>subfolders</value>
@@ -2496,7 +2496,7 @@
     <value>முறைமை</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
-    <value>System (advanced)</value>
+    <value>முறைமை (மேம்பட்ட)</value>
   </data>
   <data name="Windows7" xml:space="preserve">
     <value>Windows 7</value>
@@ -2763,7 +2763,7 @@
     <value>Details layout columns</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>மீட்டமை</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
     <value>This action will reset all directories back to your default preferences.</value>
@@ -2844,7 +2844,7 @@
     <value>Archive password</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>பாதை</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Sorting and grouping</value>
