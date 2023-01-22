@@ -19,6 +19,12 @@
 				<Thickness x:Key="NavigationViewTopPaneHeight">40</Thickness>
 				<Thickness x:Key="TopNavigationViewTopNavGridMargin">0</Thickness>
 				<SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
+				
+				<!--  Removes NavigationView background  -->
+				<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+				
+				<!--  Removes NavigationView corner radius  -->
+				<CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
 			</ResourceDictionary>
 		</Grid.Resources>
 		<Grid.RowDefinitions>
