@@ -14,6 +14,7 @@
 	xmlns:local2="using:Files.App.Filesystem"
 	xmlns:local3="using:Files.App.Filesystem.Cloud"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vc="using:Files.App.ValueConverters"
@@ -55,7 +56,6 @@
 			<Grid
 				x:Name="GridViewBrowserListedItem"
 				Height="Auto"
-				MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
 				tui:FrameworkElementExtensions.EnableActualSizeBinding="True"
@@ -71,6 +71,7 @@
 					Grid.Row="0"
 					Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
 					Height="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+					MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 					Opacity="{x:Bind Opacity, Mode=OneWay}"
 					Tag="ItemImage">
 					<ContentPresenter
@@ -184,6 +185,20 @@
 						TextTrimming="CharacterEllipsis"
 						TextWrapping="Wrap" />
 				</Grid>
+				<CheckBox
+					x:Name="SelectionCheckbox"
+					Grid.RowSpan="2"
+					Grid.ColumnSpan="2"
+					Width="32"
+					MinWidth="0"
+					MinHeight="0"
+					Margin="6"
+					Padding="0"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Top"
+					Checked="ItemSelected_Checked"
+					Unchecked="ItemSelected_Unchecked"
+					Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
 				<Popup
 					x:Name="EditPopup"
 					Grid.Row="1"
@@ -206,7 +221,6 @@
 		<DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
 			<Grid
 				MaxHeight="68"
-				Margin="8,4"
 				Padding="0"
 				HorizontalAlignment="Left"
 				VerticalAlignment="Stretch"
@@ -220,8 +234,22 @@
 					<ColumnDefinition Width="68" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
+				<CheckBox
+					x:Name="SelectionCheckbox"
+					Grid.ColumnSpan="2"
+					Width="32"
+					MinWidth="0"
+					MinHeight="0"
+					Margin="6"
+					Padding="0"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Top"
+					Checked="ItemSelected_Checked"
+					Unchecked="ItemSelected_Unchecked"
+					Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
 				<StackPanel
 					Width="20"
+					Margin="8,4,0,4"
 					HorizontalAlignment="Center"
 					VerticalAlignment="Center"
 					Orientation="Vertical">
@@ -243,6 +271,7 @@
 				<Grid
 					Grid.Column="1"
 					Height="60"
+					Margin="0,4,0,4"
 					Opacity="{x:Bind Opacity, Mode=OneWay}"
 					Tag="ItemImage">
 					<ContentPresenter
@@ -316,6 +345,7 @@
 				<Grid
 					Grid.Column="2"
 					Height="60"
+					Margin="0,4,8,4"
 					RowSpacing="4">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
@@ -526,7 +556,7 @@
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					ScrollViewer.IsHorizontalScrollChainingEnabled="False"
 					SelectionChanged="FileList_SelectionChanged"
-					SelectionMode="{x:Bind AppModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
+					SelectionMode="Extended"
 					ShowsScrollingPlaceholders="True"
 					StretchContentForSingleRow="False"
 					Tapped="FileList_ItemTapped">
@@ -585,23 +615,6 @@
 						</GroupStyle>
 					</controls:AdaptiveGridView.GroupStyle>
 
-					<!--  Wraps items without affecting the height of other rows  -->
-					<!-- Disabled as it broke thumbnails -->
-					<!--<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<controls:WrapPanel/>
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>-->
-
-					<controls:AdaptiveGridView.Resources>
-						<ResourceDictionary>
-							<ResourceDictionary.ThemeDictionaries>
-								<ResourceDictionary x:Key="Default">
-									<SolidColorBrush x:Key="GridViewItemCheckBoxBrush" Color="{ThemeResource SystemChromeMediumLowColor}" />
-								</ResourceDictionary>
-							</ResourceDictionary.ThemeDictionaries>
-						</ResourceDictionary>
-					</controls:AdaptiveGridView.Resources>
 					<controls:AdaptiveGridView.Footer>
 						<StackPanel
 							x:Name="SearchUnindexedItemsPanel"

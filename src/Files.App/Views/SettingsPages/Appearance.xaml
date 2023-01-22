@@ -19,7 +19,7 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-			<converters1:ColorToSolidColorBrushValueConverter x:Key="ColorToSolidColorBrushConverter" />
+			<converters1:StringToSolidColorBrushValueConverter x:Key="StringToSolidColorBrushConverter" />
 
 			<DataTemplate x:Key="AppThemeResourcesItemTemplate" x:DataType="appearance:AppThemeResource">
 				<Grid
@@ -38,7 +38,7 @@
 					<Border
 						Grid.RowSpan="2"
 						Height="66"
-						Background="{x:Bind BackgroundColor, Converter={StaticResource ColorToSolidColorBrushConverter}, Mode=OneWay}"
+						Background="{x:Bind BackgroundColor, Converter={StaticResource StringToSolidColorBrushConverter}, Mode=OneWay}"
 						CornerRadius="4,4,0,0" />
 
 					<!--  Tab Bar  -->
@@ -99,7 +99,7 @@
 
 			<!--  Personalization  -->
 			<TextBlock
-				Padding="0,12,0,4"
+				Padding="0,0,0,4"
 				FontSize="14"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=Personalization}" />

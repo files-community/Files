@@ -72,7 +72,7 @@ namespace Files.App.UserControls
 
 		public FileIcon()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		public async void UpdateImageSourceAsync()

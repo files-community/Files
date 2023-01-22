@@ -35,7 +35,7 @@
 
 			<!--  Layout And Sorting  -->
 			<TextBlock
-				Padding="0,12,0,4"
+				Padding="0,0,0,4"
 				FontSize="14"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=LayoutAndSorting}" />
@@ -254,6 +254,17 @@
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}"
 					IsOn="{x:Bind ViewModel.ShowThumbnails, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+
+			<!--  Show checkboxes next to file names  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsCheckboxesToSelectItems}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE762;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsCheckboxesToSelectItems}"
+					IsOn="{x:Bind ViewModel.ShowSelectionCheckboxes, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 

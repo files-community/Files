@@ -21,7 +21,7 @@ namespace Files.App.Dialogs
 
 		public SettingsDialog()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 			SettingsPane.SelectedItem = SettingsPane.MenuItems[0];
 			App.Window.SizeChanged += Current_SizeChanged;
 			UpdateDialogLayout();
@@ -37,7 +37,8 @@ namespace Files.App.Dialogs
 		private void UpdateDialogLayout()
 		{
 			ContainerGrid.Height = App.Window.Bounds.Height <= 760 ? App.Window.Bounds.Height - 70 : 690;
-			ContainerGrid.Width = App.Window.Bounds.Width <= 800 ? App.Window.Bounds.Width : 800;
+			ContainerGrid.Width = App.Window.Bounds.Width <= 1100 ? App.Window.Bounds.Width : 1100;
+			SettingsPane.PaneDisplayMode = App.Window.Bounds.Width < 700 ? NavigationViewPaneDisplayMode.LeftCompact : NavigationViewPaneDisplayMode.Left;
 		}
 
 		private void SettingsPane_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

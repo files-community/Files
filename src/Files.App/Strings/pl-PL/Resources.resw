@@ -218,7 +218,7 @@
     <value>Format daty</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>Motyw</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Pokaż rozszerzenia dla znanych typów plików</value>
@@ -236,7 +236,7 @@
     <value>Wygląd</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>Tło</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Funkcje Eksperymentalne</value>
@@ -2924,6 +2924,6 @@
     <value>Sortuj według</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>Funkcja Ostatnio używane pliki jest obecnie wyłączona w Eksploratorze plików Windows.</value>
   </data>
 </root>

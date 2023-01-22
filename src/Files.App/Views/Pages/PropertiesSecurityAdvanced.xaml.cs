@@ -37,7 +37,7 @@ namespace Files.App.Views
 
 		public PropertiesSecurityAdvanced()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
 			var flowDirectionSetting = /*
                 TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK

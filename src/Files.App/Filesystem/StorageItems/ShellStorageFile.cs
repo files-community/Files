@@ -179,7 +179,7 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			private readonly ShellFileItem file;
 
-			public ShellFileBasicProperties(ShellFileItem folder) => this.file = folder;
+			public ShellFileBasicProperties(ShellFileItem folder) => file = folder;
 
 			public override ulong Size => file.FileSizeBytes;
 
