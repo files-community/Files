@@ -74,8 +74,9 @@ namespace Files.App.Helpers
 
 			inputText.TextChanged += (textBox, args) =>
 			{
-				tipText.Opacity = FilesystemHelpers.IsValidForFilename(inputText.Text) ? 0.0d : 1.0d;
-				dialog!.ViewModel.DynamicButtonsEnabled = FilesystemHelpers.IsValidForFilename(inputText.Text)
+				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
+				tipText.Opacity = isInputValid ? 0.0d : 1.0d;
+				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid 
 														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 														: DynamicDialogButtons.Cancel;
 			};
