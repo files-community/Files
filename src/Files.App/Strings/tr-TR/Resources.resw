@@ -218,7 +218,7 @@
     <value>Tarih formatı</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Bilinen dosya türleri için uzantıları göster</value>
@@ -236,7 +236,7 @@
     <value>Görünüm</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>Arka plan</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Deneysel</value>
@@ -1223,7 +1223,7 @@
     <value>Klasör geçersiz kılmayı sıfırla</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Bu ayar kapatıldığında bir dizindeki düzeni değiştirmek, tüm dizinlerin düzenini güncelleyecektir.</value>
+    <value>Bu ayar kapalıyken bir dizindeki düzeni değiştirmek, tüm dizinlerin düzenini güncelleyecektir.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
     <value>Her bir dizin için klasör ayarlarının üzerine yazmayı etkinleştir</value>
@@ -1931,7 +1931,7 @@
     <value>Azletmek</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Azletmek</value>
+    <value>İptal et</value>
   </data>
   <data name="Widgets" xml:space="preserve">
     <value>Araçlar</value>
@@ -2807,7 +2807,7 @@
     <value>Bütün öğeleri geri yükle</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Seçilen {0} öğeyi(öğeleri) geri yüklemek istiyor musunuz?</value>
+    <value>Seçilen {0} adet ögeyi geri yüklemek istiyor musunuz?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Seçimi geri yükle</value>
@@ -2822,7 +2822,7 @@
     <value>Kısayol açılamadı</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>Hedef yol {0} bulunamadı. Bu kısayolu silmek ister misiniz?</value>
+    <value>{0} hedef yolu bulunamadı. Bu kısayolu silmek ister misiniz?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Bu dosyaya erişim izniniz yok.</value>
@@ -2924,6 +2924,6 @@
     <value>Sıralama</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>Son kullanılan dosyalar şu an için Windows Dosya Gezgininde devre dışıdır.</value>
   </data>
 </root>
