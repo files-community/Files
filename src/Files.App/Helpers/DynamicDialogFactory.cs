@@ -66,7 +66,7 @@ namespace Files.App.Helpers
 
 			TextBlock tipText = new()
 			{
-				Text = "RenameDialogSymbolsTip/Text".GetLocalizedResource(),
+				Text = "InvalidFilename/Text".GetLocalizedResource(),
 				Margin = new Microsoft.UI.Xaml.Thickness(0, 0, 4, 0),
 				TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
 				Opacity = 0.0d
@@ -74,10 +74,10 @@ namespace Files.App.Helpers
 
 			inputText.TextChanged += (textBox, args) =>
 			{
-				tipText.Opacity = FilesystemHelpers.ContainsRestrictedCharacters(inputText.Text) ? 1.0d : 0.0d;
-				dialog!.ViewModel.DynamicButtonsEnabled = string.IsNullOrWhiteSpace(inputText.Text) || FilesystemHelpers.ContainsRestrictedCharacters(inputText.Text) 
-														? DynamicDialogButtons.Cancel 
-														: DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel;
+				tipText.Opacity = FilesystemHelpers.IsValidForFilename(inputText.Text) ? 0.0d : 1.0d;
+				dialog!.ViewModel.DynamicButtonsEnabled = FilesystemHelpers.IsValidForFilename(inputText.Text)
+														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+														: DynamicDialogButtons.Cancel;
 			};
 
 			inputText.Loaded += (s, e) =>

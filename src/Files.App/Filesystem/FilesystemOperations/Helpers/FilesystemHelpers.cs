@@ -648,7 +648,7 @@ namespace Files.App.Filesystem
 
 		#endregion IFilesystemHelpers
 
-		private static bool IsValidForFilename(string name)
+		public static bool IsValidForFilename(string name)
 			=> !string.IsNullOrWhiteSpace(name) && !ContainsRestrictedCharacters(name) && !ContainsRestrictedFileName(name);
 
 		private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation, IEnumerable<IFileSystemDialogConflictItemViewModel>)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
