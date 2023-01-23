@@ -194,27 +194,41 @@ namespace Files.App
 
 		protected void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (e.Key == VirtualKey.Escape)
+			var textBox = (TextBox)sender;
+			switch (e.Key)
 			{
-				TextBox textBox = (TextBox)sender;
-				textBox.LostFocus -= RenameTextBox_LostFocus;
-				textBox.Text = OldItemName;
-				EndRename(textBox);
-				e.Handled = true;
-			}
-			else if (e.Key == VirtualKey.Enter)
-			{
-				TextBox textBox = (TextBox)sender;
-				textBox.LostFocus -= RenameTextBox_LostFocus;
-				CommitRename(textBox);
-				e.Handled = true;
+				case VirtualKey.Escape:
+					textBox.LostFocus -= RenameTextBox_LostFocus;
+					textBox.Text = OldItemName;
+					EndRename(textBox);
+					e.Handled = true;
+					break;
+				case VirtualKey.Enter:
+					textBox.LostFocus -= RenameTextBox_LostFocus;
+					CommitRename(textBox);
+					e.Handled = true;
+					break;
+				case VirtualKey.Up:
+					textBox.SelectionStart = 0;
+					e.Handled = true;
+					break;
+				case VirtualKey.Down:
+					textBox.SelectionStart = textBox.Text.Length;
+					e.Handled = true;
+					break;
+				case VirtualKey.Left:
+					e.Handled = textBox.SelectionStart == 0;
+					break;
+				case VirtualKey.Right:
+					e.Handled = (textBox.SelectionStart + textBox.SelectionLength) == textBox.Text.Length;
+					break;
 			}
 		}
 
 		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
-			if (ParentShellPageInstance is null || 
-				ParentShellPageInstance.CurrentPageType != this.GetType() || 
+			if (ParentShellPageInstance is null ||
+				ParentShellPageInstance.CurrentPageType != this.GetType() ||
 				IsRenamingItem)
 				return;
 
