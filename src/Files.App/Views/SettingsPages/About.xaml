@@ -28,7 +28,7 @@
 				FontSize="14"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=Version}" />
-			
+
 			<!--  App Info  -->
 			<local:SettingsBlockControl
 				Title="{x:Bind ViewModel.AppName}"

@@ -89,9 +89,9 @@
 			<StackPanel Orientation="Vertical">
 				<TextBlock
 					x:Name="DetailsListHeader"
+					HorizontalAlignment="Center"
 					FontSize="20"
 					FontWeight="Bold"
-					HorizontalAlignment="Center"
 					IsTextSelectionEnabled="True"
 					Text="{x:Bind ViewModel.SelectedItem.Name, Mode=OneWay}"
 					TextAlignment="Center"
