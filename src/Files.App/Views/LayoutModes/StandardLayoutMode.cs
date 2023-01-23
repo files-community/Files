@@ -213,20 +213,19 @@ namespace Files.App
 
 		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
-			if (ParentShellPageInstance is null)
-				return;
-
-			if (ParentShellPageInstance.CurrentPageType != this.GetType() || IsRenamingItem)
+			if (ParentShellPageInstance is null || 
+				ParentShellPageInstance.CurrentPageType != this.GetType() || 
+				IsRenamingItem)
 				return;
 
 			// Don't block the various uses of enter key (key 13)
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
 			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
-			if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
-				|| (focusedElement is Button && !isHeaderFocused) // Allow jumpstring when header is focused
-				|| focusedElement is TextBox
-				|| focusedElement is PasswordBox
-				|| DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
+			if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
+				(focusedElement is Button && !isHeaderFocused) || // Allow jumpstring when header is focused
+				focusedElement is TextBox ||
+				focusedElement is PasswordBox ||
+				DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
 				return;
 
 			base.Page_CharacterReceived(sender, args);
