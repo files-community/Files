@@ -29,7 +29,7 @@
 			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
-    <local:StandardViewBase.Resources>
+	<local:StandardViewBase.Resources>
 		<vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
 		<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		<converters:BoolToVisibilityConverter

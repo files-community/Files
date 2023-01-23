@@ -28,7 +28,7 @@
 			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
-    <local:StandardViewBase.Resources>
+	<local:StandardViewBase.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />

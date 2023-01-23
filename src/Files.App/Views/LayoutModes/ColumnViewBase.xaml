@@ -15,7 +15,7 @@
 	xmlns:vc="using:Files.App.ValueConverters"
 	x:Name="PageRoot"
 	mc:Ignorable="d">
-    <local:StandardViewBase.Resources>
+	<local:StandardViewBase.Resources>
 		<vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
 		<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		<converters:BoolToVisibilityConverter
