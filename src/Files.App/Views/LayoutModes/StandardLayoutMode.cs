@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -222,6 +223,25 @@ namespace Files.App
 				case VirtualKey.Right:
 					e.Handled = (textBox.SelectionStart + textBox.SelectionLength) == textBox.Text.Length;
 					break;
+				case VirtualKey.Tab:
+					textBox.LostFocus -= RenameTextBox_LostFocus;
+					textBox.Text = OldItemName;
+					EndRename(textBox);
+
+					var isShiftPressed = (GetKeyState((int)VirtualKey.Shift) & 0x80) != 0;
+					if (!isShiftPressed && ListViewBase.SelectedIndex != ListViewBase.Items.Count - 1)
+					{
+						ListViewBase.SelectedIndex++;
+						StartRenameItem();
+					}
+					else if (isShiftPressed && ListViewBase.SelectedIndex != 0)
+					{
+						ListViewBase.SelectedIndex--;
+						StartRenameItem();
+					}
+
+					e.Handled = true;
+					break;
 			}
 		}
 
@@ -251,5 +271,8 @@ namespace Files.App
 			UnhookEvents();
 			CommandsViewModel?.Dispose();
 		}
+
+		[DllImport("User32.dll")]
+		private extern static short GetKeyState(int n);
 	}
 }
