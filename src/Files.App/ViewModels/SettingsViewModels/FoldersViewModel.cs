@@ -353,6 +353,19 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		public bool DoubleClickToGoUp
+		{
+			get => UserSettingsService.FoldersSettingsService.DoubleClickToGoUp;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
+				{
+					UserSettingsService.FoldersSettingsService.DoubleClickToGoUp = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		// Local methods
 
 		public void ResetLayoutPreferences()
