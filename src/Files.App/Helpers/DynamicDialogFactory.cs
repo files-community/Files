@@ -79,6 +79,8 @@ namespace Files.App.Helpers
 				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid 
 														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 														: DynamicDialogButtons.Cancel;
+				if (isInputValid)
+					dialog.ViewModel.AdditionalData = inputText.Text;
 			};
 
 			inputText.Loaded += (s, e) =>
