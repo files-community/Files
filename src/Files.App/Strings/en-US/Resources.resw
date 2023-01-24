@@ -2881,7 +2881,7 @@
     <value>This action requires administrator privileges.</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Please, run Files as administrator or create it on Desktop</value>
+    <value>Please run Files as administrator or create the shortcut on the Desktop instead.</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
     <value>The specified item name is invalid</value>
