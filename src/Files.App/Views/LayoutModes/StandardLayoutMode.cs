@@ -21,6 +21,8 @@ namespace Files.App
 {
 	public abstract class StandardViewBase : BaseLayout
 	{
+		private const int KEY_DOWN_MASK = 0x8000;
+
 		protected abstract ListViewBase ListViewBase
 		{
 			get;
@@ -228,7 +230,7 @@ namespace Files.App
 					textBox.Text = OldItemName;
 					EndRename(textBox);
 
-					var isShiftPressed = (GetKeyState((int)VirtualKey.Shift) & 0x80) != 0;
+					var isShiftPressed = (GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
 					if (!isShiftPressed && ListViewBase.SelectedIndex != ListViewBase.Items.Count - 1)
 					{
 						ListViewBase.SelectedIndex++;
