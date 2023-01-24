@@ -360,8 +360,10 @@
 				<!--  Markdown Content  -->
 				<TeachingTip.Content>
 					<ScrollViewer
-						Width="260"
-						Height="240"
+						MinHeight="300"
+						MaxHeight="400"
+						Margin="-12"
+						Padding="12"
 						HorizontalScrollMode="Auto"
 						VerticalScrollMode="Auto">
 						<controls:MarkdownTextBlock
