@@ -324,12 +324,24 @@
 			<!--  Select On Hover  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE8B0;" />
+					<FontIcon Glyph="&#xE14E;" />
 				</local:SettingsBlockControl.Icon>
 
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}"
 					IsOn="{x:Bind ViewModel.SelectFilesOnHover, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+			
+			<!--  Double click to go up  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=DoubleClickBlankSpaceToGoUp}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE8B0;" />
+				</local:SettingsBlockControl.Icon>
+
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=DoubleClickBlankSpaceToGoUp}"
+					IsOn="{x:Bind ViewModel.DoubleClickToGoUp, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
