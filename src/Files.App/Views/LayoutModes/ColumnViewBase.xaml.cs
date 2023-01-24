@@ -359,14 +359,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void HandleRightClick(object sender, RightTappedRoutedEventArgs e)
 		{
-			var objectPressed = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
-
-			// Check if RightTapped row is currently selected
-			if (objectPressed is not null || (IsItemSelected && SelectedItems.Contains(objectPressed)))
-				return;
-
-			// The following code is only reachable when a user RightTapped an unselected row
-			ItemManipulationModel.SetSelectedItem(objectPressed);
+			HandleRightClick(e.OriginalSource);
 		}
 
 		private readonly DispatcherQueueTimer tapDebounceTimer;
@@ -518,7 +511,12 @@ namespace Files.App.Views.LayoutModes
 
 		private void HandleRightClick(object sender, HoldingRoutedEventArgs e)
 		{
-			var objectPressed = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
+			HandleRightClick(e.OriginalSource);
+		}
+
+		private void HandleRightClick(object pressed)
+		{
+			var objectPressed = ((FrameworkElement)pressed).DataContext as ListedItem;
 
 			// Check if RightTapped row is currently selected
 			if (objectPressed is not null || (IsItemSelected && SelectedItems.Contains(objectPressed)))
@@ -564,7 +562,13 @@ namespace Files.App.Views.LayoutModes
 
 				if (isItemFolder && UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 				{
-					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item!.ItemPath), ListView = FileList }, EventArgs.Empty);
+					ItemInvoked?.Invoke(
+						new ColumnParam 
+						{ 
+							NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item!.ItemPath), 
+							ListView = FileList 
+						}, 
+						EventArgs.Empty);
 				}
 				else if (!IsRenamingItem && (isItemFile || isItemFolder))
 				{
