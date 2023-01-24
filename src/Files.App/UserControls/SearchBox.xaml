@@ -73,6 +73,7 @@
 
 	<AutoSuggestBox
 		x:Name="SearchRegion"
+		GotFocus="{x:Bind SearchBoxViewModel.SearchRegion_GotFocus}"
 		ItemTemplate="{StaticResource SuggestionTemplate}"
 		ItemsSource="{x:Bind SearchBoxViewModel.Suggestions, Mode=OneWay}"
 		PlaceholderText="{helpers:ResourceString Name=NavigationToolbarSearchRegion/PlaceholderText}"
@@ -80,8 +81,7 @@
 		Text="{x:Bind SearchBoxViewModel.Query, Mode=TwoWay}"
 		TextBoxStyle="{StaticResource TextBoxStyle}"
 		TextChanged="SearchRegion_TextChanged"
-		UpdateTextOnSelect="False"
-		GotFocus="{x:Bind SearchBoxViewModel.SearchRegion_GotFocus}">
+		UpdateTextOnSelect="False">
 		<AutoSuggestBox.QueryIcon>
 			<AnimatedIcon x:Name="SearchAnimatedIcon" Height="16">
 				<AnimatedIcon.Source>
