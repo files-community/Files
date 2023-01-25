@@ -92,7 +92,14 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
 		{
-			FileList?.SelectedItems.Add(e);
+			if (NextRenameIndex != -1)
+			{
+				FileList.SelectedIndex = NextRenameIndex;
+				NextRenameIndex = -1;
+				StartRenameItem();
+			}
+			else
+				FileList?.SelectedItems.Add(e);
 		}
 
 		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
@@ -370,7 +377,7 @@ namespace Files.App.Views.LayoutModes
 			ItemManipulationModel.SetSelectedItem(objectPressed);
 		}
 
-		private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
+		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -400,7 +407,7 @@ namespace Files.App.Views.LayoutModes
 					if (FileList.ContainerFromItem(RenamingItem) is ListViewItem listViewItem
 						&& listViewItem.FindDescendant("ListViewTextBoxItemName") is TextBox textBox)
 					{
-						CommitRename(textBox);
+						await CommitRename(textBox);
 					}
 				}
 				if (item is not null && item.PrimaryItemAttribute == StorageItemTypes.Folder &&

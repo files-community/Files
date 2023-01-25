@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -22,6 +23,8 @@ namespace Files.App
 	public abstract class StandardViewBase : BaseLayout
 	{
 		private const int KEY_DOWN_MASK = 0x8000;
+
+		protected int NextRenameIndex = -1;
 
 		protected abstract ListViewBase ListViewBase
 		{
@@ -178,24 +181,24 @@ namespace Files.App
 
 		protected abstract void EndRename(TextBox textBox);
 
-		protected virtual async void CommitRename(TextBox textBox)
+		protected virtual async Task CommitRename(TextBox textBox)
 		{
 			EndRename(textBox);
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
 			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
 		}
 
-		protected virtual void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
+		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// This check allows the user to use the text box context menu without ending the rename
 			if (!(FocusManager.GetFocusedElement(XamlRoot) is AppBarButton or Popup))
 			{
 				TextBox textBox = (TextBox)e.OriginalSource;
-				CommitRename(textBox);
+				await CommitRename(textBox);
 			}
 		}
 
-		protected void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+		protected async void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			var textBox = (TextBox)sender;
 			switch (e.Key)
@@ -208,7 +211,7 @@ namespace Files.App
 					break;
 				case VirtualKey.Enter:
 					textBox.LostFocus -= RenameTextBox_LostFocus;
-					CommitRename(textBox);
+					await CommitRename(textBox);
 					e.Handled = true;
 					break;
 				case VirtualKey.Up:
@@ -227,18 +230,20 @@ namespace Files.App
 					break;
 				case VirtualKey.Tab:
 					textBox.LostFocus -= RenameTextBox_LostFocus;
-					textBox.Text = OldItemName;
-					EndRename(textBox);
 
 					var isShiftPressed = (GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
 					if (!isShiftPressed && ListViewBase.SelectedIndex != ListViewBase.Items.Count - 1)
-					{
-						ListViewBase.SelectedIndex++;
-						StartRenameItem();
-					}
+						NextRenameIndex = ListViewBase.SelectedIndex + 1;
 					else if (isShiftPressed && ListViewBase.SelectedIndex != 0)
+						NextRenameIndex = ListViewBase.SelectedIndex - 1;
+
+					if (textBox.Text != OldItemName)
+						await CommitRename(textBox);
+					else
 					{
-						ListViewBase.SelectedIndex--;
+						EndRename(textBox);
+						ListViewBase.SelectedIndex = NextRenameIndex;
+						NextRenameIndex = -1; 
 						StartRenameItem();
 					}
 
