@@ -52,6 +52,7 @@
 			x:Name="CardsList"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Top"
+			Margin="0,0,44,0"
 			ItemsSource="{x:Bind local:DrivesWidget.ItemsAdded, Mode=OneWay}">
 			<ItemsRepeater.Layout>
 				<UniformGridLayout
