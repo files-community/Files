@@ -49,6 +49,9 @@ namespace Files.App.Filesystem
 				return $"{"ToolTipDescriptionName".GetLocalizedResource()} {Name}{Environment.NewLine}" +
 					$"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}{Environment.NewLine}" +
 					$"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}" +
+					(!String.IsNullOrWhiteSpace(FileSize)
+						? $"{Environment.NewLine}{"ToolTipDescriptionSize".GetLocalizedResource()} {FileSize}"
+						: string.Empty) +
 					(SyncStatusUI.LoadSyncStatus
 						? $"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}"
 						: string.Empty);
