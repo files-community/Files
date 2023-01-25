@@ -527,24 +527,15 @@ namespace Files.App.ViewModels
 			userSettingsService.FoldersSettingsService.ShowOriginalPathColumn = !columns.OriginalPathColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowSyncStatusColumn = !columns.StatusColumn.UserCollapsed;
 
-			if (columns.NameColumn.Visibility is Visibility.Visible)
-				userSettingsService.FoldersSettingsService.NameColumnWidth = columns.NameColumn.UserLengthPixels;
-			if (columns.DateModifiedColumn.Visibility is Visibility.Visible)
-				userSettingsService.FoldersSettingsService.DateModifiedColumnWidth = columns.DateModifiedColumn.UserLengthPixels;
-			if (columns.DateDeletedColumn.Visibility is Visibility.Visible)
-				userSettingsService.FoldersSettingsService.DateCreatedColumnWidth = columns.DateCreatedColumn.UserLengthPixels;
-			if (columns.ItemTypeColumn.Visibility is Visibility.Visible)
-				userSettingsService.FoldersSettingsService.TypeColumnWidth = columns.ItemTypeColumn.UserLengthPixels;
-			if (columns.SizeColumn.Visibility is Visibility.Visible)
-				userSettingsService.FoldersSettingsService.SizeColumnWidth = columns.SizeColumn.UserLengthPixels;
-			if (columns.TagColumn.Visibility is Visibility.Visible)
-				userSettingsService.FoldersSettingsService.TagColumnWidth = columns.TagColumn.UserLengthPixels;
-			if (columns.DateDeletedColumn.Visibility is Visibility.Visible)
-				userSettingsService.FoldersSettingsService.DateDeletedColumnWidth = columns.DateDeletedColumn.UserLengthPixels;
-			if (columns.OriginalPathColumn.Visibility is Visibility.Visible)
-				userSettingsService.FoldersSettingsService.OriginalPathColumnWidth = columns.OriginalPathColumn.UserLengthPixels;
-			if (columns.StatusColumn.Visibility is Visibility.Visible)
-				userSettingsService.FoldersSettingsService.SyncStatusColumnWidth = columns.StatusColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.NameColumnWidth = columns.NameColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.DateModifiedColumnWidth = columns.DateModifiedColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.DateCreatedColumnWidth = columns.DateCreatedColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.TypeColumnWidth = columns.ItemTypeColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.SizeColumnWidth = columns.SizeColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.TagColumnWidth = columns.TagColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.DateDeletedColumnWidth = columns.DateDeletedColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.OriginalPathColumnWidth = columns.OriginalPathColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.SyncStatusColumnWidth = columns.StatusColumn.UserLengthPixels;
 		}
 	}
 }
