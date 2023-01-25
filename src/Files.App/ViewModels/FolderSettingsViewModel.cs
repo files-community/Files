@@ -9,7 +9,6 @@ using Files.App.Views.LayoutModes;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using Microsoft.UI.Xaml;
 using System;
 using System.Text.Json;
 using System.Windows.Input;

@@ -173,6 +173,7 @@ namespace Files.App.ViewModels
 	public class ColumnViewModel : ObservableObject
 	{
 		private bool isHidden;
+
 		[LiteDB.BsonIgnore]
 		public bool IsHidden
 		{
