@@ -1343,7 +1343,7 @@
     <value>移除 Bundle</value>
   </data>
   <data name="Bundles" xml:space="preserve">
-    <value>合輯</value>
+    <value>Bundles</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>將檔案或資料夾拖曳至此處以方便您進行存取</value>
