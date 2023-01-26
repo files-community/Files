@@ -392,7 +392,14 @@ namespace Files.App.Helpers
 
 		public static async Task CreateShortcutFromDialogAsync(IShellPage associatedInstance)
 		{
-			var viewModel = new CreateShortcutDialogViewModel(associatedInstance.FilesystemViewModel.WorkingDirectory);
+			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
+			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
+				!library.IsEmpty)
+			{
+				currentPath = library.DefaultSaveFolder;
+			}
+
+			var viewModel = new CreateShortcutDialogViewModel(currentPath);
 			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 			await dialogService.ShowDialogAsync(viewModel);
 		}

@@ -34,9 +34,6 @@
 			<x:Boolean x:Key="False">False</x:Boolean>
 
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-
-			<SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
-			<Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
 		</ResourceDictionary>
 	</Page.Resources>
 

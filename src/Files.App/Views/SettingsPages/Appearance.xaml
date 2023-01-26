@@ -8,8 +8,6 @@
 	xmlns:converters1="using:Files.App.ValueConverters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:settingsviewmodels="using:Files.App.ViewModels.SettingsViewModels"
@@ -101,7 +99,7 @@
 
 			<!--  Personalization  -->
 			<TextBlock
-				Padding="0,12,0,4"
+				Padding="0,0,0,4"
 				FontSize="14"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=Personalization}" />
