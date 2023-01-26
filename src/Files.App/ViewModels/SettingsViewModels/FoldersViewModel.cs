@@ -15,28 +15,15 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private readonly int FileTagSortingIndex = 5;
 		private readonly int FileTagGroupingIndex = 6;
 
-		// Commands
-		public RelayCommand ResetLayoutPreferencesCommand { get; }
-		public RelayCommand ShowResetLayoutPreferencesTipCommand { get; }
 
 		public FoldersViewModel()
 		{
-			ResetLayoutPreferencesCommand = new RelayCommand(ResetLayoutPreferences);
-			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
-
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
 			SelectedDefaultSortingIndex = UserSettingsService.FoldersSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultSortOption;
 			SelectedDefaultGroupingIndex = UserSettingsService.FoldersSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultGroupOption;
 		}
 
 		// Properties
-
-		private bool isResetLayoutPreferencesTipOpen;
-		public bool IsResetLayoutPreferencesTipOpen
-		{
-			get => isResetLayoutPreferencesTipOpen;
-			set => SetProperty(ref isResetLayoutPreferencesTipOpen, value);
-		}
 
 		private int selectedDefaultLayoutModeIndex;
 		public int SelectedDefaultLayoutModeIndex
@@ -60,6 +47,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 				{
 					UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories = value;
+					ResetLayoutPreferences();
 					OnPropertyChanged();
 				}
 			}
@@ -373,7 +361,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			// Is this proper practice?
 			var dbInstance = FolderSettingsViewModel.GetDbInstance();
 			dbInstance.ResetAll();
-			IsResetLayoutPreferencesTipOpen = false;
 		}
 	}
 }

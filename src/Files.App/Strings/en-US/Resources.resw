@@ -1215,9 +1215,6 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Include unindexed items in search results</value>
   </data>
-  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Reset folder overrides</value>
-  </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Sync layout and sorting preferences across directories</value>
   </data>
@@ -2693,12 +2690,6 @@
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Reset</value>
-  </data>
-  <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
-  </data>
-  <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
