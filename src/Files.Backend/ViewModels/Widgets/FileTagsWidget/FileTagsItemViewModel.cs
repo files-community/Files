@@ -13,8 +13,8 @@ namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 	public sealed partial class FileTagsItemViewModel : ObservableObject
 	{
 		private readonly ILocatableStorable _associatedStorable;
-		private readonly Func<ILocatableStorable, Task> _openAction;	// A workaround for lack of MVVM-compliant navigation support.
-																		// This workaround must be kept until further refactor of navigation code is completed
+		private readonly Func<string, Task> _openAction;	// A workaround for lack of MVVM-compliant navigation support.
+															// This workaround must be kept until further refactor of navigation code is completed
 
 		[ObservableProperty]
 		private IImageModel? _Icon;
@@ -25,7 +25,7 @@ namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 		[ObservableProperty]
 		private string? _Path;
 
-		public FileTagsItemViewModel(ILocatableStorable associatedStorable, Func<ILocatableStorable, Task> openAction, IImageModel? icon)
+		public FileTagsItemViewModel(ILocatableStorable associatedStorable, Func<string, Task> openAction, IImageModel? icon)
 		{
 			_associatedStorable = associatedStorable;
 			_openAction = openAction;
@@ -37,7 +37,7 @@ namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 		[RelayCommand]
 		private Task ClickAsync(CancellationToken cancellationToken)
 		{
-			return _openAction(_associatedStorable);
+			return _openAction(_associatedStorable.Path);
 		}
 	}
 }

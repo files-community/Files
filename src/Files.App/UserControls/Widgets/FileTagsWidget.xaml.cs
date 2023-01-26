@@ -5,8 +5,6 @@ using Files.Backend.ViewModels.Widgets.FileTagsWidget;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
-using Files.App.Helpers;
-using Files.Sdk.Storage.LocatableStorage;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -23,7 +21,7 @@ namespace Files.App.UserControls.Widgets
 			set => DataContext = value;
 		}
 
-		public Func<ILocatableStorable, Task>? OpenAction { get; set; }
+		public Func<string, Task>? OpenAction { get; set; }
 
 		public string WidgetName => nameof(BundlesWidget);
 

@@ -110,6 +110,7 @@
 					<HyperlinkButton
 						Grid.Row="2"
 						Margin="8"
+						Command="{x:Bind ViewMoreCommand}"
 						HorizontalAlignment="Center"
 						Content="View more" />
 				</Grid>

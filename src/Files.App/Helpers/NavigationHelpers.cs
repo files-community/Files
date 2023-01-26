@@ -134,7 +134,29 @@ namespace Files.App.Helpers
 			bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
 			bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
 			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
+			bool isTag = path.StartsWith("tag:");
 			FilesystemResult opened = (FilesystemResult)false;
+
+			if (isTag)
+			{
+				if (!forceOpenInNewTab)
+				{
+					associatedInstance.NavigateToPath(path, new NavigationArguments()
+					{
+						IsSearchResultPage = true,
+						SearchPathParam = "Home".GetLocalizedResource(),
+						SearchQuery = path,
+						AssociatedTabInstance = associatedInstance,
+						NavPathParam = path
+					});
+				}
+				else
+				{
+					await NavigationHelpers.OpenPathInNewTab(path);
+				}
+
+				return true;
+			}
 
 			var shortcutInfo = new ShellLinkItem();
 			if (itemType is null || isShortcut || isHiddenItem || isReparsePoint)
