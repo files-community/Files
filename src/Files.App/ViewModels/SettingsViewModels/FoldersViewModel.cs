@@ -52,14 +52,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool EnableOverridingFolderPreferences
+		public bool SyncFolderPreferencesAcrossDirectories
 		{
-			get => UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences;
+			get => UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences)
+				if (value != UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 				{
-					UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences = value;
+					UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories = value;
 					OnPropertyChanged();
 				}
 			}

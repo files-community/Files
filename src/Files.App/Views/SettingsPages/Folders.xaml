@@ -42,17 +42,16 @@
 
 			<!--  Folder Overrides  -->
 			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=EnableOverridingFolderPreferences}"
+				Title="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
 				HorizontalAlignment="Stretch"
-				Description="{helpers:ResourceString Name=EnableOverridingFolderPreferencesDescription}"
 				IsExpanded="True">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE2AC;" />
 				</local:SettingsBlockControl.Icon>
 
 				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=EnableOverridingFolderPreferences}"
-					IsOn="{x:Bind ViewModel.EnableOverridingFolderPreferences, Mode=TwoWay}"
+					AutomationProperties.Name="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
+					IsOn="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
