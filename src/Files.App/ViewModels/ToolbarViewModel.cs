@@ -10,6 +10,7 @@ using Files.App.Helpers;
 using Files.App.Shell;
 using Files.App.UserControls;
 using Files.App.Views;
+using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
@@ -442,7 +443,7 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.PreferencesSettingsService.ShowFoldersWidget): // ToDo: Move this to the widget page, it doesn't belong here.
 				case nameof(UserSettingsService.PreferencesSettingsService.ShowDrivesWidget):
 				case nameof(UserSettingsService.PreferencesSettingsService.ShowBundlesWidget):
-                case nameof(UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget):
+				case nameof(UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget):
 				case nameof(UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget):
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 					OnPropertyChanged(e.SettingName);

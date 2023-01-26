@@ -18,6 +18,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Files.Backend.Helpers;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 

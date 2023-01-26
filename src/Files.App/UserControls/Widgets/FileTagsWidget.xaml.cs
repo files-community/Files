@@ -5,6 +5,8 @@ using Files.Backend.ViewModels.Widgets.FileTagsWidget;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
+using Files.App.Helpers;
+using Files.Sdk.Storage.LocatableStorage;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -14,11 +16,14 @@ namespace Files.App.UserControls.Widgets
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+
 		public FileTagsWidgetViewModel ViewModel
 		{
 			get => (FileTagsWidgetViewModel)DataContext;
 			set => DataContext = value;
 		}
+
+		public Func<ILocatableStorable, Task>? OpenAction { get; set; }
 
 		public string WidgetName => nameof(BundlesWidget);
 
@@ -31,13 +36,16 @@ namespace Files.App.UserControls.Widgets
 		public FileTagsWidget()
 		{
 			InitializeComponent();
-			ViewModel = new();
+
+			// Second function is layered on top to ensure that OpenPath function is late initialized and a null reference is not passed-in
+			// See FileTagItemViewModel._openAction for more information
+			ViewModel = new(x => OpenAction!(x));
 		}
 
 		private async void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			if (e.ClickedItem is FileTagsItemViewModel itemViewModel)
-				await itemViewModel.ClickCommand?.ExecuteAsync(null);
+				await itemViewModel.ClickCommand.ExecuteAsync(null);
 		}
 
 		public Task RefreshWidget()

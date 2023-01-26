@@ -1,5 +1,6 @@
 using Files.App.Extensions;
 using Files.App.Helpers;
+using Files.Backend.Helpers;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -147,8 +148,8 @@ namespace Files.App.Filesystem.StorageItems
 				var name = IO.Path.GetFileName(path);
 				return Task.FromResult((BaseStorageFile)new NativeStorageFile(path, name[(name.LastIndexOf(":") + 1)..], DateTime.Now)).AsAsyncOperation();
 			}
-            return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
-        }
+			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
+		}
 
 		private static bool CheckAccess(string path)
 		{

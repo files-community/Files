@@ -11,6 +11,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
+using Files.Backend.Helpers;
 using IO = System.IO;
 
 namespace Files.App.Filesystem.StorageItems

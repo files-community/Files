@@ -3,6 +3,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Shell;
 using Files.App.ViewModels;
+using Files.Backend.Helpers;
 using Files.Shared;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;

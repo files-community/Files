@@ -1,7 +1,7 @@
 ﻿namespace Files.Backend.Models
 {
     /// <summary>
-    /// Represents a model that holds data of an image.
+    /// Represents a model that represents an image which can be displayed in the UI.
     /// </summary>
     public interface IImageModel
     {

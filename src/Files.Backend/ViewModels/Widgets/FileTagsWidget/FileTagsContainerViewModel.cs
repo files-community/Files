@@ -1,16 +1,19 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Shared.Utils;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
+using Files.Sdk.Storage.LocatableStorage;
 
 namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 {
 	public sealed partial class FileTagsContainerViewModel : ObservableObject, IAsyncInitialize
 	{
 		private readonly string _tagUid;
+		private readonly Func<ILocatableStorable, Task> _openAction;
 
 		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 
@@ -24,9 +27,10 @@ namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 		[ObservableProperty]
 		private string _Name;
 
-		public FileTagsContainerViewModel(string tagUid)
+		public FileTagsContainerViewModel(string tagUid, Func<ILocatableStorable, Task> openAction)
 		{
 			_tagUid = tagUid;
+			_openAction = openAction;
 			Tags = new();
 		}
 
@@ -36,7 +40,7 @@ namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid, cancellationToken))
 			{
 				var icon = await ImageService.GetIconAsync(item.Storable, cancellationToken);
-				Tags.Add(new(item.Storable, icon));
+				Tags.Add(new(item.Storable, _openAction, icon));
 			}
 		}
 	}

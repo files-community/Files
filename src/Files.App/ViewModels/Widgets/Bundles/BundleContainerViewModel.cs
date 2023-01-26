@@ -21,6 +21,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
+using Files.Backend.Helpers;
 
 namespace Files.App.ViewModels.Widgets.Bundles
 {

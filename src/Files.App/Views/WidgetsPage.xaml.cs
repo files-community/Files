@@ -92,6 +92,7 @@ namespace Files.App.Views
 			if (shouldReloadFileTags && fileTagsWidget is not null)
 			{
 				Widgets.ViewModel.InsertWidget(new(fileTagsWidget, (value) => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded), 2);
+				fileTagsWidget.OpenAction = x => NavigationHelpers.OpenPath(x.Path, AppInstance);
 				_ = fileTagsWidget.ViewModel.InitAsync();
 			}
 			if (shouldReloadBundles && bundlesWidget is not null)
