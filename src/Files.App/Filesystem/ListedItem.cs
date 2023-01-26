@@ -133,7 +133,7 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		public IList<FileTagViewModel> FileTagsUI
+		public IList<TagViewModel> FileTagsUI
 		{
 			get => FileTagsSettingsService.GetTagsByIds(FileTags);
 		}

@@ -2,6 +2,8 @@
 using Files.App.Filesystem;
 using Files.Backend.AppModels;
 using Files.Backend.Services;
+using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.FileTags;
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.Extensions;
 using Files.Sdk.Storage.LocatableStorage;
@@ -18,6 +20,8 @@ namespace Files.App.ServicesImplementation
 	{
 		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 
+		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+
 		/// <inheritdoc/>
 		public Task<bool> IsSupportedAsync()
 		{
@@ -25,29 +29,27 @@ namespace Files.App.ServicesImplementation
 		}
 
 		/// <inheritdoc/>
-		public Task<bool> SetFileTagAsync(ILocatableStorable storable, string[] tags, CancellationToken cancellationToken)
+		public Task<bool> SetFileTagAsync(ILocatableStorable storable, string[] tagUids, CancellationToken cancellationToken = default)
 		{
-			FileTagsHelper.WriteFileTag(storable.Path, tags);
+			FileTagsHelper.WriteFileTag(storable.Path, tagUids);
 			return Task.FromResult(true);
 		}
 
 		/// <inheritdoc/>
-		public async IAsyncEnumerable<string> GetTagsAsync([EnumeratorCancellation] CancellationToken cancellationToken)
+		public async IAsyncEnumerable<TagViewModel> GetTagsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
 		{
-			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
-			{
-				yield return "Blue"; // TODO: Get tag types
-			}
+			foreach (var item in FileTagsSettingsService.FileTagList)
+				yield return item;
 
 			await Task.CompletedTask;
 		}
 
 		/// <inheritdoc/>
-		public async IAsyncEnumerable<TagModel> GetItemsForTagAsync(string tag, [EnumeratorCancellation] CancellationToken cancellationToken)
+		public async IAsyncEnumerable<TaggedItemModel> GetItemsForTagAsync(string tagUid, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 		{
 			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
 			{
-				if (!item.Tags.Contains(tag))
+				if (!item.Tags.Contains(tagUid))
 					continue;
 
 				var storable = await StorageService.TryGetStorableFromPathAsync(item.FilePath, cancellationToken);
@@ -61,7 +63,7 @@ namespace Files.App.ServicesImplementation
 		}
 
 		/// <inheritdoc/>
-		public async IAsyncEnumerable<TagModel> GetAllFileTagsAsync([EnumeratorCancellation] CancellationToken cancellationToken)
+		public async IAsyncEnumerable<TaggedItemModel> GetAllFileTagsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
 		{
 			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
 			{

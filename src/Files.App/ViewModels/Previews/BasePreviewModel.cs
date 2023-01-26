@@ -129,7 +129,7 @@ namespace Files.App.ViewModels.Previews
 
 			// adds the value for the file tag
 			list.FirstOrDefault(x => x.ID is "filetag").Value =
-				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.TagName)) : null;
+				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null;
 
 			return list.Where(i => i.ValueText is not null).ToList();
 		}

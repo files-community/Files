@@ -1,15 +1,15 @@
-﻿using System.Threading;
-using Files.Backend.Models.Imaging;
-using System.Threading.Tasks;
-using Files.Backend.Models;
+﻿using Files.Backend.Models;
 using Files.Sdk.Storage;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Files.Backend.Services
 {
-    /// <summary>
-    /// Represents a service used for data to image conversion.
-    /// </summary>
-    public interface IImageService
+	/// <summary>
+	/// Represents a service used for data to image conversion.
+	/// </summary>
+	public interface IImageService
     {
         /// <summary>
         /// Gets associated item icon of provided <paramref name="storable"/>. May return null if the icon is inaccessible.
@@ -19,8 +19,10 @@ namespace Files.Backend.Services
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation. If successful, value is <see cref="IImageModel"/> representation of the icon, otherwise null.</returns>
         Task<IImageModel?> GetIconAsync(IStorable storable, CancellationToken cancellationToken);
 
-        Task<ImageModel?> GetImageModelFromDataAsync(byte[]? rawData);
+		[Obsolete("Use GetIconAsync() instead.")]
+        Task<IImageModel?> GetImageModelFromDataAsync(byte[]? rawData);
 
-        Task<ImageModel?> GetImageModelFromPathAsync(string filePath, uint thumbnailSize = 64u);
+		[Obsolete("Use GetIconAsync() instead.")]
+        Task<IImageModel?> GetImageModelFromPathAsync(string filePath, uint thumbnailSize = 64u);
     }
 }

@@ -1,17 +1,18 @@
-using Files.App.AppModels;
+﻿using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media;
 using System;
 
 namespace Files.App.ValueConverters
 {
-	internal sealed class ImageModelToImageConverter : IValueConverter
+	internal sealed class StringToBrushConverter : IValueConverter
 	{
 		public object? Convert(object value, Type targetType, object parameter, string language)
 		{
-			if (value is BitmapImageModel bitmapImageModel)
-				return bitmapImageModel.Image;
+			if (value is not string strValue)
+				return null;
 
-			return null;
+			return new SolidColorBrush(ColorHelper.ToColor(strValue));
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)

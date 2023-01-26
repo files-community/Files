@@ -21,7 +21,7 @@
 
 			<!--  Removes NavigationView background  -->
 			<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
-			
+
 			<!--  Removes NavigationView corner radius  -->
 			<CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
 
@@ -43,7 +43,7 @@
 					<GradientStop Offset="1.0" Color="{ThemeResource ControlStrokeColorDefault}" />
 				</LinearGradientBrush.GradientStops>
 			</LinearGradientBrush>
-			
+
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 				<ResourceDictionary>

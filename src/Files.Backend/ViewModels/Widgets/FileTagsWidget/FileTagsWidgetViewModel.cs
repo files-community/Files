@@ -24,11 +24,14 @@ namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 		{
 			await foreach (var item in FileTagsService.GetTagsAsync(cancellationToken))
 			{
-				Containers.Add(new()
+				var container = new FileTagsContainerViewModel(item.Uid)
 				{
-					TagName = item,
-					TagColor = null // TODO: Add tag color
-				});
+					Name = item.Name,
+					Color = item.Color
+				};
+				Containers.Add(container);
+
+				_ = container.InitAsync(cancellationToken);
 			}
 		}
 	}

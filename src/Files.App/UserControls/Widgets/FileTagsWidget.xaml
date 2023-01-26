@@ -12,7 +12,7 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
+        <vc:StringToBrushConverter x:Key="StringToBrushConverter" />
         <vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
     </UserControl.Resources>
 
@@ -39,9 +39,12 @@
                         </Grid.RowDefinitions>
 
                         <!--  Title  -->
-                        <StackPanel Grid.Row="0" Spacing="8">
-                            <Ellipse Fill="{x:Bind TagColor, Converter={StaticResource ColorModelToColorConverter}}" />
-                            <TextBlock Text="{x:Bind TagName, Mode=OneWay}" />
+                        <StackPanel Grid.Row="0" Spacing="8" Orientation="Horizontal">
+                            <Ellipse
+                                Width="10"
+                                Height="10"
+                                Fill="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                         </StackPanel>
 
                         <!--  Contents  -->
@@ -60,6 +63,7 @@
                                             <!--  Name  -->
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
+
                                         <!--  Icon  -->
                                         <Image
                                             Grid.Column="0"
@@ -68,6 +72,9 @@
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Center"
                                             Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
+
+                                        <!--  Name  -->
+                                        <TextBlock Grid.Column="1" Text="{x:Bind Name, Mode=OneWay}" />
                                     </Grid>
                                 </DataTemplate>
                             </GridView.ItemTemplate>

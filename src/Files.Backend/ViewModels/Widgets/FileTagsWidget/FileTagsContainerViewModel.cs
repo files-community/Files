@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Models;
 using Files.Backend.Services;
 using Files.Shared.Utils;
 using System.Collections.ObjectModel;
@@ -9,28 +8,36 @@ using System.Threading.Tasks;
 
 namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 {
-    public sealed partial class FileTagsContainerViewModel : ObservableObject, IAsyncInitialize
-    {
-        private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
+	public sealed partial class FileTagsContainerViewModel : ObservableObject, IAsyncInitialize
+	{
+		private readonly string _tagUid;
 
-        public ObservableCollection<FileTagsItemViewModel> Tags { get; }
+		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 
-        [ObservableProperty]
-        private IColorModel? _TagColor;
+		private IImageService ImageService { get; } = Ioc.Default.GetRequiredService<IImageService>();
 
-        [ObservableProperty]
-        private string? _TagName;
+		public ObservableCollection<FileTagsItemViewModel> Tags { get; }
 
-        public FileTagsContainerViewModel()
-        {
-            Tags = new();
-        }
+		[ObservableProperty]
+		private string _Color;
 
-        /// <inheritdoc/>
-        public Task InitAsync(CancellationToken cancellationToken = default)
-        {
-            //FileTagsService.GetAllFileTagsAsync();
-            return Task.CompletedTask;
-        }
-    }
+		[ObservableProperty]
+		private string _Name;
+
+		public FileTagsContainerViewModel(string tagUid)
+		{
+			_tagUid = tagUid;
+			Tags = new();
+		}
+
+		/// <inheritdoc/>
+		public async Task InitAsync(CancellationToken cancellationToken = default)
+		{
+			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid, cancellationToken))
+			{
+				var icon = await ImageService.GetIconAsync(item.Storable, cancellationToken);
+				Tags.Add(new(item.Storable, icon));
+			}
+		}
+	}
 }
