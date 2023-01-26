@@ -40,6 +40,15 @@
 	</FlyoutBase.AttachedFlyout>
 	<NavigationView.Resources>
 		<ResourceDictionary>
+			<!--  Removes NavigationView background  -->
+			<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+
+			<!--  Removes NavigationView corner radius  -->
+			<CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
+
+			<!--  Removes NavigationView border from top, right and bottom  -->
+			<Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+
 			<mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<mconv:StringFormatConverter x:Key="StringFormatConverter" />
 			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />

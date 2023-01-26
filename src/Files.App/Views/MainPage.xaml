@@ -12,6 +12,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:viewmodels="using:Files.App.ViewModels"
+	AllowDrop="True"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
@@ -33,9 +34,6 @@
 			<x:Boolean x:Key="False">False</x:Boolean>
 
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-
-			<SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
-			<Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -312,7 +310,7 @@
 					IsCompactOverlay="{x:Bind ViewModel.IsWindowCompactOverlay, Mode=OneWay}"
 					Loaded="NavToolbar_Loaded"
 					SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
-					ShowPreviewPaneButton="{x:Bind IsPreviewPaneEnabled, Mode=OneWay}"
+					ShowPreviewPaneButton="{x:Bind ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
 					TabIndex="2" />
 
 				<ContentPresenter
@@ -326,18 +324,17 @@
 					x:Name="PaneSplitter"
 					Grid.Row="1"
 					Grid.Column="1"
-					x:Load="{x:Bind IsPaneEnabled, Mode=OneWay}"
+					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}"
 					ManipulationCompleted="PaneSplitter_ManipulationCompleted"
 					ResizeBehavior="BasedOnAlignment"
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 
-				<controls:PaneControl
-					x:Name="Pane"
+				<controls:PreviewPane
+					x:Name="PreviewPane"
 					Grid.Row="1"
 					Grid.Column="2"
 					HorizontalContentAlignment="Stretch"
-					x:Load="{x:Bind IsPaneEnabled, Mode=OneWay}"
-					Visibility="{x:Bind IsPaneEnabled, Mode=OneWay}" />
+					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}" />
 
 				<controls:StatusBarControl
 					x:Name="StatusBarControl"

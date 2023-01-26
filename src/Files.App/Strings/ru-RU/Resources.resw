@@ -2924,6 +2924,6 @@
     <value>Сортировка</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>Недавно использованные файлы в данный момент отключены в Проводнике Windows.</value>
   </data>
 </root>

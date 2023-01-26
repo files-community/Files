@@ -47,7 +47,7 @@ namespace Files.App.Views
 
 		protected override void OnNavigatedFrom(NavigationEventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			base.OnNavigatedFrom(e);
 		}
 

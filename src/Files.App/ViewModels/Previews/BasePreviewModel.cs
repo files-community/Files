@@ -66,7 +66,7 @@ namespace Files.App.ViewModels.Previews
 			await Task.Run(async () =>
 			{
 				DetailsFromPreview = await LoadPreviewAndDetailsAsync();
-				if (!userSettingsService.PaneSettingsService.ShowPreviewOnly)
+				if (!userSettingsService.PreviewPaneSettingsService.ShowPreviewOnly)
 				{
 					// Add the details from the preview function, then the system file properties
 					DetailsFromPreview?.ForEach(i => detailsFull.Add(i));

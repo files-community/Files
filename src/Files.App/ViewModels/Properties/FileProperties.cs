@@ -69,13 +69,15 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
 			ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
 			ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
+			if (isApplication)
+				ViewModel.RunAsAdmin = shortcutItem.RunAsAdmin;
 			ViewModel.IsSelectedItemShortcut = FileExtensionHelpers.IsShortcutFile(Item.FileExtension);
 			ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 			{
 				if (Item.IsLinkItem)
 				{
 					var tmpItem = (ShortcutItem)Item;
-					await Win32Helpers.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+					await Win32Helpers.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
 				}
 				else
 				{
@@ -311,16 +313,17 @@ namespace Files.App.ViewModels.Properties
 					}
 					break;
 
+				case "RunAsAdmin":
 				case "ShortcutItemPath":
 				case "ShortcutItemWorkingDir":
 				case "ShortcutItemArguments":
-					var tmpItem = (ShortcutItem)Item;
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 
-					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin);
+					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, ViewModel.RunAsAdmin);
 					break;
 			}
 		}
 	}
+
 }

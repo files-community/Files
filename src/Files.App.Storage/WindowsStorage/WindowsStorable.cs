@@ -26,8 +26,8 @@ namespace Files.App.Storage.WindowsStorage
 		protected internal WindowsStorable(TStorage storage)
 		{
 			this.storage = storage;
-			this.Path = storage.Path;
-			this.Name = storage.Name;
+			Path = storage.Path;
+			Name = storage.Name;
 		}
 
 		/// <inheritdoc/>

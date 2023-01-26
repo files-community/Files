@@ -84,10 +84,17 @@ namespace Files.App.Interacts
 
 		public virtual async void CreateShortcut(RoutedEventArgs e)
 		{
+			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
+			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
+				!library.IsEmpty)
+			{
+				currentPath = library.DefaultSaveFolder;
+			}
+
 			foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
 			{
-				var filePath = Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
-								string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk");
+				var fileName = string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk";
+				var filePath = Path.Combine(currentPath, fileName);
 
 				await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath);
 			}
@@ -261,9 +268,7 @@ namespace Files.App.Interacts
 
 		public virtual void OpenDirectoryInNewPane(RoutedEventArgs e)
 		{
-			ListedItem listedItem = SlimContentPage.SelectedItems.FirstOrDefault();
-			if (listedItem is not null)
-				associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+			NavigationHelpers.OpenInSecondaryPane(associatedInstance, SlimContentPage.SelectedItems.FirstOrDefault());
 		}
 
 		public virtual async void OpenInNewWindowItem(RoutedEventArgs e)
@@ -479,7 +484,6 @@ namespace Files.App.Interacts
 			{
 				e.Handled = true;
 
-				var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 				var draggedItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 				var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
@@ -489,19 +493,6 @@ namespace Files.App.Interacts
 				if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || (draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory)))
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
-				}
-				else if (handledByFtp)
-				{
-					if (pwd.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
-					{
-						e.AcceptedOperation = DataPackageOperation.None;
-					}
-					else
-					{
-						e.DragUIOverride.IsCaptionVisible = true;
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Copy;
-					}
 				}
 				else if (!draggedItems.Any())
 				{

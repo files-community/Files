@@ -10,7 +10,6 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
@@ -38,7 +37,7 @@ namespace Files.App.Views
 
 		public PropertiesSecurityAdvanced()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
 			var flowDirectionSetting = /*
                 TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK

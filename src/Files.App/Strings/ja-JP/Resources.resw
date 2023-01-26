@@ -203,7 +203,7 @@
     <value>ファイルの場所を開く</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>このファイルを削除</value>
+    <value>一覧から削除</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>役に立つリンク</value>
@@ -221,13 +221,13 @@
     <value>テーマ</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>既知のファイル タイプの拡張子を表示</value>
+    <value>既知のファイル タイプの拡張子を表示する</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>すべてのファイルとフォルダーを表示</value>
+    <value>すべてのファイルとフォルダーを表示する</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>ドットファイルを表示する</value>
+    <value>ドット ファイルを表示する</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>実験的機能</value>
@@ -815,7 +815,7 @@
     <value>オーバーフロー項目をサブメニューに移動</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>ファイルやフォルダーを削除するときに確認ダイアログを表示</value>
+    <value>ファイルやフォルダーを削除するときに確認ダイアログを表示する</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>プロパティを保存する際に問題が発生しました。</value>
@@ -1187,7 +1187,7 @@
     <value>検索結果</value>
   </data>
   <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Files の開発への貢献者を見る</value>
+    <value>Files の開発に貢献した人を見る</value>
   </data>
   <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Files の新機能を確認</value>
@@ -1199,7 +1199,7 @@
     <value>GitHub で支援</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>ファイルと一緒にディレクトリを一覧表示して並べ替える</value>
+    <value>ファイルとフォルダーを分けずに並べ替える</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>詳細</value>
@@ -1214,7 +1214,7 @@
     <value>更新あり</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>保護されたシステムファイルを表示</value>
+    <value>保護されたシステム ファイルを表示する</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>インデックスされていないファイルを検索結果に含める</value>
@@ -1223,10 +1223,10 @@
     <value>フォルダーの追加設定をリセット</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>この設定がオフのときに任意のフォルダーのレイアウトを変更すると、すべてのフォルダーにそのレイアウトが適用されます。</value>
+    <value>この設定がオフのときに変更したレイアウトは、すべてのフォルダーに適用されます。</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>個別のフォルダーごとに設定を変更できるようにする</value>
+    <value>レイアウトをフォルダーごとに設定する</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリック メニューをカスタマイズ</value>
@@ -1304,10 +1304,10 @@
     <value>タイルビュー (Ctrl+Shift+2)</value>
   </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>ファイル拡張子を表示</value>
+    <value>ファイル拡張子を表示する</value>
   </data>
   <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>隠しファイルを表示</value>
+    <value>隠しファイルを表示する</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>削除した日時</value>
@@ -1406,7 +1406,7 @@
     <value>ドキュメンテーション</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Files の資料ページを表示</value>
+    <value>Files のドキュメントを見る</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>進行中のタスクのフライアウト</value>
@@ -1505,7 +1505,7 @@
     <value>新しいペインで開く</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>ライブラリ セクションを表示</value>
+    <value>ライブラリ セクションを表示する</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>既定</value>
@@ -1514,7 +1514,7 @@
     <value>ファイル数</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>削除に失敗</value>
+    <value>削除失敗</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>不明なエラーが発生しました。</value>
@@ -1658,16 +1658,16 @@
     <value>新しいタブでフォルダーを開く</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>バンドル ウィジェットを表示</value>
+    <value>バンドル ウィジェットを表示する</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>ドライブ ウィジェットを表示</value>
+    <value>ドライブ ウィジェットを表示する</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>フォルダー ウィジェットを表示</value>
+    <value>フォルダー ウィジェットを表示する</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>最近使用したファイル ウィジェットを表示</value>
+    <value>最近使用したファイル ウィジェットを表示する</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>お探しのファイルが見つかりませんでしたか?</value>
@@ -1856,10 +1856,10 @@
     <value>{0} ファイルを {1} から {2} へ移動しました</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ファイルを {1} から {2} へ移動に失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動できませんでした</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>{0} ファイルを {1} から {2} へ移動に失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動できませんでした</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
     <value>{0} ファイルの {1} へのコピーがキャンセルされました</value>
@@ -1904,10 +1904,10 @@
     <value>{0} ファイルを {1} から削除しました</value>
   </data>
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ファイルを {1} から削除に失敗しました</value>
+    <value>{0} ファイルを {1} から削除できませんでした</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>{0} ファイルを {1} から削除に失敗しました</value>
+    <value>{0} ファイルを {1} から削除できませんでした</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>ごみ箱</value>
@@ -1919,7 +1919,7 @@
     <value>ファイルをコピーしています</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>ごみ箱から元に戻す操作に失敗しました</value>
+    <value>リサイクル失敗</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>ごみ箱から元に戻す操作がキャンセルされました</value>
@@ -1955,7 +1955,7 @@
     <value>フル コントロール</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>ディレクトリの内容を一覧表示</value>
+    <value>フォルダーの内容を一覧表示</value>
   </data>
   <data name="SecurityModifyLabel.Text" xml:space="preserve">
     <value>変更</value>
@@ -2096,7 +2096,7 @@
     <value>ファイルの作成</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>サブディレクトリとファイルを削除</value>
+    <value>サブフォルダーとファイルを削除</value>
   </data>
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
     <value>ファイルの実行</value>
@@ -2171,7 +2171,7 @@
     <value>完全なプレビューを読み込む</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>クラウドからファイルをダウンロードし、プレビューを表示</value>
+    <value>クラウドからファイルをダウンロードし、プレビューを表示する</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
     <value>{0} 項目 ({1} ファイル、{2} フォルダー)</value>
@@ -2180,16 +2180,16 @@
     <value>圧縮前のサイズ</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>クラウド ドライブ セクションを表示</value>
+    <value>クラウド ドライブ セクションを表示する</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>ドライブ セクションを表示</value>
+    <value>ドライブ セクションを表示する</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>WSL セクションを表示</value>
+    <value>WSL セクションを表示する</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>ネットワーク セクションを表示</value>
+    <value>ネットワーク セクションを表示する</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -2294,7 +2294,7 @@
     <value>ファイル タグを編集</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>お気に入り セクションを表示</value>
+    <value>お気に入り セクションを表示する</value>
   </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
     <value>すべてに適用</value>
@@ -2345,7 +2345,7 @@
     <value>項目は見つかりませんでした</value>
   </data>
   <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>プレビューのみを表示</value>
+    <value>プレビューのみを表示する</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>ログの場所を開く</value>
@@ -2369,13 +2369,13 @@
     <value>タイル</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>ファイル拡張子を表示</value>
+    <value>ファイル拡張子を表示する</value>
   </data>
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>隠しファイルを表示</value>
+    <value>隠しファイルを表示する</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>お気に入り セクションを表示</value>
+    <value>お気に入り セクションを表示する</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>新しいタブでフォルダーを開く</value>
@@ -2384,22 +2384,22 @@
     <value>言語</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>クラウド ドライブ セクションを表示</value>
+    <value>クラウド ドライブ セクションを表示する</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>ファイルやフォルダーを削除するときに確認ダイアログを表示</value>
+    <value>ファイルやフォルダーを削除するときに確認ダイアログを表示する</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>ドライブ セクションを表示</value>
+    <value>ドライブ セクションを表示する</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>ライブラリ セクションを表示</value>
+    <value>ライブラリ セクションを表示する</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>ネットワーク セクションを表示</value>
+    <value>ネットワーク セクションを表示する</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>WSL セクションを表示</value>
+    <value>WSL セクションを表示する</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>進行中のタスク</value>
@@ -2474,7 +2474,7 @@
     <value>ファイルとフォルダー</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
-    <value>タスクバーのジャンプリストからディレクトリを開くとき、新しいインスタンスで開く</value>
+    <value>タスクバーのジャンプリストからフォルダーを開くとき、新しいインスタンスで開く</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>スタートアップ設定</value>
@@ -2660,25 +2660,25 @@
     <value>ファイルを準備中</value>
   </data>
   <data name="StatusCopyFailed" xml:space="preserve">
-    <value>コピーに失敗しました</value>
+    <value>コピー失敗</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>{0} ファイルの {1} から {2} へコピーに失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へコピーできませんでした</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ファイルの {1} から {2} へコピーに失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へコピーできませんでした</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
-    <value>移動に失敗しました</value>
+    <value>移動失敗</value>
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>タグ</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>タグ セクションを表示</value>
+    <value>タグ セクションを表示する</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>タグ セクションを表示</value>
+    <value>タグ セクションを表示する</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>詳細レイアウトでコンパクトスタイルを使用する</value>
@@ -2723,7 +2723,7 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>代替データストリームを表示</value>
+    <value>代替データ ストリームを表示する</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Files を評価</value>
@@ -2765,7 +2765,7 @@
     <value>リセット</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>この操作を行うと、すべてのディレクトリがデフォルト設定にリセットされます</value>
+    <value>この操作を行うと、すべてのフォルダーがデフォルトの設定にリセットされます。</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
     <value>よろしいですか？</value>
@@ -2837,7 +2837,7 @@
     <value>ゴミ箱を正常に空にしました</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>ゴミ箱を空にする操作に失敗しました</value>
+    <value>ゴミ箱を空にできませんでした</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>書庫のパスワード</value>

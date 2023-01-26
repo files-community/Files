@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
+	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -259,21 +260,52 @@
 						Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
 				</Grid>
 
+				<!--  Install Update Notification  -->
 				<Button
 					x:Name="UpdateButton"
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
-					x:Load="{x:Bind ViewModel.UpdateService.IsUpdateAvailable, Mode=OneWay}"
+					x:Load="{x:Bind ViewModel.IsUpdateAvailable, Mode=OneWay}"
 					AccessKey="1"
 					AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
 					Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.UpdateService.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+					IsEnabled="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}">
+					<Grid>
+						<!--  Icon  -->
+						<FontIcon
+							x:Name="UpdateIcon"
+							x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+							FontSize="14"
+							Foreground="{ThemeResource SystemAccentColor}"
+							Glyph="&#xE896;" />
+
+						<!--  Progress  -->
+						<ProgressRing
+							x:Name="UpdateProgressRing"
+							Width="20"
+							Height="20"
+							x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay}"
+							IsIndeterminate="True" />
+					</Grid>
+				</Button>
+
+				<!--  Update Release Notes  -->
+				<Button
+					x:Name="ViewReleaseNotesButton"
+					HorizontalContentAlignment="Stretch"
+					VerticalContentAlignment="Stretch"
+					x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
+					AccessKey="2"
+					AutomationProperties.Name="{helpers:ResourceString Name=ReleaseNotes}"
+					Command="{x:Bind ViewModel.ViewReleaseNotesCommand, Mode=OneWay}"
+					Style="{StaticResource AddressToolbarButtonStyle}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=ReleaseNotes}">
 					<FontIcon
 						FontSize="14"
 						Foreground="{ThemeResource SystemAccentColor}"
-						Glyph="&#xE896;" />
+						Glyph="&#xF133;" />
 				</Button>
 
 				<Button
@@ -302,6 +334,45 @@
 				IsOpen="False"
 				Subtitle="{helpers:ResourceString Name=OngoingTasksTeachingTip/Subtitle}"
 				Target="{x:Bind OngoingTasks}" />
+
+			<!--  Release Notes Teaching Tip  -->
+			<TeachingTip
+				x:Name="ReleaseNotesTeachingTip"
+				IsLightDismissEnabled="True"
+				IsOpen="{x:Bind ViewModel.IsReleaseNotesOpen, Mode=TwoWay}"
+				Target="{x:Bind ViewReleaseNotesButton}">
+
+				<!--  Sponsor Button  -->
+				<TeachingTip.HeroContent>
+					<Border
+						Padding="12"
+						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderThickness="0,1,0,0">
+
+						<HyperlinkButton
+							HorizontalAlignment="Center"
+							Content="{helpers:ResourceString Name=SponsorUsOnGitHub}"
+							NavigateUri="https://github.com/sponsors/yaira2" />
+					</Border>
+				</TeachingTip.HeroContent>
+
+				<!--  Markdown Content  -->
+				<TeachingTip.Content>
+					<ScrollViewer
+						MinHeight="300"
+						MaxHeight="400"
+						Margin="-12"
+						Padding="12"
+						HorizontalScrollMode="Auto"
+						VerticalScrollMode="Auto">
+						<controls:MarkdownTextBlock
+							Background="Transparent"
+							ListGutterWidth="16"
+							Text="{x:Bind ViewModel.ReleaseNotes, Mode=OneWay}" />
+					</ScrollViewer>
+				</TeachingTip.Content>
+			</TeachingTip>
 		</Grid>
 
 		<VisualStateManager.VisualStateGroups>

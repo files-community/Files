@@ -423,14 +423,6 @@
 				ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSelectionOptions/ToolTipService/ToolTip}">
 				<AppBarButton.Flyout>
 					<MenuFlyout Placement="Bottom">
-						<ToggleMenuFlyoutItem
-							x:Name="MultiselectMFI"
-							IsChecked="{x:Bind AppModel.MultiselectEnabled, Mode=TwoWay}"
-							Text="{helpers:ResourceString Name=NavToolbarMultiselect/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon Glyph="&#xE762;" />
-							</MenuFlyoutItem.Icon>
-						</ToggleMenuFlyoutItem>
 						<MenuFlyoutItem
 							x:Name="SelectAllMFI"
 							Command="{x:Bind ViewModel.SelectAllContentPageItemsCommand, Mode=OneWay}"
@@ -823,7 +815,7 @@
 				MinWidth="40"
 				AccessKey="P"
 				AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneToggle/AutomationProperties/Name}"
-				IsChecked="{x:Bind AppModel.PaneViewModel.IsPreviewSelected, Mode=TwoWay}"
+				IsChecked="{x:Bind PreviewPaneViewModel.IsEnabled, Mode=TwoWay}"
 				IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
 				Label="{helpers:ResourceString Name=PreviewPaneToggle/Label}"
 				LabelPosition="Collapsed"

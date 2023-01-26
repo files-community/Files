@@ -46,6 +46,11 @@ namespace Files.Backend.Services.Settings
 		bool ShowSyncStatusColumn { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating if CheckBoxes should be displayed to allow selecting items.
+		/// </summary>
+		bool ShowSelectionCheckboxes { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating the default layout mode.
 		/// </summary>
 		FolderLayoutModes DefaultLayoutMode { get; set; }
@@ -169,5 +174,10 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating whether or not to select files and folders when hovering them.
 		/// </summary>
 		bool SelectFilesOnHover { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if double clicking a blank space should go up a directory.
+		/// </summary>
+		bool DoubleClickToGoUp { get; set; }
 	}
 }

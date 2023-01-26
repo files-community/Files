@@ -82,7 +82,7 @@ namespace Files.App.UserControls
 			get => (INavigationControlItem)GetValue(SelectedSidebarItemProperty);
 			set
 			{
-				if (this.IsLoaded)
+				if (IsLoaded)
 				{
 					SetValue(SelectedSidebarItemProperty, value);
 				}
@@ -598,7 +598,6 @@ namespace Files.App.UserControls
 				e.Handled = true;
 				isDropOnProcess = true;
 
-				var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 				var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 				var hasStorageItems = storageItems.Any();
 
@@ -621,18 +620,6 @@ namespace Files.App.UserControls
 					locationItem.Path.StartsWith("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
-				}
-				else if (handledByFtp)
-				{
-					if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
-					{
-						e.AcceptedOperation = DataPackageOperation.None;
-					}
-					else
-					{
-						var captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						CompleteDragEventArgs(e, captionText, DataPackageOperation.Copy);
-					}
 				}
 				else if (hasStorageItems is false)
 				{
@@ -775,7 +762,6 @@ namespace Files.App.UserControls
 			var deferral = e.GetDeferral();
 			e.Handled = true;
 
-			var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 			var hasStorageItems = storageItems.Any();
 
@@ -783,11 +769,6 @@ namespace Files.App.UserControls
 				(hasStorageItems && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
-			}
-			else if (handledByFtp)
-			{
-				var captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
-				CompleteDragEventArgs(e, captionText, DataPackageOperation.Copy);
 			}
 			else if (!hasStorageItems)
 			{
@@ -869,14 +850,9 @@ namespace Files.App.UserControls
 			var deferral = e.GetDeferral();
 			e.Handled = true;
 
-			var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-			if (handledByFtp)
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-			}
-			else if (!storageItems.Any())
+			if (!storageItems.Any())
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 			}
@@ -907,11 +883,7 @@ namespace Files.App.UserControls
 
 			var deferral = e.GetDeferral();
 
-			var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-
-			if (handledByFtp)
-				return;
 
 			foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
 			{

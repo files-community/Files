@@ -122,7 +122,7 @@ namespace Files.App.Filesystem.StorageItems
 						var ms = new MemoryStream();
 						await zipFile.ExtractFileAsync(entry.Index, ms);
 						ms.Position = 0;
-						return new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
+						return new NonSeekableRandomAccessStreamForRead(ms, entry.Size)
 						{
 							DisposeCallback = () => zipFile.Dispose()
 						};
@@ -167,7 +167,7 @@ namespace Files.App.Filesystem.StorageItems
 				var ms = new MemoryStream();
 				await zipFile.ExtractFileAsync(entry.Index, ms);
 				ms.Position = 0;
-				var nsStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
+				var nsStream = new NonSeekableRandomAccessStreamForRead(ms, entry.Size)
 				{
 					DisposeCallback = () => zipFile.Dispose()
 				};
@@ -205,7 +205,7 @@ namespace Files.App.Filesystem.StorageItems
 				var ms = new MemoryStream();
 				await zipFile.ExtractFileAsync(entry.Index, ms);
 				ms.Position = 0;
-				return new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
+				return new NonSeekableRandomAccessStreamForRead(ms, entry.Size)
 				{
 					DisposeCallback = () => zipFile.Dispose()
 				};
@@ -245,7 +245,7 @@ namespace Files.App.Filesystem.StorageItems
 					var ms = new MemoryStream();
 					await zipFile.ExtractFileAsync(entry.Index, ms);
 					ms.Position = 0;
-					using var inStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
+					using var inStream = new NonSeekableRandomAccessStreamForRead(ms, entry.Size);
 					return await cwsf.CreateFileAsync(inStream.AsStreamForRead(), desiredNewName, option.Convert());
 				}
 				else
@@ -469,7 +469,7 @@ namespace Files.App.Filesystem.StorageItems
 					{
 						return null;
 					}
-					return (Stream)new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
+					return new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
 				}
 			});
 		}
@@ -518,7 +518,7 @@ namespace Files.App.Filesystem.StorageItems
 
 			public override DateTimeOffset ItemDate => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
 
-			public override ulong Size => (ulong)entry.Size;
+			public override ulong Size => entry.Size;
 		}
 	}
 }

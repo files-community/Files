@@ -658,7 +658,7 @@ namespace Files.App.Helpers
 					Tag = "OpenWith",
 					CollapseLabel = true,
 					ShowInSearchPage = true,
-					ShowItem = selectedItems.All(i => (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && i.IsArchive)),
+					ShowItem = selectedItems.All(i => (i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive)),
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -675,7 +675,7 @@ namespace Files.App.Helpers
 						}
 					},
 					ShowInSearchPage = true,
-					ShowItem = selectedItems.All(i => (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && i.IsArchive)),
+					ShowItem = selectedItems.All(i => (i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive)),
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -688,10 +688,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutOpenInNewPane/Text".GetLocalizedResource(),
-					Glyph = "\uE117",
+					Glyph = "\xF117",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
-					ShowItem = userSettingsService.PreferencesSettingsService.IsDualPaneEnabled && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
+					ShowItem = userSettingsService.PreferencesSettingsService.IsDualPaneEnabled && selectedItems.All(i => i.PrimaryItemAttribute == StorageItemTypes.Folder),
 					SingleItemOnly = true,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
@@ -703,7 +703,7 @@ namespace Files.App.Helpers
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = commandsViewModel.OpenDirectoryInNewTabCommand,
-					ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
+					ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == StorageItemTypes.Folder),
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
@@ -713,7 +713,7 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutItemContextFlyoutOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = commandsViewModel.OpenInNewWindowItemCommand,
-					ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
+					ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == StorageItemTypes.Folder),
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowOnShift = true,
@@ -983,7 +983,6 @@ namespace Files.App.Helpers
 					Command = commandsViewModel.PinItemToStartCommand,
 					ShowOnShift = true,
 					ShowItem = selectedItems.All(x => !x.IsShortcut && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsArchive && !x.IsItemPinnedToStart),
-					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					SingleItemOnly = true,
@@ -995,7 +994,6 @@ namespace Files.App.Helpers
 					Command = commandsViewModel.UnpinItemFromStartCommand,
 					ShowOnShift = true,
 					ShowItem = selectedItems.All(x => !x.IsShortcut && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsArchive && x.IsItemPinnedToStart),
-					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					SingleItemOnly = true,
