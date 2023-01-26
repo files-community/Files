@@ -17,11 +17,10 @@ namespace Files.App.ServicesImplementation.Settings
 
 		private static readonly List<TagViewModel> DefaultFileTags = new List<TagViewModel>()
 		{
-			new("Blue", "#0072BD"),
-			new("Orange", "#D95319"),
-			new("Yellow", "#EDB120"),
-			new("Green", "#77AC30"),
-			new("Azure", "#4DBEEE")
+			new("Home", "#0072BD"),
+			new("Work", "#D95319"),
+			new("Photos", "#EDB120"),
+			new("Important", "#77AC30")
 		};
 
 		public FileTagsSettingsService()
