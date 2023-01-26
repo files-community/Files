@@ -332,7 +332,7 @@
 					IsOn="{x:Bind ViewModel.SelectFilesOnHover, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
-			
+
 			<!--  Double click to go up  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=DoubleClickBlankSpaceToGoUp}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
