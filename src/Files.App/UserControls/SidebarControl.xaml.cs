@@ -8,6 +8,7 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
+using Files.App.ServicesImplementation;
 using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
@@ -35,6 +36,8 @@ namespace Files.App.UserControls
 	public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
 	{
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		private PinnedItemsService PinnedItemsService = Ioc.Default.GetRequiredService<PinnedItemsService>();
 
 		public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
 

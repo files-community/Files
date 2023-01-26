@@ -1,5 +1,6 @@
 #nullable disable warnings
 
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
 using Files.App.Extensions;
@@ -7,6 +8,7 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.Archive;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.App.ServicesImplementation;
 using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
@@ -45,6 +47,8 @@ namespace Files.App.Interacts
 		private IBaseLayout SlimContentPage => associatedInstance?.SlimContentPage;
 
 		private IFilesystemHelpers FilesystemHelpers => associatedInstance?.FilesystemHelpers;
+
+		private static PinnedItemsService PinnedItemsService => Ioc.Default.GetRequiredService<PinnedItemsService>();
 
 		#endregion Singleton
 
@@ -126,11 +130,15 @@ namespace Files.App.Interacts
 
 		public virtual void SidebarPinItem(RoutedEventArgs e)
 		{
+			PinnedItemsService.PinToSidebar((string[])SlimContentPage.SelectedItems.Select(x => x.ItemPath));
+
 			SidebarHelpers.PinItems(SlimContentPage.SelectedItems);
 		}
 
 		public virtual void SidebarUnpinItem(RoutedEventArgs e)
 		{
+			PinnedItemsService.UnpinFromSidebar((string[])SlimContentPage.SelectedItems.Select(x => x.ItemPath));
+
 			SidebarHelpers.UnpinItems(SlimContentPage.SelectedItems);
 		}
 

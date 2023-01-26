@@ -1,6 +1,8 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.DataModels;
 using Files.App.Filesystem;
 using Files.App.Serialization.Implementation;
+using Files.App.ServicesImplementation;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using System;
@@ -16,6 +18,7 @@ namespace Files.App.Controllers
 {
 	public class SidebarPinnedController : IJson
 	{
+		private PinnedItemsService PinnedItemsService = Ioc.Default.GetRequiredService<PinnedItemsService>();
 		public SidebarPinnedModel Model { get; set; }
 
 		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;

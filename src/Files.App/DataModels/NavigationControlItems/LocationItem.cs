@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
+using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Shared;
