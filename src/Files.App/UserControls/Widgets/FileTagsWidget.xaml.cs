@@ -34,9 +34,10 @@ namespace Files.App.UserControls.Widgets
 			ViewModel = new();
 		}
 
-		private void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
+		private async void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			throw new NotImplementedException();
+			if (e.ClickedItem is FileTagsItemViewModel itemViewModel)
+				await itemViewModel.ClickCommand?.ExecuteAsync(null);
 		}
 
 		public Task RefreshWidget()

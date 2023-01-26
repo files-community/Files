@@ -18,24 +18,48 @@
 
     <Grid>
         <!--  Collection of containers  -->
-        <GridView ItemsSource="{x:Bind ViewModel.Containers}">
+        <GridView
+            IsItemClickEnabled="False"
+            ItemsSource="{x:Bind ViewModel.Containers}"
+            SelectionMode="None">
+
+            <!--  Remove Reveal Highlight Effect  -->
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <!--  Spacing  -->
+                    <Setter Property="Margin" Value="0,0,6,6" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="GridViewItem">
+                                <ListViewItemPresenter
+                                    x:Name="Root"
+                                    RevealBackground="{ThemeResource GridViewItemRevealBackground}"
+                                    RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
+                                    RevealBorderThickness="0" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </GridView.ItemContainerStyle>
 
             <!--  Container template  -->
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:FileTagsContainerViewModel">
                     <Grid
-                        Width="256"
-                        Height="302"
-                        Padding="4"
+                        Width="216"
+                        Height="286"
+                        Padding="16,12"
                         AllowDrop="True"
                         Background="{ThemeResource ControlFillColorDefaultBrush}"
-                        ColumnSpacing="8"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        RowSpacing="12">
                         <Grid.RowDefinitions>
                             <!--  Title  -->
                             <RowDefinition Height="Auto" />
                             <!--  Contents  -->
                             <RowDefinition />
+                            <!--  View More  -->
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <!--  Title  -->
@@ -47,19 +71,23 @@
                                 Width="10"
                                 Height="10"
                                 Fill="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
-                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                            <TextBlock
+                                Margin="0,-2,0,0"
+                                FontWeight="SemiBold"
+                                Text="{x:Bind Name, Mode=OneWay}" />
                         </StackPanel>
 
                         <!--  Contents  -->
                         <GridView
                             Grid.Row="1"
+                            HorizontalAlignment="Center"
                             IsItemClickEnabled="True"
                             ItemClick="FileTagItem_ItemClick"
                             ItemsSource="{x:Bind Tags}"
                             SelectionMode="None">
                             <GridView.ItemTemplate>
                                 <DataTemplate x:DataType="vm:FileTagsItemViewModel">
-                                    <Grid>
+                                    <Grid Padding="8,0" ColumnSpacing="6">
                                         <Grid.ColumnDefinitions>
                                             <!--  Icon  -->
                                             <ColumnDefinition Width="Auto" />
@@ -77,11 +105,20 @@
                                             Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
 
                                         <!--  Name  -->
-                                        <TextBlock Grid.Column="1" Text="{x:Bind Name, Mode=OneWay}" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Margin="0,-3,0,0"
+                                            Text="{x:Bind Name, Mode=OneWay}" />
                                     </Grid>
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
+
+                        <!--  View More  -->
+                        <HyperlinkButton
+                            Grid.Row="2"
+                            HorizontalAlignment="Center"
+                            Content="View more" />
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
