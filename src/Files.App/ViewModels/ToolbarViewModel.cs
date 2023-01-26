@@ -273,7 +273,7 @@ namespace Files.App.ViewModels
 			get => releaseNotes;
 			set => SetProperty(ref releaseNotes, value);
 		}
-		
+
 		private bool isReleaseNotesVisible;
 		public bool IsReleaseNotesVisible
 		{
@@ -413,7 +413,7 @@ namespace Files.App.ViewModels
 
 		private async void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			IsUpdateAvailable = UpdateService.IsUpdateAvailable;			 
+			IsUpdateAvailable = UpdateService.IsUpdateAvailable;
 			IsUpdating = UpdateService.IsUpdating;
 
 			// Bad code, result is called twice when checking for release notes
@@ -425,7 +425,7 @@ namespace Files.App.ViewModels
 		{
 			IsReleaseNotesOpen = true;
 		}
-		
+
 		public async Task CheckForReleaseNotesAsync()
 		{
 			var result = await UpdateService.GetLatestReleaseNotesAsync();

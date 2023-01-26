@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.ServicesImplementation.Settings;
 using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.Views;
@@ -41,7 +40,7 @@ namespace Files.App.Helpers
 
 		public static void OpenInSecondaryPane(IShellPage associatedInstance, ListedItem listedItem)
 		{
-			if(associatedInstance is null || listedItem is null)
+			if (associatedInstance is null || listedItem is null)
 				return;
 
 			if (!userSettingsService.PreferencesSettingsService.IsDualPaneEnabled)

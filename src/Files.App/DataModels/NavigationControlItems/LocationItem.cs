@@ -91,7 +91,7 @@ namespace Files.App.DataModels.NavigationControlItems
 		public RecycleBinLocationItem()
 		{
 			SpaceUsed = RecycleBinHelpers.GetSize();
-			
+
 			RecycleBinManager.Default.RecycleBinItemCreated += RefreshSpaceUsed;
 			RecycleBinManager.Default.RecycleBinItemDeleted += RefreshSpaceUsed;
 		}

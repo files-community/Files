@@ -5,6 +5,7 @@ using Files.App.Filesystem.Cloud;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
+using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Files.Shared.Extensions;
@@ -18,7 +19,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Files.Backend.Helpers;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
