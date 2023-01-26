@@ -2886,4 +2886,7 @@
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
     <value>Double click on a blank space to go up one directory</value>
   </data>
+  <data name="ViewMore" xml:space="preserve">
+    <value>View more</value>
+  </data>
 </root>
