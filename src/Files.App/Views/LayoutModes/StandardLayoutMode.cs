@@ -253,6 +253,19 @@ namespace Files.App
 			}
 		}
 
+		protected bool TryStartRenameNextItem(ListedItem item)
+		{
+			var nextItemIndex = ListViewBase.Items.IndexOf(item) + NextRenameIndex;
+			NextRenameIndex = 0;
+			if (nextItemIndex >= 0 && nextItemIndex < ListViewBase.Items.Count)
+			{
+				ListViewBase.SelectedIndex = nextItemIndex;
+				StartRenameItem();
+				return true;
+			}
+			return false;
+		}
+
 		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
 			if (ParentShellPageInstance is null ||
