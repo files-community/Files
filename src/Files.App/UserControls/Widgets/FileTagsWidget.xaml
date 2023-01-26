@@ -39,7 +39,10 @@
                         </Grid.RowDefinitions>
 
                         <!--  Title  -->
-                        <StackPanel Grid.Row="0" Spacing="8" Orientation="Horizontal">
+                        <StackPanel
+                            Grid.Row="0"
+                            Orientation="Horizontal"
+                            Spacing="8">
                             <Ellipse
                                 Width="10"
                                 Height="10"
