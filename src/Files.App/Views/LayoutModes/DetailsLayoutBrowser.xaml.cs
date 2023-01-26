@@ -98,13 +98,18 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
 		{
-			if (NextRenameIndex != -1)
+			if (NextRenameIndex != 0)
 			{
-				FileList.SelectedIndex = NextRenameIndex;
-				NextRenameIndex = -1;
-				StartRenameItem();
+				var itemIndex = FileList.Items.IndexOf(e) + NextRenameIndex;
+				NextRenameIndex = 0;
+				if (itemIndex >= 0 && itemIndex < FileList.Items.Count)
+				{
+					FileList.SelectedIndex = itemIndex;
+					StartRenameItem();
+					return;
+				}
 			}
-			else if (FileList?.Items.Contains(e) ?? false)
+			if (FileList?.Items.Contains(e) ?? false)
 				FileList.SelectedItems.Add(e);
 		}
 
@@ -246,9 +251,9 @@ namespace Files.App.Views.LayoutModes
 
 			if (e != null)
 			{
-				foreach (var item in e.AddedItems)	
+				foreach (var item in e.AddedItems)
 					SetCheckboxSelectionState(item);
-				
+
 				foreach (var item in e.RemovedItems)
 					SetCheckboxSelectionState(item);
 			}
@@ -334,7 +339,7 @@ namespace Files.App.Views.LayoutModes
 							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
 					}
 				}
-				else if(ctrlPressed && shiftPressed)
+				else if (ctrlPressed && shiftPressed)
 				{
 					NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
 				}

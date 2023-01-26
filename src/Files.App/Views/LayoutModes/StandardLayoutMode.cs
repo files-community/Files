@@ -24,7 +24,7 @@ namespace Files.App
 	{
 		private const int KEY_DOWN_MASK = 0x8000;
 
-		protected int NextRenameIndex = -1;
+		protected int NextRenameIndex = 0;
 
 		protected abstract ListViewBase ListViewBase
 		{
@@ -232,19 +232,20 @@ namespace Files.App
 					textBox.LostFocus -= RenameTextBox_LostFocus;
 
 					var isShiftPressed = (GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
-					if (!isShiftPressed && ListViewBase.SelectedIndex != ListViewBase.Items.Count - 1)
-						NextRenameIndex = ListViewBase.SelectedIndex + 1;
-					else if (isShiftPressed && ListViewBase.SelectedIndex != 0)
-						NextRenameIndex = ListViewBase.SelectedIndex - 1;
+					NextRenameIndex = isShiftPressed ? -1 : 1;
 
 					if (textBox.Text != OldItemName)
 						await CommitRename(textBox);
 					else
 					{
+						var newIndex = ListViewBase.SelectedIndex + NextRenameIndex;
+						NextRenameIndex = 0;
 						EndRename(textBox);
-						ListViewBase.SelectedIndex = NextRenameIndex;
-						NextRenameIndex = -1; 
-						StartRenameItem();
+						if (newIndex >= 0 && newIndex < ListViewBase.Items.Count)
+						{
+							ListViewBase.SelectedIndex = newIndex;
+							StartRenameItem();
+						}
 					}
 
 					e.Handled = true;

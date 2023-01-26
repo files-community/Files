@@ -92,14 +92,19 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
 		{
-			if (NextRenameIndex != -1)
+			if (NextRenameIndex != 0)
 			{
-				FileList.SelectedIndex = NextRenameIndex;
-				NextRenameIndex = -1;
-				StartRenameItem();
+				var itemIndex = FileList.Items.IndexOf(e) + NextRenameIndex;
+				NextRenameIndex = 0;
+				if (itemIndex >= 0 && itemIndex < FileList.Items.Count)
+				{
+					FileList.SelectedIndex = itemIndex;
+					StartRenameItem();
+					return;
+				}
 			}
-			else
-				FileList?.SelectedItems.Add(e);
+			
+			FileList?.SelectedItems.Add(e);
 		}
 
 		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
