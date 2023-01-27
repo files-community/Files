@@ -638,6 +638,8 @@ namespace Files.App.Interacts
 				return (sources, string.Empty, string.Empty);
 
 			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory.Normalize();
+			if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)
+				directory = library.DefaultSaveFolder;
 			string fileName = Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
 
 			return (sources, directory, fileName);
