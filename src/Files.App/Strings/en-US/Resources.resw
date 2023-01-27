@@ -2889,4 +2889,7 @@
   <data name="ViewMore" xml:space="preserve">
     <value>View more</value>
   </data>
+  <data name="ToolTipDescriptionSize" xml:space="preserve">
+    <value>Size:</value>
+  </data>
 </root>
