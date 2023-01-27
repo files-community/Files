@@ -1,5 +1,6 @@
 using Files.App.Extensions;
 using Files.App.Helpers;
+using Files.Backend.Helpers;
 using Files.Shared.Extensions;
 using SevenZip;
 using System;
@@ -14,7 +15,6 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using Files.Backend.Helpers;
 using IO = System.IO;
 
 namespace Files.App.Filesystem.StorageItems

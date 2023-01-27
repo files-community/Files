@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Extensions;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.Widgets.FileTagsWidget;
@@ -25,9 +26,9 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetName => nameof(BundlesWidget);
 
-		public string WidgetHeader => "File Tags";
+		public string WidgetHeader => "FileTags".GetLocalizedResource();
 
-		public string AutomationProperties => "File Tags Widget";
+		public string AutomationProperties => "FileTags".GetLocalizedResource();
 
 		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget;
 

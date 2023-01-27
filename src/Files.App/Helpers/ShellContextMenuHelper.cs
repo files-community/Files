@@ -199,13 +199,13 @@ namespace Files.App.Helpers
 						await contextMenu.InvokeItem(menuId);
 						break;
 				}
-				
+
 				void InstallFont(string path, bool asAdmin)
 				{
 					string dir = asAdmin ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
 						: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
 
-					string registryKey = asAdmin ? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts" 
+					string registryKey = asAdmin ? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
 						: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
 
 					Win32API.RunPowershellCommand($"-command \"Copy-Item '{path}' '{dir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(path)}' -Path '{registryKey}' -PropertyType string -Value '{dir}'\"", asAdmin);

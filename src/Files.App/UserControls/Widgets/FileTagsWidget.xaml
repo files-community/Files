@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vc="using:Files.App.ValueConverters"
@@ -110,9 +111,9 @@
 					<HyperlinkButton
 						Grid.Row="2"
 						Margin="8"
-						Command="{x:Bind ViewMoreCommand}"
 						HorizontalAlignment="Center"
-						Content="View more" />
+						Command="{x:Bind ViewMoreCommand}"
+						Content="{helpers:ResourceString Name=ViewMore}" />
 				</Grid>
 			</DataTemplate>
 		</ItemsRepeater.ItemTemplate>

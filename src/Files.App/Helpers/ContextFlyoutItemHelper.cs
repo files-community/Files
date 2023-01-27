@@ -4,6 +4,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Interacts;
 using Files.App.ViewModels;
+using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Enums;
@@ -18,7 +19,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
-using Files.Backend.Helpers;
 
 namespace Files.App.Helpers
 {

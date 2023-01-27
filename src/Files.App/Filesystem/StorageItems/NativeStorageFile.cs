@@ -203,7 +203,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
 		{
 			var hFile = NativeFileOperationsHelper.OpenFileForRead(Path, accessMode == FileAccessMode.ReadWrite);
-			return Task.FromResult(new FileStream(hFile, accessMode == FileAccessMode.ReadWrite ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream()).AsAsyncOperation();	
+			return Task.FromResult(new FileStream(hFile, accessMode == FileAccessMode.ReadWrite ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream()).AsAsyncOperation();
 		}
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);

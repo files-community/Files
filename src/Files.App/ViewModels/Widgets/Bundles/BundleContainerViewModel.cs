@@ -6,6 +6,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ViewModels.Dialogs;
+using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
@@ -21,7 +22,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Files.Backend.Helpers;
 
 namespace Files.App.ViewModels.Widgets.Bundles
 {

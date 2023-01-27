@@ -12,12 +12,14 @@ using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.ServicesImplementation.DateTimeFormatter;
 using Files.App.ServicesImplementation.Settings;
+using Files.App.Storage.NativeStorage;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
+using Files.Sdk.Storage;
 using Files.Shared;
 using Files.Shared.Cloud;
 using Files.Shared.Extensions;
@@ -38,9 +40,6 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
-using Files.App.Storage.NativeStorage;
-using Files.App.Storage.WindowsStorage;
-using Files.Sdk.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
