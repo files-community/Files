@@ -46,15 +46,16 @@ namespace Files.App.Filesystem
 		{
 			get
 			{
-				return $"{"ToolTipDescriptionName".GetLocalizedResource()} {Name}{Environment.NewLine}" +
-					$"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}{Environment.NewLine}" +
-					$"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}" +
-					(!String.IsNullOrWhiteSpace(FileSize)
-						? $"{Environment.NewLine}{"ToolTipDescriptionSize".GetLocalizedResource()} {FileSize}"
-						: string.Empty) +
-					(SyncStatusUI.LoadSyncStatus
-						? $"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}"
-						: string.Empty);
+				var tooltipBuilder = new StringBuilder();
+				tooltipBuilder.AppendLine($"{"ToolTipDescriptionName".GetLocalizedResource()} {Name}");
+				tooltipBuilder.AppendLine($"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}");
+				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
+				if(!string.IsNullOrWhiteSpace(FileSize))
+					tooltipBuilder.Append($"{Environment.NewLine}{"ToolTipDescriptionSize".GetLocalizedResource()} {FileSize}");
+				if(SyncStatusUI.LoadSyncStatus)
+					tooltipBuilder.Append($"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}");
+
+				return tooltipBuilder.ToString();
 			}
 		}
 
