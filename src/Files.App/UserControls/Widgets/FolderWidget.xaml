@@ -8,6 +8,23 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 	mc:Ignorable="d">
+
+	<UserControl.Resources>
+		<Style
+			x:Key="EnhancedButtonStyle"
+			BasedOn="{StaticResource DefaultButtonStyle}"
+			TargetType="Button">
+			<Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+			<Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="Padding" Value="16" />
+			<Setter Property="MinHeight" Value="48" />
+			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+		</Style>
+	</UserControl.Resources>
+
 	<Grid>
 		<ItemsRepeater
 			x:Name="CardsList"
@@ -37,6 +54,7 @@
 						CommandParameter="{x:Bind}"
 						CornerRadius="{StaticResource ControlCornerRadius}"
 						PointerPressed="Button_PointerPressed"
+						Style="{StaticResource EnhancedButtonStyle}"
 						Tag="{x:Bind Path}">
 						<Button.ContextFlyout>
 							<MenuFlyout Opening="MenuFlyout_Opening">
@@ -109,6 +127,7 @@
 								VerticalAlignment="Center"
 								FontSize="14"
 								HorizontalTextAlignment="Center"
+								Style="{StaticResource BodyTextBlockStyle}"
 								Text="{x:Bind Text}"
 								TextTrimming="WordEllipsis"
 								TextWrapping="NoWrap" />

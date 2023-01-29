@@ -8,46 +8,24 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 	mc:Ignorable="d">
+
+	<UserControl.Resources>
+		<Style
+			x:Key="EnhancedButtonStyle"
+			BasedOn="{StaticResource DefaultButtonStyle}"
+			TargetType="Button">
+			<Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+			<Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="Padding" Value="16" />
+			<Setter Property="MinHeight" Value="48" />
+			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+		</Style>
+	</UserControl.Resources>
+
 	<Grid>
-		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-
-			<!--  Map Drive button  -->
-			<Button
-				Grid.Column="1"
-				Width="36"
-				Height="32"
-				Padding="0"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Top"
-				HorizontalContentAlignment="Center"
-				VerticalContentAlignment="Center"
-				AutomationProperties.Name="{helpers:ResourceString Name=DrivesWidgetMoreOptionsButton/AutomationProperties/Name}"
-				Background="Transparent"
-				BorderBrush="Transparent"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=DrivesWidgetMoreOptionsButton/ToolTipService/ToolTip}">
-
-				<FontIcon
-					HorizontalAlignment="Center"
-					VerticalAlignment="Center"
-					FontSize="14"
-					Glyph="&#xe712;" />
-
-				<Button.Flyout>
-					<MenuFlyout>
-						<MenuFlyoutItem Click="MapNetworkDrive_Click" Text="{helpers:ResourceString Name=DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon Glyph="&#xE710;" />
-							</MenuFlyoutItem.Icon>
-						</MenuFlyoutItem>
-					</MenuFlyout>
-				</Button.Flyout>
-			</Button>
-		</Grid>
-
 		<ItemsRepeater
 			x:Name="CardsList"
 			HorizontalAlignment="Stretch"
@@ -74,6 +52,7 @@
 						Click="Button_Click"
 						CornerRadius="{StaticResource ControlCornerRadius}"
 						PointerPressed="Button_PointerPressed"
+						Style="{StaticResource EnhancedButtonStyle}"
 						Tag="{x:Bind Item.Path}"
 						ToolTipService.ToolTip="{x:Bind Item.Text, Mode=OneWay}">
 						<Button.ContextFlyout>
@@ -160,7 +139,7 @@
 							</MenuFlyout>
 						</Button.ContextFlyout>
 						<Grid
-							Margin="8"
+							Margin="12,8,8,8"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
 							ColumnSpacing="8">
@@ -174,6 +153,7 @@
 								<RowDefinition Height="*" />
 								<RowDefinition Height="*" />
 							</Grid.RowDefinitions>
+
 							<Image
 								Grid.RowSpan="3"
 								Grid.Column="0"
@@ -238,7 +218,8 @@
 								VerticalAlignment="Center"
 								x:Load="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
 								x:Phase="1"
-								FontSize="12"
+								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+								Style="{StaticResource CaptionTextBlockStyle}"
 								Text="{x:Bind Item.SpaceText, Mode=OneWay}"
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap"
@@ -248,5 +229,37 @@
 				</DataTemplate>
 			</ItemsRepeater.ItemTemplate>
 		</ItemsRepeater>
+
+		<!--  Map Drive button  -->
+		<Button
+			Grid.Column="1"
+			Width="36"
+			Height="32"
+			Padding="0"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Top"
+			HorizontalContentAlignment="Center"
+			VerticalContentAlignment="Center"
+			AutomationProperties.Name="{helpers:ResourceString Name=DrivesWidgetMoreOptionsButton/AutomationProperties/Name}"
+			Background="Transparent"
+			BorderThickness="0"
+			ToolTipService.ToolTip="{helpers:ResourceString Name=DrivesWidgetMoreOptionsButton/ToolTipService/ToolTip}">
+
+			<FontIcon
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				FontSize="14"
+				Glyph="&#xe712;" />
+
+			<Button.Flyout>
+				<MenuFlyout Placement="Top">
+					<MenuFlyoutItem Click="MapNetworkDrive_Click" Text="{helpers:ResourceString Name=DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text}">
+						<MenuFlyoutItem.Icon>
+							<FontIcon Glyph="&#xE710;" />
+						</MenuFlyoutItem.Icon>
+					</MenuFlyoutItem>
+				</MenuFlyout>
+			</Button.Flyout>
+		</Button>
 	</Grid>
 </UserControl>
