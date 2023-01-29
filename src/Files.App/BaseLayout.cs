@@ -245,7 +245,6 @@ namespace Files.App
 					}
 
 					NotifyPropertyChanged(nameof(SelectedItems));
-					//ItemManipulationModel.SetDragModeForItems();
 				}
 
 				ParentShellPageInstance!.ToolbarViewModel.SelectedItems = value;
@@ -633,7 +632,7 @@ namespace Files.App
 		private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
 		{
 			var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
-			var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4);
+			var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
 			var overflowShellMenuItems = shellMenuItems.Except(mainShellMenuItems).ToList();
 
 			var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);

@@ -83,7 +83,7 @@ namespace Files.App.Helpers
 				{
 					var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
 					{
-						Text = "ContextMenuMoreItemsLabel".GetLocalizedResource(),
+						Text = "ShowMoreOptions".GetLocalizedResource(),
 						Glyph = "\xE712",
 					};
 					LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);

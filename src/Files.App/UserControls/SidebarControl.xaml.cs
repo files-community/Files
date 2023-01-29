@@ -314,7 +314,7 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ContextMenuMoreItemsLabel".GetLocalizedResource(),
+					Text = "ShowMoreOptions".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
@@ -494,7 +494,7 @@ namespace Files.App.UserControls
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
+			if (!userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
 				secondaryElements.OfType<FrameworkElement>()
 								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
 
@@ -1032,7 +1032,7 @@ namespace Files.App.UserControls
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
 					new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
-				if (!userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
+				if (!userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
 				{
 					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
 					if (!secondaryElements.Any())

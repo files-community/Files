@@ -16,7 +16,7 @@ namespace Files.App.Helpers
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-			if (userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences
+			if (!userSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories
 				&& folderSettings.IsAdaptiveLayoutEnabled
 				&& !folderSettings.IsLayoutModeFixed)
 			{
