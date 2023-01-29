@@ -177,6 +177,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
 			ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value is not null));
 		}
+		
 		public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
 		{
 			if (!Lat.HasValue || !Lon.HasValue)
