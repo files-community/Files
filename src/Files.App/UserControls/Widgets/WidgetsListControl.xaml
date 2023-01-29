@@ -161,24 +161,6 @@
 
 	<Grid>
 		<ListView ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}" SelectionMode="None">
-
-			<!--  Remove Reveal Highlight Effect  -->
-			<ListView.ItemContainerStyle>
-				<Style TargetType="ListViewItem">
-					<!--  Spacing  -->
-					<Setter Property="Margin" Value="4" />
-					<Setter Property="Template">
-						<Setter.Value>
-							<ControlTemplate TargetType="ListViewItem">
-								<ListViewItemPresenter
-									x:Name="Root"
-									HorizontalContentAlignment="Stretch"
-									VerticalContentAlignment="Stretch" />
-							</ControlTemplate>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</ListView.ItemContainerStyle>
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
 					<Expander
