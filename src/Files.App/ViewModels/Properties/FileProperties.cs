@@ -159,6 +159,15 @@ namespace Files.App.ViewModels.Properties
 
 			list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
 																						   (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+			// Find Encoding Bitrate property and convert it to kbps
+			var encodingBitrate = list.Find(x => x.Property == "System.Audio.EncodingBitrate");
+			if (encodingBitrate is not null)
+			{
+				var sizes = new string[] { "Bps", "KBps", "MBps", "GBps" };
+				var order = (int)Math.Floor(Math.Log((uint)encodingBitrate.Value, 1024));
+				var readableSpeed = (uint)encodingBitrate.Value / Math.Pow(1024, order);
+				encodingBitrate.Value = $"{readableSpeed:0.##} {sizes[order]}";
+			}
 
 			var query = list
 				.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))

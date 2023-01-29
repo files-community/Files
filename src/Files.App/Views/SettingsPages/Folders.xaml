@@ -42,48 +42,17 @@
 
 			<!--  Folder Overrides  -->
 			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=EnableOverridingFolderPreferences}"
+				Title="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
 				HorizontalAlignment="Stretch"
-				Description="{helpers:ResourceString Name=EnableOverridingFolderPreferencesDescription}"
 				IsExpanded="True">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE2AC;" />
 				</local:SettingsBlockControl.Icon>
 
 				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=EnableOverridingFolderPreferences}"
-					IsOn="{x:Bind ViewModel.EnableOverridingFolderPreferences, Mode=TwoWay}"
+					AutomationProperties.Name="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
+					IsOn="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<!--  Reset folder overrides  -->
-						<local:SettingsBlockControl
-							x:Name="ResetLayoutPreferencesButton"
-							Title="{helpers:ResourceString Name=ResetFolderPreferencesOverrides}"
-							ButtonCommand="{x:Bind ViewModel.ShowResetLayoutPreferencesTipCommand, Mode=OneWay}"
-							IsClickable="True">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon
-									FontSize="14"
-									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-									Glyph="&#xE104;" />
-							</local:SettingsBlockControl.Icon>
-							<FontIcon
-								HorizontalAlignment="Right"
-								FontSize="14"
-								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-								Glyph="&#xE2B4;" />
-						</local:SettingsBlockControl>
-						<muxc:TeachingTip
-							Title="{helpers:ResourceString Name=AreYouSure}"
-							ActionButtonCommand="{x:Bind ViewModel.ResetLayoutPreferencesCommand, Mode=OneWay}"
-							ActionButtonContent="{helpers:ResourceString Name=Confirm}"
-							IsLightDismissEnabled="True"
-							IsOpen="{x:Bind ViewModel.IsResetLayoutPreferencesTipOpen, Mode=TwoWay}"
-							Subtitle="{helpers:ResourceString Name=ResetLayoutPreferences}"
-							Target="{x:Bind ResetLayoutPreferencesButton}" />
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
 			<!--  Details layout columns  -->
