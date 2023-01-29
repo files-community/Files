@@ -155,7 +155,7 @@ namespace Files.App.UserControls.Widgets
 		private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (item is null || await DriveHelpers.CheckEmptyDrive(item.Path))
+			if (await DriveHelpers.CheckEmptyDrive(item?.Path))
 				return;
 			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
 		}

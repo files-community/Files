@@ -27,8 +27,10 @@ namespace Files.App.Helpers
 		public static Task OpenPathInNewTab(string? path)
 			=> MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 
-		public static Task<bool> OpenPathInNewWindowAsync(string path)
+		public static Task<bool> OpenPathInNewWindowAsync(string? path)
 		{
+			if (string.IsNullOrWhiteSpace(path))
+				return Task.FromResult(false);
 			var folderUri = new Uri($"files-uwp:?folder={Uri.EscapeDataString(path)}");
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
