@@ -159,7 +159,7 @@
 		</Style>
 	</UserControl.Resources>
 
-	<Grid>
+	<Border>
 		<ListView ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}" SelectionMode="None">
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
@@ -189,5 +189,5 @@
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
-	</Grid>
+	</Border>
 </UserControl>
