@@ -232,7 +232,6 @@
 
 		<!--  Map Drive button  -->
 		<Button
-			Grid.Column="1"
 			Width="36"
 			Height="32"
 			Padding="0"
