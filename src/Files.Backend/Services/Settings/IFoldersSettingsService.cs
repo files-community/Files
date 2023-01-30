@@ -1,4 +1,5 @@
-﻿using Files.Shared.Enums;
+﻿using Files.Sdk.Storage;
+using Files.Shared.Enums;
 using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings
@@ -101,9 +102,9 @@ namespace Files.Backend.Services.Settings
 		double OriginalPathColumnWidth { get; set; }
 
 		/// <summary>
-		/// Enable overriding folder preferencess in individual directories
+		/// Sync folder preferences across all directories
 		/// </summary>
-		bool EnableOverridingFolderPreferences { get; set; }
+		bool SyncFolderPreferencesAcrossDirectories { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not hidden items should be visible.
