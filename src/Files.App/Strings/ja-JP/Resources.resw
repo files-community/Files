@@ -227,7 +227,7 @@
     <value>すべてのファイルとフォルダーを表示する</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>ドットファイルを表示する</value>
+    <value>ドット ファイルを表示する</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>実験的機能</value>
@@ -1214,7 +1214,7 @@
     <value>更新あり</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>保護されたシステムファイルを表示する</value>
+    <value>保護されたシステム ファイルを表示する</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>インデックスされていないファイルを検索結果に含める</value>
@@ -1223,7 +1223,7 @@
     <value>フォルダーの追加設定をリセット</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>この設定がオフのときに変更したフォルダーのレイアウトは、すべてのフォルダーに適用されます。</value>
+    <value>この設定がオフのときに変更したレイアウトは、すべてのフォルダーに適用されます。</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
     <value>レイアウトをフォルダーごとに設定する</value>
@@ -1514,7 +1514,7 @@
     <value>ファイル数</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>削除に失敗しました</value>
+    <value>削除失敗</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>不明なエラーが発生しました。</value>
@@ -1919,7 +1919,7 @@
     <value>ファイルをコピーしています</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>ごみ箱から元に戻せませんでした</value>
+    <value>リサイクル失敗</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>ごみ箱から元に戻す操作がキャンセルされました</value>
@@ -2096,7 +2096,7 @@
     <value>ファイルの作成</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>サブディレクトリとファイルを削除</value>
+    <value>サブフォルダーとファイルを削除</value>
   </data>
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
     <value>ファイルの実行</value>
@@ -2660,7 +2660,7 @@
     <value>ファイルを準備中</value>
   </data>
   <data name="StatusCopyFailed" xml:space="preserve">
-    <value>コピーに失敗しました</value>
+    <value>コピー失敗</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
     <value>{0} ファイルを {1} から {2} へコピーできませんでした</value>
@@ -2669,7 +2669,7 @@
     <value>{0} ファイルを {1} から {2} へコピーできませんでした</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
-    <value>移動に失敗しました</value>
+    <value>移動失敗</value>
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>タグ</value>
@@ -2723,7 +2723,7 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>代替データストリームを表示する</value>
+    <value>代替データ ストリームを表示する</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Files を評価</value>
@@ -2765,7 +2765,7 @@
     <value>リセット</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>この操作を行うと、すべてのフォルダーがデフォルト設定にリセットされます</value>
+    <value>この操作を行うと、すべてのフォルダーがデフォルトの設定にリセットされます。</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
     <value>よろしいですか？</value>

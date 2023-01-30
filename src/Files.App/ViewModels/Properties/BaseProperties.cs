@@ -33,8 +33,10 @@ namespace Files.App.ViewModels.Properties
 		public async void GetOtherProperties(IStorageItemExtraProperties properties)
 		{
 			string dateAccessedProperty = "System.DateAccessed";
-			List<string> propertiesName = new List<string>();
-			propertiesName.Add(dateAccessedProperty);
+			List<string> propertiesName = new()
+			{
+				dateAccessedProperty
+			};
 			IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
 
 			// Cannot get date and owner in MTP devices
