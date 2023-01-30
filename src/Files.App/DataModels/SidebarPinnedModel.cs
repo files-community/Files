@@ -6,7 +6,6 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -16,7 +15,6 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.DataModels
@@ -38,9 +36,7 @@ namespace Files.App.DataModels
 			get
 			{
 				lock (favoriteList)
-				{
 					return favoriteList.ToList().AsReadOnly();
-				}
 			}
 		}
 
