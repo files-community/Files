@@ -14,7 +14,7 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class AddItemDialog : ContentDialog, IDialog<AddItemDialogViewModel>
 	{
-		private readonly IAddItemService addItemTypesService = Ioc.Default.GetRequiredService<IAddItemService>();
+		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
 		public AddItemDialogViewModel ViewModel
 		{
@@ -37,7 +37,7 @@ namespace Files.App.Dialogs
 
 		private async void AddItemDialog_Loaded(object sender, RoutedEventArgs e)
 		{
-			var itemTypes = await addItemTypesService.GetNewEntriesAsync();
+			var itemTypes = await addItemService.GetNewEntriesAsync();
 			await ViewModel.AddItemsToList(itemTypes);
 
 			// Focus on the list view so users can use keyboard navigation
