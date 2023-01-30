@@ -218,7 +218,7 @@
     <value>날짜 형식</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>테마</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>알려진 파일 유형에 대해 확장자 표시</value>
@@ -236,7 +236,7 @@
     <value>모양</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>배경 화면</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>실험실</value>
@@ -2846,7 +2846,7 @@
     <value>경로</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>정렬 및 그룹화</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>보관</value>
@@ -2918,12 +2918,12 @@
     <value>상태 열 동기화</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>그룹화 기준</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>정렬 기준</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>Windows 파일 탐색기에서 최근 사용된 파일은 현재 사용할 수 없습니다.</value>
   </data>
 </root>
