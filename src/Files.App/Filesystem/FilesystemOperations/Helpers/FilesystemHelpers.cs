@@ -787,7 +787,7 @@ namespace Files.App.Filesystem
 								if (charsCopied > 0)
 								{
 									string path = buffer[..(int)charsCopied];
-									itemPaths.Add(path);
+									itemPaths.Add(Path.GetFullPath(path));
 								}
 							}
 
