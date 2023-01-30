@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Files.App.ServicesImplementation
 {
-	/// <inheritdoc cref="IAddItemTypesService"/>
-	internal sealed class AddItemTypesService : IAddItemTypesService
+	/// <inheritdoc cref="IAddItemService"/>
+	internal sealed class AddItemService : IAddItemService
 	{
 		private List<ShellNewEntry> _cached;
 

@@ -122,7 +122,7 @@ namespace Files.App
 				.AddSingleton<IThreadingService, ThreadingService>()
 				.AddSingleton<ILocalizationService, LocalizationService>()
 				.AddSingleton<ICloudDetector, CloudDetector>()
-				.AddSingleton<IAddItemTypesService, AddItemTypesService>()
+				.AddSingleton<IAddItemService, AddItemService>()
 #if SIDELOAD
 				.AddSingleton<IUpdateService, SideloadUpdateService>()
 #else

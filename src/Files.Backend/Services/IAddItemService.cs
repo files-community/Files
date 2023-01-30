@@ -7,7 +7,7 @@ namespace Files.Backend.Services
 	/// <summary>
 	/// A service to retrieve available item types
 	/// </summary>
-	public interface IAddItemTypesService
+	public interface IAddItemService
 	{
 		/// <summary>
 		/// Gets a list of the available item types
