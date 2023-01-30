@@ -211,7 +211,7 @@
     <value>Remove this item</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub respository</value>
+    <value>GitHub repository</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>About</value>
