@@ -39,15 +39,10 @@ namespace Files.App.ServicesImplementation
 			dynamic? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, new object[] { "shell:::{679f85cb-0220-4080-b29b-5540cc05aab6}" });
 
 			foreach (dynamic? fi in f2.Items())
-			{
 				if (folderPaths.Contains((string)fi.Path))
-				{
-					App.Logger.Info($"Unpinning {fi.Verbs()}");
 					await SafetyExtensions.IgnoreExceptions(async () => { 
 						await fi.InvokeVerb("unpinfromhome");
 					});
-				}
-			}
 
 			await Controller.LoadAsync();
 		}
