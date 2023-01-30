@@ -17,11 +17,13 @@ using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Enums;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -215,7 +217,6 @@ namespace Files.App.Views
 			Feel free to edit its position, behavior and use the custom back button instead.
 			Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
 			*/
-			//SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
 
 			App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
 
@@ -264,9 +265,9 @@ namespace Files.App.Views
 		 */
 		protected void ShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
 		{
-			var ctrl = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-			var shift = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var alt = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
+			var ctrl = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			var shift = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+			var alt = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
 			var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
 							  CurrentPageType == typeof(GridViewBrowser) ||
 							  CurrentPageType == typeof(ColumnViewBrowser) ||
@@ -281,10 +282,6 @@ namespace Files.App.Views
 
 					// TODO open path in Windows Terminal
 					args.Handled = true;
-					break;
-
-				case (false, false, false, true, VirtualKey.Space): // space, quick look
-																	// handled in `CurrentPageType`::FileList_PreviewKeyDown
 					break;
 
 				case (true, false, false, true, VirtualKey.Space): // ctrl + space, toggle media playback
@@ -497,11 +494,7 @@ namespace Files.App.Views
 		public virtual void Back_Click()
 		{
 			var previousPageContent = ItemDisplay.BackStack[ItemDisplay.BackStack.Count - 1];
-			var previousPageNavPath = previousPageContent.Parameter as NavigationArguments;
-			previousPageNavPath.IsLayoutSwitch = false;
-			if (previousPageContent.SourcePageType != typeof(WidgetsPage))
-				InstanceViewModel.FolderSettings.GetLayoutType(previousPageNavPath.IsSearchResultPage ? previousPageNavPath.SearchPathParam : previousPageNavPath.NavPathParam); // Update layout type
-			SelectSidebarItemFromPath(previousPageContent.SourcePageType);
+			HandleBackForwardRequest(previousPageContent);
 
 			if (previousPageContent.SourcePageType == typeof(WidgetsPage))
 				ItemDisplay.GoBack(new EntranceNavigationTransitionInfo());
@@ -512,11 +505,7 @@ namespace Files.App.Views
 		public virtual void Forward_Click()
 		{
 			var incomingPageContent = ItemDisplay.ForwardStack[ItemDisplay.ForwardStack.Count - 1];
-			var incomingPageNavPath = incomingPageContent.Parameter as NavigationArguments;
-			incomingPageNavPath.IsLayoutSwitch = false;
-			if (incomingPageContent.SourcePageType != typeof(WidgetsPage)) // Update layout type
-				InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
-			SelectSidebarItemFromPath(incomingPageContent.SourcePageType);
+			HandleBackForwardRequest(incomingPageContent);
 			ItemDisplay.GoForward();
 		}
 
@@ -689,6 +678,15 @@ namespace Files.App.Views
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
 			return contentDialog;
+		}
+
+		private void HandleBackForwardRequest(PageStackEntry pageContent)
+		{
+			var incomingPageNavPath = pageContent.Parameter as NavigationArguments;
+			incomingPageNavPath.IsLayoutSwitch = false;
+			if (pageContent.SourcePageType != typeof(WidgetsPage)) // Update layout type
+				InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
+			SelectSidebarItemFromPath(pageContent.SourcePageType);
 		}
 
 		public abstract void Up_Click();
