@@ -333,13 +333,15 @@ namespace Files.App.Views.LayoutModes
 							ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						break;
 					default:
-						ParentShellPageInstance.Up_Click();
+						if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
+							ParentShellPageInstance.Up_Click();
 						break;
 				}
 			}
 			else
 			{
-				ParentShellPageInstance.Up_Click();
+				if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
+					ParentShellPageInstance.Up_Click();
 			}
 
 			ResetRenameDoubleClick();

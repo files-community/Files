@@ -1,4 +1,5 @@
-﻿using Files.Shared.Enums;
+﻿using Files.Sdk.Storage;
+using Files.Shared.Enums;
 using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings
@@ -101,9 +102,9 @@ namespace Files.Backend.Services.Settings
 		double OriginalPathColumnWidth { get; set; }
 
 		/// <summary>
-		/// Enable overriding folder preferencess in individual directories
+		/// Sync folder preferences across all directories
 		/// </summary>
-		bool EnableOverridingFolderPreferences { get; set; }
+		bool SyncFolderPreferencesAcrossDirectories { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not hidden items should be visible.
@@ -174,5 +175,10 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating whether or not to select files and folders when hovering them.
 		/// </summary>
 		bool SelectFilesOnHover { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if double clicking a blank space should go up a directory.
+		/// </summary>
+		bool DoubleClickToGoUp { get; set; }
 	}
 }

@@ -454,7 +454,8 @@ namespace Files.App.Views.LayoutModes
 			}
 			else
 			{
-				ParentShellPageInstance.Up_Click();
+				if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
+					ParentShellPageInstance.Up_Click();
 			}
 			ResetRenameDoubleClick();
 		}
