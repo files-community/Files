@@ -150,6 +150,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		private async Task InitStartupSettingsRecentFoldersFlyout()
 		{
+			// create Browse and Recent flyout items
 			var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalizedResource());
 			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource())
 			{
@@ -157,15 +158,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 				CommandParameter = "Home".GetLocalizedResource(),
 				Tooltip = "Home".GetLocalizedResource()
 			});
+			await PopulateRecentItems(recentsItem);
 
-			await App.RecentItemsManager.UpdateRecentFoldersAsync();    // ensure recent folders aren't stale since we don't update them with a watcher
-			await PopulateRecentItems(recentsItem).ContinueWith(_ =>
-			{
-				AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>() {
-					new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand },
-					recentsItem,
-				}.AsReadOnly();
-			}, TaskScheduler.FromCurrentSynchronizationContext());
+			// ensure recent folders aren't stale since we don't update them with a watcher
+			// then update the items source again to actually include those items
+			await App.RecentItemsManager.UpdateRecentFoldersAsync();
+			await PopulateRecentItems(recentsItem);
 		}
 
 		private Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
@@ -173,26 +171,39 @@ namespace Files.App.ViewModels.SettingsViewModels
 			try
 			{
 				var recentFolders = App.RecentItemsManager.RecentFolders;
+				var currentFolderMenus = menu.Items
+					.OfType<MenuFlyoutItemViewModel>()
+					.Where(m => m.Text != "Home".GetLocalizedResource())
+					.Select(m => m.Text)
+					.ToHashSet();
 
-				// add separator
-				if (recentFolders.Any())
+				// add separator if we need one and one wasn't added already
+				if (recentFolders.Any() && !currentFolderMenus.Any())
 					menu.Items.Add(new MenuFlyoutSeparatorViewModel());
 
-				foreach (var recentFolder in recentFolders)
+				foreach (var folder in recentFolders)
 				{
-					var menuItem = new MenuFlyoutItemViewModel(recentFolder.Name)
+					if (currentFolderMenus.Contains(folder.Name))
+						continue;
+
+					menu.Items.Add(new MenuFlyoutItemViewModel(folder.Name)
 					{
 						Command = AddPageCommand,
-						CommandParameter = recentFolder.RecentPath,
-						Tooltip = recentFolder.RecentPath
-					};
-					menu.Items.Add(menuItem);
+						CommandParameter = folder.RecentPath,
+						Tooltip = folder.RecentPath
+					});
 				}
 			}
 			catch (Exception ex)
 			{
 				App.Logger.Info(ex, "Could not fetch recent items");
 			}
+
+			// update items source
+			AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>() {
+				new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand },
+				menu,
+			}.AsReadOnly();
 
 			return Task.CompletedTask;
 		}
