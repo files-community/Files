@@ -4,7 +4,9 @@ using Files.App.Controllers;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.Helpers;
+using Files.App.ServicesImplementation;
 using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -26,11 +28,9 @@ namespace Files.App.DataModels
 		private SidebarPinnedController? controller;
 
 		private readonly SemaphoreSlim addSyncSemaphore = new SemaphoreSlim(1, 1);
-
-		[JsonPropertyName("items")]
 		public List<string> FavoriteItems { get; set; } = new List<string>();
 
-		private readonly List<INavigationControlItem> favoriteList = new List<INavigationControlItem>();
+		private readonly List<INavigationControlItem> favoriteList = new();
 
 		[JsonIgnore]
 		public IReadOnlyList<INavigationControlItem> Favorites
@@ -50,64 +50,27 @@ namespace Files.App.DataModels
 		}
 
 		/// <summary>
-		/// Adds the default items to the navigation page
+		/// Updates items with the pinned items from the explorer sidebar
 		/// </summary>
-		public void AddDefaultItems()
+		public async Task UpdateItemsWithExplorer()
 		{
-			var udp = UserDataPaths.GetDefault();
-
-			FavoriteItems.Add(CommonPaths.DesktopPath);
-			FavoriteItems.Add(CommonPaths.DownloadsPath);
-			FavoriteItems.Add(udp.Documents);
-			FavoriteItems.Add(CommonPaths.RecycleBinPath);
-		}
-
-		/// <summary>
-		/// Gets the items from the navigation page
-		/// </summary>
-		public List<string> GetItems()
-		{
-			return FavoriteItems;
-		}
-
-		/// <summary>
-		/// Adds the item to the navigation page
-		/// </summary>
-		/// <param name="item">Item to remove</param>
-		public async void AddItem(string item)
-		{
-			// add to `FavoriteItems` and `favoritesList` must be atomic
 			await addSyncSemaphore.WaitAsync();
 
 			try
 			{
-				if (!string.IsNullOrEmpty(item) && !FavoriteItems.Contains(item))
-				{
-					FavoriteItems.Add(item);
-					await AddItemToSidebarAsync(item);
-					Save();
-				}
+				var pinnedFiles = await PinnedItemsService.GetRecentFilesAsync();
+				pinnedFiles.RemoveRange(pinnedFiles.Count - 4, 4);
+				App.Logger.Warn("length: " + pinnedFiles.Count);
+
+				FavoriteItems = pinnedFiles; // The -4 is to remove the recent folders shown in the windows quick access
+				RemoveStaleSidebarItems();
+				await AddAllItemsToSidebar();
 			}
 			finally
 			{
 				addSyncSemaphore.Release();
 			}
 		}
-
-		/// <summary>
-		/// Removes the item from the navigation page
-		/// </summary>
-		/// <param name="item">Item to remove</param>
-		public void RemoveItem(string item)
-		{
-			if (FavoriteItems.Contains(item))
-			{
-				FavoriteItems.Remove(item);
-				RemoveStaleSidebarItems();
-				Save();
-			}
-		}
-
 		/// <summary>
 		/// Moves the location item in the Favorites sidebar section from the old position to the new position
 		/// </summary>
@@ -134,7 +97,6 @@ namespace Files.App.DataModels
 				}
 				var e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, locationItem, newIndex, oldIndex);
 				controller?.DataChanged?.Invoke(SectionType.Favorites, e);
-				Save();
 				return true;
 			}
 			catch (Exception ex)
@@ -178,22 +140,6 @@ namespace Files.App.DataModels
 				return favoriteList.FindIndex(x => x.Path == locationItem.Path);
 			}
 		}
-
-		/// <summary>
-		/// Returns the index of the location item in the collection containing Navigation control items
-		/// </summary>
-		/// <param name="locationItem">The location item</param>
-		/// <param name="collection">The collection in which to find the location item</param>
-		/// <returns>Index of the item</returns>
-		public int IndexOfItem(INavigationControlItem locationItem, List<INavigationControlItem> collection)
-		{
-			return collection.IndexOf(locationItem);
-		}
-
-		/// <summary>
-		/// Saves the model
-		/// </summary>
-		public void Save() => controller?.SaveModel();
 
 		/// <summary>
 		/// Adds the item (from a path) to the navigation sidebar

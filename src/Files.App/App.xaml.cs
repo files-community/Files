@@ -194,7 +194,7 @@ namespace Files.App
 					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), preferencesSettingsService.ShowNetworkDrivesSection),
 					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), preferencesSettingsService.ShowWslSection),
 					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), preferencesSettingsService.ShowFileTagsSection),
-					SidebarPinnedController.InitializeAsync()
+					SidebarPinnedController.LoadAsync()
 				);
 				await Task.WhenAll(
 					JumpList.InitializeAsync(),

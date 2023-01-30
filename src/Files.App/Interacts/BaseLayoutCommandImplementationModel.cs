@@ -130,16 +130,12 @@ namespace Files.App.Interacts
 
 		public virtual void SidebarPinItem(RoutedEventArgs e)
 		{
-			PinnedItemsService.PinToSidebar((string[])SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-
-			SidebarHelpers.PinItems(SlimContentPage.SelectedItems);
+			_ = PinnedItemsService.PinToSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
 		}
 
 		public virtual void SidebarUnpinItem(RoutedEventArgs e)
 		{
-			PinnedItemsService.UnpinFromSidebar((string[])SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-
-			SidebarHelpers.UnpinItems(SlimContentPage.SelectedItems);
+			_ = PinnedItemsService.UnpinFromSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
 		}
 
 		public virtual void OpenItem(RoutedEventArgs e)
@@ -149,7 +145,7 @@ namespace Files.App.Interacts
 
 		public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
 		{
-			App.SidebarPinnedController.Model.RemoveItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
+			_ = PinnedItemsService.UnpinFromSidebar(associatedInstance.FilesystemViewModel.WorkingDirectory);
 		}
 
 		public virtual async void EmptyRecycleBin(RoutedEventArgs e)
@@ -392,7 +388,7 @@ namespace Files.App.Interacts
 
 		public virtual void PinDirectoryToFavorites(RoutedEventArgs e)
 		{
-			App.SidebarPinnedController.Model.AddItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
+			PinnedItemsService.PinToSidebar(new[] { associatedInstance.FilesystemViewModel.WorkingDirectory });
 		}
 
 		public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)

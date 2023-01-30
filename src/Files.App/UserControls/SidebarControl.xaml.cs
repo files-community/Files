@@ -384,12 +384,12 @@ namespace Files.App.UserControls
 		private void PinItem()
 		{
 			if (rightClickedItem is DriveItem)
-				App.SidebarPinnedController.Model.AddItem(rightClickedItem.Path);
+				_ = PinnedItemsService.PinToSidebar(new[] { rightClickedItem.Path });
 		}
 		private void UnpinItem()
 		{
 			if (rightClickedItem.Section == SectionType.Favorites || rightClickedItem is DriveItem)
-				App.SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path);
+				_ = PinnedItemsService.UnpinFromSidebar(rightClickedItem.Path);
 		}
 
 		private void MoveItemToTop()
@@ -728,7 +728,7 @@ namespace Files.App.UserControls
 					foreach (var item in storageItems)
 					{
 						if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
-							SidebarPinnedModel.AddItem(item.Path);
+							PinnedItemsService.PinToSidebar(item.Path);
 					}
 				}
 				else

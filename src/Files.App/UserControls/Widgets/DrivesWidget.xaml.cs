@@ -6,6 +6,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
+using Files.App.ServicesImplementation;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
@@ -38,6 +39,8 @@ namespace Files.App.UserControls.Widgets
 			get => thumbnail;
 			set => SetProperty(ref thumbnail, value);
 		}
+
+		private PinnedItemsService PinnedItemsService = Ioc.Default.GetRequiredService<PinnedItemsService>();
 
 		public DriveCardItem(DriveItem item)
 		{
@@ -180,7 +183,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				return;
 			}
-			App.SidebarPinnedController.Model.AddItem(item.Path);
+			_ = PinnedItemsService.PinToSidebar(item.Path);
 		}
 
 		private async void UnpinFromFavorites_Click(object sender, RoutedEventArgs e)
@@ -190,7 +193,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				return;
 			}
-			App.SidebarPinnedController.Model.RemoveItem(item.Path);
+			_ = PinnedItemsService.UnpinFromSidebar(item.Path);
 		}
 
 		private void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
