@@ -84,8 +84,7 @@ namespace Files.App.Filesystem
 		/// </summary>
 		public async Task UpdateRecentFoldersAsync()
 		{
-			// enumerate with fulltrust process
-			var enumeratedFolders = await Task.Run(() => ListRecentFolders());
+			var enumeratedFolders = await Task.Run(ListRecentFoldersAsync);	// run off the UI thread
 			if (enumeratedFolders is not null)
 			{
 				lock (recentFolders)
@@ -115,36 +114,44 @@ namespace Files.App.Filesystem
 		/// <summary>
 		/// Enumerate recently accessed folders via `Windows\Recent`.
 		/// </summary>
-		public List<RecentItem> ListRecentFolders()
+		public async Task<List<RecentItem>> ListRecentFoldersAsync()
 		{
 			var recentItems = new List<RecentItem>();
 			var excludeMask = FileAttributes.Hidden;
 			var linkFilePaths = Directory.EnumerateFiles(CommonPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
 
-			foreach (var linkFilePath in linkFilePaths)
+			Task<RecentItem?> GetRecentItemFromLink(string linkPath)
 			{
-				try
+				return Task.Run(() =>
 				{
-					using var link = new ShellLink(linkFilePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
-
-					if (!string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder)
+					try
 					{
-						var shellLinkItem = ShellFolderExtensions.GetShellLinkItem(link);
-						recentItems.Add(new RecentItem(shellLinkItem));
+						using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
+
+						if (!string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder)
+						{
+							var shellLinkItem = ShellFolderExtensions.GetShellLinkItem(link);
+							return new RecentItem(shellLinkItem);
+						}
 					}
-				}
-				catch (FileNotFoundException)
-				{
-					// occurs when shortcut or shortcut target is deleted and accessed (link.Target)
-					// consequently, we shouldn't include the item as a recent item
-				}
-				catch (Exception ex)
-				{
-					App.Logger.Warn(ex, ex.Message);
-				}
+					catch (FileNotFoundException)
+					{
+						// occurs when shortcut or shortcut target is deleted and accessed (link.Target)
+						// consequently, we shouldn't include the item as a recent item
+					}
+					catch (Exception ex)
+					{
+						App.Logger.Warn(ex, ex.Message);
+					}
+
+					return null;
+				});
 			}
 
-			return recentItems;
+			var recentFolderTasks = linkFilePaths.Select(GetRecentItemFromLink);
+			var result = await Task.WhenAll(recentFolderTasks);
+
+			return result.OfType<RecentItem>().ToList();
 		}
 
 		/// <summary>
