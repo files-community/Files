@@ -1,25 +1,24 @@
 ﻿using Files.App.Controllers;
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Filesystem;
 using Files.App.Shell;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Vanara.PInvoke;
 
 namespace Files.App.ServicesImplementation
 {
 	internal class PinnedItemsService
 	{
 		private readonly static SidebarPinnedController Controller = App.SidebarPinnedController;
-		public static async Task<List<string>> GetRecentFilesAsync()
+		public static async Task<List<string>> GetPinnedFilesAsync()
 		{
-			return (await Win32Shell.GetShellFolderAsync("::{679f85cb-0220-4080-b29b-5540cc05aab6}", "Enumerate", 0, 10000)).Enumerate
+			var sidebarItems =  (await Win32Shell.GetShellFolderAsync("::{679f85cb-0220-4080-b29b-5540cc05aab6}", "Enumerate", 0, 10000)).Enumerate
 				.Where(link => link.IsFolder)
 				.Select(link => link.FilePath).ToList();
+
+			sidebarItems.RemoveRange(sidebarItems.Count - 4, 4); // 4 is the number of recent items shown in explorer sidebar
+			return sidebarItems;
 		}
 
 		public static async Task PinToSidebar(string folderPath)

@@ -54,10 +54,7 @@ namespace Files.App.DataModels
 
 			try
 			{
-				var pinnedFiles = await PinnedItemsService.GetRecentFilesAsync();
-				pinnedFiles.RemoveRange(pinnedFiles.Count - 4, 4);
-
-				FavoriteItems = pinnedFiles; // The -4 is to remove the recent folders shown in the windows quick access
+				FavoriteItems = await PinnedItemsService.GetPinnedFilesAsync();
 				RemoveStaleSidebarItems();
 				await AddAllItemsToSidebar();
 			}
