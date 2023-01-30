@@ -45,11 +45,11 @@ namespace Files.App.Views
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
 
-		protected IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
+		protected readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
-		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		protected readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		protected IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetRequiredService<IUpdateService>();
+		protected readonly IUpdateService updateSettingsService = Ioc.Default.GetRequiredService<IUpdateService>();
 
 		public ToolbarViewModel ToolbarViewModel { get; } = new ToolbarViewModel();
 
@@ -302,7 +302,7 @@ namespace Files.App.Views
 			if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
 				await NavigationHelpers.OpenPath(item.ItemPath, this);
 			else if (e.ChosenSuggestion is null && !string.IsNullOrWhiteSpace(sender.Query))
-				SubmitSearch(sender.Query, UserSettingsService.PreferencesSettingsService.SearchUnindexedItems);
+				SubmitSearch(sender.Query, userSettingsService.PreferencesSettingsService.SearchUnindexedItems);
 		}
 
 		protected async void ShellPage_TextChanged(ISearchBox sender, SearchBoxTextChangedEventArgs e)
@@ -316,7 +316,7 @@ namespace Files.App.Views
 					Query = sender.Query,
 					Folder = FilesystemViewModel.WorkingDirectory,
 					MaxItemCount = 10,
-					SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems
+					SearchUnindexedItems = userSettingsService.PreferencesSettingsService.SearchUnindexedItems
 				};
 				sender.SetSuggestions((await search.SearchAsync()).Select(suggestion => new SuggestionModel(suggestion)));
 			}
@@ -637,7 +637,7 @@ namespace Files.App.Views
 			ToolbarViewModel.RotateImageLeftCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.CanExecute(null) == true);
 			ToolbarViewModel.RotateImageRightCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.CanExecute(null) == true);
 			ToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
-			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await UpdateSettingsService.DownloadUpdates());
+			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
 		}
 
 		protected async Task<BaseLayout> GetContentOrNullAsync()

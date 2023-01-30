@@ -223,7 +223,7 @@ namespace Files.App.Views
 					if (InstanceViewModel.CanCreateFileInPage)
 					{
 						var addItemDialogViewModel = new AddItemDialogViewModel();
-						await DialogService.ShowDialogAsync(addItemDialogViewModel);
+						await dialogService.ShowDialogAsync(addItemDialogViewModel);
 						if (addItemDialogViewModel.ResultType.ItemType == AddItemDialogItemType.Shortcut)
 							CreateNewShortcutFromDialog();
 						else if (addItemDialogViewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
@@ -303,7 +303,7 @@ namespace Files.App.Views
 					break;
 
 				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-					UserSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
+					userSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
 					break;
 
 				case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
