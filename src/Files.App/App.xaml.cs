@@ -181,6 +181,7 @@ namespace Files.App
 		private static async Task InitializeAppComponentsAsync()
 		{
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 			var preferencesSettingsService = userSettingsService.PreferencesSettingsService;
 
 			// Start off a list of tasks we need to run before we can continue startup
@@ -198,7 +199,7 @@ namespace Files.App
 				);
 				await Task.WhenAll(
 					JumpList.InitializeAsync(),
-					ContextFlyoutItemHelper.CachedNewContextMenuEntries
+					addItemService.GetNewEntriesAsync()
 				);
 				FileTagsHelper.UpdateTagsDb();
 			});
