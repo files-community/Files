@@ -182,7 +182,7 @@
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuOverflow}"
-					IsOn="{x:Bind ViewModel.MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}"
+					IsOn="{x:Bind ViewModel.MoveShellExtensionsToSubMenu, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 		</StackPanel>

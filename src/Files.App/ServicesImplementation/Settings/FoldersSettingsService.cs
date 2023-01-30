@@ -14,9 +14,9 @@ namespace Files.App.ServicesImplementation.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public bool EnableOverridingFolderPreferences
+		public bool SyncFolderPreferencesAcrossDirectories
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
@@ -260,7 +260,7 @@ namespace Files.App.ServicesImplementation.Settings
 		{
 			switch (e.SettingName)
 			{
-				case nameof(EnableOverridingFolderPreferences):
+				case nameof(SyncFolderPreferencesAcrossDirectories):
 				case nameof(DefaultLayoutMode):
 				case nameof(TagColumnWidth):
 				case nameof(NameColumnWidth):
