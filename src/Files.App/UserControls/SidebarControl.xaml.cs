@@ -420,7 +420,7 @@ namespace Files.App.UserControls
 			var isSelectedSidebarItem = SelectedSidebarItem == rightClickedItem;
 
 			var oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-			App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, newIndex);
+			_ = App.SidebarPinnedController.Model.MoveItem(oldIndex, newIndex);
 
 			if (isSelectedSidebarItem)
 				SetValue(SelectedSidebarItemProperty, rightClickedItem);
@@ -749,7 +749,7 @@ namespace Files.App.UserControls
 			}
 			else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
 			{
-				SidebarPinnedModel.SwapItems(sourceLocationItem, locationItem);
+				_ = SidebarPinnedModel.SwapItems(sourceLocationItem, locationItem);
 			}
 
 			await Task.Yield();

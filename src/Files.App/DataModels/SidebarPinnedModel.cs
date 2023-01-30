@@ -70,35 +70,39 @@ namespace Files.App.DataModels
 		/// <param name="oldIndex">The old position index of the location item</param>
 		/// <param name="newIndex">The new position index of the location item</param>
 		/// <returns>True if the move was successful</returns>
-		public bool MoveItem(INavigationControlItem locationItem, int oldIndex, int newIndex)
+		
+		public async Task MoveItem(int oldIndex, int newIndex)
 		{
-			if (locationItem is null || newIndex > FavoriteItems.Count)
-				return false;
+			if (oldIndex == newIndex)
+				return;
 
-			// A backup of the items, because the swapping of items requires removing and inserting them in the correct position
-			var sidebarItemsBackup = new List<string>(FavoriteItems);
+			await addSyncSemaphore.WaitAsync();
+
+			var oldItems = FavoriteItems;
 
 			try
-			{
-				FavoriteItems.RemoveAt(oldIndex);
-				FavoriteItems.Insert(newIndex, locationItem.Path);
-				lock (favoriteList)
-				{
-					favoriteList.RemoveAt(oldIndex);
-					favoriteList.Insert(newIndex, locationItem);
-				}
-				var e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, locationItem, newIndex, oldIndex);
-				controller?.DataChanged?.Invoke(SectionType.Favorites, e);
-				return true;
+			{ 
+				if (oldIndex < 0 || oldIndex >= FavoriteItems.Count)
+					return;
+
+				if (newIndex < 0 || newIndex >= FavoriteItems.Count)
+					return;
+
+				var oldPath = FavoriteItems[oldIndex];
+				var newPath = FavoriteItems[newIndex];
+
+				FavoriteItems[oldIndex] = newPath;
+				FavoriteItems[newIndex] = oldPath;
+
+				await PinnedItemsService.SetPinnedItemsAsync(FavoriteItems, oldItems);
 			}
-			catch (Exception ex)
+			finally
 			{
-				Debug.WriteLine($"An error occurred while moving pinned items in the Favorites sidebar section. {ex.Message}");
-				FavoriteItems = sidebarItemsBackup;
-				RemoveStaleSidebarItems();
-				_ = AddAllItemsToSidebar();
-				return false;
+				addSyncSemaphore.Release();
 			}
+
+			// update the list of pinned items
+			await controller!.LoadAsync();
 		}
 
 		/// <summary>
@@ -106,7 +110,7 @@ namespace Files.App.DataModels
 		/// </summary>
 		/// <param name="firstLocationItem">The first location item</param>
 		/// <param name="secondLocationItem">The second location item</param>
-		public void SwapItems(INavigationControlItem firstLocationItem, INavigationControlItem secondLocationItem)
+		public async Task SwapItems(INavigationControlItem firstLocationItem, INavigationControlItem secondLocationItem)
 		{
 			if (firstLocationItem is null || secondLocationItem is null)
 			{
@@ -117,7 +121,7 @@ namespace Files.App.DataModels
 			var indexOfSecondItemInMainPage = IndexOfItem(secondLocationItem);
 
 			// Moves the items in the MainPage
-			MoveItem(firstLocationItem, indexOfFirstItemInMainPage, indexOfSecondItemInMainPage);
+			await MoveItem(indexOfFirstItemInMainPage, indexOfSecondItemInMainPage);
 		}
 
 		/// <summary>

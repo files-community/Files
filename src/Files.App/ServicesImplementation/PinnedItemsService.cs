@@ -45,5 +45,12 @@ namespace Files.App.ServicesImplementation
 
 			await Controller.LoadAsync();
 		}
+
+		// TODO: Fix
+		public static async Task SetPinnedItemsAsync(IEnumerable<string> pinnedItems, IEnumerable<string> toClear)
+		{
+			await UnpinFromSidebar(toClear.ToArray());
+			await PinToSidebar(pinnedItems.ToArray());
+		}
 	}
 }
