@@ -250,7 +250,7 @@ namespace Files.App.ViewModels
 			&& IsAdaptiveLayoutEnabled;
 
 		public bool IsAdaptiveLayoutEnabled
-			=> userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences;
+			=> userSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories;
 
 		private bool isUpdating;
 		public bool IsUpdating
@@ -446,7 +446,7 @@ namespace Files.App.ViewModels
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 					OnPropertyChanged(e.SettingName);
 					break;
-				case nameof(userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
+				case nameof(userSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 					FolderSettings_LayoutPreferencesUpdateRequired(null, 0);
 					break;
 			}

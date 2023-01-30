@@ -14,9 +14,9 @@ namespace Files.App.ServicesImplementation.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public bool EnableOverridingFolderPreferences
+		public bool SyncFolderPreferencesAcrossDirectories
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
@@ -250,11 +250,17 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		public bool DoubleClickToGoUp
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
 			{
-				case nameof(EnableOverridingFolderPreferences):
+				case nameof(SyncFolderPreferencesAcrossDirectories):
 				case nameof(DefaultLayoutMode):
 				case nameof(TagColumnWidth):
 				case nameof(NameColumnWidth):
@@ -280,6 +286,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowConfirmDeleteDialog):
 				case nameof(SelectFilesOnHover):
 				case nameof(ShowSelectionCheckboxes):
+				case nameof(DoubleClickToGoUp):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

@@ -137,7 +137,7 @@
 									IsOpen="False">
 									<AppBarButton Icon="Add" Label="{helpers:ResourceString Name=Add}">
 										<AppBarButton.Flyout>
-											<MenuFlyout helpers:MenuFlyoutHelper.ItemsSource="{x:Bind ViewModel.AddFlyoutItemsSource}" Placement="Bottom" />
+											<MenuFlyout helpers:MenuFlyoutHelper.ItemsSource="{x:Bind ViewModel.AddFlyoutItemsSource, Mode=OneWay}" Placement="Bottom" />
 										</AppBarButton.Flyout>
 									</AppBarButton>
 									<AppBarButton

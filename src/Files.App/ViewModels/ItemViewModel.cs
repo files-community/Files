@@ -501,7 +501,7 @@ namespace Files.App.ViewModels
 				case nameof(userSettingsService.FoldersSettingsService.DefaultSortOption):
 				case nameof(userSettingsService.FoldersSettingsService.DefaultGroupOption):
 				case nameof(userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
-				case nameof(userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
+				case nameof(userSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
 						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);

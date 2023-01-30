@@ -95,14 +95,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 			get => (ElementTheme)selectedThemeIndex;
 		}
 
-		public bool MoveOverflowMenuItemsToSubMenu
+		public bool MoveShellExtensionsToSubMenu
 		{
-			get => userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu;
+			get => userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu;
 			set
 			{
-				if (value != userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
+				if (value != userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
 				{
-					userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu = value;
+					userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu = value;
 					OnPropertyChanged();
 				}
 			}

@@ -26,7 +26,7 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool MoveOverflowMenuItemsToSubMenu
+		public bool MoveShellExtensionsToSubMenu
 		{
 			get => Get(true);
 			set => Set(value);
@@ -77,7 +77,7 @@ namespace Files.App.ServicesImplementation.Settings
 		{
 			switch (e.SettingName)
 			{
-				case nameof(MoveOverflowMenuItemsToSubMenu):
+				case nameof(MoveShellExtensionsToSubMenu):
 				case nameof(UseCompactStyles):
 				case nameof(AppThemeBackgroundColor):
 				case nameof(AppThemeAddressBarBackgroundColor):

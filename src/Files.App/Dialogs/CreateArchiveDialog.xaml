@@ -75,9 +75,9 @@
 				Grid.Row="0"
 				Grid.Column="1"
 				Width="160"
+				DisplayMemberPath="Label"
 				ItemsSource="{x:Bind ViewModel.FileFormats}"
 				SelectedItem="{x:Bind ViewModel.FileFormat, Mode=TwoWay}"
-				DisplayMemberPath="Label"
 				SelectedValuePath="Key" />
 
 			<!--  Compression Level  -->

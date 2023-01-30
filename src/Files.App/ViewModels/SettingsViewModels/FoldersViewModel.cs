@@ -15,28 +15,15 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private readonly int FileTagSortingIndex = 5;
 		private readonly int FileTagGroupingIndex = 6;
 
-		// Commands
-		public RelayCommand ResetLayoutPreferencesCommand { get; }
-		public RelayCommand ShowResetLayoutPreferencesTipCommand { get; }
 
 		public FoldersViewModel()
 		{
-			ResetLayoutPreferencesCommand = new RelayCommand(ResetLayoutPreferences);
-			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
-
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
 			SelectedDefaultSortingIndex = userSettingsService.FoldersSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)userSettingsService.FoldersSettingsService.DefaultSortOption;
 			SelectedDefaultGroupingIndex = userSettingsService.FoldersSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)userSettingsService.FoldersSettingsService.DefaultGroupOption;
 		}
 
 		// Properties
-
-		private bool isResetLayoutPreferencesTipOpen;
-		public bool IsResetLayoutPreferencesTipOpen
-		{
-			get => isResetLayoutPreferencesTipOpen;
-			set => SetProperty(ref isResetLayoutPreferencesTipOpen, value);
-		}
 
 		private int selectedDefaultLayoutModeIndex;
 		public int SelectedDefaultLayoutModeIndex
@@ -52,14 +39,15 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool EnableOverridingFolderPreferences
+		public bool SyncFolderPreferencesAcrossDirectories
 		{
-			get => userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences;
+			get => userSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories;
 			set
 			{
-				if (value != userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences)
+				if (value != userSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 				{
-					userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences = value;
+					userSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories = value;
+					ResetLayoutPreferences();
 					OnPropertyChanged();
 				}
 			}
@@ -353,6 +341,19 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		public bool DoubleClickToGoUp
+		{
+			get => userSettingsService.FoldersSettingsService.DoubleClickToGoUp;
+			set
+			{
+				if (value != userSettingsService.FoldersSettingsService.DoubleClickToGoUp)
+				{
+					userSettingsService.FoldersSettingsService.DoubleClickToGoUp = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		// Local methods
 
 		public void ResetLayoutPreferences()
@@ -360,7 +361,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			// Is this proper practice?
 			var dbInstance = FolderSettingsViewModel.GetDbInstance();
 			dbInstance.ResetAll();
-			IsResetLayoutPreferencesTipOpen = false;
 		}
 	}
 }

@@ -218,7 +218,7 @@
     <value>Časový formát</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>Vzhled</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Zobrazit přípony známých typů souborů</value>
@@ -236,7 +236,7 @@
     <value>Vzhled</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>Pozadí</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimentální</value>
@@ -1220,13 +1220,13 @@
     <value>Zahrnout neindexované položky do výsledků hledání</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Reset folder overrides</value>
+    <value>Obnovit přepsání složky</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>Změna rozložení v adresáři, když je toto nastavení vypnuto, aktualizuje rozložení pro všechny adresáře.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Enable overriding folder preferences in individual directories</value>
+    <value>Povolit nastavení přepsání složek v jednotlivých adresářích</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Přizpůsobit kontextovou nabídku pravého tlačítka</value>
@@ -1988,7 +1988,7 @@
     <value>Neznámý vlastník</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract Archive</value>
+    <value>Rozbalit archiv</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Otevřít cílovou složku po dokončení</value>
@@ -2435,7 +2435,7 @@
     <value>Štítek</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Otevřít soubory jedním kliknutím</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Cesta k složce</value>
@@ -2594,7 +2594,7 @@
     <value>Typ</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>Mřížka ikon</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byty</value>
@@ -2699,7 +2699,7 @@
     <value>Přesun není v tomto kontextu podporován. Chcete místo toho položky zkopírovat?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>Hidden items</value>
+    <value>Skryté položky</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Vlastní</value>
@@ -2744,22 +2744,22 @@
     <value>Nastavit jako výchozí</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>Sloupec s datem</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>Sloupec data vytvoření</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>Velikost sloupce</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
     <value>Sloupec štítků</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>Typ sloupce</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>Podrobnosti rozložení sloupců</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Resetovat</value>
@@ -2777,25 +2777,25 @@
     <value>Otevřít složky jedním kliknutím v rozvržení sloupců</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>Otevírání položek</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Add to {0}.zip</value>
+    <value>Přidat do {0}.zip</value>
   </data>
   <data name="AddToArchive" xml:space="preserve">
-    <value>Add to archive</value>
+    <value>Přidat do archivu</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
+    <value>Komprese byla dokončena</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
+    <value>{0} byl komprimován</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} couldn't be compressed</value>
+    <value>{0} nemohl být komprimován</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+    <value>Komprimování archivu</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Vyberte soubory a složky při najetí na ně</value>
@@ -2819,79 +2819,79 @@
     <value>Obnovit</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>Zástupce nelze otevřít</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>Cíl nebyl nalezen {0}. Chcete odstranit tohoto zástupce?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
+    <value>Nemáte oprávnění k přístupu do této složky.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>Načítání motivů</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>Vyprázdňování koše</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>Koš úspěšně vyprázdněn</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>Vyprázdnění koše se nezdařilo</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Archive password</value>
+    <value>Heslo archivu</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>Cesta</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Řazení a seskupování</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>Archiv</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>Create archive</value>
+    <value>Vytvořit archiv</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Vytvořit</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>Create {0}</value>
+    <value>Vytvořit {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Enter a name</value>
+    <value>Zadejte název</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
-    <value>Compression level</value>
+    <value>Úroveň komprese</value>
   </data>
   <data name="CompressionLevelUltra" xml:space="preserve">
-    <value>Ultra</value>
+    <value>Nejvyšší</value>
   </data>
   <data name="CompressionLevelHigh" xml:space="preserve">
-    <value>High</value>
+    <value>Vysoká</value>
   </data>
   <data name="CompressionLevelNormal" xml:space="preserve">
-    <value>Normal</value>
+    <value>Normální</value>
   </data>
   <data name="CompressionLevelLow" xml:space="preserve">
-    <value>Low</value>
+    <value>Nízká</value>
   </data>
   <data name="CompressionLevelFast" xml:space="preserve">
-    <value>Fast</value>
+    <value>Rychlá</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
     <value>Žádná</value>
   </data>
   <data name="SplitArchive" xml:space="preserve">
-    <value>Split the archive</value>
+    <value>Rozdělit archiv</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Splitting size</value>
+    <value>Velikost rozdělení</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Do not split</value>
+    <value>Nedělit</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2906,7 +2906,7 @@
     <value>Blu-ray</value>
   </data>
   <data name="Encryption" xml:space="preserve">
-    <value>Encryption</value>
+    <value>Šifrování</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Heslo</value>
@@ -2915,15 +2915,15 @@
     <value>Formát</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>Synchronizovat stavový sloupec</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Seskupit podle</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Seřadit dle</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>Naposledy použité soubory jsou v Průzkumníku souborů Windows zakázány.</value>
   </data>
 </root>

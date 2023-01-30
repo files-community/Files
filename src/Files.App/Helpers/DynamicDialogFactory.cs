@@ -57,50 +57,30 @@ namespace Files.App.Helpers
 
 		public static DynamicDialog GetFor_RenameDialog()
 		{
-			DynamicDialog dialog = null;
-			TextBox inputText = new TextBox()
+			DynamicDialog? dialog = null;
+			TextBox inputText = new()
 			{
 				Height = 35d,
 				PlaceholderText = "RenameDialogInputText/PlaceholderText".GetLocalizedResource()
 			};
 
-			TextBlock tipText = new TextBlock()
+			TextBlock tipText = new()
 			{
-				Text = "RenameDialogSymbolsTip/Text".GetLocalizedResource(),
+				Text = "InvalidFilename/Text".GetLocalizedResource(),
 				Margin = new Microsoft.UI.Xaml.Thickness(0, 0, 4, 0),
 				TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
 				Opacity = 0.0d
 			};
 
-			inputText.BeforeTextChanging += async (textBox, args) =>
+			inputText.TextChanged += (textBox, args) =>
 			{
-				if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
-				{
-					args.Cancel = true;
-					await inputText.DispatcherQueue.EnqueueAsync(() =>
-					{
-						var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
-						var oldText = textBox.Text;
-						textBox.Text = FilesystemHelpers.FilterRestrictedCharacters(args.NewText);
-						textBox.SelectionStart = oldSelection + textBox.Text.Length - oldText.Length;
-						tipText.Opacity = 1.0d;
-					});
-				}
-				else
-				{
-					dialog.ViewModel.AdditionalData = args.NewText;
-
-					if (!string.IsNullOrWhiteSpace(args.NewText))
-					{
-						dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel;
-					}
-					else
-					{
-						dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Cancel;
-					}
-
-					tipText.Opacity = 0.0d;
-				}
+				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
+				tipText.Opacity = isInputValid ? 0.0d : 1.0d;
+				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid 
+														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+														: DynamicDialogButtons.Cancel;
+				if (isInputValid)
+					dialog.ViewModel.AdditionalData = inputText.Text;
 			};
 
 			inputText.Loaded += (s, e) =>
