@@ -125,21 +125,19 @@ namespace Files.App.Storage.NativeStorage
 
             if (itemToMove is IFile sourceFile)
             {
-                if (itemToMove is ILocatableFile sourceLocatableFile)
-                {
-                    var newPath = System.IO.Path.Combine(Path, itemToMove.Name);
-                    File.Move(sourceLocatableFile.Path, newPath, overwrite);
+	            if (itemToMove is ILocatableFile sourceLocatableFile)
+	            {
+		            var newPath = System.IO.Path.Combine(Path, itemToMove.Name);
+		            File.Move(sourceLocatableFile.Path, newPath, overwrite);
 
-                    return new NativeFile(newPath);
-                }
-                else
-                {
-                    var copiedFile = await CreateFileAsync(itemToMove.Name, collisionOption, cancellationToken);
-                    await sourceFile.CopyContentsToAsync(copiedFile, cancellationToken);
-                    await source.DeleteAsync(itemToMove, true, cancellationToken);
+		            return new NativeFile(newPath);
+	            }
 
-                    return copiedFile;
-                }
+	            var copiedFile = await CreateFileAsync(itemToMove.Name, collisionOption, cancellationToken);
+	            await sourceFile.CopyContentsToAsync(copiedFile, cancellationToken);
+	            await source.DeleteAsync(itemToMove, true, cancellationToken);
+
+	            return copiedFile;
             }
             else if (itemToMove is IFolder sourceFolder)
             {

@@ -18,19 +18,15 @@ namespace Files.App.Storage.NativeStorage
 		/// <inheritdoc/>
 		public Task<bool> FileExistsAsync(string path, CancellationToken cancellationToken = default)
 		{
-			if (File.Exists(path))
-				return Task.FromResult(true);
-
-			return Task.FromResult(false);
+			var fileExists = File.Exists(path);
+			return Task.FromResult(fileExists);
 		}
 
 		/// <inheritdoc/>
 		public Task<bool> DirectoryExistsAsync(string path, CancellationToken cancellationToken = default)
 		{
-			if (Directory.Exists(path))
-				return Task.FromResult(true);
-
-			return Task.FromResult(false);
+			var directoryExists = Directory.Exists(path);
+			return Task.FromResult(directoryExists);
 		}
 
 		/// <inheritdoc/>

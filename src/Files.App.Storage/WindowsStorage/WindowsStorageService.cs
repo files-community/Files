@@ -47,18 +47,14 @@ namespace Files.App.Storage.WindowsStorage
 		/// <inheritdoc/>
 		public async Task<ILocatableFolder> GetFolderFromPathAsync(string path, CancellationToken cancellationToken = default)
 		{
-			var folderTask = StorageFolder.GetFolderFromPathAsync(path).AsTask(cancellationToken);
-			var folder = await folderTask;
-
+			var folder = await StorageFolder.GetFolderFromPathAsync(path).AsTask(cancellationToken);
 			return new WindowsStorageFolder(folder);
 		}
 
 		/// <inheritdoc/>
 		public async Task<ILocatableFile> GetFileFromPathAsync(string path, CancellationToken cancellationToken = default)
 		{
-			var fileTask = StorageFile.GetFileFromPathAsync(path).AsTask(cancellationToken);
-			var file = await fileTask;
-
+			var file = await StorageFile.GetFileFromPathAsync(path).AsTask(cancellationToken);
 			return new WindowsStorageFile(file);
 		}
 	}
