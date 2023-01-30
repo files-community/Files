@@ -17,10 +17,8 @@ namespace Files.Backend.ViewModels.FileTags
 		public string Uid { get; set; }
 
 		public TagViewModel(string name, string color)
+			: this(name, color, Guid.NewGuid().ToString())
 		{
-			Name = name;
-			Color = color;
-			Uid = Guid.NewGuid().ToString();
 		}
 
 		[JsonConstructor]

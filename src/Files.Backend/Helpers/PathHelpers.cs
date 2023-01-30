@@ -1,37 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Files.Backend.Helpers
 {
 	public static class PathHelpers
 	{
-		public static string FormatName(string path = null)
+		public static string FormatName(string path)
 		{
-			string fileName;
-
-			// Network Share path
-			if (Path.GetPathRoot(path) == path && path.StartsWith(@"\\"))
+			string 
+				fileName,
+				rootPath = Path.GetPathRoot(path) ?? string.Empty;
+			
+			if (rootPath == path && path.StartsWith(@"\\"))
 			{
-				fileName = path.Substring(path.LastIndexOf(@"\") + 1);
+				// Network Share path
+				fileName = path.Substring(path.LastIndexOf(@"\", StringComparison.Ordinal) + 1);
 			}
-			// Drive path
-			else if (Path.GetPathRoot(path) == path)
+			else if (rootPath == path)
 			{
+				// Drive path
 				fileName = path;
 			}
 			else
 			{
+				// Standard file name
 				fileName = Path.GetFileName(path);
 			}
 
+			// Check for link file name
 			if (FileExtensionHelpers.IsShortcutOrUrlFile(fileName))
-			{
 				fileName = fileName.Remove(fileName.Length - 4);
-			}
 
 			return fileName;
 		}
