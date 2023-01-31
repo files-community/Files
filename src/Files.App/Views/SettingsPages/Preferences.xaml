@@ -245,6 +245,13 @@
 								IsOn="{x:Bind ViewModel.ShowBundlesWidget, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
+						
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=FileTags}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=FileTags}"
+								IsOn="{x:Bind ViewModel.ShowFileTagsWidget, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=RecentFiles}" HorizontalAlignment="Stretch">
 							<ToggleSwitch

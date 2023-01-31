@@ -489,6 +489,15 @@ namespace Files.App.ViewModels.SettingsViewModels
 					UserSettingsService.PreferencesSettingsService.ShowBundlesWidget = value;
 			}
 		}
+		public bool ShowFileTagsWidget
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget)
+					UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget = value;
+			}
+		}
 
 		public bool ShowRecentFilesWidget
 		{
