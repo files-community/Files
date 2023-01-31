@@ -27,13 +27,13 @@ namespace Files.App.UserControls.Menus
 				{
 					var tagItem = new ToggleMenuFlyoutItem()
 					{
-						Text = tag.TagName,
+						Text = tag.Name,
 						Tag = tag
 					};
 					tagItem.Icon = new FontIcon()
 					{
 						Glyph = "\uEA3B",
-						Foreground = new SolidColorBrush(ColorHelpers.FromHex(tag.ColorString))
+						Foreground = new SolidColorBrush(ColorHelpers.FromHex(tag.Color))
 					};
 					tagItem.Click += TagItem_Click;
 					return tagItem;
@@ -49,11 +49,11 @@ namespace Files.App.UserControls.Menus
 			var tagItem = (ToggleMenuFlyoutItem)sender;
 			if (tagItem.IsChecked)
 			{
-				AddFileTag(SelectedItems, (FileTagViewModel)tagItem.Tag);
+				AddFileTag(SelectedItems, (TagViewModel)tagItem.Tag);
 			}
 			else
 			{
-				RemoveFileTag(SelectedItems, (FileTagViewModel)tagItem.Tag);
+				RemoveFileTag(SelectedItems, (TagViewModel)tagItem.Tag);
 			}
 		}
 
@@ -65,12 +65,12 @@ namespace Files.App.UserControls.Menus
 			var commonFileTags = SelectedItems
 				.Select(x => x.FileTags ?? Enumerable.Empty<string>())
 				.Aggregate((x, y) => x.Intersect(y))
-				.Select(x => Items.FirstOrDefault(y => x == ((FileTagViewModel)y.Tag)?.Uid));
+				.Select(x => Items.FirstOrDefault(y => x == ((TagViewModel)y.Tag)?.Uid));
 
 			commonFileTags.OfType<ToggleMenuFlyoutItem>().ForEach(x => x.IsChecked = true);
 		}
 
-		private void RemoveFileTag(IEnumerable<ListedItem> selectedListedItems, FileTagViewModel removed)
+		private void RemoveFileTag(IEnumerable<ListedItem> selectedListedItems, TagViewModel removed)
 		{
 			foreach (var selectedItem in selectedListedItems)
 			{
@@ -83,7 +83,7 @@ namespace Files.App.UserControls.Menus
 			}
 		}
 
-		private void AddFileTag(IEnumerable<ListedItem> selectedListedItems, FileTagViewModel added)
+		private void AddFileTag(IEnumerable<ListedItem> selectedListedItems, TagViewModel added)
 		{
 			foreach (var selectedItem in selectedListedItems)
 			{

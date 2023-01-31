@@ -57,11 +57,11 @@ namespace Files.App.ViewModels.SettingsViewModels
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
 			OpenSettingsJsonCommand = new AsyncRelayCommand(OpenSettingsJson);
 		}
-		
+
 		private async Task OpenSettingsJson()
 		{
 			var settingsJsonPath = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/user_settings.json"));
-			
+
 			if (!await Launcher.LaunchFileAsync(settingsJsonPath))
 			{
 				await ContextMenu.InvokeVerb("open", settingsJsonPath.Path);
@@ -71,7 +71,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private async Task LaunchFileTagsConfigFile()
 		{
 			var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
-			
+
 			if (!await Launcher.LaunchFileAsync(configFile))
 			{
 				await ContextMenu.InvokeVerb("open", configFile.Path);

@@ -1,7 +1,5 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
-using Files.App.Converters;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -9,7 +7,6 @@ using Files.App.Helpers.XamlHelpers;
 using Files.App.UserControls;
 using Files.App.UserControls.Selection;
 using Files.App.ViewModels;
-using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -240,9 +237,9 @@ namespace Files.App.Views.LayoutModes
 
 			if (e != null)
 			{
-				foreach (var item in e.AddedItems)	
+				foreach (var item in e.AddedItems)
 					SetCheckboxSelectionState(item);
-				
+
 				foreach (var item in e.RemovedItems)
 					SetCheckboxSelectionState(item);
 			}
@@ -328,7 +325,7 @@ namespace Files.App.Views.LayoutModes
 							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
 					}
 				}
-				else if(ctrlPressed && shiftPressed)
+				else if (ctrlPressed && shiftPressed)
 				{
 					NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
 				}
@@ -561,7 +558,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				1 => 40, // Check all items columns
 				2 => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
-				3 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.FirstOrDefault()?.TagName?.Length ?? 0).Max(), // file tag column
+				3 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.FirstOrDefault()?.Name?.Length ?? 0).Max(), // file tag column
 				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
 				5 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
 				6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column

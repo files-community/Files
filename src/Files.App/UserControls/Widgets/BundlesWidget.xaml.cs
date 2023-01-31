@@ -32,7 +32,6 @@ namespace Files.App.UserControls.Widgets
 		public BundlesWidget()
 		{
 			InitializeComponent();
-
 			ViewModel = new BundlesViewModel();
 		}
 
@@ -41,16 +40,10 @@ namespace Files.App.UserControls.Widgets
 			return Task.CompletedTask;
 		}
 
-		#region IDisposable
-
 		public void Dispose()
 		{
 			// We need dispose to unhook events to avoid memory leaks
 			ViewModel?.Dispose();
-
-			ViewModel = null;
 		}
-
-		#endregion IDisposable
 	}
 }
