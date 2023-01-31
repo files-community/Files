@@ -213,8 +213,8 @@ namespace Files.App
 
 		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
-			if (ParentShellPageInstance is null || 
-				ParentShellPageInstance.CurrentPageType != this.GetType() || 
+			if (ParentShellPageInstance is null ||
+				ParentShellPageInstance.CurrentPageType != this.GetType() ||
 				IsRenamingItem)
 				return;
 

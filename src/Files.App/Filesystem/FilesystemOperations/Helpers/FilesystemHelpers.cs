@@ -780,14 +780,14 @@ namespace Files.App.Filesystem
 							for (uint i = 0; i < filesCount; i++)
 							{
 								uint charsNeeded = Shell32.DragQueryFile(dropStructHandle, i, null, 0);
-								uint bufferSpaceRequired = charsNeeded + 1;	// include space for terminating null character
+								uint bufferSpaceRequired = charsNeeded + 1; // include space for terminating null character
 								string buffer = new('\0', (int)bufferSpaceRequired);
 								uint charsCopied = Shell32.DragQueryFile(dropStructHandle, i, buffer, bufferSpaceRequired);
 
 								if (charsCopied > 0)
 								{
 									string path = buffer[..(int)charsCopied];
-									itemPaths.Add(path);
+									itemPaths.Add(Path.GetFullPath(path));
 								}
 							}
 

@@ -27,6 +27,7 @@ namespace Files.App.Views
 		private FolderWidget folderWidget;
 		private DrivesWidget drivesWidget;
 		private BundlesWidget bundlesWidget;
+		private FileTagsWidget fileTagsWidget;
 		private RecentFilesWidget recentFilesWidget;
 
 		public YourHomeViewModel ViewModel
@@ -47,7 +48,6 @@ namespace Files.App.Views
 		protected override void OnNavigatedFrom(NavigationEventArgs e)
 		{
 			Dispose();
-
 			base.OnNavigatedFrom(e);
 		}
 
@@ -63,6 +63,7 @@ namespace Files.App.Views
 			folderWidget = WidgetsHelpers.TryGetWidget<FolderWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadFolderWidget, folderWidget);
 			drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
 			bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
+			fileTagsWidget = WidgetsHelpers.TryGetWidget<FileTagsWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadFileTags, fileTagsWidget);
 			recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
 			if (shouldReloadFolderWidget && folderWidget is not null)
@@ -88,14 +89,20 @@ namespace Files.App.Views
 				drivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
 				drivesWidget.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
 			}
+			if (shouldReloadFileTags && fileTagsWidget is not null)
+			{
+				Widgets.ViewModel.InsertWidget(new(fileTagsWidget, (value) => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded), 2);
+				fileTagsWidget.OpenAction = x => NavigationHelpers.OpenPath(x, AppInstance);
+				_ = fileTagsWidget.ViewModel.InitAsync();
+			}
 			if (shouldReloadBundles && bundlesWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(bundlesWidget, (value) => UserSettingsService.PreferencesSettingsService.BundlesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.BundlesWidgetExpanded), 2);
+				Widgets.ViewModel.InsertWidget(new(bundlesWidget, (value) => UserSettingsService.PreferencesSettingsService.BundlesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.BundlesWidgetExpanded), 3);
 				ViewModel.LoadBundlesCommand.Execute(bundlesWidget.ViewModel);
 			}
 			if (shouldReloadRecentFiles && recentFilesWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded), 3);
+				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded), 4);
 
 				recentFilesWidget.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
 				recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;

@@ -1,5 +1,6 @@
 using Files.App.Extensions;
 using Files.App.Helpers;
+using Files.Backend.Helpers;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -147,8 +148,8 @@ namespace Files.App.Filesystem.StorageItems
 				var name = IO.Path.GetFileName(path);
 				return Task.FromResult((BaseStorageFile)new NativeStorageFile(path, name[(name.LastIndexOf(":") + 1)..], DateTime.Now)).AsAsyncOperation();
 			}
-            return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
-        }
+			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
+		}
 
 		private static bool CheckAccess(string path)
 		{
@@ -202,7 +203,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
 		{
 			var hFile = NativeFileOperationsHelper.OpenFileForRead(Path, accessMode == FileAccessMode.ReadWrite);
-			return Task.FromResult(new FileStream(hFile, accessMode == FileAccessMode.ReadWrite ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream()).AsAsyncOperation();	
+			return Task.FromResult(new FileStream(hFile, accessMode == FileAccessMode.ReadWrite ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream()).AsAsyncOperation();
 		}
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);

@@ -6,9 +6,9 @@ namespace Files.Backend.Services.Settings
 	public interface IAppearanceSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to move overflow menu items into a sub menu.
+		/// Gets or sets a value indicating whether or not to move shell extensions into a sub menu.
 		/// </summary>
-		bool MoveOverflowMenuItemsToSubMenu { get; set; }
+		bool MoveShellExtensionsToSubMenu { get; set; }
 
 		#region Internal Settings
 

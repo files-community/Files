@@ -1,7 +1,4 @@
-﻿using Microsoft.UI.Xaml.Media;
-using Windows.UI;
-
-namespace Files.App.Views.SettingsPages.Appearance
+﻿namespace Files.App.Views.SettingsPages.Appearance
 {
 	public class AppThemeResource
 	{
