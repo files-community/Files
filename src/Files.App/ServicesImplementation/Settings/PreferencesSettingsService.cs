@@ -99,6 +99,12 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		public bool ShowFileTagsWidget
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		public bool ShowBundlesWidget
 		{
 			get => Get(false);
@@ -118,6 +124,12 @@ namespace Files.App.ServicesImplementation.Settings
 		}
 
 		public bool DrivesWidgetExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool FileTagsWidgetExpanded
 		{
 			get => Get(true);
 			set => Set(value);

@@ -27,11 +27,11 @@ namespace Files.App.Helpers
 			return (await Win32Shell.GetShellFolderAsync(CommonPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
 		}
 
-        public static ulong GetSize()
-        {
+		public static ulong GetSize()
+		{
 			return (ulong)Win32Shell.QueryRecycleBin().BinSize;
 		}
-		
+
 		public async Task<bool> IsRecycleBinItem(IStorageItem item)
 		{
 			List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();

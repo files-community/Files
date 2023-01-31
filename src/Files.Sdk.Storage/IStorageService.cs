@@ -2,19 +2,19 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Sdk.Storage.Services
+namespace Files.Sdk.Storage
 {
 	/// <summary>
 	/// Provides an abstract layer for accessing the file system.
 	/// </summary>
-	public interface IFileSystemService
+	public interface IStorageService
 	{
 		/// <summary>
-		/// Checks and requests permission to access file system.
+		/// Checks if access to the file system is granted. Additionally, tries to obtain the permission to access rights to the file system.
 		/// </summary>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> that cancels this action.</param>
 		/// <returns>A <see cref="Task"/> that represents the asynchronous operation. If access is granted returns true, otherwise false.</returns>
-		Task<bool> IsFileSystemAccessibleAsync(CancellationToken cancellationToken = default);
+		Task<bool> IsAccessibleAsync(CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Check if file exists at specified <paramref name="path"/>.

@@ -1,4 +1,5 @@
 using Files.Sdk.Storage;
+using Files.Sdk.Storage.ExtendableStorage;
 using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.ModifiableStorage;
 using System;
@@ -10,11 +11,17 @@ using Windows.Storage;
 namespace Files.App.Storage.WindowsStorage
 {
 	/// <inheritdoc cref="IFile"/>
-	public sealed class WindowsStorageFile : WindowsStorable<StorageFile>, ILocatableFile, IModifiableFile
+	public sealed class WindowsStorageFile : WindowsStorable<StorageFile>, ILocatableFile, IModifiableFile, IFileExtended
 	{
 		public WindowsStorageFile(StorageFile storage)
 			: base(storage)
 		{
+		}
+
+		/// <inheritdoc/>
+		public Task<Stream> OpenStreamAsync(FileAccess access, CancellationToken cancellationToken = default)
+		{
+			return OpenStreamAsync(access, FileShare.None, cancellationToken);
 		}
 
 		/// <inheritdoc/>

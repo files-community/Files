@@ -3,7 +3,6 @@ using CommunityToolkit.WinUI.UI;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
 using Files.App.UserControls.Selection;
 using Files.Backend.Services.Settings;
