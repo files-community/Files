@@ -11,9 +11,10 @@ namespace Files.App.ServicesImplementation
 	internal class PinnedItemsService
 	{
 		private readonly static SidebarPinnedController Controller = App.SidebarPinnedController;
+		private readonly static string guid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
 		public static async Task<List<string>> GetPinnedFilesAsync()
 		{
-			var sidebarItems =  (await Win32Shell.GetShellFolderAsync("::{679f85cb-0220-4080-b29b-5540cc05aab6}", "Enumerate", 0, 10000)).Enumerate
+			var sidebarItems =  (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, 10000)).Enumerate
 				.Where(link => link.IsFolder)
 				.Select(link => link.FilePath).ToList();
 
@@ -22,20 +23,29 @@ namespace Files.App.ServicesImplementation
 		}
 
 		public static async Task PinToSidebar(string folderPath)
-			=> await PinToSidebar(new[] { folderPath });
+			=> await PinToSidebar(new[] { folderPath }, true);
+		public static async Task PinToSidebar(string folderPath, bool loadExplorerItems)
+			=> await PinToSidebar(new[] { folderPath }, loadExplorerItems);
 		public static async Task PinToSidebar(string[] folderPaths)
+			=> await PinToSidebar(folderPaths, true);
+		public static async Task PinToSidebar(string[] folderPaths, bool loadExplorerItems)
 		{
 			await ContextMenu.InvokeVerb("pintohome", folderPaths);
-			await Controller.LoadAsync();
+			if (loadExplorerItems)
+				await Controller.LoadAsync();
 		}
 
 		public static async Task UnpinFromSidebar(string folderPath)
-			=> await UnpinFromSidebar(new[] { folderPath });
+			=> await UnpinFromSidebar(new[] { folderPath }, true);
+		public static async Task UnpinFromSidebar(string folderPath, bool loadExplorerItems)
+			=> await UnpinFromSidebar(new[] { folderPath }, loadExplorerItems);
 		public static async Task UnpinFromSidebar(string[] folderPaths)
+			=> await UnpinFromSidebar(folderPaths, true);
+		public static async Task UnpinFromSidebar(string[] folderPaths, bool loadExplorerItems)
 		{
 			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
 			object? shell = Activator.CreateInstance(shellAppType);
-			dynamic? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, new object[] { "shell:::{679f85cb-0220-4080-b29b-5540cc05aab6}" });
+			dynamic? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, new object[] { $"shell:{guid}" });
 
 			foreach (dynamic? fi in f2.Items())
 				if (folderPaths.Contains((string)fi.Path))
@@ -43,14 +53,15 @@ namespace Files.App.ServicesImplementation
 						await fi.InvokeVerb("unpinfromhome");
 					});
 
-			await Controller.LoadAsync();
+			if (loadExplorerItems)
+				await Controller.LoadAsync();
 		}
 
-		// TODO: Fix
-		public static async Task SetPinnedItemsAsync(IEnumerable<string> pinnedItems, IEnumerable<string> toClear)
+		public static async Task Save(string[] toRemove)
 		{
-			await UnpinFromSidebar(toClear.ToArray());
-			await PinToSidebar(pinnedItems.ToArray());
+			// Saves pinned items by unpinning the previous items from explorer and then pinning the current items back
+			await UnpinFromSidebar(toRemove, false);
+			await PinToSidebar(Controller.Model.FavoriteItems.ToArray(), false);
 		}
 	}
 }

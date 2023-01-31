@@ -1,5 +1,11 @@
-﻿using System;
+﻿using Files.App.DataModels;
+using Files.Shared.Extensions;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Files.App.Filesystem
 {
@@ -9,13 +15,7 @@ namespace Files.App.Filesystem
 		public FileSystemWatcher? PinnedItemsWatcher;
 		public event FileSystemEventHandler? PinnedItemsModified;
 
-		public static PinnedItemsManager Default
-		{
-			get 
-			{
-				return lazy.Value;
-			}
-		}
+		public static PinnedItemsManager Default => lazy.Value;
 
 		private PinnedItemsManager()
 		{
@@ -38,5 +38,15 @@ namespace Files.App.Filesystem
 		private void PinnedItemsWatcher_Changed(object sender, FileSystemEventArgs e)
 			=> PinnedItemsModified?.Invoke(this, e);
 		
+		public static async Task<IEnumerable<string>?> ReadV2PinnedItemsFile()
+		{
+			return await SafetyExtensions.IgnoreExceptions(async () =>
+			{
+				var oldPinnedItemsFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync("PinnedItems.json");
+				var model = JsonSerializer.Deserialize<SidebarPinnedModel>(await FileIO.ReadTextAsync(oldPinnedItemsFile));
+				await oldPinnedItemsFile.DeleteAsync();
+				return model?.FavoriteItems;
+			});
+		}
 	}
 }

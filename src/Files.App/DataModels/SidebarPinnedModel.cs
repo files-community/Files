@@ -63,66 +63,7 @@ namespace Files.App.DataModels
 				addSyncSemaphore.Release();
 			}
 		}
-		/// <summary>
-		/// Moves the location item in the Favorites sidebar section from the old position to the new position
-		/// </summary>
-		/// <param name="locationItem">Location item to move</param>
-		/// <param name="oldIndex">The old position index of the location item</param>
-		/// <param name="newIndex">The new position index of the location item</param>
-		/// <returns>True if the move was successful</returns>
 		
-		public async Task MoveItem(int oldIndex, int newIndex)
-		{
-			if (oldIndex == newIndex)
-				return;
-
-			await addSyncSemaphore.WaitAsync();
-
-			var oldItems = FavoriteItems;
-
-			try
-			{ 
-				if (oldIndex < 0 || oldIndex >= FavoriteItems.Count)
-					return;
-
-				if (newIndex < 0 || newIndex >= FavoriteItems.Count)
-					return;
-
-				var oldPath = FavoriteItems[oldIndex];
-				var newPath = FavoriteItems[newIndex];
-
-				FavoriteItems[oldIndex] = newPath;
-				FavoriteItems[newIndex] = oldPath;
-
-				await PinnedItemsService.SetPinnedItemsAsync(FavoriteItems, oldItems);
-			}
-			finally
-			{
-				addSyncSemaphore.Release();
-			}
-
-			// update the list of pinned items
-			await controller!.LoadAsync();
-		}
-
-		/// <summary>
-		/// Swaps two location items in the navigation sidebar
-		/// </summary>
-		/// <param name="firstLocationItem">The first location item</param>
-		/// <param name="secondLocationItem">The second location item</param>
-		public async Task SwapItems(INavigationControlItem firstLocationItem, INavigationControlItem secondLocationItem)
-		{
-			if (firstLocationItem is null || secondLocationItem is null)
-			{
-				return;
-			}
-
-			var indexOfFirstItemInMainPage = IndexOfItem(firstLocationItem);
-			var indexOfSecondItemInMainPage = IndexOfItem(secondLocationItem);
-
-			// Moves the items in the MainPage
-			await MoveItem(indexOfFirstItemInMainPage, indexOfSecondItemInMainPage);
-		}
 
 		/// <summary>
 		/// Returns the index of the location item in the navigation sidebar
