@@ -487,6 +487,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				if (value != UserSettingsService.PreferencesSettingsService.ShowBundlesWidget)
 					UserSettingsService.PreferencesSettingsService.ShowBundlesWidget = value;
+
+				if (value & ShowFileTagsWidget)
+					ShowFileTagsWidget = false;
 			}
 		}
 		public bool ShowFileTagsWidget
@@ -496,6 +499,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				if (value != UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget)
 					UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget = value;
+
+				if (value & ShowBundlesWidget)
+					ShowBundlesWidget = false;
 			}
 		}
 
