@@ -414,7 +414,7 @@ namespace Files.App.UserControls
 
 		private void MoveItemToNewIndex(int newIndex)
 		{
-			if (rightClickedItem.Section != SectionType.Favorites) 
+			if (rightClickedItem.Section != SectionType.Favorites)
 				return;
 
 			var isSelectedSidebarItem = SelectedSidebarItem == rightClickedItem;
@@ -528,7 +528,7 @@ namespace Files.App.UserControls
 		{
 			VisualStateManager.GoToState(sender as NavigationViewItem, "DragEnter", false);
 
-			if ((sender as NavigationViewItem).DataContext is not INavigationControlItem iNavItem) 
+			if ((sender as NavigationViewItem).DataContext is not INavigationControlItem iNavItem)
 				return;
 
 			if (string.IsNullOrEmpty(iNavItem.Path))
@@ -983,13 +983,13 @@ namespace Files.App.UserControls
 					OpenPaneLength = newSize; // passing a negative value will cause an exception
 
 				if (newSize < Constants.UI.MinimumSidebarWidth &&
-				    (Constants.UI.MinimumSidebarWidth + val <= CompactPaneLength || closeImmediatleyOnOversize)) // if the new size is below the minimum, check whether to toggle the pane
+					(Constants.UI.MinimumSidebarWidth + val <= CompactPaneLength || closeImmediatleyOnOversize)) // if the new size is below the minimum, check whether to toggle the pane
 					IsPaneOpen = false; // collapse the sidebar
 			}
 			else
 			{
 				if (val < Constants.UI.MinimumSidebarWidth - CompactPaneLength &&
-				    !closeImmediatleyOnOversize)
+					!closeImmediatleyOnOversize)
 					return;
 
 				OpenPaneLength = Constants.UI.MinimumSidebarWidth + (val + CompactPaneLength - Constants.UI.MinimumSidebarWidth); // set open sidebar length to minimum value to keep it smooth
@@ -1079,7 +1079,7 @@ namespace Files.App.UserControls
 				else
 				{
 					var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
-					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem) 
+					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem)
 						return;
 
 					overflowItems.ForEach(i => (overflowItem.Flyout as MenuFlyout).Items.Add(i));
@@ -1092,7 +1092,7 @@ namespace Files.App.UserControls
 		public static GridLength GetSidebarCompactSize()
 		{
 			if (App.Current.Resources.TryGetValue("NavigationViewCompactPaneLength", out object paneLength) &&
-			    paneLength is double paneLengthDouble)
+				paneLength is double paneLengthDouble)
 				return new GridLength(paneLengthDouble);
 
 			return new GridLength(200);
@@ -1102,7 +1102,7 @@ namespace Files.App.UserControls
 
 		private async void NavigationView_Expanding(NavigationView sender, NavigationViewItemExpandingEventArgs args)
 		{
-			if (args.ExpandingItem is not LocationItem loc || loc.ChildItems is null) 
+			if (args.ExpandingItem is not LocationItem loc || loc.ChildItems is null)
 				return;
 
 			await SetNavigationViewCollapse(sender, loc, true);
@@ -1110,7 +1110,7 @@ namespace Files.App.UserControls
 
 		private async void NavigationView_Collapsed(NavigationView sender, NavigationViewItemCollapsedEventArgs args)
 		{
-			if (args.CollapsedItem is not LocationItem loc || loc.ChildItems is null) 
+			if (args.CollapsedItem is not LocationItem loc || loc.ChildItems is null)
 				return;
 
 			await SetNavigationViewCollapse(sender, loc, false);

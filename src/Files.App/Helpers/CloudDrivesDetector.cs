@@ -267,7 +267,7 @@ namespace Files.App.Helpers
 					}
 				}
 			}
-	
+
 			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
 		}
 
@@ -287,7 +287,7 @@ namespace Files.App.Helpers
 					Name = $"Seadrive",
 					SyncFolder = syncFolder,
 					IconData = iconFile?.IconData
-				});			
+				});
 			}
 
 			return Task.FromResult<IEnumerable<ICloudProvider>>(results);

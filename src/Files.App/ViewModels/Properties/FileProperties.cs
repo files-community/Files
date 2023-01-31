@@ -4,6 +4,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.Backend.Helpers;
 using Microsoft.UI.Dispatching;
 using System;
 using System.Collections.Generic;

@@ -37,15 +37,15 @@ namespace Files.App.Filesystem
 				{
 					var tagItem = new FileTagItem
 					{
-						Text = tag.TagName,
-						Path = $"tag:{tag.TagName}",
+						Text = tag.Name,
+						Path = $"tag:{tag.Name}",
 						FileTag = tag,
 						MenuOptions = new ContextMenuOptions { IsLocationItem = true },
 					};
 
 					lock (fileTags)
 					{
-						if (fileTags.Any(x => x.Path == $"tag:{tag.TagName}"))
+						if (fileTags.Any(x => x.Path == $"tag:{tag.Name}"))
 						{
 							continue;
 						}

@@ -229,7 +229,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
 		private static Task LoadItemsIcon(IEnumerable<BaseFileSystemDialogItemViewModel> items, CancellationToken token)
 		{
-			var imagingService = Ioc.Default.GetRequiredService<IImagingService>();
+			var imagingService = Ioc.Default.GetRequiredService<IImageService>();
 			var threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
 
 			return items.ParallelForEachAsync(async (item) =>
