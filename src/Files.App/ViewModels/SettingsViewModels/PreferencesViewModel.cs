@@ -490,6 +490,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 				if (value & ShowFileTagsWidget)
 					ShowFileTagsWidget = false;
+
+				OnPropertyChanged();
 			}
 		}
 		public bool ShowFileTagsWidget
@@ -502,6 +504,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 				if (value & ShowBundlesWidget)
 					ShowBundlesWidget = false;
+
+				OnPropertyChanged();
 			}
 		}
 
