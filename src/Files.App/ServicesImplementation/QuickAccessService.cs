@@ -12,7 +12,7 @@ namespace Files.App.ServicesImplementation
 	{
 		private readonly static SidebarPinnedController Controller = App.SidebarPinnedController;
 		private readonly static string guid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
-		public static async Task<List<string>> GetPinnedFilesAsync()
+		public static async Task<List<string>> GetPinnedFoldersAsync()
 		{
 			var sidebarItems =  (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, 10000)).Enumerate
 				.Where(link => link.IsFolder)

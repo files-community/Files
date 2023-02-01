@@ -54,7 +54,7 @@ namespace Files.App.DataModels
 
 			try
 			{
-				FavoriteItems = await QuickAccessService.GetPinnedFilesAsync();
+				FavoriteItems = await QuickAccessService.GetPinnedFoldersAsync();
 				RemoveStaleSidebarItems();
 				await AddAllItemsToSidebar();
 			}
