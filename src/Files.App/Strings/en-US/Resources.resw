@@ -495,6 +495,12 @@
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0} seconds ago</value>
   </data>
+  <data name="SecondAgo" xml:space="preserve">
+    <value>{0} second ago</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>Now</value>
+  </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>New Tab</value>
   </data>
