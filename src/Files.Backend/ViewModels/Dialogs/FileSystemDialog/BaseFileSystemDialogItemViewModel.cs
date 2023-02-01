@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using Files.Backend.Models.Imaging;
+using Files.Backend.Models;
 using System.IO;
 
 namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
@@ -30,8 +30,8 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 			set => SetProperty(ref _DisplayName, value);
 		}
 
-		private ImageModel? _ItemIcon;
-		public ImageModel? ItemIcon
+		private IImageModel? _ItemIcon;
+		public IImageModel? ItemIcon
 		{
 			get => _ItemIcon;
 			set => SetProperty(ref _ItemIcon, value);

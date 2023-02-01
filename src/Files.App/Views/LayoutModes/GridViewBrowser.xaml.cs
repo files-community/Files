@@ -78,8 +78,10 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
 		{
-			if (FileList?.Items.Contains(e) ?? false)
-				FileList.SelectedItems.Add(e);
+			if ((NextRenameIndex != 0 && TryStartRenameNextItem(e)) || (!FileList?.Items.Contains(e) ?? true))
+				return;
+
+			FileList!.SelectedItems.Add(e);
 		}
 
 		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
@@ -374,7 +376,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
+		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -409,12 +411,12 @@ namespace Files.App.Views.LayoutModes
 						{
 							Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 							var textBox = popup.Child as TextBox;
-							CommitRename(textBox);
+							await CommitRename(textBox);
 						}
 						else
 						{
 							var textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
-							CommitRename(textBox);
+							await CommitRename(textBox);
 						}
 					}
 				}
