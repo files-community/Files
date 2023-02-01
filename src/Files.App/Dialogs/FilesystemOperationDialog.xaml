@@ -53,7 +53,6 @@
 		</MenuFlyout>
 
 		<vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
-		<vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
 		<vc:GenericEnumConverter x:Key="GenericEnumConverter" />
 		<vc2:ConflictResolveOptionToIndexConverter x:Key="ConflictResolveOptionToIndexConverter" />
 		<vc3:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />

@@ -12,12 +12,14 @@ using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.ServicesImplementation.DateTimeFormatter;
 using Files.App.ServicesImplementation.Settings;
+using Files.App.Storage.NativeStorage;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
+using Files.Sdk.Storage;
 using Files.Shared;
 using Files.Shared.Cloud;
 using Files.Shared.Extensions;
@@ -118,10 +120,17 @@ namespace Files.App
 				// Other services
 				.AddSingleton(Logger)
 				.AddSingleton<IDialogService, DialogService>()
-				.AddSingleton<IImagingService, ImagingService>()
+				.AddSingleton<IImageService, ImagingService>()
 				.AddSingleton<IThreadingService, ThreadingService>()
 				.AddSingleton<ILocalizationService, LocalizationService>()
 				.AddSingleton<ICloudDetector, CloudDetector>()
+				.AddSingleton<IFileTagsService, FileTagsService>()
+#if UWP
+				.AddSingleton<IStorageService, WindowsStorageService>()
+#else
+				.AddSingleton<IStorageService, NativeStorageService>()
+#endif
+				.AddSingleton<IAddItemService, AddItemService>()
 #if SIDELOAD
 				.AddSingleton<IUpdateService, SideloadUpdateService>()
 #else
@@ -180,6 +189,7 @@ namespace Files.App
 		private static async Task InitializeAppComponentsAsync()
 		{
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 			var preferencesSettingsService = userSettingsService.PreferencesSettingsService;
 
 			// Start off a list of tasks we need to run before we can continue startup
@@ -197,7 +207,7 @@ namespace Files.App
 				);
 				await Task.WhenAll(
 					JumpList.InitializeAsync(),
-					ContextFlyoutItemHelper.CachedNewContextMenuEntries
+					addItemService.GetNewEntriesAsync()
 				);
 				FileTagsHelper.UpdateTagsDb();
 			});

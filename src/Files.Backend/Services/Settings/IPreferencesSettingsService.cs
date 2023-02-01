@@ -77,6 +77,11 @@ namespace Files.Backend.Services.Settings
 		bool ShowDrivesWidget { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to display the file tags widget.
+		/// </summary>
+		bool ShowFileTagsWidget { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to display the bundles widget.
 		/// </summary>
 		bool ShowBundlesWidget { get; set; }
@@ -95,6 +100,11 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating whether or not to expand the drives widget.
 		/// </summary>
 		bool DrivesWidgetExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to expand the file tags widget.
+		/// </summary>
+		bool FileTagsWidgetExpanded { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to expand the bundles widget.
