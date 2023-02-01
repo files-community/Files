@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.ServicesImplementation
 {
-	internal class QuickAccessService
+	internal class QuickAccessService : IQuickAccessService
 	{
 		private readonly static SidebarPinnedController Controller = App.SidebarPinnedController;
 		private readonly static string guid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
