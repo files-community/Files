@@ -495,8 +495,8 @@
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0} seconds ago</value>
   </data>
-  <data name="SecondAgo" xml:space="preserve">
-    <value>{0} second ago</value>
+  <data name="OneSecondAgo" xml:space="preserve">
+    <value>1 second ago</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Now</value>

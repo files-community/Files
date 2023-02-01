@@ -26,7 +26,7 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 				{ TotalMinutes: >= 2 } => string.Format("MinutesAgo".GetLocalizedResource(), elapsed.Minutes),
 				{ TotalMinutes: >= 1 } => string.Format("MinuteAgo".GetLocalizedResource(), elapsed.Minutes),
 				{ TotalSeconds: >= 2 } => string.Format("SecondsAgo".GetLocalizedResource(), elapsed.Seconds),
-				{ TotalSeconds: >= 1 } => string.Format("SecondAgo".GetLocalizedResource(), elapsed.Seconds),
+				{ TotalSeconds: >= 1 } => "OneSecondAgo".GetLocalizedResource(),
 				{ TotalSeconds: >= 0 } => "Now".GetLocalizedResource(),
 				_ => ToString(offset, "D"),
 			};
