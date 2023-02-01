@@ -19,7 +19,7 @@ namespace Files.App.Dialogs
 		public CreateShortcutDialog()
 		{
 			InitializeComponent();
-		}	
+		}
 
 		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
 	}

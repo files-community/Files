@@ -434,7 +434,7 @@ namespace Files.App.Helpers
 		/// <param name="runAsAdmin"></param>
 		public static void UpdateShortcutItemProperties(ShortcutItem item, string targetPath, string arguments, string workingDir, bool runAsAdmin)
 		{
-			item.TargetPath = targetPath;
+			item.TargetPath = Environment.ExpandEnvironmentVariables(targetPath);
 			item.Arguments = arguments;
 			item.WorkingDirectory = workingDir;
 			item.RunAsAdmin = runAsAdmin;

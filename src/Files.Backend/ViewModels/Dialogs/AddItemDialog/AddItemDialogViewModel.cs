@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Enums;
 using Files.Backend.Extensions;
+using Files.Backend.Models;
 using Files.Backend.Models.Dialogs;
-using Files.Backend.Models.Imaging;
 using Files.Backend.Services;
 using Files.Shared;
 using System;
@@ -15,7 +15,7 @@ namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
 {
 	public sealed class AddItemDialogViewModel : ObservableObject
 	{
-		public IImagingService ImagingService { get; } = Ioc.Default.GetRequiredService<IImagingService>();
+		public IImageService ImagingService { get; } = Ioc.Default.GetRequiredService<IImageService>();
 
 		public ObservableCollection<AddItemDialogListItemViewModel> AddItemsList { get; }
 
@@ -65,7 +65,7 @@ namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
 
 			foreach (var itemType in itemTypes)
 			{
-				ImageModel? imageModel = null;
+				IImageModel? imageModel = null;
 				if (!string.IsNullOrEmpty(itemType.IconBase64))
 				{
 					byte[] bitmapData = Convert.FromBase64String(itemType.IconBase64);

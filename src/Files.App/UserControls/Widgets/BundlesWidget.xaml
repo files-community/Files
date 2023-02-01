@@ -18,8 +18,19 @@
 		<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 	</UserControl.Resources>
 
-	<Grid>
-		<Grid Canvas.ZIndex="10">
+	<Grid RowSpacing="12">
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<InfoBar
+			Title="{helpers:ResourceString Name=BundlesBeingRemovedTitle}"
+			Grid.Row="0"
+			IsOpen="true"
+			Message="{helpers:ResourceString Name=BundlesBeingRemovedMessage}" />
+
+		<Grid Grid.Row="1" Canvas.ZIndex="10">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
 				<ColumnDefinition />
@@ -72,6 +83,7 @@
 		<!--  Collection of bundles  -->
 		<GridView
 			x:Name="BundlesGridView"
+			Grid.Row="1"
 			HorizontalAlignment="Stretch"
 			x:Load="{x:Bind ViewModel.NoBundlesAddItemLoad, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 			AllowDrop="True"
@@ -365,6 +377,7 @@
 		<!--  No Bundles Info  -->
 		<Grid
 			x:Name="NoBundlesInfoGrid"
+			Grid.Row="1"
 			Width="280"
 			Height="256"
 			HorizontalAlignment="Left"

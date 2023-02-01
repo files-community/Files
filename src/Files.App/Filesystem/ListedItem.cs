@@ -5,6 +5,7 @@ using Files.App.Filesystem.Cloud;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
+using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Files.Shared.Extensions;
@@ -15,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -46,12 +48,16 @@ namespace Files.App.Filesystem
 		{
 			get
 			{
-				return $"{"ToolTipDescriptionName".GetLocalizedResource()} {Name}{Environment.NewLine}" +
-					$"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}{Environment.NewLine}" +
-					$"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}" +
-					(SyncStatusUI.LoadSyncStatus
-						? $"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}"
-						: string.Empty);
+				var tooltipBuilder = new StringBuilder();
+				tooltipBuilder.AppendLine($"{"ToolTipDescriptionName".GetLocalizedResource()} {Name}");
+				tooltipBuilder.AppendLine($"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}");
+				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
+				if(!string.IsNullOrWhiteSpace(FileSize))
+					tooltipBuilder.Append($"{Environment.NewLine}{"ToolTipDescriptionSize".GetLocalizedResource()} {FileSize}");
+				if(SyncStatusUI.LoadSyncStatus)
+					tooltipBuilder.Append($"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}");
+
+				return tooltipBuilder.ToString();
 			}
 		}
 
@@ -132,7 +138,7 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		public IList<FileTagViewModel> FileTagsUI
+		public IList<TagViewModel> FileTagsUI
 		{
 			get => FileTagsSettingsService.GetTagsByIds(FileTags);
 		}
