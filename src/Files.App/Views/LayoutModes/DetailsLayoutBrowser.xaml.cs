@@ -34,6 +34,8 @@ namespace Files.App.Views.LayoutModes
 
 		private InputCursor resizeCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.SizeWestEast, 1));
 
+		private ListedItem? _nextItemToSelect;
+
 		protected override uint IconSize => currentIconSize;
 
 		protected override ListViewBase ListViewBase => FileList;
@@ -95,8 +97,13 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
 		{
-			if (FileList?.Items.Contains(e) ?? false)
-				FileList.SelectedItems.Add(e);
+			if (NextRenameIndex != 0)
+			{
+				_nextItemToSelect = e;
+				FileList.LayoutUpdated += FileList_LayoutUpdated;
+			}
+			else if (FileList?.Items.Contains(e) ?? false)
+				FileList!.SelectedItems.Add(e);
 		}
 
 		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
@@ -171,6 +178,13 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+		}
+
+		private void FileList_LayoutUpdated(object? sender, object e)
+		{
+			FileList.LayoutUpdated -= FileList_LayoutUpdated;
+			TryStartRenameNextItem(_nextItemToSelect!);
+			_nextItemToSelect = null;
 		}
 
 		private void FolderSettings_SortOptionPreferenceUpdated(object? sender, SortOption e)
@@ -401,7 +415,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
+		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -435,7 +449,7 @@ namespace Files.App.Views.LayoutModes
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						CommitRename(textBox);
+						await CommitRename(textBox);
 					}
 				}
 			}
