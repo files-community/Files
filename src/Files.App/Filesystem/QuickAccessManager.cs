@@ -1,24 +1,28 @@
-﻿using Files.App.DataModels;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.DataModels;
+using Files.App.ServicesImplementation;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
+using static Files.App.Constants;
 
 namespace Files.App.Filesystem
 {
 	public sealed class QuickAccessManager
 	{
-		private static readonly Lazy<QuickAccessManager> lazy = new(() => new QuickAccessManager());
 		public FileSystemWatcher? PinnedItemsWatcher;
 		public event FileSystemEventHandler? PinnedItemsModified;
+		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
-		public static QuickAccessManager Default => lazy.Value;
-
-		private QuickAccessManager()
+		public SidebarPinnedModel Model;
+		public QuickAccessManager()
 		{
+			Model = new();
 			Initialize();
 		}	
 		
@@ -47,6 +51,24 @@ namespace Files.App.Filesystem
 				await oldPinnedItemsFile.DeleteAsync();
 				return model?.FavoriteItems;
 			});
+		}
+
+		public async Task InitializeAsync()
+		{
+			PinnedItemsModified += Model.LoadAsync;
+
+			await Model.LoadAsync();
+			if (!Model.FavoriteItems.Contains(CommonPaths.RecycleBinPath))
+				await QuickAccessService.PinToSidebar(CommonPaths.RecycleBinPath);
+			
+			var fileItems = (await ReadV2PinnedItemsFile())?.ToList();
+
+			if (fileItems is null)
+				return;
+
+			var itemsToLoad = fileItems.Except(Model.FavoriteItems).ToArray();
+			await QuickAccessService.PinToSidebar(itemsToLoad);
+			await Model.LoadAsync();
 		}
 	}
 }

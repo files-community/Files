@@ -39,9 +39,6 @@ namespace Files.App.UserControls.Widgets
 			get => thumbnail;
 			set => SetProperty(ref thumbnail, value);
 		}
-
-		private QuickAccessService PinnedItemsService = Ioc.Default.GetRequiredService<QuickAccessService>();
-
 		public DriveCardItem(DriveItem item)
 		{
 			Item = item;
@@ -72,7 +69,8 @@ namespace Files.App.UserControls.Widgets
 	public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
+		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;

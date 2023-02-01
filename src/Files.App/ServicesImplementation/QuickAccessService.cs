@@ -1,4 +1,6 @@
 ﻿using Files.App.Controllers;
+using Files.App.DataModels;
+using Files.App.Filesystem;
 using Files.App.Shell;
 using Files.Shared.Extensions;
 using System;
@@ -10,9 +12,9 @@ namespace Files.App.ServicesImplementation
 {
 	internal class QuickAccessService : IQuickAccessService
 	{
-		private readonly static SidebarPinnedController Controller = App.SidebarPinnedController;
 		private readonly static string guid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
-		public static async Task<List<string>> GetPinnedFoldersAsync()
+		
+		public async Task<List<string>> GetPinnedFoldersAsync()
 		{
 			var sidebarItems =  (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, 10000)).Enumerate
 				.Where(link => link.IsFolder)
@@ -22,20 +24,20 @@ namespace Files.App.ServicesImplementation
 			return sidebarItems;
 		}
 
-		public static async Task PinToSidebar(string folderPath, bool loadExplorerItems = true)
+		public async Task PinToSidebar(string folderPath, bool loadExplorerItems = true)
 			=> await PinToSidebar(new[] { folderPath }, loadExplorerItems);
 		
-		public static async Task PinToSidebar(string[] folderPaths, bool loadExplorerItems = true)
+		public async Task PinToSidebar(string[] folderPaths, bool loadExplorerItems = true)
 		{
 			await ContextMenu.InvokeVerb("pintohome", folderPaths);
 			if (loadExplorerItems)
-				await Controller.LoadAsync();
+				await App.QuickAccessManager.Model.LoadAsync();
 		}
 
-		public static async Task UnpinFromSidebar(string folderPath, bool loadExplorerItems = true)
+		public async Task UnpinFromSidebar(string folderPath, bool loadExplorerItems = true)
 			=> await UnpinFromSidebar(new[] { folderPath }, loadExplorerItems);
 		
-		public static async Task UnpinFromSidebar(string[] folderPaths, bool loadExplorerItems = true)
+		public async Task UnpinFromSidebar(string[] folderPaths, bool loadExplorerItems = true)
 		{
 			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
 			object? shell = Activator.CreateInstance(shellAppType);
@@ -48,14 +50,7 @@ namespace Files.App.ServicesImplementation
 					});
 
 			if (loadExplorerItems)
-				await Controller.LoadAsync();
-		}
-
-		public static async Task Save(string[] toRemove)
-		{
-			// Saves pinned items by unpinning the previous items from explorer and then pinning the current items back
-			await UnpinFromSidebar(toRemove, false);
-			await PinToSidebar(Controller.Model.FavoriteItems.ToArray(), false);
+				await App.QuickAccessManager.Model.LoadAsync();
 		}
 	}
 }

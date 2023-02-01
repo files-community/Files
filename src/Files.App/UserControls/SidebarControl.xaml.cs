@@ -36,8 +36,7 @@ namespace Files.App.UserControls
 	public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
 	{
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		private QuickAccessService PinnedItemsService = Ioc.Default.GetRequiredService<QuickAccessService>();
+		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
 
@@ -70,7 +69,7 @@ namespace Files.App.UserControls
 
 		private bool lockFlag = false;
 
-		public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
+		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
 
 		public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
 
@@ -179,7 +178,7 @@ namespace Files.App.UserControls
 		{
 			var options = item.MenuOptions;
 
-			var favoriteModel = App.SidebarPinnedController.Model;
+			var favoriteModel = App.QuickAccessManager.Model;
 			var favoriteIndex = favoriteModel.IndexOfItem(item);
 			var favoriteCount = favoriteModel.FavoriteItems.Count;
 

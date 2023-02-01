@@ -48,7 +48,7 @@ namespace Files.App.Interacts
 
 		private IFilesystemHelpers FilesystemHelpers => associatedInstance?.FilesystemHelpers;
 
-		private static QuickAccessService PinnedItemsService => Ioc.Default.GetRequiredService<QuickAccessService>();
+		private static IQuickAccessService QuickAccessService => Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		#endregion Singleton
 
