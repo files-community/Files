@@ -635,7 +635,7 @@ namespace Files.App
 		private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
 		{
 			var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
-			var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4);
+			var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
 			var overflowShellMenuItems = shellMenuItems.Except(mainShellMenuItems).ToList();
 
 			var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
@@ -1006,15 +1006,13 @@ namespace Files.App
 				ItemManipulationModel.SetSelectedItem(rightClickedItem);
 		}
 
-		private readonly RecycleBinHelpers recycleBinHelpers = new();
-
 		protected void InitializeDrag(UIElement containter, ListedItem item)
 		{
 			if (item is null)
 				return;
 
 			UninitializeDrag(containter);
-			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !recycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath)) || item.IsExecutable)
+			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath)) || item.IsExecutable)
 			{
 				containter.AllowDrop = true;
 				containter.DragOver += Item_DragOver;

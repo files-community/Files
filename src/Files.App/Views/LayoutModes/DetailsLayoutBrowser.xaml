@@ -44,7 +44,7 @@
 				EmptyValue="Collapsed"
 				NotEmptyValue="Visible" />
 
-			<vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
+			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
 			<converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 			<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
@@ -681,17 +681,17 @@
 										Padding="8,0"
 										HorizontalAlignment="Left"
 										x:Phase="2"
-										Background="{x:Bind FileTagsUI[0].ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
-										BorderBrush="{x:Bind FileTagsUI[0].ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
+										Background="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+										BorderBrush="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
 										BorderThickness="1"
 										CornerRadius="8"
-										ToolTipService.ToolTip="{x:Bind FileTagsUI[0].TagName, Mode=OneWay}"
+										ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
 										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
 										<TextBlock
 											x:Name="ItemTag"
 											FontSize="12"
 											Style="{StaticResource ColumnContentTextBlock}"
-											Text="{x:Bind FileTagsUI[0].TagName, Mode=OneWay}"
+											Text="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis"
 											Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
 									</Border>
