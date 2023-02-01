@@ -80,6 +80,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			if ((NextRenameIndex != 0 && TryStartRenameNextItem(e)) || (!FileList?.Items.Contains(e) ?? true))
 				return;
+
 			FileList!.SelectedItems.Add(e);
 		}
 

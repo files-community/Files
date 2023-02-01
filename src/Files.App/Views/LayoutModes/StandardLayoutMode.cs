@@ -136,6 +136,7 @@ namespace Files.App
 		protected virtual async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+
 			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
 				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
 		}
@@ -173,8 +174,10 @@ namespace Files.App
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
 			int selectedTextLength = SelectedItem.Name.Length;
+
 			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
 				selectedTextLength -= extensionLength;
+
 			textBox.Select(0, selectedTextLength);
 			IsRenamingItem = true;
 		}
@@ -235,13 +238,20 @@ namespace Files.App
 					NextRenameIndex = isShiftPressed ? -1 : 1;
 
 					if (textBox.Text != OldItemName)
+					{
 						await CommitRename(textBox);
+					}
 					else
 					{
 						var newIndex = ListViewBase.SelectedIndex + NextRenameIndex;
 						NextRenameIndex = 0;
 						EndRename(textBox);
-						if (newIndex >= 0 && newIndex < ListViewBase.Items.Count)
+
+						if
+						(
+							newIndex >= 0 &&
+							newIndex < ListViewBase.Items.Count
+						)
 						{
 							ListViewBase.SelectedIndex = newIndex;
 							StartRenameItem();
@@ -257,12 +267,19 @@ namespace Files.App
 		{
 			var nextItemIndex = ListViewBase.Items.IndexOf(item) + NextRenameIndex;
 			NextRenameIndex = 0;
-			if (nextItemIndex >= 0 && nextItemIndex < ListViewBase.Items.Count)
+
+			if
+			(
+				nextItemIndex >= 0 &&
+				nextItemIndex < ListViewBase.Items.Count
+			)
 			{
 				ListViewBase.SelectedIndex = nextItemIndex;
 				StartRenameItem();
+
 				return true;
 			}
+
 			return false;
 		}
 
