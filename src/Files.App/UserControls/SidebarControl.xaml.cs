@@ -29,7 +29,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
 using Windows.UI.Core;
-using static System.Net.Mime.MediaTypeNames;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.UserControls
@@ -117,14 +116,6 @@ namespace Files.App.UserControls
 
 		private ICommand UnpinItemCommand { get; }
 
-		private ICommand MoveItemToTopCommand { get; }
-
-		private ICommand MoveItemUpCommand { get; }
-
-		private ICommand MoveItemDownCommand { get; }
-
-		private ICommand MoveItemToBottomCommand { get; }
-
 		private ICommand OpenInNewTabCommand { get; }
 
 		private ICommand OpenInNewWindowCommand { get; }
@@ -149,10 +140,6 @@ namespace Files.App.UserControls
 			HideSectionCommand = new RelayCommand(HideSection);
 			UnpinItemCommand = new RelayCommand(UnpinItem);
 			PinItemCommand = new RelayCommand(PinItem);
-			MoveItemToTopCommand = new RelayCommand(MoveItemToTop);
-			MoveItemUpCommand = new RelayCommand(MoveItemUp);
-			MoveItemDownCommand = new RelayCommand(MoveItemDown);
-			MoveItemToBottomCommand = new RelayCommand(MoveItemToBottom);
 			OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
 			OpenInNewWindowCommand = new RelayCommand(OpenInNewWindow);
 			OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
@@ -252,34 +239,6 @@ namespace Files.App.UserControls
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
 					ShowItem = options.IsLocationItem
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "SideBarFavoritesMoveToTop".GetLocalizedResource(),
-					Glyph = "\uE11C",
-					Command = MoveItemToTopCommand,
-					ShowItem = showMoveItemUp
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "SideBarFavoritesMoveOneUp".GetLocalizedResource(),
-					Glyph = "\uE70E",
-					Command = MoveItemUpCommand,
-					ShowItem = showMoveItemUp
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "SideBarFavoritesMoveOneDown".GetLocalizedResource(),
-					Glyph = "\uE70D",
-					Command = MoveItemDownCommand,
-					ShowItem = showMoveItemDown
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "SideBarFavoritesMoveToBottom".GetLocalizedResource(),
-					Glyph = "\uE118",
-					Command = MoveItemToBottomCommand,
-					ShowItem = showMoveItemDown
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -391,40 +350,6 @@ namespace Files.App.UserControls
 		{
 			if (rightClickedItem.Section == SectionType.Favorites || rightClickedItem is DriveItem)
 				_ = QuickAccessService.UnpinFromSidebar(rightClickedItem.Path);
-		}
-
-		private void MoveItemToTop()
-		{
-			MoveItemToNewIndex(0);
-		}
-
-		private void MoveItemUp()
-		{
-			MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) - 1);
-		}
-
-		private void MoveItemDown()
-		{
-			MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) + 1);
-		}
-
-		private void MoveItemToBottom()
-		{
-			MoveItemToNewIndex(App.SidebarPinnedController.Model.FavoriteItems.Count - 1);
-		}
-
-		private void MoveItemToNewIndex(int newIndex)
-		{
-			if (rightClickedItem.Section != SectionType.Favorites)
-				return;
-
-			var isSelectedSidebarItem = SelectedSidebarItem == rightClickedItem;
-
-			var oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-			App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, newIndex);
-
-			if (isSelectedSidebarItem)
-				SetValue(SelectedSidebarItemProperty, rightClickedItem);
 		}
 
 		private void OpenProperties(CommandBarFlyout menu)
@@ -747,10 +672,6 @@ namespace Files.App.UserControls
 
 				isDropOnProcess = false;
 				deferral.Complete();
-			}
-			else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
-			{
-				SidebarPinnedModel.SwapItems(sourceLocationItem, locationItem);
 			}
 
 			await Task.Yield();

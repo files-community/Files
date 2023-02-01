@@ -25,14 +25,9 @@ namespace Files.App.ServicesImplementation
 		public static async Task PinToSidebar(string folderPath, bool loadExplorerItems = true)
 			=> await PinToSidebar(new[] { folderPath }, loadExplorerItems);
 		
-		public static async Task PinToSidebar(string[] folderPaths, bool loadExplorerItems = true, bool oneByOne = false)
+		public static async Task PinToSidebar(string[] folderPaths, bool loadExplorerItems = true)
 		{
-			if (oneByOne)
-				foreach (string path in folderPaths)
-					await ContextMenu.InvokeVerb("pintohome", new[] { path });
-			else
-				await ContextMenu.InvokeVerb("pintohome", folderPaths);
-			
+			await ContextMenu.InvokeVerb("pintohome", folderPaths);
 			if (loadExplorerItems)
 				await Controller.LoadAsync();
 		}
@@ -60,7 +55,7 @@ namespace Files.App.ServicesImplementation
 		{
 			// Saves pinned items by unpinning the previous items from explorer and then pinning the current items back
 			await UnpinFromSidebar(toRemove, false);
-			await PinToSidebar(Controller.Model.FavoriteItems.ToArray(), false, true);
+			await PinToSidebar(Controller.Model.FavoriteItems.ToArray(), false);
 		}
 	}
 }
