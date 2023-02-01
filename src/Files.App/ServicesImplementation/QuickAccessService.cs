@@ -22,26 +22,18 @@ namespace Files.App.ServicesImplementation
 			return sidebarItems;
 		}
 
-		public static async Task PinToSidebar(string folderPath)
-			=> await PinToSidebar(new[] { folderPath }, true);
-		public static async Task PinToSidebar(string folderPath, bool loadExplorerItems)
+		public static async Task PinToSidebar(string folderPath, bool loadExplorerItems = true)
 			=> await PinToSidebar(new[] { folderPath }, loadExplorerItems);
-		public static async Task PinToSidebar(string[] folderPaths)
-			=> await PinToSidebar(folderPaths, true);
-		public static async Task PinToSidebar(string[] folderPaths, bool loadExplorerItems)
+		public static async Task PinToSidebar(string[] folderPaths, bool loadExplorerItems = true)
 		{
 			await ContextMenu.InvokeVerb("pintohome", folderPaths);
 			if (loadExplorerItems)
 				await Controller.LoadAsync();
 		}
 
-		public static async Task UnpinFromSidebar(string folderPath)
-			=> await UnpinFromSidebar(new[] { folderPath }, true);
-		public static async Task UnpinFromSidebar(string folderPath, bool loadExplorerItems)
+		public static async Task UnpinFromSidebar(string folderPath, bool loadExplorerItems = true)
 			=> await UnpinFromSidebar(new[] { folderPath }, loadExplorerItems);
-		public static async Task UnpinFromSidebar(string[] folderPaths)
-			=> await UnpinFromSidebar(folderPaths, true);
-		public static async Task UnpinFromSidebar(string[] folderPaths, bool loadExplorerItems)
+		public static async Task UnpinFromSidebar(string[] folderPaths, bool loadExplorerItems = true)
 		{
 			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
 			object? shell = Activator.CreateInstance(shellAppType);
