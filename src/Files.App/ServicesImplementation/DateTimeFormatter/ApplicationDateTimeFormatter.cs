@@ -41,7 +41,7 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 				return " ";
 			}
 			var localTime = offset.ToLocalTime();
-			if (elapsed.TotalDays < 7)
+			if (elapsed.TotalDays < 7 && elapsed.TotalSeconds >= 0)
 			{
 				return $"{localTime:D} {localTime:t} ({ToShortLabel(offset)})";
 			}
