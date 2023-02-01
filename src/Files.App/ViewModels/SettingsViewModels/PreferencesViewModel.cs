@@ -128,7 +128,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		private void AddDateTimeOptions()
 		{
-			DateTimeOffset sampleDate1 = DateTime.Now;
+			DateTimeOffset sampleDate1 = DateTime.Now.AddSeconds(-5);
 			DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31, 14, 30, 0);
 			var styles = new DateTimeFormats[] { DateTimeFormats.Application, DateTimeFormats.System, DateTimeFormats.Universal };
 			DateFormats = styles.Select(style => new DateTimeFormatItem(style, sampleDate1, sampleDate2)).ToList();
