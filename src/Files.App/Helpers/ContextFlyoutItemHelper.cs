@@ -5,6 +5,7 @@ using Files.App.Filesystem;
 using Files.App.Interacts;
 using Files.App.ViewModels;
 using Files.Backend.Services;
+using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Enums;

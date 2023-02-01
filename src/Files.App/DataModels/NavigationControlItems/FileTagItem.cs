@@ -29,6 +29,6 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
 
-		public FileTagViewModel FileTag { get; set; }
+		public TagViewModel FileTag { get; set; }
 	}
 }

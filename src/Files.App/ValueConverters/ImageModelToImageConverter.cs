@@ -1,8 +1,6 @@
-using Files.App.Imaging;
+using Files.App.AppModels;
 using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Media.Imaging;
 using System;
-using System.Linq;
 
 namespace Files.App.ValueConverters
 {
@@ -10,11 +8,8 @@ namespace Files.App.ValueConverters
 	{
 		public object? Convert(object value, Type targetType, object parameter, string language)
 		{
-			if (value is BitmapImageModel bitmapImageModel &&
-				bitmapImageModel.Formats.Contains(Constants.KnownImageFormats.BITMAP_IMAGE_FORMAT))
-			{
-				return bitmapImageModel.GetImage<BitmapImage>();
-			}
+			if (value is BitmapImageModel bitmapImageModel)
+				return bitmapImageModel.Image;
 
 			return null;
 		}

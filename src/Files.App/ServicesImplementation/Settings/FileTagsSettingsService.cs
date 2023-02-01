@@ -15,13 +15,12 @@ namespace Files.App.ServicesImplementation.Settings
 	{
 		public event EventHandler OnSettingImportedEvent;
 
-		private static readonly List<FileTagViewModel> DefaultFileTags = new List<FileTagViewModel>()
+		private static readonly List<TagViewModel> DefaultFileTags = new List<TagViewModel>()
 		{
-			new("Blue", "#0072BD"),
-			new("Orange", "#D95319"),
-			new("Yellow", "#EDB120"),
-			new("Green", "#77AC30"),
-			new("Azure", "#4DBEEE")
+			new("Home", "#0072BD", "f7e0e137-2eb5-4fa4-a50d-ddd65df17c34"),
+			new("Work", "#D95319", "c84a8131-c4de-47d9-9440-26e859d14b3d"),
+			new("Photos", "#EDB120", "d4b8d4bd-ceaf-4e58-ac61-a185fcf96c5d"),
+			new("Important", "#77AC30", "79376daf-c44a-4fe4-aa3b-8b30baea453e")
 		};
 
 		public FileTagsSettingsService()
@@ -34,13 +33,13 @@ namespace Files.App.ServicesImplementation.Settings
 				Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName));
 		}
 
-		public IList<FileTagViewModel> FileTagList
+		public IList<TagViewModel> FileTagList
 		{
-			get => Get<List<FileTagViewModel>>(DefaultFileTags);
+			get => Get<List<TagViewModel>>(DefaultFileTags);
 			set => Set(value);
 		}
 
-		public FileTagViewModel GetTagById(string uid)
+		public TagViewModel GetTagById(string uid)
 		{
 			if (FileTagList.Any(x => x.Uid is null))
 			{
@@ -51,35 +50,35 @@ namespace Files.App.ServicesImplementation.Settings
 			var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
 			if (!string.IsNullOrEmpty(uid) && tag is null)
 			{
-				tag = new FileTagViewModel("FileTagUnknown".GetLocalizedResource(), "#9ea3a1", uid);
+				tag = new TagViewModel("FileTagUnknown".GetLocalizedResource(), "#9ea3a1", uid);
 				FileTagList = FileTagList.Append(tag).ToList();
 			}
 
 			return tag;
 		}
 
-		public IList<FileTagViewModel> GetTagsByIds(string[] uids)
+		public IList<TagViewModel> GetTagsByIds(string[] uids)
 		{
 			return uids?.Select(x => GetTagById(x)).ToList();
 		}
 
-		public IEnumerable<FileTagViewModel> GetTagsByName(string tagName)
+		public IEnumerable<TagViewModel> GetTagsByName(string tagName)
 		{
-			return FileTagList.Where(x => x.TagName.Equals(tagName, StringComparison.OrdinalIgnoreCase));
+			return FileTagList.Where(x => x.Name.Equals(tagName, StringComparison.OrdinalIgnoreCase));
 		}
 
-		public IEnumerable<FileTagViewModel> SearchTagsByName(string tagName)
+		public IEnumerable<TagViewModel> SearchTagsByName(string tagName)
 		{
-			return FileTagList.Where(x => x.TagName.StartsWith(tagName, StringComparison.OrdinalIgnoreCase));
+			return FileTagList.Where(x => x.Name.StartsWith(tagName, StringComparison.OrdinalIgnoreCase));
 		}
 
 		public override bool ImportSettings(object import)
 		{
 			if (import is string importString)
 			{
-				FileTagList = JsonSettingsSerializer.DeserializeFromJson<List<FileTagViewModel>>(importString);
+				FileTagList = JsonSettingsSerializer.DeserializeFromJson<List<TagViewModel>>(importString);
 			}
-			else if (import is List<FileTagViewModel> importList)
+			else if (import is List<TagViewModel> importList)
 			{
 				FileTagList = importList;
 			}

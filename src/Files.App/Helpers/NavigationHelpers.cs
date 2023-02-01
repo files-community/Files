@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.ServicesImplementation.Settings;
 using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.Views;
@@ -41,7 +40,7 @@ namespace Files.App.Helpers
 
 		public static void OpenInSecondaryPane(IShellPage associatedInstance, ListedItem listedItem)
 		{
-			if(associatedInstance is null || listedItem is null)
+			if (associatedInstance is null || listedItem is null)
 				return;
 
 			if (!userSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
@@ -134,7 +133,29 @@ namespace Files.App.Helpers
 			bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
 			bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
 			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
+			bool isTag = path.StartsWith("tag:");
 			FilesystemResult opened = (FilesystemResult)false;
+
+			if (isTag)
+			{
+				if (!forceOpenInNewTab)
+				{
+					associatedInstance.NavigateToPath(path, new NavigationArguments()
+					{
+						IsSearchResultPage = true,
+						SearchPathParam = "Home".GetLocalizedResource(),
+						SearchQuery = path,
+						AssociatedTabInstance = associatedInstance,
+						NavPathParam = path
+					});
+				}
+				else
+				{
+					await NavigationHelpers.OpenPathInNewTab(path);
+				}
+
+				return true;
+			}
 
 			var shortcutInfo = new ShellLinkItem();
 			if (itemType is null || isShortcut || isHiddenItem || isReparsePoint)
