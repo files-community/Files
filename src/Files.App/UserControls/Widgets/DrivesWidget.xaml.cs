@@ -40,7 +40,7 @@ namespace Files.App.UserControls.Widgets
 			set => SetProperty(ref thumbnail, value);
 		}
 
-		private PinnedItemsService PinnedItemsService = Ioc.Default.GetRequiredService<PinnedItemsService>();
+		private QuickAccessService PinnedItemsService = Ioc.Default.GetRequiredService<QuickAccessService>();
 
 		public DriveCardItem(DriveItem item)
 		{
@@ -183,7 +183,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				return;
 			}
-			_ = PinnedItemsService.PinToSidebar(item.Path);
+			_ = QuickAccessService.PinToSidebar(item.Path);
 		}
 
 		private async void UnpinFromFavorites_Click(object sender, RoutedEventArgs e)
@@ -193,7 +193,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				return;
 			}
-			_ = PinnedItemsService.UnpinFromSidebar(item.Path);
+			_ = QuickAccessService.UnpinFromSidebar(item.Path);
 		}
 
 		private void OpenDriveProperties_Click(object sender, RoutedEventArgs e)

@@ -37,7 +37,7 @@ namespace Files.App.UserControls
 	{
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private PinnedItemsService PinnedItemsService = Ioc.Default.GetRequiredService<PinnedItemsService>();
+		private QuickAccessService PinnedItemsService = Ioc.Default.GetRequiredService<QuickAccessService>();
 
 		public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
 
@@ -344,12 +344,12 @@ namespace Files.App.UserControls
 		private void PinItem()
 		{
 			if (rightClickedItem is DriveItem)
-				_ = PinnedItemsService.PinToSidebar(new[] { rightClickedItem.Path });
+				_ = QuickAccessService.PinToSidebar(new[] { rightClickedItem.Path });
 		}
 		private void UnpinItem()
 		{
 			if (rightClickedItem.Section == SectionType.Favorites || rightClickedItem is DriveItem)
-				_ = PinnedItemsService.UnpinFromSidebar(rightClickedItem.Path);
+				_ = QuickAccessService.UnpinFromSidebar(rightClickedItem.Path);
 		}
 
 		private void OpenProperties(CommandBarFlyout menu)
@@ -654,7 +654,7 @@ namespace Files.App.UserControls
 					foreach (var item in storageItems)
 					{
 						if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
-							PinnedItemsService.PinToSidebar(item.Path);
+							QuickAccessService.PinToSidebar(item.Path);
 					}
 				}
 				else

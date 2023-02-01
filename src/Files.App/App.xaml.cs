@@ -144,7 +144,7 @@ namespace Files.App
 				// (IFilesystemHelpersService, IFilesystemOperationsService)
 				// (IStorageEnumerator, IFallbackStorageEnumerator)
 				.AddSingleton<ISizeProvider, UserSizeProvider>()
-				.AddSingleton<PinnedItemsService>()
+				.AddSingleton<QuickAccessService>()
 
 				; // End of service configuration
 

@@ -48,7 +48,7 @@ namespace Files.App.Interacts
 
 		private IFilesystemHelpers FilesystemHelpers => associatedInstance?.FilesystemHelpers;
 
-		private static PinnedItemsService PinnedItemsService => Ioc.Default.GetRequiredService<PinnedItemsService>();
+		private static QuickAccessService PinnedItemsService => Ioc.Default.GetRequiredService<QuickAccessService>();
 
 		#endregion Singleton
 
@@ -137,12 +137,12 @@ namespace Files.App.Interacts
 
 		public virtual void SidebarPinItem(RoutedEventArgs e)
 		{
-			_ = PinnedItemsService.PinToSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
+			_ = QuickAccessService.PinToSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
 		}
 
 		public virtual void SidebarUnpinItem(RoutedEventArgs e)
 		{
-			_ = PinnedItemsService.UnpinFromSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
+			_ = QuickAccessService.UnpinFromSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
 		}
 
 		public virtual void OpenItem(RoutedEventArgs e)
@@ -152,7 +152,7 @@ namespace Files.App.Interacts
 
 		public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
 		{
-			_ = PinnedItemsService.UnpinFromSidebar(associatedInstance.FilesystemViewModel.WorkingDirectory);
+			_ = QuickAccessService.UnpinFromSidebar(associatedInstance.FilesystemViewModel.WorkingDirectory);
 		}
 
 		public virtual async void EmptyRecycleBin(RoutedEventArgs e)
@@ -395,7 +395,7 @@ namespace Files.App.Interacts
 
 		public virtual void PinDirectoryToFavorites(RoutedEventArgs e)
 		{
-			PinnedItemsService.PinToSidebar(new[] { associatedInstance.FilesystemViewModel.WorkingDirectory });
+			QuickAccessService.PinToSidebar(new[] { associatedInstance.FilesystemViewModel.WorkingDirectory });
 		}
 
 		public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)

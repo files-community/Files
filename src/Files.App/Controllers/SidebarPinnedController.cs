@@ -19,22 +19,22 @@ namespace Files.App.Controllers
 			Model = new SidebarPinnedModel();
 			Model.SetController(this);
 
-			PinnedItemsManager.Default.PinnedItemsModified += LoadAsync;
+			QuickAccessManager.Default.PinnedItemsModified += LoadAsync;
 		}
 
 		public async Task InitializeAsync()
 		{
 			await LoadAsync();
 			if (!Model.FavoriteItems.Contains(CommonPaths.RecycleBinPath))
-				await PinnedItemsService.PinToSidebar(CommonPaths.RecycleBinPath);
+				await QuickAccessService.PinToSidebar(CommonPaths.RecycleBinPath);
 
-			var fileItems = (await PinnedItemsManager.ReadV2PinnedItemsFile())?.ToList();
+			var fileItems = (await QuickAccessManager.ReadV2PinnedItemsFile())?.ToList();
 
 			if (fileItems is null)
 				return;
 
 			var itemsToLoad = fileItems.Except(Model.FavoriteItems).ToArray();
-			await PinnedItemsService.PinToSidebar(itemsToLoad);
+			await QuickAccessService.PinToSidebar(itemsToLoad);
 			await LoadAsync();
 		}
 

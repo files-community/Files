@@ -9,15 +9,15 @@ using Windows.Storage;
 
 namespace Files.App.Filesystem
 {
-	public sealed class PinnedItemsManager
+	public sealed class QuickAccessManager
 	{
-		private static readonly Lazy<PinnedItemsManager> lazy = new(() => new PinnedItemsManager());
+		private static readonly Lazy<QuickAccessManager> lazy = new(() => new QuickAccessManager());
 		public FileSystemWatcher? PinnedItemsWatcher;
 		public event FileSystemEventHandler? PinnedItemsModified;
 
-		public static PinnedItemsManager Default => lazy.Value;
+		public static QuickAccessManager Default => lazy.Value;
 
-		private PinnedItemsManager()
+		private QuickAccessManager()
 		{
 			Initialize();
 		}	
