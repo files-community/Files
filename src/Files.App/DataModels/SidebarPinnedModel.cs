@@ -64,6 +64,63 @@ namespace Files.App.DataModels
 			}
 		}
 		
+		/// <summary>
+		/// Moves the location item in the Favorites sidebar section from the old position to the new position
+		/// </summary>
+		/// <param name="oldIndex">The old position index of the location item</param>
+		/// <param name="newIndex">The new position index of the location item</param>
+		/// <returns>True if the move was successful</returns>
+
+		public bool MoveItem(INavigationControlItem locationItem, int oldIndex, int newIndex)
+		{
+			if (locationItem is null || newIndex > FavoriteItems.Count)
+				return false;
+
+			// A backup of the items, because the swapping of items requires removing and inserting them in the correct position
+			var sidebarItemsBackup = new List<string>(FavoriteItems);
+
+			try
+			{
+				FavoriteItems.RemoveAt(oldIndex);
+				FavoriteItems.Insert(newIndex, locationItem.Path);
+				lock (favoriteList)
+				{
+					favoriteList.RemoveAt(oldIndex);
+					favoriteList.Insert(newIndex, locationItem);
+				}
+				var e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, locationItem, newIndex, oldIndex);
+				controller?.DataChanged?.Invoke(SectionType.Favorites, e);
+				_ = QuickAccessService.Save(sidebarItemsBackup.ToArray());
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"An error occurred while moving pinned items in the Favorites sidebar section. {ex.Message}");
+				FavoriteItems = sidebarItemsBackup;
+				RemoveStaleSidebarItems();
+				_ = AddAllItemsToSidebar();
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Swaps two location items in the navigation sidebar
+		/// </summary>
+		/// <param name="firstLocationItem">The first location item</param>
+		/// <param name="secondLocationItem">The second location item</param>
+		public void SwapItems(INavigationControlItem firstLocationItem, INavigationControlItem secondLocationItem)
+		{
+			if (firstLocationItem is null || secondLocationItem is null)
+			{
+				return;
+			}
+
+			var indexOfFirstItemInMainPage = IndexOfItem(firstLocationItem);
+			var indexOfSecondItemInMainPage = IndexOfItem(secondLocationItem);
+
+			// Moves the items in the MainPage
+			MoveItem(firstLocationItem, indexOfFirstItemInMainPage, indexOfSecondItemInMainPage);
+		}
 
 		/// <summary>
 		/// Returns the index of the location item in the navigation sidebar
