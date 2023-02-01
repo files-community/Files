@@ -15,7 +15,7 @@ namespace Files.App.Storage.FtpStorage
 		}
 
 		/// <inheritdoc/>
-		public async Task<Stream> OpenStreamAsync(FileAccess access, FileShare share, CancellationToken cancellationToken = default)
+		public async Task<Stream> OpenStreamAsync(FileAccess access, CancellationToken cancellationToken = default)
 		{
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
@@ -30,7 +30,7 @@ namespace Files.App.Storage.FtpStorage
 			}
 			else
 			{
-				throw new ArgumentException($"Invalid {nameof(share)} flag.");
+				throw new ArgumentException($"Invalid {nameof(access)} flag.");
 			}
 		}
 	}

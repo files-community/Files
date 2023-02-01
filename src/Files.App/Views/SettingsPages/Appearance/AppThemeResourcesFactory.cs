@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Xaml.Media;
-using System.Collections.ObjectModel;
-using Windows.UI;
+﻿using System.Collections.ObjectModel;
 
 namespace Files.App.Views.SettingsPages.Appearance
 {

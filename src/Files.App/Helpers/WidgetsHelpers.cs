@@ -45,6 +45,10 @@ namespace Files.App.Helpers
 			{
 				return preferencesSettingsService.ShowDrivesWidget;
 			}
+			if (typeof(TWidget) == typeof(FileTagsWidget))
+			{
+				return preferencesSettingsService.ShowFileTagsWidget;
+			}
 			if (typeof(TWidget) == typeof(BundlesWidget))
 			{
 				return preferencesSettingsService.ShowBundlesWidget;

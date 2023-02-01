@@ -1,6 +1,7 @@
 using Files.App.Filesystem;
 using Files.App.Filesystem.Permissions;
 using Files.App.Shell;
+using Files.Backend.Helpers;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;

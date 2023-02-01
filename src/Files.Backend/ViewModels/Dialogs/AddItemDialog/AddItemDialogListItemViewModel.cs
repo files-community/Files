@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Files.Backend.Models;
 using Files.Backend.Models.Dialogs;
-using Files.Backend.Models.Imaging;
 
 namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
 {
@@ -12,7 +12,7 @@ namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
 
 		public string? Glyph { get; set; }
 
-		public ImageModel? Icon { get; set; }
+		public IImageModel? Icon { get; set; }
 
 		public bool IsItemEnabled { get; set; }
 

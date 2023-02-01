@@ -63,7 +63,7 @@ namespace Files.App.Shell
 			fileName ??= Path.GetFileName(folderItem.Name); // Original file name
 			fileName ??= folderItem.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing);
 			var itemNameOrOriginalPath = folderItem.Name ?? fileName;
-			string filePath = Path.IsPathRooted(itemNameOrOriginalPath) ? 
+			string filePath = Path.IsPathRooted(itemNameOrOriginalPath) ?
 				itemNameOrOriginalPath : parsingPath; // In recycle bin "Name" contains original file path + name
 			if (!isFolder && !string.IsNullOrEmpty(parsingPath) && Path.GetExtension(parsingPath) is string realExtension && !string.IsNullOrEmpty(realExtension))
 			{
