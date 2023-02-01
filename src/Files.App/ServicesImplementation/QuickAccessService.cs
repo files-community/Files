@@ -24,6 +24,7 @@ namespace Files.App.ServicesImplementation
 
 		public static async Task PinToSidebar(string folderPath, bool loadExplorerItems = true)
 			=> await PinToSidebar(new[] { folderPath }, loadExplorerItems);
+		
 		public static async Task PinToSidebar(string[] folderPaths, bool loadExplorerItems = true)
 		{
 			await ContextMenu.InvokeVerb("pintohome", folderPaths);
@@ -33,6 +34,7 @@ namespace Files.App.ServicesImplementation
 
 		public static async Task UnpinFromSidebar(string folderPath, bool loadExplorerItems = true)
 			=> await UnpinFromSidebar(new[] { folderPath }, loadExplorerItems);
+		
 		public static async Task UnpinFromSidebar(string[] folderPaths, bool loadExplorerItems = true)
 		{
 			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
