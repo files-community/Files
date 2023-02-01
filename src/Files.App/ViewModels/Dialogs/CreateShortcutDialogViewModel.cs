@@ -110,8 +110,10 @@ namespace Files.App.ViewModels.Dialogs
 				if (string.IsNullOrEmpty(destinationName))
 				{
 					var destinationPath = DestinationItemPath.Replace('/', '\\');
+					
 					if (destinationPath.EndsWith('\\'))
 						destinationPath = destinationPath.Substring(0, destinationPath.Length - 1);
+					
 					destinationName = destinationPath.Substring(destinationPath.LastIndexOf('\\') + 1);
 				}
 			}
