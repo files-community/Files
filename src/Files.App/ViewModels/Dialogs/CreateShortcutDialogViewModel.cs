@@ -33,6 +33,7 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				if (!SetProperty(ref _destinationItemPath, value))
 					return;
+
 				if (string.IsNullOrWhiteSpace(DestinationItemPath))
 				{
 					IsLocationValid = false;
