@@ -17,8 +17,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 {
 	public class AboutViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		protected readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		public ICommand CopyVersionInfoCommand { get; }
 		public ICommand SupportUsCommand { get; }
