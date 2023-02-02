@@ -623,6 +623,11 @@ namespace Files.App
 			var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;
 			var index = contextMenu.SecondaryCommands.IndexOf(overflowSeparator);
 			index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
+
+			// Only show the edit tags flyout if settings is enabled
+			if (!UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu)
+				return;
+
 			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
 			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
 			{

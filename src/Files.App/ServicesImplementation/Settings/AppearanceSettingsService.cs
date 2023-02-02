@@ -26,12 +26,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool MoveShellExtensionsToSubMenu
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool UseCompactStyles
 		{
 			get => Get(false);
@@ -73,16 +67,29 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		public bool MoveShellExtensionsToSubMenu
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool DisplayEditTagsMenu
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
 			{
-				case nameof(MoveShellExtensionsToSubMenu):
 				case nameof(UseCompactStyles):
 				case nameof(AppThemeBackgroundColor):
 				case nameof(AppThemeAddressBarBackgroundColor):
 				case nameof(AppThemeSidebarBackgroundColor):
 				case nameof(AppThemeFileAreaBackgroundColor):
+				case nameof(MoveShellExtensionsToSubMenu):
+				case nameof(DisplayEditTagsMenu):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}
