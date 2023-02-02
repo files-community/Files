@@ -50,7 +50,7 @@ namespace Files.App.ViewModels.Previews
 			};
 
 			Item.FileDetails.Add(GetFileProperty("FileTags",
-				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.TagName)) : null));
+				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null));
 		}
 
 		private static FileProperty GetFileProperty(string nameResource, object value)

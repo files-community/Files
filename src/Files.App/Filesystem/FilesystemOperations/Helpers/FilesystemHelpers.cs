@@ -36,8 +36,6 @@ namespace Files.App.Filesystem
 
 		private ItemManipulationModel itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
-		private RecycleBinHelpers recycleBinHelpers;
-
 		private readonly CancellationToken cancellationToken;
 
 		#region Helpers Members
@@ -81,7 +79,6 @@ namespace Files.App.Filesystem
 			this.associatedInstance = associatedInstance;
 			this.cancellationToken = cancellationToken;
 			filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
-			recycleBinHelpers = new RecycleBinHelpers();
 		}
 
 		#endregion Constructor
@@ -125,8 +122,8 @@ namespace Files.App.Filesystem
 
 			var returnStatus = ReturnResult.InProgress;
 
-			var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
-			var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
+			var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => RecycleBinHelpers.IsPathUnderRecycleBin(path));
+			var canBeSentToBin = !deleteFromRecycleBin && await RecycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
 
 			if (showDialog && UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog) // Check if the setting to show a confirmation dialog is on
 			{
@@ -134,7 +131,7 @@ namespace Files.App.Filesystem
 				List<ShellFileItem>? binItems = null;
 				foreach (var src in source)
 				{
-					if (recycleBinHelpers.IsPathUnderRecycleBin(src.Path))
+					if (RecycleBinHelpers.IsPathUnderRecycleBin(src.Path))
 					{
 						binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
 						if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
@@ -374,7 +371,7 @@ namespace Files.App.Filesystem
 				List<ShellFileItem> binItems = null;
 				foreach (var item in source)
 				{
-					if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+					if (RecycleBinHelpers.IsPathUnderRecycleBin(item.Path))
 					{
 						binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
 						if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
@@ -513,7 +510,7 @@ namespace Files.App.Filesystem
 			List<ShellFileItem> binItems = null;
 			foreach (var item in source)
 			{
-				if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+				if (RecycleBinHelpers.IsPathUnderRecycleBin(item.Path))
 				{
 					binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
 					if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
@@ -640,7 +637,7 @@ namespace Files.App.Filesystem
 			var source = await GetDraggedStorageItems(packageView);
 			ReturnResult returnStatus = ReturnResult.InProgress;
 
-			source = source.Where(x => !recycleBinHelpers.IsPathUnderRecycleBin(x.Path)); // Can't recycle items already in recyclebin
+			source = source.Where(x => !RecycleBinHelpers.IsPathUnderRecycleBin(x.Path)); // Can't recycle items already in recyclebin
 			returnStatus = await DeleteItemsAsync(source, showDialog, false, registerHistory);
 
 			return returnStatus;
@@ -780,14 +777,14 @@ namespace Files.App.Filesystem
 							for (uint i = 0; i < filesCount; i++)
 							{
 								uint charsNeeded = Shell32.DragQueryFile(dropStructHandle, i, null, 0);
-								uint bufferSpaceRequired = charsNeeded + 1;	// include space for terminating null character
+								uint bufferSpaceRequired = charsNeeded + 1; // include space for terminating null character
 								string buffer = new('\0', (int)bufferSpaceRequired);
 								uint charsCopied = Shell32.DragQueryFile(dropStructHandle, i, buffer, bufferSpaceRequired);
 
 								if (charsCopied > 0)
 								{
 									string path = buffer[..(int)charsCopied];
-									itemPaths.Add(path);
+									itemPaths.Add(Path.GetFullPath(path));
 								}
 							}
 
@@ -845,7 +842,6 @@ namespace Files.App.Filesystem
 
 			associatedInstance = null;
 			filesystemOperations = null;
-			recycleBinHelpers = null;
 		}
 
 		#endregion IDisposable

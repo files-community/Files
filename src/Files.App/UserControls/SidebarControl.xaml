@@ -51,8 +51,7 @@
 
 			<mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<mconv:StringFormatConverter x:Key="StringFormatConverter" />
-			<vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
-
+			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
 			<DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
 				<NavigationViewItem
 					AllowDrop="True"
@@ -309,7 +308,7 @@
 					Tag="{x:Bind Path}"
 					ToolTipService.ToolTip="{x:Bind ToolTipText}">
 					<NavigationViewItem.Icon>
-						<PathIcon Foreground="{x:Bind FileTag.ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}">
+						<PathIcon Foreground="{x:Bind FileTag.Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}">
 							<PathIcon.Data>
 								<EllipseGeometry
 									Center="24,24"

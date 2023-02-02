@@ -5,6 +5,7 @@ using Files.App.Filesystem.Cloud;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
+using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Files.Shared.Extensions;
@@ -137,7 +138,7 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		public IList<FileTagViewModel> FileTagsUI
+		public IList<TagViewModel> FileTagsUI
 		{
 			get => FileTagsSettingsService.GetTagsByIds(FileTags);
 		}

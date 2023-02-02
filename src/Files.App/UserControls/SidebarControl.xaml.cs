@@ -409,7 +409,7 @@ namespace Files.App.UserControls
 
 		private void MoveItemToNewIndex(int newIndex)
 		{
-			if (rightClickedItem.Section != SectionType.Favorites) 
+			if (rightClickedItem.Section != SectionType.Favorites)
 				return;
 
 			var isSelectedSidebarItem = SelectedSidebarItem == rightClickedItem;
@@ -1021,7 +1021,7 @@ namespace Files.App.UserControls
 					var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
 					if (emptyRecycleBinItem is not null)
 					{
-						var binHasItems = new RecycleBinHelpers().RecycleBinHasItems();
+						var binHasItems = RecycleBinHelpers.RecycleBinHasItems();
 						emptyRecycleBinItem.IsEnabled = binHasItems;
 					}
 				}
@@ -1055,7 +1055,7 @@ namespace Files.App.UserControls
 				else
 				{
 					var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
-					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem) 
+					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem)
 						return;
 
 					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
@@ -1078,7 +1078,7 @@ namespace Files.App.UserControls
 
 		private async void NavigationView_Expanding(NavigationView sender, NavigationViewItemExpandingEventArgs args)
 		{
-			if (args.ExpandingItem is not LocationItem loc || loc.ChildItems is null) 
+			if (args.ExpandingItem is not LocationItem loc || loc.ChildItems is null)
 				return;
 
 			await SetNavigationViewCollapse(sender, loc, true);
@@ -1086,7 +1086,7 @@ namespace Files.App.UserControls
 
 		private async void NavigationView_Collapsed(NavigationView sender, NavigationViewItemCollapsedEventArgs args)
 		{
-			if (args.CollapsedItem is not LocationItem loc || loc.ChildItems is null) 
+			if (args.CollapsedItem is not LocationItem loc || loc.ChildItems is null)
 				return;
 
 			await SetNavigationViewCollapse(sender, loc, false);

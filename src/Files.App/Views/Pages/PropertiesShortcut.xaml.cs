@@ -1,7 +1,7 @@
 using CommunityToolkit.WinUI;
 using Files.App.Filesystem;
-using Files.App.ViewModels.Properties;
 using Files.App.Helpers;
+using Files.App.ViewModels.Properties;
 using System.Threading.Tasks;
 
 namespace Files.App.Views
@@ -26,10 +26,10 @@ namespace Files.App.Views
 				return true;
 
 			await App.Window.DispatcherQueue.EnqueueAsync(() =>
-				UIFilesystemHelpers.UpdateShortcutItemProperties(shortcutItem, 
+				UIFilesystemHelpers.UpdateShortcutItemProperties(shortcutItem,
 				ViewModel.ShortcutItemPath,
-				ViewModel.ShortcutItemArguments, 
-				ViewModel.ShortcutItemWorkingDir, 
+				ViewModel.ShortcutItemArguments,
+				ViewModel.ShortcutItemWorkingDir,
 				ViewModel.RunAsAdmin)
 			);
 
