@@ -100,7 +100,8 @@ namespace Files.App.Interacts
 				var fileName = string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk";
 				var filePath = Path.Combine(currentPath, fileName);
 
-				await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath);
+				if (!await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath))
+					await UIFilesystemHelpers.HandleShortcutCannotBeCreated(fileName, selectedItem.ItemPath);
 			}
 		}
 
@@ -157,17 +158,17 @@ namespace Files.App.Interacts
 
 		public virtual async void EmptyRecycleBin(RoutedEventArgs e)
 		{
-			await RecycleBinHelpers.S_EmptyRecycleBin();
+			await RecycleBinHelpers.EmptyRecycleBin();
 		}
 
 		public virtual async void RestoreRecycleBin(RoutedEventArgs e)
 		{
-			await RecycleBinHelpers.S_RestoreRecycleBin(associatedInstance);
+			await RecycleBinHelpers.RestoreRecycleBin(associatedInstance);
 		}
 
 		public virtual async void RestoreSelectionRecycleBin(RoutedEventArgs e)
 		{
-			await RecycleBinHelpers.S_RestoreSelectionRecycleBin(associatedInstance);
+			await RecycleBinHelpers.RestoreSelectionRecycleBin(associatedInstance);
 		}
 
 		public virtual async void QuickLook(RoutedEventArgs e)
@@ -187,12 +188,12 @@ namespace Files.App.Interacts
 
 		public virtual async void RestoreItem(RoutedEventArgs e)
 		{
-			await RecycleBinHelpers.S_RestoreItem(associatedInstance);
+			await RecycleBinHelpers.RestoreItem(associatedInstance);
 		}
 
 		public virtual async void DeleteItem(RoutedEventArgs e)
 		{
-			await RecycleBinHelpers.S_DeleteItem(associatedInstance);
+			await RecycleBinHelpers.DeleteItem(associatedInstance);
 		}
 
 		public virtual void ShowFolderProperties(RoutedEventArgs e) => ShowProperties(e);
@@ -637,11 +638,13 @@ namespace Files.App.Interacts
 			string[] sources = associatedInstance.SlimContentPage.SelectedItems
 				.Select(item => item.ItemPath)
 				.ToArray();
-
 			if (sources.Length is 0)
 				return (sources, string.Empty, string.Empty);
 
 			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory.Normalize();
+			if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)
+				directory = library.DefaultSaveFolder;
+
 			string fileName = Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
 
 			return (sources, directory, fileName);

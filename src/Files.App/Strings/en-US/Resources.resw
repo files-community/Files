@@ -2871,6 +2871,12 @@
   <data name="ReleaseNotes" xml:space="preserve">
     <value>Release Notes</value>
   </data>
+  <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
+    <value>Creating a shortcut in this location requires administrator privileges</value>
+  </data>
+  <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
+    <value>Would you like to create the shortcut on the desktop instead?</value>
+  </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
     <value>The specified item name is invalid</value>
   </data>
