@@ -60,7 +60,7 @@ namespace Files.App
 		public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
 		public static JumpListManager JumpList { get; private set; }
 		public static RecentItems RecentItemsManager { get; private set; }
-		public static SidebarPinnedController SidebarPinnedController { get; private set; }
+		public static QuickAccessManager QuickAccessManager { get; private set; }
 		public static CloudDrivesManager CloudDrivesManager { get; private set; }
 		public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
 		public static DrivesManager DrivesManager { get; private set; }
@@ -144,6 +144,7 @@ namespace Files.App
 				// (IFilesystemHelpersService, IFilesystemOperationsService)
 				// (IStorageEnumerator, IFallbackStorageEnumerator)
 				.AddSingleton<ISizeProvider, UserSizeProvider>()
+				.AddSingleton<IQuickAccessService, QuickAccessService>()
 
 				; // End of service configuration
 
@@ -164,7 +165,7 @@ namespace Files.App
 			CloudDrivesManager ??= new CloudDrivesManager();
 			WSLDistroManager ??= new WSLDistroManager();
 			FileTagsManager ??= new FileTagsManager();
-			SidebarPinnedController ??= new SidebarPinnedController();
+			QuickAccessManager ??= new QuickAccessManager();
 		}
 
 		private static async Task StartAppCenter()
@@ -203,7 +204,7 @@ namespace Files.App
 					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), preferencesSettingsService.ShowNetworkDrivesSection),
 					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), preferencesSettingsService.ShowWslSection),
 					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), preferencesSettingsService.ShowFileTagsSection),
-					SidebarPinnedController.InitializeAsync()
+					QuickAccessManager.InitializeAsync()
 				);
 				await Task.WhenAll(
 					JumpList.InitializeAsync(),
