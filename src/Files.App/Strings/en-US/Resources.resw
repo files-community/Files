@@ -823,7 +823,7 @@
     <value>Language</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move overflow items into a sub menu</value>
+    <value>Move shell extensions into a sub menu</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Show confirmation dialog when deleting items</value>
@@ -2871,6 +2871,12 @@
   <data name="ReleaseNotes" xml:space="preserve">
     <value>Release Notes</value>
   </data>
+  <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
+    <value>Creating a shortcut in this location requires administrator privileges</value>
+  </data>
+  <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
+    <value>Would you like to create the shortcut on the desktop instead?</value>
+  </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
     <value>The specified item name is invalid</value>
   </data>
@@ -2891,5 +2897,8 @@
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>Bundles will be retiring in a future update 📎</value>
+  </data>
+  <data name="DisplayEditTagsMenu" xml:space="preserve">
+    <value>Display the edit tags flyout</value>
   </data>
 </root>

@@ -5,15 +5,38 @@ namespace Files.App.ServicesImplementation
 {
 	public interface IQuickAccessService
 	{
-		// Gets the list of quick access items from File Explorer
+		/// <summary>
+		/// Gets the list of quick access items
+		/// </summary>
+		/// <returns></returns>
 		Task<List<string>> GetPinnedFoldersAsync();
 
-		// Pins a folder to the quick access list
+		/// <summary>
+		/// Pins a folder to the quick access list
+		/// </summary>
+		/// <param name="folderPath">The folder to pin</param>
+		/// <returns></returns>
 		Task PinToSidebar(string folderPath);
+
+		/// <summary>
+		/// Pins folders to the quick access list
+		/// </summary>
+		/// <param name="folderPaths">The array of folders to pin</param>
+		/// <returns></returns>
 		Task PinToSidebar(string[] folderPaths);
 
-		// Unpins a folder from the quick access list
+		/// <summary>
+		/// Unpins a folder from the quick access list
+		/// </summary>
+		/// <param name="folderPath">The folder to unpin</param>
+		/// <returns></returns>
 		Task UnpinFromSidebar(string folderPath);
+
+		/// <summary>
+		/// Unpins folders from the quick access list
+		/// </summary>
+		/// <param name="folderPaths">The array of folders to unpin</param>
+		/// <returns></returns>
 		Task UnpinFromSidebar(string[] folderPaths);
 	}
 }
