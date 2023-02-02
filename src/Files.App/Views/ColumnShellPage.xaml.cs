@@ -274,5 +274,29 @@ namespace Files.App.Views
 		{
 			throw new NotImplementedException("Can't show Home page in Column View");
 		}
+
+		public void RemoveLastPageFromBackStack()
+		{
+			ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
+		}
+
+		public void SubmitSearch(string query, bool searchUnindexedItems)
+		{
+			FilesystemViewModel.CancelSearch();
+			InstanceViewModel.CurrentSearchQuery = query;
+			InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
+			ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
+			{
+				AssociatedTabInstance = this,
+				IsSearchResultPage = true,
+				SearchPathParam = FilesystemViewModel.WorkingDirectory,
+				SearchQuery = query,
+				SearchUnindexedItems = searchUnindexedItems,
+			});
+			//this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);
+		}
+
+		private async void CreateNewShortcutFromDialog()
+			=> await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 	}
 }

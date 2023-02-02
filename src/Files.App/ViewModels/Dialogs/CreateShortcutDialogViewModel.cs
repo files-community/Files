@@ -16,14 +16,48 @@ namespace Files.App.ViewModels.Dialogs
 		public readonly string WorkingDirectory;
 
 		// Tells whether destination path exists
-		public bool DestinationPathExists { get; set; } = false;
+		public bool DestinationPathExists { get; set; }
+
+		// Tells wheteher the shortcut has been created
+		public bool ShortcutCreatedSuccessfully { get; private set; }
+
+		// Shortcut name with extension
+		public string ShortcutCompleteName { get; private set; } = string.Empty;
 
 		// Destination of the shortcut chosen by the user (can be a path or a URL)
 		private string _destinationItemPath;
 		public string DestinationItemPath
 		{
 			get => _destinationItemPath;
-			set => SetProperty(ref _destinationItemPath, value);
+			set
+			{
+				if (!SetProperty(ref _destinationItemPath, value))
+					return;
+
+				if (string.IsNullOrWhiteSpace(DestinationItemPath))
+				{
+					IsLocationValid = false;
+					return;
+				}
+
+				try
+				{
+					DestinationPathExists = Path.Exists(DestinationItemPath) && DestinationItemPath != Path.GetPathRoot(DestinationItemPath);
+					if (DestinationPathExists)
+					{
+						IsLocationValid = true;
+					}
+					else
+					{
+						var uri = new Uri(DestinationItemPath);
+						IsLocationValid = uri.IsWellFormedOriginalString();
+					}
+				}
+				catch (Exception)
+				{
+					IsLocationValid = false;
+				}
+			}
 		}
 
 		// Tells if the selected destination is valid (Path exists or URL is well-formed). Used to enable primary button
@@ -73,7 +107,15 @@ namespace Files.App.ViewModels.Dialogs
 			if (DestinationPathExists)
 			{
 				destinationName = Path.GetFileName(DestinationItemPath);
-				destinationName ??= Path.GetDirectoryName(DestinationItemPath);
+				if (string.IsNullOrEmpty(destinationName))
+				{
+					var destinationPath = DestinationItemPath.Replace('/', '\\');
+					
+					if (destinationPath.EndsWith('\\'))
+						destinationPath = destinationPath.Substring(0, destinationPath.Length - 1);
+					
+					destinationName = destinationPath.Substring(destinationPath.LastIndexOf('\\') + 1);
+				}
 			}
 			else
 			{
@@ -82,19 +124,17 @@ namespace Files.App.ViewModels.Dialogs
 			}
 
 			var shortcutName = string.Format("ShortcutCreateNewSuffix".ToLocalized(), destinationName);
-			var filePath = Path.Combine(
-				WorkingDirectory,
-				shortcutName + extension);
+			ShortcutCompleteName = shortcutName + extension;
+			var filePath = Path.Combine(WorkingDirectory, ShortcutCompleteName);
 
 			int fileNumber = 1;
 			while (Path.Exists(filePath))
 			{
-				filePath = Path.Combine(
-					WorkingDirectory,
-					shortcutName + $" ({++fileNumber})" + extension);
+				ShortcutCompleteName = shortcutName + $" ({++fileNumber})" + extension;
+				filePath = Path.Combine(WorkingDirectory, ShortcutCompleteName);
 			}
 
-			await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, DestinationItemPath);
+			ShortcutCreatedSuccessfully = await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, DestinationItemPath);
 		}
 	}
 }
