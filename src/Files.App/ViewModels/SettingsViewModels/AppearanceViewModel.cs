@@ -107,6 +107,19 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
+		
+		public bool DisplayEditTagsMenu
+		{
+			get => UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu)
+				{
+					UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 
 		public bool UseCompactStyles
 		{
