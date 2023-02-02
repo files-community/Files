@@ -152,13 +152,13 @@
     <value>שם פריט</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>נתיב:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>גודל:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>נפח אחרי חילוץ:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>אין אפשרות לבצע פעולה זו</value>
@@ -218,7 +218,7 @@
     <value>תבנית תאריך.</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>ערכת עיצוב</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>הצג סיומות עבור סוגי קבצים ידועים</value>
@@ -236,7 +236,7 @@
     <value>מראה</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>רקע</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>תכונות ניסיוניות</value>
@@ -581,13 +581,13 @@
     <value>הפעל כמשתמש אחר</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
-    <value>All type of {0}</value>
+    <value>כל סוגי {0}</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>סוגים שונים</value>
   </data>
   <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>הכל ב {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>שטח בשימוש:</value>
@@ -878,10 +878,10 @@
     <value>לא צוין</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>Longitude Decimal</value>
+    <value>קו אורך עשרוני</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
-    <value>Latitude Decimal</value>
+    <value>קו רוחב עשרוני</value>
   </data>
   <data name="PropertyLatitude" xml:space="preserve">
     <value>קו רוחב</value>
@@ -995,16 +995,16 @@
     <value>מפרסם</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Thumbnail Large Path</value>
+    <value>נתיב לתמונה ממוזערת גדולה</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>Thumbnail Large Uri</value>
+    <value>קישור לתמונה ממוזערת גדולה</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
-    <value>Thumbnail Small Path</value>
+    <value>נתיב לתמונה ממוזערת קטנה</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>Thumbnail Small Uri</value>
+    <value>קישור לתמונה ממוזערת קטנה</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
     <value>כתובת רשת של משתמש</value>
@@ -1214,13 +1214,13 @@
     <value>קיימים עדכונים זמינים</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Show protected system files</value>
+    <value>הצג קבצי מערכת מוגנים</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>כלול פריטים לא ממופים בתוצאות החיפוש</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Reset folder overrides</value>
+    <value>איפוס הגדרות עוקפות לתיקייה</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
     <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
@@ -1598,10 +1598,10 @@
     <value>‏‏צור</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>פתח את Storage Sense</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>פתח את Storage Sense</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>העתק</value>
@@ -1715,7 +1715,7 @@
     <value>פתיחה באמצעות</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
-    <value>File icon</value>
+    <value>סמל קובץ</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
     <value>Original path column</value>
@@ -1934,7 +1934,7 @@
     <value>התעלם</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>ווידג'טים</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>‏‏מצב סינכרון</value>
@@ -1955,7 +1955,7 @@
     <value>שליטה מלאה</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>List directory contents</value>
+    <value>הצגת תוכן התיקייה</value>
   </data>
   <data name="SecurityModifyLabel.Text" xml:space="preserve">
     <value>שנה</value>
@@ -1964,7 +1964,7 @@
     <value>הרשאות ל</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
-    <value>Read and execute</value>
+    <value>קריאה והרצה</value>
   </data>
   <data name="SecurityReadLabel.Text" xml:space="preserve">
     <value>קריאה</value>
@@ -1979,13 +1979,13 @@
     <value>חשבון לא ידוע</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>אין לך את ההרשאות הנדרשות לצפייה בהרשאות האבטחה של הפריט. אנא לחץ על "הרשאות מתקדמות" כדי להתקדם.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>בעלים</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>בעלים לא ידוע</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extract Archive</value>
