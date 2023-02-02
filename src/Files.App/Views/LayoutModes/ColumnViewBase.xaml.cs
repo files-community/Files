@@ -3,7 +3,6 @@ using CommunityToolkit.WinUI.UI;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
 using Files.App.UserControls.Selection;
 using Files.Backend.Services.Settings;
@@ -93,6 +92,9 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
 		{
+			if (NextRenameIndex != 0 && TryStartRenameNextItem(e))
+				return;
+
 			FileList?.SelectedItems.Add(e);
 		}
 
@@ -356,7 +358,7 @@ namespace Files.App.Views.LayoutModes
 			ItemManipulationModel.SetSelectedItem(objectPressed);
 		}
 
-		private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
+		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -387,7 +389,7 @@ namespace Files.App.Views.LayoutModes
 					FileList.ContainerFromItem(RenamingItem) is ListViewItem listViewItem &&
 					listViewItem.FindDescendant("ListViewTextBoxItemName") is TextBox textBox)
 				{
-					CommitRename(textBox);
+					await CommitRename(textBox);
 				}
 
 				if (isItemFolder && UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)

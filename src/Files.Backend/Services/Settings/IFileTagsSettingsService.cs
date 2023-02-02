@@ -8,15 +8,15 @@ namespace Files.Backend.Services.Settings
 	{
 		event EventHandler OnSettingImportedEvent;
 
-		IList<FileTagViewModel> FileTagList { get; set; }
+		IList<TagViewModel> FileTagList { get; set; }
 
-		FileTagViewModel GetTagById(string uid);
+		TagViewModel GetTagById(string uid);
 
-		IList<FileTagViewModel> GetTagsByIds(string[] uids);
+		IList<TagViewModel> GetTagsByIds(string[] uids);
 
-		IEnumerable<FileTagViewModel> GetTagsByName(string tagName);
+		IEnumerable<TagViewModel> GetTagsByName(string tagName);
 
-		IEnumerable<FileTagViewModel> SearchTagsByName(string tagName);
+		IEnumerable<TagViewModel> SearchTagsByName(string tagName);
 
 		object ExportSettings();
 

@@ -154,7 +154,7 @@ namespace Files.App.ServicesImplementation
 				return;
 
 			var result = await GetLatestReleaseNotesAsync();
-			
+
 			if (result is not null)
 				IsReleaseNotesAvailable = true;
 		}

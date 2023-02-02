@@ -132,6 +132,15 @@ namespace Files.App.Storage.WindowsStorage
 			return new WindowsStorageFolder(folder);
 		}
 
+		/// <inheritdoc/>
+		public override async Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		{
+			var parentFolderTask = storage.GetParentAsync().AsTask(cancellationToken);
+			var parentFolder = await parentFolderTask;
+
+			return new WindowsStorageFolder(parentFolder);
+		}
+
 		private static StorageDeleteOption GetWindowsStorageDeleteOption(bool deletePermanentlyFlag)
 		{
 			return deletePermanentlyFlag ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default;
@@ -160,15 +169,6 @@ namespace Files.App.Storage.WindowsStorage
 				CreationCollisionOption.FailIfExists => Windows.Storage.CreationCollisionOption.FailIfExists,
 				_ => throw new ArgumentOutOfRangeException(nameof(options))
 			};
-		}
-
-		/// <inheritdoc/>
-		public override async Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
-		{
-			var parentFolderTask = storage.GetParentAsync().AsTask(cancellationToken);
-			var parentFolder = await parentFolderTask;
-
-			return new WindowsStorageFolder(parentFolder);
 		}
 	}
 }
