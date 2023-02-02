@@ -823,7 +823,7 @@
     <value>Language</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move overflow items into a sub menu</value>
+    <value>Move shell extensions into a sub menu</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Show confirmation dialog when deleting items</value>
@@ -2899,6 +2899,6 @@
     <value>Bundles will be retiring in a future update 📎</value>
   </data>
   <data name="DisplayEditTagsMenu" xml:space="preserve">
-    <value>Display the edit tags menu</value>
+    <value>Display the edit tags flyout</value>
   </data>
 </root>
