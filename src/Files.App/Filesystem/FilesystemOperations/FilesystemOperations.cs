@@ -3,6 +3,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Files.Shared;
 using Files.Shared.Enums;
@@ -30,14 +31,11 @@ namespace Files.App.Filesystem
 	{
 		private IShellPage associatedInstance;
 
-		private RecycleBinHelpers recycleBinHelpers;
-
 		#region Constructor
 
 		public FilesystemOperations(IShellPage associatedInstance)
 		{
 			this.associatedInstance = associatedInstance;
-			recycleBinHelpers = new RecycleBinHelpers();
 		}
 
 		#endregion Constructor
@@ -482,7 +480,7 @@ namespace Files.App.Filesystem
 			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 
-			bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
+			bool deleteFromRecycleBin = RecycleBinHelpers.IsPathUnderRecycleBin(source.Path);
 
 			FilesystemResult fsResult = FileSystemStatusCode.InProgress;
 
@@ -825,7 +823,6 @@ namespace Files.App.Filesystem
 
 		public void Dispose()
 		{
-			recycleBinHelpers = null;
 			associatedInstance = null;
 		}
 
@@ -936,7 +933,7 @@ namespace Files.App.Filesystem
 				if (token.IsCancellationRequested)
 					break;
 
-				permanently = recycleBinHelpers.IsPathUnderRecycleBin(source[i].Path) || originalPermanently;
+				permanently = RecycleBinHelpers.IsPathUnderRecycleBin(source[i].Path) || originalPermanently;
 
 				rawStorageHistory.Add(await DeleteAsync(source[i], null, permanently, token));
 				fsProgress.ProcessedItemsCount++;

@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Views;
+using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Media;
@@ -41,35 +42,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public string Path { get; set; }
 
-		public string Name
-		{
-			get
-			{
-				string fileName;
-
-				// Network Share path
-				if (System.IO.Path.GetPathRoot(Path) == Path && Path.StartsWith(@"\\"))
-				{
-					fileName = Path.Substring(Path.LastIndexOf(@"\") + 1);
-				}
-				// Drive path
-				else if (System.IO.Path.GetPathRoot(Path) == Path)
-				{
-					fileName = Path;
-				}
-				else
-				{
-					fileName = System.IO.Path.GetFileName(Path);
-				}
-
-				if (FileExtensionHelpers.IsShortcutOrUrlFile(fileName))
-				{
-					fileName = fileName.Remove(fileName.Length - 4);
-				}
-
-				return fileName;
-			}
-		}
+		public string Name { get; set; }
 
 		public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
 
@@ -117,6 +90,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		public BundleItemViewModel(string path, FilesystemItemType targetType)
 		{
 			Path = path;
+			Name = PathHelpers.FormatName(path);
 			TargetType = targetType;
 
 			// Create commands

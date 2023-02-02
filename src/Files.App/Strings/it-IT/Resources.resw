@@ -1580,7 +1580,7 @@
     <value>Nessun percorso</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>Il campo non può essere vuoto</value>
+    <value>Il campo non può essere vuoto!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
     <value>Il nome non può contenere i seguenti caratteri: \ / : * ? " &lt; &gt; |</value>
@@ -2768,7 +2768,7 @@
     <value>Questa azione reimposterà tutte le cartelle alle tue preferenze predefinite.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Lo vuoi davvero?</value>
+    <value>Sei sicuro/a?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Schermata di blocco</value>

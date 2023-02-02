@@ -96,7 +96,7 @@ namespace Files.App.Helpers
 				{
 					ListedItem first = x.First();
 					x.Model.ShowCountTextBelow = true;
-					x.Model.Text = first.FileTagsUI?.FirstOrDefault()?.TagName ?? "None".GetLocalizedResource();
+					x.Model.Text = first.FileTagsUI?.FirstOrDefault()?.Name ?? "None".GetLocalizedResource();
 					//x.Model.Icon = first.FileTagsUI?.FirstOrDefault()?.Color;
 				}, null),
 

@@ -4,6 +4,8 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Interacts;
 using Files.App.ViewModels;
+using Files.Backend.Services;
+using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Enums;
@@ -23,7 +25,7 @@ namespace Files.App.Helpers
 {
 	public static class ContextFlyoutItemHelper
 	{
-		public static Task<List<ShellNewEntry>> CachedNewContextMenuEntries = ShellNewEntryExtensions.GetNewContextMenuEntries();
+		private static readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
 		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
 		{
@@ -55,7 +57,7 @@ namespace Files.App.Helpers
 			var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
 			if (overflow is not null)
 			{
-				if (!shiftPressed && userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu) // items with ShowOnShift to overflow menu
+				if (!shiftPressed && userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu) // items with ShowOnShift to overflow menu
 				{
 					var overflowItems = items.Where(x => x.ShowOnShift).ToList();
 
@@ -609,7 +611,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ContextMenuMoreItemsLabel".GetLocalizedResource(),
+					Text = "ShowMoreOptions".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
@@ -1074,7 +1076,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ContextMenuMoreItemsLabel".GetLocalizedResource(),
+					Text = "ShowMoreOptions".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
@@ -1122,7 +1124,7 @@ namespace Files.App.Helpers
 
 			if (canCreateFileInPage)
 			{
-				var cachedNewContextMenuEntries = CachedNewContextMenuEntries.IsCompletedSuccessfully ? CachedNewContextMenuEntries.Result : null;
+				var cachedNewContextMenuEntries = addItemService.GetNewEntriesAsync().Result;
 				cachedNewContextMenuEntries?.ForEach(i =>
 				{
 					if (!string.IsNullOrEmpty(i.IconBase64))

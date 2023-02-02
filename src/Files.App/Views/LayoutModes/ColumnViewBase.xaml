@@ -16,7 +16,7 @@
 	x:Name="PageRoot"
 	mc:Ignorable="d">
 	<local:StandardViewBase.Resources>
-		<vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
+		<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
 		<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		<converters:BoolToVisibilityConverter
 			x:Key="NegatedBoolToVisibilityConverter"
@@ -187,7 +187,7 @@
 								CornerRadius="{StaticResource ControlCornerRadius}"
 								IsRightTapEnabled="True"
 								Loaded="Grid_Loaded"
-								ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
+								ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="24" />
 									<ColumnDefinition Width="*" />
@@ -305,8 +305,8 @@
 											Height="12"
 											Margin="8,0,4,0"
 											x:Phase="2"
-											Fill="{x:Bind FileTagsUI[0].ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
-											ToolTipService.ToolTip="{x:Bind FileTagsUI[0].TagName, Mode=OneWay}"
+											Fill="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+											ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
 											Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
 
 										<!--  Open Folder Icon  -->

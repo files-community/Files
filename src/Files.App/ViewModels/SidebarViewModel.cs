@@ -525,7 +525,7 @@ namespace Files.App.ViewModels
 
 		public async void EmptyRecycleBin(RoutedEventArgs e)
 		{
-			await RecycleBinHelpers.S_EmptyRecycleBin();
+			await RecycleBinHelpers.EmptyRecycleBin();
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)

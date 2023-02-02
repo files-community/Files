@@ -1047,7 +1047,7 @@ namespace Files.App.Views
 			//this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);
 		}
 
-		private async void CreateNewShortcutFromDialog() 
+		private async void CreateNewShortcutFromDialog()
 			=> await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 	}
 }
