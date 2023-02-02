@@ -42,7 +42,7 @@ namespace Files.App.DataModels.NavigationControlItems
 		public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
 		public Visibility ItemVisibility { get; set; } = Visibility.Visible;
 
-		public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom;
+		public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom || Type == DriveType.VirtualDrive;
 		public bool IsNetwork => Type == DriveType.Network;
 		public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(path);
 
