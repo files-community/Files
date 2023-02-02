@@ -411,7 +411,7 @@ namespace Files.App.Filesystem
 		public bool IsArchive => this is ZipItem;
 		public bool IsAlternateStream => this is AlternateStreamItem;
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
-		public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
+		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
 
 		private BaseStorageFile itemFile;
 		public BaseStorageFile ItemFile
