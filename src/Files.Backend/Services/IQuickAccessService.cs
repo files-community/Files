@@ -5,15 +5,42 @@ namespace Files.App.ServicesImplementation
 {
 	public interface IQuickAccessService
 	{
-		// Gets the list of quick access items from File Explorer
+		/// <summary>
+		/// Gets the list of quick access items
+		/// </summary>
+		/// <returns></returns>
 		Task<List<string>> GetPinnedFoldersAsync();
 
-		// Pins a folder to the quick access list
+		/// <summary>
+		/// Pins a folder to the quick access list
+		/// </summary>
+		/// <param name="folderPath"></param>
+		/// <param name="loadExplorerItems"></param>
+		/// <returns></returns>
 		Task PinToSidebar(string folderPath, bool loadExplorerItems = true);
+
+		/// <summary>
+		/// Pins folders to the quick access list
+		/// </summary>
+		/// <param name="folderPaths"></param>
+		/// <param name="loadExplorerItems"></param>
+		/// <returns></returns>
 		Task PinToSidebar(string[] folderPaths, bool loadExplorerItems = true);
 
-		// Unpins a folder from the quick access list
+		/// <summary>
+		/// Unpins a folder from the quick access list
+		/// </summary>
+		/// <param name="folderPath"></param>
+		/// <param name="loadExplorerItems"></param>
+		/// <returns></returns>
 		Task UnpinFromSidebar(string folderPath, bool loadExplorerItems = true);
+
+		/// <summary>
+		/// Unpins folders from the quick access list
+		/// </summary>
+		/// <param name="folderPaths"></param>
+		/// <param name="loadExplorerItems"></param>
+		/// <returns></returns>
 		Task UnpinFromSidebar(string[] folderPaths, bool loadExplorerItems = true);
 	}
 }
