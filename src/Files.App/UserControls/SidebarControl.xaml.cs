@@ -8,6 +8,7 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
+using Files.App.ServicesImplementation;
 using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
@@ -34,7 +35,8 @@ namespace Files.App.UserControls
 {
 	public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
 	{
-		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
 
@@ -67,7 +69,7 @@ namespace Files.App.UserControls
 
 		private bool lockFlag = false;
 
-		public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
+		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
 
 		public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
 
@@ -111,14 +113,6 @@ namespace Files.App.UserControls
 
 		private ICommand UnpinItemCommand { get; }
 
-		private ICommand MoveItemToTopCommand { get; }
-
-		private ICommand MoveItemUpCommand { get; }
-
-		private ICommand MoveItemDownCommand { get; }
-
-		private ICommand MoveItemToBottomCommand { get; }
-
 		private ICommand OpenInNewTabCommand { get; }
 
 		private ICommand OpenInNewWindowCommand { get; }
@@ -143,10 +137,6 @@ namespace Files.App.UserControls
 			HideSectionCommand = new RelayCommand(HideSection);
 			UnpinItemCommand = new RelayCommand(UnpinItem);
 			PinItemCommand = new RelayCommand(PinItem);
-			MoveItemToTopCommand = new RelayCommand(MoveItemToTop);
-			MoveItemUpCommand = new RelayCommand(MoveItemUp);
-			MoveItemDownCommand = new RelayCommand(MoveItemDown);
-			MoveItemToBottomCommand = new RelayCommand(MoveItemToBottom);
 			OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
 			OpenInNewWindowCommand = new RelayCommand(OpenInNewWindow);
 			OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
@@ -186,7 +176,7 @@ namespace Files.App.UserControls
 		{
 			var options = item.MenuOptions;
 
-			var favoriteModel = App.SidebarPinnedController.Model;
+			var favoriteModel = App.QuickAccessManager.Model;
 			var favoriteIndex = favoriteModel.IndexOfItem(item);
 			var favoriteCount = favoriteModel.FavoriteItems.Count;
 
@@ -246,34 +236,6 @@ namespace Files.App.UserControls
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
 					ShowItem = options.IsLocationItem
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "SideBarFavoritesMoveToTop".GetLocalizedResource(),
-					Glyph = "\uE11C",
-					Command = MoveItemToTopCommand,
-					ShowItem = showMoveItemUp
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "SideBarFavoritesMoveOneUp".GetLocalizedResource(),
-					Glyph = "\uE70E",
-					Command = MoveItemUpCommand,
-					ShowItem = showMoveItemUp
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "SideBarFavoritesMoveOneDown".GetLocalizedResource(),
-					Glyph = "\uE70D",
-					Command = MoveItemDownCommand,
-					ShowItem = showMoveItemDown
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "SideBarFavoritesMoveToBottom".GetLocalizedResource(),
-					Glyph = "\uE118",
-					Command = MoveItemToBottomCommand,
-					ShowItem = showMoveItemDown
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -379,46 +341,12 @@ namespace Files.App.UserControls
 		private void PinItem()
 		{
 			if (rightClickedItem is DriveItem)
-				App.SidebarPinnedController.Model.AddItem(rightClickedItem.Path);
+				_ = QuickAccessService.PinToSidebar(new[] { rightClickedItem.Path });
 		}
 		private void UnpinItem()
 		{
 			if (rightClickedItem.Section == SectionType.Favorites || rightClickedItem is DriveItem)
-				App.SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path);
-		}
-
-		private void MoveItemToTop()
-		{
-			MoveItemToNewIndex(0);
-		}
-
-		private void MoveItemUp()
-		{
-			MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) - 1);
-		}
-
-		private void MoveItemDown()
-		{
-			MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) + 1);
-		}
-
-		private void MoveItemToBottom()
-		{
-			MoveItemToNewIndex(App.SidebarPinnedController.Model.FavoriteItems.Count - 1);
-		}
-
-		private void MoveItemToNewIndex(int newIndex)
-		{
-			if (rightClickedItem.Section != SectionType.Favorites)
-				return;
-
-			var isSelectedSidebarItem = SelectedSidebarItem == rightClickedItem;
-
-			var oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-			App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, newIndex);
-
-			if (isSelectedSidebarItem)
-				SetValue(SelectedSidebarItemProperty, rightClickedItem);
+				_ = QuickAccessService.UnpinFromSidebar(rightClickedItem.Path);
 		}
 
 		private void OpenProperties(CommandBarFlyout menu)
@@ -719,7 +647,7 @@ namespace Files.App.UserControls
 					foreach (var item in storageItems)
 					{
 						if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
-							SidebarPinnedModel.AddItem(item.Path);
+							QuickAccessService.PinToSidebar(item.Path);
 					}
 				}
 				else
@@ -737,10 +665,6 @@ namespace Files.App.UserControls
 
 				isDropOnProcess = false;
 				deferral.Complete();
-			}
-			else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
-			{
-				SidebarPinnedModel.SwapItems(sourceLocationItem, locationItem);
 			}
 
 			await Task.Yield();
