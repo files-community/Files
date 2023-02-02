@@ -6,6 +6,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
+using Files.App.ServicesImplementation;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
@@ -38,7 +39,6 @@ namespace Files.App.UserControls.Widgets
 			get => thumbnail;
 			set => SetProperty(ref thumbnail, value);
 		}
-
 		public DriveCardItem(DriveItem item)
 		{
 			Item = item;
@@ -69,7 +69,8 @@ namespace Files.App.UserControls.Widgets
 	public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
+		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
@@ -180,7 +181,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				return;
 			}
-			App.SidebarPinnedController.Model.AddItem(item.Path);
+			_ = QuickAccessService.PinToSidebar(item.Path);
 		}
 
 		private async void UnpinFromFavorites_Click(object sender, RoutedEventArgs e)
@@ -190,7 +191,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				return;
 			}
-			App.SidebarPinnedController.Model.RemoveItem(item.Path);
+			_ = QuickAccessService.UnpinFromSidebar(item.Path);
 		}
 
 		private void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
