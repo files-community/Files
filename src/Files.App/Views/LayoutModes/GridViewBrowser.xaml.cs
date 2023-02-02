@@ -378,6 +378,7 @@ namespace Files.App.Views.LayoutModes
 
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
+			var clickedItem = e.OriginalSource as FrameworkElement;
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
@@ -386,19 +387,26 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
-			if (ctrlPressed || shiftPressed || AppModel.ShowSelectionCheckboxes)
+			if
+			(
+				ctrlPressed ||
+				shiftPressed ||
+				AppModel.ShowSelectionCheckboxes && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick ||
+				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle
+			)
+			{
+				e.Handled = true;
 				return;
+			}
 
 			// Check if the setting to open items with a single click is turned on
-			if (item is not null
-				&& UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
 			else
 			{
-				var clickedItem = e.OriginalSource as FrameworkElement;
 				if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
 				{
 					CheckRenameDoubleClick(clickedItem?.DataContext);
