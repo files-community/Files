@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Globalization;
 using System.Linq;
 using UWPToWinAppSDKUpgradeHelpers;
 using Windows.Foundation;
@@ -33,6 +34,8 @@ namespace Files.App.Views.LayoutModes
 		private InputCursor arrowCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Arrow, 0));
 
 		private InputCursor resizeCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.SizeWestEast, 1));
+
+		private ListedItem? _nextItemToSelect;
 
 		protected override uint IconSize => currentIconSize;
 
@@ -95,8 +98,13 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
 		{
-			if (FileList?.Items.Contains(e) ?? false)
-				FileList.SelectedItems.Add(e);
+			if (NextRenameIndex != 0)
+			{
+				_nextItemToSelect = e;
+				FileList.LayoutUpdated += FileList_LayoutUpdated;
+			}
+			else if (FileList?.Items.Contains(e) ?? false)
+				FileList!.SelectedItems.Add(e);
 		}
 
 		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
@@ -171,6 +179,13 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+		}
+
+		private void FileList_LayoutUpdated(object? sender, object e)
+		{
+			FileList.LayoutUpdated -= FileList_LayoutUpdated;
+			TryStartRenameNextItem(_nextItemToSelect!);
+			_nextItemToSelect = null;
 		}
 
 		private void FolderSettings_SortOptionPreferenceUpdated(object? sender, SortOption e)
@@ -401,30 +416,36 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
+		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
+			var clickedItem = e.OriginalSource as FrameworkElement;
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 			if (item is null)
 				return;
+
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
-			if (ctrlPressed || shiftPressed || AppModel.ShowSelectionCheckboxes)
+			if
+			(
+				ctrlPressed ||
+				shiftPressed ||
+				AppModel.ShowSelectionCheckboxes && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick ||
+				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle
+			)
 			{
 				e.Handled = true;
 				return;
 			}
 
 			// Check if the setting to open items with a single click is turned on
-			if (item is not null
-				&& UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
 			else
 			{
-				var clickedItem = e.OriginalSource as FrameworkElement;
 				if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
 				{
 					CheckRenameDoubleClick(clickedItem?.DataContext);
@@ -435,7 +456,7 @@ namespace Files.App.Views.LayoutModes
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						CommitRename(textBox);
+						await CommitRename(textBox);
 					}
 				}
 			}

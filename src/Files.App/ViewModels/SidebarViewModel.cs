@@ -231,7 +231,7 @@ namespace Files.App.ViewModels
 			Manager_DataChanged(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-			App.SidebarPinnedController.DataChanged += Manager_DataChanged;
+			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
 			App.LibraryManager.DataChanged += Manager_DataChanged;
 			App.DrivesManager.DataChanged += Manager_DataChanged;
 			App.CloudDrivesManager.DataChanged += Manager_DataChanged;
@@ -252,7 +252,7 @@ namespace Files.App.ViewModels
 				var section = await GetOrCreateSection((SectionType)sender);
 				Func<IReadOnlyList<INavigationControlItem>> getElements = () => (SectionType)sender switch
 				{
-					SectionType.Favorites => App.SidebarPinnedController.Model.Favorites,
+					SectionType.Favorites => App.QuickAccessManager.Model.Favorites,
 					SectionType.CloudDrives => App.CloudDrivesManager.Drives,
 					SectionType.Drives => App.DrivesManager.Drives,
 					SectionType.Network => App.NetworkDrivesManager.Drives,
@@ -511,7 +511,7 @@ namespace Files.App.ViewModels
 					SectionType.WSL when preferencesSettingsService.ShowWslSection => App.WSLDistroManager.UpdateDrivesAsync,
 					SectionType.FileTag when preferencesSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
 					SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
-					SectionType.Favorites => App.SidebarPinnedController.Model.AddAllItemsToSidebar,
+					SectionType.Favorites => App.QuickAccessManager.Model.AddAllItemsToSidebar,
 					_ => () => Task.CompletedTask
 				};
 				Manager_DataChanged(sectionType, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -525,7 +525,7 @@ namespace Files.App.ViewModels
 
 		public async void EmptyRecycleBin(RoutedEventArgs e)
 		{
-			await RecycleBinHelpers.S_EmptyRecycleBin();
+			await RecycleBinHelpers.EmptyRecycleBin();
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
@@ -573,7 +573,7 @@ namespace Files.App.ViewModels
 		{
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 
-			App.SidebarPinnedController.DataChanged -= Manager_DataChanged;
+			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
 			App.DrivesManager.DataChanged -= Manager_DataChanged;
 			App.CloudDrivesManager.DataChanged -= Manager_DataChanged;

@@ -13,6 +13,8 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -20,6 +22,10 @@ namespace Files.App
 {
 	public abstract class StandardViewBase : BaseLayout
 	{
+		private const int KEY_DOWN_MASK = 0x8000;
+
+		protected int NextRenameIndex = 0;
+
 		protected abstract ListViewBase ListViewBase
 		{
 			get;
@@ -130,6 +136,7 @@ namespace Files.App
 		protected virtual async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+
 			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
 				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
 		}
@@ -167,48 +174,113 @@ namespace Files.App
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
 			int selectedTextLength = SelectedItem.Name.Length;
+
 			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
 				selectedTextLength -= extensionLength;
+
 			textBox.Select(0, selectedTextLength);
 			IsRenamingItem = true;
 		}
 
 		protected abstract void EndRename(TextBox textBox);
 
-		protected virtual async void CommitRename(TextBox textBox)
+		protected virtual async Task CommitRename(TextBox textBox)
 		{
 			EndRename(textBox);
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
 			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
 		}
 
-		protected virtual void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
+		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// This check allows the user to use the text box context menu without ending the rename
 			if (!(FocusManager.GetFocusedElement(XamlRoot) is AppBarButton or Popup))
 			{
 				TextBox textBox = (TextBox)e.OriginalSource;
-				CommitRename(textBox);
+				await CommitRename(textBox);
 			}
 		}
 
-		protected void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+		protected async void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (e.Key == VirtualKey.Escape)
+			var textBox = (TextBox)sender;
+			switch (e.Key)
 			{
-				TextBox textBox = (TextBox)sender;
-				textBox.LostFocus -= RenameTextBox_LostFocus;
-				textBox.Text = OldItemName;
-				EndRename(textBox);
-				e.Handled = true;
+				case VirtualKey.Escape:
+					textBox.LostFocus -= RenameTextBox_LostFocus;
+					textBox.Text = OldItemName;
+					EndRename(textBox);
+					e.Handled = true;
+					break;
+				case VirtualKey.Enter:
+					textBox.LostFocus -= RenameTextBox_LostFocus;
+					await CommitRename(textBox);
+					e.Handled = true;
+					break;
+				case VirtualKey.Up:
+					textBox.SelectionStart = 0;
+					e.Handled = true;
+					break;
+				case VirtualKey.Down:
+					textBox.SelectionStart = textBox.Text.Length;
+					e.Handled = true;
+					break;
+				case VirtualKey.Left:
+					e.Handled = textBox.SelectionStart == 0;
+					break;
+				case VirtualKey.Right:
+					e.Handled = (textBox.SelectionStart + textBox.SelectionLength) == textBox.Text.Length;
+					break;
+				case VirtualKey.Tab:
+					textBox.LostFocus -= RenameTextBox_LostFocus;
+
+					var isShiftPressed = (GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
+					NextRenameIndex = isShiftPressed ? -1 : 1;
+
+					if (textBox.Text != OldItemName)
+					{
+						await CommitRename(textBox);
+					}
+					else
+					{
+						var newIndex = ListViewBase.SelectedIndex + NextRenameIndex;
+						NextRenameIndex = 0;
+						EndRename(textBox);
+
+						if
+						(
+							newIndex >= 0 &&
+							newIndex < ListViewBase.Items.Count
+						)
+						{
+							ListViewBase.SelectedIndex = newIndex;
+							StartRenameItem();
+						}
+					}
+
+					e.Handled = true;
+					break;
 			}
-			else if (e.Key == VirtualKey.Enter)
+		}
+
+		protected bool TryStartRenameNextItem(ListedItem item)
+		{
+			var nextItemIndex = ListViewBase.Items.IndexOf(item) + NextRenameIndex;
+			NextRenameIndex = 0;
+
+			if
+			(
+				nextItemIndex >= 0 &&
+				nextItemIndex < ListViewBase.Items.Count
+			)
 			{
-				TextBox textBox = (TextBox)sender;
-				textBox.LostFocus -= RenameTextBox_LostFocus;
-				CommitRename(textBox);
-				e.Handled = true;
+				ListViewBase.SelectedIndex = nextItemIndex;
+				StartRenameItem();
+
+				return true;
 			}
+
+			return false;
 		}
 
 		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
@@ -237,5 +309,8 @@ namespace Files.App
 			UnhookEvents();
 			CommandsViewModel?.Dispose();
 		}
+
+		[DllImport("User32.dll")]
+		private extern static short GetKeyState(int n);
 	}
 }
