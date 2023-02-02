@@ -62,10 +62,10 @@ namespace Files.App.ViewModels
 		// files and folders list for manipulating
 		private List<ListedItem> filesAndFolders;
 
-		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
+		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
-		private ISizeProvider FolderSizeProvider { get; } = Ioc.Default.GetRequiredService<ISizeProvider>();
+		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
 
 		// only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -377,8 +377,8 @@ namespace Files.App.ViewModels
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-			FileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
-			FolderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
+			fileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
+			folderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
 			RecycleBinManager.Default.RecycleBinItemCreated += RecycleBinItemCreated;
 			RecycleBinManager.Default.RecycleBinItemDeleted += RecycleBinItemDeleted;
 			RecycleBinManager.Default.RecycleBinRefreshRequested += RecycleBinRefreshRequested;
@@ -1408,7 +1408,7 @@ namespace Files.App.ViewModels
 							{
 								var credentialDialogViewModel = new CredentialDialogViewModel();
 
-								if (await DialogService.ShowDialogAsync(credentialDialogViewModel) != DialogResult.Primary)
+								if (await dialogService.ShowDialogAsync(credentialDialogViewModel) != DialogResult.Primary)
 									return;
 
 								// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
@@ -2235,8 +2235,8 @@ namespace Files.App.ViewModels
 			RecycleBinManager.Default.RecycleBinItemDeleted -= RecycleBinItemDeleted;
 			RecycleBinManager.Default.RecycleBinRefreshRequested -= RecycleBinRefreshRequested;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
-			FileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingImportedEvent;
-			FolderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
+			fileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingImportedEvent;
+			folderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
 			DefaultIcons.Clear();
 		}
 	}
