@@ -24,20 +24,19 @@ namespace Files.App.ServicesImplementation
 			return sidebarItems;
 		}
 
-		public async Task PinToSidebar(string folderPath, bool loadExplorerItems = true)
-			=> await PinToSidebar(new[] { folderPath }, loadExplorerItems);
+		public async Task PinToSidebar(string folderPath)
+			=> await PinToSidebar(new[] { folderPath });
 		
-		public async Task PinToSidebar(string[] folderPaths, bool loadExplorerItems = true)
+		public async Task PinToSidebar(string[] folderPaths)
 		{
 			await ContextMenu.InvokeVerb("pintohome", folderPaths);
-			if (loadExplorerItems)
-				await App.QuickAccessManager.Model.LoadAsync();
+			await App.QuickAccessManager.Model.LoadAsync();
 		}
 
-		public async Task UnpinFromSidebar(string folderPath, bool loadExplorerItems = true)
-			=> await UnpinFromSidebar(new[] { folderPath }, loadExplorerItems);
+		public async Task UnpinFromSidebar(string folderPath)
+			=> await UnpinFromSidebar(new[] { folderPath });
 		
-		public async Task UnpinFromSidebar(string[] folderPaths, bool loadExplorerItems = true)
+		public async Task UnpinFromSidebar(string[] folderPaths)
 		{
 			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
 			object? shell = Activator.CreateInstance(shellAppType);
@@ -49,8 +48,7 @@ namespace Files.App.ServicesImplementation
 						await fi.InvokeVerb("unpinfromhome");
 					});
 
-			if (loadExplorerItems)
-				await App.QuickAccessManager.Model.LoadAsync();
+			await App.QuickAccessManager.Model.LoadAsync();
 		}
 	}
 }
