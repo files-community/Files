@@ -18,6 +18,7 @@
 		pCloud,
 		AdobeCreativeCloud,
 		Nutstore,
-		Seadrive
+		Seadrive,
+		Autodesk
 	}
 }
