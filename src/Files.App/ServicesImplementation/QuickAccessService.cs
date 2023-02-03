@@ -1,7 +1,4 @@
-﻿using Files.App.Controllers;
-using Files.App.DataModels;
-using Files.App.Filesystem;
-using Files.App.Shell;
+﻿using Files.App.Shell;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -20,7 +17,9 @@ namespace Files.App.ServicesImplementation
 				.Where(link => link.IsFolder)
 				.Select(link => link.FilePath).ToList();
 
-			sidebarItems.RemoveRange(sidebarItems.Count - 4, 4); // 4 is the number of recent items shown in explorer sidebar
+			if (sidebarItems.Count > 4) // Avoid first opening crash #11139
+				sidebarItems.RemoveRange(sidebarItems.Count - 4, 4); // 4 is the number of recent items shown in explorer sidebar
+			
 			return sidebarItems;
 		}
 

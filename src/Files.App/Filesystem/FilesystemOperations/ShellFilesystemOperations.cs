@@ -27,8 +27,6 @@ namespace Files.App.Filesystem
 
 		private FilesystemOperations filesystemOperations;
 
-		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
-
 		#endregion Private Members
 
 		#region Constructor
