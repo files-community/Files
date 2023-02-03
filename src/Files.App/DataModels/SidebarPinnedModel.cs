@@ -22,7 +22,7 @@ namespace Files.App.DataModels
 {
 	public class SidebarPinnedModel
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
@@ -157,13 +157,9 @@ namespace Files.App.DataModels
 		/// </summary>
 		public async Task AddAllItemsToSidebar()
 		{
-			if (UserSettingsService.PreferencesSettingsService.ShowFavoritesSection)
-			{
+			if (userSettingsService.PreferencesSettingsService.ShowFavoritesSection)
 				foreach (string path in FavoriteItems)
-				{
 					await AddItemToSidebarAsync(path);
-				}
-			}
 		}
 
 		/// <summary>

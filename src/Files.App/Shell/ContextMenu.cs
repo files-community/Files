@@ -34,19 +34,13 @@ namespace Files.App.Shell
 		public async static Task<bool> InvokeVerb(string verb, params string[] filePaths)
 		{
 			using var cMenu = await GetContextMenuForFiles(filePaths, Shell32.CMF.CMF_DEFAULTONLY);
-			if (cMenu is not null)
-			{
-				return await cMenu.InvokeVerb(verb);
-			}
-			return false;
+			return cMenu is not null && await cMenu.InvokeVerb(verb);
 		}
 
-		public async Task<bool> InvokeVerb(string verb)
+		public async Task<bool> InvokeVerb(string? verb)
 		{
 			if (string.IsNullOrEmpty(verb))
-			{
 				return false;
-			}
 
 			try
 			{
@@ -73,9 +67,7 @@ namespace Files.App.Shell
 		public async Task InvokeItem(int itemID)
 		{
 			if (itemID < 0)
-			{
 				return;
-			}
 
 			try
 			{
@@ -99,18 +91,16 @@ namespace Files.App.Shell
 
 		#region FactoryMethods
 
-		public async static Task<ContextMenu> GetContextMenuForFiles(string[] filePathList, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+		public async static Task<ContextMenu?> GetContextMenuForFiles(string[] filePathList, Shell32.CMF flags, Func<string, bool>? itemFilter = null)
 		{
 			var owningThread = new ThreadWithMessageQueue();
 			return await owningThread.PostMethod<ContextMenu>(() =>
 			{
-				List<ShellItem> shellItems = new List<ShellItem>();
+				var shellItems = new List<ShellItem>();
 				try
 				{
 					foreach (var fp in filePathList.Where(x => !string.IsNullOrEmpty(x)))
-					{
 						shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPidl(fp));
-					}
 					return GetContextMenuForFiles(shellItems.ToArray(), flags, owningThread, itemFilter);
 				}
 				catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
@@ -128,35 +118,33 @@ namespace Files.App.Shell
 			});
 		}
 
-		public async static Task<ContextMenu> GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+		public async static Task<ContextMenu?> GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool>? itemFilter = null)
 		{
 			var owningThread = new ThreadWithMessageQueue();
 			return await owningThread.PostMethod<ContextMenu>(
 				() => GetContextMenuForFiles(shellItems, flags, owningThread, itemFilter));
 		}
 
-		private static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, ThreadWithMessageQueue owningThread, Func<string, bool> itemFilter = null)
+		private static ContextMenu? GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, ThreadWithMessageQueue owningThread, Func<string, bool>? itemFilter = null)
 		{
 			if (!shellItems.Any())
-			{
 				return null;
-			}
 
 			using var sf = shellItems[0].Parent; // HP: the items are all in the same folder
 			Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
 			var hMenu = User32.CreatePopupMenu();
 			menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
 			var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
-			ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
+			EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
 			return contextMenu;
 		}
 
-		public async static Task<ContextMenu> GetContextMenuForFolder(string folderPath, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+		public async static Task<ContextMenu?> GetContextMenuForFolder(string folderPath, Shell32.CMF flags, Func<string, bool>? itemFilter = null)
 		{
 			var owningThread = new ThreadWithMessageQueue();
 			return await owningThread.PostMethod<ContextMenu>(() =>
 			{
-				ShellFolder shellFolder = null;
+				ShellFolder? shellFolder = null;
 				try
 				{
 					shellFolder = new ShellFolder(folderPath);
@@ -186,7 +174,7 @@ namespace Files.App.Shell
 			Shell32.IContextMenu cMenu,
 			HMENU hMenu,
 			List<Win32ContextMenuItem> menuItemsResult,
-			Func<string, bool> itemFilter = null)
+			Func<string, bool>? itemFilter = null)
 		{
 			var itemCount = User32.GetMenuItemCount(hMenu);
 			var mii = new User32.MENUITEMINFO();
@@ -200,6 +188,7 @@ namespace Files.App.Shell
 			{
 				var menuItem = new ContextMenuItem();
 				var container = new SafeCoTaskMemString(512);
+				var cMenu2 = cMenu as Shell32.IContextMenu2;
 				mii.dwTypeData = (IntPtr)container;
 				mii.cch = (uint)container.Capacity - 1; // https://devblogs.microsoft.com/oldnewthing/20040928-00/?p=37723
 				var retval = User32.GetMenuItemInfo(hMenu, ii, true, ref mii);
@@ -236,7 +225,7 @@ namespace Files.App.Shell
 						var subItems = new List<Win32ContextMenuItem>();
 						try
 						{
-							(cMenu as Shell32.IContextMenu2)?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)mii.hSubMenu, new IntPtr(ii));
+							cMenu2?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)mii.hSubMenu, new IntPtr(ii));
 						}
 						catch (NotImplementedException)
 						{
@@ -256,15 +245,13 @@ namespace Files.App.Shell
 			}
 		}
 
-		private static string GetCommandString(Shell32.IContextMenu cMenu, uint offset, Shell32.GCS flags = Shell32.GCS.GCS_VERBW)
+		private static string? GetCommandString(Shell32.IContextMenu cMenu, uint offset, Shell32.GCS flags = Shell32.GCS.GCS_VERBW)
 		{
+			// Hackish workaround to avoid an AccessViolationException on some items,
+			// notably the "Run with graphic processor" menu item of NVidia cards
 			if (offset > 5000)
-			{
-				// Hackish workaround to avoid an AccessViolationException on some items,
-				// notably the "Run with graphic processor" menu item of NVidia cards
 				return null;
-			}
-			SafeCoTaskMemString commandString = null;
+			SafeCoTaskMemString? commandString = null;
 			try
 			{
 				commandString = new SafeCoTaskMemString(512);
