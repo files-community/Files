@@ -152,13 +152,13 @@
     <value>اسم الصنف</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>المسار:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>الحجم</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>الحجم الغير مضغوط:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>لا يمكن القيام بهذا الامر</value>
@@ -218,7 +218,7 @@
     <value>تنسيق التاريخ.</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>السمة</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>إظهار الامتدادات لأنواع الملفات المعروفة</value>
@@ -236,7 +236,7 @@
     <value>المظهر</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>الخلفية</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>تجريبي</value>
@@ -299,7 +299,7 @@
     <value>خصائص</value>
   </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>خصائص</value>
+    <value>الخصائص</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>استخراج</value>
@@ -431,7 +431,7 @@
     <value>تم فصل المحرك</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access may have been moved or deleted.</value>
+    <value>الملف الذي تحاول الوصول إليه قد تم نقله او حذفه.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>‏‏لم يتم العثور على الملف</value>
@@ -446,13 +446,13 @@
     <value>هل قمت بحذف هذا الملف؟</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>الملف الذي تحاول الوصول إليه يتم استخدامه حاليا من قبل {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>الملف الذي تحاول الوصول إليه يتم استخدامه حاليا من قبل تطبيق آخر</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>الملف قيد الاستخدام</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>تخطيط</value>
@@ -797,7 +797,7 @@
     <value>وضع التخطيط</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Navigate backwards</value>
+    <value>انتقل إلى الخلف</value>
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>التنقل للأمام</value>
@@ -812,10 +812,10 @@
     <value>اللغة</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move overflow items into a sub menu</value>
+    <value>نقل العناصر الزائدة إلى قائمة فرعية</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Show a confirmation dialog when deleting files or folders</value>
+    <value>إظهار مربع حوار التأكيد عند حذف الملفات أو المجلدات</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>كانت هناك مشكلة في حفظ بعض الخصائص</value>
@@ -998,13 +998,13 @@
     <value>مسار كبير للصورة المصغرة</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>Thumbnail Large Uri</value>
+    <value>مسار كبير للصورة المصغرة</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
-    <value>Thumbnail Small Path</value>
+    <value>مسار صغير للصورة المصغرة</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>Thumbnail Small Uri</value>
+    <value>مسار صغير للصورة المصغرة</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
     <value>عنوان موقع الويب الخاص بالمستخدم</value>
@@ -1199,7 +1199,7 @@
     <value>ادعمنا على PayPal</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>List and sort directories alongside files</value>
+    <value>سجل الدلائل وفرزها إلى جانب الملفات</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>التفاصيل</value>
@@ -1214,19 +1214,19 @@
     <value>التحديثات متوفرة</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Show protected system files</value>
+    <value>إظهار ملفات النظام المحمية</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>تضمين العناصر الغير مفهرسة في نتائج البحث</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Reset folder overrides</value>
+    <value>إعادة ضبط تجاوزات المجلد</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>تغيير التخطيط في دليل عندما يتم إيقاف تشغيل هذا الإعداد سوف يقوم بتحديث التخطيط لجميع الدلائل.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Enable overriding folder preferences in individual directories</value>
+    <value>تفعيل تجاوز تفضيلات المجلد في الدلائل الفردية</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>تخصيص قائمة سياق النقر بزر الماوس الأيمن</value>
@@ -1247,16 +1247,16 @@
     <value>‏‏إزالة</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Always open new tabs in dual pane mode</value>
+    <value>فتح علامات التبويب الجديدة دائما في وضع اللوحة المزدوجة</value>
   </data>
   <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
-    <value>Enable dual pane view</value>
+    <value>تمكين عرض لوحة مزدوجة</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>فتح في الجزء الثانوي</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>New pane</value>
+    <value>لوحة جديدة</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>فتح في الجزء الثانوي</value>
@@ -1307,7 +1307,7 @@
     <value>إظهار ملحقات الملفات</value>
   </data>
   <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>إظهار العناصر المخفية</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>‏‏تاريخ الحذف</value>
@@ -1454,7 +1454,7 @@
     <value>محرك الشبكة</value>
   </data>
   <data name="DriveTypeNoRootDirectory" xml:space="preserve">
-    <value>Unmounted Drive</value>
+    <value>محرك قرص غير مكوم</value>
   </data>
   <data name="DriveTypeRam" xml:space="preserve">
     <value>قرص التخزين المؤقت (RAM Disk)</value>
@@ -1502,10 +1502,10 @@
     <value>الوسيطات (المعاملات)</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Open in new Pane</value>
+    <value>فتح في لوحة جديدة</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Show library section</value>
+    <value>إظهار قسم المكتبة</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>افتراضي</value>
@@ -1523,7 +1523,7 @@
     <value>إكتمل الحذف</value>
   </data>
   <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>Deletion cancelled</value>
+    <value>تم إلغاء الحذف</value>
   </data>
   <data name="StatusOperationCompleted" xml:space="preserve">
     <value>اكتملت العملية.</value>
@@ -1631,13 +1631,13 @@
     <value>متابعة</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>There are {0} conflicting file names, and {1} outgoing item(s).</value>
+    <value>هناك {0} أسماء ملفات متضاربة، و {1} عنصر صادر.</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>إسم الملف/الملفات متعارضة</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>There is one conflicting file name, and {0} outgoing item(s).</value>
+    <value>هناك اسم ملف متعارض، و {0} عنصر صادر.</value>
   </data>
   <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
     <value>سيتم نسخ عنصر واحد</value>
@@ -1655,19 +1655,19 @@
     <value>‏‏السرعة وفق ISO</value>
   </data>
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>فتح المجلدات في علامة تبويب جديدة</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>إظهار عنصر واجهة الحزم</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>إظهار عنصر واجهة الأقراص</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>إظهار عنصر واجهة المجلدات</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Show Recent Files widget</value>
+    <value>إظهار عنصر واجهة الملفات الأخيرة</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>ألم تجد ما تبحث عنه؟</value>
@@ -1676,31 +1676,31 @@
     <value>البحث عن العناصر غير المفهرسة.</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Open themes folder</value>
+    <value>افتح مجلد السمات</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>استبدال الموجود</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>استبدال الموجود</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>استبدال الموجود</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
-    <value>Generate new name</value>
+    <value>توليد إسم جديد</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
     <value>تراجع</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>There are {0} conflicting file names.</value>
+    <value>هناك {0} أسماء ملفات متضاربة.</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>There is one conflicting file name.</value>
+    <value>هناك اسم ملف متضارب واحد.</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>إنشاء مجلد مع العناصر المحددة</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>الاسم:</value>
@@ -1715,22 +1715,22 @@
     <value>فتح باستخدام</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
-    <value>File icon</value>
+    <value>أيقونة الملف</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
-    <value>Original path column</value>
+    <value>عمود المسار الأصلي</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
-    <value>Item type column</value>
+    <value>عمود نوع العنصر</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
-    <value>Date modified column</value>
+    <value>عمود تاريخ التعديل</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
-    <value>Date deleted column</value>
+    <value>عمود تاريخ الحذف</value>
   </data>
   <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
-    <value>Sidebar resizer</value>
+    <value>تغيير حجم الشريط الجانبي</value>
   </data>
   <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>فرز</value>
@@ -1751,7 +1751,7 @@
     <value>تاريخ التعديل</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Original folder</value>
+    <value>المجلد الأصلي</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>النوع</value>
@@ -1769,7 +1769,7 @@
     <value>ضخم</value>
   </data>
   <data name="ItemSizeText_VeryLarge" xml:space="preserve">
-    <value>Very large</value>
+    <value>كبير جدًا</value>
   </data>
   <data name="ItemSizeText_Large" xml:space="preserve">
     <value>كبير</value>
@@ -1823,52 +1823,52 @@
     <value>نهج الخصوصية</value>
   </data>
   <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>View Files privacy policy</value>
+    <value>عرض سياسة الخصوصية Files</value>
   </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
     <value>إعادة تسمية</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>Move canceled</value>
+    <value>تم إلغاء النقل</value>
   </data>
   <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>Copy canceled</value>
+    <value>تم إلغاء النسخ</value>
   </data>
   <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>Moving {0} item from {1} to {2} was canceled</value>
+    <value>تم إلغاء نقل {0} عنصر من {1} إلى {2}</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} items</value>
+    <value>تم إلغاء نقل {0} عنصر من {1} إلى {2} بعد نقل {3} عناصر</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} item</value>
+    <value>تم إلغاء نقل {0} عنصر من {1} إلى {2} بعد نقل {3} عناصر</value>
   </data>
   <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>Moving {0} item from {1} to {2}</value>
+    <value>يتم نقل {0} عنصر من {1} إلى {2}</value>
   </data>
   <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2}</value>
+    <value>يتم نقل {0} عنصر من {1} إلى {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully moved {0} item from {1} to {2}</value>
+    <value>تم نقل {0} عنصر من {1} إلى {2} بنجاح</value>
   </data>
   <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully moved {0} items from {1} to {2}</value>
+    <value>تم نقل {0} عنصر من {1} إلى {2} بنجاح</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to move {0} item from {1} to {2}</value>
+    <value>فشل نقل {0} عنصر من {1} إلى {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to move {0} items from {1} to {2}</value>
+    <value>فشل نقل {0} عنصر من {1} إلى {2}</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>Copying {0} item to {1} was canceled</value>
+    <value>تم إلغاء نسخ {0} عنصر إلى {1}</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} items</value>
+    <value>تم إلغاء نسخ {0} عنصر إلى {1} بعد نسخ {2} عنصر</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} item</value>
+    <value>تم إلغاء نسخ {0} عنصر إلى {1} بعد نسخ {2} عنصر</value>
   </data>
   <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
     <value>نسخ {0} عنصر إلى {1}</value>
@@ -1877,19 +1877,19 @@
     <value>نسخ {0} عنصر/عناصر إلى {1}</value>
   </data>
   <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully copied {0} item to {1}</value>
+    <value>تم نسخ {0} عنصر إلى {1} بنجاح</value>
   </data>
   <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully copied {0} items to {1}</value>
+    <value>تم نسخ {0} عنصر بنجاح إلى {1}</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1} was canceled</value>
+    <value>تم إلغاء حذف {0} عنصر من {1}</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} items</value>
+    <value>تم إلغاء حذف {0} عنصر من {1} بعد حذف {3} عنصر</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} item</value>
+    <value>تم إلغاء حذف {0} عنصر من {1} بعد حذف {3} عنصر</value>
   </data>
   <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
     <value>حذف {0} عنصر من {1}</value>
@@ -1898,19 +1898,19 @@
     <value>حذف {0} عنصر/عناصر من {1}</value>
   </data>
   <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully deleted {0} item from {1}</value>
+    <value>تم حذف {0} عنصر من {1} بنجاح</value>
   </data>
   <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully deleted {0} items from {1}</value>
+    <value>تم حذف {0} عنصر من {1} بنجاح</value>
   </data>
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to delete {0} item from {1}</value>
+    <value>فشل في حذف {0} عنصر من {1}</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to delete {0} items from {1}</value>
+    <value>فشل في حذف {0} عنصر من {1}</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
-    <value>the Recycle Bin</value>
+    <value>سلة المهملات</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
     <value>نقل العناصر</value>
@@ -1919,10 +1919,10 @@
     <value>نسخ العناصر</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Recycle failed</value>
+    <value>فشل إعادة التدوير</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Recycle cancelled</value>
+    <value>تم إلغاء إعادة التدوير</value>
   </data>
   <data name="canceling" xml:space="preserve">
     <value>إلغاء الأمر</value>
@@ -1934,7 +1934,7 @@
     <value>تجاهل</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>عناصر الواجهة</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>‏‏حالة المزامنة</value>
@@ -1955,7 +1955,7 @@
     <value>تحكم كامل</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>List directory contents</value>
+    <value>سجل محتوى الدليل</value>
   </data>
   <data name="SecurityModifyLabel.Text" xml:space="preserve">
     <value>تاريخ التعديل</value>
@@ -1964,7 +1964,7 @@
     <value>الإذن لـ</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
-    <value>Read and execute</value>
+    <value>القراءة والتنفيذ</value>
   </data>
   <data name="SecurityReadLabel.Text" xml:space="preserve">
     <value>قراءة</value>
@@ -1979,31 +1979,31 @@
     <value>حساب غير معروف</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>ليس لديك صلاحيات لعرض خصائص الأمان لهذا الكائن. انقر فوق "صلاحيات متقدمة" للمتابعة.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>المالك</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>مالك غير معروف</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract Archive</value>
+    <value>استخرج الأرشيف</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Open destination folder when complete</value>
+    <value>فتح مجلد الوجهة عند الاكتمال</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
-    <value>Extract files</value>
+    <value>استخرج الملفات</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
-    <value>Extract here</value>
+    <value>فك الظغط هنا</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>استخراج...</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}\</value>
+    <value>استخرج إلى {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
     <value>إنشاء مكتبة جديدة.</value>
@@ -2015,16 +2015,16 @@
     <value>استعادة</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
+    <value>هل أنت متأكد من أنك تريد استعادة المكتبات الافتراضية؟ جميع ملفاتك ستبقى على وحدة التخزين الخاصة بك.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
-    <value>Restore Libraries</value>
+    <value>استعادة المكتبات</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>المالك</value>
   </data>
   <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Advanced permissions for {0}</value>
+    <value>أذونات متقدمة لـ {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>خاص</value>
@@ -2042,7 +2042,7 @@
     <value>الملفات</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
-    <value>this folder</value>
+    <value>هذا المجلد</value>
   </data>
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>المجلدات الفرعية</value>
@@ -2057,7 +2057,7 @@
     <value>النوع</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+    <value>ليس لديك صلاحيات لعرض خصائص الأمان لهذا الكائن. يمكنك محاولة أخذ ملكية هذا الكائن.</value>
   </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
     <value>خاص</value>
@@ -2069,43 +2069,43 @@
     <value>هذا المجلد والمجلدات الفرعية والملفات</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
-    <value>Only files</value>
+    <value>الملفات فقط</value>
   </data>
   <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
-    <value>Only subfolders</value>
+    <value>المجلدات الفرعية فقط</value>
   </data>
   <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
-    <value>Only subfolders and files</value>
+    <value>المجلدات الفرعية والملفات فقط</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
-    <value>Only this folder</value>
+    <value>هذا المجلد فقط</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
     <value>هذا المجلد والمجلدات الفرعية</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
-    <value>Append data</value>
+    <value>إلحاق البيانات</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
     <value>تغيير الإذن</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>Create folders</value>
+    <value>انشاء مجلدات</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>إنشاء ملفات</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>حذف الدلائل الفرعية والملفات</value>
   </data>
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>Execute files</value>
+    <value>تنفيذ الملفات</value>
   </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
     <value>قراءة السمات</value>
   </data>
   <data name="SecurityReadDataLabel.Text" xml:space="preserve">
-    <value>Read data</value>
+    <value>قراءة البيانات</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
     <value>قراءة السمات الموسعة</value>
@@ -2117,40 +2117,40 @@
     <value>الحصول على الملكية</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>Visit folder</value>
+    <value>زيارة المجلد</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
     <value>كتابة السمات</value>
   </data>
   <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
-    <value>Write data</value>
+    <value>كتابة البيانات</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
     <value>كتابة السمات الموسعة</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
-    <value>Convert inherited permissions into explicit permissions</value>
+    <value>تحويل الصلاحيات الموروثة إلى صلاحيات صريحة</value>
   </data>
   <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
     <value>تمكين التوريث</value>
   </data>
   <data name="SecurityAdvancedInheritedRemove.Text" xml:space="preserve">
-    <value>Remove all inherited permissions</value>
+    <value>إزالة جميع الصلاحيات الموروثة</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
-    <value>Reset child permissions</value>
+    <value>إعادة تعيين الأذونات الفرعية</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
+    <value>استبدال جميع إدخالات صلاحيات الكائن الفرعي بإدخالات صلاحيات هذا الكائن</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>إغلاق الجزء</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>Enter compact overlay</value>
+    <value>ادخل وضع التراكب المضغوط</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
-    <value>Exit compact overlay</value>
+    <value>الخروج من وضع التراكب المدمج</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>‏‏وصف الملف</value>
@@ -2168,34 +2168,34 @@
     <value>إصدار الملف</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>Load full preview</value>
+    <value>تحميل معاينة كاملة</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Downloads the item from the cloud and loads the preview</value>
+    <value>يقوم بتحميل العنصر من السحابة ويحمل المعاينة</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} items ({1} files, {2} folders)</value>
+    <value>{0} عناصر ({1} ملفات، {2} مجلدات)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
-    <value>Uncompressed size</value>
+    <value>الحجم الغير مضغوط</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>Show cloud drives section</value>
+    <value>إظهار قسم الأقراص السحابية</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Show drives section</value>
+    <value>إظهار قسم الأقراص</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Show WSL section</value>
+    <value>إظهار قسم WSL</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Show network section</value>
+    <value>إظهار قسم الشبكة</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Hide {0} section</value>
+    <value>إخفاء {0} قسم</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>إعدادات</value>
@@ -2270,19 +2270,19 @@
     <value>Ctrl+Shift+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>The archive extraction completed successfully.</value>
+    <value>اكتمل استخراج الأرشيف بنجاح.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>Extracting archive</value>
+    <value>يتم استخراج الأرشيف</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
-    <value>Extracting complete!</value>
+    <value>تم الاستخراج!</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>فتح المجلد الأصلي</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>غير معروف</value>
@@ -2294,7 +2294,7 @@
     <value>تحرير العلامات</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Show favorites section</value>
+    <value>إظهار قسم المفضلة</value>
   </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
     <value>تطبيق على الكل</value>
@@ -2303,10 +2303,10 @@
     <value>‏‏جزء من المجموعة</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Open Drive</value>
+    <value>فتح القرص</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>الرجاء إدخال قرص في القرص {0}</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>إدخال قرص</value>
@@ -2321,7 +2321,7 @@
     <value>مجهول</value>
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
-    <value>Provide your credential:</value>
+    <value>توفير بيانات الاعتماد الخاصة بك:</value>
   </data>
   <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
     <value>كلمة مرور</value>
@@ -2330,28 +2330,28 @@
     <value>اسم المستخدم</value>
   </data>
   <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Bundles Widget</value>
+    <value>عنصر واجهة الحزم</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Drives Widget</value>
+    <value>عنصر واجهة الأقراص</value>
   </data>
   <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Libraries Widget</value>
+    <value>عنصر واجهة المكتبات</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Recent Files Widget</value>
+    <value>عنصر واجهة الملفات الأخيرة</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>لم يتم العثور على أصناف</value>
   </data>
   <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Show preview only</value>
+    <value>إظهار المعاينة فقط</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Open log location</value>
+    <value>افتح موقع السجل</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
-    <value>Create link in {0}</value>
+    <value>أنشئ رابط في {0}</value>
   </data>
   <data name="Columns" xml:space="preserve">
     <value>الأعمدة</value>
@@ -2372,43 +2372,43 @@
     <value>إظهار ملحقات الملفات</value>
   </data>
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>إظهار العناصر المخفية</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show favorites section</value>
+    <value>إظهار قسم المفضلة</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>فتح المجلدات في علامة تبويب جديدة</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>اللغة</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show cloud drives section</value>
+    <value>إظهار قسم الأقراص السحابية</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show a confirmation dialog when deleting files or folders</value>
+    <value>إظهار مربع حوار التأكيد عند حذف الملفات أو المجلدات</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show drives section</value>
+    <value>إظهار قسم الأقراص</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show library section</value>
+    <value>إظهار قسم المكتبة</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show network section</value>
+    <value>إظهار قسم الشبكة</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show WSL section</value>
+    <value>إظهار قسم WSL</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
-    <value>Ongoing Tasks</value>
+    <value>المهام الحالية</value>
   </data>
   <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
-    <value>Move one down</value>
+    <value>حرك واحدة للأسفل</value>
   </data>
   <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
-    <value>Move one up</value>
+    <value>حرك واحدة للأعلى</value>
   </data>
   <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
     <value>تحريك إلى الأسفل</value>
@@ -2417,25 +2417,25 @@
     <value>تحريك إلى الأعلى</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
-    <value>Date created column</value>
+    <value>عمود تاريخ الإنشاء</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
-    <value>Item size column</value>
+    <value>عمود حجم العنصر</value>
   </data>
   <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Default file manager</value>
+    <value>مدير الملفات الافتراضي</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Set Files as the default file manager</value>
+    <value>تعيين Files كمدير ملفات افتراضي</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
-    <value>Use Files as Open File Dialog</value>
+    <value>استخدم Files كمربع حوار لفتح الملفات</value>
   </data>
   <data name="Tag" xml:space="preserve">
     <value>علامة</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>فتح العناصر بنقرة واحدة</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>مسار المجلد:</value>
@@ -2450,10 +2450,10 @@
     <value>إدارة الإعدادات</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
-    <value>Couldn't import settings. The settings file is corrupted.</value>
+    <value>تعذر استيراد الإعدادات. ملف الإعدادات تالف.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
-    <value>Error importing settings</value>
+    <value>خطأ في استيراد الإعدادات</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
     <value>إفراغ سلة المحذوفات</value>
@@ -2462,7 +2462,7 @@
     <value>شريط جانبي</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
-    <value>Choose a custom folder icon</value>
+    <value>اختر أيقونة مجلد مخصص</value>
   </data>
   <data name="Customization" xml:space="preserve">
     <value>تخصيص</value>
@@ -2474,10 +2474,10 @@
     <value>ملفات ومجلدات</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
-    <value>Open new instance when opening directories from the taskbar jumplist</value>
+    <value>فتح نموذج جديد عند فتح أدلة من شريط المهام</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
-    <value>Startup settings</value>
+    <value>إعدادات بدء التشغيل</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>‏‏التوافق</value>
@@ -2486,37 +2486,37 @@
     <value>بلا</value>
   </data>
   <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
-    <value>On Windows login</value>
+    <value>عند تسجيل دخول Windows</value>
   </data>
   <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
-    <value>On program start</value>
+    <value>عند بدء تشغيل البرنامج</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
     <value>النظام</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
-    <value>System (advanced)</value>
+    <value>النظام (متقدم)</value>
   </data>
   <data name="Windows7" xml:space="preserve">
-    <value>Windows 7</value>
+    <value>ويندوز 7</value>
   </data>
   <data name="Windows8" xml:space="preserve">
-    <value>Windows 8</value>
+    <value>ويندوز 8</value>
   </data>
   <data name="OSCompatibility_WindowsVista" xml:space="preserve">
-    <value>Windows Vista</value>
+    <value>ويندوز فيستا</value>
   </data>
   <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
-    <value>Windows Vista SP1</value>
+    <value>ويندوز فيستا SP1</value>
   </data>
   <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
-    <value>Windows Vista SP2</value>
+    <value>ويندوز فيستا SP2</value>
   </data>
   <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16 Bit Colors (65536)</value>
+    <value>ألوان 16 بت (65536)</value>
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>8 Bit Colors (256)</value>
+    <value>ألوان 8 بت (256)</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>وضع التوافق</value>
@@ -2525,19 +2525,19 @@
     <value>تعطيل تحسينات وضع ملء الشاشة</value>
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
-    <value>Run at 640 x 480 screen resolution</value>
+    <value>تشغيل عند دقة الشاشة 640 × 480</value>
   </data>
   <data name="Options" xml:space="preserve">
     <value>خيارات</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
-    <value>Override high DPI scaling behaviour</value>
+    <value>تجاوز سلوك تحجيم DPI المرتفع</value>
   </data>
   <data name="ReducedColorMode" xml:space="preserve">
     <value>وضع الألوان المنخفض</value>
   </data>
   <data name="RegisterForRestart" xml:space="preserve">
-    <value>Register for restart</value>
+    <value>سجل لإعادة التشغيل</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>تشغيل كمسؤول</value>
@@ -2546,13 +2546,13 @@
     <value>تشغيل مستكشف أخطاء التوافق ومصلحها</value>
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
-    <value>Use DPI settings of the main monitor</value>
+    <value>استخدام إعدادات DPI للشاشة الرئيسية</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Third party licenses</value>
+    <value>تراخيص الطرف الثالث</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
+    <value>هذا الخيار يعدل سجل النظام ويمكن أن تكون له تأثيرات جانبية غير متوقعة على جهازك. تابع على مسؤوليتك الخاصة.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>مسح الكل</value>
@@ -2561,16 +2561,16 @@
     <value>إنشاء مكتبة</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Enter Library name</value>
+    <value>أدخل اسم المكتبة</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>احسب أحجام المجلد</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>الملفات الأخيرة</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows Startup</value>
+    <value>فتح الملفات عند بدء تشغيل Windows</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>‏‏سمات</value>
@@ -2585,16 +2585,16 @@
     <value>للقراءة فقط</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
-    <value>Cleanup your drive contents</value>
+    <value>تنظيف محتويات القرص</value>
   </data>
   <data name="DiskCleanup" xml:space="preserve">
-    <value>Disk cleanup</value>
+    <value>تنظيف القرص</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>النوع</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>شبكة الايقونات</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>بايت</value>
@@ -2603,25 +2603,25 @@
     <value>استخراج</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Extract files</value>
+    <value>استخرج الملفات</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Extract here</value>
+    <value>فك الظغط هنا</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}</value>
+    <value>استخرج إلى {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
     <value>تشغيل البرنامج النصي</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
-    <value>Run with PowerShell</value>
+    <value>تشغيل بواسطة PowerShell</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
+    <value>حساب أحجام المجلد كثيف الموارد وقد يتسبب في زيادة استخدام وحدة المعالجة المركزية الخاصة بك.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>تدوير لليمين</value>
@@ -2633,7 +2633,7 @@
     <value>‏‏التثبيت</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>اغلاق علامات التبويب إلى اليسار</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>إغلاق علامات التبويب على اليسار</value>
@@ -2651,22 +2651,22 @@
     <value>مقاطع الفيديو</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Update Files</value>
+    <value>تحديث Files</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Preparing {0} items</value>
+    <value>جاري تحضير {0} عناصر</value>
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
-    <value>Preparing items</value>
+    <value>جاري إعداد العناصر</value>
   </data>
   <data name="StatusCopyFailed" xml:space="preserve">
     <value>‏‏فشل النسخ.</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to copy {0} items from {1} to {2}</value>
+    <value>فشل نسخ {0} عنصر من {1} إلى {2}</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to copy {0} item from {1} to {2}</value>
+    <value>فشل نسخ {0} عنصر من {1} إلى {2}</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>‏‏فشل النقل.</value>
@@ -2675,19 +2675,19 @@
     <value>العلامات</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>إظهار قسم العلامات</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>إظهار قسم العلامات</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>استخدم الأنماط المدمجة في تخطيط التفاصيل</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>عام</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>ex: {0}, {1}</value>
+    <value>مثال: {0}، {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>إظهار الصور المصغرة</value>
@@ -2696,202 +2696,202 @@
     <value>إعادة المحاولة</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>عملية النقل غير مدعومة في هذا السياق. هل تريد نسخ العناصر بدلاً من ذلك؟</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>Hidden items</value>
+    <value>العناصر المخفية</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>مخصص</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>تعيين كعرض شرائح سطح المكتب</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>ضبط حجم الأعمدة لتتناسب</value>
   </data>
   <data name="Contributors" xml:space="preserve">
     <value>‏‏المساهمون</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>تكيفي</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>التكييف (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>إظهار بث البيانات البديل</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>مراجعة الملفات</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>هل ترغب في مراجعة Files؟</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>تعيين كخلفية</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>تعيين كشاشة قفل</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>تعيين كخلفية سطح المكتب</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>تعيين كافتراضي</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>عمود التاريخ</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>عمود تاريخ الإنشاء</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>عمود الحجم</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>عمود العلامة</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>عمود النوع</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>أعمدة تفاصيل التخطيط</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>إعادة ضبط</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>سيؤدي هذا الإجراء إلى إعادة تعيين جميع الدلائل إلى التفضيلات الافتراضية الخاصة بك.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>هل أنت متأكد؟</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>شاشة القفل</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>فتح مجلدات بنقرة واحدة في تخطيط الأعمدة</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>فتح العناصر</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Add to {0}.zip</value>
+    <value>أضف إلى {0}.zip</value>
   </data>
   <data name="AddToArchive" xml:space="preserve">
-    <value>Add to archive</value>
+    <value>إضافة إلى الأرشيف</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
+    <value>اكتمل الضغط</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
+    <value>تم ضغط {0}</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} couldn't be compressed</value>
+    <value>لا يمكن ضغط {0}</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+    <value>يتم ضغط الأرشيف</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>حدد الملفات والمجلدات عند التنقل فوقها</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>هل أنت متأكد من أنك تريد استعادة جميع العناصر الموجودة في سلة إعادة التدوير؟</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>استعادة كل العناصر</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>هل تريد استعادة {0} عنصر محدد؟</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>استعادة التحديد</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>استعادة كل العناصر</value>
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>استعادة</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>لا يمكن فتح الاختصار</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>لا يمكن العثور على الوجهة المستهدفة {0}. هل تريد حذف هذا الاختصار؟</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
+    <value>ليس لديك إذن للوصول إلى هذا المجلد.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>يتم تحميل السمات</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>يتم إفراغ سلة المهملات</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>تم تفريغ سلة المهملات بنجاح</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>أخفق تفريغ سلة المهملات</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Archive password</value>
+    <value>كلمة مرور الأرشيف</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>المسار</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>الفرز والتجميع</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>أرشيف</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>Create archive</value>
+    <value>إنشاء أرشيف</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>إنشاء</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>Create {0}</value>
+    <value>إنشاء {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Enter a name</value>
+    <value>قم بإدخال اسم</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
-    <value>Compression level</value>
+    <value>مستوى الضغط</value>
   </data>
   <data name="CompressionLevelUltra" xml:space="preserve">
-    <value>Ultra</value>
+    <value>فائق</value>
   </data>
   <data name="CompressionLevelHigh" xml:space="preserve">
-    <value>High</value>
+    <value>مرتفع</value>
   </data>
   <data name="CompressionLevelNormal" xml:space="preserve">
-    <value>Normal</value>
+    <value>عادي</value>
   </data>
   <data name="CompressionLevelLow" xml:space="preserve">
-    <value>Low</value>
+    <value>منخفض</value>
   </data>
   <data name="CompressionLevelFast" xml:space="preserve">
-    <value>Fast</value>
+    <value>سريع</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
     <value>بلا</value>
   </data>
   <data name="SplitArchive" xml:space="preserve">
-    <value>Split the archive</value>
+    <value>قسم الأرشيف</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Splitting size</value>
+    <value>تقسيم الحجم</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Do not split</value>
+    <value>لا تقسم</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2906,7 +2906,7 @@
     <value>Blu-ray</value>
   </data>
   <data name="Encryption" xml:space="preserve">
-    <value>Encryption</value>
+    <value>التشفير</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>كلمة مرور</value>
@@ -2915,15 +2915,15 @@
     <value>تنسيق</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>عمود حالة المزامنة</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>تجميع وَفْقاً لـِ</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>فرز حسب</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>الملفات المستخدمة حديثًا معطلة حاليًا في مستكشف ملفات ويندوز.</value>
   </data>
 </root>
