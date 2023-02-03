@@ -1,11 +1,16 @@
-﻿using Files.App.Shell;
+﻿using Files.App.Extensions;
+using Files.App.Helpers;
+using Files.App.Shell;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vanara.Extensions;
 using Vanara.InteropServices;
+using static Vanara.PInvoke.AdvApi32;
+using Vanara.PInvoke;
 using static Vanara.PInvoke.Mpr;
 
 namespace Files.App.Filesystem
@@ -115,6 +120,52 @@ namespace Files.App.Filesystem
 				ncd.HideRestoreConnectionCheckBox = false;
 				return ncd.ShowDialog(Win32API.Win32Window.FromLong(hwnd)) == DialogResult.OK;
 			});
+		}
+
+		public static async Task<bool> AuthenticateNetworkShare(string path)
+		{
+			NETRESOURCE nr = new NETRESOURCE
+			{
+				dwType = NETRESOURCEType.RESOURCETYPE_DISK,
+				lpRemoteName = path
+			};
+
+			Win32Error connectionError = WNetAddConnection3(HWND.NULL, nr, null, null, 0);  // if creds are saved, this will return NO_ERROR
+
+			if (connectionError == Win32Error.ERROR_LOGON_FAILURE)
+			{
+				var dialog = DynamicDialogFactory.GetFor_CredentialEntryDialog(path);
+				await dialog.ShowAsync();
+				var credentialsReturned = dialog.ViewModel.AdditionalData as string[];
+
+				if (credentialsReturned is string[] && credentialsReturned[1] != null)
+				{
+					connectionError = WNetAddConnection3(HWND.NULL, nr, credentialsReturned[1], credentialsReturned[0], 0);
+					if (credentialsReturned[2] == "y" && connectionError == Win32Error.NO_ERROR)
+					{
+						CREDENTIAL creds = new CREDENTIAL();
+						creds.TargetName = new StrPtrAuto(path.Substring(2));
+						creds.UserName = new StrPtrAuto(credentialsReturned[0]);
+						creds.Type = CRED_TYPE.CRED_TYPE_DOMAIN_PASSWORD;
+						creds.AttributeCount = 0;
+						creds.Persist = CRED_PERSIST.CRED_PERSIST_ENTERPRISE;
+						byte[] bpassword = Encoding.Unicode.GetBytes(credentialsReturned[1]);
+						creds.CredentialBlobSize = (UInt32)bpassword.Length;
+						creds.CredentialBlob = Marshal.StringToCoTaskMemUni(credentialsReturned[1]);
+						CredWrite(creds, 0);
+					}
+				}
+				else
+					return false;
+			}
+
+			if (connectionError == Win32Error.NO_ERROR)
+				return true;
+			else
+			{
+				await DialogDisplayHelper.ShowDialogAsync("NetworkFolderErrorDialogTitle".GetLocalizedResource(), connectionError.ToString().Split(":")[1].Trim());
+				return false;
+			}
 		}
 
 		public static bool DisconnectNetworkDrive(string drive)

@@ -134,5 +134,85 @@ namespace Files.App.Helpers
 			});
 			return dialog;
 		}
+
+		public static DynamicDialog GetFor_CredentialEntryDialog(string path)
+		{
+			string[] userAndPass = new string[3];
+			DynamicDialog? dialog = null;
+
+			TextBox inputUsername = new()
+			{
+				Height = 35d,
+				PlaceholderText = "CredentialDialogUserName/PlaceholderText".GetLocalizedResource()
+			};
+
+			PasswordBox inputPassword = new()
+			{
+				Height = 35d,
+				PlaceholderText = "CredentialDialogPassword/PlaceholderText".GetLocalizedResource()
+			};
+
+			CheckBox saveCreds = new()
+			{
+				Content = "NetworkAuthenticationSaveCheckbox".GetLocalizedResource()
+			};
+
+			inputUsername.TextChanged += (textBox, args) =>
+			{
+				userAndPass[0] = inputUsername.Text;
+				dialog.ViewModel.AdditionalData = userAndPass;
+			};
+
+			inputPassword.PasswordChanged += (textBox, args) =>
+			{
+				userAndPass[1] = inputPassword.Password;
+				dialog.ViewModel.AdditionalData = userAndPass;
+			};
+
+			saveCreds.Checked += (textBox, args) =>
+			{
+				userAndPass[2] = "y";
+				dialog.ViewModel.AdditionalData = userAndPass;
+			};
+
+			saveCreds.Unchecked += (textBox, args) =>
+			{
+				userAndPass[2] = "n";
+				dialog.ViewModel.AdditionalData = userAndPass;
+			};
+
+			dialog = new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = "NetworkAuthenticationDialogTitle".GetLocalizedResource(),
+				PrimaryButtonText = "AskCredentialDialog/PrimaryButtonText".GetLocalizedResource(),
+				CloseButtonText = "Cancel".GetLocalizedResource(),
+				SubtitleText = string.Format("NetworkAuthenticationDialogMessage".GetLocalizedResource(), path.Substring(2)),
+				DisplayControl = new Grid()
+				{
+					MinWidth = 250d,
+					Children =
+					{
+						new StackPanel()
+						{
+							Spacing = 10d,
+							Children =
+							{
+								inputUsername,
+								inputPassword,
+								saveCreds
+							}
+						}
+					}
+				},
+				CloseButtonAction = (vm, e) =>
+				{
+					dialog.ViewModel.AdditionalData = null;
+					vm.HideDialog();
+				}
+
+			});
+
+			return dialog;
+		}
 	}
 }
