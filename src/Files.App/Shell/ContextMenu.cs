@@ -104,7 +104,7 @@ namespace Files.App.Shell
 			var owningThread = new ThreadWithMessageQueue();
 			return await owningThread.PostMethod<ContextMenu>(() =>
 			{
-				List<ShellItem> shellItems = new List<ShellItem>();
+				List<ShellItem> shellItems = new();
 				try
 				{
 					foreach (var fp in filePathList.Where(x => !string.IsNullOrEmpty(x)))
@@ -147,7 +147,7 @@ namespace Files.App.Shell
 			var hMenu = User32.CreatePopupMenu();
 			menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
 			var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
-			ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
+			EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
 			return contextMenu;
 		}
 

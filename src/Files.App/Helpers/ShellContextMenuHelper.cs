@@ -66,6 +66,13 @@ namespace Files.App.Helpers
 			return menuItemsList;
 		}
 
+		public static async Task<List<string>> GetContextMenuItemsForPath(bool shiftPressed, string selectedItem)
+		{
+			var contextMenu = await ContextMenu.GetContextMenuForFiles(new[] { selectedItem }, Shell32.CMF.CMF_NORMAL);
+			
+			return contextMenu.Items.Select(x => x.CommandString).ToList();
+		}
+
 		public static void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
 								ContextMenu contextMenu,
 								IEnumerable<Win32ContextMenuItem> menuFlyoutItems,

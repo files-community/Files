@@ -42,7 +42,7 @@ namespace Files.App.DataModels.NavigationControlItems
 		public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
 		public Visibility ItemVisibility { get; set; } = Visibility.Visible;
 
-		public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom || Type == DriveType.VirtualDrive;
+		public bool IsRemovable { get; set; }
 		public bool IsNetwork => Type == DriveType.Network;
 		public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(path);
 
@@ -147,6 +147,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			if (imageStream is not null)
 				item.IconData = await imageStream.ToByteArrayAsync();
 
+			item.IsRemovable = await IsRemovable();
 			item.Text = type is DriveType.Network ? $"{root.DisplayName} ({deviceId})" : root.DisplayName;
 			item.Type = type;
 			item.MenuOptions = new ContextMenuOptions
@@ -161,6 +162,19 @@ namespace Files.App.DataModels.NavigationControlItems
 			item.Root = root;
 
 			_ = App.Window.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
+
+			async Task<bool> IsRemovable()
+			{
+				if (type == DriveType.Network)
+					return false;
+
+				var menuItems = await ShellContextmenuHelper.GetContextMenuItemsForPath(false, root.Path);
+				
+				if (menuItems.Contains("eject"))
+					return true;
+				
+				return false;
+			}
 
 			return item;
 		}
