@@ -581,7 +581,7 @@ namespace Files.App.Filesystem
 				fsProgress.ReportStatus(FileSystemStatusCode.Success);
 
 				var renamedSources = renameResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination)
-					.Where(x => new[] { source }.Select(s => s.Path).Contains(x.Source));
+					.Where(x => x.Source == source.Path);
 				if (renamedSources.Any())
 				{
 					return new StorageHistory(FileOperationType.Rename, source,

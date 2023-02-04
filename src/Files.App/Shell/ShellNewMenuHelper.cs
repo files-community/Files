@@ -19,7 +19,8 @@ namespace Files.App.Shell
 		public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
 		{
 			var newMenuItems = new List<ShellNewEntry>();
-			foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith('.') && !new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" }.Contains(x, StringComparer.OrdinalIgnoreCase)))
+			var shortcutExtensions = new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" };
+			foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith('.') && !shortcutExtensions.Contains(x, StringComparer.OrdinalIgnoreCase)))
 			{
 				using var key = Registry.ClassesRoot.OpenSubKeySafe(keyName);
 
