@@ -21,9 +21,10 @@ namespace Files.App
 	internal class Program
 	{
 		// Note: We can't declare Main to be async because in a WinUI app
-		// this prevents Narrator from reading XAML elements.
+		// This prevents Narrator from reading XAML elements.
 		// https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs
-		[STAThread] // STAThread has no effect if main is async, needed for Clipboard
+		// STAThread has no effect if main is async, needed for Clipboard
+		[STAThread]
 		private static void Main()
 		{
 			WinRT.ComWrappersSupport.InitializeComWrappers();
@@ -48,9 +49,13 @@ namespace Files.App
 								if (!CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
 								{
 									OpenShellCommandInExplorer(command.Payload, proc.Id);
-									return; // Exit
+
+									// Exit
+									return;
 								}
+
 								break;
+
 							default:
 								break;
 						}
@@ -58,11 +63,12 @@ namespace Files.App
 				}
 
 				// Always open a new instance for OpenDialog, never open new instance for "-Tag" command
-				if (parsedCommands is null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath)
-					&& (!alwaysOpenNewInstance || parsedCommands.Any(x => x.Type == ParsedCommandType.TagFiles)))
+				if (parsedCommands is null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath) &&
+					(!alwaysOpenNewInstance || parsedCommands.Any(x => x.Type == ParsedCommandType.TagFiles)))
 				{
 					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
 					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+
 					if (!instance.IsCurrent)
 					{
 						RedirectActivationTo(instance, activatedArgs);
@@ -143,7 +149,7 @@ namespace Files.App
 		{
 			if (App.Current is App thisApp)
 			{
-				// WINUI3: verify if needed or OnLaunched is called
+				// WINUI3: Verify if needed or OnLaunched is called
 				thisApp.OnActivated(args);
 			}
 		}
@@ -151,10 +157,8 @@ namespace Files.App
 		private const uint CWMO_DEFAULT = 0;
 		private const uint INFINITE = 0xFFFFFFFF;
 
-		// Do the redirection on another thread, and use a non-blocking
-		// wait method to wait for the redirection to complete.
-		public static void RedirectActivationTo(
-			AppInstance keyInstance, AppActivationArguments args)
+		// Do the redirection on another thread, and use a non-blocking wait method to wait for the redirection to complete.
+		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
 			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
 			Task.Run(() =>
@@ -162,9 +166,13 @@ namespace Files.App
 				keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
 				SetEvent(eventHandle);
 			});
+
 			_ = CoWaitForMultipleObjects(
-			   CWMO_DEFAULT, INFINITE, 1,
-			   new IntPtr[] { eventHandle }, out uint handleIndex);
+			   CWMO_DEFAULT,
+			   INFINITE,
+			   1,
+			   new IntPtr[] { eventHandle },
+			   out uint handleIndex);
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
@@ -178,9 +186,13 @@ namespace Files.App
 				LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();
 				SetEvent(eventHandle);
 			});
+
 			_ = CoWaitForMultipleObjects(
-			   CWMO_DEFAULT, INFINITE, 1,
-			   new IntPtr[] { eventHandle }, out uint handleIndex);
+			   CWMO_DEFAULT,
+			   INFINITE,
+			   1,
+			   new IntPtr[] { eventHandle },
+			   out uint handleIndex);
 		}
 	}
 }

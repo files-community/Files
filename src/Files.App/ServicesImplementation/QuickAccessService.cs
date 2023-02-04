@@ -17,8 +17,10 @@ namespace Files.App.ServicesImplementation
 				.Where(link => link.IsFolder)
 				.Select(link => link.FilePath).ToList();
 
-			if (sidebarItems.Count > 4) // Avoid first opening crash #11139
-				sidebarItems.RemoveRange(sidebarItems.Count - 4, 4); // 4 is the number of recent items shown in explorer sidebar
+			// Avoid first opening crash #11139
+			if (sidebarItems.Count > 4)
+				// 4 is the number of recent items shown in explorer sidebar
+				sidebarItems.RemoveRange(sidebarItems.Count - 4, 4);
 			
 			return sidebarItems;
 		}

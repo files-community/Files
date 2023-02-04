@@ -31,6 +31,7 @@ namespace Files.App.ViewModels
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public IMultitaskingControl? MultitaskingControl { get; set; }
+
 		public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
 
 		public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
@@ -219,8 +220,10 @@ namespace Files.App.ViewModels
 			{
 				(windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
 			}
+
 			if (AppInstances.Count > 1)
 				windowTitle = $"{windowTitle} ({AppInstances.Count})";
+
 			if (navigationArg == SelectedTabItem?.TabItemArguments?.NavigationArg)
 				App.GetAppWindow(App.Window).Title = $"{windowTitle} - Files";
 		}
@@ -372,6 +375,7 @@ namespace Files.App.ViewModels
 							var tabArgs = TabItemArguments.Deserialize(tabArgsString);
 							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
 						}
+
 						var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
 						userSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 					}
@@ -394,7 +398,6 @@ namespace Files.App.ViewModels
 				else if (e.Parameter is TabItemArguments tabArgs)
 					await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
 			}
-
 
 			// Load the app theme resources
 			App.AppThemeResourcesHelper.LoadAppResources();
@@ -448,7 +451,9 @@ namespace Files.App.ViewModels
 			};
 
 			tabItem.Control.ContentChanged += Control_ContentChanged;
+
 			await UpdateTabInfo(tabItem, tabViewItemArgs);
+
 			var index = atIndex == -1 ? AppInstances.Count : atIndex;
 			AppInstances.Insert(index, tabItem);
 			App.AppModel.TabStripSelectedIndex = index;
@@ -458,6 +463,7 @@ namespace Files.App.ViewModels
 		{
 			if (sender is null)
 				return;
+
 			var matchingTabItem = AppInstances.SingleOrDefault(x => x.Control == (TabItemControl)sender);
 			if (matchingTabItem is null)
 				return;

@@ -24,8 +24,12 @@ namespace Files.App.ViewModels.Properties
 	{
 		public ListedItem Item { get; }
 
-		public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
-			DispatcherQueue coreDispatcher, ListedItem item, IShellPage instance)
+		public FileProperties(
+			SelectedItemsPropertiesViewModel viewModel,
+			CancellationTokenSource tokenSource,
+			DispatcherQueue coreDispatcher,
+			ListedItem item,
+			IShellPage instance)
 		{
 			ViewModel = viewModel;
 			TokenSource = tokenSource;
@@ -59,8 +63,9 @@ namespace Files.App.ViewModels.Properties
 
 			var shortcutItem = (ShortcutItem)Item;
 
-			var isApplication = FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath) ||
-								FileExtensionHelpers.IsMsiFile(shortcutItem.TargetPath);
+			var isApplication =
+				FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath) ||
+				FileExtensionHelpers.IsMsiFile(shortcutItem.TargetPath);
 
 			ViewModel.ShortcutItemType = isApplication ? "Application".GetLocalizedResource() :
 				Item.IsLinkItem ? "PropertiesShortcutTypeLink".GetLocalizedResource() : "PropertiesShortcutTypeFile".GetLocalizedResource();
@@ -70,9 +75,12 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
 			ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
 			ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
+
 			if (isApplication)
 				ViewModel.RunAsAdmin = shortcutItem.RunAsAdmin;
+
 			ViewModel.IsSelectedItemShortcut = FileExtensionHelpers.IsShortcutFile(Item.FileExtension);
+
 			ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 			{
 				if (Item.IsLinkItem)
@@ -85,7 +93,8 @@ namespace Files.App.ViewModels.Properties
 					await App.Window.DispatcherQueue.EnqueueAsync(
 						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
 				}
-			}, () =>
+			},
+			() =>
 			{
 				return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
 			});
@@ -157,8 +166,11 @@ namespace Files.App.ViewModels.Properties
 
 			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
-			list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
-																						   (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+			list.Find(x => x.ID == "address").Value =
+				await GetAddressFromCoordinatesAsync((double?)list.Find(
+					x => x.Property == "System.GPS.LatitudeDecimal").Value,
+					(double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+
 			// Find Encoding Bitrate property and convert it to kbps
 			var encodingBitrate = list.Find(x => x.Property == "System.Audio.EncodingBitrate");
 			if (encodingBitrate is not null)
@@ -175,6 +187,7 @@ namespace Files.App.ViewModels.Properties
 				.Select(group => new FilePropertySection(group) { Key = group.Key })
 				.Where(section => !section.All(fileProp => fileProp.Value is null))
 				.OrderBy(group => group.Priority);
+
 			ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
 			ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value is not null));
 		}
@@ -216,6 +229,7 @@ namespace Files.App.ViewModels.Properties
 				return;
 
 			var failedProperties = "";
+
 			foreach (var group in ViewModel.PropertySections)
 			{
 				foreach (FileProperty prop in group)
@@ -304,6 +318,7 @@ namespace Files.App.ViewModels.Properties
 							System.IO.FileAttributes.ReadOnly
 						);
 					}
+
 					break;
 
 				case "IsHidden":
@@ -321,6 +336,7 @@ namespace Files.App.ViewModels.Properties
 							System.IO.FileAttributes.Hidden
 						);
 					}
+
 					break;
 
 				case "RunAsAdmin":
@@ -331,9 +347,9 @@ namespace Files.App.ViewModels.Properties
 						return;
 
 					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, ViewModel.RunAsAdmin);
+
 					break;
 			}
 		}
 	}
-
 }

@@ -15,7 +15,6 @@ namespace Files.App.DataModels.NavigationControlItems
 	public class LocationItem : ObservableObject, INavigationControlItem
 	{
 		public BitmapImage icon;
-
 		public BitmapImage Icon
 		{
 			get => icon;
@@ -23,26 +22,37 @@ namespace Files.App.DataModels.NavigationControlItems
 		}
 
 		//public Uri IconSource { get; set; }
+
 		public byte[] IconData { get; set; }
 
 		public string Text { get; set; } = "";
 
 		private string path;
-
 		public string Path
 		{
 			get => path;
 			set
 			{
 				path = value;
-				ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains('?', StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
+				ToolTipText =
+					string.IsNullOrEmpty(Path) ||
+					Path.Contains('?', StringComparison.Ordinal) ||
+					Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) ||
+					Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) ||
+					Path == "Home".GetLocalizedResource() ?
+					Text : Path;
 			}
 		}
 
 		public virtual string ToolTipText { get; set; }
+
 		public FontFamily Font { get; set; }
-		public NavigationControlItemType ItemType => NavigationControlItemType.Location;
+
+		public NavigationControlItemType ItemType
+			=> NavigationControlItemType.Location;
+
 		public bool IsDefaultLocation { get; set; }
+
 		public BulkConcurrentObservableCollection<INavigationControlItem> ChildItems { get; set; }
 
 		public bool SelectsOnInvoked { get; set; } = true;
@@ -60,7 +70,8 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public ContextMenuOptions MenuOptions { get; set; }
 
-		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+		public int CompareTo(INavigationControlItem other)
+			=> Text.CompareTo(other.Text);
 
 		public static T Create<T>() where T : LocationItem, new()
 		{
@@ -82,11 +93,13 @@ namespace Files.App.DataModels.NavigationControlItems
 			set
 			{
 				SetProperty(ref spaceUsed, value);
+
 				App.Window.DispatcherQueue.EnqueueAsync(() => OnPropertyChanged(nameof(ToolTipText)));
 			}
 		}
 
-		public override string ToolTipText => SpaceUsed.ToSizeString();
+		public override string ToolTipText
+			=> SpaceUsed.ToSizeString();
 
 		public RecycleBinLocationItem()
 		{

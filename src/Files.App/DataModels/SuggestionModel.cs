@@ -8,13 +8,16 @@ namespace Files.App.DataModels
 	public class SuggestionModel : ObservableObject
 	{
 		public bool IsRecentSearch { get; set; } = false;
+
 		public bool LoadFileIcon { get; set; } = false;
+
 		public bool NeedsPlaceholderGlyph { get; set; } = true;
+
 		public string? ItemPath { get; set; }
+
 		public string Name { get; set; }
 
 		private BitmapImage? fileImage;
-
 		public BitmapImage? FileImage
 		{
 			get => fileImage;
@@ -24,6 +27,7 @@ namespace Files.App.DataModels
 				{
 					imgOld.ImageOpened -= Img_ImageOpened;
 				}
+
 				if (SetProperty(ref fileImage, value))
 				{
 					if (value is BitmapImage img)

@@ -27,6 +27,7 @@ namespace Files.App.Converters
 		{
 			var strArray = (value as string).Split("; ");
 			var array = new double[strArray.Length];
+
 			for (int i = 0; i < strArray.Length; i++)
 			{
 				try

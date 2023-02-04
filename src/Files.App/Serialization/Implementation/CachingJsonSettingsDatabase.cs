@@ -27,6 +27,7 @@ namespace Files.App.Serialization.Implementation
 				{
 					_settingsCache.Add(key, defaultValue);
 				}
+
 				return defaultValue;
 			}
 		}
@@ -48,6 +49,7 @@ namespace Files.App.Serialization.Implementation
 			bool UpdateValueInCache(object? value)
 			{
 				bool isDifferent;
+
 				if (newValue is IEnumerable enumerableNewValue && value is IEnumerable enumerableValue)
 				{
 					isDifferent = !enumerableValue.Cast<object>().SequenceEqual(enumerableNewValue.Cast<object>());

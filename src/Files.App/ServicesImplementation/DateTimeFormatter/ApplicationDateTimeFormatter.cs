@@ -5,7 +5,8 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 {
 	internal class ApplicationDateTimeFormatter : AbstractDateTimeFormatter
 	{
-		public override string Name => "Application".GetLocalizedResource();
+		public override string Name
+			=> "Application".GetLocalizedResource();
 
 		public override string ToShortLabel(DateTimeOffset offset)
 		{
@@ -40,11 +41,14 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 			{
 				return " ";
 			}
+
 			var localTime = offset.ToLocalTime();
+
 			if (elapsed.TotalDays < 7 && elapsed.TotalSeconds >= 0)
 			{
 				return $"{localTime:D} {localTime:t} ({ToShortLabel(offset)})";
 			}
+
 			return $"{localTime:D} {localTime:t}";
 		}
 	}

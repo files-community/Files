@@ -48,6 +48,7 @@ namespace Files.App.ServicesImplementation.Settings
 			}
 
 			var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
+
 			if (!string.IsNullOrEmpty(uid) && tag is null)
 			{
 				tag = new TagViewModel("FileTagUnknown".GetLocalizedResource(), "#9ea3a1", uid);

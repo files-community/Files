@@ -109,12 +109,14 @@ namespace Files.App.ViewModels
 
 			var basicModel = new BasicPreviewViewModel(SelectedItem);
 			await basicModel.LoadAsync();
+
 			control = new BasicPreview(basicModel);
 
 			if (token.IsCancellationRequested)
 			{
 				return;
 			}
+
 			PreviewPaneContent = control;
 			PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
 		}
@@ -250,6 +252,7 @@ namespace Files.App.ViewModels
 				{
 					Debug.WriteLine(e);
 					loadCancellationTokenSource?.Cancel();
+
 					// If initial loading fails, attempt to load a basic preview (thumbnail and details only)
 					// If that fails, revert to no preview/details available as long as the item is not a shortcut or folder
 					if (SelectedItem is not null && !SelectedItem.IsShortcut && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
@@ -304,6 +307,7 @@ namespace Files.App.ViewModels
 			{
 				var basicModel = new BasicPreviewViewModel(SelectedItem);
 				await basicModel.LoadAsync();
+
 				PreviewPaneContent = new BasicPreview(basicModel);
 				PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
 			}

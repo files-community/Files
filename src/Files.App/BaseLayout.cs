@@ -63,11 +63,12 @@ namespace Files.App
 		public AppModel AppModel => App.AppModel;
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
-		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new CommandBarFlyout()
+		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new()
 		{
 			AlwaysExpanded = true,
 		};
-		public CommandBarFlyout BaseContextMenuFlyout { get; set; } = new CommandBarFlyout()
+
+		public CommandBarFlyout BaseContextMenuFlyout { get; set; } = new()
 		{
 			AlwaysExpanded = true,
 		};
@@ -77,6 +78,7 @@ namespace Files.App
 		public IShellPage? ParentShellPageInstance { get; private set; } = null;
 
 		public bool IsRenamingItem { get; set; } = false;
+
 		public ListedItem? RenamingItem { get; set; } = null;
 
 		public string? OldItemName { get; set; } = null;
@@ -96,7 +98,8 @@ namespace Files.App
 			}
 		}
 
-		protected AddressToolbar? NavToolbar => (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
+		protected AddressToolbar? NavToolbar
+			=> (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
 
 		private CollectionViewSource collectionViewSource = new()
 		{
@@ -110,10 +113,14 @@ namespace Files.App
 			{
 				if (collectionViewSource == value)
 					return;
+
 				if (collectionViewSource.View is not null)
 					collectionViewSource.View.VectorChanged -= View_VectorChanged;
+
 				collectionViewSource = value;
+
 				NotifyPropertyChanged(nameof(CollectionViewSource));
+
 				if (collectionViewSource.View is not null)
 					collectionViewSource.View.VectorChanged += View_VectorChanged;
 			}
@@ -122,7 +129,6 @@ namespace Files.App
 		protected NavigationArguments? navigationArguments;
 
 		private bool isItemSelected = false;
-
 		public bool IsItemSelected
 		{
 			get => isItemSelected;
@@ -131,13 +137,13 @@ namespace Files.App
 				if (value != isItemSelected)
 				{
 					isItemSelected = value;
+
 					NotifyPropertyChanged(nameof(IsItemSelected));
 				}
 			}
 		}
 
 		private string jumpString = string.Empty;
-
 		public string JumpString
 		{
 			get => jumpString;
@@ -307,6 +313,7 @@ namespace Files.App
 			var items = CollectionViewSource.IsSourceGrouped
 				? (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.SelectMany(g => g) // add all items from each group to the new list
 				: CollectionViewSource.Source as IEnumerable<ListedItem>;
+
 			return items ?? new List<ListedItem>();
 		}
 
@@ -315,6 +322,7 @@ namespace Files.App
 			var items = GetAllItems();
 			if (items is null)
 				return;
+
 			foreach (var item in items)
 			{
 				if (item is not null)
@@ -354,6 +362,7 @@ namespace Files.App
 					// Remove old layout from back stack
 					ParentShellPageInstance.RemoveLastPageFromBackStack();
 				}
+
 				ParentShellPageInstance.FilesystemViewModel.UpdateEmptyTextType();
 			}
 		}
@@ -464,7 +473,8 @@ namespace Files.App
 				}
 				else if (navigationArguments is not null && navigationArguments.FocusOnNavigation)
 				{
-					ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
+					// Set focus on layout specific file list control
+					ItemManipulationModel.FocusFileList();
 				}
 			}
 			catch (Exception)
@@ -480,14 +490,18 @@ namespace Files.App
 			groupingCancellationToken?.Cancel();
 			groupingCancellationToken = new CancellationTokenSource();
 			var token = groupingCancellationToken.Token;
+			
 			await ParentShellPageInstance!.FilesystemViewModel.GroupOptionsUpdated(token);
+
 			UpdateCollectionViewSource();
+
 			await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
+
 			// Remove item jumping handler
 			CharacterReceived -= Page_CharacterReceived;
 			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
@@ -506,6 +520,7 @@ namespace Files.App
 			{
 				if (!IsItemSelected && ((sender as CommandBarFlyout)?.Target as ListViewItem)?.Content is ListedItem li) // Workaround for item sometimes not getting selected
 					ItemManipulationModel.SetSelectedItem(li);
+
 				if (IsItemSelected)
 					await LoadMenuItemsAsync();
 			}
@@ -553,6 +568,7 @@ namespace Files.App
 			var items = (selectedItems?.Any() ?? false) ? selectedItems : GetAllItems();
 			if (items is null)
 				return;
+
 			var isSizeKnown = !items.Any(item => string.IsNullOrEmpty(item.FileSize));
 			if (isSizeKnown)
 			{
@@ -565,13 +581,16 @@ namespace Files.App
 				SelectedItemsPropertiesViewModel.ItemSizeBytes = 0;
 				SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
 			}
+
 			SelectedItemsPropertiesViewModel.ItemSizeVisibility = isSizeKnown;
 		}
 
 		private async Task LoadMenuItemsAsync()
 		{
 			if (ItemContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
-				itc.MaxHeight = Constants.UI.ContextMenuMaxHeight; // Reset menu max height
+				// Reset menu max height
+				itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
+
 			shellContextMenuItemCancellationToken?.Cancel();
 			shellContextMenuItemCancellationToken = new CancellationTokenSource();
 			SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
@@ -695,7 +714,7 @@ namespace Files.App
 				mainItems.ForEach(x => contextMenuFlyout.SecondaryCommands.Add(x));
 			}
 
-			// add items to openwith dropdown
+			// Add items to openwith dropdown
 			var openWithOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWithOverflow") as AppBarButton;
 			var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
 			if (openWithSubItems is not null && openWithOverflow is not null && openWith is not null)
@@ -716,9 +735,12 @@ namespace Files.App
 			{
 				itemsControl.Items.OfType<FrameworkElement>().ForEach(item =>
 				{
-					if (item.FindDescendant("OverflowTextLabel") is TextBlock label) // Enable CharacterEllipsis text trimming for menu items
+					// Enable CharacterEllipsis text trimming for menu items
+					if (item.FindDescendant("OverflowTextLabel") is TextBlock label)
 						label.TextTrimming = TextTrimming.CharacterEllipsis;
-					if ((item as AppBarButton)?.Flyout as MenuFlyout is MenuFlyout flyout) // Close main menu when clicking on subitems (#5508)
+
+					// Close main menu when clicking on subitems (#5508)
+					if ((item as AppBarButton)?.Flyout as MenuFlyout is MenuFlyout flyout)
 					{
 						Action<IList<MenuFlyoutItemBase>> clickAction = null!;
 						clickAction = (items) =>
@@ -768,7 +790,8 @@ namespace Files.App
 		{
 			var item = GetItemFromElement(sender);
 			if (item == dragOverItem)
-				dragOverItem = null; // Reset dragged over item
+				// Reset dragged over item
+				dragOverItem = null;
 		}
 
 		protected async void Item_DragOver(object sender, DragEventArgs e)
@@ -819,7 +842,8 @@ namespace Files.App
 						{
 							e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalizedResource()} {item.Name}";
 							e.AcceptedOperation = DataPackageOperation.Link;
-						} // Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
+						}
+						// Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
 						else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
 						{
 							e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), item.Name);
@@ -865,7 +889,9 @@ namespace Files.App
 			var deferral = e.GetDeferral();
 
 			e.Handled = true;
-			dragOverItem = null; // Reset dragged over item
+
+			// Reset dragged over item
+			dragOverItem = null;
 
 			var item = GetItemFromElement(sender);
 			if (item is not null)
@@ -934,6 +960,7 @@ namespace Files.App
 			if (selectorItem.IsSelected && e.KeyModifiers == VirtualKeyModifiers.Control)
 			{
 				selectorItem.IsSelected = false;
+
 				// Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
 				e.Handled = true;
 			}
@@ -983,9 +1010,11 @@ namespace Files.App
 						{
 							ItemManipulationModel.SetSelectedItem(hoveredItem);
 						}
+
 						hoveredItem = null;
 					}
-				}, TimeSpan.FromMilliseconds(600), false);
+				},
+				TimeSpan.FromMilliseconds(600), false);
 			}
 		}
 
@@ -1054,6 +1083,7 @@ namespace Files.App
 		{
 			if (ParentShellPageInstance is null)
 				return;
+
 			if (ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.IsGrouped)
 			{
 				CollectionViewSource = new CollectionViewSource()
@@ -1076,8 +1106,10 @@ namespace Files.App
 		{
 			if (e.IsSourceZoomedInView)
 				return;
+
 			// According to the docs this isn't necessary, but it would crash otherwise
 			var destination = e.DestinationItem.Item as GroupedCollection<ListedItem>;
+
 			e.DestinationItem.Item = destination?.FirstOrDefault();
 		}
 
@@ -1139,7 +1171,8 @@ namespace Files.App
 							StartRenameItem();
 							tapDebounceTimer.Stop();
 						}
-					}, TimeSpan.FromMilliseconds(500));
+					},
+					TimeSpan.FromMilliseconds(500));
 				}
 				else
 				{
@@ -1164,6 +1197,7 @@ namespace Files.App
 			if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
 			{
 				args.Cancel = true;
+
 				await DispatcherQueue.EnqueueAsync(() =>
 				{
 					var oldSelection = textBox.SelectionStart + textBox.SelectionLength;

@@ -125,7 +125,8 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public async Task UpdateIcon()
 		{
-			if (TargetType == FilesystemItemType.Directory) // OpenDirectory
+			// OpenDirectory
+			if (TargetType == FilesystemItemType.Directory)
 			{
 				Icon = FolderIcon;
 			}

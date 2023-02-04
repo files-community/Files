@@ -23,7 +23,8 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 		public string ToShortLabel(DateTimeOffset offset) => formatter.ToShortLabel(offset);
 		public string ToLongLabel(DateTimeOffset offset) => formatter.ToLongLabel(offset);
 
-		public ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset) => formatter.ToTimeSpanLabel(offset);
+		public ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset)
+			=> formatter.ToTimeSpanLabel(offset);
 
 		private void Update()
 		{

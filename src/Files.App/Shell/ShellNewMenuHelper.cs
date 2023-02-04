@@ -20,6 +20,7 @@ namespace Files.App.Shell
 		{
 			var newMenuItems = new List<ShellNewEntry>();
 			var shortcutExtensions = new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" };
+
 			foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith('.') && !shortcutExtensions.Contains(x, StringComparer.OrdinalIgnoreCase)))
 			{
 				using var key = Registry.ClassesRoot.OpenSubKeySafe(keyName);
@@ -33,10 +34,12 @@ namespace Files.App.Shell
 					}
 				}
 			}
+
 			if (!newMenuItems.Any(x => ".txt".Equals(x.Extension, StringComparison.OrdinalIgnoreCase)))
 			{
 				newMenuItems.Add(await CreateShellNewEntry(".txt", null, null, null));
 			}
+
 			return newMenuItems;
 		}
 
@@ -46,6 +49,7 @@ namespace Files.App.Shell
 				return null;
 
 			using var key = Registry.ClassesRoot.OpenSubKeySafe(extension);
+
 			return key is not null ? await GetShellNewRegistryEntries(key, key) : null;
 		}
 

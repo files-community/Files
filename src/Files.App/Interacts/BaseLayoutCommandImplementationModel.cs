@@ -89,8 +89,8 @@ namespace Files.App.Interacts
 		public virtual async void CreateShortcut(RoutedEventArgs e)
 		{
 			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
-			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
-				!library.IsEmpty)
+
+			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) && !library.IsEmpty)
 			{
 				currentPath = library.DefaultSaveFolder;
 			}
@@ -196,7 +196,8 @@ namespace Files.App.Interacts
 			await RecycleBinHelpers.DeleteItem(associatedInstance);
 		}
 
-		public virtual void ShowFolderProperties(RoutedEventArgs e) => ShowProperties(e);
+		public virtual void ShowFolderProperties(RoutedEventArgs e)
+			=> ShowProperties(e);
 
 		public virtual void ShowProperties(RoutedEventArgs e)
 		{
@@ -247,6 +248,7 @@ namespace Files.App.Interacts
 		{
 			var item = SlimContentPage.SelectedItem;
 			var folderPath = Path.GetDirectoryName(item.ItemPath.TrimEnd('\\'));
+
 			associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 			{
 				NavPathParam = folderPath,
@@ -267,7 +269,8 @@ namespace Files.App.Interacts
 				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
 				{
 					await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
-				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				},
+				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
 		}
 
@@ -279,6 +282,7 @@ namespace Files.App.Interacts
 		public virtual async void OpenInNewWindowItem(RoutedEventArgs e)
 		{
 			List<ListedItem> items = SlimContentPage.SelectedItems;
+
 			foreach (ListedItem listedItem in items)
 			{
 				var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
@@ -316,6 +320,7 @@ namespace Files.App.Interacts
 						path = path.Replace("\\", "/", StringComparison.Ordinal);
 					DataPackage data = new();
 					data.SetText(path);
+
 					Clipboard.SetContent(data);
 					Clipboard.Flush();
 				}
@@ -330,6 +335,7 @@ namespace Files.App.Interacts
 		{
 			var interop = DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>();
 			IntPtr result = interop.GetForWindow(App.WindowHandle, UWPToWinAppSDKUpgradeHelpers.InteropHelpers.DataTransferManagerInteropIID);
+
 			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
 			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
 
@@ -341,8 +347,8 @@ namespace Files.App.Interacts
 				List<IStorageItem> items = new();
 				DataRequest dataRequest = args.Request;
 
-				/*dataRequest.Data.Properties.Title = "Data Shared From Files";
-				dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
+				//dataRequest.Data.Properties.Title = "Data Shared From Files";
+				//dataRequest.Data.Properties.Description = "The items you selected will be shared";
 
 				foreach (ListedItem item in SlimContentPage.SelectedItems)
 				{
@@ -354,6 +360,7 @@ namespace Files.App.Interacts
 							dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalizedResource();
 							dataRequest.Data.SetWebLink(new Uri(shItem.TargetPath));
 							dataRequestDeferral.Complete();
+
 							return;
 						}
 					}
@@ -378,6 +385,7 @@ namespace Files.App.Interacts
 				{
 					dataRequest.FailWithDisplayText("ShareDialogFailMessage".GetLocalizedResource());
 					dataRequestDeferral.Complete();
+
 					return;
 				}
 				else
@@ -403,7 +411,7 @@ namespace Files.App.Interacts
 		{
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
 			{
-				if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
+				if (e.OriginalSource is FrameworkElement { DataContext: ListedItem Item } && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
 				{
 					// If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
 					SlimContentPage.IsMiddleClickToScrollEnabled = false;
@@ -447,9 +455,11 @@ namespace Files.App.Interacts
 		{
 			if (e.KeyModifiers == VirtualKeyModifiers.Control)
 			{
-				if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0) // Mouse wheel down
+				// Mouse wheel down
+				if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0)
 					GridViewSizeDecrease(null);
-				else // Mouse wheel up
+				// Mouse wheel up
+				else
 					GridViewSizeIncrease(null);
 
 				e.Handled = true;
@@ -460,6 +470,7 @@ namespace Files.App.Interacts
 		{
 			if (associatedInstance.IsCurrentInstance)
 				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
+
 			if (e is not null)
 				e.Handled = true;
 		}
@@ -468,6 +479,7 @@ namespace Files.App.Interacts
 		{
 			if (associatedInstance.IsCurrentInstance)
 				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
+
 			if (e is not null)
 				e.Handled = true;
 		}
@@ -638,6 +650,7 @@ namespace Files.App.Interacts
 			string[] sources = associatedInstance.SlimContentPage.SelectedItems
 				.Select(item => item.ItemPath)
 				.ToArray();
+
 			if (sources.Length is 0)
 				return (sources, string.Empty, string.Empty);
 
@@ -664,11 +677,12 @@ namespace Files.App.Interacts
 				FileOperationType.Compressed,
 				compressionToken
 			);
-			creator.Progress = banner.ProgressEventSource;
 
+			creator.Progress = banner.ProgressEventSource;
 			bool isSuccess = await creator.RunCreationAsync();
 
 			banner.Remove();
+
 			if (isSuccess)
 			{
 				App.OngoingTasksViewModel.PostBanner
@@ -694,6 +708,7 @@ namespace Files.App.Interacts
 				);
 			}
 		}
+
 		public async Task DecompressArchive()
 		{
 			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItems.Count != 0

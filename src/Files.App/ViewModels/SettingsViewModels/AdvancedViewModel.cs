@@ -26,20 +26,16 @@ namespace Files.App.ViewModels.SettingsViewModels
 	public class AdvancedViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		private readonly IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
+
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
-
 		public ICommand EditFileTagsCommand { get; }
-
 		public ICommand SetAsDefaultExplorerCommand { get; }
-
 		public ICommand SetAsOpenFileDialogCommand { get; }
-
 		public ICommand ExportSettingsCommand { get; }
-
 		public ICommand ImportSettingsCommand { get; }
-
 		public ICommand OpenSettingsJsonCommand { get; }
 
 
@@ -49,10 +45,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 			IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
 
 			EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
-
 			SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
 			SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
-
 			ExportSettingsCommand = new AsyncRelayCommand(ExportSettings);
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
 			OpenSettingsJsonCommand = new AsyncRelayCommand(OpenSettingsJson);
@@ -80,7 +74,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		private async Task SetAsDefaultExplorer()
 		{
-			await Task.Yield(); // Make sure IsSetAsDefaultFileManager is updated
+			// Make sure IsSetAsDefaultFileManager is updated
+			await Task.Yield();
+
 			if (IsSetAsDefaultFileManager == DetectIsSetAsDefaultFileManager())
 			{
 				return;
@@ -88,6 +84,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
 			Directory.CreateDirectory(destFolder);
+
 			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.App", "Assets", "FilesOpenDialog")))
 			{
 				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
@@ -132,7 +129,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		private async Task SetAsOpenFileDialog()
 		{
-			await Task.Yield(); // Make sure IsSetAsDefaultFileManager is updated
+			// Make sure IsSetAsDefaultFileManager is updated
+			await Task.Yield();
 			if (IsSetAsOpenFileDialog == DetectIsSetAsOpenFileDialog())
 			{
 				return;
@@ -181,16 +179,20 @@ namespace Files.App.ViewModels.SettingsViewModels
 					{
 						return;
 					}
+
 					var localFolderPath = ApplicationData.Current.LocalFolder.Path;
 					var settingsFolder = await StorageFolder.GetFolderFromPathAsync(Path.Combine(localFolderPath, Constants.LocalSettings.SettingsFolderName));
+
 					// Import user settings
 					var userSettingsFile = await zipFolder.GetFileAsync(Constants.LocalSettings.UserSettingsFileName);
 					string importSettings = await userSettingsFile.ReadTextAsync();
 					UserSettingsService.ImportSettings(importSettings);
+
 					// Import bundles
 					var bundles = await zipFolder.GetFileAsync(Constants.LocalSettings.BundlesSettingsFileName);
 					string importBundles = await bundles.ReadTextAsync();
 					bundlesSettingsService.ImportSettings(importBundles);
+
 					// Import file tags list and DB
 					var fileTagsList = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsFileName);
 					string importTags = await fileTagsList.ReadTextAsync();
@@ -199,6 +201,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 					string importTagsDB = await fileTagsDB.ReadTextAsync();
 					var tagDbInstance = FileTagsHelper.GetDbInstance();
 					tagDbInstance.Import(importTagsDB);
+
 					// Import layout preferences and DB
 					var layoutPrefsDB = await zipFolder.GetFileAsync(Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath));
 					string importPrefsDB = await layoutPrefsDB.ReadTextAsync();
@@ -226,24 +229,30 @@ namespace Files.App.ViewModels.SettingsViewModels
 				try
 				{
 					await ZipStorageFolder.InitArchive(file, OutArchiveFormat.Zip);
+
 					var zipFolder = (ZipStorageFolder)await ZipStorageFolder.FromStorageFileAsync(file);
 					if (zipFolder is null)
 					{
 						return;
 					}
+
 					var localFolderPath = ApplicationData.Current.LocalFolder.Path;
+
 					// Export user settings
 					var exportSettings = UTF8Encoding.UTF8.GetBytes((string)UserSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportSettings), Constants.LocalSettings.UserSettingsFileName, CreationCollisionOption.ReplaceExisting);
+
 					// Export bundles
 					var exportBundles = UTF8Encoding.UTF8.GetBytes((string)bundlesSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportBundles), Constants.LocalSettings.BundlesSettingsFileName, CreationCollisionOption.ReplaceExisting);
+
 					// Export file tags list and DB
 					var exportTags = UTF8Encoding.UTF8.GetBytes((string)fileTagsSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
 					var tagDbInstance = FileTagsHelper.GetDbInstance();
 					byte[] exportTagsDB = UTF8Encoding.UTF8.GetBytes(tagDbInstance.Export());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
+
 					// Export layout preferences DB
 					var layoutDbInstance = FolderSettingsViewModel.GetDbInstance();
 					byte[] exportPrefsDB = UTF8Encoding.UTF8.GetBytes(layoutDbInstance.Export());
@@ -260,17 +269,18 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
 			var command = (string?)subkey?.GetValue(string.Empty);
+
 			return !string.IsNullOrEmpty(command) && command.Contains("FilesLauncher.exe");
 		}
 
 		private bool DetectIsSetAsOpenFileDialog()
 		{
 			using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
+
 			return subkey?.GetValue(string.Empty) as string == "FilesOpenDialog class";
 		}
 
 		private bool isSetAsDefaultFileManager;
-
 		public bool IsSetAsDefaultFileManager
 		{
 			get => isSetAsDefaultFileManager;
@@ -278,7 +288,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 
 		private bool isSetAsOpenFileDialog;
-
 		public bool IsSetAsOpenFileDialog
 		{
 			get => isSetAsOpenFileDialog;
@@ -288,12 +297,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private FileSavePicker InitializeWithWindow(FileSavePicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 
 		private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 	}

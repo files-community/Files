@@ -43,6 +43,7 @@ namespace Files.App.ValueConverters
 				}
 			}
 			catch { }
+
 			try
 			{
 				return System.Convert.ChangeType(enumValue, targetType);

@@ -19,6 +19,7 @@ namespace Files.App.ViewModels.Properties
 		public SecurityProperties(ListedItem item)
 		{
 			Item = item;
+
 			IsFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
 
 			InitCommands();
@@ -45,10 +46,7 @@ namespace Files.App.ViewModels.Properties
 			RemoveRulesForUserCommand = new RelayCommand(RemoveRulesForUser, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions && SelectedRuleForUser is not null);
 			AddAccessRuleCommand = new RelayCommand(AddAccessRule, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions);
 			RemoveAccessRuleCommand = new RelayCommand(RemoveAccessRule, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions && SelectedAccessRules is not null);
-			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () =>
-			{
-				return FilePermissions is not null && FilePermissions.CanReadFilePermissions && (FilePermissions.AreAccessRulesProtected != isProtected);
-			});
+			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions && (FilePermissions.AreAccessRulesProtected != isProtected));
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
 			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions);
 		}
@@ -63,7 +61,6 @@ namespace Files.App.ViewModels.Properties
 		public RelayCommand ReplaceChildPermissionsCommand { get; set; }
 
 		private FilePermissionsManager filePermissions;
-
 		public FilePermissionsManager FilePermissions
 		{
 			get => filePermissions;
@@ -83,7 +80,6 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		private RulesForUser selectedRuleForUser;
-
 		public RulesForUser SelectedRuleForUser
 		{
 			get => selectedRuleForUser;
@@ -97,7 +93,6 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		private List<FileSystemAccessRuleForUI> selectedAccessRules;
-
 		public List<FileSystemAccessRuleForUI> SelectedAccessRules
 		{
 			get => selectedAccessRules;
@@ -111,10 +106,10 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public FileSystemAccessRuleForUI SelectedAccessRule => SelectedAccessRules?.FirstOrDefault();
+		public FileSystemAccessRuleForUI SelectedAccessRule
+			=> SelectedAccessRules?.FirstOrDefault();
 
 		private bool isFolder;
-
 		public bool IsFolder
 		{
 			get => isFolder;
@@ -122,6 +117,7 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		private bool isProtected;
+
 		private bool preserveInheritance;
 
 		public string DisableInheritanceOption
@@ -160,7 +156,8 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		private void ReplaceChildPermissions()
-		{ }
+		{
+		}
 
 		private async void AddAccessRule()
 		{
@@ -196,7 +193,8 @@ namespace Files.App.ViewModels.Properties
 			{
 				if (SetFileOwner(pickedObject))
 				{
-					GetFilePermissions(); // Refresh file permissions
+					// Refresh file permissions
+					GetFilePermissions();
 				}
 			}
 		}
@@ -246,6 +244,7 @@ namespace Files.App.ViewModels.Properties
 		public bool SetFileOwner(string ownerSid)
 		{
 			bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
+
 			return FileOperationsHelpers.SetFileOwner(Item.ItemPath, isFolder, ownerSid);
 		}
 
@@ -255,6 +254,7 @@ namespace Files.App.ViewModels.Properties
 		public bool SetAccessRuleProtection(bool isProtected, bool preserveInheritance)
 		{
 			bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
+
 			return FileOperationsHelpers.SetAccessRuleProtection(Item.ItemPath, isFolder, isProtected, preserveInheritance);
 		}
 	}

@@ -17,11 +17,13 @@ namespace Files.App.Extensions
 		public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
 		{
 			var shellEntryList = new List<ShellNewEntry>();
+
 			var entries = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), App.Logger);
 			if (entries is not null)
 			{
 				shellEntryList.AddRange(entries);
 			}
+
 			return shellEntryList;
 		}
 
@@ -37,6 +39,7 @@ namespace Files.App.Extensions
 			{
 				return await Create(shellEntry, parentFolder, filePath);
 			}
+
 			return new FilesystemResult<BaseStorageFile>(null, parentFolder.ErrorCode);
 		}
 
@@ -44,6 +47,7 @@ namespace Files.App.Extensions
 		{
 			FilesystemResult<BaseStorageFile> createdFile = null;
 			var fileName = Path.GetFileName(filePath);
+
 			if (shellEntry.Template is null)
 			{
 				createdFile = await FilesystemTasks.Wrap(() => parentFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName).AsTask());
@@ -53,12 +57,15 @@ namespace Files.App.Extensions
 				createdFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(shellEntry.Template))
 					.OnSuccess(t => t.CopyAsync(parentFolder, fileName, NameCollisionOption.GenerateUniqueName).AsTask());
 			}
-			if (createdFile &&
-				shellEntry.Data is not null)
+
+			if (createdFile && shellEntry.Data is not null)
 			{
-				//await FileIO.WriteBytesAsync(createdFile.Result, shellEntry.Data); // Calls unsupported OpenTransactedWriteAsync
+				// Calls unsupported OpenTransactedWriteAsync
+				//await FileIO.WriteBytesAsync(createdFile.Result, shellEntry.Data);
+
 				await createdFile.Result.WriteBytesAsync(shellEntry.Data);
 			}
+
 			return createdFile;
 		}
 	}

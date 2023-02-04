@@ -20,10 +20,7 @@ namespace Files.App.Shell
 
 		public static RecycleBinManager Default
 		{
-			get
-			{
-				return lazy.Value;
-			}
+			get => lazy.Value;
 		}
 
 		private RecycleBinManager()
@@ -46,6 +43,7 @@ namespace Files.App.Shell
 			// SHChangeNotifyRegister only works if recycle bin is open in explorer :(
 			binWatchers = new List<FileSystemWatcher>();
 			var sid = WindowsIdentity.GetCurrent().User.ToString();
+
 			foreach (var drive in DriveInfo.GetDrives())
 			{
 				var recyclePath = Path.Combine(drive.Name, "$RECYCLE.BIN", sid);
@@ -53,15 +51,18 @@ namespace Files.App.Shell
 				{
 					continue;
 				}
+
 				FileSystemWatcher watcher = new FileSystemWatcher
 				{
 					Path = recyclePath,
 					Filter = "*.*",
 					NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
 				};
+
 				watcher.Created += RecycleBinWatcher_Changed;
 				watcher.Deleted += RecycleBinWatcher_Changed;
 				watcher.EnableRaisingEvents = true;
+
 				binWatchers.Add(watcher);
 			}
 		}
