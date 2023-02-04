@@ -215,6 +215,8 @@ namespace Files.App.ViewModels
 
 		public event EventHandler<SortDirection>? SortDirectionPreferenceUpdated;
 
+		public event EventHandler<SortDirection>? GroupDirectionPreferenceUpdated;
+
 		public event EventHandler<bool>? SortDirectoriesAlongsideFilesPreferenceUpdated;
 
 		public SortOption DirectorySortOption
@@ -254,6 +256,19 @@ namespace Files.App.ViewModels
 				{
 					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
 					SortDirectionPreferenceUpdated?.Invoke(this, DirectorySortDirection);
+				}
+			}
+		}
+
+		public SortDirection DirectoryGroupDirection
+		{
+			get => LayoutPreference.DirectoryGroupDirection;
+			set
+			{
+				if (SetProperty(ref LayoutPreference.DirectoryGroupDirection, value, nameof(DirectoryGroupDirection)))
+				{
+					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+					GroupDirectionPreferenceUpdated?.Invoke(this, DirectoryGroupDirection);
 				}
 			}
 		}
@@ -327,6 +342,7 @@ namespace Files.App.ViewModels
 					userSettingsService.FoldersSettingsService.DefaultGroupOption = prefs.DirectoryGroupOption;
 				}
 				userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
+				userSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection = prefs.DirectoryGroupDirection;
 				userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
 
 				userSettingsService.FoldersSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
@@ -376,7 +392,7 @@ namespace Files.App.ViewModels
 
 			if (folderPath == CommonPaths.DownloadsPath)
 				// Default for downloads folder is to group by date created
-				return new LayoutPreferences() { DirectoryGroupOption = GroupOption.DateCreated };
+				return new LayoutPreferences() { DirectoryGroupOption = GroupOption.DateCreated, DirectoryGroupDirection = SortDirection.Descending };
 			else if (LibraryManager.IsLibraryPath(folderPath))
 				// Default for libraries is to group by folder path
 				return new LayoutPreferences() { DirectoryGroupOption = GroupOption.FolderPath };
@@ -414,6 +430,7 @@ namespace Files.App.ViewModels
 					OnPropertyChanged(nameof(DirectoryGroupOption));
 					OnPropertyChanged(nameof(DirectorySortOption));
 					OnPropertyChanged(nameof(DirectorySortDirection));
+					OnPropertyChanged(nameof(DirectoryGroupDirection));
 					OnPropertyChanged(nameof(SortDirectoriesAlongsideFiles));
 					OnPropertyChanged(nameof(ColumnsViewModel));
 				}

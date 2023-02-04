@@ -9,6 +9,8 @@ namespace Files.Backend.Services.Settings
 
 		SortDirection DefaultDirectorySortDirection { get; set; }
 
+		SortDirection DefaultDirectoryGroupDirection { get; set; }
+
 		bool DefaultSortDirectoriesAlongsideFiles { get; set; }
 	}
 }

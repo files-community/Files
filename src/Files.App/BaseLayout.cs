@@ -38,6 +38,7 @@ using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
+using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.App
 {
@@ -377,6 +378,7 @@ namespace Files.App
 			IsItemSelected = false;
 			FolderSettings!.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
+			FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
 			ParentShellPageInstance.ToolbarViewModel.UpdateSortAndGroupOptions();
 			ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
@@ -485,6 +487,17 @@ namespace Files.App
 			await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
 		}
 
+		private async void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
+		{
+			// Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
+			groupingCancellationToken?.Cancel();
+			groupingCancellationToken = new CancellationTokenSource();
+			var token = groupingCancellationToken.Token;
+			await ParentShellPageInstance!.FilesystemViewModel.GroupOptionsUpdated(token);
+			UpdateCollectionViewSource();
+			await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
+		}
+
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
@@ -492,6 +505,7 @@ namespace Files.App
 			CharacterReceived -= Page_CharacterReceived;
 			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
+			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
 			ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
 
