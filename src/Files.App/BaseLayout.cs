@@ -476,18 +476,13 @@ namespace Files.App
 
 		private CancellationTokenSource? groupingCancellationToken;
 
-		private async void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
-		{
-			// Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
-			groupingCancellationToken?.Cancel();
-			groupingCancellationToken = new CancellationTokenSource();
-			var token = groupingCancellationToken.Token;
-			await ParentShellPageInstance!.FilesystemViewModel.GroupOptionsUpdated(token);
-			UpdateCollectionViewSource();
-			await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
-		}
+		private void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
+			=> GroupPreferenceUpdated();
 
-		private async void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
+		private void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
+			=> GroupPreferenceUpdated();
+
+		private async void GroupPreferenceUpdated()
 		{
 			// Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
 			groupingCancellationToken?.Cancel();
