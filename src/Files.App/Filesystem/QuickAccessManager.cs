@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.DataModels;
 using Files.App.ServicesImplementation;
+using Files.App.UserControls.Widgets;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace Files.App.Filesystem
 	{
 		public FileSystemWatcher? PinnedItemsWatcher;
 		public event FileSystemEventHandler? PinnedItemsModified;
+		public EventHandler<ModifyQuickAccessEventArgs>? UpdateFolderWidget;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public SidebarPinnedModel Model;

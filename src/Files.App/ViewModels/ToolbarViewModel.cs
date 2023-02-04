@@ -436,6 +436,11 @@ namespace Files.App.ViewModels
 			IsReleaseNotesVisible = true;
 		}
 
+		public void RefreshWidgets()
+		{
+			RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
+		}
+
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)

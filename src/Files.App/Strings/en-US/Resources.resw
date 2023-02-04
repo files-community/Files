@@ -2901,4 +2901,7 @@
   <data name="DisplayEditTagsMenu" xml:space="preserve">
     <value>Display the edit tags flyout</value>
   </data>
+  <data name="QuickAccess" xml:space="preserve">
+    <value>Quick Access</value>
+  </data>
 </root>

@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.DataModels.NavigationControlItems;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -14,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Files.App.Views
 {
@@ -58,7 +60,7 @@ namespace Files.App.Views
 			ReloadWidgets();
 		}
 
-		private void ReloadWidgets()
+		public void ReloadWidgets()
 		{
 			folderWidget = WidgetsHelpers.TryGetWidget<FolderWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadFolderWidget, folderWidget);
 			drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
@@ -70,13 +72,13 @@ namespace Files.App.Views
 			{
 				Widgets.ViewModel.InsertWidget(new(folderWidget, (value) => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded), 0);
 
-				folderWidget.LibraryCardInvoked -= FolderWidget_LibraryCardInvoked;
-				folderWidget.LibraryCardNewPaneInvoked -= FolderWidget_LibraryCardNewPaneInvoked;
-				folderWidget.LibraryCardPropertiesInvoked -= FolderWidget_LibraryCardPropertiesInvoked;
+				folderWidget.CardInvoked -= FolderWidget_CardInvoked;
+				folderWidget.CardNewPaneInvoked -= FolderWidget_CardNewPaneInvoked;
+				folderWidget.CardPropertiesInvoked -= FolderWidget_CardPropertiesInvoked;
 				folderWidget.FolderWidgethowMultiPaneControlsInvoked -= FolderWidget_FolderWidgethowMultiPaneControlsInvoked;
-				folderWidget.LibraryCardInvoked += FolderWidget_LibraryCardInvoked;
-				folderWidget.LibraryCardNewPaneInvoked += FolderWidget_LibraryCardNewPaneInvoked;
-				folderWidget.LibraryCardPropertiesInvoked += FolderWidget_LibraryCardPropertiesInvoked;
+				folderWidget.CardInvoked += FolderWidget_CardInvoked;
+				folderWidget.CardNewPaneInvoked += FolderWidget_CardNewPaneInvoked;
+				folderWidget.CardPropertiesInvoked += FolderWidget_CardPropertiesInvoked;
 				folderWidget.FolderWidgethowMultiPaneControlsInvoked += FolderWidget_FolderWidgethowMultiPaneControlsInvoked;
 			}
 			if (shouldReloadDrivesWidget && drivesWidget is not null)
@@ -175,7 +177,7 @@ namespace Files.App.Views
 			});
 		}
 
-		private void FolderWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
+		private void FolderWidget_CardInvoked(object sender, QuickAccessCardInvokedEventArgs e)
 		{
 			AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
 			{
@@ -184,14 +186,21 @@ namespace Files.App.Views
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
 		}
 
-		private void FolderWidget_LibraryCardNewPaneInvoked(object sender, LibraryCardInvokedEventArgs e)
+		private void FolderWidget_CardNewPaneInvoked(object sender, QuickAccessCardInvokedEventArgs e)
 		{
 			AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
 		}
 
-		private async void FolderWidget_LibraryCardPropertiesInvoked(object sender, LibraryCardEventArgs e)
+		private async void FolderWidget_CardPropertiesInvoked(object sender, QuickAccessCardEventArgs e)
 		{
-			await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(e.Library), AppInstance);
+			ListedItem listedItem = new(null!)
+			{
+				ItemPath = e.Item.Path,
+				ItemNameRaw = e.Item.Text,
+				PrimaryItemAttribute = StorageItemTypes.Folder,
+				ItemType = "Folder".GetLocalizedResource(),
+			};
+			await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, AppInstance);
 		}
 
 		private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)

@@ -7,6 +7,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
+using Files.App.ServicesImplementation;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
@@ -15,26 +16,43 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Vanara;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-	public class LibraryCardEventArgs : EventArgs
+	public class QuickAccessCardEventArgs : EventArgs
 	{
-		public LibraryLocationItem Library { get; set; }
+		public LocationItem Item { get; set; }
 	}
 
-	public class LibraryCardInvokedEventArgs : EventArgs
+	public class QuickAccessCardInvokedEventArgs : EventArgs
 	{
 		public string Path { get; set; }
+	}
+
+	public class ModifyQuickAccessEventArgs : EventArgs
+	{
+		public string[] Paths { get; set; }
+		public bool Add;
+		public bool Pin = true;
+
+		public ModifyQuickAccessEventArgs(string[] paths, bool add)
+		{
+			Paths = paths;
+			Add = add;
+		}
 	}
 
 	public class FolderCardItem : ObservableObject, IWidgetCardItem<LocationItem>
@@ -56,18 +74,20 @@ namespace Files.App.UserControls.Widgets
 		public string Path { get; set; }
 		public ICommand SelectCommand { get; set; }
 		public string Text { get; set; }
+		public bool IsPinned { get; set; }
 
-		public FolderCardItem(LocationItem item = null, string text = null) : this(text)
+		public FolderCardItem(LocationItem item = null, string text = null, bool isPinned = true) : this(text, isPinned)
 		{
 			Item = item;
 		}
 
-		public FolderCardItem(string text)
+		public FolderCardItem(string text, bool isPinned)
 		{
 			if (!string.IsNullOrWhiteSpace(text))
 			{
 				Text = text;
 				AutomationProperties = Text;
+				IsPinned = isPinned;
 			}
 		}
 
@@ -88,6 +108,8 @@ namespace Files.App.UserControls.Widgets
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+		private readonly IQuickAccessService QuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
 		public ObservableCollection<FolderCardItem> ItemsAdded = new();
 
 		private bool showMultiPaneControls;
@@ -96,23 +118,23 @@ namespace Files.App.UserControls.Widgets
 		{
 			InitializeComponent();
 
-			LibraryCardCommand = new AsyncRelayCommand<FolderCardItem>(OpenLibraryCard);
+			QuickAccessCardCommand = new AsyncRelayCommand<FolderCardItem>(OpenCard);
 
 			Loaded += FolderWidget_Loaded;
 			Unloaded += FolderWidget_Unloaded;
 		}
 
-		public delegate void LibraryCardInvokedEventHandler(object sender, LibraryCardInvokedEventArgs e);
+		public delegate void LibraryCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
 
-		public delegate void LibraryCardNewPaneInvokedEventHandler(object sender, LibraryCardInvokedEventArgs e);
+		public delegate void LibraryCardNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
 
-		public delegate void LibraryCardPropertiesInvokedEventHandler(object sender, LibraryCardEventArgs e);
+		public delegate void LibraryCardPropertiesInvokedEventHandler(object sender, QuickAccessCardEventArgs e);
 
-		public event LibraryCardInvokedEventHandler LibraryCardInvoked;
+		public event LibraryCardInvokedEventHandler CardInvoked;
 
-		public event LibraryCardNewPaneInvokedEventHandler LibraryCardNewPaneInvoked;
+		public event LibraryCardNewPaneInvokedEventHandler CardNewPaneInvoked;
 
-		public event LibraryCardPropertiesInvokedEventHandler LibraryCardPropertiesInvoked;
+		public event LibraryCardPropertiesInvokedEventHandler CardPropertiesInvoked;
 
 		public event EventHandler FolderWidgethowMultiPaneControlsInvoked;
 
@@ -120,7 +142,7 @@ namespace Files.App.UserControls.Widgets
 
 		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowFoldersWidget;
 
-		public ICommand LibraryCardCommand { get; }
+		public ICommand QuickAccessCardCommand { get; }
 
 		public ICommand ShowCreateNewLibraryDialogCommand { get; } = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
 
@@ -148,42 +170,56 @@ namespace Files.App.UserControls.Widgets
 
 		public string AutomationProperties => "FolderWidgetAutomationProperties/Name".GetLocalizedResource();
 
-		public string WidgetHeader => "Folders".GetLocalizedResource();
+		public string WidgetHeader => "QuickAccess".GetLocalizedResource();
+
+		private async void ModifyItem(object? sender, ModifyQuickAccessEventArgs? e)
+		{
+			if (e is null)
+				return;
+
+			if (e.Add)
+			{
+				var locationItems = new List<LocationItem>();
+				foreach (var item in e.Paths)
+					locationItems.Add(await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(item));
+
+				foreach (var item in locationItems)
+					ItemsAdded.Insert(e.Pin ? ItemsAdded.Count - 4 : ItemsAdded.Count, new FolderCardItem(Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
+					{
+						Path = item.Path,
+						SelectCommand = QuickAccessCardCommand
+					});
+
+				var cardLoadTasks = ItemsAdded.Select(cardItem => cardItem.LoadCardThumbnailAsync());
+				await Task.WhenAll(cardLoadTasks);
+			}
+			else
+				foreach (var itemToRemove in ItemsAdded.Where(x => e.Paths.Contains(x.Path)).ToList())
+					ItemsAdded.Remove(itemToRemove);
+		}
 
 		private async void FolderWidget_Loaded(object sender, RoutedEventArgs e)
 		{
 			Loaded -= FolderWidget_Loaded;
 
-			ItemsAdded.Add(new FolderCardItem("Desktop".GetLocalizedResource())
+			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync(true);
+
+			var locationItems = new List<LocationItem>();
+			foreach (var item in itemsToAdd)
+				locationItems.Add(await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(item));
+
+			int idx = 0;
+			foreach (var item in locationItems)
 			{
-				Path = UserDataPaths.GetDefault().Desktop,
-				SelectCommand = LibraryCardCommand
-			});
-			ItemsAdded.Add(new FolderCardItem("Documents".GetLocalizedResource())
-			{
-				Path = UserDataPaths.GetDefault().Documents,
-				SelectCommand = LibraryCardCommand
-			});
-			ItemsAdded.Add(new FolderCardItem("Downloads".GetLocalizedResource())
-			{
-				Path = UserDataPaths.GetDefault().Downloads,
-				SelectCommand = LibraryCardCommand
-			});
-			ItemsAdded.Add(new FolderCardItem("Music".GetLocalizedResource())
-			{
-				Path = UserDataPaths.GetDefault().Music,
-				SelectCommand = LibraryCardCommand
-			});
-			ItemsAdded.Add(new FolderCardItem("Pictures".GetLocalizedResource())
-			{
-				Path = UserDataPaths.GetDefault().Pictures,
-				SelectCommand = LibraryCardCommand
-			});
-			ItemsAdded.Add(new FolderCardItem("Videos".GetLocalizedResource())
-			{
-				Path = UserDataPaths.GetDefault().Videos,
-				SelectCommand = LibraryCardCommand
-			});
+				ItemsAdded.Add(new FolderCardItem(item, Path.GetFileName(item.Text), idx < locationItems.Count - 4)
+				{
+					Path = item.Path,
+					SelectCommand = QuickAccessCardCommand
+				});
+				idx++;
+			}
+
+			App.QuickAccessManager.UpdateFolderWidget += ModifyItem;
 
 			var cardLoadTasks = ItemsAdded.Select(cardItem => cardItem.LoadCardThumbnailAsync());
 			await Task.WhenAll(cardLoadTasks);
@@ -192,6 +228,7 @@ namespace Files.App.UserControls.Widgets
 		private void FolderWidget_Unloaded(object sender, RoutedEventArgs e)
 		{
 			Unloaded -= FolderWidget_Unloaded;
+			App.QuickAccessManager.UpdateFolderWidget += ModifyItem;
 		}
 
 		private void MenuFlyout_Opening(object sender, object e)
@@ -199,9 +236,15 @@ namespace Files.App.UserControls.Widgets
 			var newPaneMenuItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "OpenInNewPane");
 			// eg. an empty library doesn't have OpenInNewPane context menu item
 			if (newPaneMenuItem is not null)
-			{
 				newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
-			}
+			
+			var pinToFavoritesItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "PinToFavorites");
+			if (pinToFavoritesItem is not null) 
+				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as FolderCardItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
+
+			var unpinFromFavoritesItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "UnpinFromFavorites");
+			if (unpinFromFavoritesItem is not null)
+				unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as FolderCardItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -212,7 +255,7 @@ namespace Files.App.UserControls.Widgets
 		private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
-			LibraryCardNewPaneInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
+			CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
 		}
 
 		private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
@@ -236,24 +279,44 @@ namespace Files.App.UserControls.Widgets
 			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
 		}
 
-		private void OpenLibraryProperties_Click(object sender, RoutedEventArgs e)
+		private void OpenProperties_Click(object sender, RoutedEventArgs e)
 		{
 			var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
 			var flyoutParent = presenter?.Parent as Popup;
 			var propertiesItem = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
-			if (propertiesItem is null || !propertiesItem.IsLibrary || flyoutParent is null)
+			if (propertiesItem is null  || flyoutParent is null)
 				return;
 
 			EventHandler<object> flyoutClosed = null!;
 			flyoutClosed = (s, e) =>
 			{
 				flyoutParent.Closed -= flyoutClosed;
-				LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = (propertiesItem.Item as LibraryLocationItem)! });
+				CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = propertiesItem.Item });
 			};
 			flyoutParent.Closed += flyoutClosed;
 		}
 
-		private Task OpenLibraryCard(FolderCardItem item)
+		private async void PinToFavorites_Click(object sender, RoutedEventArgs e)
+		{
+			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
+			await QuickAccessService.PinToSidebar(item.Path);
+			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
+			var items = await QuickAccessService.GetPinnedFoldersAsync(true);
+			items.RemoveRange(0, items.Count - 4);
+			var recentItem = items.Where(x => !ItemsAdded.Select(y => y.Path).Contains(x)).FirstOrDefault();
+			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { recentItem }, true)
+			{
+				Pin = false
+			});
+		}
+
+		private void UnpinFromFavorites_Click(object sender, RoutedEventArgs e)
+		{
+			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
+			_ = QuickAccessService.UnpinFromSidebar(item.Path);
+		}
+
+		private Task OpenCard(FolderCardItem item)
 		{
 			if (string.IsNullOrEmpty(item.Path))
 			{
@@ -271,7 +334,7 @@ namespace Files.App.UserControls.Widgets
 				return NavigationHelpers.OpenPathInNewTab(item.Path);
 			}
 
-			LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
+			CardInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
 
 			return Task.CompletedTask;
 		}
