@@ -28,7 +28,7 @@ namespace Files.App.ViewModels
 {
 	public class MainPageViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public IMultitaskingControl? MultitaskingControl { get; set; }
 		public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
@@ -138,23 +138,19 @@ namespace Files.App.ViewModels
 
 		private async Task OpenNewWindowAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
-			Uri filesUWPUri = new Uri("files-uwp:");
+			var filesUWPUri = new Uri("files-uwp:");
 			await Launcher.LaunchUriAsync(filesUWPUri);
 			e!.Handled = true;
 		}
 
 		private void CloseSelectedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
-			if (App.AppModel.TabStripSelectedIndex >= AppInstances.Count)
-			{
-				TabItem tabItem = AppInstances[AppInstances.Count - 1];
-				MultitaskingControl?.CloseTab(tabItem);
-			}
-			else
-			{
-				TabItem tabItem = AppInstances[App.AppModel.TabStripSelectedIndex];
-				MultitaskingControl?.CloseTab(tabItem);
-			}
+			var index = App.AppModel.TabStripSelectedIndex >= AppInstances.Count
+				? AppInstances.Count - 1
+				: App.AppModel.TabStripSelectedIndex;
+
+			var tabItem = AppInstances[index];
+			MultitaskingControl?.CloseTab(tabItem);
 			e!.Handled = true;
 		}
 
@@ -177,16 +173,14 @@ namespace Files.App.ViewModels
 			await dialog.TryShowAsync();
 		}
 
-		public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
+		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
 		{
 			if (string.IsNullOrEmpty(path))
 				path = "Home".GetLocalizedResource();
-
-			// Support drives launched through jump list by stripping away the question mark at the end.
-			if (path.EndsWith("\\?"))
+			else if (path.EndsWith("\\?")) // Support drives launched through jump list by stripping away the question mark at the end.
 				path = path.Remove(path.Length - 1);
 
-			TabItem tabItem = new TabItem()
+			var tabItem = new TabItem()
 			{
 				Header = null,
 				IconSource = null,
@@ -340,49 +334,46 @@ namespace Files.App.ViewModels
 				try
 				{
 					// add last session tabs to closed tabs stack if those tabs are not about to be opened
-					if (!UserSettingsService.AppSettingsService.RestoreTabsOnStartup && !UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.PreferencesSettingsService.LastSessionTabList != null)
+					if (!userSettingsService.AppSettingsService.RestoreTabsOnStartup && !userSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp && userSettingsService.PreferencesSettingsService.LastSessionTabList != null)
 					{
-						var items = new TabItemArguments[UserSettingsService.PreferencesSettingsService.LastSessionTabList.Count];
+						var items = new TabItemArguments[userSettingsService.PreferencesSettingsService.LastSessionTabList.Count];
 						for (int i = 0; i < items.Length; i++)
-						{
-							items[i] = TabItemArguments.Deserialize(UserSettingsService.PreferencesSettingsService.LastSessionTabList[i]);
-						}
+							items[i] = TabItemArguments.Deserialize(userSettingsService.PreferencesSettingsService.LastSessionTabList[i]);
+
 						BaseMultitaskingControl.RecentlyClosedTabs.Add(items);
 					}
 
-					if (UserSettingsService.AppSettingsService.RestoreTabsOnStartup)
+					if (userSettingsService.AppSettingsService.RestoreTabsOnStartup)
 					{
-						UserSettingsService.AppSettingsService.RestoreTabsOnStartup = false;
-						if (UserSettingsService.PreferencesSettingsService.LastSessionTabList is not null)
+						userSettingsService.AppSettingsService.RestoreTabsOnStartup = false;
+						if (userSettingsService.PreferencesSettingsService.LastSessionTabList is not null)
 						{
-							foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
+							foreach (string tabArgsString in userSettingsService.PreferencesSettingsService.LastSessionTabList)
 							{
 								var tabArgs = TabItemArguments.Deserialize(tabArgsString);
 								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
 							}
-						}
 
-						if (!UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
-						{
-							UserSettingsService.PreferencesSettingsService.LastSessionTabList = null;
+							if (!userSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
+								userSettingsService.PreferencesSettingsService.LastSessionTabList = null;
 						}
 					}
-					else if (UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup &&
-						UserSettingsService.PreferencesSettingsService.TabsOnStartupList is not null)
+					else if (userSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup &&
+						userSettingsService.PreferencesSettingsService.TabsOnStartupList is not null)
 					{
-						foreach (string path in UserSettingsService.PreferencesSettingsService.TabsOnStartupList)
+						foreach (string path in userSettingsService.PreferencesSettingsService.TabsOnStartupList)
 							await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 					}
-					else if (UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp &&
-						UserSettingsService.PreferencesSettingsService.LastSessionTabList is not null)
+					else if (userSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp &&
+						userSettingsService.PreferencesSettingsService.LastSessionTabList is not null)
 					{
-						foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
+						foreach (string tabArgsString in userSettingsService.PreferencesSettingsService.LastSessionTabList)
 						{
 							var tabArgs = TabItemArguments.Deserialize(tabArgsString);
 							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
 						}
 						var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
-						UserSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
+						userSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 					}
 					else
 					{
@@ -410,10 +401,14 @@ namespace Files.App.ViewModels
 		}
 
 		public static Task AddNewTabAsync()
-			=> AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
+		{
+			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
+		}
 
 		public void AddNewTab()
-			=> AddNewTabAsync();
+		{
+			AddNewTabAsync();
+		}
 
 		public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
 		{
@@ -438,7 +433,7 @@ namespace Files.App.ViewModels
 
 		public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
 		{
-			TabItem tabItem = new TabItem()
+			var tabItem = new TabItem()
 			{
 				Header = null,
 				IconSource = null,
@@ -463,7 +458,7 @@ namespace Files.App.ViewModels
 		{
 			if (sender is null)
 				return;
-			TabItem? matchingTabItem = AppInstances.SingleOrDefault(x => x.Control == (TabItemControl)sender);
+			var matchingTabItem = AppInstances.SingleOrDefault(x => x.Control == (TabItemControl)sender);
 			if (matchingTabItem is null)
 				return;
 
