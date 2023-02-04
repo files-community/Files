@@ -477,12 +477,13 @@ namespace Files.App.Shell
 
 			var fcs = new Shell32.SHFOLDERCUSTOMSETTINGS()
 			{
-				dwSize = (uint)Marshal.SizeOf(fcs),
 				dwMask = Shell32.FOLDERCUSTOMSETTINGSMASK.FCSM_ICONFILE,
 				pszIconFile = iconFile,
 				cchIconFile = 0,
 				iIconIndex = iconIndex,
-			}
+			};
+
+			fcs.dwSize = (uint)Marshal.SizeOf(fcs);
 
 		var success = Shell32.SHGetSetFolderCustomSettings(ref fcs, folderPath, Shell32.FCS.FCS_FORCEWRITE).Succeeded;
 			if (success)

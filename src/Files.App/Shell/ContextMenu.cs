@@ -53,8 +53,9 @@ namespace Files.App.Shell
 				{
 					lpVerb = new SafeResourceId(verb, CharSet.Ansi),
 					nShow = ShowWindowCommand.SW_SHOWNORMAL,
-					cbSize = (uint)Marshal.SizeOf(pici)
 				};
+
+				pici.cbSize = (uint)Marshal.SizeOf(pici);
 
 				await owningThread.PostMethod(() => cMenu.InvokeCommand(pici));
 				Win32API.BringToForeground(currentWindows);
@@ -81,8 +82,9 @@ namespace Files.App.Shell
 				{
 					lpVerb = Macros.MAKEINTRESOURCE(itemID),
 					nShow = ShowWindowCommand.SW_SHOWNORMAL,
-					cbSize = (uint)Marshal.SizeOf(pici)
 				};
+
+				pici.cbSize = (uint)Marshal.SizeOf(pici);
 
 				await owningThread.PostMethod(() => cMenu.InvokeCommand(pici));
 
@@ -190,13 +192,14 @@ namespace Files.App.Shell
 
 			var mii = new User32.MENUITEMINFO()
 			{
-				cbSize = (uint)Marshal.SizeOf(mii),
 				fMask = User32.MenuItemInfoMask.MIIM_BITMAP |
 					User32.MenuItemInfoMask.MIIM_FTYPE |
 					User32.MenuItemInfoMask.MIIM_STRING |
 					User32.MenuItemInfoMask.MIIM_ID |
 					User32.MenuItemInfoMask.MIIM_SUBMENU,
 			};
+
+			mii.cbSize = (uint)Marshal.SizeOf(mii);
 
 			for (uint ii = 0; ii < itemCount; ii++)
 			{
