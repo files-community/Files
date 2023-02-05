@@ -35,6 +35,7 @@ namespace Files.App.ServicesImplementation
 		{
 			await ContextMenu.InvokeVerb("pintohome", folderPaths);
 			await App.QuickAccessManager.Model.LoadAsync();
+			
 			App.QuickAccessManager.UpdateFolderWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
 		}
 		
@@ -54,6 +55,7 @@ namespace Files.App.ServicesImplementation
 					});
 
 			await App.QuickAccessManager.Model.LoadAsync();
+			
 			App.QuickAccessManager.UpdateFolderWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));
 		}
 	}

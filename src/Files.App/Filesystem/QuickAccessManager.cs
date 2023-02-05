@@ -17,8 +17,11 @@ namespace Files.App.Filesystem
 	public sealed class QuickAccessManager
 	{
 		public FileSystemWatcher? PinnedItemsWatcher;
+
 		public event FileSystemEventHandler? PinnedItemsModified;
+		
 		public EventHandler<ModifyQuickAccessEventArgs>? UpdateFolderWidget;
+
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public SidebarPinnedModel Model;
