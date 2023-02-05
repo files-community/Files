@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Permissions;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
+using Vanara.Windows.Shell;
 
 namespace Files.App.ServicesImplementation
 {
@@ -16,43 +18,46 @@ namespace Files.App.ServicesImplementation
 	{
 		private readonly static string guid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
 
-		public async Task<List<string>> GetPinnedFoldersAsync(bool getRecentItems = false)
+		public async Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync()
 		{
-			var sidebarItems =  (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, 10000)).Enumerate
-				.Where(link => link.IsFolder)
-				.Select(link => link.FilePath).ToList();
-
-			if (sidebarItems.Count > 4 && !getRecentItems) // Avoid first opening crash #11139
-				sidebarItems.RemoveRange(sidebarItems.Count - 4, 4); // 4 is the number of recent items shown in explorer sidebar
-			
-			return sidebarItems;
+			return (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, int.MaxValue, "System.Home.IsPinned")).Enumerate
+				.Where(link => link.IsFolder);
 		}
-		
-		public async Task PinToSidebar(string folderPath)
-			=> await PinToSidebar(new[] { folderPath });
+
+		public Task PinToSidebar(string folderPath)
+			=> PinToSidebar(new[] { folderPath });
 		
 		public async Task PinToSidebar(string[] folderPaths)
 		{
 			await ContextMenu.InvokeVerb("pintohome", folderPaths);
+
 			await App.QuickAccessManager.Model.LoadAsync();
 			
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
 		}
 		
-		public async Task UnpinFromSidebar(string folderPath)
-			=> await UnpinFromSidebar(new[] { folderPath });
+		public Task UnpinFromSidebar(string folderPath)
+			=> UnpinFromSidebar(new[] { folderPath });
 		
 		public async Task UnpinFromSidebar(string[] folderPaths)
 		{
-			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
-			object? shell = Activator.CreateInstance(shellAppType);
-			dynamic? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, new object[] { $"shell:{guid}" });
+			var quickAccessItems = (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, int.MaxValue)).Enumerate;
 
-			foreach (dynamic? fi in f2.Items())
-				if (folderPaths.Contains((string)fi.Path))
-					await SafetyExtensions.IgnoreExceptions(async () => { 
-						await fi.InvokeVerb("unpinfromhome");
-					});
+			foreach (var itemPath in folderPaths)
+			{
+				var item = quickAccessItems.FirstOrDefault(x => x.FilePath == itemPath);
+				if (item is null)
+					continue;
+
+				await SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					using var pidl = new Shell32.PIDL(item.PIDL);
+					using var shellItem = ShellItem.Open(pidl);
+					using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { shellItem }, Shell32.CMF.CMF_NORMAL);
+					if (cMenu is not null)
+						await cMenu.InvokeVerb("unpinfromhome");
+				});
+			}
 
 			await App.QuickAccessManager.Model.LoadAsync();
 			

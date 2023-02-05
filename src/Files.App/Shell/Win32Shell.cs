@@ -20,7 +20,7 @@ namespace Files.App.Shell
 			controlPanelCategoryView = new ShellFolder("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
 		}
 
-		public static async Task<(ShellFileItem Folder, List<ShellFileItem> Enumerate)> GetShellFolderAsync(string path, string action, int from, int count)
+		public static async Task<(ShellFileItem Folder, List<ShellFileItem> Enumerate)> GetShellFolderAsync(string path, string action, int from, int count, params string[] properties)
 		{
 			if (path.StartsWith("::{", StringComparison.Ordinal))
 			{
@@ -51,6 +51,8 @@ namespace Files.App.Shell
 								var shellFileItem = folderItem is ShellLink link ?
 									ShellFolderExtensions.GetShellLinkItem(link) :
 									ShellFolderExtensions.GetShellFileItem(folderItem);
+								foreach (var prop in properties)
+									shellFileItem.Properties[prop] = folderItem.Properties[prop];
 								flc.Add(shellFileItem);
 							}
 							catch (FileNotFoundException)

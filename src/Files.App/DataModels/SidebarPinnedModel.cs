@@ -51,7 +51,9 @@ namespace Files.App.DataModels
 
 			try
 			{
-				FavoriteItems = await QuickAccessService.GetPinnedFoldersAsync();
+				FavoriteItems = (await QuickAccessService.GetPinnedFoldersAsync())
+					.Where(link => (bool?)link.Properties["System.Home.IsPinned"] ?? false)
+					.Select(link => link.FilePath).ToList();
 				RemoveStaleSidebarItems();
 				await AddAllItemsToSidebar();
 			}
