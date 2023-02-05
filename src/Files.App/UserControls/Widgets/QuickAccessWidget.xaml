@@ -116,7 +116,7 @@
 								x:Name="PinIcon"
 								HorizontalAlignment="Right"
 								VerticalAlignment="Top"
-								FontSize="14"
+								FontSize="12"
 								Glyph="&#xE840;"
 								x:Load="{x:Bind IsPinned, Mode=OneWay}" />
 							<Image
