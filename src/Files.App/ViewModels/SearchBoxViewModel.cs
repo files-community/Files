@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.Foundation;
+using Windows.System;
 
 namespace Files.App.ViewModels
 {
@@ -44,9 +45,7 @@ namespace Files.App.ViewModels
 
 			var oldSuggestions = Suggestions.Except(items, suggestionComparer).ToList();
 			foreach (var oldSuggestion in oldSuggestions)
-			{
 				Suggestions.Remove(oldSuggestion);
-			}
 
 			var newSuggestions = items.Except(Suggestions, suggestionComparer).ToList();
 			foreach (var newSuggestion in newSuggestions)
@@ -95,9 +94,7 @@ namespace Files.App.ViewModels
 
 				// Limit to last 5 queries to improve performance
 				if (oldQueries.Count > 5)
-				{
 					oldQueries.RemoveAt(5);
-				}
 			}
 		}
 
@@ -109,9 +106,14 @@ namespace Files.App.ViewModels
 		public void SearchRegion_GotFocus(object sender, RoutedEventArgs e)
 		{
 			if (string.IsNullOrWhiteSpace(query))
-			{
 				AddRecentQueries();
-			}
+		}
+
+		public void SearchRegion_KeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			e.Handled = e.Key is VirtualKey.Left ||
+						e.Key is VirtualKey.Right ||
+						((e.Key is VirtualKey.Up || e.Key is VirtualKey.Down) && Suggestions.Count == 0);
 		}
 
 		public void AddRecentQueries()

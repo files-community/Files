@@ -22,32 +22,5 @@ namespace Files.App.Dialogs
 		}
 
 		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
-
-		private void DestinationItemPath_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			if (string.IsNullOrWhiteSpace(DestinationItemPath.Text))
-			{
-				ViewModel.IsLocationValid = false;
-				return;
-			}
-
-			try
-			{
-				ViewModel.DestinationPathExists = Path.Exists(DestinationItemPath.Text) && DestinationItemPath.Text != Path.GetPathRoot(DestinationItemPath.Text);
-				if (ViewModel.DestinationPathExists)
-				{
-					ViewModel.IsLocationValid = true;
-				}
-				else
-				{
-					var uri = new Uri(DestinationItemPath.Text);
-					ViewModel.IsLocationValid = uri.IsWellFormedOriginalString();
-				}
-			}
-			catch (Exception)
-			{
-				ViewModel.IsLocationValid = false;
-			}
-		}
 	}
 }

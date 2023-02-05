@@ -27,6 +27,7 @@ namespace Files.App.Helpers
 				SafetyExtensions.IgnoreExceptions(DetectpCloudDrive, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectNutstoreDrive, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectSeadriveDrive, App.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectAutodeskDrive, App.Logger),
 			};
 
 			await Task.WhenAll(tasks);
@@ -288,6 +289,34 @@ namespace Files.App.Helpers
 					SyncFolder = syncFolder,
 					IconData = iconFile?.IconData
 				});
+			}
+
+			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
+		}
+
+		private static Task<IEnumerable<ICloudProvider>> DetectAutodeskDrive()
+		{
+			var results = new List<ICloudProvider>();
+			using var AutodeskKey = Registry.LocalMachine.OpenSubKey(@"Software\Autodesk\Desktop Connector");
+
+			if (AutodeskKey is not null)
+			{
+				string iconPath = Path.Combine(programFilesFolder, "Autodesk", "Desktop Connector", "DesktopConnector.Applications.Tray.exe");
+				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }).FirstOrDefault();
+				var mainFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "DC");
+				var autodeskFolders = Directory.GetDirectories(mainFolder, "", SearchOption.AllDirectories);
+
+				foreach (var autodeskFolder in autodeskFolders)
+				{
+					var folderName = Path.GetFileName(autodeskFolder);
+					if (folderName is not null)
+						results.Add(new CloudProvider(CloudProviders.Autodesk)
+						{
+							Name = $"Autodesk - {Path.GetFileName(autodeskFolder)}",
+							SyncFolder = autodeskFolder,
+							IconData = iconFile?.IconData
+						});
+				}
 			}
 
 			return Task.FromResult<IEnumerable<ICloudProvider>>(results);

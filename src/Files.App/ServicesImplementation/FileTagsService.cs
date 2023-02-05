@@ -20,7 +20,7 @@ namespace Files.App.ServicesImplementation
 	{
 		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 
-		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		/// <inheritdoc/>
 		public Task<bool> IsSupportedAsync()
