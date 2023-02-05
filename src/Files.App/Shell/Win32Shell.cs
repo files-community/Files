@@ -1,4 +1,5 @@
 ﻿using Files.Shared;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,10 +53,10 @@ namespace Files.App.Shell
 									ShellFolderExtensions.GetShellLinkItem(link) :
 									ShellFolderExtensions.GetShellFileItem(folderItem);
 								foreach (var prop in properties)
-									shellFileItem.Properties[prop] = folderItem.Properties[prop];
+									shellFileItem.Properties[prop] = SafetyExtensions.IgnoreExceptions(() => folderItem.Properties[prop]);
 								flc.Add(shellFileItem);
 							}
-							catch (FileNotFoundException)
+							catch (Exception ex) when (ex is FileNotFoundException || ex is DirectoryNotFoundException)
 							{
 								// Happens if files are being deleted
 							}

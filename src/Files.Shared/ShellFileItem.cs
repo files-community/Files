@@ -16,11 +16,11 @@ namespace Files.Shared
 		public ulong FileSizeBytes { get; set; }
 		public string FileType { get; set; }
 		public byte[] PIDL { get; set; } // Low level shell item identifier
-		public Dictionary<string, object> Properties { get; set; }
+		public Dictionary<string, object?> Properties { get; set; }
 
 		public ShellFileItem()
 		{
-			Properties = new Dictionary<string, object>();
+			Properties = new Dictionary<string, object?>();
 		}
 
 		public ShellFileItem(
