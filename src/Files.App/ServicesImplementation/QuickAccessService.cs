@@ -9,8 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Permissions;
 using System.Threading.Tasks;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 
 namespace Files.App.ServicesImplementation
 {
