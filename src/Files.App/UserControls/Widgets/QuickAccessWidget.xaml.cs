@@ -182,8 +182,7 @@ namespace Files.App.UserControls.Widgets
 					foreach (var item in locationItems)
 					{
 						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
-						lastIndex = lastIndex < 0 ? ItemsAdded.Count : lastIndex;
-						ItemsAdded.Insert(e.Pin ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
+						ItemsAdded.Insert(e.Pin && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
 						{
 							Path = item.Path,
 							SelectCommand = QuickAccessCardCommand
