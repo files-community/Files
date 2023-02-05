@@ -26,7 +26,7 @@ namespace Files.App.Views
 		private IShellPage AppInstance = null;
 		public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
 
-		private FolderWidget folderWidget;
+		private QuickAccessWidget quickAccessWidget;
 		private DrivesWidget drivesWidget;
 		private BundlesWidget bundlesWidget;
 		private FileTagsWidget fileTagsWidget;
@@ -62,24 +62,24 @@ namespace Files.App.Views
 
 		public void ReloadWidgets()
 		{
-			folderWidget = WidgetsHelpers.TryGetWidget<FolderWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadFolderWidget, folderWidget);
+			quickAccessWidget = WidgetsHelpers.TryGetWidget<QuickAccessWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadFolderWidget, quickAccessWidget);
 			drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
 			bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
 			fileTagsWidget = WidgetsHelpers.TryGetWidget<FileTagsWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadFileTags, fileTagsWidget);
 			recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
-			if (shouldReloadFolderWidget && folderWidget is not null)
+			if (shouldReloadFolderWidget && quickAccessWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(folderWidget, (value) => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded), 0);
+				Widgets.ViewModel.InsertWidget(new(quickAccessWidget, (value) => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded), 0);
 
-				folderWidget.CardInvoked -= FolderWidget_CardInvoked;
-				folderWidget.CardNewPaneInvoked -= FolderWidget_CardNewPaneInvoked;
-				folderWidget.CardPropertiesInvoked -= FolderWidget_CardPropertiesInvoked;
-				folderWidget.FolderWidgethowMultiPaneControlsInvoked -= FolderWidget_FolderWidgethowMultiPaneControlsInvoked;
-				folderWidget.CardInvoked += FolderWidget_CardInvoked;
-				folderWidget.CardNewPaneInvoked += FolderWidget_CardNewPaneInvoked;
-				folderWidget.CardPropertiesInvoked += FolderWidget_CardPropertiesInvoked;
-				folderWidget.FolderWidgethowMultiPaneControlsInvoked += FolderWidget_FolderWidgethowMultiPaneControlsInvoked;
+				quickAccessWidget.CardInvoked -= FolderWidget_CardInvoked;
+				quickAccessWidget.CardNewPaneInvoked -= FolderWidget_CardNewPaneInvoked;
+				quickAccessWidget.CardPropertiesInvoked -= FolderWidget_CardPropertiesInvoked;
+				quickAccessWidget.QuickAccessWidgetShowMultiPaneControlsInvoked -= QuickAccessWidget_QuickAccessWidgetShowMultiPaneControlsInvoked;
+				quickAccessWidget.CardInvoked += FolderWidget_CardInvoked;
+				quickAccessWidget.CardNewPaneInvoked += FolderWidget_CardNewPaneInvoked;
+				quickAccessWidget.CardPropertiesInvoked += FolderWidget_CardPropertiesInvoked;
+				quickAccessWidget.QuickAccessWidgetShowMultiPaneControlsInvoked += QuickAccessWidget_QuickAccessWidgetShowMultiPaneControlsInvoked;
 			}
 			if (shouldReloadDrivesWidget && drivesWidget is not null)
 			{
@@ -120,11 +120,11 @@ namespace Files.App.Views
 			ReloadWidgets();
 		}
 
-		private void FolderWidget_FolderWidgethowMultiPaneControlsInvoked(object sender, EventArgs e)
+		private void QuickAccessWidget_QuickAccessWidgetShowMultiPaneControlsInvoked(object sender, EventArgs e)
 		{
-			FolderWidget FolderWidget = (FolderWidget)sender;
+			QuickAccessWidget QuickAccessWidget = (QuickAccessWidget)sender;
 
-			FolderWidget.ShowMultiPaneControls = AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
+			QuickAccessWidget.ShowMultiPaneControls = AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
 		}
 
 		// WINUI3

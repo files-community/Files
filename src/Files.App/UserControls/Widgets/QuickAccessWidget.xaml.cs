@@ -104,7 +104,7 @@ namespace Files.App.UserControls.Widgets
 		}
 	}
 
-	public sealed partial class FolderWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
+	public sealed partial class QuickAccessWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -114,7 +114,7 @@ namespace Files.App.UserControls.Widgets
 
 		private bool showMultiPaneControls;
 
-		public FolderWidget()
+		public QuickAccessWidget()
 		{
 			InitializeComponent();
 
@@ -136,11 +136,11 @@ namespace Files.App.UserControls.Widgets
 
 		public event LibraryCardPropertiesInvokedEventHandler CardPropertiesInvoked;
 
-		public event EventHandler FolderWidgethowMultiPaneControlsInvoked;
+		public event EventHandler QuickAccessWidgetShowMultiPaneControlsInvoked;
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowFoldersWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget;
 
 		public ICommand QuickAccessCardCommand { get; }
 
@@ -152,7 +152,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			get
 			{
-				FolderWidgethowMultiPaneControlsInvoked?.Invoke(this, EventArgs.Empty);
+				QuickAccessWidgetShowMultiPaneControlsInvoked?.Invoke(this, EventArgs.Empty);
 
 				return showMultiPaneControls;
 			}
@@ -166,7 +166,7 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		public string WidgetName => nameof(FolderWidget);
+		public string WidgetName => nameof(QuickAccessWidget);
 
 		public string AutomationProperties => "FolderWidgetAutomationProperties/Name".GetLocalizedResource();
 

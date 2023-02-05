@@ -445,7 +445,7 @@ namespace Files.App.ViewModels
 		{
 			switch (e.SettingName)
 			{
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowFoldersWidget): // ToDo: Move this to the widget page, it doesn't belong here.
+				case nameof(UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget): // ToDo: Move this to the widget page, it doesn't belong here.
 				case nameof(UserSettingsService.PreferencesSettingsService.ShowDrivesWidget):
 				case nameof(UserSettingsService.PreferencesSettingsService.ShowBundlesWidget):
 				case nameof(UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget):
