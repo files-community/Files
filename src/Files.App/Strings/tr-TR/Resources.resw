@@ -257,7 +257,7 @@
     <value>Belirli bir sayfayı ya da sayfaları aç</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Ayarlar</value>
+    <value>Tercihler</value>
   </data>
   <data name="Desktop" xml:space="preserve">
     <value>Masaüstü</value>
@@ -1658,16 +1658,16 @@
     <value>Klasörleri yeni sekmede aç</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Paketler aracını göster</value>
+    <value>Paketler Widget'ını göster</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Sürücüler aracını göster</value>
+    <value>Sürücü Widget'ını Göster</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Klasörler aracını göster</value>
+    <value>Klasör Widget'ını göster</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Son Dosyalar aracını göster</value>
+    <value>Son Dosyalar Widget'ını göster</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Aradığınızı bulamadınız mı?</value>
@@ -1682,10 +1682,10 @@
     <value>Var olanı değiştir</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Var olanı değiştir</value>
+    <value>Mevcut Olanı Değiştir</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
-    <value>Var olanı değiştir</value>
+    <value>Mevcut Olanı Değiştir</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Yeni ad oluştur</value>
@@ -1931,10 +1931,10 @@
     <value>Azletmek</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>İptal et</value>
+    <value>Reddet</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Araçlar</value>
+    <value>Widget'lar</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Senkronizasyon durumu</value>
@@ -2159,7 +2159,7 @@
     <value>Şirket</value>
   </data>
   <data name="PropertyLanguage" xml:space="preserve">
-    <value>Dilim</value>
+    <value>Dil</value>
   </data>
   <data name="PropertyTrademarks" xml:space="preserve">
     <value>Ticari markalar</value>
@@ -2285,7 +2285,7 @@
     <value>Ana klasörü aç</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
-    <value>Bilinmiyor</value>
+    <value>Bilinmeyen</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Dosya etiketi</value>
@@ -2375,16 +2375,16 @@
     <value>Gizli dosyaları göster</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Kenar çubuğunda Favoriler bölümünü göster</value>
+    <value>Kenar Çubuğunda Favorileri Göster</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Klasörleri yeni sekmede aç</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Dilim</value>
+    <value>Dil</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Kenar çubuğunda bulut sürücüleri bölümünü göster</value>
+    <value>Bulut sürücüleri bölümünü göster</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Dosyaları veya klasörleri silerken bir onay iletişim kutusu göster</value>
@@ -2822,7 +2822,7 @@
     <value>Kısayol açılamadı</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>{0} hedef yolu bulunamadı. Bu kısayolu silmek ister misiniz?</value>
+    <value>Hedef yolu {0} bulunamadı. Bu kısayolu silmek istermisiniz?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Bu dosyaya erişim izniniz yok.</value>
@@ -2921,7 +2921,7 @@
     <value>Gruplandır</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>Sıralama</value>
+    <value>Sırala</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Son kullanılan dosyalar şu an için Windows Dosya Gezgininde devre dışıdır.</value>
