@@ -175,12 +175,9 @@ namespace Files.App.UserControls.Widgets
 			{
 				if (e.Add)
 				{
-					var locationItems = new List<LocationItem>();
-					foreach (var item in e.Paths)
-						locationItems.Add(await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(item));
-
-					foreach (var item in locationItems)
+					foreach (var itemToAdd in e.Paths)
 					{
+						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
 						ItemsAdded.Insert(e.Pin && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
 						{
