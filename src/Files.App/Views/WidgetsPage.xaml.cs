@@ -62,23 +62,23 @@ namespace Files.App.Views
 
 		public void ReloadWidgets()
 		{
-			quickAccessWidget = WidgetsHelpers.TryGetWidget<QuickAccessWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadFolderWidget, quickAccessWidget);
+			quickAccessWidget = WidgetsHelpers.TryGetWidget<QuickAccessWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadQuickAccessWidget, quickAccessWidget);
 			drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
 			bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
 			fileTagsWidget = WidgetsHelpers.TryGetWidget<FileTagsWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadFileTags, fileTagsWidget);
 			recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
-			if (shouldReloadFolderWidget && quickAccessWidget is not null)
+			if (shouldReloadQuickAccessWidget && quickAccessWidget is not null)
 			{
 				Widgets.ViewModel.InsertWidget(new(quickAccessWidget, (value) => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded), 0);
 
-				quickAccessWidget.CardInvoked -= FolderWidget_CardInvoked;
-				quickAccessWidget.CardNewPaneInvoked -= FolderWidget_CardNewPaneInvoked;
-				quickAccessWidget.CardPropertiesInvoked -= FolderWidget_CardPropertiesInvoked;
+				quickAccessWidget.CardInvoked -= QuickAccessWidget_CardInvoked;
+				quickAccessWidget.CardNewPaneInvoked -= QuickAccessWidget_CardNewPaneInvoked;
+				quickAccessWidget.CardPropertiesInvoked -= QuickAccessWidget_CardPropertiesInvoked;
 				quickAccessWidget.QuickAccessWidgetShowMultiPaneControlsInvoked -= QuickAccessWidget_QuickAccessWidgetShowMultiPaneControlsInvoked;
-				quickAccessWidget.CardInvoked += FolderWidget_CardInvoked;
-				quickAccessWidget.CardNewPaneInvoked += FolderWidget_CardNewPaneInvoked;
-				quickAccessWidget.CardPropertiesInvoked += FolderWidget_CardPropertiesInvoked;
+				quickAccessWidget.CardInvoked += QuickAccessWidget_CardInvoked;
+				quickAccessWidget.CardNewPaneInvoked += QuickAccessWidget_CardNewPaneInvoked;
+				quickAccessWidget.CardPropertiesInvoked += QuickAccessWidget_CardPropertiesInvoked;
 				quickAccessWidget.QuickAccessWidgetShowMultiPaneControlsInvoked += QuickAccessWidget_QuickAccessWidgetShowMultiPaneControlsInvoked;
 			}
 			if (shouldReloadDrivesWidget && drivesWidget is not null)
@@ -177,7 +177,7 @@ namespace Files.App.Views
 			});
 		}
 
-		private void FolderWidget_CardInvoked(object sender, QuickAccessCardInvokedEventArgs e)
+		private void QuickAccessWidget_CardInvoked(object sender, QuickAccessCardInvokedEventArgs e)
 		{
 			AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
 			{
@@ -186,12 +186,12 @@ namespace Files.App.Views
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
 		}
 
-		private void FolderWidget_CardNewPaneInvoked(object sender, QuickAccessCardInvokedEventArgs e)
+		private void QuickAccessWidget_CardNewPaneInvoked(object sender, QuickAccessCardInvokedEventArgs e)
 		{
 			AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
 		}
 
-		private async void FolderWidget_CardPropertiesInvoked(object sender, QuickAccessCardEventArgs e)
+		private async void QuickAccessWidget_CardPropertiesInvoked(object sender, QuickAccessCardEventArgs e)
 		{
 			ListedItem listedItem = new(null!)
 			{

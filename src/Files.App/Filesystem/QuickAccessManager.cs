@@ -20,7 +20,7 @@ namespace Files.App.Filesystem
 
 		public event FileSystemEventHandler? PinnedItemsModified;
 		
-		public EventHandler<ModifyQuickAccessEventArgs>? UpdateFolderWidget;
+		public EventHandler<ModifyQuickAccessEventArgs>? UpdateQuickAccessWidget;
 
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 

@@ -120,8 +120,8 @@ namespace Files.App.UserControls.Widgets
 
 			QuickAccessCardCommand = new AsyncRelayCommand<FolderCardItem>(OpenCard);
 
-			Loaded += FolderWidget_Loaded;
-			Unloaded += FolderWidget_Unloaded;
+			Loaded += QuickAccessWidget_Loaded;
+			Unloaded += QuickAccessWidget_Unloaded;
 		}
 
 		public delegate void LibraryCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
@@ -168,7 +168,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetName => nameof(QuickAccessWidget);
 
-		public string AutomationProperties => "FolderWidgetAutomationProperties/Name".GetLocalizedResource();
+		public string AutomationProperties => "QuickAccess".GetLocalizedResource();
 
 		public string WidgetHeader => "QuickAccess".GetLocalizedResource();
 
@@ -198,9 +198,9 @@ namespace Files.App.UserControls.Widgets
 					ItemsAdded.Remove(itemToRemove);
 		}
 
-		private async void FolderWidget_Loaded(object sender, RoutedEventArgs e)
+		private async void QuickAccessWidget_Loaded(object sender, RoutedEventArgs e)
 		{
-			Loaded -= FolderWidget_Loaded;
+			Loaded -= QuickAccessWidget_Loaded;
 
 			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync(true);
 
@@ -219,16 +219,16 @@ namespace Files.App.UserControls.Widgets
 				idx++;
 			}
 
-			App.QuickAccessManager.UpdateFolderWidget += ModifyItem;
+			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItem;
 
 			var cardLoadTasks = ItemsAdded.Select(cardItem => cardItem.LoadCardThumbnailAsync());
 			await Task.WhenAll(cardLoadTasks);
 		}
 
-		private void FolderWidget_Unloaded(object sender, RoutedEventArgs e)
+		private void QuickAccessWidget_Unloaded(object sender, RoutedEventArgs e)
 		{
-			Unloaded -= FolderWidget_Unloaded;
-			App.QuickAccessManager.UpdateFolderWidget += ModifyItem;
+			Unloaded -= QuickAccessWidget_Unloaded;
+			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItem;
 		}
 
 		private void MenuFlyout_Opening(object sender, object e)
