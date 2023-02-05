@@ -112,16 +112,13 @@
 								<RowDefinition Height="*" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-							<StackPanel
+							<FontIcon
+								x:Name="PinIcon"
 								HorizontalAlignment="Right"
 								VerticalAlignment="Top"
-								Orientation="Horizontal">
-								<FontIcon
-									x:Name="PinIcon"
-									FontSize="14"
-									Glyph="&#xE840;"
-									Visibility="{x:Bind IsPinned}" />
-							</StackPanel>
+								FontSize="14"
+								Glyph="&#xE840;"
+								x:Load="{x:Bind IsPinned, Mode=OneWay}" />
 							<Image
 								Grid.Row="0"
 								Width="32"
