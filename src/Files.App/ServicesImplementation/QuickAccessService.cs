@@ -1,8 +1,13 @@
-﻿using Files.App.Shell;
+﻿using Files.App.DataModels.NavigationControlItems;
+using Files.App.Filesystem;
+using Files.App.Shell;
+using Files.App.UserControls.Widgets;
+using Files.Shared;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 
 namespace Files.App.ServicesImplementation
@@ -10,19 +15,19 @@ namespace Files.App.ServicesImplementation
 	internal class QuickAccessService : IQuickAccessService
 	{
 		private readonly static string guid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
-		
-		public async Task<List<string>> GetPinnedFoldersAsync()
+
+		public async Task<List<string>> GetPinnedFoldersAsync(bool getRecentItems = false)
 		{
 			var sidebarItems =  (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, 10000)).Enumerate
 				.Where(link => link.IsFolder)
 				.Select(link => link.FilePath).ToList();
 
-			if (sidebarItems.Count > 4) // Avoid first opening crash #11139
+			if (sidebarItems.Count > 4 && !getRecentItems) // Avoid first opening crash #11139
 				sidebarItems.RemoveRange(sidebarItems.Count - 4, 4); // 4 is the number of recent items shown in explorer sidebar
 			
 			return sidebarItems;
 		}
-
+		
 		public async Task PinToSidebar(string folderPath)
 			=> await PinToSidebar(new[] { folderPath });
 		
@@ -30,8 +35,10 @@ namespace Files.App.ServicesImplementation
 		{
 			await ContextMenu.InvokeVerb("pintohome", folderPaths);
 			await App.QuickAccessManager.Model.LoadAsync();
+			
+			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
 		}
-
+		
 		public async Task UnpinFromSidebar(string folderPath)
 			=> await UnpinFromSidebar(new[] { folderPath });
 		
@@ -48,6 +55,8 @@ namespace Files.App.ServicesImplementation
 					});
 
 			await App.QuickAccessManager.Model.LoadAsync();
+			
+			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));
 		}
 	}
 }

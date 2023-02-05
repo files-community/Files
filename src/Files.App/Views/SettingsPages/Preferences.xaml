@@ -225,10 +225,10 @@
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=Folders}" HorizontalAlignment="Stretch">
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=QuickAccess}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=Folders}"
-								IsOn="{x:Bind ViewModel.ShowFoldersWidget, Mode=TwoWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=QuickAccess}"
+								IsOn="{x:Bind ViewModel.ShowQuickAccessWidget, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
