@@ -41,23 +41,15 @@ namespace Files.App.ServicesImplementation
 		
 		public async Task UnpinFromSidebar(string[] folderPaths)
 		{
-			var quickAccessItems = (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, int.MaxValue)).Enumerate;
+			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
+			object? shell = Activator.CreateInstance(shellAppType);
+			dynamic? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, new object[] { $"shell:{guid}" });
 
-			foreach (var itemPath in folderPaths)
-			{
-				var item = quickAccessItems.FirstOrDefault(x => x.FilePath == itemPath);
-				if (item is null)
-					continue;
-
-				await SafetyExtensions.IgnoreExceptions(async () =>
-				{
-					using var pidl = new Shell32.PIDL(item.PIDL);
-					using var shellItem = ShellItem.Open(pidl);
-					using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { shellItem }, Shell32.CMF.CMF_NORMAL);
-					if (cMenu is not null)
-						await cMenu.InvokeVerb("unpinfromhome");
-				});
-			}
+			foreach (dynamic? fi in f2.Items())
+				if (folderPaths.Contains((string)fi.Path))
+					await SafetyExtensions.IgnoreExceptions(async () => {
+						await fi.InvokeVerb("unpinfromhome");
+					});
 
 			await App.QuickAccessManager.Model.LoadAsync();
 			
