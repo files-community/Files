@@ -75,12 +75,7 @@ namespace Files.App.DataModels
 			}
 		}
 
-		/// <summary>
-		/// Adds the item (from a path) to the navigation sidebar
-		/// </summary>
-		/// <param name="path">The path which to save</param>
-		/// <returns>Task</returns>
-		public async Task AddItemToSidebarAsync(string path)
+		public async Task<LocationItem> CreateLocationItemFromPathAsync(string path)
 		{
 			var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
@@ -130,6 +125,18 @@ namespace Files.App.DataModels
 				Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
 			}
 
+			return locationItem;
+		}
+
+		/// <summary>
+		/// Adds the item (from a path) to the navigation sidebar
+		/// </summary>
+		/// <param name="path">The path which to save</param>
+		/// <returns>Task</returns>
+		public async Task AddItemToSidebarAsync(string path)
+		{
+			var locationItem = await CreateLocationItemFromPathAsync(path);
+			
 			AddLocationItemToSidebar(locationItem);
 		}
 

@@ -460,13 +460,13 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool ShowFoldersWidget
+		public bool ShowQuickAccessWidget
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFoldersWidget;
+			get => UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowFoldersWidget)
-					UserSettingsService.PreferencesSettingsService.ShowFoldersWidget = value;
+				if (value != UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget)
+					UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget = value;
 			}
 		}
 
