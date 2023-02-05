@@ -68,27 +68,21 @@ namespace Files.App.UserControls.Widgets
 			get => thumbnail;
 			set => SetProperty(ref thumbnail, value);
 		}
-		public bool IsLibrary => Item is LibraryLocationItem;
-		public bool IsUserCreatedLibrary => IsLibrary && !LibraryManager.IsDefaultLibrary(Item.Path);
 		public LocationItem Item { get; private set; }
 		public string Path { get; set; }
 		public ICommand SelectCommand { get; set; }
 		public string Text { get; set; }
 		public bool IsPinned { get; set; }
 
-		public FolderCardItem(LocationItem item = null, string text = null, bool isPinned = true) : this(text, isPinned)
-		{
-			Item = item;
-		}
-
-		public FolderCardItem(string text, bool isPinned)
+		public FolderCardItem(LocationItem item, string text, bool isPinned)
 		{
 			if (!string.IsNullOrWhiteSpace(text))
 			{
 				Text = text;
 				AutomationProperties = Text;
-				IsPinned = isPinned;
 			}
+			IsPinned = isPinned;
+			Item = item;
 		}
 
 		public async Task LoadCardThumbnailAsync()
@@ -189,7 +183,7 @@ namespace Files.App.UserControls.Widgets
 					{
 						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
 						lastIndex = lastIndex < 0 ? ItemsAdded.Count : lastIndex;
-						ItemsAdded.Insert(e.Pin ? lastIndex : ItemsAdded.Count, new FolderCardItem(Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
+						ItemsAdded.Insert(e.Pin ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
 						{
 							Path = item.Path,
 							SelectCommand = QuickAccessCardCommand
@@ -325,11 +319,6 @@ namespace Files.App.UserControls.Widgets
 		{
 			if (string.IsNullOrEmpty(item.Path))
 			{
-				return Task.CompletedTask;
-			}
-			if (item.Item is LibraryLocationItem lli && lli.IsEmpty)
-			{
-				// TODO: show message?
 				return Task.CompletedTask;
 			}
 
