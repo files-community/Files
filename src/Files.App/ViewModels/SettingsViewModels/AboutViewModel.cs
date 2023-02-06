@@ -83,7 +83,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				DataPackage dataPackage = new DataPackage();
 				dataPackage.RequestedOperation = DataPackageOperation.Copy;
-				dataPackage.SetText(SystemInformation.Instance.ApplicationVersion.ToString());
+				dataPackage.SetText(Package.Current.Id.Version.ToString());
 				Clipboard.SetContent(dataPackage);
 			});
 		}
