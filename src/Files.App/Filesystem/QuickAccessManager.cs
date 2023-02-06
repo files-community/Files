@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI.Helpers;
 using Files.App.DataModels;
 using Files.App.ServicesImplementation;
 using Files.App.UserControls.Widgets;
@@ -63,7 +64,7 @@ namespace Files.App.Filesystem
 			PinnedItemsModified += Model.LoadAsync;
 
 			await Model.LoadAsync();
-			if (!Model.FavoriteItems.Contains(CommonPaths.RecycleBinPath))
+			if (!Model.FavoriteItems.Contains(CommonPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
 				await QuickAccessService.PinToSidebar(CommonPaths.RecycleBinPath);
 			
 			var fileItems = (await ReadV2PinnedItemsFile())?.ToList();

@@ -92,7 +92,6 @@ namespace Files.App.UserControls.Widgets
 		public ICommand OpenPropertiesCommand;
 		public ICommand PinToFavoritesCommand;
 		public ICommand UnpinFromFavoritesCommand;
-		public ICommand MapNetworkDriveCommand;
 		public ICommand DisconnectNetworkDriveCommand;
 		public ICommand GoToStorageSenseCommand;
 
@@ -117,6 +116,17 @@ namespace Files.App.UserControls.Widgets
 
 		public bool IsWidgetSettingEnabled => userSettingsService.PreferencesSettingsService.ShowDrivesWidget;
 
+		public bool ShowMenuFlyout => true;
+
+		public MenuFlyoutItem MenuFlyoutItem => new MenuFlyoutItem()
+		{
+			Icon = new FontIcon() { Glyph = "\uE710" },
+			Text = "DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text".GetLocalizedResource(),
+			Command = MapNetworkDriveCommand
+		};
+
+		public AsyncRelayCommand MapNetworkDriveCommand { get; }
+
 		public DrivesWidget()
 		{
 			InitializeComponent();
@@ -132,7 +142,7 @@ namespace Files.App.UserControls.Widgets
 			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(OpenProperties);
 			PinToFavoritesCommand = new RelayCommand<DriveCardItem>(PinToFavorites);
 			UnpinFromFavoritesCommand = new RelayCommand<DriveCardItem>(UnpinFromFavorites);
-			MapNetworkDriveCommand = new RelayCommand(MapNetworkDrive);
+			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 			GoToStorageSenseCommand = new RelayCommand<DriveCardItem>(GoToStorageSense);
 		}
@@ -223,6 +233,10 @@ namespace Files.App.UserControls.Widgets
 			}.Where(x => x.ShowItem).ToList();
 		}
 
+		private async Task DoNetworkMapDrive()
+		{
+			await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
+		}
 		private async void Manager_DataChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			await DispatcherQueue.EnqueueAsync(async () =>
@@ -351,9 +365,6 @@ namespace Files.App.UserControls.Widgets
 			var unpinFromFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "UnpinFromFavorites");
 			unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
 		}
-
-		private async void MapNetworkDrive()
-			=> await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
 
 		private void DisconnectNetworkDrive(DriveCardItem item)
 		{

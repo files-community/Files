@@ -9,45 +9,6 @@
 	Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 	mc:Ignorable="d">
 	<Grid>
-		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-
-			<!--  Map Drive button  -->
-			<Button
-				Grid.Column="1"
-				Width="36"
-				Height="32"
-				Padding="0"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Top"
-				HorizontalContentAlignment="Center"
-				VerticalContentAlignment="Center"
-				AutomationProperties.Name="{helpers:ResourceString Name=DrivesWidgetMoreOptionsButton/AutomationProperties/Name}"
-				Background="Transparent"
-				BorderBrush="Transparent"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=DrivesWidgetMoreOptionsButton/ToolTipService/ToolTip}">
-
-				<FontIcon
-					HorizontalAlignment="Center"
-					VerticalAlignment="Center"
-					FontSize="14"
-					Glyph="&#xe712;" />
-
-				<Button.Flyout>
-					<MenuFlyout>
-						<MenuFlyoutItem Click="MapNetworkDrive_Click" Text="{helpers:ResourceString Name=DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon Glyph="&#xE710;" />
-							</MenuFlyoutItem.Icon>
-						</MenuFlyoutItem>
-					</MenuFlyout>
-				</Button.Flyout>
-			</Button>
-		</Grid>
-
 		<ItemsRepeater
 			x:Name="CardsList"
 			HorizontalAlignment="Stretch"
