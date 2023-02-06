@@ -1,11 +1,9 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.UI;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Interacts;
 using Files.App.UserControls.Selection;
-using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -26,8 +24,6 @@ namespace Files.App.Views.LayoutModes
 {
 	public sealed partial class ColumnViewBase : StandardViewBase
 	{
-		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
 		protected override ListViewBase ListViewBase => FileList;
