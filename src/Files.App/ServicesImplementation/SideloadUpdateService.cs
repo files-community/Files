@@ -14,6 +14,7 @@ using System.Xml.Serialization;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
 using Windows.Storage;
+using Vanara.PInvoke;
 
 namespace Files.App.ServicesImplementation
 {
@@ -185,6 +186,10 @@ namespace Files.App.ServicesImplementation
 
 			try
 			{
+				var restartStatus = Kernel32.RegisterApplicationRestart(null, 0);
+
+				Logger?.Info($"Register for restart: {restartStatus}");
+
 				await Task.Run(async () =>
 				{
 					var bundlePath = new Uri(ApplicationData.Current.LocalFolder.Path + "\\" + TEMPORARY_UPDATE_PACKAGE_NAME);
@@ -192,7 +197,7 @@ namespace Files.App.ServicesImplementation
 					var deployment = pm.RequestAddPackageAsync(
 						bundlePath,
 						null,
-						DeploymentOptions.ForceTargetApplicationShutdown,
+						DeploymentOptions.ForceApplicationShutdown,
 						pm.GetDefaultPackageVolume(),
 						null,
 						null);
