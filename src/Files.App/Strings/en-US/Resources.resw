@@ -2289,9 +2289,6 @@
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Drives Widget</value>
   </data>
-  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Folders Widget</value>
-  </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Recent Files Widget</value>
   </data>
@@ -2506,7 +2503,7 @@
     <value>Calculate folder sizes</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recent Files</value>
+    <value>Recent files</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Open Files on Windows Startup</value>
@@ -2900,5 +2897,20 @@
   </data>
   <data name="DisplayEditTagsMenu" xml:space="preserve">
     <value>Display the edit tags flyout</value>
+  </data>
+  <data name="QuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
+	<data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
+    <value>Enter your credentials to connect to: {0}</value>
+  </data>
+	<data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
+    <value>Enter Network Credentials</value>
+  </data>
+	<data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
+    <value>Remember my credentials</value>
+  </data>
+	<data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
+    <value>Network folder error</value>
   </data>
 </root>

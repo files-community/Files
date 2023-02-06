@@ -37,9 +37,9 @@ namespace Files.App.Helpers
 
 		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IPreferencesSettingsService preferencesSettingsService) where TWidget : IWidgetItemModel
 		{
-			if (typeof(TWidget) == typeof(FolderWidget))
+			if (typeof(TWidget) == typeof(QuickAccessWidget))
 			{
-				return preferencesSettingsService.ShowFoldersWidget;
+				return preferencesSettingsService.ShowQuickAccessWidget;
 			}
 			if (typeof(TWidget) == typeof(DrivesWidget))
 			{
