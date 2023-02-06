@@ -68,27 +68,21 @@ namespace Files.App.UserControls.Widgets
 			get => thumbnail;
 			set => SetProperty(ref thumbnail, value);
 		}
-		public bool IsLibrary => Item is LibraryLocationItem;
-		public bool IsUserCreatedLibrary => IsLibrary && !LibraryManager.IsDefaultLibrary(Item.Path);
 		public LocationItem Item { get; private set; }
 		public string Path { get; set; }
 		public ICommand SelectCommand { get; set; }
 		public string Text { get; set; }
 		public bool IsPinned { get; set; }
 
-		public FolderCardItem(LocationItem item = null, string text = null, bool isPinned = true) : this(text, isPinned)
-		{
-			Item = item;
-		}
-
-		public FolderCardItem(string text, bool isPinned)
+		public FolderCardItem(LocationItem item, string text, bool isPinned)
 		{
 			if (!string.IsNullOrWhiteSpace(text))
 			{
 				Text = text;
 				AutomationProperties = Text;
-				IsPinned = isPinned;
 			}
+			IsPinned = isPinned;
+			Item = item;
 		}
 
 		public async Task LoadCardThumbnailAsync()
@@ -177,46 +171,44 @@ namespace Files.App.UserControls.Widgets
 			if (e is null)
 				return;
 
-			if (e.Add)
+			await DispatcherQueue.EnqueueAsync(async () =>
 			{
-				var locationItems = new List<LocationItem>();
-				foreach (var item in e.Paths)
-					locationItems.Add(await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(item));
-
-				foreach (var item in locationItems)
-					ItemsAdded.Insert(e.Pin ? ItemsAdded.Count - 4 : ItemsAdded.Count, new FolderCardItem(Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
+				if (e.Add)
+				{
+					foreach (var itemToAdd in e.Paths)
 					{
-						Path = item.Path,
-						SelectCommand = QuickAccessCardCommand
-					});
+						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
+						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
+						ItemsAdded.Insert(e.Pin && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
+						{
+							Path = item.Path,
+							SelectCommand = QuickAccessCardCommand
+						});
+					}
 
-				var cardLoadTasks = ItemsAdded.Select(cardItem => cardItem.LoadCardThumbnailAsync());
-				await Task.WhenAll(cardLoadTasks);
-			}
-			else
-				foreach (var itemToRemove in ItemsAdded.Where(x => e.Paths.Contains(x.Path)).ToList())
-					ItemsAdded.Remove(itemToRemove);
+					var cardLoadTasks = ItemsAdded.Select(cardItem => cardItem.LoadCardThumbnailAsync());
+					await Task.WhenAll(cardLoadTasks);
+				}
+				else
+					foreach (var itemToRemove in ItemsAdded.Where(x => e.Paths.Contains(x.Path)).ToList())
+						ItemsAdded.Remove(itemToRemove);
+			});
 		}
 
 		private async void QuickAccessWidget_Loaded(object sender, RoutedEventArgs e)
 		{
 			Loaded -= QuickAccessWidget_Loaded;
 
-			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync(true);
+			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
 
-			var locationItems = new List<LocationItem>();
-			foreach (var item in itemsToAdd)
-				locationItems.Add(await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(item));
-
-			int idx = 0;
-			foreach (var item in locationItems)
+			foreach (var itemToAdd in itemsToAdd)
 			{
-				ItemsAdded.Add(new FolderCardItem(item, Path.GetFileName(item.Text), idx < locationItems.Count - 4)
+				var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd.FilePath);
+				ItemsAdded.Add(new FolderCardItem(item, Path.GetFileName(item.Text), (bool?)itemToAdd.Properties["System.Home.IsPinned"] ?? false)
 				{
 					Path = item.Path,
 					SelectCommand = QuickAccessCardCommand
 				});
-				idx++;
 			}
 
 			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItem;
@@ -228,7 +220,7 @@ namespace Files.App.UserControls.Widgets
 		private void QuickAccessWidget_Unloaded(object sender, RoutedEventArgs e)
 		{
 			Unloaded -= QuickAccessWidget_Unloaded;
-			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItem;
+			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItem;
 		}
 
 		private void MenuFlyout_Opening(object sender, object e)
@@ -301,13 +293,16 @@ namespace Files.App.UserControls.Widgets
 			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
 			await QuickAccessService.PinToSidebar(item.Path);
 			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
-			var items = await QuickAccessService.GetPinnedFoldersAsync(true);
-			items.RemoveRange(0, items.Count - 4);
-			var recentItem = items.Where(x => !ItemsAdded.Select(y => y.Path).Contains(x)).FirstOrDefault();
-			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { recentItem }, true)
+			var items = (await QuickAccessService.GetPinnedFoldersAsync())
+				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
+			var recentItem = items.Where(x => !ItemsAdded.Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
+			if (recentItem is not null)
 			{
-				Pin = false
-			});
+				ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { recentItem.FilePath }, true)
+				{
+					Pin = false
+				});
+			}
 		}
 
 		private void UnpinFromFavorites_Click(object sender, RoutedEventArgs e)
@@ -320,11 +315,6 @@ namespace Files.App.UserControls.Widgets
 		{
 			if (string.IsNullOrEmpty(item.Path))
 			{
-				return Task.CompletedTask;
-			}
-			if (item.Item is LibraryLocationItem lli && lli.IsEmpty)
-			{
-				// TODO: show message?
 				return Task.CompletedTask;
 			}
 
