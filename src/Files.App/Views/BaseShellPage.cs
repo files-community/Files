@@ -284,13 +284,6 @@ namespace Files.App.Views
 					if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 						path = SlimContentPage.SelectedItem.ItemPath;
 
-					var terminalStartInfo = new ProcessStartInfo()
-					{
-						FileName = "cmd.exe",
-						WorkingDirectory = path
-					};
-					Process.Start(terminalStartInfo);
-
 					args.Handled = true;
 
 					break;
