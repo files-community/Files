@@ -1,13 +1,11 @@
-﻿using Files.App.DataModels.NavigationControlItems;
-using Files.App.Filesystem;
-using Files.App.Shell;
+﻿using Files.App.Shell;
 using Files.App.UserControls.Widgets;
 using Files.Shared;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Security.Permissions;
 using System.Threading.Tasks;
 
 namespace Files.App.ServicesImplementation
@@ -44,7 +42,8 @@ namespace Files.App.ServicesImplementation
 			dynamic? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, new object[] { $"shell:{guid}" });
 
 			foreach (dynamic? fi in f2.Items())
-				if (folderPaths.Contains((string)fi.Path))
+				if (folderPaths.Contains((string)fi.Path)
+					|| (string.Equals(fi.Path, "::{645FF040-5081-101B-9F08-00AA002F954E}") && folderPaths.Contains(Constants.CommonPaths.RecycleBinPath)))
 					await SafetyExtensions.IgnoreExceptions(async () => {
 						await fi.InvokeVerb("unpinfromhome");
 					});
