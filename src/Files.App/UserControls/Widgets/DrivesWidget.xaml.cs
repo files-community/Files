@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -7,6 +8,7 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.ServicesImplementation;
+using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
@@ -16,12 +18,14 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -81,6 +85,17 @@ namespace Files.App.UserControls.Widgets
 
 		private IShellPage associatedInstance;
 
+		public ICommand EjectDeviceCommand;
+		public ICommand OpenInNewTabCommand;
+		public ICommand OpenInNewWindowCommand;
+		public ICommand OpenInNewPaneCommand;
+		public ICommand OpenPropertiesCommand;
+		public ICommand PinToFavoritesCommand;
+		public ICommand UnpinFromFavoritesCommand;
+		public ICommand MapNetworkDriveCommand;
+		public ICommand DisconnectNetworkDriveCommand;
+		public ICommand GoToStorageSenseCommand;
+
 		public IShellPage AppInstance
 		{
 			get => associatedInstance;
@@ -109,6 +124,103 @@ namespace Files.App.UserControls.Widgets
 			Manager_DataChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
 			App.DrivesManager.DataChanged += Manager_DataChanged;
+
+			EjectDeviceCommand = new RelayCommand<DriveCardItem>(EjectDevice);
+			OpenInNewTabCommand = new RelayCommand<DriveCardItem>(OpenInNewTab);
+			OpenInNewWindowCommand = new RelayCommand<DriveCardItem>(OpenInNewWindow);
+			OpenInNewPaneCommand = new RelayCommand<DriveCardItem>(OpenInNewPane);
+			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(OpenProperties);
+			PinToFavoritesCommand = new RelayCommand<DriveCardItem>(PinToFavorites);
+			UnpinFromFavoritesCommand = new RelayCommand<DriveCardItem>(UnpinFromFavorites);
+			MapNetworkDriveCommand = new RelayCommand(MapNetworkDrive);
+			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
+			GoToStorageSenseCommand = new RelayCommand<DriveCardItem>(GoToStorageSense);
+		}
+
+		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(DriveCardItem item, CommandBarFlyout menu)
+		{
+			var options = item.Item.MenuOptions;
+			var isPinned = item.Item.IsPinned;
+
+			return new List<ContextMenuFlyoutItemViewModel>()
+			{
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarOpenInNewPane/Text".GetLocalizedResource(),
+					Glyph = "\uF117",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = OpenInNewPaneCommand,
+					CommandParameter = item,
+					ShowItem = ShowMultiPaneControls
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
+					Glyph = "\uF113",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = OpenInNewTabCommand,
+					CommandParameter = item,
+					ShowItem = true
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
+					Glyph = "\uE737",
+					Command = OpenInNewWindowCommand,
+					CommandParameter = item,
+					ShowItem = true
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
+					Glyph = "\uE840",
+					Command = PinToFavoritesCommand,
+					CommandParameter = item,
+					ShowItem = !isPinned
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarUnpinFromFavorites/Text".GetLocalizedResource(),
+					Glyph = "\uE77A",
+					Command = UnpinFromFavoritesCommand,
+					CommandParameter = item,
+					ShowItem = isPinned
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
+					Glyph = "\uF10B",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = EjectDeviceCommand,
+					CommandParameter = item,
+					ShowItem = options.ShowEjectDevice
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
+					Glyph = "\uE946",
+					Command = OpenPropertiesCommand,
+					CommandParameter = item,
+					ShowItem = options.ShowProperties
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
+					Glyph = "\uE946",
+					Command = OpenPropertiesCommand,
+					CommandParameter = item,
+					ShowItem = true
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ShowMoreOptions".GetLocalizedResource(),
+					Glyph = "\xE712",
+					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					ID = "ItemOverflow",
+					Tag = "ItemOverflow",
+					IsHidden = true,
+				}
+			}.Where(x => x.ShowItem).ToList();
 		}
 
 		private async void Manager_DataChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -138,61 +250,44 @@ namespace Files.App.UserControls.Widgets
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		private async void EjectDevice_Click(object sender, RoutedEventArgs e)
+		private async void EjectDevice(DriveCardItem item)
 		{
-			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			var result = await DriveHelpers.EjectDeviceAsync(item.Path);
+			var result = await DriveHelpers.EjectDeviceAsync(item.Item.Path);
 			await UIHelpers.ShowDeviceEjectResultAsync(result);
 		}
 
-		private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
+		private async void OpenInNewTab(DriveCardItem item)
 		{
-			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (await DriveHelpers.CheckEmptyDrive(item?.Path))
+			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
 				return;
-			await NavigationHelpers.OpenPathInNewTab(item?.Path);
+			await NavigationHelpers.OpenPathInNewTab(item.Item.Path);
 		}
 
-		private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
+		private async void OpenInNewWindow(DriveCardItem item)
 		{
-			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (await DriveHelpers.CheckEmptyDrive(item?.Path))
+			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
 				return;
-			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
+			await NavigationHelpers.OpenPathInNewWindowAsync(item.Item.Path);
 		}
 
-		private async void PinToFavorites_Click(object sender, RoutedEventArgs e)
+		private async void PinToFavorites(DriveCardItem item)
 		{
-			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (await DriveHelpers.CheckEmptyDrive(item?.Path))
+			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
 				return;
 
-			_ = QuickAccessService.PinToSidebar(item.Path);
+			_ = QuickAccessService.PinToSidebar(item.Item.Path);
 		}
 
-		private async void UnpinFromFavorites_Click(object sender, RoutedEventArgs e)
+		private async void UnpinFromFavorites(DriveCardItem item)
 		{
-			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (await DriveHelpers.CheckEmptyDrive(item?.Path))
+			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
 				return;
 			
-			_ = QuickAccessService.UnpinFromSidebar(item.Path);
+			_ = QuickAccessService.UnpinFromSidebar(item.Item.Path);
 		}
 
-		private void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
-		{
-			var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
-			if (presenter?.Parent is not Popup flyoutParent || ((MenuFlyoutItem)sender).DataContext is not DriveItem propertiesItem)
-				return;
-
-			EventHandler<object> flyoutClosed = null!;
-			flyoutClosed = async (s, e) =>
-			{
-				flyoutParent.Closed -= flyoutClosed;
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(propertiesItem, associatedInstance);
-			};
-			flyoutParent.Closed += flyoutClosed;
-		}
+		private async void OpenProperties(DriveCardItem item)
+			=> await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance);
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
@@ -235,14 +330,13 @@ namespace Files.App.UserControls.Widgets
 			get => AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
 		}
 
-		private async void OpenInNewPane_Click(object sender, RoutedEventArgs e)
+		private async void OpenInNewPane(DriveCardItem item)
 		{
-			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (await DriveHelpers.CheckEmptyDrive(item?.Path))
+			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
 				return;
 			DrivesWidgetNewPaneInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
 			{
-				Path = item.Path
+				Path = item.Item.Path
 			});
 		}
 
@@ -258,19 +352,17 @@ namespace Files.App.UserControls.Widgets
 			unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
 		}
 
-		private async void MapNetworkDrive_Click(object sender, RoutedEventArgs e)
+		private async void MapNetworkDrive()
 			=> await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
 
-		private void DisconnectNetworkDrive_Click(object sender, RoutedEventArgs e)
+		private void DisconnectNetworkDrive(DriveCardItem item)
 		{
-			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			NetworkDrivesManager.DisconnectNetworkDrive(item.Path);
+			NetworkDrivesManager.DisconnectNetworkDrive(item.Item.Path);
 		}
 
-		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
+		private void GoToStorageSense(DriveCardItem item)
 		{
-			string clickedCard = (sender as Button).Tag.ToString();
-			StorageSenseHelper.OpenStorageSense(clickedCard);
+			StorageSenseHelper.OpenStorageSense(item.Item.Path);
 		}
 
 		public async Task RefreshWidget()
