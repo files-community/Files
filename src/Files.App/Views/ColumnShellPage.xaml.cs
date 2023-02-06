@@ -240,7 +240,7 @@ namespace Files.App.Views
 
 					var terminalStartInfo = new ProcessStartInfo()
 					{
-						FileName = "cmd.exe",
+						FileName = "wt.exe",
 						WorkingDirectory = path
 					};
 					Process.Start(terminalStartInfo);
