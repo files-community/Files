@@ -116,7 +116,7 @@
     <value>Abrir en una nueva pestaña</value>
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>Abrir en una ventana nueva</value>
+    <value>Abrir en una nueva ventana</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nueva ventana</value>
@@ -152,7 +152,7 @@
     <value>Nombre del elemento</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Ruta:</value>
+    <value>Ubicación:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Tamaño:</value>
@@ -161,7 +161,7 @@
     <value>Tamaño sin comprimir:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>Esta acción no se puede completar</value>
+    <value>Esta acción no se puede realizar</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
     <value>Carpeta de destino</value>
@@ -179,7 +179,7 @@
     <value>Invertir selección</value>
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
-    <value>Limpiar selección</value>
+    <value>Anular selección</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modificado:</value>
@@ -188,10 +188,10 @@
     <value>Consultado:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Limpiar todos los elementos</value>
+    <value>Borrar todo</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Introduzca una ruta</value>
+    <value>Introduzca una ubicación</value>
   </data>
   <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Buscar</value>
@@ -431,16 +431,16 @@
     <value>Unidad no conectada</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>El archivo al que está intentando acceder puede haberse movido o eliminado.</value>
+    <value>El archivo al que está intentando acceder puede haber sido movido o eliminado.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Archivo no encontrado</value>
   </data>
   <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
-    <value>El archivo del que está intentando obtener una vista previa puede haberse movido o eliminado.</value>
+    <value>El archivo del que está intentando obtener una vista previa puede haber sido movido o eliminado.</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>La carpeta a la que está intentando acceder puede haberse movido o eliminado.</value>
+    <value>La carpeta a la que está intentando acceder puede haber sido movido o eliminado.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>¿Eliminó esta carpeta?</value>
@@ -452,7 +452,7 @@
     <value>El archivo al que intenta acceder está siendo utilizado por otra aplicación</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>El archivo se está utilizando</value>
+    <value>El archivo está en uso</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Diseño</value>

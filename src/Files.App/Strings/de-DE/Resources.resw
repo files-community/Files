@@ -218,10 +218,10 @@
     <value>Datumsformat</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Thema</value>
+    <value>Modus</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Dateinamenerweiterung anzeigen</value>
+    <value>Dateierweiterungen für bekannte Dateitypen anzeigen</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Versteckte Dateien und Ordner anzeigen</value>
@@ -242,22 +242,22 @@
     <value>Experimentell</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>Voreinstellungen</value>
+    <value>Präferenzen</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>WARNUNG: Experimentelle Funktionen!</value>
+    <value>WARNUNG: Experimentelle Funktionen voraus!</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Weitermachen wo Sie aufgehört haben</value>
+    <value>Weitermachen, wo Sie aufgehört haben</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Einen neuen Tab öffnen</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Einen oder mehrere Ordner öffnen</value>
+    <value>Einen oder mehrere bestimmte Ordner öffnen</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Voreinstellungen</value>
+    <value>Präferenzen</value>
   </data>
   <data name="Desktop" xml:space="preserve">
     <value>Desktop</value>
@@ -695,7 +695,7 @@
     <value>Mitwirkende</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Versionshinweise</value>
+    <value>Änderungsprotokoll</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Das Element, auf das verwiesen wurde, ist fehlerhaft oder nicht erreichbar.{0}Fehlermeldung:{0}{1}</value>
@@ -1196,7 +1196,7 @@
     <value>Den Entwicklern einen Fehlerbericht mit mehr Informationen senden</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Unterstütze uns mit PayPal</value>
+    <value>Unterstütze uns auf GitHub</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Dateien und Ordner zusammen auflisten und sortieren</value>
@@ -1406,7 +1406,7 @@
     <value>Dokumentation</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Files-Dokumentation aufrufen</value>
+    <value>Files-Dokumentationswebseite aufrufen</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Laufende Aufgaben-Flyout</value>
@@ -2291,7 +2291,7 @@
     <value>Schlagwort</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Markierung ändern</value>
+    <value>Tags ändern</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Favoriten anzeigen</value>
@@ -2426,7 +2426,7 @@
     <value>Standard-Dateimanager</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Files als Standard-Dateimanager einstellen</value>
+    <value>Files als Standard-Dateimanager festlegen</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Files als Standard-Dateidialog verwenden</value>

@@ -29,8 +29,6 @@ namespace Files.App.Filesystem
 
 	public class FilesystemOperations : IFilesystemOperations
 	{
-		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
-
 		private IShellPage associatedInstance;
 
 		#region Constructor

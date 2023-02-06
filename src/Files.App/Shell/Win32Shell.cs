@@ -1,4 +1,5 @@
 ﻿using Files.Shared;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +21,7 @@ namespace Files.App.Shell
 			controlPanelCategoryView = new ShellFolder("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
 		}
 
-		public static async Task<(ShellFileItem Folder, List<ShellFileItem> Enumerate)> GetShellFolderAsync(string path, string action, int from, int count)
+		public static async Task<(ShellFileItem Folder, List<ShellFileItem> Enumerate)> GetShellFolderAsync(string path, string action, int from, int count, params string[] properties)
 		{
 			if (path.StartsWith("::{", StringComparison.Ordinal))
 			{
@@ -51,9 +52,11 @@ namespace Files.App.Shell
 								var shellFileItem = folderItem is ShellLink link ?
 									ShellFolderExtensions.GetShellLinkItem(link) :
 									ShellFolderExtensions.GetShellFileItem(folderItem);
+								foreach (var prop in properties)
+									shellFileItem.Properties[prop] = SafetyExtensions.IgnoreExceptions(() => folderItem.Properties[prop]);
 								flc.Add(shellFileItem);
 							}
-							catch (FileNotFoundException)
+							catch (Exception ex) when (ex is FileNotFoundException || ex is DirectoryNotFoundException)
 							{
 								// Happens if files are being deleted
 							}

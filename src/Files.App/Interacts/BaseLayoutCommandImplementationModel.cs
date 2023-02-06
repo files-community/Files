@@ -1,5 +1,6 @@
 #nullable disable warnings
 
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
 using Files.App.Extensions;
@@ -7,6 +8,7 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.Archive;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.App.ServicesImplementation;
 using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
@@ -45,6 +47,8 @@ namespace Files.App.Interacts
 		private IBaseLayout SlimContentPage => associatedInstance?.SlimContentPage;
 
 		private IFilesystemHelpers FilesystemHelpers => associatedInstance?.FilesystemHelpers;
+
+		private static IQuickAccessService QuickAccessService => Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		#endregion Singleton
 
@@ -134,12 +138,12 @@ namespace Files.App.Interacts
 
 		public virtual void SidebarPinItem(RoutedEventArgs e)
 		{
-			SidebarHelpers.PinItems(SlimContentPage.SelectedItems);
+			_ = QuickAccessService.PinToSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
 		}
 
 		public virtual void SidebarUnpinItem(RoutedEventArgs e)
 		{
-			SidebarHelpers.UnpinItems(SlimContentPage.SelectedItems);
+			_ = QuickAccessService.UnpinFromSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
 		}
 
 		public virtual void OpenItem(RoutedEventArgs e)
@@ -149,7 +153,7 @@ namespace Files.App.Interacts
 
 		public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
 		{
-			App.SidebarPinnedController.Model.RemoveItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
+			_ = QuickAccessService.UnpinFromSidebar(associatedInstance.FilesystemViewModel.WorkingDirectory);
 		}
 
 		public virtual async void EmptyRecycleBin(RoutedEventArgs e)
@@ -392,7 +396,7 @@ namespace Files.App.Interacts
 
 		public virtual void PinDirectoryToFavorites(RoutedEventArgs e)
 		{
-			App.SidebarPinnedController.Model.AddItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
+			QuickAccessService.PinToSidebar(new[] { associatedInstance.FilesystemViewModel.WorkingDirectory });
 		}
 
 		public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)
