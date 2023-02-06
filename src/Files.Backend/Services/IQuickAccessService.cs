@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Files.Shared;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Files.App.ServicesImplementation
@@ -9,7 +10,7 @@ namespace Files.App.ServicesImplementation
 		/// Gets the list of quick access items
 		/// </summary>
 		/// <returns></returns>
-		Task<List<string>> GetPinnedFoldersAsync();
+		Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync();
 
 		/// <summary>
 		/// Pins a folder to the quick access list

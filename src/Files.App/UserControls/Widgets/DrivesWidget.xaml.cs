@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -46,21 +47,17 @@ namespace Files.App.UserControls.Widgets
 
 		public async Task LoadCardThumbnailAsync()
 		{
+			// Try load thumbnail using ListView mode
 			if (thumbnailData is null || thumbnailData.Length == 0)
-			{
-				// Try load thumbnail using ListView mode
 				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
-			}
+
+			// Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
 			if (thumbnailData is null || thumbnailData.Length == 0)
-			{
-				// Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
 				thumbnailData = Item.IconData;
-			}
+
+			// Thumbnail data is valid, set the item icon
 			if (thumbnailData is not null && thumbnailData.Length > 0)
-			{
-				// Thumbnail data is valid, set the item icon
 				Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
-			}
 		}
 
 		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
@@ -68,7 +65,7 @@ namespace Files.App.UserControls.Widgets
 
 	public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 		
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
@@ -79,7 +76,7 @@ namespace Files.App.UserControls.Widgets
 
 		public event DrivesWidgetNewPaneInvokedEventHandler DrivesWidgetNewPaneInvoked;
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public static ObservableCollection<DriveCardItem> ItemsAdded = new();
 
@@ -104,7 +101,18 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "Drives".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
+		public bool IsWidgetSettingEnabled => userSettingsService.PreferencesSettingsService.ShowDrivesWidget;
+
+		public bool ShowMenuFlyout => true;
+
+		public MenuFlyoutItem MenuFlyoutItem => new MenuFlyoutItem()
+		{
+			Icon = new FontIcon() { Glyph = "\uE710" },
+			Text = "DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text".GetLocalizedResource(),
+			Command = MapNetworkDriveCommand
+		};
+
+		public AsyncRelayCommand MapNetworkDriveCommand { get; }
 
 		public DrivesWidget()
 		{
@@ -113,31 +121,32 @@ namespace Files.App.UserControls.Widgets
 			Manager_DataChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
 			App.DrivesManager.DataChanged += Manager_DataChanged;
+
+			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive);
 		}
 
-		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
+		private async Task DoNetworkMapDrive()
+		{
+			await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
+		}
+		private async void Manager_DataChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			await DispatcherQueue.EnqueueAsync(async () =>
 			{
 				foreach (DriveItem drive in App.DrivesManager.Drives)
 				{
-					if (!ItemsAdded.Any(x => x.Item == drive))
+					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
 					{
-						if (drive.Type != DriveType.VirtualDrive)
-						{
-							var cardItem = new DriveCardItem(drive);
-							ItemsAdded.AddSorted(cardItem);
-							await cardItem.LoadCardThumbnailAsync(); // After add
-						}
+						var cardItem = new DriveCardItem(drive);
+						ItemsAdded.AddSorted(cardItem);
+						await cardItem.LoadCardThumbnailAsync(); // After add
 					}
 				}
 
 				foreach (DriveCardItem driveCard in ItemsAdded.ToList())
 				{
 					if (!App.DrivesManager.Drives.Contains(driveCard.Item))
-					{
 						ItemsAdded.Remove(driveCard);
-					}
 				}
 			});
 		}
@@ -157,49 +166,41 @@ namespace Files.App.UserControls.Widgets
 		private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (await CheckEmptyDrive(item.Path))
-			{
+			if (await DriveHelpers.CheckEmptyDrive(item?.Path))
 				return;
-			}
-			await NavigationHelpers.OpenPathInNewTab(item.Path);
+			await NavigationHelpers.OpenPathInNewTab(item?.Path);
 		}
 
 		private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (await CheckEmptyDrive(item.Path))
-			{
+			if (await DriveHelpers.CheckEmptyDrive(item?.Path))
 				return;
-			}
 			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
 		}
 
 		private async void PinToFavorites_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (await CheckEmptyDrive(item.Path))
-			{
+			if (await DriveHelpers.CheckEmptyDrive(item?.Path))
 				return;
-			}
+
 			_ = QuickAccessService.PinToSidebar(item.Path);
 		}
 
 		private async void UnpinFromFavorites_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (await CheckEmptyDrive(item.Path))
-			{
+			if (await DriveHelpers.CheckEmptyDrive(item?.Path))
 				return;
-			}
+			
 			_ = QuickAccessService.UnpinFromSidebar(item.Path);
 		}
 
 		private void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
 		{
 			var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
-			var flyoutParent = presenter?.Parent as Popup;
-			var propertiesItem = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (propertiesItem is null || flyoutParent is null)
+			if (presenter?.Parent is not Popup flyoutParent || ((MenuFlyoutItem)sender).DataContext is not DriveItem propertiesItem)
 				return;
 
 			EventHandler<object> flyoutClosed = null!;
@@ -216,10 +217,8 @@ namespace Files.App.UserControls.Widgets
 			string ClickedCard = (sender as Button).Tag.ToString();
 			string NavigationPath = ClickedCard; // path to navigate
 
-			if (await CheckEmptyDrive(NavigationPath))
-			{
+			if (await DriveHelpers.CheckEmptyDrive(NavigationPath))
 				return;
-			}
 
 			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			if (ctrlPressed)
@@ -236,15 +235,12 @@ namespace Files.App.UserControls.Widgets
 
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
-			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
-			{
-				string navigationPath = (sender as Button).Tag.ToString();
-				if (await CheckEmptyDrive(navigationPath))
-				{
-					return;
-				}
-				await NavigationHelpers.OpenPathInNewTab(navigationPath);
-			}
+			if (!e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
+				return;
+			string navigationPath = (sender as Button).Tag.ToString();
+			if (await DriveHelpers.CheckEmptyDrive(navigationPath))
+				return;
+			await NavigationHelpers.OpenPathInNewTab(navigationPath);
 		}
 
 		public class DrivesWidgetInvokedEventArgs : EventArgs
@@ -260,10 +256,8 @@ namespace Files.App.UserControls.Widgets
 		private async void OpenInNewPane_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-			if (await CheckEmptyDrive(item.Path))
-			{
+			if (await DriveHelpers.CheckEmptyDrive(item?.Path))
 				return;
-			}
 			DrivesWidgetNewPaneInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
 			{
 				Path = item.Path
@@ -282,9 +276,6 @@ namespace Files.App.UserControls.Widgets
 			unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
 		}
 
-		private async void MapNetworkDrive_Click(object sender, RoutedEventArgs e)
-			=> await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
-
 		private void DisconnectNetworkDrive_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
@@ -297,31 +288,10 @@ namespace Files.App.UserControls.Widgets
 			StorageSenseHelper.OpenStorageSense(clickedCard);
 		}
 
-		private async Task<bool> CheckEmptyDrive(string drivePath)
-		{
-			if (drivePath is not null)
-			{
-				var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
-				if (matchingDrive is not null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
-				{
-					bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
-					if (ejectButton)
-					{
-						var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
-						await UIHelpers.ShowDeviceEjectResultAsync(result);
-					}
-					return true;
-				}
-			}
-			return false;
-		}
-
 		public async Task RefreshWidget()
 		{
-			foreach (var item in ItemsAdded)
-			{
-				await item.Item.UpdatePropertiesAsync();
-			}
+			var updateTasks = ItemsAdded.Select(item => item.Item.UpdatePropertiesAsync());
+			await Task.WhenAll(updateTasks);
 		}
 
 		public void Dispose()
