@@ -83,7 +83,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				DataPackage dataPackage = new DataPackage();
 				dataPackage.RequestedOperation = DataPackageOperation.Copy;
-				dataPackage.SetText(Package.Current.Id.Version.ToString());
+				dataPackage.SetText(string.Format($"{AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}"));
 				Clipboard.SetContent(dataPackage);
 			});
 		}
@@ -108,11 +108,11 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			get
 			{
-				var version = Package.Current.Id.Version;
-				return string.Format($"{"SettingsAboutVersionTitle".GetLocalizedResource()} {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
+				return string.Format($"{"SettingsAboutVersionTitle".GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
 			}
 		}
 
 		public string AppName => Package.Current.DisplayName;
+		public PackageVersion AppVersion => Package.Current.Id.Version;
 	}
 }
