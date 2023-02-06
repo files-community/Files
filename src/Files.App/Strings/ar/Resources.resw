@@ -332,7 +332,7 @@
     <value>تثبيت إلى المفضلة</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>خصائص</value>
+    <value>الخصائص</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>مرحبا بك في Files</value>
@@ -512,7 +512,7 @@
     <value>موافق</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>اسم الملف لا يجب ان يحتوي على: \ / : * ? " &lt; &gt; |</value>
+    <value>اسم الملف يجب ألّا يحتوي على: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>تم تحديد العنصر</value>
@@ -1157,7 +1157,7 @@
     <value>علامة تبويب جديدة	Ctrl+T</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>علامة تبويب جديدة	Ctrl+T</value>
+    <value>علامة تبويب جديدة (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>إغلاق علامة التبويب	Ctrl+W</value>
@@ -1259,7 +1259,7 @@
     <value>لوحة جديدة</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>فتح في الجزء الثانوي</value>
+    <value>فتح في لوحة ثانوية</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>جزء مزدوج</value>
@@ -1382,7 +1382,7 @@
     <value>لا تتوفر تفاصيل.</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>اسم الصنف</value>
+    <value>اسم العنصر</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>إزالة من المفضلة</value>
@@ -1454,7 +1454,7 @@
     <value>محرك الشبكة</value>
   </data>
   <data name="DriveTypeNoRootDirectory" xml:space="preserve">
-    <value>محرك قرص غير مكوم</value>
+    <value>محرك قرص غير مثبت</value>
   </data>
   <data name="DriveTypeRam" xml:space="preserve">
     <value>قرص التخزين المؤقت (RAM Disk)</value>
@@ -1472,7 +1472,7 @@
     <value>تاريخ الإنشاء</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>خيارات إضافية</value>
+    <value>خيارات إضافية...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>خريطة قرص الشبكة</value>
@@ -1580,7 +1580,7 @@
     <value>لا توجد مواقع</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>لا يمكن ترك حقل الإدخال فارغًا</value>
+    <value>لا يمكن ترك حقل الإدخال فارغًا!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
     <value>يجب ألا يحتوي الاسم على الأحرف التالية: \ / : * ? " &lt; &gt; |</value>
@@ -1688,7 +1688,7 @@
     <value>استبدال الموجود</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
-    <value>توليد إسم جديد</value>
+    <value>توليد اسم جديد</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
     <value>تراجع</value>
@@ -1904,10 +1904,10 @@
     <value>تم حذف {0} عنصر من {1} بنجاح</value>
   </data>
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>فشل في حذف {0} عنصر من {1}</value>
+    <value>فشل حذف {0} عنصر من {1}</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>فشل في حذف {0} عنصر من {1}</value>
+    <value>فشل حذف {0} عنصر من {1}</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>سلة المهملات</value>
@@ -2090,7 +2090,7 @@
     <value>تغيير الإذن</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>انشاء مجلدات</value>
+    <value>إنشاء مجلدات</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>إنشاء ملفات</value>
@@ -2138,7 +2138,7 @@
     <value>إزالة جميع الصلاحيات الموروثة</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
-    <value>إعادة تعيين الأذونات الفرعية</value>
+    <value>إعادة تعيين أذونات فرعية</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>استبدال جميع إدخالات صلاحيات الكائن الفرعي بإدخالات صلاحيات هذا الكائن</value>
@@ -2306,7 +2306,7 @@
     <value>فتح القرص</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
-    <value>الرجاء إدخال قرص في القرص {0}</value>
+    <value>الرجاء إدخال قرص في محرك الأقراص {0}</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>إدخال قرص</value>
@@ -2717,7 +2717,7 @@
     <value>تكيفي</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>التكييف (Ctrl+Shift+7)</value>
+    <value>تكيفي (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -2861,7 +2861,7 @@
     <value>إنشاء {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>قم بإدخال اسم</value>
+    <value>ادخل اسم</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
     <value>مستوى الضغط</value>
