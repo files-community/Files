@@ -27,6 +27,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -272,24 +273,37 @@ namespace Files.App.Views
 							  CurrentPageType == typeof(GridViewBrowser) ||
 							  CurrentPageType == typeof(ColumnViewBrowser) ||
 							  CurrentPageType == typeof(ColumnViewBase);
+
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
-				case (true, false, false, true, (VirtualKey)192): // ctrl + ` (accent key), open terminal
-																  // Check if there is a folder selected, if not use the current directory.
+				// Ctrl + ` (accent key), open terminal
+				case (true, false, false, true, (VirtualKey)192):
+
+					// Check if there is a folder selected, if not use the current directory.
 					string path = FilesystemViewModel.WorkingDirectory;
 					if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 						path = SlimContentPage.SelectedItem.ItemPath;
 
-					// TODO open path in Windows Terminal
+					var terminalStartInfo = new ProcessStartInfo()
+					{
+						FileName = "cmd.exe",
+						WorkingDirectory = path
+					};
+					Process.Start(terminalStartInfo);
+
 					args.Handled = true;
+
 					break;
 
-				case (true, false, false, true, VirtualKey.Space): // ctrl + space, toggle media playback
+				// Ctrl + space, toggle media playback
+				case (true, false, false, true, VirtualKey.Space):
+
 					if (App.PreviewPaneViewModel.PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
 					{
 						mediaPreviewContent.ViewModel.TogglePlayback();
 						args.Handled = true;
 					}
+
 					break;
 			}
 		}
@@ -422,14 +436,17 @@ namespace Files.App.Views
 				var lastCommonItemIndex = ToolbarViewModel.PathComponents
 					.Select((value, index) => new { value, index })
 					.LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
+
 				while (ToolbarViewModel.PathComponents.Count > lastCommonItemIndex)
 					ToolbarViewModel.PathComponents.RemoveAt(lastCommonItemIndex);
+
 				foreach (var component in components.Skip(lastCommonItemIndex))
 					ToolbarViewModel.PathComponents.Add(component);
 			}
 			else
 			{
-				ToolbarViewModel.PathComponents.Clear(); // Clear the path UI
+				// Clear the path UI
+				ToolbarViewModel.PathComponents.Clear();
 				ToolbarViewModel.IsSingleItemOverride = true;
 				ToolbarViewModel.PathComponents.Add(new PathBoxItem() { Path = null, Title = singleItemOverride });
 			}
