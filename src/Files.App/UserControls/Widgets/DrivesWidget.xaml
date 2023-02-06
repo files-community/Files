@@ -25,8 +25,9 @@
 			</ItemsRepeater.Layout>
 			<ItemsRepeater.ItemTemplate>
 				<DataTemplate x:DataType="local:DriveCardItem">
-					<Button
+                    <Button
 						Padding="0"
+                        DataContext="{x:Bind}"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
@@ -35,92 +36,10 @@
 						Click="Button_Click"
 						CornerRadius="{StaticResource ControlCornerRadius}"
 						PointerPressed="Button_PointerPressed"
+                        RightTapped="Button_RightTapped"
 						Tag="{x:Bind Item.Path}"
 						ToolTipService.ToolTip="{x:Bind Item.Text, Mode=OneWay}">
-						<Button.ContextFlyout>
-							<MenuFlyout Opening="MenuFlyout_Opening">
-								<MenuFlyout.Items>
-									<MenuFlyoutItem
-										x:Name="OpenInNewPane"
-										Click="OpenInNewPane_Click"
-										DataContext="{x:Bind Item}"
-										Text="{helpers:ResourceString Name=SideBarOpenInNewPane/Text}"
-										Visibility="Collapsed">
-										<MenuFlyoutItem.Icon>
-											<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-									<MenuFlyoutItem
-										x:Name="OpenInNewTab"
-										Click="OpenInNewTab_Click"
-										DataContext="{x:Bind Item}"
-										Text="{helpers:ResourceString Name=SideBarOpenInNewTab/Text}">
-										<MenuFlyoutItem.Icon>
-											<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-									<MenuFlyoutItem
-										x:Name="OpenInNewWindow"
-										Click="OpenInNewWindow_Click"
-										DataContext="{x:Bind Item}"
-										Text="{helpers:ResourceString Name=SideBarOpenInNewWindow/Text}">
-										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xE737;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-									<MenuFlyoutItem
-										x:Name="PinToFavorites"
-										Click="PinToFavorites_Click"
-										DataContext="{x:Bind Item}"
-										Text="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutPinToFavorites/Text}"
-										Visibility="Collapsed">
-										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xE840;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-									<MenuFlyoutItem
-										x:Name="UnpinFromFavorites"
-										Click="UnpinFromFavorites_Click"
-										DataContext="{x:Bind Item}"
-										Text="{helpers:ResourceString Name=BaseLayoutContextFlyoutUnpinFromFavorites/Text}"
-										Visibility="Collapsed">
-										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xE77A;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-									<MenuFlyoutItem
-										x:Name="PropertiesItem"
-										Click="OpenDriveProperties_Click"
-										DataContext="{x:Bind Item}"
-										Text="{helpers:ResourceString Name=DrivesWidgetContextFlyoutPropertiesMenuItem/Text}">
-										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xE946;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-									<MenuFlyoutItem
-										x:Name="EjectDevice"
-										x:Load="{x:Bind Item.IsRemovable, Mode=OneWay}"
-										Click="EjectDevice_Click"
-										DataContext="{x:Bind Item}"
-										Text="{helpers:ResourceString Name=SideBarEjectDevice/Text}">
-										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xF847;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-									<MenuFlyoutItem
-										x:Name="DisconnectNetworkDrive"
-										x:Load="{x:Bind Item.IsNetwork, Mode=OneWay}"
-										Click="DisconnectNetworkDrive_Click"
-										DataContext="{x:Bind Item}"
-										Text="{helpers:ResourceString Name=SideBarDisconnectNetworkDrive/Text}">
-										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xE8CD;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-								</MenuFlyout.Items>
-							</MenuFlyout>
-						</Button.ContextFlyout>
-						<Grid
+                        <Grid
 							Margin="8"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"

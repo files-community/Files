@@ -2,16 +2,19 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
+using Files.App.Helpers.ContextFlyouts;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.ServicesImplementation;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -144,10 +147,86 @@ namespace Files.App.UserControls.Widgets
 			UnpinFromFavoritesCommand = new RelayCommand<DriveCardItem>(UnpinFromFavorites);
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
-			GoToStorageSenseCommand = new RelayCommand<DriveCardItem>(GoToStorageSense);
 		}
 
-		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(DriveCardItem item, CommandBarFlyout menu)
+		private void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			if (sender is not Button widgetCardItem || widgetCardItem.DataContext is not DriveCardItem item)
+				return;
+
+			var menuItems = GetLocationItemMenuItems(item);
+			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+
+			if (!userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+				secondaryElements.OfType<FrameworkElement>()
+								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
+
+			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
+
+			if (item.Item.MenuOptions.ShowShellItems)
+				LoadShellMenuItems(item.Item, itemContextMenuFlyout, item.Item.MenuOptions);
+
+			e.Handled = true;
+		}
+
+		private async void LoadShellMenuItems(DriveItem item, CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options)
+		{
+			try
+			{
+				if (options.ShowEmptyRecycleBin)
+				{
+					var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
+					if (emptyRecycleBinItem is not null)
+					{
+						var binHasItems = RecycleBinHelpers.RecycleBinHasItems();
+						emptyRecycleBinItem.IsEnabled = binHasItems;
+					}
+				}
+
+				if (!options.IsLocationItem)
+					return;
+
+				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
+					new List<ListedItem>() { new ListedItem(null!) { ItemPath = item.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
+				if (!userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+				{
+					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
+					if (!secondaryElements.Any())
+						return;
+
+					var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
+					var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
+
+					var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
+					if (itemsControl is not null)
+					{
+						var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
+						secondaryElements.OfType<FrameworkElement>()
+										 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
+					}
+
+					itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
+					secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+				}
+				else
+				{
+					var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
+					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem)
+						return;
+
+					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
+					if (flyoutItems is not null)
+						overflowItems.ForEach(i => flyoutItems.Add(i));
+					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+				}
+			}
+			catch { }
+		}
+
+		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(DriveCardItem item)
 		{
 			var options = item.Item.MenuOptions;
 			var isPinned = item.Item.IsPinned;
@@ -211,14 +290,6 @@ namespace Files.App.UserControls.Widgets
 					Glyph = "\uE946",
 					Command = OpenPropertiesCommand,
 					CommandParameter = item,
-					ShowItem = options.ShowProperties
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
-					Glyph = "\uE946",
-					Command = OpenPropertiesCommand,
-					CommandParameter = item,
 					ShowItem = true
 				},
 				new ContextMenuFlyoutItemViewModel()
@@ -237,6 +308,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
 		}
+		
 		private async void Manager_DataChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			await DispatcherQueue.EnqueueAsync(async () =>
@@ -371,9 +443,10 @@ namespace Files.App.UserControls.Widgets
 			NetworkDrivesManager.DisconnectNetworkDrive(item.Item.Path);
 		}
 
-		private void GoToStorageSense(DriveCardItem item)
+		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
 		{
-			StorageSenseHelper.OpenStorageSense(item.Item.Path);
+			string clickedCard = (sender as Button).Tag.ToString();
+			StorageSenseHelper.OpenStorageSense(clickedCard);
 		}
 
 		public async Task RefreshWidget()
