@@ -19,7 +19,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 	{
 		protected readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
-		public ICommand CopyVersionInfoCommand { get; }
+		public ICommand CopyAppVersionCommand { get; }
+		public ICommand CopyWindowsVersionCommand { get; }
 		public ICommand SupportUsCommand { get; }
 		public ICommand OpenLogLocationCommand { get; }
 		public ICommand OpenDocumentationCommand { get; }
@@ -31,7 +32,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public AboutViewModel()
 		{
-			CopyVersionInfoCommand = new RelayCommand(CopyVersionInfo);
+			CopyAppVersionCommand = new RelayCommand(CopyAppVersion);
+			CopyWindowsVersionCommand = new RelayCommand(CopyWindowsVersion);
 			SupportUsCommand = new RelayCommand(SupportUs);
 
 			OpenDocumentationCommand = new RelayCommand(DoOpenDocumentation);
@@ -75,13 +77,24 @@ namespace Files.App.ViewModels.SettingsViewModels
 			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.PrivacyPolicyUrl));
 		}
 
-		public void CopyVersionInfo()
+		public void CopyAppVersion()
 		{
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
 				DataPackage dataPackage = new DataPackage();
 				dataPackage.RequestedOperation = DataPackageOperation.Copy;
-				dataPackage.SetText(Version + "\nOS Version: " + SystemInformation.Instance.OperatingSystemVersion);
+				dataPackage.SetText(Version);
+				Clipboard.SetContent(dataPackage);
+			});
+		}
+		
+		public void CopyWindowsVersion()
+		{
+			SafetyExtensions.IgnoreExceptions(() =>
+			{
+				DataPackage dataPackage = new DataPackage();
+				dataPackage.RequestedOperation = DataPackageOperation.Copy;
+				dataPackage.SetText(SystemInformation.Instance.OperatingSystemVersion.ToString());
 				Clipboard.SetContent(dataPackage);
 			});
 		}
