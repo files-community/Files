@@ -46,6 +46,10 @@ namespace Files.App.UserControls.Widgets
 
 		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget;
 
+		public bool ShowMenuFlyout => false;
+
+		public MenuFlyoutItem? MenuFlyoutItem => null;
+
 		private Visibility emptyRecentsTextVisibility = Visibility.Collapsed;
 		public Visibility EmptyRecentsTextVisibility
 		{
