@@ -169,7 +169,7 @@ namespace Files.App.Helpers
 			var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 				item.ItemPath,
 				item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, ShowDeleteDialog.DependsOnSettings, false, true);
 		}
 	}
 }

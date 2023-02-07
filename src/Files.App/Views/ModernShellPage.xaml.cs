@@ -725,7 +725,7 @@ namespace Files.App.Views
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 							item.ItemPath,
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-						await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
+						await FilesystemHelpers.DeleteItemsAsync(items, ShowDeleteDialog.DependsOnSettings, true, true);
 					}
 
 					break;
@@ -761,7 +761,7 @@ namespace Files.App.Views
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 							item.ItemPath,
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-						await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+						await FilesystemHelpers.DeleteItemsAsync(items, ShowDeleteDialog.DependsOnSettings, false, true);
 					}
 
 					break;
