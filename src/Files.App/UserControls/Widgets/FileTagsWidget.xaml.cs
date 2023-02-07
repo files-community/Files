@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI.UI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -69,16 +70,7 @@ namespace Files.App.UserControls.Widgets
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			if (sender is not StackPanel tagsItemsStackPanel || tagsItemsStackPanel.DataContext is not FileTagsItemViewModel item)
 				return;
-
-			var menuItems = GetTagItemMenuItems(item);
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-
-			secondaryElements.OfType<FrameworkElement>()
-								.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
-
-			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(tagsItemsStackPanel, new FlyoutShowOptions { Position = e.GetPosition(tagsItemsStackPanel) });
-
 			LoadShellMenuItems(item, itemContextMenuFlyout);
 
 			e.Handled = true;
@@ -86,38 +78,29 @@ namespace Files.App.UserControls.Widgets
 
 		private async void LoadShellMenuItems(FileTagsItemViewModel item, CommandBarFlyout itemContextMenuFlyout)
 		{
+			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+			var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
+				new List<ListedItem>() { new ListedItem(null!) { ItemPath = item.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
 			try
 			{
-				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
-					new List<ListedItem>() { new ListedItem(null!) { ItemPath = item.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
-				
-				var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
-				if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem)
+				var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
+				if (!secondaryElements.Any())
 					return;
 
-				var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
-				if (flyoutItems is not null)
-					overflowItems.ForEach(i => flyoutItems.Add(i));
-				overflowItem.Visibility = overflowItems.Any() ? Microsoft.UI.Xaml.Visibility.Visible : Microsoft.UI.Xaml.Visibility.Collapsed;
+				var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
+				var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
+
+				var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
+				if (itemsControl is not null)
+				{
+					var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
+					secondaryElements.OfType<FrameworkElement>()
+									 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
+				}
+				
+				secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			}
 			catch { }
-		}
-
-		private List<ContextMenuFlyoutItemViewModel> GetTagItemMenuItems(FileTagsItemViewModel item)
-		{
-			return new List<ContextMenuFlyoutItemViewModel>()
-			{
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "ShowMoreOptions".GetLocalizedResource(),
-					Glyph = "\xE712",
-					Items = new List<ContextMenuFlyoutItemViewModel>(),
-					ID = "ItemOverflow",
-					Tag = "ItemOverflow",
-					IsHidden = true,
-				}
-			}.Where(x => x.ShowItem).ToList();
 		}
 
 		public Task RefreshWidget()
