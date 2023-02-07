@@ -672,7 +672,7 @@
 
 								<Grid
 									x:Name="ItemTagGrid"
-									Width="{Binding ColumnsViewModel.TagColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+									Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
@@ -705,7 +705,8 @@
 									VerticalAlignment="Center"
 									x:Load="{x:Bind IsRecycleBinItem}"
 									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}" />
+									Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
+									Visibility="{Binding ColumnsViewModel.OriginalPathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 								<TextBlock
 									x:Name="ItemDateDeleted"
@@ -715,7 +716,8 @@
 									VerticalAlignment="Center"
 									x:Load="{x:Bind IsRecycleBinItem}"
 									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" />
+									Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
+									Visibility="{Binding ColumnsViewModel.DateDeletedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 								<TextBlock
 									x:Name="ItemDateModified"
