@@ -117,6 +117,7 @@ namespace Files.App.Views.LayoutModes
 					{
 						viewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
 						viewBase.ItemTapped -= ColumnViewBase_ItemTapped;
+						viewBase.KeyUp -= ColumnViewBase_KeyUp;
 					}
 				}
 				if (frame?.Content is UIElement element)
@@ -155,6 +156,7 @@ namespace Files.App.Views.LayoutModes
 						{
 							columnLayout.ItemInvoked -= ColumnViewBase_ItemInvoked;
 							columnLayout.ItemTapped -= ColumnViewBase_ItemTapped;
+							columnLayout.KeyUp -= ColumnViewBase_KeyUp;
 						}
 						(frame?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus;
 						(frame?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged;
@@ -202,8 +204,15 @@ namespace Files.App.Views.LayoutModes
 				columnView.ItemInvoked += ColumnViewBase_ItemInvoked;
 				columnView.ItemTapped -= ColumnViewBase_ItemTapped;
 				columnView.ItemTapped += ColumnViewBase_ItemTapped;
+				columnView.KeyUp -= ColumnViewBase_KeyUp;
+				columnView.KeyUp += ColumnViewBase_KeyUp;
 			}
 			ContentChanged(c);
+		}
+
+		private void ColumnViewBase_KeyUp(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+		{
+			CloseUnnecessaryColumns((ActiveColumnShellPage as ColumnShellPage)?.ColumnParams);
 		}
 
 		public void NavigateBack()
@@ -355,7 +364,12 @@ namespace Files.App.Views.LayoutModes
 			var column = sender as ColumnParam;
 			if (column?.ListView.FindAscendant<ColumnViewBrowser>() != this || string.IsNullOrEmpty(column.NavPathParam))
 				return;
+			
+			CloseUnnecessaryColumns(column);
+		}
 
+		private void CloseUnnecessaryColumns(ColumnParam column)
+		{
 			var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
 			var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
 			if (string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath))
