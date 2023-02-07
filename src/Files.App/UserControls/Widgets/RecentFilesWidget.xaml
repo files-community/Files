@@ -10,26 +10,28 @@
 	Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 	mc:Ignorable="d">
 
-	<StackPanel
-		x:Name="RecentsListGrid"
-		MinHeight="200"
-		Orientation="Vertical"
-		Spacing="4">
+	<StackPanel x:Name="RecentsListGrid" Orientation="Vertical">
+		<!--  Message when recent files are disabled in File Explorer  -->
 		<muxc:InfoBar
+			x:Name="RecentFilesDisabledOnWindowsWarning"
+			x:Load="{x:Bind IsRecentFilesDisabledInWindows, Mode=OneWay}"
 			IsClosable="False"
 			IsIconVisible="True"
 			IsOpen="True"
 			Message="{helpers:ResourceString Name=RecentFilesDisabledOnWindowsWarning}"
-			Severity="Warning"
-			Visibility="{x:Bind IsRecentFilesDisabledInWindows, Mode=OneWay}" />
+			Severity="Warning" />
+
+		<!--  Message when there are no recent files to display  -->
 		<TextBlock
 			x:Name="RecentItemDescription"
 			HorizontalAlignment="Stretch"
+			x:Load="{x:Bind IsEmptyRecentsTextVisible, Mode=OneWay}"
 			FontSize="14"
 			Text="{helpers:ResourceString Name=RecentItemDescription/Text}"
 			TextAlignment="Center"
-			TextWrapping="WrapWholeWords"
-			Visibility="{x:Bind EmptyRecentsTextVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+			TextWrapping="WrapWholeWords" />
+
+		<!--  List of recent files  -->
 		<ListView
 			x:Name="RecentsView"
 			HorizontalAlignment="Stretch"
@@ -53,7 +55,6 @@
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						AutomationProperties.Name="{x:Bind Name}"
-						Background="Transparent"
 						ColumnSpacing="14"
 						ToolTipService.ToolTip="{x:Bind RecentPath}">
 						<Grid.ContextFlyout>

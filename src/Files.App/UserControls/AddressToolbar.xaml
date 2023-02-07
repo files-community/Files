@@ -215,50 +215,46 @@
 					</Button.KeyboardAccelerators>
 				</Button>
 
-				<Grid Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
-					<Button
-						x:Name="OngoingTasks"
-						Padding="0"
-						AccessKey="T"
-						AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
-						Style="{StaticResource AddressToolbarButtonStyle}"
-						ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasks}">
-						<Button.Content>
-							<Grid>
-								<FontIcon
-									x:Name="OngoingTasksFontIcon"
-									FontSize="16"
-									Glyph="&#xF16A;" />
-								<ProgressRing
-									x:Name="MedianOperationProgressRing"
-									Width="28"
-									Height="28"
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center"
-									x:Load="{x:Bind OngoingTasksViewModel.AnyOperationsOngoing, Mode=OneWay}"
-									IsIndeterminate="False"
-									Value="{x:Bind OngoingTasksViewModel.MedianOperationProgressValue, Mode=OneWay}" />
-							</Grid>
-						</Button.Content>
-						<Button.Flyout>
-							<Flyout contract8Present:ShouldConstrainToRootBounds="False" AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}">
-								<uc:OngoingTasksFlyout
-									x:Name="OngoingTasksControl"
-									Width="300"
-									MinHeight="300"
-									MaxHeight="400"
-									x:FieldModifier="public"
-									IsTabStop="True"
-									OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}" />
-							</Flyout>
-						</Button.Flyout>
-					</Button>
-					<InfoBadge
-						x:Name="StatusInfoBadge"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Top"
-						Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
-				</Grid>
+				<Button
+					x:Name="OngoingTasks"
+					Padding="0"
+					AccessKey="T"
+					AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
+					Style="{StaticResource AddressToolbarButtonStyle}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasks}"
+					Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
+					<Button.Content>
+						<Grid>
+							<FontIcon
+								x:Name="OngoingTasksFontIcon"
+								x:Load="{x:Bind OngoingTasksViewModel.AnyOperationsOngoing, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+								FontSize="16"
+								Glyph="&#xF16A;" />
+
+							<ProgressRing
+								x:Name="MedianOperationProgressRing"
+								Width="20"
+								Height="20"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								x:Load="{x:Bind OngoingTasksViewModel.AnyOperationsOngoing, Mode=OneWay}"
+								IsIndeterminate="False"
+								Value="{x:Bind OngoingTasksViewModel.MedianOperationProgressValue, Mode=OneWay}" />
+						</Grid>
+					</Button.Content>
+					<Button.Flyout>
+						<Flyout contract8Present:ShouldConstrainToRootBounds="False" AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}">
+							<uc:OngoingTasksFlyout
+								x:Name="OngoingTasksControl"
+								Width="400"
+								MinHeight="300"
+								MaxHeight="500"
+								x:FieldModifier="public"
+								IsTabStop="True"
+								OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}" />
+						</Flyout>
+					</Button.Flyout>
+				</Button>
 
 				<!--  Install Update Notification  -->
 				<Button
