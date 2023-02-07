@@ -1,6 +1,8 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Shell;
+using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
@@ -19,6 +21,8 @@ namespace Files.App.Helpers
 		#region Private Members
 
 		private static readonly Regex recycleBinPathRegex = new(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+
+		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		#endregion Private Members
 
@@ -169,7 +173,7 @@ namespace Files.App.Helpers
 			var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 				item.ItemPath,
 				item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog, false, true);
 		}
 	}
 }

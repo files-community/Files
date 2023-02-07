@@ -89,7 +89,10 @@
 
 						<controls:AdaptiveGridView.ItemTemplate>
 							<DataTemplate x:DataType="vm:FileTagsItemViewModel">
-								<StackPanel Orientation="Horizontal" Spacing="8">
+								<StackPanel Orientation="Horizontal" 
+								            RightTapped="Item_RightTapped"						
+								            DataContext="{x:Bind}"
+								            Spacing="8">
 									<!--  Icon  -->
 									<Image
 										Width="20"

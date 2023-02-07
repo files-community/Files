@@ -67,16 +67,16 @@ namespace Files.App.UserControls.Widgets
 
 		public MenuFlyoutItem? MenuFlyoutItem => null;
 
-		private Visibility emptyRecentsTextVisibility = Visibility.Collapsed;
-		public Visibility EmptyRecentsTextVisibility
+		private bool isEmptyRecentsTextVisible = false;
+		public bool IsEmptyRecentsTextVisible
 		{
-			get => emptyRecentsTextVisibility;
+			get => isEmptyRecentsTextVisible;
 			internal set
 			{
-				if (emptyRecentsTextVisibility != value)
+				if (isEmptyRecentsTextVisible != value)
 				{
-					emptyRecentsTextVisibility = value;
-					NotifyPropertyChanged(nameof(EmptyRecentsTextVisibility));
+					isEmptyRecentsTextVisible = value;
+					NotifyPropertyChanged(nameof(IsEmptyRecentsTextVisible));
 				}
 			}
 		}
@@ -255,7 +255,7 @@ namespace Files.App.UserControls.Widgets
 				refreshRecentsCTS.Cancel();
 				refreshRecentsCTS = new CancellationTokenSource();
 
-				EmptyRecentsTextVisibility = Visibility.Collapsed;
+				IsEmptyRecentsTextVisible = false;
 
 				switch (e.Action)
 				{
@@ -301,7 +301,7 @@ namespace Files.App.UserControls.Widgets
 				// update chevron if there aren't any items
 				if (recentItemsCollection.Count == 0 && !IsRecentFilesDisabledInWindows)
 				{
-					EmptyRecentsTextVisibility = Visibility.Visible;
+					IsEmptyRecentsTextVisible = true;
 				}
 			}
 			catch (Exception ex)
@@ -364,7 +364,7 @@ namespace Files.App.UserControls.Widgets
 
 				if (success)
 				{
-					EmptyRecentsTextVisibility = Visibility.Visible;
+					IsEmptyRecentsTextVisible = true;
 				}
 			}
 			finally
