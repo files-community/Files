@@ -29,6 +29,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -236,7 +237,14 @@ namespace Files.App.Views
 					{
 						path = SlimContentPage.SelectedItem.ItemPath;
 					}
-					// TODO open path in Windows Terminal
+
+					var terminalStartInfo = new ProcessStartInfo()
+					{
+						FileName = "wt.exe",
+						WorkingDirectory = path
+					};
+					Process.Start(terminalStartInfo);
+
 					args.Handled = true;
 					break;
 

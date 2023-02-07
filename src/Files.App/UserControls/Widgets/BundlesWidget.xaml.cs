@@ -28,6 +28,10 @@ namespace Files.App.UserControls.Widgets
 		public string WidgetHeader => "Bundles".GetLocalizedResource();
 
 		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowBundlesWidget;
+		
+		public bool ShowMenuFlyout => false;
+
+		public MenuFlyoutItem? MenuFlyoutItem => null;
 
 		public BundlesWidget()
 		{
