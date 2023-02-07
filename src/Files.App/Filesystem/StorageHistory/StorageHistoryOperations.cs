@@ -42,19 +42,13 @@ namespace Files.App.Filesystem.FilesystemHistory
 				case FileOperationType.CreateNew: // Opposite: Delete created items
 					if (!IsHistoryNull(history.Source))
 					{
-						ReturnResult result = await helpers.DeleteItemsAsync(history.Source, UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog, true, false);
-						if (result is ReturnResult.Cancelled)
-							App.HistoryWrapper.AddHistory(history); // hack to keep the history
-						return result;
+						return await helpers.DeleteItemsAsync(history.Source, UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog, true, false);
 					}
 					break;
 				case FileOperationType.CreateLink: // Opposite: Delete created items
 					if (!IsHistoryNull(history.Destination))
 					{
-						ReturnResult result = await helpers.DeleteItemsAsync(history.Destination, UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog, true, false);
-						if (result is ReturnResult.Cancelled)
-							App.HistoryWrapper.AddHistory(history); // hack to keep the history
-						return result;
+						return await helpers.DeleteItemsAsync(history.Destination, UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog, true, false);
 					}
 					break;
 				case FileOperationType.Rename: // Opposite: Restore original item names
@@ -71,10 +65,7 @@ namespace Files.App.Filesystem.FilesystemHistory
 				case FileOperationType.Copy: // Opposite: Delete copied items
 					if (!IsHistoryNull(history.Destination))
 					{
-						ReturnResult result = await helpers.DeleteItemsAsync(history.Destination, UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog, true, false);
-						if (result is ReturnResult.Cancelled)
-							App.HistoryWrapper.AddHistory(history); // hack to keep the history
-						return result;
+						return await helpers.DeleteItemsAsync(history.Destination, UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog, true, false);
 					}
 					break;
 				case FileOperationType.Move: // Opposite: Move the items to original directory
