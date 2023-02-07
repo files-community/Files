@@ -33,6 +33,7 @@ namespace Files.App.Filesystem.FilesystemHistory
 				{
 					if (!keepHistory)
 						App.HistoryWrapper.DecreaseIndex();
+
 					semaphore.Release();
 				}
 			}
