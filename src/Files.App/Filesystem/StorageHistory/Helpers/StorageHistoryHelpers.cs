@@ -22,13 +22,18 @@ namespace Files.App.Filesystem.FilesystemHistory
 				{
 					return ReturnResult.InProgress;
 				}
+				bool keepHistory = false;
 				try
 				{
-					return await operations.Undo(App.HistoryWrapper.GetCurrentHistory());
+					ReturnResult result = await operations.Undo(App.HistoryWrapper.GetCurrentHistory());
+					keepHistory = result is ReturnResult.Cancelled;
+					return result;
 				}
 				finally
 				{
-					App.HistoryWrapper.DecreaseIndex();
+					if (!keepHistory)
+						App.HistoryWrapper.DecreaseIndex();
+
 					semaphore.Release();
 				}
 			}
