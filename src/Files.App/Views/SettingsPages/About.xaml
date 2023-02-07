@@ -37,13 +37,11 @@
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE946;" />
 				</local:SettingsBlockControl.Icon>
-				<Button
-					x:Name="CopyVersionInfo"
-					Content="{helpers:ResourceString Name=Copy}">
+				<Button x:Name="CopyVersionInfo" Content="{helpers:ResourceString Name=Copy}">
 					<Button.Flyout>
 						<MenuFlyout>
-							<MenuFlyoutItem Text="{helpers:ResourceString Name=AppVersion}" Command="{x:Bind ViewModel.CopyAppVersionCommand}"/>
-							<MenuFlyoutItem Text="{helpers:ResourceString Name=WindowsVersion}" Command="{x:Bind ViewModel.CopyWindowsVersionCommand}"/>
+							<MenuFlyoutItem Command="{x:Bind ViewModel.CopyAppVersionCommand}" Text="{helpers:ResourceString Name=AppVersion}" />
+							<MenuFlyoutItem Command="{x:Bind ViewModel.CopyWindowsVersionCommand}" Text="{helpers:ResourceString Name=WindowsVersion}" />
 						</MenuFlyout>
 					</Button.Flyout>
 				</Button>
