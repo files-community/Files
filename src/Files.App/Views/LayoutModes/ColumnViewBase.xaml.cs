@@ -273,6 +273,8 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
 			{
+				ClearOpenedFolderSelectionIndicator();
+
 				// If list has only one item, select it on arrow down/up (#5681)
 				if (!IsItemSelected)
 				{
@@ -400,9 +402,12 @@ namespace Files.App.Views.LayoutModes
 				}
 				else if (!IsRenamingItem && (isItemFile || isItemFolder))
 				{
+					ClearOpenedFolderSelectionIndicator();
+
 					var itemPath = item!.ItemPath.EndsWith('\\')
 						? item.ItemPath.Substring(0, item.ItemPath.Length - 1)
 						: item.ItemPath;
+
 					ItemTapped?.Invoke(new ColumnParam { NavPathParam = Path.GetDirectoryName(itemPath), ListView = FileList }, EventArgs.Empty);
 				}
 			}
