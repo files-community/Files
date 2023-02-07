@@ -2,14 +2,20 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
+using Files.App.Helpers.ContextFlyouts;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.ServicesImplementation;
+using Files.App.ServicesImplementation.Settings;
+using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -116,6 +122,13 @@ namespace Files.App.UserControls.Widgets
 
 			Loaded += QuickAccessWidget_Loaded;
 			Unloaded += QuickAccessWidget_Unloaded;
+
+			OpenInNewTabCommand = new RelayCommand<FolderCardItem>(OpenInNewTab);
+			OpenInNewWindowCommand = new RelayCommand<FolderCardItem>(OpenInNewWindow);
+			OpenInNewPaneCommand = new RelayCommand<FolderCardItem>(OpenInNewPane);
+			OpenPropertiesCommand = new RelayCommand<FolderCardItem>(OpenProperties);
+			PinToFavoritesCommand = new RelayCommand<FolderCardItem>(PinToFavorites);
+			UnpinFromFavoritesCommand = new RelayCommand<FolderCardItem>(UnpinFromFavorites);
 		}
 
 		public delegate void LibraryCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
@@ -141,6 +154,13 @@ namespace Files.App.UserControls.Widgets
 		public MenuFlyoutItem? MenuFlyoutItem => null;
 
 		public ICommand QuickAccessCardCommand { get; }
+
+		public ICommand OpenInNewTabCommand;
+		public ICommand OpenInNewWindowCommand;
+		public ICommand OpenInNewPaneCommand;
+		public ICommand OpenPropertiesCommand;
+		public ICommand PinToFavoritesCommand;
+		public ICommand UnpinFromFavoritesCommand;
 
 		public ICommand ShowCreateNewLibraryDialogCommand { get; } = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
 
@@ -169,6 +189,152 @@ namespace Files.App.UserControls.Widgets
 		public string AutomationProperties => "QuickAccess".GetLocalizedResource();
 
 		public string WidgetHeader => "QuickAccess".GetLocalizedResource();
+		
+		private void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			if (sender is not Button widgetCardItem || widgetCardItem.DataContext is not FolderCardItem item)
+				return;
+
+			var menuItems = GetLocationItemMenuItems(item);
+			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+
+			if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+				secondaryElements.OfType<FrameworkElement>()
+								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
+
+			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
+
+			if (item.Item.MenuOptions.ShowShellItems)
+				LoadShellMenuItems(item.Item, itemContextMenuFlyout, item.Item.MenuOptions);
+
+			e.Handled = true;
+		}
+
+		private async void LoadShellMenuItems(LocationItem item, CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options)
+		{
+			try
+			{
+				if (options.ShowEmptyRecycleBin)
+				{
+					var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
+					if (emptyRecycleBinItem is not null)
+					{
+						var binHasItems = RecycleBinHelpers.RecycleBinHasItems();
+						emptyRecycleBinItem.IsEnabled = binHasItems;
+					}
+				}
+
+				if (!options.IsLocationItem)
+					return;
+
+				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
+					new List<ListedItem>() { new ListedItem(null!) { ItemPath = item.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
+				if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+				{
+					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
+					if (!secondaryElements.Any())
+						return;
+
+					var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
+					var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
+
+					var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
+					if (itemsControl is not null)
+					{
+						var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
+						secondaryElements.OfType<FrameworkElement>()
+										 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
+					}
+
+					itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
+					secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+				}
+				else
+				{
+					var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
+					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem)
+						return;
+
+					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
+					if (flyoutItems is not null)
+						overflowItems.ForEach(i => flyoutItems.Add(i));
+					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+				}
+			}
+			catch { }
+		}
+
+		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(FolderCardItem item)
+		{
+			var options = item.Item.MenuOptions;
+			var isPinned = item.Item.IsPinned;
+
+			return new List<ContextMenuFlyoutItemViewModel>()
+			{
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarOpenInNewPane/Text".GetLocalizedResource(),
+					Glyph = "\uF117",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = OpenInNewPaneCommand,
+					CommandParameter = item,
+					ShowItem = ShowMultiPaneControls
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
+					Glyph = "\uF113",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = OpenInNewTabCommand,
+					CommandParameter = item,
+					ShowItem = true
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
+					Glyph = "\uE737",
+					Command = OpenInNewWindowCommand,
+					CommandParameter = item,
+					ShowItem = true
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
+					Glyph = "\uE840",
+					Command = PinToFavoritesCommand,
+					CommandParameter = item,
+					ShowItem = !isPinned
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarUnpinFromFavorites/Text".GetLocalizedResource(),
+					Glyph = "\uE77A",
+					Command = UnpinFromFavoritesCommand,
+					CommandParameter = item,
+					ShowItem = isPinned
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
+					Glyph = "\uE946",
+					Command = OpenPropertiesCommand,
+					CommandParameter = item,
+					ShowItem = true
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ShowMoreOptions".GetLocalizedResource(),
+					Glyph = "\xE712",
+					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					ID = "ItemOverflow",
+					Tag = "ItemOverflow",
+					IsHidden = true,
+				}
+			}.Where(x => x.ShowItem).ToList();
+		}
 
 		private async void ModifyItem(object? sender, ModifyQuickAccessEventArgs? e)
 		{
@@ -248,17 +414,12 @@ namespace Files.App.UserControls.Widgets
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
-		{
-			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
-			CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
-		}
+		private void OpenInNewPane(FolderCardItem item)
+			=> CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
+		
 
-		private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
-		{
-			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
-			await NavigationHelpers.OpenPathInNewTab(item.Path);
-		}
+		private async void OpenInNewTab(FolderCardItem item)
+			=> await NavigationHelpers.OpenPathInNewTab(item.Path);
 
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
@@ -269,32 +430,14 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
-		{
-			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
-			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
-		}
+		private async void OpenInNewWindow(FolderCardItem item)
+			=> await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
+		
+		private void OpenProperties(FolderCardItem item)
+			=> CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item });
 
-		private void OpenProperties_Click(object sender, RoutedEventArgs e)
+		private async void PinToFavorites(FolderCardItem item)
 		{
-			var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
-			var flyoutParent = presenter?.Parent as Popup;
-			var propertiesItem = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
-			if (propertiesItem is null  || flyoutParent is null)
-				return;
-
-			EventHandler<object> flyoutClosed = null!;
-			flyoutClosed = (s, e) =>
-			{
-				flyoutParent.Closed -= flyoutClosed;
-				CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = propertiesItem.Item });
-			};
-			flyoutParent.Closed += flyoutClosed;
-		}
-
-		private async void PinToFavorites_Click(object sender, RoutedEventArgs e)
-		{
-			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
 			await QuickAccessService.PinToSidebar(item.Path);
 			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 			var items = (await QuickAccessService.GetPinnedFoldersAsync())
@@ -309,12 +452,9 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		private void UnpinFromFavorites_Click(object sender, RoutedEventArgs e)
-		{
-			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
-			_ = QuickAccessService.UnpinFromSidebar(item.Path);
-		}
-
+		private void UnpinFromFavorites(FolderCardItem item)
+			=> _ = QuickAccessService.UnpinFromSidebar(item.Path);
+		
 		private Task OpenCard(FolderCardItem item)
 		{
 			if (string.IsNullOrEmpty(item.Path))
