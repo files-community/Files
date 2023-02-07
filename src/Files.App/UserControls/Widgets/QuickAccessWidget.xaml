@@ -6,141 +6,134 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 	mc:Ignorable="d">
-	<Grid>
-		<ItemsRepeater
-			x:Name="CardsList"
-			Grid.Row="0"
-			HorizontalAlignment="Stretch"
-			ItemsSource="{x:Bind ItemsAdded, Mode=OneWay}">
-			<ItemsRepeater.Layout>
-				<UniformGridLayout
-					ItemsStretch="Fill"
-					MaximumRowsOrColumns="6"
-					MinColumnSpacing="8"
-					MinItemHeight="72"
-					MinItemWidth="100"
-					MinRowSpacing="8"
-					Orientation="Horizontal" />
-			</ItemsRepeater.Layout>
-			<ItemsRepeater.ItemTemplate>
-				<DataTemplate x:DataType="local:FolderCardItem">
-					<Button
-						Padding="8"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Stretch"
-						HorizontalContentAlignment="Stretch"
-						VerticalContentAlignment="Stretch"
-						AutomationProperties.Name="{x:Bind AutomationProperties}"
-						Command="{x:Bind SelectCommand}"
-						CommandParameter="{x:Bind}"
-						CornerRadius="{StaticResource ControlCornerRadius}"
-						PointerPressed="Button_PointerPressed"
-						Tag="{x:Bind Path}">
-						<Button.ContextFlyout>
-							<MenuFlyout Opening="MenuFlyout_Opening">
-								<MenuFlyout.Items>
-									<MenuFlyoutItem
-										x:Name="OpenInNewPane"
-										x:Load="{x:Bind HasPath}"
-										Click="OpenInNewPane_Click"
-										DataContext="{x:Bind}"
-										Text="{helpers:ResourceString Name=SideBarOpenInNewPane/Text}"
-										Visibility="Collapsed">
-										<MenuFlyoutItem.Icon>
-											<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-									<MenuFlyoutItem
-										x:Name="OpenInNewTab"
-										x:Load="{x:Bind HasPath}"
-										Click="OpenInNewTab_Click"
-										DataContext="{x:Bind}"
-										Text="{helpers:ResourceString Name=SideBarOpenInNewTab/Text}">
-										<MenuFlyoutItem.Icon>
-											<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-									<MenuFlyoutItem
-										x:Name="OpenInNewWindow"
-										x:Load="{x:Bind HasPath}"
-										Click="OpenInNewWindow_Click"
-										DataContext="{x:Bind}"
-										Text="{helpers:ResourceString Name=SideBarOpenInNewWindow/Text}">
-										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xE737;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-									<MenuFlyoutItem
-										x:Name="PinToFavorites"
-										Click="PinToFavorites_Click"
-										DataContext="{x:Bind}"
-										Text="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutPinToFavorites/Text}"
-										Visibility="Collapsed">
-										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xE840;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-									<MenuFlyoutItem
-										x:Name="UnpinFromFavorites"
-										Click="UnpinFromFavorites_Click"
-										DataContext="{x:Bind}"
-										Text="{helpers:ResourceString Name=BaseLayoutContextFlyoutUnpinFromFavorites/Text}"
-										Visibility="Collapsed">
-										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xE77A;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-									<MenuFlyoutItem
-										x:Name="Properties"
-										Click="OpenProperties_Click"
-										DataContext="{x:Bind}"
-										Text="{helpers:ResourceString Name=BaseLayoutContextFlyoutPropertiesFolder/Text}">
-										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xE946;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-								</MenuFlyout.Items>
-							</MenuFlyout>
-						</Button.ContextFlyout>
-						<Grid
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							RowSpacing="0">
-							<Grid.RowDefinitions>
-								<RowDefinition Height="*" />
-								<RowDefinition Height="Auto" />
-							</Grid.RowDefinitions>
-							<FontIcon
-								x:Name="PinIcon"
-								HorizontalAlignment="Right"
-								VerticalAlignment="Top"
-								FontSize="12"
-								Glyph="&#xE840;"
-								x:Load="{x:Bind IsPinned, Mode=OneWay}" />
-							<Image
-								Grid.Row="0"
-								Width="32"
-								Height="32"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								Source="{x:Bind Thumbnail, Mode=OneWay}"
-								Stretch="Uniform" />
-							<TextBlock
-								x:Name="ItemLocationName"
-								Grid.Row="1"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								FontSize="14"
-								HorizontalTextAlignment="Center"
-								Text="{x:Bind Text}"
-								TextTrimming="WordEllipsis"
-								TextWrapping="NoWrap" />
-						</Grid>
-					</Button>
-				</DataTemplate>
-			</ItemsRepeater.ItemTemplate>
-		</ItemsRepeater>
-	</Grid>
+	<ItemsRepeater
+		x:Name="CardsList"
+		HorizontalAlignment="Stretch"
+		ItemsSource="{x:Bind ItemsAdded, Mode=OneWay}">
+		<ItemsRepeater.Layout>
+			<UniformGridLayout
+				ItemsStretch="Fill"
+				MaximumRowsOrColumns="6"
+				MinColumnSpacing="8"
+				MinItemHeight="72"
+				MinItemWidth="100"
+				MinRowSpacing="8"
+				Orientation="Horizontal" />
+		</ItemsRepeater.Layout>
+		<ItemsRepeater.ItemTemplate>
+			<DataTemplate x:DataType="local:FolderCardItem">
+				<Button
+					Padding="8"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					HorizontalContentAlignment="Stretch"
+					VerticalContentAlignment="Stretch"
+					AutomationProperties.Name="{x:Bind AutomationProperties}"
+					Command="{x:Bind SelectCommand}"
+					CommandParameter="{x:Bind}"
+					CornerRadius="{StaticResource ControlCornerRadius}"
+					PointerPressed="Button_PointerPressed"
+					Tag="{x:Bind Path}">
+					<Button.ContextFlyout>
+						<MenuFlyout Opening="MenuFlyout_Opening">
+							<MenuFlyout.Items>
+								<MenuFlyoutItem
+									x:Name="OpenInNewPane"
+									x:Load="{x:Bind HasPath}"
+									Click="OpenInNewPane_Click"
+									DataContext="{x:Bind}"
+									Text="{helpers:ResourceString Name=SideBarOpenInNewPane/Text}"
+									Visibility="Collapsed">
+									<MenuFlyoutItem.Icon>
+										<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
+									</MenuFlyoutItem.Icon>
+								</MenuFlyoutItem>
+								<MenuFlyoutItem
+									x:Name="OpenInNewTab"
+									x:Load="{x:Bind HasPath}"
+									Click="OpenInNewTab_Click"
+									DataContext="{x:Bind}"
+									Text="{helpers:ResourceString Name=SideBarOpenInNewTab/Text}">
+									<MenuFlyoutItem.Icon>
+										<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
+									</MenuFlyoutItem.Icon>
+								</MenuFlyoutItem>
+								<MenuFlyoutItem
+									x:Name="OpenInNewWindow"
+									x:Load="{x:Bind HasPath}"
+									Click="OpenInNewWindow_Click"
+									DataContext="{x:Bind}"
+									Text="{helpers:ResourceString Name=SideBarOpenInNewWindow/Text}">
+									<MenuFlyoutItem.Icon>
+										<FontIcon Glyph="&#xE737;" />
+									</MenuFlyoutItem.Icon>
+								</MenuFlyoutItem>
+								<MenuFlyoutItem
+									x:Name="PinToFavorites"
+									Click="PinToFavorites_Click"
+									DataContext="{x:Bind}"
+									Text="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutPinToFavorites/Text}"
+									Visibility="Collapsed">
+									<MenuFlyoutItem.Icon>
+										<FontIcon Glyph="&#xE840;" />
+									</MenuFlyoutItem.Icon>
+								</MenuFlyoutItem>
+								<MenuFlyoutItem
+									x:Name="UnpinFromFavorites"
+									Click="UnpinFromFavorites_Click"
+									DataContext="{x:Bind}"
+									Text="{helpers:ResourceString Name=BaseLayoutContextFlyoutUnpinFromFavorites/Text}"
+									Visibility="Collapsed">
+									<MenuFlyoutItem.Icon>
+										<FontIcon Glyph="&#xE77A;" />
+									</MenuFlyoutItem.Icon>
+								</MenuFlyoutItem>
+								<MenuFlyoutItem
+									x:Name="Properties"
+									Click="OpenProperties_Click"
+									DataContext="{x:Bind}"
+									Text="{helpers:ResourceString Name=BaseLayoutContextFlyoutPropertiesFolder/Text}">
+									<MenuFlyoutItem.Icon>
+										<FontIcon Glyph="&#xE946;" />
+									</MenuFlyoutItem.Icon>
+								</MenuFlyoutItem>
+							</MenuFlyout.Items>
+						</MenuFlyout>
+					</Button.ContextFlyout>
+					<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<FontIcon
+							x:Name="PinIcon"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Top"
+							x:Load="{x:Bind IsPinned, Mode=OneWay}"
+							FontSize="12"
+							Glyph="&#xE840;" />
+						<Image
+							Grid.Row="0"
+							Width="32"
+							Height="32"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							Source="{x:Bind Thumbnail, Mode=OneWay}"
+							Stretch="Uniform" />
+						<TextBlock
+							x:Name="ItemLocationName"
+							Grid.Row="1"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							FontSize="14"
+							HorizontalTextAlignment="Center"
+							Text="{x:Bind Text}"
+							TextTrimming="WordEllipsis"
+							TextWrapping="NoWrap" />
+					</Grid>
+				</Button>
+			</DataTemplate>
+		</ItemsRepeater.ItemTemplate>
+	</ItemsRepeater>
 </UserControl>
