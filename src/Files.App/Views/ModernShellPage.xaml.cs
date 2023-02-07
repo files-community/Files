@@ -28,6 +28,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -222,7 +223,13 @@ namespace Files.App.Views
 					if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 						path = SlimContentPage.SelectedItem.ItemPath;
 
-					// TODO open path in Windows Terminal
+					var terminalStartInfo = new ProcessStartInfo()
+					{
+						FileName = "wt.exe",
+						WorkingDirectory = path
+					};
+					Process.Start(terminalStartInfo);
+
 					break;
 
 				case (false, false, false, true, VirtualKey.Space): // space, quick look

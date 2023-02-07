@@ -32,6 +32,10 @@ namespace Files.App.UserControls.Widgets
 
 		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget;
 
+		public bool ShowMenuFlyout => false;
+
+		public MenuFlyoutItem? MenuFlyoutItem => null;
+
 		public FileTagsWidget()
 		{
 			InitializeComponent();

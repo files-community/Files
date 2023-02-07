@@ -1464,7 +1464,7 @@
   <data name="DateCreated" xml:space="preserve">
     <value>Date created</value>
   </data>
-  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="MoreOptions" xml:space="preserve">
     <value>More options...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
@@ -1475,9 +1475,6 @@
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>More bundles options</value>
-  </data>
-  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>More drives options</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favorites</value>
@@ -2901,16 +2898,22 @@
   <data name="QuickAccess" xml:space="preserve">
     <value>Quick access</value>
   </data>
-	<data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
+  <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
     <value>Enter your credentials to connect to: {0}</value>
   </data>
-	<data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
+  <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
     <value>Enter Network Credentials</value>
   </data>
-	<data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
+  <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>Remember my credentials</value>
   </data>
-	<data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
+  <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
     <value>Network folder error</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>App version</value>
+  </data>
+  <data name="WindowsVersion" xml:space="preserve">
+    <value>Windows version</value>
   </data>
 </root>
