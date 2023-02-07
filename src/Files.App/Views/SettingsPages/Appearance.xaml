@@ -185,7 +185,7 @@
 					IsOn="{x:Bind ViewModel.DisplayEditTagsMenu, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
-			
+
 			<!--  Overflow Options  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsContextMenuOverflow}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
