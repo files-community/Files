@@ -11,7 +11,6 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
-	xmlns:layoutmodes="using:Files.App.Views.LayoutModes"
 	xmlns:local="using:Files.App"
 	xmlns:local2="using:Files.App.Filesystem"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
