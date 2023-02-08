@@ -2,6 +2,7 @@
 using Files.App.UserControls.Widgets;
 using Files.Shared;
 using Files.Shared.Extensions;
+using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -51,6 +52,11 @@ namespace Files.App.ServicesImplementation
 			await App.QuickAccessManager.Model.LoadAsync();
 			
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));
+		}
+
+		public bool IsItemPinned(string folderPath)
+		{
+			return App.QuickAccessManager.Model.FavoriteItems.Contains(folderPath);
 		}
 	}
 }

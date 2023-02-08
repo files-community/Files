@@ -39,5 +39,7 @@ namespace Files.App.ServicesImplementation
 		/// <param name="folderPaths">The array of folders to unpin</param>
 		/// <returns></returns>
 		Task UnpinFromSidebar(string[] folderPaths);
+
+		bool IsItemPinned(string folderPath);
 	}
 }

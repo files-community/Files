@@ -112,7 +112,7 @@ namespace Files.App.UserControls.Widgets
 			if (sender is not Grid recentItemsGrid || recentItemsGrid.DataContext is not RecentItem item)
 				return;
 
-			var menuItems = GetRecentItemMenuItems(item);
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
 			if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
@@ -122,54 +122,12 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
 
-			LoadShellMenuItems(item, itemContextMenuFlyout);
+			LoadShellMenuItems(item.Path, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}
 
-		private async void LoadShellMenuItems(RecentItem item, CommandBarFlyout itemContextMenuFlyout)
-		{
-			try
-			{
-				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
-					new List<ListedItem>() { new ListedItem(null!) { ItemPath = item.RecentPath } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
-				if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
-				{
-					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
-					if (!secondaryElements.Any())
-						return;
-
-					var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
-					var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
-
-					var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
-					if (itemsControl is not null)
-					{
-						var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
-						secondaryElements.OfType<FrameworkElement>()
-										 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
-					}
-
-					itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
-					secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-				}
-				else
-				{
-					var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
-					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem)
-						return;
-
-					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
-					if (flyoutItems is not null)
-						overflowItems.ForEach(i => flyoutItems.Add(i));
-					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
-				}
-			}
-			catch { }
-		}
-
-		private List<ContextMenuFlyoutItemViewModel> GetRecentItemMenuItems(RecentItem item)
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{

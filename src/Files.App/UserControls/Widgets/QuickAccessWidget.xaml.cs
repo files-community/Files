@@ -175,87 +175,8 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "QuickAccess".GetLocalizedResource();
 
-		private void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
 		{
-			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
-			if (sender is not Button widgetCardItem || widgetCardItem.DataContext is not FolderCardItem item)
-				return;
-
-			var menuItems = GetLocationItemMenuItems(item);
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-
-			if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
-				secondaryElements.OfType<FrameworkElement>()
-								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
-
-			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
-
-			if (item.Item.MenuOptions.ShowShellItems)
-				LoadShellMenuItems(item.Item, itemContextMenuFlyout, item.Item.MenuOptions);
-
-			e.Handled = true;
-		}
-
-		private async void LoadShellMenuItems(LocationItem item, CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options)
-		{
-			try
-			{
-				if (options.ShowEmptyRecycleBin)
-				{
-					var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
-					if (emptyRecycleBinItem is not null)
-					{
-						var binHasItems = RecycleBinHelpers.RecycleBinHasItems();
-						emptyRecycleBinItem.IsEnabled = binHasItems;
-					}
-				}
-
-				if (!options.IsLocationItem)
-					return;
-
-				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
-					new List<ListedItem>() { new ListedItem(null!) { ItemPath = item.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
-				if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
-				{
-					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
-					if (!secondaryElements.Any())
-						return;
-
-					var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
-					var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
-
-					var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
-					if (itemsControl is not null)
-					{
-						var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
-						secondaryElements.OfType<FrameworkElement>()
-										 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
-					}
-
-					itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
-					secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-				}
-				else
-				{
-					var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
-					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem)
-						return;
-
-					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
-					if (flyoutItems is not null)
-						overflowItems.ForEach(i => flyoutItems.Add(i));
-					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
-				}
-			}
-			catch { }
-		}
-
-		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(FolderCardItem item)
-		{
-			var isPinned = item.Item.IsPinned;
-
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
 				new ContextMenuFlyoutItemViewModel()

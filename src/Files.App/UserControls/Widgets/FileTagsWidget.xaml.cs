@@ -68,16 +68,16 @@ namespace Files.App.UserControls.Widgets
 			if (sender is not StackPanel tagsItemsStackPanel || tagsItemsStackPanel.DataContext is not FileTagsItemViewModel item)
 				return;
 			itemContextMenuFlyout.ShowAt(tagsItemsStackPanel, new FlyoutShowOptions { Position = e.GetPosition(tagsItemsStackPanel) });
-			LoadShellMenuItems(item, itemContextMenuFlyout);
+			LoadShellMenuItems(item.Path, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}
-
-		private async void LoadShellMenuItems(FileTagsItemViewModel item, CommandBarFlyout itemContextMenuFlyout)
+		
+		public override async void LoadShellMenuItems(string item, CommandBarFlyout itemContextMenuFlyout)
 		{
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
-				new List<ListedItem>() { new ListedItem(null!) { ItemPath = item.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
+				new List<ListedItem>() { new ListedItem(null!) { ItemPath = item } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
 			try
 			{
 				var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
@@ -98,6 +98,11 @@ namespace Files.App.UserControls.Widgets
 				secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			}
 			catch { }
+		}
+
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
+		{
+			return new();
 		}
 
 		public Task RefreshWidget()
