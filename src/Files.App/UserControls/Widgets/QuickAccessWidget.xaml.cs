@@ -8,12 +8,8 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.Helpers.XamlHelpers;
-using Files.App.ServicesImplementation;
-using Files.App.ServicesImplementation.Settings;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
-using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -27,12 +23,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Vanara;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -61,7 +54,7 @@ namespace Files.App.UserControls.Widgets
 		}
 	}
 
-	public class FolderCardItem : ObservableObject, IWidgetCardItem<LocationItem>
+	public class FolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
 	{
 		private BitmapImage thumbnail;
 		private byte[] thumbnailData;
@@ -75,7 +68,6 @@ namespace Files.App.UserControls.Widgets
 			set => SetProperty(ref thumbnail, value);
 		}
 		public LocationItem Item { get; private set; }
-		public string Path { get; set; }
 		public ICommand SelectCommand { get; set; }
 		public string Text { get; set; }
 		public bool IsPinned { get; set; }
@@ -89,6 +81,7 @@ namespace Files.App.UserControls.Widgets
 			}
 			IsPinned = isPinned;
 			Item = item;
+			Path = item.Path;
 		}
 
 		public async Task LoadCardThumbnailAsync()
@@ -104,12 +97,8 @@ namespace Files.App.UserControls.Widgets
 		}
 	}
 
-	public sealed partial class QuickAccessWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
+	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		private readonly IQuickAccessService QuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
-
 		public ObservableCollection<FolderCardItem> ItemsAdded = new();
 
 		private bool showMultiPaneControls;
@@ -155,12 +144,8 @@ namespace Files.App.UserControls.Widgets
 
 		public ICommand QuickAccessCardCommand { get; }
 
-		public ICommand OpenInNewTabCommand;
-		public ICommand OpenInNewWindowCommand;
-		public ICommand OpenInNewPaneCommand;
 		public ICommand OpenPropertiesCommand;
-		public ICommand PinToFavoritesCommand;
-		public ICommand UnpinFromFavoritesCommand;
+		public ICommand OpenInNewPaneCommand;
 
 		public ICommand ShowCreateNewLibraryDialogCommand { get; } = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
 
@@ -415,11 +400,6 @@ namespace Files.App.UserControls.Widgets
 			CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
 		}
 
-		private async void OpenInNewTab(FolderCardItem item)
-		{
-			await NavigationHelpers.OpenPathInNewTab(item.Path);
-		}
-
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
@@ -429,17 +409,12 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		private async void OpenInNewWindow(FolderCardItem item)
-		{
-			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
-		}
-
 		private void OpenProperties(FolderCardItem item)
 		{
 			CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item }); 
 		}
 
-		private async void PinToFavorites(FolderCardItem item)
+		public override async void PinToFavorites(WidgetCardItem item)
 		{
 			await QuickAccessService.PinToSidebar(item.Path);
 			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
@@ -455,11 +430,12 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		private void UnpinFromFavorites(FolderCardItem item)
+		public override async void UnpinFromFavorites(WidgetCardItem item)
 		{
-			_ = QuickAccessService.UnpinFromSidebar(item.Path);
+			await QuickAccessService.UnpinFromSidebar(item.Path);
+			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 		}
-		
+
 		private Task OpenCard(FolderCardItem item)
 		{
 			if (string.IsNullOrEmpty(item.Path))

@@ -34,7 +34,7 @@ using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-	public class DriveCardItem : ObservableObject, IWidgetCardItem<DriveItem>, IComparable<DriveCardItem>
+	public class DriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<DriveCardItem>
 	{
 		private BitmapImage thumbnail;
 		private byte[] thumbnailData;
@@ -49,6 +49,7 @@ namespace Files.App.UserControls.Widgets
 		public DriveCardItem(DriveItem item)
 		{
 			Item = item;
+			Path = item.Path;
 		}
 
 		public async Task LoadCardThumbnailAsync()
@@ -69,11 +70,8 @@ namespace Files.App.UserControls.Widgets
 		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
 	}
 
-	public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
-	{
-		private IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
-		
+	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
+	{		
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
@@ -89,14 +87,9 @@ namespace Files.App.UserControls.Widgets
 		private IShellPage associatedInstance;
 
 		public ICommand EjectDeviceCommand;
-		public ICommand OpenInNewTabCommand;
-		public ICommand OpenInNewWindowCommand;
-		public ICommand OpenInNewPaneCommand;
-		public ICommand OpenPropertiesCommand;
-		public ICommand PinToFavoritesCommand;
-		public ICommand UnpinFromFavoritesCommand;
 		public ICommand DisconnectNetworkDriveCommand;
 		public ICommand GoToStorageSenseCommand;
+		public ICommand OpenInNewPaneCommand;
 
 		public IShellPage AppInstance
 		{
@@ -117,7 +110,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "Drives".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => userSettingsService.PreferencesSettingsService.ShowDrivesWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
 
 		public bool ShowMenuFlyout => true;
 
@@ -139,12 +132,12 @@ namespace Files.App.UserControls.Widgets
 			App.DrivesManager.DataChanged += Manager_DataChanged;
 
 			EjectDeviceCommand = new RelayCommand<DriveCardItem>(EjectDevice);
-			OpenInNewTabCommand = new RelayCommand<DriveCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new RelayCommand<DriveCardItem>(OpenInNewWindow);
+			OpenInNewTabCommand = new RelayCommand<WidgetCardItem>(OpenInNewTab);
+			OpenInNewWindowCommand = new RelayCommand<WidgetCardItem>(OpenInNewWindow);
 			OpenInNewPaneCommand = new RelayCommand<DriveCardItem>(OpenInNewPane);
 			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(OpenProperties);
-			PinToFavoritesCommand = new RelayCommand<DriveCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new RelayCommand<DriveCardItem>(UnpinFromFavorites);
+			PinToFavoritesCommand = new RelayCommand<WidgetCardItem>(PinToFavorites);
+			UnpinFromFavoritesCommand = new RelayCommand<WidgetCardItem>(UnpinFromFavorites);
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
@@ -158,7 +151,7 @@ namespace Files.App.UserControls.Widgets
 			var menuItems = GetLocationItemMenuItems(item);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+			if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
 				secondaryElements.OfType<FrameworkElement>()
 								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
 
@@ -191,7 +184,7 @@ namespace Files.App.UserControls.Widgets
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
 					new List<ListedItem>() { new ListedItem(null!) { ItemPath = item.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
-				if (!userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+				if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
 				{
 					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
 					if (!secondaryElements.Any())
@@ -339,35 +332,6 @@ namespace Files.App.UserControls.Widgets
 			await UIHelpers.ShowDeviceEjectResultAsync(result);
 		}
 
-		private async void OpenInNewTab(DriveCardItem item)
-		{
-			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
-				return;
-			await NavigationHelpers.OpenPathInNewTab(item.Item.Path);
-		}
-
-		private async void OpenInNewWindow(DriveCardItem item)
-		{
-			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
-				return;
-			await NavigationHelpers.OpenPathInNewWindowAsync(item.Item.Path);
-		}
-
-		private async void PinToFavorites(DriveCardItem item)
-		{
-			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
-				return;
-
-			_ = QuickAccessService.PinToSidebar(item.Item.Path);
-		}
-
-		private async void UnpinFromFavorites(DriveCardItem item)
-		{
-			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
-				return;
-			
-			_ = QuickAccessService.UnpinFromSidebar(item.Item.Path);
-		}
 
 		private async void OpenProperties(DriveCardItem item)
 		{ 

@@ -31,10 +31,8 @@ using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class RecentFilesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
+	public sealed partial class RecentFilesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
 		public event RecentFilesOpenLocationInvokedEventHandler RecentFilesOpenLocationInvoked;
@@ -50,10 +48,6 @@ namespace Files.App.UserControls.Widgets
 		private SemaphoreSlim refreshRecentsSemaphore;
 
 		private CancellationTokenSource refreshRecentsCTS;
-
-		public ICommand RemoveRecentItemCommand;
-		public ICommand ClearAllItemsCommand;
-		public ICommand OpenFileLocationCommand;
 
 		public string WidgetName => nameof(RecentFilesWidget);
 

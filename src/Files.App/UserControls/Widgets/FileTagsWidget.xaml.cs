@@ -25,11 +25,8 @@ using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class FileTagsWidget : UserControl, IWidgetItemModel
+	public sealed partial class FileTagsWidget : HomePageWidget, IWidgetItemModel
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-
 		public FileTagsWidgetViewModel ViewModel
 		{
 			get => (FileTagsWidgetViewModel)DataContext;
