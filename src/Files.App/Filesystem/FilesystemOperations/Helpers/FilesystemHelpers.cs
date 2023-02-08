@@ -125,7 +125,8 @@ namespace Files.App.Filesystem
 			var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => RecycleBinHelpers.IsPathUnderRecycleBin(path));
 			var canBeSentToBin = !deleteFromRecycleBin && await RecycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
 
-			if (showDialog is DeleteConfirmationPolicies.Always || showDialog is DeleteConfirmationPolicies.PermanentOnly && (permanently || !canBeSentToBin))
+			if (showDialog is DeleteConfirmationPolicies.Always
+				|| showDialog is DeleteConfirmationPolicies.PermanentOnly && (permanently || !canBeSentToBin))
 			{
 				var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
 				List<ShellFileItem>? binItems = null;
