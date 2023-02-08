@@ -97,14 +97,12 @@ namespace Files.App.Shell
 			}
 			catch (Win32Exception)
 			{
-				using Process process = new()
-				{
-					StartInfo.UseShellExecute = true,
-					StartInfo.FileName = application,
-					StartInfo.CreateNoWindow = true,
-					StartInfo.Arguments = arguments,
-					StartInfo.WorkingDirectory = workingDirectory
-				};
+				using Process process = new Process();
+				process.StartInfo.UseShellExecute = true;
+				process.StartInfo.FileName = application;
+				process.StartInfo.CreateNoWindow = true;
+				process.StartInfo.Arguments = arguments;
+				process.StartInfo.WorkingDirectory = workingDirectory;
 
 				try
 				{
