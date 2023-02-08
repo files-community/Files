@@ -21,6 +21,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
 			SelectedDefaultSortingIndex = UserSettingsService.FoldersSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultSortOption;
 			SelectedDefaultGroupingIndex = UserSettingsService.FoldersSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultGroupOption;
+			SelectedDeleteConfirmationPolicyIndex = (int)DeleteConfirmationPolicy;
 		}
 
 		// Properties
@@ -35,6 +36,20 @@ namespace Files.App.ViewModels.SettingsViewModels
 				{
 					OnPropertyChanged(nameof(SelectedDefaultLayoutModeIndex));
 					DefaultLayoutMode = (FolderLayoutModes)value;
+				}
+			}
+		}
+
+		private int selectedDeleteConfirmationPolicyIndex;
+		public int SelectedDeleteConfirmationPolicyIndex
+		{
+			get => selectedDeleteConfirmationPolicyIndex;
+			set
+			{
+				if (SetProperty(ref selectedDeleteConfirmationPolicyIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDeleteConfirmationPolicyIndex));
+					DeleteConfirmationPolicy = (DeleteConfirmationPolicies)value;
 				}
 			}
 		}
@@ -315,14 +330,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool ShowConfirmDeleteDialog
+		public DeleteConfirmationPolicies DeleteConfirmationPolicy
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog;
+			get => UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog)
+				if (value != UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy)
 				{
-					UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog = value;
+					UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy = value;
 					OnPropertyChanged();
 				}
 			}

@@ -238,10 +238,10 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ShowConfirmDeleteDialog
+		public DeleteConfirmationPolicies DeleteConfirmationPolicy
 		{
-			get => Get(true);
-			set => Set(value);
+			get => (DeleteConfirmationPolicies)Get((long)DeleteConfirmationPolicies.Always);
+			set => Set((long)value);
 		}
 
 		public bool SelectFilesOnHover
@@ -283,7 +283,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(CalculateFolderSizes):
 				case nameof(ShowFileExtensions):
 				case nameof(ShowThumbnails):
-				case nameof(ShowConfirmDeleteDialog):
+				case nameof(DeleteConfirmationPolicy):
 				case nameof(SelectFilesOnHover):
 				case nameof(ShowSelectionCheckboxes):
 				case nameof(DoubleClickToGoUp):
