@@ -681,7 +681,8 @@
 									<ItemsRepeater
 										x:Name="TagsRepeater"
 										x:Load="{x:Bind HasTags, Mode=OneWay}"
-										ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}">
+										ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}"
+										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
 										<ItemsRepeater.Layout>
 											<StackLayout Orientation="Horizontal" Spacing="4" />
 										</ItemsRepeater.Layout>
