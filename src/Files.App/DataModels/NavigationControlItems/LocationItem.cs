@@ -66,6 +66,8 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public bool IsInvalid { get; set; } = false;
 
+		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(path);
+
 		public SectionType Section { get; set; }
 
 		public ContextMenuOptions MenuOptions { get; set; }

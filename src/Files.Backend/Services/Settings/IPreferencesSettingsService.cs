@@ -62,9 +62,9 @@ namespace Files.Backend.Services.Settings
 		bool AlwaysOpenDualPaneInNewTab { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to display the folders widget.
+		/// Gets or sets a value indicating whether or not to display the quick access widget.
 		/// </summary>
-		bool ShowFoldersWidget { get; set; }
+		bool ShowQuickAccessWidget { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to display the recent files widget.

@@ -672,29 +672,36 @@
 
 								<Grid
 									x:Name="ItemTagGrid"
-									Width="{Binding ColumnsViewModel.TagColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+									Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-									<Border
-										Height="20"
+									<StackPanel
+										Height="24"
 										Padding="8,0"
 										HorizontalAlignment="Left"
 										x:Phase="2"
-										Background="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
 										BorderBrush="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
 										BorderThickness="1"
-										CornerRadius="8"
+										CornerRadius="12"
+										Orientation="Horizontal"
+										Spacing="8"
 										ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
 										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
+										<FontIcon
+											FontSize="12"
+											Foreground="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+											Glyph="&#xE1CB;" />
 										<TextBlock
 											x:Name="ItemTag"
+											VerticalAlignment="Center"
 											FontSize="12"
+											LineHeight="18"
 											Style="{StaticResource ColumnContentTextBlock}"
 											Text="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis"
 											Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
-									</Border>
+									</StackPanel>
 								</Grid>
 
 								<TextBlock
@@ -705,7 +712,8 @@
 									VerticalAlignment="Center"
 									x:Load="{x:Bind IsRecycleBinItem}"
 									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}" />
+									Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
+									Visibility="{Binding ColumnsViewModel.OriginalPathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 								<TextBlock
 									x:Name="ItemDateDeleted"
@@ -715,7 +723,8 @@
 									VerticalAlignment="Center"
 									x:Load="{x:Bind IsRecycleBinItem}"
 									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" />
+									Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
+									Visibility="{Binding ColumnsViewModel.DateDeletedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 								<TextBlock
 									x:Name="ItemDateModified"

@@ -76,7 +76,9 @@ namespace Files.App
 
 		public static class AssetPaths
 		{
-			public const string Logo = "Assets/AppTiles/Dev/Logo.ico";
+			public const string DevLogo = "Assets/AppTiles/Dev/Logo.ico";
+			public const string PreviewLogo = "Assets/AppTiles/Preview/Logo.ico";
+			public const string StableLogo = "Assets/AppTiles/Release/Logo.ico";
 		}
 
 		public static class UI

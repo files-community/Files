@@ -235,7 +235,7 @@ namespace Files.App.ViewModels
 			get => IsHidden || UserCollapsed ? new GridLength(0) : UserLength;
 		}
 
-		private const int gridSplitterWidth = 8;
+		private const int gridSplitterWidth = 12;
 
 		[LiteDB.BsonIgnore]
 		public GridLength LengthIncludingGridSplitter

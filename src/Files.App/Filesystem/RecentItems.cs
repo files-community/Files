@@ -206,9 +206,7 @@ namespace Files.App.Filesystem
 				using var shellItem = ShellItem.Open(pidl);
 				using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { shellItem }, Shell32.CMF.CMF_NORMAL);
 				if (cMenu is not null)
-				{
 					return await cMenu.InvokeVerb("remove");
-				}
 				return false;
 			}));
 		}
