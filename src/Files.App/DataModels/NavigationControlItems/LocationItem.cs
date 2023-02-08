@@ -39,8 +39,9 @@ namespace Files.App.DataModels.NavigationControlItems
 					Path.Contains('?', StringComparison.Ordinal) ||
 					Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) ||
 					Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) ||
-					Path == "Home".GetLocalizedResource() ?
-					Text : Path;
+					Path == "Home".GetLocalizedResource()
+					? Text
+					: Path;
 			}
 		}
 

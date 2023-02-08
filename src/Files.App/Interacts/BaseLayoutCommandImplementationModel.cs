@@ -411,9 +411,9 @@ namespace Files.App.Interacts
 		{
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
 			{
+				// If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
 				if (e.OriginalSource is FrameworkElement { DataContext: ListedItem Item } && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
 				{
-					// If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
 					SlimContentPage.IsMiddleClickToScrollEnabled = false;
 					SlimContentPage.IsMiddleClickToScrollEnabled = true;
 
@@ -468,8 +468,9 @@ namespace Files.App.Interacts
 
 		public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
 		{
+			// Make Smaller
 			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
+				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement;
 
 			if (e is not null)
 				e.Handled = true;
@@ -477,8 +478,9 @@ namespace Files.App.Interacts
 
 		public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
 		{
+			// Make Larger
 			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
+				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement;
 
 			if (e is not null)
 				e.Handled = true;
@@ -538,8 +540,10 @@ namespace Files.App.Interacts
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
 						e.AcceptedOperation = DataPackageOperation.Move;
 					}
-					else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
-						|| ZipStorageFolder.IsZipPath(pwd))
+					else if (draggedItems.Any(x =>
+						x.Item is ZipStorageFile ||
+						x.Item is ZipStorageFolder) ||
+						ZipStorageFolder.IsZipPath(pwd))
 					{
 						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
 						e.AcceptedOperation = DataPackageOperation.Copy;
@@ -655,6 +659,7 @@ namespace Files.App.Interacts
 				return (sources, string.Empty, string.Empty);
 
 			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory.Normalize();
+
 			if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)
 				directory = library.DefaultSaveFolder;
 
@@ -771,11 +776,13 @@ namespace Files.App.Interacts
 						IsArchiveEncrypted = true,
 						ShowPathSelection = false
 					};
+
 					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
 					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 					if (option != ContentDialogResult.Primary)
 						return;
+
 					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
 				}
 
@@ -788,6 +795,7 @@ namespace Files.App.Interacts
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
 			{
 				var password = string.Empty;
+
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 				BaseStorageFolder destinationFolder = null;
@@ -805,6 +813,7 @@ namespace Files.App.Interacts
 					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 					if (option != ContentDialogResult.Primary)
 						return;
+
 					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
 				}
 
@@ -821,6 +830,7 @@ namespace Files.App.Interacts
 				return;
 
 			CancellationTokenSource extractCancellation = new();
+
 			PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
 				archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
 				"ExtractingArchiveText".GetLocalizedResource(),

@@ -38,16 +38,12 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 			var elapsed = DateTimeOffset.Now - offset;
 
 			if (offset.Year is <= 1601 or >= 9999)
-			{
 				return " ";
-			}
 
 			var localTime = offset.ToLocalTime();
 
 			if (elapsed.TotalDays < 7 && elapsed.TotalSeconds >= 0)
-			{
 				return $"{localTime:D} {localTime:t} ({ToShortLabel(offset)})";
-			}
 
 			return $"{localTime:D} {localTime:t}";
 		}

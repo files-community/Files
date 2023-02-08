@@ -162,7 +162,9 @@ namespace Files.App.CommandLine
 					key = argument.Substring(1, endIndex - 1);
 
 					int valueStart = endIndex + 1;
-					val.Add(valueStart < argument.Length ? argument.Substring(valueStart, argument.Length - valueStart) : null);
+					val.Add(valueStart < argument.Length
+						 ? argument.Substring(valueStart, argument.Length - valueStart)
+						 : null);
 				}
 				else
 				{

@@ -54,13 +54,18 @@ namespace Files.App
 
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
-		public FolderSettingsViewModel? FolderSettings => ParentShellPageInstance?.InstanceViewModel.FolderSettings;
+		public FolderSettingsViewModel? FolderSettings
+			=> ParentShellPageInstance?.InstanceViewModel.FolderSettings;
 
-		public CurrentInstanceViewModel? InstanceViewModel => ParentShellPageInstance?.InstanceViewModel;
+		public CurrentInstanceViewModel? InstanceViewModel
+			=> ParentShellPageInstance?.InstanceViewModel;
 
-		public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
+		public PreviewPaneViewModel PreviewPaneViewModel
+			=> App.PreviewPaneViewModel;
 
-		public AppModel AppModel => App.AppModel;
+		public AppModel AppModel
+			=> App.AppModel;
+
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new()
@@ -93,6 +98,7 @@ namespace Files.App
 				if (isMiddleClickToScrollEnabled != value)
 				{
 					isMiddleClickToScrollEnabled = value;
+
 					NotifyPropertyChanged(nameof(IsMiddleClickToScrollEnabled));
 				}
 			}
@@ -187,6 +193,7 @@ namespace Files.App
 					// Restart the timer
 					jumpTimer.Start();
 				}
+
 				jumpString = value;
 			}
 		}
@@ -198,16 +205,17 @@ namespace Files.App
 			get => selectedItems;
 			internal set
 			{
-				//if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems)) // check if the new list is different then the old one
-				if (value != selectedItems) // check if the new list is different then the old one
+				// Check if the new list is different then the old one
+				//if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems))
+				if (value != selectedItems)
 				{
 					if (value?.FirstOrDefault() != selectedItems?.FirstOrDefault())
 					{
-						// update preview pane properties
+						// Update preview pane properties
 						App.PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
 						App.PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
 
-						// check if the preview pane is open before updating the model
+						// Check if the preview pane is open before updating the model
 						if (PreviewPaneViewModel.IsEnabled)
 						{
 							var isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
@@ -217,11 +225,13 @@ namespace Files.App
 					}
 
 					selectedItems = value;
+
 					if (selectedItems?.Count == 0 || selectedItems?[0] is null)
 					{
 						IsItemSelected = false;
 						SelectedItem = null;
 						SelectedItemsPropertiesViewModel.IsItemSelected = false;
+
 						ResetRenameDoubleClick();
 						UpdateSelectionSize();
 					}
@@ -230,6 +240,7 @@ namespace Files.App
 						IsItemSelected = true;
 						SelectedItem = selectedItems.First();
 						SelectedItemsPropertiesViewModel.IsItemSelected = true;
+
 						UpdateSelectionSize();
 
 						SelectedItemsPropertiesViewModel.SelectedItemsCount = selectedItems.Count;
@@ -239,7 +250,8 @@ namespace Files.App
 							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems.Count} {"ItemSelected/Text".GetLocalizedResource()}";
 							DispatcherQueue.EnqueueAsync(async () =>
 							{
-								await Task.Delay(50); // Tapped event must be executed first
+								// Tapped event must be executed first
+								await Task.Delay(50);
 								preRenamingItem = SelectedItem;
 							});
 						}
@@ -377,15 +389,20 @@ namespace Files.App
 		protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			base.OnNavigatedTo(eventArgs);
+
 			// Add item jumping handler
 			CharacterReceived += Page_CharacterReceived;
+
 			navigationArguments = (NavigationArguments)eventArgs.Parameter;
 			ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
+
 			InitializeCommandsViewModel();
 
 			IsItemSelected = false;
+
 			FolderSettings!.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
+
 			ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
 			ParentShellPageInstance.ToolbarViewModel.UpdateSortAndGroupOptions();
 			ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
@@ -411,6 +428,7 @@ namespace Files.App
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
 				ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
+
 				if (!navigationArguments.IsLayoutSwitch || previousDir != workingDir)
 					ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir, SetSelectedItemsOnNavigation);
 				else
@@ -421,10 +439,14 @@ namespace Files.App
 				await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.SearchPathParam);
 
 				ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
-				ParentShellPageInstance.ToolbarViewModel.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
+
+				// Impose no artificial restrictions on back navigation. Even in a search results page.
+				ParentShellPageInstance.ToolbarViewModel.CanGoBack = true;
+
 				ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = false;
 
 				var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
+
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
@@ -443,12 +465,15 @@ namespace Files.App
 						ThumbnailSize = InstanceViewModel!.FolderSettings.GetIconSize(),
 						SearchUnindexedItems = navigationArguments.SearchUnindexedItems
 					};
+
 					_ = ParentShellPageInstance.FilesystemViewModel.SearchAsync(searchInstance);
 				}
 			}
 
-			ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
+			// Show controls that were hidden on the home page
+			ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true;
 			ParentShellPageInstance.FilesystemViewModel.UpdateGroupOptions();
+
 			UpdateCollectionViewSource();
 			FolderSettings.IsLayoutModeChanging = false;
 
@@ -462,9 +487,11 @@ namespace Files.App
 		{
 			try
 			{
-				if (navigationArguments is not null && navigationArguments.SelectItems is not null && navigationArguments.SelectItems.Any())
+				if (navigationArguments is not null &&
+					navigationArguments.SelectItems is not null &&
+					navigationArguments.SelectItems.Any())
 				{
-					List<ListedItem> liItemsToSelect = new List<ListedItem>();
+					List<ListedItem> liItemsToSelect = new();
 					foreach (string item in navigationArguments.SelectItems)
 						liItemsToSelect.Add(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemNameRaw == item).First());
 
@@ -536,18 +563,26 @@ namespace Files.App
 		{
 			try
 			{
+				// Reset menu max height
 				if (BaseContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
-					itc.MaxHeight = Constants.UI.ContextMenuMaxHeight; // Reset menu max height
+					itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
+
 				shellContextMenuItemCancellationToken?.Cancel();
 				shellContextMenuItemCancellationToken = new CancellationTokenSource();
+
 				var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
 				var items = ContextFlyoutItemHelper.GetBaseContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed);
+
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
 				BaseContextMenuFlyout.SecondaryCommands.Clear();
+
 				var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
 				AddCloseHandler(primaryElements, secondaryElements);
+
 				primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
-				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
+
+				// Set menu min width
+				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 				secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
@@ -587,8 +622,8 @@ namespace Files.App
 
 		private async Task LoadMenuItemsAsync()
 		{
+			// Reset menu max height
 			if (ItemContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
-				// Reset menu max height
 				itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
 
 			shellContextMenuItemCancellationToken?.Cancel();
@@ -664,6 +699,7 @@ namespace Files.App
 
 			var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
 			var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
+
 			var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
 			if (itemsControl is not null && secondaryMenu is not null)
 			{
@@ -671,12 +707,16 @@ namespace Files.App
 
 				var ttv = secondaryMenu.TransformToVisual(App.Window.Content);
 				var cMenuPos = ttv.TransformPoint(new Point(0, 0));
+
 				var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * Constants.UI.ContextMenuSecondaryItemsHeight;
 				var availableHeight = App.Window.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
-				if (requiredHeight > availableHeight)
-					itemsControl.MaxHeight = Math.Min(Constants.UI.ContextMenuMaxHeight, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight))); // Set menu max height to current height (avoids menu repositioning)
 
-				mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin); // Set items max width to current menu width (#5555)
+				// Set menu max height to current height (avoids menu repositioning)
+				if (requiredHeight > availableHeight)
+					itemsControl.MaxHeight = Math.Min(Constants.UI.ContextMenuMaxHeight, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight)));
+
+				// Set items max width to current menu width (#5555)
+				mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin);
 			}
 
 			var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
@@ -716,6 +756,7 @@ namespace Files.App
 
 			// Add items to openwith dropdown
 			var openWithOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWithOverflow") as AppBarButton;
+
 			var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
 			if (openWithSubItems is not null && openWithOverflow is not null && openWith is not null)
 			{
@@ -754,6 +795,7 @@ namespace Files.App
 								clickAction(i.Items);
 							});
 						};
+
 						clickAction(flyout.Items);
 					}
 				});
@@ -789,8 +831,9 @@ namespace Files.App
 		private void Item_DragLeave(object sender, DragEventArgs e)
 		{
 			var item = GetItemFromElement(sender);
+
+			// Reset dragged over item
 			if (item == dragOverItem)
-				// Reset dragged over item
 				dragOverItem = null;
 		}
 
@@ -818,7 +861,8 @@ namespace Files.App
 							dragOverItem = null;
 							_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance!, false);
 						}
-					}, TimeSpan.FromMilliseconds(1000), false);
+					},
+					TimeSpan.FromMilliseconds(1000), false);
 				}
 
 				if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
@@ -838,6 +882,7 @@ namespace Files.App
 					else
 					{
 						e.DragUIOverride.IsCaptionVisible = true;
+
 						if (item.IsExecutable)
 						{
 							e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalizedResource()} {item.Name}";
@@ -1002,6 +1047,7 @@ namespace Files.App
 							{
 								if (ItemsControl.Items[i] == last || ItemsControl.Items[i] == hoveredItem)
 									found++;
+
 								if (found != 0 && !selectedItems.Contains(ItemsControl.Items[i]))
 									ItemManipulationModel.AddSelectedItem((ListedItem)ItemsControl.Items[i]);
 							}
@@ -1139,6 +1185,7 @@ namespace Files.App
 			var items = GetAllItems();
 			if (items is null)
 				return;
+
 			foreach (ListedItem listedItem in items)
 			{
 				if (listedItem.IsHiddenItem)
@@ -1154,7 +1201,9 @@ namespace Files.App
 				ParentShellPageInstance.ToolbarViewModel.HasItem = CollectionViewSource.View.Any();
 		}
 
-		virtual public void StartRenameItem() { }
+		virtual public void StartRenameItem()
+		{
+		}
 
 		private ListedItem? preRenamingItem = null;
 
