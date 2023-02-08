@@ -7,6 +7,7 @@
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:converters1="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:filetags="using:Files.Backend.ViewModels.FileTags"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
@@ -17,6 +18,7 @@
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vc="using:Files.App.ValueConverters"
+	xmlns:winui="using:ABI.Microsoft.UI.Xaml.Controls"
 	x:Name="PageRoot"
 	NavigationCacheMode="Enabled"
 	mc:Ignorable="d">
@@ -676,32 +678,42 @@
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-									<StackPanel
-										Height="24"
-										Padding="8,0"
-										HorizontalAlignment="Left"
-										x:Phase="2"
-										BorderBrush="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-										BorderThickness="1"
-										CornerRadius="12"
-										Orientation="Horizontal"
-										Spacing="8"
-										ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
-										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
-										<FontIcon
-											FontSize="12"
-											Foreground="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-											Glyph="&#xE1CB;" />
-										<TextBlock
-											x:Name="ItemTag"
-											VerticalAlignment="Center"
-											FontSize="12"
-											LineHeight="18"
-											Style="{StaticResource ColumnContentTextBlock}"
-											Text="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
-											TextTrimming="CharacterEllipsis"
-											Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
-									</StackPanel>
+									<ItemsRepeater
+										x:Name="TagsRepeater"
+										x:Load="{x:Bind HasTags, Mode=OneWay}"
+										ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}">
+										<ItemsRepeater.Layout>
+											<StackLayout Orientation="Horizontal" Spacing="4" />
+										</ItemsRepeater.Layout>
+										<ItemsRepeater.ItemTemplate>
+											<DataTemplate x:DataType="filetags:TagViewModel">
+												<StackPanel
+													Height="24"
+													Padding="8,0"
+													HorizontalAlignment="Left"
+													x:Phase="2"
+													BorderBrush="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+													BorderThickness="1"
+													CornerRadius="12"
+													Orientation="Horizontal"
+													Spacing="8"
+													ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
+													<FontIcon
+														FontSize="12"
+														Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+														Glyph="&#xE1CB;" />
+													<TextBlock
+														x:Name="ItemTag"
+														VerticalAlignment="Center"
+														FontSize="12"
+														LineHeight="18"
+														Style="{StaticResource ColumnContentTextBlock}"
+														Text="{x:Bind Name, Mode=OneWay}"
+														TextTrimming="CharacterEllipsis" />
+												</StackPanel>
+											</DataTemplate>
+										</ItemsRepeater.ItemTemplate>
+									</ItemsRepeater>
 								</Grid>
 
 								<TextBlock
