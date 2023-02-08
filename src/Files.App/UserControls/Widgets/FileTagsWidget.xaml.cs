@@ -72,8 +72,8 @@ namespace Files.App.UserControls.Widgets
 
 			e.Handled = true;
 		}
-		
-		public override async void LoadShellMenuItems(string item, CommandBarFlyout itemContextMenuFlyout)
+
+		public async void LoadShellMenuItems(string item, CommandBarFlyout itemContextMenuFlyout)
 		{
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,

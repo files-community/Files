@@ -57,52 +57,11 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
 
-			LoadShellMenuItems(item.Path, itemContextMenuFlyout);
+			ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}
 
-		public virtual async void LoadShellMenuItems(string path, CommandBarFlyout itemContextMenuFlyout)
-		{
-			try
-			{
-				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
-					new List<ListedItem>() { new ListedItem(null!) { ItemPath = path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
-				if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
-				{
-					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
-					if (!secondaryElements.Any())
-						return;
-
-					var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
-					var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
-
-					var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
-					if (itemsControl is not null)
-					{
-						var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
-						secondaryElements.OfType<FrameworkElement>()
-										 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
-					}
-
-					itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
-					secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-				}
-				else
-				{
-					var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
-					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem)
-						return;
-
-					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
-					if (flyoutItems is not null)
-						overflowItems.ForEach(i => flyoutItems.Add(i));
-					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
-				}
-			}
-			catch { }
-		}
 
 		public async void OpenInNewTab(WidgetCardItem item)
 		{

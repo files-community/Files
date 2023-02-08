@@ -1,10 +1,19 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.UI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
+using Files.App.Helpers.ContextFlyouts;
+using Files.App.ServicesImplementation.Settings;
 using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.Backend.Helpers;
+using Files.Backend.Services.Settings;
 using Files.Shared;
+using Files.Shared.Extensions;
+using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
@@ -13,11 +22,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
+using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.App.Helpers
 {
 	public static class ShellContextmenuHelper
 	{
+		public static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
 		{
 			bool IsItemSelected = selectedItems?.Count > 0;
@@ -209,6 +221,65 @@ namespace Files.App.Helpers
 			if (item is not null)
 				flyout.Remove(item);
 			return item?.Items;
+		}
+
+		public static async void LoadShellMenuItems(string path, CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options = null)
+		{ 
+			try
+			{
+				if (options is not null)
+				{
+					if (options.ShowEmptyRecycleBin)
+					{
+						var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
+						if (emptyRecycleBinItem is not null)
+						{
+							var binHasItems = RecycleBinHelpers.RecycleBinHasItems();
+							emptyRecycleBinItem.IsEnabled = binHasItems;
+						}
+					}
+
+					if (!options.IsLocationItem)
+						return;
+				}
+				
+				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
+					new List<ListedItem>() { new ListedItem(null) { ItemPath = path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
+				if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+				{
+					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
+					if (!secondaryElements.Any())
+						return;
+
+					var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
+					var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
+
+					var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
+					if (itemsControl is not null)
+					{
+						var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
+						secondaryElements.OfType<FrameworkElement>()
+										 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
+					}
+
+					itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
+					secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+				}
+				else
+				{
+					var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
+					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem)
+						return;
+
+					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
+					if (flyoutItems is not null)
+						overflowItems.ForEach(i => flyoutItems.Add(i));
+					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+				}
+			}
+			
+			catch { }
 		}
 	}
 }
