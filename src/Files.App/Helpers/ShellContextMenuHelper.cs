@@ -244,8 +244,12 @@ namespace Files.App.Helpers
 				}
 				
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
-					new List<ListedItem>() { new ListedItem(null) { ItemPath = path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
+				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(
+					workingDir: null,
+					new List<ListedItem>() { new ListedItem(null) { ItemPath = path } }, 
+					shiftPressed: shiftPressed, 
+					showOpenMenu: false, 
+					default);
 				if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
 				{
 					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
@@ -278,7 +282,6 @@ namespace Files.App.Helpers
 					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
 				}
 			}
-			
 			catch { }
 		}
 	}
