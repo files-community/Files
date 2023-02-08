@@ -370,7 +370,9 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		private async void OpenProperties(DriveCardItem item)
-			=> await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance);
+		{ 
+			await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance); 
+		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
