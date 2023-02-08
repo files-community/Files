@@ -173,7 +173,7 @@ namespace Files.App.ViewModels.Properties
 
 			// Find Encoding Bitrate property and convert it to kbps
 			var encodingBitrate = list.Find(x => x.Property == "System.Audio.EncodingBitrate");
-			if (encodingBitrate is not null)
+			if (encodingBitrate?.Value is not null)
 			{
 				var sizes = new string[] { "Bps", "KBps", "MBps", "GBps" };
 				var order = (int)Math.Floor(Math.Log((uint)encodingBitrate.Value, 1024));

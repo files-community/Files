@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI.Helpers;
 using Files.App.DataModels;
 using Files.App.ServicesImplementation;
+using Files.App.UserControls.Widgets;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,11 @@ namespace Files.App.Filesystem
 	public sealed class QuickAccessManager
 	{
 		public FileSystemWatcher? PinnedItemsWatcher;
+
 		public event FileSystemEventHandler? PinnedItemsModified;
+		
+		public EventHandler<ModifyQuickAccessEventArgs>? UpdateQuickAccessWidget;
+
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public SidebarPinnedModel Model;
@@ -58,7 +64,7 @@ namespace Files.App.Filesystem
 			PinnedItemsModified += Model.LoadAsync;
 
 			await Model.LoadAsync();
-			if (!Model.FavoriteItems.Contains(CommonPaths.RecycleBinPath))
+			if (!Model.FavoriteItems.Contains(CommonPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
 				await QuickAccessService.PinToSidebar(CommonPaths.RecycleBinPath);
 			
 			var fileItems = (await ReadV2PinnedItemsFile())?.ToList();

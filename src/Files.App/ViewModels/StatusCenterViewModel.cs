@@ -348,9 +348,7 @@ namespace Files.App.ViewModels
 
 		public string Message { get; private set; }
 
-		public SolidColorBrush StrokeColor { get; private set; } = new SolidColorBrush(Colors.DeepSkyBlue);
-
-		public IconSource GlyphSource { get; private set; }
+		public InfoBarSeverity InfoBarSeverity { get; private set; } = InfoBarSeverity.Informational;
 
 		public string PrimaryButtonText { get; set; }
 
@@ -402,59 +400,26 @@ namespace Files.App.ViewModels
 						{
 							case FileOperationType.Extract:
 								Title = "ExtractInProgress/Title".GetLocalizedResource();
-								GlyphSource = new FontIconSource()
-								{
-									FontFamily = Application.Current.Resources["CustomGlyph"] as FontFamily,
-
-									// Extract glyph
-									Glyph = "\xF11A"
-								};
 								break;
 
 							case FileOperationType.Copy:
 								Title = "CopyInProgress/Title".GetLocalizedResource();
-								GlyphSource = new FontIconSource()
-								{
-									// Copy glyph
-									Glyph = "\xE8C8"
-								};
 								break;
 
 							case FileOperationType.Move:
 								Title = "MoveInProgress".GetLocalizedResource();
-								GlyphSource = new FontIconSource()
-								{
-									// Move glyph
-									Glyph = "\xE77F"
-								};
 								break;
 
 							case FileOperationType.Delete:
 								Title = "DeleteInProgress/Title".GetLocalizedResource();
-								GlyphSource = new FontIconSource()
-								{
-									// Delete glyph
-									Glyph = "\xE74D"
-								};
 								break;
 
 							case FileOperationType.Recycle:
 								Title = "RecycleInProgress/Title".GetLocalizedResource();
-								GlyphSource = new FontIconSource()
-								{
-									FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
-
-									// RecycleBin Custom Glyph
-									Glyph = "\xEF87"
-								};
 								break;
 
 							case FileOperationType.Prepare:
 								Title = "PrepareInProgress".GetLocalizedResource();
-								GlyphSource = new FontIconSource()
-								{
-									Glyph = "\xE89A"
-								};
 								break;
 						}
 					}
@@ -472,12 +437,7 @@ namespace Files.App.ViewModels
 					else
 					{
 						FullTitle = Title;
-						StrokeColor = new SolidColorBrush(Colors.Green);
-						GlyphSource = new FontIconSource()
-						{
-							// CheckMark glyph
-							Glyph = "\xE73E"
-						};
+						InfoBarSeverity = InfoBarSeverity.Success;
 					}
 					break;
 
@@ -492,12 +452,7 @@ namespace Files.App.ViewModels
 					{
 						// Expanded banner
 						FullTitle = Title;
-						StrokeColor = new SolidColorBrush(Colors.Red);
-						GlyphSource = new FontIconSource()
-						{
-							// Error glyph
-							Glyph = "\xE783"
-						};
+						InfoBarSeverity = InfoBarSeverity.Error;
 					}
 
 					break;
@@ -535,12 +490,7 @@ namespace Files.App.ViewModels
 
 				// Expanded banner
 				FullTitle = Title;
-				StrokeColor = new SolidColorBrush(Colors.Red);
-				GlyphSource = new FontIconSource()
-				{
-					// Error glyph
-					Glyph = "\xE783"
-				};
+				InfoBarSeverity = InfoBarSeverity.Error;
 			}
 		}
 

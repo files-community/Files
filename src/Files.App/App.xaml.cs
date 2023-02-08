@@ -76,7 +76,8 @@ namespace Files.App
 		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
 
 		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
-
+		public static string LogoPath;
+		
 		public IServiceProvider Services { get; private set; }
 
 		/// <summary>
@@ -93,6 +94,8 @@ namespace Files.App
 			InitializeComponent();
 			Services = ConfigureServices();
 			Ioc.Default.ConfigureServices(Services);
+			LogoPath = Package.Current.DisplayName == "Files - Dev" ? Constants.AssetPaths.DevLogo
+					: (Package.Current.DisplayName == "Files - Preview" ? Constants.AssetPaths.PreviewLogo : Constants.AssetPaths.StableLogo);
 		}
 
 		private IServiceProvider ConfigureServices()

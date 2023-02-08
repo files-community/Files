@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml.Controls;
 using System;
 
 namespace Files.App.ViewModels.Widgets
@@ -41,6 +42,16 @@ namespace Files.App.ViewModels.Widgets
 		public string WidgetAutomationProperties
 		{
 			get => WidgetItemModel.AutomationProperties;
+		}
+
+		public bool ShowMenuFlyout
+		{
+			get => WidgetItemModel.ShowMenuFlyout;
+		}
+		
+		public MenuFlyoutItem MenuFlyoutItem
+		{
+			get => WidgetItemModel.MenuFlyoutItem;
 		}
 
 		public void Dispose()

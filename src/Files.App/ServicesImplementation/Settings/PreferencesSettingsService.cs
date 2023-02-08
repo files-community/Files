@@ -81,7 +81,7 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ShowFoldersWidget
+		public bool ShowQuickAccessWidget
 		{
 			get => Get(true);
 			set => Set(value);
@@ -194,7 +194,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(AlwaysOpenNewInstance):
 				case nameof(IsDualPaneEnabled):
 				case nameof(AlwaysOpenDualPaneInNewTab):
-				case nameof(ShowFoldersWidget):
+				case nameof(ShowQuickAccessWidget):
 				case nameof(ShowRecentFilesWidget):
 				case nameof(ShowDrivesWidget):
 				case nameof(ShowBundlesWidget):

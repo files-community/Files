@@ -38,13 +38,13 @@ namespace Files.App.Filesystem.FilesystemHistory
 				case FileOperationType.CreateNew: // Opposite: Delete created items
 					if (!IsHistoryNull(history.Source))
 					{
-						return await helpers.DeleteItemsAsync(history.Source, false, true, false);
+						return await helpers.DeleteItemsAsync(history.Source, true, true, false); // Show a dialog to prevent unexpected deletion
 					}
 					break;
 				case FileOperationType.CreateLink: // Opposite: Delete created items
 					if (!IsHistoryNull(history.Destination))
 					{
-						return await helpers.DeleteItemsAsync(history.Destination, false, true, false);
+						return await helpers.DeleteItemsAsync(history.Destination, true, true, false); // Show a dialog to prevent unexpected deletion
 					}
 					break;
 				case FileOperationType.Rename: // Opposite: Restore original item names
@@ -61,7 +61,7 @@ namespace Files.App.Filesystem.FilesystemHistory
 				case FileOperationType.Copy: // Opposite: Delete copied items
 					if (!IsHistoryNull(history.Destination))
 					{
-						return await helpers.DeleteItemsAsync(history.Destination, false, true, false);
+						return await helpers.DeleteItemsAsync(history.Destination, true, true, false); // Show a dialog to prevent unexpected deletion
 					}
 					break;
 				case FileOperationType.Move: // Opposite: Move the items to original directory
