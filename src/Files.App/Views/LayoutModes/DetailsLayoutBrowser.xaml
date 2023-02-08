@@ -19,6 +19,7 @@
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vc="using:Files.App.ValueConverters"
+	xmlns:winui="using:ABI.Microsoft.UI.Xaml.Controls"
 	x:Name="PageRoot"
 	NavigationCacheMode="Enabled"
 	mc:Ignorable="d">
@@ -680,10 +681,10 @@
 									Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
 									<ItemsRepeater
 										x:Name="TagsRepeater"
-										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}"
+										x:Load="{x:Bind HasTags, Mode=OneWay}"
 										ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}">
 										<ItemsRepeater.Layout>
-											<UniformGridLayout Orientation="Horizontal" />
+											<StackLayout Orientation="Horizontal" Spacing="4" />
 										</ItemsRepeater.Layout>
 										<ItemsRepeater.ItemTemplate>
 											<DataTemplate x:DataType="filetags:TagViewModel">
