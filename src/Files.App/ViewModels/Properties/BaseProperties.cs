@@ -102,9 +102,7 @@ namespace Files.App.ViewModels.Properties
 					}
 
 					if (token.IsCancellationRequested)
-					{
 						break;
-					}
 				}
 				while (FindNextFile(hFile, out findData));
 

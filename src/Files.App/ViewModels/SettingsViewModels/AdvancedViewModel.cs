@@ -78,9 +78,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			await Task.Yield();
 
 			if (IsSetAsDefaultFileManager == DetectIsSetAsDefaultFileManager())
-			{
 				return;
-			}
 
 			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
 			Directory.CreateDirectory(destFolder);
@@ -132,9 +130,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			// Make sure IsSetAsDefaultFileManager is updated
 			await Task.Yield();
 			if (IsSetAsOpenFileDialog == DetectIsSetAsOpenFileDialog())
-			{
 				return;
-			}
 
 			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
 			Directory.CreateDirectory(destFolder);
@@ -176,9 +172,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				{
 					var zipFolder = await ZipStorageFolder.FromStorageFileAsync(file);
 					if (zipFolder is null)
-					{
 						return;
-					}
 
 					var localFolderPath = ApplicationData.Current.LocalFolder.Path;
 					var settingsFolder = await StorageFolder.GetFolderFromPathAsync(Path.Combine(localFolderPath, Constants.LocalSettings.SettingsFolderName));
@@ -232,9 +226,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 					var zipFolder = (ZipStorageFolder)await ZipStorageFolder.FromStorageFileAsync(file);
 					if (zipFolder is null)
-					{
 						return;
-					}
 
 					var localFolderPath = ApplicationData.Current.LocalFolder.Path;
 

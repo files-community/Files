@@ -47,10 +47,9 @@ namespace Files.App.Shell
 			foreach (var drive in DriveInfo.GetDrives())
 			{
 				var recyclePath = Path.Combine(drive.Name, "$RECYCLE.BIN", sid);
+
 				if (drive.DriveType == DriveType.Network || !Directory.Exists(recyclePath))
-				{
 					continue;
-				}
 
 				FileSystemWatcher watcher = new FileSystemWatcher
 				{

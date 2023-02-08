@@ -46,7 +46,7 @@ namespace Files.App.Shell
 						!shellFolder.Any())
 					{
 						// Return null to force open unsupported items in explorer
-						// Only if inside control panel and folder appears empty
+						// only if inside control panel and folder appears empty
 						return (null, flc);
 					}
 

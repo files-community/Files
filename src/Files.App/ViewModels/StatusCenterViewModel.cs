@@ -74,7 +74,7 @@ namespace Files.App.ViewModels
 				{
 					(false, false) => 0, // All success
 					(false, true) => 1,  // Ongoing
-					(true, true) => 2,   // Onging with failure
+					(true, true) => 2,   // Ongoing with failure
 					(true, false) => 3   // Completed with failure
 				};
 			}
@@ -222,9 +222,7 @@ namespace Files.App.ViewModels
 		{
 			// File operation has been cancelled, so don't update the progress text
 			if (CancellationToken.IsCancellationRequested)
-			{
 				return;
-			}
 
 			if (value.Status is FileSystemStatusCode status)
 				Banner.Status = status.ToStatus();
@@ -236,7 +234,7 @@ namespace Files.App.ViewModels
 				Banner.Progress = f;
 				Banner.FullTitle = $"{Banner.Title} ({Banner.Progress:0.00}%)";
 
-				// TODO: show detailed progress if Size/Count information available
+				// TODO: Show detailed progress if Size/Count information available
 			}
 			else if (value.EnumerationCompleted)
 			{
@@ -264,24 +262,13 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				switch (value.ProcessedSize, value.ProcessedItemsCount)
+				Banner.FullTitle = (value.ProcessedSize, value.ProcessedItemsCount) switch
 				{
-					case (not 0, not 0):
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)";
-						break;
-
-					case (not 0, _):
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / ...)";
-						break;
-
-					case (_, not 0):
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / ...)";
-						break;
-
-					default:
-						Banner.FullTitle = $"{Banner.Title} (...)";
-						break;
-				}
+					(not 0, not 0) => $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)",
+					(not 0, _) =>     $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / ...)",
+					(_, not 0) =>     $"{Banner.Title} ({value.ProcessedItemsCount} / ...)",
+					_ =>              $"{Banner.Title} (...)",
+				};
 			}
 
 			OngoingTasksActions.UpdateBanner(Banner);

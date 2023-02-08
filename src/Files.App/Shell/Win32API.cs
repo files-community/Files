@@ -485,7 +485,7 @@ namespace Files.App.Shell
 
 			fcs.dwSize = (uint)Marshal.SizeOf(fcs);
 
-		var success = Shell32.SHGetSetFolderCustomSettings(ref fcs, folderPath, Shell32.FCS.FCS_FORCEWRITE).Succeeded;
+			var success = Shell32.SHGetSetFolderCustomSettings(ref fcs, folderPath, Shell32.FCS.FCS_FORCEWRITE).Succeeded;
 			if (success)
 				_iconAndOverlayCache[folderPath] = new();
 

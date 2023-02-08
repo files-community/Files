@@ -87,6 +87,7 @@ namespace Files.App.Shell
 						Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine),
 						Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User));
 				}
+
 				process.StartInfo.WorkingDirectory = workingDirectory;
 				process.Start();
 
@@ -96,12 +97,15 @@ namespace Files.App.Shell
 			}
 			catch (Win32Exception)
 			{
-				using Process process = new Process();
-				process.StartInfo.UseShellExecute = true;
-				process.StartInfo.FileName = application;
-				process.StartInfo.CreateNoWindow = true;
-				process.StartInfo.Arguments = arguments;
-				process.StartInfo.WorkingDirectory = workingDirectory;
+				using Process process = new()
+				{
+					StartInfo.UseShellExecute = true,
+					StartInfo.FileName = application,
+					StartInfo.CreateNoWindow = true,
+					StartInfo.Arguments = arguments,
+					StartInfo.WorkingDirectory = workingDirectory
+				};
+
 				try
 				{
 					process.Start();
@@ -134,16 +138,12 @@ namespace Files.App.Shell
 								foreach (var group in groups)
 								{
 									if (!group.Any())
-									{
 										continue;
-									}
 
 									using var cMenu = await ContextMenu.GetContextMenuForFiles(group.ToArray(), Shell32.CMF.CMF_DEFAULTONLY);
 
 									if (cMenu is not null)
-									{
 										await cMenu.InvokeVerb(Shell32.CMDSTR_OPEN);
-									}
 								}
 							}
 
@@ -159,9 +159,7 @@ namespace Files.App.Shell
 									using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { application }, Shell32.CMF.CMF_DEFAULTONLY);
 
 									if (cMenu is not null)
-									{
 										await cMenu.InvokeItem(cMenu.Items.FirstOrDefault()?.ID ?? -1);
-									}
 
 									return true;
 								});

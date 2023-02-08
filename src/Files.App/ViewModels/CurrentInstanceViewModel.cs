@@ -8,7 +8,7 @@ namespace Files.App.ViewModels
 		 // TODO:
 		 //  In the future, we should consolidate these public variables into
 		 //  a single enum property providing simplified customization of the
-		 //  values being manipulated inside the setter blocks.
+		 //  values being manipulated inside the setter blocks
 
 		public FolderSettingsViewModel FolderSettings { get; }
 

@@ -299,7 +299,7 @@ namespace Files.App.Shell
 			}
 			catch (Exception ex) when (ex is InvalidCastException || ex is ArgumentException)
 			{
-				// TODO: Investigate this..
+				// TODO: Investigate this...
 				Debug.WriteLine(ex);
 
 				return null;
@@ -327,7 +327,7 @@ namespace Files.App.Shell
 			{
 				if (disposing)
 				{
-					// TODO: Dispose managed state (managed objects).
+					// TODO: Dispose managed state (managed objects)
 					if (Items is not null)
 					{
 						foreach (var si in Items)
@@ -339,7 +339,7 @@ namespace Files.App.Shell
 					}
 				}
 
-				// TODO: Free unmanaged resources (unmanaged objects) and override a finalizer below.
+				// TODO: Free unmanaged resources (unmanaged objects) and override a finalizer below
 				if (hMenu is not null)
 				{
 					User32.DestroyMenu(hMenu);

@@ -77,27 +77,26 @@ namespace Files.App.ViewModels
 
 		public uint GetIconSize()
 		{
+			// ListView thumbnail
 			if (LayoutMode == FolderLayoutModes.DetailsView)
-				// ListView thumbnail
 				return Constants.Browser.DetailsLayoutBrowser.DetailsViewSize;
-
-			if (LayoutMode == FolderLayoutModes.ColumnView)
-				// ListView thumbnail
+			// ListView thumbnail
+			else if (LayoutMode == FolderLayoutModes.ColumnView)
 				return Constants.Browser.ColumnViewBrowser.ColumnViewSize;
+			// Small thumbnail
 			else if (LayoutMode == FolderLayoutModes.TilesView)
-				// Small thumbnail
 				return Constants.Browser.GridViewBrowser.GridViewSizeSmall;
+			// Small thumbnail
 			else if (GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall)
-				// Small thumbnail
 				return Constants.Browser.GridViewBrowser.GridViewSizeSmall;
+			// Medium thumbnail
 			else if (GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium)
-				// Medium thumbnail
 				return Constants.Browser.GridViewBrowser.GridViewSizeMedium;
+			// Large thumbnail
 			else if (GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeLarge)
-				// Large thumbnail
 				return Constants.Browser.GridViewBrowser.GridViewSizeLarge;
+			// Extra large thumbnail
 			else
-				// Extra large thumbnail
 				return Constants.Browser.GridViewBrowser.GridViewSizeMax;
 		}
 
@@ -175,7 +174,8 @@ namespace Files.App.ViewModels
 					// Resize grid view
 					else if (LayoutMode != FolderLayoutModes.DetailsView)
 					{
-						var newValue = (value >= Constants.Browser.GridViewBrowser.GridViewSizeSmall) ? value : Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Set grid size to allow immediate UI update
+						// Set grid size to allow immediate UI update
+						var newValue = (value >= Constants.Browser.GridViewBrowser.GridViewSizeSmall) ? value : Constants.Browser.GridViewBrowser.GridViewSizeSmall;
 						SetProperty(ref LayoutPreference.GridViewSize, newValue, nameof(GridViewSize));
 
 						// Only update layout mode if it isn't already in grid view
@@ -205,7 +205,8 @@ namespace Files.App.ViewModels
 					}
 					else // Size up from tiles to grid
 					{
-						var newValue = (LayoutMode == FolderLayoutModes.TilesView) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeMax) ? value : Constants.Browser.GridViewBrowser.GridViewSizeMax; // Set grid size to allow immediate UI update
+						// Set grid size to allow immediate UI update
+						var newValue = (LayoutMode == FolderLayoutModes.TilesView) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeMax) ? value : Constants.Browser.GridViewBrowser.GridViewSizeMax;
 						SetProperty(ref LayoutPreference.GridViewSize, newValue, nameof(GridViewSize));
 
 						// Only update layout mode if it isn't already in grid view
@@ -418,12 +419,13 @@ namespace Files.App.ViewModels
 				return;
 
 			var dbInstance = GetDbInstance();
-			if (dbInstance.GetPreferences(folderPath, frn) is null)
+			if (dbInstance.GetPreferences(folderPath, frn) is null &&
+				LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
 			{
-				if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
-					// Do not create setting if it's default
-					return;
+				// Do not create setting if it's default
+				return;
 			}
+
 			dbInstance.SetPreferences(folderPath, frn, prefs);
 		}
 

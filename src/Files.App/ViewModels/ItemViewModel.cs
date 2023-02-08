@@ -592,12 +592,12 @@ namespace Files.App.ViewModels
 				// so suppress CollectionChanged event here while loading items heavily.
 
 				// Note that both DataGrid and GridView don't support multi-items changes notification, so here
-				// We have to call BeginBulkOperation to suppress CollectionChanged and call EndBulkOperation
+				// we have to call BeginBulkOperation to suppress CollectionChanged and call EndBulkOperation
 				// in the end to fire a CollectionChanged event with NotifyCollectionChangedAction.Reset
 				FilesAndFolders.BeginBulkOperation();
 
 				// After calling BeginBulkOperation, ObservableCollection.CollectionChanged is suppressed
-				// So modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
+				// so modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
 				// run safely without needs of dispatching to UI thread
 				void ApplyChanges()
 				{
@@ -655,7 +655,7 @@ namespace Files.App.ViewModels
 				void UpdateUI()
 				{
 					// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
-					// Once loading is completed so that UI can be updated
+					// once loading is completed so that UI can be updated
 					FilesAndFolders.EndBulkOperation();
 					UpdateEmptyTextType();
 					DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
@@ -1299,7 +1299,10 @@ namespace Files.App.ViewModels
 			{
 				var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
 				var enumerated = await EnumerateItemsFromStandardFolderAsync(path, addFilesCTS.Token, library);
-				IsLoadingItems = false; // Hide progressbar after enumeration
+
+				// Hide progressbar after enumeration
+				IsLoadingItems = false;
+
 				switch (enumerated)
 				{
 					// Enumerated with FindFirstFileExFromApp

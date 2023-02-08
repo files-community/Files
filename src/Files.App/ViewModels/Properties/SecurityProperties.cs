@@ -180,9 +180,7 @@ namespace Files.App.ViewModels.Properties
 			if (SelectedAccessRules is not null)
 			{
 				foreach (var rule in SelectedAccessRules)
-				{
 					FilePermissions.AccessRules.Remove(rule);
-				}
 			}
 		}
 
@@ -191,11 +189,9 @@ namespace Files.App.ViewModels.Properties
 			var pickedObject = await OpenObjectPicker();
 			if (pickedObject is not null)
 			{
+				// Refresh file permissions
 				if (SetFileOwner(pickedObject))
-				{
-					// Refresh file permissions
 					GetFilePermissions();
-				}
 			}
 		}
 

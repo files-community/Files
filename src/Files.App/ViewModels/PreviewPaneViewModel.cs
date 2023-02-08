@@ -96,9 +96,7 @@ namespace Files.App.ViewModels
 			var control = await GetBuiltInPreviewControlAsync(SelectedItem, downloadItem);
 
 			if (token.IsCancellationRequested)
-			{
 				return;
-			}
 
 			if (control is not null)
 			{
@@ -113,9 +111,7 @@ namespace Files.App.ViewModels
 			control = new BasicPreview(basicModel);
 
 			if (token.IsCancellationRequested)
-			{
 				return;
-			}
 
 			PreviewPaneContent = control;
 			PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
@@ -131,12 +127,14 @@ namespace Files.App.ViewModels
 				{
 					var model = new FolderPreviewViewModel(item);
 					await model.LoadAsync();
+
 					return new FolderPreview(model);
 				}
 				else
 				{
 					var model = new BasicPreviewViewModel(SelectedItem);
 					await model.LoadAsync();
+
 					return new BasicPreview(model);
 				}
 			}
@@ -145,6 +143,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new ShortcutPreviewViewModel(SelectedItem);
 				await model.LoadAsync();
+
 				return new BasicPreview(model);
 			}
 
@@ -152,6 +151,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new ArchivePreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new BasicPreview(model);
 			}
 
@@ -159,17 +159,17 @@ namespace Files.App.ViewModels
 			{
 				var model = new FolderPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new FolderPreview(model);
 			}
 
 			if (item.FileExtension is null)
-			{
 				return null;
-			}
 
 			if (item.SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline && !downloadItem)
 			{
 				ShowCloudItemButton = true;
+
 				return null;
 			}
 
@@ -179,6 +179,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new MediaPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new MediaPreview(model);
 			}
 
@@ -186,6 +187,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new MarkdownPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new MarkdownPreview(model);
 			}
 
@@ -193,6 +195,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new ImagePreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new ImagePreview(model);
 			}
 
@@ -200,6 +203,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new TextPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new TextPreview(model);
 			}
 
@@ -207,6 +211,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new PDFPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new PDFPreview(model);
 			}
 
@@ -214,6 +219,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new HtmlPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new HtmlPreview(model);
 			}
 
@@ -221,6 +227,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new RichTextPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new RichTextPreview(model);
 			}
 
@@ -228,10 +235,12 @@ namespace Files.App.ViewModels
 			{
 				var model = new CodePreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new CodePreview(model);
 			}
 
 			var control = await TextPreviewViewModel.TryLoadAsTextAsync(item);
+
 			return control ?? null;
 		}
 

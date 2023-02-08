@@ -42,9 +42,7 @@ namespace Files.App.Shell
 		public static ShellFileItem GetShellFileItem(ShellItem folderItem)
 		{
 			if (folderItem is null)
-			{
 				return null;
-			}
 
 			// Zip archives are also shell folders, check for STREAM attribute
 			// Do not use folderItem's Attributes property, throws unimplemented for some shell folders
@@ -81,14 +79,10 @@ namespace Files.App.Shell
 			if (!isFolder && !string.IsNullOrEmpty(parsingPath) && Path.GetExtension(parsingPath) is string realExtension && !string.IsNullOrEmpty(realExtension))
 			{
 				if (!string.IsNullOrEmpty(fileName) && !fileName.EndsWith(realExtension, StringComparison.OrdinalIgnoreCase))
-				{
 					fileName = $"{fileName}{realExtension}";
-				}
 
 				if (!string.IsNullOrEmpty(filePath) && !filePath.EndsWith(realExtension, StringComparison.OrdinalIgnoreCase))
-				{
 					filePath = $"{filePath}{realExtension}";
-				}
 			}
 
 			var fileTime = folderItem.Properties.TryGetProperty<System.Runtime.InteropServices.ComTypes.FILETIME?>(
@@ -113,15 +107,11 @@ namespace Files.App.Shell
 		public static ShellLinkItem GetShellLinkItem(ShellLink linkItem)
 		{
 			if (linkItem is null)
-			{
 				return null;
-			}
 
 			var baseItem = GetShellFileItem(linkItem);
 			if (baseItem is null)
-			{
 				return null;
-			}
 
 			var link = new ShellLinkItem(baseItem);
 			link.IsFolder = !string.IsNullOrEmpty(linkItem.TargetPath) && linkItem.Target.IsFolder;
@@ -136,9 +126,7 @@ namespace Files.App.Shell
 		public static string GetParsingPath(this ShellItem item)
 		{
 			if (item is null)
-			{
 				return null;
-			}
 
 			return item.IsFileSystem ? item.FileSystemPath : item.ParsingName;
 		}

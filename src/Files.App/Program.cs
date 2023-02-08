@@ -21,7 +21,7 @@ namespace Files.App
 	internal class Program
 	{
 		// Note: We can't declare Main to be async because in a WinUI app
-		// This prevents Narrator from reading XAML elements.
+		// This prevents Narrator from reading XAML elements
 		// https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs
 		// STAThread has no effect if main is async, needed for Clipboard
 		[STAThread]
@@ -157,10 +157,11 @@ namespace Files.App
 		private const uint CWMO_DEFAULT = 0;
 		private const uint INFINITE = 0xFFFFFFFF;
 
-		// Do the redirection on another thread, and use a non-blocking wait method to wait for the redirection to complete.
+		// Do the redirection on another thread, and use a non-blocking wait method to wait for the redirection to complete
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
 			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+
 			Task.Run(() =>
 			{
 				keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
@@ -181,6 +182,7 @@ namespace Files.App
 		public static void OpenFileFromTile(string filePath)
 		{
 			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+
 			Task.Run(() =>
 			{
 				LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();

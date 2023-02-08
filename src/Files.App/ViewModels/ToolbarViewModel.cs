@@ -867,7 +867,7 @@ namespace Files.App.ViewModels
 				IsSearchBoxVisible = true;
 
 				// Given that binding and layouting might take a few cycles, when calling UpdateLayout
-				// We can guarantee that the focus call will be able to find an open ASB
+				// we can guarantee that the focus call will be able to find an open ASB
 				var searchbox = AddressToolbar?.FindDescendant("SearchRegion") as SearchBox;
 				searchbox?.UpdateLayout();
 				searchbox?.Focus(FocusState.Programmatic);
