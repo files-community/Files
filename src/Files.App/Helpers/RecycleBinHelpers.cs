@@ -63,9 +63,9 @@ namespace Files.App.Helpers
 				SecondaryButtonText = "Cancel".GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
 			};
-			ContentDialogResult result = await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
 
-			if (result == ContentDialogResult.Primary)
+			if (userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy is DeleteConfirmationPolicies.Never
+				|| await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync() == ContentDialogResult.Primary)
 			{
 				string bannerTitle = "EmptyRecycleBin".GetLocalizedResource();
 				var banner = App.OngoingTasksViewModel.PostBanner(
@@ -173,7 +173,7 @@ namespace Files.App.Helpers
 			var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 				item.ItemPath,
 				item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog, false, true);
+			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
 		}
 	}
 }
