@@ -185,24 +185,21 @@ namespace Files.App.UserControls.Widgets
 					Glyph = "\uF117",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = RemoveRecentItemCommand,
-					CommandParameter = item,
-					ShowItem = true
+					CommandParameter = item
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "RecentItemClearAll/Text".GetLocalizedResource(),
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
-					Command = ClearAllItemsCommand,
-					ShowItem = true
+					Command = ClearAllItemsCommand
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "RecentItemOpenFileLocation/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = OpenFileLocationCommand,
-					CommandParameter = item,
-					ShowItem = true
+					CommandParameter = item
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -211,9 +208,9 @@ namespace Files.App.UserControls.Widgets
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
-					IsHidden = true,
+					IsHidden = true
 				}
-			}.Where(x => x.ShowItem).ToList();
+			};
 		}
 
 		public async Task RefreshWidget()
@@ -232,11 +229,13 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		private void OpenFileLocation(RecentItem item)
-			=>	RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
-				{
-					ItemPath = Directory.GetParent(item.RecentPath).FullName,    // parent directory
-					ItemName = Path.GetFileName(item.RecentPath),                // file name w extension
-				});
+		{
+			RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
+			{
+				ItemPath = Directory.GetParent(item.RecentPath).FullName,    // parent directory
+				ItemName = Path.GetFileName(item.RecentPath),                // file name w extension
+			});
+		}
 			
 		private async Task UpdateRecentsList(NotifyCollectionChangedEventArgs e)
 		{

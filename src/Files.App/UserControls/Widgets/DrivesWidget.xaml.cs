@@ -248,16 +248,14 @@ namespace Files.App.UserControls.Widgets
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
-					CommandParameter = item,
-					ShowItem = true
+					CommandParameter = item
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
-					CommandParameter = item,
-					ShowItem = true
+					CommandParameter = item
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -289,8 +287,7 @@ namespace Files.App.UserControls.Widgets
 					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
 					Glyph = "\uE946",
 					Command = OpenPropertiesCommand,
-					CommandParameter = item,
-					ShowItem = true
+					CommandParameter = item
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -299,7 +296,7 @@ namespace Files.App.UserControls.Widgets
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
-					IsHidden = true,
+					IsHidden = true
 				}
 			}.Where(x => x.ShowItem).ToList();
 		}

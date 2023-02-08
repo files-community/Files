@@ -189,7 +189,7 @@ namespace Files.App.UserControls.Widgets
 		public string AutomationProperties => "QuickAccess".GetLocalizedResource();
 
 		public string WidgetHeader => "QuickAccess".GetLocalizedResource();
-		
+
 		private void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
@@ -269,7 +269,6 @@ namespace Files.App.UserControls.Widgets
 
 		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(FolderCardItem item)
 		{
-			var options = item.Item.MenuOptions;
 			var isPinned = item.Item.IsPinned;
 
 			return new List<ContextMenuFlyoutItemViewModel>()
@@ -289,16 +288,14 @@ namespace Files.App.UserControls.Widgets
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
-					CommandParameter = item,
-					ShowItem = true
+					CommandParameter = item
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
-					CommandParameter = item,
-					ShowItem = true
+					CommandParameter = item
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -321,8 +318,7 @@ namespace Files.App.UserControls.Widgets
 					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
 					Glyph = "\uE946",
 					Command = OpenPropertiesCommand,
-					CommandParameter = item,
-					ShowItem = true
+					CommandParameter = item
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -331,7 +327,7 @@ namespace Files.App.UserControls.Widgets
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
-					IsHidden = true,
+					IsHidden = true
 				}
 			}.Where(x => x.ShowItem).ToList();
 		}
@@ -399,9 +395,9 @@ namespace Files.App.UserControls.Widgets
 			// eg. an empty library doesn't have OpenInNewPane context menu item
 			if (newPaneMenuItem is not null)
 				newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
-			
+
 			var pinToFavoritesItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "PinToFavorites");
-			if (pinToFavoritesItem is not null) 
+			if (pinToFavoritesItem is not null)
 				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as FolderCardItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
 
 			var unpinFromFavoritesItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "UnpinFromFavorites");
@@ -415,11 +411,14 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		private void OpenInNewPane(FolderCardItem item)
-			=> CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
-		
+		{
+			CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
+		}
 
 		private async void OpenInNewTab(FolderCardItem item)
-			=> await NavigationHelpers.OpenPathInNewTab(item.Path);
+		{
+			await NavigationHelpers.OpenPathInNewTab(item.Path);
+		}
 
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
@@ -431,10 +430,14 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		private async void OpenInNewWindow(FolderCardItem item)
-			=> await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
-		
+		{
+			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
+		}
+
 		private void OpenProperties(FolderCardItem item)
-			=> CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item });
+		{
+			CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item }); 
+		}
 
 		private async void PinToFavorites(FolderCardItem item)
 		{
@@ -453,7 +456,9 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		private void UnpinFromFavorites(FolderCardItem item)
-			=> _ = QuickAccessService.UnpinFromSidebar(item.Path);
+		{
+			_ = QuickAccessService.UnpinFromSidebar(item.Path);
+		}
 		
 		private Task OpenCard(FolderCardItem item)
 		{
