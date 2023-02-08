@@ -680,7 +680,7 @@
 									Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
 									<ItemsRepeater
 										x:Name="TagsRepeater"
-										x:Load="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}"
+										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}"
 										ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}">
 										<ItemsRepeater.Layout>
 											<UniformGridLayout Orientation="Horizontal" />
