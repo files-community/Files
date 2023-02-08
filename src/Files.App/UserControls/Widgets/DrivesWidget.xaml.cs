@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -102,6 +103,17 @@ namespace Files.App.UserControls.Widgets
 
 		public bool IsWidgetSettingEnabled => userSettingsService.PreferencesSettingsService.ShowDrivesWidget;
 
+		public bool ShowMenuFlyout => true;
+
+		public MenuFlyoutItem MenuFlyoutItem => new MenuFlyoutItem()
+		{
+			Icon = new FontIcon() { Glyph = "\uE710" },
+			Text = "DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text".GetLocalizedResource(),
+			Command = MapNetworkDriveCommand
+		};
+
+		public AsyncRelayCommand MapNetworkDriveCommand { get; }
+
 		public DrivesWidget()
 		{
 			InitializeComponent();
@@ -109,8 +121,14 @@ namespace Files.App.UserControls.Widgets
 			Manager_DataChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
 			App.DrivesManager.DataChanged += Manager_DataChanged;
+
+			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive);
 		}
 
+		private async Task DoNetworkMapDrive()
+		{
+			await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
+		}
 		private async void Manager_DataChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			await DispatcherQueue.EnqueueAsync(async () =>
@@ -257,9 +275,6 @@ namespace Files.App.UserControls.Widgets
 			var unpinFromFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "UnpinFromFavorites");
 			unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
 		}
-
-		private async void MapNetworkDrive_Click(object sender, RoutedEventArgs e)
-			=> await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
 
 		private void DisconnectNetworkDrive_Click(object sender, RoutedEventArgs e)
 		{

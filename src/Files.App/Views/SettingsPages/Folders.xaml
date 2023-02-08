@@ -283,11 +283,11 @@
 					<FontIcon Glyph="&#xE107;" />
 				</local:SettingsBlockControl.Icon>
 
-				<ToggleSwitch
-					x:Name="ShowConfirmDeleteDialogSwitch"
-					AutomationProperties.Name="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}"
-					IsOn="{x:Bind ViewModel.ShowConfirmDeleteDialog, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}" SelectedIndex="{x:Bind ViewModel.SelectedDeleteConfirmationPolicyIndex, Mode=TwoWay}">
+					<ComboBoxItem Content="{helpers:ResourceString Name=Always}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=PermanentDeletionOnly}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=Never}" />
+				</ComboBox>
 			</local:SettingsBlockControl>
 
 			<!--  Select On Hover  -->

@@ -27,7 +27,8 @@ namespace Files.App.UserControls.MultitaskingControl
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
 			var appWindowTitleBar = App.GetAppWindow(App.Window).TitleBar;
-			RightPaddingColumn.Width = (flowDirectionSetting == "RTL") ? new GridLength(appWindowTitleBar.LeftInset) : new GridLength(appWindowTitleBar.RightInset);
+			double rightPaddingColumnWidth = flowDirectionSetting is "RTL" ? appWindowTitleBar.LeftInset : appWindowTitleBar.RightInset;
+			RightPaddingColumn.Width = new GridLength(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
 		}
 
 		private void HorizontalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)

@@ -169,7 +169,7 @@ namespace Files.Backend.Services.Settings
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the delete confirmation dialog when deleting items.
 		/// </summary>
-		bool ShowConfirmDeleteDialog { get; set; }
+		DeleteConfirmationPolicies DeleteConfirmationPolicy { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to select files and folders when hovering them.

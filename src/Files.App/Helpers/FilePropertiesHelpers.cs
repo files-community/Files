@@ -123,6 +123,6 @@ namespace Files.App.Helpers
 		}
 
 		private static string GetFilesLogoPath()
-			=> Path.Combine(Package.Current.InstalledLocation.Path, Constants.AssetPaths.Logo);
+			=> Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath);
 	}
 }
