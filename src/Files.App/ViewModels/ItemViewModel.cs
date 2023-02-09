@@ -733,7 +733,8 @@ namespace Files.App.ViewModels
 			{
 				if (folderSettings.DirectoryGroupOption == GroupOption.Size)
 					// Always show file sections below folders
-					FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.First().PrimaryItemAttribute != StorageItemTypes.Folder).ThenBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
+					FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.First().PrimaryItemAttribute != StorageItemTypes.Folder || y.First().IsArchive)
+						.ThenBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
 				else
 					FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
 			}
@@ -741,7 +742,8 @@ namespace Files.App.ViewModels
 			{
 				if (folderSettings.DirectoryGroupOption == GroupOption.Size)
 					// Always show file sections below folders
-					FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.First().PrimaryItemAttribute != StorageItemTypes.Folder).ThenByDescending(y => y.Model.SortIndexOverride).ThenByDescending(y => y.Model.Text));
+					FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.First().PrimaryItemAttribute != StorageItemTypes.Folder || y.First().IsArchive)
+						.ThenByDescending(y => y.Model.SortIndexOverride).ThenByDescending(y => y.Model.Text));
 				else
 					FilesAndFolders.GroupedCollection.Order(x => x.OrderByDescending(y => y.Model.SortIndexOverride).ThenByDescending(y => y.Model.Text));
 			}

@@ -18,7 +18,7 @@ namespace Files.App.Helpers
 			return option switch
 			{
 				GroupOption.Name => x => new string(x.Name.Take(1).ToArray()).ToUpperInvariant(),
-				GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder ? GetGroupSizeKey(x.FileSizeBytes) : x.FileSizeDisplay,
+				GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder || x.IsArchive ? GetGroupSizeKey(x.FileSizeBytes) : x.FileSizeDisplay,
 				GroupOption.DateCreated => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateCreatedReal).Text,
 				GroupOption.DateModified => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateModifiedReal).Text,
 				GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsShortcut ? x.ItemType : x.FileExtension?.ToLowerInvariant() ?? " ",
@@ -60,7 +60,7 @@ namespace Files.App.Helpers
 				GroupOption.Size => (x =>
 				{
 					var first = x.First();
-					if (first.PrimaryItemAttribute != StorageItemTypes.Folder)
+					if (first.PrimaryItemAttribute != StorageItemTypes.Folder || first.IsArchive)
 					{
 						var vals = GetGroupSizeInfo(first.FileSizeBytes);
 						//x.Model.Text = vals.text;
