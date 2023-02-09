@@ -43,6 +43,7 @@ namespace Files.App.ViewModels
 			ToggleLayoutModeAdaptiveCommand = new RelayCommand(ToggleLayoutModeAdaptive);
 
 			ChangeGroupOptionCommand = new RelayCommand<GroupOption>(ChangeGroupOption);
+			ChangeGroupDirectionCommand = new RelayCommand<SortDirection>(ChangeGroupDirection);
 		}
 		public FolderSettingsViewModel(FolderLayoutModes modeOverride) : this()
 			=> (rootLayoutMode, LayoutPreference.IsAdaptiveLayoutOverridden) = (modeOverride, true);
@@ -259,6 +260,8 @@ namespace Files.App.ViewModels
 				}
 			}
 		}
+
+		public ICommand ChangeGroupDirectionCommand { get; }
 
 		public SortDirection DirectoryGroupDirection
 		{
@@ -517,6 +520,8 @@ namespace Files.App.ViewModels
 		}
 
 		private void ChangeGroupOption(GroupOption option) => DirectoryGroupOption = option;
+
+		private void ChangeGroupDirection(SortDirection option) => DirectoryGroupDirection = option;
 
 		public void OnDefaultPreferencesChanged(string folderPath, string settingsName)
 		{
