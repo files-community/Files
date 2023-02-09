@@ -115,6 +115,14 @@
 							</ComboBox>
 						</local:SettingsBlockControl>
 
+						<!--  Sort in Descending order  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortInDescendingOrder}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=SortInDescendingOrder}"
+								IsOn="{x:Bind ViewModel.SortInDescendingOrder, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
 						<!--  Grouping Options  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupBy}" HorizontalAlignment="Stretch">
 							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
@@ -126,6 +134,15 @@
 								<ComboBoxItem Content="{helpers:ResourceString Name=BaseLayoutContextFlyoutSortByType/Text}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
 							</ComboBox>
+						</local:SettingsBlockControl>
+
+						<!--  Group in Descending order  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupInDescendingOrder}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=GroupInDescendingOrder}"
+								IsOn="{x:Bind ViewModel.GroupInDescendingOrder, Mode=TwoWay}"
+								IsEnabled="{x:Bind ViewModel.isDefaultGrouped, Mode=OneWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
 						<!--  Sort Folders Alongside Files  -->
