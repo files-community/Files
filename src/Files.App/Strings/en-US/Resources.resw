@@ -1893,11 +1893,8 @@
   <data name="canceling" xml:space="preserve">
     <value>canceling</value>
   </data>
-  <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Dismiss</value>
-  </data>
-  <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Dismiss</value>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
   </data>
   <data name="Widgets" xml:space="preserve">
     <value>Widgets</value>
@@ -2915,5 +2912,14 @@
   </data>
   <data name="WindowsVersion" xml:space="preserve">
     <value>Windows version</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>Always</value>
+  </data>
+  <data name="PermanentDeletionOnly" xml:space="preserve">
+    <value>Permanent deletion only</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Never</value>
   </data>
 </root>

@@ -13,6 +13,7 @@ namespace Files.App.Helpers.LayoutPreferences
 		public SortDirection DirectorySortDirection;
 		public bool SortDirectoriesAlongsideFiles;
 		public GroupOption DirectoryGroupOption;
+		public SortDirection DirectoryGroupDirection;
 		public FolderLayoutModes LayoutMode;
 		public int GridViewSize;
 		public bool IsAdaptiveLayoutOverridden;
@@ -31,6 +32,7 @@ namespace Files.App.Helpers.LayoutPreferences
 			DirectorySortOption = UserSettingsService.FoldersSettingsService.DefaultSortOption;
 			DirectoryGroupOption = UserSettingsService.FoldersSettingsService.DefaultGroupOption;
 			DirectorySortDirection = UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
+			DirectoryGroupDirection = UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection;
 			SortDirectoriesAlongsideFiles = UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
 			IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
 
@@ -71,6 +73,7 @@ namespace Files.App.Helpers.LayoutPreferences
 					prefs.DirectoryGroupOption == DirectoryGroupOption &&
 					prefs.DirectorySortOption == DirectorySortOption &&
 					prefs.DirectorySortDirection == DirectorySortDirection &&
+					prefs.DirectoryGroupDirection == DirectoryGroupDirection &&
 					prefs.SortDirectoriesAlongsideFiles == SortDirectoriesAlongsideFiles &&
 					prefs.IsAdaptiveLayoutOverridden == IsAdaptiveLayoutOverridden &&
 					prefs.ColumnsViewModel.Equals(ColumnsViewModel));
@@ -85,6 +88,7 @@ namespace Files.App.Helpers.LayoutPreferences
 			hashCode = (hashCode * 397) ^ DirectoryGroupOption.GetHashCode();
 			hashCode = (hashCode * 397) ^ DirectorySortOption.GetHashCode();
 			hashCode = (hashCode * 397) ^ DirectorySortDirection.GetHashCode();
+			hashCode = (hashCode * 397) ^ DirectoryGroupDirection.GetHashCode();
 			hashCode = (hashCode * 397) ^ SortDirectoriesAlongsideFiles.GetHashCode();
 			hashCode = (hashCode * 397) ^ IsAdaptiveLayoutOverridden.GetHashCode();
 			hashCode = (hashCode * 397) ^ ColumnsViewModel.GetHashCode();

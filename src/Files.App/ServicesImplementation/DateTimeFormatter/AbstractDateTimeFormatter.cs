@@ -26,14 +26,14 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 
 			return 0 switch
 			{
-				_ when now.Date == time.Date => new Label("Today", "\ue184", 0),
-				_ when y.Date == time.Date => new Label("ItemTimeText_Yesterday", "\ue161", 1),
-				_ when diff.Days < 7 && w.Year == time.Year && GetWeekOfYear(w) == GetWeekOfYear(time) => new Label("ItemTimeText_ThisWeek", "\uE162", 2),
-				_ when diff.Days < 14 && w.Year == time.Year && GetWeekOfYear(w) == GetWeekOfYear(time) => new Label("ItemTimeText_LastWeek", "\uE162", 3),
-				_ when now.Year == time.Year && now.Month == time.Month => new Label("ItemTimeText_ThisMonth", "\ue163", 4),
-				_ when now.AddMonths(-1).Year == time.Year && now.AddMonths(-1).Month == time.Month => new Label("ItemTimeText_LastMonth", "\ue163", 5),
-				_ when now.Year == time.Year => new Label("ItemTimeText_ThisYear", "\ue163", 5),
-				_ => new Label("ItemTimeText_Older", "\uEC92", 6),
+				_ when now.Date == time.Date => new Label("Today", "\ue184", 7),
+				_ when y.Date == time.Date => new Label("ItemTimeText_Yesterday", "\ue161", 6),
+				_ when diff.Days < 7 && w.Year == time.Year && GetWeekOfYear(w) == GetWeekOfYear(time) => new Label("ItemTimeText_ThisWeek", "\uE162", 5),
+				_ when diff.Days < 14 && w.Year == time.Year && GetWeekOfYear(w) == GetWeekOfYear(time) => new Label("ItemTimeText_LastWeek", "\uE162", 4),
+				_ when now.Year == time.Year && now.Month == time.Month => new Label("ItemTimeText_ThisMonth", "\ue163", 3),
+				_ when now.AddMonths(-1).Year == time.Year && now.AddMonths(-1).Month == time.Month => new Label("ItemTimeText_LastMonth", "\ue163", 2),
+				_ when now.Year == time.Year => new Label("ItemTimeText_ThisYear", "\ue163", 1),
+				_ => new Label("ItemTimeText_Older", "\uEC92", 0),
 			};
 		}
 

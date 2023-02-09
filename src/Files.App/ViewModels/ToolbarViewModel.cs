@@ -94,6 +94,18 @@ namespace Files.App.ViewModels
 			set { if (value) InstanceViewModel.FolderSettings.DirectorySortDirection = SortDirection.Descending; }
 		}
 
+		public bool IsGroupedAscending
+		{
+			get => InstanceViewModel?.FolderSettings.DirectoryGroupDirection == SortDirection.Ascending;
+			set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupDirection = SortDirection.Ascending; }
+		}
+
+		public bool IsGroupedDescending
+		{
+			get => InstanceViewModel?.FolderSettings.DirectoryGroupDirection == SortDirection.Descending;
+			set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupDirection = SortDirection.Descending; }
+		}
+
 		public bool AreDirectoriesSortedAlongsideFiles
 		{
 			get => InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFiles;
@@ -375,6 +387,7 @@ namespace Files.App.ViewModels
 						InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 						InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 						InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
+						InstanceViewModel.FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
 						InstanceViewModel.FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
 						InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
 					}
@@ -386,6 +399,7 @@ namespace Files.App.ViewModels
 						InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 						InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
 						InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
+						InstanceViewModel.FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
 						InstanceViewModel.FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
 						InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
 					}
@@ -481,6 +495,7 @@ namespace Files.App.ViewModels
 			FolderSettings_SortDirectionPreferenceUpdated(null, 0);
 			FolderSettings_SortOptionPreferenceUpdated(null, 0);
 			FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(null, true);
+			FolderSettings_GroupDirectionPreferenceUpdated(null, 0);
 			FolderSettings_GroupOptionPreferenceUpdated(null, 0);
 			FolderSettings_LayoutPreferencesUpdateRequired(null, 0);
 		}
@@ -507,6 +522,12 @@ namespace Files.App.ViewModels
 		private void FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object? sender, bool e)
 		{
 			OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
+		}
+
+		private void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
+		{
+			OnPropertyChanged(nameof(IsGroupedAscending));
+			OnPropertyChanged(nameof(IsGroupedDescending));
 		}
 
 		private void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
@@ -1208,6 +1229,7 @@ namespace Files.App.ViewModels
 			InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
+			InstanceViewModel.FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
 		}

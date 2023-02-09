@@ -179,7 +179,7 @@ namespace Files.App.Helpers
 
 						// Delete shortcut
 						var shortcutItem = StorageHelpers.FromPathAndType(path, FilesystemItemType.File);
-						await associatedInstance.FilesystemHelpers.DeleteItemAsync(shortcutItem, false, false, true);
+						await associatedInstance.FilesystemHelpers.DeleteItemAsync(shortcutItem, DeleteConfirmationPolicies.Never, false, true);
 					}
 				}
 				else if (isReparsePoint)
