@@ -405,7 +405,7 @@ namespace Files.App.Interacts
 			{
 				if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
 				{
-					// If a folder item has clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
+					// If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
 					SlimContentPage.IsMiddleClickToScrollEnabled = false;
 					SlimContentPage.IsMiddleClickToScrollEnabled = true;
 
