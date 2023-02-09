@@ -493,6 +493,9 @@
 								IsChecked="{x:Bind ViewModel.IsSortedByDateDeleted, Mode=TwoWay}"
 								IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=DateDeleted}" />
+							<MenuFlyoutSeparator />
+							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedAscending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Ascending}" />
+							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedDescending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Descending}" />
 						</MenuFlyoutSubItem>
 						<MenuFlyoutSubItem Text="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}">
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByNone, Mode=TwoWay}" Text="{helpers:ResourceString Name=None}" />
@@ -518,10 +521,16 @@
 								IsChecked="{x:Bind ViewModel.IsGroupedByFolderPath, Mode=TwoWay}"
 								IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeLibrary, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=NavToolbarArrangementOptionFolderPath/Text}" />
+							<MenuFlyoutSeparator />
+							<ToggleMenuFlyoutItem
+								IsChecked="{x:Bind ViewModel.IsGroupedAscending, Mode=TwoWay}"
+								IsEnabled="{x:Bind ViewModel.IsGroupedByNone, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+								Text="{helpers:ResourceString Name=Ascending}" />
+							<ToggleMenuFlyoutItem
+								IsChecked="{x:Bind ViewModel.IsGroupedDescending, Mode=TwoWay}"
+								IsEnabled="{x:Bind ViewModel.IsGroupedByNone, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+								Text="{helpers:ResourceString Name=Descending}" />
 						</MenuFlyoutSubItem>
-						<MenuFlyoutSeparator />
-						<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedAscending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Ascending}" />
-						<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedDescending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Descending}" />
 						<MenuFlyoutSeparator />
 						<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.AreDirectoriesSortedAlongsideFiles, Mode=TwoWay}" Text="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" />
 					</MenuFlyout>

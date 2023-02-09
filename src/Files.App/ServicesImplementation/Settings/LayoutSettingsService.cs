@@ -24,6 +24,12 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set((long)value);
 		}
 
+		public SortDirection DefaultDirectoryGroupDirection
+		{
+			get => (SortDirection)Get((long)SortDirection.Ascending);
+			set => Set((long)value);
+		}
+
 		public bool DefaultSortDirectoriesAlongsideFiles
 		{
 			get => Get(false);

@@ -140,12 +140,12 @@ namespace Files.App.Helpers
 				if (size > sizeGp.size)
 				{
 					var rangeStr = i > 0 ? $"{sizeGp.sizeText} - {sizeGroups[i - 1].sizeText}" : $"{sizeGp.sizeText} +";
-					return (sizeGp.size.ToString(), sizeGp.text, rangeStr, i + 1); //i +1 is so that other groups always show below "unspecified"
+					return (sizeGp.size.ToString(), sizeGp.text, rangeStr, sizeGroups.Length - i);
 				}
 				lastSizeStr = sizeGp.sizeText;
 			}
 
-			return ("0", "ItemSizeText_Tiny".GetLocalizedResource(), $"{"0 B".ConvertSizeAbbreviation()} - {lastSizeStr}", sizeGroups.Length + 1);
+			return ("0", "ItemSizeText_Tiny".GetLocalizedResource(), $"{"0 B".ConvertSizeAbbreviation()} - {lastSizeStr}", 0);
 		}
 
 		public static string GetGroupSizeKey(long size)
