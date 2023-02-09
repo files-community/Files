@@ -223,7 +223,7 @@ namespace Files.App.Helpers
 			return item?.Items;
 		}
 
-		public static async void LoadShellMenuItems(string path, CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options = null)
+		public static async void LoadShellMenuItems(string path, CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options = null, bool showOpenWithMenu = false)
 		{ 
 			try
 			{
@@ -250,6 +250,14 @@ namespace Files.App.Helpers
 					shiftPressed: shiftPressed, 
 					showOpenMenu: false, 
 					default);
+
+				if (showOpenWithMenu)
+				{
+					var openWithItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.ID == 100).ToList().FirstOrDefault();
+					var (_, openWithItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
+					itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
+				}
+				
 				if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
 				{
 					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
@@ -266,7 +274,7 @@ namespace Files.App.Helpers
 						secondaryElements.OfType<FrameworkElement>()
 										 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
 					}
-
+					
 					itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
 					secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 				}

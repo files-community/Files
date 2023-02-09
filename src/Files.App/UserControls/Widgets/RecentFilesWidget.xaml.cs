@@ -122,7 +122,7 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
 
-			ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
+			ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true);
 
 			e.Handled = true;
 		}
@@ -134,22 +134,20 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "RecentItemRemove/Text".GetLocalizedResource(),
-					Glyph = "\uF117",
-					GlyphFontFamilyName = "CustomGlyph",
+					Glyph = "\uE738",
 					Command = RemoveRecentItemCommand,
 					CommandParameter = item
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "RecentItemClearAll/Text".GetLocalizedResource(),
-					Glyph = "\uF113",
-					GlyphFontFamilyName = "CustomGlyph",
+					Glyph = "\uE74D",
 					Command = ClearAllItemsCommand
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "RecentItemOpenFileLocation/Text".GetLocalizedResource(),
-					Glyph = "\uE737",
+					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
 					CommandParameter = item
 				},
