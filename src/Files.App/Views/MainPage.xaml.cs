@@ -89,11 +89,11 @@ namespace Files.App.Views
 				{
 					var storeContext = StoreContext.GetDefault();
 					await storeContext.RequestRateAndReviewAppAsync();
+
+					UserSettingsService.ApplicationSettingsService.ClickedToReviewApp = true;
 				}
 				catch (Exception) { }
 			}
-
-			UserSettingsService.ApplicationSettingsService.WasPromptedToReview = true;
 		}
 
 		// WINUI3
@@ -312,14 +312,21 @@ namespace Files.App.Views
 			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));
 
-			// Prompt user to review app in the Store
+			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
+				return;
+
+			var totalLaunchCount = SystemInformation.Instance.TotalLaunchCount;
+
 			if
 			(
-				SystemInformation.Instance.TotalLaunchCount >= 15 &
-				Package.Current.Id.Name == "49306atecsolution.FilesUWP" &&
-				!UserSettingsService.ApplicationSettingsService.WasPromptedToReview
+				totalLaunchCount == 10 ||
+				totalLaunchCount == 20 ||
+				totalLaunchCount == 30 ||
+				totalLaunchCount == 40 ||
+				totalLaunchCount == 50
 			)
 			{
+				// Prompt user to review app in the Store
 				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
 			}
 		}
