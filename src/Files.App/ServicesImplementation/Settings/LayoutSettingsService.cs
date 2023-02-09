@@ -17,17 +17,5 @@ namespace Files.App.ServicesImplementation.Settings
 			get => (int)Get((long)Constants.Browser.GridViewBrowser.GridViewSizeMedium);
 			set => Set((long)value);
 		}
-
-		public SortDirection DefaultDirectorySortDirection
-		{
-			get => (SortDirection)Get((long)SortDirection.Ascending);
-			set => Set((long)value);
-		}
-
-		public bool DefaultSortDirectoriesAlongsideFiles
-		{
-			get => Get(false);
-			set => Set(value);
-		}
 	}
 }

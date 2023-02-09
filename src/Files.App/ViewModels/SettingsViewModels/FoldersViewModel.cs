@@ -19,6 +19,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
 			SelectedDefaultSortingIndex = UserSettingsService.FoldersSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultSortOption;
 			SelectedDefaultGroupingIndex = UserSettingsService.FoldersSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultGroupOption;
+			SelectedDeleteConfirmationPolicyIndex = (int)DeleteConfirmationPolicy;
 		}
 
 		private int selectedDefaultLayoutModeIndex;
@@ -31,6 +32,20 @@ namespace Files.App.ViewModels.SettingsViewModels
 				{
 					OnPropertyChanged(nameof(SelectedDefaultLayoutModeIndex));
 					DefaultLayoutMode = (FolderLayoutModes)value;
+				}
+			}
+		}
+
+		private int selectedDeleteConfirmationPolicyIndex;
+		public int SelectedDeleteConfirmationPolicyIndex
+		{
+			get => selectedDeleteConfirmationPolicyIndex;
+			set
+			{
+				if (SetProperty(ref selectedDeleteConfirmationPolicyIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDeleteConfirmationPolicyIndex));
+					DeleteConfirmationPolicy = (DeleteConfirmationPolicies)value;
 				}
 			}
 		}
@@ -246,14 +261,43 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool ListAndSortDirectoriesAlongsideFiles
+		public bool SortInDescendingOrder
 		{
-			get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
+			get => UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection == SortDirection.Descending;
 			set
 			{
-				if (value != UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles)
+				if (value != (UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection == SortDirection.Descending))
 				{
-					UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
+					UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool GroupInDescendingOrder
+		{
+			get => UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending;
+			set
+			{
+				if (value != (UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending))
+				{
+					UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool isDefaultGrouped
+			=> UserSettingsService.FoldersSettingsService.DefaultGroupOption != GroupOption.None;
+
+		public bool ListAndSortDirectoriesAlongsideFiles
+		{
+			get => UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles)
+				{
+					UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
 
 					OnPropertyChanged();
 				}
@@ -300,6 +344,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
 
 					UserSettingsService.FoldersSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
+					// Raise an event for the 'Group in descending order' toggle switch availability
+					OnPropertyChanged(nameof(isDefaultGrouped));
 				}
 			}
 		}
@@ -332,14 +378,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool ShowConfirmDeleteDialog
+		public DeleteConfirmationPolicies DeleteConfirmationPolicy
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog;
+			get => UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog)
+				if (value != UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy)
 				{
-					UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog = value;
+					UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy = value;
 
 					OnPropertyChanged();
 				}

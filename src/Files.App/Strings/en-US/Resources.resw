@@ -2841,6 +2841,12 @@
   <data name="SortBy" xml:space="preserve">
     <value>Sort by</value>
   </data>
+  <data name="GroupInDescendingOrder" xml:space="preserve">
+    <value>Group in descending order</value>
+  </data>
+  <data name="SortInDescendingOrder" xml:space="preserve">
+    <value>Sort in descending order</value>
+  </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
     <value>Create a new shortcut</value>
   </data>
@@ -2912,5 +2918,14 @@
   </data>
   <data name="WindowsVersion" xml:space="preserve">
     <value>Windows version</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>Always</value>
+  </data>
+  <data name="PermanentDeletionOnly" xml:space="preserve">
+    <value>Permanent deletion only</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Never</value>
   </data>
 </root>

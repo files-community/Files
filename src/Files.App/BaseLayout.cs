@@ -38,6 +38,7 @@ using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
+using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.App
 {
@@ -402,6 +403,7 @@ namespace Files.App
 
 			FolderSettings!.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
+			FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
 
 			ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
 			ParentShellPageInstance.ToolbarViewModel.UpdateSortAndGroupOptions();
@@ -511,7 +513,13 @@ namespace Files.App
 
 		private CancellationTokenSource? groupingCancellationToken;
 
-		private async void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
+		private void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
+			=> GroupPreferenceUpdated();
+
+		private void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
+			=> GroupPreferenceUpdated();
+
+		private async void GroupPreferenceUpdated()
 		{
 			// Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
 			groupingCancellationToken?.Cancel();
@@ -533,6 +541,7 @@ namespace Files.App
 			CharacterReceived -= Page_CharacterReceived;
 			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
+			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
 			ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
 
