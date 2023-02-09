@@ -22,6 +22,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 			SelectedDeleteConfirmationPolicyIndex = (int)DeleteConfirmationPolicy;
 		}
 
+		#region Fields and Properties
+
 		private int selectedDefaultLayoutModeIndex;
 		public int SelectedDefaultLayoutModeIndex
 		{
@@ -419,6 +421,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
+
+		#endregion
 
 		public void ResetLayoutPreferences()
 		{

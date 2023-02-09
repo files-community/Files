@@ -39,9 +39,13 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.LoadCombinedItemsGlyph = true;
 
 				if (List.All(x => x.ItemType.Equals(List.First().ItemType)))
+				{
 					ViewModel.ItemType = string.Format("PropertiesDriveItemTypesEquals".GetLocalizedResource(), List.First().ItemType);
+				}
 				else
+				{
 					ViewModel.ItemType = "PropertiesDriveItemTypeDifferent".GetLocalizedResource();
+				}
 
 				var itemsPath = List.Select(Item => (Item as RecycleBinItem)?.ItemOriginalFolder ??
 					(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath));
@@ -105,23 +109,34 @@ namespace Files.App.ViewModels.Properties
 			switch (e.PropertyName)
 			{
 				case "IsReadOnly":
-					if (ViewModel.IsReadOnly)
-						List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
-							x.ItemPath, System.IO.FileAttributes.ReadOnly));
-					else
-						List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
-							x.ItemPath, System.IO.FileAttributes.ReadOnly));
-
+					{
+						if (ViewModel.IsReadOnly)
+						{
+							List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
+								x.ItemPath, System.IO.FileAttributes.ReadOnly));
+						}
+						else
+						{
+							List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
+								x.ItemPath, System.IO.FileAttributes.ReadOnly));
+						}
+					}
 					break;
 
 				case "IsHidden":
-					if (ViewModel.IsHidden)
-						List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
-							x.ItemPath, System.IO.FileAttributes.Hidden));
-					else
-						List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
-							x.ItemPath, System.IO.FileAttributes.Hidden));
+					{
+						if (ViewModel.IsHidden)
+						{
+							List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
+								x.ItemPath, System.IO.FileAttributes.Hidden));
+						}
+						else
+						{
+							List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
+								x.ItemPath, System.IO.FileAttributes.Hidden));
+						}
 
+					}
 					break;
 			}
 		}

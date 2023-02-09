@@ -21,6 +21,7 @@ namespace Files.App.ViewModels.Previews
 
 		public MediaPreviewViewModel(ListedItem item) : base(item) { }
 
+		// TODO: Use existing helper mothods
 		public static bool ContainsExtension(string extension)
 			=> extension is
 			// Video

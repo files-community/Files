@@ -18,7 +18,9 @@ namespace Files.App.Serialization.Implementation
 			_settingsCache ??= GetFreshSettings();
 
 			if (_settingsCache.TryGetValue(key, out var objVal))
+			{
 				return GetValueFromObject<TValue>(objVal) ?? defaultValue;
+			}
 			else
 			{
 				if (base.SetValue(key, defaultValue))
@@ -46,9 +48,13 @@ namespace Files.App.Serialization.Implementation
 				bool isDifferent;
 
 				if (newValue is IEnumerable enumerableNewValue && value is IEnumerable enumerableValue)
+				{
 					isDifferent = !enumerableValue.Cast<object>().SequenceEqual(enumerableNewValue.Cast<object>());
+				}
 				else
+				{
 					isDifferent = value != (object?)newValue;
+				}
 
 				if (isDifferent)
 				{
