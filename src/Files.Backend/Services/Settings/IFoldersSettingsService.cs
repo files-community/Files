@@ -167,7 +167,7 @@ namespace Files.Backend.Services.Settings
 		SortDirection DefaultDirectoryGroupDirection { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if directories should be sorted alongside files by default.
+		/// Gets or sets a value indicating if directories should be sorted alongside files by.
 		/// </summary>
 		bool DefaultSortDirectoriesAlongsideFiles { get; set; }
 
