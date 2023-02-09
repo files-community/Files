@@ -8,18 +8,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
 using Windows.Storage;
-using Vanara.PInvoke;
 
 namespace Files.App.ServicesImplementation
 {
 	public sealed class SideloadUpdateService : ObservableObject, IUpdateService, IDisposable
 	{
+		[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+		private static extern uint RegisterApplicationRestart(string pwzCommandLine, int dwFlags);
+
 		private const string SIDELOAD_STABLE = "https://cdn.files.community/files/stable/Files.Package.appinstaller";
 		private const string SIDELOAD_PREVIEW = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
 
@@ -186,7 +189,7 @@ namespace Files.App.ServicesImplementation
 
 			try
 			{
-				var restartStatus = Kernel32.RegisterApplicationRestart(null, 0);
+				var restartStatus = RegisterApplicationRestart(null, 0);
 
 				Logger?.Info($"Register for restart: {restartStatus}");
 
