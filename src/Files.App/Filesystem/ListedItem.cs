@@ -132,6 +132,7 @@ namespace Files.App.Filesystem
 				{
 					var dbInstance = FileTagsHelper.GetDbInstance();
 					dbInstance.SetTags(ItemPath, FileFRN, value);
+					HasTags = !FileTags.IsEmpty();
 					FileTagsHelper.WriteFileTag(ItemPath, value);
 					OnPropertyChanged(nameof(FileTagsUI));
 				}
@@ -155,6 +156,13 @@ namespace Files.App.Filesystem
 		{
 			get => opacity;
 			set => SetProperty(ref opacity, value);
+		}
+
+		private bool hasTags;
+		public bool HasTags
+		{
+			get => hasTags;
+			set => SetProperty(ref hasTags, value);
 		}
 
 		private CloudDriveSyncStatusUI syncStatusUI = new();
