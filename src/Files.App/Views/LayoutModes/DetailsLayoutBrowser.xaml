@@ -675,13 +675,15 @@
 								<Grid
 									x:Name="ItemTagGrid"
 									Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+									Padding="0,0,12,0"
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
 									<ItemsRepeater
 										x:Name="TagsRepeater"
 										x:Load="{x:Bind HasTags, Mode=OneWay}"
-										ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}">
+										ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}"
+										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
 										<ItemsRepeater.Layout>
 											<StackLayout Orientation="Horizontal" Spacing="4" />
 										</ItemsRepeater.Layout>

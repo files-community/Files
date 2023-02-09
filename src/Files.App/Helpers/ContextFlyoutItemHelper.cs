@@ -469,6 +469,40 @@ namespace Files.App.Helpers
 							ItemType = ItemType.Toggle,
 							ShowItem = currentInstanceViewModel.IsPageTypeLibrary,
 						},
+						new ContextMenuFlyoutItemViewModel()
+						{
+							ItemType = ItemType.Separator,
+							ShowInRecycleBin = true,
+							ShowInSearchPage = true,
+							ShowInFtpPage = true,
+							ShowInZipPage = true,
+						},
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = "Ascending".GetLocalizedResource(),
+							IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupDirection == SortDirection.Ascending,
+							IsEnabled = currentInstanceViewModel.FolderSettings.DirectoryGroupOption != GroupOption.None,
+							ShowInRecycleBin = true,
+							ShowInSearchPage = true,
+							ShowInFtpPage = true,
+							ShowInZipPage = true,
+							Command = currentInstanceViewModel.FolderSettings.ChangeGroupDirectionCommand,
+							CommandParameter = SortDirection.Ascending,
+							ItemType = ItemType.Toggle,
+						},
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = "Descending".GetLocalizedResource(),
+							IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupDirection == SortDirection.Descending,
+							IsEnabled = currentInstanceViewModel.FolderSettings.DirectoryGroupOption != GroupOption.None,
+							ShowInRecycleBin = true,
+							ShowInSearchPage = true,
+							ShowInFtpPage = true,
+							ShowInZipPage = true,
+							Command = currentInstanceViewModel.FolderSettings.ChangeGroupDirectionCommand,
+							CommandParameter = SortDirection.Descending,
+							ItemType = ItemType.Toggle,
+						},
 					}
 				},
 				new ContextMenuFlyoutItemViewModel()

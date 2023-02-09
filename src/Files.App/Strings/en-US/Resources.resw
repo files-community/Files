@@ -2841,6 +2841,12 @@
   <data name="SortBy" xml:space="preserve">
     <value>Sort by</value>
   </data>
+  <data name="GroupInDescendingOrder" xml:space="preserve">
+    <value>Group in descending order</value>
+  </data>
+  <data name="SortInDescendingOrder" xml:space="preserve">
+    <value>Sort in descending order</value>
+  </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
     <value>Create a new shortcut</value>
   </data>

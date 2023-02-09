@@ -3,9 +3,9 @@
 	public interface IApplicationSettingsService : IBaseSettingsService
 	{
 		/// <summary>
-		/// Gets or sets a value indicating whether or not the user was prompted to review the app.
+		/// Gets or sets a value indicating whether or not the user clicked to review the app.
 		/// </summary>
-		bool WasPromptedToReview { get; set; }
+		bool ClickedToReviewApp { get; set; }
 
 	}
 }
