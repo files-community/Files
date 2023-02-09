@@ -2411,10 +2411,10 @@
     <value>Monter d'un cran</value>
   </data>
   <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
-    <value>Descendre tout en bas</value>
+    <value>Descendre en bas</value>
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
-    <value>Descendre tout en haut</value>
+    <value>Monter en haut</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Date de création</value>
