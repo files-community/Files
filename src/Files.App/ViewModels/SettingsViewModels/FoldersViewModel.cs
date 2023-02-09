@@ -250,6 +250,35 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		public bool SortInDescendingOrder
+		{
+			get => UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection == SortDirection.Descending;
+			set
+			{
+				if (value != (UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection == SortDirection.Descending))
+				{
+					UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool GroupInDescendingOrder
+		{
+			get => UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending;
+			set
+			{
+				if (value != (UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending))
+				{
+					UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool isDefaultGrouped
+			=> UserSettingsService.FoldersSettingsService.DefaultGroupOption != GroupOption.None;
+
 		public bool ListAndSortDirectoriesAlongsideFiles
 		{
 			get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
@@ -300,6 +329,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 				{
 					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
 					UserSettingsService.FoldersSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
+					// Raise an event for the 'Group in descending order' toggle switch availability
+					OnPropertyChanged(nameof(isDefaultGrouped));
 				}
 			}
 		}
