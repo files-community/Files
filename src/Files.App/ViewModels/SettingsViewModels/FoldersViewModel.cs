@@ -252,12 +252,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool SortInDescendingOrder
 		{
-			get => UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection == SortDirection.Descending;
+			get => UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection == SortDirection.Descending;
 			set
 			{
-				if (value != (UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection == SortDirection.Descending))
+				if (value != (UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection == SortDirection.Descending))
 				{
-					UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+					UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
 					OnPropertyChanged();
 				}
 			}
@@ -265,12 +265,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool GroupInDescendingOrder
 		{
-			get => UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending;
+			get => UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending;
 			set
 			{
-				if (value != (UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending))
+				if (value != (UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection == SortDirection.Descending))
 				{
-					UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+					UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection = value ? SortDirection.Descending : SortDirection.Ascending;
 					OnPropertyChanged();
 				}
 			}
@@ -281,12 +281,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ListAndSortDirectoriesAlongsideFiles
 		{
-			get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
+			get => UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles;
 			set
 			{
-				if (value != UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles)
+				if (value != UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles)
 				{
-					UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
+					UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
 					OnPropertyChanged();
 				}
 			}

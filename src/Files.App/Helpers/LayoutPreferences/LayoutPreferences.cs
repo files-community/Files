@@ -31,9 +31,9 @@ namespace Files.App.Helpers.LayoutPreferences
 			GridViewSize = UserSettingsService.LayoutSettingsService.DefaultGridViewSize;
 			DirectorySortOption = UserSettingsService.FoldersSettingsService.DefaultSortOption;
 			DirectoryGroupOption = UserSettingsService.FoldersSettingsService.DefaultGroupOption;
-			DirectorySortDirection = UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
-			DirectoryGroupDirection = UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection;
-			SortDirectoriesAlongsideFiles = UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
+			DirectorySortDirection = UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection;
+			DirectoryGroupDirection = UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection;
+			SortDirectoriesAlongsideFiles = UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles;
 			IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
 
 			ColumnsViewModel = new ColumnsViewModel();

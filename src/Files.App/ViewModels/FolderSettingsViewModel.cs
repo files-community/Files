@@ -344,9 +344,9 @@ namespace Files.App.ViewModels
 				{
 					userSettingsService.FoldersSettingsService.DefaultGroupOption = prefs.DirectoryGroupOption;
 				}
-				userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
-				userSettingsService.LayoutSettingsService.DefaultDirectoryGroupDirection = prefs.DirectoryGroupDirection;
-				userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
+				userSettingsService.FoldersSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
+				userSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection = prefs.DirectoryGroupDirection;
+				userSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
 
 				userSettingsService.FoldersSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
@@ -528,7 +528,7 @@ namespace Files.App.ViewModels
 			var prefs = GetLayoutPreferencesForPath(folderPath);
 			switch (settingsName)
 			{
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles):
 					SortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
 					break;
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
