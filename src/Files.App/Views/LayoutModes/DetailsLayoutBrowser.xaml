@@ -697,6 +697,7 @@
 													CornerRadius="12"
 													Orientation="Horizontal"
 													Spacing="8"
+													Tapped="TagItem_Tapped"
 													ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
 													<FontIcon
 														FontSize="12"
