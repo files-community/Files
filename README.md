@@ -6,25 +6,16 @@
 [![Build Status](https://dev.azure.com/filescommunity/Files/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/filescommunity/Files/_build/latest?definitionId=4&branchName=main)
 [![Crowdin](https://badges.crowdin.net/files-app/localized.svg)](https://crowdin.com/project/files-app)
 [![Discord](https://discordapp.com/api/guilds/725513575971684472/widget.png)](https://discord.gg/files)
-<a style="text-decoration:none" href="https://www.microsoft.com/store/apps/9NGHP3DX8HDX">
-    <img src="https://img.shields.io/badge/Microsoft%20Store-Download-purple.svg?style=flat-round" alt="Store link" />
+<a style="text-decoration:none" href="https://files.community/download">
+    <img src="https://img.shields.io/badge/Download%20Installer-blue.svg?style=flat-round" alt="Download link" />
 </a>
-<a style="text-decoration:none" href="https://files.community/download/stable">
-    <img src="https://img.shields.io/badge/Sideload-Download-purple.svg?style=flat-round" alt="Sideload link" />
-</a>
-<a style="text-decoration:none" href="https://files.community/download/preview">
-    <img src="https://img.shields.io/badge/Preview-Download-blue.svg?style=flat-round" alt="Preview link" />
+<a style="text-decoration:none" href="https://files.community/docs">
+    <img src="https://img.shields.io/badge/View%20Documentation-purple.svg?style=flat-round" alt="Documentation link" />
 </a>
 
-Files is a file manager that lets you easily organize content on your device. Robust multitasking experiences, helpful tags, and deep integrations add to an intuitive design – openly developed right here.
+Introducing Files, the ultimate file manager app for Windows. With its sleek and intuitive design, navigating through your files has never been easier. Files features tabs for easy switching between different folders, a column view for quick file browsing, and dual pane support for efficient file management. In addition, you can easily create and extract archives with just a few clicks, making file compression and decompression a breeze.
 
-We welcome feedback items and approved community contributions! Vague ideas are difficult to act on, so you'll need to fill out the correct issue template with detailed information such as related links or screenshots. Keep discussions constructive by reading our [code of conduct](https://github.com/files-community/Files/blob/main/CODE_OF_CONDUCT.md).
-
-## Privacy
-This project uses App Center to drive and inform quality improvements. We may collect anonymous information not limited to the settings in use and crash reports. All information sent is free of any user-identifying or contextual data.
-
-## FAQ
-Have any questions? Check out our [documentation](https://files.community/docs)!
+Files also offers advanced features such as file tagging for easy organization, support for QuickLook for previewing files without opening them, and the ability to customize the background color to match your personal style. Whether you're a power user or just looking for a better way to manage your files, Files has everything you need to keep your files organized and easily accessible. With its combination of powerful features and ease of use, Files is the ultimate file management solution for Windows.
 
 ## Building from source
 
