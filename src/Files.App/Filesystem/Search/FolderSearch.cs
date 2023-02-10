@@ -84,7 +84,7 @@ namespace Files.App.Filesystem.Search
 				{
 					return AddItemsAsyncForLibrary(library, results, token);
 				}
-				else if (Folder == "Home".GetLocalizedResource())
+				else if (Folder == "Home")
 				{
 					return AddItemsAsyncForHome(results, token);
 				}
@@ -119,7 +119,7 @@ namespace Files.App.Filesystem.Search
 				{
 					await AddItemsAsyncForLibrary(library, results, token);
 				}
-				else if (Folder == "Home".GetLocalizedResource())
+				else if (Folder == "Home")
 				{
 					await AddItemsAsyncForHome(results, token);
 				}

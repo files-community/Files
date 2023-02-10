@@ -471,7 +471,16 @@ namespace Files.App.Views.LayoutModes
 			{
 				var checkbox = container.FindDescendant("SelectionCheckbox") as CheckBox;
 				if (checkbox is not null)
+				{
+					// Temporarily disable events to avoid selecting wrong items
+					checkbox.Checked -= ItemSelected_Checked;
+					checkbox.Unchecked -= ItemSelected_Unchecked;
+
 					checkbox.IsChecked = FileList.SelectedItems.Contains(item);
+
+					checkbox.Checked += ItemSelected_Checked;
+					checkbox.Unchecked += ItemSelected_Unchecked;
+				}
 			}
 		}
 

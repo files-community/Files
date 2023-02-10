@@ -539,7 +539,7 @@ namespace Files.App.UserControls
 				}
 				else if (isPathNull ||
 					(hasStorageItems && storageItems.AreItemsAlreadyInFolder(locationItem.Path)) ||
-					locationItem.Path.StartsWith("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+					locationItem.Path.StartsWith("Home", StringComparison.OrdinalIgnoreCase))
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
 				}

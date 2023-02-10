@@ -144,7 +144,7 @@ namespace Files.App.Helpers
 					associatedInstance.NavigateToPath(path, new NavigationArguments()
 					{
 						IsSearchResultPage = true,
-						SearchPathParam = "Home".GetLocalizedResource(),
+						SearchPathParam = "Home",
 						SearchQuery = path,
 						AssociatedTabInstance = associatedInstance,
 						NavPathParam = path

@@ -248,7 +248,7 @@
     <value>WARNUNG: Experimentelle Funktionen voraus!</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Weitermachen, wo Sie aufgehört haben</value>
+    <value>Weitermachen, wo Du aufgehört hast</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Einen neuen Tab öffnen</value>
@@ -341,7 +341,7 @@
     <value>Erlaubnis erteilen</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Um loslegen zu können, müssen Sie uns die Erlaubnis geben, Ihre Dateien anzeigen zu dürfen. Es wird eine Einstellungensseite geöffnet, auf der Sie diese Erlaubnis erteilen können. Wenn Sie diesen Schritt erledigt haben, müssen Sie die Anwendung neustarten.</value>
+    <value>Um loslegen zu können, musst Du uns die Erlaubnis geben, Deine Dateien anzeigen zu dürfen. Es wird eine Einstellungsseite geöffnet, auf der Du diese Erlaubnis erteilen kannst. Wenn Du diesen Schritt erledigt hast, musst Du die Anwendung neu starten. </value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Datei</value>
@@ -431,25 +431,25 @@
     <value>Laufwerk getrennt</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>Die Datei, auf die Sie zugreifen möchten, wurde eventuell verschoben oder gelöscht.</value>
+    <value>Die Datei, auf die Du zugreifen möchtest, wurde eventuell verschoben oder gelöscht.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Datei nicht gefunden</value>
   </data>
   <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
-    <value>Die Datei, die Sie anzeigen möchten, wurde eventuell verschoben oder gelöscht.</value>
+    <value>Die Datei, die Du anzeigen möchtest, wurde eventuell verschoben oder gelöscht.</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Der Ordner, auf den Sie zugreifen möchten, wurde eventuell verschoben oder gelöscht.</value>
+    <value>Der Ordner, auf den Du zugreifen möchtest, wurde eventuell verschoben oder gelöscht.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Haben Sie diesen Ordner gelöscht?</value>
+    <value>Hast Du diesen Ordner gelöscht?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>Die Datei, auf die Sie zugreifen möchten, wird derzeit von {0} verwendet</value>
+    <value>Die Datei, auf die Du zugreifen möchtest, wird derzeit von {0} verwendet</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>Die Datei, auf die Sie zugreifen möchten, wird derzeit von einer anderen Anwendung verwendet</value>
+    <value>Die Datei, auf die Du zugreifen möchtest, wird derzeit von einer anderen Anwendung verwendet</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Datei wird bereits verwendet.</value>
@@ -539,7 +539,7 @@
     <value>OK</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>Sind Sie sicher, dass Sie alle Elemente löschen möchten?</value>
+    <value>Bist Du sicher, dass Du alle Elemente löschen möchtest?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Papierkorb leeren</value>
@@ -710,7 +710,7 @@
     <value>Zurzeit gibt es nichts zu teilen...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>Die von Ihnen ausgewählten Elemente werden geteilt</value>
+    <value>Die von Dir ausgewählten Elemente werden geteilt</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
     <value>Das ausgewählte Element wird geteilt</value>
@@ -722,7 +722,7 @@
     <value>Teilen {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>Das Element, das Sie umbenennen möchten, ist nicht mehr vorhanden. Bitte überprüfen Sie den richtigen Speicherort des Elements, das Sie umbenennen möchten.</value>
+    <value>Das Element, das Du umbenennen möchtest, ist nicht mehr vorhanden. Bitte überprüfe den richtigen Speicherort des Elements, das Du umbenennen möchtest.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
     <value>Das Element exisitert nicht mehr</value>
@@ -743,7 +743,7 @@
     <value>Mehr</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>Die Anwendung muss neu gestartet werden, um die Einstellungen zu übernehmen. Möchten Sie die Anwendung jetzt neu starten?</value>
+    <value>Die Anwendung muss neu gestartet werden, um die Einstellungen zu übernehmen. Möchtest Du die Anwendung jetzt neu starten?</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Unterstützen Sie uns</value>
@@ -1208,7 +1208,7 @@
     <value>Nein</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
-    <value>Möchtest du die neueste Version von Files herunterladen und installieren?</value>
+    <value>Möchtest Du die neueste Version von Files herunterladen und installieren?</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Updates verfügbar</value>
@@ -1337,16 +1337,16 @@
     <value>Dateispeicherort öffnen</value>
   </data>
   <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Aus Gruppe entfernen</value>
+    <value>Aus Sammlung entfernen</value>
   </data>
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Gruppe entfernen</value>
+    <value>Sammlung entfernen</value>
   </data>
   <data name="Bundles" xml:space="preserve">
     <value>Sammlungen</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Füge Dateien und Ordner durch Ziehen und Ablegen hinzu</value>
+    <value>Füge Dateien und Ordner durch Ziehen und Ablegen hinzu, um schnell darauf zuzugreifen</value>
   </data>
   <data name="EnterBundleName" xml:space="preserve">
     <value>Sammlungsnamen eingeben</value>
@@ -1436,7 +1436,7 @@
     <value>Mehrfachauswahl</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>Wenn du die Dateierweiterung änderst, wird die Datei möglicherweise unbrauchbar. Bist du sicher, dass du sie ändern möchtest?</value>
+    <value>Wenn Du die Dateierweiterung änderst, wird die Datei möglicherweise unbrauchbar. Bist Du sicher, dass Du sie ändern möchtest?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD-ROM-Laufwerk</value>
@@ -1541,7 +1541,7 @@
     <value>Diese Aktion erfordert Administratorrechte</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
-    <value>Möchten Sie als Administrator fortfahren?</value>
+    <value>Möchtest Du als Administrator fortfahren?</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
     <value>Files wird mit Administratorrechten ausgeführt</value>
@@ -1670,7 +1670,7 @@
     <value>Zuletzt geöffnete Dateien-Widget anzeigen</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Nicht gefunden was du suchst?</value>
+    <value>Nicht gefunden, was Du suchst?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Nicht indizierte Objekte durchsuchen</value>
@@ -1700,7 +1700,7 @@
     <value>Es gibt einen Dateinamenkonflikt.</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>Ordner aus Auswahl erzeugen</value>
+    <value>Ordner aus Auswahl erstellen</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Name:</value>
@@ -1979,7 +1979,7 @@
     <value>Unbekannter Account</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>Sie sind nicht berechtigt, die Sicherheitseigenschaften dieses Objektes anzusehen. Klicken Sie auf "Erweiterte Rechte", um fortzufahren.</value>
+    <value>Du bist nicht berechtigt, die Sicherheitseigenschaften dieses Objektes anzusehen. Klicke auf "Erweiterte Rechte", um fortzufahren.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Besitzer</value>
@@ -2015,7 +2015,7 @@
     <value>Wiederherstellen</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>Sind Sie sicher, dass Sie die Standardbibliotheken wiederherstellen möchten? Alle Dateien verbleiben auf der Festplatte.</value>
+    <value>Bist Du sicher, dass Du die Standardbibliotheken wiederherstellen möchtest? Alle Dateien verbleiben auf der Festplatte.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Bibliotheken wiederherstellen</value>
@@ -2057,7 +2057,7 @@
     <value>Typ</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>Du bist nicht berechtigt, die Sicherheitseingenschaften dieses Objektes anzuschauen. Du kannst versuchen Besitzer dieses Objektes zu werden</value>
+    <value>Du bist nicht berechtigt, die Sicherheitseigenschaften dieses Objektes anzuschauen. Du kannst versuchen, Besitzer dieses Objektes zu werden.</value>
   </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
     <value>Speziell</value>
@@ -2279,19 +2279,19 @@
     <value>Entpacken abgeschlossen!</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Str+Umschalt+N</value>
+    <value>Strg+Umschalt+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Elternordner öffnen</value>
+    <value>Übergeordneten Ordner öffnen</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Unbekannt</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Schlagwort</value>
+    <value>Tag</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Tags ändern</value>
+    <value>Tags bearbeiten</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Favoriten anzeigen</value>
@@ -2552,7 +2552,7 @@
     <value>Lizenzen von Drittanbietern</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Diese Einstellung modifiziert Systemdateien und kann zu unerwarteten Problemen führen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit Aktivierung dieser Einstellungen bestätigen Sie, dass Ihnen dieses Risiko bewusst ist.</value>
+    <value>Diese Einstellung modifiziert Systemdateien und kann zu unerwarteten Problemen führen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit Aktivierung dieser Einstellungen bestätigst Du, dass Dir dieses Risiko bewusst ist.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Alles löschen</value>
@@ -2621,7 +2621,7 @@
     <value>Mit PowerShell ausführen</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Da das Berechnen der Ordnergrößen rechenintensiv ist kann die CPU-Auslastung erhöht werden.</value>
+    <value>Da das Berechnen der Ordnergrößen rechenintensiv ist, kann die CPU-Auslastung erhöht werden.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Gegen den Uhrzeigersinn drehen</value>
@@ -2672,7 +2672,7 @@
     <value>Verschieben fehlgeschlagen</value>
   </data>
   <data name="FileTags" xml:space="preserve">
-    <value>Schlagwörter</value>
+    <value>Tags</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
     <value>Tags anzeigen</value>
@@ -2681,7 +2681,7 @@
     <value>Tags anzeigen</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Kompakte Stile im Detaillayout verwenden</value>
+    <value>Kompakte Ansicht im Detaillayout verwenden</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universell</value>
@@ -2696,7 +2696,7 @@
     <value>Wiederholen</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Verschieben wird in diesem Kontext nicht unterstützt. Möchten Sie die Elemente stattdessen kopieren?</value>
+    <value>Verschieben wird in diesem Kontext nicht unterstützt. Möchtest Du die Elemente stattdessen kopieren?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
     <value>Versteckte Elemente</value>
@@ -2729,7 +2729,7 @@
     <value>File bewerten</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Möchten Sie Files bewerten?</value>
+    <value>Möchtest Du Files bewerten?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Als Hintergrund festlegen</value>
@@ -2765,10 +2765,10 @@
     <value>Zurücksetzen</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>Diese Aktion wird alle Verzeichnisse auf Ihre Standardeinstellungen zurücksetzen.</value>
+    <value>Diese Aktion wird alle Verzeichnisse auf Deine Standardeinstellungen zurücksetzen.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Sind Sie sicher?</value>
+    <value>Bist du sicher?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Sperrbildschirm</value>
@@ -2801,13 +2801,13 @@
     <value>Dateien und Ordner beim Überfahren auswählen</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Sind Sie sicher, dass Sie alle Elemente im Papierkorb wiederherstellen möchten?</value>
+    <value>Bist Du sicher, dass Du alle Elemente im Papierkorb wiederherstellen möchtest?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>Alle Elemente wiederherstellen</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Möchten Sie {0} ausgewählte Elemente(n) wiederherstellen?</value>
+    <value>Möchtest Du {0} ausgewählte(s) Element(e) wiederherstellen?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Auswahl wiederherstellen</value>
@@ -2822,10 +2822,10 @@
     <value>Verknüpfung kann nicht geöffnet werden</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>Das Ziel {0} konnte nicht gefunden werden. Möchten Sie diese Verknüpfung löschen?</value>
+    <value>Das Ziel {0} konnte nicht gefunden werden. Möchtest Du diese Verknüpfung löschen?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>Sie haben keine Berechtigung für den Zugriff auf diesen Ordner.</value>
+    <value>Du hast keine Berechtigung für den Zugriff auf diesen Ordner.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Themen werden geladen</value>
