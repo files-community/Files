@@ -689,7 +689,7 @@
 										</ItemsRepeater.Layout>
 										<ItemsRepeater.ItemTemplate>
 											<DataTemplate x:DataType="filetags:TagViewModel">
-												<Border PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
+												<UserControl PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
 													<StackPanel
 														Height="24"
 														Padding="8,0"
@@ -729,7 +729,7 @@
 															</VisualStateGroup>
 														</VisualStateManager.VisualStateGroups>
 													</StackPanel>
-												</Border>
+												</UserControl>
 											</DataTemplate>
 										</ItemsRepeater.ItemTemplate>
 									</ItemsRepeater>
