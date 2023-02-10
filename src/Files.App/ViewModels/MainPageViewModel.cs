@@ -176,7 +176,7 @@ namespace Files.App.ViewModels
 		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
 		{
 			if (string.IsNullOrEmpty(path))
-				path = "Home".GetLocalizedResource();
+				path = "Home";
 			else if (path.EndsWith("\\?")) // Support drives launched through jump list by stripping away the question mark at the end.
 				path = path.Remove(path.Length - 1);
 
@@ -254,7 +254,7 @@ namespace Files.App.ViewModels
 			var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
 			string toolTipText = currentPath;
 
-			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home".GetLocalizedResource())
+			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home")
 			{
 				tabLocationHeader = "Home".GetLocalizedResource();
 				iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
@@ -372,7 +372,7 @@ namespace Files.App.ViewModels
 							var tabArgs = TabItemArguments.Deserialize(tabArgsString);
 							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
 						}
-						var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
+						var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
 						userSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 					}
 					else
@@ -402,7 +402,7 @@ namespace Files.App.ViewModels
 
 		public static Task AddNewTabAsync()
 		{
-			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
+			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
 		}
 
 		public void AddNewTab()
@@ -427,7 +427,7 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
+				await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
 			}
 		}
 

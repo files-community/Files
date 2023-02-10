@@ -262,12 +262,12 @@ namespace Files.App.Views
 						{
 							navigationPath = invokedItemContainer.Tag?.ToString();
 						}
-						else if (ItemPath.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase)) // Home item
+						else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
 						{
 							if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
 								return; // return if already selected
 
-							navigationPath = "Home".GetLocalizedResource();
+							navigationPath = "Home";
 							sourcePageType = typeof(WidgetsPage);
 						}
 						else // Any other item
@@ -285,7 +285,7 @@ namespace Files.App.Views
 						shp.NavigateToPath(tagPath, new NavigationArguments()
 						{
 							IsSearchResultPage = true,
-							SearchPathParam = "Home".GetLocalizedResource(),
+							SearchPathParam = "Home",
 							SearchQuery = tagPath,
 							AssociatedTabInstance = shp,
 							NavPathParam = tagPath
