@@ -708,6 +708,7 @@
 															Glyph="&#xE1CB;"
 															Tapped="TagIcon_Tapped" />
 														<TextBlock
+															Padding="8,0,0,0"
 															VerticalAlignment="Center"
 															FontSize="12"
 															LineHeight="18"
