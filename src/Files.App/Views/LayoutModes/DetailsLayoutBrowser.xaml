@@ -704,7 +704,10 @@
 													<FontIcon
 														FontSize="12"
 														Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-														Glyph="&#xE1CB;" />
+														Glyph="&#xE1CB;"
+														PointerEntered="TagIcon_PointerEntered"
+														PointerExited="TagIcon_PointerExited"
+														Tapped="TagIcon_Tapped" />
 													<TextBlock
 														x:Name="ItemTag"
 														VerticalAlignment="Center"
