@@ -741,12 +741,12 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState((UserControl)sender, "PointerOver", true);
+			VisualStateManager.GoToState((Border)sender, "PointerOver", true);
 		}
 
 		private void FileTag_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
+			VisualStateManager.GoToState((Border)sender, "Normal", true);
 		}
 
 		private void TagIcon_Tapped(object sender, TappedRoutedEventArgs e)
