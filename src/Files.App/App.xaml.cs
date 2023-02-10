@@ -176,9 +176,7 @@ namespace Files.App
 			try
 			{
 				if (!AppCenter.Configured)
-				{
 					AppCenter.Start("", typeof(Analytics), typeof(Crashes));
-				}
 			}
 			catch (Exception ex)
 			{
