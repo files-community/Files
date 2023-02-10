@@ -161,7 +161,7 @@
 				extensions:FrameworkElementExtensions.Cursor="Hand"
 				x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
 				Background="{ThemeResource TextControlBackground}"
-				BorderBrush="{ThemeResource TextControlBorderBrush}"
+				BorderBrush="{ThemeResource ControlElevationBorderBrush}"
 				BorderThickness="1"
 				CornerRadius="{StaticResource ControlCornerRadius}"
 				PointerPressed="ManualPathEntryItem_Click"
