@@ -689,7 +689,7 @@
 										</ItemsRepeater.Layout>
 										<ItemsRepeater.ItemTemplate>
 											<DataTemplate x:DataType="filetags:TagViewModel">
-												<UserControl PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
+												<Border PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
 													<StackPanel
 														Height="24"
 														Padding="8,0"
@@ -706,7 +706,8 @@
 															FontSize="12"
 															Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
 															Glyph="&#xE1CB;"
-															Tapped="TagIcon_Tapped" />
+															Tapped="TagIcon_Tapped"
+															ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
 														<TextBlock
 															Padding="8,0,0,0"
 															VerticalAlignment="Center"
@@ -728,7 +729,7 @@
 															</VisualStateGroup>
 														</VisualStateManager.VisualStateGroups>
 													</StackPanel>
-												</UserControl>
+												</Border>
 											</DataTemplate>
 										</ItemsRepeater.ItemTemplate>
 									</ItemsRepeater>
