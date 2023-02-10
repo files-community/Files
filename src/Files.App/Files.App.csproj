@@ -45,7 +45,6 @@
         <Content Include="7z64.dll">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Include="Resources\AppCenterKey.txt" />
         <Content Include="Resources\BingMapsKey.txt" />
         <Content Include="Resources\PreviewPanePropertiesInformation.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

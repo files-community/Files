@@ -171,23 +171,20 @@ namespace Files.App
 			QuickAccessManager ??= new QuickAccessManager();
 		}
 
-		private static async Task StartAppCenter()
+		private static Task StartAppCenter()
 		{
 			try
 			{
+				// AppCenter secret is injected in builds/azure-pipelines-release.yml
 				if (!AppCenter.Configured)
-				{
-					var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
-					var lines = await FileIO.ReadTextAsync(file);
-					using var document = System.Text.Json.JsonDocument.Parse(lines);
-					var obj = document.RootElement;
-					AppCenter.Start(obj.GetProperty("key").GetString(), typeof(Analytics), typeof(Crashes));
-				}
+					AppCenter.Start("", typeof(Analytics), typeof(Crashes));
 			}
 			catch (Exception ex)
 			{
 				Logger.Warn(ex, "AppCenter could not be started.");
 			}
+
+			return Task.CompletedTask;
 		}
 
 		private static async Task InitializeAppComponentsAsync()
