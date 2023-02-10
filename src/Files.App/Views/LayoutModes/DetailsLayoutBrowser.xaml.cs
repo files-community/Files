@@ -730,14 +730,14 @@ namespace Files.App.Views.LayoutModes
 			ParentShellPageInstance?.SubmitSearch($"tag:{tagName}", false);
 		}
 
-		private void TagIcon_PointerEntered(object sender, PointerRoutedEventArgs e)
+		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			(sender as FontIcon).Glyph = "\uE711";
+			VisualStateManager.GoToState((UserControl)sender, "PointerOver", true);
 		}
 
-		private void TagIcon_PointerExited(object sender, PointerRoutedEventArgs e)
+		private void FileTag_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
-			(sender as FontIcon).Glyph = "\uE1CB";
+			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
 		}
 
 		private void TagIcon_Tapped(object sender, TappedRoutedEventArgs e)
