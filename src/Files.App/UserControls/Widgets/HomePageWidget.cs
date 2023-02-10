@@ -6,8 +6,10 @@ using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
 using Files.App.ServicesImplementation.Settings;
+using Files.App.Storage.NativeStorage;
 using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
+using Files.Sdk.Storage;
 using Files.Shared.Extensions;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -29,6 +31,7 @@ namespace Files.App.UserControls.Widgets
 	{
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		public IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 
 		public ICommand RemoveRecentItemCommand;
 		public ICommand ClearAllItemsCommand;
@@ -41,13 +44,13 @@ namespace Files.App.UserControls.Widgets
 
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned);
 
-		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		public async void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			if (sender is not Button widgetCardItem || widgetCardItem.DataContext is not WidgetCardItem item)
 				return;
 
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(await StorageService.GetFolderFromPathAsync(item.Path)));
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
 			if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
@@ -57,7 +60,7 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
 
-			ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
+			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}

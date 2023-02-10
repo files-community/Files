@@ -1,4 +1,5 @@
-﻿using Files.Shared;
+﻿using Files.Sdk.Storage.LocatableStorage;
+using Files.Shared;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -40,6 +41,11 @@ namespace Files.App.ServicesImplementation
 		/// <returns></returns>
 		Task UnpinFromSidebar(string[] folderPaths);
 
-		bool IsItemPinned(string folderPath);
+		/// <summary>
+		/// Checks if a folder is pinned to the quick access list
+		/// </summary>
+		/// <param name="folderPath">The path of the folder</param>
+		/// <returns>true if the item is pinned</returns>
+		bool IsItemPinned(ILocatableFolder folder);
 	}
 }

@@ -223,7 +223,7 @@ namespace Files.App.Helpers
 			return item?.Items;
 		}
 
-		public static async void LoadShellMenuItems(string path, CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options = null, bool showOpenWithMenu = false)
+		public static async Task LoadShellMenuItems(string path, CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options = null, bool showOpenWithMenu = false)
 		{ 
 			try
 			{

@@ -131,11 +131,11 @@ namespace Files.App.UserControls.Widgets
 
 			App.DrivesManager.DataChanged += Manager_DataChanged;
 
-			EjectDeviceCommand = new RelayCommand<DriveCardItem>(EjectDevice);
+			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDevice);
 			OpenInNewTabCommand = new RelayCommand<WidgetCardItem>(OpenInNewTab);
 			OpenInNewWindowCommand = new RelayCommand<WidgetCardItem>(OpenInNewWindow);
-			OpenInNewPaneCommand = new RelayCommand<DriveCardItem>(OpenInNewPane);
-			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(OpenProperties);
+			OpenInNewPaneCommand = new AsyncRelayCommand<DriveCardItem>(OpenInNewPane);
+			OpenPropertiesCommand = new AsyncRelayCommand<DriveCardItem>(OpenProperties);
 			PinToFavoritesCommand = new RelayCommand<WidgetCardItem>(PinToFavorites);
 			UnpinFromFavoritesCommand = new RelayCommand<WidgetCardItem>(UnpinFromFavorites);
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
@@ -248,14 +248,14 @@ namespace Files.App.UserControls.Widgets
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		private async void EjectDevice(DriveCardItem item)
+		private async Task EjectDevice(DriveCardItem item)
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(item.Item.Path);
 			await UIHelpers.ShowDeviceEjectResultAsync(result);
 		}
 
 
-		private async void OpenProperties(DriveCardItem item)
+		private async Task OpenProperties(DriveCardItem item)
 		{ 
 			await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance); 
 		}
@@ -301,7 +301,7 @@ namespace Files.App.UserControls.Widgets
 			get => AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
 		}
 
-		private async void OpenInNewPane(DriveCardItem item)
+		private async Task OpenInNewPane(DriveCardItem item)
 		{
 			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
 				return;

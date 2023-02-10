@@ -1,5 +1,6 @@
 ﻿using Files.App.Shell;
 using Files.App.UserControls.Widgets;
+using Files.Sdk.Storage.LocatableStorage;
 using Files.Shared;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Shapes;
@@ -54,9 +55,9 @@ namespace Files.App.ServicesImplementation
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));
 		}
 
-		public bool IsItemPinned(string folderPath)
+		public bool IsItemPinned(ILocatableFolder folder)
 		{
-			return App.QuickAccessManager.Model.FavoriteItems.Contains(folderPath);
+			return App.QuickAccessManager.Model.FavoriteItems.Contains(folder.Path);
 		}
 	}
 }
