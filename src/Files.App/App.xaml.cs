@@ -175,6 +175,7 @@ namespace Files.App
 		{
 			try
 			{
+				// AppCenter secret is injected in builds/azure-pipelines-release.yml
 				if (!AppCenter.Configured)
 					AppCenter.Start("", typeof(Analytics), typeof(Crashes));
 			}
