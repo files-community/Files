@@ -93,7 +93,7 @@ namespace Files.App.ViewModels
 
 			if (string.IsNullOrEmpty(value))
 			{
-				//SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalizedResource()));
+				//SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
 				return;
 			}
 
@@ -101,8 +101,8 @@ namespace Files.App.ViewModels
 			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
 			item ??= sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
 			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
-			if (item is null && value == "Home".GetLocalizedResource())
-				item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalizedResource()));
+			if (item is null && value == "Home")
+				item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
 
 			if (SidebarSelectedItem != item)
 				SidebarSelectedItem = item;
@@ -382,7 +382,7 @@ namespace Files.App.ViewModels
 				case SectionType.Home:
 					{
 						section = BuildSection("Home".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
-						section.Path = "Home".GetLocalizedResource();
+						section.Path = "Home";
 						section.Font = App.AppModel.SymbolFontFamily;
 						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 						break;

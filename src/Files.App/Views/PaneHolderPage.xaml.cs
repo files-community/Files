@@ -226,7 +226,7 @@ namespace Files.App.Views
 			if (eventArgs.Parameter is string navPath)
 			{
 				NavParamsLeft = new NavigationParams { NavPath = navPath };
-				NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
+				NavParamsRight = new NavigationParams { NavPath = "Home" };
 			}
 			else if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
 			{
@@ -309,7 +309,7 @@ namespace Files.App.Views
 					{
 						if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
 						{
-							NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
+							NavParamsRight = new NavigationParams { NavPath = "Home" };
 						}
 						IsRightPaneVisible = true;
 						ActivePane = PaneRight;
@@ -326,7 +326,7 @@ namespace Files.App.Views
 					{
 						if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
 						{
-							NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
+							NavParamsRight = new NavigationParams { NavPath = "Home" };
 						}
 						IsRightPaneVisible = true;
 					}

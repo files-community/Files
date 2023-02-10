@@ -560,7 +560,7 @@ namespace Files.App.ViewModels
 		public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
 		{
 			if (((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
-				pathBoxItem.Path == "Home".GetLocalizedResource())
+				pathBoxItem.Path == "Home")
 			{
 				return;
 			}
@@ -582,7 +582,7 @@ namespace Files.App.ViewModels
 			dragOverPath = null; // Reset dragged over pathbox item
 
 			if (((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
-				pathBoxItem.Path == "Home".GetLocalizedResource())
+				pathBoxItem.Path == "Home")
 			{
 				return;
 			}
@@ -608,7 +608,7 @@ namespace Files.App.ViewModels
 		{
 			if (IsSingleItemOverride ||
 				((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
-				pathBoxItem.Path == "Home".GetLocalizedResource())
+				pathBoxItem.Path == "Home")
 			{
 				return;
 			}
@@ -988,7 +988,7 @@ namespace Files.App.ViewModels
 
 			if (currentInput != shellPage.FilesystemViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(WidgetsPage))
 			{
-				if (currentInput.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+				if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
 					shellPage.NavigateHome();
 				}

@@ -167,7 +167,7 @@ namespace Files.App.Views
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
 
-			ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
+			ToolbarViewModel.PathControlDisplayText = "Home";
 
 			ToolbarViewModel.ToolbarPathItemInvoked += ModernShellPage_NavigationRequested;
 			ToolbarViewModel.ToolbarFlyoutOpened += ModernShellPage_ToolbarFlyoutOpened;
@@ -253,7 +253,7 @@ namespace Files.App.Views
 			ToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
 			ToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
-			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
+			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home"));
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, this));
@@ -527,7 +527,7 @@ namespace Files.App.Views
 
 		private void OnNavigationParamsChanged()
 		{
-			if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home".GetLocalizedResource())
+			if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home")
 			{
 				ItemDisplayFrame.Navigate(typeof(WidgetsPage),
 					new NavigationArguments()
@@ -546,7 +546,7 @@ namespace Files.App.Views
 						NavPathParam = NavParams.NavPath,
 						SelectItems = !string.IsNullOrWhiteSpace(NavParams?.SelectItem) ? new[] { NavParams.SelectItem } : null,
 						IsSearchResultPage = isTagSearch,
-						SearchPathParam = isTagSearch ? "Home".GetLocalizedResource() : null,
+						SearchPathParam = isTagSearch ? "Home" : null,
 						SearchQuery = isTagSearch ? navParams.NavPath : null,
 						AssociatedTabInstance = this
 					});
@@ -905,7 +905,7 @@ namespace Files.App.Views
 				ItemDisplayFrame.Navigate(typeof(WidgetsPage),
 					new NavigationArguments()
 					{
-						NavPathParam = "Home".GetLocalizedResource(),
+						NavPathParam = "Home",
 						AssociatedTabInstance = this
 					}, new SuppressNavigationTransitionInfo());
 			}
@@ -934,7 +934,7 @@ namespace Files.App.Views
 		private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
 		{
 			if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType is not null)
-				ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
+				ToolbarViewModel.PathControlDisplayText = "Home";
 		}
 
 		public void Dispose()
@@ -1050,7 +1050,7 @@ namespace Files.App.Views
 			ItemDisplayFrame.Navigate(typeof(WidgetsPage),
 				new NavigationArguments()
 				{
-					NavPathParam = "Home".GetLocalizedResource(),
+					NavPathParam = "Home",
 					AssociatedTabInstance = this
 				}, new SuppressNavigationTransitionInfo());
 		}

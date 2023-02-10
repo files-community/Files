@@ -126,7 +126,7 @@ namespace Files.App.ViewModels
 			else if (!Path.IsPathRooted(WorkingDirectory) || Path.GetPathRoot(WorkingDirectory) != Path.GetPathRoot(value))
 				workingRoot = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(value));
 
-			if (value == "Home".GetLocalizedResource())
+			if (value == "Home")
 				currentStorageFolder = null;
 			else
 				App.JumpList.AddFolderToJumpList(value);
@@ -458,7 +458,7 @@ namespace Files.App.ViewModels
 		{
 			await dispatcherQueue.EnqueueAsync(() =>
 			{
-				if (WorkingDirectory != "Home".GetLocalizedResource())
+				if (WorkingDirectory != "Home")
 					RefreshItems(null);
 			});
 		}
@@ -477,7 +477,7 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.FoldersSettingsService.SelectFilesOnHover):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
-						if (WorkingDirectory != "Home".GetLocalizedResource())
+						if (WorkingDirectory != "Home")
 							RefreshItems(null);
 					});
 					break;
