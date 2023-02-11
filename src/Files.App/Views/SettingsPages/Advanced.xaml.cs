@@ -18,8 +18,6 @@ namespace Files.App.SettingsPages
 
 		private string oldTagName = string.Empty;
 
-		private int nextRenameIndex = 0;
-
 		private TagViewModel? renamingTag;
 
 		private TagViewModel? preRenamingTag;
@@ -84,10 +82,7 @@ namespace Files.App.SettingsPages
 					textBox.LostFocus -= RenameTextBox_LostFocus;
 
 					var isShiftPressed = (GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
-					nextRenameIndex = isShiftPressed ? -1 : 1;
-
-					var newIndex = TagsList.SelectedIndex + nextRenameIndex;
-					nextRenameIndex = 0;
+					var newIndex = TagsList.SelectedIndex + (isShiftPressed ? -1 : 1);
 
 					if (textBox.Text != oldTagName)
 						CommitRename(textBox);
