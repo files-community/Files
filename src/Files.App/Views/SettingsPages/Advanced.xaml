@@ -216,8 +216,7 @@
 															Grid.Column="2"
 															ColorChanged="ColorPicker_ColorChanged"
 															IsAlphaEnabled="True"
-															IsColorSpectrumVisible="False"
-															Color="{x:Bind Color}" />
+															IsColorSpectrumVisible="False" />
 													</Flyout>
 												</Ellipse.ContextFlyout>
 											</Ellipse>
