@@ -159,11 +159,6 @@
 									Icon="Add"
 									Label="{helpers:ResourceString Name=Add}" />
 								<AppBarButton
-									Command="{x:Bind ViewModel.EditTagCommand}"
-									Icon="Edit"
-									IsEnabled="{x:Bind ViewModel.AreTagsCommandEnabled, Mode=OneWay}"
-									Label="{helpers:ResourceString Name=Edit}" />
-								<AppBarButton
 									Command="{x:Bind ViewModel.DeleteTagCommand}"
 									Icon="Delete"
 									IsEnabled="{x:Bind ViewModel.AreTagsCommandEnabled, Mode=OneWay}"
@@ -181,7 +176,8 @@
 								IsItemClickEnabled="True"
 								ItemsSource="{x:Bind ViewModel.Tags, Mode=TwoWay}"
 								SelectedIndex="{x:Bind ViewModel.SelectedTagIndex, Mode=TwoWay}"
-								SelectionMode="Single">
+								SelectionMode="Single"
+								Tapped="TagsList_Tapped">
 								<ListView.ItemTemplate>
 									<DataTemplate xmlns:vm="using:Files.Backend.ViewModels.FileTags" x:DataType="vm:TagViewModel">
 										<Grid>
@@ -192,10 +188,20 @@
 											</Grid.ColumnDefinitions>
 
 											<TextBlock
+												x:Name="TagName"
 												VerticalAlignment="Center"
 												Text="{x:Bind Name}"
 												TextTrimming="CharacterEllipsis"
 												ToolTipService.ToolTip="{x:Bind Name}" />
+											<TextBox
+												x:Name="TagNameTextBox"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Center"
+												Visibility="Collapsed">
+												<TextBox.Resources>
+													<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
+												</TextBox.Resources>
+											</TextBox>
 											<Ellipse
 												Grid.Column="2"
 												Width="24"

@@ -15,6 +15,8 @@ namespace Files.App.ServicesImplementation.Settings
 	{
 		public event EventHandler OnSettingImportedEvent;
 
+		public event EventHandler OnTagsUpdated;
+
 		private static readonly List<TagViewModel> DefaultFileTags = new List<TagViewModel>()
 		{
 			new("Home", "#0072BD", "f7e0e137-2eb5-4fa4-a50d-ddd65df17c34"),
@@ -75,8 +77,8 @@ namespace Files.App.ServicesImplementation.Settings
 		public void CreateNewTag()
 		{
 			var newTag = new TagViewModel(
-				"NewTag", 
-				"#E2E2E2", 
+				"NewTag",
+				"#9EA3A1",
 				Guid.NewGuid().ToString());
 
 			var oldTags = FileTagList.ToList();
@@ -87,26 +89,30 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public void EditTag(string uid, string name, string color)
 		{
-			var tag = FileTagList.FirstOrDefault(tag => tag.Uid == uid);
+			var (tag, index) = GetTagAndIndex(uid);
 			if (tag is null)
 				return;
 
 			tag.Name = name;
 			tag.Color = color;
 
+			var oldTags = FileTagList.ToList();
+			oldTags.RemoveAt(index);
+			oldTags.Insert(index, tag);
+			FileTagList = oldTags;
 			SaveTags();
 		}
 
-		public void DeleteTag(TagViewModel tag)
+		public void DeleteTag(string uid)
 		{
-			FileTagList.Remove(tag);
-			SaveTags();
-		}
+			var (_, index) = GetTagAndIndex(uid);
+			if (index == -1)
+				return;
 
-		private void SaveTags()
-		{
-			var tags = new { FileTagList = this.FileTagList };
-			SettingsSerializer.WriteToFile(JsonSettingsSerializer.SerializeToJson(tags));
+			var oldTags = FileTagList.ToList();
+			oldTags.RemoveAt(index);
+			FileTagList = oldTags;
+			SaveTags();
 		}
 
 		public override bool ImportSettings(object import)
@@ -136,6 +142,31 @@ namespace Files.App.ServicesImplementation.Settings
 		{
 			// Return string in Json format
 			return JsonSettingsSerializer.SerializeToJson(FileTagList);
+		}
+
+		private (TagViewModel?, int) GetTagAndIndex(string uid)
+		{
+			TagViewModel? tag = null;
+			int index = -1;
+
+			for (int i = 0; i < FileTagList.Count; i++)
+			{
+				if (FileTagList[i].Uid == uid)
+				{
+					tag = FileTagList[i];
+					index = i;
+					break;
+				}
+			}
+
+			return (tag, index);
+		}
+
+		private void SaveTags()
+		{
+			var tags = new { FileTagList = this.FileTagList };
+			SettingsSerializer.WriteToFile(JsonSettingsSerializer.SerializeToJson(tags));
+			OnTagsUpdated.Invoke(this, EventArgs.Empty);
 		}
 	}
 }

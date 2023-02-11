@@ -22,7 +22,6 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using static Files.App.Helpers.MenuFlyoutHelper;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
@@ -81,7 +80,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			OpenSettingsJsonCommand = new AsyncRelayCommand(OpenSettingsJson);
 
 			AddTagCommand = new RelayCommand(AddNewTag);
-			EditTagCommand = new RelayCommand(EditExistingTag);
 			DeleteTagCommand = new RelayCommand(DeleteExistingTag);
 
 			Tags = fileTagsSettingsService.FileTagList is not null
@@ -331,9 +329,11 @@ namespace Files.App.ViewModels.SettingsViewModels
 			Tags.EnumeratedAdd(fileTagsSettingsService.FileTagList);
 		}
 
-		private void EditExistingTag()
+		public void EditExistingTag(TagViewModel tag, string newName, string color)
 		{
-
+			fileTagsSettingsService.EditTag(tag.Uid, newName, color);
+			Tags.Clear();
+			Tags.EnumeratedAdd(fileTagsSettingsService.FileTagList);
 		}
 
 		private void DeleteExistingTag()
@@ -345,7 +345,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			var tagToRemove = Tags[index];
 			Tags.RemoveAt(index);
 
-			fileTagsSettingsService.DeleteTag(tagToRemove);
+			fileTagsSettingsService.DeleteTag(tagToRemove.Uid);
 
 			if (index > 0)
 				SelectedTagIndex = index - 1;
