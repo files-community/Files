@@ -136,6 +136,10 @@ namespace Files.App.UserControls.Widgets
 
 		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget;
 
+		public bool ShowMenuFlyout => false;
+
+		public MenuFlyoutItem? MenuFlyoutItem => null;
+
 		public ICommand QuickAccessCardCommand { get; }
 
 		public ICommand ShowCreateNewLibraryDialogCommand { get; } = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);

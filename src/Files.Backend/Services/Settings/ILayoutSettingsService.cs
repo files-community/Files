@@ -6,9 +6,5 @@ namespace Files.Backend.Services.Settings
 	public interface ILayoutSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		int DefaultGridViewSize { get; set; }
-
-		SortDirection DefaultDirectorySortDirection { get; set; }
-
-		bool DefaultSortDirectoriesAlongsideFiles { get; set; }
 	}
 }

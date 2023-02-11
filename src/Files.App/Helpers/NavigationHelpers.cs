@@ -144,7 +144,7 @@ namespace Files.App.Helpers
 					associatedInstance.NavigateToPath(path, new NavigationArguments()
 					{
 						IsSearchResultPage = true,
-						SearchPathParam = "Home".GetLocalizedResource(),
+						SearchPathParam = "Home",
 						SearchQuery = path,
 						AssociatedTabInstance = associatedInstance,
 						NavPathParam = path
@@ -179,7 +179,7 @@ namespace Files.App.Helpers
 
 						// Delete shortcut
 						var shortcutItem = StorageHelpers.FromPathAndType(path, FilesystemItemType.File);
-						await associatedInstance.FilesystemHelpers.DeleteItemAsync(shortcutItem, false, false, true);
+						await associatedInstance.FilesystemHelpers.DeleteItemAsync(shortcutItem, DeleteConfirmationPolicies.Never, false, true);
 					}
 				}
 				else if (isReparsePoint)

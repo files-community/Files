@@ -4,7 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:Microsoft.UI.Xaml.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="using:Files.App.UserControls.Widgets"
+	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Widgets"
 	d:DesignHeight="300"
@@ -182,27 +182,60 @@
 				</ListView.ItemContainerStyle>
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
-						<controls:Expander
-							Padding="16,0,16,0"
-							HorizontalAlignment="Stretch"
-							HorizontalContentAlignment="Stretch"
-							AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}"
-							Header="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}"
-							IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
-							Style="{StaticResource Local.WidgetExpanderStyle}">
-							<controls:Expander.Resources>
-								<SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent" />
-								<SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="Transparent" />
-								<SolidColorBrush x:Key="ExpanderHeaderBorderPointerOverBrush" Color="Transparent" />
-								<SolidColorBrush x:Key="ExpanderHeaderBorderPressedBrush" Color="Transparent" />
-								<SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent" />
-								<SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="Transparent" />
-							</controls:Expander.Resources>
-							<ContentControl
+						<Grid>
+							<controls:Expander
+								Padding="16,0,16,0"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Stretch"
-								Content="{x:Bind WidgetControl, Mode=OneWay}" />
-						</controls:Expander>
+								AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}"
+								Header="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}"
+								IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+								Style="{StaticResource Local.WidgetExpanderStyle}">
+								<controls:Expander.Resources>
+									<SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent" />
+									<SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="Transparent" />
+									<SolidColorBrush x:Key="ExpanderHeaderBorderPointerOverBrush" Color="Transparent" />
+									<SolidColorBrush x:Key="ExpanderHeaderBorderPressedBrush" Color="Transparent" />
+									<SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent" />
+									<SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="Transparent" />
+								</controls:Expander.Resources>
+								<ContentControl
+									HorizontalAlignment="Stretch"
+									HorizontalContentAlignment="Stretch"
+									Content="{x:Bind WidgetControl, Mode=OneWay}" />
+							</controls:Expander>
+
+							<!--  Menu Flyout  -->
+							<Button
+								x:Name="MenuFlyout"
+								Width="36"
+								Height="32"
+								Margin="0,8,50,0"
+								Padding="0"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Top"
+								x:Load="{x:Bind ShowMenuFlyout, Mode=OneWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=MoreOptions}"
+								Background="Transparent"
+								BorderBrush="Transparent"
+								ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
+								<FontIcon
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									FontSize="14"
+									Glyph="&#xe712;" />
+
+								<Button.Flyout>
+									<MenuFlyout>
+										<MenuFlyoutItem
+											x:Name="FlyoutItem"
+											Command="{x:Bind MenuFlyoutItem.Command}"
+											Icon="{x:Bind MenuFlyoutItem.Icon}"
+											Text="{x:Bind MenuFlyoutItem.Text}" />
+									</MenuFlyout>
+								</Button.Flyout>
+							</Button>
+						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 			</ListView>

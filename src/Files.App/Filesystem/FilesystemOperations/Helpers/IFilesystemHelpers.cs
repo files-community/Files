@@ -28,7 +28,7 @@ namespace Files.App.Filesystem
 		/// <param name="permanently">Determines whether <paramref name="source"/> is be deleted permanently</param>
 		/// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
 		/// <returns><see cref="ReturnResult"/> of performed operation</returns>
-		Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory);
+		Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory);
 
 		/// <summary>
 		/// Deletes provided <paramref name="source"/>
@@ -38,7 +38,7 @@ namespace Files.App.Filesystem
 		/// <param name="permanently">Determines whether <paramref name="source"/> is be deleted permanently</param>
 		/// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
 		/// <returns><see cref="ReturnResult"/> of performed operation</returns>
-		Task<ReturnResult> DeleteItemAsync(IStorageItem source, bool showDialog, bool permanently, bool registerHistory);
+		Task<ReturnResult> DeleteItemAsync(IStorageItem source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory);
 
 		/// <summary>
 		/// Deletes provided <paramref name="source"/>
@@ -48,7 +48,7 @@ namespace Files.App.Filesystem
 		/// <param name="permanently">Determines whether <paramref name="source"/> is be deleted permanently</param>
 		/// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
 		/// <returns><see cref="ReturnResult"/> of performed operation</returns>
-		Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, bool showDialog, bool permanently, bool registerHistory);
+		Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory);
 
 		/// <summary>
 		/// Deletes provided <paramref name="source"/>
@@ -58,7 +58,7 @@ namespace Files.App.Filesystem
 		/// <param name="permanently">Determines whether <paramref name="source"/> is be deleted permanently</param>
 		/// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
 		/// <returns><see cref="ReturnResult"/> of performed operation</returns>
-		Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, bool showDialog, bool permanently, bool registerHistory);
+		Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory);
 
 		#endregion Delete
 
@@ -175,7 +175,7 @@ namespace Files.App.Filesystem
 		/// <returns><see cref="ReturnResult"/> of performed operation</returns>
 		Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory);
 
-		Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory);
+		Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, DeleteConfirmationPolicies showDialog, bool registerHistory);
 
 		Task<ReturnResult> CreateShortcutFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory);
 

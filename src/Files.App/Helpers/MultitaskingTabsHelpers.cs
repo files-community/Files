@@ -50,7 +50,7 @@ namespace Files.App.Helpers
 
 			return tabItemArguments is not null
 				? NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize())
-				: NavigationHelpers.OpenPathInNewWindowAsync("Home".GetLocalizedResource());
+				: NavigationHelpers.OpenPathInNewWindowAsync("Home");
 		}
 
 		public static async Task AddNewTab(Type type, object tabViewItemArgs, int atIndex = -1)

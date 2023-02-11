@@ -116,7 +116,7 @@ namespace Files.App.Filesystem
 
 		#region Delete
 
-		public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, bool showDialog, bool permanently, bool registerHistory)
+		public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory)
 		{
 			source = await source.ToListAsync();
 
@@ -125,7 +125,8 @@ namespace Files.App.Filesystem
 			var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => RecycleBinHelpers.IsPathUnderRecycleBin(path));
 			var canBeSentToBin = !deleteFromRecycleBin && await RecycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
 
-			if (showDialog && UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog) // Check if the setting to show a confirmation dialog is on
+			if (showDialog is DeleteConfirmationPolicies.Always
+				|| showDialog is DeleteConfirmationPolicies.PermanentOnly && (permanently || !canBeSentToBin))
 			{
 				var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
 				List<ShellFileItem>? binItems = null;
@@ -193,13 +194,13 @@ namespace Files.App.Filesystem
 			return returnStatus;
 		}
 
-		public Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, bool showDialog, bool permanently, bool registerHistory)
+		public Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory)
 			=> DeleteItemsAsync(source.CreateEnumerable(), showDialog, permanently, registerHistory);
 
-		public Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory)
+		public Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory)
 			=> DeleteItemsAsync(source.Select((item) => item.FromStorageItem()), showDialog, permanently, registerHistory);
 
-		public Task<ReturnResult> DeleteItemAsync(IStorageItem source, bool showDialog, bool permanently, bool registerHistory)
+		public Task<ReturnResult> DeleteItemAsync(IStorageItem source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory)
 			=> DeleteItemAsync(source.FromStorageItem(), showDialog, permanently, registerHistory);
 
 		#endregion Delete
@@ -258,8 +259,7 @@ namespace Files.App.Filesystem
 				}
 				if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 				{
-					showDialog |= UserSettingsService.FoldersSettingsService.ShowConfirmDeleteDialog;
-					return await RecycleItemsFromClipboard(packageView, destination, showDialog, registerHistory);
+					return await RecycleItemsFromClipboard(packageView, destination, UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, registerHistory);
 				}
 				else if (operation.HasFlag(DataPackageOperation.Copy))
 				{
@@ -626,7 +626,7 @@ namespace Files.App.Filesystem
 			return returnStatus;
 		}
 
-		public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
+		public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, DeleteConfirmationPolicies showDialog, bool registerHistory)
 		{
 			if (!HasDraggedStorageItems(packageView))
 			{
