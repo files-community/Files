@@ -2,6 +2,7 @@
 	x:Class="Files.App.SettingsPages.Advanced"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -139,6 +140,7 @@
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
 								<RowDefinition />
@@ -207,7 +209,18 @@
 												Width="24"
 												Height="24"
 												Margin="0,8"
-												Fill="{x:Bind Color}" />
+												Fill="{x:Bind Color}">
+												<Ellipse.ContextFlyout>
+													<Flyout>
+														<controls:ColorPicker
+															Grid.Column="2"
+															ColorChanged="ColorPicker_ColorChanged"
+															IsAlphaEnabled="True"
+															IsColorSpectrumVisible="False"
+															Color="{x:Bind Color}" />
+													</Flyout>
+												</Ellipse.ContextFlyout>
+											</Ellipse>
 										</Grid>
 									</DataTemplate>
 								</ListView.ItemTemplate>

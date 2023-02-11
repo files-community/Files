@@ -121,6 +121,13 @@ namespace Files.App.SettingsPages
 			}
 		}
 
+		private void ColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+		{
+			if (sender.DataContext is not TagViewModel tag || args.NewColor.ToString() == tag.Color)
+				return;
+			ViewModel.EditExistingTag(tag, tag.Name, args.NewColor.ToString());
+		}
+
 		private void CommitRename(TextBox textBox)
 		{
 			EndRename(textBox);
