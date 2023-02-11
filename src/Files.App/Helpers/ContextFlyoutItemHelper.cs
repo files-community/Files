@@ -1106,7 +1106,6 @@ namespace Files.App.Helpers
 					ItemType = ItemType.Separator,
 					Tag = "OverflowSeparator",
 					ShowInSearchPage = true,
-					IsHidden = true,
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -1116,7 +1115,7 @@ namespace Files.App.Helpers
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					ShowInSearchPage = true,
-					IsHidden = true,
+					IsEnabled = false
 				},
 			};
 		}

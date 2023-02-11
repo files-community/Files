@@ -281,7 +281,7 @@ namespace Files.App.UserControls
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
-					IsHidden = true,
+					IsEnabled = false,
 				}
 			}.Where(x => x.ShowItem).ToList();
 		}
@@ -958,6 +958,10 @@ namespace Files.App.UserControls
 					new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
 				if (!userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
 				{
+					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem)
+						return;
+					overflowItem.Visibility = Visibility.Collapsed;
+
 					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
 					if (!secondaryElements.Any())
 						return;
@@ -974,7 +978,7 @@ namespace Files.App.UserControls
 					}
 
 					itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
-					secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+					secondaryElements.ForEach(itemContextMenuFlyout.SecondaryCommands.Add);
 				}
 				else
 				{
@@ -984,7 +988,8 @@ namespace Files.App.UserControls
 
 					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
 					if (flyoutItems is not null)
-						overflowItems.ForEach(i => flyoutItems.Add(i));
+						overflowItems.ForEach(flyoutItems.Add);
+					overflowItem.IsEnabled = overflowItems.Any();
 					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
 				}
 			}

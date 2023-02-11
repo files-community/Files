@@ -585,14 +585,14 @@ namespace Files.App
 			shellContextMenuItemCancellationToken = new CancellationTokenSource();
 			SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
 			var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-			var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed);
+			var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed);			
 			ItemContextMenuFlyout.PrimaryCommands.Clear();
 			ItemContextMenuFlyout.SecondaryCommands.Clear();
 			var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
 			AddCloseHandler(primaryElements, secondaryElements);
-			primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
+			primaryElements.ForEach(ItemContextMenuFlyout.PrimaryCommands.Add);
 			secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
-			secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
+			secondaryElements.ForEach(ItemContextMenuFlyout.SecondaryCommands.Add);
 
 			if (InstanceViewModel!.CanTagFilesInPage)
 				AddNewFileTagsToMenu(ItemContextMenuFlyout);
@@ -692,10 +692,12 @@ namespace Files.App
 						index++;
 					}
 
-					if (overflowItemFlyout.Items.Count > 0)
+					if (overflowItemFlyout.Items.Count > 0 && UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+					{ 
+						overflowItem.IsEnabled = true; 
+					} else if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
 					{
-						(contextMenuFlyout.SecondaryCommands.First(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator)!.Visibility = Visibility.Visible;
-						overflowItem.Visibility = Visibility.Visible;
+						overflowItem.Visibility = Visibility.Collapsed;
 					}
 				}
 			}
