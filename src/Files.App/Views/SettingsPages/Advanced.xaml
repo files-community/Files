@@ -129,7 +129,7 @@
 				</ToggleSwitch>
 			</local:SettingsBlockControl>
 
-			<!--  Manage Tags  -->
+			<!--  Edit Tags  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE790;" />
@@ -140,7 +140,6 @@
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
 								<RowDefinition />
@@ -153,6 +152,7 @@
 								Text="{helpers:ResourceString Name=FileTags}" />
 							<CommandBar
 								Grid.Column="1"
+								MinWidth="250"
 								Background="Transparent"
 								DefaultLabelPosition="Right"
 								IsOpen="False">
