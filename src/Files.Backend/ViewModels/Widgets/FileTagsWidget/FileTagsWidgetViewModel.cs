@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
+using Files.Backend.Services.Settings;
 using Files.Shared.Utils;
 using System;
 using System.Collections.ObjectModel;
@@ -15,12 +16,22 @@ namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 
 		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 
+		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+
 		public ObservableCollection<FileTagsContainerViewModel> Containers { get; }
 
 		public FileTagsWidgetViewModel(Func<string, Task> openAction)
 		{
 			_openAction = openAction;
 			Containers = new();
+
+			FileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnTagsUpdated;
+		}
+
+		private async void FileTagsSettingsService_OnTagsUpdated(object? _, EventArgs e)
+		{
+			Containers.Clear();
+			await InitAsync();
 		}
 
 		/// <inheritdoc/>
