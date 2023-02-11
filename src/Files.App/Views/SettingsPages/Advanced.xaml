@@ -128,23 +128,87 @@
 				</ToggleSwitch>
 			</local:SettingsBlockControl>
 
-			<!--  Edit File Tags  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}"
-				HorizontalAlignment="Stretch"
-				ButtonCommand="{x:Bind ViewModel.EditFileTagsCommand}"
-				IsClickable="True">
+			<!--  Manage Tags  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon
-						FontSize="14"
-						Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-						Glyph="&#xE104;" />
+					<FontIcon Glyph="&#xE790;" />
 				</local:SettingsBlockControl.Icon>
+				<local:SettingsBlockControl.ExpandableContent>
+					<local:SettingsBlockControl HorizontalAlignment="Stretch">
+						<Grid HorizontalAlignment="Stretch">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition />
+								<RowDefinition />
+							</Grid.RowDefinitions>
+							<TextBlock
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								FontSize="16"
+								Text="{helpers:ResourceString Name=FileTags}" />
+							<CommandBar
+								Grid.Column="1"
+								Background="Transparent"
+								DefaultLabelPosition="Right"
+								IsOpen="False">
+								<AppBarButton
+									Command="{x:Bind ViewModel.AddTagCommand, Mode=OneWay}"
+									Icon="Add"
+									Label="{helpers:ResourceString Name=Add}" />
+								<AppBarButton
+									Command="{x:Bind ViewModel.EditTagCommand}"
+									Icon="Edit"
+									IsEnabled="{x:Bind ViewModel.AreTagsCommandEnabled, Mode=OneWay}"
+									Label="{helpers:ResourceString Name=Edit}" />
+								<AppBarButton
+									Command="{x:Bind ViewModel.DeleteTagCommand}"
+									Icon="Delete"
+									IsEnabled="{x:Bind ViewModel.AreTagsCommandEnabled, Mode=OneWay}"
+									Label="{helpers:ResourceString Name=Remove}" />
+							</CommandBar>
 
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+							<ListView
+								x:Name="TagsList"
+								Grid.Row="1"
+								Grid.ColumnSpan="2"
+								Margin="0,10"
+								HorizontalAlignment="Stretch"
+								AllowDrop="True"
+								CanReorderItems="True"
+								IsItemClickEnabled="True"
+								ItemsSource="{x:Bind ViewModel.Tags, Mode=TwoWay}"
+								SelectedIndex="{x:Bind ViewModel.SelectedTagIndex, Mode=TwoWay}"
+								SelectionMode="Single">
+								<ListView.ItemTemplate>
+									<DataTemplate xmlns:vm="using:Files.Backend.ViewModels.FileTags" x:DataType="vm:TagViewModel">
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto" />
+												<ColumnDefinition />
+												<ColumnDefinition Width="Auto" />
+											</Grid.ColumnDefinitions>
+
+											<TextBlock
+												VerticalAlignment="Center"
+												Text="{x:Bind Name}"
+												TextTrimming="CharacterEllipsis"
+												ToolTipService.ToolTip="{x:Bind Name}" />
+											<Ellipse
+												Grid.Column="2"
+												Width="24"
+												Height="24"
+												Margin="0,8"
+												Fill="{x:Bind Color}" />
+										</Grid>
+									</DataTemplate>
+								</ListView.ItemTemplate>
+							</ListView>
+						</Grid>
+					</local:SettingsBlockControl>
+				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>

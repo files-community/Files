@@ -17,6 +17,12 @@ namespace Files.Backend.Services.Settings
 		IEnumerable<TagViewModel> GetTagsByName(string tagName);
 
 		IEnumerable<TagViewModel> SearchTagsByName(string tagName);
+		
+		void CreateNewTag();
+
+		void EditTag(string uid, string name, string color);
+
+		void DeleteTag(TagViewModel tag);
 
 		object ExportSettings();
 

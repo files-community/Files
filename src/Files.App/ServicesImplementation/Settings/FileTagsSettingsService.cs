@@ -72,6 +72,43 @@ namespace Files.App.ServicesImplementation.Settings
 			return FileTagList.Where(x => x.Name.StartsWith(tagName, StringComparison.OrdinalIgnoreCase));
 		}
 
+		public void CreateNewTag()
+		{
+			var newTag = new TagViewModel(
+				"NewTag", 
+				"#E2E2E2", 
+				Guid.NewGuid().ToString());
+
+			var oldTags = FileTagList.ToList();
+			oldTags.Add(newTag);
+			FileTagList = oldTags;
+			SaveTags();
+		}
+
+		public void EditTag(string uid, string name, string color)
+		{
+			var tag = FileTagList.FirstOrDefault(tag => tag.Uid == uid);
+			if (tag is null)
+				return;
+
+			tag.Name = name;
+			tag.Color = color;
+
+			SaveTags();
+		}
+
+		public void DeleteTag(TagViewModel tag)
+		{
+			FileTagList.Remove(tag);
+			SaveTags();
+		}
+
+		private void SaveTags()
+		{
+			var tags = new { FileTagList = this.FileTagList };
+			SettingsSerializer.WriteToFile(JsonSettingsSerializer.SerializeToJson(tags));
+		}
+
 		public override bool ImportSettings(object import)
 		{
 			if (import is string importString)

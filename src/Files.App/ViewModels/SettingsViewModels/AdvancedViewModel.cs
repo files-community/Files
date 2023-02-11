@@ -7,10 +7,12 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.FileTags;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
 using SevenZip;
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -20,6 +22,7 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
+using static Files.App.Helpers.MenuFlyoutHelper;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
@@ -28,9 +31,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
-
-
-		public ICommand EditFileTagsCommand { get; }
 
 		public ICommand SetAsDefaultExplorerCommand { get; }
 
@@ -42,13 +42,36 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public ICommand OpenSettingsJsonCommand { get; }
 
+		public ICommand AddTagCommand { get; }
+
+		public ICommand EditTagCommand { get; }
+
+		public ICommand DeleteTagCommand { get; }
+
+		public ObservableCollection<TagViewModel> Tags { get; set; }
+
+		private int selectedTagIndex = -1;
+		public int SelectedTagIndex
+		{
+			get => selectedTagIndex;
+			set
+			{
+				if (SetProperty(ref selectedTagIndex, value))
+					AreTagsCommandEnabled = value >= 0;
+			}
+		}
+
+		private bool areTagsCommandEnabled;
+		public bool AreTagsCommandEnabled
+		{
+			get => areTagsCommandEnabled;
+			set => SetProperty(ref areTagsCommandEnabled, value);
+		}
 
 		public AdvancedViewModel()
 		{
 			IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
 			IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
-
-			EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
 
 			SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
 			SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
@@ -56,6 +79,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 			ExportSettingsCommand = new AsyncRelayCommand(ExportSettings);
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
 			OpenSettingsJsonCommand = new AsyncRelayCommand(OpenSettingsJson);
+
+			AddTagCommand = new RelayCommand(AddNewTag);
+			EditTagCommand = new RelayCommand(EditExistingTag);
+			DeleteTagCommand = new RelayCommand(DeleteExistingTag);
+
+			Tags = fileTagsSettingsService.FileTagList is not null
+				? new ObservableCollection<TagViewModel>(fileTagsSettingsService.FileTagList)
+				: new ObservableCollection<TagViewModel>();
 		}
 
 		private async Task OpenSettingsJson()
@@ -65,16 +96,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			if (!await Launcher.LaunchFileAsync(settingsJsonPath))
 			{
 				await ContextMenu.InvokeVerb("open", settingsJsonPath.Path);
-			}
-		}
-
-		private async Task LaunchFileTagsConfigFile()
-		{
-			var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
-
-			if (!await Launcher.LaunchFileAsync(configFile))
-			{
-				await ContextMenu.InvokeVerb("open", configFile.Path);
 			}
 		}
 
@@ -93,7 +114,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
 				{
 					// Error copying files
-					goto DetectResult;
+					await DetectResult();
+					return;
 				}
 			}
 
@@ -103,7 +125,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (!Win32API.RunPowershellCommand($"-command \"New-Item -Force -Path '{dataPath}' -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
 				{
 					// Error copying files
-					goto DetectResult;
+					await DetectResult();
+					return;
 				}
 			}
 			else
@@ -121,7 +144,11 @@ namespace Files.App.ViewModels.SettingsViewModels
 				// Canceled UAC
 			}
 
-		DetectResult:
+			await DetectResult();
+		}
+
+		private async Task DetectResult()
+		{
 			IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
 			if (!IsSetAsDefaultFileManager)
 			{
@@ -295,6 +322,35 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
 			return obj;
+		}
+
+		private void AddNewTag()
+		{
+			fileTagsSettingsService.CreateNewTag();
+			Tags.Clear();
+			Tags.EnumeratedAdd(fileTagsSettingsService.FileTagList);
+		}
+
+		private void EditExistingTag()
+		{
+
+		}
+
+		private void DeleteExistingTag()
+		{
+			int index = SelectedTagIndex;
+			if (index < 0)
+				return;
+
+			var tagToRemove = Tags[index];
+			Tags.RemoveAt(index);
+
+			fileTagsSettingsService.DeleteTag(tagToRemove);
+
+			if (index > 0)
+				SelectedTagIndex = index - 1;
+			else if (Tags.Count > 0)
+				SelectedTagIndex = 0;
 		}
 	}
 }
