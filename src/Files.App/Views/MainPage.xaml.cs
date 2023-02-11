@@ -89,11 +89,11 @@ namespace Files.App.Views
 				{
 					var storeContext = StoreContext.GetDefault();
 					await storeContext.RequestRateAndReviewAppAsync();
+
+					UserSettingsService.ApplicationSettingsService.ClickedToReviewApp = true;
 				}
 				catch (Exception) { }
 			}
-
-			UserSettingsService.ApplicationSettingsService.WasPromptedToReview = true;
 		}
 
 		// WINUI3
@@ -262,12 +262,12 @@ namespace Files.App.Views
 						{
 							navigationPath = invokedItemContainer.Tag?.ToString();
 						}
-						else if (ItemPath.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase)) // Home item
+						else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
 						{
 							if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
 								return; // return if already selected
 
-							navigationPath = "Home".GetLocalizedResource();
+							navigationPath = "Home";
 							sourcePageType = typeof(WidgetsPage);
 						}
 						else // Any other item
@@ -285,7 +285,7 @@ namespace Files.App.Views
 						shp.NavigateToPath(tagPath, new NavigationArguments()
 						{
 							IsSearchResultPage = true,
-							SearchPathParam = "Home".GetLocalizedResource(),
+							SearchPathParam = "Home",
 							SearchQuery = tagPath,
 							AssociatedTabInstance = shp,
 							NavPathParam = tagPath
@@ -312,14 +312,21 @@ namespace Files.App.Views
 			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));
 
-			// Prompt user to review app in the Store
+			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
+				return;
+
+			var totalLaunchCount = SystemInformation.Instance.TotalLaunchCount;
+
 			if
 			(
-				SystemInformation.Instance.TotalLaunchCount >= 15 &
-				Package.Current.Id.Name == "49306atecsolution.FilesUWP" &&
-				!UserSettingsService.ApplicationSettingsService.WasPromptedToReview
+				totalLaunchCount == 10 ||
+				totalLaunchCount == 20 ||
+				totalLaunchCount == 30 ||
+				totalLaunchCount == 40 ||
+				totalLaunchCount == 50
 			)
 			{
+				// Prompt user to review app in the Store
 				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
 			}
 		}

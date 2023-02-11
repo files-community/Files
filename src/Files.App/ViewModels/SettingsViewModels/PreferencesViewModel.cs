@@ -153,7 +153,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource())
 			{
 				Command = AddPageCommand,
-				CommandParameter = "Home".GetLocalizedResource(),
+				CommandParameter = "Home",
 				Tooltip = "Home".GetLocalizedResource()
 			});
 			await PopulateRecentItems(recentsItem);
@@ -648,7 +648,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			get
 			{
-				if (Path == "Home".GetLocalizedResource())
+				if (Path == "Home")
 					return "Home".GetLocalizedResource();
 
 				return (Path == CommonPaths.RecycleBinPath)

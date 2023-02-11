@@ -794,7 +794,7 @@
     <value>Вид значков</value>
   </data>
   <data name="LayoutMode" xml:space="preserve">
-    <value>Вид значков</value>
+    <value>Режим разметки</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Перейти назад</value>
@@ -1109,7 +1109,7 @@
     <value>Адрес</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Выделение</value>
+    <value>Варианты выбора</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Выделение</value>
@@ -1259,7 +1259,7 @@
     <value>Новая панель</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>Открыть на дополнительной панели</value>
+    <value>Открыть на второй панели</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Двойная панель</value>
@@ -1472,7 +1472,7 @@
     <value>Дата создания</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Опции...</value>
+    <value>Больше опций...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Подключить сетевой диск</value>
@@ -1601,7 +1601,7 @@
     <value>Открыть системные настройки Хранилища</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Открыть системные настройки Хранилища</value>
+    <value>Открыть Контроль памяти</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Копировать</value>
@@ -1661,7 +1661,7 @@
     <value>Показывать виджет наборов</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Показывать виджет дисков</value>
+    <value>Показывать секцию "Диски"</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
     <value>Показать виджет папок</value>
@@ -2774,7 +2774,7 @@
     <value>Экран блокировки</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Открывать папки одним нажатием при выбранной разметки Столбцы</value>
+    <value>Открывать папки одним кликом при выбранной разметке "Столбцы"</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Открытие объектов</value>
@@ -2801,7 +2801,7 @@
     <value>Выделение файлов и папок при наведении на них курсора мыши</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Вы уверены, что хотите восстановить все элементы в корзине?</value>
+    <value>Вы уверены, что хотите восстановить все элементы из корзины?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>Восстановить все элементы</value>
@@ -2825,7 +2825,7 @@
     <value>Целевой адресат не может быть найден {0}. Вы хотите удалить этот ярлык?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>У вас нет прав на просмотр этой папки.</value>
+    <value>У вас нет прав для доступа к этой папке.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Загрузка Тем</value>

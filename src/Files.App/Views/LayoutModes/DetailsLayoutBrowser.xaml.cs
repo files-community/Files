@@ -29,6 +29,8 @@ namespace Files.App.Views.LayoutModes
 {
 	public sealed partial class DetailsLayoutBrowser : StandardViewBase
 	{
+		private const int TAG_TEXT_BLOCK = 1;
+
 		private uint currentIconSize;
 
 		private InputCursor arrowCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Arrow, 0));
@@ -712,8 +714,26 @@ namespace Files.App.Views.LayoutModes
 			{
 				var checkbox = container.FindDescendant("SelectionCheckbox") as CheckBox;
 				if (checkbox is not null)
+				{
+					// Temporarily disable events to avoid selecting wrong items
+					checkbox.Checked -= ItemSelected_Checked;
+					checkbox.Unchecked -= ItemSelected_Unchecked;
+
 					checkbox.IsChecked = FileList.SelectedItems.Contains(item);
+
+					checkbox.Checked += ItemSelected_Checked;
+					checkbox.Unchecked += ItemSelected_Unchecked;
+				}
 			}
+		}
+
+		private void TagItem_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			var tagName = ((sender as StackPanel)?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
+			if (tagName is null)
+				return;
+
+			ParentShellPageInstance.SubmitSearch($"tag:{tagName}", false);
 		}
 	}
 }

@@ -1223,10 +1223,10 @@
     <value>重設資料夾覆寫</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>此設定關閉時，對資料夾佈局的更改將套用到所有資料夾。</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Enable overriding folder preferences in individual directories</value>
+    <value>允許單一資料夾文件夾的偏好設定覆蓋預設值</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>自訂右鍵選單</value>
@@ -1988,7 +1988,7 @@
     <value>擁有者不詳</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract Archive</value>
+    <value>解壓縮</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>完成後開啟目標資料夾</value>
@@ -2435,7 +2435,7 @@
     <value>檔案標籤</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>透過點擊打開檔案</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>資料夾位置</value>
@@ -2594,7 +2594,7 @@
     <value>類型</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>圖示網格</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>位元組</value>
@@ -2747,19 +2747,19 @@
     <value>日期欄</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>“建立日期”列</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>“大小”列</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>“標籤”列</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>“類型”列</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>“詳細資訊”布局下要顯示的列</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>重設</value>
@@ -2918,12 +2918,12 @@
     <value>Sync status column</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>群組依據</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>排序</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>“最近使用的檔案”已在 Windows 檔案總管中停用。</value>
   </data>
 </root>
