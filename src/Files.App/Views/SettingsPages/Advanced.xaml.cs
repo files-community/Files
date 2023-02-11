@@ -86,25 +86,22 @@ namespace Files.App.SettingsPages
 					var isShiftPressed = (GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
 					nextRenameIndex = isShiftPressed ? -1 : 1;
 
+					var newIndex = TagsList.SelectedIndex + nextRenameIndex;
+					nextRenameIndex = 0;
+
 					if (textBox.Text != oldTagName)
-					{
 						CommitRename(textBox);
-					}
 					else
-					{
-						var newIndex = TagsList.SelectedIndex + nextRenameIndex;
-						nextRenameIndex = 0;
 						EndRename(textBox);
 
-						if
-						(
-							newIndex >= 0 &&
-							newIndex < TagsList.Items.Count
-						)
-						{
-							TagsList.SelectedIndex = newIndex;
-							StartRenameTag();
-						}
+					if
+					(
+						newIndex >= 0 &&
+						newIndex < TagsList.Items.Count
+					)
+					{
+						TagsList.SelectedIndex = newIndex;
+						StartRenameTag();
 					}
 
 					e.Handled = true;
