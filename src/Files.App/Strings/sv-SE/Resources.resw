@@ -218,10 +218,10 @@
     <value>Datumformat</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Show extensions for known file types</value>
+    <value>Visa filnamnstillägg för kända filtyper</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Visa dolda filer och mappar</value>
@@ -236,7 +236,7 @@
     <value>Utseende</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>Bakgrund</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimentellt</value>
@@ -269,7 +269,7 @@
     <value>Hämtade filer</value>
   </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Ta bort från Favoriter</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sortera efter</value>
@@ -1214,7 +1214,7 @@
     <value>Uppdateringar är tillgängliga</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Show protected system files</value>
+    <value>Visa skyddade systemfiler</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Include unindexed items in search results</value>
@@ -1385,7 +1385,7 @@
     <value>Filnamn</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Ta bort från Favoriter</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Nätverksenheter:</value>
@@ -1442,7 +1442,7 @@
     <value>CD-ROM-enhet</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
-    <value>Cloud Drive</value>
+    <value>Molnenhet</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
     <value>Fixed Disk Drive</value>
@@ -1520,13 +1520,13 @@
     <value>Ett okänt fel har uppstått.</value>
   </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
-    <value>Deletion complete</value>
+    <value>Borttagning slutförd</value>
   </data>
   <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>Deletion cancelled</value>
+    <value>Borttagning avbruten</value>
   </data>
   <data name="StatusOperationCompleted" xml:space="preserve">
-    <value>The operation has completed.</value>
+    <value>Operationen har slutförts.</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
     <value>Recycle complete</value>
@@ -1550,7 +1550,7 @@
     <value>Administratör</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
-    <value>Columns (Ctrl+Shift+6)</value>
+    <value>Kolumner (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>Pin to the Start Menu</value>
@@ -2348,7 +2348,7 @@
     <value>Show preview only</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Open log location</value>
+    <value>Öppna loggsökväg</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Create link in {0}</value>
@@ -2549,7 +2549,7 @@
     <value>Use DPI settings of the main monitor</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Third party licenses</value>
+    <value>Tredjepartslicenser</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
@@ -2564,7 +2564,7 @@
     <value>Enter Library name</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>Beräkna mappstorlekar</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Senaste filer</value>
@@ -2699,7 +2699,7 @@
     <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>Hidden items</value>
+    <value>Dolda objekt</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
