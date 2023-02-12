@@ -39,6 +39,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			OpenDocumentationCommand = new RelayCommand(DoOpenDocumentation);
 			SubmitFeatureRequestCommand = new RelayCommand(DoSubmitFeatureRequest);
 			SubmitBugReportCommand = new RelayCommand(DoSubmitBugReport);
+
 			OpenGitHubRepoCommand = new RelayCommand(DoOpenGitHubRepo);
 			OpenPrivacyPolicyCommand = new RelayCommand(DoOpenPrivacyPolicy);
 
