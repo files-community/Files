@@ -103,7 +103,7 @@ namespace Files.App.SettingsPages
 
 		private void RenameTag_Click(object sender, RoutedEventArgs e)
 		{
-			renamingTag = (TagViewModel)(sender as Button).DataContext;
+			renamingTag = (TagViewModel)(sender as MenuFlyoutItem).DataContext;
 
 			var item = TagsList.ContainerFromItem(renamingTag) as ListViewItem;
 			var textBlock = item.FindDescendant("TagName") as TextBlock;

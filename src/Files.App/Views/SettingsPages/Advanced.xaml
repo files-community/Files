@@ -201,15 +201,15 @@
 												</TextBox.Resources>
 											</TextBox>
 
-											<StackPanel
-												Grid.Column="2"
-												Orientation="Horizontal"
-												Spacing="4">
-												<Button Padding="0" AutomationProperties.Name="{helpers:ResourceString Name=TagColor}">
+											<StackPanel Grid.Column="2" Orientation="Horizontal">
+												<Button
+													Margin="8,0"
+													Padding="0"
+													AutomationProperties.Name="{helpers:ResourceString Name=TagColor}">
 													<StackPanel Orientation="Horizontal">
 														<Border
-															Width="24"
-															Height="24"
+															Width="20"
+															Height="20"
 															Margin="4"
 															Background="{x:Bind Color}"
 															CornerRadius="4" />
@@ -220,26 +220,9 @@
 													</StackPanel>
 													<Button.Flyout>
 														<Flyout>
-															<controls:ColorPicker
-																ColorChanged="ColorPicker_ColorChanged"
-																IsAlphaEnabled="True"
-																IsColorSpectrumVisible="False" />
+															<controls:ColorPicker ColorChanged="ColorPicker_ColorChanged" />
 														</Flyout>
 													</Button.Flyout>
-												</Button>
-
-												<Button
-													x:Name="RenameButton"
-													Width="30"
-													Padding="0,4"
-													AutomationProperties.Name="{helpers:ResourceString Name=Rename}"
-													Background="Transparent"
-													BorderBrush="Transparent"
-													Click="RenameTag_Click">
-													<FontIcon
-														FontSize="14"
-														Glyph="&#xE70F;"
-														ToolTipService.ToolTip="{helpers:ResourceString Name=Rename}" />
 												</Button>
 
 												<Button
@@ -250,24 +233,40 @@
 													Background="Transparent"
 													BorderBrush="Transparent"
 													Click="CommitRenameTag_Click"
+													ToolTipService.ToolTip="{helpers:ResourceString Name=Commit}"
 													Visibility="Collapsed">
-													<FontIcon
-														FontSize="14"
-														Glyph="&#xE73E;"
-														ToolTipService.ToolTip="{helpers:ResourceString Name=Commit}" />
+													<FontIcon FontSize="14" Glyph="&#xE73E;" />
 												</Button>
 
 												<Button
+													x:Name="MoreOptionsButton"
 													Width="30"
 													Padding="0,4"
-													AutomationProperties.Name="{helpers:ResourceString Name=Remove}"
+													AutomationProperties.Name="{helpers:ResourceString Name=MoreOptions}"
 													Background="Transparent"
 													BorderBrush="Transparent"
-													Click="RemoveTag_Click">
-													<FontIcon
-														FontSize="14"
-														Glyph="&#xE74D;"
-														ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
+													ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
+													<FontIcon FontSize="14" Glyph="&#xE10C;" />
+													<Button.Flyout>
+														<MenuFlyout>
+															<MenuFlyoutItem
+																x:Name="RenameMenuFlyoutItem"
+																Click="RenameTag_Click"
+																Text="{helpers:ResourceString Name=Rename}">
+																<MenuFlyoutItem.Icon>
+																	<FontIcon FontSize="14" Glyph="&#xE70F;" />
+																</MenuFlyoutItem.Icon>
+															</MenuFlyoutItem>
+															<MenuFlyoutItem
+																x:Name="RemoveMenuFlyoutItem"
+																Click="RemoveTag_Click"
+																Text="{helpers:ResourceString Name=Remove}">
+																<MenuFlyoutItem.Icon>
+																	<FontIcon FontSize="14" Glyph="&#xE74D;" />
+																</MenuFlyoutItem.Icon>
+															</MenuFlyoutItem>
+														</MenuFlyout>
+													</Button.Flyout>
 												</Button>
 											</StackPanel>
 										</Grid>
