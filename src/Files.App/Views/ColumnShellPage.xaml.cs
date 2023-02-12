@@ -13,6 +13,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Windows.Storage;
 using Windows.System;
@@ -178,7 +180,7 @@ namespace Files.App.Views
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 							item.ItemPath,
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-						await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
+						await FilesystemHelpers.DeleteItemsAsync(items, UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, true, true);
 					}
 					break;
 
@@ -210,7 +212,7 @@ namespace Files.App.Views
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 							item.ItemPath,
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-						await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+						await FilesystemHelpers.DeleteItemsAsync(items, UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
 					}
 					break;
 

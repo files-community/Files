@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
+    
     Example:
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -24,33 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -205,14 +210,14 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>إزالة هذا العنصر</value>
   </data>
-  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
-    <value>‏‏ارتباطات مفيدة</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>إرسال ملاحظات</value>
+  <data name="OpenGitHubRepo" xml:space="preserve">
+    <value>GitHub repository</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>حول التطبيق</value>
+  </data>
+  <data name="OpenSource" xml:space="preserve">
+    <value>Open source</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>تنسيق التاريخ.</value>
@@ -229,23 +234,17 @@
   <data name="ShowDotFiles" xml:space="preserve">
     <value>إظهار ملفات النقاط</value>
   </data>
-  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>تجريبي</value>
-  </data>
   <data name="Appearance" xml:space="preserve">
     <value>المظهر</value>
   </data>
   <data name="Background" xml:space="preserve">
     <value>الخلفية</value>
   </data>
-  <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>تجريبي</value>
+  <data name="Advanced" xml:space="preserve">
+    <value>Advanced</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>التفضيلات</value>
-  </data>
-  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>تحذير ميزات قيد التجربة </value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>تابع اين توقفت</value>
@@ -345,6 +344,9 @@
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>ملف</value>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>Display</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>ادخل اسم عنصر</value>
@@ -449,7 +451,7 @@
     <value>الملف الذي تحاول الوصول إليه يتم استخدامه حاليا من قبل {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>الملف الذي تحاول الوصول إليه يتم استخدامه حاليا من قبل تطبيق آخر</value>
+    <value>The file you are attempting to access is currently being used by another application</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>الملف قيد الاستخدام</value>
@@ -493,6 +495,12 @@
   <data name="SecondsAgo" xml:space="preserve">
     <value>منذ {0} من الثواني</value>
   </data>
+  <data name="OneSecondAgo" xml:space="preserve">
+    <value>1 second ago</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>Now</value>
+  </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>علامة تبويب جديدة</value>
   </data>
@@ -511,8 +519,8 @@
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>موافق</value>
   </data>
-  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>اسم الملف يجب ألّا يحتوي على: \ / : * ? " &lt; &gt; |</value>
+  <data name="InvalidFilename.Text" xml:space="preserve">
+    <value>The item name specified is invalid</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>تم تحديد العنصر</value>
@@ -691,17 +699,14 @@
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
     <value>الإبلاغ عن هذه المشكلة</value>
   </data>
-  <data name="SettingsAboutContributors.Text" xml:space="preserve">
-    <value>‏‏المساهمون</value>
-  </data>
-  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>ملاحظات الإصدار</value>
-  </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>العنصر المشار إليه إما غير صالح أو لا يمكن الوصول إليه{0}رسالة خطأ{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>عنصر غير صالح</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>الإصدار</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>الإصدار</value>
@@ -739,14 +744,20 @@
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>اسم العنصر طويل جدا</value>
   </data>
-  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
-    <value>المزيد</value>
+  <data name="ShowMoreOptions" xml:space="preserve">
+    <value>Show more options</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>يحتاج التطبيق إلى إعادة التشغيل من أجل تطبيق إعداد اللغة ، هل ترغب في إعادة تشغيل التطبيق؟</value>
   </data>
-  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
-    <value>ادعمنا</value>
+  <data name="SponsorUsOnGitHub" xml:space="preserve">
+    <value>Sponsor us on GitHub</value>
+  </data>
+  <data name="Personalization" xml:space="preserve">
+    <value>Personalization</value>
+  </data>
+  <data name="LayoutAndSorting" xml:space="preserve">
+    <value>Layout and sorting</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>لم نتمكن من إنشاء هذا العنصر</value>
@@ -812,10 +823,10 @@
     <value>اللغة</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>نقل العناصر الزائدة إلى قائمة فرعية</value>
+    <value>Move shell extensions into a sub menu</value>
   </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>إظهار مربع حوار التأكيد عند حذف الملفات أو المجلدات</value>
+  <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
+    <value>Show confirmation dialog when deleting items</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>كانت هناك مشكلة في حفظ بعض الخصائص</value>
@@ -1186,15 +1197,6 @@
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>نتائج البحث</value>
   </data>
-  <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>تعرف على من ساهم في الملفات</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>اكتشف الجديد في الملفات</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>أرسل للمطورين تقرير مشكلة بمزيد من المعلومات</value>
-  </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>ادعمنا على PayPal</value>
   </data>
@@ -1219,14 +1221,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>تضمين العناصر الغير مفهرسة في نتائج البحث</value>
   </data>
-  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>إعادة ضبط تجاوزات المجلد</value>
-  </data>
-  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>تغيير التخطيط في دليل عندما يتم إيقاف تشغيل هذا الإعداد سوف يقوم بتحديث التخطيط لجميع الدلائل.</value>
-  </data>
-  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>تفعيل تجاوز تفضيلات المجلد في الدلائل الفردية</value>
+  <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
+    <value>Sync layout and sorting preferences across directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>تخصيص قائمة سياق النقر بزر الماوس الأيمن</value>
@@ -1247,7 +1243,7 @@
     <value>‏‏إزالة</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>فتح علامات التبويب الجديدة دائما في وضع اللوحة المزدوجة</value>
+    <value>Open tabs in dual pane mode</value>
   </data>
   <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>تمكين عرض لوحة مزدوجة</value>
@@ -1260,9 +1256,6 @@
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>فتح في لوحة ثانوية</value>
-  </data>
-  <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>جزء مزدوج</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>المجلدات</value>
@@ -1402,17 +1395,17 @@
   <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
     <value>لوحة معاينة الملف المحدد</value>
   </data>
-  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
-    <value>الوثائق</value>
-  </data>
-  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>زيارة موقع الوثائق</value>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>قائمة المهام المنبثقة</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>متوفر عند الاتصال</value>
+  </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Documentation</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>متوفر دون اتصال</value>
@@ -1432,8 +1425,8 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>غير معروف</value>
   </data>
-  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
-    <value>تحديد متعدد</value>
+  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
+    <value>Show selection checkbox next to file names</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>إذا قمت بتغيير امتداد الملف، فقد يصبح الملف غير قابل للاستخدام. هل أنت متأكد أنك تريد تغييره؟</value>
@@ -1471,8 +1464,8 @@
   <data name="DateCreated" xml:space="preserve">
     <value>تاريخ الإنشاء</value>
   </data>
-  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>خيارات إضافية...</value>
+  <data name="MoreOptions" xml:space="preserve">
+    <value>خيارات إضافية</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>خريطة قرص الشبكة</value>
@@ -1482,9 +1475,6 @@
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>المزيد من خيارات الحزم</value>
-  </data>
-  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>المزيد من خيارات محركات الأقراص</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>المفضلة</value>
@@ -1503,9 +1493,6 @@
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
     <value>فتح في لوحة جديدة</value>
-  </data>
-  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>إظهار قسم المكتبة</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>افتراضي</value>
@@ -1542,12 +1529,6 @@
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>هل ترغب في الاستمرار كمسؤول؟</value>
-  </data>
-  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
-    <value>Files قيد التشغيل كمسؤول</value>
-  </data>
-  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
-    <value>المسؤول</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>الأعمدة (Ctrl+Shift+6)</value>
@@ -1657,23 +1638,11 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>فتح المجلدات في علامة تبويب جديدة</value>
   </data>
-  <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>إظهار عنصر واجهة الحزم</value>
-  </data>
-  <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>إظهار عنصر واجهة الأقراص</value>
-  </data>
-  <data name="ShowFolderWidget" xml:space="preserve">
-    <value>إظهار عنصر واجهة المجلدات</value>
-  </data>
-  <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>إظهار عنصر واجهة الملفات الأخيرة</value>
-  </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>ألم تجد ما تبحث عنه؟</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>البحث عن العناصر غير المفهرسة.</value>
+    <value>Search unindexed items</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>افتح مجلد السمات</value>
@@ -1819,14 +1788,11 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
     <value>إعادة فتح علامة التبويب المغلقة</value>
   </data>
-  <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
-    <value>نهج الخصوصية</value>
-  </data>
-  <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>عرض سياسة الخصوصية Files</value>
-  </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
     <value>إعادة تسمية</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Privacy</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>تم إلغاء النقل</value>
@@ -1927,11 +1893,8 @@
   <data name="canceling" xml:space="preserve">
     <value>إلغاء الأمر</value>
   </data>
-  <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>تجاهل</value>
-  </data>
-  <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>تجاهل</value>
+  <data name="Clear" xml:space="preserve">
+    <value>مسح</value>
   </data>
   <data name="Widgets" xml:space="preserve">
     <value>عناصر الواجهة</value>
@@ -2179,18 +2142,6 @@
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>الحجم الغير مضغوط</value>
   </data>
-  <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>إظهار قسم الأقراص السحابية</value>
-  </data>
-  <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>إظهار قسم الأقراص</value>
-  </data>
-  <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>إظهار قسم WSL</value>
-  </data>
-  <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>إظهار قسم الشبكة</value>
-  </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
@@ -2293,9 +2244,6 @@
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>تحرير العلامات</value>
   </data>
-  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>إظهار قسم المفضلة</value>
-  </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
     <value>تطبيق على الكل</value>
   </data>
@@ -2335,9 +2283,6 @@
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>عنصر واجهة الأقراص</value>
   </data>
-  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>عنصر واجهة المكتبات</value>
-  </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>عنصر واجهة الملفات الأخيرة</value>
   </data>
@@ -2374,32 +2319,11 @@
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
     <value>إظهار العناصر المخفية</value>
   </data>
-  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>إظهار قسم المفضلة</value>
-  </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>فتح المجلدات في علامة تبويب جديدة</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>اللغة</value>
-  </data>
-  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>إظهار قسم الأقراص السحابية</value>
-  </data>
-  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>إظهار مربع حوار التأكيد عند حذف الملفات أو المجلدات</value>
-  </data>
-  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>إظهار قسم الأقراص</value>
-  </data>
-  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>إظهار قسم المكتبة</value>
-  </data>
-  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>إظهار قسم الشبكة</value>
-  </data>
-  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>إظهار قسم WSL</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>المهام الحالية</value>
@@ -2422,8 +2346,17 @@
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>عمود حجم العنصر</value>
   </data>
-  <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>مدير الملفات الافتراضي</value>
+  <data name="ExperimentalFeatureFlags" xml:space="preserve">
+    <value>Experimental feature flags</value>
+  </data>
+  <data name="HelpAndSupport" xml:space="preserve">
+    <value>Help and support</value>
+  </data>
+  <data name="SubmitFeatureRequest" xml:space="preserve">
+    <value>Submit feature request</value>
+  </data>
+  <data name="SubmitBugReport" xml:space="preserve">
+    <value>Submit bug report</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>تعيين Files كمدير ملفات افتراضي</value>
@@ -2447,7 +2380,7 @@
     <value>إعدادات الاستيراد</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>إدارة الإعدادات</value>
+    <value>Manage settings</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>تعذر استيراد الإعدادات. ملف الإعدادات تالف.</value>
@@ -2469,9 +2402,6 @@
   </data>
   <data name="RestoreDefault" xml:space="preserve">
     <value>استعادة الافتراضي</value>
-  </data>
-  <data name="FilesAndFolders" xml:space="preserve">
-    <value>ملفات ومجلدات</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
     <value>فتح نموذج جديد عند فتح أدلة من شريط المهام</value>
@@ -2567,7 +2497,7 @@
     <value>احسب أحجام المجلد</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>الملفات الأخيرة</value>
+    <value>Recent files</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>فتح الملفات عند بدء تشغيل Windows</value>
@@ -2674,14 +2604,8 @@
   <data name="FileTags" xml:space="preserve">
     <value>العلامات</value>
   </data>
-  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>إظهار قسم العلامات</value>
-  </data>
-  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>إظهار قسم العلامات</value>
-  </data>
-  <data name="UseCompactStyles" xml:space="preserve">
-    <value>استخدم الأنماط المدمجة في تخطيط التفاصيل</value>
+  <data name="UseCompactSpacing" xml:space="preserve">
+    <value>Use compact spacing in the details layout</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>عام</value>
@@ -2710,9 +2634,6 @@
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>ضبط حجم الأعمدة لتتناسب</value>
   </data>
-  <data name="Contributors" xml:space="preserve">
-    <value>‏‏المساهمون</value>
-  </data>
   <data name="Adaptive" xml:space="preserve">
     <value>تكيفي</value>
   </data>
@@ -2723,7 +2644,10 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>إظهار بث البيانات البديل</value>
+    <value>Show alternate data streams</value>
+  </data>
+  <data name="Behaviors" xml:space="preserve">
+    <value>Behaviors</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>مراجعة الملفات</value>
@@ -2763,12 +2687,6 @@
   </data>
   <data name="Reset" xml:space="preserve">
     <value>إعادة ضبط</value>
-  </data>
-  <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>سيؤدي هذا الإجراء إلى إعادة تعيين جميع الدلائل إلى التفضيلات الافتراضية الخاصة بك.</value>
-  </data>
-  <data name="AreYouSure" xml:space="preserve">
-    <value>هل أنت متأكد؟</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>شاشة القفل</value>
@@ -2923,7 +2841,91 @@
   <data name="SortBy" xml:space="preserve">
     <value>فرز حسب</value>
   </data>
+  <data name="GroupInDescendingOrder" xml:space="preserve">
+    <value>Group in descending order</value>
+  </data>
+  <data name="SortInDescendingOrder" xml:space="preserve">
+    <value>Sort in descending order</value>
+  </data>
+  <data name="NewShortcutDialogTitle" xml:space="preserve">
+    <value>Create a new shortcut</value>
+  </data>
+  <data name="NewShortcutDialogDescription" xml:space="preserve">
+    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+  </data>
+  <data name="NewShortcutDialogPrompt" xml:space="preserve">
+    <value>Enter the location of the item:</value>
+  </data>
+  <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
+    <value>Creates a shortcut</value>
+  </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>الملفات المستخدمة حديثًا معطلة حاليًا في مستكشف ملفات ويندوز.</value>
+  </data>
+  <data name="EditSettingsFile" xml:space="preserve">
+    <value>Edit Settings File</value>
+  </data>
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
+    <value>Creating a shortcut in this location requires administrator privileges</value>
+  </data>
+  <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
+    <value>Would you like to create the shortcut on the desktop instead?</value>
+  </data>
+  <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
+    <value>The specified item name is invalid</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>إعدادات</value>
+  </data>
+  <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
+    <value>Double click on a blank space to go up one directory</value>
+  </data>
+  <data name="ViewMore" xml:space="preserve">
+    <value>View more</value>
+  </data>
+  <data name="ToolTipDescriptionSize" xml:space="preserve">
+    <value>الحجم</value>
+  </data>
+  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
+    <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
+  </data>
+  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
+    <value>Bundles will be retiring in a future update 📎</value>
+  </data>
+  <data name="DisplayEditTagsMenu" xml:space="preserve">
+    <value>Display the edit tags flyout</value>
+  </data>
+  <data name="QuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
+  <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
+    <value>Enter your credentials to connect to: {0}</value>
+  </data>
+  <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
+    <value>Enter Network Credentials</value>
+  </data>
+  <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
+    <value>Remember my credentials</value>
+  </data>
+  <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
+    <value>Network folder error</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>App version</value>
+  </data>
+  <data name="WindowsVersion" xml:space="preserve">
+    <value>Windows version</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>Always</value>
+  </data>
+  <data name="PermanentDeletionOnly" xml:space="preserve">
+    <value>Permanent deletion only</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Never</value>
   </data>
 </root>

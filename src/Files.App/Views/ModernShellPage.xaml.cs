@@ -106,7 +106,7 @@ namespace Files.App.Views
 
 		protected override void OnNavigationParamsChanged()
 		{
-			if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home".GetLocalizedResource())
+			if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home")
 			{
 				ItemDisplayFrame.Navigate(typeof(WidgetsPage),
 					new NavigationArguments()
@@ -125,7 +125,7 @@ namespace Files.App.Views
 						NavPathParam = NavParams.NavPath,
 						SelectItems = !string.IsNullOrWhiteSpace(NavParams?.SelectItem) ? new[] { NavParams.SelectItem } : null,
 						IsSearchResultPage = isTagSearch,
-						SearchPathParam = isTagSearch ? "Home".GetLocalizedResource() : null,
+						SearchPathParam = isTagSearch ? "Home" : null,
 						SearchQuery = isTagSearch ? navParams.NavPath : null,
 						AssociatedTabInstance = this
 					});
@@ -240,7 +240,7 @@ namespace Files.App.Views
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 							item.ItemPath,
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-						await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
+						await FilesystemHelpers.DeleteItemsAsync(items, UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, true, true);
 					}
 
 					break;
@@ -276,7 +276,7 @@ namespace Files.App.Views
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 							item.ItemPath,
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-						await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+						await FilesystemHelpers.DeleteItemsAsync(items, UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
 					}
 
 					break;
@@ -371,7 +371,7 @@ namespace Files.App.Views
 				ItemDisplayFrame.Navigate(typeof(WidgetsPage),
 					new NavigationArguments()
 					{
-						NavPathParam = "Home".GetLocalizedResource(),
+						NavPathParam = "Home",
 						AssociatedTabInstance = this
 					}, new SuppressNavigationTransitionInfo());
 			}
@@ -409,7 +409,7 @@ namespace Files.App.Views
 			ItemDisplayFrame.Navigate(typeof(WidgetsPage),
 				new NavigationArguments()
 				{
-					NavPathParam = "Home".GetLocalizedResource(),
+					NavPathParam = "Home",
 					AssociatedTabInstance = this
 				}, new SuppressNavigationTransitionInfo());
 		}

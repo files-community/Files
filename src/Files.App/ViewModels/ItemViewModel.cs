@@ -126,7 +126,7 @@ namespace Files.App.ViewModels
 			else if (!Path.IsPathRooted(WorkingDirectory) || Path.GetPathRoot(WorkingDirectory) != Path.GetPathRoot(value))
 				workingRoot = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(value));
 
-			if (value == "Home".GetLocalizedResource())
+			if (value == "Home")
 				currentStorageFolder = null;
 			else
 				App.JumpList.AddFolderToJumpList(value);
@@ -458,7 +458,7 @@ namespace Files.App.ViewModels
 		{
 			await dispatcherQueue.EnqueueAsync(() =>
 			{
-				if (WorkingDirectory != "Home".GetLocalizedResource())
+				if (WorkingDirectory != "Home")
 					RefreshItems(null);
 			});
 		}
@@ -477,13 +477,13 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.FoldersSettingsService.SelectFilesOnHover):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
-						if (WorkingDirectory != "Home".GetLocalizedResource())
+						if (WorkingDirectory != "Home")
 							RefreshItems(null);
 					});
 					break;
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortOption):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupOption):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
@@ -706,7 +706,24 @@ namespace Files.App.ViewModels
 
 			if (FilesAndFolders.GroupedCollection is null || FilesAndFolders.GroupedCollection.IsSorted)
 				return;
-			FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
+			if (folderSettings.DirectoryGroupDirection == SortDirection.Ascending)
+			{
+				if (folderSettings.DirectoryGroupOption == GroupOption.Size)
+					// Always show file sections below folders
+					FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.First().PrimaryItemAttribute != StorageItemTypes.Folder || y.First().IsArchive)
+						.ThenBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
+				else
+					FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
+			}
+			else
+			{
+				if (folderSettings.DirectoryGroupOption == GroupOption.Size)
+					// Always show file sections below folders
+					FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.First().PrimaryItemAttribute != StorageItemTypes.Folder || y.First().IsArchive)
+						.ThenByDescending(y => y.Model.SortIndexOverride).ThenByDescending(y => y.Model.Text));
+				else
+					FilesAndFolders.GroupedCollection.Order(x => x.OrderByDescending(y => y.Model.SortIndexOverride).ThenByDescending(y => y.Model.Text));
+			}
 			FilesAndFolders.GroupedCollection.IsSorted = true;
 		}
 

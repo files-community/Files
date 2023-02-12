@@ -238,11 +238,11 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
 
 			// Set path of working directory empty
-			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home".GetLocalizedResource());
+			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
 
 			// Clear the path UI and replace with Favorites
 			AppInstance.ToolbarViewModel.PathComponents.Clear();
-			string componentLabel = parameters.NavPathParam;
+			string componentLabel = parameters.NavPathParam == "Home" ? "Home".GetLocalizedResource() : parameters.NavPathParam;
 			string tag = parameters.NavPathParam;
 			PathBoxItem item = new PathBoxItem()
 			{

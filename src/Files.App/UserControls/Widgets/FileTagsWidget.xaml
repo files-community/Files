@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<local:HomePageWidget
 	x:Class="Files.App.UserControls.Widgets.FileTagsWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -89,7 +89,11 @@
 
 						<controls:AdaptiveGridView.ItemTemplate>
 							<DataTemplate x:DataType="vm:FileTagsItemViewModel">
-								<StackPanel Orientation="Horizontal" Spacing="8">
+								<StackPanel
+									DataContext="{x:Bind}"
+									Orientation="Horizontal"
+									RightTapped="Item_RightTapped"
+									Spacing="8">
 									<!--  Icon  -->
 									<Image
 										Width="20"
@@ -118,4 +122,4 @@
 			</DataTemplate>
 		</ItemsRepeater.ItemTemplate>
 	</ItemsRepeater>
-</UserControl>
+</local:HomePageWidget>
