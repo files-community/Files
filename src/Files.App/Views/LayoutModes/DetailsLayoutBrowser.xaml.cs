@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Files.App.EventArguments;
@@ -7,6 +8,7 @@ using Files.App.Helpers.XamlHelpers;
 using Files.App.UserControls;
 using Files.App.UserControls.Selection;
 using Files.App.ViewModels;
+using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -15,7 +17,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Globalization;
 using System.Linq;
 using UWPToWinAppSDKUpgradeHelpers;
 using Windows.Foundation;
@@ -29,6 +30,8 @@ namespace Files.App.Views.LayoutModes
 {
 	public sealed partial class DetailsLayoutBrowser : StandardViewBase
 	{
+		private const int TAG_TEXT_BLOCK = 1;
+
 		private uint currentIconSize;
 
 		private InputCursor arrowCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Arrow, 0));
@@ -36,6 +39,8 @@ namespace Files.App.Views.LayoutModes
 		private InputCursor resizeCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.SizeWestEast, 1));
 
 		private ListedItem? _nextItemToSelect;
+
+		private IFileTagsSettingsService tagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		protected override uint IconSize => currentIconSize;
 
@@ -594,7 +599,7 @@ namespace Files.App.Views.LayoutModes
 			if (maxItemLength == 0)
 				return;
 
-			var columnSizeToFit = new[] { 10 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumnEstimate(columnToResize, 5, maxItemLength);
+			var columnSizeToFit = columnToResize == 10 ? maxItemLength : MeasureTextColumnEstimate(columnToResize, 5, maxItemLength);
 			if (columnSizeToFit > 1)
 			{
 				var column = columnToResize switch
@@ -712,8 +717,53 @@ namespace Files.App.Views.LayoutModes
 			{
 				var checkbox = container.FindDescendant("SelectionCheckbox") as CheckBox;
 				if (checkbox is not null)
+				{
+					// Temporarily disable events to avoid selecting wrong items
+					checkbox.Checked -= ItemSelected_Checked;
+					checkbox.Unchecked -= ItemSelected_Unchecked;
+
 					checkbox.IsChecked = FileList.SelectedItems.Contains(item);
+
+					checkbox.Checked += ItemSelected_Checked;
+					checkbox.Unchecked += ItemSelected_Unchecked;
+				}
 			}
+		}
+
+		private void TagItem_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			var tagName = ((sender as StackPanel)?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
+			if (tagName is null)
+				return;
+
+			ParentShellPageInstance?.SubmitSearch($"tag:{tagName}", false);
+		}
+
+		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			VisualStateManager.GoToState((UserControl)sender, "PointerOver", true);
+		}
+
+		private void FileTag_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
+		}
+
+		private void TagIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			var parent = (sender as FontIcon)?.Parent as StackPanel;
+			var tagName = (parent?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
+
+			if (tagName is null || parent?.DataContext is not ListedItem item)
+				return;
+			
+			var tagId = tagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
+
+			item.FileTags = item.FileTags
+				.Except(new string[] { tagId })
+				.ToArray();
+
+			e.Handled = true;
 		}
 	}
 }

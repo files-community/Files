@@ -29,6 +29,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -159,7 +160,7 @@ namespace Files.App.Views
 				FlowDirection = FlowDirection.RightToLeft;
 			}
 
-			//NavigationToolbar.PathControlDisplayText = "Home".GetLocalizedResource();
+			//NavigationToolbar.PathControlDisplayText = "Home";
 			//NavigationToolbar.CanGoBack = false;
 			//NavigationToolbar.CanGoForward = false;
 			//NavigationToolbar.SearchBox.QueryChanged += ColumnShellPage_QueryChanged;
@@ -236,7 +237,14 @@ namespace Files.App.Views
 					{
 						path = SlimContentPage.SelectedItem.ItemPath;
 					}
-					// TODO open path in Windows Terminal
+
+					var terminalStartInfo = new ProcessStartInfo()
+					{
+						FileName = "wt.exe",
+						WorkingDirectory = path
+					};
+					Process.Start(terminalStartInfo);
+
 					args.Handled = true;
 					break;
 
@@ -271,7 +279,7 @@ namespace Files.App.Views
 			ToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
 			ToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
-			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
+			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home"));
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, this));
@@ -706,7 +714,7 @@ namespace Files.App.Views
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 							item.ItemPath,
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-						await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
+						await FilesystemHelpers.DeleteItemsAsync(items, UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, true, true);
 					}
 
 					break;
@@ -750,7 +758,7 @@ namespace Files.App.Views
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 							item.ItemPath,
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-						await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+						await FilesystemHelpers.DeleteItemsAsync(items, UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
 					}
 
 					break;
@@ -883,7 +891,7 @@ namespace Files.App.Views
 		{
 			if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType is not null)
 			{
-				ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
+				ToolbarViewModel.PathControlDisplayText = "Home";
 			}
 		}
 

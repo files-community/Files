@@ -1,12 +1,22 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
+using Files.App.Helpers;
+using Files.App.Helpers.ContextFlyouts;
+using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -15,13 +25,14 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class RecentFilesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
+	public sealed partial class RecentFilesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
 		public event RecentFilesOpenLocationInvokedEventHandler RecentFilesOpenLocationInvoked;
@@ -46,16 +57,20 @@ namespace Files.App.UserControls.Widgets
 
 		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget;
 
-		private Visibility emptyRecentsTextVisibility = Visibility.Collapsed;
-		public Visibility EmptyRecentsTextVisibility
+		public bool ShowMenuFlyout => false;
+
+		public MenuFlyoutItem? MenuFlyoutItem => null;
+
+		private bool isEmptyRecentsTextVisible = false;
+		public bool IsEmptyRecentsTextVisible
 		{
-			get => emptyRecentsTextVisibility;
+			get => isEmptyRecentsTextVisible;
 			internal set
 			{
-				if (emptyRecentsTextVisibility != value)
+				if (isEmptyRecentsTextVisible != value)
 				{
-					emptyRecentsTextVisibility = value;
-					NotifyPropertyChanged(nameof(EmptyRecentsTextVisibility));
+					isEmptyRecentsTextVisible = value;
+					NotifyPropertyChanged(nameof(IsEmptyRecentsTextVisible));
 				}
 			}
 		}
@@ -85,6 +100,67 @@ namespace Files.App.UserControls.Widgets
 			_ = RefreshWidget();
 
 			App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
+
+			RemoveRecentItemCommand = new RelayCommand<RecentItem>(RemoveRecentItem);
+			ClearAllItemsCommand = new RelayCommand(ClearRecentItems);
+			OpenFileLocationCommand = new RelayCommand<RecentItem>(OpenFileLocation);
+		}
+
+		private async void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			if (sender is not Grid recentItemsGrid || recentItemsGrid.DataContext is not RecentItem item)
+				return;
+
+			var menuItems = GetItemMenuItems(item, false);
+			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+
+			if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+				secondaryElements.OfType<FrameworkElement>()
+								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
+
+			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
+
+			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true);
+
+			e.Handled = true;
+		}
+
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
+		{
+			return new List<ContextMenuFlyoutItemViewModel>()
+			{
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "RecentItemRemove/Text".GetLocalizedResource(),
+					Glyph = "\uE738",
+					Command = RemoveRecentItemCommand,
+					CommandParameter = item
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "RecentItemClearAll/Text".GetLocalizedResource(),
+					Glyph = "\uE74D",
+					Command = ClearAllItemsCommand
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "RecentItemOpenFileLocation/Text".GetLocalizedResource(),
+					Glyph = "\uED25",
+					Command = OpenFileLocationCommand,
+					CommandParameter = item
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ShowMoreOptions".GetLocalizedResource(),
+					Glyph = "\xE712",
+					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					ID = "ItemOverflow",
+					Tag = "ItemOverflow",
+					IsHidden = true
+				}
+			};
 		}
 
 		public async Task RefreshWidget()
@@ -102,21 +178,15 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
+		private void OpenFileLocation(RecentItem item)
 		{
-			var flyoutItem = sender as MenuFlyoutItem;
-			var clickedOnItem = flyoutItem.DataContext as RecentItem;
-			if (clickedOnItem.IsFile)
+			RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
 			{
-				var targetPath = clickedOnItem.RecentPath;
-				RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
-				{
-					ItemPath = Directory.GetParent(targetPath).FullName,    // parent directory
-					ItemName = Path.GetFileName(targetPath),                // file name w extension
-				});
-			}
+				ItemPath = Directory.GetParent(item.RecentPath).FullName,    // parent directory
+				ItemName = Path.GetFileName(item.RecentPath),                // file name w extension
+			});
 		}
-
+			
 		private async Task UpdateRecentsList(NotifyCollectionChangedEventArgs e)
 		{
 			try
@@ -134,7 +204,7 @@ namespace Files.App.UserControls.Widgets
 				refreshRecentsCTS.Cancel();
 				refreshRecentsCTS = new CancellationTokenSource();
 
-				EmptyRecentsTextVisibility = Visibility.Collapsed;
+				IsEmptyRecentsTextVisible = false;
 
 				switch (e.Action)
 				{
@@ -180,7 +250,7 @@ namespace Files.App.UserControls.Widgets
 				// update chevron if there aren't any items
 				if (recentItemsCollection.Count == 0 && !IsRecentFilesDisabledInWindows)
 				{
-					EmptyRecentsTextVisibility = Visibility.Visible;
+					IsEmptyRecentsTextVisible = true;
 				}
 			}
 			catch (Exception ex)
@@ -219,19 +289,13 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		private async void RemoveRecentItem_Click(object sender, RoutedEventArgs e)
+		private async void RemoveRecentItem(RecentItem item)
 		{
 			await refreshRecentsSemaphore.WaitAsync();
 
 			try
 			{
-				// Get the sender FrameworkElement and grab its DataContext ViewModel
-				if (sender is MenuFlyoutItem fe && fe.DataContext is RecentItem vm)
-				{
-					// evict it from the recent items shortcut list
-					// this operation invokes RecentFilesChanged which we handle to update the visible collection
-					await App.RecentItemsManager.UnpinFromRecentFiles(vm);
-				}
+				await App.RecentItemsManager.UnpinFromRecentFiles(item);
 			}
 			finally
 			{
@@ -239,7 +303,7 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		private async void ClearRecentItems_Click(object sender, RoutedEventArgs e)
+		private async void ClearRecentItems()
 		{
 			await refreshRecentsSemaphore.WaitAsync();
 			try
@@ -249,7 +313,7 @@ namespace Files.App.UserControls.Widgets
 
 				if (success)
 				{
-					EmptyRecentsTextVisibility = Visibility.Visible;
+					IsEmptyRecentsTextVisible = true;
 				}
 			}
 			finally

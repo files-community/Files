@@ -76,7 +76,8 @@ namespace Files.App
 		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
 
 		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
-
+		public static string LogoPath;
+		
 		public IServiceProvider Services { get; private set; }
 
 		/// <summary>
@@ -93,6 +94,8 @@ namespace Files.App
 			InitializeComponent();
 			Services = ConfigureServices();
 			Ioc.Default.ConfigureServices(Services);
+			LogoPath = Package.Current.DisplayName == "Files - Dev" ? Constants.AssetPaths.DevLogo
+					: (Package.Current.DisplayName == "Files - Preview" ? Constants.AssetPaths.PreviewLogo : Constants.AssetPaths.StableLogo);
 		}
 
 		private IServiceProvider ConfigureServices()
@@ -168,23 +171,20 @@ namespace Files.App
 			QuickAccessManager ??= new QuickAccessManager();
 		}
 
-		private static async Task StartAppCenter()
+		private static Task StartAppCenter()
 		{
 			try
 			{
+				// AppCenter secret is injected in builds/azure-pipelines-release.yml
 				if (!AppCenter.Configured)
-				{
-					var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
-					var lines = await FileIO.ReadTextAsync(file);
-					using var document = System.Text.Json.JsonDocument.Parse(lines);
-					var obj = document.RootElement;
-					AppCenter.Start(obj.GetProperty("key").GetString(), typeof(Analytics), typeof(Crashes));
-				}
+					AppCenter.Start("", typeof(Analytics), typeof(Crashes));
 			}
 			catch (Exception ex)
 			{
 				Logger.Warn(ex, "AppCenter could not be started.");
 			}
+
+			return Task.CompletedTask;
 		}
 
 		private static async Task InitializeAppComponentsAsync()
@@ -338,7 +338,7 @@ namespace Files.App
 				}
 				else
 				{
-					var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
+					var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
 					return defaultArg.Serialize();
 				}
 			}).ToList();

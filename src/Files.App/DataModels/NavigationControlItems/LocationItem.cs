@@ -35,7 +35,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			set
 			{
 				path = value;
-				ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains('?', StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
+				ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains('?', StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home" ? Text : Path;
 			}
 		}
 
@@ -55,6 +55,8 @@ namespace Files.App.DataModels.NavigationControlItems
 		}
 
 		public bool IsInvalid { get; set; } = false;
+
+		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(path);
 
 		public SectionType Section { get; set; }
 

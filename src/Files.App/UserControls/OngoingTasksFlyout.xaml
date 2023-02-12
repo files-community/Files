@@ -11,257 +11,126 @@
 	d:DesignWidth="300"
 	mc:Ignorable="d">
 	<UserControl.Resources>
-		<Style x:Key="ListViewItemStyleFixed" TargetType="ListViewItem">
-			<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-			<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-			<Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
-			<Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
-			<Setter Property="TabNavigation" Value="Local" />
-			<Setter Property="IsHoldingEnabled" Value="True" />
-			<Setter Property="Padding" Value="0" />
-			<Setter Property="Margin" Value="0,2" />
-			<Setter Property="MinHeight" Value="55" />
-			<Setter Property="MaxHeight" Value="70" />
-			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-			<Setter Property="VerticalContentAlignment" Value="Stretch" />
-			<Setter Property="AllowDrop" Value="False" />
-			<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
-			<Setter Property="FocusVisualMargin" Value="0" />
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="ListViewItem">
-						<ListViewItemPresenter
-							x:Name="Root"
-							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-							CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
-							CheckBrush="{ThemeResource ListViewItemCheckBrush}"
-							CheckMode="{ThemeResource ListViewItemCheckMode}"
-							ContentMargin="{TemplateBinding Padding}"
-							ContentTransitions="{TemplateBinding ContentTransitions}"
-							Control.IsTemplateFocusTarget="True"
-							DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
-							DragBackground="{ThemeResource ListViewItemDragBackground}"
-							DragForeground="{ThemeResource ListViewItemDragForeground}"
-							DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
-							FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
-							FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
-							FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
-							PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
-							PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}"
-							PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
-							PressedBackground="{ThemeResource ListViewItemBackgroundPressed}"
-							ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
-							RevealBackground="{ThemeResource ListViewItemRevealBackground}"
-							RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
-							RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}"
-							SelectedBackground="{ThemeResource ListViewItemBackgroundSelected}"
-							SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
-							SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundSelectedPointerOver}"
-							SelectedPressedBackground="{ThemeResource ListViewItemBackgroundSelectedPressed}"
-							SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}">
-							<VisualStateManager.VisualStateGroups>
-								<VisualStateGroup x:Name="CommonStates">
-									<VisualState x:Name="Normal" />
-									<VisualState x:Name="Selected" />
-									<VisualState x:Name="PointerOver">
-										<VisualState.Setters>
-											<Setter Target="Root.(RevealBrush.State)" Value="PointerOver" />
-											<Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPointerOver}" />
-										</VisualState.Setters>
-									</VisualState>
-									<VisualState x:Name="PointerOverSelected">
-										<VisualState.Setters>
-											<Setter Target="Root.(RevealBrush.State)" Value="PointerOver" />
-											<Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPointerOver}" />
-										</VisualState.Setters>
-									</VisualState>
-									<VisualState x:Name="PointerOverPressed">
-										<VisualState.Setters>
-											<Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
-											<Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPressed}" />
-										</VisualState.Setters>
-									</VisualState>
-									<VisualState x:Name="Pressed">
-										<VisualState.Setters>
-											<Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
-											<Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPressed}" />
-										</VisualState.Setters>
-									</VisualState>
-									<VisualState x:Name="PressedSelected">
-										<VisualState.Setters>
-											<Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
-											<Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPressed}" />
-										</VisualState.Setters>
-									</VisualState>
-								</VisualStateGroup>
-								<VisualStateGroup x:Name="DisabledStates">
-									<VisualState x:Name="Enabled" />
-									<VisualState x:Name="Disabled">
-										<VisualState.Setters>
-											<Setter Target="Root.RevealBorderThickness" Value="0" />
-										</VisualState.Setters>
-									</VisualState>
-								</VisualStateGroup>
-							</VisualStateManager.VisualStateGroups>
-						</ListViewItemPresenter>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-
 		<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 	</UserControl.Resources>
 
-	<Grid Margin="-12">
+	<Grid Margin="-16">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,0,0,0.5">
+		<Grid Padding="12">
 			<TextBlock
-				Margin="10,8"
+				VerticalAlignment="Center"
 				FontSize="14"
-				FontWeight="SemiBold"
 				Text="{helpers:ResourceString Name=OngoingTasks}" />
 
 			<Button
 				x:Name="DismissAllBannersButton"
-				Height="32"
+				Height="24"
+				Padding="8,0"
 				HorizontalAlignment="Right"
-				Background="Transparent"
-				BorderBrush="Transparent"
 				Click="DismissAllBannersButton_Click"
 				Content="{helpers:ResourceString Name=ClearAll}"
+				FontSize="12"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=ClearAll}" />
 		</Grid>
 
 		<ListView
 			x:Name="BannerList"
 			Grid.Row="1"
+			Padding="4,0"
 			VerticalAlignment="Stretch"
-			ItemContainerStyle="{StaticResource ListViewItemStyleFixed}"
 			ItemsSource="{x:Bind OngoingTasksViewModel.StatusBannersSource, Mode=OneWay}"
 			SelectionMode="None">
+			<ListView.ItemContainerStyle>
+				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+					<Setter Property="Padding" Value="0,2" />
+					<Setter Property="MinHeight" Value="55" />
+				</Style>
+			</ListView.ItemContainerStyle>
+
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="models:StatusBanner">
-					<Grid
-						Padding="4"
-						HorizontalAlignment="Stretch"
-						AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}"
-						Background="{ThemeResource ControlFillColorDefault}"
-						BorderBrush="{x:Bind StrokeColor}"
-						BorderThickness="4,0,0,0"
-						CornerRadius="{StaticResource ControlCornerRadius}">
-						<Grid ColumnSpacing="8">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="*" />
-								<ColumnDefinition Width="Auto" />
-							</Grid.ColumnDefinitions>
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto" />
-								<RowDefinition Height="Auto" />
-							</Grid.RowDefinitions>
-							<Grid
-								Width="32"
-								Padding="4,4,0,0"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center">
-								<ProgressRing
-									x:Name="ProgressSpinner"
-									Width="28"
-									Height="28"
-									x:Load="{x:Bind IsProgressing, Mode=OneWay}"
-									IsActive="True"
-									IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
-									Value="{x:Bind Progress, Mode=OneWay}" />
-								<FontIcon
-									FontFamily="{x:Bind ((FontIconSource)GlyphSource).FontFamily}"
-									FontSize="14"
-									Glyph="{x:Bind ((FontIconSource)GlyphSource).Glyph}" />
-							</Grid>
-							<StackPanel
-								Grid.Column="1"
-								Height="58"
-								Padding="0,4,0,0"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Center"
-								Orientation="Vertical"
-								Spacing="4">
-								<TextBlock
-									HorizontalAlignment="Left"
-									FontSize="12"
-									FontWeight="Medium"
-									Text="{x:Bind FullTitle, Mode=OneWay}" />
-								<TextBlock
-									FontSize="11"
-									MaxLines="2"
-									Text="{x:Bind Message}"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="WrapWholeWords"
-									ToolTipService.ToolTip="{x:Bind Message}" />
-							</StackPanel>
-							<Button
-								x:Name="DismissBannerButton"
-								Grid.Column="2"
-								Height="32"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Top"
-								x:Load="{x:Bind CancelButtonVisible, Converter={StaticResource BoolNegationConverter}}"
-								AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasksDismissBannerButton/ToolTipService/ToolTip}"
-								Background="Transparent"
-								BorderBrush="Transparent"
-								Click="DismissBanner"
-								DataContext="{x:Bind}"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasksDismissBannerButton/ToolTipService/ToolTip}">
-								<Button.Content>
-									<FontIcon FontSize="11" Glyph="&#xE711;" />
-								</Button.Content>
-							</Button>
+					<Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}">
+						<InfoBar
+							Title="{x:Bind FullTitle, Mode=OneWay}"
+							Background="{ThemeResource ControlFillColorDefault}"
+							IsClosable="False"
+							IsIconVisible="False"
+							IsOpen="True"
+							Message="{x:Bind Message, Mode=OneWay}"
+							Severity="{x:Bind InfoBarSeverity}">
 
+							<ProgressBar
+								x:Name="ProgressBar"
+								Margin="0,0,12,12"
+								IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
+								Visibility="{x:Bind IsProgressing, Mode=OneWay}"
+								Value="{x:Bind Progress, Mode=OneWay}" />
+						</InfoBar>
+
+						<Button
+							x:Name="DismissBannerButton"
+							Height="24"
+							Margin="8"
+							Padding="8,0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Top"
+							x:Load="{x:Bind CancelButtonVisible, Converter={StaticResource BoolNegationConverter}}"
+							AutomationProperties.Name="{helpers:ResourceString Name=Clear}"
+							Background="Transparent"
+							BorderBrush="Transparent"
+							Click="DismissBanner"
+							DataContext="{x:Bind}"
+							ToolTipService.ToolTip="{helpers:ResourceString Name=Clear}">
+							<Button.Content>
+								<FontIcon FontSize="11" Glyph="&#xE711;" />
+							</Button.Content>
+						</Button>
+
+						<Button
+							x:Name="CancelBannerButton"
+							Height="24"
+							Margin="8"
+							Padding="8,0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Top"
+							x:Load="{x:Bind CancelButtonVisible}"
+							AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
+							Background="Transparent"
+							BorderBrush="Transparent"
+							Command="{x:Bind CancelCommand}"
+							DataContext="{x:Bind}"
+							IsEnabled="{x:Bind IsCancelled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+							ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
+							<Button.Content>
+								<FontIcon FontSize="11" Glyph="&#xE711;" />
+							</Button.Content>
+						</Button>
+
+						<StackPanel
+							x:Name="solutionButtons"
+							Grid.Row="0"
+							Padding="0,4,0,0"
+							HorizontalAlignment="Right"
+							x:Load="{x:Bind SolutionButtonsVisible}"
+							Orientation="Horizontal"
+							Spacing="8">
 							<Button
-								x:Name="CancelBannerButton"
-								Grid.Column="2"
-								Height="32"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Top"
-								x:Load="{x:Bind CancelButtonVisible}"
-								AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
-								Background="Transparent"
-								BorderBrush="Transparent"
-								Command="{x:Bind CancelCommand}"
+								Height="28"
+								Click="Button_Click_1"
+								Content="{x:Bind PrimaryButtonText}"
 								DataContext="{x:Bind}"
-								IsEnabled="{x:Bind IsCancelled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
-								<Button.Content>
-									<FontIcon FontSize="11" Glyph="&#xE711;" />
-								</Button.Content>
-							</Button>
-							<StackPanel
-								x:Name="solutionButtons"
-								Grid.Row="1"
-								Grid.ColumnSpan="3"
-								Padding="0,4,0,0"
-								HorizontalAlignment="Right"
-								x:Load="{x:Bind SolutionButtonsVisible}"
-								Orientation="Horizontal"
-								Spacing="8">
-								<Button
-									Height="28"
-									Click="Button_Click_1"
-									Content="{x:Bind PrimaryButtonText}"
-									DataContext="{x:Bind}"
-									FontSize="10" />
-								<Button
-									Height="28"
-									Click="DismissBanner"
-									Content="{x:Bind SecondaryButtonText}"
-									DataContext="{x:Bind}"
-									FontSize="10" />
-							</StackPanel>
-						</Grid>
+								FontSize="10" />
+							<Button
+								Height="28"
+								Click="DismissBanner"
+								Content="{x:Bind SecondaryButtonText}"
+								DataContext="{x:Bind}"
+								FontSize="10" />
+						</StackPanel>
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>

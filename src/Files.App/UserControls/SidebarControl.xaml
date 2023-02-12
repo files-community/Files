@@ -19,7 +19,7 @@
 	ItemInvoked="Sidebar_ItemInvoked"
 	Loaded="SidebarNavView_Loaded"
 	MenuItemsSource="{x:Bind ViewModel.SideBarItems, Mode=OneWay}"
-	OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=OneTime}"
+	OpenPaneLength="{x:Bind userSettingsService.AppearanceSettingsService.SidebarWidth, Mode=OneTime}"
 	PaneClosed="NavigationView_PaneClosed"
 	PaneOpened="NavigationView_PaneOpened"
 	SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

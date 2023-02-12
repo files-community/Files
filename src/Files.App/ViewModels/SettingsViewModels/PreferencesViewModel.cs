@@ -155,7 +155,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource())
 			{
 				Command = AddPageCommand,
-				CommandParameter = "Home".GetLocalizedResource(),
+				CommandParameter = "Home",
 				Tooltip = "Home".GetLocalizedResource()
 			});
 			await PopulateRecentItems(recentsItem);
@@ -460,13 +460,13 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool ShowFoldersWidget
+		public bool ShowQuickAccessWidget
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFoldersWidget;
+			get => UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowFoldersWidget)
-					UserSettingsService.PreferencesSettingsService.ShowFoldersWidget = value;
+				if (value != UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget)
+					UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget = value;
 			}
 		}
 
@@ -631,7 +631,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			get
 			{
-				if (Path == "Home".GetLocalizedResource())
+				if (Path == "Home")
 					return "Home".GetLocalizedResource();
 				return (Path == CommonPaths.RecycleBinPath)
 					   ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin")

@@ -45,7 +45,6 @@
         <Content Include="7z64.dll">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Include="Resources\AppCenterKey.txt" />
         <Content Include="Resources\BingMapsKey.txt" />
         <Content Include="Resources\PreviewPanePropertiesInformation.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -78,15 +77,15 @@
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
         <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230118.102" />
         <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
-        <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.355802" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.410601" PrivateAssets="all" />
         <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
         <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
-        <PackageReference Include="Vanara.Windows.Extensions" Version="3.4.12" />
+        <PackageReference Include="Vanara.Windows.Extensions" Version="3.4.13" />
         <PackageReference Include="WinUIEx" Version="2.1.0" />
         <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.12" />
-        <PackageReference Include="Vanara.Windows.Shell" Version="3.4.12" />
+        <PackageReference Include="Vanara.Windows.Shell" Version="3.4.13" />
         <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
         <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
     </ItemGroup>

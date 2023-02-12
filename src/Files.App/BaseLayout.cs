@@ -38,6 +38,7 @@ using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
+using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.App
 {
@@ -98,7 +99,7 @@ namespace Files.App
 
 		protected AddressToolbar? NavToolbar => (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
 
-		private CollectionViewSource collectionViewSource = new CollectionViewSource()
+		private CollectionViewSource collectionViewSource = new()
 		{
 			IsSourceGrouped = true,
 		};
@@ -150,10 +151,7 @@ namespace Files.App
 				if (value != string.Empty)
 				{
 					ListedItem? jumpedToItem = null;
-					ListedItem? previouslySelectedItem = null;
-
-					if (IsItemSelected)
-						previouslySelectedItem = SelectedItem;
+					ListedItem? previouslySelectedItem = IsItemSelected ? SelectedItem : null;
 
 					// Select first matching item after currently selected item
 					if (previouslySelectedItem is not null)
@@ -207,7 +205,7 @@ namespace Files.App
 						// check if the preview pane is open before updating the model
 						if (PreviewPaneViewModel.IsEnabled)
 						{
-							bool isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
+							var isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
 							if (isPaneEnabled)
 								App.PreviewPaneViewModel.UpdateSelectedItemPreview();
 						}
@@ -222,7 +220,7 @@ namespace Files.App
 						ResetRenameDoubleClick();
 						UpdateSelectionSize();
 					}
-					else if (selectedItems != null)
+					else if (selectedItems is not null)
 					{
 						IsItemSelected = true;
 						SelectedItem = selectedItems.First();
@@ -307,15 +305,18 @@ namespace Files.App
 
 		protected IEnumerable<ListedItem>? GetAllItems()
 		{
-			var items = CollectionViewSource.IsSourceGrouped ? // add all items from each group to the new list
-				(CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.SelectMany(g => g) :
-				CollectionViewSource.Source as IEnumerable<ListedItem>;
+			var items = CollectionViewSource.IsSourceGrouped
+				? (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.SelectMany(g => g) // add all items from each group to the new list
+				: CollectionViewSource.Source as IEnumerable<ListedItem>;
 			return items ?? new List<ListedItem>();
 		}
 
 		public virtual void ResetItemOpacity()
 		{
-			foreach (var item in GetAllItems())
+			var items = GetAllItems();
+			if (items is null)
+				return;
+			foreach (var item in items)
 			{
 				if (item is not null)
 					item.Opacity = item.IsHiddenItem ? Constants.UI.DimItemOpacity : 1.0d;
@@ -324,8 +325,7 @@ namespace Files.App
 
 		protected ListedItem? GetItemFromElement(object element)
 		{
-			var item = element as ContentControl;
-			if (item is null || !CanGetItemFromElement(element))
+			if (element is not ContentControl item || !CanGetItemFromElement(element))
 				return null;
 
 			return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (ItemsControl.ItemFromContainer(item) as ListedItem);
@@ -378,20 +378,21 @@ namespace Files.App
 			IsItemSelected = false;
 			FolderSettings!.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
+			FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
 			ParentShellPageInstance.ToolbarViewModel.UpdateSortAndGroupOptions();
 			ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
 
 			if (!navigationArguments.IsSearchResultPage)
 			{
-				string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
+				var previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
 				await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
 
 				// pathRoot will be empty on recycle bin path
 				var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
-				string pathRoot = GetPathRoot(workingDir);
+				var pathRoot = GetPathRoot(workingDir);
 
-				bool isRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+				var isRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = isRecycleBin;
 
 				// Can't go up from recycle bin
@@ -475,7 +476,13 @@ namespace Files.App
 
 		private CancellationTokenSource? groupingCancellationToken;
 
-		private async void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
+		private void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
+			=> GroupPreferenceUpdated();
+
+		private void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
+			=> GroupPreferenceUpdated();
+
+		private async void GroupPreferenceUpdated()
 		{
 			// Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
 			groupingCancellationToken?.Cancel();
@@ -493,6 +500,7 @@ namespace Files.App
 			CharacterReceived -= Page_CharacterReceived;
 			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
+			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
 			ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
 
@@ -506,9 +514,7 @@ namespace Files.App
 			try
 			{
 				if (!IsItemSelected && ((sender as CommandBarFlyout)?.Target as ListViewItem)?.Content is ListedItem li) // Workaround for item sometimes not getting selected
-				{
 					ItemManipulationModel.SetSelectedItem(li);
-				}
 				if (IsItemSelected)
 					await LoadMenuItemsAsync();
 			}
@@ -529,18 +535,18 @@ namespace Files.App
 				shellContextMenuItemCancellationToken?.Cancel();
 				shellContextMenuItemCancellationToken = new CancellationTokenSource();
 				var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-				var items = ContextFlyoutItemHelper.GetBaseContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, false);
+				var items = ContextFlyoutItemHelper.GetBaseContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed);
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
 				BaseContextMenuFlyout.SecondaryCommands.Clear();
 				var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
-				AddCloseHandler(primaryElements, secondaryElements);
+				AddCloseHandler(BaseContextMenuFlyout, primaryElements, secondaryElements);
 				primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
 				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
 				secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
 				{
-					var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+					var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 					if (shellMenuItems.Any())
 						AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
 				}
@@ -556,7 +562,7 @@ namespace Files.App
 			var items = (selectedItems?.Any() ?? false) ? selectedItems : GetAllItems();
 			if (items is null)
 				return;
-			bool isSizeKnown = !items.Any(item => string.IsNullOrEmpty(item.FileSize));
+			var isSizeKnown = !items.Any(item => string.IsNullOrEmpty(item.FileSize));
 			if (isSizeKnown)
 			{
 				long size = items.Sum(item => item.FileSizeBytes);
@@ -579,11 +585,11 @@ namespace Files.App
 			shellContextMenuItemCancellationToken = new CancellationTokenSource();
 			SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
 			var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-			var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, workingDir: ParentShellPageInstance!.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, showOpenMenu: false);
+			var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed);
 			ItemContextMenuFlyout.PrimaryCommands.Clear();
 			ItemContextMenuFlyout.SecondaryCommands.Clear();
 			var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
-			AddCloseHandler(primaryElements, secondaryElements);
+			AddCloseHandler(ItemContextMenuFlyout, primaryElements, secondaryElements);
 			primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
 			secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
 			secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
@@ -593,16 +599,16 @@ namespace Files.App
 
 			if (!InstanceViewModel.IsPageTypeZipFolder)
 			{
-				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 				if (shellMenuItems.Any())
 					AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
 			}
 		}
 
-		private void AddCloseHandler(IList<ICommandBarElement> primaryElements, IList<ICommandBarElement> secondaryElements)
+		private void AddCloseHandler(CommandBarFlyout flyout, IList<ICommandBarElement> primaryElements, IList<ICommandBarElement> secondaryElements)
 		{
 			// Workaround for WinUI (#5508)
-			var closeHandler = new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide());
+			var closeHandler = new RoutedEventHandler((s, e) => flyout.Hide());
 
 			primaryElements
 				.OfType<AppBarButton>()
@@ -708,9 +714,7 @@ namespace Files.App
 				flyout.Items.Clear();
 
 				foreach (var item in openWithSubItems)
-				{
 					flyout.Items.Add(item);
-				}
 
 				openWithOverflow.Flyout = flyout;
 				openWith.Visibility = Visibility.Collapsed;
@@ -1079,12 +1083,11 @@ namespace Files.App
 
 		protected void SemanticZoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
 		{
-			if (!e.IsSourceZoomedInView)
-			{
-				// According to the docs this isn't necessary, but it would crash otherwise
-				var destination = e.DestinationItem.Item as GroupedCollection<ListedItem>;
-				e.DestinationItem.Item = destination?.FirstOrDefault();
-			}
+			if (e.IsSourceZoomedInView)
+				return;
+			// According to the docs this isn't necessary, but it would crash otherwise
+			var destination = e.DestinationItem.Item as GroupedCollection<ListedItem>;
+			e.DestinationItem.Item = destination?.FirstOrDefault();
 		}
 
 		protected void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -1110,7 +1113,10 @@ namespace Files.App
 
 		private void ItemManipulationModel_RefreshItemsOpacityInvoked(object? sender, EventArgs e)
 		{
-			foreach (ListedItem listedItem in GetAllItems())
+			var items = GetAllItems();
+			if (items is null)
+				return;
+			foreach (ListedItem listedItem in items)
 			{
 				if (listedItem.IsHiddenItem)
 					listedItem.Opacity = Constants.UI.DimItemOpacity;

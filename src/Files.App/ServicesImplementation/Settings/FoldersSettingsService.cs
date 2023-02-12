@@ -226,6 +226,24 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set((long)value);
 		}
 
+		public SortDirection DefaultDirectorySortDirection
+		{
+			get => (SortDirection)Get((long)SortDirection.Ascending);
+			set => Set((long)value);
+		}
+
+		public SortDirection DefaultDirectoryGroupDirection
+		{
+			get => (SortDirection)Get((long)SortDirection.Ascending);
+			set => Set((long)value);
+		}
+
+		public bool DefaultSortDirectoriesAlongsideFiles
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		public bool ShowFileExtensions
 		{
 			get => Get(true);
@@ -238,10 +256,10 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ShowConfirmDeleteDialog
+		public DeleteConfirmationPolicies DeleteConfirmationPolicy
 		{
-			get => Get(true);
-			set => Set(value);
+			get => (DeleteConfirmationPolicies)Get((long)DeleteConfirmationPolicies.Always);
+			set => Set((long)value);
 		}
 
 		public bool SelectFilesOnHover
@@ -283,7 +301,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(CalculateFolderSizes):
 				case nameof(ShowFileExtensions):
 				case nameof(ShowThumbnails):
-				case nameof(ShowConfirmDeleteDialog):
+				case nameof(DeleteConfirmationPolicy):
 				case nameof(SelectFilesOnHover):
 				case nameof(ShowSelectionCheckboxes):
 				case nameof(DoubleClickToGoUp):
