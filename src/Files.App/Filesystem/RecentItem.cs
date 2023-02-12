@@ -1,17 +1,17 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.App.UserControls.Widgets;
 using Files.Shared;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.Filesystem
 {
-	public class RecentItem : ObservableObject, IEquatable<RecentItem>
+	public class RecentItem : WidgetCardItem, IEquatable<RecentItem>
 	{
 		private BitmapImage _fileImg;
 		public BitmapImage FileImg
@@ -29,6 +29,7 @@ namespace Files.App.Filesystem
 		public bool IsFile { get => Type == StorageItemTypes.File; }
 		public DateTime LastModified { get; set; }
 		public byte[] PIDL { get; set; }
+		public string Path { get => RecentPath; }
 
 		public RecentItem()
 		{
@@ -118,8 +119,8 @@ namespace Files.App.Filesystem
 		 */
 		private static string NameOrPathWithoutExtension(string nameOrPath)
 		{
-			string strippedExtension = Path.GetFileNameWithoutExtension(nameOrPath);
-			return string.IsNullOrEmpty(strippedExtension) ? Path.GetFileName(nameOrPath) : strippedExtension;
+			string strippedExtension = System.IO.Path.GetFileNameWithoutExtension(nameOrPath);
+			return string.IsNullOrEmpty(strippedExtension) ? System.IO.Path.GetFileName(nameOrPath) : strippedExtension;
 		}
 	}
 }
