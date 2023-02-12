@@ -169,6 +169,7 @@
 								x:Name="TagsList"
 								Grid.Row="1"
 								Grid.ColumnSpan="2"
+								MaxHeight="300"
 								Margin="0,8"
 								HorizontalAlignment="Stretch"
 								IsItemClickEnabled="True"

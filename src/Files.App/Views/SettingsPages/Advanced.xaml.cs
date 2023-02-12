@@ -133,7 +133,7 @@ namespace Files.App.SettingsPages
 
 		private void RemoveTag_Click(object sender, RoutedEventArgs e)
 		{
-			ViewModel.DeleteExistingTag((TagViewModel)(sender as Button).DataContext);
+			ViewModel.DeleteExistingTag((TagViewModel)(sender as MenuFlyoutItem).DataContext);
 		}
 	}
 }
