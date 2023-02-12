@@ -12,11 +12,15 @@ namespace Files.App.Helpers
 		public static Color FromHex(string colorHex)
 		{
 			colorHex = colorHex.Replace("#", string.Empty);
-			var r = (byte)Convert.ToUInt32(colorHex.Substring(0, 2), 16);
-			var g = (byte)Convert.ToUInt32(colorHex.Substring(2, 2), 16);
-			var b = (byte)Convert.ToUInt32(colorHex.Substring(4, 2), 16);
 
-			return Color.FromArgb(255, r, g, b);
+			var alphaOffset = colorHex.Length == 8 ? 2 : 0;
+
+			var a = alphaOffset == 2 ? (byte)Convert.ToUInt32(colorHex.Substring(0, 2), 16) : (byte)255;
+			var r = (byte)Convert.ToUInt32(colorHex.Substring(alphaOffset, 2), 16);
+			var g = (byte)Convert.ToUInt32(colorHex.Substring(alphaOffset + 2, 2), 16);
+			var b = (byte)Convert.ToUInt32(colorHex.Substring(alphaOffset + 4, 2), 16);
+
+			return Color.FromArgb(a, r, g, b);
 		}
 
 		/// <summary>
