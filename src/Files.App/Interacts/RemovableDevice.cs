@@ -13,7 +13,9 @@ namespace Files.App.Interacts
 		public RemovableDevice(string letter)
 		{
 			driveLetter = letter[0];
+
 			string filename = @"\\.\" + driveLetter + ":";
+
 			handle = CreateFileFromAppW(filename,
 				GENERIC_READ | GENERIC_WRITE,
 				FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -35,7 +37,9 @@ namespace Files.App.Interacts
 				PreventRemovalOfVolume(false);
 				result = AutoEjectVolume();
 			}
+
 			CloseVolume();
+
 			return result;
 		}
 
@@ -49,12 +53,14 @@ namespace Files.App.Interacts
 				{
 					Debug.WriteLine("Lock successful!");
 					result = true;
+
 					break;
 				}
 				else
 				{
 					Debug.WriteLine($"Can't lock device, attempt {i + 1}, trying again... ");
 				}
+
 				await Task.Delay(500);
 			}
 
@@ -70,6 +76,7 @@ namespace Files.App.Interacts
 		{
 			byte[] buf = new byte[1];
 			buf[0] = prevent ? (byte)1 : (byte)0;
+
 			return DeviceIoControl(handle, IOCTL_STORAGE_MEDIA_REMOVAL, buf, 1, IntPtr.Zero, 0, out _, IntPtr.Zero);
 		}
 

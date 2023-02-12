@@ -20,6 +20,7 @@ namespace Files.App.Shell
 		{
 			var newMenuItems = new List<ShellNewEntry>();
 			var shortcutExtensions = new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" };
+
 			foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith('.') && !shortcutExtensions.Contains(x, StringComparer.OrdinalIgnoreCase)))
 			{
 				using var key = Registry.ClassesRoot.OpenSubKeySafe(keyName);
@@ -28,15 +29,13 @@ namespace Files.App.Shell
 				{
 					var ret = await GetShellNewRegistryEntries(key, key);
 					if (ret is not null)
-					{
 						newMenuItems.Add(ret);
-					}
 				}
 			}
+
 			if (!newMenuItems.Any(x => ".txt".Equals(x.Extension, StringComparison.OrdinalIgnoreCase)))
-			{
 				newMenuItems.Add(await CreateShellNewEntry(".txt", null, null, null));
-			}
+
 			return newMenuItems;
 		}
 
@@ -46,6 +45,7 @@ namespace Files.App.Shell
 				return null;
 
 			using var key = Registry.ClassesRoot.OpenSubKeySafe(extension);
+
 			return key is not null ? await GetShellNewRegistryEntries(key, key) : null;
 		}
 
@@ -59,9 +59,7 @@ namespace Files.App.Shell
 					continue;
 
 				if (keyName == "ShellNew")
-				{
 					return await ParseShellNewRegistryEntry(key, root);
-				}
 				else
 				{
 					var ret = await GetShellNewRegistryEntries(key, root);
@@ -83,9 +81,7 @@ namespace Files.App.Shell
 				!valueNames.Contains("Command", StringComparer.OrdinalIgnoreCase) &&
 				!valueNames.Contains("ItemName", StringComparer.OrdinalIgnoreCase) &&
 				!valueNames.Contains("Data", StringComparer.OrdinalIgnoreCase))
-			{
 				return Task.FromResult<ShellNewEntry>(null);
-			}
 
 			var extension = root.Name.Substring(root.Name.LastIndexOf('\\') + 1);
 			var fileName = (string)key.GetValue("FileName");

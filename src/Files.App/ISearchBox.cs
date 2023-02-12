@@ -9,7 +9,9 @@ namespace Files.App
 	public interface ISearchBox
 	{
 		event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs> TextChanged;
+
 		event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs> QuerySubmitted;
+
 		event EventHandler<ISearchBox> Escaped;
 
 		bool WasQuerySubmitted { get; set; }
@@ -27,7 +29,8 @@ namespace Files.App
 	{
 		public SearchBoxTextChangeReason Reason { get; }
 
-		public SearchBoxTextChangedEventArgs(SearchBoxTextChangeReason reason) => Reason = reason;
+		public SearchBoxTextChangedEventArgs(SearchBoxTextChangeReason reason)
+			=> Reason = reason;
 
 		public SearchBoxTextChangedEventArgs(AutoSuggestionBoxTextChangeReason reason)
 		{
@@ -44,7 +47,8 @@ namespace Files.App
 	{
 		public SuggestionModel ChosenSuggestion { get; }
 
-		public SearchBoxQuerySubmittedEventArgs(SuggestionModel chosenSuggestion) => ChosenSuggestion = chosenSuggestion;
+		public SearchBoxQuerySubmittedEventArgs(SuggestionModel chosenSuggestion)
+			=> ChosenSuggestion = chosenSuggestion;
 	}
 
 	public enum SearchBoxTextChangeReason : ushort

@@ -12,32 +12,37 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 
 		private IDateTimeFormatter formatter;
 
-		public string Name => formatter.Name;
+		public string Name
+			=> formatter.Name;
 
 		public UserDateTimeFormatter()
 		{
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+
 			Update();
 		}
 
-		public string ToShortLabel(DateTimeOffset offset) => formatter.ToShortLabel(offset);
-		public string ToLongLabel(DateTimeOffset offset) => formatter.ToLongLabel(offset);
+		public string ToShortLabel(DateTimeOffset offset)
+			=> formatter.ToShortLabel(offset);
 
-		public ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset) => formatter.ToTimeSpanLabel(offset);
+		public string ToLongLabel(DateTimeOffset offset)
+			=> formatter.ToLongLabel(offset);
+
+		public ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset)
+			=> formatter.ToTimeSpanLabel(offset);
 
 		private void Update()
 		{
 			var dateTimeFormat = UserSettingsService.PreferencesSettingsService.DateTimeFormat;
 			var factory = Ioc.Default.GetService<IDateTimeFormatterFactory>();
+
 			formatter = factory.GetDateTimeFormatter(dateTimeFormat);
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			if (e.SettingName is nameof(UserSettingsService.PreferencesSettingsService.DateTimeFormat))
-			{
 				Update();
-			}
 		}
 	}
 }

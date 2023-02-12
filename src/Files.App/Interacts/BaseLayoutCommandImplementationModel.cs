@@ -89,8 +89,8 @@ namespace Files.App.Interacts
 		public virtual async void CreateShortcut(RoutedEventArgs e)
 		{
 			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
-			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
-				!library.IsEmpty)
+
+			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) && !library.IsEmpty)
 			{
 				currentPath = library.DefaultSaveFolder;
 			}
@@ -196,7 +196,8 @@ namespace Files.App.Interacts
 			await RecycleBinHelpers.DeleteItem(associatedInstance);
 		}
 
-		public virtual void ShowFolderProperties(RoutedEventArgs e) => ShowProperties(e);
+		public virtual void ShowFolderProperties(RoutedEventArgs e)
+			=> ShowProperties(e);
 
 		public virtual void ShowProperties(RoutedEventArgs e)
 		{
@@ -247,6 +248,7 @@ namespace Files.App.Interacts
 		{
 			var item = SlimContentPage.SelectedItem;
 			var folderPath = Path.GetDirectoryName(item.ItemPath.TrimEnd('\\'));
+
 			associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 			{
 				NavPathParam = folderPath,
@@ -267,7 +269,8 @@ namespace Files.App.Interacts
 				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
 				{
 					await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
-				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				},
+				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
 		}
 
@@ -279,6 +282,7 @@ namespace Files.App.Interacts
 		public virtual async void OpenInNewWindowItem(RoutedEventArgs e)
 		{
 			List<ListedItem> items = SlimContentPage.SelectedItems;
+
 			foreach (ListedItem listedItem in items)
 			{
 				var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
@@ -316,6 +320,7 @@ namespace Files.App.Interacts
 						path = path.Replace("\\", "/", StringComparison.Ordinal);
 					DataPackage data = new();
 					data.SetText(path);
+
 					Clipboard.SetContent(data);
 					Clipboard.Flush();
 				}
@@ -330,6 +335,7 @@ namespace Files.App.Interacts
 		{
 			var interop = DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>();
 			IntPtr result = interop.GetForWindow(App.WindowHandle, UWPToWinAppSDKUpgradeHelpers.InteropHelpers.DataTransferManagerInteropIID);
+
 			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
 			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
 
@@ -341,8 +347,8 @@ namespace Files.App.Interacts
 				List<IStorageItem> items = new();
 				DataRequest dataRequest = args.Request;
 
-				/*dataRequest.Data.Properties.Title = "Data Shared From Files";
-				dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
+				//dataRequest.Data.Properties.Title = "Data Shared From Files";
+				//dataRequest.Data.Properties.Description = "The items you selected will be shared";
 
 				foreach (ListedItem item in SlimContentPage.SelectedItems)
 				{
@@ -354,6 +360,7 @@ namespace Files.App.Interacts
 							dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalizedResource();
 							dataRequest.Data.SetWebLink(new Uri(shItem.TargetPath));
 							dataRequestDeferral.Complete();
+
 							return;
 						}
 					}
@@ -378,6 +385,7 @@ namespace Files.App.Interacts
 				{
 					dataRequest.FailWithDisplayText("ShareDialogFailMessage".GetLocalizedResource());
 					dataRequestDeferral.Complete();
+
 					return;
 				}
 				else
@@ -403,9 +411,9 @@ namespace Files.App.Interacts
 		{
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
 			{
-				if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
+				// If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
+				if (e.OriginalSource is FrameworkElement { DataContext: ListedItem Item } && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
 				{
-					// If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
 					SlimContentPage.IsMiddleClickToScrollEnabled = false;
 					SlimContentPage.IsMiddleClickToScrollEnabled = true;
 
@@ -447,9 +455,11 @@ namespace Files.App.Interacts
 		{
 			if (e.KeyModifiers == VirtualKeyModifiers.Control)
 			{
-				if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0) // Mouse wheel down
+				// Mouse wheel down
+				if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0)
 					GridViewSizeDecrease(null);
-				else // Mouse wheel up
+				// Mouse wheel up
+				else
 					GridViewSizeIncrease(null);
 
 				e.Handled = true;
@@ -458,16 +468,20 @@ namespace Files.App.Interacts
 
 		public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
 		{
+			// Make Smaller
 			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
+				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement;
+
 			if (e is not null)
 				e.Handled = true;
 		}
 
 		public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
 		{
+			// Make Larger
 			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
+				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement;
+
 			if (e is not null)
 				e.Handled = true;
 		}
@@ -526,8 +540,10 @@ namespace Files.App.Interacts
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
 						e.AcceptedOperation = DataPackageOperation.Move;
 					}
-					else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
-						|| ZipStorageFolder.IsZipPath(pwd))
+					else if (draggedItems.Any(x =>
+						x.Item is ZipStorageFile ||
+						x.Item is ZipStorageFolder) ||
+						ZipStorageFolder.IsZipPath(pwd))
 					{
 						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
 						e.AcceptedOperation = DataPackageOperation.Copy;
@@ -638,10 +654,12 @@ namespace Files.App.Interacts
 			string[] sources = associatedInstance.SlimContentPage.SelectedItems
 				.Select(item => item.ItemPath)
 				.ToArray();
+
 			if (sources.Length is 0)
 				return (sources, string.Empty, string.Empty);
 
 			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory.Normalize();
+
 			if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)
 				directory = library.DefaultSaveFolder;
 
@@ -664,11 +682,12 @@ namespace Files.App.Interacts
 				FileOperationType.Compressed,
 				compressionToken
 			);
-			creator.Progress = banner.ProgressEventSource;
 
+			creator.Progress = banner.ProgressEventSource;
 			bool isSuccess = await creator.RunCreationAsync();
 
 			banner.Remove();
+
 			if (isSuccess)
 			{
 				App.OngoingTasksViewModel.PostBanner
@@ -694,6 +713,7 @@ namespace Files.App.Interacts
 				);
 			}
 		}
+
 		public async Task DecompressArchive()
 		{
 			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItems.Count != 0
@@ -756,11 +776,13 @@ namespace Files.App.Interacts
 						IsArchiveEncrypted = true,
 						ShowPathSelection = false
 					};
+
 					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
 					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 					if (option != ContentDialogResult.Primary)
 						return;
+
 					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
 				}
 
@@ -773,6 +795,7 @@ namespace Files.App.Interacts
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
 			{
 				var password = string.Empty;
+
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 				BaseStorageFolder destinationFolder = null;
@@ -790,6 +813,7 @@ namespace Files.App.Interacts
 					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 					if (option != ContentDialogResult.Primary)
 						return;
+
 					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
 				}
 
@@ -806,6 +830,7 @@ namespace Files.App.Interacts
 				return;
 
 			CancellationTokenSource extractCancellation = new();
+
 			PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
 				archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
 				"ExtractingArchiveText".GetLocalizedResource(),

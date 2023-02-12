@@ -12,6 +12,7 @@ namespace Files.App.Converters
 			{
 				return isVisible ? Visibility.Collapsed : Visibility.Visible;
 			}
+
 			return (Visibility)value == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
 		}
 

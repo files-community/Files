@@ -31,6 +31,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			};
 
 			AppThemeResources = AppThemeResourceFactory.AppThemeResources;
+
 			UpdateSelectedResource();
 		}
 
@@ -53,6 +54,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 					BackgroundColor = themeBackgroundColor,
 					Name = "Custom"
 				};
+
 				AppThemeResources.Add(appThemeBackgroundColor);
 			}
 
