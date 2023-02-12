@@ -2928,4 +2928,7 @@
   <data name="Never" xml:space="preserve">
     <value>Never</value>
   </data>
+  <data name="TagColor" xml:space="preserve">
+    <value>Tag color</value>
+  </data>
 </root>
