@@ -650,7 +650,7 @@ namespace Files.App
 			var overflowShellMenuItemsUnfiltered = shellMenuItems.Except(mainShellMenuItems).ToList();
 			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
 				(x, i) => (x.ItemType == ItemType.Separator && 
-				overflowShellMenuItemsUnfiltered[i + 1 <= overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType == ItemType.Separator)
+				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType == ItemType.Separator)
 				|| x.ItemType != ItemType.Separator).ToList();
 
 			var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
