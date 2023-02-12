@@ -188,6 +188,9 @@
 								<ListView.ItemTemplate>
 									<DataTemplate xmlns:vm="using:Files.Backend.ViewModels.FileTags" x:DataType="vm:TagViewModel">
 										<Grid>
+											<Grid.KeyboardAccelerators>
+												<KeyboardAccelerator Key="F2" Invoked="RenameTag_Invoked" />
+											</Grid.KeyboardAccelerators>
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="Auto" />
 												<ColumnDefinition />

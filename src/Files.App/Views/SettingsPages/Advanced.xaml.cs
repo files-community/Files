@@ -19,6 +19,8 @@ namespace Files.App.SettingsPages
 
 		private string oldTagName = string.Empty;
 
+		private bool isRenamingTag;
+
 		private TagViewModel? renamingTag;
 
 		private TagViewModel? preRenamingTag;
@@ -35,6 +37,8 @@ namespace Files.App.SettingsPages
 		public void StartRenameTag()
 		{
 			renamingTag = (TagViewModel)TagsList.SelectedItem;
+			isRenamingTag = true;
+
 			var item = TagsList.ContainerFromItem(TagsList.SelectedItem) as ListViewItem;
 			var textBlock = item.FindDescendant("TagName") as TextBlock;
 			var textBox = item.FindDescendant("TagNameTextBox") as TextBox;
@@ -49,6 +53,12 @@ namespace Files.App.SettingsPages
 			textBox.Focus(FocusState.Pointer);
 			textBox.LostFocus += RenameTextBox_LostFocus;
 			textBox.KeyDown += RenameTextBox_KeyDown;
+		}
+
+		private void RenameTag_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+		{
+			if (!isRenamingTag)
+				StartRenameTag();
 		}
 
 		private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -150,6 +160,8 @@ namespace Files.App.SettingsPages
 
 			// Re-focus selected list item
 			listViewItem?.Focus(FocusState.Programmatic);
+
+			isRenamingTag = false;
 		}
 
 		private void TagsList_Tapped(object sender, TappedRoutedEventArgs e)
