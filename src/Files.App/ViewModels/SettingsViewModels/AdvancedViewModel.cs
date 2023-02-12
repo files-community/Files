@@ -40,7 +40,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public ICommand OpenSettingsJsonCommand { get; }
 		public ICommand AddTagCommand { get; }
 
-		public ObservableCollection<TagViewModel> Tags { get; set; }
+		public ObservableCollection<ListedTagViewModel> Tags { get; set; }
 
 		public AdvancedViewModel()
 		{
@@ -55,9 +55,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			AddTagCommand = new RelayCommand(AddNewTag);
 
-			Tags = fileTagsSettingsService.FileTagList is not null
-				? new ObservableCollection<TagViewModel>(fileTagsSettingsService.FileTagList)
-				: new ObservableCollection<TagViewModel>();
+			Tags = new ObservableCollection<ListedTagViewModel>();
+			fileTagsSettingsService.FileTagList?.ForEach(tag => Tags.Add(new ListedTagViewModel(tag)));
 		}
 
 		private async Task OpenSettingsJson()
@@ -308,20 +307,21 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			fileTagsSettingsService.CreateNewTag();
 			Tags.Clear();
-			Tags.EnumeratedAdd(fileTagsSettingsService.FileTagList);
+			fileTagsSettingsService.FileTagList?.ForEach(tag => Tags.Add(new ListedTagViewModel(tag)));
+
 		}
 
-		public void EditExistingTag(TagViewModel tag, string newName, string color)
+		public void EditExistingTag(ListedTagViewModel item, string newName, string color)
 		{
-			fileTagsSettingsService.EditTag(tag.Uid, newName, color);
+			fileTagsSettingsService.EditTag(item.Tag.Uid, newName, color);
 			Tags.Clear();
-			Tags.EnumeratedAdd(fileTagsSettingsService.FileTagList);
+			fileTagsSettingsService.FileTagList?.ForEach(tag => Tags.Add(new ListedTagViewModel(tag)));
 		}
 
-		public void DeleteExistingTag(TagViewModel tag)
+		public void DeleteExistingTag(ListedTagViewModel item)
 		{
-			Tags.Remove(tag);
-			fileTagsSettingsService.DeleteTag(tag.Uid);
+			Tags.Remove(item);
+			fileTagsSettingsService.DeleteTag(item.Tag.Uid);
 		}
 	}
 }
