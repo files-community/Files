@@ -130,7 +130,10 @@
 			</local:SettingsBlockControl>
 
 			<!--  Edit Tags  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}" HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}"
+				HorizontalAlignment="Stretch"
+				IsExpanded="True">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE790;" />
 				</local:SettingsBlockControl.Icon>
@@ -166,30 +169,30 @@
 								x:Name="TagsList"
 								Grid.Row="1"
 								Grid.ColumnSpan="2"
-								Margin="0,10"
+								Margin="0,8"
 								HorizontalAlignment="Stretch"
 								IsItemClickEnabled="True"
 								ItemsSource="{x:Bind ViewModel.Tags, Mode=TwoWay}"
-								SelectionMode="Single">
+								SelectionMode="None">
 								<ListView.ItemTemplate>
 									<DataTemplate xmlns:vm="using:Files.Backend.ViewModels.FileTags" x:DataType="vm:TagViewModel">
-										<Grid ColumnSpacing="8">
+										<Grid ColumnSpacing="16">
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="Auto" />
-												<ColumnDefinition />
-												<ColumnDefinition Width="Auto" />
-												<ColumnDefinition Width="Auto" />
+												<ColumnDefinition Width="*" />
 												<ColumnDefinition Width="Auto" />
 											</Grid.ColumnDefinitions>
 
 											<TextBlock
 												x:Name="TagName"
+												Width="200"
 												VerticalAlignment="Center"
 												Text="{x:Bind Name}"
 												TextTrimming="CharacterEllipsis"
 												ToolTipService.ToolTip="{x:Bind Name}" />
 											<TextBox
 												x:Name="TagNameTextBox"
+												Width="200"
 												HorizontalAlignment="Left"
 												VerticalAlignment="Center"
 												Visibility="Collapsed">
@@ -197,67 +200,76 @@
 													<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 												</TextBox.Resources>
 											</TextBox>
-											<Button
+
+											<StackPanel
 												Grid.Column="2"
-												Padding="0"
-												AutomationProperties.Name="{helpers:ResourceString Name=TagColor}">
-												<StackPanel Orientation="Horizontal">
-													<Border
-														Width="24"
-														Height="24"
-														Margin="4"
-														Background="{x:Bind Color}"
-														CornerRadius="4" />
+												Orientation="Horizontal"
+												Spacing="4">
+												<Button Padding="0" AutomationProperties.Name="{helpers:ResourceString Name=TagColor}">
+													<StackPanel Orientation="Horizontal">
+														<Border
+															Width="24"
+															Height="24"
+															Margin="4"
+															Background="{x:Bind Color}"
+															CornerRadius="4" />
+														<FontIcon
+															Margin="8,4,10,4"
+															FontSize="12"
+															Glyph="&#xE019;" />
+													</StackPanel>
+													<Button.Flyout>
+														<Flyout>
+															<controls:ColorPicker
+																ColorChanged="ColorPicker_ColorChanged"
+																IsAlphaEnabled="True"
+																IsColorSpectrumVisible="False" />
+														</Flyout>
+													</Button.Flyout>
+												</Button>
+
+												<Button
+													x:Name="RenameButton"
+													Width="30"
+													Padding="0,4"
+													AutomationProperties.Name="{helpers:ResourceString Name=Rename}"
+													Background="Transparent"
+													BorderBrush="Transparent"
+													Click="RenameTag_Click">
 													<FontIcon
-														Margin="8,4,10,4"
-														FontSize="12"
-														Glyph="&#xE019;" />
-												</StackPanel>
-												<Button.Flyout>
-													<Flyout>
-														<controls:ColorPicker
-															ColorChanged="ColorPicker_ColorChanged"
-															IsAlphaEnabled="True"
-															IsColorSpectrumVisible="False" />
-													</Flyout>
-												</Button.Flyout>
-											</Button>
-											<Button
-												x:Name="RenameButton"
-												Grid.Column="3"
-												Margin="0"
-												AutomationProperties.Name="{helpers:ResourceString Name=Rename}"
-												Click="RenameTag_Click">
-												<FontIcon
-													Margin="4"
-													FontSize="14"
-													Glyph="&#xE70F;"
-													ToolTipService.ToolTip="{helpers:ResourceString Name=Rename}" />
-											</Button>
-											<Button
-												x:Name="CommitRenameButton"
-												Grid.Column="3"
-												Margin="0"
-												AutomationProperties.Name="{helpers:ResourceString Name=Commit}"
-												Click="CommitRenameTag_Click"
-												Visibility="Collapsed">
-												<FontIcon
-													Margin="4"
-													FontSize="14"
-													Glyph="&#xE73E;"
-													ToolTipService.ToolTip="{helpers:ResourceString Name=Commit}" />
-											</Button>
-											<Button
-												Grid.Column="4"
-												Margin="0"
-												AutomationProperties.Name="{helpers:ResourceString Name=Remove}"
-												Click="RemoveTag_Click">
-												<FontIcon
-													Margin="4"
-													FontSize="14"
-													Glyph="&#xE74D;"
-													ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
-											</Button>
+														FontSize="14"
+														Glyph="&#xE70F;"
+														ToolTipService.ToolTip="{helpers:ResourceString Name=Rename}" />
+												</Button>
+
+												<Button
+													x:Name="CommitRenameButton"
+													Width="30"
+													Padding="0,4"
+													AutomationProperties.Name="{helpers:ResourceString Name=Commit}"
+													Background="Transparent"
+													BorderBrush="Transparent"
+													Click="CommitRenameTag_Click"
+													Visibility="Collapsed">
+													<FontIcon
+														FontSize="14"
+														Glyph="&#xE73E;"
+														ToolTipService.ToolTip="{helpers:ResourceString Name=Commit}" />
+												</Button>
+
+												<Button
+													Width="30"
+													Padding="0,4"
+													AutomationProperties.Name="{helpers:ResourceString Name=Remove}"
+													Background="Transparent"
+													BorderBrush="Transparent"
+													Click="RemoveTag_Click">
+													<FontIcon
+														FontSize="14"
+														Glyph="&#xE74D;"
+														ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
+												</Button>
+											</StackPanel>
 										</Grid>
 									</DataTemplate>
 								</ListView.ItemTemplate>
