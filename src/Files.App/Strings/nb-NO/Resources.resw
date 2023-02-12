@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
+    
     Example:
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -24,33 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -205,14 +210,14 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Fjern dette elementet</value>
   </data>
-  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
-    <value>Nyttige lenker</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Send tilbakemelding</value>
+  <data name="OpenGitHubRepo" xml:space="preserve">
+    <value>GitHub repository</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>Om</value>
+  </data>
+  <data name="OpenSource" xml:space="preserve">
+    <value>Open source</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Datoformat</value>
@@ -229,23 +234,17 @@
   <data name="ShowDotFiles" xml:space="preserve">
     <value>Vis punktum-filer</value>
   </data>
-  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>Eksperimentelt</value>
-  </data>
   <data name="Appearance" xml:space="preserve">
     <value>Utseende</value>
   </data>
   <data name="Background" xml:space="preserve">
     <value>Background</value>
   </data>
-  <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>Eksperimentelt</value>
+  <data name="Advanced" xml:space="preserve">
+    <value>Advanced</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferanser</value>
-  </data>
-  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>ADVARSEL: EKSPERIMENTELLE FUNKSJONER FORUT!</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Fortsett der du slapp</value>
@@ -345,6 +344,9 @@
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Fil</value>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>Display</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Angi et navn</value>
@@ -449,7 +451,7 @@
     <value>Filen du forsøker å få åpne er for øyeblikket i bruk av {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>Filen du forsøker å åpne er for øyeblikket i bruk av et annet program</value>
+    <value>The file you are attempting to access is currently being used by another application</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Filen er i bruk</value>
@@ -493,6 +495,12 @@
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0} sekunder siden</value>
   </data>
+  <data name="OneSecondAgo" xml:space="preserve">
+    <value>1 second ago</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>Now</value>
+  </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>Ny fane</value>
   </data>
@@ -511,8 +519,8 @@
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>Elementets navn kan ikke inneholde følgende tegn: \ / : * ? " &lt; &gt; |</value>
+  <data name="InvalidFilename.Text" xml:space="preserve">
+    <value>The item name specified is invalid</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>valgt element</value>
@@ -691,17 +699,14 @@
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
     <value>Rapporter dette problemet</value>
   </data>
-  <data name="SettingsAboutContributors.Text" xml:space="preserve">
-    <value>Bidragsytere</value>
-  </data>
-  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Utgivelsesnotater</value>
-  </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Det refererte elementet er enten ugyldig eller utilgjengelig.{0}Feilmelding:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Ugyldig element</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Versjon</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Versjon:</value>
@@ -739,14 +744,20 @@
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>Navnet på elementet var for langt</value>
   </data>
-  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
-    <value>Mer</value>
+  <data name="ShowMoreOptions" xml:space="preserve">
+    <value>Show more options</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Applikasjonen må startes på nytt for at disse innstillingene skal aktiveres. Ønsker du å starte på nytt?</value>
   </data>
-  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
-    <value>Gi oss din støtte</value>
+  <data name="SponsorUsOnGitHub" xml:space="preserve">
+    <value>Sponsor us on GitHub</value>
+  </data>
+  <data name="Personalization" xml:space="preserve">
+    <value>Personalization</value>
+  </data>
+  <data name="LayoutAndSorting" xml:space="preserve">
+    <value>Layout and sorting</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Vi kunne ikke opprettet dette elementet</value>
@@ -812,10 +823,10 @@
     <value>Språk</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Flytt overskytende elementer til en undermeny</value>
+    <value>Move shell extensions into a sub menu</value>
   </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Be om bekreftelse ved sletting av filer eller mapper</value>
+  <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
+    <value>Show confirmation dialog when deleting items</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Noen egenskaper kunne ikke lagres.</value>
@@ -1186,15 +1197,6 @@
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Søkeresultater</value>
   </data>
-  <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Se bidragsyterne til Files</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Finn ut hva som er nytt i Files</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Send utviklerne en problemrapport med detaljerte opplysninger</value>
-  </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Støtt oss på GitHub</value>
   </data>
@@ -1219,14 +1221,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Include unindexed items in search results</value>
   </data>
-  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Reset folder overrides</value>
-  </data>
-  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
-  </data>
-  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Enable overriding folder preferences in individual directories</value>
+  <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
+    <value>Sync layout and sorting preferences across directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Tilpass høyreklikk-kontekstmenyen</value>
@@ -1247,7 +1243,7 @@
     <value>Fjern</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Åpne alltid nye faner i dobbeltpanel-modus</value>
+    <value>Open tabs in dual pane mode</value>
   </data>
   <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>Tillat dobbeltpanel-visning</value>
@@ -1260,9 +1256,6 @@
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>Åpne i sekundærpanel</value>
-  </data>
-  <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>Dobbeltpanel</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Mapper</value>
@@ -1402,17 +1395,17 @@
   <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
     <value>Panel for forhåndsvisning av merket fil</value>
   </data>
-  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
-    <value>Dokumentasjon</value>
-  </data>
-  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Besøk nettsidene med Files-dokumentasjonen</value>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Flyout med pågående operasjoner</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Tilgjengelig på nett</value>
+  </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Documentation</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Tilgjengelig frakoblet</value>
@@ -1432,8 +1425,8 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Ukjent</value>
   </data>
-  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
-    <value>Marker flere</value>
+  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
+    <value>Show selection checkbox next to file names</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Hvis du endrer filendelsen, kan filen bli ubrukelig. Er du sikker på at du vil endre den?</value>
@@ -1471,7 +1464,7 @@
   <data name="DateCreated" xml:space="preserve">
     <value>Dato opprettet</value>
   </data>
-  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="MoreOptions" xml:space="preserve">
     <value>Flere alternativer...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
@@ -1482,9 +1475,6 @@
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Flere samlingsinnstillinger</value>
-  </data>
-  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Flere stasjonsinnstillinger</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favoritter</value>
@@ -1503,9 +1493,6 @@
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
     <value>Åpne i nytt panel</value>
-  </data>
-  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Vis seksjon for biblioteker</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Standard</value>
@@ -1542,12 +1529,6 @@
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Vil du fortsette som administrator?</value>
-  </data>
-  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
-    <value>Files kjører som administrator</value>
-  </data>
-  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
-    <value>Administrator</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Kolonner (Ctrl+Skift+6)</value>
@@ -1657,23 +1638,11 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Åpne mapper i ny fane</value>
   </data>
-  <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles widget</value>
-  </data>
-  <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives widget</value>
-  </data>
-  <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Show Folders widget</value>
-  </data>
-  <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Show Recent Files widget</value>
-  </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Fant du ikke det du letet etter?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Søk i uindekserte elementer.</value>
+    <value>Search unindexed items</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Åpne tema-mappen</value>
@@ -1819,14 +1788,11 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
     <value>Åpne lukket fane igjen</value>
   </data>
-  <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
-    <value>Personvernerklæring</value>
-  </data>
-  <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Vis Files sin personvernerklæring</value>
-  </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
     <value>Gi nytt navn</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Privacy</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Flytting avbrutt</value>
@@ -1927,11 +1893,8 @@
   <data name="canceling" xml:space="preserve">
     <value>avbryter</value>
   </data>
-  <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Avvis</value>
-  </data>
-  <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Avvis</value>
+  <data name="Clear" xml:space="preserve">
+    <value>Tøm</value>
   </data>
   <data name="Widgets" xml:space="preserve">
     <value>Widgets</value>
@@ -2179,18 +2142,6 @@
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Ukomprimert størrelse</value>
   </data>
-  <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>Vi sesksjon for skylagring</value>
-  </data>
-  <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Vis seksjon for lagringsenheter</value>
-  </data>
-  <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Vis seksjon for WSL</value>
-  </data>
-  <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Vis seksjon for nettverk</value>
-  </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
@@ -2293,9 +2244,6 @@
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Rediger fil-merkelapper</value>
   </data>
-  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Vis seksjon for favoritter</value>
-  </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
     <value>Bruk for alle</value>
   </data>
@@ -2335,9 +2283,6 @@
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget for enheter</value>
   </data>
-  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget for biblioteker</value>
-  </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget for nylige filer</value>
   </data>
@@ -2374,32 +2319,11 @@
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
     <value>Vis skjulte elementer</value>
   </data>
-  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Vis seksjon for favoritter</value>
-  </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Åpne mapper i ny fane</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Språk</value>
-  </data>
-  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Vi sesksjon for skylagring</value>
-  </data>
-  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Be om bekreftelse ved sletting av filer eller mapper</value>
-  </data>
-  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Vis seksjon for lagringsenheter</value>
-  </data>
-  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Vis seksjon for biblioteker</value>
-  </data>
-  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Vis seksjon for nettverk</value>
-  </data>
-  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Vis seksjon for WSL</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Pågående operasjoner</value>
@@ -2422,8 +2346,17 @@
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Elementstørrelse-kolonne</value>
   </data>
-  <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Standard filbehandler</value>
+  <data name="ExperimentalFeatureFlags" xml:space="preserve">
+    <value>Experimental feature flags</value>
+  </data>
+  <data name="HelpAndSupport" xml:space="preserve">
+    <value>Help and support</value>
+  </data>
+  <data name="SubmitFeatureRequest" xml:space="preserve">
+    <value>Submit feature request</value>
+  </data>
+  <data name="SubmitBugReport" xml:space="preserve">
+    <value>Submit bug report</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Bruk Files som standard filbehandler</value>
@@ -2447,7 +2380,7 @@
     <value>Importer innstillinger</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>Behandle innstillinger</value>
+    <value>Manage settings</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Kunne ikke importere innstillinger. Filen med innstilliger er ødelagt.</value>
@@ -2469,9 +2402,6 @@
   </data>
   <data name="RestoreDefault" xml:space="preserve">
     <value>Tilbakestill</value>
-  </data>
-  <data name="FilesAndFolders" xml:space="preserve">
-    <value>Filer og mapper</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
     <value>Åpne nytt vindu når mapper åpnes fra jumplist-menyen på oppgavelinjen</value>
@@ -2567,7 +2497,7 @@
     <value>Calculate folder sizes</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Nylige filer</value>
+    <value>Recent files</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Åpne Files ved oppstart av Windows</value>
@@ -2674,14 +2604,8 @@
   <data name="FileTags" xml:space="preserve">
     <value>Merker</value>
   </data>
-  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Vis tagg-seksjon</value>
-  </data>
-  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Vis tagg-seksjon</value>
-  </data>
-  <data name="UseCompactStyles" xml:space="preserve">
-    <value>Bruk kompakte stiler i detaljer-oppsettet</value>
+  <data name="UseCompactSpacing" xml:space="preserve">
+    <value>Use compact spacing in the details layout</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universell</value>
@@ -2710,9 +2634,6 @@
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Tilpass alle kolonner så de passer</value>
   </data>
-  <data name="Contributors" xml:space="preserve">
-    <value>Bidragsytere</value>
-  </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Tilpassende</value>
   </data>
@@ -2723,7 +2644,10 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Vis alternative datastrømmer</value>
+    <value>Show alternate data streams</value>
+  </data>
+  <data name="Behaviors" xml:space="preserve">
+    <value>Behaviors</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Anmeld Files</value>
@@ -2763,12 +2687,6 @@
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Tilbakestill</value>
-  </data>
-  <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>Denne handlingen vil tilbakestille alle mapper tilbake til standardinnstillingene dine.</value>
-  </data>
-  <data name="AreYouSure" xml:space="preserve">
-    <value>Er du sikker?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Låseskjerm</value>
@@ -2923,7 +2841,91 @@
   <data name="SortBy" xml:space="preserve">
     <value>Sorter etter</value>
   </data>
+  <data name="GroupInDescendingOrder" xml:space="preserve">
+    <value>Group in descending order</value>
+  </data>
+  <data name="SortInDescendingOrder" xml:space="preserve">
+    <value>Sort in descending order</value>
+  </data>
+  <data name="NewShortcutDialogTitle" xml:space="preserve">
+    <value>Create a new shortcut</value>
+  </data>
+  <data name="NewShortcutDialogDescription" xml:space="preserve">
+    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+  </data>
+  <data name="NewShortcutDialogPrompt" xml:space="preserve">
+    <value>Enter the location of the item:</value>
+  </data>
+  <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
+    <value>Creates a shortcut</value>
+  </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
+  </data>
+  <data name="EditSettingsFile" xml:space="preserve">
+    <value>Edit Settings File</value>
+  </data>
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
+    <value>Creating a shortcut in this location requires administrator privileges</value>
+  </data>
+  <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
+    <value>Would you like to create the shortcut on the desktop instead?</value>
+  </data>
+  <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
+    <value>The specified item name is invalid</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Innstillinger</value>
+  </data>
+  <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
+    <value>Double click on a blank space to go up one directory</value>
+  </data>
+  <data name="ViewMore" xml:space="preserve">
+    <value>View more</value>
+  </data>
+  <data name="ToolTipDescriptionSize" xml:space="preserve">
+    <value>Størrelse:</value>
+  </data>
+  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
+    <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
+  </data>
+  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
+    <value>Bundles will be retiring in a future update 📎</value>
+  </data>
+  <data name="DisplayEditTagsMenu" xml:space="preserve">
+    <value>Display the edit tags flyout</value>
+  </data>
+  <data name="QuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
+  <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
+    <value>Enter your credentials to connect to: {0}</value>
+  </data>
+  <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
+    <value>Enter Network Credentials</value>
+  </data>
+  <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
+    <value>Remember my credentials</value>
+  </data>
+  <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
+    <value>Network folder error</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>App version</value>
+  </data>
+  <data name="WindowsVersion" xml:space="preserve">
+    <value>Windows version</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>Always</value>
+  </data>
+  <data name="PermanentDeletionOnly" xml:space="preserve">
+    <value>Permanent deletion only</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Never</value>
   </data>
 </root>
