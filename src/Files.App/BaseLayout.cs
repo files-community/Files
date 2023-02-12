@@ -539,7 +539,7 @@ namespace Files.App
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
 				BaseContextMenuFlyout.SecondaryCommands.Clear();
 				var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
-				AddCloseHandler(primaryElements, secondaryElements);
+				AddCloseHandler(BaseContextMenuFlyout, primaryElements, secondaryElements);
 				primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
 				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
 				secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
@@ -589,8 +589,8 @@ namespace Files.App
 			ItemContextMenuFlyout.PrimaryCommands.Clear();
 			ItemContextMenuFlyout.SecondaryCommands.Clear();
 			var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
-			AddCloseHandler(primaryElements, secondaryElements);
-			primaryElements.ForEach(ItemContextMenuFlyout.PrimaryCommands.Add);
+			AddCloseHandler(ItemContextMenuFlyout, primaryElements, secondaryElements);
+      primaryElements.ForEach(ItemContextMenuFlyout.PrimaryCommands.Add);
 			secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
 			secondaryElements.ForEach(ItemContextMenuFlyout.SecondaryCommands.Add);
 
@@ -605,10 +605,10 @@ namespace Files.App
 			}
 		}
 
-		private void AddCloseHandler(IList<ICommandBarElement> primaryElements, IList<ICommandBarElement> secondaryElements)
+		private void AddCloseHandler(CommandBarFlyout flyout, IList<ICommandBarElement> primaryElements, IList<ICommandBarElement> secondaryElements)
 		{
 			// Workaround for WinUI (#5508)
-			var closeHandler = new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide());
+			var closeHandler = new RoutedEventHandler((s, e) => flyout.Hide());
 
 			primaryElements
 				.OfType<AppBarButton>()

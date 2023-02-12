@@ -410,7 +410,7 @@ namespace Files.App.UserControls
 			e.Handled = true;
 		}
 
-		private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private async void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			if (sender is not NavigationViewItem sidebarItem ||
@@ -430,7 +430,7 @@ namespace Files.App.UserControls
 			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = e.GetPosition(sidebarItem) });
 
 			if (item.MenuOptions.ShowShellItems)
-				LoadShellMenuItems(itemContextMenuFlyout, item.MenuOptions);
+				await ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, itemContextMenuFlyout, item.MenuOptions);
 
 			e.Handled = true;
 		}
