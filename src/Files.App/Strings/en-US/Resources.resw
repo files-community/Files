@@ -2931,4 +2931,10 @@
   <data name="TagColor" xml:space="preserve">
     <value>Tag color</value>
   </data>
+  <data name="Rename" xml:space="preserve">
+	<value>Rename</value>
+  </data>
+  <data name="Commit" xml:space="preserve">
+	<value>Commit</value>
+  </data>
 </root>

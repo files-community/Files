@@ -1,64 +1,22 @@
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Files.Backend.ViewModels.FileTags;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Runtime.InteropServices;
 using Windows.System;
 
 namespace Files.App.SettingsPages
 {
 	public sealed partial class Advanced : Page
 	{
-		private const int KEY_DOWN_MASK = 0x8000;
-
-		private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer tapDebounceTimer;
-
 		private string oldTagName = string.Empty;
 
-		private bool isRenamingTag;
-
 		private TagViewModel? renamingTag;
-
-		private TagViewModel? preRenamingTag;
 
 		public Advanced()
 		{
 			InitializeComponent();
-
-			ViewModel.EditTagCommand = new RelayCommand(StartRenameTag);
-
-			tapDebounceTimer = DispatcherQueue.CreateTimer();
-		}
-
-		public void StartRenameTag()
-		{
-			renamingTag = (TagViewModel)TagsList.SelectedItem;
-			isRenamingTag = true;
-
-			var item = TagsList.ContainerFromItem(TagsList.SelectedItem) as ListViewItem;
-			var textBlock = item.FindDescendant("TagName") as TextBlock;
-			var textBox = item.FindDescendant("TagNameTextBox") as TextBox;
-
-			textBox!.Text = textBlock!.Text;
-			oldTagName = textBlock.Text;
-			textBlock.Visibility = Visibility.Collapsed;
-			textBox.Visibility = Visibility.Visible;
-
-			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
-
-			textBox.Focus(FocusState.Pointer);
-			textBox.LostFocus += RenameTextBox_LostFocus;
-			textBox.KeyDown += RenameTextBox_KeyDown;
-		}
-
-		private void RenameTag_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-		{
-			if (!isRenamingTag)
-				StartRenameTag();
 		}
 
 		private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -91,29 +49,6 @@ namespace Files.App.SettingsPages
 				case VirtualKey.Right:
 					e.Handled = (textBox.SelectionStart + textBox.SelectionLength) == textBox.Text.Length;
 					break;
-				case VirtualKey.Tab:
-					textBox.LostFocus -= RenameTextBox_LostFocus;
-
-					var isShiftPressed = (GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
-					var newIndex = TagsList.SelectedIndex + (isShiftPressed ? -1 : 1);
-
-					if (textBox.Text != oldTagName)
-						CommitRename(textBox);
-					else
-						EndRename(textBox);
-
-					if
-					(
-						newIndex >= 0 &&
-						newIndex < TagsList.Items.Count
-					)
-					{
-						TagsList.SelectedIndex = newIndex;
-						StartRenameTag();
-					}
-
-					e.Handled = true;
-					break;
 			}
 		}
 
@@ -141,7 +76,7 @@ namespace Files.App.SettingsPages
 				ViewModel.EditExistingTag(renamingTag, newTagName, renamingTag.Color);
 		}
 
-		private void EndRename(TextBox textBox)
+		private void EndRename(TextBox? textBox)
 		{
 			if (textBox is not null && textBox.FindParent<Grid>() is FrameworkElement parent)
 				Grid.SetColumnSpan(parent, 1);
@@ -151,8 +86,12 @@ namespace Files.App.SettingsPages
 			if (textBox is not null && listViewItem is not null)
 			{
 				var textBlock = listViewItem.FindDescendant("TagName") as TextBlock;
+				var editButton = listViewItem.FindDescendant("RenameButton") as Button;
+				var commitButton = listViewItem.FindDescendant("CommitRenameButton") as Button;
 				textBox.Visibility = Visibility.Collapsed;
-				textBlock!.Visibility = Visibility.Visible;
+				commitButton.Visibility = Visibility.Collapsed;
+				textBlock.Visibility = Visibility.Visible;
+				editButton.Visibility = Visibility.Visible;
 			}
 
 			textBox!.LostFocus -= RenameTextBox_LostFocus;
@@ -160,48 +99,41 @@ namespace Files.App.SettingsPages
 
 			// Re-focus selected list item
 			listViewItem?.Focus(FocusState.Programmatic);
-
-			isRenamingTag = false;
 		}
 
-		private void TagsList_Tapped(object sender, TappedRoutedEventArgs e)
+		private void RenameTag_Click(object sender, RoutedEventArgs e)
 		{
-			var clickedItem = e.OriginalSource as FrameworkElement;
-			if (clickedItem is TextBlock textBox && textBox.Name == "TagName")
-			{
-				if (clickedItem.DataContext is TagViewModel tag)
-				{
-					if (tag == preRenamingTag)
-					{
-						tapDebounceTimer.Debounce(() =>
-						{
-							if (tag == preRenamingTag)
-							{
-								StartRenameTag();
-								tapDebounceTimer.Stop();
-							}
-						}, TimeSpan.FromMilliseconds(500));
-					}
-					else
-					{
-						tapDebounceTimer.Stop();
-						preRenamingTag = tag;
-					}
-				}
-				else
-				{
-					ResetRenameDoubleClick();
-				}
-			}
+			renamingTag = (TagViewModel)(sender as Button).DataContext;
+
+			var item = TagsList.ContainerFromItem(renamingTag) as ListViewItem;
+			var textBlock = item.FindDescendant("TagName") as TextBlock;
+			var textBox = item.FindDescendant("TagNameTextBox") as TextBox;
+			var editButton = item.FindDescendant("RenameButton") as Button;
+			var commitButton = item.FindDescendant("CommitRenameButton") as Button;
+
+			textBox!.Text = textBlock!.Text;
+			oldTagName = textBlock.Text;
+			textBlock.Visibility = Visibility.Collapsed;
+			editButton.Visibility = Visibility.Collapsed;
+			textBox.Visibility = Visibility.Visible;
+			commitButton.Visibility = Visibility.Visible;
+
+			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
+
+			textBox.Focus(FocusState.Pointer);
+			textBox.LostFocus += RenameTextBox_LostFocus;
+			textBox.KeyDown += RenameTextBox_KeyDown;
 		}
 
-		private void ResetRenameDoubleClick()
+		private void CommitRenameTag_Click(object sender, RoutedEventArgs e)
 		{
-			preRenamingTag = null;
-			tapDebounceTimer.Stop();
+			var item = TagsList.ContainerFromItem(renamingTag) as ListViewItem;
+			CommitRename(item.FindDescendant("TagNameTextBox") as TextBox);
 		}
 
-		[DllImport("User32.dll")]
-		private extern static short GetKeyState(int n);
+		private void RemoveTag_Click(object sender, RoutedEventArgs e)
+		{
+			ViewModel.DeleteExistingTag((TagViewModel)(sender as Button).DataContext);
+		}
 	}
 }

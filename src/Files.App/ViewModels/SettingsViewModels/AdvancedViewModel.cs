@@ -31,37 +31,16 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		private readonly IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
 
+		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+
 		public ICommand SetAsDefaultExplorerCommand { get; }
 		public ICommand SetAsOpenFileDialogCommand { get; }
 		public ICommand ExportSettingsCommand { get; }
 		public ICommand ImportSettingsCommand { get; }
 		public ICommand OpenSettingsJsonCommand { get; }
-
 		public ICommand AddTagCommand { get; }
 
-		public ICommand DeleteTagCommand { get; }
-
-		public ICommand EditTagCommand { get; set; }
-
 		public ObservableCollection<TagViewModel> Tags { get; set; }
-
-		private int selectedTagIndex = -1;
-		public int SelectedTagIndex
-		{
-			get => selectedTagIndex;
-			set
-			{
-				if (SetProperty(ref selectedTagIndex, value))
-					AreTagsCommandEnabled = value >= 0;
-			}
-		}
-
-		private bool areTagsCommandEnabled;
-		public bool AreTagsCommandEnabled
-		{
-			get => areTagsCommandEnabled;
-			set => SetProperty(ref areTagsCommandEnabled, value);
-		}
 
 		public AdvancedViewModel()
 		{
@@ -75,7 +54,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			OpenSettingsJsonCommand = new AsyncRelayCommand(OpenSettingsJson);
 
 			AddTagCommand = new RelayCommand(AddNewTag);
-			DeleteTagCommand = new RelayCommand(DeleteExistingTag);
 
 			Tags = fileTagsSettingsService.FileTagList is not null
 				? new ObservableCollection<TagViewModel>(fileTagsSettingsService.FileTagList)
@@ -340,21 +318,10 @@ namespace Files.App.ViewModels.SettingsViewModels
 			Tags.EnumeratedAdd(fileTagsSettingsService.FileTagList);
 		}
 
-		private void DeleteExistingTag()
+		public void DeleteExistingTag(TagViewModel tag)
 		{
-			int index = SelectedTagIndex;
-			if (index < 0)
-				return;
-
-			var tagToRemove = Tags[index];
-			Tags.RemoveAt(index);
-
-			fileTagsSettingsService.DeleteTag(tagToRemove.Uid);
-
-			if (index > 0)
-				SelectedTagIndex = index - 1;
-			else if (Tags.Count > 0)
-				SelectedTagIndex = 0;
+			Tags.Remove(tag);
+			fileTagsSettingsService.DeleteTag(tag.Uid);
 		}
 	}
 }
