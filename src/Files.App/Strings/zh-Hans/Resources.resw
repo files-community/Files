@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
+    
     Example:
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -24,33 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -205,14 +210,14 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>移除此项</value>
   </data>
-  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
-    <value>实用链接</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>提交反馈</value>
+  <data name="OpenGitHubRepo" xml:space="preserve">
+    <value>GitHub repository</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>关于</value>
+  </data>
+  <data name="OpenSource" xml:space="preserve">
+    <value>Open source</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>日期格式</value>
@@ -229,23 +234,17 @@
   <data name="ShowDotFiles" xml:space="preserve">
     <value>显示以英文句点 (.) 开头的项</value>
   </data>
-  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>实验性功能</value>
-  </data>
   <data name="Appearance" xml:space="preserve">
     <value>外观</value>
   </data>
   <data name="Background" xml:space="preserve">
     <value>主题色</value>
   </data>
-  <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>实验性功能</value>
+  <data name="Advanced" xml:space="preserve">
+    <value>Advanced</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>偏好</value>
-  </data>
-  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>注意: 这些是实验性功能。</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>从离开的位置继续</value>
@@ -345,6 +344,9 @@
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>文件</value>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>Display</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>键入名称</value>
@@ -449,7 +451,7 @@
     <value>此文件正被 {0} 使用</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>此文件正被另一程序使用</value>
+    <value>The file you are attempting to access is currently being used by another application</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>文件正在使用中</value>
@@ -493,6 +495,12 @@
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0} 秒前</value>
   </data>
+  <data name="OneSecondAgo" xml:space="preserve">
+    <value>1 second ago</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>Now</value>
+  </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>新选项卡</value>
   </data>
@@ -511,8 +519,8 @@
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>确定</value>
   </data>
-  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>文件名不能包含下列任何字符：\ / : * ? " &lt; &gt; |</value>
+  <data name="InvalidFilename.Text" xml:space="preserve">
+    <value>The item name specified is invalid</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>个项目已选择</value>
@@ -691,17 +699,14 @@
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
     <value>报告此问题</value>
   </data>
-  <data name="SettingsAboutContributors.Text" xml:space="preserve">
-    <value>参与者</value>
-  </data>
-  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>发行说明</value>
-  </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>引用的项目无效或无法访问。{0}代码:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>无效项</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>版本</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>版本:</value>
@@ -739,14 +744,20 @@
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>项目名称过长</value>
   </data>
-  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
-    <value>更多</value>
+  <data name="ShowMoreOptions" xml:space="preserve">
+    <value>Show more options</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>要应用这些设置，需要重新启动应用程序。要重启应用吗？</value>
   </data>
-  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
-    <value>支持我们</value>
+  <data name="SponsorUsOnGitHub" xml:space="preserve">
+    <value>Sponsor us on GitHub</value>
+  </data>
+  <data name="Personalization" xml:space="preserve">
+    <value>Personalization</value>
+  </data>
+  <data name="LayoutAndSorting" xml:space="preserve">
+    <value>Layout and sorting</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>无法创建此项</value>
@@ -812,10 +823,10 @@
     <value>语言</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>将溢出项移动到子菜单内</value>
+    <value>Move shell extensions into a sub menu</value>
   </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>删除文件或文件夹时显示确认对话框</value>
+  <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
+    <value>Show confirmation dialog when deleting items</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>保存某些属性时出现错误。</value>
@@ -1186,15 +1197,6 @@
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>搜索结果</value>
   </data>
-  <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>查看 Files 项目的贡献者</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>发现 Files 中的新增功能</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>向开发者发送含有更多信息的问题报告</value>
-  </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>在 GitHub 上支持我们</value>
   </data>
@@ -1219,14 +1221,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>在搜索结果中包含未建立索引的项</value>
   </data>
-  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>重置所有文件夹的首选项覆盖</value>
-  </data>
-  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>此设置关闭时，对文件夹布局的更改将应用到所有文件夹。</value>
-  </data>
-  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>允许单个文件夹的首选项覆盖默认值</value>
+  <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
+    <value>Sync layout and sorting preferences across directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>自定义右键菜单</value>
@@ -1247,7 +1243,7 @@
     <value>移除</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>始终以双面板模式打开新标签页</value>
+    <value>Open tabs in dual pane mode</value>
   </data>
   <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>启用双面板视图</value>
@@ -1260,9 +1256,6 @@
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>在第二面板打开</value>
-  </data>
-  <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>双面板</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>文件夹</value>
@@ -1402,17 +1395,17 @@
   <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
     <value>已选文件的预览面板</value>
   </data>
-  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
-    <value>文档</value>
-  </data>
-  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>访问 Files 文档网站</value>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>进行中的任务弹窗</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>联机时可用</value>
+  </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Documentation</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>脱机可用</value>
@@ -1432,8 +1425,8 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>未知</value>
   </data>
-  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
-    <value>多选</value>
+  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
+    <value>Show selection checkbox next to file names</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>如果改变文件扩展名，可能会导致文件不可用。确实要更改吗？</value>
@@ -1471,7 +1464,7 @@
   <data name="DateCreated" xml:space="preserve">
     <value>创建日期</value>
   </data>
-  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="MoreOptions" xml:space="preserve">
     <value>更多选项...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
@@ -1482,9 +1475,6 @@
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>更多包选项</value>
-  </data>
-  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>更多驱动器选项</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>收藏夹</value>
@@ -1503,9 +1493,6 @@
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
     <value>在新面板中打开</value>
-  </data>
-  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>显示库</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>默认</value>
@@ -1542,12 +1529,6 @@
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>要以管理员身份继续吗？</value>
-  </data>
-  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
-    <value>Files 正在以管理员身份运行</value>
-  </data>
-  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
-    <value>管理员</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>列视图 (Ctrl+Shift+6)</value>
@@ -1657,23 +1638,11 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>在新标签页中打开文件夹</value>
   </data>
-  <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>显示“文件筐”组件</value>
-  </data>
-  <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>显示“驱动器”组件</value>
-  </data>
-  <data name="ShowFolderWidget" xml:space="preserve">
-    <value>显示“文件夹”组件</value>
-  </data>
-  <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>显示“最近使用的文件”组件</value>
-  </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>没有找到你想要的内容?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>搜索未编入索引的项。</value>
+    <value>Search unindexed items</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>打开主题文件夹</value>
@@ -1819,14 +1788,11 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
     <value>重新打开关闭的标签页</value>
   </data>
-  <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
-    <value>隐私政策</value>
-  </data>
-  <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>查看隐私政策</value>
-  </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
     <value>重命名</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Privacy</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>已取消移动</value>
@@ -1927,11 +1893,8 @@
   <data name="canceling" xml:space="preserve">
     <value>正在取消</value>
   </data>
-  <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>消除</value>
-  </data>
-  <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>消除</value>
+  <data name="Clear" xml:space="preserve">
+    <value>清除</value>
   </data>
   <data name="Widgets" xml:space="preserve">
     <value>要在主页上显示的组件</value>
@@ -2179,18 +2142,6 @@
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>解压缩大小</value>
   </data>
-  <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>显示云盘</value>
-  </data>
-  <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>显示驱动器</value>
-  </data>
-  <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>显示 WSL</value>
-  </data>
-  <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>显示网络驱动器</value>
-  </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
@@ -2293,9 +2244,6 @@
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>编辑文件标签</value>
   </data>
-  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>显示收藏夹栏</value>
-  </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
     <value>全部应用</value>
   </data>
@@ -2335,9 +2283,6 @@
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>驱动器</value>
   </data>
-  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>库 小组件</value>
-  </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>最近使用的文件 小组件</value>
   </data>
@@ -2374,32 +2319,11 @@
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
     <value>显示隐藏的项目</value>
   </data>
-  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示收藏夹栏</value>
-  </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>在新标签页中打开文件夹</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>语言</value>
-  </data>
-  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示云盘</value>
-  </data>
-  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>删除文件或文件夹时显示确认对话框</value>
-  </data>
-  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示驱动器</value>
-  </data>
-  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示库</value>
-  </data>
-  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示网络驱动器</value>
-  </data>
-  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示 WSL</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>进行中的任务</value>
@@ -2422,8 +2346,17 @@
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>大小列</value>
   </data>
-  <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>默认文件管理器</value>
+  <data name="ExperimentalFeatureFlags" xml:space="preserve">
+    <value>Experimental feature flags</value>
+  </data>
+  <data name="HelpAndSupport" xml:space="preserve">
+    <value>Help and support</value>
+  </data>
+  <data name="SubmitFeatureRequest" xml:space="preserve">
+    <value>Submit feature request</value>
+  </data>
+  <data name="SubmitBugReport" xml:space="preserve">
+    <value>Submit bug report</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>将 Files 设为默认文件管理器</value>
@@ -2447,7 +2380,7 @@
     <value>导入设置</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>管理设置</value>
+    <value>Manage settings</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>无法导入设置。此设置文件已损坏。</value>
@@ -2469,9 +2402,6 @@
   </data>
   <data name="RestoreDefault" xml:space="preserve">
     <value>恢复默认</value>
-  </data>
-  <data name="FilesAndFolders" xml:space="preserve">
-    <value>文件和文件夹</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
     <value>从任务栏跳转列表打开文件夹时，启动新的实例</value>
@@ -2567,7 +2497,7 @@
     <value>计算文件夹大小</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>最近使用的文件</value>
+    <value>Recent files</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>在 Windows 启动时打开 Files</value>
@@ -2674,14 +2604,8 @@
   <data name="FileTags" xml:space="preserve">
     <value>标签</value>
   </data>
-  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>显示标签</value>
-  </data>
-  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示标签</value>
-  </data>
-  <data name="UseCompactStyles" xml:space="preserve">
-    <value>在详细信息布局中使用精简样式</value>
+  <data name="UseCompactSpacing" xml:space="preserve">
+    <value>Use compact spacing in the details layout</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>通用</value>
@@ -2710,9 +2634,6 @@
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>自动调整所有列宽</value>
   </data>
-  <data name="Contributors" xml:space="preserve">
-    <value>参与者</value>
-  </data>
   <data name="Adaptive" xml:space="preserve">
     <value>自适应</value>
   </data>
@@ -2723,7 +2644,10 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>显示交换数据流 (ADS)</value>
+    <value>Show alternate data streams</value>
+  </data>
+  <data name="Behaviors" xml:space="preserve">
+    <value>Behaviors</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>评价 Files</value>
@@ -2763,12 +2687,6 @@
   </data>
   <data name="Reset" xml:space="preserve">
     <value>重置首选项</value>
-  </data>
-  <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>此操作将所有目录的设置重置为默认设置。</value>
-  </data>
-  <data name="AreYouSure" xml:space="preserve">
-    <value>确定吗？</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>锁屏界面</value>
@@ -2923,7 +2841,91 @@
   <data name="SortBy" xml:space="preserve">
     <value>排序方式</value>
   </data>
+  <data name="GroupInDescendingOrder" xml:space="preserve">
+    <value>Group in descending order</value>
+  </data>
+  <data name="SortInDescendingOrder" xml:space="preserve">
+    <value>Sort in descending order</value>
+  </data>
+  <data name="NewShortcutDialogTitle" xml:space="preserve">
+    <value>Create a new shortcut</value>
+  </data>
+  <data name="NewShortcutDialogDescription" xml:space="preserve">
+    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+  </data>
+  <data name="NewShortcutDialogPrompt" xml:space="preserve">
+    <value>Enter the location of the item:</value>
+  </data>
+  <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
+    <value>Creates a shortcut</value>
+  </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>“最近使用的文件”已在 Windows 文件管理器中停用。</value>
+  </data>
+  <data name="EditSettingsFile" xml:space="preserve">
+    <value>Edit Settings File</value>
+  </data>
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
+    <value>Creating a shortcut in this location requires administrator privileges</value>
+  </data>
+  <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
+    <value>Would you like to create the shortcut on the desktop instead?</value>
+  </data>
+  <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
+    <value>The specified item name is invalid</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
+    <value>Double click on a blank space to go up one directory</value>
+  </data>
+  <data name="ViewMore" xml:space="preserve">
+    <value>View more</value>
+  </data>
+  <data name="ToolTipDescriptionSize" xml:space="preserve">
+    <value>大小:</value>
+  </data>
+  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
+    <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
+  </data>
+  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
+    <value>Bundles will be retiring in a future update 📎</value>
+  </data>
+  <data name="DisplayEditTagsMenu" xml:space="preserve">
+    <value>Display the edit tags flyout</value>
+  </data>
+  <data name="QuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
+  <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
+    <value>Enter your credentials to connect to: {0}</value>
+  </data>
+  <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
+    <value>Enter Network Credentials</value>
+  </data>
+  <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
+    <value>Remember my credentials</value>
+  </data>
+  <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
+    <value>Network folder error</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>App version</value>
+  </data>
+  <data name="WindowsVersion" xml:space="preserve">
+    <value>Windows version</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>Always</value>
+  </data>
+  <data name="PermanentDeletionOnly" xml:space="preserve">
+    <value>Permanent deletion only</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Never</value>
   </data>
 </root>
