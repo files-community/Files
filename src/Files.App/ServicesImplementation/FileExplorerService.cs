@@ -67,6 +67,7 @@ namespace Files.App.ServicesImplementation
 		private FolderPicker InitializeWithWindow(FolderPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 	}

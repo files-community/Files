@@ -17,11 +17,9 @@ namespace Files.App.Extensions
 		/// </summary>
 		public static bool IsSubPathOf(this string path, string baseDirPath)
 		{
-			string normalizedPath = Path.GetFullPath(path.Replace('/', '\\')
-				.WithEnding("\\"));
+			string normalizedPath = Path.GetFullPath(path.Replace('/', '\\').WithEnding("\\"));
 
-			string normalizedBaseDirPath = Path.GetFullPath(baseDirPath.Replace('/', '\\')
-				.WithEnding("\\"));
+			string normalizedBaseDirPath = Path.GetFullPath(baseDirPath.Replace('/', '\\').WithEnding("\\"));
 
 			return normalizedPath.StartsWith(normalizedBaseDirPath, StringComparison.OrdinalIgnoreCase);
 		}
@@ -56,9 +54,10 @@ namespace Files.App.Extensions
 		}
 
 		private static readonly ResourceMap resourcesTree = new ResourceManager().MainResourceMap.TryGetSubtree("Resources");
-		private static readonly ConcurrentDictionary<string, string> cachedResources = new ConcurrentDictionary<string, string>();
 
-		private static readonly Dictionary<string, string> abbreviations = new Dictionary<string, string>()
+		private static readonly ConcurrentDictionary<string, string> cachedResources = new();
+
+		private static readonly Dictionary<string, string> abbreviations = new()
 		{
 			{ "KiB", "KiloByteSymbol".GetLocalizedResource() },
 			{ "MiB", "MegaByteSymbol".GetLocalizedResource() },
@@ -75,6 +74,7 @@ namespace Files.App.Extensions
 			{
 				value = value.Replace(item.Key, item.Value, StringComparison.Ordinal);
 			}
+
 			return value;
 		}
 
@@ -94,7 +94,9 @@ namespace Files.App.Extensions
 			{
 				return value;
 			}
+
 			value = resourcesTree?.TryGetValue(resourceKey)?.ValueAsString;
+
 			return cachedResources[resourceKey] = value ?? string.Empty;
 		}
 	}

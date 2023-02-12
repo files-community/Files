@@ -221,19 +221,26 @@ namespace Files.App.ViewModels.Dialogs
 				{
 					if (!value.HasFlag(DynamicDialogButtons.Cancel))
 					{
-						Debugger.Break(); // Cannot disable the Close button!
+						// Cannot disable the Close button!
+						Debugger.Break();
 					}
 
 					if (value.HasFlag(DynamicDialogButtons.None))
 					{
-						IsPrimaryButtonEnabled = false; // Hides this option
-						IsSecondaryButtonEnabled = false; // Hides this option
+						// Hides this option
+						IsPrimaryButtonEnabled = false;
+
+						// Hides this option
+						IsSecondaryButtonEnabled = false;
 
 						return;
 					}
 
-					IsPrimaryButtonEnabled = value.HasFlag(DynamicDialogButtons.Primary); // Hides this option
-					IsSecondaryButtonEnabled = value.HasFlag(DynamicDialogButtons.Secondary); // Hides this option
+					// Hides this option
+					IsPrimaryButtonEnabled = value.HasFlag(DynamicDialogButtons.Primary);
+
+					// Hides this option
+					IsSecondaryButtonEnabled = value.HasFlag(DynamicDialogButtons.Secondary);
 				}
 			}
 		}

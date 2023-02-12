@@ -64,7 +64,6 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		public ObservableCollection<BundleItemViewModel> Contents { get; private set; } = new ObservableCollection<BundleItemViewModel>();
 
 		private string bundleName = "DefaultBundle";
-
 		public string BundleName
 		{
 			get => bundleName;
@@ -72,7 +71,6 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		}
 
 		private bool noBundleContentsTextLoad;
-
 		public bool NoBundleContentsTextLoad
 		{
 			get => noBundleContentsTextLoad;
@@ -80,7 +78,6 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		}
 
 		private bool isAddItemOptionEnabled = true;
-
 		public bool IsAddItemOptionEnabled
 		{
 			get => isAddItemOptionEnabled;
@@ -116,7 +113,6 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			internalCollectionCount = Contents.Count;
 			Contents.CollectionChanged += Contents_CollectionChanged;
 
-			// Create commands
 			RemoveBundleCommand = new RelayCommand(RemoveBundle);
 			RenameBundleCommand = new AsyncRelayCommand(RenameBundle);
 			DragOverCommand = new RelayCommand<DragEventArgs>(DragOver);
@@ -255,6 +251,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				},
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
+
 			await dialog.ShowAsync();
 
 			bool CanAddBundleSetErrorMessage()
@@ -274,12 +271,15 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			{
 				if (BundlesSettingsService.SavedBundles.ContainsKey(BundleName))
 				{
-					Dictionary<string, List<string>> allBundles = BundlesSettingsService.SavedBundles; // We need to do it this way for Set() to be called
+					// We need to do it this way for Set() to be called
+					Dictionary<string, List<string>> allBundles = BundlesSettingsService.SavedBundles;
+
 					Dictionary<string, List<string>> newBundles = new Dictionary<string, List<string>>();
 
 					foreach (var item in allBundles)
 					{
-						if (item.Key == BundleName) // Item matches to-rename name
+						// Item matches to-rename name
+						if (item.Key == BundleName)
 						{
 							newBundles.Add(bundleRenameText, item.Value);
 
@@ -289,7 +289,8 @@ namespace Files.App.ViewModels.Widgets.Bundles
 								bundleItem.ParentBundleName = bundleRenameText;
 							}
 						}
-						else // Ignore, and add existing values
+						// Ignore, and add existing values
+						else
 						{
 							newBundles.Add(item.Key, item.Value);
 						}
@@ -305,7 +306,8 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		{
 			if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView) || e.DataView.Contains(StandardDataFormats.Text))
 			{
-				if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle) // Don't exceed the limit!
+				// Don't exceed the limit!
+				if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
 				{
 					e.AcceptedOperation = DataPackageOperation.Move;
 				}
