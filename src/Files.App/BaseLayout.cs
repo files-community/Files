@@ -702,7 +702,11 @@ namespace Files.App
 		{
 			var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
 			var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
-			var overflowShellMenuItems = shellMenuItems.Except(mainShellMenuItems).ToList();
+			var overflowShellMenuItemsUnfiltered = shellMenuItems.Except(mainShellMenuItems).ToList();
+			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
+				(x, i) => (x.ItemType == ItemType.Separator && 
+				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType == ItemType.Separator)
+				|| x.ItemType != ItemType.Separator).ToList();
 
 			var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
 			var mainItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
