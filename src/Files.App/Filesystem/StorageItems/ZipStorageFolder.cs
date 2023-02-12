@@ -70,7 +70,9 @@ namespace Files.App.Filesystem.StorageItems
 				return false;
 			}
 			marker += ext.Length;
-			return (marker == path.Length && includeRoot) || (marker < path.Length && path[marker] is '\\');
+			// If IO.Path.Exists returns true, it is not a zip path but a normal directory path that contains ".zip".
+			return (marker == path.Length && includeRoot && !IO.Path.Exists(path + "\\"))
+				|| (marker < path.Length && path[marker] is '\\' && !IO.Path.Exists(path));
 		}
 
 		public async Task<long> GetUncompressedSize()

@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Files.App.EventArguments;
@@ -7,6 +8,7 @@ using Files.App.Helpers.XamlHelpers;
 using Files.App.UserControls;
 using Files.App.UserControls.Selection;
 using Files.App.ViewModels;
+using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -15,7 +17,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Globalization;
 using System.Linq;
 using UWPToWinAppSDKUpgradeHelpers;
 using Windows.Foundation;
@@ -38,6 +39,8 @@ namespace Files.App.Views.LayoutModes
 		private InputCursor resizeCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.SizeWestEast, 1));
 
 		private ListedItem? _nextItemToSelect;
+
+		private IFileTagsSettingsService tagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		protected override uint IconSize => currentIconSize;
 
@@ -733,7 +736,34 @@ namespace Files.App.Views.LayoutModes
 			if (tagName is null)
 				return;
 
-			ParentShellPageInstance.SubmitSearch($"tag:{tagName}", false);
+			ParentShellPageInstance?.SubmitSearch($"tag:{tagName}", false);
+		}
+
+		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			VisualStateManager.GoToState((UserControl)sender, "PointerOver", true);
+		}
+
+		private void FileTag_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
+		}
+
+		private void TagIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			var parent = (sender as FontIcon)?.Parent as StackPanel;
+			var tagName = (parent?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
+
+			if (tagName is null || parent?.DataContext is not ListedItem item)
+				return;
+			
+			var tagId = tagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
+
+			item.FileTags = item.FileTags
+				.Except(new string[] { tagId })
+				.ToArray();
+
+			e.Handled = true;
 		}
 	}
 }
