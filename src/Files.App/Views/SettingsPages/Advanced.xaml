@@ -11,6 +11,7 @@
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:settingsviewmodels="using:Files.App.ViewModels.SettingsViewModels"
+	xmlns:vc="using:Files.App.ValueConverters"
 	mc:Ignorable="d">
 	<Page.Resources>
 		<ResourceDictionary>
@@ -22,6 +23,7 @@
 				x:Key="InvertedBoolVisibilityConverter"
 				FalseValue="Visible"
 				TrueValue="Collapsed" />
+			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
@@ -144,153 +146,195 @@
 
 			<!--  Edit Tags  -->
 			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}"
+				Title="{helpers:ResourceString Name=FileTags}"
 				HorizontalAlignment="Stretch"
 				IsExpanded="True">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE790;" />
+					<FontIcon Glyph="&#xE1CB;" />
 				</local:SettingsBlockControl.Icon>
+
+				<Button Command="{x:Bind ViewModel.AddTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=NewTag}" />
 				<local:SettingsBlockControl.ExpandableContent>
-					<local:SettingsBlockControl HorizontalAlignment="Stretch">
-						<Grid HorizontalAlignment="Stretch">
+					<StackPanel>
+						<!--  Create new tag  -->
+						<Grid
+							x:Name="AddTagGrid"
+							Padding="32,12"
+							x:Load="{x:Bind ViewModel.IsCreatingNewTag, Mode=OneWay}"
+							Background="{ThemeResource CardBackgroundFillColorDefault}"
+							BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+							BorderThickness="0,0,0,1">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
-							<Grid.RowDefinitions>
-								<RowDefinition />
-								<RowDefinition />
-							</Grid.RowDefinitions>
-							<TextBlock
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
-								FontSize="16"
-								Text="{helpers:ResourceString Name=FileTags}" />
-							<CommandBar
+							<StackPanel
+								Grid.Column="0"
+								Orientation="Horizontal"
+								Spacing="12">
+								<!--  Title  -->
+								<TextBlock VerticalAlignment="Center" Text="{helpers:ResourceString Name=CreateNewTag}" />
+
+								<!--  Tag Name  -->
+								<TextBox
+									Width="200"
+									PlaceholderText="{helpers:ResourceString Name=Name}"
+									Text="{x:Bind ViewModel.NewTagName, Mode=TwoWay}" />
+
+								<!--  Tag Color  -->
+								<Button
+									Margin="8,0"
+									Padding="0"
+									AutomationProperties.Name="{helpers:ResourceString Name=TagColor}">
+									<StackPanel Orientation="Horizontal">
+										<Border
+											Width="20"
+											Height="20"
+											Margin="4"
+											CornerRadius="4" />
+										<FontIcon
+											Margin="8,4,10,4"
+											FontSize="12"
+											Glyph="&#xE019;" />
+									</StackPanel>
+									<Button.Flyout>
+										<Flyout>
+											<controls:ColorPicker />
+										</Flyout>
+									</Button.Flyout>
+								</Button>
+							</StackPanel>
+
+							<StackPanel
 								Grid.Column="1"
-								MinWidth="250"
-								Background="Transparent"
-								DefaultLabelPosition="Right"
-								IsOpen="False">
-								<AppBarButton
-									Command="{x:Bind ViewModel.AddTagCommand, Mode=OneWay}"
-									Icon="Add"
-									Label="{helpers:ResourceString Name=Add}" />
-							</CommandBar>
+								HorizontalAlignment="Right"
+								Orientation="Horizontal"
+								Spacing="12">
+								<!--  Cancel  -->
+								<Button Command="{x:Bind ViewModel.CancelNewTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=Cancel}" />
 
-							<ListView
-								x:Name="TagsList"
-								Grid.Row="1"
-								Grid.ColumnSpan="2"
-								MaxHeight="300"
-								Margin="0,8"
-								HorizontalAlignment="Stretch"
-								IsItemClickEnabled="True"
-								ItemsSource="{x:Bind ViewModel.Tags, Mode=TwoWay}"
-								SelectionMode="None">
-								<ListView.ItemTemplate>
-									<DataTemplate xmlns:vm="using:Files.Backend.ViewModels.FileTags" x:DataType="vm:ListedTagViewModel">
-										<Grid ColumnSpacing="16">
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="Auto" />
-												<ColumnDefinition Width="*" />
-												<ColumnDefinition Width="Auto" />
-											</Grid.ColumnDefinitions>
+								<!--  Save Changes  -->
+								<Button
+									Command="{x:Bind ViewModel.SaveNewTagCommand, Mode=OneWay}"
+									Content="{helpers:ResourceString Name=Create}"
+									Style="{StaticResource AccentButtonStyle}" />
+							</StackPanel>
+						</Grid>
 
+						<ListView
+							x:Name="TagsList"
+							MaxHeight="300"
+							Padding="12"
+							HorizontalAlignment="Stretch"
+							IsItemClickEnabled="True"
+							ItemsSource="{x:Bind ViewModel.Tags, Mode=TwoWay}"
+							SelectionMode="None">
+							<ListView.ItemTemplate>
+								<DataTemplate xmlns:vm="using:Files.Backend.ViewModels.FileTags" x:DataType="vm:ListedTagViewModel">
+									<Grid ColumnSpacing="16">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+										<StackPanel
+											Height="24"
+											Padding="8,0"
+											HorizontalAlignment="Left"
+											VerticalAlignment="Center"
+											BorderBrush="{x:Bind Tag.Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+											BorderThickness="1"
+											CornerRadius="12"
+											Orientation="Horizontal"
+											ToolTipService.ToolTip="{x:Bind Tag.Name}">
+											<FontIcon
+												FontSize="12"
+												Foreground="{x:Bind Tag.Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+												Glyph="&#xE1CB;" />
 											<TextBlock
 												x:Name="TagName"
-												Width="200"
+												Padding="8,0,0,0"
 												VerticalAlignment="Center"
+												FontSize="12"
+												LineHeight="18"
 												Text="{x:Bind Tag.Name}"
-												TextTrimming="CharacterEllipsis"
-												ToolTipService.ToolTip="{x:Bind Tag.Name}"
-												Visibility="{x:Bind IsRenaming, Converter={StaticResource InvertedBoolVisibilityConverter}, Mode=OneWay}" />
+												TextTrimming="CharacterEllipsis" />
+										</StackPanel>
+
+										<StackPanel
+											Grid.Column="1"
+											Orientation="Horizontal"
+											Spacing="8"
+											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
 											<TextBox
 												x:Name="TagNameTextBox"
 												Width="200"
-												HorizontalAlignment="Left"
 												VerticalAlignment="Center"
-												Visibility="{x:Bind IsRenaming, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+												KeyDown="RenameTextBox_KeyDown"
+												Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
 												<TextBox.Resources>
 													<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 												</TextBox.Resources>
 											</TextBox>
 
-											<StackPanel Grid.Column="2" Orientation="Horizontal">
-												<Button
-													Margin="8,0"
-													Padding="0"
-													AutomationProperties.Name="{helpers:ResourceString Name=TagColor}">
-													<StackPanel Orientation="Horizontal">
-														<Border
-															Width="20"
-															Height="20"
-															Margin="4"
-															Background="{x:Bind Tag.Color}"
-															CornerRadius="4" />
-														<FontIcon
-															Margin="8,4,10,4"
-															FontSize="12"
-															Glyph="&#xE019;" />
-													</StackPanel>
-													<Button.Flyout>
-														<Flyout>
-															<controls:ColorPicker ColorChanged="ColorPicker_ColorChanged" />
-														</Flyout>
-													</Button.Flyout>
-												</Button>
+											<Button
+												Margin="8,0"
+												Padding="0"
+												AutomationProperties.Name="{helpers:ResourceString Name=TagColor}">
+												<StackPanel Orientation="Horizontal">
+													<Border
+														Width="20"
+														Height="20"
+														Margin="4"
+														Background="{x:Bind Tag.Color}"
+														CornerRadius="4" />
+													<FontIcon
+														Margin="8,4,10,4"
+														FontSize="12"
+														Glyph="&#xE019;" />
+												</StackPanel>
+												<Button.Flyout>
+													<Flyout>
+														<controls:ColorPicker ColorChanged="ColorPicker_ColorChanged" />
+													</Flyout>
+												</Button.Flyout>
+											</Button>
+										</StackPanel>
 
-												<Button
-													x:Name="CommitRenameButton"
-													Width="30"
-													Padding="0,4"
-													AutomationProperties.Name="{helpers:ResourceString Name=Commit}"
-													Background="Transparent"
-													BorderBrush="Transparent"
-													Click="CommitRenameTag_Click"
-													ToolTipService.ToolTip="{helpers:ResourceString Name=Commit}"
-													Visibility="{x:Bind IsRenaming, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
-													<FontIcon FontSize="14" Glyph="&#xE73E;" />
-												</Button>
+										<StackPanel
+											Grid.Column="2"
+											Orientation="Horizontal"
+											Visibility="{x:Bind IsEditing, Converter={StaticResource InvertedBoolVisibilityConverter}, Mode=OneWay}">
+											<Button
+												x:Name="EditTagButton"
+												Padding="8,4"
+												Background="Transparent"
+												BorderBrush="Transparent"
+												Click="EditTag_Click"
+												Content="{helpers:ResourceString Name=Edit}" />
 
-												<Button
-													x:Name="MoreOptionsButton"
-													Width="30"
-													Padding="0,4"
-													AutomationProperties.Name="{helpers:ResourceString Name=MoreOptions}"
-													Background="Transparent"
-													BorderBrush="Transparent"
-													ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
-													<FontIcon FontSize="14" Glyph="&#xE10C;" />
-													<Button.Flyout>
-														<MenuFlyout>
-															<MenuFlyoutItem
-																x:Name="RenameMenuFlyoutItem"
-																Click="RenameTag_Click"
-																Text="{helpers:ResourceString Name=Rename}"
-																Visibility="{x:Bind IsRenaming, Converter={StaticResource InvertedBoolVisibilityConverter}, Mode=OneWay}">
-																<MenuFlyoutItem.Icon>
-																	<FontIcon FontSize="14" Glyph="&#xE70F;" />
-																</MenuFlyoutItem.Icon>
-															</MenuFlyoutItem>
-															<MenuFlyoutItem
-																x:Name="RemoveMenuFlyoutItem"
-																Click="RemoveTag_Click"
-																Text="{helpers:ResourceString Name=Remove}">
-																<MenuFlyoutItem.Icon>
-																	<FontIcon FontSize="14" Glyph="&#xE74D;" />
-																</MenuFlyoutItem.Icon>
-															</MenuFlyoutItem>
-														</MenuFlyout>
-													</Button.Flyout>
-												</Button>
-											</StackPanel>
-										</Grid>
-									</DataTemplate>
-								</ListView.ItemTemplate>
-							</ListView>
-						</Grid>
-					</local:SettingsBlockControl>
+											<Button
+												x:Name="DeleteTagButton"
+												Padding="8,4"
+												Background="Transparent"
+												BorderBrush="Transparent"
+												Click="RemoveTag_Click"
+												Content="{helpers:ResourceString Name=Delete}" />
+										</StackPanel>
+
+										<Button
+											x:Name="SaveChangesButton"
+											Grid.Column="2"
+											Padding="8,4"
+											Click="CommitRenameTag_Click"
+											Content="{helpers:ResourceString Name=SaveChanges}"
+											Style="{StaticResource AccentButtonStyle}"
+											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}" />
+									</Grid>
+								</DataTemplate>
+							</ListView.ItemTemplate>
+						</ListView>
+					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 		</StackPanel>

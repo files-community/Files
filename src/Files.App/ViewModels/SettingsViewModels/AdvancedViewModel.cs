@@ -9,6 +9,7 @@ using Files.App.Shell;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Files.Shared.Extensions;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.Win32;
 using SevenZip;
 using System;
@@ -22,6 +23,7 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
+using Windows.UI;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
@@ -39,6 +41,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public ICommand ImportSettingsCommand { get; }
 		public ICommand OpenSettingsJsonCommand { get; }
 		public ICommand AddTagCommand { get; }
+		public ICommand SaveNewTagCommand { get; }
+		public ICommand CancelNewTagCommand { get; }
 
 		public ObservableCollection<ListedTagViewModel> Tags { get; set; }
 
@@ -53,7 +57,10 @@ namespace Files.App.ViewModels.SettingsViewModels
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
 			OpenSettingsJsonCommand = new AsyncRelayCommand(OpenSettingsJson);
 
-			AddTagCommand = new RelayCommand(AddNewTag);
+			// Tags Commands
+			AddTagCommand = new RelayCommand(DoAddNewTag);
+			SaveNewTagCommand = new RelayCommand(DoSaveNewTag);
+			CancelNewTagCommand = new RelayCommand(DoCancelNewTag);
 
 			Tags = new ObservableCollection<ListedTagViewModel>();
 			fileTagsSettingsService.FileTagList?.ForEach(tag => Tags.Add(new ListedTagViewModel(tag)));
@@ -289,6 +296,20 @@ namespace Files.App.ViewModels.SettingsViewModels
 			set => SetProperty(ref isSetAsOpenFileDialog, value);
 		}
 
+		private bool isCreatingNewTag;
+		public bool IsCreatingNewTag
+		{
+			get => isCreatingNewTag;
+			set => SetProperty(ref isCreatingNewTag, value);
+		}
+
+		private string newTagName;
+		public string NewTagName
+		{
+			get => newTagName;
+			set => SetProperty(ref newTagName, value);
+		}
+
 		private FileSavePicker InitializeWithWindow(FileSavePicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
@@ -303,12 +324,24 @@ namespace Files.App.ViewModels.SettingsViewModels
 			return obj;
 		}
 
-		private void AddNewTag()
+		private void DoAddNewTag()
 		{
-			fileTagsSettingsService.CreateNewTag();
+			IsCreatingNewTag = true;
+			NewTagName = "";
+		}
+
+		private void DoSaveNewTag()
+		{
+			IsCreatingNewTag = false;
+
+			fileTagsSettingsService.CreateNewTag(NewTagName);
 			Tags.Clear();
 			fileTagsSettingsService.FileTagList?.ForEach(tag => Tags.Add(new ListedTagViewModel(tag)));
+		}
 
+		private void DoCancelNewTag()
+		{
+			IsCreatingNewTag = false;
 		}
 
 		public void EditExistingTag(ListedTagViewModel item, string newName, string color)

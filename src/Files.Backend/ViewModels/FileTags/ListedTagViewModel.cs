@@ -11,11 +11,11 @@ namespace Files.Backend.ViewModels.FileTags
 			set => SetProperty(ref tag, value);
 		}
 
-		private bool isRenaming;
-		public bool IsRenaming
+		private bool isEditing;
+		public bool IsEditing
 		{
-			get => isRenaming;
-			set => SetProperty(ref isRenaming, value);
+			get => isEditing;
+			set => SetProperty(ref isEditing, value);
 		}
 
 		public ListedTagViewModel(TagViewModel tag)

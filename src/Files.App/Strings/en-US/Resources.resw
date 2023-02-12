@@ -2932,9 +2932,18 @@
     <value>Tag color</value>
   </data>
   <data name="Rename" xml:space="preserve">
-	<value>Rename</value>
+    <value>Rename</value>
   </data>
   <data name="Commit" xml:space="preserve">
-	<value>Commit</value>
+    <value>Commit</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>New tag</value>
+  </data>
+  <data name="CreateNewTag" xml:space="preserve">
+    <value>Create new tag</value>
   </data>
 </root>
