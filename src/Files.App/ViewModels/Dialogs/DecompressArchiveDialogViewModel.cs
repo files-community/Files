@@ -17,7 +17,6 @@ namespace Files.App.ViewModels.Dialogs
 		public StorageFolder DestinationFolder { get; private set; }
 
 		private string destinationFolderPath;
-
 		public string DestinationFolderPath
 		{
 			get => destinationFolderPath;
@@ -25,7 +24,6 @@ namespace Files.App.ViewModels.Dialogs
 		}
 
 		private bool openDestinationFolderOnCompletion;
-
 		public bool OpenDestinationFolderOnCompletion
 		{
 			get => openDestinationFolderOnCompletion;
@@ -33,7 +31,6 @@ namespace Files.App.ViewModels.Dialogs
 		}
 
 		private bool isArchiveEncrypted;
-
 		public bool IsArchiveEncrypted
 		{
 			get => isArchiveEncrypted;
@@ -41,7 +38,6 @@ namespace Files.App.ViewModels.Dialogs
 		}
 
 		private bool showPathSelection;
-
 		public bool ShowPathSelection
 		{
 			get => showPathSelection;

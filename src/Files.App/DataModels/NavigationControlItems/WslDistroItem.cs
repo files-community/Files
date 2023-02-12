@@ -8,7 +8,6 @@ namespace Files.App.DataModels.NavigationControlItems
 		public string Text { get; set; }
 
 		private string path;
-
 		public string Path
 		{
 			get => path;
@@ -21,7 +20,8 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public string ToolTipText { get; private set; }
 
-		public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
+		public NavigationControlItemType ItemType
+			=> NavigationControlItemType.LinuxDistro;
 
 		public Uri Logo { get; set; }
 

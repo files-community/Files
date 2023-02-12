@@ -9,7 +9,8 @@ namespace Files.App.ViewModels.Properties
 	/// </summary>
 	public class FilePropertySection : List<FileProperty>
 	{
-		public FilePropertySection(IEnumerable<FileProperty> items) : base(items)
+		public FilePropertySection(IEnumerable<FileProperty> items)
+			: base(items)
 		{
 		}
 
@@ -17,9 +18,11 @@ namespace Files.App.ViewModels.Properties
 
 		public string Key { get; set; }
 
-		public string Title => Key.GetLocalizedResource();
+		public string Title
+			=> Key.GetLocalizedResource();
 
-		public int Priority => sectionPriority.ContainsKey(Key) ? sectionPriority[Key] : 0;
+		public int Priority
+			=> sectionPriority.ContainsKey(Key) ? sectionPriority[Key] : 0;
 
 		/// <summary>
 		/// This list sets the priorities for the sections

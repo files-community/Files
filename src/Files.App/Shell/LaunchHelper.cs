@@ -46,12 +46,15 @@ namespace Files.App.Shell
 				using Process process = new Process();
 				process.StartInfo.UseShellExecute = false;
 				process.StartInfo.FileName = application;
+
 				// Show window if workingDirectory (opening terminal)
 				process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(workingDirectory);
+
 				if (arguments == "runas")
 				{
 					process.StartInfo.UseShellExecute = true;
 					process.StartInfo.Verb = "runas";
+
 					if (FileExtensionHelpers.IsMsiFile(application))
 					{
 						process.StartInfo.FileName = "msiexec.exe";
@@ -62,6 +65,7 @@ namespace Files.App.Shell
 				{
 					process.StartInfo.UseShellExecute = true;
 					process.StartInfo.Verb = "runasuser";
+
 					if (FileExtensionHelpers.IsMsiFile(application))
 					{
 						process.StartInfo.FileName = "msiexec.exe";
@@ -71,18 +75,24 @@ namespace Files.App.Shell
 				else
 				{
 					process.StartInfo.Arguments = arguments;
+
 					// Refresh env variables for the child process
 					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine))
 						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
+
 					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User))
 						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
+
 					process.StartInfo.EnvironmentVariables["PATH"] = string.Join(';',
 						Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine),
 						Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User));
 				}
+
 				process.StartInfo.WorkingDirectory = workingDirectory;
 				process.Start();
+
 				Win32API.BringToForeground(currentWindows);
+
 				return true;
 			}
 			catch (Win32Exception)
@@ -93,10 +103,13 @@ namespace Files.App.Shell
 				process.StartInfo.CreateNoWindow = true;
 				process.StartInfo.Arguments = arguments;
 				process.StartInfo.WorkingDirectory = workingDirectory;
+
 				try
 				{
 					process.Start();
+
 					Win32API.BringToForeground(currentWindows);
+
 					return true;
 				}
 				catch (Win32Exception)
@@ -109,6 +122,7 @@ namespace Files.App.Shell
 							if (split.Count() == 1)
 							{
 								Process.Start(split.First());
+
 								Win32API.BringToForeground(currentWindows);
 							}
 							else
@@ -118,21 +132,22 @@ namespace Files.App.Shell
 									Dir = Path.GetDirectoryName(x),
 									Prog = Win32API.GetFileAssociationAsync(x).Result ?? Path.GetExtension(x)
 								});
+
 								foreach (var group in groups)
 								{
 									if (!group.Any())
-									{
 										continue;
-									}
+
 									using var cMenu = await ContextMenu.GetContextMenuForFiles(group.ToArray(), Shell32.CMF.CMF_DEFAULTONLY);
+
 									if (cMenu is not null)
-									{
 										await cMenu.InvokeVerb(Shell32.CMDSTR_OPEN);
-									}
 								}
 							}
+
 							return true;
 						});
+
 						if (!opened)
 						{
 							if (application.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
@@ -140,14 +155,15 @@ namespace Files.App.Shell
 								opened = await Win32API.StartSTATask(async () =>
 								{
 									using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { application }, Shell32.CMF.CMF_DEFAULTONLY);
+
 									if (cMenu is not null)
-									{
 										await cMenu.InvokeItem(cMenu.Items.FirstOrDefault()?.ID ?? -1);
-									}
+
 									return true;
 								});
 							}
 						}
+
 						if (!opened)
 						{
 							var isAlternateStream = Regex.IsMatch(application, @"\w:\w");
@@ -169,10 +185,12 @@ namespace Files.App.Shell
 										await inStream.CopyToAsync(outStream);
 										await outStream.FlushAsync();
 									}
+
 									opened = await HandleApplicationLaunch(tempPath, arguments, workingDirectory);
 								}
 							}
 						}
+
 						return opened;
 					}
 					catch (Win32Exception)
@@ -210,6 +228,7 @@ namespace Files.App.Shell
 				var itemPath = Regex.Replace(executable, @"^\\\\\?\\[^\\]*\\?", "");
 				return deviceId is not null ? Path.Combine(deviceId, itemPath) : executable;
 			}
+
 			return executable;
 		}
 	}

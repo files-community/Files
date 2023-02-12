@@ -18,9 +18,13 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref textValue, value);
 		}
 
-		public TextPreviewViewModel(ListedItem item) : base(item) { }
+		public TextPreviewViewModel(ListedItem item)
+			: base(item)
+		{
+		}
 
-		public static bool ContainsExtension(string extension) => extension is ".txt";
+		public static bool ContainsExtension(string extension)
+			=> extension is ".txt";
 
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
@@ -70,6 +74,7 @@ namespace Files.App.ViewModels.Previews
 			}
 		}
 
-		private static bool ExcludedExtensions(string extension) => extension is ".iso";
+		private static bool ExcludedExtensions(string extension)
+			=> extension is ".iso";
 	}
 }

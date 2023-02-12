@@ -72,10 +72,10 @@ namespace Files.App.ViewModels
 
 				return (anyFailure, AnyOperationsOngoing) switch
 				{
-					(false, false) => 0, // all success
-					(false, true) => 1, // ongoing
-					(true, true) => 2, // onging with failure
-					(true, false) => 3 // completed with failure
+					(false, false) => 0, // All success
+					(false, true) => 1,  // Ongoing
+					(true, true) => 2,   // Ongoing with failure
+					(true, false) => 3   // Completed with failure
 				};
 			}
 		}
@@ -99,9 +99,12 @@ namespace Files.App.ViewModels
 		{
 			StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation);
 			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+
 			StatusBannersSource.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);
+
 			UpdateBanner(banner);
+
 			return postedBanner;
 		}
 
@@ -111,10 +114,14 @@ namespace Files.App.ViewModels
 			{
 				CancellationTokenSource = cancellationTokenSource,
 			};
+
 			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this, cancellationTokenSource);
+
 			StatusBannersSource.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);
+
 			UpdateBanner(banner);
+
 			return postedBanner;
 		}
 
@@ -122,9 +129,12 @@ namespace Files.App.ViewModels
 		{
 			StatusBanner banner = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
 			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+
 			StatusBannersSource.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);
+
 			UpdateBanner(banner);
+
 			return postedBanner;
 		}
 
@@ -136,7 +146,9 @@ namespace Files.App.ViewModels
 			}
 
 			StatusBannersSource.Remove(banner);
+
 			UpdateBanner(banner);
+
 			return true;
 		}
 
@@ -174,6 +186,7 @@ namespace Files.App.ViewModels
 		#region Public Members
 
 		public readonly FileSystemProgress Progress;
+
 		public readonly Progress<FileSystemProgress> ProgressEventSource;
 
 		public CancellationToken CancellationToken => cancellationTokenSource?.Token ?? default;
@@ -186,6 +199,7 @@ namespace Files.App.ViewModels
 		{
 			Banner = banner;
 			this.OngoingTasksActions = OngoingTasksActions;
+
 			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
@@ -195,6 +209,7 @@ namespace Files.App.ViewModels
 			Banner = banner;
 			this.OngoingTasksActions = OngoingTasksActions;
 			this.cancellationTokenSource = cancellationTokenSource;
+
 			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
@@ -205,10 +220,9 @@ namespace Files.App.ViewModels
 
 		private void ReportProgressToBanner(FileSystemProgress value)
 		{
-			if (CancellationToken.IsCancellationRequested) // file operation has been cancelled, so don't update the progress text
-			{
+			// File operation has been cancelled, so don't update the progress text
+			if (CancellationToken.IsCancellationRequested)
 				return;
-			}
 
 			if (value.Status is FileSystemStatusCode status)
 				Banner.Status = status.ToStatus();
@@ -219,7 +233,8 @@ namespace Files.App.ViewModels
 			{
 				Banner.Progress = f;
 				Banner.FullTitle = $"{Banner.Title} ({Banner.Progress:0.00}%)";
-				// TODO: show detailed progress if Size/Count information available
+
+				// TODO: Show detailed progress if Size/Count information available
 			}
 			else if (value.EnumerationCompleted)
 			{
@@ -229,14 +244,17 @@ namespace Files.App.ViewModels
 						Banner.Progress = value.ProcessedSize * 100f / value.TotalSize;
 						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {Banner.Progress:0.00}%)";
 						break;
+
 					case (not 0, _):
 						Banner.Progress = value.ProcessedSize * 100f / value.TotalSize;
 						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {Banner.Progress:0.00}%)";
 						break;
+
 					case (_, not 0):
 						Banner.Progress = value.ProcessedItemsCount * 100f / value.ItemsCount;
 						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {Banner.Progress:0.00}%)";
 						break;
+
 					default:
 						Banner.FullTitle = $"{Banner.Title} (...)";
 						break;
@@ -244,21 +262,13 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				switch (value.ProcessedSize, value.ProcessedItemsCount)
+				Banner.FullTitle = (value.ProcessedSize, value.ProcessedItemsCount) switch
 				{
-					case (not 0, not 0):
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)";
-						break;
-					case (not 0, _):
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / ...)";
-						break;
-					case (_, not 0):
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / ...)";
-						break;
-					default:
-						Banner.FullTitle = $"{Banner.Title} (...)";
-						break;
-				}
+					(not 0, not 0) => $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)",
+					(not 0, _) =>     $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / ...)",
+					(_, not 0) =>     $"{Banner.Title} ({value.ProcessedItemsCount} / ...)",
+					_ =>              $"{Banner.Title} (...)",
+				};
 			}
 
 			OngoingTasksActions.UpdateBanner(Banner);
@@ -301,10 +311,7 @@ namespace Files.App.ViewModels
 		public float Progress
 		{
 			get => progress;
-			set
-			{
-				SetProperty(ref progress, value);
-			}
+			set => SetProperty(ref progress, value);
 		}
 
 		private bool isProgressing = false;
@@ -312,23 +319,16 @@ namespace Files.App.ViewModels
 		public bool IsProgressing
 		{
 			get => isProgressing;
-			set
-			{
-				SetProperty(ref isProgressing, value);
-			}
+			set => SetProperty(ref isProgressing, value);
 		}
 
 		public string Title { get; private set; }
 
 		private ReturnResult status = ReturnResult.InProgress;
-
 		public ReturnResult Status
 		{
 			get => status;
-			set
-			{
-				SetProperty(ref status, value);
-			}
+			set => SetProperty(ref status, value);
 		}
 
 		public FileOperationType Operation { get; private set; }
@@ -347,7 +347,8 @@ namespace Files.App.ViewModels
 
 		public bool SolutionButtonsVisible { get; } = false;
 
-		public bool CancelButtonVisible => CancellationTokenSource is not null;
+		public bool CancelButtonVisible
+			=> CancellationTokenSource is not null;
 
 		public CancellationTokenSource CancellationTokenSource { get; set; }
 
@@ -409,7 +410,9 @@ namespace Files.App.ViewModels
 								break;
 						}
 					}
+
 					FullTitle = $"{Title} ({initialProgress}%)";
+
 					break;
 
 				case ReturnResult.Success:
@@ -438,6 +441,7 @@ namespace Files.App.ViewModels
 						FullTitle = Title;
 						InfoBarSeverity = InfoBarSeverity.Error;
 					}
+
 					break;
 			}
 		}

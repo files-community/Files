@@ -7,7 +7,8 @@ namespace Files.App.CommandLine
 	{
 		public ParsedCommandType Type { get; set; }
 
-		public string Payload => Args.FirstOrDefault();
+		public string Payload
+			=> Args.FirstOrDefault();
 
 		public List<string> Args { get; set; }
 

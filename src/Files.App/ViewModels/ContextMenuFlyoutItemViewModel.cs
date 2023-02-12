@@ -9,16 +9,27 @@ namespace Files.App.ViewModels
 	public class ContextMenuFlyoutItemViewModel
 	{
 		public bool ShowItem { get; set; } = true;
+
 		public ICommand Command { get; set; }
+
 		public object CommandParameter { get; set; }
+
 		public string Glyph { get; set; }
+
 		public string GlyphFontFamilyName { get; set; }
+
 		public string KeyboardAcceleratorTextOverride { get; set; }
+
 		public string Text { get; set; }
+
 		public object Tag { get; set; }
+
 		public ItemType ItemType { get; set; }
+
 		public bool IsSubItem { get; set; }
+
 		public List<ContextMenuFlyoutItemViewModel> Items { get; set; }
+
 		public BitmapImage BitmapIcon { get; set; }
 
 		/// <summary>
@@ -52,7 +63,9 @@ namespace Files.App.ViewModels
 		public bool ShowInZipPage { get; set; }
 
 		public KeyboardAccelerator KeyboardAccelerator { get; set; }
+
 		public bool IsChecked { get; set; }
+
 		public bool IsEnabled { get; set; } = true;
 
 		/// <summary>
@@ -82,6 +95,7 @@ namespace Files.App.ViewModels
 	public struct ColoredIconModel
 	{
 		public string OverlayLayerGlyph { get; set; }
+
 		public string BaseLayerGlyph { get; set; }
 
 		public ColoredIcon ToColoredIcon() => new()

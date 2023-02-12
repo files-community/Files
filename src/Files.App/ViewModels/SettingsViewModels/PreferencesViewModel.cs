@@ -28,16 +28,13 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private bool disposed;
-		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
-		// Commands
+		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
 		public AsyncRelayCommand OpenFilesAtStartupCommand { get; }
 		public AsyncRelayCommand ChangePageCommand { get; }
 		public RelayCommand RemovePageCommand { get; }
 		public RelayCommand<string> AddPageCommand { get; }
-
-		// Properties
 
 		private bool showRestartControl;
 		public bool ShowRestartControl
@@ -96,9 +93,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		// Lists
-
 		public List<DateTimeFormatItem> DateFormats { get; set; }
+
 		public ObservableCollection<AppLanguageItem> AppLanguages { get; set; }
 
 		public PreferencesViewModel()
@@ -130,16 +126,18 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			DateTimeOffset sampleDate1 = DateTime.Now.AddSeconds(-5);
 			DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31, 14, 30, 0);
+
 			var styles = new DateTimeFormats[] { DateTimeFormats.Application, DateTimeFormats.System, DateTimeFormats.Universal };
+
 			DateFormats = styles.Select(style => new DateTimeFormatItem(style, sampleDate1, sampleDate2)).ToList();
 		}
 
 		private void AddSupportedAppLanguages()
 		{
 			var appLanguages = ApplicationLanguages.ManifestLanguages
-				.Append(string.Empty) // add default language id
+				.Append(string.Empty) // Add default language id
 				.Select(language => new AppLanguageItem(language))
-				.OrderBy(language => language.LanguagID is not "") // default language on top
+				.OrderBy(language => language.LanguagID is not "") // Default language on top
 				.ThenBy(language => language.LanguageName);
 			AppLanguages = new ObservableCollection<AppLanguageItem>(appLanguages);
 
@@ -160,8 +158,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 			});
 			await PopulateRecentItems(recentsItem);
 
-			// ensure recent folders aren't stale since we don't update them with a watcher
-			// then update the items source again to actually include those items
+			// Ensure recent folders aren't stale since we don't update them with a watcher
+			// Then update the items source again to actually include those items
 			await App.RecentItemsManager.UpdateRecentFoldersAsync();
 			await PopulateRecentItems(recentsItem);
 		}
@@ -177,7 +175,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 					.Select(m => m.Text)
 					.ToHashSet();
 
-				// add separator if we need one and one wasn't added already
+				// Add separator if we need one and one wasn't added already
 				if (recentFolders.Any() && !currentFolderMenus.Any())
 					menu.Items.Add(new MenuFlyoutSeparatorViewModel());
 
@@ -199,11 +197,13 @@ namespace Files.App.ViewModels.SettingsViewModels
 				App.Logger.Info(ex, "Could not fetch recent items");
 			}
 
-			// update items source
-			AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>() {
+			// Update items source
+			AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>()
+			{
 				new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand },
 				menu,
-			}.AsReadOnly();
+			}
+			.AsReadOnly();
 
 			return Task.CompletedTask;
 		}
@@ -226,6 +226,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup)
 				{
 					UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -239,6 +240,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
 				{
 					UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -252,6 +254,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup)
 				{
 					UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -273,7 +276,10 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance)
 				{
 					UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance = value;
-					ApplicationData.Current.LocalSettings.Values["AlwaysOpenANewInstance"] = value; // Needed in Program.cs
+
+					// Needed in Program.cs
+					ApplicationData.Current.LocalSettings.Values["AlwaysOpenANewInstance"] = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -287,6 +293,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
 				{
 					UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -300,6 +307,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab)
 				{
 					UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -322,6 +330,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private FolderPicker InitializeWithWindow(FolderPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 
@@ -331,6 +340,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			if (index >= 0)
 			{
 				PagesOnStartupList.RemoveAt(index);
+
 				if (index > 0)
 					SelectedPageIndex = index - 1;
 				else if (PagesOnStartupList.Count > 0)
@@ -373,7 +383,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 
 		private bool openInLogin;
-
 		public bool OpenInLogin
 		{
 			get => openInLogin;
@@ -381,7 +390,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 
 		private bool canOpenInLogin;
-
 		public bool CanOpenInLogin
 		{
 			get => canOpenInLogin;
@@ -455,6 +463,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.SearchUnindexedItems)
 				{
 					UserSettingsService.PreferencesSettingsService.SearchUnindexedItems = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -527,6 +536,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.ShowFavoritesSection)
 				{
 					UserSettingsService.PreferencesSettingsService.ShowFavoritesSection = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -540,6 +550,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.ShowLibrarySection)
 				{
 					UserSettingsService.PreferencesSettingsService.ShowLibrarySection = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -553,6 +564,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.ShowDrivesSection)
 				{
 					UserSettingsService.PreferencesSettingsService.ShowDrivesSection = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -566,6 +578,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection)
 				{
 					UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -579,6 +592,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection)
 				{
 					UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -592,6 +606,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.ShowWslSection)
 				{
 					UserSettingsService.PreferencesSettingsService.ShowWslSection = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -605,6 +620,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.ShowFileTagsSection)
 				{
 					UserSettingsService.PreferencesSettingsService.ShowFileTagsSection = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -615,6 +631,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			if (!disposed)
 			{
 				disposed = true;
+
 				GC.SuppressFinalize(this);
 			}
 		}
@@ -633,6 +650,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				if (Path == "Home")
 					return "Home".GetLocalizedResource();
+
 				return (Path == CommonPaths.RecycleBinPath)
 					   ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin")
 					   : Path;
@@ -641,12 +659,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public string Path { get; }
 
-		internal PageOnStartupViewModel(string path) => Path = path;
+		internal PageOnStartupViewModel(string path)
+			=> Path = path;
 	}
 
 	public class AppLanguageItem
 	{
 		public string LanguagID { get; set; }
+
 		public string LanguageName { get; set; }
 
 		public AppLanguageItem(string languagID)
@@ -661,6 +681,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				LanguagID = string.Empty;
 				var systemDefaultLanguageOptionStr = "SettingsPreferencesSystemDefaultLanguageOption".GetLocalizedResource();
+
 				LanguageName = string.IsNullOrEmpty(systemDefaultLanguageOptionStr) ? "System Default" : systemDefaultLanguageOptionStr;
 			}
 		}
@@ -674,7 +695,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 	public class DateTimeFormatItem
 	{
 		public string Label { get; }
+
 		public string Sample1 { get; }
+
 		public string Sample2 { get; }
 
 		public DateTimeFormatItem(DateTimeFormats style, DateTimeOffset sampleDate1, DateTimeOffset sampleDate2)
@@ -688,4 +711,3 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 	}
 }
-

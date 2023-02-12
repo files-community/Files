@@ -216,6 +216,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				OpenPath = OpenPathHandle,
 				OpenPathInNewPane = OpenPathInNewPaneHandle,
 			});
+
 			NoBundlesAddItemLoad = false;
 			itemAddedInternally = false;
 
@@ -236,8 +237,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 					string data = NativeFileOperationsHelper.ReadStringFromFile(file.Path);
 					BundlesSettingsService.ImportSettings(data);
 				}
-				catch // Couldn't deserialize, data is corrupted
+				catch
 				{
+					// Couldn't deserialize, data is corrupted
 				}
 			}
 		}
@@ -258,6 +260,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettingsService.ExportSettings());
 			}
 		}
+
 		private FileSavePicker InitializeWithWindow(FileSavePicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
@@ -367,13 +370,15 @@ namespace Files.App.ViewModels.Widgets.Bundles
 					bundles.Add(bundle.BundleName, bundleItems);
 				}
 
-				BundlesSettingsService.SavedBundles = bundles; // Calls Set()
+				// Calls Set()
+				BundlesSettingsService.SavedBundles = bundles;
 			}
 		}
 
 		public async Task Load()
 		{
-			if (BundlesSettingsService.SavedBundles is null) // Null, therefore no items :)
+			// Null, therefore no items :)
+			if (BundlesSettingsService.SavedBundles is null)
 			{
 				NoBundlesAddItemLoad = true;
 				return;
@@ -410,7 +415,8 @@ namespace Files.App.ViewModels.Widgets.Bundles
 					NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle,
 					OpenPath = OpenPathHandle,
 					OpenPathInNewPane = OpenPathInNewPaneHandle,
-				}.SetBundleItems(bundleItems));
+				}
+				.SetBundleItems(bundleItems));
 
 				itemAddedInternally = false;
 			}
