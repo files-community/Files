@@ -41,6 +41,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			SubmitBugReportCommand = new RelayCommand(DoSubmitBugReport);
 
 			OpenGitHubRepoCommand = new RelayCommand(DoOpenGitHubRepo);
+
 			OpenPrivacyPolicyCommand = new RelayCommand(DoOpenPrivacyPolicy);
 
 			OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
