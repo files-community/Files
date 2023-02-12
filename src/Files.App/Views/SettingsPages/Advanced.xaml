@@ -161,6 +161,11 @@
 									Icon="Add"
 									Label="{helpers:ResourceString Name=Add}" />
 								<AppBarButton
+									Command="{x:Bind ViewModel.EditTagCommand}"
+									Icon="Edit"
+									IsEnabled="{x:Bind ViewModel.AreTagsCommandEnabled, Mode=OneWay}"
+									Label="{helpers:ResourceString Name=Edit}" />
+								<AppBarButton
 									Command="{x:Bind ViewModel.DeleteTagCommand}"
 									Icon="Delete"
 									IsEnabled="{x:Bind ViewModel.AreTagsCommandEnabled, Mode=OneWay}"
@@ -204,22 +209,31 @@
 													<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 												</TextBox.Resources>
 											</TextBox>
-											<Ellipse
+											<Button
 												Grid.Column="2"
-												Width="24"
-												Height="24"
-												Margin="0,8"
-												Fill="{x:Bind Color}">
-												<Ellipse.ContextFlyout>
+												Padding="0"
+												AutomationProperties.Name="{helpers:ResourceString Name=TagColor}">
+												<StackPanel Orientation="Horizontal">
+													<Border
+														Width="24"
+														Height="24"
+														Margin="4"
+														Background="{x:Bind Color}"
+														CornerRadius="4" />
+													<FontIcon
+														Margin="8,4,10,4"
+														FontSize="12"
+														Glyph="&#xE019;" />
+												</StackPanel>
+												<Button.Flyout>
 													<Flyout>
 														<controls:ColorPicker
-															Grid.Column="2"
 															ColorChanged="ColorPicker_ColorChanged"
 															IsAlphaEnabled="True"
 															IsColorSpectrumVisible="False" />
 													</Flyout>
-												</Ellipse.ContextFlyout>
-											</Ellipse>
+												</Button.Flyout>
+											</Button>
 										</Grid>
 									</DataTemplate>
 								</ListView.ItemTemplate>

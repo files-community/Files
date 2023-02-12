@@ -1,4 +1,5 @@
 using Files.App.Extensions;
+using Files.App.Helpers;
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
 using Files.Backend.Services.Settings;
@@ -78,7 +79,7 @@ namespace Files.App.ServicesImplementation.Settings
 		{
 			var newTag = new TagViewModel(
 				"NewTag",
-				"#9EA3A1",
+				ColorHelpers.RandomColor(),
 				Guid.NewGuid().ToString());
 
 			var oldTags = FileTagList.ToList();

@@ -43,9 +43,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public ICommand AddTagCommand { get; }
 
-		public ICommand EditTagCommand { get; }
-
 		public ICommand DeleteTagCommand { get; }
+
+		public ICommand EditTagCommand { get; set; }
 
 		public ObservableCollection<TagViewModel> Tags { get; set; }
 

@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Files.Backend.ViewModels.FileTags;
 using Microsoft.UI.Xaml;
@@ -25,6 +26,8 @@ namespace Files.App.SettingsPages
 		public Advanced()
 		{
 			InitializeComponent();
+
+			ViewModel.EditTagCommand = new RelayCommand(StartRenameTag);
 
 			tapDebounceTimer = DispatcherQueue.CreateTimer();
 		}

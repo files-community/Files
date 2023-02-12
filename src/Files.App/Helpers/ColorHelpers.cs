@@ -1,3 +1,4 @@
+using CommunityToolkit.WinUI.Helpers;
 using System;
 using Windows.UI;
 
@@ -35,6 +36,21 @@ namespace Files.App.Helpers
 		public static uint ToUint(this Color c)
 		{
 			return (uint)(((c.A << 24) | (c.R << 16) | (c.G << 8) | c.B) & 0xffffffffL);
+		}
+
+		/// <summary>
+		/// Generates a random color and returns its Hex
+		/// </summary>
+		/// <returns></returns>
+		public static string RandomColor()
+		{
+			var color = Color.FromArgb(
+				255,
+				(byte)Random.Shared.Next(0, 256),
+				(byte)Random.Shared.Next(0, 256),
+				(byte)Random.Shared.Next(0, 256));
+
+			return color.ToHex();
 		}
 	}
 }
