@@ -27,6 +27,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -282,6 +283,13 @@ namespace Files.App.Views
 					string path = FilesystemViewModel.WorkingDirectory;
 					if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 						path = SlimContentPage.SelectedItem.ItemPath;
+
+					var terminalStartInfo = new ProcessStartInfo()
+					{
+						FileName = "wt.exe",
+						WorkingDirectory = path
+					};
+					Process.Start(terminalStartInfo);
 
 					args.Handled = true;
 
@@ -707,7 +715,7 @@ namespace Files.App.Views
 		public virtual void Dispose()
 		{
 			PreviewKeyDown -= ShellPage_PreviewKeyDown;
-			this.PointerPressed -= CoreWindow_PointerPressed;
+			PointerPressed -= CoreWindow_PointerPressed;
 			App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
 
 			ToolbarViewModel.ToolbarPathItemInvoked -= ShellPage_NavigationRequested;
