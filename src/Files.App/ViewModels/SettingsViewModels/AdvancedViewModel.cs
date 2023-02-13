@@ -9,7 +9,6 @@ using Files.App.Shell;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Files.Shared.Extensions;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.Win32;
 using SevenZip;
 using System;
@@ -23,7 +22,6 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Windows.UI;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
@@ -43,6 +41,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public ICommand AddTagCommand { get; }
 		public ICommand SaveNewTagCommand { get; }
 		public ICommand CancelNewTagCommand { get; }
+
+		public NewTagViewModel NewTag = new();
 
 		public ObservableCollection<ListedTagViewModel> Tags { get; set; }
 
@@ -303,13 +303,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			set => SetProperty(ref isCreatingNewTag, value);
 		}
 
-		private string newTagName;
-		public string NewTagName
-		{
-			get => newTagName;
-			set => SetProperty(ref newTagName, value);
-		}
-
 		private FileSavePicker InitializeWithWindow(FileSavePicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
@@ -326,15 +319,15 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		private void DoAddNewTag()
 		{
+			NewTag.Reset();
 			IsCreatingNewTag = true;
-			NewTagName = "";
 		}
 
 		private void DoSaveNewTag()
 		{
 			IsCreatingNewTag = false;
 
-			fileTagsSettingsService.CreateNewTag(NewTagName);
+			fileTagsSettingsService.CreateNewTag(NewTag.Name, NewTag.Color);
 			Tags.Clear();
 			fileTagsSettingsService.FileTagList?.ForEach(tag => Tags.Add(new ListedTagViewModel(tag)));
 		}
@@ -355,6 +348,35 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			Tags.Remove(item);
 			fileTagsSettingsService.DeleteTag(item.Tag.Uid);
+		}
+	}
+
+	public class NewTagViewModel : ObservableObject
+	{
+		private string name = string.Empty;
+		public string Name
+		{
+			get => name;
+			set
+			{
+				if (SetProperty(ref name, value))
+					OnPropertyChanged(nameof(IsNameValid));
+			}
+		}
+
+		private string color = "#FFFFFFFF";
+		public string Color
+		{
+			get => color;
+			set => SetProperty(ref color, value);
+		}
+
+		public bool IsNameValid => !(string.IsNullOrWhiteSpace(name) || name.EndsWith('.') || name.StartsWith('.'));
+
+		public void Reset()
+		{
+			Name = string.Empty;
+			Color = ColorHelpers.RandomColor();
 		}
 	}
 }

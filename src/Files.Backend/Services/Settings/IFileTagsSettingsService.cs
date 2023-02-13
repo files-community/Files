@@ -20,7 +20,7 @@ namespace Files.Backend.Services.Settings
 
 		IEnumerable<TagViewModel> SearchTagsByName(string tagName);
 		
-		void CreateNewTag(string newTagName);
+		void CreateNewTag(string newTagName, string color);
 
 		void EditTag(string uid, string name, string color);
 

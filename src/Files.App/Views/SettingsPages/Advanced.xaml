@@ -179,7 +179,7 @@
 								<TextBox
 									Width="200"
 									PlaceholderText="{helpers:ResourceString Name=Name}"
-									Text="{x:Bind ViewModel.NewTagName, Mode=TwoWay}" />
+									Text="{x:Bind ViewModel.NewTag.Name, Mode=TwoWay}" />
 
 								<!--  Tag Color  -->
 								<Button
@@ -191,6 +191,7 @@
 											Width="20"
 											Height="20"
 											Margin="4"
+											Background="{x:Bind ViewModel.NewTag.Color, Mode=OneWay}"
 											CornerRadius="4" />
 										<FontIcon
 											Margin="8,4,10,4"
@@ -199,7 +200,7 @@
 									</StackPanel>
 									<Button.Flyout>
 										<Flyout>
-											<controls:ColorPicker />
+											<controls:ColorPicker Color="{x:Bind ViewModel.NewTag.Color, Mode=TwoWay}" />
 										</Flyout>
 									</Button.Flyout>
 								</Button>
@@ -217,6 +218,7 @@
 								<Button
 									Command="{x:Bind ViewModel.SaveNewTagCommand, Mode=OneWay}"
 									Content="{helpers:ResourceString Name=Create}"
+									IsEnabled="{x:Bind ViewModel.NewTag.IsNameValid, Mode=OneWay}"
 									Style="{StaticResource AccentButtonStyle}" />
 							</StackPanel>
 						</Grid>
@@ -242,14 +244,14 @@
 											Padding="8,0"
 											HorizontalAlignment="Left"
 											VerticalAlignment="Center"
-											BorderBrush="{x:Bind Tag.Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+											BorderBrush="{x:Bind NewColor, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
 											BorderThickness="1"
 											CornerRadius="12"
 											Orientation="Horizontal"
 											ToolTipService.ToolTip="{x:Bind Tag.Name}">
 											<FontIcon
 												FontSize="12"
-												Foreground="{x:Bind Tag.Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+												Foreground="{x:Bind NewColor, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
 												Glyph="&#xE1CB;" />
 											<TextBlock
 												x:Name="TagName"
@@ -286,7 +288,7 @@
 														Width="20"
 														Height="20"
 														Margin="4"
-														Background="{x:Bind Tag.Color}"
+														Background="{x:Bind NewColor, Mode=OneWay}"
 														CornerRadius="4" />
 													<FontIcon
 														Margin="8,4,10,4"
@@ -295,7 +297,7 @@
 												</StackPanel>
 												<Button.Flyout>
 													<Flyout>
-														<controls:ColorPicker ColorChanged="ColorPicker_ColorChanged" />
+														<controls:ColorPicker Color="{x:Bind NewColor, Mode=TwoWay}" />
 													</Flyout>
 												</Button.Flyout>
 											</Button>
@@ -328,6 +330,7 @@
 											Padding="8,4"
 											Click="CommitRenameTag_Click"
 											Content="{helpers:ResourceString Name=SaveChanges}"
+											IsEnabled="{x:Bind IsNameValid, Mode=OneWay}"
 											Style="{StaticResource AccentButtonStyle}"
 											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}" />
 									</Grid>

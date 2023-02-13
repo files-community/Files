@@ -76,11 +76,11 @@ namespace Files.App.ServicesImplementation.Settings
 			return FileTagList.Where(x => x.Name.StartsWith(tagName, StringComparison.OrdinalIgnoreCase));
 		}
 
-		public void CreateNewTag(string newTagName)
+		public void CreateNewTag(string newTagName, string color)
 		{
 			var newTag = new TagViewModel(
 				newTagName,
-				ColorHelpers.RandomColor(),
+				color,
 				Guid.NewGuid().ToString());
 
 			var oldTags = FileTagList.ToList();
