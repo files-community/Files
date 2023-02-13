@@ -5,7 +5,7 @@ namespace Files.Backend.ViewModels.FileTags
 	public class ListedTagViewModel : ObservableObject
 	{
 		private TagViewModel tag;
-		public TagViewModel Tag 
+		public TagViewModel Tag
 		{
 			get => tag;
 			set => SetProperty(ref tag, value);
@@ -15,7 +15,11 @@ namespace Files.Backend.ViewModels.FileTags
 		public bool IsEditing
 		{
 			get => isEditing;
-			set => SetProperty(ref isEditing, value);
+			set
+			{
+				if (SetProperty(ref isEditing, value) && !value)
+					NewColor = tag.Color;
+			}
 		}
 
 		private bool isNameValid = true;
