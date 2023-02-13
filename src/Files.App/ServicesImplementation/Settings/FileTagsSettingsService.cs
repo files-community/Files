@@ -86,6 +86,7 @@ namespace Files.App.ServicesImplementation.Settings
 			var oldTags = FileTagList.ToList();
 			oldTags.Add(newTag);
 			FileTagList = oldTags;
+			OnTagsUpdated.Invoke(this, EventArgs.Empty);
 		}
 
 		public void EditTag(string uid, string name, string color)
@@ -101,6 +102,7 @@ namespace Files.App.ServicesImplementation.Settings
 			oldTags.RemoveAt(index);
 			oldTags.Insert(index, tag);
 			FileTagList = oldTags;
+			OnTagsUpdated.Invoke(this, EventArgs.Empty);
 		}
 
 		public void DeleteTag(string uid)
@@ -112,6 +114,7 @@ namespace Files.App.ServicesImplementation.Settings
 			var oldTags = FileTagList.ToList();
 			oldTags.RemoveAt(index);
 			FileTagList = oldTags;
+			OnTagsUpdated.Invoke(this, EventArgs.Empty);
 		}
 
 		public override bool ImportSettings(object import)
