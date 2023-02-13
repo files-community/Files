@@ -72,11 +72,15 @@ namespace Files.App
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new()
 		{
 			AlwaysExpanded = true,
+			AreOpenCloseAnimationsEnabled = false,
+			Placement = FlyoutPlacementMode.RightEdgeAlignedTop,
 		};
 
 		public CommandBarFlyout BaseContextMenuFlyout { get; set; } = new()
 		{
 			AlwaysExpanded = true,
+			AreOpenCloseAnimationsEnabled = false,
+			Placement = FlyoutPlacementMode.RightEdgeAlignedTop,
 		};
 
 		public BaseLayoutCommandsViewModel? CommandsViewModel { get; protected set; }
@@ -645,9 +649,9 @@ namespace Files.App
 			ItemContextMenuFlyout.SecondaryCommands.Clear();
 			var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
 			AddCloseHandler(ItemContextMenuFlyout, primaryElements, secondaryElements);
-			primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
+			primaryElements.ForEach(ItemContextMenuFlyout.PrimaryCommands.Add);
 			secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
-			secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
+			secondaryElements.ForEach(ItemContextMenuFlyout.SecondaryCommands.Add);
 
 			if (InstanceViewModel!.CanTagFilesInPage)
 				AddNewFileTagsToMenu(ItemContextMenuFlyout);
@@ -756,11 +760,13 @@ namespace Files.App
 						index++;
 					}
 
-					if (overflowItemFlyout.Items.Count > 0)
+					if (overflowItemFlyout.Items.Count > 0 && UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
 					{
-						(contextMenuFlyout.SecondaryCommands.First(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator)!.Visibility = Visibility.Visible;
-						overflowItem.Visibility = Visibility.Visible;
+						overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
+						overflowItem.IsEnabled = true;
 					}
+					else if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+						overflowItem.Visibility = Visibility.Collapsed;
 				}
 			}
 			else

@@ -95,7 +95,7 @@ namespace Files.App
 			Services = ConfigureServices();
 			Ioc.Default.ConfigureServices(Services);
 			LogoPath = Package.Current.DisplayName == "Files - Dev" ? Constants.AssetPaths.DevLogo
-					: (Package.Current.DisplayName == "Files - Preview" ? Constants.AssetPaths.PreviewLogo : Constants.AssetPaths.StableLogo);
+					: (Package.Current.DisplayName == "Files (Preview)" ? Constants.AssetPaths.PreviewLogo : Constants.AssetPaths.StableLogo);
 		}
 
 		private IServiceProvider ConfigureServices()

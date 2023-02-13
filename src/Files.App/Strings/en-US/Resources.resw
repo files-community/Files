@@ -2946,4 +2946,7 @@
   <data name="CreateNewTag" xml:space="preserve">
     <value>Create new tag</value>
   </data>
+  <data name="LoadingMoreOptions" xml:space="preserve">
+    <value>Loading more options...</value>
+  </data>
 </root>
