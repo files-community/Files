@@ -145,6 +145,9 @@ namespace Files.App.ViewModels
 
 		public void UpdateSidebarSelectedItemFromArgs(string arg)
 		{
+			if (string.IsNullOrEmpty(arg))
+				return;
+
 			INavigationControlItem? item = null;
 			var sidebarItems = SideBarItems
 				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
@@ -154,9 +157,6 @@ namespace Files.App.ViewModels
 					.Where(x => !string.IsNullOrWhiteSpace(x.Path))
 				)
 				.ToList();
-
-			if (string.IsNullOrEmpty(arg))
-				return;
 
 			item = sidebarItems.FirstOrDefault(x => x.Path.Equals(arg, StringComparison.OrdinalIgnoreCase))
 				?? sidebarItems.FirstOrDefault(x => x.Path.Equals(arg + "\\", StringComparison.OrdinalIgnoreCase))
