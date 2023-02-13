@@ -757,7 +757,10 @@ namespace Files.App
 					}
 
 					if (overflowItemFlyout.Items.Count > 0 && UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
-						overflowItem.IsEnabled = true; 
+					{
+						overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
+						overflowItem.IsEnabled = true;
+					}
 					else if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
 						overflowItem.Visibility = Visibility.Collapsed;
 				}
