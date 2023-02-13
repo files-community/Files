@@ -86,7 +86,6 @@ namespace Files.App.ServicesImplementation.Settings
 			var oldTags = FileTagList.ToList();
 			oldTags.Add(newTag);
 			FileTagList = oldTags;
-			SaveTags();
 		}
 
 		public void EditTag(string uid, string name, string color)
@@ -102,7 +101,6 @@ namespace Files.App.ServicesImplementation.Settings
 			oldTags.RemoveAt(index);
 			oldTags.Insert(index, tag);
 			FileTagList = oldTags;
-			SaveTags();
 		}
 
 		public void DeleteTag(string uid)
@@ -114,7 +112,6 @@ namespace Files.App.ServicesImplementation.Settings
 			var oldTags = FileTagList.ToList();
 			oldTags.RemoveAt(index);
 			FileTagList = oldTags;
-			SaveTags();
 		}
 
 		public override bool ImportSettings(object import)
@@ -162,13 +159,6 @@ namespace Files.App.ServicesImplementation.Settings
 			}
 
 			return (tag, index);
-		}
-
-		private void SaveTags()
-		{
-			var tags = new { FileTagList = this.FileTagList };
-			SettingsSerializer.WriteToFile(JsonSettingsSerializer.SerializeToJson(tags));
-			OnTagsUpdated.Invoke(this, EventArgs.Empty);
 		}
 	}
 }
