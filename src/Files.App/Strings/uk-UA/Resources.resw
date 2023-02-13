@@ -211,13 +211,13 @@
     <value>Видалити цей елемент</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>Репозиторій GitHub</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>Про програму</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>Open Source</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Формат дати</value>
@@ -241,7 +241,7 @@
     <value>Тло</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Розширені</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Налаштування</value>
@@ -346,7 +346,7 @@
     <value>Файл</value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>Відображати</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Введіть назву</value>
@@ -451,7 +451,7 @@
     <value>Файл, до якого ви намагаєтеся отримати доступ, зараз використовується {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>Файл, до якого ви намагаєтеся отримати доступ, використовується іншою програмою</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Файл зараз використовується</value>
@@ -496,10 +496,10 @@
     <value>{0} секунд тому</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>секунду тому</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Щойно</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>Нова вкладка</value>
@@ -520,7 +520,7 @@
     <value>ОК</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>Вказане ім'я елемента неприпустиме</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>елемент вибрано</value>
@@ -745,19 +745,19 @@
     <value>Назва елемента занадто велика</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>Показати додаткові параметри</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Додаток потрібно перезапустити, щоб застосувати налаштування мови. Чи хочете ви перезапустити програму?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>Підтримайте нас на GitHub</value>
   </data>
   <data name="Personalization" xml:space="preserve">
-    <value>Personalization</value>
+    <value>Особисті налаштування</value>
   </data>
   <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Layout and sorting</value>
+    <value>Макет і сортування</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Елемент не може бути створений</value>
@@ -1396,7 +1396,7 @@
     <value>Панель попереднього перегляду файлу</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Feedback</value>
+    <value>Зворотній зв’язок</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Спливаюче меню поточних завдань</value>
@@ -1405,7 +1405,7 @@
     <value>Доступно за наявності підключення до мережі</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Документація</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Доступно в автономному режимі</value>
@@ -1792,7 +1792,7 @@
     <value>Перейменувати</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>Політики конфіденційності</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Переміщення скасовано</value>
@@ -2347,16 +2347,16 @@
     <value>Розмір стовпця елемента</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>Experimental feature flags</value>
+    <value>Експериментальні функції</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>Служба підтримки</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>Submit feature request</value>
+    <value>Надіслати запит нової функції</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>Submit bug report</value>
+    <value>Повідомити про несправність</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Встановити Files, як файловий менеджер за замовчуванням</value>
@@ -2380,7 +2380,7 @@
     <value>Настройки імпорту</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>Manage settings</value>
+    <value>Керування налаштуваннями</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Не вдалося імпортувати налаштування. Файл налаштувань пошкоджений.</value>
@@ -2497,7 +2497,7 @@
     <value>Вирахувати розмір теки</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recent files</value>
+    <value>Нещодавні файли</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Відкривати Files при запуску Windows</value>
@@ -2647,7 +2647,7 @@
     <value>Show alternate data streams</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
-    <value>Behaviors</value>
+    <value>Поведінка</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Переглянути файли</value>
@@ -2848,7 +2848,7 @@
     <value>Sort in descending order</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
-    <value>Create a new shortcut</value>
+    <value>Створити нове скорочення</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
     <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
@@ -2857,16 +2857,16 @@
     <value>Enter the location of the item:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Створює скорочення</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Недавно використані файли наразі недоступні у провіднику Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit Settings File</value>
+    <value>Редагувати файл налаштувань</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>Список змін</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Creating a shortcut in this location requires administrator privileges</value>
@@ -2884,7 +2884,7 @@
     <value>Double click on a blank space to go up one directory</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
-    <value>View more</value>
+    <value>Переглянути більше</value>
   </data>
   <data name="ToolTipDescriptionSize" xml:space="preserve">
     <value>Розмір:</value>
@@ -2899,33 +2899,33 @@
     <value>Display the edit tags flyout</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+    <value>Швидкий доступ</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>Enter your credentials to connect to: {0}</value>
+    <value>Введіть дані для підключення до: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter Network Credentials</value>
+    <value>Введіть дані мережі</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
-    <value>Remember my credentials</value>
+    <value>Запам’ятати мої облікові дані</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>Network folder error</value>
+    <value>Помилка папки мережі</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>App version</value>
+    <value>Версія застосунку</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
-    <value>Windows version</value>
+    <value>Версія Windows</value>
   </data>
   <data name="Always" xml:space="preserve">
-    <value>Always</value>
+    <value>Завжди</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>Permanent deletion only</value>
+    <value>Тільки постійне видалення</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Never</value>
+    <value>Ніколи</value>
   </data>
 </root>
