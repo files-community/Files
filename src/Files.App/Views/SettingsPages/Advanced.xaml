@@ -324,15 +324,22 @@
 												Content="{helpers:ResourceString Name=Delete}" />
 										</StackPanel>
 
-										<Button
-											x:Name="SaveChangesButton"
+										<StackPanel
 											Grid.Column="2"
-											Padding="8,4"
-											Click="CommitRenameTag_Click"
-											Content="{helpers:ResourceString Name=SaveChanges}"
-											IsEnabled="{x:Bind IsNameValid, Mode=OneWay}"
-											Style="{StaticResource AccentButtonStyle}"
-											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}" />
+											Orientation="Horizontal" Spacing="8"
+											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+											<Button
+												x:Name="CancelChangesButton"
+												Click="CancelRenameTag_Click"
+												Content="{helpers:ResourceString Name=Cancel}" />
+											
+											<Button
+												x:Name="SaveChangesButton"
+												Click="CommitRenameTag_Click"
+												Content="{helpers:ResourceString Name=SaveChanges}"
+												IsEnabled="{x:Bind IsNameValid, Mode=OneWay}"
+												Style="{StaticResource AccentButtonStyle}" />
+										</StackPanel>
 									</Grid>
 								</DataTemplate>
 							</ListView.ItemTemplate>
