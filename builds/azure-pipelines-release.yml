@@ -96,7 +96,7 @@ jobs:
       targetType: 'inline'
       script: |
         gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process {
-        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "appcenter.secret", "${appcenter.secret}"}) | Set-Content $_ -NoNewline
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "appcenter.secret", "$(appcenter.secret)"}) | Set-Content $_ -NoNewline
         }
       failOnStderr: true
 
