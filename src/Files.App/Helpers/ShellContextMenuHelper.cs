@@ -288,6 +288,9 @@ namespace Files.App.Helpers
 					if (flyoutItems is not null)
 						overflowItems.ForEach(i => flyoutItems.Add(i));
 					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+
+					overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
+					overflowItem.IsEnabled = true;
 				}
 			}
 			catch { }
