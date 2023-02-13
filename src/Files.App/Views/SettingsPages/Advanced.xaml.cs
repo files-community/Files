@@ -46,7 +46,10 @@ namespace Files.App.SettingsPages
 
 		private void EditTag_Click(object sender, RoutedEventArgs e)
 		{
-			editingTag = (ListedTagViewModel)(sender as Button).DataContext;
+			if (editingTag is not null)
+				editingTag.IsEditing = false;
+
+			editingTag = (ListedTagViewModel)((Button)sender).DataContext;
 			editingTag.NewColor = editingTag.Tag.Color;
 			editingTag.IsEditing = true;
 
@@ -62,19 +65,28 @@ namespace Files.App.SettingsPages
 
 		private void RenameTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			var text = (sender as TextBox).Text;
+			var text = ((TextBox)sender).Text;
 			editingTag.IsNameValid = !(string.IsNullOrWhiteSpace(text) || text.EndsWith('.') || text.StartsWith('.'));
 		}
 
 		private void CommitRenameTag_Click(object sender, RoutedEventArgs e)
 		{
+			var editingTag = (ListedTagViewModel)((Button)sender).DataContext;
 			var item = TagsList.ContainerFromItem(editingTag) as ListViewItem;
+
 			CommitChanges(item.FindDescendant("TagNameTextBox") as TextBox);
 		}
 
 		private void RemoveTag_Click(object sender, RoutedEventArgs e)
 		{
-			ViewModel.DeleteExistingTag((ListedTagViewModel)(sender as Button).DataContext);
+			ViewModel.DeleteExistingTag((ListedTagViewModel)((Button)sender).DataContext);
+		}
+
+		private void NewTagTextBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			var text = ((TextBox)sender).Text;
+			ViewModel.NewTag.Name = text;
+			ViewModel.NewTag.IsNameValid = !(string.IsNullOrWhiteSpace(text) || text.EndsWith('.') || text.StartsWith('.'));
 		}
 	}
 }

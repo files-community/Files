@@ -179,7 +179,7 @@
 								<TextBox
 									Width="200"
 									PlaceholderText="{helpers:ResourceString Name=Name}"
-									Text="{x:Bind ViewModel.NewTag.Name, Mode=TwoWay}" />
+									TextChanged="NewTagTextBox_TextChanged" />
 
 								<!--  Tag Color  -->
 								<Button

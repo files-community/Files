@@ -9,6 +9,7 @@ using Files.App.Shell;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Files.Shared.Extensions;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Win32;
 using SevenZip;
 using System;
@@ -371,7 +372,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 			set => SetProperty(ref color, value);
 		}
 
-		public bool IsNameValid => !(string.IsNullOrWhiteSpace(name) || name.EndsWith('.') || name.StartsWith('.'));
+		private bool isNameValid;
+		public bool IsNameValid
+		{
+			get => isNameValid;
+			set => SetProperty(ref isNameValid, value);
+		}
 
 		public void Reset()
 		{
