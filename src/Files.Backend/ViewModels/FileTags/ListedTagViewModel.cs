@@ -15,11 +15,7 @@ namespace Files.Backend.ViewModels.FileTags
 		public bool IsEditing
 		{
 			get => isEditing;
-			set
-			{
-				if (SetProperty(ref isEditing, value) && !value)
-					NewColor = tag.Color;
-			}
+			set => SetProperty(ref isEditing, value);
 		}
 
 		private bool isNameValid = true;

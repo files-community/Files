@@ -47,7 +47,10 @@ namespace Files.App.SettingsPages
 		private void EditTag_Click(object sender, RoutedEventArgs e)
 		{
 			if (editingTag is not null)
+			{
 				editingTag.IsEditing = false;
+				editingTag.NewColor = editingTag.Tag.Color;
+			}
 
 			editingTag = (ListedTagViewModel)((Button)sender).DataContext;
 			editingTag.NewColor = editingTag.Tag.Color;
@@ -81,6 +84,7 @@ namespace Files.App.SettingsPages
 		{
 			var editingTag = (ListedTagViewModel)((Button)sender).DataContext;
 			var item = TagsList.ContainerFromItem(editingTag) as ListViewItem;
+			editingTag.NewColor = editingTag.Tag.Color;
 
 			EndEditing(item.FindDescendant("TagNameTextBox") as TextBox);
 		}
