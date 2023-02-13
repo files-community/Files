@@ -287,7 +287,14 @@ namespace Files.App.Helpers
 					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
 					if (flyoutItems is not null)
 						overflowItems.ForEach(i => flyoutItems.Add(i));
-					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+
+					if (overflowItems.Any())
+					{
+						overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
+						overflowItem.IsEnabled = true;
+					}
+					else
+						overflowItem.Visibility = Visibility.Collapsed;
 				}
 			}
 			catch { }
