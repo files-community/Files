@@ -326,13 +326,14 @@
 
 										<StackPanel
 											Grid.Column="2"
-											Orientation="Horizontal" Spacing="12"
+											Orientation="Horizontal"
+											Spacing="12"
 											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
 											<Button
 												x:Name="CancelChangesButton"
 												Click="CancelRenameTag_Click"
 												Content="{helpers:ResourceString Name=Cancel}" />
-											
+
 											<Button
 												x:Name="SaveChangesButton"
 												Click="CommitRenameTag_Click"
