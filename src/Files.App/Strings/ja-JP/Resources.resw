@@ -2899,7 +2899,7 @@
     <value>タグ編集メニューを表示する</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>クイックアクセス</value>
+    <value>クイック アクセス</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
     <value>{0} に接続するためのログイン情報を入力してください</value>
@@ -2911,7 +2911,7 @@
     <value>ログイン情報を保存する</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>ネットワークフォルダー エラー</value>
+    <value>ネットワーク フォルダー エラー</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
     <value>アプリケーションのバージョン</value>
