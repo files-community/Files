@@ -122,7 +122,7 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
 
-			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true);
+			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}
@@ -150,6 +150,11 @@ namespace Files.App.UserControls.Widgets
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
 					CommandParameter = item
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ItemType.Separator,
+					Tag = "OverflowSeparator",
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

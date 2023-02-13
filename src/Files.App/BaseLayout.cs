@@ -604,6 +604,8 @@ namespace Files.App
 					var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 					if (shellMenuItems.Any())
 						AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
+					else
+						RemoveOverflow(BaseContextMenuFlyout);
 				}
 			}
 			catch (Exception error)
@@ -661,6 +663,8 @@ namespace Files.App
 				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 				if (shellMenuItems.Any())
 					AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
+				else
+					RemoveOverflow(ItemContextMenuFlyout);
 			}
 		}
 
@@ -820,6 +824,17 @@ namespace Files.App
 					}
 				});
 			}
+		}
+
+		private void RemoveOverflow(CommandBarFlyout contextMenuFlyout)
+		{
+			var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
+			var overflowSeparator = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarSeparator appBarSeparator && (appBarSeparator.Tag as string) == "OverflowSeparator") as AppBarSeparator;
+
+			if (overflowItem is not null)
+				overflowItem.Visibility = Visibility.Collapsed;
+			if (overflowSeparator is not null)
+				overflowSeparator.Visibility = Visibility.Collapsed;
 		}
 
 		protected virtual void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)

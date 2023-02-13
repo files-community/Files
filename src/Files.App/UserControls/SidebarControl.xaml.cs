@@ -276,6 +276,12 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
+					ItemType = ItemType.Separator,
+					Tag = "OverflowSeparator",
+					IsHidden = !options.ShowShellItems,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					Text = "LoadingMoreOptions".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),

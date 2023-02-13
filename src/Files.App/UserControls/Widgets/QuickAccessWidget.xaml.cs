@@ -228,6 +228,11 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
+					ItemType = ItemType.Separator,
+					Tag = "OverflowSeparator",
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					Text = "LoadingMoreOptions".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
