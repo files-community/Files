@@ -19,7 +19,7 @@ namespace Files.App.Helpers
 
 		public static void ApplyAdaptativeLayout(FolderSettingsViewModel folderSettings, string path, IList<ListedItem> filesAndFolders)
 		{
-			if (!foldersSettingsService.EnableOverridingFolderPreferences)
+			if (foldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 				return;
 			if (string.IsNullOrWhiteSpace(path))
 				return;
