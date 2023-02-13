@@ -72,11 +72,15 @@ namespace Files.App
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new()
 		{
 			AlwaysExpanded = true,
+			AreOpenCloseAnimationsEnabled = false,
+			Placement = FlyoutPlacementMode.RightEdgeAlignedTop,
 		};
 
 		public CommandBarFlyout BaseContextMenuFlyout { get; set; } = new()
 		{
 			AlwaysExpanded = true,
+			AreOpenCloseAnimationsEnabled = false,
+			Placement = FlyoutPlacementMode.RightEdgeAlignedTop,
 		};
 
 		public BaseLayoutCommandsViewModel? CommandsViewModel { get; protected set; }
