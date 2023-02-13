@@ -50,7 +50,7 @@ namespace Files.App.UserControls.Widgets
 			if (sender is not Button widgetCardItem || widgetCardItem.DataContext is not WidgetCardItem item)
 				return;
 
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(await StorageService.GetFolderFromPathAsync(item.Path)));
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
 			if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
