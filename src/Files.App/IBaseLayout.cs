@@ -21,11 +21,14 @@ namespace Files.App
 
 		ItemManipulationModel ItemManipulationModel { get; }
 
-		IPaneViewModel PaneViewModel { get; }
+		PreviewPaneViewModel PreviewPaneViewModel { get; }
 
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+
 		public BaseLayoutCommandsViewModel? CommandsViewModel { get; }
+
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; }
 	}
 }

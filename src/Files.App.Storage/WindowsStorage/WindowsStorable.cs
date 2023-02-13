@@ -1,5 +1,6 @@
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.LocatableStorage;
+using Files.Shared.Helpers;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -10,6 +11,7 @@ namespace Files.App.Storage.WindowsStorage
 	public abstract class WindowsStorable<TStorage> : ILocatableStorable
 		where TStorage : class, IStorageItem
 	{
+		private string? _computedId;
 		internal readonly TStorage storage;
 
 		/// <inheritdoc/>
@@ -19,14 +21,13 @@ namespace Files.App.Storage.WindowsStorage
 		public string Name { get; protected internal set; }
 
 		/// <inheritdoc/>
-		public string Id { get; protected internal set; }
+		public virtual string Id => _computedId ??= ChecksumHelpers.CalculateChecksumForPath(Path);
 
 		protected internal WindowsStorable(TStorage storage)
 		{
 			this.storage = storage;
-			this.Path = storage.Path;
-			this.Name = storage.Name;
-			this.Id = string.Empty;
+			Path = storage.Path;
+			Name = storage.Name;
 		}
 
 		/// <inheritdoc/>

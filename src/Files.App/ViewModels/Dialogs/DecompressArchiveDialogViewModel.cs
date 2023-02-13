@@ -17,7 +17,6 @@ namespace Files.App.ViewModels.Dialogs
 		public StorageFolder DestinationFolder { get; private set; }
 
 		private string destinationFolderPath;
-
 		public string DestinationFolderPath
 		{
 			get => destinationFolderPath;
@@ -25,7 +24,6 @@ namespace Files.App.ViewModels.Dialogs
 		}
 
 		private bool openDestinationFolderOnCompletion;
-
 		public bool OpenDestinationFolderOnCompletion
 		{
 			get => openDestinationFolderOnCompletion;
@@ -33,7 +31,6 @@ namespace Files.App.ViewModels.Dialogs
 		}
 
 		private bool isArchiveEncrypted;
-		
 		public bool IsArchiveEncrypted
 		{
 			get => isArchiveEncrypted;
@@ -41,7 +38,6 @@ namespace Files.App.ViewModels.Dialogs
 		}
 
 		private bool showPathSelection;
-
 		public bool ShowPathSelection
 		{
 			get => showPathSelection;
@@ -57,7 +53,7 @@ namespace Files.App.ViewModels.Dialogs
 		public DecompressArchiveDialogViewModel(IStorageFile archive)
 		{
 			this.archive = archive;
-			this.destinationFolderPath = DefaultDestinationFolderPath();
+			destinationFolderPath = DefaultDestinationFolderPath();
 
 			// Create commands
 			SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
@@ -66,7 +62,7 @@ namespace Files.App.ViewModels.Dialogs
 
 		private async Task SelectDestination()
 		{
-			FolderPicker folderPicker = this.InitializeWithWindow(new FolderPicker());
+			FolderPicker folderPicker = InitializeWithWindow(new FolderPicker());
 			folderPicker.FileTypeFilter.Add("*");
 
 			DestinationFolder = await folderPicker.PickSingleFolderAsync();

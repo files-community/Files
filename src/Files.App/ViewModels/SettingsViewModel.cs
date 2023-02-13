@@ -1,12 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Files.App.Extensions;
-using Files.App.Helpers;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text.Json;
 using System.Windows.Input;
 using Windows.Storage;
 
@@ -22,19 +19,6 @@ namespace Files.App.ViewModels
 			UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
 		}
 
-		#region Appearance
-
-		/// <summary>
-		/// Gets or sets the user's current selected skin
-		/// </summary>
-		public AppTheme SelectedTheme
-		{
-			get => JsonSerializer.Deserialize<AppTheme>(Get(JsonSerializer.Serialize(new AppTheme() { Name = "Default".GetLocalizedResource() })));
-			set => Set(JsonSerializer.Serialize(value));
-		}
-
-		#endregion Appearance
-
 		public event EventHandler ThemeModeChanged;
 
 		public ICommand UpdateThemeElements { get; }
@@ -43,9 +27,10 @@ namespace Files.App.ViewModels
 
 		public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
 		{
-			propertyName = propertyName is not null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase)
-				? propertyName.Substring(4)
-				: propertyName;
+			propertyName = 
+				propertyName is not null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase) ?
+				propertyName.Substring(4) :
+				propertyName;
 
 			TValue originalValue = default;
 
@@ -69,12 +54,12 @@ namespace Files.App.ViewModels
 
 		public TValue Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
 		{
-			var name = propertyName ??
-					   throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");
+			var name = propertyName ?? throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");
 
-			name = name.StartsWith("get_", StringComparison.OrdinalIgnoreCase)
-				? propertyName.Substring(4)
-				: propertyName;
+			name =
+				name.StartsWith("get_", StringComparison.OrdinalIgnoreCase) ?
+				propertyName.Substring(4) :
+				propertyName;
 
 			if (localSettings.Values.ContainsKey(name))
 			{
@@ -105,7 +90,9 @@ namespace Files.App.ViewModels
 						tValue = (tryParseDelegate?.Invoke(stringValue, out tValue) ?? false) ? tValue : default;
 					}
 
-					Set(tValue, propertyName); // Put the corrected value in settings.
+					// Put the corrected value in settings
+					Set(tValue, propertyName);
+
 					return tValue;
 				}
 				return tValue;

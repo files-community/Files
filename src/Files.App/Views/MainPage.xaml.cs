@@ -12,9 +12,7 @@ using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using Files.Shared.EventArguments;
-using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -62,26 +60,15 @@ namespace Files.App.Views
 		{
 			InitializeComponent();
 
-			// TODO LayoutDirection is empty, might be an issue with WinAppSdk
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
-
-			AllowDrop = true;
 
 			ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
 			ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
 			SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-
-			DispatcherQueue.TryEnqueue(async () => await LoadSelectedTheme());
-		}
-
-		private async Task LoadSelectedTheme()
-		{
-			App.ExternalResourcesHelper.OverrideAppResources(UserSettingsService.AppearanceSettingsService.UseCompactStyles);
-			await App.ExternalResourcesHelper.LoadSelectedTheme();
 		}
 
 		private async Task PromptForReview()
@@ -94,7 +81,7 @@ namespace Files.App.Views
 				SecondaryButtonText = "No".ToLocalized()
 			};
 
-			var result = await this.SetContentDialogRoot(promptForReviewDialog).ShowAsync();
+			var result = await SetContentDialogRoot(promptForReviewDialog).ShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 			{
@@ -102,11 +89,11 @@ namespace Files.App.Views
 				{
 					var storeContext = StoreContext.GetDefault();
 					await storeContext.RequestRateAndReviewAppAsync();
+
+					UserSettingsService.ApplicationSettingsService.ClickedToReviewApp = true;
 				}
 				catch (Exception) { }
 			}
-
-			UserSettingsService.ApplicationSettingsService.WasPromptedToReview = true;
 		}
 
 		// WINUI3
@@ -121,7 +108,7 @@ namespace Files.App.Views
 		{
 			switch (e.SettingName)
 			{
-				case nameof(IPaneSettingsService.Content):
+				case nameof(IPreviewPaneSettingsService.IsEnabled):
 					LoadPaneChanged();
 					break;
 			}
@@ -129,12 +116,12 @@ namespace Files.App.Views
 
 		private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			horizontalMultitaskingControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
+			TabControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
 
 			if (ViewModel.MultitaskingControl is not HorizontalMultitaskingControl)
 			{
-				ViewModel.MultitaskingControl = horizontalMultitaskingControl;
-				ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
+				ViewModel.MultitaskingControl = TabControl;
+				ViewModel.MultitaskingControls.Add(TabControl);
 				ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
 			}
 		}
@@ -142,12 +129,12 @@ namespace Files.App.Views
 		private void SetRectDragRegion()
 		{
 			var scaleAdjustment = XamlRoot.RasterizationScale;
-			var dragArea = horizontalMultitaskingControl.DragArea;
+			var dragArea = TabControl.DragArea;
 
-			var x = (int)((horizontalMultitaskingControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
+			var x = (int)((TabControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
 			var y = 0;
 			var width = (int)(dragArea.ActualWidth * scaleAdjustment);
-			var height = (int)(horizontalMultitaskingControl.TitlebarArea.ActualHeight * scaleAdjustment);
+			var height = (int)(TabControl.TitlebarArea.ActualHeight * scaleAdjustment);
 
 			var dragRect = new RectInt32(x, y, width, height);
 			App.Window.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
@@ -275,12 +262,12 @@ namespace Files.App.Views
 						{
 							navigationPath = invokedItemContainer.Tag?.ToString();
 						}
-						else if (ItemPath.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase)) // Home item
+						else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
 						{
 							if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
 								return; // return if already selected
 
-							navigationPath = "Home".GetLocalizedResource();
+							navigationPath = "Home";
 							sourcePageType = typeof(WidgetsPage);
 						}
 						else // Any other item
@@ -298,7 +285,7 @@ namespace Files.App.Views
 						shp.NavigateToPath(tagPath, new NavigationArguments()
 						{
 							IsSearchResultPage = true,
-							SearchPathParam = "Home".GetLocalizedResource(),
+							SearchPathParam = "Home",
 							SearchQuery = tagPath,
 							AssociatedTabInstance = shp,
 							NavPathParam = tagPath
@@ -322,31 +309,38 @@ namespace Files.App.Views
 			// Defers the status bar loading until after the page has loaded to improve startup perf
 			FindName(nameof(StatusBarControl));
 			FindName(nameof(InnerNavigationToolbar));
-			FindName(nameof(horizontalMultitaskingControl));
+			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));
 
-			// Prompt user to review app in the Store
+			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
+				return;
+
+			var totalLaunchCount = SystemInformation.Instance.TotalLaunchCount;
+
 			if
 			(
-				SystemInformation.Instance.TotalLaunchCount >= 15 &
-				Package.Current.Id.Name == "49306atecsolution.FilesUWP" &&
-				!UserSettingsService.ApplicationSettingsService.WasPromptedToReview
+				totalLaunchCount == 10 ||
+				totalLaunchCount == 20 ||
+				totalLaunchCount == 30 ||
+				totalLaunchCount == 40 ||
+				totalLaunchCount == 50
 			)
 			{
+				// Prompt user to review app in the Store
 				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
 			}
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			switch (Pane?.Position)
+			switch (PreviewPane?.Position)
 			{
-				case PanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
-					UserSettingsService.PaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
+				case PreviewPanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
+					UserSettingsService.PreviewPaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
 					UpdatePositioning();
 					break;
-				case PanePositions.Bottom when ContentRow.ActualHeight == ContentRow.MinHeight:
-					UserSettingsService.PaneSettingsService.HorizontalSizePx += e.NewSize.Height - e.PreviousSize.Height;
+				case PreviewPanePositions.Bottom when ContentRow.ActualHeight == ContentRow.MinHeight:
+					UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx += e.NewSize.Height - e.PreviousSize.Height;
 					UpdatePositioning();
 					break;
 			}
@@ -383,7 +377,7 @@ namespace Files.App.Views
 		/// </summary>
 		private void UpdatePositioning()
 		{
-			if (Pane is null || !IsPaneEnabled)
+			if (PreviewPane is null || !ShouldPreviewPaneBeActive)
 			{
 				PaneRow.MinHeight = 0;
 				PaneRow.MaxHeight = double.MaxValue;
@@ -394,33 +388,33 @@ namespace Files.App.Views
 			}
 			else
 			{
-				Pane.UpdatePosition(RootGrid.ActualWidth, RootGrid.ActualHeight);
-				switch (Pane.Position)
+				PreviewPane.UpdatePosition(RootGrid.ActualWidth, RootGrid.ActualHeight);
+				switch (PreviewPane.Position)
 				{
-					case PanePositions.None:
+					case PreviewPanePositions.None:
 						PaneRow.MinHeight = 0;
 						PaneRow.Height = new GridLength(0);
 						PaneColumn.MinWidth = 0;
 						PaneColumn.Width = new GridLength(0);
 						break;
-					case PanePositions.Right:
-						Pane.SetValue(Grid.RowProperty, 1);
-						Pane.SetValue(Grid.ColumnProperty, 2);
+					case PreviewPanePositions.Right:
+						PreviewPane.SetValue(Grid.RowProperty, 1);
+						PreviewPane.SetValue(Grid.ColumnProperty, 2);
 						PaneSplitter.SetValue(Grid.RowProperty, 1);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 1);
 						PaneSplitter.Width = 2;
 						PaneSplitter.Height = RootGrid.ActualHeight;
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
-						PaneColumn.MinWidth = Pane.MinWidth;
-						PaneColumn.MaxWidth = Pane.MaxWidth;
-						PaneColumn.Width = new GridLength(UserSettingsService.PaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
+						PaneColumn.MinWidth = PreviewPane.MinWidth;
+						PaneColumn.MaxWidth = PreviewPane.MaxWidth;
+						PaneColumn.Width = new GridLength(UserSettingsService.PreviewPaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
 						PaneRow.MinHeight = 0;
 						PaneRow.MaxHeight = double.MaxValue;
 						PaneRow.Height = new GridLength(0);
 						break;
-					case PanePositions.Bottom:
-						Pane.SetValue(Grid.RowProperty, 3);
-						Pane.SetValue(Grid.ColumnProperty, 0);
+					case PreviewPanePositions.Bottom:
+						PreviewPane.SetValue(Grid.RowProperty, 3);
+						PreviewPane.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.SetValue(Grid.RowProperty, 2);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.Height = 2;
@@ -429,9 +423,9 @@ namespace Files.App.Views
 						PaneColumn.MinWidth = 0;
 						PaneColumn.MaxWidth = double.MaxValue;
 						PaneColumn.Width = new GridLength(0);
-						PaneRow.MinHeight = Pane.MinHeight;
-						PaneRow.MaxHeight = Pane.MaxHeight;
-						PaneRow.Height = new GridLength(UserSettingsService.PaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
+						PaneRow.MinHeight = PreviewPane.MinHeight;
+						PaneRow.MaxHeight = PreviewPane.MaxHeight;
+						PaneRow.Height = new GridLength(UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
 						break;
 				}
 			}
@@ -439,24 +433,20 @@ namespace Files.App.Views
 
 		private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			switch (Pane?.Position)
+			switch (PreviewPane?.Position)
 			{
-				case PanePositions.Right:
-					UserSettingsService.PaneSettingsService.VerticalSizePx = Pane.ActualWidth;
+				case PreviewPanePositions.Right:
+					UserSettingsService.PreviewPaneSettingsService.VerticalSizePx = PreviewPane.ActualWidth;
 					break;
-				case PanePositions.Bottom:
-					UserSettingsService.PaneSettingsService.HorizontalSizePx = Pane.ActualHeight;
+				case PreviewPanePositions.Bottom:
+					UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx = PreviewPane.ActualHeight;
 					break;
 			}
 		}
 
-		public bool IsPaneEnabled => UserSettingsService.PaneSettingsService.Content switch
-		{
-			PaneContents.Preview => IsPreviewPaneEnabled,
-			_ => false,
-		};
+		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
 
-		public bool IsPreviewPaneEnabled
+		public bool ShouldPreviewPaneBeDisplayed
 		{
 			get
 			{
@@ -471,8 +461,8 @@ namespace Files.App.Views
 
 		private void LoadPaneChanged()
 		{
-			OnPropertyChanged(nameof(IsPaneEnabled));
-			OnPropertyChanged(nameof(IsPreviewPaneEnabled));
+			OnPropertyChanged(nameof(ShouldPreviewPaneBeActive));
+			OnPropertyChanged(nameof(ShouldPreviewPaneBeDisplayed));
 			UpdatePositioning();
 		}
 

@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Extensions;
+using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Interacts;
 using Files.Shared.Enums;
@@ -10,7 +11,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
@@ -72,10 +72,10 @@ namespace Files.App.ViewModels
 
 				return (anyFailure, AnyOperationsOngoing) switch
 				{
-					(false, false) => 0, // all success
-					(false, true) => 1, // ongoing
-					(true, true) => 2, // onging with failure
-					(true, false) => 3 // completed with failure
+					(false, false) => 0, // All success
+					(false, true) => 1,  // Ongoing
+					(true, true) => 2,   // Ongoing with failure
+					(true, false) => 3   // Completed with failure
 				};
 			}
 		}
@@ -99,9 +99,12 @@ namespace Files.App.ViewModels
 		{
 			StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation);
 			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+
 			StatusBannersSource.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);
+
 			UpdateBanner(banner);
+
 			return postedBanner;
 		}
 
@@ -111,10 +114,14 @@ namespace Files.App.ViewModels
 			{
 				CancellationTokenSource = cancellationTokenSource,
 			};
+
 			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this, cancellationTokenSource);
+
 			StatusBannersSource.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);
+
 			UpdateBanner(banner);
+
 			return postedBanner;
 		}
 
@@ -122,9 +129,12 @@ namespace Files.App.ViewModels
 		{
 			StatusBanner banner = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
 			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+
 			StatusBannersSource.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);
+
 			UpdateBanner(banner);
+
 			return postedBanner;
 		}
 
@@ -136,7 +146,9 @@ namespace Files.App.ViewModels
 			}
 
 			StatusBannersSource.Remove(banner);
+
 			UpdateBanner(banner);
+
 			return true;
 		}
 
@@ -173,9 +185,9 @@ namespace Files.App.ViewModels
 
 		#region Public Members
 
-		public readonly Progress<float> Progress;
+		public readonly FileSystemProgress Progress;
 
-		public readonly Progress<FileSystemStatusCode> ErrorCode;
+		public readonly Progress<FileSystemProgress> ProgressEventSource;
 
 		public CancellationToken CancellationToken => cancellationTokenSource?.Token ?? default;
 
@@ -185,52 +197,82 @@ namespace Files.App.ViewModels
 
 		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions)
 		{
-			this.Banner = banner;
+			Banner = banner;
 			this.OngoingTasksActions = OngoingTasksActions;
 
-			this.Progress = new Progress<float>(ReportProgressToBanner);
-			this.ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
+			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
+			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
 
 		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions, CancellationTokenSource cancellationTokenSource)
 		{
-			this.Banner = banner;
+			Banner = banner;
 			this.OngoingTasksActions = OngoingTasksActions;
 			this.cancellationTokenSource = cancellationTokenSource;
 
-			this.Progress = new Progress<float>(ReportProgressToBanner);
-			this.ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
+			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
+			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
 
 		#endregion Constructor
 
 		#region Private Helpers
 
-		private void ReportProgressToBanner(float value)
+		private void ReportProgressToBanner(FileSystemProgress value)
 		{
-			if (CancellationToken.IsCancellationRequested) // file operation has been cancelled, so don't update the progress text
-			{
+			// File operation has been cancelled, so don't update the progress text
+			if (CancellationToken.IsCancellationRequested)
 				return;
-			}
 
-			if (value <= 100.0f)
+			if (value.Status is FileSystemStatusCode status)
+				Banner.Status = status.ToStatus();
+
+			Banner.IsProgressing = (value.Status & FileSystemStatusCode.InProgress) != 0;
+
+			if (value.Percentage is float f)
 			{
-				Banner.IsProgressing = value < 100.0f;
-				Banner.Progress = value;
-				Banner.FullTitle = $"{Banner.Title} ({value:0.00}%)";
-				OngoingTasksActions.UpdateBanner(Banner);
-				OngoingTasksActions.UpdateMedianProgress();
+				Banner.Progress = f;
+				Banner.FullTitle = $"{Banner.Title} ({Banner.Progress:0.00}%)";
+
+				// TODO: Show detailed progress if Size/Count information available
+			}
+			else if (value.EnumerationCompleted)
+			{
+				switch (value.TotalSize, value.ItemsCount)
+				{
+					case (not 0, not 0):
+						Banner.Progress = value.ProcessedSize * 100f / value.TotalSize;
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {Banner.Progress:0.00}%)";
+						break;
+
+					case (not 0, _):
+						Banner.Progress = value.ProcessedSize * 100f / value.TotalSize;
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {Banner.Progress:0.00}%)";
+						break;
+
+					case (_, not 0):
+						Banner.Progress = value.ProcessedItemsCount * 100f / value.ItemsCount;
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {Banner.Progress:0.00}%)";
+						break;
+
+					default:
+						Banner.FullTitle = $"{Banner.Title} (...)";
+						break;
+				}
 			}
 			else
 			{
-				Debugger.Break(); // Argument out of range :(
+				Banner.FullTitle = (value.ProcessedSize, value.ProcessedItemsCount) switch
+				{
+					(not 0, not 0) => $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)",
+					(not 0, _) =>     $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / ...)",
+					(_, not 0) =>     $"{Banner.Title} ({value.ProcessedItemsCount} / ...)",
+					_ =>              $"{Banner.Title} (...)",
+				};
 			}
-		}
 
-		private void ReportProgressToBanner(ReturnResult value)
-		{
-			Banner.Status = value;
 			OngoingTasksActions.UpdateBanner(Banner);
+			OngoingTasksActions.UpdateMedianProgress();
 		}
 
 		#endregion Private Helpers
@@ -269,10 +311,7 @@ namespace Files.App.ViewModels
 		public float Progress
 		{
 			get => progress;
-			set
-			{
-				SetProperty(ref progress, value);
-			}
+			set => SetProperty(ref progress, value);
 		}
 
 		private bool isProgressing = false;
@@ -280,32 +319,23 @@ namespace Files.App.ViewModels
 		public bool IsProgressing
 		{
 			get => isProgressing;
-			set
-			{
-				SetProperty(ref isProgressing, value);
-			}
+			set => SetProperty(ref isProgressing, value);
 		}
 
 		public string Title { get; private set; }
 
 		private ReturnResult status = ReturnResult.InProgress;
-
 		public ReturnResult Status
 		{
 			get => status;
-			set
-			{
-				SetProperty(ref status, value);
-			}
+			set => SetProperty(ref status, value);
 		}
 
 		public FileOperationType Operation { get; private set; }
 
 		public string Message { get; private set; }
 
-		public SolidColorBrush StrokeColor { get; private set; } = new SolidColorBrush(Colors.DeepSkyBlue);
-
-		public IconSource GlyphSource { get; private set; }
+		public InfoBarSeverity InfoBarSeverity { get; private set; } = InfoBarSeverity.Informational;
 
 		public string PrimaryButtonText { get; set; }
 
@@ -317,7 +347,8 @@ namespace Files.App.ViewModels
 
 		public bool SolutionButtonsVisible { get; } = false;
 
-		public bool CancelButtonVisible => CancellationTokenSource is not null;
+		public bool CancelButtonVisible
+			=> CancellationTokenSource is not null;
 
 		public CancellationTokenSource CancellationTokenSource { get; set; }
 
@@ -356,56 +387,32 @@ namespace Files.App.ViewModels
 						{
 							case FileOperationType.Extract:
 								Title = "ExtractInProgress/Title".GetLocalizedResource();
-								GlyphSource = new FontIconSource()
-								{
-									FontFamily = Application.Current.Resources["CustomGlyph"] as FontFamily,
-									Glyph = "\xF11A"    // Extract glyph
-								};
 								break;
 
 							case FileOperationType.Copy:
 								Title = "CopyInProgress/Title".GetLocalizedResource();
-								GlyphSource = new FontIconSource()
-								{
-									Glyph = "\xE8C8"    // Copy glyph
-								};
 								break;
 
 							case FileOperationType.Move:
 								Title = "MoveInProgress".GetLocalizedResource();
-								GlyphSource = new FontIconSource()
-								{
-									Glyph = "\xE77F"    // Move glyph
-								};
 								break;
 
 							case FileOperationType.Delete:
 								Title = "DeleteInProgress/Title".GetLocalizedResource();
-								GlyphSource = new FontIconSource()
-								{
-									Glyph = "\xE74D"    // Delete glyph
-								};
 								break;
 
 							case FileOperationType.Recycle:
 								Title = "RecycleInProgress/Title".GetLocalizedResource();
-								GlyphSource = new FontIconSource()
-								{
-									FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
-									Glyph = "\xEF87"    // RecycleBin Custom Glyph
-								};
 								break;
 
 							case FileOperationType.Prepare:
 								Title = "PrepareInProgress".GetLocalizedResource();
-								GlyphSource = new FontIconSource()
-								{
-									Glyph = "\xE89A"
-								};
 								break;
 						}
 					}
+
 					FullTitle = $"{Title} ({initialProgress}%)";
+
 					break;
 
 				case ReturnResult.Success:
@@ -417,11 +424,7 @@ namespace Files.App.ViewModels
 					else
 					{
 						FullTitle = Title;
-						StrokeColor = new SolidColorBrush(Colors.Green);
-						GlyphSource = new FontIconSource()
-						{
-							Glyph = "\xE73E"    // CheckMark glyph
-						};
+						InfoBarSeverity = InfoBarSeverity.Success;
 					}
 					break;
 
@@ -436,12 +439,9 @@ namespace Files.App.ViewModels
 					{
 						// Expanded banner
 						FullTitle = Title;
-						StrokeColor = new SolidColorBrush(Colors.Red);
-						GlyphSource = new FontIconSource()
-						{
-							Glyph = "\xE783"    // Error glyph
-						};
+						InfoBarSeverity = InfoBarSeverity.Error;
 					}
+
 					break;
 			}
 		}
@@ -477,11 +477,7 @@ namespace Files.App.ViewModels
 
 				// Expanded banner
 				FullTitle = Title;
-				StrokeColor = new SolidColorBrush(Colors.Red);
-				GlyphSource = new FontIconSource()
-				{
-					Glyph = "\xE783" // Error glyph
-				};
+				InfoBarSeverity = InfoBarSeverity.Error;
 			}
 		}
 

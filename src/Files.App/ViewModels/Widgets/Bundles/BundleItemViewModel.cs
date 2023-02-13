@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Views;
+using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Media;
@@ -32,7 +33,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
+		private readonly IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
 
 		/// <summary>
 		/// The name of a bundle this item is contained within
@@ -41,35 +42,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public string Path { get; set; }
 
-		public string Name
-		{
-			get
-			{
-				string fileName;
-
-				// Network Share path
-				if (System.IO.Path.GetPathRoot(this.Path) == this.Path && this.Path.StartsWith(@"\\"))
-				{
-					fileName = this.Path.Substring(this.Path.LastIndexOf(@"\") + 1);
-				}
-				// Drive path
-				else if (System.IO.Path.GetPathRoot(this.Path) == this.Path)
-				{
-					fileName = this.Path;
-				}
-				else
-				{
-					fileName = System.IO.Path.GetFileName(this.Path);
-				}
-
-				if (FileExtensionHelpers.IsShortcutOrUrlFile(fileName))
-				{
-					fileName = fileName.Remove(fileName.Length - 4);
-				}
-
-				return fileName;
-			}
-		}
+		public string Name { get; set; }
 
 		public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
 
@@ -95,7 +68,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public bool OpenInNewPaneLoad
 		{
-			get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory;
+			get => UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory;
 		}
 
 		#endregion Properties
@@ -116,8 +89,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public BundleItemViewModel(string path, FilesystemItemType targetType)
 		{
-			this.Path = path;
-			this.TargetType = targetType;
+			Path = path;
+			Name = PathHelpers.FormatName(path);
+			TargetType = targetType;
 
 			// Create commands
 			OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
@@ -151,7 +125,8 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public async Task UpdateIcon()
 		{
-			if (TargetType == FilesystemItemType.Directory) // OpenDirectory
+			// OpenDirectory
+			if (TargetType == FilesystemItemType.Directory)
 			{
 				Icon = FolderIcon;
 			}
@@ -173,11 +148,11 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public void RemoveItem()
 		{
-			if (BundlesSettingsService.SavedBundles.ContainsKey(ParentBundleName))
+			if (bundlesSettingsService.SavedBundles.ContainsKey(ParentBundleName))
 			{
-				Dictionary<string, List<string>> allBundles = BundlesSettingsService.SavedBundles;
+				Dictionary<string, List<string>> allBundles = bundlesSettingsService.SavedBundles;
 				allBundles[ParentBundleName].Remove(Path);
-				BundlesSettingsService.SavedBundles = allBundles;
+				bundlesSettingsService.SavedBundles = allBundles;
 				NotifyItemRemoved(this);
 			}
 		}

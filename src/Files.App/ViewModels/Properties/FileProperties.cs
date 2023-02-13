@@ -4,6 +4,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.Backend.Helpers;
 using Microsoft.UI.Dispatching;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,12 @@ namespace Files.App.ViewModels.Properties
 	{
 		public ListedItem Item { get; }
 
-		public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
-			DispatcherQueue coreDispatcher, ListedItem item, IShellPage instance)
+		public FileProperties(
+			SelectedItemsPropertiesViewModel viewModel,
+			CancellationTokenSource tokenSource,
+			DispatcherQueue coreDispatcher,
+			ListedItem item,
+			IShellPage instance)
 		{
 			ViewModel = viewModel;
 			TokenSource = tokenSource;
@@ -58,10 +63,9 @@ namespace Files.App.ViewModels.Properties
 
 			var shortcutItem = (ShortcutItem)Item;
 
-			var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
-				(shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
-					|| shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
-					|| shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
+			var isApplication =
+				FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath) ||
+				FileExtensionHelpers.IsMsiFile(shortcutItem.TargetPath);
 
 			ViewModel.ShortcutItemType = isApplication ? "Application".GetLocalizedResource() :
 				Item.IsLinkItem ? "PropertiesShortcutTypeLink".GetLocalizedResource() : "PropertiesShortcutTypeFile".GetLocalizedResource();
@@ -71,20 +75,26 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
 			ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
 			ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
+
+			if (isApplication)
+				ViewModel.RunAsAdmin = shortcutItem.RunAsAdmin;
+
 			ViewModel.IsSelectedItemShortcut = FileExtensionHelpers.IsShortcutFile(Item.FileExtension);
+
 			ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 			{
 				if (Item.IsLinkItem)
 				{
 					var tmpItem = (ShortcutItem)Item;
-					await Win32Helpers.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+					await Win32Helpers.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
 				}
 				else
 				{
 					await App.Window.DispatcherQueue.EnqueueAsync(
 						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
 				}
-			}, () =>
+			},
+			() =>
 			{
 				return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
 			});
@@ -156,8 +166,20 @@ namespace Files.App.ViewModels.Properties
 
 			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
-			list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
-																						   (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+			list.Find(x => x.ID == "address").Value =
+				await GetAddressFromCoordinatesAsync((double?)list.Find(
+					x => x.Property == "System.GPS.LatitudeDecimal").Value,
+					(double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+
+			// Find Encoding Bitrate property and convert it to kbps
+			var encodingBitrate = list.Find(x => x.Property == "System.Audio.EncodingBitrate");
+			if (encodingBitrate?.Value is not null)
+			{
+				var sizes = new string[] { "Bps", "KBps", "MBps", "GBps" };
+				var order = (int)Math.Floor(Math.Log((uint)encodingBitrate.Value, 1024));
+				var readableSpeed = (uint)encodingBitrate.Value / Math.Pow(1024, order);
+				encodingBitrate.Value = $"{readableSpeed:0.##} {sizes[order]}";
+			}
 
 			var query = list
 				.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
@@ -165,6 +187,7 @@ namespace Files.App.ViewModels.Properties
 				.Select(group => new FilePropertySection(group) { Key = group.Key })
 				.Where(section => !section.All(fileProp => fileProp.Value is null))
 				.OrderBy(group => group.Priority);
+
 			ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
 			ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value is not null));
 		}
@@ -206,6 +229,7 @@ namespace Files.App.ViewModels.Properties
 				return;
 
 			var failedProperties = "";
+
 			foreach (var group in ViewModel.PropertySections)
 			{
 				foreach (FileProperty prop in group)
@@ -294,6 +318,7 @@ namespace Files.App.ViewModels.Properties
 							System.IO.FileAttributes.ReadOnly
 						);
 					}
+
 					break;
 
 				case "IsHidden":
@@ -311,18 +336,20 @@ namespace Files.App.ViewModels.Properties
 							System.IO.FileAttributes.Hidden
 						);
 					}
+
 					break;
 
+				case "RunAsAdmin":
 				case "ShortcutItemPath":
 				case "ShortcutItemWorkingDir":
 				case "ShortcutItemArguments":
-					var tmpItem = (ShortcutItem)Item;
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 
-                    await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin);
-                    break;
-            }
-        }
-    }
+					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, ViewModel.RunAsAdmin);
+
+					break;
+			}
+		}
+	}
 }

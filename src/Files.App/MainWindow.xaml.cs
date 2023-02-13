@@ -12,7 +12,6 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.Windows.AppLifecycle;
 using System;
 using System.IO;
 using System.Linq;
@@ -47,8 +46,8 @@ namespace Files.App
 			// Set title
 			AppWindow.Title = "Files";
 
-			// Set icon
-			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, Constants.AssetPaths.Logo));
+			// Set logo
+			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath));
 
 			// Extend title bar
 			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
@@ -148,7 +147,7 @@ namespace Files.App
 				case IToastNotificationActivatedEventArgs eventArgsForNotification:
 					if (eventArgsForNotification.Argument == "report")
 					{
-						await Windows.System.Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeedbackUrl));
+						await Windows.System.Launcher.LaunchUriAsync(new Uri(Constants.GitHub.BugReportUrl));
 					}
 					break;
 

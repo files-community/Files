@@ -7,10 +7,10 @@ namespace Files.App.Helpers
 {
 	public static class WidgetsHelpers
 	{
-		public static TWidget? TryGetWidget<TWidget>(IAppearanceSettingsService appearanceSettingsService, WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItemModel, new()
+		public static TWidget? TryGetWidget<TWidget>(IPreferencesSettingsService preferencesSettingsService, WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItemModel, new()
 		{
 			bool canAddWidget = widgetsViewModel.CanAddWidget(typeof(TWidget).Name);
-			bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>(appearanceSettingsService);
+			bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>(preferencesSettingsService);
 
 			if (canAddWidget && isWidgetSettingEnabled)
 			{
@@ -35,23 +35,27 @@ namespace Files.App.Helpers
 			return (defaultValue);
 		}
 
-		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IAppearanceSettingsService appearanceSettingsService) where TWidget : IWidgetItemModel
+		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IPreferencesSettingsService preferencesSettingsService) where TWidget : IWidgetItemModel
 		{
-			if (typeof(TWidget) == typeof(FolderWidget))
+			if (typeof(TWidget) == typeof(QuickAccessWidget))
 			{
-				return appearanceSettingsService.ShowFoldersWidget;
+				return preferencesSettingsService.ShowQuickAccessWidget;
 			}
 			if (typeof(TWidget) == typeof(DrivesWidget))
 			{
-				return appearanceSettingsService.ShowDrivesWidget;
+				return preferencesSettingsService.ShowDrivesWidget;
+			}
+			if (typeof(TWidget) == typeof(FileTagsWidget))
+			{
+				return preferencesSettingsService.ShowFileTagsWidget;
 			}
 			if (typeof(TWidget) == typeof(BundlesWidget))
 			{
-				return appearanceSettingsService.ShowBundlesWidget;
+				return preferencesSettingsService.ShowBundlesWidget;
 			}
 			if (typeof(TWidget) == typeof(RecentFilesWidget))
 			{
-				return appearanceSettingsService.ShowRecentFilesWidget;
+				return preferencesSettingsService.ShowRecentFilesWidget;
 			}
 
 			// A custom widget it is - TWidget implements ICustomWidgetItemModel

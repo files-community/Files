@@ -8,13 +8,16 @@ namespace Files.App.DataModels
 	public class SuggestionModel : ObservableObject
 	{
 		public bool IsRecentSearch { get; set; } = false;
+
 		public bool LoadFileIcon { get; set; } = false;
+
 		public bool NeedsPlaceholderGlyph { get; set; } = true;
+
 		public string? ItemPath { get; set; }
+
 		public string Name { get; set; }
 
 		private BitmapImage? fileImage;
-
 		public BitmapImage? FileImage
 		{
 			get => fileImage;
@@ -24,6 +27,7 @@ namespace Files.App.DataModels
 				{
 					imgOld.ImageOpened -= Img_ImageOpened;
 				}
+
 				if (SetProperty(ref fileImage, value))
 				{
 					if (value is BitmapImage img)
@@ -60,17 +64,17 @@ namespace Files.App.DataModels
 
 		public SuggestionModel(ListedItem item)
 		{
-			this.LoadFileIcon = item.LoadFileIcon;
-			this.NeedsPlaceholderGlyph = item.NeedsPlaceholderGlyph;
-			this.ItemPath = item.ItemPath;
-			this.Name = item.Name;
-			this.FileImage = item.FileImage;
+			LoadFileIcon = item.LoadFileIcon;
+			NeedsPlaceholderGlyph = item.NeedsPlaceholderGlyph;
+			ItemPath = item.ItemPath;
+			Name = item.Name;
+			FileImage = item.FileImage;
 		}
 
 		public SuggestionModel(string itemName, bool isRecentSearch)
 		{
-			this.IsRecentSearch = isRecentSearch;
-			this.Name = itemName;
+			IsRecentSearch = isRecentSearch;
+			Name = itemName;
 		}
 	}
 }

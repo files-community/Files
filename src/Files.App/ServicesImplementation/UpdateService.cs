@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.Backend.Services;
 using Microsoft.UI.Xaml.Controls;
@@ -6,8 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Services.Store;
+using WinRT.Interop;
 
 namespace Files.App.ServicesImplementation
 {
@@ -19,7 +23,6 @@ namespace Files.App.ServicesImplementation
 		private bool IsMandatory => _updatePackages?.Where(e => e.Mandatory).ToList().Count >= 1;
 
 		private bool _isUpdateAvailable;
-
 		public bool IsUpdateAvailable
 		{
 			get => _isUpdateAvailable;
@@ -27,11 +30,22 @@ namespace Files.App.ServicesImplementation
 		}
 
 		private bool _isUpdating;
-
 		public bool IsUpdating
 		{
 			get => _isUpdating;
 			private set => SetProperty(ref _isUpdating, value);
+		}
+
+		private bool _isReleaseNotesAvailable;
+		public bool IsReleaseNotesAvailable
+		{
+			get => _isReleaseNotesAvailable;
+			private set => SetProperty(ref _isReleaseNotesAvailable, value);
+		}
+
+		public bool IsAppUpdated
+		{
+			get => SystemInformation.Instance.IsAppUpdated;
 		}
 
 		public UpdateService()
@@ -106,6 +120,9 @@ namespace Files.App.ServicesImplementation
 			try
 			{
 				_storeContext ??= await Task.Run(StoreContext.GetDefault);
+
+				InitializeWithWindow.Initialize(_storeContext, App.WindowHandle);
+
 				var updateList = await _storeContext.GetAppAndOptionalStorePackageUpdatesAsync();
 				_updatePackages = updateList?.ToList();
 			}
@@ -126,9 +143,39 @@ namespace Files.App.ServicesImplementation
 				CloseButtonText = "Close".GetLocalizedResource(),
 				PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalizedResource()
 			};
+
 			ContentDialogResult result = await SetContentDialogRoot(dialog).ShowAsync();
 
 			return result == ContentDialogResult.Primary;
+		}
+
+		public async Task CheckLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
+		{
+			if (!IsAppUpdated)
+				return;
+
+			var result = await GetLatestReleaseNotesAsync();
+
+			if (result is not null)
+				IsReleaseNotesAvailable = true;
+		}
+
+		public async Task<string?> GetLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
+		{
+			var applicationVersion = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
+			var releaseNotesLocation = string.Concat("https://raw.githubusercontent.com/files-community/Release-Notes/main/", applicationVersion, ".md");
+
+			using var client = new HttpClient();
+
+			try
+			{
+				var result = await client.GetStringAsync(releaseNotesLocation, cancellationToken);
+				return result == string.Empty ? null : result;
+			}
+			catch
+			{
+				return null;
+			}
 		}
 
 		// WINUI3
@@ -155,6 +202,7 @@ namespace Files.App.ServicesImplementation
 		{
 			IsUpdating = false;
 			IsUpdateAvailable = false;
+
 			_updatePackages?.Clear();
 		}
 

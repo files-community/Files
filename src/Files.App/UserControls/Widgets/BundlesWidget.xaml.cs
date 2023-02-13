@@ -27,13 +27,16 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "Bundles".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowBundlesWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowBundlesWidget;
+		
+		public bool ShowMenuFlyout => false;
+
+		public MenuFlyoutItem? MenuFlyoutItem => null;
 
 		public BundlesWidget()
 		{
-			this.InitializeComponent();
-
-			this.ViewModel = new BundlesViewModel();
+			InitializeComponent();
+			ViewModel = new BundlesViewModel();
 		}
 
 		public Task RefreshWidget()
@@ -41,16 +44,10 @@ namespace Files.App.UserControls.Widgets
 			return Task.CompletedTask;
 		}
 
-		#region IDisposable
-
 		public void Dispose()
 		{
 			// We need dispose to unhook events to avoid memory leaks
-			this.ViewModel?.Dispose();
-
-			this.ViewModel = null;
+			ViewModel?.Dispose();
 		}
-
-		#endregion IDisposable
 	}
 }

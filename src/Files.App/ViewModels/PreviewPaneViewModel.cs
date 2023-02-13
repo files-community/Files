@@ -2,15 +2,16 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
+using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared.Cloud;
 using Files.Shared.EventArguments;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,10 +24,22 @@ namespace Files.App.ViewModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+		private readonly IPreviewPaneSettingsService previewSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
+
 		private CancellationTokenSource loadCancellationTokenSource;
 
-		private bool isItemSelected;
+		private bool isEnabled;
+		public bool IsEnabled
+		{
+			get => isEnabled;
+			set
+			{
+				previewSettingsService.IsEnabled = value;
+				SetProperty(ref isEnabled, value);
+			}
+		}
 
+		private bool isItemSelected;
 		public bool IsItemSelected
 		{
 			get => isItemSelected;
@@ -34,7 +47,6 @@ namespace Files.App.ViewModels
 		}
 
 		private ListedItem selectedItem;
-
 		public ListedItem SelectedItem
 		{
 			get => selectedItem;
@@ -42,7 +54,6 @@ namespace Files.App.ViewModels
 		}
 
 		private PreviewPaneStates previewPaneState;
-
 		public PreviewPaneStates PreviewPaneState
 		{
 			get => previewPaneState;
@@ -50,7 +61,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool showCloudItemButton;
-
 		public bool ShowCloudItemButton
 		{
 			get => showCloudItemButton;
@@ -58,7 +68,6 @@ namespace Files.App.ViewModels
 		}
 
 		private UIElement previewPaneContent;
-
 		public UIElement PreviewPaneContent
 		{
 			get => previewPaneContent;
@@ -69,7 +78,9 @@ namespace Files.App.ViewModels
 		{
 			ShowPreviewOnlyInvoked = new RelayCommand(() => UpdateSelectedItemPreview());
 
+			IsEnabled = previewSettingsService.IsEnabled;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 		}
 
 		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
@@ -85,9 +96,7 @@ namespace Files.App.ViewModels
 			var control = await GetBuiltInPreviewControlAsync(SelectedItem, downloadItem);
 
 			if (token.IsCancellationRequested)
-			{
 				return;
-			}
 
 			if (control is not null)
 			{
@@ -98,12 +107,12 @@ namespace Files.App.ViewModels
 
 			var basicModel = new BasicPreviewViewModel(SelectedItem);
 			await basicModel.LoadAsync();
+
 			control = new BasicPreview(basicModel);
 
 			if (token.IsCancellationRequested)
-			{
 				return;
-			}
+
 			PreviewPaneContent = control;
 			PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
 		}
@@ -118,12 +127,14 @@ namespace Files.App.ViewModels
 				{
 					var model = new FolderPreviewViewModel(item);
 					await model.LoadAsync();
+
 					return new FolderPreview(model);
 				}
 				else
 				{
 					var model = new BasicPreviewViewModel(SelectedItem);
 					await model.LoadAsync();
+
 					return new BasicPreview(model);
 				}
 			}
@@ -132,6 +143,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new ShortcutPreviewViewModel(SelectedItem);
 				await model.LoadAsync();
+
 				return new BasicPreview(model);
 			}
 
@@ -139,6 +151,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new ArchivePreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new BasicPreview(model);
 			}
 
@@ -146,17 +159,17 @@ namespace Files.App.ViewModels
 			{
 				var model = new FolderPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new FolderPreview(model);
 			}
 
 			if (item.FileExtension is null)
-			{
 				return null;
-			}
 
 			if (item.SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline && !downloadItem)
 			{
 				ShowCloudItemButton = true;
+
 				return null;
 			}
 
@@ -166,6 +179,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new MediaPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new MediaPreview(model);
 			}
 
@@ -173,6 +187,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new MarkdownPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new MarkdownPreview(model);
 			}
 
@@ -180,6 +195,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new ImagePreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new ImagePreview(model);
 			}
 
@@ -187,6 +203,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new TextPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new TextPreview(model);
 			}
 
@@ -194,6 +211,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new PDFPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new PDFPreview(model);
 			}
 
@@ -201,6 +219,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new HtmlPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new HtmlPreview(model);
 			}
 
@@ -208,6 +227,7 @@ namespace Files.App.ViewModels
 			{
 				var model = new RichTextPreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new RichTextPreview(model);
 			}
 
@@ -215,10 +235,12 @@ namespace Files.App.ViewModels
 			{
 				var model = new CodePreviewViewModel(item);
 				await model.LoadAsync();
+
 				return new CodePreview(model);
 			}
 
 			var control = await TextPreviewViewModel.TryLoadAsTextAsync(item);
+
 			return control ?? null;
 		}
 
@@ -239,6 +261,7 @@ namespace Files.App.ViewModels
 				{
 					Debug.WriteLine(e);
 					loadCancellationTokenSource?.Cancel();
+
 					// If initial loading fails, attempt to load a basic preview (thumbnail and details only)
 					// If that fails, revert to no preview/details available as long as the item is not a shortcut or folder
 					if (SelectedItem is not null && !SelectedItem.IsShortcut && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
@@ -267,10 +290,23 @@ namespace Files.App.ViewModels
 
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
-			if (e.SettingName == nameof(IPaneSettingsService.ShowPreviewOnly))
+			if (e.SettingName is nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
 			{
 				// The preview will need refreshing as the file details won't be accurate
 				needsRefresh = true;
+			}
+		}
+
+		private void PreviewSettingsService_OnPropertyChangedEvent(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(IPreviewPaneSettingsService.IsEnabled))
+			{
+				var newEnablingStatus = previewSettingsService.IsEnabled;
+				if (isEnabled != newEnablingStatus)
+				{
+					isEnabled = newEnablingStatus;
+					OnPropertyChanged(nameof(IsEnabled));
+				}
 			}
 		}
 
@@ -280,6 +316,7 @@ namespace Files.App.ViewModels
 			{
 				var basicModel = new BasicPreviewViewModel(SelectedItem);
 				await basicModel.LoadAsync();
+
 				PreviewPaneContent = new BasicPreview(basicModel);
 				PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
 			}
@@ -308,6 +345,7 @@ namespace Files.App.ViewModels
 		public void Dispose()
 		{
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			previewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 		}
 	}
 

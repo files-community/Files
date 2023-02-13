@@ -44,11 +44,11 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: Relevant Assets/Logs
+      label: Log file
       description: |
-        A list of assets (logs, screenshots, etc) relevant to this bug. This issue will be closed if the applications log file is not included.
+        This issue will be closed if the apps log file is not attatched. Do not enter text into this field, it's for attaching the log file only.
 
-        Tip: You can attach image(s) or log file(s) by clicking this area to highlight it and then dragging files in.
+        Tip: You can upload the log file by clicking this area to highlight it and then dragging file in.
       placeholder: |
         To upload the log, access it from Settings -> About -> Open log location; Or
         - Copy the `debug.log` file from `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`

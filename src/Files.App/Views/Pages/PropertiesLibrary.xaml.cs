@@ -98,7 +98,7 @@ namespace Files.App.Views
 
 		private async Task AddLocation()
 		{
-			var folderPicker = this.InitializeWithWindow(new FolderPicker());
+			var folderPicker = InitializeWithWindow(new FolderPicker());
 			folderPicker.FileTypeFilter.Add("*");
 
 			var folder = await folderPicker.PickSingleFolderAsync();
@@ -190,7 +190,7 @@ namespace Files.App.Views
 			return contentDialog;
 		}
 
-		public override async Task<bool> SaveChangesAsync(ListedItem item)
+		public override async Task<bool> SaveChangesAsync()
 		{
 			if (BaseProperties is LibraryProperties props)
 			{

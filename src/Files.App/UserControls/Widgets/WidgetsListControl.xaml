@@ -4,12 +4,160 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:Microsoft.UI.Xaml.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="using:Files.App.UserControls.Widgets"
+	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Widgets"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
+	<UserControl.Resources>
+		<!--  Custom widget style that disables the animations  -->
+		<Style x:Key="Local.WidgetExpanderStyle" TargetType="controls:Expander">
+			<Setter Property="IsTabStop" Value="False" />
+			<Setter Property="Background" Value="{ThemeResource ExpanderContentBackground}" />
+			<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
+			<Setter Property="MinWidth" Value="{ThemeResource FlyoutThemeMinWidth}" />
+			<Setter Property="MinHeight" Value="{StaticResource ExpanderMinHeight}" />
+			<Setter Property="BorderThickness" Value="{ThemeResource ExpanderContentDownBorderThickness}" />
+			<Setter Property="BorderBrush" Value="{ThemeResource ExpanderContentBorderBrush}" />
+			<Setter Property="Padding" Value="{StaticResource ExpanderContentPadding}" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="controls:Expander">
+						<Grid MinWidth="{TemplateBinding MinWidth}" MaxWidth="{TemplateBinding MaxWidth}">
+							<Grid.RowDefinitions>
+								<RowDefinition x:Name="Row0" Height="Auto" />
+								<RowDefinition x:Name="Row1" Height="*" />
+							</Grid.RowDefinitions>
+							<ToggleButton
+								x:Name="ExpanderHeader"
+								MinHeight="{TemplateBinding MinHeight}"
+								Padding="{StaticResource ExpanderHeaderPadding}"
+								HorizontalAlignment="Stretch"
+								HorizontalContentAlignment="{StaticResource ExpanderHeaderHorizontalContentAlignment}"
+								VerticalContentAlignment="{StaticResource ExpanderHeaderVerticalContentAlignment}"
+								AutomationProperties.AutomationId="ExpanderToggleButton"
+								Background="{ThemeResource ExpanderHeaderBackground}"
+								BackgroundSizing="{TemplateBinding BackgroundSizing}"
+								BorderBrush="{ThemeResource ExpanderHeaderBorderBrush}"
+								BorderThickness="{ThemeResource ExpanderHeaderBorderThickness}"
+								Content="{TemplateBinding Header}"
+								ContentTemplate="{TemplateBinding HeaderTemplate}"
+								ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+								CornerRadius="{TemplateBinding CornerRadius}"
+								IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+								IsEnabled="{TemplateBinding IsEnabled}"
+								Style="{StaticResource ExpanderHeaderDownStyle}" />
+							<!--  The clip is a composition clip applied in code  -->
+							<Border x:Name="ExpanderContentClip" Grid.Row="1">
+								<Border
+									x:Name="ExpanderContent"
+									MinHeight="{TemplateBinding MinHeight}"
+									Padding="{TemplateBinding Padding}"
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Stretch"
+									Background="{TemplateBinding Background}"
+									BackgroundSizing="{TemplateBinding BackgroundSizing}"
+									BorderBrush="{TemplateBinding BorderBrush}"
+									BorderThickness="{StaticResource ExpanderContentDownBorderThickness}"
+									CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
+									Visibility="Collapsed">
+									<ContentPresenter
+										HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+										VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+										Content="{TemplateBinding Content}"
+										ContentTemplate="{TemplateBinding ContentTemplate}"
+										ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" />
+									<Border.RenderTransform>
+										<CompositeTransform />
+									</Border.RenderTransform>
+								</Border>
+							</Border>
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="ExpandStates">
+									<VisualState x:Name="ExpandUp">
+										<VisualState.Setters>
+											<Setter Target="ExpanderHeader.CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomCornerRadiusFilterConverter}}" />
+										</VisualState.Setters>
+										<VisualState.Storyboard>
+											<Storyboard>
+												<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="Visibility">
+													<DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+												</ObjectAnimationUsingKeyFrames>
+												<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+													<DiscreteDoubleKeyFrame KeyTime="0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContentHeight}" />
+													<SplineDoubleKeyFrame KeyTime="0" Value="0" />
+												</DoubleAnimationUsingKeyFrames>
+											</Storyboard>
+										</VisualState.Storyboard>
+									</VisualState>
+									<VisualState x:Name="CollapseDown">
+										<VisualState.Storyboard>
+											<Storyboard>
+												<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="Visibility">
+													<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
+												</ObjectAnimationUsingKeyFrames>
+												<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+													<DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
+													<SplineDoubleKeyFrame KeyTime="0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContentHeight}" />
+												</DoubleAnimationUsingKeyFrames>
+											</Storyboard>
+										</VisualState.Storyboard>
+									</VisualState>
+									<VisualState x:Name="ExpandDown">
+										<VisualState.Setters>
+											<Setter Target="ExpanderHeader.CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopCornerRadiusFilterConverter}}" />
+										</VisualState.Setters>
+										<VisualState.Storyboard>
+											<Storyboard>
+												<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="Visibility">
+													<DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+												</ObjectAnimationUsingKeyFrames>
+												<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+													<DiscreteDoubleKeyFrame KeyTime="0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.NegativeContentHeight}" />
+													<SplineDoubleKeyFrame KeyTime="0" Value="0" />
+												</DoubleAnimationUsingKeyFrames>
+											</Storyboard>
+										</VisualState.Storyboard>
+									</VisualState>
+									<VisualState x:Name="CollapseUp">
+										<VisualState.Storyboard>
+											<Storyboard>
+												<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="Visibility">
+													<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
+												</ObjectAnimationUsingKeyFrames>
+												<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+													<DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
+													<SplineDoubleKeyFrame KeyTime="0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.NegativeContentHeight}" />
+												</DoubleAnimationUsingKeyFrames>
+											</Storyboard>
+										</VisualState.Storyboard>
+									</VisualState>
+								</VisualStateGroup>
+								<VisualStateGroup x:Name="ExpandDirectionStates">
+									<VisualState x:Name="Down" />
+									<VisualState x:Name="Up">
+										<VisualState.Setters>
+											<Setter Target="ExpanderHeader.Style" Value="{StaticResource ExpanderHeaderUpStyle}" />
+											<Setter Target="ExpanderContent.BorderThickness" Value="{StaticResource ExpanderContentUpBorderThickness}" />
+											<Setter Target="ExpanderContent.CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopCornerRadiusFilterConverter}}" />
+											<Setter Target="ExpanderHeader.(Grid.Row)" Value="1" />
+											<Setter Target="ExpanderContentClip.(Grid.Row)" Value="0" />
+											<Setter Target="Row0.Height" Value="*" />
+											<Setter Target="Row1.Height" Value="Auto" />
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</UserControl.Resources>
 
 	<Border>
 		<Grid>
@@ -26,10 +174,7 @@
 									<ListViewItemPresenter
 										x:Name="Root"
 										HorizontalContentAlignment="Stretch"
-										VerticalContentAlignment="Stretch"
-										RevealBackground="{ThemeResource GridViewItemRevealBackground}"
-										RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
-										RevealBorderThickness="0" />
+										VerticalContentAlignment="Stretch" />
 								</ControlTemplate>
 							</Setter.Value>
 						</Setter>
@@ -37,13 +182,15 @@
 				</ListView.ItemContainerStyle>
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
-						<Grid AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}">
+						<Grid>
 							<controls:Expander
 								Padding="16,0,16,0"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Stretch"
+								AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}"
 								Header="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}"
-								IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">
+								IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+								Style="{StaticResource Local.WidgetExpanderStyle}">
 								<controls:Expander.Resources>
 									<SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent" />
 									<SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="Transparent" />
@@ -51,14 +198,43 @@
 									<SolidColorBrush x:Key="ExpanderHeaderBorderPressedBrush" Color="Transparent" />
 									<SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent" />
 									<SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="Transparent" />
-									<x:Double x:Key="ExpanderMinHeight">0</x:Double>
-									<Thickness x:Key="ExpanderContentPadding">0</Thickness>
 								</controls:Expander.Resources>
 								<ContentControl
 									HorizontalAlignment="Stretch"
 									HorizontalContentAlignment="Stretch"
 									Content="{x:Bind WidgetControl, Mode=OneWay}" />
 							</controls:Expander>
+
+							<!--  Menu Flyout  -->
+							<Button
+								x:Name="MenuFlyout"
+								Width="36"
+								Height="32"
+								Margin="0,8,50,0"
+								Padding="0"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Top"
+								x:Load="{x:Bind ShowMenuFlyout, Mode=OneWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=MoreOptions}"
+								Background="Transparent"
+								BorderBrush="Transparent"
+								ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
+								<FontIcon
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									FontSize="14"
+									Glyph="&#xe712;" />
+
+								<Button.Flyout>
+									<MenuFlyout>
+										<MenuFlyoutItem
+											x:Name="FlyoutItem"
+											Command="{x:Bind MenuFlyoutItem.Command}"
+											Icon="{x:Bind MenuFlyoutItem.Icon}"
+											Text="{x:Bind MenuFlyoutItem.Text}" />
+									</MenuFlyout>
+								</Button.Flyout>
+							</Button>
 						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>

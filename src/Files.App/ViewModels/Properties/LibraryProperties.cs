@@ -145,6 +145,7 @@ namespace Files.App.ViewModels.Properties
 					{
 						NativeFileOperationsHelper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
 					}
+
 					break;
 
 				case "IsHidden":
@@ -156,6 +157,7 @@ namespace Files.App.ViewModels.Properties
 					{
 						NativeFileOperationsHelper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
 					}
+
 					break;
 			}
 		}

@@ -64,6 +64,8 @@ namespace Files.App.UserControls.Selection
 				// Selected area considering scrolled offset
 				var rect = new System.Drawing.Rectangle((int)Canvas.GetLeft(selectionRectangle), (int)Math.Min(originDragPoint.Y, currentPoint.Position.Y + verticalOffset), (int)selectionRectangle.Width, (int)Math.Abs(originDragPoint.Y - (currentPoint.Position.Y + verticalOffset)));
 
+				var selectedItemsBeforeChange = uiElement.SelectedItems.ToArray();
+
 				foreach (var item in itemsPosition.ToList())
 				{
 					try
@@ -102,7 +104,8 @@ namespace Files.App.UserControls.Selection
 					if (prevSelectedItemsDrag is null || !prevSelectedItemsDrag.SequenceEqual(currentSelectedItemsDrag))
 					{
 						// Trigger SelectionChanged event if the selection has changed
-						selectionChanged(sender, null);
+						var removedItems = selectedItemsBeforeChange.Except(currentSelectedItemsDrag).ToList();
+						selectionChanged(sender, new SelectionChangedEventArgs(removedItems, currentSelectedItemsDrag));
 						prevSelectedItemsDrag = currentSelectedItemsDrag;
 					}
 				}
@@ -137,7 +140,7 @@ namespace Files.App.UserControls.Selection
 			selectionStrategy = e.KeyModifiers.HasFlag(VirtualKeyModifiers.Control) ?
 					new InvertPreviousItemSelectionStrategy(uiElement.SelectedItems, prevSelectedItems) :
 					e.KeyModifiers.HasFlag(VirtualKeyModifiers.Shift) ?
-						(ItemSelectionStrategy)new ExtendPreviousItemSelectionStrategy(uiElement.SelectedItems, prevSelectedItems) :
+						new ExtendPreviousItemSelectionStrategy(uiElement.SelectedItems, prevSelectedItems) :
 						new IgnorePreviousItemSelectionStrategy(uiElement.SelectedItems);
 
 			selectionStrategy.HandleNoItemSelected();

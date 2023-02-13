@@ -11,10 +11,7 @@
 	Loaded="UserControl_Loaded"
 	mc:Ignorable="d">
 	<Border>
-		<ScrollViewer
-			Grid.Row="0"
-			HorizontalScrollBarVisibility="Auto"
-			HorizontalScrollMode="Auto">
+		<ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Auto">
 			<RichTextBlock
 				Name="codeView"
 				Padding="10"

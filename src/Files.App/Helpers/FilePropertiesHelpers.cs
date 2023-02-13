@@ -66,11 +66,12 @@ namespace Files.App.Helpers
 
 				var propertiesWindow = new WinUIEx.WindowEx
 				{
-					IsAlwaysOnTop = true,
 					IsMinimizable = false,
 					IsMaximizable = false,
 					MinWidth = 460,
 					MinHeight = 550,
+					Width = 550,
+					Height = 550,
 					Content = frame,
 					Backdrop = new WinUIEx.MicaSystemBackdrop(),
 				};
@@ -81,7 +82,6 @@ namespace Files.App.Helpers
 				appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 				appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-				appWindow.Resize(new SizeInt32(460, 550));
 				appWindow.SetIcon(LogoPath);
 
 				if (frame.Content is Properties properties)
@@ -123,6 +123,6 @@ namespace Files.App.Helpers
 		}
 
 		private static string GetFilesLogoPath()
-			=> Path.Combine(Package.Current.InstalledLocation.Path, Constants.AssetPaths.Logo);
+			=> Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath);
 	}
 }

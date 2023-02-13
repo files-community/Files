@@ -75,9 +75,9 @@ namespace Files.App.Filesystem.Permissions
 		{
 			return new FilePermissions()
 			{
-				FilePath = this.FilePath,
-				IsFolder = this.IsFolder,
-				AccessRules = this.AccessRules.Select(x =>
+				FilePath = FilePath,
+				IsFolder = IsFolder,
+				AccessRules = AccessRules.Select(x =>
 				{
 					FileSystemAccessRule rule = x.ToFileSystemAccessRule();
 					return new FileSystemAccessRule2()
@@ -90,9 +90,9 @@ namespace Files.App.Filesystem.Permissions
 						PropagationFlags = (System.Security.AccessControl.PropagationFlags)rule.PropagationFlags
 					};
 				}).ToList(),
-				CanReadFilePermissions = this.CanReadFilePermissions,
-				CurrentUserSID = this.CurrentUser.Sid,
-				OwnerSID = this.Owner.Sid,
+				CanReadFilePermissions = CanReadFilePermissions,
+				CurrentUserSID = CurrentUser.Sid,
+				OwnerSID = Owner.Sid,
 			};
 		}
 	}

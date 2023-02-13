@@ -7,21 +7,17 @@ namespace Files.App.Serialization
 	{
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		protected override bool Set<TValue>(TValue? value, [CallerMemberName] string propertyName = "")
-			where TValue : default
+		protected override bool Set<TValue>(TValue? value, [CallerMemberName] string propertyName = "") where TValue : default
 		{
-			if (base.Set<TValue>(value, propertyName))
-			{
-				OnPropertyChanged(propertyName);
-				return true;
-			}
+			if (!base.Set<TValue>(value, propertyName))
+				return false;
 
-			return false;
+			OnPropertyChanged(propertyName);
+
+			return true;
 		}
 
 		protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
+			=> PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 	}
 }

@@ -10,6 +10,7 @@ namespace Files.App.Shell
 	public class ThreadWithMessageQueue : Disposable
 	{
 		private readonly BlockingCollection<Internal> messageQueue;
+
 		private readonly Thread thread;
 
 		protected override void Dispose(bool disposing)
@@ -26,6 +27,7 @@ namespace Files.App.Shell
 		{
 			var message = new Internal(payload);
 			messageQueue.TryAdd(message);
+
 			return (V)await message.tcs.Task;
 		}
 
@@ -33,12 +35,14 @@ namespace Files.App.Shell
 		{
 			var message = new Internal(payload);
 			messageQueue.TryAdd(message);
+
 			return message.tcs.Task;
 		}
 
 		public ThreadWithMessageQueue()
 		{
 			messageQueue = new BlockingCollection<Internal>(new ConcurrentQueue<Internal>());
+
 			thread = new Thread(new ThreadStart(() =>
 			{
 				foreach (var message in messageQueue.GetConsumingEnumerable())
@@ -47,26 +51,31 @@ namespace Files.App.Shell
 					message.tcs.SetResult(res);
 				}
 			}));
+
 			thread.SetApartmentState(ApartmentState.STA);
-			thread.IsBackground = true; // Do not prevent app from closing
+
+			// Do not prevent app from closing
+			thread.IsBackground = true;
+
 			thread.Start();
 		}
 
 		private class Internal
 		{
 			public Func<object?> payload;
+
 			public TaskCompletionSource<object> tcs;
 
 			public Internal(Action payload)
 			{
 				this.payload = () => { payload(); return default; };
-				this.tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
+				tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
 			}
 
 			public Internal(Func<object?> payload)
 			{
 				this.payload = payload;
-				this.tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
+				tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
 			}
 		}
 	}

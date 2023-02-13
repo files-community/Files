@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;

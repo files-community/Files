@@ -16,17 +16,20 @@ namespace Files.App.ViewModels.Previews
 	public class FolderPreviewViewModel
 	{
 		private readonly IPreferencesSettingsService preferencesSettingsService = Ioc.Default.GetService<IPreferencesSettingsService>();
+
 		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
 
 		public ListedItem Item { get; }
 
-		public BitmapImage Thumbnail { get; set; } = new BitmapImage();
+		public BitmapImage Thumbnail { get; set; } = new();
 
 		private BaseStorageFolder Folder { get; set; }
 
-		public FolderPreviewViewModel(ListedItem item) => Item = item;
+		public FolderPreviewViewModel(ListedItem item)
+			=> Item = item;
 
-		public Task LoadAsync() => LoadPreviewAndDetailsAsync();
+		public Task LoadAsync()
+			=> LoadPreviewAndDetailsAsync();
 
 		private async Task LoadPreviewAndDetailsAsync()
 		{
@@ -41,6 +44,7 @@ namespace Files.App.ViewModels.Previews
 				Thumbnail = await iconData.ToBitmapAsync();
 
 			var info = await Folder.GetBasicPropertiesAsync();
+
 			Item.FileDetails = new()
 			{
 				GetFileProperty("PropertyItemCount", items.Count),
@@ -50,7 +54,7 @@ namespace Files.App.ViewModels.Previews
 			};
 
 			Item.FileDetails.Add(GetFileProperty("FileTags",
-				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.TagName)) : null));
+				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null));
 		}
 
 		private static FileProperty GetFileProperty(string nameResource, object value)

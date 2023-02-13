@@ -5,7 +5,7 @@ namespace Files.App.ServicesImplementation.Settings
 {
 	internal sealed class ApplicationSettingsService : BaseObservableJsonSettings, IApplicationSettingsService
 	{
-		public bool WasPromptedToReview
+		public bool ClickedToReviewApp
 		{
 			get => Get(false);
 			set => Set(value);

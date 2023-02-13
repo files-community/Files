@@ -1,6 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.ServicesImplementation.Settings;
 using Files.App.ViewModels;
 using Files.App.Views;
+using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
@@ -11,18 +14,33 @@ namespace Files.App.DataModels
 {
 	public class AppModel : ObservableObject
 	{
-		// todo: refactor PaneViewModel, this doesn't belong here
-		public IPaneViewModel PaneViewModel { get; } = new PaneViewModel();
+		private IFoldersSettingsService FoldersSettings;
+
+		public bool ShowSelectionCheckboxes
+		{
+			get => FoldersSettings.ShowSelectionCheckboxes;
+			set => FoldersSettings.ShowSelectionCheckboxes = value;
+		}
 
 		public AppModel()
 		{
+			FoldersSettings = Ioc.Default.GetRequiredService<IUserSettingsService>().FoldersSettingsService;
+			FoldersSettings.PropertyChanged += FoldersSettings_PropertyChanged; ;
 			Clipboard.ContentChanged += Clipboard_ContentChanged;
 
-			//todo: this doesn't belong here
+			// TODO: This doesn't belong here
 			DetectFontName();
 		}
 
-		//todo: refactor this method
+		private void FoldersSettings_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(FoldersSettingsService.ShowSelectionCheckboxes))
+			{
+				OnPropertyChanged(nameof(ShowSelectionCheckboxes));
+			}
+		}
+
+		// TODO: Refactor this method
 		public void Clipboard_ContentChanged(object sender, object e)
 		{
 			try
@@ -73,13 +91,6 @@ namespace Files.App.DataModels
 			set => SetProperty(ref isPasteEnabled, value);
 		}
 
-		private bool multiselectEnabled;
-		public bool MultiselectEnabled
-		{
-			get => multiselectEnabled;
-			set => SetProperty(ref multiselectEnabled, value);
-		}
-
 		private bool isQuickLookAvailable;
 		public bool IsQuickLookAvailable
 		{
@@ -94,7 +105,7 @@ namespace Files.App.DataModels
 			set => SetProperty(ref symbolFontFamily, value);
 		}
 
-		//todo: refactor this method
+		// TODO: Refactor this method
 		private void DetectFontName()
 		{
 			var rawVersion = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);

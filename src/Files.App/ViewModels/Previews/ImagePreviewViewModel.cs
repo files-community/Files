@@ -20,14 +20,19 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref imageSource, value);
 		}
 
-		public ImagePreviewViewModel(ListedItem item) : base(item) { }
+		public ImagePreviewViewModel(ListedItem item)
+			: base(item)
+		{
+		}
 
+		// TODO: Use existing helper mothods
 		public static bool ContainsExtension(string extension)
 			=> extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif" or ".tiff" or ".ico" or ".webp";
 
 		public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
 			using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
+
 			await App.Window.DispatcherQueue.EnqueueAsync(async () =>
 			{
 				BitmapImage bitmap = new();

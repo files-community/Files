@@ -1,10 +1,14 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Interacts;
 using Files.App.ViewModels;
+using Files.App.ViewModels.Dialogs;
 using Files.Backend.Enums;
+using Files.Backend.Extensions;
+using Files.Backend.Services;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
@@ -47,11 +51,19 @@ namespace Files.App.Helpers
 				try
 				{
 					var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+					if (banner is not null)
+					{
+						banner.Progress.EnumerationCompleted = true;
+						banner.Progress.ItemsCount = items.Count;
+						banner.Progress.ReportStatus(FileSystemStatusCode.InProgress);
+					}
+
 					await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
 					{
 						if (banner is not null)
 						{
-							((IProgress<float>)banner.Progress).Report(items.Count / (float)itemsCount * 100);
+							banner.Progress.ProcessedItemsCount = itemsCount;
+							banner.Progress.Report();
 						}
 
 						// FTP don't support cut, fallback to copy
@@ -66,27 +78,23 @@ namespace Files.App.Helpers
 						if (listedItem is FtpItem ftpItem)
 						{
 							if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
-							{
 								items.Add(await ftpItem.ToStorageItem());
-							}
 						}
 						else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
 						{
 							var result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
+
 							if (!result)
-							{
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
-							}
 						}
 						else
 						{
 							var result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
+
 							if (!result)
-							{
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
-							}
 						}
 					}, 10, banner?.CancellationToken ?? default);
 				}
@@ -111,13 +119,11 @@ namespace Files.App.Helpers
 
 			var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
 			if (onlyStandard)
-			{
 				items = new ConcurrentBag<IStorageItem>(await items.ToStandardStorageItemsAsync());
-			}
+
 			if (!items.Any())
-			{
 				return;
-			}
+
 			dataPackage.Properties.PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName;
 			dataPackage.SetStorageItems(items, false);
 			try
@@ -150,37 +156,40 @@ namespace Files.App.Helpers
 
 				try
 				{
+					if (banner is not null)
+					{
+						banner.Progress.EnumerationCompleted = true;
+						banner.Progress.ItemsCount = items.Count;
+						banner.Progress.ReportStatus(FileSystemStatusCode.InProgress);
+					}
 					await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
 					{
 						if (banner is not null)
 						{
-							((IProgress<float>)banner.Progress).Report(items.Count / (float)itemsCount * 100);
+							banner.Progress.ProcessedItemsCount = itemsCount;
+							banner.Progress.Report();
 						}
 
 						if (listedItem is FtpItem ftpItem)
 						{
 							if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
-							{
 								items.Add(await ftpItem.ToStorageItem());
-							}
 						}
 						else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
 						{
 							var result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
+
 							if (!result)
-							{
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
-							}
 						}
 						else
 						{
 							var result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
+
 							if (!result)
-							{
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
-							}
 						}
 					}, 10, banner?.CancellationToken ?? default);
 				}
@@ -204,15 +213,14 @@ namespace Files.App.Helpers
 
 			var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
 			if (onlyStandard)
-			{
 				items = new ConcurrentBag<IStorageItem>(await items.ToStandardStorageItemsAsync());
-			}
+
 			if (!items.Any())
-			{
 				return;
-			}
+
 			dataPackage.Properties.PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName;
 			dataPackage.SetStorageItems(items, false);
+
 			try
 			{
 				Clipboard.SetContent(dataPackage);
@@ -253,9 +261,7 @@ namespace Files.App.Helpers
 			}
 
 			if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))
-			{
 				return true;
-			}
 
 			FilesystemItemType itemType = (item.PrimaryItemAttribute == StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File;
 
@@ -267,6 +273,7 @@ namespace Files.App.Helpers
 				associatedInstance.ToolbarViewModel.CanGoForward = false;
 				return true;
 			}
+
 			return false;
 		}
 
@@ -279,15 +286,15 @@ namespace Files.App.Helpers
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
+
 			return contentDialog;
 		}
 
 		public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
 		{
 			string currentPath = null;
+
 			if (associatedInstance.SlimContentPage is not null)
 			{
 				currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
@@ -307,9 +314,7 @@ namespace Files.App.Helpers
 				await SetContentDialogRoot(dialog).ShowAsync(); // Show rename dialog
 
 				if (dialog.DynamicResult != DynamicDialogResult.Primary)
-				{
 					return null;
-				}
 
 				userInput = dialog.ViewModel.AdditionalData as string;
 			}
@@ -335,7 +340,11 @@ namespace Files.App.Helpers
 
 			if (created.Status == ReturnResult.AccessUnauthorized)
 			{
-				await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalizedResource(), "AccessDeniedCreateDialog/Text".GetLocalizedResource());
+				await DialogDisplayHelper.ShowDialogAsync
+				(
+					"AccessDenied".GetLocalizedResource(),
+					"AccessDeniedCreateDialog/Text".GetLocalizedResource()
+				);
 			}
 
 			return created.Item;
@@ -350,9 +359,8 @@ namespace Files.App.Helpers
 					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
 				var folder = await CreateFileFromDialogResultTypeForResult(AddItemDialogItemType.Folder, null, associatedInstance);
 				if (folder is null)
-				{
 					return;
-				}
+
 				await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x => PathNormalization.Combine(folder.Path, x.Name)), false, true);
 			}
 			catch (Exception ex)
@@ -362,7 +370,7 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Set a single file or folder to hidden or unhidden an refresh the
+		/// Set a single file or folder to hidden or unhidden and refresh the
 		/// view after setting the flag
 		/// </summary>
 		/// <param name="item"></param>
@@ -371,6 +379,58 @@ namespace Files.App.Helpers
 		{
 			item.IsHiddenItem = isHidden;
 			itemManipulationModel.RefreshItemsOpacity();
+		}
+
+		public static async Task CreateShortcutFromDialogAsync(IShellPage associatedInstance)
+		{
+			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
+			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
+				!library.IsEmpty)
+			{
+				currentPath = library.DefaultSaveFolder;
+			}
+
+			var viewModel = new CreateShortcutDialogViewModel(currentPath);
+			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			var result = await dialogService.ShowDialogAsync(viewModel);
+
+			if (result != DialogResult.Primary || viewModel.ShortcutCreatedSuccessfully)
+				return;
+
+			await HandleShortcutCannotBeCreated(viewModel.ShortcutCompleteName, viewModel.DestinationItemPath);
+		}
+
+		public static async Task<bool> HandleShortcutCannotBeCreated(string shortcutName, string destinationPath)
+		{
+			var result = await DialogDisplayHelper.ShowDialogAsync
+			(
+				"CannotCreateShortcutDialogTitle".ToLocalized(),
+				"CannotCreateShortcutDialogMessage".ToLocalized(),
+				"Create".ToLocalized(),
+				"Cancel".ToLocalized()
+			);
+			if (!result)
+				return false;
+
+			var shortcutPath = Path.Combine(CommonPaths.DesktopPath, shortcutName);
+
+			return await FileOperationsHelpers.CreateOrUpdateLinkAsync(shortcutPath, destinationPath);
+		}
+
+		/// <summary>
+		/// Updates ListedItem properties for a shortcut
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="targetPath"></param>
+		/// <param name="arguments"></param>
+		/// <param name="workingDir"></param>
+		/// <param name="runAsAdmin"></param>
+		public static void UpdateShortcutItemProperties(ShortcutItem item, string targetPath, string arguments, string workingDir, bool runAsAdmin)
+		{
+			item.TargetPath = Environment.ExpandEnvironmentVariables(targetPath);
+			item.Arguments = arguments;
+			item.WorkingDirectory = workingDir;
+			item.RunAsAdmin = runAsAdmin;
 		}
 	}
 }

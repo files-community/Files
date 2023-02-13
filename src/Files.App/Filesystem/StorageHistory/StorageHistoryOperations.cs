@@ -29,22 +29,24 @@ namespace Files.App.Filesystem.FilesystemHistory
 		public async Task<ReturnResult> Undo(IStorageHistory history)
 		{
 			ReturnResult returnStatus = ReturnResult.InProgress;
-			Progress<FileSystemStatusCode> errorCode = new();
+			Progress<FileSystemProgress> progress = new();
 
-			errorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+			progress.ProgressChanged += (s, e) => returnStatus = e.Status!.Value.ToStatus();
 
 			switch (history.OperationType)
 			{
 				case FileOperationType.CreateNew: // Opposite: Delete created items
 					if (!IsHistoryNull(history.Source))
 					{
-						return await helpers.DeleteItemsAsync(history.Source, false, true, false);
+						// Show a dialog regardless of the setting to prevent unexpected deletion
+						return await helpers.DeleteItemsAsync(history.Source, DeleteConfirmationPolicies.Always, true, false);
 					}
 					break;
 				case FileOperationType.CreateLink: // Opposite: Delete created items
 					if (!IsHistoryNull(history.Destination))
 					{
-						return await helpers.DeleteItemsAsync(history.Destination, false, true, false);
+						// Show a dialog regardless of the setting to prevent unexpected deletion
+						return await helpers.DeleteItemsAsync(history.Destination, DeleteConfirmationPolicies.Always, true, false);
 					}
 					break;
 				case FileOperationType.Rename: // Opposite: Restore original item names
@@ -54,14 +56,15 @@ namespace Files.App.Filesystem.FilesystemHistory
 						for (int i = 0; i < history.Destination.Count(); i++)
 						{
 							string name = Path.GetFileName(history.Source[i].Path);
-							await operations.RenameAsync(history.Destination[i], name, collision, errorCode, cancellationToken);
+							await operations.RenameAsync(history.Destination[i], name, collision, progress, cancellationToken);
 						}
 					}
 					break;
 				case FileOperationType.Copy: // Opposite: Delete copied items
 					if (!IsHistoryNull(history.Destination))
 					{
-						return await helpers.DeleteItemsAsync(history.Destination, false, true, false);
+						// Show a dialog regardless of the setting to prevent unexpected deletion
+						return await helpers.DeleteItemsAsync(history.Destination, DeleteConfirmationPolicies.Always, true, false);
 					}
 					break;
 				case FileOperationType.Move: // Opposite: Move the items to original directory
@@ -87,7 +90,7 @@ namespace Files.App.Filesystem.FilesystemHistory
 				case FileOperationType.Restore: // Opposite: Move restored items to Recycle Bin
 					if (!IsHistoryNull(history.Destination))
 					{
-						var newHistory = await operations.DeleteItemsAsync(history.Destination, null, errorCode, false, cancellationToken);
+						var newHistory = await operations.DeleteItemsAsync(history.Destination, progress, false, cancellationToken);
 						if (newHistory is null)
 						{
 							App.HistoryWrapper.RemoveHistory(history, false);
@@ -110,9 +113,9 @@ namespace Files.App.Filesystem.FilesystemHistory
 		public async Task<ReturnResult> Redo(IStorageHistory history)
 		{
 			ReturnResult returnStatus = ReturnResult.InProgress;
-			Progress<FileSystemStatusCode> errorCode = new();
+			Progress<FileSystemProgress> progress = new();
 
-			errorCode.ProgressChanged += (s, e) => { returnStatus = e.ToStatus(); };
+			progress.ProgressChanged += (s, e) => { returnStatus = e.Status!.Value.ToStatus(); };
 
 			switch (history.OperationType)
 			{
@@ -121,7 +124,7 @@ namespace Files.App.Filesystem.FilesystemHistory
 					{
 						foreach (var source in history.Source)
 						{
-							await operations.CreateAsync(source, errorCode, cancellationToken);
+							await operations.CreateAsync(source, progress, cancellationToken);
 						}
 					}
 					break;
@@ -129,7 +132,7 @@ namespace Files.App.Filesystem.FilesystemHistory
 					if (!IsHistoryNull(history))
 					{
 						await operations.CreateShortcutItemsAsync(history.Source,
-							await history.Destination.Select(item => item.Path).ToListAsync(), null, errorCode, cancellationToken);
+							await history.Destination.Select(item => item.Path).ToListAsync(), progress, cancellationToken);
 					}
 					break;
 				case FileOperationType.Rename:
@@ -139,7 +142,7 @@ namespace Files.App.Filesystem.FilesystemHistory
 						for (int i = 0; i < history.Source.Count; i++)
 						{
 							string name = Path.GetFileName(history.Destination[i].Path);
-							await operations.RenameAsync(history.Source[i], name, collision, errorCode, cancellationToken);
+							await operations.RenameAsync(history.Source[i], name, collision, progress, cancellationToken);
 						}
 					}
 					break;
@@ -162,7 +165,7 @@ namespace Files.App.Filesystem.FilesystemHistory
 				case FileOperationType.Recycle: // Recycle PASS
 					if (!IsHistoryNull(history.Destination))
 					{
-						var newHistory = await operations.DeleteItemsAsync(history.Source, null, errorCode, false, cancellationToken);
+						var newHistory = await operations.DeleteItemsAsync(history.Source, progress, false, cancellationToken);
 						if (newHistory is null)
 						{
 							App.HistoryWrapper.RemoveHistory(history, true);

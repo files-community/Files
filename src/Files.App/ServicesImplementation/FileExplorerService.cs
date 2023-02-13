@@ -26,7 +26,7 @@ namespace Files.App.ServicesImplementation
 		/// <inheritdoc/>
 		public async Task<ILocatableFile?> PickSingleFileAsync(IEnumerable<string>? filter, CancellationToken cancellationToken = default)
 		{
-			var filePicker = this.InitializeWithWindow(new FileOpenPicker());
+			var filePicker = InitializeWithWindow(new FileOpenPicker());
 
 			if (filter is not null)
 			{
@@ -53,7 +53,7 @@ namespace Files.App.ServicesImplementation
 		/// <inheritdoc/>
 		public async Task<ILocatableFolder?> PickSingleFolderAsync(CancellationToken cancellationToken = default)
 		{
-			var folderPicker = this.InitializeWithWindow(new FolderPicker());
+			var folderPicker = InitializeWithWindow(new FolderPicker());
 
 			folderPicker.FileTypeFilter.Add("*");
 
@@ -67,6 +67,7 @@ namespace Files.App.ServicesImplementation
 		private FolderPicker InitializeWithWindow(FolderPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 	}

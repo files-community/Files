@@ -29,6 +29,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -61,11 +62,11 @@ namespace Files.App.Views
 
 		public bool IsColumnView { get; } = true;
 
-		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
+		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetRequiredService<IUpdateService>();
+		private readonly IUpdateService updateSettingsService = Ioc.Default.GetRequiredService<IUpdateService>();
 
 		private bool isCurrentInstance = false;
 		public bool IsCurrentInstance
@@ -159,7 +160,7 @@ namespace Files.App.Views
 				FlowDirection = FlowDirection.RightToLeft;
 			}
 
-			//NavigationToolbar.PathControlDisplayText = "Home".GetLocalizedResource();
+			//NavigationToolbar.PathControlDisplayText = "Home";
 			//NavigationToolbar.CanGoBack = false;
 			//NavigationToolbar.CanGoForward = false;
 			//NavigationToolbar.SearchBox.QueryChanged += ColumnShellPage_QueryChanged;
@@ -197,7 +198,7 @@ namespace Files.App.Views
 			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
-			this.PointerPressed += CoreWindow_PointerPressed;
+			PointerPressed += CoreWindow_PointerPressed;
 
 			/*
 
@@ -236,7 +237,14 @@ namespace Files.App.Views
 					{
 						path = SlimContentPage.SelectedItem.ItemPath;
 					}
-					// TODO open path in Windows Terminal
+
+					var terminalStartInfo = new ProcessStartInfo()
+					{
+						FileName = "wt.exe",
+						WorkingDirectory = path
+					};
+					Process.Start(terminalStartInfo);
+
 					args.Handled = true;
 					break;
 
@@ -271,10 +279,11 @@ namespace Files.App.Views
 			ToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
 			ToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
-			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
+			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home"));
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, this));
+			ToolbarViewModel.CreateNewShortcutCommand = new RelayCommand(() => CreateNewShortcutFromDialog());
 			ToolbarViewModel.CopyCommand = new RelayCommand(async () => await UIFilesystemHelpers.CopyItem(this));
 			ToolbarViewModel.Rename = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RenameItemCommand.Execute(null));
 			ToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
@@ -295,7 +304,7 @@ namespace Files.App.Views
 			ToolbarViewModel.RotateImageLeftCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.CanExecute(null) == true);
 			ToolbarViewModel.RotateImageRightCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.CanExecute(null) == true);
 			ToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
-			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await UpdateSettingsService.DownloadUpdates());
+			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
 		}
 
 		private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
@@ -579,7 +588,7 @@ namespace Files.App.Views
 			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			OnNavigationParamsChanged();
-			this.Loaded -= Page_Loaded;
+			Loaded -= Page_Loaded;
 		}
 
 		private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
@@ -688,14 +697,14 @@ namespace Files.App.Views
 					if (InstanceViewModel.CanCreateFileInPage)
 					{
 						var addItemDialogViewModel = new AddItemDialogViewModel();
-						await DialogService.ShowDialogAsync(addItemDialogViewModel);
-						if (addItemDialogViewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
-						{
+						await dialogService.ShowDialogAsync(addItemDialogViewModel);
+						if (addItemDialogViewModel.ResultType.ItemType == AddItemDialogItemType.Shortcut)
+							CreateNewShortcutFromDialog();
+						else if (addItemDialogViewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
 							UIFilesystemHelpers.CreateFileFromDialogResultType(
 								addItemDialogViewModel.ResultType.ItemType,
 								addItemDialogViewModel.ResultType.ItemInfo,
 								this);
-						}
 					}
 					break;
 
@@ -705,7 +714,7 @@ namespace Files.App.Views
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 							item.ItemPath,
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-						await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
+						await FilesystemHelpers.DeleteItemsAsync(items, UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, true, true);
 					}
 
 					break;
@@ -737,7 +746,7 @@ namespace Files.App.Views
 				case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
 					{
-						this.SlimContentPage.ItemManipulationModel.SelectAllItems();
+						SlimContentPage.ItemManipulationModel.SelectAllItems();
 					}
 
 					break;
@@ -749,13 +758,13 @@ namespace Files.App.Views
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 							item.ItemPath,
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-						await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+						await FilesystemHelpers.DeleteItemsAsync(items, UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
 					}
 
 					break;
 
 				case (true, false, false, true, VirtualKey.P): // ctrl + p, toggle preview pane
-					App.PaneViewModel.IsPreviewSelected = !App.PaneViewModel.IsPreviewSelected;
+					App.PreviewPaneViewModel.IsEnabled = !App.PreviewPaneViewModel.IsEnabled;
 					break;
 
 				case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
@@ -771,7 +780,7 @@ namespace Files.App.Views
 					break;
 
 				case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
-					await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
+					await NavigationHelpers.OpenPathInNewTab(FilesystemViewModel.WorkingDirectory);
 					break;
 
 				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
@@ -882,14 +891,14 @@ namespace Files.App.Views
 		{
 			if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType is not null)
 			{
-				ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
+				ToolbarViewModel.PathControlDisplayText = "Home";
 			}
 		}
 
 		public void Dispose()
 		{
 			PreviewKeyDown -= ColumnShellPage_PreviewKeyDown;
-			this.PointerPressed -= CoreWindow_PointerPressed;
+			PointerPressed -= CoreWindow_PointerPressed;
 			//SystemNavigationManager.GetForCurrentView().BackRequested -= ColumnShellPage_BackRequested; //WINUI3
 			App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
 
@@ -952,7 +961,7 @@ namespace Files.App.Views
 					// Select previous directory
 					if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
 					{
-						if (e.PreviousDirectory.Contains(e.Path, StringComparison.Ordinal) && !e.PreviousDirectory.Contains("Shell:RecycleBinFolder", StringComparison.Ordinal))
+						if (e.PreviousDirectory.Contains(e.Path, StringComparison.Ordinal) && !e.PreviousDirectory.Contains(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 						{
 							// Remove the WorkingDir from previous dir
 							e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty, StringComparison.Ordinal);
@@ -1045,5 +1054,8 @@ namespace Files.App.Views
 			});
 			//this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);
 		}
+
+		private async void CreateNewShortcutFromDialog()
+			=> await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 	}
 }

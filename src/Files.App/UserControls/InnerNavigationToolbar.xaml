@@ -85,6 +85,15 @@
 									<FontIcon Glyph="&#xE7C3;" />
 								</MenuFlyoutItem.Icon>
 							</MenuFlyoutItem>
+							<MenuFlyoutItem
+								x:Name="NewShortcut"
+								AutomationProperties.AutomationId="InnerNavigationToolbarNewShortcutButton"
+								Command="{x:Bind ViewModel.CreateNewShortcutCommand, Mode=OneWay}"
+								Text="{helpers:ResourceString Name=Shortcut}">
+								<MenuFlyoutItem.Icon>
+									<FontIcon Glyph="&#xE71B;" />
+								</MenuFlyoutItem.Icon>
+							</MenuFlyoutItem>
 							<MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
 						</MenuFlyout>
 					</AppBarButton.Flyout>
@@ -414,14 +423,6 @@
 				ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSelectionOptions/ToolTipService/ToolTip}">
 				<AppBarButton.Flyout>
 					<MenuFlyout Placement="Bottom">
-						<ToggleMenuFlyoutItem
-							x:Name="MultiselectMFI"
-							IsChecked="{x:Bind AppModel.MultiselectEnabled, Mode=TwoWay}"
-							Text="{helpers:ResourceString Name=NavToolbarMultiselect/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon Glyph="&#xE762;" />
-							</MenuFlyoutItem.Icon>
-						</ToggleMenuFlyoutItem>
 						<MenuFlyoutItem
 							x:Name="SelectAllMFI"
 							Command="{x:Bind ViewModel.SelectAllContentPageItemsCommand, Mode=OneWay}"
@@ -492,6 +493,9 @@
 								IsChecked="{x:Bind ViewModel.IsSortedByDateDeleted, Mode=TwoWay}"
 								IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=DateDeleted}" />
+							<MenuFlyoutSeparator />
+							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedAscending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Ascending}" />
+							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedDescending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Descending}" />
 						</MenuFlyoutSubItem>
 						<MenuFlyoutSubItem Text="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}">
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByNone, Mode=TwoWay}" Text="{helpers:ResourceString Name=None}" />
@@ -517,10 +521,16 @@
 								IsChecked="{x:Bind ViewModel.IsGroupedByFolderPath, Mode=TwoWay}"
 								IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeLibrary, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=NavToolbarArrangementOptionFolderPath/Text}" />
+							<MenuFlyoutSeparator />
+							<ToggleMenuFlyoutItem
+								IsChecked="{x:Bind ViewModel.IsGroupedAscending, Mode=TwoWay}"
+								IsEnabled="{x:Bind ViewModel.IsGroupedByNone, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+								Text="{helpers:ResourceString Name=Ascending}" />
+							<ToggleMenuFlyoutItem
+								IsChecked="{x:Bind ViewModel.IsGroupedDescending, Mode=TwoWay}"
+								IsEnabled="{x:Bind ViewModel.IsGroupedByNone, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+								Text="{helpers:ResourceString Name=Descending}" />
 						</MenuFlyoutSubItem>
-						<MenuFlyoutSeparator />
-						<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedAscending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Ascending}" />
-						<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedDescending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Descending}" />
 						<MenuFlyoutSeparator />
 						<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.AreDirectoriesSortedAlongsideFiles, Mode=TwoWay}" Text="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" />
 					</MenuFlyout>
@@ -800,7 +810,7 @@
 									Grid.Column="1"
 									HorizontalAlignment="Right"
 									AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarShowFileExtensions/AutomationProperties/Name}"
-									IsOn="{x:Bind UserSettingsService.PreferencesSettingsService.ShowFileExtensions, Mode=TwoWay}"
+									IsOn="{x:Bind UserSettingsService.FoldersSettingsService.ShowFileExtensions, Mode=TwoWay}"
 									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 							</Grid>
@@ -814,7 +824,7 @@
 				MinWidth="40"
 				AccessKey="P"
 				AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneToggle/AutomationProperties/Name}"
-				IsChecked="{x:Bind AppModel.PaneViewModel.IsPreviewSelected, Mode=TwoWay}"
+				IsChecked="{x:Bind PreviewPaneViewModel.IsEnabled, Mode=TwoWay}"
 				IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
 				Label="{helpers:ResourceString Name=PreviewPaneToggle/Label}"
 				LabelPosition="Collapsed"

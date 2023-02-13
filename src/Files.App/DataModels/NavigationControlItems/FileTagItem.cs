@@ -8,7 +8,6 @@ namespace Files.App.DataModels.NavigationControlItems
 		public string Text { get; set; }
 
 		private string path;
-
 		public string Path
 		{
 			get => path;
@@ -25,10 +24,12 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public ContextMenuOptions MenuOptions { get; set; }
 
-		public NavigationControlItemType ItemType => NavigationControlItemType.FileTag;
+		public NavigationControlItemType ItemType
+			=> NavigationControlItemType.FileTag;
 
-		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+		public int CompareTo(INavigationControlItem other)
+			=> Text.CompareTo(other.Text);
 
-		public FileTagViewModel FileTag { get; set; }
+		public TagViewModel FileTag { get; set; }
 	}
 }

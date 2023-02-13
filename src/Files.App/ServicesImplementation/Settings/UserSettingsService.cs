@@ -24,22 +24,16 @@ namespace Files.App.ServicesImplementation.Settings
 			get => GetSettingsService(ref _FoldersSettingsService);
 		}
 
-		private IMultitaskingSettingsService _MultitaskingSettingsService;
-		public IMultitaskingSettingsService MultitaskingSettingsService
-		{
-			get => GetSettingsService(ref _MultitaskingSettingsService);
-		}
-
 		private IAppearanceSettingsService _AppearanceSettingsService;
 		public IAppearanceSettingsService AppearanceSettingsService
 		{
 			get => GetSettingsService(ref _AppearanceSettingsService);
 		}
 
-		private IPaneSettingsService _PaneSettingsService;
-		public IPaneSettingsService PaneSettingsService
+		private IPreviewPaneSettingsService _PreviewPaneSettingsService;
+		public IPreviewPaneSettingsService PreviewPaneSettingsService
 		{
-			get => GetSettingsService(ref _PaneSettingsService);
+			get => GetSettingsService(ref _PreviewPaneSettingsService);
 		}
 
 		private ILayoutSettingsService _LayoutSettingsService;
@@ -105,6 +99,7 @@ namespace Files.App.ServicesImplementation.Settings
 			where TSettingsService : class, IBaseSettingsService
 		{
 			settingsServiceMember ??= Ioc.Default.GetService<TSettingsService>()!;
+
 			return settingsServiceMember;
 		}
 	}

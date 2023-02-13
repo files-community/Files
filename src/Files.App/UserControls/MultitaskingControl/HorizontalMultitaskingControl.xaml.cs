@@ -3,6 +3,7 @@ using Files.App.Helpers;
 using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
@@ -26,7 +27,8 @@ namespace Files.App.UserControls.MultitaskingControl
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
 			var appWindowTitleBar = App.GetAppWindow(App.Window).TitleBar;
-			RightPaddingColumn.Width = (flowDirectionSetting == "RTL") ? new GridLength(appWindowTitleBar.LeftInset) : new GridLength(appWindowTitleBar.RightInset);
+			double rightPaddingColumnWidth = flowDirectionSetting is "RTL" ? appWindowTitleBar.LeftInset : appWindowTitleBar.RightInset;
+			RightPaddingColumn.Width = new GridLength(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
 		}
 
 		private void HorizontalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
@@ -232,6 +234,6 @@ namespace Files.App.UserControls.MultitaskingControl
 		public static readonly DependencyProperty TabStripVisibilityProperty =
 			DependencyProperty.Register("TabStripVisibility", typeof(Visibility), typeof(HorizontalMultitaskingControl), new PropertyMetadata(Visibility.Visible));
 
-		public Grid DragArea => DragAreaGrid;
+		public Rectangle DragArea => DragAreaRectangle;
 	}
 }

@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
+    
     Example:
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -24,33 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -205,20 +210,20 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Remover este item</value>
   </data>
-  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
-    <value>Links úteis</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Submeter feedback</value>
+  <data name="OpenGitHubRepo" xml:space="preserve">
+    <value>GitHub repository</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>Sobre</value>
+  </data>
+  <data name="OpenSource" xml:space="preserve">
+    <value>Open source</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Formato de data</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Escolha a sua cor</value>
+    <value>Theme</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Mostrar extensões para tipos de arquivo conhecidos</value>
@@ -229,20 +234,17 @@
   <data name="ShowDotFiles" xml:space="preserve">
     <value>Mostrar arquivos "."</value>
   </data>
-  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>Experimental</value>
-  </data>
   <data name="Appearance" xml:space="preserve">
     <value>Aparência</value>
   </data>
-  <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>Experimental</value>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
+  </data>
+  <data name="Advanced" xml:space="preserve">
+    <value>Advanced</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferências</value>
-  </data>
-  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>AVISO: RECURSOS EXPERIMENTAIS ABAIXO!</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continuar onde você parou</value>
@@ -342,6 +344,9 @@
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Arquivo</value>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>Display</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Insira o nome do item</value>
@@ -446,7 +451,7 @@
     <value>O arquivo que você está tentando acessar está sendo usado por {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>O arquivo que você está tentando acessar está sendo usado por outro aplicativo</value>
+    <value>The file you are attempting to access is currently being used by another application</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>O arquivo está em uso</value>
@@ -490,6 +495,12 @@
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0} segundos atrás</value>
   </data>
+  <data name="OneSecondAgo" xml:space="preserve">
+    <value>1 second ago</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>Now</value>
+  </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>Nova guia</value>
   </data>
@@ -508,8 +519,8 @@
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>O nome do item não deve conter os seguintes caracteres: \ / : * ? " &lt; &gt; |</value>
+  <data name="InvalidFilename.Text" xml:space="preserve">
+    <value>The item name specified is invalid</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>item selecionado</value>
@@ -688,17 +699,14 @@
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
     <value>Reportar este problema</value>
   </data>
-  <data name="SettingsAboutContributors.Text" xml:space="preserve">
-    <value>Contribuidores</value>
-  </data>
-  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Notas de lançamento</value>
-  </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>O item referenciado é inválido ou inacessível.{0}Mensagem de erro:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Item inválido</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Versão</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Versão:</value>
@@ -736,14 +744,20 @@
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>O nome do item é muito longo</value>
   </data>
-  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
-    <value>Mais</value>
+  <data name="ShowMoreOptions" xml:space="preserve">
+    <value>Show more options</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>O aplicativo precisa ser reiniciado a fim de aplicar estas configurações, você gostaria de reiniciar o aplicativo?</value>
   </data>
-  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
-    <value>Apoie-nos</value>
+  <data name="SponsorUsOnGitHub" xml:space="preserve">
+    <value>Sponsor us on GitHub</value>
+  </data>
+  <data name="Personalization" xml:space="preserve">
+    <value>Personalization</value>
+  </data>
+  <data name="LayoutAndSorting" xml:space="preserve">
+    <value>Layout and sorting</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Não foi possível criar este item</value>
@@ -809,10 +823,10 @@
     <value>Idioma</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Mova os itens restantes para um submenu</value>
+    <value>Move shell extensions into a sub menu</value>
   </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Mostrar uma caixa de confirmação ao deletar arquivos ou pastas</value>
+  <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
+    <value>Show confirmation dialog when deleting items</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Ocorreu um problema ao salvar algumas propriedades.</value>
@@ -1183,15 +1197,6 @@
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Resultados da pesquisa</value>
   </data>
-  <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Veja quem contribuiu para o Files</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Descubra o que há de novo no Files</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Envie aos desenvolvedores um relatório de problema com mais informações</value>
-  </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Nos apoie no GitHub</value>
   </data>
@@ -1216,14 +1221,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Incluir itens não indexados nos resultados de pesquisa</value>
   </data>
-  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Redefinir preferências de pasta</value>
-  </data>
-  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Alterar o layout em um diretório quando essa configuração estiver desativada, atualizará o layout de todos os diretórios.</value>
-  </data>
-  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Habilite preferências individuais para diretórios individuais</value>
+  <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
+    <value>Sync layout and sorting preferences across directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalize o menu de contexto (Botão Direito)</value>
@@ -1244,7 +1243,7 @@
     <value>Remover</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Sempre abra novas guias no modo de painel duplo</value>
+    <value>Open tabs in dual pane mode</value>
   </data>
   <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>Ativar visualização de painel duplo</value>
@@ -1257,9 +1256,6 @@
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>Abrir no painel secundário</value>
-  </data>
-  <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>Painel Duplo</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Pastas</value>
@@ -1399,17 +1395,17 @@
   <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
     <value>Painel de visualização do arquivo selecionado</value>
   </data>
-  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
-    <value>Documentação</value>
-  </data>
-  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Visite o site de documentação do Files</value>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Flyout das tarefas em andamento</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Disponível quando online</value>
+  </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Documentation</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Disponível quando offline</value>
@@ -1429,8 +1425,8 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Desconhecido</value>
   </data>
-  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
-    <value>Multiseleção</value>
+  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
+    <value>Show selection checkbox next to file names</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Se você alterar uma extensão de arquivo, o arquivo pode se tornar inutilizável. Você tem certeza de que deseja alterar?</value>
@@ -1468,7 +1464,7 @@
   <data name="DateCreated" xml:space="preserve">
     <value>Data de criação</value>
   </data>
-  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="MoreOptions" xml:space="preserve">
     <value>Mais opções...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
@@ -1479,9 +1475,6 @@
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mais opções de pacotes</value>
-  </data>
-  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Mais opções de unidades</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favoritos</value>
@@ -1501,14 +1494,8 @@
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
     <value>Abrir em novo Painel</value>
   </data>
-  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Mostrar a seção de bibliotecas</value>
-  </data>
   <data name="Default" xml:space="preserve">
     <value>Padrão</value>
-  </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Temas personalizados</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Contagem de itens</value>
@@ -1542,12 +1529,6 @@
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Você gostaria de continuar como administrador?</value>
-  </data>
-  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
-    <value>Files está funcionando como administrador</value>
-  </data>
-  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
-    <value>Administrador</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Vista em Coluna (Ctrl+Shift+6)</value>
@@ -1657,23 +1638,11 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Abrir pastas em uma nova guia</value>
   </data>
-  <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Mostrar componente de pacotes</value>
-  </data>
-  <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Mostrar componente do drives</value>
-  </data>
-  <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Mostrar pastas do componente</value>
-  </data>
-  <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Mostrar arquivos recentes do componente</value>
-  </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Não encontrou o que procurava?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Pesquisar itens não indexados.</value>
+    <value>Search unindexed items</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Abrir a pasta de temas</value>
@@ -1819,14 +1788,11 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
     <value>Reabrir a guia fechada</value>
   </data>
-  <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
-    <value>Política de privacidade</value>
-  </data>
-  <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Ver política de privacidade do Files</value>
-  </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
     <value>Renomear</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Privacy</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Mover cancelado</value>
@@ -1927,11 +1893,8 @@
   <data name="canceling" xml:space="preserve">
     <value>cancelando</value>
   </data>
-  <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Dispensar</value>
-  </data>
-  <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Dispensar</value>
+  <data name="Clear" xml:space="preserve">
+    <value>Limpar</value>
   </data>
   <data name="Widgets" xml:space="preserve">
     <value>Componentes</value>
@@ -1986,18 +1949,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Proprietário desconhecido</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Saiba mais sobre temas personalizados</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Saiba mais sobre temas personalizados</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Os temas personalizados são uma ótima maneira de deixar o Files com a sua cara.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Ver a documentação.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extrair arquivo</value>
@@ -2191,18 +2142,6 @@
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Tamanho descomprimido</value>
   </data>
-  <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar seção de drives em nuvem</value>
-  </data>
-  <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar seção de unidades de armazenamento</value>
-  </data>
-  <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Mostrar seção WSL</value>
-  </data>
-  <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar seção de rede</value>
-  </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
@@ -2305,9 +2244,6 @@
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Editar etiquetas</value>
   </data>
-  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Mostrar a seção de favoritos</value>
-  </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
     <value>Aplicar a todos</value>
   </data>
@@ -2347,9 +2283,6 @@
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget de Unidades</value>
   </data>
-  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget de Bibliotecas</value>
-  </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget de Arquivos Recentes</value>
   </data>
@@ -2386,32 +2319,11 @@
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
     <value>Mostrar itens ocultos</value>
   </data>
-  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar a seção de favoritos</value>
-  </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Abrir pastas em uma nova guia</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Idioma</value>
-  </data>
-  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar seção de drives em nuvem</value>
-  </data>
-  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar uma caixa de confirmação ao deletar arquivos ou pastas</value>
-  </data>
-  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar seção de unidades de armazenamento</value>
-  </data>
-  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar a seção de bibliotecas</value>
-  </data>
-  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar seção de rede</value>
-  </data>
-  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar seção WSL</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tarefas em andamento</value>
@@ -2434,8 +2346,17 @@
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Coluna de tamanho do item</value>
   </data>
-  <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Gerenciador de arquivos padrão</value>
+  <data name="ExperimentalFeatureFlags" xml:space="preserve">
+    <value>Experimental feature flags</value>
+  </data>
+  <data name="HelpAndSupport" xml:space="preserve">
+    <value>Help and support</value>
+  </data>
+  <data name="SubmitFeatureRequest" xml:space="preserve">
+    <value>Submit feature request</value>
+  </data>
+  <data name="SubmitBugReport" xml:space="preserve">
+    <value>Submit bug report</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Definir o Files como o gerenciador de arquivos padrão</value>
@@ -2459,7 +2380,7 @@
     <value>Importar Configurações</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>Gerenciar Configurações</value>
+    <value>Manage settings</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Não foi possível importar. O arquivo de configurações está corrompido.</value>
@@ -2481,9 +2402,6 @@
   </data>
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restaurar padrão</value>
-  </data>
-  <data name="FilesAndFolders" xml:space="preserve">
-    <value>Arquivos e pastas</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
     <value>Abrir nova instância ao abrir diretórios da lista de atalhos na barra de tarefas</value>
@@ -2579,7 +2497,7 @@
     <value>Calcular tamanhos da pasta</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Arquivos Recentes</value>
+    <value>Recent files</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Abrir Arquivos na Inicialização do Windows</value>
@@ -2686,14 +2604,8 @@
   <data name="FileTags" xml:space="preserve">
     <value>Etiquetas</value>
   </data>
-  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Mostrar a seção de Etiquetas</value>
-  </data>
-  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar a seção de Etiquetas</value>
-  </data>
-  <data name="UseCompactStyles" xml:space="preserve">
-    <value>Usa estilos compactos na disposição dos detalhes</value>
+  <data name="UseCompactSpacing" xml:space="preserve">
+    <value>Use compact spacing in the details layout</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universal</value>
@@ -2722,9 +2634,6 @@
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Dimensionar todas as colunas para caber</value>
   </data>
-  <data name="Contributors" xml:space="preserve">
-    <value>Contribuidores</value>
-  </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptativo</value>
   </data>
@@ -2735,7 +2644,10 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Mostra Fluxos de Dados Alternativos</value>
+    <value>Show alternate data streams</value>
+  </data>
+  <data name="Behaviors" xml:space="preserve">
+    <value>Behaviors</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Revisar Arquivos</value>
@@ -2775,12 +2687,6 @@
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Redefinir</value>
-  </data>
-  <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>Esta ação redefinirá todos os diretórios de volta às preferências padrão.</value>
-  </data>
-  <data name="AreYouSure" xml:space="preserve">
-    <value>Tem certeza?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Tela de bloqueio</value>
@@ -2934,5 +2840,92 @@
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Classificar por</value>
+  </data>
+  <data name="GroupInDescendingOrder" xml:space="preserve">
+    <value>Group in descending order</value>
+  </data>
+  <data name="SortInDescendingOrder" xml:space="preserve">
+    <value>Sort in descending order</value>
+  </data>
+  <data name="NewShortcutDialogTitle" xml:space="preserve">
+    <value>Create a new shortcut</value>
+  </data>
+  <data name="NewShortcutDialogDescription" xml:space="preserve">
+    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+  </data>
+  <data name="NewShortcutDialogPrompt" xml:space="preserve">
+    <value>Enter the location of the item:</value>
+  </data>
+  <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
+    <value>Creates a shortcut</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+  </data>
+  <data name="EditSettingsFile" xml:space="preserve">
+    <value>Edit Settings File</value>
+  </data>
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
+    <value>Creating a shortcut in this location requires administrator privileges</value>
+  </data>
+  <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
+    <value>Would you like to create the shortcut on the desktop instead?</value>
+  </data>
+  <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
+    <value>The specified item name is invalid</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
+    <value>Double click on a blank space to go up one directory</value>
+  </data>
+  <data name="ViewMore" xml:space="preserve">
+    <value>View more</value>
+  </data>
+  <data name="ToolTipDescriptionSize" xml:space="preserve">
+    <value>Tamanho:</value>
+  </data>
+  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
+    <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
+  </data>
+  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
+    <value>Bundles will be retiring in a future update 📎</value>
+  </data>
+  <data name="DisplayEditTagsMenu" xml:space="preserve">
+    <value>Display the edit tags flyout</value>
+  </data>
+  <data name="QuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
+  <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
+    <value>Enter your credentials to connect to: {0}</value>
+  </data>
+  <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
+    <value>Enter Network Credentials</value>
+  </data>
+  <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
+    <value>Remember my credentials</value>
+  </data>
+  <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
+    <value>Network folder error</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>App version</value>
+  </data>
+  <data name="WindowsVersion" xml:space="preserve">
+    <value>Windows version</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>Always</value>
+  </data>
+  <data name="PermanentDeletionOnly" xml:space="preserve">
+    <value>Permanent deletion only</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Never</value>
   </data>
 </root>

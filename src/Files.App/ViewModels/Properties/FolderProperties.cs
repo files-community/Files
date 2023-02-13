@@ -18,8 +18,12 @@ namespace Files.App.ViewModels.Properties
 	{
 		public ListedItem Item { get; }
 
-		public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
-			DispatcherQueue coreDispatcher, ListedItem item, IShellPage instance)
+		public FolderProperties(
+			SelectedItemsPropertiesViewModel viewModel,
+			CancellationTokenSource tokenSource,
+			DispatcherQueue coreDispatcher,
+			ListedItem item,
+			IShellPage instance)
 		{
 			ViewModel = viewModel;
 			TokenSource = tokenSource;
@@ -61,8 +65,9 @@ namespace Files.App.ViewModels.Properties
 					ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 					{
 						await App.Window.DispatcherQueue.EnqueueAsync(
-							() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
-					}, () =>
+							() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(Environment.ExpandEnvironmentVariables(ViewModel.ShortcutItemPath))));
+					},
+					() =>
 					{
 						return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
 					});
@@ -131,6 +136,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					ViewModel.FilesAndFoldersCountVisibility = false;
 				}
+
 				ViewModel.ItemCreatedTimestampVisibility = false;
 				ViewModel.ItemAccessedTimestampVisibility = false;
 				ViewModel.ItemModifiedTimestampVisibility = false;
@@ -159,6 +165,7 @@ namespace Files.App.ViewModels.Properties
 				var size = await CalculateFolderSizeAsync(folderPath, token);
 				return size;
 			});
+
 			try
 			{
 				var folderSize = await fileSizeTask;
@@ -169,6 +176,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				App.Logger.Warn(ex, ex.Message);
 			}
+
 			ViewModel.ItemSizeProgressVisibility = false;
 
 			SetItemsCountString();

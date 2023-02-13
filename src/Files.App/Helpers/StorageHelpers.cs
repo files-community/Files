@@ -1,5 +1,6 @@
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
+using Files.Backend.Helpers;
 using Files.Shared.Enums;
 using System;
 using System.Diagnostics;
@@ -149,8 +150,8 @@ namespace Files.App.Helpers
 		public static IStorageItemWithPath FromPathAndType(string customPath, FilesystemItemType? itemType)
 		{
 			return (itemType == FilesystemItemType.File) ?
-					(IStorageItemWithPath)new StorageFileWithPath(null, customPath) :
-					(IStorageItemWithPath)new StorageFolderWithPath(null, customPath);
+					new StorageFileWithPath(null, customPath) :
+					new StorageFolderWithPath(null, customPath);
 		}
 
 		public static async Task<FilesystemItemType> GetTypeFromPath(string path)

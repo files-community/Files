@@ -33,50 +33,26 @@
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
+			<!--  Layout And Sorting  -->
+			<TextBlock
+				Padding="0,0,0,4"
+				FontSize="14"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=LayoutAndSorting}" />
+
 			<!--  Folder Overrides  -->
 			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=EnableOverridingFolderPreferences}"
+				Title="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
 				HorizontalAlignment="Stretch"
-				Description="{helpers:ResourceString Name=EnableOverridingFolderPreferencesDescription}"
 				IsExpanded="True">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE2AC;" />
 				</local:SettingsBlockControl.Icon>
 
 				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=EnableOverridingFolderPreferences}"
-					IsOn="{x:Bind ViewModel.EnableOverridingFolderPreferences, Mode=TwoWay}"
+					AutomationProperties.Name="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
+					IsOn="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<!--  Reset folder overrides  -->
-						<local:SettingsBlockControl
-							x:Name="ResetLayoutPreferencesButton"
-							Title="{helpers:ResourceString Name=ResetFolderPreferencesOverrides}"
-							ButtonCommand="{x:Bind ViewModel.ShowResetLayoutPreferencesTipCommand, Mode=OneWay}"
-							IsClickable="True">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon
-									FontSize="14"
-									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-									Glyph="&#xE104;" />
-							</local:SettingsBlockControl.Icon>
-							<FontIcon
-								HorizontalAlignment="Right"
-								FontSize="14"
-								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-								Glyph="&#xE2B4;" />
-						</local:SettingsBlockControl>
-						<muxc:TeachingTip
-							Title="{helpers:ResourceString Name=AreYouSure}"
-							ActionButtonCommand="{x:Bind ViewModel.ResetLayoutPreferencesCommand, Mode=OneWay}"
-							ActionButtonContent="{helpers:ResourceString Name=Confirm}"
-							IsLightDismissEnabled="True"
-							IsOpen="{x:Bind ViewModel.IsResetLayoutPreferencesTipOpen, Mode=TwoWay}"
-							Subtitle="{helpers:ResourceString Name=ResetLayoutPreferences}"
-							Target="{x:Bind ResetLayoutPreferencesButton}" />
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
 			<!--  Details layout columns  -->
@@ -127,7 +103,7 @@
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
-						<!-- Sorting Options -->
+						<!--  Sorting Options  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortBy}" HorizontalAlignment="Stretch">
 							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=SortBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
 								<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
@@ -139,7 +115,15 @@
 							</ComboBox>
 						</local:SettingsBlockControl>
 
-						<!-- Grouping Options -->
+						<!--  Sort in Descending order  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortInDescendingOrder}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=SortInDescendingOrder}"
+								IsOn="{x:Bind ViewModel.SortInDescendingOrder, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<!--  Grouping Options  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupBy}" HorizontalAlignment="Stretch">
 							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
 								<ComboBoxItem Content="{helpers:ResourceString Name=None}" />
@@ -150,6 +134,23 @@
 								<ComboBoxItem Content="{helpers:ResourceString Name=BaseLayoutContextFlyoutSortByType/Text}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
 							</ComboBox>
+						</local:SettingsBlockControl>
+
+						<!--  Group in Descending order  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupInDescendingOrder}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=GroupInDescendingOrder}"
+								IsOn="{x:Bind ViewModel.GroupInDescendingOrder, Mode=TwoWay}"
+								IsEnabled="{x:Bind ViewModel.isDefaultGrouped, Mode=OneWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<!--  Sort Folders Alongside Files  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}"
+								IsOn="{x:Bind ViewModel.ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
@@ -170,13 +171,22 @@
 				</ComboBox>
 			</local:SettingsBlockControl>
 
-			<!--  Hidden items  -->
+
+			<!--  Display  -->
+			<TextBlock
+				Padding="0,12,0,4"
+				FontSize="14"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=Display}" />
+
+			<!--  Hidden Items  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=HiddenItems}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xED1A;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
+						<!--  Hidden Files  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}"
@@ -184,6 +194,7 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
+						<!--  Dots Files  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDotFiles}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}"
@@ -191,6 +202,7 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
+						<!--  System Files  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowProtectedSystemFiles}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ShowProtectedSystemFiles}"
@@ -198,6 +210,7 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
+						<!--  Alternate Data Streams  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowAlternateStreams}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ShowAlternateStreams}"
@@ -207,6 +220,47 @@
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
+
+			<!--  File Extensions  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE8F9;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}"
+					IsOn="{x:Bind ViewModel.ShowFileExtensions, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+
+			<!--  Show Thumbnails  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE91B;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}"
+					IsOn="{x:Bind ViewModel.ShowThumbnails, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+
+			<!--  Show checkboxes next to file names  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsCheckboxesToSelectItems}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE762;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsCheckboxesToSelectItems}"
+					IsOn="{x:Bind ViewModel.ShowSelectionCheckboxes, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+
+
+			<!--  Behaviors  -->
+			<TextBlock
+				Padding="0,12,0,4"
+				FontSize="14"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=Behaviors}" />
 
 			<!--  Opening items  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=OpeningItems}" HorizontalAlignment="Stretch">
@@ -238,6 +292,43 @@
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
+			<!--  Confirm Delete  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE107;" />
+				</local:SettingsBlockControl.Icon>
+
+				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}" SelectedIndex="{x:Bind ViewModel.SelectedDeleteConfirmationPolicyIndex, Mode=TwoWay}">
+					<ComboBoxItem Content="{helpers:ResourceString Name=Always}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=PermanentDeletionOnly}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=Never}" />
+				</ComboBox>
+			</local:SettingsBlockControl>
+
+			<!--  Select On Hover  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE14E;" />
+				</local:SettingsBlockControl.Icon>
+
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}"
+					IsOn="{x:Bind ViewModel.SelectFilesOnHover, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+
+			<!--  Double click to go up  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=DoubleClickBlankSpaceToGoUp}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE8B0;" />
+				</local:SettingsBlockControl.Icon>
+
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=DoubleClickBlankSpaceToGoUp}"
+					IsOn="{x:Bind ViewModel.DoubleClickToGoUp, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
 			<!--  Calculate folder sizes  -->

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.Foundation;
+using Windows.System;
 
 namespace Files.App.ViewModels
 {
@@ -23,12 +24,15 @@ namespace Files.App.ViewModels
 		public bool WasQuerySubmitted { get; set; } = false;
 
 		public event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs>? TextChanged;
+
 		public event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs>? QuerySubmitted;
+
 		public event EventHandler<ISearchBox>? Escaped;
 
 		private readonly SuggestionComparer suggestionComparer = new SuggestionComparer();
 
 		public ObservableCollection<SuggestionModel> Suggestions { get; } = new ObservableCollection<SuggestionModel>();
+
 		private readonly List<SuggestionModel> oldQueries = new List<SuggestionModel>();
 
 		public void ClearSuggestions()
@@ -44,9 +48,7 @@ namespace Files.App.ViewModels
 
 			var oldSuggestions = Suggestions.Except(items, suggestionComparer).ToList();
 			foreach (var oldSuggestion in oldSuggestions)
-			{
 				Suggestions.Remove(oldSuggestion);
-			}
 
 			var newSuggestions = items.Except(Suggestions, suggestionComparer).ToList();
 			foreach (var newSuggestion in newSuggestions)
@@ -75,6 +77,7 @@ namespace Files.App.ViewModels
 				return;
 
 			WasQuerySubmitted = true;
+
 			if (e.ChosenSuggestion is SuggestionModel chosen && chosen.ItemPath is null)
 			{
 				Query = chosen.Name;
@@ -95,9 +98,7 @@ namespace Files.App.ViewModels
 
 				// Limit to last 5 queries to improve performance
 				if (oldQueries.Count > 5)
-				{
 					oldQueries.RemoveAt(5);
-				}
 			}
 		}
 
@@ -109,9 +110,15 @@ namespace Files.App.ViewModels
 		public void SearchRegion_GotFocus(object sender, RoutedEventArgs e)
 		{
 			if (string.IsNullOrWhiteSpace(query))
-			{
 				AddRecentQueries();
-			}
+		}
+
+		public void SearchRegion_KeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			e.Handled =
+				e.Key is VirtualKey.Left ||
+				e.Key is VirtualKey.Right ||
+				((e.Key is VirtualKey.Up || e.Key is VirtualKey.Down) && Suggestions.Count == 0);
 		}
 
 		public void AddRecentQueries()
@@ -122,11 +129,14 @@ namespace Files.App.ViewModels
 
 		public class SuggestionComparer : IEqualityComparer<SuggestionModel>, IComparer<SuggestionModel>
 		{
-			public int Compare(SuggestionModel x, SuggestionModel y) => y.ItemPath.CompareTo(x.ItemPath);
+			public int Compare(SuggestionModel x, SuggestionModel y)
+				=> y.ItemPath.CompareTo(x.ItemPath);
 
-			public bool Equals(SuggestionModel x, SuggestionModel y) => y.ItemPath.Equals(x.ItemPath);
+			public bool Equals(SuggestionModel x, SuggestionModel y)
+				=> y.ItemPath.Equals(x.ItemPath);
 
-			public int GetHashCode(SuggestionModel o) => o.ItemPath.GetHashCode();
+			public int GetHashCode(SuggestionModel o)
+				=> o.ItemPath.GetHashCode();
 		}
 	}
 }

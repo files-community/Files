@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Files.Shared
 {
@@ -14,25 +15,29 @@ namespace Files.Shared
 		public string FileSize { get; set; }
 		public ulong FileSizeBytes { get; set; }
 		public string FileType { get; set; }
+		public byte[] PIDL { get; set; } // Low level shell item identifier
+		public Dictionary<string, object?> Properties { get; set; }
 
 		public ShellFileItem()
 		{
+			Properties = new Dictionary<string, object?>();
 		}
 
 		public ShellFileItem(
 			bool isFolder, string recyclePath, string fileName, string filePath,
-			DateTime recycleDate, DateTime modifiedDate, DateTime createdDate, string fileSize, ulong fileSizeBytes, string fileType)
+			DateTime recycleDate, DateTime modifiedDate, DateTime createdDate, string fileSize, ulong fileSizeBytes, string fileType, byte[] pidl) : this()
 		{
-			this.IsFolder = isFolder;
-			this.RecyclePath = recyclePath;
-			this.FileName = fileName;
-			this.FilePath = filePath;
-			this.RecycleDate = recycleDate;
-			this.ModifiedDate = modifiedDate;
-			this.CreatedDate = createdDate;
-			this.FileSize = fileSize;
-			this.FileSizeBytes = fileSizeBytes;
-			this.FileType = fileType;
+			IsFolder = isFolder;
+			RecyclePath = recyclePath;
+			FileName = fileName;
+			FilePath = filePath;
+			RecycleDate = recycleDate;
+			ModifiedDate = modifiedDate;
+			CreatedDate = createdDate;
+			FileSize = fileSize;
+			FileSizeBytes = fileSizeBytes;
+			FileType = fileType;
+			PIDL = pidl;
 		}
 	}
 }

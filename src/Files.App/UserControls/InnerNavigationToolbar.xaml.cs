@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.DataModels;
 using Files.App.Helpers;
 using Files.App.ViewModels;
+using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -20,12 +21,16 @@ namespace Files.App.UserControls
 	{
 		public InnerNavigationToolbar()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+
 		public AppModel AppModel => App.AppModel;
+
+		public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
 
 		public ToolbarViewModel ViewModel
 		{
@@ -95,7 +100,7 @@ namespace Files.App.UserControls
 				shell.ForEach(x => NewEmptySpace.Items.Remove(x));
 				return;
 			}
-			var cachedNewContextMenuEntries = ContextFlyoutItemHelper.CachedNewContextMenuEntries.IsCompletedSuccessfully ? ContextFlyoutItemHelper.CachedNewContextMenuEntries.Result : null;
+			var cachedNewContextMenuEntries = addItemService.GetNewEntriesAsync().Result;
 			if (cachedNewContextMenuEntries is null)
 				return;
 			if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))

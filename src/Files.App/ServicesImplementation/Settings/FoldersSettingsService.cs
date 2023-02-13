@@ -14,9 +14,15 @@ namespace Files.App.ServicesImplementation.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public bool EnableOverridingFolderPreferences
+		public bool SyncFolderPreferencesAcrossDirectories
 		{
-			get => Get(true);
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool ShowSelectionCheckboxes
+		{
+			get => Get(false);
 			set => Set(value);
 		}
 
@@ -220,11 +226,59 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set((long)value);
 		}
 
+		public SortDirection DefaultDirectorySortDirection
+		{
+			get => (SortDirection)Get((long)SortDirection.Ascending);
+			set => Set((long)value);
+		}
+
+		public SortDirection DefaultDirectoryGroupDirection
+		{
+			get => (SortDirection)Get((long)SortDirection.Ascending);
+			set => Set((long)value);
+		}
+
+		public bool DefaultSortDirectoriesAlongsideFiles
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool ShowFileExtensions
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowThumbnails
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public DeleteConfirmationPolicies DeleteConfirmationPolicy
+		{
+			get => (DeleteConfirmationPolicies)Get((long)DeleteConfirmationPolicies.Always);
+			set => Set((long)value);
+		}
+
+		public bool SelectFilesOnHover
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool DoubleClickToGoUp
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
 			{
-				case nameof(EnableOverridingFolderPreferences):
+				case nameof(SyncFolderPreferencesAcrossDirectories):
 				case nameof(DefaultLayoutMode):
 				case nameof(TagColumnWidth):
 				case nameof(NameColumnWidth):
@@ -245,6 +299,12 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ColumnLayoutOpenFoldersWithOneClick):
 				case nameof(OpenFoldersInNewTab):
 				case nameof(CalculateFolderSizes):
+				case nameof(ShowFileExtensions):
+				case nameof(ShowThumbnails):
+				case nameof(DeleteConfirmationPolicy):
+				case nameof(SelectFilesOnHover):
+				case nameof(ShowSelectionCheckboxes):
+				case nameof(DoubleClickToGoUp):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

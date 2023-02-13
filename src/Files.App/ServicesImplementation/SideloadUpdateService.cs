@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI.Helpers;
 using Files.Backend.Services;
 using Files.Shared;
 using System;
@@ -7,6 +8,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.ApplicationModel;
@@ -17,11 +20,11 @@ namespace Files.App.ServicesImplementation
 {
 	public sealed class SideloadUpdateService : ObservableObject, IUpdateService, IDisposable
 	{
+		[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+		private static extern uint RegisterApplicationRestart(string pwzCommandLine, int dwFlags);
+
 		private const string SIDELOAD_STABLE = "https://cdn.files.community/files/stable/Files.Package.appinstaller";
 		private const string SIDELOAD_PREVIEW = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
-
-		private bool _isUpdateAvailable;
-		private bool _isUpdating;
 
 		private readonly HttpClient _client = new(new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(1) });
 
@@ -37,23 +40,39 @@ namespace Files.App.ServicesImplementation
 
 		private string PackageName { get; } = Package.Current.Id.Name;
 
-		private Version PackageVersion { get; } = new(Package.Current.Id.Version.Major,
-			Package.Current.Id.Version.Minor, Package.Current.Id.Version.Build, Package.Current.Id.Version.Revision);
+		private Version PackageVersion { get; } = new(
+			Package.Current.Id.Version.Major,
+			Package.Current.Id.Version.Minor,
+			Package.Current.Id.Version.Build,
+			Package.Current.Id.Version.Revision);
 
 		private Uri? DownloadUri { get; set; }
 
+		private bool _isUpdateAvailable;
 		public bool IsUpdateAvailable
 		{
 			get => _isUpdateAvailable;
 			private set => SetProperty(ref _isUpdateAvailable, value);
 		}
 
+		private bool _isUpdating;
 		public bool IsUpdating
 		{
 			get => _isUpdating;
 			private set => SetProperty(ref _isUpdating, value);
 		}
 
+		public bool IsAppUpdated
+		{
+			get => SystemInformation.Instance.IsAppUpdated;
+		}
+
+		private bool _isReleaseNotesAvailable;
+		public bool IsReleaseNotesAvailable
+		{
+			get => _isReleaseNotesAvailable;
+			private set => SetProperty(ref _isReleaseNotesAvailable, value);
+		}
 		public async Task DownloadUpdates()
 		{
 			await ApplyPackageUpdate();
@@ -62,6 +81,34 @@ namespace Files.App.ServicesImplementation
 		public Task DownloadMandatoryUpdates()
 		{
 			return Task.CompletedTask;
+		}
+
+		public async Task<string?> GetLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
+		{
+			var applicationVersion = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
+			var releaseNotesLocation = string.Concat("https://raw.githubusercontent.com/files-community/Release-Notes/main/", applicationVersion, ".md");
+
+			using var client = new HttpClient();
+
+			try
+			{
+				var result = await client.GetStringAsync(releaseNotesLocation, cancellationToken);
+				return result == string.Empty ? null : result;
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		public async Task CheckLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
+		{
+			if (!IsAppUpdated)
+				return;
+
+			var result = await GetLatestReleaseNotesAsync();
+			if (result is not null)
+				IsReleaseNotesAvailable = true;
 		}
 
 		public async Task CheckForUpdates()
@@ -86,7 +133,7 @@ namespace Files.App.ServicesImplementation
 				Logger?.Info($"SIDELOAD: Current Version: {PackageVersion}");
 				Logger?.Info($"SIDELOAD: Remote Version: {remoteVersion}");
 
-				// Check details and version number.
+				// Check details and version number
 				if (appInstaller.MainBundle.Name.Equals(PackageName) && remoteVersion.CompareTo(PackageVersion) > 0)
 				{
 					Logger?.Info("SIDELOAD: Update found.");
@@ -143,6 +190,10 @@ namespace Files.App.ServicesImplementation
 
 			try
 			{
+				var restartStatus = RegisterApplicationRestart(null, 0);
+
+				Logger?.Info($"Register for restart: {restartStatus}");
+
 				await Task.Run(async () =>
 				{
 					var bundlePath = new Uri(ApplicationData.Current.LocalFolder.Path + "\\" + TEMPORARY_UPDATE_PACKAGE_NAME);
@@ -150,7 +201,7 @@ namespace Files.App.ServicesImplementation
 					var deployment = pm.RequestAddPackageAsync(
 						bundlePath,
 						null,
-						DeploymentOptions.ForceTargetApplicationShutdown,
+						DeploymentOptions.ForceApplicationShutdown,
 						pm.GetDefaultPackageVolume(),
 						null,
 						null);
@@ -167,7 +218,7 @@ namespace Files.App.ServicesImplementation
 			}
 			finally
 			{
-				// Reset fields.
+				// Reset fields
 				IsUpdating = false;
 				IsUpdateAvailable = false;
 				DownloadUri = null;

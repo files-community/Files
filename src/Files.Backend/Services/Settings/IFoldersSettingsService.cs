@@ -1,4 +1,5 @@
-﻿using Files.Shared.Enums;
+﻿using Files.Sdk.Storage;
+using Files.Shared.Enums;
 using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings
@@ -44,6 +45,11 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating whether or not the sync status column should be visible by default.
 		/// </summary>
 		bool ShowSyncStatusColumn { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if CheckBoxes should be displayed to allow selecting items.
+		/// </summary>
+		bool ShowSelectionCheckboxes { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating the default layout mode.
@@ -96,9 +102,9 @@ namespace Files.Backend.Services.Settings
 		double OriginalPathColumnWidth { get; set; }
 
 		/// <summary>
-		/// Enable overriding folder preferencess in individual directories
+		/// Sync folder preferences across all directories
 		/// </summary>
-		bool EnableOverridingFolderPreferences { get; set; }
+		bool SyncFolderPreferencesAcrossDirectories { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not hidden items should be visible.
@@ -149,5 +155,45 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating the default grouping option.
 		/// </summary>
 		GroupOption DefaultGroupOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default sorting direction.
+		/// </summary>
+		SortDirection DefaultDirectorySortDirection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default grouping direction.
+		/// </summary>
+		SortDirection DefaultDirectoryGroupDirection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if directories should be sorted alongside files by.
+		/// </summary>
+		bool DefaultSortDirectoriesAlongsideFiles { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if file extensions should be displayed.
+		/// </summary>
+		bool ShowFileExtensions { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if media thumbnails should be displayed.
+		/// </summary>
+		bool ShowThumbnails { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the delete confirmation dialog when deleting items.
+		/// </summary>
+		DeleteConfirmationPolicies DeleteConfirmationPolicy { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to select files and folders when hovering them.
+		/// </summary>
+		bool SelectFilesOnHover { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if double clicking a blank space should go up a directory.
+		/// </summary>
+		bool DoubleClickToGoUp { get; set; }
 	}
 }

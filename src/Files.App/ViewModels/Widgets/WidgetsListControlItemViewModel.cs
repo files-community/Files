@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml.Controls;
 using System;
 
 namespace Files.App.ViewModels.Widgets
@@ -18,9 +19,9 @@ namespace Files.App.ViewModels.Widgets
 
 		public WidgetsListControlItemViewModel(object widgetControl, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
 		{
-			this.WidgetControl = widgetControl;
-			this._expanderValueChangedCallback = expanderValueChangedCallback;
-			this._expanderValueRequestedCallback = expanderValueRequestedCallback;
+			WidgetControl = widgetControl;
+			_expanderValueChangedCallback = expanderValueChangedCallback;
+			_expanderValueRequestedCallback = expanderValueRequestedCallback;
 		}
 
 		public bool IsExpanded
@@ -41,6 +42,16 @@ namespace Files.App.ViewModels.Widgets
 		public string WidgetAutomationProperties
 		{
 			get => WidgetItemModel.AutomationProperties;
+		}
+
+		public bool ShowMenuFlyout
+		{
+			get => WidgetItemModel.ShowMenuFlyout;
+		}
+		
+		public MenuFlyoutItem MenuFlyoutItem
+		{
+			get => WidgetItemModel.MenuFlyoutItem;
 		}
 
 		public void Dispose()

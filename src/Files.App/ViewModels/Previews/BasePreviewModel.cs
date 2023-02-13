@@ -37,7 +37,8 @@ namespace Files.App.ViewModels.Previews
 		/// </summary>
 		public CancellationTokenSource LoadCancelledTokenSource { get; } = new CancellationTokenSource();
 
-		public BasePreviewModel(ListedItem item) : base() => Item = item;
+		public BasePreviewModel(ListedItem item) : base()
+			=> Item = item;
 
 		public delegate void LoadedEventHandler(object sender, EventArgs e);
 
@@ -58,15 +59,17 @@ namespace Files.App.ViewModels.Previews
 		public virtual async Task LoadAsync()
 		{
 			List<FileProperty> detailsFull = new();
+
 			if (Item.ItemFile is null)
 			{
 				var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Item.ItemPath));
 				Item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath, rootItem);
 			}
+
 			await Task.Run(async () =>
 			{
 				DetailsFromPreview = await LoadPreviewAndDetailsAsync();
-				if (!userSettingsService.PaneSettingsService.ShowPreviewOnly)
+				if (!userSettingsService.PreviewPaneSettingsService.ShowPreviewOnly)
 				{
 					// Add the details from the preview function, then the system file properties
 					DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
@@ -91,6 +94,7 @@ namespace Files.App.ViewModels.Previews
 		public async virtual Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
 			var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Item.ItemFile, 256, ThumbnailMode.SingleItem);
+
 			iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 256);
 			if (iconData is not null)
 			{
@@ -109,7 +113,8 @@ namespace Files.App.ViewModels.Previews
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		public virtual void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e) => LoadCancelledTokenSource.Cancel();
+		public virtual void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
+			=> LoadCancelledTokenSource.Cancel();
 
 		protected static FileProperty GetFileProperty(string nameResource, object value)
 			=> new() { NameResource = nameResource, Value = value };
@@ -127,9 +132,9 @@ namespace Files.App.ViewModels.Previews
 				(double?)list.Find(x => x.Property is "System.GPS.LongitudeDecimal").Value
 			);
 
-			// adds the value for the file tag
+			// Adds the value for the file tag
 			list.FirstOrDefault(x => x.ID is "filetag").Value =
-				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.TagName)) : null;
+				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null;
 
 			return list.Where(i => i.ValueText is not null).ToList();
 		}

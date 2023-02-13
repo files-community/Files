@@ -8,12 +8,14 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 {
 	internal abstract class AbstractDateTimeFormatter : IDateTimeFormatter
 	{
-		private static readonly CultureInfo cultureInfo = new(ApplicationLanguages.PrimaryLanguageOverride);
+		private static readonly CultureInfo cultureInfo = new(ApplicationLanguages.Languages[0]);
 
 		public abstract string Name { get; }
 
 		public abstract string ToShortLabel(DateTimeOffset offset);
-		public virtual string ToLongLabel(DateTimeOffset offset) => ToShortLabel(offset);
+
+		public virtual string ToLongLabel(DateTimeOffset offset)
+			=> ToShortLabel(offset);
 
 		public ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset)
 		{
@@ -26,18 +28,19 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 
 			return 0 switch
 			{
-				_ when now.Date == time.Date => new Label("Today", "\ue184", 0),
-				_ when y.Date == time.Date => new Label("ItemTimeText_Yesterday", "\ue161", 1),
-				_ when diff.Days < 7 && w.Year == time.Year && GetWeekOfYear(w) == GetWeekOfYear(time) => new Label("ItemTimeText_ThisWeek", "\uE162", 2),
-				_ when diff.Days < 14 && w.Year == time.Year && GetWeekOfYear(w) == GetWeekOfYear(time) => new Label("ItemTimeText_LastWeek", "\uE162", 3),
-				_ when now.Year == time.Year && now.Month == time.Month => new Label("ItemTimeText_ThisMonth", "\ue163", 4),
-				_ when now.AddMonths(-1).Year == time.Year && now.AddMonths(-1).Month == time.Month => new Label("ItemTimeText_LastMonth", "\ue163", 5),
-				_ when now.Year == time.Year => new Label("ItemTimeText_ThisYear", "\ue163", 5),
-				_ => new Label("ItemTimeText_Older", "\uEC92", 6),
+				_ when now.Date == time.Date => new Label("Today", "\ue184", 7),
+				_ when y.Date == time.Date => new Label("ItemTimeText_Yesterday", "\ue161", 6),
+				_ when diff.Days < 7 && w.Year == time.Year && GetWeekOfYear(w) == GetWeekOfYear(time) => new Label("ItemTimeText_ThisWeek", "\uE162", 5),
+				_ when diff.Days < 14 && w.Year == time.Year && GetWeekOfYear(w) == GetWeekOfYear(time) => new Label("ItemTimeText_LastWeek", "\uE162", 4),
+				_ when now.Year == time.Year && now.Month == time.Month => new Label("ItemTimeText_ThisMonth", "\ue163", 3),
+				_ when now.AddMonths(-1).Year == time.Year && now.AddMonths(-1).Month == time.Month => new Label("ItemTimeText_LastMonth", "\ue163", 2),
+				_ when now.Year == time.Year => new Label("ItemTimeText_ThisYear", "\ue163", 1),
+				_ => new Label("ItemTimeText_Older", "\uEC92", 0),
 			};
 		}
 
-		protected static string ToString(DateTimeOffset offset, string format) => offset.ToLocalTime().ToString(format, cultureInfo);
+		protected static string ToString(DateTimeOffset offset, string format)
+			=> offset.ToLocalTime().ToString(format, cultureInfo);
 
 		private static int GetWeekOfYear(DateTimeOffset t)
 		{
@@ -48,7 +51,9 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 		private class Label : ITimeSpanLabel
 		{
 			public string Text { get; }
+
 			public string Glyph { get; }
+
 			public int Index { get; }
 
 			public Label(string textKey, string glyph, int index)

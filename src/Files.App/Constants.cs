@@ -76,7 +76,9 @@ namespace Files.App
 
 		public static class AssetPaths
 		{
-			public const string Logo = "Assets/AppTiles/Dev/Logo.ico";
+			public const string DevLogo = "Assets/AppTiles/Dev/Logo.ico";
+			public const string PreviewLogo = "Assets/AppTiles/Preview/Logo.ico";
+			public const string StableLogo = "Assets/AppTiles/Release/Logo.ico";
 		}
 
 		public static class UI
@@ -90,11 +92,20 @@ namespace Files.App
 
 			public const double MaximumSidebarWidth = 500;
 
-			public const double ContextMenuMaxHeight = 480; // For contextmenu hacks, must match WinUI style
-			public const double ContextMenuSecondaryItemsHeight = 32; // For contextmenu hacks, must match WinUI style
-			public const double ContextMenuPrimaryItemsHeight = 48; // For contextmenu hacks, must match WinUI style
-			public const double ContextMenuLabelMargin = 10; // For contextmenu hacks
-			public const double ContextMenuItemsMaxWidth = 250; // For contextmenu hacks
+			// For contextmenu hacks, must match WinUI style
+			public const double ContextMenuMaxHeight = 480;
+
+			// For contextmenu hacks, must match WinUI style
+			public const double ContextMenuSecondaryItemsHeight = 32;
+
+			// For contextmenu hacks, must match WinUI style
+			public const double ContextMenuPrimaryItemsHeight = 48;
+
+			// For contextmenu hacks
+			public const double ContextMenuLabelMargin = 10;
+
+			// For contextmenu hacks
+			public const double ContextMenuItemsMaxWidth = 250;
 		}
 
 		public static class Browser
@@ -103,7 +114,8 @@ namespace Files.App
 			{
 				public const int GridViewIncrement = 20;
 
-				public const int GridViewSizeMax = 300; // Max achievable ctrl + scroll, not a default layout size.
+				// Max achievable ctrl + scroll, not a default layout size
+				public const int GridViewSizeMax = 300;
 
 				public const int GridViewSizeLarge = 220;
 
@@ -174,24 +186,6 @@ namespace Files.App
 			/// The maximum file size, in bytes, that will attempted to be loaded as text if the extension is unknown.
 			/// </summary>
 			public const long TryLoadAsTextSizeLimit = 500000;
-
-			/// <summary>
-			/// The number of thumbnails that will be shown for FolderPreviews
-			/// </summary>
-			public const int FolderPreviewThumbnailCount = 10;
-		}
-
-		public static class PaneContent
-		{
-			public const string ContentKey = "PaneContent";
-
-			public const string HorizontalSizePxKey = "PaneHorizontalSizePx";
-
-			public const string VerticalSizePxKey = "PaneVerticalSizePx";
-
-			public const string MediaVolumeKey = "PaneMediaVolume";
-
-			public const string ShowPreviewOnlyKey = "ShowPreviewOnly";
 		}
 
 		public static class ResourceFilePaths
@@ -216,11 +210,11 @@ namespace Files.App
 
 		public static class GitHub
 		{
-			public const string ContributorsUrl = @"https://github.com/files-community/Files/graphs/contributors";
+			public const string GitHubRepoUrl = @"https://github.com/files-community/Files";
 			public const string DocumentationUrl = @"https://files.community/docs";
-			public const string FeedbackUrl = @"https://github.com/files-community/Files/issues/new/choose";
+			public const string FeatureRequestUrl = @"https://github.com/files-community/Files/issues/new?assignees=&labels=feature+request&template=feature_request.yml";
+			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?assignees=&labels=bug&template=bug_report.yml";
 			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/Privacy.md";
-			public const string ReleaseNotesUrl = @"https://github.com/files-community/Files/releases";
 			public const string SupportUsUrl = @"https://github.com/sponsors/yaira2";
 		}
 	}

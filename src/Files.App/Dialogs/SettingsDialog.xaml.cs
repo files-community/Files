@@ -21,7 +21,7 @@ namespace Files.App.Dialogs
 
 		public SettingsDialog()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 			SettingsPane.SelectedItem = SettingsPane.MenuItems[0];
 			App.Window.SizeChanged += Current_SizeChanged;
 			UpdateDialogLayout();
@@ -36,8 +36,9 @@ namespace Files.App.Dialogs
 
 		private void UpdateDialogLayout()
 		{
-			ContainerGrid.Height = App.Window.Bounds.Height <= 710 ? App.Window.Bounds.Height - 70 : 640;
-			ContainerGrid.Width = App.Window.Bounds.Width <= 800 ? App.Window.Bounds.Width : 800;
+			ContainerGrid.Height = App.Window.Bounds.Height <= 760 ? App.Window.Bounds.Height - 70 : 690;
+			ContainerGrid.Width = App.Window.Bounds.Width <= 1100 ? App.Window.Bounds.Width : 1100;
+			SettingsPane.PaneDisplayMode = App.Window.Bounds.Width < 700 ? NavigationViewPaneDisplayMode.LeftCompact : NavigationViewPaneDisplayMode.Left;
 		}
 
 		private void SettingsPane_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -50,9 +51,8 @@ namespace Files.App.Dialogs
 				0 => SettingsContentFrame.Navigate(typeof(Appearance)),
 				1 => SettingsContentFrame.Navigate(typeof(Preferences)),
 				2 => SettingsContentFrame.Navigate(typeof(Folders)),
-				3 => SettingsContentFrame.Navigate(typeof(Multitasking)),
-				4 => SettingsContentFrame.Navigate(typeof(Experimental)),
-				5 => SettingsContentFrame.Navigate(typeof(About)),
+				3 => SettingsContentFrame.Navigate(typeof(Advanced)),
+				4 => SettingsContentFrame.Navigate(typeof(About)),
 				_ => SettingsContentFrame.Navigate(typeof(Appearance))
 			};
 		}

@@ -1,4 +1,5 @@
-using Files.App.Extensions;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Files.Shared.Enums;
@@ -13,6 +14,8 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class AddItemDialog : ContentDialog, IDialog<AddItemDialogViewModel>
 	{
+		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+
 		public AddItemDialogViewModel ViewModel
 		{
 			get => (AddItemDialogViewModel)DataContext;
@@ -29,13 +32,13 @@ namespace Files.App.Dialogs
 		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			ViewModel.ResultType = (e.ClickedItem as AddItemDialogListItemViewModel).ItemResult;
-			this.Hide();
+			Hide();
 		}
 
 		private async void AddItemDialog_Loaded(object sender, RoutedEventArgs e)
 		{
-			var itemTypes = await ShellNewEntryExtensions.GetNewContextMenuEntries();
-			await ViewModel.AddItemsToList(itemTypes); // TODO(i): This is a very cheap way of doing it, consider adding a service to retrieve the itemTypes list.
+			var itemTypes = await addItemService.GetNewEntriesAsync();
+			await ViewModel.AddItemsToList(itemTypes);
 
 			// Focus on the list view so users can use keyboard navigation
 			AddItemsListView.Focus(FocusState.Programmatic);

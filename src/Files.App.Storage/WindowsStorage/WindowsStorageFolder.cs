@@ -132,6 +132,15 @@ namespace Files.App.Storage.WindowsStorage
 			return new WindowsStorageFolder(folder);
 		}
 
+		/// <inheritdoc/>
+		public override async Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		{
+			var parentFolderTask = storage.GetParentAsync().AsTask(cancellationToken);
+			var parentFolder = await parentFolderTask;
+
+			return new WindowsStorageFolder(parentFolder);
+		}
+
 		private static StorageDeleteOption GetWindowsStorageDeleteOption(bool deletePermanentlyFlag)
 		{
 			return deletePermanentlyFlag ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default;
@@ -149,26 +158,17 @@ namespace Files.App.Storage.WindowsStorage
 			};
 		}
 
-        private static Windows.Storage.CreationCollisionOption GetWindowsCreationCollisionOption(
-            CreationCollisionOption options)
-        {
-            return options switch
-            {
-                CreationCollisionOption.GenerateUniqueName => Windows.Storage.CreationCollisionOption.GenerateUniqueName,
-                CreationCollisionOption.ReplaceExisting => Windows.Storage.CreationCollisionOption.ReplaceExisting,
-                CreationCollisionOption.OpenIfExists => Windows.Storage.CreationCollisionOption.OpenIfExists,
-                CreationCollisionOption.FailIfExists => Windows.Storage.CreationCollisionOption.FailIfExists,
-                _ => throw new ArgumentOutOfRangeException(nameof(options))
-            };
-        }
-
-		/// <inheritdoc/>
-		public override async Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		private static Windows.Storage.CreationCollisionOption GetWindowsCreationCollisionOption(
+			CreationCollisionOption options)
 		{
-			var parentFolderTask = storage.GetParentAsync().AsTask(cancellationToken);
-			var parentFolder = await parentFolderTask;
-
-			return new WindowsStorageFolder(parentFolder);
+			return options switch
+			{
+				CreationCollisionOption.GenerateUniqueName => Windows.Storage.CreationCollisionOption.GenerateUniqueName,
+				CreationCollisionOption.ReplaceExisting => Windows.Storage.CreationCollisionOption.ReplaceExisting,
+				CreationCollisionOption.OpenIfExists => Windows.Storage.CreationCollisionOption.OpenIfExists,
+				CreationCollisionOption.FailIfExists => Windows.Storage.CreationCollisionOption.FailIfExists,
+				_ => throw new ArgumentOutOfRangeException(nameof(options))
+			};
 		}
 	}
 }

@@ -1,6 +1,8 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Shell;
+using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
@@ -14,42 +16,44 @@ using Windows.Storage;
 
 namespace Files.App.Helpers
 {
-	public class RecycleBinHelpers
+	public static class RecycleBinHelpers
 	{
 		#region Private Members
 
-		private static readonly Regex recycleBinPathRegex = new Regex(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+		private static readonly Regex recycleBinPathRegex = new(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+
+		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		#endregion Private Members
 
-		public async Task<List<ShellFileItem>> EnumerateRecycleBin()
+		public static async Task<List<ShellFileItem>> EnumerateRecycleBin()
 		{
 			return (await Win32Shell.GetShellFolderAsync(CommonPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
 		}
 
-		public async Task<bool> IsRecycleBinItem(IStorageItem item)
+		public static ulong GetSize()
+		{
+			return (ulong)Win32Shell.QueryRecycleBin().BinSize;
+		}
+		
+		public static async Task<bool> IsRecycleBinItem(IStorageItem item)
 		{
 			List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
 			return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == item.Path);
 		}
 
-		public async Task<bool> IsRecycleBinItem(string path)
+		public static async Task<bool> IsRecycleBinItem(string path)
 		{
 			List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
 			return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == path);
 		}
 
-		public bool IsPathUnderRecycleBin(string path)
+		public static bool IsPathUnderRecycleBin(string path)
 		{
 			return !string.IsNullOrWhiteSpace(path) && recycleBinPathRegex.IsMatch(path);
 		}
 
-		public static async Task S_EmptyRecycleBin()
-		{
-			await new RecycleBinHelpers().EmptyRecycleBin();
-		}
-
-		public async Task EmptyRecycleBin()
+		public static async Task EmptyRecycleBin()
 		{
 			var ConfirmEmptyBinDialog = new ContentDialog()
 			{
@@ -59,9 +63,9 @@ namespace Files.App.Helpers
 				SecondaryButtonText = "Cancel".GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
 			};
-			ContentDialogResult result = await this.SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
 
-			if (result == ContentDialogResult.Primary)
+			if (userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy is DeleteConfirmationPolicies.Never
+				|| await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync() == ContentDialogResult.Primary)
 			{
 				string bannerTitle = "EmptyRecycleBin".GetLocalizedResource();
 				var banner = App.OngoingTasksViewModel.PostBanner(
@@ -90,12 +94,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task S_RestoreRecycleBin(IShellPage associatedInstance)
-		{
-			await new RecycleBinHelpers().RestoreRecycleBin(associatedInstance);
-		}
-
-		public async Task RestoreRecycleBin(IShellPage associatedInstance)
+		public static async Task RestoreRecycleBin(IShellPage associatedInstance)
 		{
 			var ConfirmEmptyBinDialog = new ContentDialog()
 			{
@@ -106,21 +105,16 @@ namespace Files.App.Helpers
 				DefaultButton = ContentDialogButton.Primary
 			};
 
-			ContentDialogResult result = await this.SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
+			ContentDialogResult result = await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 			{
 				associatedInstance.SlimContentPage.ItemManipulationModel.SelectAllItems();
-				await this.RestoreItem(associatedInstance);
+				await RestoreItem(associatedInstance);
 			}
 		}
 
-		public static async Task S_RestoreSelectionRecycleBin(IShellPage associatedInstance)
-		{
-			await new RecycleBinHelpers().RestoreSelectionRecycleBin(associatedInstance);
-		}
-
-		public async Task RestoreSelectionRecycleBin(IShellPage associatedInstance)
+		public static async Task RestoreSelectionRecycleBin(IShellPage associatedInstance)
 		{
 			var ConfirmEmptyBinDialog = new ContentDialog()
 			{
@@ -131,14 +125,14 @@ namespace Files.App.Helpers
 				DefaultButton = ContentDialogButton.Primary
 			};
 
-			ContentDialogResult result = await this.SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
+			ContentDialogResult result = await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
 
 			if (result == ContentDialogResult.Primary)
-				await this.RestoreItem(associatedInstance);
+				await RestoreItem(associatedInstance);
 		}
 
 		//WINUI3
-		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
@@ -147,7 +141,7 @@ namespace Files.App.Helpers
 			return contentDialog;
 		}
 
-		public async Task<bool> HasRecycleBin(string path)
+		public static async Task<bool> HasRecycleBin(string? path)
 		{
 			if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\", StringComparison.Ordinal))
 				return false;
@@ -157,17 +151,12 @@ namespace Files.App.Helpers
 			return result.Item1 &= result.Item2 is not null && result.Item2.Items.All(x => x.Succeeded);
 		}
 
-		public bool RecycleBinHasItems()
+		public static bool RecycleBinHasItems()
 		{
 			return Win32Shell.QueryRecycleBin().NumItems > 0;
 		}
 
-		public static async Task S_RestoreItem(IShellPage associatedInstance)
-		{
-			await new RecycleBinHelpers().RestoreItem(associatedInstance);
-		}
-
-		private async Task RestoreItem(IShellPage associatedInstance)
+		public static async Task RestoreItem(IShellPage associatedInstance)
 		{
 			var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
 			{
@@ -179,17 +168,12 @@ namespace Files.App.Helpers
 			await associatedInstance.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
 		}
 
-		public static async Task S_DeleteItem(IShellPage associatedInstance)
-		{
-			await new RecycleBinHelpers().DeleteItem(associatedInstance);
-		}
-
-		public virtual async Task DeleteItem(IShellPage associatedInstance)
+		public static async Task DeleteItem(IShellPage associatedInstance)
 		{
 			var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 				item.ItemPath,
 				item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
 		}
 	}
 }

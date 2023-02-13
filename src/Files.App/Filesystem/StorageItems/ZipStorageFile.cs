@@ -1,5 +1,6 @@
 using Files.App.Extensions;
 using Files.App.Helpers;
+using Files.Backend.Helpers;
 using SevenZip;
 using System;
 using System.Collections.Generic;
@@ -64,27 +65,24 @@ namespace Files.App.Filesystem.StorageItems
 
 		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
 		{
-			return AsyncInfo.Run(cancellationToken =>
+			if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
 			{
-				if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
+				return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
+			}
+			var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
+			if (marker is not -1)
+			{
+				var containerPath = path.Substring(0, marker + ext.Length);
+				if (path == containerPath)
 				{
-					return Task.FromResult<BaseStorageFile>(null);
+					return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation(); // Root
 				}
-				var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
-				if (marker is not -1)
+				if (CheckAccess(containerPath))
 				{
-					var containerPath = path.Substring(0, marker + ext.Length);
-					if (path == containerPath)
-					{
-						return Task.FromResult<BaseStorageFile>(null); // Root
-					}
-					if (CheckAccess(containerPath))
-					{
-						return Task.FromResult<BaseStorageFile>(new ZipStorageFile(path, containerPath));
-					}
+					return Task.FromResult<BaseStorageFile>(new ZipStorageFile(path, containerPath)).AsAsyncOperation();
 				}
-				return Task.FromResult<BaseStorageFile>(null);
-			});
+			}
+			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
 		}
 
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;
@@ -125,7 +123,7 @@ namespace Files.App.Filesystem.StorageItems
 						var ms = new MemoryStream();
 						await zipFile.ExtractFileAsync(entry.Index, ms);
 						ms.Position = 0;
-						return new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
+						return new NonSeekableRandomAccessStreamForRead(ms, entry.Size)
 						{
 							DisposeCallback = () => zipFile.Dispose()
 						};
@@ -170,7 +168,7 @@ namespace Files.App.Filesystem.StorageItems
 				var ms = new MemoryStream();
 				await zipFile.ExtractFileAsync(entry.Index, ms);
 				ms.Position = 0;
-				var nsStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
+				var nsStream = new NonSeekableRandomAccessStreamForRead(ms, entry.Size)
 				{
 					DisposeCallback = () => zipFile.Dispose()
 				};
@@ -208,7 +206,7 @@ namespace Files.App.Filesystem.StorageItems
 				var ms = new MemoryStream();
 				await zipFile.ExtractFileAsync(entry.Index, ms);
 				ms.Position = 0;
-				return new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
+				return new NonSeekableRandomAccessStreamForRead(ms, entry.Size)
 				{
 					DisposeCallback = () => zipFile.Dispose()
 				};
@@ -248,7 +246,7 @@ namespace Files.App.Filesystem.StorageItems
 					var ms = new MemoryStream();
 					await zipFile.ExtractFileAsync(entry.Index, ms);
 					ms.Position = 0;
-					using var inStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
+					using var inStream = new NonSeekableRandomAccessStreamForRead(ms, entry.Size);
 					return await cwsf.CreateFileAsync(inStream.AsStreamForRead(), desiredNewName, option.Convert());
 				}
 				else
@@ -472,7 +470,7 @@ namespace Files.App.Filesystem.StorageItems
 					{
 						return null;
 					}
-					return (Stream)new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
+					return new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
 				}
 			});
 		}
@@ -521,7 +519,7 @@ namespace Files.App.Filesystem.StorageItems
 
 			public override DateTimeOffset ItemDate => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
 
-			public override ulong Size => (ulong)entry.Size;
+			public override ulong Size => entry.Size;
 		}
 	}
 }

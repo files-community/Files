@@ -89,19 +89,16 @@ jobs:
       TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
       overWrite: true
 
-  - task: DownloadSecureFile@1
-    name: appCenterDevKey
-    displayName: 'Download AppCenter Dev Key'
+# Injects the AppCenter token to the project
+  - task: PowerShell@2
+    displayName: 'Inject AppCenter token'
     inputs:
-      secureFile: 'AppCenterKey.txt'
-
-# Adds the AppCenter token to the project
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: '$(Agent.TempDirectory)'
-      Contents: '$(appCenterDevKey.secureFilePath)'
-      TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
-      overWrite: true
+      targetType: 'inline'
+      script: |
+        gci $(Build.SourcesDirectory)\src -Include app.xaml.cs -recurse | ForEach -Process {
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "AppCenter.Start("", typeof(Analytics), typeof(Crashes));", "AppCenter.Start("$(appcenter.secret)", typeof(Analytics), typeof(Crashes));) | Set-Content $_ -NoNewline
+        }
+      failOnStderr: true
 
   - task: UseDotNet@2
     inputs:
@@ -189,7 +186,7 @@ jobs:
       targetType: 'inline'
       script: |
         gci $(Build.SourcesDirectory)\src -Include *.csproj, *.appxmanifest, *.wapproj -recurse | ForEach -Process {
-        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\${{parameters.iconVariant}}"}) | Set-Content $_ -NoNewline
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release"}) | Set-Content $_ -NoNewline
         }
       failOnStderr: true
 

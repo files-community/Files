@@ -1,6 +1,5 @@
 using Files.App.Shell;
 using Files.Shared;
-using Files.Shared.Extensions;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -180,7 +179,7 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			private readonly ShellFileItem file;
 
-			public ShellFileBasicProperties(ShellFileItem folder) => this.file = folder;
+			public ShellFileBasicProperties(ShellFileItem folder) => file = folder;
 
 			public override ulong Size => file.FileSizeBytes;
 

@@ -12,12 +12,14 @@ using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.ServicesImplementation.DateTimeFormatter;
 using Files.App.ServicesImplementation.Settings;
+using Files.App.Storage.NativeStorage;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
+using Files.Sdk.Storage;
 using Files.Shared;
 using Files.Shared.Cloud;
 using Files.Shared.Extensions;
@@ -55,18 +57,17 @@ namespace Files.App
 		public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
 		public static SettingsViewModel AppSettings { get; private set; }
 		public static AppModel AppModel { get; private set; }
-		public static PaneViewModel PaneViewModel { get; private set; }
 		public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
 		public static JumpListManager JumpList { get; private set; }
 		public static RecentItems RecentItemsManager { get; private set; }
-		public static SidebarPinnedController SidebarPinnedController { get; private set; }
+		public static QuickAccessManager QuickAccessManager { get; private set; }
 		public static CloudDrivesManager CloudDrivesManager { get; private set; }
 		public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
 		public static DrivesManager DrivesManager { get; private set; }
 		public static WSLDistroManager WSLDistroManager { get; private set; }
 		public static LibraryManager LibraryManager { get; private set; }
 		public static FileTagsManager FileTagsManager { get; private set; }
-		public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
+		public static AppThemeResourcesHelper AppThemeResourcesHelper { get; private set; }
 
 		public static ILogger Logger { get; private set; }
 		private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
@@ -75,7 +76,8 @@ namespace Files.App
 		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
 
 		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
-
+		public static string LogoPath;
+		
 		public IServiceProvider Services { get; private set; }
 
 		/// <summary>
@@ -90,8 +92,10 @@ namespace Files.App
 			UnhandledException += OnUnhandledException;
 			TaskScheduler.UnobservedTaskException += OnUnobservedException;
 			InitializeComponent();
-			this.Services = ConfigureServices();
+			Services = ConfigureServices();
 			Ioc.Default.ConfigureServices(Services);
+			LogoPath = Package.Current.DisplayName == "Files - Dev" ? Constants.AssetPaths.DevLogo
+					: (Package.Current.DisplayName == "Files (Preview)" ? Constants.AssetPaths.PreviewLogo : Constants.AssetPaths.StableLogo);
 		}
 
 		private IServiceProvider ConfigureServices()
@@ -105,12 +109,11 @@ namespace Files.App
 				// Base IUserSettingsService as parent settings store (to get ISettingsSharingContext from)
 				.AddSingleton<IUserSettingsService, UserSettingsService>()
 				// Children settings (from IUserSettingsService)
-				.AddSingleton<IMultitaskingSettingsService, MultitaskingSettingsService>((sp) => new MultitaskingSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<IFoldersSettingsService, FoldersSettingsService>((sp) => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>((sp) => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-				.AddSingleton<IPaneSettingsService, PaneSettingsService>((sp) => new PaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+				.AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>((sp) => new PreviewPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<IAppSettingsService, AppSettingsService>((sp) => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				// Settings not related to IUserSettingsService:
@@ -120,10 +123,17 @@ namespace Files.App
 				// Other services
 				.AddSingleton(Logger)
 				.AddSingleton<IDialogService, DialogService>()
-				.AddSingleton<IImagingService, ImagingService>()
+				.AddSingleton<IImageService, ImagingService>()
 				.AddSingleton<IThreadingService, ThreadingService>()
 				.AddSingleton<ILocalizationService, LocalizationService>()
 				.AddSingleton<ICloudDetector, CloudDetector>()
+				.AddSingleton<IFileTagsService, FileTagsService>()
+#if UWP
+				.AddSingleton<IStorageService, WindowsStorageService>()
+#else
+				.AddSingleton<IStorageService, NativeStorageService>()
+#endif
+				.AddSingleton<IAddItemService, AddItemService>()
 #if SIDELOAD
 				.AddSingleton<IUpdateService, SideloadUpdateService>()
 #else
@@ -137,6 +147,7 @@ namespace Files.App
 				// (IFilesystemHelpersService, IFilesystemOperationsService)
 				// (IStorageEnumerator, IFallbackStorageEnumerator)
 				.AddSingleton<ISizeProvider, UserSizeProvider>()
+				.AddSingleton<IQuickAccessService, QuickAccessService>()
 
 				; // End of service configuration
 
@@ -146,11 +157,10 @@ namespace Files.App
 		private static void EnsureSettingsAndConfigurationAreBootstrapped()
 		{
 			AppSettings ??= new SettingsViewModel();
-			ExternalResourcesHelper ??= new ExternalResourcesHelper();
+			AppThemeResourcesHelper ??= new AppThemeResourcesHelper();
 			JumpList ??= new JumpListManager();
 			RecentItemsManager ??= new RecentItems();
 			AppModel ??= new AppModel();
-			PaneViewModel ??= new PaneViewModel();
 			PreviewPaneViewModel ??= new PreviewPaneViewModel();
 			LibraryManager ??= new LibraryManager();
 			DrivesManager ??= new DrivesManager();
@@ -158,32 +168,30 @@ namespace Files.App
 			CloudDrivesManager ??= new CloudDrivesManager();
 			WSLDistroManager ??= new WSLDistroManager();
 			FileTagsManager ??= new FileTagsManager();
-			SidebarPinnedController ??= new SidebarPinnedController();
+			QuickAccessManager ??= new QuickAccessManager();
 		}
 
-		private static async Task StartAppCenter()
+		private static Task StartAppCenter()
 		{
 			try
 			{
+				// AppCenter secret is injected in builds/azure-pipelines-release.yml
 				if (!AppCenter.Configured)
-				{
-					var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
-					var lines = await FileIO.ReadTextAsync(file);
-					using var document = System.Text.Json.JsonDocument.Parse(lines);
-					var obj = document.RootElement;
-					AppCenter.Start(obj.GetProperty("key").GetString(), typeof(Analytics), typeof(Crashes));
-				}
+					AppCenter.Start("", typeof(Analytics), typeof(Crashes));
 			}
 			catch (Exception ex)
 			{
 				Logger.Warn(ex, "AppCenter could not be started.");
 			}
+
+			return Task.CompletedTask;
 		}
 
 		private static async Task InitializeAppComponentsAsync()
 		{
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			var appearanceSettingsService = userSettingsService.AppearanceSettingsService;
+			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+			var preferencesSettingsService = userSettingsService.PreferencesSettingsService;
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.Run(async () =>
@@ -191,16 +199,16 @@ namespace Files.App
 				await Task.WhenAll(
 					StartAppCenter(),
 					DrivesManager.UpdateDrivesAsync(),
-					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), appearanceSettingsService.ShowCloudDrivesSection),
+					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), preferencesSettingsService.ShowCloudDrivesSection),
 					LibraryManager.UpdateLibrariesAsync(),
-					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), appearanceSettingsService.ShowNetworkDrivesSection),
-					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), appearanceSettingsService.ShowWslSection),
-					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), appearanceSettingsService.ShowFileTagsSection),
-					SidebarPinnedController.InitializeAsync()
+					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), preferencesSettingsService.ShowNetworkDrivesSection),
+					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), preferencesSettingsService.ShowWslSection),
+					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), preferencesSettingsService.ShowFileTagsSection),
+					QuickAccessManager.InitializeAsync()
 				);
 				await Task.WhenAll(
 					JumpList.InitializeAsync(),
-					ContextFlyoutItemHelper.CachedNewContextMenuEntries
+					addItemService.GetNewEntriesAsync()
 				);
 				FileTagsHelper.UpdateTagsDb();
 			});
@@ -209,6 +217,7 @@ namespace Files.App
 			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
 			await updateService.CheckForUpdates();
 			await updateService.DownloadMandatoryUpdates();
+			await updateService.CheckLatestReleaseNotesAsync();
 
 			static async Task OptionalTask(Task task, bool condition)
 			{
@@ -297,7 +306,6 @@ namespace Files.App
 			}
 
 			DrivesManager?.Dispose();
-			PaneViewModel?.Dispose();
 			PreviewPaneViewModel?.Dispose();
 
 			// Try to maintain clipboard data after app close
@@ -319,7 +327,7 @@ namespace Files.App
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
-			
+
 			bundlesSettingsService.FlushSettings();
 
 			userSettingsService.PreferencesSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
@@ -330,20 +338,20 @@ namespace Files.App
 				}
 				else
 				{
-					var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
+					var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
 					return defaultArg.Serialize();
 				}
 			}).ToList();
 		}
 
 		// Occurs when an exception is not handled on the UI thread.
-		private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception);
+		private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception, true);
 
 		// Occurs when an exception is not handled on a background thread.
 		// ie. A task is fired and forgotten Task.Run(() => {...})
-		private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception);
+		private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception, false);
 
-		private static void AppUnhandledException(Exception ex)
+		private static void AppUnhandledException(Exception ex, bool shouldShowNotification)
 		{
 			StringBuilder formattedException = new StringBuilder() { Capacity = 200 };
 
@@ -385,49 +393,50 @@ namespace Files.App
 
 			SaveSessionTabs();
 			Logger.UnhandledError(ex, ex.Message);
-			if (ShowErrorNotification)
+
+			if (!ShowErrorNotification || !shouldShowNotification)
+				return;
+
+			var toastContent = new ToastContent()
 			{
-				var toastContent = new ToastContent()
+				Visual = new ToastVisual()
 				{
-					Visual = new ToastVisual()
+					BindingGeneric = new ToastBindingGeneric()
 					{
-						BindingGeneric = new ToastBindingGeneric()
+						Children =
 						{
-							Children =
+							new AdaptiveText()
 							{
-								new AdaptiveText()
-								{
-									Text = "ExceptionNotificationHeader".GetLocalizedResource()
-								},
-								new AdaptiveText()
-								{
-									Text = "ExceptionNotificationBody".GetLocalizedResource()
-								}
+								Text = "ExceptionNotificationHeader".GetLocalizedResource()
 							},
-							AppLogoOverride = new ToastGenericAppLogo()
+							new AdaptiveText()
 							{
-								Source = "ms-appx:///Assets/error.png"
+								Text = "ExceptionNotificationBody".GetLocalizedResource()
 							}
-						}
-					},
-					Actions = new ToastActionsCustom()
-					{
-						Buttons =
+						},
+						AppLogoOverride = new ToastGenericAppLogo()
 						{
-							new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), "report")
-							{
-								ActivationType = ToastActivationType.Foreground
-							}
+							Source = "ms-appx:///Assets/error.png"
 						}
 					}
-				};
+				},
+				Actions = new ToastActionsCustom()
+				{
+					Buttons =
+					{
+						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), "report")
+						{
+							ActivationType = ToastActivationType.Foreground
+						}
+					}
+				}
+			};
 
-				// Create the toast notification
-				var toastNotif = new ToastNotification(toastContent.GetXml());
+			// Create the toast notification
+			var toastNotif = new ToastNotification(toastContent.GetXml());
 
-				// And send the notification
-				ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
-			}
+			// And send the notification
+			ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
 		}
 
 		public static void CloseApp()

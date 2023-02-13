@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Extensions;
-using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
+using Files.Backend.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -425,7 +425,7 @@ namespace Files.App.ViewModels
 
 		public double DrivePercentageValue
 		{
-			get => DriveCapacityValue > 0 ? (double)DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
+			get => DriveCapacityValue > 0 ? DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
 		}
 
 		private bool itemAttributesVisibility = true;
@@ -542,7 +542,6 @@ namespace Files.App.ViewModels
 		}
 
 		private RelayCommand shortcutItemOpenLinkCommand;
-
 		public RelayCommand ShortcutItemOpenLinkCommand
 		{
 			get => shortcutItemOpenLinkCommand;
@@ -562,16 +561,14 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private ObservableCollection<FilePropertySection> propertySections = new ObservableCollection<FilePropertySection>();
-
+		private ObservableCollection<FilePropertySection> propertySections = new();
 		public ObservableCollection<FilePropertySection> PropertySections
 		{
 			get => propertySections;
 			set => SetProperty(ref propertySections, value);
 		}
 
-		private ObservableCollection<FileProperty> fileProperties = new ObservableCollection<FileProperty>();
-
+		private ObservableCollection<FileProperty> fileProperties = new();
 		public ObservableCollection<FileProperty> FileProperties
 		{
 			get => fileProperties;
@@ -601,6 +598,24 @@ namespace Files.App.ViewModels
 		{
 			get => isHidden;
 			set => SetProperty(ref isHidden, value);
+		}
+
+		private bool runAsAdmin;
+		public bool RunAsAdmin
+		{
+			get => runAsAdmin;
+			set
+			{
+				RunAsAdminEnabled = true;
+				SetProperty(ref runAsAdmin, value);
+			}
+		}
+
+		private bool runAsAdminEnabled;
+		public bool RunAsAdminEnabled
+		{
+			get => runAsAdminEnabled;
+			set => SetProperty(ref runAsAdminEnabled, value);
 		}
 	}
 }

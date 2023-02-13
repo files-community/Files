@@ -12,6 +12,8 @@ namespace Files.App.Interacts
 
 		void CreateShortcut(RoutedEventArgs e);
 
+		void CreateShortcutFromDialog(RoutedEventArgs e);
+
 		void SetAsLockscreenBackgroundItem(RoutedEventArgs e);
 
 		void SetAsDesktopBackgroundItem(RoutedEventArgs e);

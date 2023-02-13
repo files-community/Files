@@ -14,7 +14,7 @@ namespace Files.App.Converters
 		{
 			try
 			{
-				return UInt32.Parse(value as string);
+				return uint.Parse(value as string);
 			}
 			catch (FormatException)
 			{
