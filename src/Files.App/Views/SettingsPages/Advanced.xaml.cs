@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Files.App.SettingsPages
 {
@@ -69,7 +70,7 @@ namespace Files.App.SettingsPages
 		private void RenameTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var text = ((TextBox)sender).Text;
-			editingTag.IsNameValid = !(string.IsNullOrWhiteSpace(text) || text.EndsWith('.') || text.StartsWith('.'));
+			editingTag.IsNameValid = IsNameValid(text);
 		}
 
 		private void CommitRenameTag_Click(object sender, RoutedEventArgs e)
@@ -98,7 +99,12 @@ namespace Files.App.SettingsPages
 		{
 			var text = ((TextBox)sender).Text;
 			ViewModel.NewTag.Name = text;
-			ViewModel.NewTag.IsNameValid = !(string.IsNullOrWhiteSpace(text) || text.EndsWith('.') || text.StartsWith('.'));
+			ViewModel.NewTag.IsNameValid = IsNameValid(text);
+		}
+
+		private bool IsNameValid(string name)
+		{
+			return !(string.IsNullOrWhiteSpace(name) || name.EndsWith('.') || name.StartsWith('.'));
 		}
 	}
 }
