@@ -26,9 +26,8 @@ namespace Files.App.Helpers
 			if (folderSettings.IsLayoutModeFixed || !folderSettings.IsAdaptiveLayoutEnabled)
 				return;
 
-			if (userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences
-				&& folderSettings.IsAdaptiveLayoutEnabled
-				&& !folderSettings.IsLayoutModeFixed)
+			var layout = GetAdaptiveLayout(path, filesAndFolders);
+			switch (layout)
 			{
 				case Layouts.Detail:
 					folderSettings.ToggleLayoutModeDetailsView(false);
@@ -110,41 +109,9 @@ namespace Files.App.Helpers
 			static bool IsFolder(ListedItem item)
 				=> item.PrimaryItemAttribute is StorageItemTypes.Folder;
 
-				mediaCount = filesAndFolders.Where((item) =>
-				{
-					return !string.IsNullOrEmpty(item.FileExtension) && MediaPreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
-				}).Count();
-				imagesCount = filesAndFolders.Where((item) =>
-				{
-					return !string.IsNullOrEmpty(item.FileExtension) && ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
-				}).Count();
-				foldersCount = filesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
-				miscFilesCount = allItemsCount - (mediaCount + imagesCount + foldersCount);
-
-				mediaPercentage = (float)((float)mediaCount / (float)allItemsCount) * 100.0f;
-				imagesPercentage = (float)((float)imagesCount / (float)allItemsCount) * 100.0f;
-				foldersPercentage = (float)((float)foldersCount / (float)allItemsCount) * 100.0f;
-				miscFilesPercentage = (float)((float)miscFilesCount / (float)allItemsCount) * 100.0f;
-
-				// Decide layout mode
-
-				// Mostly files + folders, lesser media and image files | Mostly folders
-				if ((foldersPercentage + miscFilesPercentage) > Constants.AdaptiveLayout.LargeThreshold)
-				{
-					layoutDetails();
-				}
-				// Mostly images, probably an images folder
-				else if (imagesPercentage > Constants.AdaptiveLayout.ExtraLargeThreshold
-					|| (imagesPercentage > Constants.AdaptiveLayout.MediumThreshold
-						&& (mediaPercentage + miscFilesPercentage + foldersPercentage) > Constants.AdaptiveLayout.SmallThreshold
-						&& (miscFilesPercentage + foldersPercentage) < Constants.AdaptiveLayout.ExtraSmallThreshold))
-				{
-					layoutGridView();
-				}
-				else
-				{
-					layoutDetails();
-				}
+			static bool IsImage(ListedItem item)
+				=> !string.IsNullOrEmpty(item.FileExtension)
+				&& ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
 
 			static bool IsMedia(ListedItem item)
 				=> !string.IsNullOrEmpty(item.FileExtension)
