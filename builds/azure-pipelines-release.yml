@@ -95,7 +95,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        gci $(Build.SourcesDirectory)\src -Include app.xaml.cs -recurse | ForEach -Process {
+        gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process {
         (Get-Content $_ -Raw | ForEach -Process {$_ -replace "appcenter.secret", "${{appcenter.secret}}"}) | Set-Content $_ -NoNewline
         }
       failOnStderr: true
