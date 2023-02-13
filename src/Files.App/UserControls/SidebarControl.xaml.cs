@@ -282,6 +282,7 @@ namespace Files.App.UserControls
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,
+					IsHidden = !options.ShowShellItems,
 				}
 			}.Where(x => x.ShowItem).ToList();
 		}
