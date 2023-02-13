@@ -261,33 +261,41 @@ namespace Files.App.Helpers
 				if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
 				{
 					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
-					if (!secondaryElements.Any())
-						return;
-
-					var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
-					var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
-
-					var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
-					if (itemsControl is not null)
+					if (secondaryElements.Any())
 					{
-						var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
-						secondaryElements.OfType<FrameworkElement>()
-										 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
+						var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
+						var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
+
+						var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
+						if (itemsControl is not null)
+						{
+							var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
+							secondaryElements.OfType<FrameworkElement>()
+											 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
+						}
+
+						secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 					}
-					
-					itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
-					secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+					else if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarSeparator appBarSeparator && (appBarSeparator.Tag as string) == "OverflowSeparator") is AppBarSeparator overflowSeparator)
+					{
+						overflowSeparator.Visibility = Visibility.Collapsed;
+					}
+
+					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is AppBarButton overflowItem)
+						overflowItem.Visibility = Visibility.Collapsed;
 				}
 				else
 				{
 					var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
-					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem)
+					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem
+						|| itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarSeparator appBarSeparator && (appBarSeparator.Tag as string) == "OverflowSeparator") is not AppBarSeparator overflowSeparator)
 						return;
 
 					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
 					if (flyoutItems is not null)
 						overflowItems.ForEach(i => flyoutItems.Add(i));
 					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+					overflowSeparator.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
 
 					overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
 					overflowItem.IsEnabled = true;

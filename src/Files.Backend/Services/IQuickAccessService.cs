@@ -46,6 +46,6 @@ namespace Files.App.ServicesImplementation
 		/// </summary>
 		/// <param name="folderPath">The path of the folder</param>
 		/// <returns>true if the item is pinned</returns>
-		bool IsItemPinned(ILocatableFolder folder);
+		bool IsItemPinned(string folderPath);
 	}
 }
