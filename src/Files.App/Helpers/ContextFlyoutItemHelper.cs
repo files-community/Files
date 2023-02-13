@@ -646,7 +646,7 @@ namespace Files.App.Helpers
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
-					IsHidden = true,
+					IsEnabled = false,
 				},
 			};
 		}
