@@ -23,7 +23,7 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref loadingBarVisibility, value);
 		}
 
-		// the pips pager will crash when binding directly to Pages.Count, so count the pages here
+		// The pips pager will crash when binding directly to Pages.Count, so count the pages here
 		private int pageCount;
 		public int PageCount
 		{
@@ -33,15 +33,20 @@ namespace Files.App.ViewModels.Previews
 
 		public ObservableCollection<PageViewModel> Pages { get; } = new();
 
-		public PDFPreviewViewModel(ListedItem item) : base(item) { }
+		public PDFPreviewViewModel(ListedItem item)
+			: base(item)
+		{
+		}
 
-		public static bool ContainsExtension(string extension) => extension is ".pdf";
+		public static bool ContainsExtension(string extension)
+			=> extension is ".pdf";
 
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
 			var fileStream = await Item.ItemFile.OpenReadAsync();
 			var pdf = await PdfDocument.LoadFromStreamAsync(fileStream);
 			TryLoadPagesAsync(pdf, fileStream);
+
 			var details = new List<FileProperty>
 			{
 				// Add the number of pages to the details
@@ -69,8 +74,7 @@ namespace Files.App.ViewModels.Previews
 
 		private async Task LoadPagesAsync(PdfDocument pdf)
 		{
-			// This fixes an issue where loading an absurdly large PDF would take to much RAM
-			// and eventually cause a crash
+			// This fixes an issue where loading an absurdly large PDF would take to much RAM and eventually cause a crash
 			var limit = Math.Clamp(pdf.PageCount, 0, Constants.PreviewPane.PDFPageLimit);
 
 			for (uint i = 0; i < limit; i++)
@@ -99,9 +103,11 @@ namespace Files.App.ViewModels.Previews
 
 					await src.SetSourceAsync(stream);
 					Pages.Add(pageData);
+
 					++PageCount;
 				});
 			}
+
 			LoadingBarVisibility = Visibility.Collapsed;
 		}
 	}
@@ -109,7 +115,9 @@ namespace Files.App.ViewModels.Previews
 	public struct PageViewModel
 	{
 		public int PageNumber { get; set; }
+
 		public BitmapImage PageImage { get; set; }
+
 		public SoftwareBitmap PageImageSB { get; set; }
 	}
 }

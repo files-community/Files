@@ -2928,4 +2928,7 @@
   <data name="Never" xml:space="preserve">
     <value>Never</value>
   </data>
+  <data name="LoadingMoreOptions" xml:space="preserve">
+    <value>Loading more options...</value>
+  </data>
 </root>

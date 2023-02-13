@@ -28,7 +28,7 @@ namespace Files.App.DataModels
 			FoldersSettings.PropertyChanged += FoldersSettings_PropertyChanged; ;
 			Clipboard.ContentChanged += Clipboard_ContentChanged;
 
-			//todo: this doesn't belong here
+			// TODO: This doesn't belong here
 			DetectFontName();
 		}
 
@@ -40,7 +40,7 @@ namespace Files.App.DataModels
 			}
 		}
 
-		//todo: refactor this method
+		// TODO: Refactor this method
 		public void Clipboard_ContentChanged(object sender, object e)
 		{
 			try
@@ -105,7 +105,7 @@ namespace Files.App.DataModels
 			set => SetProperty(ref symbolFontFamily, value);
 		}
 
-		//todo: refactor this method
+		// TODO: Refactor this method
 		private void DetectFontName()
 		{
 			var rawVersion = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);

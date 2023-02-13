@@ -24,8 +24,11 @@ namespace Files.App
 		PreviewPaneViewModel PreviewPaneViewModel { get; }
 
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+
 		public BaseLayoutCommandsViewModel? CommandsViewModel { get; }
+
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; }
 	}
 }

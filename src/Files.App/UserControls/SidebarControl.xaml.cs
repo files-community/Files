@@ -276,12 +276,19 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ShowMoreOptions".GetLocalizedResource(),
+					ItemType = ItemType.Separator,
+					Tag = "OverflowSeparator",
+					IsHidden = !options.ShowShellItems,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "LoadingMoreOptions".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
-					IsHidden = true,
+					IsEnabled = false,
+					IsHidden = !options.ShowShellItems,
 				}
 			}.Where(x => x.ShowItem).ToList();
 		}
@@ -430,7 +437,7 @@ namespace Files.App.UserControls
 			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = e.GetPosition(sidebarItem) });
 
 			if (item.MenuOptions.ShowShellItems)
-				LoadShellMenuItems(itemContextMenuFlyout, item.MenuOptions);
+				_ = ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, itemContextMenuFlyout, item.MenuOptions);
 
 			e.Handled = true;
 		}
@@ -934,61 +941,6 @@ namespace Files.App.UserControls
 			border.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 			VisualStateManager.GoToState(border.FindAscendant<SplitView>(), "ResizerPressed", true);
 			dragging = true;
-		}
-
-		private async void LoadShellMenuItems(CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options)
-		{
-			try
-			{
-				if (options.ShowEmptyRecycleBin)
-				{
-					var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
-					if (emptyRecycleBinItem is not null)
-					{
-						var binHasItems = RecycleBinHelpers.RecycleBinHasItems();
-						emptyRecycleBinItem.IsEnabled = binHasItems;
-					}
-				}
-
-				if (!options.IsLocationItem)
-					return;
-
-				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
-					new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
-				if (!userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
-				{
-					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
-					if (!secondaryElements.Any())
-						return;
-
-					var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
-					var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
-
-					var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
-					if (itemsControl is not null)
-					{
-						var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
-						secondaryElements.OfType<FrameworkElement>()
-										 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
-					}
-
-					itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
-					secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-				}
-				else
-				{
-					var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
-					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem)
-						return;
-
-					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
-					if (flyoutItems is not null)
-						overflowItems.ForEach(i => flyoutItems.Add(i));
-					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
-				}
-			}
-			catch { }
 		}
 
 		public static GridLength GetSidebarCompactSize()

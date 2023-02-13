@@ -1,5 +1,6 @@
 using Files.App.UserControls;
 using Files.App.ViewModels;
+using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -30,7 +31,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			var primaryModels = items.Where(i => i.IsPrimary).ToList();
 			var secondaryModels = items.Except(primaryModels).ToList();
 
-			if (secondaryModels.Last().ItemType is ItemType.Separator)
+			if (!secondaryModels.IsEmpty() && secondaryModels.Last().ItemType is ItemType.Separator)
 				secondaryModels.RemoveAt(secondaryModels.Count - 1);
 
 			var primary = new List<ICommandBarElement>();

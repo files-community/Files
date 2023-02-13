@@ -9,8 +9,7 @@ namespace Files.App.Converters
 	/// </summary>
 	/// <typeparam name="TSource">The source type.</typeparam>
 	/// <typeparam name="TTarget">The target type.</typeparam>
-	public abstract class ValueConverter<TSource, TTarget>
-		: IValueConverter
+	public abstract class ValueConverter<TSource, TTarget> : IValueConverter
 	{
 		/// <summary>
 		/// Converts a source value to the target type.
@@ -88,8 +87,7 @@ namespace Files.App.Converters
 	/// <summary>
 	/// The base class for converting instances of type T to object and vice versa.
 	/// </summary>
-	public abstract class ToObjectConverter<T>
-		: ValueConverter<T?, object?>
+	public abstract class ToObjectConverter<T> : ValueConverter<T?, object?>
 	{
 		/// <summary>
 		/// Converts a source value to the target type.
@@ -119,8 +117,7 @@ namespace Files.App.Converters
 	/// <summary>
 	/// Converts a boolean to and from a visibility value.
 	/// </summary>
-	public class InverseBooleanConverter
-		: ValueConverter<bool, bool>
+	public class InverseBooleanConverter : ValueConverter<bool, bool>
 	{
 		/// <summary>
 		/// Converts a source value to the target type.
@@ -147,8 +144,7 @@ namespace Files.App.Converters
 		}
 	}
 
-	public class NullToTrueConverter
-		: ValueConverter<object?, bool>
+	public class NullToTrueConverter : ValueConverter<object?, bool>
 	{
 		/// <summary>
 		/// Determines whether an inverse conversion should take place.
@@ -181,8 +177,7 @@ namespace Files.App.Converters
 		}
 	}
 
-	public class StringNullOrWhiteSpaceToTrueConverter
-		: ValueConverter<string, bool>
+	public class StringNullOrWhiteSpaceToTrueConverter : ValueConverter<string, bool>
 	{
 		/// <summary>
 		/// Determines whether an inverse conversion should take place.

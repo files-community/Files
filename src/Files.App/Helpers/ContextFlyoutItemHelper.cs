@@ -641,12 +641,12 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ShowMoreOptions".GetLocalizedResource(),
+					Text = "LoadingMoreOptions".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
-					IsHidden = true,
+					IsEnabled = false,
 				},
 			};
 		}
@@ -1106,17 +1106,16 @@ namespace Files.App.Helpers
 					ItemType = ItemType.Separator,
 					Tag = "OverflowSeparator",
 					ShowInSearchPage = true,
-					IsHidden = true,
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ShowMoreOptions".GetLocalizedResource(),
+					Text = "LoadingMoreOptions".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					ShowInSearchPage = true,
-					IsHidden = true,
+					IsEnabled = false
 				},
 			};
 		}

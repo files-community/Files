@@ -15,14 +15,19 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref textValue, value);
 		}
 
-		public MarkdownPreviewViewModel(ListedItem item) : base(item) { }
+		public MarkdownPreviewViewModel(ListedItem item)
+			: base(item)
+		{
+		}
 
-		public static bool ContainsExtension(string extension) => extension is ".md" or ".markdown";
+		public static bool ContainsExtension(string extension)
+			=> extension is ".md" or ".markdown";
 
 		public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
 			var text = await ReadFileAsTextAsync(Item.ItemFile);
 			TextValue = text.Left(Constants.PreviewPane.TextCharacterLimit);
+
 			return new List<FileProperty>();
 		}
 	}

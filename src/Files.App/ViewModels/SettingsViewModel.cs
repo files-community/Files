@@ -27,9 +27,10 @@ namespace Files.App.ViewModels
 
 		public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
 		{
-			propertyName = propertyName is not null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase)
-				? propertyName.Substring(4)
-				: propertyName;
+			propertyName = 
+				propertyName is not null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase) ?
+				propertyName.Substring(4) :
+				propertyName;
 
 			TValue originalValue = default;
 
@@ -53,12 +54,12 @@ namespace Files.App.ViewModels
 
 		public TValue Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
 		{
-			var name = propertyName ??
-					   throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");
+			var name = propertyName ?? throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");
 
-			name = name.StartsWith("get_", StringComparison.OrdinalIgnoreCase)
-				? propertyName.Substring(4)
-				: propertyName;
+			name =
+				name.StartsWith("get_", StringComparison.OrdinalIgnoreCase) ?
+				propertyName.Substring(4) :
+				propertyName;
 
 			if (localSettings.Values.ContainsKey(name))
 			{
@@ -89,7 +90,9 @@ namespace Files.App.ViewModels
 						tValue = (tryParseDelegate?.Invoke(stringValue, out tValue) ?? false) ? tValue : default;
 					}
 
-					Set(tValue, propertyName); // Put the corrected value in settings.
+					// Put the corrected value in settings
+					Set(tValue, propertyName);
+
 					return tValue;
 				}
 				return tValue;

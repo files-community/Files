@@ -24,31 +24,42 @@ namespace Files.App.DataModels.NavigationControlItems
 		}
 
 		//public Uri IconSource { get; set; }
+
 		public byte[] IconData { get; set; }
 
 		private string path;
 		public string Path
 		{
 			get => path;
-			set
-			{
-				path = value;
-			}
+			set => path = value;
 		}
 
 		public string ToolTipText { get; private set; }
+
 		public string DeviceID { get; set; }
+
 		public StorageFolder Root { get; set; }
+
 		public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
+
 		public Visibility ItemVisibility { get; set; } = Visibility.Visible;
 
 		public bool IsRemovable { get; set; }
-		public bool IsNetwork => Type == DriveType.Network;
-		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(path);
 
-		public string MaxSpaceText => MaxSpace.ToSizeString();
-		public string FreeSpaceText => FreeSpace.ToSizeString();
-		public string UsedSpaceText => SpaceUsed.ToSizeString();
+		public bool IsNetwork
+			=> Type == DriveType.Network;
+
+		public bool IsPinned
+			=> App.QuickAccessManager.Model.FavoriteItems.Contains(path);
+
+		public string MaxSpaceText
+			=> MaxSpace.ToSizeString();
+
+		public string FreeSpaceText
+			=> FreeSpace.ToSizeString();
+
+		public string UsedSpaceText
+			=> SpaceUsed.ToSizeString();
 
 		private ByteSize maxSpace;
 		public ByteSize MaxSpace
@@ -59,6 +70,7 @@ namespace Files.App.DataModels.NavigationControlItems
 				if (SetProperty(ref maxSpace, value))
 				{
 					ToolTipText = GetSizeString();
+
 					OnPropertyChanged(nameof(MaxSpaceText));
 					OnPropertyChanged(nameof(ShowDriveDetails));
 				}
@@ -74,6 +86,7 @@ namespace Files.App.DataModels.NavigationControlItems
 				if (SetProperty(ref freeSpace, value))
 				{
 					ToolTipText = GetSizeString();
+
 					OnPropertyChanged(nameof(FreeSpaceText));
 				}
 			}
@@ -92,7 +105,8 @@ namespace Files.App.DataModels.NavigationControlItems
 			}
 		}
 
-		public bool ShowDriveDetails => MaxSpace.Bytes > 0d;
+		public bool ShowDriveDetails
+			=> MaxSpace.Bytes > 0d;
 
 		public DriveType Type { get; set; }
 
@@ -242,6 +256,7 @@ namespace Files.App.DataModels.NavigationControlItems
 
 				IconData ??= UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			}
+
 			Icon = await IconData.ToBitmapAsync();
 		}
 

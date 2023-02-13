@@ -99,6 +99,7 @@ namespace Files.App.ServicesImplementation.Settings
 			where TSettingsService : class, IBaseSettingsService
 		{
 			settingsServiceMember ??= Ioc.Default.GetService<TSettingsService>()!;
+
 			return settingsServiceMember;
 		}
 	}

@@ -15,7 +15,8 @@ namespace Files.App.ViewModels.Properties
 	{
 		public ListedItem Item { get; }
 
-		private string ExePath => Item is ShortcutItem sht ? sht.TargetPath : Item.ItemPath;
+		private string ExePath
+			=> Item is ShortcutItem sht ? sht.TargetPath : Item.ItemPath;
 
 		private CompatibilityOptions compatibilityOptions;
 		public CompatibilityOptions CompatibilityOptions

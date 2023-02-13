@@ -2,14 +2,16 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using Files.App.Helpers.XamlHelpers;
-using Files.App.ServicesImplementation;
+using Files.App.Helpers.ContextFlyouts;
+using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
-using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -21,12 +23,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Vanara;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -55,7 +54,7 @@ namespace Files.App.UserControls.Widgets
 		}
 	}
 
-	public class FolderCardItem : ObservableObject, IWidgetCardItem<LocationItem>
+	public class FolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
 	{
 		private BitmapImage thumbnail;
 		private byte[] thumbnailData;
@@ -69,7 +68,6 @@ namespace Files.App.UserControls.Widgets
 			set => SetProperty(ref thumbnail, value);
 		}
 		public LocationItem Item { get; private set; }
-		public string Path { get; set; }
 		public ICommand SelectCommand { get; set; }
 		public string Text { get; set; }
 		public bool IsPinned { get; set; }
@@ -83,6 +81,7 @@ namespace Files.App.UserControls.Widgets
 			}
 			IsPinned = isPinned;
 			Item = item;
+			Path = item.Path;
 		}
 
 		public async Task LoadCardThumbnailAsync()
@@ -98,12 +97,8 @@ namespace Files.App.UserControls.Widgets
 		}
 	}
 
-	public sealed partial class QuickAccessWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
+	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		private readonly IQuickAccessService QuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
-
 		public ObservableCollection<FolderCardItem> ItemsAdded = new();
 
 		private bool showMultiPaneControls;
@@ -116,6 +111,13 @@ namespace Files.App.UserControls.Widgets
 
 			Loaded += QuickAccessWidget_Loaded;
 			Unloaded += QuickAccessWidget_Unloaded;
+
+			OpenInNewTabCommand = new RelayCommand<FolderCardItem>(OpenInNewTab);
+			OpenInNewWindowCommand = new RelayCommand<FolderCardItem>(OpenInNewWindow);
+			OpenInNewPaneCommand = new RelayCommand<FolderCardItem>(OpenInNewPane);
+			OpenPropertiesCommand = new RelayCommand<FolderCardItem>(OpenProperties);
+			PinToFavoritesCommand = new RelayCommand<FolderCardItem>(PinToFavorites);
+			UnpinFromFavoritesCommand = new RelayCommand<FolderCardItem>(UnpinFromFavorites);
 		}
 
 		public delegate void LibraryCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
@@ -141,6 +143,9 @@ namespace Files.App.UserControls.Widgets
 		public MenuFlyoutItem? MenuFlyoutItem => null;
 
 		public ICommand QuickAccessCardCommand { get; }
+
+		public ICommand OpenPropertiesCommand;
+		public ICommand OpenInNewPaneCommand;
 
 		public ICommand ShowCreateNewLibraryDialogCommand { get; } = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
 
@@ -169,6 +174,74 @@ namespace Files.App.UserControls.Widgets
 		public string AutomationProperties => "QuickAccess".GetLocalizedResource();
 
 		public string WidgetHeader => "QuickAccess".GetLocalizedResource();
+
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
+		{
+			return new List<ContextMenuFlyoutItemViewModel>()
+			{
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarOpenInNewPane/Text".GetLocalizedResource(),
+					Glyph = "\uF117",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = OpenInNewPaneCommand,
+					CommandParameter = item,
+					ShowItem = ShowMultiPaneControls
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
+					Glyph = "\uF113",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = OpenInNewTabCommand,
+					CommandParameter = item
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
+					Glyph = "\uE737",
+					Command = OpenInNewWindowCommand,
+					CommandParameter = item
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
+					Glyph = "\uE840",
+					Command = PinToFavoritesCommand,
+					CommandParameter = item,
+					ShowItem = !isPinned
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarUnpinFromFavorites/Text".GetLocalizedResource(),
+					Glyph = "\uE77A",
+					Command = UnpinFromFavoritesCommand,
+					CommandParameter = item,
+					ShowItem = isPinned
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
+					Glyph = "\uE946",
+					Command = OpenPropertiesCommand,
+					CommandParameter = item
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ItemType.Separator,
+					Tag = "OverflowSeparator",
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "LoadingMoreOptions".GetLocalizedResource(),
+					Glyph = "\xE712",
+					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					ID = "ItemOverflow",
+					Tag = "ItemOverflow",
+					IsEnabled = false,
+				}
+			}.Where(x => x.ShowItem).ToList();
+		}
 
 		private async void ModifyItem(object? sender, ModifyQuickAccessEventArgs? e)
 		{
@@ -233,9 +306,9 @@ namespace Files.App.UserControls.Widgets
 			// eg. an empty library doesn't have OpenInNewPane context menu item
 			if (newPaneMenuItem is not null)
 				newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
-			
+
 			var pinToFavoritesItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "PinToFavorites");
-			if (pinToFavoritesItem is not null) 
+			if (pinToFavoritesItem is not null)
 				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as FolderCardItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
 
 			var unpinFromFavoritesItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "UnpinFromFavorites");
@@ -248,16 +321,9 @@ namespace Files.App.UserControls.Widgets
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
+		private void OpenInNewPane(FolderCardItem item)
 		{
-			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
 			CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
-		}
-
-		private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
-		{
-			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
-			await NavigationHelpers.OpenPathInNewTab(item.Path);
 		}
 
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -269,32 +335,13 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
+		private void OpenProperties(FolderCardItem item)
 		{
-			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
-			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
+			CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item }); 
 		}
 
-		private void OpenProperties_Click(object sender, RoutedEventArgs e)
+		public override async void PinToFavorites(WidgetCardItem item)
 		{
-			var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
-			var flyoutParent = presenter?.Parent as Popup;
-			var propertiesItem = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
-			if (propertiesItem is null  || flyoutParent is null)
-				return;
-
-			EventHandler<object> flyoutClosed = null!;
-			flyoutClosed = (s, e) =>
-			{
-				flyoutParent.Closed -= flyoutClosed;
-				CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = propertiesItem.Item });
-			};
-			flyoutParent.Closed += flyoutClosed;
-		}
-
-		private async void PinToFavorites_Click(object sender, RoutedEventArgs e)
-		{
-			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
 			await QuickAccessService.PinToSidebar(item.Path);
 			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 			var items = (await QuickAccessService.GetPinnedFoldersAsync())
@@ -309,10 +356,10 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		private void UnpinFromFavorites_Click(object sender, RoutedEventArgs e)
+		public override async void UnpinFromFavorites(WidgetCardItem item)
 		{
-			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
-			_ = QuickAccessService.UnpinFromSidebar(item.Path);
+			await QuickAccessService.UnpinFromSidebar(item.Path);
+			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 		}
 
 		private Task OpenCard(FolderCardItem item)

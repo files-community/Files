@@ -16,8 +16,12 @@ namespace Files.App.ViewModels.Properties
 	{
 		public List<ListedItem> List { get; }
 
-		public CombinedProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
-			DispatcherQueue coreDispatcher, List<ListedItem> listedItems, IShellPage instance)
+		public CombinedProperties(
+			SelectedItemsPropertiesViewModel viewModel,
+			CancellationTokenSource tokenSource,
+			DispatcherQueue coreDispatcher,
+			List<ListedItem> listedItems,
+			IShellPage instance)
 		{
 			ViewModel = viewModel;
 			TokenSource = tokenSource;
@@ -33,6 +37,7 @@ namespace Files.App.ViewModels.Properties
 			if (List is not null)
 			{
 				ViewModel.LoadCombinedItemsGlyph = true;
+
 				if (List.All(x => x.ItemType.Equals(List.First().ItemType)))
 				{
 					ViewModel.ItemType = string.Format("PropertiesDriveItemTypesEquals".GetLocalizedResource(), List.First().ItemType);
@@ -41,21 +46,20 @@ namespace Files.App.ViewModels.Properties
 				{
 					ViewModel.ItemType = "PropertiesDriveItemTypeDifferent".GetLocalizedResource();
 				}
+
 				var itemsPath = List.Select(Item => (Item as RecycleBinItem)?.ItemOriginalFolder ??
 					(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath));
+
 				if (itemsPath.Distinct().Count() == 1)
-				{
 					ViewModel.ItemPath = string.Format("PropertiesCombinedItemPath".GetLocalizedResource(), itemsPath.First());
-				}
 			}
 		}
 
 		public override async void GetSpecialProperties()
 		{
 			if (List.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
-			{
 				ViewModel.IsReadOnly = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.ReadOnly));
-			}
+
 			ViewModel.IsHidden = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
 
 			ViewModel.LastSeparatorVisibility = false;
@@ -69,6 +73,7 @@ namespace Files.App.ViewModels.Properties
 			long foldersSize = 0;
 
 			ViewModel.ItemSizeProgressVisibility = true;
+
 			foreach (var item in List)
 			{
 				if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
@@ -76,8 +81,10 @@ namespace Files.App.ViewModels.Properties
 					var fileSizeTask = Task.Run(async () =>
 					{
 						var size = await CalculateFolderSizeAsync(item.ItemPath, TokenSource.Token);
+
 						return size;
 					});
+
 					try
 					{
 						foldersSize += await fileSizeTask;
@@ -88,10 +95,12 @@ namespace Files.App.ViewModels.Properties
 					}
 				}
 			}
+
 			ViewModel.ItemSizeProgressVisibility = false;
 
 			totalSize = filesSize + foldersSize;
 			ViewModel.ItemSize = totalSize.ToLongSizeString();
+
 			SetItemsCountString();
 		}
 
@@ -100,28 +109,33 @@ namespace Files.App.ViewModels.Properties
 			switch (e.PropertyName)
 			{
 				case "IsReadOnly":
-					if (ViewModel.IsReadOnly)
 					{
-						List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
-							x.ItemPath, System.IO.FileAttributes.ReadOnly));
-					}
-					else
-					{
-						List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
-							x.ItemPath, System.IO.FileAttributes.ReadOnly));
+						if (ViewModel.IsReadOnly)
+						{
+							List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
+								x.ItemPath, System.IO.FileAttributes.ReadOnly));
+						}
+						else
+						{
+							List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
+								x.ItemPath, System.IO.FileAttributes.ReadOnly));
+						}
 					}
 					break;
 
 				case "IsHidden":
-					if (ViewModel.IsHidden)
 					{
-						List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
-							x.ItemPath, System.IO.FileAttributes.Hidden));
-					}
-					else
-					{
-						List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
-							x.ItemPath, System.IO.FileAttributes.Hidden));
+						if (ViewModel.IsHidden)
+						{
+							List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
+								x.ItemPath, System.IO.FileAttributes.Hidden));
+						}
+						else
+						{
+							List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
+								x.ItemPath, System.IO.FileAttributes.Hidden));
+						}
+
 					}
 					break;
 			}
