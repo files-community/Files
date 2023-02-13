@@ -4,7 +4,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Files.App.SettingsPages
 {
@@ -80,7 +79,7 @@ namespace Files.App.SettingsPages
 
 			CommitChanges(item.FindDescendant("TagNameTextBox") as TextBox);
 		}
-		
+
 		private void CancelRenameTag_Click(object sender, RoutedEventArgs e)
 		{
 			var editingTag = (ListedTagViewModel)((Button)sender).DataContext;
