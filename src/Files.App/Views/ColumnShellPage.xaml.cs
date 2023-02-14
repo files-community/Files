@@ -245,7 +245,7 @@ namespace Files.App.Views
 						Verb = shift ? "runas" : "",
 						UseShellExecute = true
 					};
-					Process.Start(terminalStartInfo);
+					DispatcherQueue.TryEnqueue(() => Process.Start(terminalStartInfo));
 
 					args.Handled = true;
 					break;
