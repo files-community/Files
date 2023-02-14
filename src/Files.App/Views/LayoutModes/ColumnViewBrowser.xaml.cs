@@ -70,7 +70,7 @@ namespace Files.App.Views.LayoutModes
 					NavPathParam = column.NavPathParam
 				});
 				navigationArguments.Column = ColumnHost.ActiveBlades.IndexOf(newblade);
-				navigationArguments.NavPathParam = column.NavPathParam;
+				navigationArguments.ColumnPathParam = column.NavPathParam;
 			}
 		}
 
@@ -85,13 +85,17 @@ namespace Files.App.Views.LayoutModes
 
 			navigationArguments = (NavigationArguments)eventArgs.Parameter;
 			string?[] paths = new string[navigationArguments.Column + 1];
-			if (navigationArguments.NavPathParam is not null)
+			if (navigationArguments.ColumnPathParam is not null)
 			{
-				paths[navigationArguments.Column] = navigationArguments.NavPathParam;
+				paths[navigationArguments.Column] = navigationArguments.ColumnPathParam;
 				for (int i = navigationArguments.Column - 1; i >= 0; i--)
 				{
 					paths[i] = PathHelpers.GetParentDir(paths[i+1]);
 				}
+			}
+			else
+			{
+				paths[0] = navigationArguments.NavPathParam;
 			}
 
 			MainPageFrame.Navigated += Frame_Navigated;
@@ -104,15 +108,18 @@ namespace Files.App.Views.LayoutModes
 				SearchPathParam = navigationArguments.SearchPathParam,
 				NavPathParam = paths[0]
 			});
-			for (int i = 1; i <= navigationArguments.Column; i++)
+			if (navigationArguments.ColumnPathParam is not null)
 			{
-				var (frame, _) = CreateAndAddNewBlade();
-
-				frame.Navigate(typeof(ColumnShellPage), new ColumnParam
+				for (int i = 1; i <= navigationArguments.Column; i++)
 				{
-					Column = i,
-					NavPathParam = paths[i]
-				});
+					var (frame, _) = CreateAndAddNewBlade();
+
+					frame.Navigate(typeof(ColumnShellPage), new ColumnParam
+					{
+						Column = i,
+						NavPathParam = paths[i]
+					});
+				}
 			}
 		}
 
@@ -190,9 +197,9 @@ namespace Files.App.Views.LayoutModes
 					}
 					navigationArguments.Column = index;
 					if ((ColumnHost.ActiveBlades[index].Content as Frame)?.Content is ColumnShellPage s)
-						navigationArguments.NavPathParam = s.FilesystemViewModel.WorkingDirectory;
+						navigationArguments.ColumnPathParam = s.FilesystemViewModel.WorkingDirectory;
 					else
-						navigationArguments.NavPathParam = null;
+						navigationArguments.ColumnPathParam = null;
 				});
 			}
 			ContentChanged(ActiveColumnShellPage);

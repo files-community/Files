@@ -1151,7 +1151,6 @@ namespace Files.App.Views
 	{
 		public bool FocusOnNavigation { get; set; } = false;
 		public string? NavPathParam { get; set; } = null;
-		public int Column { get; set; } = 0;
 		public IShellPage? AssociatedTabInstance { get; set; }
 		public bool IsSearchResultPage { get; set; } = false;
 		public string? SearchPathParam { get; set; } = null;
@@ -1159,5 +1158,7 @@ namespace Files.App.Views
 		public bool SearchUnindexedItems { get; set; } = false;
 		public bool IsLayoutSwitch { get; set; } = false;
 		public IEnumerable<string>? SelectItems { get; set; }
+		public string? ColumnPathParam { get; set; } = null;
+		public int Column { get; set; } = 0;
 	}
 }
