@@ -257,7 +257,7 @@ namespace Files.App.Helpers
 					itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
 				}
 				
-				if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+				if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
 				{
 					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
 					if (secondaryElements.Any())
