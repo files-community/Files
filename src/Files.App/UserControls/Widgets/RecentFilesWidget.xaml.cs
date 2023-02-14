@@ -106,7 +106,7 @@ namespace Files.App.UserControls.Widgets
 			OpenFileLocationCommand = new RelayCommand<RecentItem>(OpenFileLocation);
 		}
 
-		private async void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			if (sender is not Grid recentItemsGrid || recentItemsGrid.DataContext is not RecentItem item)
@@ -122,7 +122,7 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
 
-			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
+			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}
