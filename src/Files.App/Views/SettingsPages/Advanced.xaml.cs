@@ -74,7 +74,6 @@ namespace Files.App.SettingsPages
 
 		private void CommitRenameTag_Click(object sender, RoutedEventArgs e)
 		{
-			//var editingTag = (ListedTagViewModel)((Button)sender).DataContext;
 			var item = TagsList.ContainerFromItem(editingTag) as ListViewItem;
 
 			CommitChanges(item.FindDescendant("TagNameTextBox") as TextBox);
@@ -82,7 +81,6 @@ namespace Files.App.SettingsPages
 
 		private void CancelRenameTag_Click(object sender, RoutedEventArgs e)
 		{
-			//var editingTag = (ListedTagViewModel)((Button)sender).DataContext;
 			AbortEdit();
 		}
 
