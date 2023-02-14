@@ -75,11 +75,9 @@ namespace Files.App.Views
 				quickAccessWidget.CardInvoked -= QuickAccessWidget_CardInvoked;
 				quickAccessWidget.CardNewPaneInvoked -= QuickAccessWidget_CardNewPaneInvoked;
 				quickAccessWidget.CardPropertiesInvoked -= QuickAccessWidget_CardPropertiesInvoked;
-				quickAccessWidget.QuickAccessWidgetShowMultiPaneControlsInvoked -= QuickAccessWidget_QuickAccessWidgetShowMultiPaneControlsInvoked;
 				quickAccessWidget.CardInvoked += QuickAccessWidget_CardInvoked;
 				quickAccessWidget.CardNewPaneInvoked += QuickAccessWidget_CardNewPaneInvoked;
 				quickAccessWidget.CardPropertiesInvoked += QuickAccessWidget_CardPropertiesInvoked;
-				quickAccessWidget.QuickAccessWidgetShowMultiPaneControlsInvoked += QuickAccessWidget_QuickAccessWidgetShowMultiPaneControlsInvoked;
 			}
 			if (shouldReloadDrivesWidget && drivesWidget is not null)
 			{
@@ -118,13 +116,6 @@ namespace Files.App.Views
 			// We must change the associatedInstance because only now it has loaded and not null
 			ViewModel.ChangeAppInstance(AppInstance);
 			ReloadWidgets();
-		}
-
-		private void QuickAccessWidget_QuickAccessWidgetShowMultiPaneControlsInvoked(object sender, EventArgs e)
-		{
-			QuickAccessWidget QuickAccessWidget = (QuickAccessWidget)sender;
-
-			QuickAccessWidget.ShowMultiPaneControls = AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
 		}
 
 		// WINUI3

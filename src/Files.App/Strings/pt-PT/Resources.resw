@@ -346,7 +346,7 @@
     <value>Ficheiro</value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Ecrã</value>
+    <value>Exibição</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Insira o nome do item</value>
@@ -451,7 +451,7 @@
     <value>O ficheiro a que está a tentar aceder está a ser utilizado por {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>O ficheiro que está a tentar aceder está a ser utilizado por outra aplicação</value>
+    <value>O ficheiro ao qual está a tentar aceder está a ser utilizado por outra aplicação</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Ficheiro em utilização</value>
@@ -496,7 +496,7 @@
     <value>Há {0} segundos</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>há 1 segundo</value>
+    <value>1 segundo atrás</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Agora</value>
@@ -757,7 +757,7 @@
     <value>Personalização</value>
   </data>
   <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Disposição e ordenação</value>
+    <value>Esquema e ordenação</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Não foi possível criar este item</value>
@@ -823,10 +823,10 @@
     <value>Idioma</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Mover extensões do ‘shell’ para um sub menu</value>
+    <value>Mover extensões de consola para um sub-menu</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Exibir diálogo de confirmação ao remover itens</value>
+    <value>Mostrar diálogo de confirmação antes de eliminar itens</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Ocorreu um erro ao guardar algumas propriedades.</value>
@@ -1222,7 +1222,7 @@
     <value>Incluir itens não indexados nos resultados de pesquisa</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sincronizar layout e preferências de ordenação entre diretórios</value>
+    <value>Sincronizar esquema e preferências de ordenação entre pastas</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalizar menu de contexto do botão direito do rato</value>
@@ -1243,7 +1243,7 @@
     <value>Remover</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Abrir abas no modo de painel duplo</value>
+    <value>Abrir separadores no modo de painel duplo</value>
   </data>
   <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>Ativar painel duplo</value>
@@ -1426,7 +1426,7 @@
     <value>Desconhecido</value>
   </data>
   <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Mostrar caixa de seleção ao lado de nomes de ficheiros</value>
+    <value>Mostrar caixa de seleção ao lado do nome de ficheiro</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Se alterar a extensão, o ficheiro pode tornar-se inutilizável. Tem a certeza de que a pretende alterar?</value>
@@ -2347,16 +2347,16 @@
     <value>Coluna Tamanho do item</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>Sinalizadores de funcionalidades experimentais</value>
+    <value>'Flags' de funcionalidades experimentais</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
     <value>Ajuda e suporte</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>Envie uma solicitação de recurso</value>
+    <value>Submeter pedido de funcionalidade</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>Envie um relatório de bug</value>
+    <value>Submeter relatório de erros</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Definir Files como o gestor de ficheiros do sistema</value>
@@ -2380,7 +2380,7 @@
     <value>Importar definições</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>Gerir configurações</value>
+    <value>Gerir definições</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Não foi possível importar as definições. O ficheiro está danificado.</value>
@@ -2605,7 +2605,7 @@
     <value>Etiquetas</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Utilizar espaçamento compacto no layout de detalhes</value>
+    <value>Utilizar espaçamento compacto no esquema de detalhes</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universal</value>
@@ -2842,7 +2842,7 @@
     <value>Ordenar por</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
-    <value>Agrupar em ordem decrescente</value>
+    <value>Agrupar em ordem descendente</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
     <value>Ordenar em ordem descendente</value>
@@ -2863,10 +2863,10 @@
     <value>A opção Ficheiros recentes está desativada no Explorador de ficheiros do Windows.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Editar Ficheiro de Definições</value>
+    <value>Editar ficheiro de definições</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
-    <value>Notas de Versão</value>
+    <value>Notas da versão</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Criar um atalho neste local requer privilégios de administrador</value>
@@ -2881,10 +2881,10 @@
     <value>Definições</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Clique duas vezes num espaço em branco para subir um diretório</value>
+    <value>Clique duas vezes num espaço em branco para subir uma pasta</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
-    <value>Veja mais</value>
+    <value>Ver mais</value>
   </data>
   <data name="ToolTipDescriptionSize" xml:space="preserve">
     <value>Tamanho:</value>
@@ -2902,10 +2902,10 @@
     <value>Acesso rápido</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>Introduza as suas credenciais para se conectar a: {0}</value>
+    <value>Introduza as credenciais para aceder a: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Introduza as Credenciais da Rede</value>
+    <value>Introduza as credenciais de rede</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>Memorizar credenciais</value>
@@ -2923,7 +2923,7 @@
     <value>Sempre</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>Apenas exclusão permanente</value>
+    <value>Apenas eliminação permanente</value>
   </data>
   <data name="Never" xml:space="preserve">
     <value>Nunca</value>

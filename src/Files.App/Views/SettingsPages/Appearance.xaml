@@ -166,36 +166,6 @@
 					IsOn="{x:Bind ViewModel.UseCompactStyles, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
-
-
-			<!--  Right Click Menu  -->
-			<TextBlock
-				Padding="0,12,0,4"
-				FontSize="14"
-				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=SettingsContextMenu/Text}" />
-
-			<!--  Edit tags  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplayEditTagsMenu}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE1CB;" />
-				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=DisplayEditTagsMenu}"
-					IsOn="{x:Bind ViewModel.DisplayEditTagsMenu, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</local:SettingsBlockControl>
-
-			<!--  Overflow Options  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsContextMenuOverflow}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE10C;" />
-				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuOverflow}"
-					IsOn="{x:Bind ViewModel.MoveShellExtensionsToSubMenu, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>
 </Page>

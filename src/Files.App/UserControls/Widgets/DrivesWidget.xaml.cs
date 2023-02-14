@@ -71,7 +71,9 @@ namespace Files.App.UserControls.Widgets
 	}
 
 	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
-	{		
+	{
+		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
@@ -150,27 +152,29 @@ namespace Files.App.UserControls.Widgets
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewPane/Text".GetLocalizedResource(),
-					Glyph = "\uF117",
-					GlyphFontFamilyName = "CustomGlyph",
-					Command = OpenInNewPaneCommand,
-					CommandParameter = item,
-					ShowItem = ShowMultiPaneControls
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
 					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
-					CommandParameter = item
+					CommandParameter = item,
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
-					CommandParameter = item
+					CommandParameter = item,
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewPane".GetLocalizedResource(),
+					Glyph = "\uF117",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = OpenInNewPaneCommand,
+					CommandParameter = item,
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -211,7 +215,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "LoadingMoreOptions".GetLocalizedResource(),
+					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
@@ -301,11 +305,6 @@ namespace Files.App.UserControls.Widgets
 			public string Path { get; set; }
 		}
 
-		public bool ShowMultiPaneControls
-		{
-			get => AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
-		}
-
 		private async Task OpenInNewPane(DriveCardItem item)
 		{
 			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
@@ -318,9 +317,6 @@ namespace Files.App.UserControls.Widgets
 
 		private void MenuFlyout_Opening(object sender, object e)
 		{
-			var newPaneMenuItem = (sender as MenuFlyout).Items.Single(x => x.Name == "OpenInNewPane");
-			newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
-
 			var pinToFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "PinToFavorites");
 			pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
 

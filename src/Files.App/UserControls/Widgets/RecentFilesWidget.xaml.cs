@@ -115,7 +115,7 @@ namespace Files.App.UserControls.Widgets
 			var menuItems = GetItemMenuItems(item, false);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+			if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
 				secondaryElements.OfType<FrameworkElement>()
 								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
 
@@ -158,7 +158,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "LoadingMoreOptions".GetLocalizedResource(),
+					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
