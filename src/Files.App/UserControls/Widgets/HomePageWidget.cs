@@ -33,7 +33,7 @@ namespace Files.App.UserControls.Widgets
 
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned);
 
-		public async void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			if (sender is not Button widgetCardItem || widgetCardItem.DataContext is not WidgetCardItem item)
@@ -49,7 +49,7 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
 
-			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
+			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}
