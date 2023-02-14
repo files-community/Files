@@ -66,7 +66,7 @@ namespace Files.App.Views.LayoutModes
 					Column = ColumnHost.ActiveBlades.IndexOf(newblade),
 					NavPathParam = column.NavPathParam
 				});
-				if (navigationArguments?.ColumnPathParams is List<string?> columnPathParams)
+				if (navigationArguments.ColumnPathParams is List<string?> columnPathParams)
 					columnPathParams.Add(column.NavPathParam);
 			}
 		}
@@ -80,7 +80,6 @@ namespace Files.App.Views.LayoutModes
 		{
 			base.OnNavigatedTo(eventArgs);
 
-			navigationArguments = (NavigationArguments)eventArgs.Parameter;
 			MainPageFrame.Navigated += Frame_Navigated;
 			MainPageFrame.Navigate(typeof(ColumnShellPage), new ColumnParam
 			{
@@ -182,7 +181,7 @@ namespace Files.App.Views.LayoutModes
 						ColumnHost.Items.RemoveAt(index + 1);
 						ColumnHost.ActiveBlades.RemoveAt(index + 1);
 					}
-					if (navigationArguments?.ColumnPathParams is List<string?> columnPathParams)
+					if (navigationArguments.ColumnPathParams is List<string?> columnPathParams)
 						columnPathParams.RemoveRange(index, columnPathParams.Count - index);
 				});
 			}
