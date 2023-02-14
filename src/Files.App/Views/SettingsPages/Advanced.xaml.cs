@@ -99,7 +99,12 @@ namespace Files.App.SettingsPages
 
 		private bool IsNameValid(string name)
 		{
-			return !(string.IsNullOrWhiteSpace(name) || name.EndsWith('.') || name.StartsWith('.') || ViewModel.Tags.Any(tag => name == tag.Tag.Name));
+			return !(
+				string.IsNullOrWhiteSpace(name) || 
+				name.StartsWith('.') || 
+				name.EndsWith('.') || 
+				ViewModel.Tags.Any(tag => name == tag.Tag.Name)
+			);
 		}
 
 		private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
