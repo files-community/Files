@@ -57,6 +57,16 @@ namespace Files.Backend.Services.Settings
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the edit tags menu.
 		/// </summary>
-		bool DisplayEditTagsMenu { get; set; }
+		bool ShowEditTagsMenu { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to open folders in a new tab.
+		/// </summary>
+		bool ShowOpenInNewTab { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to open folders in a new window.
+		/// </summary>
+		bool ShowOpenInNewWindow { get; set; }
 	}
 }

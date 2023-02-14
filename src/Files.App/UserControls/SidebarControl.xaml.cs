@@ -228,14 +228,14 @@ namespace Files.App.UserControls
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
-					ShowItem = options.IsLocationItem
+					ShowItem = options.IsLocationItem && userSettingsService.AppearanceSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
-					ShowItem = options.IsLocationItem
+					ShowItem = options.IsLocationItem && userSettingsService.AppearanceSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
