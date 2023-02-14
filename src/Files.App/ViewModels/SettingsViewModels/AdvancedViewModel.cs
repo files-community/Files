@@ -7,10 +7,13 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.FileTags;
 using Files.Shared.Extensions;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Win32;
 using SevenZip;
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -31,25 +34,37 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
-		public ICommand EditFileTagsCommand { get; }
 		public ICommand SetAsDefaultExplorerCommand { get; }
 		public ICommand SetAsOpenFileDialogCommand { get; }
 		public ICommand ExportSettingsCommand { get; }
 		public ICommand ImportSettingsCommand { get; }
 		public ICommand OpenSettingsJsonCommand { get; }
+		public ICommand AddTagCommand { get; }
+		public ICommand SaveNewTagCommand { get; }
+		public ICommand CancelNewTagCommand { get; }
 
+		public NewTagViewModel NewTag = new();
+
+		public ObservableCollection<ListedTagViewModel> Tags { get; set; }
 
 		public AdvancedViewModel()
 		{
 			IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
 			IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
 
-			EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
 			SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
 			SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
 			ExportSettingsCommand = new AsyncRelayCommand(ExportSettings);
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
 			OpenSettingsJsonCommand = new AsyncRelayCommand(OpenSettingsJson);
+
+			// Tags Commands
+			AddTagCommand = new RelayCommand(DoAddNewTag);
+			SaveNewTagCommand = new RelayCommand(DoSaveNewTag);
+			CancelNewTagCommand = new RelayCommand(DoCancelNewTag);
+
+			Tags = new ObservableCollection<ListedTagViewModel>();
+			fileTagsSettingsService.FileTagList?.ForEach(tag => Tags.Add(new ListedTagViewModel(tag)));
 		}
 
 		private async Task OpenSettingsJson()
@@ -59,16 +74,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			if (!await Launcher.LaunchFileAsync(settingsJsonPath))
 			{
 				await ContextMenu.InvokeVerb("open", settingsJsonPath.Path);
-			}
-		}
-
-		private async Task LaunchFileTagsConfigFile()
-		{
-			var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
-
-			if (!await Launcher.LaunchFileAsync(configFile))
-			{
-				await ContextMenu.InvokeVerb("open", configFile.Path);
 			}
 		}
 
@@ -88,7 +93,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
 				{
 					// Error copying files
-					goto DetectResult;
+					await DetectResult();
+					return;
 				}
 			}
 
@@ -98,7 +104,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (!Win32API.RunPowershellCommand($"-command \"New-Item -Force -Path '{dataPath}' -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
 				{
 					// Error copying files
-					goto DetectResult;
+					await DetectResult();
+					return;
 				}
 			}
 			else
@@ -116,7 +123,11 @@ namespace Files.App.ViewModels.SettingsViewModels
 				// Canceled UAC
 			}
 
-		DetectResult:
+			await DetectResult();
+		}
+
+		private async Task DetectResult()
+		{
 			IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
 			if (!IsSetAsDefaultFileManager)
 			{
@@ -286,6 +297,13 @@ namespace Files.App.ViewModels.SettingsViewModels
 			set => SetProperty(ref isSetAsOpenFileDialog, value);
 		}
 
+		private bool isCreatingNewTag;
+		public bool IsCreatingNewTag
+		{
+			get => isCreatingNewTag;
+			set => SetProperty(ref isCreatingNewTag, value);
+		}
+
 		private FileSavePicker InitializeWithWindow(FileSavePicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
@@ -298,6 +316,73 @@ namespace Files.App.ViewModels.SettingsViewModels
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
 
 			return obj;
+		}
+
+		private void DoAddNewTag()
+		{
+			NewTag.Reset();
+			IsCreatingNewTag = true;
+		}
+
+		private void DoSaveNewTag()
+		{
+			IsCreatingNewTag = false;
+
+			fileTagsSettingsService.CreateNewTag(NewTag.Name, NewTag.Color);
+			Tags.Clear();
+			fileTagsSettingsService.FileTagList?.ForEach(tag => Tags.Add(new ListedTagViewModel(tag)));
+		}
+
+		private void DoCancelNewTag()
+		{
+			IsCreatingNewTag = false;
+		}
+
+		public void EditExistingTag(ListedTagViewModel item, string newName, string color)
+		{
+			fileTagsSettingsService.EditTag(item.Tag.Uid, newName, color);
+			Tags.Clear();
+			fileTagsSettingsService.FileTagList?.ForEach(tag => Tags.Add(new ListedTagViewModel(tag)));
+		}
+
+		public void DeleteExistingTag(ListedTagViewModel item)
+		{
+			Tags.Remove(item);
+			fileTagsSettingsService.DeleteTag(item.Tag.Uid);
+		}
+	}
+
+	public class NewTagViewModel : ObservableObject
+	{
+		private string name = string.Empty;
+		public string Name
+		{
+			get => name;
+			set
+			{
+				if (SetProperty(ref name, value))
+					OnPropertyChanged(nameof(IsNameValid));
+			}
+		}
+
+		private string color = "#FFFFFFFF";
+		public string Color
+		{
+			get => color;
+			set => SetProperty(ref color, value);
+		}
+
+		private bool isNameValid;
+		public bool IsNameValid
+		{
+			get => isNameValid;
+			set => SetProperty(ref isNameValid, value);
+		}
+
+		public void Reset()
+		{
+			Name = string.Empty;
+			Color = ColorHelpers.RandomColor();
 		}
 	}
 }
