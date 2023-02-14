@@ -211,7 +211,7 @@
     <value>הסר פריט זה</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>הפרויקט ב-GitHub</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>אודות</value>
@@ -451,7 +451,7 @@
     <value>הקובץ שאתם מנסים לגשת אליו כרגע משומש על ידי {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>הקובץ שאתם מנסים לגשת אליו כרגע משומש על ידי אפליקציה אחרת</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>קובץ בשימוש</value>
@@ -496,10 +496,10 @@
     <value>לפני {0} שניות</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>לפני שנייה</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>עכשיו</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>כרטיסיה חדשה</value>
@@ -520,7 +520,7 @@
     <value>אישור</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>שם הפריט שצויין אינו חוקי</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>הפריט נבחר</value>
@@ -745,16 +745,16 @@
     <value>שם הפריט ארוך מדי</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>הצג אפשרויות נוספות</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>על מנת להחיל הגדרות שפה יש להפעיל את האפליקציה מחדש, האם ברצונך לבצע זאת כעת?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>תנו לנו חסות ב-GitHub</value>
   </data>
   <data name="Personalization" xml:space="preserve">
-    <value>Personalization</value>
+    <value>התאמה אישית</value>
   </data>
   <data name="LayoutAndSorting" xml:space="preserve">
     <value>Layout and sorting</value>
