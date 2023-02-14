@@ -103,7 +103,7 @@ namespace Files.App.SettingsPages
 				string.IsNullOrWhiteSpace(name) || 
 				name.StartsWith('.') || 
 				name.EndsWith('.') || 
-				ViewModel.Tags.Any(tag => name == tag.Tag.Name)
+				(name != editingTag.Tag.Name && ViewModel.Tags.Any(tag => name == tag.Tag.Name))
 			);
 		}
 
