@@ -3,6 +3,7 @@ using Files.Backend.ViewModels.FileTags;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using System.Linq;
 using Windows.System;
 
 namespace Files.App.SettingsPages
@@ -74,7 +75,6 @@ namespace Files.App.SettingsPages
 
 		private void CommitRenameTag_Click(object sender, RoutedEventArgs e)
 		{
-			var editingTag = (ListedTagViewModel)((Button)sender).DataContext;
 			var item = TagsList.ContainerFromItem(editingTag) as ListViewItem;
 
 			CommitChanges(item.FindDescendant("TagNameTextBox") as TextBox);
@@ -82,11 +82,7 @@ namespace Files.App.SettingsPages
 
 		private void CancelRenameTag_Click(object sender, RoutedEventArgs e)
 		{
-			var editingTag = (ListedTagViewModel)((Button)sender).DataContext;
-			var item = TagsList.ContainerFromItem(editingTag) as ListViewItem;
-			editingTag.NewColor = editingTag.Tag.Color;
-
-			EndEditing(item.FindDescendant("TagNameTextBox") as TextBox);
+			CloseEdit();
 		}
 
 		private void RemoveTag_Click(object sender, RoutedEventArgs e)
@@ -103,7 +99,29 @@ namespace Files.App.SettingsPages
 
 		private bool IsNameValid(string name)
 		{
-			return !(string.IsNullOrWhiteSpace(name) || name.EndsWith('.') || name.StartsWith('.'));
+			return !(
+				string.IsNullOrWhiteSpace(name) || 
+				name.StartsWith('.') || 
+				name.EndsWith('.') || 
+				ViewModel.Tags.Any(tag => name == tag.Tag.Name)
+			);
+		}
+
+		private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+		{
+			if (args.KeyboardAccelerator.Key is VirtualKey.Escape)
+			{
+				CloseEdit();
+				args.Handled = true;
+			}
+		}
+
+		private void CloseEdit()
+		{
+			var item = TagsList.ContainerFromItem(editingTag) as ListViewItem;
+			editingTag.NewColor = editingTag.Tag.Color;
+
+			EndEditing(item.FindDescendant("TagNameTextBox") as TextBox);
 		}
 	}
 }
