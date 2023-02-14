@@ -285,14 +285,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool IsDualPaneEnabled
+		public bool ShowOpenInNewPane
 		{
-			get => UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled;
+			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
+				if (value != UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane)
 				{
-					UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled = value;
+					UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane = value;
 
 					OnPropertyChanged();
 				}

@@ -98,8 +98,6 @@ namespace Files.App.UserControls.Widgets
 
 		public ObservableCollection<FolderCardItem> ItemsAdded = new();
 
-		private bool showMultiPaneControls;
-
 		public QuickAccessWidget()
 		{
 			InitializeComponent();
@@ -148,24 +146,6 @@ namespace Files.App.UserControls.Widgets
 
 		public readonly ICommand ShowRestoreLibrariesDialogCommand = new RelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialog);
 
-		public bool ShowMultiPaneControls
-		{
-			get
-			{
-				QuickAccessWidgetShowMultiPaneControlsInvoked?.Invoke(this, EventArgs.Empty);
-
-				return showMultiPaneControls;
-			}
-			set
-			{
-				if (value != showMultiPaneControls)
-				{
-					showMultiPaneControls = value;
-					NotifyPropertyChanged(nameof(ShowMultiPaneControls));
-				}
-			}
-		}
-
 		public string WidgetName => nameof(QuickAccessWidget);
 
 		public string AutomationProperties => "QuickAccess".GetLocalizedResource();
@@ -175,16 +155,7 @@ namespace Files.App.UserControls.Widgets
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
-			{
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "SideBarOpenInNewPane/Text".GetLocalizedResource(),
-					Glyph = "\uF117",
-					GlyphFontFamilyName = "CustomGlyph",
-					Command = OpenInNewPaneCommand,
-					CommandParameter = item,
-					ShowItem = ShowMultiPaneControls
-				},
+			{				
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
@@ -201,6 +172,15 @@ namespace Files.App.UserControls.Widgets
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
 					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewPane".GetLocalizedResource(),
+					Glyph = "\uF117",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = OpenInNewPaneCommand,
+					CommandParameter = item,
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -300,12 +280,7 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		private void MenuFlyout_Opening(object sender, object e)
-		{
-			var newPaneMenuItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "OpenInNewPane");
-			// eg. an empty library doesn't have OpenInNewPane context menu item
-			if (newPaneMenuItem is not null)
-				newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
-
+		{			
 			var pinToFavoritesItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "PinToFavorites");
 			if (pinToFavoritesItem is not null)
 				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as FolderCardItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;

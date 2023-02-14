@@ -216,14 +216,6 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewPane/Text".GetLocalizedResource(),
-					Glyph = "\uF117",
-					GlyphFontFamilyName = "CustomGlyph",
-					Command = OpenInNewPaneCommand,
-					ShowItem = options.IsLocationItem && CanOpenInNewPane
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
 					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
@@ -236,6 +228,14 @@ namespace Files.App.UserControls
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
 					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewPane".GetLocalizedResource(),
+					Glyph = "\uF117",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = OpenInNewPaneCommand,
+					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

@@ -1245,17 +1245,14 @@
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Open tabs in dual pane mode</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
-    <value>Enable dual pane view</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
-    <value>Open in secondary pane</value>
+  <data name="ShowOpenInNewPane" xml:space="preserve">
+    <value>Show option to open folders in a new pane</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>New pane</value>
   </data>
-  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>Open in secondary pane</value>
+  <data name="OpenInNewPane" xml:space="preserve">
+    <value>Open in new pane</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Folders</value>

@@ -45,9 +45,6 @@ namespace Files.App.Helpers
 			if (associatedInstance is null || listedItem is null)
 				return;
 
-			if (!userSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
-				return;
-
 			associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 		}
 

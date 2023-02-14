@@ -724,18 +724,6 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutOpenInNewPane/Text".GetLocalizedResource(),
-					Glyph = "\xF117",
-					GlyphFontFamilyName = "CustomGlyph",
-					Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
-					ShowItem = userSettingsService.PreferencesSettingsService.IsDualPaneEnabled && areAllItemsFolders,
-					SingleItemOnly = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
 					Text = "BaseLayoutItemContextFlyoutOpenInNewTab/Text".GetLocalizedResource(),
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
@@ -751,6 +739,18 @@ namespace Files.App.Helpers
 					Glyph = "\uE737",
 					Command = commandsViewModel.OpenInNewWindowItemCommand,
 					ShowItem = selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow,
+					ShowInSearchPage = true,
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewPane".GetLocalizedResource(),
+					Glyph = "\xF117",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane && areAllItemsFolders,
+					SingleItemOnly = true,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
