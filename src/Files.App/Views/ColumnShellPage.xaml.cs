@@ -242,7 +242,8 @@ namespace Files.App.Views
 					{
 						FileName = "wt.exe",
 						Arguments = $"-d {path}",
-						Verb = shift ? "runas" : ""
+						Verb = shift ? "runas" : "",
+						UseShellExecute = true
 					};
 					Process.Start(terminalStartInfo);
 
