@@ -7,7 +7,6 @@ using Files.App.ViewModels;
 using Files.Backend.Services;
 using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
-using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;

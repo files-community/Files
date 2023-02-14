@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views.LayoutModes;

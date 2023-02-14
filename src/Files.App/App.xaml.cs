@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
-using Files.App.Controllers;
 using Files.App.DataModels;
 using Files.App.Extensions;
 using Files.App.Filesystem;
