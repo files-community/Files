@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
+using Files.App.ServicesImplementation.Settings;
 
 namespace Files.App.Helpers
 {
@@ -739,7 +740,7 @@ namespace Files.App.Helpers
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = commandsViewModel.OpenDirectoryInNewTabCommand,
-					ShowItem = selectedItems.Count < 5 && areAllItemsFolders,
+					ShowItem = selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.AppearanceSettingsService.ShowOpenInNewTab,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
@@ -749,10 +750,9 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutItemContextFlyoutOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = commandsViewModel.OpenInNewWindowItemCommand,
-					ShowItem = selectedItems.Count < 5 && areAllItemsFolders,
+					ShowItem = selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.AppearanceSettingsService.ShowOpenInNewWindow,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
-					ShowOnShift = true,
 					ShowInZipPage = true,
 				},
 				new ContextMenuFlyoutItemViewModel()

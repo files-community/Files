@@ -110,14 +110,40 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 		
-		public bool DisplayEditTagsMenu
+		public bool ShowEditTagsMenu
 		{
-			get => UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu;
+			get => UserSettingsService.AppearanceSettingsService.ShowEditTagsMenu;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu)
+				if (value != UserSettingsService.AppearanceSettingsService.ShowEditTagsMenu)
 				{
-					UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu = value;
+					UserSettingsService.AppearanceSettingsService.ShowEditTagsMenu = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowOpenInNewTab
+		{
+			get => UserSettingsService.AppearanceSettingsService.ShowOpenInNewTab;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.ShowOpenInNewTab)
+				{
+					UserSettingsService.AppearanceSettingsService.ShowOpenInNewTab = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowOpenInNewWindow
+		{
+			get => UserSettingsService.AppearanceSettingsService.ShowOpenInNewWindow;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.ShowOpenInNewWindow)
+				{
+					UserSettingsService.AppearanceSettingsService.ShowOpenInNewWindow = value;
 					OnPropertyChanged();
 				}
 			}
