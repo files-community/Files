@@ -694,7 +694,7 @@ namespace Files.App
 			index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
 
 			// Only show the edit tags flyout if settings is enabled
-			if (!UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu)
+			if (!UserSettingsService.AppearanceSettingsService.ShowEditTagsMenu)
 				return;
 
 			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
