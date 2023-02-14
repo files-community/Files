@@ -3,6 +3,7 @@ using Files.Backend.ViewModels.FileTags;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using System.Linq;
 using Windows.System;
 
 namespace Files.App.SettingsPages
@@ -81,7 +82,7 @@ namespace Files.App.SettingsPages
 
 		private void CancelRenameTag_Click(object sender, RoutedEventArgs e)
 		{
-			AbortEdit();
+			CloseEdit();
 		}
 
 		private void RemoveTag_Click(object sender, RoutedEventArgs e)
@@ -98,19 +99,19 @@ namespace Files.App.SettingsPages
 
 		private bool IsNameValid(string name)
 		{
-			return !(string.IsNullOrWhiteSpace(name) || name.EndsWith('.') || name.StartsWith('.'));
+			return !(string.IsNullOrWhiteSpace(name) || name.EndsWith('.') || name.StartsWith('.') || ViewModel.Tags.Any(tag => name == tag.Tag.Name));
 		}
 
 		private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
 		{
 			if (args.KeyboardAccelerator.Key is VirtualKey.Escape)
 			{
-				AbortEdit();
+				CloseEdit();
 				args.Handled = true;
 			}
 		}
 
-		private void AbortEdit()
+		private void CloseEdit()
 		{
 			var item = TagsList.ContainerFromItem(editingTag) as ListViewItem;
 			editingTag.NewColor = editingTag.Tag.Color;
