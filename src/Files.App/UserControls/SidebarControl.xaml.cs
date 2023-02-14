@@ -216,26 +216,26 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewPane/Text".GetLocalizedResource(),
-					Glyph = "\uF117",
-					GlyphFontFamilyName = "CustomGlyph",
-					Command = OpenInNewPaneCommand,
-					ShowItem = options.IsLocationItem && CanOpenInNewPane
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
 					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
-					ShowItem = options.IsLocationItem
+					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
-					ShowItem = options.IsLocationItem
+					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewPane".GetLocalizedResource(),
+					Glyph = "\uF117",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = OpenInNewPaneCommand,
+					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -282,7 +282,7 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "LoadingMoreOptions".GetLocalizedResource(),
+					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
@@ -429,7 +429,7 @@ namespace Files.App.UserControls
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+			if (!userSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
 				secondaryElements.OfType<FrameworkElement>()
 								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
 

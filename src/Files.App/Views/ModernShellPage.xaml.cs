@@ -217,7 +217,7 @@ namespace Files.App.Views
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
-				case (true, false, false, true, (VirtualKey)192): // ctrl + ` (accent key), open terminal
+				case (true, _, false, true, (VirtualKey)192): // ctrl + ` (accent key), open terminal
 																  // Check if there is a folder selected, if not use the current directory.
 					string path = FilesystemViewModel.WorkingDirectory;
 					if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
@@ -226,9 +226,11 @@ namespace Files.App.Views
 					var terminalStartInfo = new ProcessStartInfo()
 					{
 						FileName = "wt.exe",
-						WorkingDirectory = path
+						Arguments = $"-d {path}",
+						Verb = shift ? "runas" : "",
+						UseShellExecute = true
 					};
-					Process.Start(terminalStartInfo);
+					DispatcherQueue.TryEnqueue(() => Process.Start(terminalStartInfo));
 
 					break;
 
@@ -294,7 +296,7 @@ namespace Files.App.Views
 
 			FolderSettingsViewModel.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
 			if (e.IsAdaptiveLayoutUpdateRequired)
-				AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel.WorkingDirectory, FilesystemViewModel.FilesAndFolders);
+				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.FolderSettings, FilesystemViewModel.WorkingDirectory, FilesystemViewModel.FilesAndFolders);
 		}
 
 		/*

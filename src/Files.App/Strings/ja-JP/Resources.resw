@@ -2647,7 +2647,7 @@
     <value>代替データ ストリームを表示する</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
-    <value>ふるまい</value>
+    <value>動作</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Files を評価</value>
@@ -2899,7 +2899,7 @@
     <value>タグ編集メニューを表示する</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>クイック アクセス</value>
+    <value>クイックアクセス</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
     <value>{0} に接続するためのログイン情報を入力してください</value>
@@ -2911,7 +2911,7 @@
     <value>ログイン情報を保存する</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>ネットワーク フォルダー エラー</value>
+    <value>ネットワークフォルダー エラー</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
     <value>アプリケーションのバージョン</value>

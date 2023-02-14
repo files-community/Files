@@ -43,7 +43,7 @@ namespace Files.App.Shell
 
 					if ((controlPanel.PIDL.IsParentOf(shellFolder.PIDL, false) ||
 						controlPanelCategoryView.PIDL.IsParentOf(shellFolder.PIDL, false)) &&
-						!shellFolder.Any())
+						(shellFolder is null || !shellFolder.Any()))
 					{
 						// Return null to force open unsupported items in explorer
 						// only if inside control panel and folder appears empty

@@ -823,10 +823,10 @@
     <value>Мови</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>Перемістити елементи розширень в підменю</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>Показувати діалог підтвердження під час видалення</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Не вдалося зберегти деякі властивості.</value>

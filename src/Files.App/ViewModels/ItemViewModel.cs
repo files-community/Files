@@ -1272,7 +1272,7 @@ namespace Files.App.ViewModels
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
 				IsLoadingItems = false;
 
-				AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, WorkingDirectory, filesAndFolders);
+				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(folderSettings, WorkingDirectory, filesAndFolders);
 
 				if (App.PreviewPaneViewModel.IsEnabled)
 				{

@@ -694,7 +694,7 @@ namespace Files.App
 			index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
 
 			// Only show the edit tags flyout if settings is enabled
-			if (!UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu)
+			if (!UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu)
 				return;
 
 			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
@@ -709,7 +709,7 @@ namespace Files.App
 		private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
 		{
 			var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
-			var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
+			var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
 			var overflowShellMenuItemsUnfiltered = shellMenuItems.Except(mainShellMenuItems).ToList();
 			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
 				(x, i) => (x.ItemType == ItemType.Separator && 
@@ -764,12 +764,12 @@ namespace Files.App
 						index++;
 					}
 
-					if (overflowItemFlyout.Items.Count > 0 && UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+					if (overflowItemFlyout.Items.Count > 0 && UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
 					{
 						overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
 						overflowItem.IsEnabled = true;
 					}
-					else if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+					else if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
 						overflowItem.Visibility = Visibility.Collapsed;
 				}
 			}
