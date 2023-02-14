@@ -99,6 +99,8 @@ namespace Files.App.UserControls.Widgets
 
 	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
+		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		public ObservableCollection<FolderCardItem> ItemsAdded = new();
 
 		private bool showMultiPaneControls;
@@ -194,14 +196,16 @@ namespace Files.App.UserControls.Widgets
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
-					CommandParameter = item
+					CommandParameter = item,
+					ShowItem = userSettingsService.AppearanceSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
-					CommandParameter = item
+					CommandParameter = item,
+					ShowItem = userSettingsService.AppearanceSettingsService.ShowOpenInNewWindow
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
