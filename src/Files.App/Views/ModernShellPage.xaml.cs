@@ -1158,7 +1158,6 @@ namespace Files.App.Views
 		public bool SearchUnindexedItems { get; set; } = false;
 		public bool IsLayoutSwitch { get; set; } = false;
 		public IEnumerable<string>? SelectItems { get; set; }
-		public string? ColumnPathParam { get; set; } = null;
-		public int Column { get; set; } = 0;
+		public IEnumerable<string?>? ColumnPathParams { get; set; }
 	}
 }

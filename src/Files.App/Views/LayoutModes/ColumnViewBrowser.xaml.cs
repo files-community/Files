@@ -5,7 +5,6 @@ using Files.App.Helpers;
 using Files.App.Interacts;
 using Files.App.UserControls;
 using Files.Shared.Extensions;
-using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -20,8 +19,6 @@ namespace Files.App.Views.LayoutModes
 	{
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 		protected override ItemsControl ItemsControl => ColumnHost;
-
-		private NavigationArguments navigationArguments;
 
 		public ColumnViewBrowser() : base()
 		{
@@ -69,8 +66,8 @@ namespace Files.App.Views.LayoutModes
 					Column = ColumnHost.ActiveBlades.IndexOf(newblade),
 					NavPathParam = column.NavPathParam
 				});
-				navigationArguments.Column = ColumnHost.ActiveBlades.IndexOf(newblade);
-				navigationArguments.ColumnPathParam = column.NavPathParam;
+				if (navigationArguments?.ColumnPathParams is List<string?> columnPathParams)
+					columnPathParams.Add(column.NavPathParam);
 			}
 		}
 
@@ -84,20 +81,6 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatedTo(eventArgs);
 
 			navigationArguments = (NavigationArguments)eventArgs.Parameter;
-			string?[] paths = new string[navigationArguments.Column + 1];
-			if (navigationArguments.ColumnPathParam is not null)
-			{
-				paths[navigationArguments.Column] = navigationArguments.ColumnPathParam;
-				for (int i = navigationArguments.Column - 1; i >= 0; i--)
-				{
-					paths[i] = PathHelpers.GetParentDir(paths[i+1]);
-				}
-			}
-			else
-			{
-				paths[0] = navigationArguments.NavPathParam;
-			}
-
 			MainPageFrame.Navigated += Frame_Navigated;
 			MainPageFrame.Navigate(typeof(ColumnShellPage), new ColumnParam
 			{
@@ -106,20 +89,24 @@ namespace Files.App.Views.LayoutModes
 				SearchQuery = navigationArguments.SearchQuery,
 				SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
 				SearchPathParam = navigationArguments.SearchPathParam,
-				NavPathParam = paths[0]
+				NavPathParam = navigationArguments.NavPathParam
 			});
-			if (navigationArguments.ColumnPathParam is not null)
+			if (navigationArguments.ColumnPathParams is List<string?> columnpathParams)
 			{
-				for (int i = 1; i <= navigationArguments.Column; i++)
+				for (int i = 0; i < columnpathParams.Count; i++)
 				{
 					var (frame, _) = CreateAndAddNewBlade();
 
 					frame.Navigate(typeof(ColumnShellPage), new ColumnParam
 					{
-						Column = i,
-						NavPathParam = paths[i]
+						Column = i + 1,
+						NavPathParam = columnpathParams[i]
 					});
 				}
+			}
+			else
+			{
+				navigationArguments.ColumnPathParams = new List<string?>();
 			}
 		}
 
@@ -195,11 +182,8 @@ namespace Files.App.Views.LayoutModes
 						ColumnHost.Items.RemoveAt(index + 1);
 						ColumnHost.ActiveBlades.RemoveAt(index + 1);
 					}
-					navigationArguments.Column = index;
-					if ((ColumnHost.ActiveBlades[index].Content as Frame)?.Content is ColumnShellPage s)
-						navigationArguments.ColumnPathParam = s.FilesystemViewModel.WorkingDirectory;
-					else
-						navigationArguments.ColumnPathParam = null;
+					if (navigationArguments?.ColumnPathParams is List<string?> columnPathParams)
+						columnPathParams.RemoveRange(index, columnPathParams.Count - index);
 				});
 			}
 			ContentChanged(ActiveColumnShellPage);
