@@ -626,6 +626,59 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+
+		public bool MoveShellExtensionsToSubMenu
+		{
+			get => UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+				{
+					UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowEditTagsMenu
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowOpenInNewTab
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewTab;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowOpenInNewTab)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowOpenInNewTab = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowOpenInNewWindow
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewWindow;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowOpenInNewWindow)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowOpenInNewWindow = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public void Dispose()
 		{
 			if (!disposed)

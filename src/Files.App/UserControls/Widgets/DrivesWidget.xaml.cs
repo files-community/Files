@@ -166,7 +166,7 @@ namespace Files.App.UserControls.Widgets
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.AppearanceSettingsService.ShowOpenInNewTab
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -174,7 +174,7 @@ namespace Files.App.UserControls.Widgets
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.AppearanceSettingsService.ShowOpenInNewWindow
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

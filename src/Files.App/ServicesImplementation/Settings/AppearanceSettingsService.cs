@@ -67,30 +67,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool MoveShellExtensionsToSubMenu
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowEditTagsMenu
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowOpenInNewTab
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowOpenInNewWindow
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -100,10 +76,6 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(AppThemeAddressBarBackgroundColor):
 				case nameof(AppThemeSidebarBackgroundColor):
 				case nameof(AppThemeFileAreaBackgroundColor):
-				case nameof(MoveShellExtensionsToSubMenu):
-				case nameof(ShowEditTagsMenu):
-				case nameof(ShowOpenInNewTab):
-				case nameof(ShowOpenInNewWindow):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

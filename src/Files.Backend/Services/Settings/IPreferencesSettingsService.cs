@@ -145,5 +145,25 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating if the tags section should be visible.
 		/// </summary>
 		bool ShowFileTagsSection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to move shell extensions into a sub menu.
+		/// </summary>
+		bool MoveShellExtensionsToSubMenu { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the edit tags menu.
+		/// </summary>
+		bool ShowEditTagsMenu { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to open folders in a new tab.
+		/// </summary>
+		bool ShowOpenInNewTab { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to open folders in a new window.
+		/// </summary>
+		bool ShowOpenInNewWindow { get; set; }
 	}
 }
