@@ -1,10 +1,8 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views.LayoutModes;
 using Files.Backend.Services.Settings;
-using Files.Shared.EventArguments;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -76,7 +74,7 @@ namespace Files.App.Views
 
 		public bool IsMultiPaneEnabled
 		{
-			get => UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled && !(App.Window.Bounds.Width <= 750);
+			get => !(App.Window.Bounds.Width <= 750);
 		}
 
 		private NavigationParams navParamsLeft;
@@ -199,19 +197,8 @@ namespace Files.App.Views
 			App.Window.SizeChanged += Current_SizeChanged;
 			ActivePane = PaneLeft;
 			IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;
-			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
 			// TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
-		}
-
-		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
-		{
-			switch (e.SettingName)
-			{
-				case nameof(UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled):
-					NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
-					break;
-			}
 		}
 
 		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
@@ -298,22 +285,16 @@ namespace Files.App.Views
 			switch (c: ctrl, s: shift, m: menu, k: args.KeyboardAccelerator.Key)
 			{
 				case (true, true, false, VirtualKey.Left): // ctrl + shift + "<-" select left pane
-					if (UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
-					{
-						ActivePane = PaneLeft;
-					}
+					ActivePane = PaneLeft;
 					break;
 
 				case (true, true, false, VirtualKey.Right): // ctrl + shift + "->" select right pane
-					if (UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
+					if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
 					{
-						if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
-						{
-							NavParamsRight = new NavigationParams { NavPath = "Home" };
-						}
-						IsRightPaneVisible = true;
-						ActivePane = PaneRight;
+						NavParamsRight = new NavigationParams { NavPath = "Home" };
 					}
+					IsRightPaneVisible = true;
+					ActivePane = PaneRight;
 					break;
 
 				case (true, true, false, VirtualKey.W): // ctrl + shift + "W" close right pane
@@ -322,14 +303,11 @@ namespace Files.App.Views
 
 				case (false, true, true, VirtualKey.Add): // alt + shift + "+" open pane
 				case (false, true, true, PlusKey):
-					if (UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
+					if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
 					{
-						if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
-						{
-							NavParamsRight = new NavigationParams { NavPath = "Home" };
-						}
-						IsRightPaneVisible = true;
+						NavParamsRight = new NavigationParams { NavPath = "Home" };
 					}
+					IsRightPaneVisible = true;
 					break;
 			}
 		}
@@ -362,7 +340,6 @@ namespace Files.App.Views
 
 		public void Dispose()
 		{
-			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			App.Window.SizeChanged -= Current_SizeChanged;
 			PaneLeft?.Dispose();
 			PaneRight?.Dispose();

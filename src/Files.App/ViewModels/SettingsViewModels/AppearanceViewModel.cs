@@ -97,32 +97,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			get => (ElementTheme)selectedThemeIndex;
 		}
 
-		public bool MoveShellExtensionsToSubMenu
-		{
-			get => UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
-				{
-					UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-		
-		public bool DisplayEditTagsMenu
-		{
-			get => UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu)
-				{
-					UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public bool UseCompactStyles
 		{
 			get => UserSettingsService.AppearanceSettingsService.UseCompactStyles;
