@@ -285,14 +285,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool IsDualPaneEnabled
+		public bool ShowOpenInNewPane
 		{
-			get => UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled;
+			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
+				if (value != UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane)
 				{
-					UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled = value;
+					UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane = value;
 
 					OnPropertyChanged();
 				}
@@ -621,6 +621,59 @@ namespace Files.App.ViewModels.SettingsViewModels
 				{
 					UserSettingsService.PreferencesSettingsService.ShowFileTagsSection = value;
 
+					OnPropertyChanged();
+				}
+			}
+		}
+
+
+		public bool MoveShellExtensionsToSubMenu
+		{
+			get => UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+				{
+					UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowEditTagsMenu
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowOpenInNewTab
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewTab;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowOpenInNewTab)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowOpenInNewTab = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowOpenInNewWindow
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewWindow;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowOpenInNewWindow)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowOpenInNewWindow = value;
 					OnPropertyChanged();
 				}
 			}
