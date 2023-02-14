@@ -211,19 +211,19 @@
     <value>Hapus item ini</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>Repositori GitHub</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>Tentang</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>Sumber terbuka</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Format tanggal</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Tampilkan ekstensi untuk jenis file yang dikenal</value>
@@ -238,7 +238,7 @@
     <value>Tampilan</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>Latar belakang</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Advanced</value>
@@ -496,7 +496,7 @@
     <value>{0} detik yang lalu</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>1 detik yang lalu</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Now</value>
@@ -751,10 +751,10 @@
     <value>Aplikasi perlu dimulai ulang untuk menerapkan pengaturan ini, apakah Anda ingin memulai ulang aplikasi?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>Dukung kami di GitHub</value>
   </data>
   <data name="Personalization" xml:space="preserve">
-    <value>Personalization</value>
+    <value>Personalisasi</value>
   </data>
   <data name="LayoutAndSorting" xml:space="preserve">
     <value>Layout and sorting</value>
@@ -1405,7 +1405,7 @@
     <value>Tersedia ketika online</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Dokumentasi</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Tersedia offline</value>
@@ -1792,7 +1792,7 @@
     <value>Ubah nama</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>Privasi</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Pemindahan dibatalkan</value>
@@ -2899,7 +2899,7 @@
     <value>Display the edit tags flyout</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+    <value>Akses cepat</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
     <value>Enter your credentials to connect to: {0}</value>
@@ -2914,13 +2914,13 @@
     <value>Network folder error</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>App version</value>
+    <value>Versi aplikasi</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
-    <value>Windows version</value>
+    <value>Versi Windows</value>
   </data>
   <data name="Always" xml:space="preserve">
-    <value>Always</value>
+    <value>Selalu</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
     <value>Permanent deletion only</value>
