@@ -211,13 +211,13 @@
     <value>刪除</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>GitHub 軟體源</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>關於</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>開放原始碼</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>日期格式</value>
@@ -241,7 +241,7 @@
     <value>背景</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>進階設定</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>個人化</value>
@@ -346,7 +346,7 @@
     <value>檔案</value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>顯示</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>輸入檔案名稱</value>
@@ -451,7 +451,7 @@
     <value>您試圖存取的檔案正在被 {0} 使用</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>您試圖存取的檔案正在被其他應用程式使用</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>檔案正在被使用</value>
@@ -496,10 +496,10 @@
     <value>{0} 秒前</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>1 秒前</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>立刻</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>新索引標籤</value>
