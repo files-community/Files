@@ -68,7 +68,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public bool OpenInNewPaneLoad
 		{
-			get => UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory;
+			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane && TargetType == FilesystemItemType.Directory;
 		}
 
 		#endregion Properties
@@ -125,7 +125,8 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public async Task UpdateIcon()
 		{
-			if (TargetType == FilesystemItemType.Directory) // OpenDirectory
+			// OpenDirectory
+			if (TargetType == FilesystemItemType.Directory)
 			{
 				Icon = FolderIcon;
 			}

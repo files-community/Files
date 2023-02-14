@@ -95,7 +95,7 @@ namespace Files.App
 			Services = ConfigureServices();
 			Ioc.Default.ConfigureServices(Services);
 			LogoPath = Package.Current.DisplayName == "Files - Dev" ? Constants.AssetPaths.DevLogo
-					: (Package.Current.DisplayName == "Files - Preview" ? Constants.AssetPaths.PreviewLogo : Constants.AssetPaths.StableLogo);
+					: (Package.Current.DisplayName == "Files (Preview)" ? Constants.AssetPaths.PreviewLogo : Constants.AssetPaths.StableLogo);
 		}
 
 		private IServiceProvider ConfigureServices()
@@ -177,7 +177,7 @@ namespace Files.App
 			{
 				// AppCenter secret is injected in builds/azure-pipelines-release.yml
 				if (!AppCenter.Configured)
-					AppCenter.Start("", typeof(Analytics), typeof(Crashes));
+					AppCenter.Start("appcenter.secret", typeof(Analytics), typeof(Crashes));
 			}
 			catch (Exception ex)
 			{

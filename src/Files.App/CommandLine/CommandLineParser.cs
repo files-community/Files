@@ -70,6 +70,7 @@ namespace Files.App.CommandLine
 							Debug.WriteLine($"Exception in CommandLineParser.cs\\ParseUntrustedCommands with message: {ex.Message}");
 							command.Type = ParsedCommandType.Unknown;
 						}
+
 						break;
 				}
 
@@ -149,16 +150,21 @@ namespace Files.App.CommandLine
 		{
 			string? key = null;
 			var val = new List<string>();
+
 			if (args[index].StartsWith('-') || args[index].StartsWith('/'))
 			{
 				if (args[index].Contains(':', StringComparison.Ordinal))
 				{
 					string argument = args[index];
 					int endIndex = argument.IndexOf(':');
-					key = argument.Substring(1, endIndex - 1);   // trim the '/' and the ':'.
+
+					// Trim the '/' and the ':'
+					key = argument.Substring(1, endIndex - 1);
+
 					int valueStart = endIndex + 1;
-					val.Add(valueStart < argument.Length ? argument.Substring(
-						valueStart, argument.Length - valueStart) : null);
+					val.Add(valueStart < argument.Length
+						 ? argument.Substring(valueStart, argument.Length - valueStart)
+						 : null);
 				}
 				else
 				{

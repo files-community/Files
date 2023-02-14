@@ -211,13 +211,13 @@
     <value>Remover este item</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>Repositório GitHub</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>Acerca</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>Código aberto</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Formato da data</value>
@@ -241,7 +241,7 @@
     <value>Fundo</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Avançado</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferências</value>
@@ -346,7 +346,7 @@
     <value>Ficheiro</value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>Ecrã</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Insira o nome do item</value>
@@ -451,7 +451,7 @@
     <value>O ficheiro a que está a tentar aceder está a ser utilizado por {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>O ficheiro que está a tentar aceder está a ser utilizado por outra aplicação</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Ficheiro em utilização</value>
@@ -496,10 +496,10 @@
     <value>Há {0} segundos</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>há 1 segundo</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Agora</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>Novo separador</value>
@@ -520,7 +520,7 @@
     <value>OK</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>O nome do item especificado é inválido</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>item selecionado</value>
@@ -745,19 +745,19 @@
     <value>O nome do item é muito grande</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>Mostrar mais opções</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Tem que reiniciar a aplicação para aplicar as alterações. Deseja reiniciar agora?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>Patrocine-nos no GitHub</value>
   </data>
   <data name="Personalization" xml:space="preserve">
-    <value>Personalization</value>
+    <value>Personalização</value>
   </data>
   <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Layout and sorting</value>
+    <value>Disposição e ordenação</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Não foi possível criar este item</value>
@@ -823,10 +823,10 @@
     <value>Idioma</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>Mover extensões do ‘shell’ para um sub menu</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>Exibir diálogo de confirmação ao remover itens</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Ocorreu um erro ao guardar algumas propriedades.</value>
@@ -1222,7 +1222,7 @@
     <value>Incluir itens não indexados nos resultados de pesquisa</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
+    <value>Sincronizar layout e preferências de ordenação entre diretórios</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalizar menu de contexto do botão direito do rato</value>
@@ -1243,7 +1243,7 @@
     <value>Remover</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Open tabs in dual pane mode</value>
+    <value>Abrir abas no modo de painel duplo</value>
   </data>
   <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>Ativar painel duplo</value>
@@ -1405,7 +1405,7 @@
     <value>Disponível quando online</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Documentação</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Disponível offline</value>
@@ -1426,7 +1426,7 @@
     <value>Desconhecido</value>
   </data>
   <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
+    <value>Mostrar caixa de seleção ao lado de nomes de ficheiros</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Se alterar a extensão, o ficheiro pode tornar-se inutilizável. Tem a certeza de que a pretende alterar?</value>
@@ -1642,7 +1642,7 @@
     <value>Não encontrou o que estava a procura?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Search unindexed items</value>
+    <value>Pesquisar itens não indexados</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Abrir pasta de temas</value>
@@ -1792,7 +1792,7 @@
     <value>Mudar nome</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>Privacidade</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Mover cancelado</value>
@@ -2347,16 +2347,16 @@
     <value>Coluna Tamanho do item</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>Experimental feature flags</value>
+    <value>Sinalizadores de funcionalidades experimentais</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>Ajuda e suporte</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>Submit feature request</value>
+    <value>Envie uma solicitação de recurso</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>Submit bug report</value>
+    <value>Envie um relatório de bug</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Definir Files como o gestor de ficheiros do sistema</value>
@@ -2380,7 +2380,7 @@
     <value>Importar definições</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>Manage settings</value>
+    <value>Gerir configurações</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Não foi possível importar as definições. O ficheiro está danificado.</value>
@@ -2497,7 +2497,7 @@
     <value>Calcular tamanho das pastas</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recent files</value>
+    <value>Ficheiros recentes</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Abrir Files ao iniciar o Windows</value>
@@ -2605,7 +2605,7 @@
     <value>Etiquetas</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Use compact spacing in the details layout</value>
+    <value>Utilizar espaçamento compacto no layout de detalhes</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universal</value>
@@ -2644,10 +2644,10 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show alternate data streams</value>
+    <value>Mostrar fluxos de dados alternativos</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
-    <value>Behaviors</value>
+    <value>Comportamentos</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Avaliar Files</value>
@@ -2842,90 +2842,90 @@
     <value>Ordenar por</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
-    <value>Group in descending order</value>
+    <value>Agrupar em ordem decrescente</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
-    <value>Sort in descending order</value>
+    <value>Ordenar em ordem descendente</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
-    <value>Create a new shortcut</value>
+    <value>Criar um atalho</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+    <value>Crie atalhos para programas locais ou de rede, ficheiros, pastas, computadores ou endereços de Internet.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Enter the location of the item:</value>
+    <value>Introduza a localização do item:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Cria um atalho</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>A opção Ficheiros recentes está desativada no Explorador de ficheiros do Windows.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit Settings File</value>
+    <value>Editar Ficheiro de Definições</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>Notas de Versão</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>Creating a shortcut in this location requires administrator privileges</value>
+    <value>Criar um atalho neste local requer privilégios de administrador</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Would you like to create the shortcut on the desktop instead?</value>
+    <value>Gostaria de criar o atalho na área de trabalho?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>The specified item name is invalid</value>
+    <value>O nome do item especificado é inválido</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Definições</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double click on a blank space to go up one directory</value>
+    <value>Clique duas vezes num espaço em branco para subir um diretório</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
-    <value>View more</value>
+    <value>Veja mais</value>
   </data>
   <data name="ToolTipDescriptionSize" xml:space="preserve">
     <value>Tamanho:</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
+    <value>Mas não se preocupe, construímos uma substituição fantástica que é mais confiável e tem mais recursos. Pode ativar o widget Tags de Ficheiros em Configurações &gt; Preferências &gt; Widgets. Ativar o widget de tags irá desativar automaticamente o widget de pacotes.</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Bundles will be retiring in a future update 📎</value>
+    <value>Os pacotes serão retirados numa atualização futura 📎</value>
   </data>
   <data name="DisplayEditTagsMenu" xml:space="preserve">
-    <value>Display the edit tags flyout</value>
+    <value>Exibir o flyout das tags de edição</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+    <value>Acesso rápido</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>Enter your credentials to connect to: {0}</value>
+    <value>Introduza as suas credenciais para se conectar a: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter Network Credentials</value>
+    <value>Introduza as Credenciais da Rede</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
-    <value>Remember my credentials</value>
+    <value>Memorizar credenciais</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>Network folder error</value>
+    <value>Erro na pasta da rede</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>App version</value>
+    <value>Versão da aplicação</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
-    <value>Windows version</value>
+    <value>Versão do Windows</value>
   </data>
   <data name="Always" xml:space="preserve">
-    <value>Always</value>
+    <value>Sempre</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>Permanent deletion only</value>
+    <value>Apenas exclusão permanente</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Never</value>
+    <value>Nunca</value>
   </data>
 </root>

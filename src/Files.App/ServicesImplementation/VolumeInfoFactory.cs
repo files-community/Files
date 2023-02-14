@@ -9,6 +9,7 @@ namespace Files.App.ServicesImplementation
 		public VolumeInfo BuildVolumeInfo(string driveName)
 		{
 			string volumeId = GetVolumeID(driveName);
+
 			return new VolumeInfo(volumeId);
 		}
 

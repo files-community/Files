@@ -1,7 +1,3 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Animations.Expressions;
 using CommunityToolkit.WinUI.UI.Behaviors;
@@ -54,8 +50,12 @@ namespace Files.App.Behaviors
 		/// <summary>
 		/// The UIElement that will be faded.
 		/// </summary>
-		public static readonly DependencyProperty HeaderElementProperty = DependencyProperty.Register(
-			nameof(HeaderElement), typeof(UIElement), typeof(StickyHeaderBehavior), new PropertyMetadata(null, PropertyChangedCallback));
+		public static readonly DependencyProperty HeaderElementProperty =
+			DependencyProperty.Register(
+				nameof(HeaderElement),
+				typeof(UIElement),
+				typeof(StickyHeaderBehavior),
+				new PropertyMetadata(null, PropertyChangedCallback));
 
 		private ScrollViewer _scrollViewer;
 		private CompositionPropertySet _scrollProperties;
@@ -71,8 +71,8 @@ namespace Files.App.Behaviors
 		/// </remarks>
 		public UIElement HeaderElement
 		{
-			get { return (UIElement)GetValue(HeaderElementProperty); }
-			set { SetValue(HeaderElementProperty, value); }
+			get => (UIElement)GetValue(HeaderElementProperty);
+			set => SetValue(HeaderElementProperty, value);
 		}
 
 		/// <summary>
@@ -119,7 +119,7 @@ namespace Files.App.Behaviors
 			if (HeaderElement is null && listView is not null)
 				HeaderElement = listView.Header as UIElement;
 
-			var headerElement = HeaderElement as FrameworkElement;
+			FrameworkElement? headerElement = HeaderElement as FrameworkElement;
 
 			if (headerElement is null || headerElement.RenderSize.Height == 0)
 				return false;
@@ -212,6 +212,7 @@ namespace Files.App.Behaviors
 			var scroller = (ScrollViewer)sender;
 
 			object focusedElement;
+
 			if (IsXamlRootAvailable && scroller.XamlRoot is not null)
 			{
 				focusedElement = FocusManager.GetFocusedElement(scroller.XamlRoot);

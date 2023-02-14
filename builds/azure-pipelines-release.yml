@@ -95,8 +95,8 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        gci $(Build.SourcesDirectory)\src -Include app.xaml.cs -recurse | ForEach -Process {
-        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "AppCenter.Start("", typeof(Analytics), typeof(Crashes));", "AppCenter.Start("$(appcenter.secret)", typeof(Analytics), typeof(Crashes));) | Set-Content $_ -NoNewline
+        gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process {
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "appcenter.secret", "$(appcenter.secret)"}) | Set-Content $_ -NoNewline
         }
       failOnStderr: true
 
@@ -155,6 +155,12 @@ jobs:
       storage: 'filescommunity'
       ContainerName: 'files'
       BlobPrefix: '${{parameters.releaseBranch}}'
+
+  - task: tfx-cloudflare-purge@1
+    inputs:
+      username: '$(cloudflare.username)'
+      apikey: '$(cloudflare.apikey)'
+      zonename: '$(cloudflare.zoneid)'
 
 ### Store release ###
 - job: StoreRelease

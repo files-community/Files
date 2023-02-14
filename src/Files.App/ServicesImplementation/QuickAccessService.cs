@@ -55,9 +55,9 @@ namespace Files.App.ServicesImplementation
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));
 		}
 
-		public bool IsItemPinned(ILocatableFolder folder)
+		public bool IsItemPinned(string folderPath)
 		{
-			return App.QuickAccessManager.Model.FavoriteItems.Contains(folder.Path);
+			return App.QuickAccessManager.Model.FavoriteItems.Contains(folderPath);
 		}
 	}
 }

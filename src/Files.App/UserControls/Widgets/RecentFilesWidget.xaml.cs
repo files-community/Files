@@ -115,14 +115,14 @@ namespace Files.App.UserControls.Widgets
 			var menuItems = GetItemMenuItems(item, false);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+			if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
 				secondaryElements.OfType<FrameworkElement>()
 								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
 
-			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true);
+			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}
@@ -153,12 +153,17 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ShowMoreOptions".GetLocalizedResource(),
+					ItemType = ItemType.Separator,
+					Tag = "OverflowSeparator",
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
-					IsHidden = true
+					IsEnabled = false,
 				}
 			};
 		}

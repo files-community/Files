@@ -143,6 +143,7 @@ namespace Files.App.ServicesImplementation
 				CloseButtonText = "Close".GetLocalizedResource(),
 				PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalizedResource()
 			};
+
 			ContentDialogResult result = await SetContentDialogRoot(dialog).ShowAsync();
 
 			return result == ContentDialogResult.Primary;
@@ -164,17 +165,16 @@ namespace Files.App.ServicesImplementation
 			var applicationVersion = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
 			var releaseNotesLocation = string.Concat("https://raw.githubusercontent.com/files-community/Release-Notes/main/", applicationVersion, ".md");
 
-			using (var client = new HttpClient())
+			using var client = new HttpClient();
+
+			try
 			{
-				try
-				{
-					var result = await client.GetStringAsync(releaseNotesLocation, cancellationToken);
-					return result == string.Empty ? null : result;
-				}
-				catch
-				{
-					return null;
-				}
+				var result = await client.GetStringAsync(releaseNotesLocation, cancellationToken);
+				return result == string.Empty ? null : result;
+			}
+			catch
+			{
+				return null;
 			}
 		}
 
@@ -202,6 +202,7 @@ namespace Files.App.ServicesImplementation
 		{
 			IsUpdating = false;
 			IsUpdateAvailable = false;
+
 			_updatePackages?.Clear();
 		}
 

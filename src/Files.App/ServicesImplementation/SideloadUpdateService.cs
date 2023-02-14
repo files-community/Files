@@ -26,9 +26,6 @@ namespace Files.App.ServicesImplementation
 		private const string SIDELOAD_STABLE = "https://cdn.files.community/files/stable/Files.Package.appinstaller";
 		private const string SIDELOAD_PREVIEW = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
 
-		private bool _isUpdateAvailable;
-		private bool _isUpdating;
-
 		private readonly HttpClient _client = new(new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(1) });
 
 		private readonly Dictionary<string, string> _sideloadVersion = new()
@@ -43,17 +40,22 @@ namespace Files.App.ServicesImplementation
 
 		private string PackageName { get; } = Package.Current.Id.Name;
 
-		private Version PackageVersion { get; } = new(Package.Current.Id.Version.Major,
-			Package.Current.Id.Version.Minor, Package.Current.Id.Version.Build, Package.Current.Id.Version.Revision);
+		private Version PackageVersion { get; } = new(
+			Package.Current.Id.Version.Major,
+			Package.Current.Id.Version.Minor,
+			Package.Current.Id.Version.Build,
+			Package.Current.Id.Version.Revision);
 
 		private Uri? DownloadUri { get; set; }
 
+		private bool _isUpdateAvailable;
 		public bool IsUpdateAvailable
 		{
 			get => _isUpdateAvailable;
 			private set => SetProperty(ref _isUpdateAvailable, value);
 		}
 
+		private bool _isUpdating;
 		public bool IsUpdating
 		{
 			get => _isUpdating;
@@ -86,17 +88,16 @@ namespace Files.App.ServicesImplementation
 			var applicationVersion = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
 			var releaseNotesLocation = string.Concat("https://raw.githubusercontent.com/files-community/Release-Notes/main/", applicationVersion, ".md");
 
-			using (var client = new HttpClient())
+			using var client = new HttpClient();
+
+			try
 			{
-				try
-				{
-					var result = await client.GetStringAsync(releaseNotesLocation, cancellationToken);
-					return result == string.Empty ? null : result;
-				}
-				catch
-				{
-					return null;
-				}
+				var result = await client.GetStringAsync(releaseNotesLocation, cancellationToken);
+				return result == string.Empty ? null : result;
+			}
+			catch
+			{
+				return null;
 			}
 		}
 
@@ -132,7 +133,7 @@ namespace Files.App.ServicesImplementation
 				Logger?.Info($"SIDELOAD: Current Version: {PackageVersion}");
 				Logger?.Info($"SIDELOAD: Remote Version: {remoteVersion}");
 
-				// Check details and version number.
+				// Check details and version number
 				if (appInstaller.MainBundle.Name.Equals(PackageName) && remoteVersion.CompareTo(PackageVersion) > 0)
 				{
 					Logger?.Info("SIDELOAD: Update found.");
@@ -217,7 +218,7 @@ namespace Files.App.ServicesImplementation
 			}
 			finally
 			{
-				// Reset fields.
+				// Reset fields
 				IsUpdating = false;
 				IsUpdateAvailable = false;
 				DownloadUri = null;
