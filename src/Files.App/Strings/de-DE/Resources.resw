@@ -2365,7 +2365,7 @@
     <value>Files als Standard-Dateidialog verwenden</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Schlagwort</value>
+    <value>Tag</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Elemente mit einem Klick öffnen</value>
