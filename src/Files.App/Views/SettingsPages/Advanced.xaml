@@ -234,6 +234,9 @@
 							<ListView.ItemTemplate>
 								<DataTemplate xmlns:vm="using:Files.Backend.ViewModels.FileTags" x:DataType="vm:ListedTagViewModel">
 									<Grid ColumnSpacing="16">
+										<Grid.KeyboardAccelerators>
+											<KeyboardAccelerator Key="Escape" Invoked="KeyboardAccelerator_Invoked" />
+										</Grid.KeyboardAccelerators>
 										<Grid.ColumnDefinitions>
 											<ColumnDefinition Width="Auto" />
 											<ColumnDefinition Width="*" />

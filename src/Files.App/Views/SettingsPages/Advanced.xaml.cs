@@ -74,7 +74,7 @@ namespace Files.App.SettingsPages
 
 		private void CommitRenameTag_Click(object sender, RoutedEventArgs e)
 		{
-			var editingTag = (ListedTagViewModel)((Button)sender).DataContext;
+			//var editingTag = (ListedTagViewModel)((Button)sender).DataContext;
 			var item = TagsList.ContainerFromItem(editingTag) as ListViewItem;
 
 			CommitChanges(item.FindDescendant("TagNameTextBox") as TextBox);
@@ -82,11 +82,8 @@ namespace Files.App.SettingsPages
 
 		private void CancelRenameTag_Click(object sender, RoutedEventArgs e)
 		{
-			var editingTag = (ListedTagViewModel)((Button)sender).DataContext;
-			var item = TagsList.ContainerFromItem(editingTag) as ListViewItem;
-			editingTag.NewColor = editingTag.Tag.Color;
-
-			EndEditing(item.FindDescendant("TagNameTextBox") as TextBox);
+			//var editingTag = (ListedTagViewModel)((Button)sender).DataContext;
+			AbortEdit();
 		}
 
 		private void RemoveTag_Click(object sender, RoutedEventArgs e)
@@ -104,6 +101,23 @@ namespace Files.App.SettingsPages
 		private bool IsNameValid(string name)
 		{
 			return !(string.IsNullOrWhiteSpace(name) || name.EndsWith('.') || name.StartsWith('.'));
+		}
+
+		private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+		{
+			if (args.KeyboardAccelerator.Key is VirtualKey.Escape)
+			{
+				AbortEdit();
+				args.Handled = true;
+			}
+		}
+
+		private void AbortEdit()
+		{
+			var item = TagsList.ContainerFromItem(editingTag) as ListViewItem;
+			editingTag.NewColor = editingTag.Tag.Color;
+
+			EndEditing(item.FindDescendant("TagNameTextBox") as TextBox);
 		}
 	}
 }
