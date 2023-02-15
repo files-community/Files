@@ -64,11 +64,13 @@
 				<VisualState x:Name="Disabled">
 					<VisualState.Setters>
 						<Setter Target="OverlayIcon.Foreground" Value="{ThemeResource ColoredIconOverlayForegroundDisabled}" />
+						<Setter Target="BaseBackdrop.Foreground" Value="Transparent" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="Checked">
 					<VisualState.Setters>
 						<Setter Target="OverlayIcon.Foreground" Value="{ThemeResource ColoredIconOverlayForegroundChecked}" />
+						<Setter Target="BaseBackdrop.Foreground" Value="{ThemeResource ControlFillColorDefaultBrush}" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

@@ -166,7 +166,7 @@
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename/Text}">
 					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF027;" OverlayLayerGlyph="&#xF028;" />
+						<local:ColoredIcon BaseLayerGlyph="&#xF027;" BaseBackdropGlyph="&#xF054;" OverlayLayerGlyph="&#xF028;" />
 					</AppBarButton.Content>
 				</AppBarButton>
 				<AppBarButton
