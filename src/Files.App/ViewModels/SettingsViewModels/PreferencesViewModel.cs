@@ -285,14 +285,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool IsDualPaneEnabled
+		public bool ShowOpenInNewPane
 		{
-			get => UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled;
+			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
+				if (value != UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane)
 				{
-					UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled = value;
+					UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane = value;
 
 					OnPropertyChanged();
 				}
@@ -528,99 +528,53 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool ShowFavoritesSection
+		public bool MoveShellExtensionsToSubMenu
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFavoritesSection;
+			get => UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowFavoritesSection)
+				if (value != UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowFavoritesSection = value;
-
+					UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu = value;
 					OnPropertyChanged();
 				}
 			}
 		}
 
-		public bool ShowLibrarySection
+		public bool ShowEditTagsMenu
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowLibrarySection;
+			get => UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowLibrarySection)
+				if (value != UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowLibrarySection = value;
-
+					UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu = value;
 					OnPropertyChanged();
 				}
 			}
 		}
 
-		public bool ShowDrivesSection
+		public bool ShowOpenInNewTab
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowDrivesSection;
+			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewTab;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowDrivesSection)
+				if (value != UserSettingsService.PreferencesSettingsService.ShowOpenInNewTab)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowDrivesSection = value;
-
+					UserSettingsService.PreferencesSettingsService.ShowOpenInNewTab = value;
 					OnPropertyChanged();
 				}
 			}
 		}
 
-		public bool ShowCloudDrivesSection
+		public bool ShowOpenInNewWindow
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection;
+			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewWindow;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection)
+				if (value != UserSettingsService.PreferencesSettingsService.ShowOpenInNewWindow)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = value;
-
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowNetworkDrivesSection
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = value;
-
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowWslSection
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowWslSection;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowWslSection)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowWslSection = value;
-
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowFileTagsSection
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFileTagsSection;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowFileTagsSection)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowFileTagsSection = value;
-
+					UserSettingsService.PreferencesSettingsService.ShowOpenInNewWindow = value;
 					OnPropertyChanged();
 				}
 			}

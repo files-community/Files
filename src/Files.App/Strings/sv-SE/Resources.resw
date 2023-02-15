@@ -157,13 +157,13 @@
     <value>Filnamn</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Sökväg:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Storlek:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Okomprimerad storlek:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Denna åtgärd kan inte utföras</value>
@@ -217,7 +217,7 @@
     <value>Om</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>Öppen källkod</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Datumformat</value>
@@ -496,7 +496,7 @@
     <value>{0} sekunder sedan</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>1 sekund sedan</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Now</value>
@@ -757,7 +757,7 @@
     <value>Personalization</value>
   </data>
   <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Layout and sorting</value>
+    <value>Layout och sortering</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Vi kunde inte skapa det här objektet</value>
@@ -1264,13 +1264,13 @@
     <value>Detaljvy</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Placera ut</value>
+    <value>Layout</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Placera ut</value>
+    <value>Layout</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
-    <value>Placera ut</value>
+    <value>Layout</value>
   </data>
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
     <value>Förhandsgranskning</value>
@@ -2665,10 +2665,10 @@
     <value>Använd som skrivbordsbakgrund</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Ange som standard</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>Datumkolumn</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
     <value>Date Created column</value>

@@ -211,7 +211,7 @@
     <value>Elem eltávolítása</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>GitHub repó</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>Névjegy</value>
@@ -493,13 +493,13 @@
     <value>{0} perccel ezelőtt</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0} másodperccel ezelőtt</value>
+    <value>{0} másodperce</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>1 másodperce</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Most</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>Új lap</value>
@@ -751,10 +751,10 @@
     <value>A Files újraindítása szükséges a nyelv beállítás érvénybe lépéséhez. Szeretné most újraindítani?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>Támogass minket GitHub-on</value>
   </data>
   <data name="Personalization" xml:space="preserve">
-    <value>Personalization</value>
+    <value>Testreszabás</value>
   </data>
   <data name="LayoutAndSorting" xml:space="preserve">
     <value>Layout and sorting</value>
@@ -826,7 +826,7 @@
     <value>Move shell extensions into a sub menu</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>Megerősítés kérése törlésekor</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Probléma adódott a tulajdonságok mentése közben.</value>
@@ -1396,7 +1396,7 @@
     <value>Kiválasztott fájl előnézeti panele</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Feedback</value>
+    <value>Visszajelzés</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Folyamatban lévő műveletek panel</value>
@@ -1405,7 +1405,7 @@
     <value>Online elérhető</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Dokumentáció</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Offline is elérhető</value>
@@ -1642,7 +1642,7 @@
     <value>Nincs itt amit keresett?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Search unindexed items</value>
+    <value>Nem indexelt elemek keresése</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Témák mappa megnyitása</value>
@@ -2350,13 +2350,13 @@
     <value>Experimental feature flags</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>Súgó és támogatás</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
     <value>Submit feature request</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>Submit bug report</value>
+    <value>Hibabejelentés küldése</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>A Files beállítása alapértelmezett fájlkezelőként</value>
@@ -2380,7 +2380,7 @@
     <value>Beállítások importálása</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>Manage settings</value>
+    <value>Beállítások kezelése</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Nem sikerült a beállítások importálása, a fájl sérült lehet.</value>
@@ -2497,7 +2497,7 @@
     <value>Mappák méretének számolása</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recent files</value>
+    <value>Előzmények</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>A Files futtatása a Windows indulásakor</value>
@@ -2605,7 +2605,7 @@
     <value>Címkék</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Use compact spacing in the details layout</value>
+    <value>Kompakt elrendezés használata részletek nézetben</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Univerzális</value>
@@ -2644,7 +2644,7 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show alternate data streams</value>
+    <value>Alternatív adatfolyamok megjelenítése</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
     <value>Behaviors</value>
@@ -2899,7 +2899,7 @@
     <value>Display the edit tags flyout</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+    <value>Gyors elérés</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
     <value>Enter your credentials to connect to: {0}</value>
@@ -2914,10 +2914,10 @@
     <value>Network folder error</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>App version</value>
+    <value>Alkalmazás verzió</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
-    <value>Windows version</value>
+    <value>Windows verzió</value>
   </data>
   <data name="Always" xml:space="preserve">
     <value>Always</value>

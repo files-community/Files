@@ -100,7 +100,7 @@ namespace Files.App.UserControls.Widgets
 			OpenFileLocationCommand = new RelayCommand<RecentItem>(OpenFileLocation);
 		}
 
-		private async void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			if (sender is not Grid recentItemsGrid || recentItemsGrid.DataContext is not RecentItem item)
@@ -109,14 +109,14 @@ namespace Files.App.UserControls.Widgets
 			var menuItems = GetItemMenuItems(item, false);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+			if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
 				secondaryElements.OfType<FrameworkElement>()
 								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
 
-			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
+			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}
@@ -152,7 +152,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "LoadingMoreOptions".GetLocalizedResource(),
+					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
