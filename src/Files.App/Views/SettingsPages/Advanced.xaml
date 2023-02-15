@@ -228,8 +228,11 @@
 							MaxHeight="300"
 							Padding="12"
 							HorizontalAlignment="Stretch"
+							AllowDrop="True"
+							CanReorderItems="True"
 							IsItemClickEnabled="True"
 							ItemsSource="{x:Bind ViewModel.Tags, Mode=TwoWay}"
+							ReorderMode="Enabled"
 							SelectionMode="None">
 							<ListView.ItemTemplate>
 								<DataTemplate xmlns:vm="using:Files.Backend.ViewModels.FileTags" x:DataType="vm:ListedTagViewModel">
