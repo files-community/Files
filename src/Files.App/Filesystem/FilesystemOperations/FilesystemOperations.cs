@@ -1,10 +1,8 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.Backend.Helpers;
-using Files.Backend.Services;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
