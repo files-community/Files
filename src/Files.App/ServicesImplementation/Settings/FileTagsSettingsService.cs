@@ -1,5 +1,5 @@
 using Files.App.Extensions;
-using Files.App.Helpers;
+using Files.App.Filesystem;
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
 using Files.Backend.Services.Settings;
@@ -116,6 +116,7 @@ namespace Files.App.ServicesImplementation.Settings
 			var oldTags = FileTagList.ToList();
 			oldTags.RemoveAt(index);
 			FileTagList = oldTags;
+			UntagAllFiles(uid);
 		}
 
 		public override bool ImportSettings(object import)
@@ -163,6 +164,21 @@ namespace Files.App.ServicesImplementation.Settings
 			}
 
 			return (tag, index);
+		}
+
+		private void UntagAllFiles(string uid)
+		{
+			var tagDoDelete = new string [] { uid };
+
+			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
+			{
+				if (item.Tags.Contains(uid))
+				{ 
+					FileTagsHelper.WriteFileTag(
+						item.FilePath, 
+						item.Tags.Except(tagDoDelete).ToArray());
+				}
+			}
 		}
 	}
 }

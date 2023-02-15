@@ -556,6 +556,8 @@ namespace Files.App
 
 		public async void ItemContextFlyout_Opening(object? sender, object e)
 		{
+			App.LastOpenedFlyout = sender as CommandBarFlyout;
+
 			try
 			{
 				if (!IsItemSelected && ((sender as CommandBarFlyout)?.Target as ListViewItem)?.Content is ListedItem li) // Workaround for item sometimes not getting selected
@@ -574,6 +576,8 @@ namespace Files.App
 
 		public async void BaseContextFlyout_Opening(object? sender, object e)
 		{
+			App.LastOpenedFlyout = sender as CommandBarFlyout;
+
 			try
 			{
 				// Reset menu max height

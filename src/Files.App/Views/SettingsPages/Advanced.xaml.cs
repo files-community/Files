@@ -100,16 +100,16 @@ namespace Files.App.SettingsPages
 		private bool IsNameValid(string name)
 		{
 			return !(
-				string.IsNullOrWhiteSpace(name) || 
-				name.StartsWith('.') || 
-				name.EndsWith('.') || 
+				string.IsNullOrWhiteSpace(name) ||
+				name.StartsWith('.') ||
+				name.EndsWith('.') ||
 				(name != editingTag.Tag.Name && ViewModel.Tags.Any(tag => name == tag.Tag.Name))
 			);
 		}
 
 		private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
 		{
-			if (args.KeyboardAccelerator.Key is VirtualKey.Escape)
+			if (args.KeyboardAccelerator.Key is VirtualKey.Escape && editingTag is not null)
 			{
 				CloseEdit();
 				args.Handled = true;
