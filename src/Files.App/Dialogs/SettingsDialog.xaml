@@ -13,6 +13,18 @@
 		<ResourceDictionary>
 			<x:Double x:Key="ContentDialogMaxWidth">1100</x:Double>
 			<Thickness x:Key="ContentDialogPadding">0</Thickness>
+
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<SolidColorBrush x:Key="Local.CardBackgroundFillColorSecondary" Color="{StaticResource CardBackgroundFillColorSecondary}" />
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<SolidColorBrush x:Key="Local.CardBackgroundFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorBase}" />
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="HighContrast">
+					<SolidColorBrush x:Key="Local.CardBackgroundFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorBase}" />
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
 		</ResourceDictionary>
 	</ContentDialog.Resources>
 
@@ -22,7 +34,7 @@
 			MaxHeight="790"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
-			Background="{ThemeResource CardBackgroundFillColorSecondary}">
+			Background="{ThemeResource Local.CardBackgroundFillColorSecondary}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="44" />
 				<RowDefinition Height="*" />
