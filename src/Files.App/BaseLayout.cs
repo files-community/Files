@@ -103,7 +103,7 @@ namespace Files.App
 				if (isMiddleClickToScrollEnabled != value)
 				{
 					isMiddleClickToScrollEnabled = value;
-					
+
 					NotifyPropertyChanged(nameof(IsMiddleClickToScrollEnabled));
 				}
 			}

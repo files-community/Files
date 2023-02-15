@@ -1,7 +1,5 @@
-using Common;
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
 using Files.Backend.Services.Settings;
