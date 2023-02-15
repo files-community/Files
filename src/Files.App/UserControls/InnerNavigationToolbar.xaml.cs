@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.DataModels;
-using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
