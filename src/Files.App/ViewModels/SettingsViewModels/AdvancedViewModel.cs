@@ -348,7 +348,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public void DeleteExistingTag(ListedTagViewModel item)
 		{
 			Tags.Remove(item);
-			fileTagsSettingsService.DeleteTag(item.Tag.Uid);
+			fileTagsSettingsService.DeleteTag(item.Tag.Uid);	
 		}
 	}
 

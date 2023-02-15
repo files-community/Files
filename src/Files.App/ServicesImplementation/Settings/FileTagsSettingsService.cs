@@ -1,4 +1,6 @@
+using Common;
 using Files.App.Extensions;
+using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
@@ -8,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.ServicesImplementation.Settings
@@ -107,6 +110,8 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public void DeleteTag(string uid)
 		{
+			var untagFilesTask = UntagAllFiles(uid);
+
 			var (_, index) = GetTagAndIndex(uid);
 			if (index == -1)
 				return;
@@ -114,6 +119,8 @@ namespace Files.App.ServicesImplementation.Settings
 			var oldTags = FileTagList.ToList();
 			oldTags.RemoveAt(index);
 			FileTagList = oldTags;
+			untagFilesTask.Wait();
+
 			OnTagsUpdated.Invoke(this, EventArgs.Empty);
 		}
 
@@ -162,6 +169,26 @@ namespace Files.App.ServicesImplementation.Settings
 			}
 
 			return (tag, index);
+		}
+
+		private Task UntagAllFiles(string uid)
+		{
+			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
+			{
+				if (item.Tags.Contains(uid))
+				{
+					var newTags = new string[item.Tags.Length - 1];
+					for (int i = 0, ii = 0; i < item.Tags.Length; i++)
+					{
+						if (item.Tags[i] != uid)
+							newTags[ii++] = item.Tags[i];
+					}
+
+					FileTagsHelper.WriteFileTag(item.FilePath, newTags);
+				}
+			}
+
+			return Task.CompletedTask;
 		}
 	}
 }
