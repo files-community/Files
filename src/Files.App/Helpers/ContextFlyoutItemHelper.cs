@@ -4,8 +4,8 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Interacts;
 using Files.App.ViewModels;
-using Files.Backend.Services;
 using Files.Backend.Helpers;
+using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Input;
@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
-using Files.App.ServicesImplementation.Settings;
 
 namespace Files.App.Helpers
 {
@@ -524,11 +523,11 @@ namespace Files.App.Helpers
 				{
 					Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalizedResource(),
 					IsPrimary = true,
-					// Glyph = "\uF16D",
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
 					ColoredIcon = new ColoredIconModel()
 					{
+						BaseBackdropGlyph = "\uF052",
 						BaseLayerGlyph = "\uF023",
 						OverlayLayerGlyph = "\uF024",
 					},
@@ -552,6 +551,7 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutContextFlyoutNew/Label".GetLocalizedResource(),
 					ColoredIcon = new ColoredIconModel()
 					{
+						BaseBackdropGlyph = "\uF051",
 						BaseLayerGlyph = "\uF037",
 						OverlayLayerGlyph = "\uF038"
 					},
@@ -679,7 +679,11 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Open".GetLocalizedResource(),
-					Glyph = "\uE8E5",
+					ColoredIcon = new ColoredIconModel()
+					{
+						BaseLayerGlyph = "\uF047",
+						OverlayLayerGlyph = "\uF048",
+					},
 					Command = commandsViewModel.OpenItemCommand,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
@@ -689,7 +693,11 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalizedResource(),
-					Glyph = "\uE17D",
+					ColoredIcon = new ColoredIconModel()
+					{
+						BaseLayerGlyph = "\uF049",
+						OverlayLayerGlyph = "\uF04A",
+					},
 					Command = commandsViewModel.OpenItemWithApplicationPickerCommand,
 					Tag = "OpenWith",
 					CollapseLabel = true,
@@ -699,7 +707,11 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalizedResource(),
-					Glyph = "\uE17D",
+					ColoredIcon = new ColoredIconModel()
+					{
+						BaseLayerGlyph = "\uF049",
+						OverlayLayerGlyph = "\uF04A",
+					},
 					Tag = "OpenWithOverflow",
 					IsHidden = true,
 					CollapseLabel = true,
@@ -745,8 +757,12 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
-					Glyph = "\xF117",
-					GlyphFontFamilyName = "CustomGlyph",
+					ColoredIcon = new ColoredIconModel()
+					{
+						BaseBackdropGlyph = "\uF056",
+						BaseLayerGlyph = "\uF03B",
+						OverlayLayerGlyph = "\uF03C",
+					},
 					Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
 					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane && areAllItemsFolders,
 					SingleItemOnly = true,
@@ -860,8 +876,8 @@ namespace Files.App.Helpers
 					Text = "CopyLocation".GetLocalizedResource(),
 					ColoredIcon = new ColoredIconModel()
 					{
-						BaseLayerGlyph = "\uF02F",
-						OverlayLayerGlyph = "\uF030"
+						BaseLayerGlyph = "\uF04F",
+						OverlayLayerGlyph = "\uF050"
 					},
 					Command = commandsViewModel.CopyPathOfSelectedItemCommand,
 					SingleItemOnly = true,
@@ -876,6 +892,7 @@ namespace Files.App.Helpers
 					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
+						BaseBackdropGlyph = "\uF052",
 						BaseLayerGlyph = "\uF023",
 						OverlayLayerGlyph = "\uF024",
 					},
@@ -906,8 +923,11 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutShortcut/Text".GetLocalizedResource(),
-					Glyph = "\uF10A",
-					GlyphFontFamilyName = "CustomGlyph",
+					ColoredIcon = new ColoredIconModel()
+					{
+						BaseLayerGlyph = "\uF04B",
+						OverlayLayerGlyph = "\uF04C"
+					},
 					Command = commandsViewModel.CreateShortcutCommand,
 					ShowItem = !selectedItems.FirstOrDefault()?.IsShortcut ?? false,
 					SingleItemOnly = true,
@@ -916,10 +936,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutRename/Text".GetLocalizedResource(),
-					//Glyph = "\uF8AC",
 					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
+						BaseBackdropGlyph = "\uF054",
 						BaseLayerGlyph = "\uF027",
 						OverlayLayerGlyph = "\uF028",
 					},
@@ -937,7 +957,6 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutShare/Text".GetLocalizedResource(),
-					//Glyph = "\uF72D",
 					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
@@ -950,10 +969,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Delete".GetLocalizedResource(),
-					//Glyph = "\uF74D",
 					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
+						BaseBackdropGlyph = "\uF053",
 						BaseLayerGlyph = "\uF035",
 						OverlayLayerGlyph = "\uF036"
 					},
@@ -971,7 +990,6 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutProperties/Text".GetLocalizedResource(),
-					//Glyph = "\uF946",
 					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
