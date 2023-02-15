@@ -1,5 +1,4 @@
-﻿using Files.Shared.Enums;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings
 {
