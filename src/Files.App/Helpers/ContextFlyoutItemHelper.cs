@@ -523,11 +523,11 @@ namespace Files.App.Helpers
 				{
 					Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalizedResource(),
 					IsPrimary = true,
-					// Glyph = "\uF16D",
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
 					ColoredIcon = new ColoredIconModel()
 					{
+						BaseBackdropGlyph = "\uF052",
 						BaseLayerGlyph = "\uF023",
 						OverlayLayerGlyph = "\uF024",
 					},
@@ -551,6 +551,7 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutContextFlyoutNew/Label".GetLocalizedResource(),
 					ColoredIcon = new ColoredIconModel()
 					{
+						BaseBackdropGlyph = "\uF051",
 						BaseLayerGlyph = "\uF037",
 						OverlayLayerGlyph = "\uF038"
 					},
@@ -758,6 +759,7 @@ namespace Files.App.Helpers
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					ColoredIcon = new ColoredIconModel()
 					{
+						BaseBackdropGlyph = "\uF056",
 						BaseLayerGlyph = "\uF03B",
 						OverlayLayerGlyph = "\uF03C",
 					},
@@ -890,6 +892,7 @@ namespace Files.App.Helpers
 					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
+						BaseBackdropGlyph = "\uF052",
 						BaseLayerGlyph = "\uF023",
 						OverlayLayerGlyph = "\uF024",
 					},
@@ -933,10 +936,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutRename/Text".GetLocalizedResource(),
-					//Glyph = "\uF8AC",
 					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
+						BaseBackdropGlyph = "\uF054",
 						BaseLayerGlyph = "\uF027",
 						OverlayLayerGlyph = "\uF028",
 					},
@@ -969,6 +972,7 @@ namespace Files.App.Helpers
 					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
+						BaseBackdropGlyph = "\uF053",
 						BaseLayerGlyph = "\uF035",
 						OverlayLayerGlyph = "\uF036"
 					},

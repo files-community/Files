@@ -166,7 +166,10 @@
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename/Text}">
 					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF027;" BaseBackdropGlyph="&#xF054;" OverlayLayerGlyph="&#xF028;" />
+						<local:ColoredIcon
+							BaseBackdropGlyph="&#xF054;"
+							BaseLayerGlyph="&#xF027;"
+							OverlayLayerGlyph="&#xF028;" />
 					</AppBarButton.Content>
 				</AppBarButton>
 				<AppBarButton
@@ -466,7 +469,10 @@
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 
-				<local:ColoredIcon BaseLayerGlyph="&#xF02B;" OverlayLayerGlyph="&#xF02C;" />
+				<local:ColoredIcon
+					BaseBackdropGlyph="&#xF055;"
+					BaseLayerGlyph="&#xF02B;"
+					OverlayLayerGlyph="&#xF02C;" />
 			</AppBarButton>
 			<AppBarButton
 				x:Name="ArrangementOptions"
@@ -841,7 +847,10 @@
 				ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneToggle/ToolTipService/ToolTip}"
 				Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
 				<AppBarToggleButton.Content>
-					<local:ColoredIcon BaseLayerGlyph="&#xF03b;" OverlayLayerGlyph="&#xF03c;" />
+					<local:ColoredIcon
+						BaseBackdropGlyph="&#xF056;"
+						BaseLayerGlyph="&#xF03b;"
+						OverlayLayerGlyph="&#xF03c;" />
 				</AppBarToggleButton.Content>
 			</AppBarToggleButton>
 			<CommandBar.SecondaryCommands>
