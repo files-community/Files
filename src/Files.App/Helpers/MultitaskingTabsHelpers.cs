@@ -1,4 +1,3 @@
-using Files.App.Extensions;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Microsoft.UI.Xaml.Controls;

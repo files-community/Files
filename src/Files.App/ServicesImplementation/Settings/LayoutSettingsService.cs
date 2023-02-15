@@ -1,6 +1,5 @@
 using Files.App.Serialization;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 
 namespace Files.App.ServicesImplementation.Settings
 {

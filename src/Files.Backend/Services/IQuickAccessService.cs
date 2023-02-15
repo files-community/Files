@@ -1,5 +1,4 @@
-﻿using Files.Sdk.Storage.LocatableStorage;
-using Files.Shared;
+﻿using Files.Shared;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
