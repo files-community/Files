@@ -100,6 +100,7 @@
 
 					<local:ColoredIcon
 						Margin="0,1,0,-1"
+						BaseBackdropGlyph="&#xF051;"
 						BaseLayerGlyph="&#xF037;"
 						OverlayLayerGlyph="&#xF038;" />
 				</AppBarButton>
@@ -148,7 +149,10 @@
 							IsEnabled="False"
 							Modifiers="Control" />
 					</AppBarButton.KeyboardAccelerators>
-					<local:ColoredIcon BaseLayerGlyph="&#xF023;" OverlayLayerGlyph="&#xF024;" />
+					<local:ColoredIcon
+						BaseBackdropGlyph="&#xF051;"
+						BaseLayerGlyph="&#xF023;"
+						OverlayLayerGlyph="&#xF024;" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="RenameButton"
@@ -176,7 +180,10 @@
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare/Text}">
 					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF025;" OverlayLayerGlyph="&#xF026;" />
+						<local:ColoredIcon
+							BaseBackdropGlyph="&#xF054;"
+							BaseLayerGlyph="&#xF025;"
+							OverlayLayerGlyph="&#xF026;" />
 					</AppBarButton.Content>
 				</AppBarButton>
 				<AppBarButton
@@ -190,7 +197,10 @@
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
 					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF035;" OverlayLayerGlyph="&#xF036;" />
+						<local:ColoredIcon
+							BaseBackdropGlyph="&#xF053;"
+							BaseLayerGlyph="&#xF035;"
+							OverlayLayerGlyph="&#xF036;" />
 					</AppBarButton.Content>
 				</AppBarButton>
 				<AppBarButton

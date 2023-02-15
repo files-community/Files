@@ -37,6 +37,13 @@
 		HorizontalAlignment="Stretch"
 		VerticalAlignment="Stretch">
 		<FontIcon
+			x:Name="BaseBackdrop"
+			VerticalAlignment="Center"
+			FontFamily="{StaticResource ColoredIconFontFamily}"
+			FontSize="22"
+			Foreground="{ThemeResource ControlFillColorDefaultBrush}"
+			Glyph="{x:Bind BaseBackdropGlyph, Mode=OneWay}" />
+		<FontIcon
 			x:Name="BaseIcon"
 			VerticalAlignment="Center"
 			FontFamily="{StaticResource ColoredIconFontFamily}"
