@@ -1,5 +1,4 @@
 using CommunityToolkit.WinUI.UI;
-using Files.App.Views;
 using Files.Backend.ViewModels.FileTags;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
