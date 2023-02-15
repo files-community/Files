@@ -376,7 +376,8 @@ namespace Files.App.ViewModels
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-			fileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
+			fileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingUpdated;
+			fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnSettingUpdated;
 			folderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
 			RecycleBinManager.Default.RecycleBinItemCreated += RecycleBinItemCreated;
 			RecycleBinManager.Default.RecycleBinItemDeleted += RecycleBinItemDeleted;
@@ -473,7 +474,7 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private async void FileTagsSettingsService_OnSettingImportedEvent(object? sender, EventArgs e)
+		private async void FileTagsSettingsService_OnSettingUpdated(object? sender, EventArgs e)
 		{
 			await dispatcherQueue.EnqueueAsync(() =>
 			{
@@ -2281,7 +2282,8 @@ namespace Files.App.ViewModels
 			RecycleBinManager.Default.RecycleBinItemDeleted -= RecycleBinItemDeleted;
 			RecycleBinManager.Default.RecycleBinRefreshRequested -= RecycleBinRefreshRequested;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
-			fileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingImportedEvent;
+			fileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingUpdated;
+			fileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnSettingUpdated;
 			folderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
 			DefaultIcons.Clear();
 		}

@@ -308,21 +308,14 @@ namespace Files.App
 		private void HookBaseEvents()
 		{
 			ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
-			FileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnTagsUpdated;
 		}
 
 		private void UnhookBaseEvents()
 		{
 			ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
-			FileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnTagsUpdated;
 		}
 
 		public ItemManipulationModel ItemManipulationModel { get; private set; }
-
-		private void FileTagsSettingsService_OnTagsUpdated(object? sender, EventArgs e)
-		{
-			ParentShellPageInstance.Refresh_Click();
-		}
 
 		private void JumpTimer_Tick(object sender, object e)
 		{
