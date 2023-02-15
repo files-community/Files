@@ -420,6 +420,7 @@ namespace Files.App.UserControls
 		private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			if (sender is not NavigationViewItem sidebarItem ||
 				sidebarItem.DataContext is not INavigationControlItem item)
 				return;

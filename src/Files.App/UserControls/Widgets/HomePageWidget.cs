@@ -1,29 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI.UI;
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
-using Files.App.ServicesImplementation.Settings;
-using Files.App.Storage.NativeStorage;
 using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Files.Sdk.Storage;
 using Files.Shared.Extensions;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.System;
-using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -47,6 +36,7 @@ namespace Files.App.UserControls.Widgets
 		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			if (sender is not Button widgetCardItem || widgetCardItem.DataContext is not WidgetCardItem item)
 				return;
 
