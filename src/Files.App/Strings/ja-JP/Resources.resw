@@ -2647,7 +2647,7 @@
     <value>代替データ ストリームを表示する</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
-    <value>ふるまい</value>
+    <value>動作</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Files を評価</value>

@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
-using Files.App.Controllers;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -12,7 +11,6 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,6 +26,7 @@ namespace Files.App.DataModels
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		private readonly SemaphoreSlim addSyncSemaphore = new(1, 1);
+
 		public List<string> FavoriteItems { get; set; } = new List<string>();
 
 		private readonly List<INavigationControlItem> favoriteList = new();
@@ -62,7 +61,6 @@ namespace Files.App.DataModels
 				addSyncSemaphore.Release();
 			}
 		}
-		
 
 		/// <summary>
 		/// Returns the index of the location item in the navigation sidebar
@@ -158,6 +156,7 @@ namespace Files.App.DataModels
 				insertIndex = lastItem is not null ? favoriteList.IndexOf(lastItem) + 1 : 0;
 				favoriteList.Insert(insertIndex, locationItem);
 			}
+
 			DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
 		}
 
@@ -195,6 +194,7 @@ namespace Files.App.DataModels
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)
 			=> await LoadAsync();
+
 		public async Task LoadAsync()
 			=> await UpdateItemsWithExplorer();
 	}

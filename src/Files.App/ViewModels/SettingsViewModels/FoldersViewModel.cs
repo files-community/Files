@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 
@@ -10,11 +9,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-
-		//FileTag combobox indexes (required to hide SyncStatus)
+		// FileTag combobox indexes (required to hide SyncStatus)
 		private readonly int FileTagSortingIndex = 5;
 		private readonly int FileTagGroupingIndex = 6;
-
 
 		public FoldersViewModel()
 		{
@@ -62,6 +59,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 				{
 					UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories = value;
+
 					ResetLayoutPreferences();
 					OnPropertyChanged();
 				}
@@ -76,6 +74,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.ShowFileTagColumn)
 				{
 					UserSettingsService.FoldersSettingsService.ShowFileTagColumn = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -89,6 +88,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.ShowSizeColumn)
 				{
 					UserSettingsService.FoldersSettingsService.ShowSizeColumn = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -102,6 +102,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.ShowTypeColumn)
 				{
 					UserSettingsService.FoldersSettingsService.ShowTypeColumn = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -115,6 +116,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.ShowDateCreatedColumn)
 				{
 					UserSettingsService.FoldersSettingsService.ShowDateCreatedColumn = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -128,6 +130,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.ShowDateColumn)
 				{
 					UserSettingsService.FoldersSettingsService.ShowDateColumn = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -141,6 +144,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.ShowSelectionCheckboxes)
 				{
 					UserSettingsService.FoldersSettingsService.ShowSelectionCheckboxes = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -154,6 +158,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.DefaultLayoutMode)
 				{
 					UserSettingsService.FoldersSettingsService.DefaultLayoutMode = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -167,6 +172,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.ShowHiddenItems)
 				{
 					UserSettingsService.FoldersSettingsService.ShowHiddenItems = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -180,6 +186,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles)
 				{
 					UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -193,6 +200,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 				{
 					UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -206,6 +214,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.ShowDotFiles)
 				{
 					UserSettingsService.FoldersSettingsService.ShowDotFiles = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -219,6 +228,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 				{
 					UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -232,6 +242,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 				{
 					UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -245,6 +256,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab)
 				{
 					UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -287,6 +299,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles)
 				{
 					UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -300,6 +313,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.CalculateFolderSizes)
 				{
 					UserSettingsService.FoldersSettingsService.CalculateFolderSizes = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -314,6 +328,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (SetProperty(ref selectedDefaultSortingIndex, value))
 				{
 					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
+
 					UserSettingsService.FoldersSettingsService.DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
 				}
 			}
@@ -328,6 +343,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (SetProperty(ref selectedDefaultGroupingIndex, value))
 				{
 					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
+
 					UserSettingsService.FoldersSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
 					// Raise an event for the 'Group in descending order' toggle switch availability
 					OnPropertyChanged(nameof(isDefaultGrouped));
@@ -343,6 +359,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.ShowFileExtensions)
 				{
 					UserSettingsService.FoldersSettingsService.ShowFileExtensions = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -356,6 +373,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.ShowThumbnails)
 				{
 					UserSettingsService.FoldersSettingsService.ShowThumbnails = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -369,6 +387,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy)
 				{
 					UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -382,6 +401,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				{
 					UserSettingsService.FoldersSettingsService.SelectFilesOnHover = value;
+
 					OnPropertyChanged();
 				}
 			}
@@ -395,17 +415,17 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				{
 					UserSettingsService.FoldersSettingsService.DoubleClickToGoUp = value;
+
 					OnPropertyChanged();
 				}
 			}
 		}
 
-		// Local methods
-
 		public void ResetLayoutPreferences()
 		{
 			// Is this proper practice?
 			var dbInstance = FolderSettingsViewModel.GetDbInstance();
+
 			dbInstance.ResetAll();
 		}
 	}

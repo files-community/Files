@@ -216,26 +216,26 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewPane/Text".GetLocalizedResource(),
-					Glyph = "\uF117",
-					GlyphFontFamilyName = "CustomGlyph",
-					Command = OpenInNewPaneCommand,
-					ShowItem = options.IsLocationItem && CanOpenInNewPane
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
 					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
-					ShowItem = options.IsLocationItem
+					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
-					ShowItem = options.IsLocationItem
+					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewPane".GetLocalizedResource(),
+					Glyph = "\uF117",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = OpenInNewPaneCommand,
+					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -276,12 +276,19 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ShowMoreOptions".GetLocalizedResource(),
+					ItemType = ItemType.Separator,
+					Tag = "OverflowSeparator",
+					IsHidden = !options.ShowShellItems,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
-					IsHidden = true,
+					IsEnabled = false,
+					IsHidden = !options.ShowShellItems,
 				}
 			}.Where(x => x.ShowItem).ToList();
 		}
@@ -410,9 +417,10 @@ namespace Files.App.UserControls
 			e.Handled = true;
 		}
 
-		private async void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			if (sender is not NavigationViewItem sidebarItem ||
 				sidebarItem.DataContext is not INavigationControlItem item)
 				return;
@@ -422,7 +430,7 @@ namespace Files.App.UserControls
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+			if (!userSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
 				secondaryElements.OfType<FrameworkElement>()
 								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
 
@@ -430,7 +438,7 @@ namespace Files.App.UserControls
 			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = e.GetPosition(sidebarItem) });
 
 			if (item.MenuOptions.ShowShellItems)
-				await ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, itemContextMenuFlyout, item.MenuOptions);
+				_ = ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, itemContextMenuFlyout, item.MenuOptions);
 
 			e.Handled = true;
 		}

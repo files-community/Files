@@ -1,23 +1,16 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.UI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using Files.App.Helpers.ContextFlyouts;
-using Files.App.Helpers.XamlHelpers;
-using Files.App.ServicesImplementation;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
@@ -71,7 +64,9 @@ namespace Files.App.UserControls.Widgets
 	}
 
 	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
-	{		
+	{
+		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
@@ -150,27 +145,29 @@ namespace Files.App.UserControls.Widgets
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewPane/Text".GetLocalizedResource(),
-					Glyph = "\uF117",
-					GlyphFontFamilyName = "CustomGlyph",
-					Command = OpenInNewPaneCommand,
-					CommandParameter = item,
-					ShowItem = ShowMultiPaneControls
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
 					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
-					CommandParameter = item
+					CommandParameter = item,
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
-					CommandParameter = item
+					CommandParameter = item,
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewPane".GetLocalizedResource(),
+					Glyph = "\uF117",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = OpenInNewPaneCommand,
+					CommandParameter = item,
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -206,12 +203,17 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ShowMoreOptions".GetLocalizedResource(),
+					ItemType = ItemType.Separator,
+					Tag = "OverflowSeparator",
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
-					IsHidden = true
+					IsEnabled = false,
 				}
 			}.Where(x => x.ShowItem).ToList();
 		}
@@ -296,11 +298,6 @@ namespace Files.App.UserControls.Widgets
 			public string Path { get; set; }
 		}
 
-		public bool ShowMultiPaneControls
-		{
-			get => AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
-		}
-
 		private async Task OpenInNewPane(DriveCardItem item)
 		{
 			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
@@ -313,9 +310,6 @@ namespace Files.App.UserControls.Widgets
 
 		private void MenuFlyout_Opening(object sender, object e)
 		{
-			var newPaneMenuItem = (sender as MenuFlyout).Items.Single(x => x.Name == "OpenInNewPane");
-			newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
-
 			var pinToFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "PinToFavorites");
 			pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
 

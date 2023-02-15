@@ -13,6 +13,7 @@ namespace Files.App.Serialization
 				return false;
 
 			OnPropertyChanged(propertyName);
+
 			return true;
 		}
 

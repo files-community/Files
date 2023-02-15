@@ -7,7 +7,6 @@ using Files.App.ViewModels;
 using Files.Backend.Services;
 using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
-using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -20,6 +19,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
+using Files.App.ServicesImplementation.Settings;
 
 namespace Files.App.Helpers
 {
@@ -57,7 +57,7 @@ namespace Files.App.Helpers
 			var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
 			if (overflow is not null)
 			{
-				if (!shiftPressed && userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu) // items with ShowOnShift to overflow menu
+				if (!shiftPressed && userSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu) // items with ShowOnShift to overflow menu
 				{
 					var overflowItems = items.Where(x => x.ShowOnShift).ToList();
 
@@ -641,12 +641,12 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ShowMoreOptions".GetLocalizedResource(),
+					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
-					IsHidden = true,
+					IsEnabled = false,
 				},
 			};
 		}
@@ -723,23 +723,11 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutOpenInNewPane/Text".GetLocalizedResource(),
-					Glyph = "\xF117",
-					GlyphFontFamilyName = "CustomGlyph",
-					Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
-					ShowItem = userSettingsService.PreferencesSettingsService.IsDualPaneEnabled && areAllItemsFolders,
-					SingleItemOnly = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
 					Text = "BaseLayoutItemContextFlyoutOpenInNewTab/Text".GetLocalizedResource(),
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = commandsViewModel.OpenDirectoryInNewTabCommand,
-					ShowItem = selectedItems.Count < 5 && areAllItemsFolders,
+					ShowItem = selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
@@ -749,10 +737,21 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutItemContextFlyoutOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = commandsViewModel.OpenInNewWindowItemCommand,
-					ShowItem = selectedItems.Count < 5 && areAllItemsFolders,
+					ShowItem = selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
-					ShowOnShift = true,
+					ShowInZipPage = true,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewPane".GetLocalizedResource(),
+					Glyph = "\xF117",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane && areAllItemsFolders,
+					SingleItemOnly = true,
+					ShowInSearchPage = true,
+					ShowInFtpPage = true,
 					ShowInZipPage = true,
 				},
 				new ContextMenuFlyoutItemViewModel()
@@ -1106,17 +1105,16 @@ namespace Files.App.Helpers
 					ItemType = ItemType.Separator,
 					Tag = "OverflowSeparator",
 					ShowInSearchPage = true,
-					IsHidden = true,
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ShowMoreOptions".GetLocalizedResource(),
+					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					ShowInSearchPage = true,
-					IsHidden = true,
+					IsEnabled = false
 				},
 			};
 		}

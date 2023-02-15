@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
-using Files.App.Controllers;
 using Files.App.DataModels;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -30,6 +29,7 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Diagnostics;
@@ -54,6 +54,7 @@ namespace Files.App
 		private static bool ShowErrorNotification = false;
 
 		public static string OutputPath { get; set; }
+		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
 		public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
 		public static SettingsViewModel AppSettings { get; private set; }
 		public static AppModel AppModel { get; private set; }
@@ -95,7 +96,7 @@ namespace Files.App
 			Services = ConfigureServices();
 			Ioc.Default.ConfigureServices(Services);
 			LogoPath = Package.Current.DisplayName == "Files - Dev" ? Constants.AssetPaths.DevLogo
-					: (Package.Current.DisplayName == "Files - Preview" ? Constants.AssetPaths.PreviewLogo : Constants.AssetPaths.StableLogo);
+					: (Package.Current.DisplayName == "Files (Preview)" ? Constants.AssetPaths.PreviewLogo : Constants.AssetPaths.StableLogo);
 		}
 
 		private IServiceProvider ConfigureServices()
@@ -177,7 +178,7 @@ namespace Files.App
 			{
 				// AppCenter secret is injected in builds/azure-pipelines-release.yml
 				if (!AppCenter.Configured)
-					AppCenter.Start("", typeof(Analytics), typeof(Crashes));
+					AppCenter.Start("appcenter.secret", typeof(Analytics), typeof(Crashes));
 			}
 			catch (Exception ex)
 			{
@@ -286,6 +287,15 @@ namespace Files.App
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
 			// Save application state and stop any background activity
+
+			// A Workaround for the crash (#10110)
+			if (LastOpenedFlyout?.IsOpen ?? false)
+			{
+				args.Handled = true;
+				LastOpenedFlyout.Closed += (sender, e) => App.Current.Exit();
+				LastOpenedFlyout.Hide();
+				return;
+			}
 
 			await Task.Yield(); // Method can take a long time, make sure the window is hidden
 

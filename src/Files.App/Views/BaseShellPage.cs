@@ -287,9 +287,11 @@ namespace Files.App.Views
 					var terminalStartInfo = new ProcessStartInfo()
 					{
 						FileName = "wt.exe",
-						WorkingDirectory = path
+						Arguments = $"-d {path}",
+						Verb = shift ? "runas" : "",
+						UseShellExecute = true
 					};
-					Process.Start(terminalStartInfo);
+					DispatcherQueue.TryEnqueue(() => Process.Start(terminalStartInfo));
 
 					args.Handled = true;
 

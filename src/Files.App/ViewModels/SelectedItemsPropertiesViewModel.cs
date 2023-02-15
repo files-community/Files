@@ -542,7 +542,6 @@ namespace Files.App.ViewModels
 		}
 
 		private RelayCommand shortcutItemOpenLinkCommand;
-
 		public RelayCommand ShortcutItemOpenLinkCommand
 		{
 			get => shortcutItemOpenLinkCommand;
@@ -562,16 +561,14 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private ObservableCollection<FilePropertySection> propertySections = new ObservableCollection<FilePropertySection>();
-
+		private ObservableCollection<FilePropertySection> propertySections = new();
 		public ObservableCollection<FilePropertySection> PropertySections
 		{
 			get => propertySections;
 			set => SetProperty(ref propertySections, value);
 		}
 
-		private ObservableCollection<FileProperty> fileProperties = new ObservableCollection<FileProperty>();
-
+		private ObservableCollection<FileProperty> fileProperties = new();
 		public ObservableCollection<FileProperty> FileProperties
 		{
 			get => fileProperties;

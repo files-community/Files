@@ -25,13 +25,19 @@ namespace Files.App.ViewModels.Properties
 			if (Drive is null)
 				return;
 
-			ViewModel.CustomIconSource = null; //Drive.IconSource;
+			//Drive.IconSource;
+			ViewModel.CustomIconSource = null;
+
 			ViewModel.IconData = Drive.IconData;
-			ViewModel.LoadCustomIcon = false; //Drive.IconSource is not null && Drive.IconData is null;
+
+			// Drive.IconSource is not null && Drive.IconData is null;
+			ViewModel.LoadCustomIcon = false;
 			ViewModel.LoadFileIcon = Drive.IconData is not null;
+
 			ViewModel.ItemName = Drive.Text;
 			ViewModel.OriginalItemName = Drive.Text;
-			// Note: if DriveType enum changes, the corresponding resource keys should change too
+
+			// NOTE: If DriveType enum changes, the corresponding resource keys should change too
 			ViewModel.ItemType = string.Format("DriveType{0}", Drive.Type).GetLocalizedResource();
 		}
 
@@ -51,12 +57,14 @@ namespace Files.App.ViewModels.Properties
 				{
 					ViewModel.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.Path, 80);
 				}
+
 				ViewModel.IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.DeviceID, 80); // For network shortcuts
 			}
 
 			if (diskRoot is null || diskRoot.Properties is null)
 			{
 				ViewModel.LastSeparatorVisibility = false;
+
 				return;
 			}
 
