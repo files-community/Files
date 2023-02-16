@@ -8,14 +8,14 @@ using Windows.System;
 
 namespace Files.App.SettingsPages
 {
-	public sealed partial class TagsSettings : Page
+	public sealed partial class Tags : Page
 	{
 		private string oldTagName = string.Empty;
 
 		// Will be null unless the user has edited any tag
 		private ListedTagViewModel? editingTag;
 
-		public TagsSettings()
+		public Tags()
 		{
 			InitializeComponent();
 		}
