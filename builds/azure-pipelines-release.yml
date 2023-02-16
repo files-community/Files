@@ -64,6 +64,12 @@ jobs:
         $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest')
       failOnStderr: true
 
+  - task: tfx-cloudflare-purge@1
+    inputs:
+      username: '$(cloudflare.username)'
+      apikey: '$(cloudflare.apikey)'
+      zonename: '$(cloudflare.zoneid)'
+      
  # This replaces references to the dev icon with the specified icon variant 
   - task: PowerShell@2
     displayName: 'Use Correct Logo'
