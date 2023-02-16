@@ -1,5 +1,5 @@
 using Files.App.Extensions;
-using Files.App.Helpers;
+using Files.App.Filesystem;
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
 using Files.Backend.Services.Settings;
@@ -39,7 +39,11 @@ namespace Files.App.ServicesImplementation.Settings
 		public IList<TagViewModel> FileTagList
 		{
 			get => Get<List<TagViewModel>>(DefaultFileTags);
-			set => Set(value);
+			set
+			{
+				Set(value);
+				OnTagsUpdated.Invoke(this, EventArgs.Empty);
+			}
 		}
 
 		public TagViewModel GetTagById(string uid)
@@ -86,7 +90,6 @@ namespace Files.App.ServicesImplementation.Settings
 			var oldTags = FileTagList.ToList();
 			oldTags.Add(newTag);
 			FileTagList = oldTags;
-			OnTagsUpdated.Invoke(this, EventArgs.Empty);
 		}
 
 		public void EditTag(string uid, string name, string color)
@@ -102,7 +105,6 @@ namespace Files.App.ServicesImplementation.Settings
 			oldTags.RemoveAt(index);
 			oldTags.Insert(index, tag);
 			FileTagList = oldTags;
-			OnTagsUpdated.Invoke(this, EventArgs.Empty);
 		}
 
 		public void DeleteTag(string uid)
@@ -114,7 +116,7 @@ namespace Files.App.ServicesImplementation.Settings
 			var oldTags = FileTagList.ToList();
 			oldTags.RemoveAt(index);
 			FileTagList = oldTags;
-			OnTagsUpdated.Invoke(this, EventArgs.Empty);
+			UntagAllFiles(uid);
 		}
 
 		public override bool ImportSettings(object import)
@@ -162,6 +164,21 @@ namespace Files.App.ServicesImplementation.Settings
 			}
 
 			return (tag, index);
+		}
+
+		private void UntagAllFiles(string uid)
+		{
+			var tagDoDelete = new string [] { uid };
+
+			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
+			{
+				if (item.Tags.Contains(uid))
+				{ 
+					FileTagsHelper.WriteFileTag(
+						item.FilePath, 
+						item.Tags.Except(tagDoDelete).ToArray());
+				}
+			}
 		}
 	}
 }

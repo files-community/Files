@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
-using Files.Sdk.Storage.LocatableStorage;
 
 namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 {

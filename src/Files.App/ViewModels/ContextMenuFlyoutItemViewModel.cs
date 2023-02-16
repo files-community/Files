@@ -98,10 +98,13 @@ namespace Files.App.ViewModels
 
 		public string BaseLayerGlyph { get; set; }
 
+		public string BaseBackdropGlyph { get; set; }
+
 		public ColoredIcon ToColoredIcon() => new()
 		{
 			OverlayLayerGlyph = OverlayLayerGlyph,
 			BaseLayerGlyph = BaseLayerGlyph,
+			BaseBackdropGlyph = BaseBackdropGlyph,
 		};
 
 		public bool IsValid => !string.IsNullOrEmpty(BaseLayerGlyph);
