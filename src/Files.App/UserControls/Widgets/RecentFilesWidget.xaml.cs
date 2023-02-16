@@ -128,6 +128,13 @@ namespace Files.App.UserControls.Widgets
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
+					Text = "OpenItemsWithCaptionText".GetLocalizedResource(),
+					Glyph = "\uE17D",
+					Tag = "OpenWithPlaceholder",
+					IsEnabled = false
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					Text = "RecentItemRemove/Text".GetLocalizedResource(),
 					Glyph = "\uE738",
 					Command = RemoveRecentItemCommand,
