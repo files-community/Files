@@ -727,32 +727,6 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutSendTo/Text".GetLocalizedResource(),
-					Glyph = "\uE17D",
-					Tag = "SendTo",
-					CollapseLabel = true,
-					ShowInSearchPage = true,
-					ShowItem = true
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "BaseLayoutItemContextFlyoutSendTo/Text".GetLocalizedResource(),
-					Glyph = "\uE17D",
-					Tag = "SendToOverflow",
-					IsHidden = true,
-					CollapseLabel = true,
-					Items = new List<ContextMenuFlyoutItemViewModel>() {
-						new()
-						{
-							Text = "Placeholder",
-							ShowInSearchPage = true,
-						}
-					},
-					ShowInSearchPage = true,
-					ShowItem = true
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
 					Text = "BaseLayoutItemContextFlyoutOpenFileLocation/Text".GetLocalizedResource(),
 					Glyph = "\uE8DA",
 					Command = commandsViewModel.OpenFileLocationCommand,
@@ -1143,6 +1117,32 @@ namespace Files.App.Helpers
 							ShowInSearchPage = true,
 						},
 					},
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "BaseLayoutItemContextFlyoutSendTo/Text".GetLocalizedResource(),
+					Glyph = "\uE17D",
+					Tag = "SendTo",
+					CollapseLabel = true,
+					ShowInSearchPage = true,
+					ShowItem = true
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "BaseLayoutItemContextFlyoutSendTo/Text".GetLocalizedResource(),
+					Glyph = "\uE17D",
+					Tag = "SendToOverflow",
+					IsHidden = true,
+					CollapseLabel = true,
+					Items = new List<ContextMenuFlyoutItemViewModel>() {
+						new()
+						{
+							Text = "Placeholder",
+							ShowInSearchPage = true,
+						}
+					},
+					ShowInSearchPage = true,
+					ShowItem = true
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
