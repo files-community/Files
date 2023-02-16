@@ -96,11 +96,20 @@
 						</NavigationViewItem.Icon>
 					</NavigationViewItem>
 					<NavigationViewItem
+						AccessKey="T"
+						AutomationProperties.AutomationId="SettingsItemTags"
+						Content="{helpers:ResourceString Name=FileTags}"
+						Tag="3">
+						<NavigationViewItem.Icon>
+							<FontIcon Glyph="&#xE1CB;" />
+						</NavigationViewItem.Icon>
+					</NavigationViewItem>
+					<NavigationViewItem
 						AccessKey="E"
 						AutomationProperties.AutomationId="SettingsItemAdvanced"
 						Content="{helpers:ResourceString Name=Advanced}"
 						CornerRadius="0"
-						Tag="3">
+						Tag="4">
 						<NavigationViewItem.Icon>
 							<FontIcon Glyph="&#xF1AD;" />
 						</NavigationViewItem.Icon>
@@ -109,7 +118,7 @@
 						AccessKey="B"
 						AutomationProperties.AutomationId="SettingsItemAbout"
 						Content="{helpers:ResourceString Name=About}"
-						Tag="4">
+						Tag="5">
 						<NavigationViewItem.Icon>
 							<FontIcon FontSize="16" Glyph="&#xE946;" />
 						</NavigationViewItem.Icon>
