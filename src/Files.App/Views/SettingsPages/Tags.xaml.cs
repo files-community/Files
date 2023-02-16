@@ -74,8 +74,8 @@ namespace Files.App.SettingsPages
 		private void RenameTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var text = ((TextBox)sender).Text;
-			editingTag!.IsNameValid = IsNameValid(text);
-			editingTag!.CanCommit = IsNameValid(text) || (editingTag!.Tag.Name == text);
+			editingTag!.IsNameValid = IsNameValid(text) || (text == editingTag!.Tag.Name);
+			editingTag!.CanCommit = IsNameValid(text);
 		}
 
 		private void NewTagTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -122,7 +122,7 @@ namespace Files.App.SettingsPages
 				string.IsNullOrWhiteSpace(name) ||
 				name.StartsWith('.') ||
 				name.EndsWith('.') ||
-				(name != editingTag?.Tag.Name && ViewModel.Tags.Any(tag => name == tag.Tag.Name))
+				ViewModel.Tags.Any(tag => name == tag.Tag.Name)
 			);
 		}
 	}
