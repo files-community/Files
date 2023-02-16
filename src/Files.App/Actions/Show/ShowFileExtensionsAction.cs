@@ -11,7 +11,7 @@ namespace Files.App.Actions
 	{
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
-		public string Label => "NavToolbarShowFileExtensionsHeader/Text".GetLocalizedResource();
+		public string Label => "ShowFileExtensions".GetLocalizedResource();
 
 		public bool IsOn => settings.ShowFileExtensions;
 

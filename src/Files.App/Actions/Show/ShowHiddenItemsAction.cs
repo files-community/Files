@@ -11,7 +11,7 @@ namespace Files.App.Actions
 	{
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
-		public string Label => "NavToolbarShowHiddenItemsHeader/Text".GetLocalizedResource();
+		public string Label => "ShowHiddenItems".GetLocalizedResource();
 
 		public bool IsOn => settings.ShowHiddenItems;
 

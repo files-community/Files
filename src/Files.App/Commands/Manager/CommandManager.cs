@@ -50,9 +50,9 @@ namespace Files.App.Commands
 		[DebuggerDisplay("Command None")]
 		private class NoneCommand : IRichCommand
 		{
-			public event EventHandler? CanExecuteChanged;
-			public event PropertyChangingEventHandler? PropertyChanging;
-			public event PropertyChangedEventHandler? PropertyChanged;
+			public event EventHandler? CanExecuteChanged { add {} remove {} }
+			public event PropertyChangingEventHandler? PropertyChanging { add { } remove { } }
+			public event PropertyChangedEventHandler? PropertyChanged { add { } remove { } }
 
 			public CommandCodes Code => CommandCodes.None;
 
