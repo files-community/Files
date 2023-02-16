@@ -1,4 +1,3 @@
-using CommunityToolkit.WinUI.UI;
 using Files.App.Helpers;
 using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
@@ -153,11 +152,10 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		public void SetLoadingIndicatorStatus(ITabItem item, bool loading)
 		{
-			if (ContainerFromItem(item) is not TabViewItem tabItem)
+			if (ContainerFromItem(item) is not Control tabItem)
 				return;
 
 			var stateToGoName = (loading) ? "Loading" : "NotLoading";
-
 			VisualStateManager.GoToState(tabItem, stateToGoName, false);
 		}
 	}
