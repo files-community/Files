@@ -64,11 +64,53 @@ jobs:
         $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest')
       failOnStderr: true
 
-  - task: tfx-cloudflare-purge@1
+ # This purges the Cloudflare cache
+  - task: PowerShell@2
     inputs:
-      username: '$(cloudflare.username)'
-      apikey: '$(cloudflare.apikey)'
-      zonename: '$(cloudflare.zoneid)'
+      targetType: 'inline'
+      script: |
+        function Invoke-CFPurgeCache {
+            param (
+                [Parameter(Mandatory = $true)]
+                [string]$Token,
+        
+                [Parameter(Mandatory = $true)]
+                [string]$EMail,
+        
+                [Parameter(Mandatory = $true)]
+                [string]$Zone
+            )
+            $APIURI = 'https://api.cloudflare.com/client/v4'
+            #Build required header for authentication
+            $Headers = @{
+                'X-Auth-Key'   = $Token
+                'X-Auth-Email' = $EMail
+            }
+            #Build required payload - can be later expanded to purge specific files.
+            $Payload = @{
+                purge_everything = $true
+            }
+            #Make the payload JSON friendly
+            $PayloadJSON = $Payload |ConvertTo-Json
+        
+            try {
+                Write-Verbose -Message "$(Get-Date) :: Attempting to flush CloudFlare Cache for $($Zone)" -Verbose
+                $requestResult = Invoke-RestMethod -Method Post -ContentType application/json -Headers $Headers -Uri $APIURI/zones/$Zone/purge_cache -Body $PayloadJSON -ErrorAction Stop
+                if ($requestResult.success -eq $true) {
+                    Write-Verbose -Message "$(Get-Date) :: Successfully cleared cache for zone $($requestResult.result.id)" -Verbose
+                }
+                else {
+                    Write-Verbose -Message "$(Get-Date) :: Failed to purge cache for $($requestResult.result.id)" -Verbose
+                    Write-Verbose -Message "$(Get-Date) :: Errors encountered $($requestResult.errors)"
+                }
+            }
+            catch {
+                Write-Error $_
+            }
+        }
+        
+        Invoke-CFPurgeCache -Token $(cloudflare.apikey) -EMail $(cloudflare.username) -Zone $(cloudflare.zoneid)
+      
       
  # This replaces references to the dev icon with the specified icon variant 
   - task: PowerShell@2
