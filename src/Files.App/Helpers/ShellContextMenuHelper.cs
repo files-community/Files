@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -138,6 +139,9 @@ namespace Files.App.Helpers
 				}
 				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label) && menuFlyoutItem.SubItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
 				{
+					if (string.Equals(menuFlyoutItem.Label, Win32API.ExtractStringFromDLL("shell32.dll", 30312)))
+						menuFlyoutItem.CommandString = "sendto";
+
 					var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
 					{
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
@@ -149,14 +153,14 @@ namespace Files.App.Helpers
 				}
 				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
 				{
-					var menuLayoutItem = new ContextMenuFlyoutItemViewModel()
+					var menuLayoutItem = new ContextMenuFlyoutItemViewModel
 					{
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
 						Tag = menuFlyoutItem,
-						BitmapIcon = image
+						BitmapIcon = image,
+						Command = new RelayCommand<object>(x => InvokeShellMenuItem(contextMenu, x)),
+						CommandParameter = menuFlyoutItem
 					};
-					menuLayoutItem.Command = new RelayCommand<object>(x => InvokeShellMenuItem(contextMenu, x));
-					menuLayoutItem.CommandParameter = menuFlyoutItem;
 					menuItemsListLocal.Insert(0, menuLayoutItem);
 				}
 			}
@@ -217,6 +221,14 @@ namespace Files.App.Helpers
 		public static List<ContextMenuFlyoutItemViewModel>? GetOpenWithItems(List<ContextMenuFlyoutItemViewModel> flyout)
 		{
 			var item = flyout.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
+			if (item is not null)
+				flyout.Remove(item);
+			return item?.Items;
+		}
+
+		public static List<ContextMenuFlyoutItemViewModel>? GetSendToItems(List<ContextMenuFlyoutItemViewModel> flyout)
+		{
+			var item = flyout.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
 			if (item is not null)
 				flyout.Remove(item);
 			return item?.Items;
