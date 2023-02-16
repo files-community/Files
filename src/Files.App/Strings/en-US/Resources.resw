@@ -2958,4 +2958,7 @@
   <data name="ContextMenuOptions" xml:space="preserve">
     <value>Context menu options</value>
   </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Invalid name</value>
+  </data>
 </root>
