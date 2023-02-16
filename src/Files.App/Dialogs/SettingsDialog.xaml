@@ -97,7 +97,7 @@
 					</NavigationViewItem>
 					<NavigationViewItem
 						AccessKey="T"
-						AutomationProperties.AutomationId="SettingsItemFolders"
+						AutomationProperties.AutomationId="SettingsItemTags"
 						Content="{helpers:ResourceString Name=FileTags}"
 						Tag="3">
 						<NavigationViewItem.Icon>
