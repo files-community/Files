@@ -204,12 +204,6 @@ jobs:
       ContainerName: 'files'
       BlobPrefix: '${{parameters.releaseBranch}}'
 
-  - task: tfx-cloudflare-purge@1
-    inputs:
-      username: '$(cloudflare.username)'
-      apikey: '$(cloudflare.apikey)'
-      zonename: '$(cloudflare.zoneid)'
-
 ### Store release ###
 - job: StoreRelease
   timeoutInMinutes: 120
