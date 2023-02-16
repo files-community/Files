@@ -120,7 +120,7 @@
 
 						<ListView
 							x:Name="TagsList"
-							MaxHeight="300"
+							MaxHeight="500"
 							Padding="12"
 							HorizontalAlignment="Stretch"
 							AllowDrop="True"
