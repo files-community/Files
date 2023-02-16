@@ -264,11 +264,23 @@ namespace Files.App.Helpers
 
 				if (showOpenWithMenu)
 				{
-					var openWithItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.ID == 100).ToList().FirstOrDefault();
-					var (_, openWithItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
-					itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
+					var openWithItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "openas").ToList().FirstOrDefault();
+					if (openWithItem is not null)
+					{
+						openWithItem.ColoredIcon = new ColoredIconModel()
+						{
+							BaseLayerGlyph = "\uF049",
+							OverlayLayerGlyph = "\uF04A",
+						};
+						var (_, openWithItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
+						var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")).FirstOrDefault() as AppBarButton;
+						if (placeholder is not null)
+							placeholder.Visibility = Visibility.Collapsed;
+						itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
+						shellMenuItems.Remove(openWithItem);
+					}
 				}
-				
+
 				if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
 				{
 					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
