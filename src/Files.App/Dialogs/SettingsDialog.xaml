@@ -22,7 +22,7 @@
 			MaxHeight="790"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
-			Background="{ThemeResource CardBackgroundFillColorSecondary}">
+			Background="{ThemeResource App.Theme.ContentDialog.BackgroundBrush}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="44" />
 				<RowDefinition Height="*" />
