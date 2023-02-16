@@ -513,7 +513,7 @@
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>Open With</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSendTo.Text" xml:space="preserve">
+  <data name="SendTo" xml:space="preserve">
     <value>Send To</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
