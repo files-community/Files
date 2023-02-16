@@ -106,6 +106,40 @@
 								HorizontalAlignment="Right"
 								Orientation="Horizontal"
 								Spacing="12">
+								<!--  Invalid Name Warning  -->
+								<Grid
+									Padding="12,4"
+									VerticalAlignment="Stretch"
+									Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+									ColumnSpacing="8"
+									CornerRadius="4"
+									Visibility="{x:Bind ViewModel.NewTag.IsNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+									<TextBlock
+										Grid.Column="0"
+										VerticalAlignment="Center"
+										AutomationProperties.AccessibilityView="Raw"
+										FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										FontSize="{StaticResource InfoBarIconFontSize}"
+										Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
+										Text="{StaticResource InfoBarIconBackgroundGlyph}" />
+									<TextBlock
+										Grid.Column="0"
+										VerticalAlignment="Center"
+										AutomationProperties.AccessibilityView="Raw"
+										FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										FontSize="{StaticResource InfoBarIconFontSize}"
+										Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+										Text="{StaticResource InfoBarErrorIconGlyph}" />
+									<TextBlock
+										Grid.Column="1"
+										VerticalAlignment="Center"
+										Text="{helpers:ResourceString Name=InvalidTagNameWarning}" />
+								</Grid>
+
 								<!--  Cancel  -->
 								<Button Command="{x:Bind ViewModel.CancelNewTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=Cancel}" />
 
@@ -230,6 +264,39 @@
 											Orientation="Horizontal"
 											Spacing="12"
 											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+											<Grid
+												Padding="12,4"
+												VerticalAlignment="Stretch"
+												Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+												ColumnSpacing="8"
+												CornerRadius="4"
+												Visibility="{x:Bind IsNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition Width="Auto" />
+													<ColumnDefinition Width="Auto" />
+												</Grid.ColumnDefinitions>
+												<TextBlock
+													Grid.Column="0"
+													VerticalAlignment="Center"
+													AutomationProperties.AccessibilityView="Raw"
+													FontFamily="{ThemeResource SymbolThemeFontFamily}"
+													FontSize="{StaticResource InfoBarIconFontSize}"
+													Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
+													Text="{StaticResource InfoBarIconBackgroundGlyph}" />
+												<TextBlock
+													Grid.Column="0"
+													VerticalAlignment="Center"
+													AutomationProperties.AccessibilityView="Raw"
+													FontFamily="{ThemeResource SymbolThemeFontFamily}"
+													FontSize="{StaticResource InfoBarIconFontSize}"
+													Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+													Text="{StaticResource InfoBarErrorIconGlyph}" />
+												<TextBlock
+													Grid.Column="1"
+													VerticalAlignment="Center"
+													Text="{helpers:ResourceString Name=InvalidTagNameWarning}" />
+											</Grid>
+
 											<Button
 												x:Name="CancelChangesButton"
 												Click="CancelRenameTag_Click"
@@ -239,7 +306,7 @@
 												x:Name="SaveChangesButton"
 												Click="CommitRenameTag_Click"
 												Content="{helpers:ResourceString Name=SaveChanges}"
-												IsEnabled="{x:Bind IsNameValid, Mode=OneWay}"
+												IsEnabled="{x:Bind CanCommit, Mode=OneWay}"
 												Style="{StaticResource AccentButtonStyle}" />
 										</StackPanel>
 									</Grid>

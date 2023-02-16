@@ -75,6 +75,7 @@ namespace Files.App.SettingsPages
 		{
 			var text = ((TextBox)sender).Text;
 			editingTag!.IsNameValid = IsNameValid(text);
+			editingTag!.CanCommit = IsNameValid(text) || (editingTag!.Tag.Name == text);
 		}
 
 		private void NewTagTextBox_TextChanged(object sender, TextChangedEventArgs e)
