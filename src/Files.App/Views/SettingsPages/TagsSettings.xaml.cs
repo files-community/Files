@@ -12,6 +12,7 @@ namespace Files.App.SettingsPages
 	{
 		private string oldTagName = string.Empty;
 
+		// Will be null unless the user has edited any tag
 		private ListedTagViewModel? editingTag;
 
 		public TagsSettings()
@@ -43,11 +44,11 @@ namespace Files.App.SettingsPages
 			editingTag.NewColor = editingTag.Tag.Color;
 			editingTag.IsEditing = true;
 
-			var item = TagsList.ContainerFromItem(editingTag) as ListViewItem;
+			var item = (ListViewItem)TagsList.ContainerFromItem(editingTag);
 			var textBlock = item.FindDescendant("TagName") as TextBlock;
 			var textBox = item.FindDescendant("TagNameTextBox") as TextBox;
 
-			textBox.TextChanged += RenameTextBox_TextChanged;
+			textBox!.TextChanged += RenameTextBox_TextChanged;
 
 			textBox!.Text = textBlock!.Text;
 			oldTagName = textBlock.Text;
@@ -55,7 +56,7 @@ namespace Files.App.SettingsPages
 
 		private void CommitRenameTag_Click(object sender, RoutedEventArgs e)
 		{
-			var item = TagsList.ContainerFromItem(editingTag) as ListViewItem;
+			var item = (ListViewItem)TagsList.ContainerFromItem(editingTag);
 
 			CommitChanges(item.FindDescendant("TagNameTextBox") as TextBox);
 		}
@@ -73,7 +74,7 @@ namespace Files.App.SettingsPages
 		private void RenameTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var text = ((TextBox)sender).Text;
-			editingTag.IsNameValid = IsNameValid(text);
+			editingTag!.IsNameValid = IsNameValid(text);
 		}
 
 		private void NewTagTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -96,20 +97,20 @@ namespace Files.App.SettingsPages
 		{
 			EndEditing(textBox);
 			string newTagName = textBox.Text.Trim().TrimEnd('.');
-			if (newTagName != oldTagName || editingTag.NewColor != editingTag.Tag.Color)
-				ViewModel.EditExistingTag(editingTag, newTagName, editingTag.NewColor);
+			if (newTagName != oldTagName || editingTag!.NewColor != editingTag.Tag.Color)
+				ViewModel.EditExistingTag(editingTag!, newTagName, editingTag!.NewColor);
 		}
 
-		private void EndEditing(TextBox? textBox)
+		private void EndEditing(TextBox textBox)
 		{
 			textBox.TextChanged -= RenameTextBox_TextChanged;
-			editingTag.IsEditing = false;
+			editingTag!.IsEditing = false;
 		}
 
 		private void CloseEdit()
 		{
-			var item = TagsList.ContainerFromItem(editingTag) as ListViewItem;
-			editingTag.NewColor = editingTag.Tag.Color;
+			var item = (ListViewItem)TagsList.ContainerFromItem(editingTag);
+			editingTag!.NewColor = editingTag.Tag.Color;
 
 			EndEditing(item.FindDescendant("TagNameTextBox") as TextBox);
 		}
