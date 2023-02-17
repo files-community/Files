@@ -514,7 +514,7 @@
     <value>Open With</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send To</value>
+    <value>Send to</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
