@@ -124,7 +124,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			if (args.Item is ListedItem item && columnsOwner?.OwnerPath() is string ownerPath
+			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
 				&& (ownerPath == item.ItemPath || ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\'))
 			{
 				var presenter = args.ItemContainer.FindDescendant<Grid>()!;

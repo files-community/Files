@@ -21,7 +21,7 @@ namespace Files.App.Views.LayoutModes
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 		protected override ItemsControl ItemsControl => ColumnHost;
 
-		public string? OwnerPath() => navigationArguments.NavPathParam;
+		public string? OwnerPath { get; private set; }
 		public int FocusIndex { get; private set; }
 
 		public ColumnViewBrowser() : base()
@@ -109,6 +109,8 @@ namespace Files.App.Views.LayoutModes
 				SearchPathParam = navigationArguments.SearchPathParam,
 				NavPathParam = path
 			});
+			OwnerPath = navigationArguments.NavPathParam;
+			FocusIndex = pathStack.Count;
 			var index = 0;
 			while (pathStack.TryPop(out path))
 			{
@@ -120,7 +122,6 @@ namespace Files.App.Views.LayoutModes
 					NavPathParam = path
 				});
 			}
-			FocusIndex = index;
 		}
 
 		protected override void InitializeCommandsViewModel()
