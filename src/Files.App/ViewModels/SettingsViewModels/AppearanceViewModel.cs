@@ -70,7 +70,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			get => selectedAppThemeResources;
 			set
 			{
-				if (SetProperty(ref selectedAppThemeResources, value))
+				if (value is not null && SetProperty(ref selectedAppThemeResources, value))
 				{
 					AppThemeBackgroundColor = SelectedAppThemeResources.BackgroundColor;
 					OnPropertyChanged(nameof(selectedAppThemeResources));
