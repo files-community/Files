@@ -26,12 +26,12 @@ namespace Files.App.ViewModels.Properties
 			{
 				if (SetProperty(ref compatibilityOptions, value))
 				{
-					ExecuteAt640X480 = value?.ExecuteAt640X480 ?? false;
-					DisableMaximized = value?.DisableMaximized ?? false;
-					RunAsAdministrator = value?.RunAsAdministrator ?? false;
-					RegisterForRestart = value?.RegisterForRestart ?? false;
+					ExecuteAt640X480 = value.ExecuteAt640X480;
+					DisableMaximized = value.DisableMaximized;
+					RunAsAdministrator = value.RunAsAdministrator;
+					RegisterForRestart = value.RegisterForRestart;
 					OSCompatibility = OSCompatibilityList.SingleOrDefault(x => x.Value == value.OSCompatibility);
-					HighDpiOption = HighDpiOptionList.SingleOrDefault(x => x.Value == value.HighDpiOption);
+					HighDpiOption = HighDpiOptionList.SingleOrDefault(x => x.Value == value.HighDpiOption) ;
 					HighDpiOverride = HighDpiOverrideList.SingleOrDefault(x => x.Value == value.HighDpiOverride);
 					ReducedColorMode = ReducedColorModeList.SingleOrDefault(x => x.Value == value.ReducedColorMode);
 				}
@@ -164,7 +164,7 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		public bool SetCompatibilityOptions()
-			=> FileOperationsHelpers.SetCompatOptions(ExePath, CompatibilityOptions?.ToString());
+			=> FileOperationsHelpers.SetCompatOptions(ExePath, CompatibilityOptions.ToString());
 
 		public Task RunTroubleshooter()
 			=> LaunchHelper.RunCompatibilityTroubleshooterAsync(ExePath);
