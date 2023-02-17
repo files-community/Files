@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Files.App.Constants;
+using static Files.App.Helpers.PathNormalization;
 
 namespace Files.App.Views.LayoutModes
 {
@@ -19,6 +20,9 @@ namespace Files.App.Views.LayoutModes
 	{
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 		protected override ItemsControl ItemsControl => ColumnHost;
+
+		public string? OwnerPath() => navigationArguments.NavPathParam;
+		public int NumberOfColumns() => ColumnHost.ActiveBlades.Count;
 
 		public ColumnViewBrowser() : base()
 		{
@@ -66,6 +70,8 @@ namespace Files.App.Views.LayoutModes
 					Column = ColumnHost.ActiveBlades.IndexOf(newblade),
 					NavPathParam = column.NavPathParam
 				});
+				navigationArguments.NavPathParam = column.NavPathParam;
+				ParentShellPageInstance.TabItemArguments.NavigationArg = column.NavPathParam;
 			}
 		}
 
@@ -78,7 +84,21 @@ namespace Files.App.Views.LayoutModes
 		{
 			base.OnNavigatedTo(eventArgs);
 
-			var navigationArguments = (NavigationArguments)eventArgs.Parameter;
+			var path = navigationArguments.NavPathParam;
+			var pathStack = new Stack<string>();
+
+			if (path is not null)
+			{
+				var rootPathList = App.QuickAccessManager.Model.FavoriteItems.Select(x => NormalizePath(x)).ToList();
+				rootPathList.Add(NormalizePath(GetPathRoot(path)));
+
+				while (!rootPathList.Contains(NormalizePath(path)))
+				{
+					pathStack.Push(path);
+					path = GetParentDir(path);
+				}
+			}
+
 			MainPageFrame.Navigated += Frame_Navigated;
 			MainPageFrame.Navigate(typeof(ColumnShellPage), new ColumnParam
 			{
@@ -87,8 +107,19 @@ namespace Files.App.Views.LayoutModes
 				SearchQuery = navigationArguments.SearchQuery,
 				SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
 				SearchPathParam = navigationArguments.SearchPathParam,
-				NavPathParam = navigationArguments.NavPathParam
+				NavPathParam = path
 			});
+			var index = 0;
+			while (pathStack.TryPop(out path))
+			{
+				var (frame, _) = CreateAndAddNewBlade();
+
+				frame.Navigate(typeof(ColumnShellPage), new ColumnParam
+				{
+					Column = ++index,
+					NavPathParam = path
+				});
+			}
 		}
 
 		protected override void InitializeCommandsViewModel()
@@ -162,6 +193,11 @@ namespace Files.App.Views.LayoutModes
 						(frame?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged;
 						ColumnHost.Items.RemoveAt(index + 1);
 						ColumnHost.ActiveBlades.RemoveAt(index + 1);
+					}
+					if ((ColumnHost.ActiveBlades[index].Content as Frame)?.Content is ColumnShellPage s)
+					{
+						navigationArguments.NavPathParam = s.FilesystemViewModel.WorkingDirectory;
+						ParentShellPageInstance.TabItemArguments.NavigationArg = s.FilesystemViewModel.WorkingDirectory;
 					}
 				});
 			}

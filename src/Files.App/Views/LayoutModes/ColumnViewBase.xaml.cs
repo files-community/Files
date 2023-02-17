@@ -107,14 +107,29 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
 			{
-				navArgs.FocusOnNavigation = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column == 0; // Focus filelist only if first column
 				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
+				navArgs.FocusOnNavigation = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column == columnsOwner?.NumberOfColumns() - 1;
+				if (!navArgs.FocusOnNavigation)
+				{
+					FileList.ContainerContentChanging += HighlightPathDirectory;
+				}
 			}
 
 			base.OnNavigatedTo(eventArgs);
 
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
+		}
+
+		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
+		{
+			if (args.Item is ListedItem item && columnsOwner?.OwnerPath() is string ownerPath
+				&& (ownerPath == item.ItemPath || ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\'))
+			{
+				var presenter = args.ItemContainer.FindDescendant<Grid>()!;
+				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+				FileList.ContainerContentChanging -= HighlightPathDirectory;
+			}
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
