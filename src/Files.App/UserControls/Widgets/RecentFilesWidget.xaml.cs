@@ -136,7 +136,6 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SendTo".GetLocalizedResource(),
-					Glyph = "\uE72D",
 					Tag = "SendToPlaceholder",
 					IsEnabled = false
 				},

@@ -1121,7 +1121,6 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SendTo".GetLocalizedResource(),
-					Glyph = "\uE72D",
 					Tag = "SendTo",
 					CollapseLabel = true,
 					ShowInSearchPage = true,
@@ -1130,7 +1129,6 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SendTo".GetLocalizedResource(),
-					Glyph = "\uE72D",
 					Tag = "SendToOverflow",
 					IsHidden = true,
 					CollapseLabel = true,
