@@ -241,7 +241,7 @@
     <value>Bakgrund</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Avancerat</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Alternativ</value>
@@ -448,10 +448,10 @@
     <value>Tog du bort den här mappen?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Filen du försöker komma åt används just nu av {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>Filen du försöker komma åt används just nu av ett annat program</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>File is in use</value>
