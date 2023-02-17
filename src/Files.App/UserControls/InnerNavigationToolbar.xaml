@@ -807,26 +807,26 @@
 									Grid.Row="0"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{helpers:ResourceString Name=NavToolbarShowHiddenItemsHeader/Text}" />
+									Text="{x:Bind CommandManager.ShowHiddenItems.Label}" />
 								<ToggleSwitch
 									Grid.Row="0"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
-									AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarShowHiddenItems/AutomationProperties/Name}"
-									IsOn="{x:Bind UserSettingsService.FoldersSettingsService.ShowHiddenItems, Mode=TwoWay}"
+									AutomationProperties.Name="{x:Bind CommandManager.ShowHiddenItems.Label}"
+									IsOn="{x:Bind CommandManager.ShowHiddenItems.IsOn, Mode=TwoWay}"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 
 								<TextBlock
 									Grid.Row="1"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{helpers:ResourceString Name=NavToolbarShowFileExtensionsHeader/Text}" />
+									Text="{x:Bind CommandManager.ShowFileExtensions.Label}" />
 								<ToggleSwitch
 									Grid.Row="1"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
-									AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarShowFileExtensions/AutomationProperties/Name}"
-									IsOn="{x:Bind UserSettingsService.FoldersSettingsService.ShowFileExtensions, Mode=TwoWay}"
+									AutomationProperties.Name="{x:Bind CommandManager.ShowFileExtensions.Label}"
+									IsOn="{x:Bind CommandManager.ShowFileExtensions.IsOn, Mode=TwoWay}"
 									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 							</Grid>
