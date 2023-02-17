@@ -234,7 +234,12 @@ namespace Files.App.Helpers
 			return item?.Items;
 		}
 
-		public static async Task LoadShellMenuItems(string path, CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options = null, bool showOpenWithMenu = false)
+		public static async Task LoadShellMenuItems(
+			string path, 
+			CommandBarFlyout itemContextMenuFlyout, 
+			ContextMenuOptions options = null, 
+			bool showOpenWithMenu = false, 
+			bool showSendToMenu = false)
 		{ 
 			try
 			{
@@ -278,6 +283,21 @@ namespace Files.App.Helpers
 							placeholder.Visibility = Visibility.Collapsed;
 						itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
 						shellMenuItems.Remove(openWithItem);
+					}
+				}
+
+				if (showSendToMenu) 
+				{
+					var sendToItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "sendto").ToList().FirstOrDefault();
+					if (sendToItem is not null)
+					{
+						sendToItem.Glyph = "\uE72D";
+						var (_, sendToItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { sendToItem });
+						var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")).FirstOrDefault() as AppBarButton;
+						if (placeholder is not null)
+							placeholder.Visibility = Visibility.Collapsed;
+						itemContextMenuFlyout.SecondaryCommands.Insert(1, sendToItems.FirstOrDefault());
+						shellMenuItems.Remove(sendToItem);
 					}
 				}
 

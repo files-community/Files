@@ -1120,8 +1120,8 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutSendTo/Text".GetLocalizedResource(),
-					Glyph = "\uE17D",
+					Text = "SendTo".GetLocalizedResource(),
+					Glyph = "\uE72D",
 					Tag = "SendTo",
 					CollapseLabel = true,
 					ShowInSearchPage = true,
@@ -1129,8 +1129,8 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutSendTo/Text".GetLocalizedResource(),
-					Glyph = "\uE17D",
+					Text = "SendTo".GetLocalizedResource(),
+					Glyph = "\uE72D",
 					Tag = "SendToOverflow",
 					IsHidden = true,
 					CollapseLabel = true,
