@@ -108,8 +108,9 @@ namespace Files.App.Views.LayoutModes
 			if (eventArgs.Parameter is NavigationArguments navArgs)
 			{
 				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
-				navArgs.FocusOnNavigation = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column == columnsOwner?.NumberOfColumns() - 1;
-				if (!navArgs.FocusOnNavigation)
+				var index = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column;
+				navArgs.FocusOnNavigation = index == columnsOwner?.FocusIndex;
+				if (index < columnsOwner?.FocusIndex)
 				{
 					FileList.ContainerContentChanging += HighlightPathDirectory;
 				}

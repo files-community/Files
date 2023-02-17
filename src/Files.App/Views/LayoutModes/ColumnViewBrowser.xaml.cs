@@ -22,7 +22,7 @@ namespace Files.App.Views.LayoutModes
 		protected override ItemsControl ItemsControl => ColumnHost;
 
 		public string? OwnerPath() => navigationArguments.NavPathParam;
-		public int NumberOfColumns() => ColumnHost.ActiveBlades.Count;
+		public int FocusIndex { get; private set; }
 
 		public ColumnViewBrowser() : base()
 		{
@@ -120,6 +120,7 @@ namespace Files.App.Views.LayoutModes
 					NavPathParam = path
 				});
 			}
+			FocusIndex = index;
 		}
 
 		protected override void InitializeCommandsViewModel()
@@ -278,6 +279,7 @@ namespace Files.App.Views.LayoutModes
 
 			var activeBlade = ColumnHost.ActiveBlades[currentBladeIndex - 1];
 			activeBlade.Focus(FocusState.Programmatic);
+			FocusIndex = currentBladeIndex - 1;
 
 			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
 			if (activeBladeColumnViewBase is null)
@@ -296,6 +298,7 @@ namespace Files.App.Views.LayoutModes
 
 			var activeBlade = ColumnHost.ActiveBlades[currentBladeIndex];
 			activeBlade.Focus(FocusState.Programmatic);
+			FocusIndex = currentBladeIndex;
 
 			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
 			if (activeBladeColumnViewBase is not null)
