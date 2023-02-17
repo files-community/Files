@@ -31,7 +31,7 @@ namespace Files.App.ViewModels.Properties
 					RunAsAdministrator = value.RunAsAdministrator;
 					RegisterForRestart = value.RegisterForRestart;
 					OSCompatibility = OSCompatibilityList.SingleOrDefault(x => x.Value == value.OSCompatibility);
-					HighDpiOption = HighDpiOptionList.SingleOrDefault(x => x.Value == value.HighDpiOption) ;
+					HighDpiOption = HighDpiOptionList.SingleOrDefault(x => x.Value == value.HighDpiOption);
 					HighDpiOverride = HighDpiOverrideList.SingleOrDefault(x => x.Value == value.HighDpiOverride);
 					ReducedColorMode = ReducedColorModeList.SingleOrDefault(x => x.Value == value.ReducedColorMode);
 				}
