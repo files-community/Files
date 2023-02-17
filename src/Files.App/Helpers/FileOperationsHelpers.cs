@@ -26,6 +26,9 @@ namespace Files.App.Helpers
 {
 	public class FileOperationsHelpers
 	{
+		private static readonly Ole32.PROPERTYKEY PKEY_FilePlaceholderStatus = new Ole32.PROPERTYKEY(new Guid("B2F9B9D6-FEC4-4DD5-94D7-8957488C807B"), 2);
+		private const uint PS_CLOUDFILE_PLACEHOLDER = 8;
+
 		private static ProgressHandler? progressHandler; // Warning: must be initialized from a MTA thread
 
 		public static Task SetClipboard(string[] filesToCopy, DataPackageOperation operation)
@@ -119,6 +122,7 @@ namespace Files.App.Helpers
 				op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete;
 
 				var shellOperationResult = new ShellOperationResult();
+				var tryDelete = false;
 
 				for (var i = 0; i < fileToDeletePath.Length; i++)
 				{
@@ -126,7 +130,21 @@ namespace Files.App.Helpers
 					{
 						using var shi = new ShellItem(fileToDeletePath[i]);
 						var file = SafetyExtensions.IgnoreExceptions(() => GetFirstFile(shi)) ?? shi;
-						op.QueueDeleteOperation(file);
+						if (file.Properties.GetProperty<uint>(PKEY_FilePlaceholderStatus) == PS_CLOUDFILE_PLACEHOLDER)
+						{
+							// Online only files cannot be tried for deletion, so they are treated as to be permanently deleted.
+							shellOperationResult.Items.Add(new ShellOperationItemResult()
+							{
+								Succeeded = false,
+								Source = fileToDeletePath[i],
+								HResult = HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
+							});
+						}
+						else
+						{
+							op.QueueDeleteOperation(file);
+							tryDelete = true;
+						}
 					}))
 					{
 						shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -137,6 +155,9 @@ namespace Files.App.Helpers
 						});
 					}
 				}
+
+				if (!tryDelete)
+					return (true, shellOperationResult);
 
 				var deleteTcs = new TaskCompletionSource<bool>();
 				op.PreDeleteItem += [DebuggerHidden] (s, e) =>
