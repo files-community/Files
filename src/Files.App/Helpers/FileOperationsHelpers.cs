@@ -157,9 +157,7 @@ namespace Files.App.Helpers
 				}
 
 				if (!tryDelete)
-				{
 					return (true, shellOperationResult);
-				}
 
 				var deleteTcs = new TaskCompletionSource<bool>();
 				op.PreDeleteItem += [DebuggerHidden] (s, e) =>
