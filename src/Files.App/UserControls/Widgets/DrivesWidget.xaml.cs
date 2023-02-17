@@ -118,8 +118,6 @@ namespace Files.App.UserControls.Widgets
 
 		public AsyncRelayCommand MapNetworkDriveCommand { get; }
 
-		public AsyncRelayCommand<DriveCardItem> FormatDriveCommand { get; }
-
 		public DrivesWidget()
 		{
 			InitializeComponent();
@@ -137,12 +135,6 @@ namespace Files.App.UserControls.Widgets
 			UnpinFromFavoritesCommand = new RelayCommand<WidgetCardItem>(UnpinFromFavorites);
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
-			FormatDriveCommand = new AsyncRelayCommand<DriveCardItem>(FormatDrive);
-		}
-
-		private async Task FormatDrive(DriveCardItem? drive)
-		{
-			
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
@@ -205,14 +197,6 @@ namespace Files.App.UserControls.Widgets
 					Command = EjectDeviceCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowEjectDevice ?? false
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "FormatDrive/Text".GetLocalizedResource(),
-					Glyph = "\uF10B",
-					GlyphFontFamilyName = "CustomGlyph",
-					Command = DisconnectNetworkDriveCommand,
-					CommandParameter = item
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
