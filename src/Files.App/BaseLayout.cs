@@ -713,11 +713,12 @@ namespace Files.App
 		private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
 		{
 			var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
+			var sendToSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetSendToItems(shellMenuItems));
 			var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
 			var overflowShellMenuItemsUnfiltered = shellMenuItems.Except(mainShellMenuItems).ToList();
 			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
-				(x, i) => (x.ItemType == ItemType.Separator && 
-				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType == ItemType.Separator)
+				(x, i) => (x.ItemType == ItemType.Separator &&
+				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType != ItemType.Separator)
 				|| x.ItemType != ItemType.Separator).ToList();
 
 			var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
@@ -798,6 +799,24 @@ namespace Files.App
 				openWithOverflow.Flyout = flyout;
 				openWith.Visibility = Visibility.Collapsed;
 				openWithOverflow.Visibility = Visibility.Visible;
+			}
+
+			// Add items to sendto dropdown
+			var sendToOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendToOverflow") as AppBarButton;
+			
+			var sendTo = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendTo") as AppBarButton;
+			if (sendToSubItems is not null && sendToOverflow is not null)
+			{
+				var flyout = (MenuFlyout)sendToOverflow.Flyout;
+
+				flyout.Items.Clear();
+
+				foreach (var item in sendToSubItems)
+					flyout.Items.Add(item);
+
+				sendToOverflow.Flyout = flyout;
+				sendTo.Visibility = Visibility.Collapsed;
+				sendToOverflow.Visibility = Visibility.Visible;
 			}
 
 			if (itemsControl is not null)

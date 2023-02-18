@@ -117,7 +117,7 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
 
-			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true);
+			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 
 			e.Handled = true;
 		}
@@ -131,6 +131,12 @@ namespace Files.App.UserControls.Widgets
 					Text = "OpenItemsWithCaptionText".GetLocalizedResource(),
 					Glyph = "\uE17D",
 					Tag = "OpenWithPlaceholder",
+					IsEnabled = false
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SendTo".GetLocalizedResource(),
+					Tag = "SendToPlaceholder",
 					IsEnabled = false
 				},
 				new ContextMenuFlyoutItemViewModel()

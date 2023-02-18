@@ -160,12 +160,11 @@ namespace Files.App.ViewModels.Properties
 		{
 			var options = FileOperationsHelpers.ReadCompatOptions(ExePath);
 
-			if (options is not null)
-				CompatibilityOptions = CompatibilityOptions.FromString(options);
+			CompatibilityOptions = CompatibilityOptions.FromString(options);
 		}
 
 		public bool SetCompatibilityOptions()
-			=> FileOperationsHelpers.SetCompatOptions(ExePath, CompatibilityOptions?.ToString());
+			=> FileOperationsHelpers.SetCompatOptions(ExePath, CompatibilityOptions.ToString());
 
 		public Task RunTroubleshooter()
 			=> LaunchHelper.RunCompatibilityTroubleshooterAsync(ExePath);
