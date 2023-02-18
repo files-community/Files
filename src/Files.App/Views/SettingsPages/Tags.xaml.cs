@@ -37,11 +37,13 @@ namespace Files.App.SettingsPages
 			if (editingTag is not null)
 			{
 				editingTag.IsEditing = false;
+				editingTag.NewName = editingTag.Tag.Name;
 				editingTag.NewColor = editingTag.Tag.Color;
 			}
 
 			editingTag = (ListedTagViewModel)((Button)sender).DataContext;
 			editingTag.NewColor = editingTag.Tag.Color;
+			editingTag.NewName = editingTag.Tag.Name;
 			editingTag.IsEditing = true;
 
 			var item = (ListViewItem)TagsList.ContainerFromItem(editingTag);
@@ -75,14 +77,21 @@ namespace Files.App.SettingsPages
 		{
 			var text = ((TextBox)sender).Text;
 			editingTag!.IsNameValid = IsNameValid(text) || (text == editingTag!.Tag.Name);
-			editingTag!.CanCommit = IsNameValid(text);
+			editingTag!.CanCommit = IsNameValid(text) && ((text != editingTag!.Tag.Name) || (editingTag!.NewColor != editingTag!.Tag.Color));
+		}
+
+		private void EditColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+		{
+			if (editingTag is null) return;
+
+			editingTag!.CanCommit = IsNameValid(editingTag!.NewName) && (editingTag!.NewName != editingTag!.Tag.Name || (editingTag!.NewColor != editingTag!.Tag.Color));
 		}
 
 		private void NewTagTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var text = ((TextBox)sender).Text;
 			ViewModel.NewTag.Name = text;
-			ViewModel.NewTag.IsNameValid = IsNameValid(text);
+			ViewModel.NewTag.IsNameValid = IsNameValid(text) && !ViewModel.Tags.Any(tag => text == tag.Tag.Name);
 		}
 
 		private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -121,8 +130,7 @@ namespace Files.App.SettingsPages
 			return !(
 				string.IsNullOrWhiteSpace(name) ||
 				name.StartsWith('.') ||
-				name.EndsWith('.') ||
-				ViewModel.Tags.Any(tag => name == tag.Tag.Name)
+				name.EndsWith('.')
 			);
 		}
 	}

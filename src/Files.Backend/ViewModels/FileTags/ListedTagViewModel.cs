@@ -25,11 +25,18 @@ namespace Files.Backend.ViewModels.FileTags
 			set => SetProperty(ref isNameValid, value);
 		}
 
-		private bool canCommit = true;
+		private bool canCommit = false;
 		public bool CanCommit
 		{
 			get => canCommit;
 			set => SetProperty(ref canCommit, value);
+		}
+
+		private string newName;
+		public string NewName
+		{
+			get => newName;
+			set => SetProperty(ref newName, value);
 		}
 
 		private string newColor;
