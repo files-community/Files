@@ -221,8 +221,22 @@
 												Padding="8,4"
 												Background="Transparent"
 												BorderBrush="Transparent"
-												Click="RemoveTag_Click"
-												Content="{helpers:ResourceString Name=Delete}" />
+												Content="{helpers:ResourceString Name=Delete}">
+												<Button.Flyout>
+													<Flyout>
+														<StackPanel Padding="0" Spacing="8">
+															<TextBlock Text="{helpers:ResourceString Name=ConfirmDeleteTag}" />
+															<Button
+																Padding="8,4"
+																HorizontalAlignment="Center"
+																Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+																BorderBrush="Transparent"
+																Click="RemoveTag_Click"
+																Content="{helpers:ResourceString Name=Delete}" />
+														</StackPanel>
+													</Flyout>
+												</Button.Flyout>
+											</Button>
 										</StackPanel>
 
 										<StackPanel

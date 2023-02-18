@@ -2955,4 +2955,7 @@
   <data name="ShowHiddenItems" xml:space="preserve">
     <value>Show hidden items</value>
   </data>
+  <data name="ConfirmDeleteTag" xml:space="preserve">
+	<value>Are you sure you want to delete this tag?</value>	
+  </data>
 </root>
