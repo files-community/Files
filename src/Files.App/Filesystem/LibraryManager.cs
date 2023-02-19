@@ -246,7 +246,7 @@ namespace Files.App.Filesystem
 					{
 						library.Commit();
 						library.Reload(); // Reload folders list
-						ShellFolderExtensions.GetShellLibraryItem(library, libraryPath);
+						return Task.FromResult(ShellFolderExtensions.GetShellLibraryItem(library, libraryPath));
 					}
 				}
 				catch (Exception e)
