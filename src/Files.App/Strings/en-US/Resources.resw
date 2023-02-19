@@ -2928,4 +2928,7 @@
   <data name="Never" xml:space="preserve">
     <value>Never</value>
   </data>
+  <data name="PlayAll" xml:space="preserve">
+    <value>Pay All</value>
+  </data>
 </root>
