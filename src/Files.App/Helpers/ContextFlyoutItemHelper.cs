@@ -8,7 +8,6 @@ using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
-using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
@@ -27,15 +26,25 @@ namespace Files.App.Helpers
 	{
 		private static readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
-		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
+		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
 		{
-			var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel, currentInstanceViewModel: currentInstanceViewModel, itemViewModel: itemViewModel);
+			var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel, currentInstanceViewModel: currentInstanceViewModel);
 			menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, removeOverflowMenu: false);
 			return menuItemsList;
 		}
 
 		public static Task<List<ContextMenuFlyoutItemViewModel>> GetItemContextShellCommandsAsync(string workingDir, List<ListedItem> selectedItems, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
 			=> ShellContextmenuHelper.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: selectedItems, cancellationToken: cancellationToken);
+
+		public static List<ContextMenuFlyoutItemViewModel> GetBaseContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, ItemViewModel itemViewModel, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed)
+		{
+			var menuItemsList = GetBaseLayoutMenuItems(currentInstanceViewModel, itemViewModel, commandsViewModel);
+			menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: new List<ListedItem>(), removeOverflowMenu: false);
+			return menuItemsList;
+		}
+
+		public static Task<List<ContextMenuFlyoutItemViewModel>> GetBaseContextShellCommandsAsync(string workingDir, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
+			=> ShellContextmenuHelper.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: new List<ListedItem>(), cancellationToken: cancellationToken);
 
 		public static List<ContextMenuFlyoutItemViewModel> Filter(List<ContextMenuFlyoutItemViewModel> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentInstanceViewModel currentInstanceViewModel, bool removeOverflowMenu = true)
 		{
@@ -77,26 +86,9 @@ namespace Files.App.Helpers
 				&& item.ShowItem;
 		}
 
-		public static List<ContextMenuFlyoutItemViewModel> GetBaseItemMenuItems(
-			BaseLayoutCommandsViewModel commandsViewModel,
-			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
-			List<ListedItem> selectedItems,
-			CurrentInstanceViewModel currentInstanceViewModel,
-			ItemViewModel itemViewModel = null)
+		public static List<ContextMenuFlyoutItemViewModel> GetBaseLayoutMenuItems(CurrentInstanceViewModel currentInstanceViewModel, ItemViewModel itemViewModel, BaseLayoutCommandsViewModel commandsViewModel)
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-			bool itemsSelected = itemViewModel is null;
-			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
-				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
-			bool canCompress = !canDecompress || selectedItems.Count > 1;
-			bool showOpenItemWith = selectedItems.All(
-				i => (i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
-			bool areAllItemsFolders = selectedItems.All(i => i.PrimaryItemAttribute == StorageItemTypes.Folder);
-			bool isFirstFileExecutable = FileExtensionHelpers.IsExecutableFile(selectedItems.FirstOrDefault()?.FileExtension);
-			string newArchiveName =
-				Path.GetFileName(selectedItems.Count is 1 ? selectedItems[0].ItemPath : Path.GetDirectoryName(selectedItems[0].ItemPath))
-				?? string.Empty;
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -208,8 +200,7 @@ namespace Files.App.Helpers
 							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutAdaptive/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
 							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number7, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
 						},
-					},
-					ShowItem = !itemsSelected
+					}
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -228,19 +219,19 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "Name".GetLocalizedResource(),
-							IsChecked = itemViewModel?.IsSortedByName ?? false,
+							IsChecked = itemViewModel.IsSortedByName,
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
-							Command = itemViewModel is not null ? new RelayCommand(() => itemViewModel.IsSortedByName = true) : null!,
+							Command = new RelayCommand(() => itemViewModel.IsSortedByName = true),
 							ItemType = ItemType.Toggle,
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "DateModifiedLowerCase".GetLocalizedResource(),
-							IsChecked = itemViewModel?.IsSortedByDate ?? false,
-							Command = itemViewModel is not null ? new RelayCommand(() => itemViewModel.IsSortedByDate = true) : null!,
+							IsChecked = itemViewModel.IsSortedByDate,
+							Command = new RelayCommand(() => itemViewModel.IsSortedByDate = true),
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
@@ -250,8 +241,8 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "DateCreated".GetLocalizedResource(),
-							IsChecked = itemViewModel?.IsSortedByDateCreated ?? false,
-							Command = itemViewModel is not null ? new RelayCommand(() => itemViewModel.IsSortedByDateCreated = true) : null!,
+							IsChecked = itemViewModel.IsSortedByDateCreated,
+							Command = new RelayCommand(() => itemViewModel.IsSortedByDateCreated = true),
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
@@ -261,8 +252,8 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "BaseLayoutContextFlyoutSortByType/Text".GetLocalizedResource(),
-							IsChecked = itemViewModel?.IsSortedByType ?? false,
-							Command = itemViewModel is not null ? new RelayCommand(() => itemViewModel.IsSortedByType = true) : null!,
+							IsChecked = itemViewModel.IsSortedByType,
+							Command = new RelayCommand(() => itemViewModel.IsSortedByType = true),
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
@@ -272,8 +263,8 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "Size".GetLocalizedResource(),
-							IsChecked = itemViewModel?.IsSortedBySize ?? false,
-							Command = itemViewModel is not null ? new RelayCommand(() => itemViewModel.IsSortedBySize = true) : null!,
+							IsChecked = itemViewModel.IsSortedBySize,
+							Command = new RelayCommand(() => itemViewModel.IsSortedBySize = true),
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
@@ -283,16 +274,16 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "SyncStatus".GetLocalizedResource(),
-							IsChecked = itemViewModel?.IsSortedBySyncStatus ?? false,
-							Command = itemViewModel is not null ? new RelayCommand(() => itemViewModel.IsSortedBySyncStatus = true) : null!,
+							IsChecked = itemViewModel.IsSortedBySyncStatus,
+							Command = new RelayCommand(() => itemViewModel.IsSortedBySyncStatus = true),
 							ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
 							ItemType = ItemType.Toggle
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "FileTags".GetLocalizedResource(),
-							IsChecked = itemViewModel?.IsSortedByFileTag ?? false,
-							Command = itemViewModel is not null ? new RelayCommand(() => itemViewModel.IsSortedByFileTag = true) : null!,
+							IsChecked = itemViewModel.IsSortedByFileTag,
+							Command = new RelayCommand(() => itemViewModel.IsSortedByFileTag = true),
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ItemType = ItemType.Toggle
@@ -300,17 +291,17 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "BaseLayoutContextFlyoutSortByOriginalPath/Text".GetLocalizedResource(),
-							IsChecked = itemViewModel?.IsSortedByOriginalPath ?? false,
+							IsChecked = itemViewModel.IsSortedByOriginalPath,
 							ShowInRecycleBin = true,
-							Command = itemViewModel is not null ? new RelayCommand(() => itemViewModel.IsSortedByOriginalPath = true) : null!,
+							Command = new RelayCommand(() => itemViewModel.IsSortedByOriginalPath = true),
 							ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
 							ItemType = ItemType.Toggle,
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "DateDeleted".GetLocalizedResource(),
-							IsChecked = itemViewModel?.IsSortedByDateDeleted ?? false,
-							Command = itemViewModel is not null ? new RelayCommand(() => itemViewModel.IsSortedByDateDeleted = true) : null!,
+							IsChecked = itemViewModel.IsSortedByDateDeleted,
+							Command = new RelayCommand(() => itemViewModel.IsSortedByDateDeleted = true),
 							ShowInRecycleBin = true,
 							ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
 							ItemType = ItemType.Toggle
@@ -326,8 +317,8 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "Ascending".GetLocalizedResource(),
-							IsChecked = itemViewModel?.IsSortedAscending ?? false,
-							Command = itemViewModel is not null ? new RelayCommand(() => itemViewModel.IsSortedAscending = true) : null!,
+							IsChecked = itemViewModel.IsSortedAscending,
+							Command = new RelayCommand(() => itemViewModel.IsSortedAscending = true),
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
@@ -337,16 +328,15 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "Descending".GetLocalizedResource(),
-							IsChecked = itemViewModel?.IsSortedDescending ?? false,
-							Command = itemViewModel is not null ? new RelayCommand(() => itemViewModel.IsSortedDescending = true) : null!,
+							IsChecked = itemViewModel.IsSortedDescending,
+							Command = new RelayCommand(() => itemViewModel.IsSortedDescending = true),
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
 							ItemType = ItemType.Toggle
 						},
-					},
-					ShowItem = !itemsSelected
+					}
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -512,8 +502,7 @@ namespace Files.App.Helpers
 							CommandParameter = SortDirection.Descending,
 							ItemType = ItemType.Toggle,
 						},
-					},
-					ShowItem = !itemsSelected
+					}
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -528,15 +517,34 @@ namespace Files.App.Helpers
 					{
 						Key = VirtualKey.F5,
 						IsEnabled = false,
+					}
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalizedResource(),
+					IsPrimary = true,
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
+					ColoredIcon = new ColoredIconModel()
+					{
+						BaseBackdropGlyph = "\uF052",
+						BaseLayerGlyph = "\uF023",
+						OverlayLayerGlyph = "\uF024",
 					},
-					ShowItem = !itemsSelected
+					Command = commandsViewModel.PasteItemsFromClipboardCommand,
+					IsEnabled = currentInstanceViewModel.CanPasteInPage && App.AppModel.IsPasteEnabled,
+					KeyboardAccelerator = new KeyboardAccelerator
+					{
+						Key = VirtualKey.V,
+						Modifiers = VirtualKeyModifiers.Control,
+						IsEnabled = false,
+					}
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ItemType.Separator,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
-					ShowItem = !itemsSelected
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -556,7 +564,57 @@ namespace Files.App.Helpers
 					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
-					ShowItem = !itemsSelected
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
+					Glyph = "\uE840",
+					Command = commandsViewModel.PinDirectoryToFavoritesCommand,
+					ShowItem = itemViewModel.CurrentFolder is not null && !itemViewModel.CurrentFolder.IsPinned & userSettingsService.PreferencesSettingsService.ShowFavoritesSection,
+					ShowInFtpPage = true,
+					ShowInRecycleBin = true,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalizedResource(),
+					Glyph = "\uE77A",
+					Command = commandsViewModel.UnpinDirectoryFromFavoritesCommand,
+					ShowItem = itemViewModel.CurrentFolder is not null && itemViewModel.CurrentFolder.IsPinned & userSettingsService.PreferencesSettingsService.ShowFavoritesSection,
+					ShowInFtpPage = true,
+					ShowInRecycleBin = true,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "PinItemToStart/Text".GetLocalizedResource(),
+					Glyph = "\uE840",
+					Command = commandsViewModel.PinItemToStartCommand,
+					ShowInRecycleBin = true,
+					ShowInFtpPage = true,
+					ShowOnShift = true,
+					ShowItem = itemViewModel.CurrentFolder is not null && !itemViewModel.CurrentFolder.IsItemPinnedToStart,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "UnpinItemFromStart/Text".GetLocalizedResource(),
+					Glyph = "\uE77A",
+					Command = commandsViewModel.UnpinItemFromStartCommand,
+					ShowInRecycleBin = true,
+					ShowInFtpPage = true,
+					ShowOnShift = true,
+					ShowItem = itemViewModel.CurrentFolder is not null && itemViewModel.CurrentFolder.IsItemPinnedToStart,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
+					IsPrimary = true,
+					ColoredIcon = new ColoredIconModel()
+					{
+						BaseLayerGlyph = "\uF031",
+						OverlayLayerGlyph = "\uF032"
+					},
+					Command = commandsViewModel.ShowFolderPropertiesCommand,
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -564,7 +622,7 @@ namespace Files.App.Helpers
 					Glyph = "\uEF88",
 					GlyphFontFamilyName = "RecycleBinIcons",
 					Command = commandsViewModel.EmptyRecycleBinCommand,
-					ShowItem = !itemsSelected && currentInstanceViewModel.IsPageTypeRecycleBin,
+					ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
 					ShowInRecycleBin = true,
 				},
 				new ContextMenuFlyoutItemViewModel()
@@ -572,16 +630,51 @@ namespace Files.App.Helpers
 					Text = "RestoreAllItems".GetLocalizedResource(),
 					Glyph = "\xE777",
 					Command = commandsViewModel.RestoreRecycleBinCommand,
-					ShowItem = !itemsSelected && currentInstanceViewModel.IsPageTypeRecycleBin,
+					ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
 					ShowInRecycleBin = true,
 				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ItemType.Separator,
+					Tag = "OverflowSeparator",
+					IsHidden = true,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "Loading".GetLocalizedResource(),
+					Glyph = "\xE712",
+					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					ID = "ItemOverflow",
+					Tag = "ItemOverflow",
+					IsEnabled = false,
+				},
+			};
+		}
+
+		public static List<ContextMenuFlyoutItemViewModel> GetBaseItemMenuItems(BaseLayoutCommandsViewModel commandsViewModel, List<ListedItem> selectedItems, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel, CurrentInstanceViewModel currentInstanceViewModel)
+		{
+			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
+				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
+			bool canCompress = !canDecompress || selectedItems.Count > 1;
+			bool showOpenItemWith = selectedItems.All(
+				i => (i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
+			bool areAllItemsFolders = selectedItems.All(i => i.PrimaryItemAttribute == StorageItemTypes.Folder);
+			bool isFirstFileExecutable = FileExtensionHelpers.IsExecutableFile(selectedItems.FirstOrDefault()?.FileExtension);
+			string newArchiveName =
+				Path.GetFileName(selectedItems.Count is 1 ? selectedItems[0].ItemPath : Path.GetDirectoryName(selectedItems[0].ItemPath))
+				?? string.Empty;
+
+			return new List<ContextMenuFlyoutItemViewModel>()
+			{
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutRestore/Text".GetLocalizedResource(),
 					Glyph = "\xE777",
 					Command = commandsViewModel.RestoreItemCommand,
 					ShowInRecycleBin = true,
-					ShowItem = itemsSelected && selectedItems.All(x => x.IsRecycleBinItem)
+					ShowItem = selectedItems.All(x => x.IsRecycleBinItem)
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -595,7 +688,7 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
-					ShowItem = itemsSelected && selectedItems.Count <= 10,
+					ShowItem = selectedItems.Count <= 10,
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -609,7 +702,7 @@ namespace Files.App.Helpers
 					Tag = "OpenWith",
 					CollapseLabel = true,
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected && showOpenItemWith
+					ShowItem = showOpenItemWith
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -630,14 +723,14 @@ namespace Files.App.Helpers
 						}
 					},
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected && showOpenItemWith
+					ShowItem = showOpenItemWith
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutOpenFileLocation/Text".GetLocalizedResource(),
 					Glyph = "\uE8DA",
 					Command = commandsViewModel.OpenFileLocationCommand,
-					ShowItem = itemsSelected && selectedItems.All(i => i.IsShortcut),
+					ShowItem = selectedItems.All(i => i.IsShortcut),
 					ShowInSearchPage = true,
 				},
 				new ContextMenuFlyoutItemViewModel()
@@ -646,7 +739,7 @@ namespace Files.App.Helpers
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = commandsViewModel.OpenDirectoryInNewTabCommand,
-					ShowItem = itemsSelected && selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab,
+					ShowItem = selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
@@ -656,7 +749,7 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutItemContextFlyoutOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = commandsViewModel.OpenInNewWindowItemCommand,
-					ShowItem = itemsSelected && selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow,
+					ShowItem = selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
@@ -671,7 +764,7 @@ namespace Files.App.Helpers
 						OverlayLayerGlyph = "\uF03C",
 					},
 					Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
-					ShowItem = itemsSelected && userSettingsService.PreferencesSettingsService.ShowOpenInNewPane && areAllItemsFolders,
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane && areAllItemsFolders,
 					SingleItemOnly = true,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
@@ -680,7 +773,7 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),
-					ShowItem = itemsSelected && (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false),
+					ShowItem = selectedItemsPropertiesViewModel.IsSelectedItemImage,
 					ShowInSearchPage = true,
 					Items = new List<ContextMenuFlyoutItemViewModel>()
 					{
@@ -690,7 +783,7 @@ namespace Files.App.Helpers
 							Glyph = "\uE91B",
 							Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
 							ShowInSearchPage = true,
-							ShowItem = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
+							ShowItem = selectedItemsPropertiesViewModel.SelectedItemsCount == 1
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
@@ -699,7 +792,7 @@ namespace Files.App.Helpers
 							GlyphFontFamilyName = "CustomGlyph",
 							Command = commandsViewModel.SetAsLockscreenBackgroundItemCommand,
 							ShowInSearchPage = true,
-							ShowItem = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
+							ShowItem = selectedItemsPropertiesViewModel.SelectedItemsCount == 1
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
@@ -708,7 +801,7 @@ namespace Files.App.Helpers
 							GlyphFontFamilyName = "CustomGlyph",
 							Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
 							ShowInSearchPage = true,
-							ShowItem = selectedItemsPropertiesViewModel?.SelectedItemsCount > 1
+							ShowItem = selectedItemsPropertiesViewModel.SelectedItemsCount > 1
 						},
 					}
 				},
@@ -718,7 +811,7 @@ namespace Files.App.Helpers
 					Glyph = "\uE7EF",
 					Command = commandsViewModel.RunAsAdminCommand,
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected && isFirstFileExecutable
+					ShowItem = isFirstFileExecutable
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -726,7 +819,7 @@ namespace Files.App.Helpers
 					Glyph = "\uE7EE",
 					Command = commandsViewModel.RunAsAnotherUserCommand,
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected && isFirstFileExecutable
+					ShowItem = isFirstFileExecutable
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -735,7 +828,6 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
-					ShowItem = itemsSelected
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -756,7 +848,6 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
-					ShowItem = itemsSelected
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -779,7 +870,6 @@ namespace Files.App.Helpers
 						Modifiers = VirtualKeyModifiers.Control,
 						IsEnabled = false,
 					},
-					ShowItem = itemsSelected
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -794,7 +884,6 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
-					ShowItem = itemsSelected
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -808,7 +897,7 @@ namespace Files.App.Helpers
 						OverlayLayerGlyph = "\uF024",
 					},
 					Command = commandsViewModel.PasteItemsFromClipboardCommand,
-					ShowItem = areAllItemsFolders || !itemsSelected,
+					ShowItem = areAllItemsFolders,
 					SingleItemOnly = true,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
@@ -830,7 +919,6 @@ namespace Files.App.Helpers
 						OverlayLayerGlyph = "\uF034"
 					},
 					Command = commandsViewModel.CreateFolderWithSelection,
-					ShowItem = itemsSelected,
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -841,7 +929,7 @@ namespace Files.App.Helpers
 						OverlayLayerGlyph = "\uF04C"
 					},
 					Command = commandsViewModel.CreateShortcutCommand,
-					ShowItem = itemsSelected && (!selectedItems.FirstOrDefault()?.IsShortcut ?? false),
+					ShowItem = !selectedItems.FirstOrDefault()?.IsShortcut ?? false,
 					SingleItemOnly = true,
 					ShowInSearchPage = true,
 				},
@@ -865,7 +953,6 @@ namespace Files.App.Helpers
 						Key = VirtualKey.F2,
 						IsEnabled = false,
 					},
-					ShowItem = itemsSelected
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -877,7 +964,7 @@ namespace Files.App.Helpers
 						OverlayLayerGlyph = "\uF026",
 					},
 					Command = commandsViewModel.ShareItemCommand,
-					ShowItem = itemsSelected && DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem || (i.IsShortcut && !i.IsLinkItem) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && !i.IsArchive)),
+					ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem || (i.IsShortcut && !i.IsLinkItem) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && !i.IsArchive)),
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -899,7 +986,6 @@ namespace Files.App.Helpers
 						Key = VirtualKey.Delete,
 						IsEnabled = false,
 					},
-					ShowItem = itemsSelected
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -921,7 +1007,7 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutItemContextFlyoutOpenParentFolder/Text".GetLocalizedResource(),
 					Glyph = "\uE197",
 					Command = commandsViewModel.OpenParentFolderCommand,
-					ShowItem = itemsSelected && currentInstanceViewModel.IsPageTypeSearchResults,
+					ShowItem = currentInstanceViewModel.IsPageTypeSearchResults,
 					SingleItemOnly = true,
 					ShowInSearchPage = true,
 				},
@@ -1031,7 +1117,6 @@ namespace Files.App.Helpers
 							ShowInSearchPage = true,
 						},
 					},
-					ShowItem = itemsSelected
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -1039,7 +1124,7 @@ namespace Files.App.Helpers
 					Tag = "SendTo",
 					CollapseLabel = true,
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected
+					ShowItem = true
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -1055,7 +1140,7 @@ namespace Files.App.Helpers
 						}
 					},
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected
+					ShowItem = true
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -1073,7 +1158,7 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					IsEnabled = false
 				},
-			}.Where(x => x.ShowItem).ToList();
+			};
 		}
 
 		public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(BaseLayoutCommandsViewModel commandsViewModel, bool canCreateFileInPage)
