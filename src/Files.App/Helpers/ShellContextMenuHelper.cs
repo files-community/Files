@@ -116,10 +116,6 @@ namespace Files.App.Helpers
 				if (cancellationToken.IsCancellationRequested)
 					break;
 
-				/*// Skip rotate left & rotate right context items.
-				if (menuFlyoutItem.ID is 215 or 216)
-					continue;*/
-
 				// Avoid duplicate separators
 				if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (menuItemsListLocal.FirstOrDefault().ItemType == ItemType.Separator))
 					continue;
