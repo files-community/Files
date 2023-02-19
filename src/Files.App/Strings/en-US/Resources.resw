@@ -2956,7 +2956,7 @@
     <value>Show hidden items</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>Aide</value>
+    <value>Help</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
     <value>Full screen</value>
