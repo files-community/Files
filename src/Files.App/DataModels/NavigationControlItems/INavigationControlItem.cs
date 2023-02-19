@@ -54,6 +54,8 @@ namespace Files.App.Filesystem
 
 		public bool ShowEjectDevice { get; set; }
 
+		public bool ShowFormatDrive { get; set; }
+
 		public bool ShowShellItems { get; set; }
 	}
 }

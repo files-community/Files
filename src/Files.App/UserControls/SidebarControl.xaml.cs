@@ -9,6 +9,7 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
+using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
@@ -29,6 +30,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
 using Windows.UI.Core;
+using static System.Net.Mime.MediaTypeNames;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.UserControls
@@ -121,6 +123,8 @@ namespace Files.App.UserControls
 
 		private ICommand EjectDeviceCommand { get; }
 
+		private ICommand FormatDriveCommand { get; }
+
 		private ICommand OpenPropertiesCommand { get; }
 
 		private bool IsInPointerPressed = false;
@@ -141,6 +145,7 @@ namespace Files.App.UserControls
 			OpenInNewWindowCommand = new RelayCommand(OpenInNewWindow);
 			OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
 			EjectDeviceCommand = new RelayCommand(EjectDevice);
+			FormatDriveCommand = new RelayCommand(FormatDrive);
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
 		}
 
@@ -272,6 +277,13 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
+					Text = "FormatDriveText".GetLocalizedResource(),
+					Command = FormatDriveCommand,
+					CommandParameter = item,
+					ShowItem = options.ShowFormatDrive
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
 					Glyph = "\uE946",
 					Command = OpenPropertiesCommand,
@@ -375,6 +387,11 @@ namespace Files.App.UserControls
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
 			await UIHelpers.ShowDeviceEjectResultAsync(result);
+		}
+
+		private void FormatDrive()
+		{
+			Win32API.OpenFormatDriveDialog(rightClickedItem.Path);
 		}
 
 		private async void Sidebar_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)

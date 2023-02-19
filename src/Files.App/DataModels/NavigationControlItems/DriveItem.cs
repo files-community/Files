@@ -169,6 +169,7 @@ namespace Files.App.DataModels.NavigationControlItems
 				IsLocationItem = true,
 				ShowEjectDevice = item.IsRemovable,
 				ShowShellItems = true,
+				ShowFormatDrive = item.Type != DriveType.Network,
 				ShowProperties = true
 			};
 			item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
