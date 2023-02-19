@@ -1120,6 +1120,30 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
+					Text = "SendTo".GetLocalizedResource(),
+					Tag = "SendTo",
+					CollapseLabel = true,
+					ShowInSearchPage = true,
+					ShowItem = true
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SendTo".GetLocalizedResource(),
+					Tag = "SendToOverflow",
+					IsHidden = true,
+					CollapseLabel = true,
+					Items = new List<ContextMenuFlyoutItemViewModel>() {
+						new()
+						{
+							Text = "Placeholder",
+							ShowInSearchPage = true,
+						}
+					},
+					ShowInSearchPage = true,
+					ShowItem = true
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					ItemType = ItemType.Separator,
 					Tag = "OverflowSeparator",
 					ShowInSearchPage = true,

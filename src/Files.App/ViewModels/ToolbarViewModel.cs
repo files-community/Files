@@ -1072,13 +1072,6 @@ namespace Files.App.ViewModels
 			if (currentInput.StartsWith('\\') && !currentInput.StartsWith("\\\\", StringComparison.Ordinal))
 				currentInput = currentInput.Insert(0, "\\");
 
-			if (currentInput.StartsWith('\\'))
-			{
-				var auth = await NetworkDrivesAPI.AuthenticateNetworkShare(currentInput);
-				if (!auth)
-					return;
-			}
-
 			if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
 				return;
 
