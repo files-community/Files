@@ -1,5 +1,8 @@
+using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Helpers;
 using Files.Backend.ViewModels.FileTags;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -84,7 +87,7 @@ namespace Files.App.SettingsPages
 		{
 			if (editingTag is null) return;
 
-			editingTag!.CanCommit = IsNameValid(editingTag!.NewName) && (editingTag!.NewName != editingTag!.Tag.Name || (editingTag!.NewColor != editingTag!.Tag.Color));
+			editingTag!.CanCommit = IsNameValid(editingTag!.NewName) && (editingTag!.NewName != editingTag!.Tag.Name || (CommunityToolkit.WinUI.Helpers.ColorHelper.ToHex(sender.Color) != editingTag!.Tag.Color));
 		}
 
 		private void NewTagTextBox_TextChanged(object sender, TextChangedEventArgs e)
