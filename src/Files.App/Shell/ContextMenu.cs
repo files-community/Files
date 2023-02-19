@@ -259,7 +259,7 @@ namespace Files.App.Shell
 						{
 							cMenu2?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)mii.hSubMenu, new IntPtr(ii));
 						}
-						catch (NotImplementedException)
+						catch (Exception ex) when (ex is COMException || ex is NotImplementedException)
 						{
 							// Only for dynamic/owner drawn? (open with, etc)
 						}
