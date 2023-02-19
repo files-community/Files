@@ -16,7 +16,7 @@ namespace Files.App.Commands
 {
 	internal class CommandManager : ICommandManager
 	{
-		public event HotKeyChangedEventHandler? HotKeyChanged;
+		public event EventHandler<HotKeyChangedEventArgs>? HotKeyChanged;
 
 		private readonly IImmutableDictionary<CommandCodes, IRichCommand> commands;
 		private readonly IDictionary<HotKey, IRichCommand> customHotKeys;

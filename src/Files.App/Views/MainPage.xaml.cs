@@ -315,7 +315,7 @@ namespace Files.App.Views
 			var commands = Commands.Where(command => !command.CustomHotKey.IsNone);
 			foreach (var command in commands)
 				KeyboardAccelerators.Add(new CommandAccelerator(command));
-			Commands.HotKeyChanged += HotKeyManager_HotKeyChanged;
+			Commands.HotKeyChanged += Commands_HotKeyChanged;
 
 			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
 				return;
@@ -484,7 +484,7 @@ namespace Files.App.Views
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
 
-		private void HotKeyManager_HotKeyChanged(ICommandManager _, HotKeyChangedEventArgs e)
+		private void Commands_HotKeyChanged(object? _, HotKeyChangedEventArgs e)
 		{
 			if (!e.OldHotKey.IsNone)
 			{
