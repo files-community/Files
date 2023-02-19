@@ -7,25 +7,25 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class ShowHiddenItemsAction : ObservableObject, IToggleAction
+	internal class ToggleShowFileExtensionsAction : ObservableObject, IToggleAction
 	{
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
-		public string Label => "ShowHiddenItems".GetLocalizedResource();
+		public string Label => "ShowFileExtensions".GetLocalizedResource();
 
-		public bool IsOn => settings.ShowHiddenItems;
+		public bool IsOn => settings.ShowFileExtensions;
 
-		public ShowHiddenItemsAction() => settings.PropertyChanged += Settings_PropertyChanged;
+		public ToggleShowFileExtensionsAction() => settings.PropertyChanged += Settings_PropertyChanged;
 
 		public Task ExecuteAsync()
 		{
-			settings.ShowHiddenItems = !settings.ShowHiddenItems;
+			settings.ShowFileExtensions = !settings.ShowFileExtensions;
 			return Task.CompletedTask;
 		}
 
 		private void Settings_PropertyChanged(object? _, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IFoldersSettingsService.ShowHiddenItems))
+			if (e.PropertyName is nameof(IFoldersSettingsService.ShowFileExtensions))
 				OnPropertyChanged(nameof(IsOn));
 		}
 	}

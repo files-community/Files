@@ -2955,4 +2955,10 @@
   <data name="ShowHiddenItems" xml:space="preserve">
     <value>Show hidden items</value>
   </data>
+  <data name="Help" xml:space="preserve">
+    <value>Aide</value>
+  </data>
+  <data name="FullScreen" xml:space="preserve">
+    <value>Full screen</value>
+  </data>
 </root>
