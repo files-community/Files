@@ -890,6 +890,11 @@ namespace Files.App.Interacts
 			return Task.CompletedTask;
 		}
 
+		public async Task PlayAll()
+		{
+			await NavigationHelpers.OpenSelectedItems(associatedInstance);
+		}
+
 		#endregion Command Implementation
 	}
 }
