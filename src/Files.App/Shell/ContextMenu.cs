@@ -62,7 +62,7 @@ namespace Files.App.Shell
 
 				return true;
 			}
-			catch (Exception ex) when (ex is COMException || ex is UnauthorizedAccessException)
+			catch (Exception ex) when (ex is COMException or UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
 			}
@@ -90,7 +90,7 @@ namespace Files.App.Shell
 
 				Win32API.BringToForeground(currentWindows);
 			}
-			catch (Exception ex) when (ex is COMException || ex is UnauthorizedAccessException)
+			catch (Exception ex) when (ex is COMException or UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
 			}
@@ -110,7 +110,7 @@ namespace Files.App.Shell
 						shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPidl(fp));
 					return GetContextMenuForFiles(shellItems.ToArray(), flags, owningThread, itemFilter);
 				}
-				catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
+				catch (Exception ex) when (ex is ArgumentException or FileNotFoundException)
 				{
 					// Return empty context menu
 					return null;
@@ -168,7 +168,7 @@ namespace Files.App.Shell
 
 					return contextMenu;
 				}
-				catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
+				catch (Exception ex) when (ex is ArgumentException or FileNotFoundException)
 				{
 					// Return empty context menu
 					return null;
@@ -259,7 +259,7 @@ namespace Files.App.Shell
 						{
 							cMenu2?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)mii.hSubMenu, new IntPtr(ii));
 						}
-						catch (NotImplementedException)
+						catch (Exception ex) when (ex is COMException or NotImplementedException)
 						{
 							// Only for dynamic/owner drawn? (open with, etc)
 						}
@@ -297,7 +297,7 @@ namespace Files.App.Shell
 
 				return commandString.ToString();
 			}
-			catch (Exception ex) when (ex is InvalidCastException || ex is ArgumentException)
+			catch (Exception ex) when (ex is InvalidCastException or ArgumentException)
 			{
 				// TODO: Investigate this...
 				Debug.WriteLine(ex);
@@ -305,7 +305,7 @@ namespace Files.App.Shell
 				return null;
 			}
 
-			catch (Exception ex) when (ex is COMException || ex is NotImplementedException)
+			catch (Exception ex) when (ex is COMException or NotImplementedException)
 			{
 				// Not every item has an associated verb
 				return null;

@@ -99,6 +99,9 @@ namespace Files.App.Views.LayoutModes
 				}
 			}
 
+			OwnerPath = navigationArguments.NavPathParam;
+			FocusIndex = pathStack.Count;
+
 			MainPageFrame.Navigated += Frame_Navigated;
 			MainPageFrame.Navigate(typeof(ColumnShellPage), new ColumnParam
 			{
@@ -109,8 +112,6 @@ namespace Files.App.Views.LayoutModes
 				SearchPathParam = navigationArguments.SearchPathParam,
 				NavPathParam = path
 			});
-			OwnerPath = navigationArguments.NavPathParam;
-			FocusIndex = pathStack.Count;
 			var index = 0;
 			while (pathStack.TryPop(out path))
 			{
