@@ -2955,4 +2955,7 @@
   <data name="ShowHiddenItems" xml:space="preserve">
     <value>Show hidden items</value>
   </data>
+  <data name="FormatDriveText" xml:space="preserve">
+    <value>Format...</value>
+  </data>
 </root>
