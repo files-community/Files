@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -239,10 +240,15 @@ namespace Files.App.Views
 		}
 
 	}
-	public class LibraryFolder
+	public class LibraryFolder : ObservableObject
 	{
 		public string Path { get; set; }
 
-		public bool IsDefault { get; set; }
+		private bool isDefault;
+		public bool IsDefault
+		{
+			get => isDefault;
+			set => SetProperty(ref isDefault, value);
+		}
 	}
 }
