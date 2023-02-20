@@ -228,6 +228,7 @@ namespace Files.App.UserControls
 					Glyph = "\xE777",
 					Command = RestoreRecycleBinCommand,
 					ShowItem = options.ShowEmptyRecycleBin,
+					IsEnabled = RecycleBinHelpers.RecycleBinHasItems()
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
