@@ -236,7 +236,7 @@
 															<StackPanel
 																HorizontalAlignment="Center"
 																Orientation="Horizontal"
-																Spacing="12">
+																Spacing="8">
 																<Button Click="CancelRemoveTag_Click" Content="{helpers:ResourceString Name=Cancel}" />
 
 																<Button
