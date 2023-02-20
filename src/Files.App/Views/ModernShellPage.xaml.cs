@@ -306,10 +306,6 @@ namespace Files.App.Views
 					userSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
 					break;
 
-				case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
-					await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl));
-					break;
-
 				case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
 					InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
 					break;
@@ -400,7 +396,7 @@ namespace Files.App.Views
 		public override void Dispose()
 		{
 			ToolbarViewModel.RefreshWidgetsRequested -= ModernShellPage_RefreshWidgetsRequested;
-			
+
 			base.Dispose();
 		}
 
