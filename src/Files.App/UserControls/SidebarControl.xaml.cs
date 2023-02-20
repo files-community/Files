@@ -224,7 +224,7 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "RestoreAllItems".GetLocalizedResource(),
+					Text = "SideBarRestoreRecycleBin/Text".GetLocalizedResource(),
 					Glyph = "\xE777",
 					Command = RestoreRecycleBinCommand,
 					ShowItem = options.ShowEmptyRecycleBin,
