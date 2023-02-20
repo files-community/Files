@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI.Controls;
+using Files.App.Commands;
 using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -20,6 +21,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -36,6 +38,7 @@ namespace Files.App.Views
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		public AppModel AppModel => App.AppModel;
 
@@ -48,8 +51,6 @@ namespace Files.App.Views
 		public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
 
 		public OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
-
-		public ICommand ToggleFullScreenAcceleratorCommand { get; }
 
 		private ICommand ToggleCompactOverlayCommand { get; }
 		private ICommand SetCompactOverlayCommand { get; }
@@ -64,7 +65,6 @@ namespace Files.App.Views
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
 
-			ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
 			ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
 			SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
@@ -312,19 +312,16 @@ namespace Files.App.Views
 			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));
 
+			var commands = Commands.Where(command => !command.CustomHotKey.IsNone);
+			foreach (var command in commands)
+				KeyboardAccelerators.Add(new CommandAccelerator(command));
+			Commands.HotKeyChanged += Commands_HotKeyChanged;
+
 			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
 				return;
 
 			var totalLaunchCount = SystemInformation.Instance.TotalLaunchCount;
-
-			if
-			(
-				totalLaunchCount == 10 ||
-				totalLaunchCount == 20 ||
-				totalLaunchCount == 30 ||
-				totalLaunchCount == 40 ||
-				totalLaunchCount == 50
-			)
+			if(totalLaunchCount is 10 or 20 or 30 or 40 or 50)
 			{
 				// Prompt user to review app in the Store
 				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
@@ -344,18 +341,6 @@ namespace Files.App.Views
 					UpdatePositioning();
 					break;
 			}
-		}
-
-		private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			var view = App.GetAppWindow(App.Window);
-
-			view.SetPresenter(view.Presenter.Kind == AppWindowPresenterKind.FullScreen
-				? AppWindowPresenterKind.Overlapped
-				: AppWindowPresenterKind.FullScreen);
-
-			if (e is not null)
-				e.Handled = true;
 		}
 
 		private void ToggleSidebarCollapsedState(KeyboardAcceleratorInvokedEventArgs? e)
@@ -498,5 +483,51 @@ namespace Files.App.Views
 		}
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
+
+		private void Commands_HotKeyChanged(object? sender, HotKeyChangedEventArgs e)
+		{
+			if (!e.OldHotKey.IsNone)
+			{
+				var oldAccelerator = KeyboardAccelerators.FirstOrDefault(IsOldHotKey);
+				if (oldAccelerator is CommandAccelerator commandAccelerator)
+				{
+					commandAccelerator.Dispose();
+					KeyboardAccelerators.Remove(commandAccelerator);
+				}
+			}
+
+			if (!e.NewHotKey.IsNone)
+			{
+				var newAccelerator = new CommandAccelerator(e.Command);
+				KeyboardAccelerators.Add(newAccelerator);
+			}
+
+			bool IsOldHotKey(KeyboardAccelerator accelerator)
+				=> accelerator is CommandAccelerator commandAccelerator
+				&& accelerator.Key == e.OldHotKey.Key
+				&& accelerator.Modifiers == e.OldHotKey.Modifiers;
+		}
+
+		private class CommandAccelerator : KeyboardAccelerator, IDisposable
+		{
+			public IRichCommand Command { get; }
+
+			public CommandAccelerator(IRichCommand command)
+			{
+				Command = command;
+
+				Key = Command.CustomHotKey.Key;
+				Modifiers = Command.CustomHotKey.Modifiers;
+				Invoked += CommandAccelerator_Invoked;
+			}
+
+			public void Dispose() => Invoked -= CommandAccelerator_Invoked;
+
+			private async void CommandAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
+			{
+				e.Handled = true;
+				await Command.ExecuteAsync();
+			}
+		}
 	}
 }

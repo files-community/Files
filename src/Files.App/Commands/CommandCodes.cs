@@ -4,8 +4,12 @@
 	{
 		None,
 
+		// global
+		OpenHelp,
+		ToggleFullScreen,
+
 		// show
-		ShowHiddenItems,
-		ShowFileExtensions,
+		ToggleShowHiddenItems,
+		ToggleShowFileExtensions,
 	}
 }
