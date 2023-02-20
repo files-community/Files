@@ -135,7 +135,7 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource ControlStrongColorDisabledBrush}" />
 												<Setter Target="Path3.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
@@ -175,8 +175,8 @@
 										<VisualState x:Name="Normal" />
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource ControlStrongColorDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource ControlStrongColorDisabledBrush}" />
 												<Setter Target="Path3.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
@@ -226,8 +226,8 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource ControlStrongColorDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource ControlStrongColorDisabledBrush}" />
 												<Setter Target="Path4.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
 												<Setter Target="Path5.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
 											</VisualState.Setters>
@@ -269,7 +269,7 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource ControlStrongColorDisabledBrush}" />
 												<Setter Target="Path3.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
@@ -311,8 +311,8 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource ControlStrongColorDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource ControlStrongColorDisabledBrush}" />
 												<Setter Target="Path4.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
@@ -348,7 +348,7 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource ControlStrongColorDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -389,7 +389,7 @@
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource ControlStrongColorDisabledBrush}" />
 												<Setter Target="Path3.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
 												<Setter Target="Path4.Fill" Value="Transparent" />
 											</VisualState.Setters>
@@ -423,7 +423,7 @@
 										<VisualState x:Name="Normal" />
 										<VisualState x:Name="Disabled">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource ControlStrongColorDisabledBrush}" />
 												<Setter Target="Path2.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
