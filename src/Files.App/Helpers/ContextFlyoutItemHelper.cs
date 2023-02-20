@@ -805,6 +805,30 @@ namespace Files.App.Helpers
 						},
 					}
 				},
+				new ContextMenuFlyoutItemViewModel
+				{
+					Text = "RotateRight".GetLocalizedResource(),
+					ColoredIcon = new ColoredIconModel
+					{
+						BaseLayerGlyph = "\uF045",
+						OverlayLayerGlyph = "\uF046",
+					},
+					Command = commandsViewModel.RotateImageRightCommand,
+					ShowInSearchPage = true,
+					ShowItem = selectedItemsPropertiesViewModel.IsSelectedItemImage
+				},
+				new ContextMenuFlyoutItemViewModel
+				{
+					Text = "RotateLeft".GetLocalizedResource(),
+					ColoredIcon = new ColoredIconModel
+					{
+						BaseLayerGlyph = "\uF043",
+						OverlayLayerGlyph = "\uF044",
+					},
+					Command = commandsViewModel.RotateImageLeftCommand,
+					ShowInSearchPage = true,
+					ShowItem = selectedItemsPropertiesViewModel.IsSelectedItemImage
+				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutContextFlyoutRunAsAdmin/Text".GetLocalizedResource(),

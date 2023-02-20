@@ -117,5 +117,7 @@ namespace Files.App.Interacts
 		Task RotateImageRight();
 
 		Task InstallFont();
+
+		Task PlayAll();
 	}
 }
