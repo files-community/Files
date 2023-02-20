@@ -16,6 +16,8 @@ namespace Files.App.SettingsPages
 		// Will be null unless the user has edited any tag
 		private ListedTagViewModel? editingTag;
 
+		private FlyoutBase? deleteItemFlyout;
+
 		public Tags()
 		{
 			InitializeComponent();
@@ -67,10 +69,15 @@ namespace Files.App.SettingsPages
 			CloseEdit();
 		}
 
+		private void PreRemoveTag_Click(object sender, RoutedEventArgs e)
+		{
+			deleteItemFlyout = ((Button)sender).Flyout;
+		}
+
 		private void CancelRemoveTag_Click(object sender, RoutedEventArgs e)
 		{
-			((Popup)((FlyoutPresenter)((StackPanel)((StackPanel)((Button)sender).Parent).Parent).Parent).Parent).IsOpen = false;
-		}
+			deleteItemFlyout?.Hide();
+		}	
 
 		private void RemoveTag_Click(object sender, RoutedEventArgs e)
 		{

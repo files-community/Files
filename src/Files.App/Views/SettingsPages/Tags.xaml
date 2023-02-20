@@ -221,6 +221,7 @@
 												Padding="8,4"
 												Background="Transparent"
 												BorderBrush="Transparent"
+												Click="PreRemoveTag_Click"
 												Content="{helpers:ResourceString Name=Delete}">
 												<Button.Flyout>
 													<Flyout>
