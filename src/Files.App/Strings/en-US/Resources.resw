@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -2960,5 +2960,8 @@
   </data>
   <data name="FullScreen" xml:space="preserve">
     <value>Full screen</value>
+  </data>
+  <data name="PlayAll" xml:space="preserve">
+    <value>Play all</value>
   </data>
 </root>

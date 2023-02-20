@@ -131,5 +131,16 @@ namespace Files.Backend.Helpers
 		/// <remarks>Vhd disk file types are; vhd, vhdx</remarks>
 		public static bool IsVhdFile(string? fileExtensionToCheck)
 			=> HasExtension(fileExtensionToCheck, ".vhd", ".vhdx");
+
+		/// <summary>
+		/// Check if the file extension is a media (audio/video) file.
+		/// </summary>
+		/// <param name="filePathToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the filePathToCheck is a media file;
+		/// otherwise <c>false</c>.</returns>
+		public static bool IsMediaFile(string? filePathToCheck)
+			=> HasExtension(filePathToCheck, ".mp4", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp",
+				".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg", ".avi", ".wmv", ".mov", ".qt");
+
 	}
 }
