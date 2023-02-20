@@ -2961,6 +2961,9 @@
   <data name="FullScreen" xml:space="preserve">
     <value>Toggle full screen</value>
   </data>
+  <data name="ConfirmDeleteTag" xml:space="preserve">
+    <value>Are you sure you want to delete this tag?</value>	
+  </data>
   <data name="PlayAll" xml:space="preserve">
     <value>Play all</value>
   </data>
