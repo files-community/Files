@@ -297,14 +297,10 @@
 										Fill="{ThemeResource IconBaseStrongBrush}" />
 									<Path
 										x:Name="Path3"
-										Data="M14.3222 4H1.67598L1.56055 3H14.4375L14.3222 4Z"
-										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
-									<Path
-										x:Name="Path4"
 										Data="M6.5 6C6.63261 6 6.75979 6.05268 6.85355 6.14645C6.94732 6.24021 7 6.36739 7 6.5V11.5C7 11.6326 6.94732 11.7598 6.85355 11.8536C6.75979 11.9473 6.63261 12 6.5 12C6.36739 12 6.24021 11.9473 6.14645 11.8536C6.05268 11.7598 6 11.6326 6 11.5V6.5C6 6.36739 6.05268 6.24021 6.14645 6.14645C6.24021 6.05268 6.36739 6 6.5 6ZM9.5 6C9.63261 6 9.75979 6.05268 9.85355 6.14645C9.94732 6.24021 10 6.36739 10 6.5V11.5C10 11.6326 9.94732 11.7598 9.85355 11.8536C9.75979 11.9473 9.63261 12 9.5 12C9.36739 12 9.24021 11.9473 9.14645 11.8536C9.05268 11.7598 9 11.6326 9 11.5V6.5C9 6.36739 9.05268 6.24021 9.14645 6.14645C9.24021 6.05268 9.36739 6 9.5 6Z"
 										Fill="{ThemeResource IconBaseStrongBrush}" />
 									<Path
-										x:Name="Path5"
+										x:Name="Path4"
 										Data="M9.76777 0.732233C10.117 1.08142 10.3522 1.52328 10.4495 2H15C15.1326 2 15.2598 2.05268 15.3536 2.14645C15.4473 2.24021 15.5 2.36739 15.5 2.5C15.5 2.63261 15.4473 2.75979 15.3536 2.85355C15.2598 2.94732 15.1326 3 15 3H1C0.882974 3.00004 0.769643 2.95903 0.679741 2.88411C0.58984 2.80919 0.529065 2.70511 0.508 2.59L0.5 2.5C0.5 2.36739 0.552678 2.24021 0.646447 2.14645C0.740215 2.05268 0.867392 2 1 2H5.5505C5.64782 1.52328 5.88304 1.08142 6.23223 0.732233C6.70107 0.263392 7.33696 0 8 0C8.66304 0 9.29893 0.263392 9.76777 0.732233ZM6.93934 1.43934C7.22064 1.15804 7.60218 1 8 1C8.39782 1 8.77936 1.15804 9.06066 1.43934C9.22036 1.59904 9.34033 1.79105 9.41421 2H6.58579C6.65967 1.79105 6.77964 1.59904 6.93934 1.43934Z"
 										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
 								</Canvas>
@@ -316,9 +312,8 @@
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
 												<Setter Target="Path2.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -354,6 +349,82 @@
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
 												<Setter Target="Path2.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="Selection" TargetType="ContentControl">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M5 11V12.5C5 13.8807 6.11929 15 7.5 15H12.5C13.8807 15 15 13.8807 15 12.5V7.5C15 6.11929 13.8807 5 12.5 5H11V8.5C11 9.88071 9.88071 11 8.5 11H5Z"
+										Fill="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M5 11V12.5C5 13.8807 6.11929 15 7.5 15H12.5C13.8807 15 15 13.8807 15 12.5V7.5C15 6.11929 13.8807 5 12.5 5H11V6H12.5C13.3284 6 14 6.67157 14 7.5V12.5C14 13.3284 13.3284 14 12.5 14H7.5C6.67157 14 6 13.3284 6 12.5V11H5Z"
+										Fill="{ThemeResource IconBaseStrongBrush}" />
+									<Path
+										x:Name="Path3"
+										Data="M8.5 1H2.5C1.67157 1 1 1.67157 1 2.5V8.5C1 9.32843 1.67157 10 2.5 10H8.5C9.32843 10 10 9.32843 10 8.5V2.5C10 1.67157 9.32843 1 8.5 1Z"
+										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
+									<Path
+										x:Name="Path4"
+										Data="M8.39775 3.60225C8.61742 3.82192 8.61742 4.17808 8.39775 4.39775L4.89775 7.89775C4.67808 8.11742 4.32192 8.11742 4.10225 7.89775L2.60225 6.39775C2.38258 6.17808 2.38258 5.82192 2.60225 5.60225C2.82192 5.38258 3.17808 5.38258 3.39775 5.60225L4.5 6.7045L7.60225 3.60225C7.82192 3.38258 8.17808 3.38258 8.39775 3.60225Z"
+										Fill="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+								</Canvas>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled">
+											<VisualState.Setters>
+												<Setter Target="Path1.Fill" Value="Transparent" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="Transparent" />
+											</VisualState.Setters>
+										</VisualState>
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="Sort" TargetType="ContentControl">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M11 12.2929L7.85355 9.14645C7.65829 8.95118 7.34171 8.95118 7.14645 9.14645C6.95118 9.34171 6.95118 9.65829 7.14645 9.85355L11.1464 13.8536C11.3417 14.0488 11.6583 14.0488 11.8536 13.8536L15.8536 9.85355C16.0488 9.65829 16.0488 9.34171 15.8536 9.14645C15.6583 8.95118 15.3417 8.95118 15.1464 9.14645L12 12.2929V2.5C12 2.22386 11.7761 2 11.5 2C11.2239 2 11 2.22386 11 2.5V12.2929Z"
+										Fill="{ThemeResource IconBaseStrongBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M4.85355 2.14645C4.65829 1.95118 4.34171 1.95118 4.14645 2.14645L0.146447 6.14645C-0.0488155 6.34171 -0.0488155 6.65829 0.146447 6.85355C0.341709 7.04882 0.658291 7.04882 0.853553 6.85355L4 3.70711V13.5C4 13.7761 4.22386 14 4.5 14C4.77614 14 5 13.7761 5 13.5V3.70711L8.14645 6.85355C8.34171 7.04882 8.65829 7.04882 8.85355 6.85355C9.04882 6.65829 9.04882 6.34171 8.85355 6.14645L4.85355 2.14645Z"
+										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
+								</Canvas>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled">
+											<VisualState.Setters>
+												<Setter Target="Path1.Fill" Value="{ThemeResource TextFillColorDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>

@@ -464,10 +464,7 @@
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 
-				<local:ColoredIcon
-					BaseBackdropGlyph="&#xF055;"
-					BaseLayerGlyph="&#xF02B;"
-					OverlayLayerGlyph="&#xF02C;" />
+				<local:OpacityIcon Style="{StaticResource Selection}" />
 			</AppBarButton>
 			<AppBarButton
 				x:Name="ArrangementOptions"
@@ -480,9 +477,8 @@
 				LabelPosition="Collapsed"
 				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSortOptionsButton/ToolTipService/ToolTip}">
-				<AppBarButton.Content>
-					<local:ColoredIcon BaseLayerGlyph="&#xF029;" OverlayLayerGlyph="&#xF02A;" />
-				</AppBarButton.Content>
+				
+				<local:OpacityIcon Style="{StaticResource Sort}" />
 				<AppBarButton.Flyout>
 					<MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
 						<MenuFlyoutSubItem Text="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}">
