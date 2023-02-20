@@ -560,6 +560,13 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
+					Text = "FormatDriveText".GetLocalizedResource(),
+					Command = commandsViewModel.FormatDriveCommand,
+					CommandParameter = itemViewModel?.CurrentFolder,
+					ShowItem = itemViewModel.CurrentFolder is not null && itemViewModel.CurrentFolder.IsDriveRoot,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalizedResource(),
 					Glyph = "\uEF88",
 					GlyphFontFamilyName = "RecycleBinIcons",
@@ -722,7 +729,7 @@ namespace Files.App.Helpers
 					},
 					Command = commandsViewModel.RotateImageRightCommand,
 					ShowInSearchPage = true,
-					ShowItem = selectedItemsPropertiesViewModel.IsSelectedItemImage
+					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
 				},
 				new ContextMenuFlyoutItemViewModel
 				{
@@ -734,7 +741,7 @@ namespace Files.App.Helpers
 					},
 					Command = commandsViewModel.RotateImageLeftCommand,
 					ShowInSearchPage = true,
-					ShowItem = selectedItemsPropertiesViewModel.IsSelectedItemImage
+					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
