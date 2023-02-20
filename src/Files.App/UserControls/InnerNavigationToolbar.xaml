@@ -189,10 +189,7 @@
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
 
-					<local:ColoredIcon
-						BaseBackdropGlyph="&#xF053;"
-						BaseLayerGlyph="&#xF035;"
-						OverlayLayerGlyph="&#xF036;" />
+					<local:OpacityIcon Style="{StaticResource Delete}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="PropertiesButton"
@@ -206,7 +203,7 @@
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=PropertiesTitle}">
 
-					<local:ColoredIcon BaseLayerGlyph="&#xF031;" OverlayLayerGlyph="&#xF032;" />
+					<local:OpacityIcon Style="{StaticResource Properties}" />
 				</AppBarButton>
 				<AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionalAction, Mode=OneWay}" />
 				<AppBarButton
