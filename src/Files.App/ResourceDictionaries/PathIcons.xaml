@@ -12,7 +12,7 @@
 						Opacity=".12"
 						Color="#E0000000" />
 					<SolidColorBrush
-						x:Key="IconBaseSublteBrush"
+						x:Key="IconBaseSubtleBrush"
 						Opacity=".30"
 						Color="#E0000000" />
 					<SolidColorBrush
@@ -44,7 +44,7 @@
 						Opacity=".12"
 						Color="#E0FFFFFF" />
 					<SolidColorBrush
-						x:Key="IconBaseSublteBrush"
+						x:Key="IconBaseSubtleBrush"
 						Opacity=".30"
 						Color="#E0FFFFFF" />
 					<SolidColorBrush
@@ -77,7 +77,7 @@
 						Opacity=".12"
 						Color="#E0000000" />
 					<SolidColorBrush
-						x:Key="IconBaseSublteBrush"
+						x:Key="IconBaseSubtleBrush"
 						Opacity=".30"
 						Color="#E0000000" />
 					<SolidColorBrush
