@@ -23,7 +23,7 @@ namespace Files.App.Actions
 			return Task.CompletedTask;
 		}
 
-		private void Settings_PropertyChanged(object? _, PropertyChangedEventArgs e)
+		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IFoldersSettingsService.ShowFileExtensions))
 				OnPropertyChanged(nameof(IsOn));

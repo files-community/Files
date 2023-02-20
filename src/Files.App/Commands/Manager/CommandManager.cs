@@ -79,10 +79,10 @@ namespace Files.App.Commands
 			public bool IsOn { get => false; set {} }
 			public bool IsExecutable => false;
 
-			public bool CanExecute(object? _) => false;
-			public void Execute(object? _) {}
+			public bool CanExecute(object? parameter) => false;
+			public void Execute(object? parameter) {}
 			public Task ExecuteAsync() => Task.CompletedTask;
-			public void ExecuteTapped(object _, TappedRoutedEventArgs e) {}
+			public void ExecuteTapped(object sender, TappedRoutedEventArgs e) {}
 		}
 
 		[DebuggerDisplay("Command {Code}")]
@@ -171,9 +171,9 @@ namespace Files.App.Commands
 				return Task.CompletedTask;
 			}
 
-			public async void ExecuteTapped(object _, TappedRoutedEventArgs e) => await action.ExecuteAsync();
+			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await action.ExecuteAsync();
 
-			private void Action_PropertyChanging(object? _, PropertyChangingEventArgs e)
+			private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
 			{
 				switch (e.PropertyName)
 				{
@@ -190,7 +190,7 @@ namespace Files.App.Commands
 						break;
 				}
 			}
-			private void Action_PropertyChanged(object? _, PropertyChangedEventArgs e)
+			private void Action_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 			{
 				switch (e.PropertyName)
 				{

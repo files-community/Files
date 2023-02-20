@@ -484,7 +484,7 @@ namespace Files.App.Views
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
 
-		private void Commands_HotKeyChanged(object? _, HotKeyChangedEventArgs e)
+		private void Commands_HotKeyChanged(object? sender, HotKeyChangedEventArgs e)
 		{
 			if (!e.OldHotKey.IsNone)
 			{
@@ -523,7 +523,7 @@ namespace Files.App.Views
 
 			public void Dispose() => Invoked -= CommandAccelerator_Invoked;
 
-			private async void CommandAccelerator_Invoked(KeyboardAccelerator _, KeyboardAcceleratorInvokedEventArgs e)
+			private async void CommandAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
 			{
 				e.Handled = true;
 				await Command.ExecuteAsync();
