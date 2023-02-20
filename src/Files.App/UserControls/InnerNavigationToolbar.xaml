@@ -409,6 +409,17 @@
 						<local:ColoredIcon BaseLayerGlyph="&#xF041;" OverlayLayerGlyph="&#xF042;" />
 					</AppBarButton.Content>
 				</AppBarButton>
+				<AppBarButton
+					x:Name="PlayAllMediaButton"
+					x:Load="{x:Bind ViewModel.IsMultipleMediaFilesSelected, Mode=OneWay, FallbackValue=False}"
+					Command="{x:Bind ViewModel.PlayAllCommand, Mode=OneWay}"
+					Label="{helpers:ResourceString Name=PlayAll}"
+					LabelPosition="Default"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=PlayAll}">
+					<AppBarButton.Icon>
+						<FontIcon Glyph="&#xE768;" />
+					</AppBarButton.Icon>
+				</AppBarButton>
 			</CommandBar.PrimaryCommands>
 		</CommandBar>
 		<CommandBar
@@ -570,7 +581,6 @@
 					<Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
 						<StackPanel Spacing="12">
 							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=NavToolbarLayout/Text}" />
-
 							<Grid ColumnSpacing="8" RowSpacing="8">
 								<Grid.RowDefinitions>
 									<RowDefinition MinHeight="30" />
