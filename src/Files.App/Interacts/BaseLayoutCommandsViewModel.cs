@@ -81,6 +81,7 @@ namespace Files.App.Interacts
 			RotateImageLeftCommand = new AsyncRelayCommand(CommandsModel.RotateImageLeft);
 			RotateImageRightCommand = new AsyncRelayCommand(CommandsModel.RotateImageRight);
 			InstallFontCommand = new AsyncRelayCommand(CommandsModel.InstallFont);
+			PlayAllCommand = new AsyncRelayCommand(CommandsModel.PlayAll);
 		}
 
 		#endregion Command Initialization
@@ -196,6 +197,8 @@ namespace Files.App.Interacts
 		public ICommand RotateImageRightCommand { get; private set; }
 
 		public ICommand InstallFontCommand { get; private set; }
+
+		public ICommand PlayAllCommand { get; private set; }
 
 		#endregion Commands
 

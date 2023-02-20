@@ -2958,4 +2958,7 @@
   <data name="FormatDriveText" xml:space="preserve">
     <value>Format...</value>
   </data>
+  <data name="PlayAll" xml:space="preserve">
+    <value>Play all</value>
+  </data>
 </root>
