@@ -2,6 +2,7 @@ using CommunityToolkit.WinUI.UI;
 using Files.Backend.ViewModels.FileTags;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Linq;
 using Windows.System;
@@ -64,6 +65,11 @@ namespace Files.App.SettingsPages
 		private void CancelRenameTag_Click(object sender, RoutedEventArgs e)
 		{
 			CloseEdit();
+		}
+
+		private void CancelRemoveTag_Click(object sender, RoutedEventArgs e)
+		{
+			((Popup)((FlyoutPresenter)((StackPanel)((StackPanel)((Button)sender).Parent).Parent).Parent).Parent).IsOpen = false;
 		}
 
 		private void RemoveTag_Click(object sender, RoutedEventArgs e)
