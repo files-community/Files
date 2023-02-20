@@ -8,9 +8,9 @@ namespace Files.App.Actions
 {
 	internal class ToggleFullScreenAction : IToggleAction
 	{
-		public string Label => "FullScreen".GetLocalizedResource();
+		public string Label { get; } = "FullScreen".GetLocalizedResource();
 
-		public HotKey HotKey => new(VirtualKey.F11);
+		public HotKey HotKey { get; } = new(VirtualKey.F11);
 
 		public bool IsOn
 		{

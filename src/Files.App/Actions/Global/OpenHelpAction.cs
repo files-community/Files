@@ -8,9 +8,9 @@ namespace Files.App.Actions
 {
 	internal class OpenHelpAction : IAction
 	{
-		public string Label => "Help".GetLocalizedResource();
+		public string Label { get; } = "Help".GetLocalizedResource();
 
-		public HotKey HotKey => new(VirtualKey.F1);
+		public HotKey HotKey { get; } = new(VirtualKey.F1);
 
 		public async Task ExecuteAsync()
 		{
