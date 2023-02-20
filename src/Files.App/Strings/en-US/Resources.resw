@@ -2959,7 +2959,7 @@
     <value>Help</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Full screen</value>
+    <value>Toggle full screen</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>Play all</value>
