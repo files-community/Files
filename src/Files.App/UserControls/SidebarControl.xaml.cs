@@ -73,6 +73,8 @@ namespace Files.App.UserControls
 
 		public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
 
+		public static readonly DependencyProperty RestoreRecycleBinCommandProperty = DependencyProperty.Register(nameof(RestoreRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
+
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(nameof(ViewModel), typeof(SidebarViewModel), typeof(SidebarControl), new PropertyMetadata(null));
@@ -101,6 +103,12 @@ namespace Files.App.UserControls
 		{
 			get => (ICommand)GetValue(EmptyRecycleBinCommandProperty);
 			set => SetValue(EmptyRecycleBinCommandProperty, value);
+		}
+
+		public ICommand RestoreRecycleBinCommand
+		{
+			get => (ICommand)GetValue(RestoreRecycleBinCommandProperty);
+			set => SetValue(RestoreRecycleBinCommandProperty, value);
 		}
 
 		public readonly ICommand CreateLibraryCommand = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
@@ -213,6 +221,13 @@ namespace Files.App.UserControls
 					IsEnabled = false,
 					ID = "EmptyRecycleBin",
 					Tag = "EmptyRecycleBin",
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "RestoreAllItems".GetLocalizedResource(),
+					Glyph = "\xE777",
+					Command = RestoreRecycleBinCommand,
+					ShowItem = options.ShowEmptyRecycleBin,
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

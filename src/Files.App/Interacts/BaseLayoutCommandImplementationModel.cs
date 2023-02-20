@@ -163,7 +163,7 @@ namespace Files.App.Interacts
 
 		public virtual async void RestoreRecycleBin(RoutedEventArgs e)
 		{
-			await RecycleBinHelpers.RestoreRecycleBin(associatedInstance);
+			await RecycleBinHelpers.RestoreRecycleBin();
 		}
 
 		public virtual async void RestoreSelectionRecycleBin(RoutedEventArgs e)

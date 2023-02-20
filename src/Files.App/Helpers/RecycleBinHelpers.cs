@@ -94,7 +94,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task RestoreRecycleBin(IShellPage associatedInstance)
+		public static async Task RestoreRecycleBin()
 		{
 			var ConfirmEmptyBinDialog = new ContentDialog()
 			{
@@ -109,8 +109,7 @@ namespace Files.App.Helpers
 
 			if (result == ContentDialogResult.Primary)
 			{
-				associatedInstance.SlimContentPage.ItemManipulationModel.SelectAllItems();
-				await RestoreItem(associatedInstance);
+				Vanara.Windows.Shell.RecycleBin.RestoreAll();
 			}
 		}
 
