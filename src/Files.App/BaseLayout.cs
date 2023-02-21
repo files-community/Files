@@ -701,7 +701,6 @@ namespace Files.App
 			if (!UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu)
 				return;
 
-			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
 			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
 			{
 				Label = "SettingsEditFileTagsExpander/Title".GetLocalizedResource(),
