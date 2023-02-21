@@ -193,7 +193,7 @@
 		"ID": null
 	},
 	{
-		"NameResource": "PropertyFrameWidth",
+		"NameResource": "Width",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Video.FrameWidth",
 		"IsReadOnly": true,
@@ -201,7 +201,7 @@
 		"ID": null
 	},
 	{
-		"NameResource": "PropertyFrameHeight",
+		"NameResource": "Height",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Video.FrameHeight",
 		"IsReadOnly": true,

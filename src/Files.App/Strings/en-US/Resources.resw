@@ -2958,4 +2958,10 @@
   <data name="PlayAll" xml:space="preserve">
     <value>Play all</value>
   </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
 </root>
