@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls
 {
-	public sealed partial class OpacityIcon : ContentControl
+	public sealed partial class OpacityIcon : Control
 	{
 		public OpacityIcon()
 		{

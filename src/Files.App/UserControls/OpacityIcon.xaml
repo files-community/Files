@@ -1,4 +1,4 @@
-﻿<ContentControl
+﻿<Control
 	x:Class="Files.App.UserControls.OpacityIcon"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,7 +10,6 @@
 	d:DesignWidth="400"
 	Loading="OpacityIcon_Loading"
 	mc:Ignorable="d">
-	<ControlTemplate />
 
 	<VisualStateManager.VisualStateGroups>
 		<VisualStateGroup>
@@ -18,4 +17,4 @@
 			<VisualState x:Name="Disabled" />
 		</VisualStateGroup>
 	</VisualStateManager.VisualStateGroups>
-</ContentControl>
+</Control>
