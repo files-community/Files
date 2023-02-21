@@ -105,6 +105,7 @@
 				</Grid>
 
 				<!--  Options  -->
+				<!-- Use Visibility because x:Load does not reflect the SelectedIndex value in the combo box -->
 				<ComboBox
 					x:Name="ConflictOptions"
 					Grid.Column="2"
