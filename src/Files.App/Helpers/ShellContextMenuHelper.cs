@@ -49,7 +49,7 @@ namespace Files.App.Helpers
 					"cut", "copy", "paste", "delete", "properties", "link",
 					"Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
 					"eject", "rename", "explore", "openinfiles", "extract",
-					"copyaspath", "undelete", "empty", "rotate90", "rotate270",
+					"copyaspath", "undelete", "empty", "format", "rotate90", "rotate270",
 					Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
 					Win32API.ExtractStringFromDLL("shell32.dll", 5384), // Pin to Start
 					Win32API.ExtractStringFromDLL("shell32.dll", 5385), // Unpin from Start
