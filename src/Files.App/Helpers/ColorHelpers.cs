@@ -9,8 +9,11 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Converts Hex to Windows.UI.Color.
 		/// </summary>
-		public static Color FromHex(string colorHex)
+		public static Color FromHex(string? colorHex)
 		{
+			if (string.IsNullOrWhiteSpace(colorHex))
+				return Color.FromArgb(255, 255, 255, 255);
+
 			colorHex = colorHex.Replace("#", string.Empty);
 
 			var alphaOffset = colorHex.Length == 8 ? 2 : 0;
@@ -28,7 +31,7 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static Color FromUint(this uint value)
 		{
-			return Windows.UI.Color.FromArgb((byte)((value >> 24) & 0xFF),
+			return Color.FromArgb((byte)((value >> 24) & 0xFF),
 					   (byte)((value >> 16) & 0xFF),
 					   (byte)((value >> 8) & 0xFF),
 					   (byte)(value & 0xFF));
