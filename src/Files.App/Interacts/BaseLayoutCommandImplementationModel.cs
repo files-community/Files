@@ -890,6 +890,16 @@ namespace Files.App.Interacts
 			return Task.CompletedTask;
 		}
 
+		public async Task PlayAll()
+		{
+			await NavigationHelpers.OpenSelectedItems(associatedInstance);
+		}
+
+		public void FormatDrive(ListedItem? e)
+		{
+			Win32API.OpenFormatDriveDialog(e?.ItemPath ?? string.Empty);
+		}
+
 		#endregion Command Implementation
 	}
 }

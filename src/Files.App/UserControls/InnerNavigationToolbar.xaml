@@ -409,6 +409,17 @@
 						<local:ColoredIcon BaseLayerGlyph="&#xF041;" OverlayLayerGlyph="&#xF042;" />
 					</AppBarButton.Content>
 				</AppBarButton>
+				<AppBarButton
+					x:Name="PlayAllMediaButton"
+					x:Load="{x:Bind ViewModel.IsMultipleMediaFilesSelected, Mode=OneWay, FallbackValue=False}"
+					Command="{x:Bind ViewModel.PlayAllCommand, Mode=OneWay}"
+					Label="{helpers:ResourceString Name=PlayAll}"
+					LabelPosition="Default"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=PlayAll}">
+					<AppBarButton.Icon>
+						<FontIcon Glyph="&#xE768;" />
+					</AppBarButton.Icon>
+				</AppBarButton>
 			</CommandBar.PrimaryCommands>
 		</CommandBar>
 		<CommandBar
@@ -570,7 +581,6 @@
 					<Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
 						<StackPanel Spacing="12">
 							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=NavToolbarLayout/Text}" />
-
 							<Grid ColumnSpacing="8" RowSpacing="8">
 								<Grid.RowDefinitions>
 									<RowDefinition MinHeight="30" />
@@ -807,26 +817,26 @@
 									Grid.Row="0"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{helpers:ResourceString Name=NavToolbarShowHiddenItemsHeader/Text}" />
+									Text="{x:Bind CommandManager.ToggleShowHiddenItems.Label}" />
 								<ToggleSwitch
 									Grid.Row="0"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
-									AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarShowHiddenItems/AutomationProperties/Name}"
-									IsOn="{x:Bind UserSettingsService.FoldersSettingsService.ShowHiddenItems, Mode=TwoWay}"
+									AutomationProperties.Name="{x:Bind CommandManager.ToggleShowHiddenItems.AutomationName}"
+									IsOn="{x:Bind CommandManager.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 
 								<TextBlock
 									Grid.Row="1"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{helpers:ResourceString Name=NavToolbarShowFileExtensionsHeader/Text}" />
+									Text="{x:Bind CommandManager.ToggleShowFileExtensions.Label}" />
 								<ToggleSwitch
 									Grid.Row="1"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
-									AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarShowFileExtensions/AutomationProperties/Name}"
-									IsOn="{x:Bind UserSettingsService.FoldersSettingsService.ShowFileExtensions, Mode=TwoWay}"
+									AutomationProperties.Name="{x:Bind CommandManager.ToggleShowFileExtensions.AutomationName}"
+									IsOn="{x:Bind CommandManager.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
 									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 							</Grid>

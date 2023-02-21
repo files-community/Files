@@ -1,3 +1,4 @@
+using Files.App.Filesystem;
 using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -117,5 +118,9 @@ namespace Files.App.Interacts
 		Task RotateImageRight();
 
 		Task InstallFont();
+
+		Task PlayAll();
+
+		void FormatDrive(ListedItem? obj);
 	}
 }

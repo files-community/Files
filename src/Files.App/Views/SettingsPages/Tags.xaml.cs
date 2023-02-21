@@ -2,6 +2,7 @@ using CommunityToolkit.WinUI.UI;
 using Files.Backend.ViewModels.FileTags;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Linq;
 using Windows.System;
@@ -14,6 +15,8 @@ namespace Files.App.SettingsPages
 
 		// Will be null unless the user has edited any tag
 		private ListedTagViewModel? editingTag;
+
+		private FlyoutBase? deleteItemFlyout;
 
 		public Tags()
 		{
@@ -65,6 +68,16 @@ namespace Files.App.SettingsPages
 		{
 			CloseEdit();
 		}
+
+		private void PreRemoveTag_Click(object sender, RoutedEventArgs e)
+		{
+			deleteItemFlyout = ((Button)sender).Flyout;
+		}
+
+		private void CancelRemoveTag_Click(object sender, RoutedEventArgs e)
+		{
+			deleteItemFlyout?.Hide();
+		}	
 
 		private void RemoveTag_Click(object sender, RoutedEventArgs e)
 		{

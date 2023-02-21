@@ -5,6 +5,7 @@ using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
+using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
@@ -18,6 +19,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -81,6 +83,7 @@ namespace Files.App.UserControls.Widgets
 
 		private IShellPage associatedInstance;
 
+		public ICommand FormatDriveCommand;
 		public ICommand EjectDeviceCommand;
 		public ICommand DisconnectNetworkDriveCommand;
 		public ICommand GoToStorageSenseCommand;
@@ -126,6 +129,7 @@ namespace Files.App.UserControls.Widgets
 
 			App.DrivesManager.DataChanged += Manager_DataChanged;
 
+			FormatDriveCommand = new RelayCommand<DriveCardItem>(FormatDrive);
 			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDevice);
 			OpenInNewTabCommand = new RelayCommand<WidgetCardItem>(OpenInNewTab);
 			OpenInNewWindowCommand = new RelayCommand<WidgetCardItem>(OpenInNewWindow);
@@ -136,10 +140,11 @@ namespace Files.App.UserControls.Widgets
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
-		
+
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
 		{
-			var options = (item.Item as DriveItem)?.MenuOptions;
+			var drive = ItemsAdded.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+			var options = drive?.Item.MenuOptions;
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -163,8 +168,12 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
-					Glyph = "\uF117",
-					GlyphFontFamilyName = "CustomGlyph",
+					ColoredIcon = new ColoredIconModel()
+					{
+						BaseBackdropGlyph = "\uF056",
+						BaseLayerGlyph = "\uF03B",
+						OverlayLayerGlyph = "\uF03C",
+					},
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
 					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
@@ -193,6 +202,13 @@ namespace Files.App.UserControls.Widgets
 					Command = EjectDeviceCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowEjectDevice ?? false
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "FormatDriveText".GetLocalizedResource(),
+					Command = FormatDriveCommand,
+					CommandParameter = item,
+					ShowItem = options?.ShowFormatDrive ?? false
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -229,7 +245,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				foreach (DriveItem drive in App.DrivesManager.Drives)
 				{
-					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
+					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DataModels.NavigationControlItems.DriveType.VirtualDrive)
 					{
 						var cardItem = new DriveCardItem(drive);
 						ItemsAdded.AddSorted(cardItem);
@@ -256,6 +272,10 @@ namespace Files.App.UserControls.Widgets
 			await UIHelpers.ShowDeviceEjectResultAsync(result);
 		}
 
+		private void FormatDrive(DriveCardItem? item)
+		{
+			Win32API.OpenFormatDriveDialog(item?.Path ?? string.Empty);
+		}
 
 		private async Task OpenProperties(DriveCardItem item)
 		{ 

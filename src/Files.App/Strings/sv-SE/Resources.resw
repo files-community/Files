@@ -241,7 +241,7 @@
     <value>Bakgrund</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Avancerat</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Alternativ</value>
@@ -448,13 +448,13 @@
     <value>Tog du bort den här mappen?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Filen du försöker komma åt används just nu av {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>Filen du försöker komma åt används just nu av ett annat program</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Filen används</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Placera ut</value>
@@ -499,7 +499,7 @@
     <value>1 sekund sedan</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Nu</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>Ny flik</value>
@@ -1219,7 +1219,7 @@
     <value>Visa skyddade systemfiler</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>Inkludera oindexerade objekt i sökresultaten</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Sync layout and sorting preferences across directories</value>
@@ -1300,7 +1300,7 @@
     <value>Visa filnamnstillägg</value>
   </data>
   <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>Visa dolda objekt</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Borttagningsdatum</value>
@@ -1405,7 +1405,7 @@
     <value>Tillgänglig när du är online</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Dokumentation</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Tillgänglig offline</value>
@@ -1636,7 +1636,7 @@
     <value>ISO-hastighet</value>
   </data>
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Öppna mappar i ny flik</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Hittade du inte det du letar efter?</value>
@@ -1957,16 +1957,16 @@
     <value>Open destination folder when complete</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
-    <value>Extract files</value>
+    <value>Extrahera filer</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
-    <value>Extract here</value>
+    <value>Extrahera här</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>Extrahera</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}\</value>
+    <value>Extrahera till {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
     <value>Skapa nytt bibliotek.</value>
@@ -2005,7 +2005,7 @@
     <value>filer</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
-    <value>this folder</value>
+    <value>denna mapp</value>
   </data>
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>undermappar</value>
@@ -2032,16 +2032,16 @@
     <value>Den här mappen, undermappar och filer</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
-    <value>Only files</value>
+    <value>Endast filer</value>
   </data>
   <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
     <value>Only subfolders</value>
   </data>
   <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
-    <value>Only subfolders and files</value>
+    <value>Endast undermappar och filer</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
-    <value>Only this folder</value>
+    <value>Endast denna mapp</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
     <value>Den här mappen och undermappar</value>
@@ -2098,7 +2098,7 @@
     <value>Aktivera arv</value>
   </data>
   <data name="SecurityAdvancedInheritedRemove.Text" xml:space="preserve">
-    <value>Remove all inherited permissions</value>
+    <value>Ta bort alla ärvda behörigheter</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
     <value>Reset child permissions</value>
@@ -2140,7 +2140,7 @@
     <value>{0} items ({1} files, {2} folders)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
-    <value>Uncompressed size</value>
+    <value>Okomprimerad storlek</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -2224,10 +2224,10 @@
     <value>The archive extraction completed successfully.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>Extracting archive</value>
+    <value>Extraherar arkiv</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
-    <value>Extracting complete!</value>
+    <value>Extrahering slutförd!</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Skift+N</value>
@@ -2317,10 +2317,10 @@
     <value>Visa filnamnstillägg</value>
   </data>
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>Visa dolda objekt</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Öppna mappar i ny flik</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Språk</value>
@@ -2347,10 +2347,10 @@
     <value>Item size column</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>Experimental feature flags</value>
+    <value>Experimentella funktioner</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>Hjälp och stöd</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
     <value>Submit feature request</value>
@@ -2359,7 +2359,7 @@
     <value>Submit bug report</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Set Files as the default file manager</value>
+    <value>Ange Files som standardfilhanterare</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Use Files as Open File Dialog</value>
@@ -2368,7 +2368,7 @@
     <value>Tagg</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Enkelklicka för att öppna</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Mappsökväg:</value>
@@ -2533,10 +2533,10 @@
     <value>Extrahera</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Extract files</value>
+    <value>Extrahera filer</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Extract here</value>
+    <value>Extrahera här</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+B</value>
@@ -2605,7 +2605,7 @@
     <value>Taggar</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Use compact spacing in the details layout</value>
+    <value>Använd kompakt avstånd i detaljlayouten</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universell</value>
@@ -2647,7 +2647,7 @@
     <value>Show alternate data streams</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
-    <value>Behaviors</value>
+    <value>Beteenden</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Review Files</value>
@@ -2692,7 +2692,7 @@
     <value>Lockscreen</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Öppna mappar med enkelklick i Kolumnlayouten</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Opening items</value>
@@ -2716,7 +2716,7 @@
     <value>Compressing archive</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Välj filer och mappar när man hovrar över dem</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Are you sure you want to restore all items in the recycle bin?</value>
@@ -2863,7 +2863,7 @@
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit Settings File</value>
+    <value>Redigera inställningsfil</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
     <value>Release Notes</value>
@@ -2881,7 +2881,7 @@
     <value>Inställningar</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double click on a blank space to go up one directory</value>
+    <value>Dubbelklicka på ett tomt utrymme för att gå upp en mapp</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>View more</value>
@@ -2917,15 +2917,15 @@
     <value>App version</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
-    <value>Windows version</value>
+    <value>Windows-version</value>
   </data>
   <data name="Always" xml:space="preserve">
-    <value>Always</value>
+    <value>Alltid</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
     <value>Permanent deletion only</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Never</value>
+    <value>Aldrig</value>
   </data>
 </root>

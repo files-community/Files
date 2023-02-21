@@ -10,11 +10,11 @@ namespace Files.App.ValueConverters.EnumConverters
 		{
 			return (FileNameConflictResolveOptionType)value switch
 			{
-				FileNameConflictResolveOptionType.None => 0,
+				FileNameConflictResolveOptionType.None => -1,
 				FileNameConflictResolveOptionType.GenerateNewName => 0,
 				FileNameConflictResolveOptionType.ReplaceExisting => 1,
 				FileNameConflictResolveOptionType.Skip => 2,
-				_ => 0
+				_ => -1
 			};
 		}
 

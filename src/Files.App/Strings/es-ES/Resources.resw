@@ -2683,7 +2683,7 @@
     <value>Columna de tipo</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Detalles de diseño de las columnas</value>
+    <value>Columnas en diseño de detalles</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Restablecer</value>
