@@ -194,10 +194,5 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating if double clicking a blank space should go up a directory.
 		/// </summary>
 		bool DoubleClickToGoUp { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating the default option to resolve conflicts.
-		/// </summary>
-		FileNameConflictResolveOptionType DefaultResolveOption { get; set; }
 	}
 }

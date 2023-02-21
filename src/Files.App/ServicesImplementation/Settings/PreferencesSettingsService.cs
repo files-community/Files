@@ -207,6 +207,12 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		public FileNameConflictResolveOptionType DefaultResolveOption
+		{
+			get => (FileNameConflictResolveOptionType)Get((long)FileNameConflictResolveOptionType.GenerateNewName);
+			set => Set((long)value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -236,6 +242,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowOpenInNewTab):
 				case nameof(ShowOpenInNewWindow):
 				case nameof(ShowOpenInNewPane):
+				case nameof(DefaultResolveOption):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}
