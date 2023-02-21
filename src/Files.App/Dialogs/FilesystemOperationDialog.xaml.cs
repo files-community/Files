@@ -80,56 +80,11 @@ namespace Files.App.Dialogs
 			DetailsGrid.IsEnabled = true;
 		}
 
-		private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-		{
-			var t = (sender as MenuFlyoutItem).Tag as string;
-			if (t == "All")
-			{
-				if (DetailsGrid.SelectedItems.FirstOrDefault() is FileSystemDialogConflictItemViewModel conflictItem)
-				{
-					ViewModel.ApplyConflictOptionToAll(conflictItem.ConflictResolveOption);
-				}
-
-				return;
-			}
-
-			var op = (FileNameConflictResolveOptionType)int.Parse(t);
-			foreach (var item in DetailsGrid.SelectedItems)
-			{
-				if (item is FileSystemDialogConflictItemViewModel conflictItem)
-				{
-					conflictItem.ConflictResolveOption = op;
-				}
-			}
-		}
-
-		private void MenuFlyout_Opening(object sender, object e)
-		{
-			if (!ViewModel.FileSystemDialogMode.ConflictsExist)
-			{
-				return;
-			}
-
-			if (((sender as MenuFlyout)?.Target as ListViewItem)?.Content is BaseFileSystemDialogItemViewModel li &&
-				!DetailsGrid.SelectedItems.Contains(li))
-			{
-				DetailsGrid.SelectedItems.Add(li);
-			}
-
-			if (DetailsGrid.Items.Count > 1 && DetailsGrid.SelectedItems.Count == 1 && !DetailsGrid.SelectedItems.Any(x => (x as FileSystemDialogConflictItemViewModel).IsDefault))
-			{
-				ApplyToAllOption.Visibility = Visibility.Visible;
-				ApplyToAllSeparator.Visibility = Visibility.Visible;
-			}
-			else
-			{
-				ApplyToAllOption.Visibility = Visibility.Collapsed;
-				ApplyToAllSeparator.Visibility = Visibility.Collapsed;
-			}
-		}
-
 		private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
 		{
+			if (args.Result == ContentDialogResult.Primary)
+				ViewModel.SaveConflictResolveOption();
+
 			App.Window.SizeChanged -= Current_SizeChanged;
 			ViewModel.CancelCts();
 		}
@@ -181,6 +136,7 @@ namespace Files.App.Dialogs
 				DescriptionText.Foreground = App.Current.Resources["TextControlForeground"] as SolidColorBrush;
 			}
 
+			ViewModel.LoadConflictResolveOption();
 			UpdateDialogLayout();
 		}
 	}

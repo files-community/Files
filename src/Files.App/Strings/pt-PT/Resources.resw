@@ -2890,13 +2890,13 @@
     <value>Tamanho:</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>Mas não se preocupe, construímos uma substituição fantástica que é mais confiável e tem mais recursos. Pode ativar o widget Tags de Ficheiros em Configurações &gt; Preferências &gt; Widgets. Ativar o widget de tags irá desativar automaticamente o widget de pacotes.</value>
+    <value>Mas não se preocupe, construímos uma substituição fantástica que é mais confiável e tem mais recursos. Pode ativar o widget Etiquetas  em Definições &gt; Preferências &gt; Widgets. Se ativar o widget Etiquetas, irá desativar automaticamente o widget Pacotes.</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>Os pacotes serão retirados numa atualização futura 📎</value>
   </data>
   <data name="DisplayEditTagsMenu" xml:space="preserve">
-    <value>Exibir o flyout das tags de edição</value>
+    <value>Mostrar indicador para editar etiquetas</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Acesso rápido</value>
