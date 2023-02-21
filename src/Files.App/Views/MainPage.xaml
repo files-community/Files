@@ -157,13 +157,6 @@
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="F11">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ToggleFullScreenAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="F12">
 			<i:Interaction.Behaviors>
 				<icore:EventTriggerBehavior EventName="Invoked">
@@ -326,6 +319,10 @@
 					Grid.Column="1"
 					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}"
 					ManipulationCompleted="PaneSplitter_ManipulationCompleted"
+					ManipulationStarted="PaneSplitter_ManipulationStarted"
+					PointerCanceled="PaneSplitter_PointerExited"
+					PointerEntered="PaneSplitter_PointerEntered"
+					PointerExited="PaneSplitter_PointerExited"
 					ResizeBehavior="BasedOnAlignment"
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 

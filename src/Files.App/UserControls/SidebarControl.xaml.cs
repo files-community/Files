@@ -434,9 +434,8 @@ namespace Files.App.UserControls
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!userSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
-				secondaryElements.OfType<FrameworkElement>()
-								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
+			secondaryElements.OfType<FrameworkElement>()
+								.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = e.GetPosition(sidebarItem) });
