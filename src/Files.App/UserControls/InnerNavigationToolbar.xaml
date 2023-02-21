@@ -98,7 +98,7 @@
 						</MenuFlyout>
 					</AppBarButton.Flyout>
 
-					<local:OpacityIcon Style="{StaticResource New}" />
+					<local:OpacityIcon Style="{StaticResource ColorIconNew}" />
 				</AppBarButton>
 				<AppBarSeparator />
 				<AppBarButton
@@ -113,7 +113,7 @@
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut/Text}">
 
-					<local:OpacityIcon Style="{StaticResource Cut}" />
+					<local:OpacityIcon Style="{StaticResource ColorIconCut}" />
 				</AppBarButton>
 				<AppBarButton
 					Width="Auto"
@@ -163,7 +163,7 @@
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename/Text}">
 
-					<local:OpacityIcon Style="{StaticResource Rename}" />
+					<local:OpacityIcon Style="{StaticResource ColorIconRename}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="ShareButton"
@@ -176,7 +176,7 @@
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare/Text}">
 
-					<local:OpacityIcon Style="{StaticResource Share}" />
+					<local:OpacityIcon Style="{StaticResource ColorIconShare}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="DeleteButton"
@@ -189,7 +189,7 @@
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
 
-					<local:OpacityIcon Style="{StaticResource Delete}" />
+					<local:OpacityIcon Style="{StaticResource ColorIconDelete}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="PropertiesButton"
@@ -203,7 +203,7 @@
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=PropertiesTitle}">
 
-					<local:OpacityIcon Style="{StaticResource Properties}" />
+					<local:OpacityIcon Style="{StaticResource ColorIconProperties}" />
 				</AppBarButton>
 				<AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionalAction, Mode=OneWay}" />
 				<AppBarButton
@@ -464,7 +464,7 @@
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 
-				<local:OpacityIcon Style="{StaticResource Selection}" />
+				<local:OpacityIcon Style="{StaticResource ColorIconSelection}" />
 			</AppBarButton>
 			<AppBarButton
 				x:Name="ArrangementOptions"
@@ -477,8 +477,8 @@
 				LabelPosition="Collapsed"
 				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSortOptionsButton/ToolTipService/ToolTip}">
-				
-				<local:OpacityIcon Style="{StaticResource Sort}" />
+
+				<local:OpacityIcon Style="{StaticResource ColorIconSort}" />
 				<AppBarButton.Flyout>
 					<MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
 						<MenuFlyoutSubItem Text="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}">
