@@ -317,8 +317,13 @@
 					x:Name="PaneSplitter"
 					Grid.Row="1"
 					Grid.Column="1"
+					Width="4"
 					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}"
 					ManipulationCompleted="PaneSplitter_ManipulationCompleted"
+					ManipulationStarted="PaneSplitter_ManipulationStarted"
+					PointerCanceled="PaneSplitter_PointerExited"
+					PointerEntered="PaneSplitter_PointerEntered"
+					PointerExited="PaneSplitter_PointerExited"
 					ResizeBehavior="BasedOnAlignment"
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 
