@@ -166,5 +166,10 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating whether or not to show the option to open folders in a new pane.
 		/// </summary>
 		bool ShowOpenInNewPane { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default option to resolve conflicts.
+		/// </summary>
+		FileNameConflictResolveOptionType ConflictsResolveOption { get; set; }
 	}
 }

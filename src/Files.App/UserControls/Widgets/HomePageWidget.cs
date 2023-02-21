@@ -43,9 +43,8 @@ namespace Files.App.UserControls.Widgets
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
-				secondaryElements.OfType<FrameworkElement>()
-								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
+			secondaryElements.OfType<FrameworkElement>()
+							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
