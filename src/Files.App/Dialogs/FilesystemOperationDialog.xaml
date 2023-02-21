@@ -190,7 +190,7 @@
 					Grid.Column="0"
 					HorizontalAlignment="Left"
 					VerticalAlignment="Center"
-					Text="Apply this action to all conflicting items"
+					Text="{helpers:ResourceString Name=ApplyToAllConflictingItems}"
 					TextWrapping="Wrap" />
 
 				<ComboBox
