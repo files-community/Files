@@ -2967,4 +2967,7 @@
   <data name="PlayAll" xml:space="preserve">
     <value>Play all</value>
   </data>
+  <data name="ApplyToAllConflictingItems" xml:space="preserve">
+    <value>Apply this action to all conflicting items</value>
+  </data>
 </root>
