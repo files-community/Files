@@ -241,7 +241,7 @@
     <value>Háttérszín</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Haladó</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Működés</value>
@@ -745,7 +745,7 @@
     <value>Túl hosszú név</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>További lehetőségek</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>A Files újraindítása szükséges a nyelv beállítás érvénybe lépéséhez. Szeretné most újraindítani?</value>
@@ -823,7 +823,7 @@
     <value>Nyelv</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>Shell bővítmények elemei áthelyezése almenübe</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Megerősítés kérése törlésekor</value>
@@ -1426,7 +1426,7 @@
     <value>Ismeretlen</value>
   </data>
   <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
+    <value>Jelölőnégyzetek megjelenítése fájlnevek mellett</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Ha módosítja egy fájl kiterjesztését, akkor az használhatatlanná válhat. Végrehajtja a módosítást?</value>
@@ -1792,7 +1792,7 @@
     <value>Átnevezés</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>Adatvédelem</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Áthelyezés megszakítva</value>
@@ -2239,7 +2239,7 @@
     <value>Ismeretlen</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Címke</value>
+    <value>Címkék</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Címkék szerkesztése</value>
@@ -2353,7 +2353,7 @@
     <value>Súgó és támogatás</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>Submit feature request</value>
+    <value>Funkció kérés küldése</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
     <value>Hibabejelentés küldése</value>
@@ -2365,7 +2365,7 @@
     <value>A Files használata Open File Dialog</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Címke</value>
+    <value>Címkék</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Elemek megnyitása egy kattintással</value>
@@ -2863,10 +2863,10 @@
     <value>Az előzmények jelenleg le vannak tiltva a Windows Fájlkezelőben.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit Settings File</value>
+    <value>Beállításokat tartalmazó fájl megnyitása</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>Változások</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Creating a shortcut in this location requires administrator privileges</value>
