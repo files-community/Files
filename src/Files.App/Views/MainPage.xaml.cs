@@ -14,6 +14,7 @@ using Files.App.ViewModels;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -25,6 +26,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.Services.Store;
@@ -47,6 +49,12 @@ namespace Files.App.Views
 			get => (MainPageViewModel)DataContext;
 			set => DataContext = value;
 		}
+
+
+		/// <summary>
+		/// True if the user is currently resizing the preview pane
+		/// </summary>
+		private bool draggingPreviewPane;
 
 		public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
 
@@ -321,7 +329,7 @@ namespace Files.App.Views
 				return;
 
 			var totalLaunchCount = SystemInformation.Instance.TotalLaunchCount;
-			if(totalLaunchCount is 10 or 20 or 30 or 40 or 50)
+			if (totalLaunchCount is 10 or 20 or 30 or 40 or 50)
 			{
 				// Prompt user to review app in the Store
 				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
@@ -416,6 +424,11 @@ namespace Files.App.Views
 			}
 		}
 
+		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+		{
+			draggingPreviewPane = true;
+		}
+
 		private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			switch (PreviewPane?.Position)
@@ -427,6 +440,23 @@ namespace Files.App.Views
 					UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx = PreviewPane.ActualHeight;
 					break;
 			}
+
+			draggingPreviewPane = false;
+		}
+
+		private void PaneSplitter_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			if (draggingPreviewPane)
+				return;
+
+			var paneSplitter = (GridSplitter)sender;
+			paneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+		}
+
+		private void PaneSplitter_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			var paneSplitter = (GridSplitter)sender;
+			paneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
 		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;

@@ -2881,7 +2881,7 @@
     <value>Size:</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
+    <value>But don't worry, we built a fantastic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>Bundles will be retiring in a future update 📎</value>
@@ -2969,5 +2969,8 @@
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>Play all</value>
+  </data>
+  <data name="ApplyToAllConflictingItems" xml:space="preserve">
+    <value>Apply this action to all conflicting items</value>
   </data>
 </root>
