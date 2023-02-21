@@ -170,6 +170,6 @@ namespace Files.Backend.Services.Settings
 		/// <summary>
 		/// Gets or sets a value indicating the default option to resolve conflicts.
 		/// </summary>
-		FileNameConflictResolveOptionType DefaultResolveOption { get; set; }
+		FileNameConflictResolveOptionType ConflictsResolveOption { get; set; }
 	}
 }

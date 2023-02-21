@@ -116,15 +116,15 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
 		public void LoadConflictResolveOption()
 		{
-			AggregatedResolveOption = UserSettingsService.PreferencesSettingsService.DefaultResolveOption;
+			AggregatedResolveOption = UserSettingsService.PreferencesSettingsService.ConflictsResolveOption;
 		}
 
 		public void SaveConflictResolveOption()
 		{
 			if (AggregatedResolveOption != FileNameConflictResolveOptionType.None
-				&& AggregatedResolveOption != UserSettingsService.PreferencesSettingsService.DefaultResolveOption)
+				&& AggregatedResolveOption != UserSettingsService.PreferencesSettingsService.ConflictsResolveOption)
 			{
-				UserSettingsService.PreferencesSettingsService.DefaultResolveOption = AggregatedResolveOption;
+				UserSettingsService.PreferencesSettingsService.ConflictsResolveOption = AggregatedResolveOption;
 			}
 		}
 
