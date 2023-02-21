@@ -722,7 +722,7 @@ namespace Files.App.Helpers
 					},
 					Command = commandsViewModel.RotateImageRightCommand,
 					ShowInSearchPage = true,
-					ShowItem = selectedItemsPropertiesViewModel.IsSelectedItemImage
+					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
 				},
 				new ContextMenuFlyoutItemViewModel
 				{
@@ -734,7 +734,7 @@ namespace Files.App.Helpers
 					},
 					Command = commandsViewModel.RotateImageLeftCommand,
 					ShowInSearchPage = true,
-					ShowItem = selectedItemsPropertiesViewModel.IsSelectedItemImage
+					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
