@@ -817,26 +817,26 @@
 									Grid.Row="0"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{x:Bind CommandManager.ShowHiddenItems.Label}" />
+									Text="{x:Bind CommandManager.ToggleShowHiddenItems.Label}" />
 								<ToggleSwitch
 									Grid.Row="0"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
-									AutomationProperties.Name="{x:Bind CommandManager.ShowHiddenItems.Label}"
-									IsOn="{x:Bind CommandManager.ShowHiddenItems.IsOn, Mode=TwoWay}"
+									AutomationProperties.Name="{x:Bind CommandManager.ToggleShowHiddenItems.AutomationName}"
+									IsOn="{x:Bind CommandManager.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 
 								<TextBlock
 									Grid.Row="1"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{x:Bind CommandManager.ShowFileExtensions.Label}" />
+									Text="{x:Bind CommandManager.ToggleShowFileExtensions.Label}" />
 								<ToggleSwitch
 									Grid.Row="1"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
-									AutomationProperties.Name="{x:Bind CommandManager.ShowFileExtensions.Label}"
-									IsOn="{x:Bind CommandManager.ShowFileExtensions.IsOn, Mode=TwoWay}"
+									AutomationProperties.Name="{x:Bind CommandManager.ToggleShowFileExtensions.AutomationName}"
+									IsOn="{x:Bind CommandManager.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
 									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 							</Grid>
