@@ -127,7 +127,7 @@
     <value>Yeni pencere</value>
   </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Bit Eşlem Görseli</value>
+    <value>Bitmap Görseli</value>
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Metin Belgesi</value>
@@ -136,7 +136,7 @@
     <value>Konumu kopyala</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
-    <value>Yapıştırmak</value>
+    <value>Yapıştır</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Göz at</value>
@@ -148,7 +148,7 @@
     <value>Boyut</value>
   </data>
   <data name="OpenIn" xml:space="preserve">
-    <value>Şununla Aç </value>
+    <value>Şununla aç</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Oluşturulma:</value>
@@ -208,7 +208,7 @@
     <value>Dosya konumunu aç</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Bu ögeyi sil</value>
+    <value>Bu ögeyi kaldır</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub Reposu</value>
@@ -232,7 +232,7 @@
     <value>Gizli dosya ve klasörleri göster</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>dot Dosyalarını Göster</value>
+    <value>dot dosyalarını göster</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Görünüm</value>
@@ -247,7 +247,7 @@
     <value>Ayarlar</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Kalınan yerden sürdürülsün</value>
+    <value>Kaldığınız yerden devam edin</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Yeni sekmede aç</value>
@@ -322,7 +322,7 @@
     <value>Kes</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Silmek</value>
+    <value>Sil</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Yeniden adlandır</value>
@@ -406,7 +406,7 @@
     <value>Var olan ögeyi değiştir</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
-    <value>Öge zaten var</value>
+    <value>Öge zaten mevcut</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Kilit arka planı olarak ayarla</value>
@@ -415,7 +415,7 @@
     <value>Büyük Simgeler</value>
   </data>
   <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
-    <value>Orta Simgeler</value>
+    <value>Normal Simgeler</value>
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>Küçük Simgeler</value>
@@ -541,7 +541,7 @@
     <value>Dosyalar yapıştırılıyor</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Dosyaları Geri Dönüşüm Kutusu'na taşıma</value>
+    <value>Dosyalar Geri Dönüşüm Kutusu'na taşınıyor</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Evet</value>
@@ -577,7 +577,7 @@
     <value>Yönetici olarak çalıştır</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>İçeriği:</value>
+    <value>İçerik:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} dosya, {1:#,##0} klasör</value>
@@ -628,7 +628,7 @@
     <value>Windows varsayılanı</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
-    <value>Herhangi bir sonuç yok</value>
+    <value>Sonuç yok</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
     <value>Görüntülenecek herhangi bir ögeye erişilemiyor</value>
@@ -694,7 +694,7 @@
     <value>Files uygulaması, geliştiricilerin karşılaşmadığı bir sorunla karşılaştı.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>Bir sorun çıktı!</value>
+    <value>Bir şeyler ters gitti!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
     <value>Bu sorunu bildirin</value>
@@ -1240,7 +1240,7 @@
     <value>Düzenle</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value>Sil</value>
+    <value>Kaldır</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Open tabs in dual pane mode</value>
@@ -1300,7 +1300,7 @@
     <value>Dosya eklentilerini göster</value>
   </data>
   <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Gizli dosyaları göster</value>
+    <value>Gizli ögeleri göster</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Silinme tarihi</value>
@@ -1594,7 +1594,7 @@
     <value>Öğeleri kopyala</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Ürünleri sil</value>
+    <value>Ögeleri sil</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Hareket</value>
@@ -1606,7 +1606,7 @@
     <value>Öğeleri taşı</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} öğe silinecek</value>
+    <value>{0} öge silinecek</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Devam</value>
@@ -1624,13 +1624,13 @@
     <value>Bir öğe kopyalanacak</value>
   </data>
   <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Bir öğe silinecek</value>
+    <value>Bir öge silinecek</value>
   </data>
   <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
     <value>Bir öğe taşınacak</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Kalıcı olarak silmek</value>
+    <value>Kalıcı olarak sil</value>
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO hızı</value>
@@ -1909,10 +1909,10 @@
     <value>Gelişmiş izinler</value>
   </data>
   <data name="Allow" xml:space="preserve">
-    <value>İzin Vermek</value>
+    <value>İzin ver</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
-    <value>Reddetmek</value>
+    <value>Reddet</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Tam kontrol</value>
@@ -1924,7 +1924,7 @@
     <value>Değiştir</value>
   </data>
   <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Için izinler</value>
+    <value>İzinler:</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Oku ve yürüt</value>
@@ -1936,7 +1936,7 @@
     <value>Grup veya kullanıcı adları</value>
   </data>
   <data name="Write" xml:space="preserve">
-    <value>Yazmak</value>
+    <value>Yaz</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
     <value>Bilinmeyen hesap</value>
@@ -2098,7 +2098,7 @@
     <value>Devralmayı etkinleştir</value>
   </data>
   <data name="SecurityAdvancedInheritedRemove.Text" xml:space="preserve">
-    <value>Devralınan tüm izinleri kaldırın</value>
+    <value>Devralınan tüm izinleri kaldır</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
     <value>Alt izinleri sıfırla</value>
@@ -2740,7 +2740,7 @@
     <value>Kısayol açılamadı</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>Hedef yolu {0} bulunamadı. Bu kısayolu silmek istermisiniz?</value>
+    <value>Hedef yol {0} bulunamadı. Bu kısayolu silmek ister misiniz?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Bu dosyaya erişim izniniz yok.</value>
