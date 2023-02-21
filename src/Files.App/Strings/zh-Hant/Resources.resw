@@ -745,7 +745,7 @@
     <value>檔名過長</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>顯示更多選項</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>需要重啟應用程式以更改語言設定。您要現在就重啟嗎?</value>
@@ -754,7 +754,7 @@
     <value>Sponsor us on GitHub</value>
   </data>
   <data name="Personalization" xml:space="preserve">
-    <value>Personalization</value>
+    <value>個人化</value>
   </data>
   <data name="LayoutAndSorting" xml:space="preserve">
     <value>Layout and sorting</value>
@@ -2380,7 +2380,7 @@
     <value>匯入設定</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>Manage settings</value>
+    <value>管理設定</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>設定檔已損壞，無法將其匯入。</value>

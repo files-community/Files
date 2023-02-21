@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
+using Files.App.Filesystem;
 using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -82,6 +83,7 @@ namespace Files.App.Interacts
 			RotateImageRightCommand = new AsyncRelayCommand(CommandsModel.RotateImageRight);
 			InstallFontCommand = new AsyncRelayCommand(CommandsModel.InstallFont);
 			PlayAllCommand = new AsyncRelayCommand(CommandsModel.PlayAll);
+			FormatDriveCommand = new RelayCommand<ListedItem>(CommandsModel.FormatDrive);
 		}
 
 		#endregion Command Initialization
@@ -199,6 +201,7 @@ namespace Files.App.Interacts
 		public ICommand InstallFontCommand { get; private set; }
 
 		public ICommand PlayAllCommand { get; private set; }
+		public ICommand FormatDriveCommand { get; private set; }
 
 		#endregion Commands
 

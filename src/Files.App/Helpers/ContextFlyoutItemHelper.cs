@@ -560,6 +560,13 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
+					Text = "FormatDriveText".GetLocalizedResource(),
+					Command = commandsViewModel.FormatDriveCommand,
+					CommandParameter = itemViewModel?.CurrentFolder,
+					ShowItem = itemViewModel.CurrentFolder is not null && (App.DrivesManager.Drives.Where(x => string.Equals(x.Path, itemViewModel?.CurrentFolder.ItemPath)).FirstOrDefault()?.MenuOptions.ShowFormatDrive ?? false),
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalizedResource(),
 					Glyph = "\uEF88",
 					GlyphFontFamilyName = "RecycleBinIcons",

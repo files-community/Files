@@ -420,6 +420,7 @@ namespace Files.App.Filesystem
 		public bool IsAlternateStream => this is AlternateStreamItem;
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
+		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
 
 		private BaseStorageFile itemFile;
 		public BaseStorageFile ItemFile
