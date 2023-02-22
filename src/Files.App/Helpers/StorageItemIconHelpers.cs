@@ -24,7 +24,7 @@ namespace Files.App.Helpers
 			}
 			else
 			{
-				StorageFile emptyFile = await ApplicationData.Current.LocalCacheFolder.CreateFileAsync(string.Join(Constants.Filesystem.CachedEmptyItemName, fileExtension), CreationCollisionOption.OpenIfExists);
+				StorageFile emptyFile = await ApplicationData.Current.LocalCacheFolder.CreateFileAsync(string.Join(Core.Constants.Filesystem.CachedEmptyItemName, fileExtension), CreationCollisionOption.OpenIfExists);
 				var icon = await emptyFile.GetThumbnailAsync(ThumbnailMode.ListView, requestedSize, ThumbnailOptions.UseCurrentScale);
 
 				if (persistenceOptions == IconPersistenceOptions.LoadOnce)

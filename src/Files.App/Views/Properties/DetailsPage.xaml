@@ -27,7 +27,7 @@
 			SelectionMode="None">
 
 			<ListView.ItemTemplate>
-				<DataTemplate x:DataType="vm:FilePropertySection">
+				<DataTemplate x:DataType="vm:FilePropertySectionViewModel">
 					<Expander
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
@@ -42,7 +42,7 @@
 							SelectionMode="None">
 
 							<ListView.ItemTemplate>
-								<DataTemplate x:DataType="vm:FileProperty">
+								<DataTemplate x:DataType="vm:FilePropertyViewModel">
 									<Grid HorizontalAlignment="Stretch" ColumnSpacing="8">
 										<Grid.ColumnDefinitions>
 											<ColumnDefinition

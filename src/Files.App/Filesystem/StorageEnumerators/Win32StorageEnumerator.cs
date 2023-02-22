@@ -156,7 +156,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				LoadFileIcon = false,
 				ItemNameRaw = adsName,
 				IsHiddenItem = false,
-				Opacity = Constants.UI.DimItemOpacity,
+				Opacity = Core.Constants.UI.DimItemOpacity,
 				ItemDateModifiedReal = main.ItemDateModifiedReal,
 				ItemDateAccessedReal = main.ItemDateAccessedReal,
 				ItemDateCreatedReal = main.ItemDateCreatedReal,
@@ -204,7 +204,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 
 			if (isHidden)
 			{
-				opacity = Constants.UI.DimItemOpacity;
+				opacity = Core.Constants.UI.DimItemOpacity;
 			}
 
 			return new ListedItem(null)
@@ -271,7 +271,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			}
 
 			bool isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-			double opacity = isHidden ? Constants.UI.DimItemOpacity : 1;
+			double opacity = isHidden ? Core.Constants.UI.DimItemOpacity : 1;
 
 			// https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
 			bool isReparsePoint = ((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;

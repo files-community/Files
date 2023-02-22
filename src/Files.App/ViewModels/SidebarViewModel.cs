@@ -391,7 +391,7 @@ namespace Files.App.ViewModels
 						section = BuildSection("Home".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
 						section.Path = "Home";
 						section.Font = App.AppModel.SymbolFontFamily;
-						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+						section.Icon = new BitmapImage(new Uri(Core.Constants.FluentIconsPaths.HomeIcon));
 
 						break;
 					}
@@ -405,7 +405,7 @@ namespace Files.App.ViewModels
 
 						section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						section.Font = App.AppModel.SymbolFontFamily;
-						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FavoritesIcon));
+						icon = new BitmapImage(new Uri(Core.Constants.FluentIconsPaths.FavoritesIcon));
 
 						break;
 					}
@@ -417,7 +417,7 @@ namespace Files.App.ViewModels
 							break;
 						}
 						section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
-						iconIdex = Constants.ImageRes.Libraries;
+						iconIdex = Core.Constants.ImageRes.Libraries;
 
 						break;
 					}
@@ -429,7 +429,7 @@ namespace Files.App.ViewModels
 							break;
 						}
 						section = BuildSection("Drives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						iconIdex = Constants.ImageRes.ThisPC;
+						iconIdex = Core.Constants.ImageRes.ThisPC;
 
 						break;
 					}
@@ -441,7 +441,7 @@ namespace Files.App.ViewModels
 							break;
 						}
 						section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
+						icon = new BitmapImage(new Uri(Core.Constants.FluentIconsPaths.CloudDriveIcon));
 
 						break;
 					}
@@ -453,7 +453,7 @@ namespace Files.App.ViewModels
 							break;
 						}
 						section = BuildSection("SidebarNetworkDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						iconIdex = Constants.ImageRes.NetworkDrives;
+						iconIdex = Core.Constants.ImageRes.NetworkDrives;
 
 						break;
 					}
@@ -465,7 +465,7 @@ namespace Files.App.ViewModels
 							break;
 						}
 						section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
+						icon = new BitmapImage(new Uri(Core.Constants.WslIconsPaths.GenericIcon));
 
 						break;
 					}
@@ -477,7 +477,7 @@ namespace Files.App.ViewModels
 							break;
 						}
 						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
+						icon = new BitmapImage(new Uri(Core.Constants.FluentIconsPaths.FileTagsIcon));
 
 						break;
 					}

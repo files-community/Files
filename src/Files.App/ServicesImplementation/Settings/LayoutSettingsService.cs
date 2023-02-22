@@ -13,7 +13,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public int DefaultGridViewSize
 		{
-			get => (int)Get((long)Constants.Browser.GridViewBrowser.GridViewSizeMedium);
+			get => (int)Get((long)Core.Constants.Browser.GridViewBrowser.GridViewSizeMedium);
 			set => Set((long)value);
 		}
 	}

@@ -20,15 +20,15 @@ namespace Files.App.Views
 	public sealed partial class LibraryPage : PropertyTab, INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
-
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public ObservableCollection<LibraryFolder> Folders { get; } = new ObservableCollection<LibraryFolder>();
+		public ObservableCollection<LibraryFolder> Folders { get; } = new();
 
-		public bool IsLibraryEmpty => Folders.Count == 0;
+		public bool IsLibraryEmpty
+			=> Folders.Count == 0;
 
 		private int selectedFolderIndex = -1;
 		public int SelectedFolderIndex
@@ -45,10 +45,10 @@ namespace Files.App.Views
 			}
 		}
 
-		public bool IsNotDefaultFolderSelected => selectedFolderIndex >= 0 && !Folders[selectedFolderIndex].IsDefault;
+		public bool IsNotDefaultFolderSelected
+			=> selectedFolderIndex >= 0 && !Folders[selectedFolderIndex].IsDefault;
 
 		private bool isPinned;
-
 		public bool IsPinned
 		{
 			get => isPinned;
@@ -79,7 +79,7 @@ namespace Files.App.Views
 		{
 			base.Properties_Loaded(sender, e);
 
-			if (BaseProperties is LibraryProperties props)
+			if (BaseProperties is LibraryViewModel props)
 			{
 				Folders.Clear();
 				if (!props.Library.IsEmpty)
@@ -193,7 +193,7 @@ namespace Files.App.Views
 
 		public override async Task<bool> SaveChangesAsync()
 		{
-			if (BaseProperties is LibraryProperties props)
+			if (BaseProperties is LibraryViewModel props)
 			{
 				// Skip checks / updates and close dialog when the library is empty
 				if (IsLibraryEmpty)
@@ -240,6 +240,7 @@ namespace Files.App.Views
 		}
 
 	}
+
 	public class LibraryFolder : ObservableObject
 	{
 		public string Path { get; set; }

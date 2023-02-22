@@ -60,7 +60,7 @@ namespace Files.App.ServicesImplementation.Settings
 			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
 			JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer, JsonSettingsSerializer);
 
-			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.UserSettingsFileName));
+			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path, Core.Constants.LocalSettings.SettingsFolderName, Core.Constants.LocalSettings.UserSettingsFileName));
 		}
 
 		public override object ExportSettings()

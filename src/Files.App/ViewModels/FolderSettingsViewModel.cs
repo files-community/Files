@@ -80,25 +80,25 @@ namespace Files.App.ViewModels
 		{
 			// ListView thumbnail
 			if (LayoutMode == FolderLayoutModes.DetailsView)
-				return Constants.Browser.DetailsLayoutBrowser.DetailsViewSize;
+				return Core.Constants.Browser.DetailsLayoutBrowser.DetailsViewSize;
 			// ListView thumbnail
 			else if (LayoutMode == FolderLayoutModes.ColumnView)
-				return Constants.Browser.ColumnViewBrowser.ColumnViewSize;
+				return Core.Constants.Browser.ColumnViewBrowser.ColumnViewSize;
 			// Small thumbnail
 			else if (LayoutMode == FolderLayoutModes.TilesView)
-				return Constants.Browser.GridViewBrowser.GridViewSizeSmall;
+				return Core.Constants.Browser.GridViewBrowser.GridViewSizeSmall;
 			// Small thumbnail
-			else if (GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall)
-				return Constants.Browser.GridViewBrowser.GridViewSizeSmall;
+			else if (GridViewSize <= Core.Constants.Browser.GridViewBrowser.GridViewSizeSmall)
+				return Core.Constants.Browser.GridViewBrowser.GridViewSizeSmall;
 			// Medium thumbnail
-			else if (GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium)
-				return Constants.Browser.GridViewBrowser.GridViewSizeMedium;
+			else if (GridViewSize <= Core.Constants.Browser.GridViewBrowser.GridViewSizeMedium)
+				return Core.Constants.Browser.GridViewBrowser.GridViewSizeMedium;
 			// Large thumbnail
-			else if (GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeLarge)
-				return Constants.Browser.GridViewBrowser.GridViewSizeLarge;
+			else if (GridViewSize <= Core.Constants.Browser.GridViewBrowser.GridViewSizeLarge)
+				return Core.Constants.Browser.GridViewBrowser.GridViewSizeLarge;
 			// Extra large thumbnail
 			else
-				return Constants.Browser.GridViewBrowser.GridViewSizeMax;
+				return Core.Constants.Browser.GridViewBrowser.GridViewSizeMax;
 		}
 
 		private bool isLayoutModeChanging;
@@ -141,9 +141,9 @@ namespace Files.App.ViewModels
 		{
 			get
 			{
-				if (GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium)
+				if (GridViewSize < Core.Constants.Browser.GridViewBrowser.GridViewSizeMedium)
 					return GridViewSizeKind.Small;
-				else if (GridViewSize >= Constants.Browser.GridViewBrowser.GridViewSizeMedium && GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeLarge)
+				else if (GridViewSize >= Core.Constants.Browser.GridViewBrowser.GridViewSizeMedium && GridViewSize < Core.Constants.Browser.GridViewBrowser.GridViewSizeLarge)
 					return GridViewSizeKind.Medium;
 				else
 					return GridViewSizeKind.Large;
@@ -166,7 +166,7 @@ namespace Files.App.ViewModels
 						LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
 					}
 					// Size down from grid to tiles
-					else if (LayoutMode == FolderLayoutModes.GridView && value < Constants.Browser.GridViewBrowser.GridViewSizeSmall)
+					else if (LayoutMode == FolderLayoutModes.GridView && value < Core.Constants.Browser.GridViewBrowser.GridViewSizeSmall)
 					{
 						LayoutPreference.IsAdaptiveLayoutOverridden = true;
 						LayoutMode = FolderLayoutModes.TilesView;
@@ -176,7 +176,7 @@ namespace Files.App.ViewModels
 					else if (LayoutMode != FolderLayoutModes.DetailsView)
 					{
 						// Set grid size to allow immediate UI update
-						var newValue = (value >= Constants.Browser.GridViewBrowser.GridViewSizeSmall) ? value : Constants.Browser.GridViewBrowser.GridViewSizeSmall;
+						var newValue = (value >= Core.Constants.Browser.GridViewBrowser.GridViewSizeSmall) ? value : Core.Constants.Browser.GridViewBrowser.GridViewSizeSmall;
 						SetProperty(ref LayoutPreference.GridViewSize, newValue, nameof(GridViewSize));
 
 						// Only update layout mode if it isn't already in grid view
@@ -207,7 +207,7 @@ namespace Files.App.ViewModels
 					else // Size up from tiles to grid
 					{
 						// Set grid size to allow immediate UI update
-						var newValue = (LayoutMode == FolderLayoutModes.TilesView) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeMax) ? value : Constants.Browser.GridViewBrowser.GridViewSizeMax;
+						var newValue = (LayoutMode == FolderLayoutModes.TilesView) ? Core.Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Core.Constants.Browser.GridViewBrowser.GridViewSizeMax) ? value : Core.Constants.Browser.GridViewBrowser.GridViewSizeMax;
 						SetProperty(ref LayoutPreference.GridViewSize, newValue, nameof(GridViewSize));
 
 						// Only update layout mode if it isn't already in grid view
@@ -223,7 +223,7 @@ namespace Files.App.ViewModels
 						}
 
 						// Don't request a grid resize if it is already at the max size
-						if (value < Constants.Browser.GridViewBrowser.GridViewSizeMax)
+						if (value < Core.Constants.Browser.GridViewBrowser.GridViewSizeMax)
 							GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
 					}
 				}
@@ -482,7 +482,7 @@ namespace Files.App.ViewModels
 			LayoutMode = FolderLayoutModes.GridView;
 
 			// Size
-			GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge;
+			GridViewSize = Core.Constants.Browser.GridViewBrowser.GridViewSizeLarge;
 
 			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView, GridViewSize));
 		}
@@ -505,7 +505,7 @@ namespace Files.App.ViewModels
 			LayoutMode = FolderLayoutModes.GridView;
 
 			// Size
-			GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium;
+			GridViewSize = Core.Constants.Browser.GridViewBrowser.GridViewSizeMedium;
 
 			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView, GridViewSize));
 		}
@@ -518,7 +518,7 @@ namespace Files.App.ViewModels
 			LayoutMode = FolderLayoutModes.GridView;
 
 			// Size
-			GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall;
+			GridViewSize = Core.Constants.Browser.GridViewBrowser.GridViewSizeSmall;
 
 			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView, GridViewSize));
 		}

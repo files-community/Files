@@ -75,7 +75,7 @@ namespace Files.App.ViewModels.Previews
 		private async Task LoadPagesAsync(PdfDocument pdf)
 		{
 			// This fixes an issue where loading an absurdly large PDF would take to much RAM and eventually cause a crash
-			var limit = Math.Clamp(pdf.PageCount, 0, Constants.PreviewPane.PDFPageLimit);
+			var limit = Math.Clamp(pdf.PageCount, 0, Core.Constants.PreviewPane.PDFPageLimit);
 
 			for (uint i = 0; i < limit; i++)
 			{

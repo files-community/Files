@@ -33,7 +33,7 @@ namespace Files.App.ServicesImplementation.Settings
 			JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer, JsonSettingsSerializer);
 
 			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path,
-				Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName));
+				Core.Constants.LocalSettings.SettingsFolderName, Core.Constants.LocalSettings.FileTagSettingsFileName));
 		}
 
 		public IList<TagViewModel> FileTagList

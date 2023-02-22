@@ -20,14 +20,15 @@ namespace Files.App.Views
 	{
 		private readonly Regex letterRegex = new(@"\s*\(\w:\)$");
 
-		public GeneralPage() => InitializeComponent();
+		public GeneralPage()
+			=> InitializeComponent();
 
 		public override async Task<bool> SaveChangesAsync()
 		{
 			return BaseProperties switch
 			{
 				DrivePropertyViewModel properties => SaveDrive(properties.Drive),
-				LibraryProperties properties => await SaveLibraryAsync(properties.Library),
+				LibraryViewModel properties => await SaveLibraryAsync(properties.Library),
 				CombinedViewModel properties => await SaveCombinedAsync(properties.List),
 				FilePropertiesViewModel properties => await SaveBaseAsync(properties.Item),
 				FolderPropertiesViewModel properties => await SaveBaseAsync(properties.Item),
@@ -130,6 +131,7 @@ namespace Files.App.Views
 		{
 			ItemFileName.Text = letterRegex.Replace(ItemFileName.Text, string.Empty);
 		}
+
 		private void ItemFileName_LosingFocus(UIElement _, LosingFocusEventArgs e)
 		{
 			if (string.IsNullOrWhiteSpace(ItemFileName.Text))

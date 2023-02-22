@@ -364,7 +364,7 @@ namespace Files.App.Filesystem.Search
 					LoadFileIcon = false,
 					FileExtension = itemFileExtension,
 					ItemType = itemType,
-					Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
+					Opacity = isHidden ? Core.Constants.UI.DimItemOpacity : 1
 				};
 			}
 			else
@@ -378,7 +378,7 @@ namespace Files.App.Filesystem.Search
 						ItemPath = itemPath,
 						IsHiddenItem = isHidden,
 						LoadFileIcon = false,
-						Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
+						Opacity = isHidden ? Core.Constants.UI.DimItemOpacity : 1
 					};
 				}
 			}

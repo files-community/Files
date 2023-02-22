@@ -117,6 +117,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
+        <ProjectReference Include="..\Files.BackgroundTasks\Files.BackgroundTasks.csproj" />
         <ProjectReference Include="..\Files.Core\Files.Core.csproj" />
         <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
     </ItemGroup>

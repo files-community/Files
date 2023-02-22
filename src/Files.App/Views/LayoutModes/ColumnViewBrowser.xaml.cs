@@ -11,7 +11,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Files.App.Constants;
+using static Files.Core.Constants;
 using static Files.App.Helpers.PathNormalization;
 
 namespace Files.App.Views.LayoutModes

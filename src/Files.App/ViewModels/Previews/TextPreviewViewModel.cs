@@ -37,7 +37,7 @@ namespace Files.App.ViewModels.Previews
 				details.Add(GetFileProperty("PropertyLineCount", text.Split('\n').Length));
 				details.Add(GetFileProperty("PropertyWordCount", text.Split(new[] { ' ', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length));
 
-				TextValue = text.Left(Constants.PreviewPane.TextCharacterLimit);
+				TextValue = text.Left(Core.Constants.PreviewPane.TextCharacterLimit);
 			}
 			catch (Exception e)
 			{
@@ -50,7 +50,7 @@ namespace Files.App.ViewModels.Previews
 		public static async Task<TextPreview> TryLoadAsTextAsync(ListedItem item)
 		{
 			string extension = item.FileExtension?.ToLowerInvariant();
-			if (ExcludedExtensions(extension) || item.FileSizeBytes is 0 or > Constants.PreviewPane.TryLoadAsTextSizeLimit)
+			if (ExcludedExtensions(extension) || item.FileSizeBytes is 0 or > Core.Constants.PreviewPane.TryLoadAsTextSizeLimit)
 				return null;
 
 			try

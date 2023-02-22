@@ -147,7 +147,7 @@ namespace Files.App
 				case IToastNotificationActivatedEventArgs eventArgsForNotification:
 					if (eventArgsForNotification.Argument == "report")
 					{
-						await Windows.System.Launcher.LaunchUriAsync(new Uri(Constants.GitHub.BugReportUrl));
+						await Windows.System.Launcher.LaunchUriAsync(new Uri(Core.Constants.GitHub.BugReportUrl));
 					}
 					break;
 

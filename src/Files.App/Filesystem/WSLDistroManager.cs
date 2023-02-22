@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
-using static Files.App.Constants;
+using static Files.Core.Constants;
 
 namespace Files.App.Filesystem
 {

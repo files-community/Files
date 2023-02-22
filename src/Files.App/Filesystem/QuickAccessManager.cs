@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
-using static Files.App.Constants;
+using static Files.Core.Constants;
 
 namespace Files.App.Filesystem
 {

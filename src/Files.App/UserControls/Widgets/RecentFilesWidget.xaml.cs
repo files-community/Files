@@ -111,7 +111,7 @@ namespace Files.App.UserControls.Widgets
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
 			secondaryElements.OfType<FrameworkElement>()
-							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+							 .ForEach(i => i.MinWidth = Core.Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });

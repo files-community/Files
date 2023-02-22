@@ -14,11 +14,11 @@ namespace Files.App.Helpers
 		public static readonly string LocalAppDataPath = UserDataPaths.GetDefault().LocalAppData;
 
 		// Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
-		public static readonly string RecycleBinPath = Constants.CommonPaths.RecycleBinPath;
+		public static readonly string RecycleBinPath = Core.Constants.CommonPaths.RecycleBinPath;
 
-		public static readonly string NetworkFolderPath = Constants.CommonPaths.NetworkFolderPath;
+		public static readonly string NetworkFolderPath = Core.Constants.CommonPaths.NetworkFolderPath;
 
-		public static string MyComputerPath = Constants.CommonPaths.MyComputerPath;
+		public static string MyComputerPath = Core.Constants.CommonPaths.MyComputerPath;
 
 		public static readonly string TempPath = ApplicationData.Current.LocalSettings.Values.Get("TEMP", "");
 

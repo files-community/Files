@@ -51,7 +51,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			// Try load thumbnail using ListView mode
 			if (thumbnailData is null || thumbnailData.Length == 0)
-				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(Core.Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
 
 			// Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
 			if (thumbnailData is null || thumbnailData.Length == 0)
@@ -59,7 +59,7 @@ namespace Files.App.UserControls.Widgets
 
 			// Thumbnail data is valid, set the item icon
 			if (thumbnailData is not null && thumbnailData.Length > 0)
-				Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
+				Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Core.Constants.Widgets.WidgetIconSize));
 		}
 
 		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);

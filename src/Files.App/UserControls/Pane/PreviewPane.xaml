@@ -101,7 +101,7 @@
 					ItemsSource="{x:Bind ViewModel.SelectedItem.FileDetails, Mode=OneWay}"
 					Visibility="Collapsed">
 					<ItemsControl.ItemTemplate>
-						<DataTemplate x:DataType="properties:FileProperty">
+						<DataTemplate x:DataType="properties:FilePropertyViewModel">
 							<Grid
 								HorizontalAlignment="Stretch"
 								AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"

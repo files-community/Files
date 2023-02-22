@@ -257,7 +257,7 @@ namespace Files.App.ViewModels.Properties
 		/// <param name="file">The file whose properties you wish to obtain</param>
 		/// <param name="path">The path to the json file of properties to be loaded</param>
 		/// <returns>A list if FileProperties containing their values</returns>
-		public async static Task<List<FilePropertyViewModel>> RetrieveAndInitializePropertiesAsync(BaseStorageFile file, string path = Constants.ResourceFilePaths.DetailsPagePropertiesJsonPath)
+		public async static Task<List<FilePropertyViewModel>> RetrieveAndInitializePropertiesAsync(BaseStorageFile file, string path = Core.Constants.ResourceFilePaths.DetailsPagePropertiesJsonPath)
 		{
 			// cache the contents of the file to avoid repeatedly reading the file
 			string text;

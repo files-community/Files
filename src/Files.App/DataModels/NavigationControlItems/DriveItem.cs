@@ -139,7 +139,7 @@ namespace Files.App.DataModels.NavigationControlItems
 					return;
 
 				if (Type == DriveType.Fixed)
-					ShowStorageSense = percentageUsed >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold;
+					ShowStorageSense = percentageUsed >= Core.Constants.Widgets.Drives.LowStorageSpacePercentageThreshold;
 			}
 		}
 
@@ -243,7 +243,7 @@ namespace Files.App.DataModels.NavigationControlItems
 				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
 					IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
 
-				IconData ??= UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder).IconData;
+				IconData ??= UIHelpers.GetIconResourceInfo(Core.Constants.ImageRes.Folder).IconData;
 			}
 
 			Icon = await IconData.ToBitmapAsync();

@@ -33,7 +33,7 @@ namespace Files.App.Views.LayoutModes
 		/// <summary>
 		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
 		/// </summary>
-		public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
+		public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Core.Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
 
 		public GridViewBrowser()
 			: base()

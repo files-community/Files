@@ -89,7 +89,7 @@ namespace Files.App.UserControls.Widgets
 				var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
 				if (itemsControl is not null)
 				{
-					var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
+					var maxWidth = itemsControl.ActualWidth - Core.Constants.UI.ContextMenuLabelMargin;
 					secondaryElements.OfType<FrameworkElement>()
 									 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
 				}
