@@ -89,6 +89,7 @@ namespace Files.App.ViewModels
 		public ContextMenuFlyoutItemViewModel()
 		{
 		}
+
 		public ContextMenuFlyoutItemViewModel(IRichCommand command)
 		{
 			Text = command.Label;

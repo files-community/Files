@@ -30,11 +30,14 @@ namespace Files.App.Commands
 			if (IsNone)
 				return null;
 
-			return new FontIcon
+			var icon = new FontIcon
 			{
 				Glyph = BaseGlyph,
-				FontFamily = ToFontFamily(),
 			};
+			if (!string.IsNullOrEmpty(FontFamily))
+				icon.FontFamily = (FontFamily)Current.Resources[FontFamily];
+
+			return icon;
 		}
 
 		public ColoredIcon? ToColoredIcon()
@@ -42,12 +45,15 @@ namespace Files.App.Commands
 			if (IsNone)
 				return null;
 
-			return new ColoredIcon
+			var icon = new ColoredIcon
 			{
 				BaseLayerGlyph = BaseGlyph,
 				OverlayLayerGlyph = OverlayGlyph,
-				FontFamily = ToFontFamily(),
 			};
+			if (!string.IsNullOrEmpty(FontFamily))
+				icon.FontFamily = (FontFamily)Current.Resources[FontFamily];
+
+			return icon;
 		}
 	}
 }
