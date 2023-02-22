@@ -16,14 +16,25 @@ namespace Files.App.Commands
 		public string FontFamily { get; }
 
 		public RichGlyph(string baseGlyph, string overlayGlyph = "", string fontFamily = "")
-			=> (BaseGlyph, OverlayGlyph, FontFamily) = (baseGlyph, overlayGlyph, fontFamily);
+		{
+			BaseGlyph = baseGlyph;
+			OverlayGlyph = overlayGlyph;
+			FontFamily = fontFamily;
+		}
 
 		public void Deconstruct(out string baseGlyph, out string overlayGlyph, out string fontFamily)
-			=> (baseGlyph, overlayGlyph, fontFamily) = (BaseGlyph, OverlayGlyph, FontFamily);
+		{
+			baseGlyph = BaseGlyph;
+			overlayGlyph = OverlayGlyph;
+			fontFamily = FontFamily;
+		}
 
-		public FontFamily ToFontFamily() => string.IsNullOrEmpty(FontFamily)
-			? App.AppModel.SymbolFontFamily
-			: (FontFamily)Current.Resources[FontFamily];
+		public FontFamily ToFontFamily()
+		{
+			return string.IsNullOrEmpty(FontFamily)
+				? App.AppModel.SymbolFontFamily
+				: (FontFamily)Current.Resources[FontFamily];
+		}
 
 		public FontIcon? ToFontIcon()
 		{
