@@ -39,7 +39,6 @@ namespace Files.App.Interacts
 			SidebarUnpinItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SidebarUnpinItem);
 			UnpinDirectoryFromFavoritesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.UnpinDirectoryFromFavorites);
 			OpenItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItem);
-			EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.EmptyRecycleBin);
 			RestoreRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreRecycleBin);
 			RestoreSelectionRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreSelectionRecycleBin);
 			QuickLookCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.QuickLook);
@@ -113,8 +112,6 @@ namespace Files.App.Interacts
 		public ICommand OpenItemCommand { get; private set; }
 
 		public ICommand UnpinDirectoryFromFavoritesCommand { get; private set; }
-
-		public ICommand EmptyRecycleBinCommand { get; private set; }
 
 		public ICommand RestoreRecycleBinCommand { get; private set; }
 

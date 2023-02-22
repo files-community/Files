@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
 using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -37,7 +38,9 @@ namespace Files.App.UserControls
 {
 	public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
 	{
-		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
@@ -73,8 +76,6 @@ namespace Files.App.UserControls
 
 		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
 
-		public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
-
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(nameof(ViewModel), typeof(SidebarViewModel), typeof(SidebarControl), new PropertyMetadata(null));
@@ -97,12 +98,6 @@ namespace Files.App.UserControls
 		{
 			get => (UIElement)GetValue(TabContentProperty);
 			set => SetValue(TabContentProperty, value);
-		}
-
-		public ICommand EmptyRecycleBinCommand
-		{
-			get => (ICommand)GetValue(EmptyRecycleBinCommandProperty);
-			set => SetValue(EmptyRecycleBinCommandProperty, value);
 		}
 
 		public readonly ICommand CreateLibraryCommand = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
@@ -208,16 +203,12 @@ namespace Files.App.UserControls
 					Command = RestoreLibrariesCommand,
 					ShowItem = options.IsLibrariesHeader
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModel(commands.EmptyRecycleBin)
 				{
-					Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalizedResource(),
-					Glyph = "\uEF88",
-					GlyphFontFamilyName = "RecycleBinIcons",
-					Command = EmptyRecycleBinCommand,
-					ShowItem = options.ShowEmptyRecycleBin,
-					IsEnabled = false,
 					ID = "EmptyRecycleBin",
 					Tag = "EmptyRecycleBin",
+					IsEnabled = false,
+					ShowItem = options.ShowEmptyRecycleBin,
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

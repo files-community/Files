@@ -968,8 +968,6 @@ namespace Files.App.ViewModels
 
 		public ICommand? CutCommand { get; set; }
 
-		public ICommand? EmptyRecycleBinCommand { get; set; }
-
 		public ICommand RestoreRecycleBinCommand { get; set; }
 
 		public ICommand RestoreSelectionRecycleBinCommand { get; set; }
