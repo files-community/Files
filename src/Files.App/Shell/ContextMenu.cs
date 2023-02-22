@@ -137,16 +137,24 @@ namespace Files.App.Shell
 			if (!shellItems.Any())
 				return null;
 
-			// HP: The items are all in the same folder
-			using var sf = shellItems[0].Parent;
+			try
+			{
+				// HP: The items are all in the same folder
+				using var sf = shellItems[0].Parent;
 
-			Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
-			var hMenu = User32.CreatePopupMenu();
-			menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-			var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
-			EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
+				Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
+				var hMenu = User32.CreatePopupMenu();
+				menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
+				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
+				EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
 
-			return contextMenu;
+				return contextMenu;
+			}
+			catch (COMException)
+			{
+				// Return empty context menu
+				return null;
+			}
 		}
 
 		public async static Task<ContextMenu?> GetContextMenuForFolder(string folderPath, Shell32.CMF flags, Func<string, bool>? itemFilter = null)
@@ -168,7 +176,7 @@ namespace Files.App.Shell
 
 					return contextMenu;
 				}
-				catch (Exception ex) when (ex is ArgumentException or FileNotFoundException)
+				catch (Exception ex) when (ex is ArgumentException or FileNotFoundException or COMException)
 				{
 					// Return empty context menu
 					return null;
