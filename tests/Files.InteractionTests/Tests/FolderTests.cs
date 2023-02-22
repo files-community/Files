@@ -11,8 +11,6 @@ namespace Files.InteractionTests.Tests
 		[TestCleanup]
 		public void Cleanup()
 		{
-			DeleteFolderTest();
-
 			// Navigate back home
 			TestHelper.InvokeButtonById("Home");
 		}
@@ -27,6 +25,8 @@ namespace Files.InteractionTests.Tests
 			RenameFolderTest();
 
 			CopyPasteFolderTest();
+
+			DeleteFolderTest();
 		}
 
 		/// <summary>
