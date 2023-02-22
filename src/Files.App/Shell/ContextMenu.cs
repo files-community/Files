@@ -137,47 +137,24 @@ namespace Files.App.Shell
 			if (!shellItems.Any())
 				return null;
 
-			// HP: The items are all in the same folder
-			using var sf = shellItems[0].Parent;
-
-			Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
-			var hMenu = User32.CreatePopupMenu();
-			menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-			var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
-			EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
-
-			return contextMenu;
-		}
-
-		public async static Task<ContextMenu?> GetContextMenuForFolder(string folderPath, Shell32.CMF flags, Func<string, bool>? itemFilter = null)
-		{
-			var owningThread = new ThreadWithMessageQueue();
-			return await owningThread.PostMethod<ContextMenu>(() =>
+			try
 			{
-				ShellFolder? shellFolder = null;
-				try
-				{
-					shellFolder = new ShellFolder(folderPath);
-					var sv = shellFolder.GetViewObject<Shell32.IShellView>(default);
-					Shell32.IContextMenu menu = sv.GetItemObject<Shell32.IContextMenu>(Shell32.SVGIO.SVGIO_BACKGROUND);
+				// HP: The items are all in the same folder
+				using var sf = shellItems[0].Parent;
 
-					var hMenu = User32.CreatePopupMenu();
-					menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-					var contextMenu = new ContextMenu(menu, hMenu, new[] { shellFolder.ParsingName }, owningThread);
-					EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
+				Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
+				var hMenu = User32.CreatePopupMenu();
+				menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
+				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
+				EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
 
-					return contextMenu;
-				}
-				catch (Exception ex) when (ex is ArgumentException or FileNotFoundException)
-				{
-					// Return empty context menu
-					return null;
-				}
-				finally
-				{
-					shellFolder?.Dispose();
-				}
-			});
+				return contextMenu;
+			}
+			catch (COMException)
+			{
+				// Return empty context menu
+				return null;
+			}
 		}
 
 		#endregion FactoryMethods
