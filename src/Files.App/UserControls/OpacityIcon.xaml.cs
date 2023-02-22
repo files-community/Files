@@ -13,10 +13,10 @@ namespace Files.App.UserControls
 			InitializeComponent();
 		}
 
-		private void ForegroundChanged(DependencyObject sender, DependencyProperty dp)
+		private void IsEnabledChange(DependencyObject sender, DependencyProperty dp)
 		{
-			var v = sender.GetValue(dp);
-			if (v == Resources["AppBarButtonForegroundDisabled"])
+			var v = sender.GetValue(dp) as bool?;
+			if (v is not null && v == false)
 			{
 				VisualStateManager.GoToState(this, "Disabled", true);
 			}
@@ -29,10 +29,10 @@ namespace Files.App.UserControls
 		private void OpacityIcon_Loading(FrameworkElement sender, object args)
 		{
 			// register a property change callback for the parent content presenter's foreground to allow reacting to button state changes, eg disabled
-			var p = this.FindAscendant<ContentPresenter>();
+			var p = this.FindAscendant<Control>();
 			if (p is not null)
 			{
-				p.RegisterPropertyChangedCallback(ContentPresenter.ForegroundProperty, ForegroundChanged);
+				p.RegisterPropertyChangedCallback(Control.IsEnabledProperty, IsEnabledChange);
 			}
 		}
 	}
