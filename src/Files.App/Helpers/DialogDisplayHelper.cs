@@ -1,6 +1,6 @@
 using Files.App.Dialogs;
 using Files.App.ViewModels.Dialogs;
-using Files.Shared.Enums;
+using Files.Core.Enums;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;

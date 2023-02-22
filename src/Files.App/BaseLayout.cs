@@ -13,9 +13,9 @@ using Files.App.UserControls;
 using Files.App.UserControls.Menus;
 using Files.App.ViewModels;
 using Files.App.Views;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
+using Files.Core.Services.Settings;
+using Files.Core.Enums;
+using Files.Core.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -38,7 +38,7 @@ using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
-using SortDirection = Files.Shared.Enums.SortDirection;
+using SortDirection = Files.Core.Enums.SortDirection;
 
 namespace Files.App
 {

@@ -1,5 +1,5 @@
 using Files.App.Filesystem;
-using Files.Backend.ViewModels.FileTags;
+using Files.Core.ViewModels.FileTags;
 
 namespace Files.App.DataModels.NavigationControlItems
 {

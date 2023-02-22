@@ -1,5 +1,5 @@
 ﻿using Files.App.Helpers;
-using Files.Shared.Enums;
+using Files.Core.Enums;
 using System;
 
 namespace Files.App.Filesystem

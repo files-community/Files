@@ -5,7 +5,7 @@ using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Properties;
-using Files.Backend.Helpers;
+using Files.Core.Helpers;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;

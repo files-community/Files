@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.ViewModels;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
+using Files.Core.Services.Settings;
+using Files.Core.Enums;
 
 namespace Files.App.Helpers.LayoutPreferences
 {

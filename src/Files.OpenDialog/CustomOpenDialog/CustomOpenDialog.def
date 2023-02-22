@@ -1,4 +1,8 @@
-; CustomOpenDialog.def: dichiara i parametri del modulo.
+; Copyright (c) 2023 Files Community
+; Licensed under the MIT license.
+
+; Abstract:
+; - Declares the parameters of the module.
 
 LIBRARY
 

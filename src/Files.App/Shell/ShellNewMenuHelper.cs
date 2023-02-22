@@ -1,5 +1,5 @@
-﻿using Files.Shared;
-using Files.Shared.Extensions;
+﻿using Files.Core;
+using Files.Core.Extensions;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;

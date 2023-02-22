@@ -1,6 +1,6 @@
 ﻿using Files.App.Extensions;
-using Files.Backend.Services;
-using Files.Shared;
+using Files.Core.Services;
+using Files.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

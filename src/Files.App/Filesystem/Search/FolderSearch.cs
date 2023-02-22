@@ -3,8 +3,8 @@ using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
+using Files.Core.Services.Settings;
+using Files.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
+using static Files.Core.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem.Search

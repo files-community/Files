@@ -1,4 +1,4 @@
-using Files.Shared.EventArguments;
+using Files.Core.EventArguments;
 using System;
 using System.Runtime.CompilerServices;
 

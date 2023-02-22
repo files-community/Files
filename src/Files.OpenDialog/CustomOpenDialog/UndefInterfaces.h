@@ -1,4 +1,8 @@
-// UndefInterfaces.h: undocumented interfaces declarations & helpers
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT license.
+
+// Abstract:
+// - Undocumented interfaces, declarations, and helpers
 
 #pragma once
 
@@ -10,7 +14,7 @@
 using namespace ATL;
 
 
-#ifdef  DEBUGLOG
+#ifdef DEBUGLOG
 
 #define CUSTOM_BEGIN_COM_MAP(x) public: \
 	typedef x _ComMapClass; \
@@ -50,7 +54,7 @@ using namespace ATL;
 
 #define CUSTOM_BEGIN_COM_MAP(x) BEGIN_COM_MAP(x)
 
-#endif //  DEBUGLOG
+#endif // DEBUGLOG
 
 
 MIDL_INTERFACE("9EA5491C-89C8-4BEF-93D3-7F665FB82A33")

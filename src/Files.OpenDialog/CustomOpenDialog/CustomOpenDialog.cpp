@@ -1,4 +1,8 @@
-// CustomOpenDialog.cpp: implementazione delle esportazioni DLL.
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT license.
+
+// Abstract:
+// - Implementation of DLL exports.
 
 
 #include "pch.h"
@@ -10,30 +14,31 @@
 
 using namespace ATL;
 
-// Utilizzato per determinare se la DLL può essere scaricata da OLE.
+
+// Used to determine if the DLL can be downloaded by OLE.
 _Use_decl_annotations_
 STDAPI DllCanUnloadNow(void)
 {
 	return _AtlModule.DllCanUnloadNow();
 }
 
-// Restituisce una class factory per creare un oggetto del tipo richiesto.
+// Returns a class factory to create an object of the requested type.
 _Use_decl_annotations_
 STDAPI DllGetClassObject(_In_ REFCLSID rclsid, _In_ REFIID riid, _Outptr_ LPVOID* ppv)
 {
 	return _AtlModule.DllGetClassObject(rclsid, riid, ppv);
 }
 
-// DllRegisterServer: aggiunge voci al Registro di sistema.
+// DllRegisterServer: Adds entries to the registry.
 _Use_decl_annotations_
 STDAPI DllRegisterServer(void)
 {
-	// registra gli oggetti, le librerie dei tipi e tutte le interfacce della libreria dei tipi
+	// Registers objects, type libraries, and all type library interfaces
 	HRESULT hr = _AtlModule.DllRegisterServer();
 	return hr;
 }
 
-// DllUnregisterServer: rimuove voci dal Registro di sistema.
+// DllUnregisterServer: Removes entries from the registry.
 _Use_decl_annotations_
 STDAPI DllUnregisterServer(void)
 {
@@ -41,7 +46,7 @@ STDAPI DllUnregisterServer(void)
 	return hr;
 }
 
-// DllInstall: aggiunge/rimuove voci nel Registro di sistema per ogni utente di ciascun computer.
+// DllInstall: Adds/Removes entries in the registry for each user of each computer.
 STDAPI DllInstall(BOOL bInstall, _In_opt_  LPCWSTR pszCmdLine)
 {
 	HRESULT hr = E_FAIL;
@@ -70,5 +75,3 @@ STDAPI DllInstall(BOOL bInstall, _In_opt_  LPCWSTR pszCmdLine)
 
 	return hr;
 }
-
-

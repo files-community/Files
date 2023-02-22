@@ -2,7 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Filesystem;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views.LayoutModes;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;

@@ -5,7 +5,7 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;

@@ -4,7 +4,7 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Interacts;
 using Files.App.UserControls.Selection;
-using Files.Shared.Enums;
+using Files.Core.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

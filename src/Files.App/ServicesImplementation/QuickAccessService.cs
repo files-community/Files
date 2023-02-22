@@ -1,8 +1,8 @@
 ﻿using Files.App.Shell;
 using Files.App.UserControls.Widgets;
 using Files.Sdk.Storage.LocatableStorage;
-using Files.Shared;
-using Files.Shared.Extensions;
+using Files.Core;
+using Files.Core.Extensions;
 using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;

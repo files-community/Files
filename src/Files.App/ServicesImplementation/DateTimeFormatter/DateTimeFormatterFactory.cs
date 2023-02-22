@@ -1,5 +1,5 @@
-using Files.Shared.Enums;
-using Files.Shared.Services.DateTimeFormatter;
+using Files.Core.Enums;
+using Files.Core.Services.DateTimeFormatter;
 using System;
 
 namespace Files.App.ServicesImplementation.DateTimeFormatter

@@ -3,10 +3,10 @@ using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.FileListCache;
-using Files.Backend.Extensions;
-using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
-using Files.Backend.Services.SizeProvider;
+using Files.Core.Extensions;
+using Files.Core.Helpers;
+using Files.Core.Services.Settings;
+using Files.Core.Services.SizeProvider;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
+using static Files.Core.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem.StorageEnumerators
@@ -30,7 +30,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 		public static async Task<List<ListedItem>> ListEntries(
 			string path,
 			IntPtr hFile,
-			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			Core.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			CancellationToken cancellationToken,
 			int countLimit,
 			Func<List<ListedItem>, Task> intermediateAction,
@@ -168,7 +168,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 		}
 
 		public static async Task<ListedItem> GetFolder(
-			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			Core.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			string pathRoot,
 			CancellationToken cancellationToken
 		)
@@ -182,10 +182,10 @@ namespace Files.App.Filesystem.StorageEnumerators
 			DateTime itemCreatedDate;
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedTimeOutput);
+				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Core.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedTimeOutput);
 				itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemCreatedTimeOutput);
+				FileTimeToSystemTime(ref findData.ftCreationTime, out Core.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemCreatedTimeOutput);
 				itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
 			}
 			catch (ArgumentException)
@@ -225,7 +225,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 		}
 
 		public static async Task<ListedItem> GetFile(
-			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			Core.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			string pathRoot,
 			CancellationToken cancellationToken
 		)
@@ -236,13 +236,13 @@ namespace Files.App.Filesystem.StorageEnumerators
 			DateTime itemModifiedDate, itemCreatedDate, itemLastAccessDate;
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedDateOutput);
+				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Core.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedDateOutput);
 				itemModifiedDate = systemModifiedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemCreatedDateOutput);
+				FileTimeToSystemTime(ref findData.ftCreationTime, out Core.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemCreatedDateOutput);
 				itemCreatedDate = systemCreatedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftLastAccessTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemLastAccessOutput);
+				FileTimeToSystemTime(ref findData.ftLastAccessTime, out Core.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemLastAccessOutput);
 				itemLastAccessDate = systemLastAccessOutput.ToDateTime();
 			}
 			catch (ArgumentException)

@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Shared;
+using Files.Core;
 using SevenZip;
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace Files.App.Filesystem.Archive
 
 		public ArchiveCreator()
 		{
-			fsProgress = new(Progress, true, Shared.Enums.FileSystemStatusCode.InProgress);
+			fsProgress = new(Progress, true, Core.Enums.FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 		}
 
@@ -132,7 +132,7 @@ namespace Files.App.Filesystem.Archive
 		private void Compressor_CompressionFinished(object? sender, EventArgs e)
 		{
 			fsProgress.Percentage = null;
-			fsProgress.ReportStatus(Shared.Enums.FileSystemStatusCode.Success);
+			fsProgress.ReportStatus(Core.Enums.FileSystemStatusCode.Success);
 		}
 
 		private void Compressor_Compressing(object? _, ProgressEventArgs e)

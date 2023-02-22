@@ -1,5 +1,5 @@
 using Files.App.Helpers;
-using Files.Shared.Cloud;
+using Files.Core.Cloud;
 using System.Collections.Generic;
 
 namespace Files.App.Filesystem.Cloud

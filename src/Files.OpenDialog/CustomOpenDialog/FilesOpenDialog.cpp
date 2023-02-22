@@ -1,4 +1,8 @@
-// FilesOpenDialog.cpp: implementazione di CFilesOpenDialog
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT license.
+
+// Abstract:
+// - Implementation of CFilesOpenDialog
 
 #include "pch.h"
 #include "FilesOpenDialog.h"

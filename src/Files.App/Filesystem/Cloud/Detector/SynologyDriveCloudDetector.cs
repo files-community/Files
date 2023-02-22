@@ -1,4 +1,4 @@
-using Files.Shared.Cloud;
+using Files.Core.Cloud;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;

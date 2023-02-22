@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Filesystem;
-using Files.Backend.AppModels;
-using Files.Backend.Services;
-using Files.Backend.Services.Settings;
-using Files.Backend.ViewModels.FileTags;
+using Files.Core.AppModels;
+using Files.Core.Services;
+using Files.Core.Services.Settings;
+using Files.Core.ViewModels.FileTags;
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.Extensions;
 using Files.Sdk.Storage.LocatableStorage;

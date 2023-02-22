@@ -1,6 +1,6 @@
 using Files.App.Shell;
-using Files.Shared.Cloud;
-using Files.Shared.Extensions;
+using Files.Core.Cloud;
+using Files.Core.Extensions;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;

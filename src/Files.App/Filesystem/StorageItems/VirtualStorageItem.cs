@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
+using static Files.Core.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.App.Filesystem.StorageItems
 {

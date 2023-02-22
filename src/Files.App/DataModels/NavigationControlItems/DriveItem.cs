@@ -4,7 +4,7 @@ using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using Files.Shared.Extensions;
+using Files.Core.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;

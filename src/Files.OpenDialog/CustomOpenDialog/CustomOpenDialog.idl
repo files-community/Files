@@ -1,8 +1,11 @@
-// CustomOpenDialog.idl: origine IDL per CustomOpenDialog
-//
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT license.
 
-// Questo file verrà elaborato dallo strumento MIDL per
-// produce la libreria dei tipi (CustomOpenDialog.tlb) e il codice di marshalling.
+// Abstract:
+// - origin IDL for CustomOpenDialog
+// - This file will be processed by the MIDL tool to produce
+//   the type library (CustomOpenDialog.tlb) and marshaling code.
+
 
 import "oaidl.idl";
 import "ocidl.idl";

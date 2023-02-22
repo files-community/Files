@@ -1,4 +1,4 @@
-using Files.Shared.Enums;
+using Files.Core.Enums;
 using System.Collections.Generic;
 
 namespace Files.App.Filesystem.FilesystemHistory

@@ -1,7 +1,7 @@
 using Files.App.AppModels;
 using Files.App.Helpers;
-using Files.Backend.Models;
-using Files.Backend.Services;
+using Files.Core.Models;
+using Files.Core.Services;
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.LocatableStorage;
 using System.Threading;

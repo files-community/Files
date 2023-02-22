@@ -2,7 +2,7 @@ using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.App.Shell;
-using Files.Shared;
+using Files.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;

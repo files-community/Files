@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;

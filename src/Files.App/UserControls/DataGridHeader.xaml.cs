@@ -1,4 +1,4 @@
-using Files.Shared.Enums;
+using Files.Core.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.ComponentModel;

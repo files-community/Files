@@ -1,6 +1,6 @@
 ﻿using Files.App.Helpers;
-using Files.Shared;
-using Files.Shared.Extensions;
+using Files.Core;
+using Files.Core.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
-using Files.Backend.SecureStore;
-using Files.Backend.ViewModels.Dialogs;
-using Files.Shared.Enums;
+using Files.Core.SecureStore;
+using Files.Core.ViewModels.Dialogs;
+using Files.Core.Enums;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Text;

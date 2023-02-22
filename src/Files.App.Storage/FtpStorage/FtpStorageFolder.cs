@@ -3,7 +3,7 @@ using Files.Sdk.Storage.Enums;
 using Files.Sdk.Storage.Extensions;
 using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.ModifiableStorage;
-using Files.Shared.Helpers;
+using Files.Core.Helpers;
 using FluentFTP;
 using System;
 using System.Collections.Generic;

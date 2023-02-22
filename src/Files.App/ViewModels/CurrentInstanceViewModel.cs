@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Files.Shared.Enums;
+using Files.Core.Enums;
 
 namespace Files.App.ViewModels
 {

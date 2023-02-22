@@ -1,4 +1,4 @@
-using Files.Shared.Extensions;
+using Files.Core.Extensions;
 using LiteDB;
 using System;
 using System.Linq;

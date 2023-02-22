@@ -1,4 +1,4 @@
-using Files.Shared.Extensions;
+using Files.Core.Extensions;
 using System;
 using System.IO;
 using static Files.App.Helpers.NativeFileOperationsHelper;

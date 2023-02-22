@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.ServicesImplementation.Settings;
 using Files.App.ViewModels;
 using Files.App.Views;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;

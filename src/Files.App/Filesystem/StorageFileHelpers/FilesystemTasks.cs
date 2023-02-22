@@ -1,4 +1,4 @@
-using Files.Shared.Enums;
+using Files.Core.Enums;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;

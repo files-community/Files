@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
         <TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
         <OutputType>WinExe</OutputType>
@@ -26,6 +27,7 @@
         <TieredCompilation>true</TieredCompilation>
         <TieredPgo>true</TieredPgo>
     </PropertyGroup>
+
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <DefineConstants>TRACE;DEBUG;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
@@ -37,6 +39,7 @@
         <DefineConstants>TRACE;SIDELOAD;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
         <Optimize>true</Optimize>
     </PropertyGroup>
+
     <ItemGroup>
         <Manifest Include="$(ApplicationManifest)" />
         <Content Include="7z.dll">
@@ -63,9 +66,7 @@
         </Content>
         <Content Remove="Assets\FilesHome.png" />
     </ItemGroup>
-    <ItemGroup>
-      <None Remove="UserControls\OpacityIcon.xaml" />
-    </ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
@@ -92,20 +93,14 @@
         <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
         <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
     </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj" />
-        <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
-        <ProjectReference Include="..\Files.Backend\Files.Backend.csproj" />
-        <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
-        <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
-    </ItemGroup>
+
     <ItemGroup>
         <TrimmerRootAssembly Include="BackgroundTasks" />
         <TrimmerRootAssembly Include="Files" />
         <TrimmerRootAssembly Include="Files.App.Storage" />
-        <TrimmerRootAssembly Include="Files.Backend" />
+        <TrimmerRootAssembly Include="Files.Core" />
         <TrimmerRootAssembly Include="Files.Sdk.Storage" />
-        <TrimmerRootAssembly Include="Files.Shared" />
+        <TrimmerRootAssembly Include="Files.Core" />
         <TrimmerRootAssembly Include="CommunityToolkit.Common" />
         <TrimmerRootAssembly Include="CommunityToolkit.Mvvm" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI" />
@@ -120,9 +115,11 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
     </ItemGroup>
+
     <ItemGroup>
-      <Page Update="UserControls\OpacityIcon.xaml">
-        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      </Page>
+        <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
+        <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
+        <ProjectReference Include="..\Files.Core\Files.Core.csproj" />
     </ItemGroup>
+
 </Project>

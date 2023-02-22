@@ -1,5 +1,5 @@
 using Files.Sdk.Storage.LocatableStorage;
-using Files.Shared.Helpers;
+using Files.Core.Helpers;
 using FluentFTP;
 using System.Threading;
 using System.Threading.Tasks;

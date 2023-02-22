@@ -1,5 +1,5 @@
 using Files.App.Filesystem;
-using Files.Shared.Extensions;
+using Files.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;

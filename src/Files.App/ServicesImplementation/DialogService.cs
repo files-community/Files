@@ -1,10 +1,10 @@
 using Files.App.Dialogs;
 using Files.App.ViewModels.Dialogs;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs;
-using Files.Backend.ViewModels.Dialogs.AddItemDialog;
-using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-using Files.Shared.Enums;
+using Files.Core.Services;
+using Files.Core.ViewModels.Dialogs;
+using Files.Core.ViewModels.Dialogs.AddItemDialog;
+using Files.Core.ViewModels.Dialogs.FileSystemDialog;
+using Files.Core.Enums;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;

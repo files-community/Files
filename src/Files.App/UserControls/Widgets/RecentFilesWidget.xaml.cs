@@ -6,7 +6,7 @@ using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
-using Files.Shared.Extensions;
+using Files.Core.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;

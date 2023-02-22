@@ -6,7 +6,7 @@ using Files.App.Helpers;
 using Files.App.UserControls.Widgets;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Pages;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;

@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Extensions;
-using Files.Shared.Cloud;
+using Files.Core.Cloud;
 
 namespace Files.App.Filesystem.Cloud
 {

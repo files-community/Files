@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using Files.Backend.Services.Settings;
-using Files.Backend.ViewModels.FileTags;
-using Files.Shared.Extensions;
+using Files.Core.Services.Settings;
+using Files.Core.ViewModels.FileTags;
+using Files.Core.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;

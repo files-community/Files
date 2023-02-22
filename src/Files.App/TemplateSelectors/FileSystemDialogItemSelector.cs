@@ -1,4 +1,4 @@
-using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+using Files.Core.ViewModels.Dialogs.FileSystemDialog;
 using Microsoft.UI.Xaml;
 
 namespace Files.App.TemplateSelectors

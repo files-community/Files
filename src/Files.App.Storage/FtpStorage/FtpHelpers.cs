@@ -1,4 +1,4 @@
-using Files.Shared.Extensions;
+using Files.Core.Extensions;
 using FluentFTP;
 using System;
 using System.Threading;

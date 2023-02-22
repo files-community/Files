@@ -10,7 +10,7 @@
 	xmlns:vc="using:Files.App.ValueConverters"
 	xmlns:vc2="using:Files.App.ValueConverters.EnumConverters"
 	xmlns:vc3="using:Files.App.Converters"
-	xmlns:vm="using:Files.Backend.ViewModels.Dialogs.FileSystemDialog"
+	xmlns:vm="using:Files.Core.ViewModels.Dialogs.FileSystemDialog"
 	x:Name="RootDialog"
 	Title="{x:Bind ViewModel.Title, Mode=OneWay}"
 	Closing="RootDialog_Closing"

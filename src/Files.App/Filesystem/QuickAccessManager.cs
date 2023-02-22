@@ -3,7 +3,7 @@ using CommunityToolkit.WinUI.Helpers;
 using Files.App.DataModels;
 using Files.App.ServicesImplementation;
 using Files.App.UserControls.Widgets;
-using Files.Shared.Extensions;
+using Files.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;

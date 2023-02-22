@@ -4,7 +4,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Interacts;
-using Files.Shared.Enums;
+using Files.Core.Enums;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;

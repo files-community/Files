@@ -1,26 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-         xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
-         xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-         xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
-         xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
-         xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
-         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-         xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
-         xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
-         xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
-         IgnorableNamespaces="uap uap5 mp rescap desktop6 desktop4 desktop">
+<Package
+    xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+    xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+    xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+    xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+    xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
+    xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+    xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+    xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
+    xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
+    IgnorableNamespaces="mp rescap uap uap5 desktop desktop4 desktop6">
+
     <Identity Name="FilesDev" Publisher="CN=Files" Version="2.4.40.0" />
+
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
         <PublisherDisplayName>Yair A</PublisherDisplayName>
         <Logo>Assets\AppTiles\Dev\StoreLogo.png</Logo>
         <desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
     </Properties>
+
     <Dependencies>
         <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22621.0" />
         <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22621.0" />
     </Dependencies>
+
     <Resources>
         <Resource Language="en-US"/>
         <Resource Language="af"/>
@@ -66,6 +71,7 @@
         <Resource Language="zh-Hans"/>
         <Resource Language="zh-Hant"/>
     </Resources>
+
     <Applications>
         <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$" desktop4:SupportsMultipleInstances="true">
             <uap:VisualElements DisplayName="Files - Dev" Description="Organize your files and folders easily. Robust multitasking experiences, helpful tags, and deep integrations add to an intuitive design, made by the community." Square150x150Logo="Assets\AppTiles\Dev\Square150x150Logo.png"  Square44x44Logo="Assets\AppTiles\Dev\Square44x44Logo.png"  BackgroundColor="transparent">
@@ -98,7 +104,7 @@
                   Enabled="false"
                   DisplayName="Files" />
               </uap5:Extension>
-              <Extension Category="windows.updateTask" EntryPoint="BackgroundTasks.UpdateTask" />
+              <!--<Extension Category="windows.updateTask" EntryPoint="BackgroundTasks.UpdateTask" />-->
               <uap:Extension Category="windows.fileTypeAssociation">
                 <uap:FileTypeAssociation Name="archives">
                   <uap:SupportedFileTypes>
@@ -113,15 +119,15 @@
         </Application>
     </Applications>
   
-    <!-- To host the BgTaskComponent, you must add this activatable class entry -->
-    <Extensions>
+    <!-- To host the BgTaskComponent, you must add this activatable class entry-->
+    <!--<Extensions>
       <Extension Category="windows.activatableClass.inProcessServer">
         <InProcessServer>
           <Path>Files.App\WinRT.Host.dll</Path>
           <ActivatableClass ActivatableClassId="BackgroundTasks.UpdateTask" ThreadingModel="both" />
         </InProcessServer>
       </Extension>
-    </Extensions>
+    </Extensions>-->
   
     <Capabilities>
         <!--<rescap:Capability Name="packageQuery"/>-->

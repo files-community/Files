@@ -1,7 +1,7 @@
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.Backend.Helpers;
-using Files.Shared.Enums;
+using Files.Core.Helpers;
+using Files.Core.Enums;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;

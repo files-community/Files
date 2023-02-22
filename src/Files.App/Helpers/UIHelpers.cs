@@ -1,7 +1,7 @@
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Extensions;
 using Files.App.Shell;
-using Files.Shared;
+using Files.Core;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;

@@ -8,8 +8,8 @@ using Files.App.Helpers.XamlHelpers;
 using Files.App.UserControls;
 using Files.App.UserControls.Selection;
 using Files.App.ViewModels;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
+using Files.Core.Services.Settings;
+using Files.Core.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -24,7 +24,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
-using SortDirection = Files.Shared.Enums.SortDirection;
+using SortDirection = Files.Core.Enums.SortDirection;
 
 namespace Files.App.Views.LayoutModes
 {

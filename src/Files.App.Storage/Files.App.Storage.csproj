@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
         <TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
         <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
@@ -8,13 +9,16 @@
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="FluentFTP">
             <Version>43.0.1</Version>
         </PackageReference>
     </ItemGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
-        <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
+        <ProjectReference Include="..\Files.Core\Files.Core.csproj" />
     </ItemGroup>
+
 </Project>

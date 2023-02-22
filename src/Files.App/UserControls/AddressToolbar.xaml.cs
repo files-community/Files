@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.ViewModels;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

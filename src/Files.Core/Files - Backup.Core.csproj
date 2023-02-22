@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <IsTrimmable>true</IsTrimmable>
+        <Configurations>Debug;Release;Sideload</Configurations>
+        <Platforms>x86;x64;arm64</Platforms>
+        <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Do not update LiteDB to version 5 -->
+        <PackageReference Include="LiteDB" Version="4.1.4" />
+        <PackageReference Include="System.Threading.Tasks.Dataflow" Version="7.0.0" />
+        <PackageReference Include="ByteSize" Version="2.1.1" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
+        <ProjectReference Include="..\Files.Core\Files.Core.csproj" />
+    </ItemGroup>
+
+</Project>

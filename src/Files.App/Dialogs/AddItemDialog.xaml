@@ -6,7 +6,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vc="using:Files.App.ValueConverters"
-	xmlns:vm="using:Files.Backend.ViewModels.Dialogs.AddItemDialog"
+	xmlns:vm="using:Files.Core.ViewModels.Dialogs.AddItemDialog"
 	x:Name="AddDialog"
 	Title="{helpers:ResourceString Name=AddDialog/Title}"
 	Grid.RowSpan="4"

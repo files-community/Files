@@ -1,4 +1,4 @@
-using Files.Shared.Enums;
+using Files.Core.Enums;
 using Windows.Storage;
 
 namespace Files.App.Helpers

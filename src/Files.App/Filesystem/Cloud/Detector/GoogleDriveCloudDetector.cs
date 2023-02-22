@@ -1,6 +1,6 @@
 using Files.App.Extensions;
-using Files.Shared.Cloud;
-using Files.Shared.Extensions;
+using Files.Core.Cloud;
+using Files.Core.Extensions;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;

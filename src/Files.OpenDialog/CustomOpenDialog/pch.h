@@ -1,8 +1,13 @@
-// pch.h: questo è un file di intestazione precompilata.
-// I file elencati di seguito vengono compilati una sola volta, in modo da migliorare le prestazioni per le compilazioni successive.
-// Questa impostazione influisce anche sulle prestazioni di IntelliSense, incluso il completamento codice e molte altre funzionalità di esplorazione del codice.
-// I file elencati qui vengono però TUTTI ricompilati se uno di essi viene aggiornato da una compilazione all'altra.
-// Non aggiungere qui file soggetti a frequenti aggiornamenti; in caso contrario si perderanno i vantaggi offerti in termini di prestazioni.
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT license.
+
+// Abstract:
+// - A precompiled header file
+//
+// - The files listed below are compiled only once, which improves performance for subsequent compilations.
+// - This setting also affects the performance of IntelliSense, including code completion and many other code browsing features.
+// - However, the files listed here are ALL recompiled if one of them is updated from one build to another.
+// - Don't add frequently updated files here; otherwise the benefits offered in terms of performance will be lost.
 
 #ifndef PCH_H
 #define PCH_H

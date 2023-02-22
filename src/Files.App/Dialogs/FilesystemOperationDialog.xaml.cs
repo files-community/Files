@@ -1,8 +1,8 @@
 using CommunityToolkit.WinUI.UI;
 using Files.App.Filesystem;
-using Files.Backend.ViewModels.Dialogs;
-using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-using Files.Shared.Enums;
+using Files.Core.ViewModels.Dialogs;
+using Files.Core.ViewModels.Dialogs.FileSystemDialog;
+using Files.Core.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;

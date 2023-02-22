@@ -1,6 +1,6 @@
 ﻿using Files.App.Helpers.MMI;
 using Files.App.MMI;
-using Files.Shared;
+using Files.Core;
 using Microsoft.Management.Infrastructure;
 using System;
 

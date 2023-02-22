@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.Shell;
-using Files.Shared;
+using Files.Core;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;

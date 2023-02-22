@@ -2,7 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.ViewModels.Widgets;
 using Files.App.ViewModels.Widgets.Bundles;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;

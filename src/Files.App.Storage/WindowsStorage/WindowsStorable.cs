@@ -1,6 +1,6 @@
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.LocatableStorage;
-using Files.Shared.Helpers;
+using Files.Core.Helpers;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;

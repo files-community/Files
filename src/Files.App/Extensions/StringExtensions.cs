@@ -1,5 +1,5 @@
 using ByteSizeLib;
-using Files.Shared.Extensions;
+using Files.Core.Extensions;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
 using System.Collections.Concurrent;

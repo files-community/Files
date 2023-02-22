@@ -1,7 +1,7 @@
 using Files.App.Dialogs;
 using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
-using Files.Shared.Enums;
+using Files.Core.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Diagnostics;

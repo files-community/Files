@@ -1,7 +1,7 @@
 using ColorCode;
 using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
-using Files.Shared.Extensions;
+using Files.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

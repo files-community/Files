@@ -1,5 +1,5 @@
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
+using Files.Core.Enums;
+using Files.Core.Extensions;
 using System.Collections.Generic;
 
 namespace Files.App.Filesystem.FilesystemHistory

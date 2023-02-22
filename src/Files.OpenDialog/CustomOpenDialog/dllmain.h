@@ -1,4 +1,8 @@
-// dllmain.h: dichiarazione della classe del modulo.
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT license.
+
+// Abstract:
+// - Module class declaration
 
 class CCustomOpenDialogModule : public ATL::CAtlDllModuleT< CCustomOpenDialogModule >
 {

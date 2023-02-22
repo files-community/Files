@@ -1,4 +1,8 @@
-// dllmain.cpp: implementazione di DllMain.
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT license.
+
+// Abstract:
+// - DllMain implementation
 
 #include "pch.h"
 #include "framework.h"
@@ -8,7 +12,7 @@
 
 CCustomOpenDialogModule _AtlModule;
 
-// Punto di ingresso DLL
+// DLL entry point
 extern "C" BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
 	hInstance;

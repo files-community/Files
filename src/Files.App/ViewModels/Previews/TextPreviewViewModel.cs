@@ -1,7 +1,7 @@
 using Files.App.Filesystem;
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Properties;
-using Files.Shared.Extensions;
+using Files.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Filesystem;
-using Files.Shared;
+using Files.Core;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System;

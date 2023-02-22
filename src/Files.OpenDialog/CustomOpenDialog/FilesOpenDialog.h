@@ -1,7 +1,11 @@
-// FilesOpenDialog.h: dichiarazione di CFilesOpenDialog
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT license.
+
+// Abstract:
+// - Declaration of CFilesOpenDialog
 
 #pragma once
-#include "resource.h"       // simboli principali
+#include "resource.h"       // Main symbols
 
 
 //#define DEBUGLOG
@@ -15,7 +19,7 @@
 
 
 #if defined(_WIN32_WCE) && !defined(_CE_DCOM) && !defined(_CE_ALLOW_SINGLE_THREADED_OBJECTS_IN_MTA)
-#error "Gli oggetti COM a thread singolo non sono supportati correttamente sulla piattaforma Windows CE, ad esempio le piattaforme Windows Mobile non includono un supporto DCOM completo. Definire _CE_ALLOW_SINGLE_THREADED_OBJECTS_IN_MTA per fare in modo che ATL supporti la creazione di oggetti COM a thread singolo e consenta l'utilizzo di implementazioni con oggetti COM a thread singolo. Il modello di threading nel file RGS è stato impostato su 'Free' poiché è l'unico modello di threading supportato sulle piattaforme Windows CE non DCOM."
+#error "Single-threaded COM objects are not supported properly on the Windows CE platform, for example Windows Mobile platforms do not include full DCOM support. Define _CE_ALLOW_SINGLE_THREADED_OBJECTS_IN_MTA to make ATL support the creation of single-threaded COM objects and allow implementations with single-threaded COM objects. The threading model in the RGS file has been set to 'Free' as it is the only threading model supported on non-DCOM Windows CE platforms."
 #endif
 
 using namespace ATL;
@@ -68,7 +72,7 @@ END_COM_MAP()
 	FILE* _debugStream;
 
 public:
-	// Ereditato tramite IFileOpenDialog
+	// Inherited through IFileOpenDialog
 	HRESULT __stdcall Show(HWND hwndOwner) override;
 
 	HRESULT __stdcall SetFileTypes(UINT cFileTypes, const COMDLG_FILTERSPEC* rgFilterSpec) override;
@@ -122,7 +126,7 @@ public:
 	HRESULT __stdcall GetSelectedItems(IShellItemArray** ppsai) override;
 
 
-	// Ereditato tramite IFileDialogCustomize
+	// Inherited through IFileDialogCustomize
 	HRESULT __stdcall EnableOpenDropDown(DWORD dwIDCtl) override;
 
 	HRESULT __stdcall AddMenu(DWORD dwIDCtl, LPCWSTR pszLabel) override;
@@ -178,16 +182,16 @@ public:
 	HRESULT __stdcall SetControlItemText(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel) override;
 
 
-	// Ereditato tramite IFileDialog2
+	// Inherited through IFileDialog2
 	HRESULT __stdcall SetCancelButtonLabel(LPCWSTR pszLabel) override;
 
 	HRESULT __stdcall SetNavigationRoot(IShellItem* psi) override;
 
-	// Ereditato tramite IObjectWithSite
+	// Inherited through IObjectWithSite
 	HRESULT __stdcall SetSite(IUnknown* pUnkSite) override;
 	HRESULT __stdcall GetSite(REFIID riid, void** ppvSite) override;
 
-	// Ereditato tramite IFileDialogPrivate
+	// Inherited through IFileDialogPrivate
 	HRESULT __stdcall HideControlsForHostedPickerProviderApp(void) override;
 	HRESULT __stdcall EnableControlsForHostedPickerProviderApp(void) override;
 	HRESULT __stdcall GetPrivateOptions(unsigned long*) override;

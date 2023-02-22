@@ -1,8 +1,8 @@
 using Files.App.CommandLine;
 using Files.App.Helpers;
 using Files.App.Shell;
-using Files.Backend.Helpers;
-using Files.Shared.Extensions;
+using Files.Core.Helpers;
+using Files.Core.Extensions;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;

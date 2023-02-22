@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.Helpers;
-using Files.Backend.Services;
-using Files.Shared;
+using Files.Core.Services;
+using Files.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

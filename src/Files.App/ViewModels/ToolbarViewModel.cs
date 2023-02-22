@@ -10,12 +10,12 @@ using Files.App.Helpers;
 using Files.App.Shell;
 using Files.App.UserControls;
 using Files.App.Views;
-using Files.Backend.Helpers;
-using Files.Backend.Services;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
-using Files.Shared.EventArguments;
-using Files.Shared.Extensions;
+using Files.Core.Helpers;
+using Files.Core.Services;
+using Files.Core.Services.Settings;
+using Files.Core.Enums;
+using Files.Core.EventArguments;
+using Files.Core.Extensions;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -35,7 +35,7 @@ using Windows.UI.Text;
 using static Files.App.UserControls.IAddressToolbar;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 using SearchBox = Files.App.UserControls.SearchBox;
-using SortDirection = Files.Shared.Enums.SortDirection;
+using SortDirection = Files.Core.Enums.SortDirection;
 
 namespace Files.App.ViewModels
 {

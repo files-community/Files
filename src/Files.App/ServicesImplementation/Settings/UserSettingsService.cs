@@ -1,9 +1,9 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
-using Files.Backend.Services.Settings;
-using Files.Shared.EventArguments;
-using Files.Shared.Extensions;
+using Files.Core.Services.Settings;
+using Files.Core.EventArguments;
+using Files.Core.Extensions;
 using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;

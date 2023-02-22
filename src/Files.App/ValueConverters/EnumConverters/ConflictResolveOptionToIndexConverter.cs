@@ -1,4 +1,4 @@
-using Files.Shared.Enums;
+using Files.Core.Enums;
 using Microsoft.UI.Xaml.Data;
 using System;
 

@@ -1,5 +1,5 @@
 using Files.App.ViewModels.Dialogs;
-using Files.Backend.SecureStore;
+using Files.Core.SecureStore;
 using Microsoft.UI.Xaml.Controls;
 using System.Text;
 

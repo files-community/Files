@@ -1,5 +1,5 @@
 using Files.App.Shell;
-using Files.Shared.Extensions;
+using Files.Core.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;

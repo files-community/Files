@@ -1,5 +1,9 @@
-// pch.cpp: file di origine corrispondente all'intestazione precompilata
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT license.
+
+// Abstract:
+// - Source file corresponding to the precompiled header
 
 #include "pch.h"
 
-// Quando si usano intestazioni precompilate, questo file è necessario per la riuscita della compilazione.
+// When using precompiled headers, this file is required for successful compilation.

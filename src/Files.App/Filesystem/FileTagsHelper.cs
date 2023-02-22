@@ -2,7 +2,7 @@ using Common;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Shell;
-using Files.Shared.Extensions;
+using Files.Core.Extensions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

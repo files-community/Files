@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Extensions;
 using Files.App.Filesystem.Archive;
-using Files.Backend.Models;
+using Files.Core.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;

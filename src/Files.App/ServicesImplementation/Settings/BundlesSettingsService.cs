@@ -1,6 +1,6 @@
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;

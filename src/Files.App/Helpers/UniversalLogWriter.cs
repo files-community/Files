@@ -1,4 +1,4 @@
-using Files.Shared;
+using Files.Core;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;

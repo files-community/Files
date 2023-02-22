@@ -12,11 +12,11 @@ using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.App.Views.LayoutModes;
-using Files.Backend.Enums;
-using Files.Backend.Services;
-using Files.Backend.Services.Settings;
-using Files.Shared;
-using Files.Shared.Enums;
+using Files.Core.Enums;
+using Files.Core.Services;
+using Files.Core.Services.Settings;
+using Files.Core;
+using Files.Core.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -35,7 +35,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using SortDirection = Files.Shared.Enums.SortDirection;
+using SortDirection = Files.Core.Enums.SortDirection;
 
 namespace Files.App.Views
 {

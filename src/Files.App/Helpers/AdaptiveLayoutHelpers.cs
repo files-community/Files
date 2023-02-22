@@ -2,7 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Filesystem;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Previews;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using IniParser.Model;
 using System;
 using System.Collections.Generic;

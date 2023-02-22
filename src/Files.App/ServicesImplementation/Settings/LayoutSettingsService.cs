@@ -1,5 +1,5 @@
 using Files.App.Serialization;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 
 namespace Files.App.ServicesImplementation.Settings
 {

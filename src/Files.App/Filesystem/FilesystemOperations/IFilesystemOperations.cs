@@ -1,5 +1,5 @@
 using Files.App.Filesystem.FilesystemHistory;
-using Files.Shared.Enums;
+using Files.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Threading;

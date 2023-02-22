@@ -4,7 +4,7 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Interacts;
 using Files.App.UserControls;
-using Files.Shared.Extensions;
+using Files.Core.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;

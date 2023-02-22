@@ -4,7 +4,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Shell;
-using Files.Shared;
+using Files.Core;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;

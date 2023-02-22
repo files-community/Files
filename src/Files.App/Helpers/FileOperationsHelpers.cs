@@ -1,10 +1,10 @@
 using Files.App.Filesystem;
 using Files.App.Filesystem.Permissions;
 using Files.App.Shell;
-using Files.Backend.Helpers;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
+using Files.Core.Helpers;
+using Files.Core;
+using Files.Core.Enums;
+using Files.Core.Extensions;
 using Microsoft.Win32;
 using System;
 using System.Collections.Concurrent;

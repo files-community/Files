@@ -4,7 +4,7 @@ using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ServicesImplementation;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
