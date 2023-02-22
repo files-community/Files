@@ -563,7 +563,7 @@ namespace Files.App.Helpers
 					Text = "FormatDriveText".GetLocalizedResource(),
 					Command = commandsViewModel.FormatDriveCommand,
 					CommandParameter = itemViewModel?.CurrentFolder,
-					ShowItem = itemViewModel.CurrentFolder is not null && (App.DrivesManager.Drives.Where(x => string.Equals(x.Path, itemViewModel?.CurrentFolder.ItemPath)).FirstOrDefault()?.MenuOptions.ShowFormatDrive ?? false),
+					ShowItem = itemViewModel?.CurrentFolder is not null && (App.DrivesManager.Drives.FirstOrDefault(x => string.Equals(x.Path, itemViewModel?.CurrentFolder.ItemPath))?.MenuOptions.ShowFormatDrive ?? false),
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
