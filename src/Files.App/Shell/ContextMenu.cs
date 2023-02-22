@@ -157,37 +157,6 @@ namespace Files.App.Shell
 			}
 		}
 
-		public async static Task<ContextMenu?> GetContextMenuForFolder(string folderPath, Shell32.CMF flags, Func<string, bool>? itemFilter = null)
-		{
-			var owningThread = new ThreadWithMessageQueue();
-			return await owningThread.PostMethod<ContextMenu>(() =>
-			{
-				ShellFolder? shellFolder = null;
-				try
-				{
-					shellFolder = new ShellFolder(folderPath);
-					var sv = shellFolder.GetViewObject<Shell32.IShellView>(default);
-					Shell32.IContextMenu menu = sv.GetItemObject<Shell32.IContextMenu>(Shell32.SVGIO.SVGIO_BACKGROUND);
-
-					var hMenu = User32.CreatePopupMenu();
-					menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-					var contextMenu = new ContextMenu(menu, hMenu, new[] { shellFolder.ParsingName }, owningThread);
-					EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
-
-					return contextMenu;
-				}
-				catch (Exception ex) when (ex is ArgumentException or FileNotFoundException or COMException)
-				{
-					// Return empty context menu
-					return null;
-				}
-				finally
-				{
-					shellFolder?.Dispose();
-				}
-			});
-		}
-
 		#endregion FactoryMethods
 
 		private static void EnumMenuItems(
