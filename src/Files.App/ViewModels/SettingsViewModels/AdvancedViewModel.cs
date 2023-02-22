@@ -168,20 +168,20 @@ namespace Files.App.ViewModels.SettingsViewModels
 						return;
 
 					var localFolderPath = ApplicationData.Current.LocalFolder.Path;
-					var settingsFolder = await StorageFolder.GetFolderFromPathAsync(Path.Combine(localFolderPath, Constants.LocalSettings.SettingsFolderName));
+					var settingsFolder = await StorageFolder.GetFolderFromPathAsync(Path.Combine(localFolderPath, Core.Constants.LocalSettings.SettingsFolderName));
 
 					// Import user settings
-					var userSettingsFile = await zipFolder.GetFileAsync(Constants.LocalSettings.UserSettingsFileName);
+					var userSettingsFile = await zipFolder.GetFileAsync(Core.Constants.LocalSettings.UserSettingsFileName);
 					string importSettings = await userSettingsFile.ReadTextAsync();
 					UserSettingsService.ImportSettings(importSettings);
 
 					// Import bundles
-					var bundles = await zipFolder.GetFileAsync(Constants.LocalSettings.BundlesSettingsFileName);
+					var bundles = await zipFolder.GetFileAsync(Core.Constants.LocalSettings.BundlesSettingsFileName);
 					string importBundles = await bundles.ReadTextAsync();
 					bundlesSettingsService.ImportSettings(importBundles);
 
 					// Import file tags list and DB
-					var fileTagsList = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsFileName);
+					var fileTagsList = await zipFolder.GetFileAsync(Core.Constants.LocalSettings.FileTagSettingsFileName);
 					string importTags = await fileTagsList.ReadTextAsync();
 					fileTagsSettingsService.ImportSettings(importTags);
 					var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath));
@@ -225,15 +225,15 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 					// Export user settings
 					var exportSettings = UTF8Encoding.UTF8.GetBytes((string)UserSettingsService.ExportSettings());
-					await zipFolder.CreateFileAsync(new MemoryStream(exportSettings), Constants.LocalSettings.UserSettingsFileName, CreationCollisionOption.ReplaceExisting);
+					await zipFolder.CreateFileAsync(new MemoryStream(exportSettings), Core.Constants.LocalSettings.UserSettingsFileName, CreationCollisionOption.ReplaceExisting);
 
 					// Export bundles
 					var exportBundles = UTF8Encoding.UTF8.GetBytes((string)bundlesSettingsService.ExportSettings());
-					await zipFolder.CreateFileAsync(new MemoryStream(exportBundles), Constants.LocalSettings.BundlesSettingsFileName, CreationCollisionOption.ReplaceExisting);
+					await zipFolder.CreateFileAsync(new MemoryStream(exportBundles), Core.Constants.LocalSettings.BundlesSettingsFileName, CreationCollisionOption.ReplaceExisting);
 
 					// Export file tags list and DB
 					var exportTags = UTF8Encoding.UTF8.GetBytes((string)fileTagsSettingsService.ExportSettings());
-					await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
+					await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Core.Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
 					var tagDbInstance = FileTagsHelper.GetDbInstance();
 					byte[] exportTagsDB = UTF8Encoding.UTF8.GetBytes(tagDbInstance.Export());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);

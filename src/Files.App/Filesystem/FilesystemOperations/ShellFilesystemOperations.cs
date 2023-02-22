@@ -197,7 +197,7 @@ namespace Files.App.Filesystem
 						var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
 						if (newEntryInfo?.Command is not null)
 						{
-							var args = CommandLine.CommandLineParser.SplitArguments(newEntryInfo.Command);
+							var args = Core.CommandLine.CommandLineParser.SplitArguments(newEntryInfo.Command);
 							if (args.Any())
 							{
 								if (await LaunchHelper.LaunchAppAsync(args[0].Replace("\"", "", StringComparison.Ordinal),

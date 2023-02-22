@@ -343,7 +343,7 @@ namespace Files.App
 			foreach (var item in items)
 			{
 				if (item is not null)
-					item.Opacity = item.IsHiddenItem ? Constants.UI.DimItemOpacity : 1.0d;
+					item.Opacity = item.IsHiddenItem ? Core.Constants.UI.DimItemOpacity : 1.0d;
 			}
 		}
 
@@ -582,7 +582,7 @@ namespace Files.App
 			{
 				// Reset menu max height
 				if (BaseContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
-					itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
+					itc.MaxHeight = Core.Constants.UI.ContextMenuMaxHeight;
 
 				shellContextMenuItemCancellationToken?.Cancel();
 				shellContextMenuItemCancellationToken = new CancellationTokenSource();
@@ -600,7 +600,7 @@ namespace Files.App
 				primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
 
 				// Set menu min width
-				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Core.Constants.UI.ContextMenuItemsMaxWidth);
 				secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
@@ -644,7 +644,7 @@ namespace Files.App
 		{
 			// Reset menu max height
 			if (ItemContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
-				itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
+				itc.MaxHeight = Core.Constants.UI.ContextMenuMaxHeight;
 
 			shellContextMenuItemCancellationToken?.Cancel();
 			shellContextMenuItemCancellationToken = new CancellationTokenSource();
@@ -656,7 +656,7 @@ namespace Files.App
 			var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
 			AddCloseHandler(ItemContextMenuFlyout, primaryElements, secondaryElements);
 			primaryElements.ForEach(ItemContextMenuFlyout.PrimaryCommands.Add);
-			secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
+			secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Core.Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
 			secondaryElements.ForEach(ItemContextMenuFlyout.SecondaryCommands.Add);
 
 			if (InstanceViewModel!.CanTagFilesInPage)
@@ -735,15 +735,15 @@ namespace Files.App
 				var ttv = secondaryMenu.TransformToVisual(App.Window.Content);
 				var cMenuPos = ttv.TransformPoint(new Point(0, 0));
 
-				var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * Constants.UI.ContextMenuSecondaryItemsHeight;
-				var availableHeight = App.Window.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
+				var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * Core.Constants.UI.ContextMenuSecondaryItemsHeight;
+				var availableHeight = App.Window.Bounds.Height - cMenuPos.Y - Core.Constants.UI.ContextMenuPrimaryItemsHeight;
 
 				// Set menu max height to current height (avoids menu repositioning)
 				if (requiredHeight > availableHeight)
-					itemsControl.MaxHeight = Math.Min(Constants.UI.ContextMenuMaxHeight, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight)));
+					itemsControl.MaxHeight = Math.Min(Core.Constants.UI.ContextMenuMaxHeight, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight)));
 
 				// Set items max width to current menu width (#5555)
-				mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin);
+				mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Core.Constants.UI.ContextMenuLabelMargin);
 			}
 
 			var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
@@ -1247,7 +1247,7 @@ namespace Files.App
 			foreach (ListedItem listedItem in items)
 			{
 				if (listedItem.IsHiddenItem)
-					listedItem.Opacity = Constants.UI.DimItemOpacity;
+					listedItem.Opacity = Core.Constants.UI.DimItemOpacity;
 				else
 					listedItem.Opacity = 1;
 			}

@@ -2,11 +2,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Helpers
+namespace Files.Core.Helpers
 {
 	public class AsyncManualResetEvent
 	{
-		private volatile TaskCompletionSource<bool> m_tcs = new TaskCompletionSource<bool>();
+		private volatile TaskCompletionSource<bool> m_tcs = new();
 
 		public async Task WaitAsync(CancellationToken cancellationToken = default)
 		{

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Files.App.ValueConverters
+namespace Files.App.Converters
 {
 	internal sealed class GenericEnumConverter : IValueConverter
 	{

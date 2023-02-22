@@ -12,7 +12,10 @@ namespace Files.InteractionTests.Tests
 				// First run can be flaky due to external components
 				AxeHelper.AssertNoAccessibilityErrors();
 			}
-			catch (System.Exception) { }
+			catch (System.Exception)
+			{
+			}
+
 			AxeHelper.AssertNoAccessibilityErrors();
 		}
 	}

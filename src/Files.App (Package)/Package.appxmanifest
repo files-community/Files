@@ -104,7 +104,7 @@
                   Enabled="false"
                   DisplayName="Files" />
               </uap5:Extension>
-              <!--<Extension Category="windows.updateTask" EntryPoint="BackgroundTasks.UpdateTask" />-->
+              <Extension Category="windows.updateTask" EntryPoint="Files.BackgroundTasks.UpdateTask" />
               <uap:Extension Category="windows.fileTypeAssociation">
                 <uap:FileTypeAssociation Name="archives">
                   <uap:SupportedFileTypes>
@@ -120,14 +120,14 @@
     </Applications>
   
     <!-- To host the BgTaskComponent, you must add this activatable class entry-->
-    <!--<Extensions>
+    <Extensions>
       <Extension Category="windows.activatableClass.inProcessServer">
         <InProcessServer>
           <Path>Files.App\WinRT.Host.dll</Path>
-          <ActivatableClass ActivatableClassId="BackgroundTasks.UpdateTask" ThreadingModel="both" />
+          <ActivatableClass ActivatableClassId="Files.BackgroundTasks.UpdateTask" ThreadingModel="both" />
         </InProcessServer>
       </Extension>
-    </Extensions>-->
+    </Extensions>
   
     <Capabilities>
         <!--<rescap:Capability Name="packageQuery"/>-->

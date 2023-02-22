@@ -12,7 +12,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:vc="using:Files.App.ValueConverters"
+	xmlns:vc="using:Files.App.Converters"
 	x:Name="PageRoot"
 	mc:Ignorable="d">
 	<local:StandardViewBase.Resources>

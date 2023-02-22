@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Files.App.Helpers
+namespace Files.Core.Helpers
 {
-	internal sealed class CollectionDebugView<T>
+	public sealed class CollectionDebugView<T>
 	{
 		private readonly ICollection<T> _collection;
 

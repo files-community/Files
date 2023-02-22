@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
+using Files.Core.Helpers;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Cloud;
@@ -1598,7 +1599,7 @@ namespace Files.App.ViewModels
 				}
 
 				var isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
-				var opacity = isHidden ? Constants.UI.DimItemOpacity : 1d;
+				var opacity = isHidden ? Core.Constants.UI.DimItemOpacity : 1d;
 
 				var currentFolder = library ?? new ListedItem(null)
 				{

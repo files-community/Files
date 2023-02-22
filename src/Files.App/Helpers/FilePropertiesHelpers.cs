@@ -91,7 +91,7 @@ namespace Files.App.Helpers
 
 				if (true) // WINUI3: move window to cursor position
 				{
-					UWPToWinAppSDKUpgradeHelpers.InteropHelpers.GetCursorPos(out var pointerPosition);
+					InteropHelpers.GetCursorPos(out var pointerPosition);
 					var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
 					var appWindowPos = new PointInt32
 					{

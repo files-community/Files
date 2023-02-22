@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.CommandLine;
+using Files.Core.CommandLine;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.UserControls.MultitaskingControl;

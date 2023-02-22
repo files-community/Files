@@ -16,7 +16,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public double SidebarWidth
 		{
-			get => Get(Math.Min(Math.Max(Get(255d), Constants.UI.MinimumSidebarWidth), 500d));
+			get => Get(Math.Min(Math.Max(Get(255d), Core.Constants.UI.MinimumSidebarWidth), 500d));
 			set => Set(value);
 		}
 

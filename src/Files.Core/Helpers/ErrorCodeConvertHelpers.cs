@@ -2,7 +2,7 @@ using Files.Core.Enums;
 
 namespace Files.App.Helpers
 {
-	public static class ErrorCodeConverter
+	public static class ErrorCodeConvertHelpers
 	{
 		public static ReturnResult ToStatus(this FileSystemStatusCode errorCode)
 		{

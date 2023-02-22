@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
-using static Files.App.Constants.AdaptiveLayout;
+using static Files.Core.Constants.AdaptiveLayout;
 using IO = System.IO;
 
 namespace Files.App.Helpers

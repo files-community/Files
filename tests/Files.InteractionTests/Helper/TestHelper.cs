@@ -40,6 +40,6 @@ namespace Files.InteractionTests.Helper
 			=> SessionManager.Session.FindElementByName(uiaName).Click();
 
 		public static void InvokeButtonById(string uiaName)
-					=> SessionManager.Session.FindElementByAccessibilityId(uiaName).Click();
+			=> SessionManager.Session.FindElementByAccessibilityId(uiaName).Click();
 	}
 }

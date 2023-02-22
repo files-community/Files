@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Files.App.CommandLine
+namespace Files.Core.CommandLine
 {
-	internal class ParsedCommand
+	public class ParsedCommand
 	{
 		public ParsedCommandType Type { get; set; }
 

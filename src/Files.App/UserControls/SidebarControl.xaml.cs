@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Files.Core.Helpers;
 using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -25,7 +26,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
@@ -452,7 +452,7 @@ namespace Files.App.UserControls
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
 			secondaryElements.OfType<FrameworkElement>()
-								.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+								.ForEach(i => i.MinWidth = Core.Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = e.GetPosition(sidebarItem) });
@@ -920,16 +920,16 @@ namespace Files.App.UserControls
 			if (IsPaneOpen)
 			{
 				var newSize = originalSize + val;
-				var isNewSizeGreaterThanMinimum = newSize >= Constants.UI.MinimumSidebarWidth;
-				if (newSize <= Constants.UI.MaximumSidebarWidth && isNewSizeGreaterThanMinimum)
+				var isNewSizeGreaterThanMinimum = newSize >= Core.Constants.UI.MinimumSidebarWidth;
+				if (newSize <= Core.Constants.UI.MaximumSidebarWidth && isNewSizeGreaterThanMinimum)
 					OpenPaneLength = newSize; // passing a negative value will cause an exception
 
 				// if the new size is below the minimum, check whether to toggle the pane collapse the sidebar
-				IsPaneOpen = !(!isNewSizeGreaterThanMinimum && (Constants.UI.MinimumSidebarWidth + val <= CompactPaneLength || closeImmediatelyOnOversize));
+				IsPaneOpen = !(!isNewSizeGreaterThanMinimum && (Core.Constants.UI.MinimumSidebarWidth + val <= CompactPaneLength || closeImmediatelyOnOversize));
 			}
 			else
 			{
-				if (val < Constants.UI.MinimumSidebarWidth - CompactPaneLength &&
+				if (val < Core.Constants.UI.MinimumSidebarWidth - CompactPaneLength &&
 					!closeImmediatelyOnOversize)
 					return;
 

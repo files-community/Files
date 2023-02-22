@@ -54,27 +54,27 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public async void DoOpenDocumentation()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl));
+			await Launcher.LaunchUriAsync(new Uri(Core.Constants.GitHub.DocumentationUrl));
 		}
 
 		public async void DoSubmitFeatureRequest()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeatureRequestUrl));
+			await Launcher.LaunchUriAsync(new Uri(Core.Constants.GitHub.FeatureRequestUrl));
 		}
 
 		public async void DoSubmitBugReport()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.BugReportUrl));
+			await Launcher.LaunchUriAsync(new Uri(Core.Constants.GitHub.BugReportUrl));
 		}
 
 		public async void DoOpenGitHubRepo()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.GitHubRepoUrl));
+			await Launcher.LaunchUriAsync(new Uri(Core.Constants.GitHub.GitHubRepoUrl));
 		}
 
 		public async void DoOpenPrivacyPolicy()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.PrivacyPolicyUrl));
+			await Launcher.LaunchUriAsync(new Uri(Core.Constants.GitHub.PrivacyPolicyUrl));
 		}
 
 		public void CopyAppVersion()
@@ -101,7 +101,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public async void SupportUs()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
+			await Launcher.LaunchUriAsync(new Uri(Core.Constants.GitHub.SupportUsUrl));
 		}
 
 		public string Version

@@ -307,7 +307,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView) || e.DataView.Contains(StandardDataFormats.Text))
 			{
 				// Don't exceed the limit!
-				if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
+				if (Contents.Count < Core.Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
 				{
 					e.AcceptedOperation = DataPackageOperation.Move;
 				}
@@ -460,7 +460,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		private Task<bool> AddItemFromPath(string path, FilesystemItemType itemType)
 		{
 			// Make sure we don't exceed maximum amount && make sure we don't make duplicates
-			if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle && !Contents.Any((item) => item.Path == path))
+			if (Contents.Count < Core.Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle && !Contents.Any((item) => item.Path == path))
 			{
 				return AddBundleItem(new BundleItemViewModel(path, itemType)
 				{
@@ -487,7 +487,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		private void UpdateAddItemOption()
 		{
-			IsAddItemOptionEnabled = Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle;
+			IsAddItemOptionEnabled = Contents.Count < Core.Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle;
 		}
 
 		#endregion Private Helpers
@@ -497,13 +497,13 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		public async Task<bool> AddBundleItem(BundleItemViewModel bundleItem)
 		{
 			// Make sure we don't exceed maximum amount && make sure we don't make duplicates
-			if (bundleItem is not null && Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle && !Contents.Any((item) => item.Path == bundleItem.Path))
+			if (bundleItem is not null && Contents.Count < Core.Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle && !Contents.Any((item) => item.Path == bundleItem.Path))
 			{
 				itemAddedInternally = true;
 				Contents.Add(bundleItem);
 				itemAddedInternally = false;
 				NoBundleContentsTextLoad = false;
-				IsAddItemOptionEnabled = Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle;
+				IsAddItemOptionEnabled = Contents.Count < Core.Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle;
 				await bundleItem.UpdateIcon();
 				return true;
 			}

@@ -47,7 +47,7 @@ namespace Files.App.ViewModels.Previews
 				details.Add(GetFileProperty("PropertyLineCount", text.Split('\n').Length));
 
 				CodeLanguage = extensions.Value[Item.FileExtension.ToLowerInvariant()];
-				TextValue = text.Left(Constants.PreviewPane.TextCharacterLimit);
+				TextValue = text.Left(Core.Constants.PreviewPane.TextCharacterLimit);
 			}
 			catch (Exception e)
 			{

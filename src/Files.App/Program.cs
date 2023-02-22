@@ -1,4 +1,4 @@
-using Files.App.CommandLine;
+using Files.Core.CommandLine;
 using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Core.Helpers;
@@ -14,7 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using static UWPToWinAppSDKUpgradeHelpers.InteropHelpers;
+using static Files.App.Helpers.InteropHelpers;
 
 namespace Files.App
 {

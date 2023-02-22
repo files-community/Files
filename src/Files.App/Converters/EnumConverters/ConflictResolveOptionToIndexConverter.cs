@@ -2,7 +2,7 @@ using Files.Core.Enums;
 using Microsoft.UI.Xaml.Data;
 using System;
 
-namespace Files.App.ValueConverters.EnumConverters
+namespace Files.App.Converters.EnumConverters
 {
 	internal sealed class ConflictResolveOptionToIndexConverter : IValueConverter
 	{

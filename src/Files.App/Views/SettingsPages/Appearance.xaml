@@ -5,7 +5,7 @@
 	xmlns:appearance="using:Files.App.Views.SettingsPages.Appearance"
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
-	xmlns:converters1="using:Files.App.ValueConverters"
+	xmlns:converters1="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"

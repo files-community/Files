@@ -1,4 +1,5 @@
 using Files.Core.Extensions;
+using Files.Core.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;

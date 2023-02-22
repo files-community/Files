@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AppInstaller Uri="{AppInstallerUri}"
-              Version="{Version}"
-              xmlns="http://schemas.microsoft.com/appx/appinstaller/2018">
+<AppInstaller
+    xmlns="http://schemas.microsoft.com/appx/appinstaller/2018"
+    Uri="{AppInstallerUri}"
+    Version="{Version}">
 
-  <MainBundle Name="{Name}"
-              Version="{Version}"
-              Publisher="{Publisher}"
-              Uri="{MainPackageUri}"/>
+    <MainBundle
+        Name="{Name}"
+        Publisher="{Publisher}"
+        Uri="{MainPackageUri}"
+        Version="{Version}" />
 
-  <UpdateSettings>
-	<AutomaticBackgroundTask/>
-  </UpdateSettings>
+    <UpdateSettings>
+        <AutomaticBackgroundTask />
+    </UpdateSettings>
 
 </AppInstaller>

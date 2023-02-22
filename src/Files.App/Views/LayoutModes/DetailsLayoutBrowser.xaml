@@ -17,7 +17,7 @@
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:vc="using:Files.App.ValueConverters"
+	xmlns:vc="using:Files.App.Converters"
 	xmlns:winui="using:ABI.Microsoft.UI.Xaml.Controls"
 	x:Name="PageRoot"
 	NavigationCacheMode="Enabled"

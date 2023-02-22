@@ -333,8 +333,8 @@ namespace Files.App.Interacts
 
 		public virtual void ShareItem(RoutedEventArgs e)
 		{
-			var interop = DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>();
-			IntPtr result = interop.GetForWindow(App.WindowHandle, UWPToWinAppSDKUpgradeHelpers.InteropHelpers.DataTransferManagerInteropIID);
+			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
+			IntPtr result = interop.GetForWindow(App.WindowHandle, InteropHelpers.DataTransferManagerInteropIID);
 
 			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
 			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
@@ -470,7 +470,7 @@ namespace Files.App.Interacts
 		{
 			// Make Smaller
 			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement;
+				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Core.Constants.Browser.GridViewBrowser.GridViewIncrement;
 
 			if (e is not null)
 				e.Handled = true;
@@ -480,7 +480,7 @@ namespace Files.App.Interacts
 		{
 			// Make Larger
 			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement;
+				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Core.Constants.Browser.GridViewBrowser.GridViewIncrement;
 
 			if (e is not null)
 				e.Handled = true;

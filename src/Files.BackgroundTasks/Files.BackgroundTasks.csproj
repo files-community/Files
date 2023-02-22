@@ -10,13 +10,14 @@
         <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="FluentFTP" Version="43.0.1" />
-    </ItemGroup>
+    <PropertyGroup>
+        <CsWinRTComponent>true</CsWinRTComponent>
+        <CsWinRTWindowsMetadata>10.0.22621.0</CsWinRTWindowsMetadata>
+        <CsWinRTGeneratedFilesDir>$(MSBuildProjectDirectory)\bin\$(Platform)\$(Configuration)</CsWinRTGeneratedFilesDir>
+    </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
-        <ProjectReference Include="..\Files.Core\Files.Core.csproj" />
+        <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.1" />
     </ItemGroup>
 
 </Project>

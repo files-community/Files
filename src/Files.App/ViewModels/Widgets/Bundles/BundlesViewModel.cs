@@ -227,7 +227,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		private async Task ImportBundles()
 		{
 			FileOpenPicker filePicker = InitializeWithWindow(new FileOpenPicker());
-			filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName));
+			filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Core.Constants.LocalSettings.BundlesSettingsFileName));
 
 			StorageFile file = await filePicker.PickSingleFileAsync();
 			if (file is not null)
@@ -252,7 +252,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		private async Task ExportBundles()
 		{
 			FileSavePicker filePicker = InitializeWithWindow(new FileSavePicker());
-			filePicker.FileTypeChoices.Add("Json File", new List<string>() { System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName) });
+			filePicker.FileTypeChoices.Add("Json File", new List<string>() { System.IO.Path.GetExtension(Core.Constants.LocalSettings.BundlesSettingsFileName) });
 
 			StorageFile file = await filePicker.PickSaveFileAsync();
 			if (file is not null)
@@ -394,7 +394,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				// For every bundleItem in current bundle
 				foreach (var bundleItem in bundle.Value)
 				{
-					if (bundleItems.Count >= Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle || bundleItem is null)
+					if (bundleItems.Count >= Core.Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle || bundleItem is null)
 						continue;
 
 					bundleItems.Add(new BundleItemViewModel(bundleItem, await StorageHelpers.GetTypeFromPath(bundleItem))

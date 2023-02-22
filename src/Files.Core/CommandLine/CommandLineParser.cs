@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace Files.App.CommandLine
+namespace Files.Core.CommandLine
 {
-	internal class CommandLineParser
+	public class CommandLineParser
 	{
 		public static ParsedCommands ParseUntrustedCommands(string cmdLineString)
 		{
