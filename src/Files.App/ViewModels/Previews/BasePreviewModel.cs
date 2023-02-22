@@ -30,7 +30,7 @@ namespace Files.App.ViewModels.Previews
 			protected set => SetProperty(ref fileImage, value);
 		}
 
-		public List<FileProperty> DetailsFromPreview { get; set; }
+		public List<FilePropertyViewModel> DetailsFromPreview { get; set; }
 
 		/// <summary>
 		/// This is cancelled when the user has selected another file or closed the pane.
@@ -42,7 +42,7 @@ namespace Files.App.ViewModels.Previews
 
 		public delegate void LoadedEventHandler(object sender, EventArgs e);
 
-		public static Task LoadDetailsOnlyAsync(ListedItem item, List<FileProperty> details = null)
+		public static Task LoadDetailsOnlyAsync(ListedItem item, List<FilePropertyViewModel> details = null)
 		{
 			var temp = new DetailsOnlyPreviewModel(item) { DetailsFromPreview = details };
 			return temp.LoadAsync();
@@ -58,7 +58,7 @@ namespace Files.App.ViewModels.Previews
 		/// <returns>The task to run</returns>
 		public virtual async Task LoadAsync()
 		{
-			List<FileProperty> detailsFull = new();
+			List<FilePropertyViewModel> detailsFull = new();
 
 			if (Item.ItemFile is null)
 			{
@@ -73,7 +73,7 @@ namespace Files.App.ViewModels.Previews
 				{
 					// Add the details from the preview function, then the system file properties
 					DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
-					List<FileProperty> props = await GetSystemFilePropertiesAsync();
+					List<FilePropertyViewModel> props = await GetSystemFilePropertiesAsync();
 					if (props is not null)
 					{
 						detailsFull.AddRange(props);
@@ -81,7 +81,7 @@ namespace Files.App.ViewModels.Previews
 				}
 			});
 
-			Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(detailsFull);
+			Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FilePropertyViewModel>(detailsFull);
 		}
 
 		/// <summary>
@@ -91,7 +91,7 @@ namespace Files.App.ViewModels.Previews
 		/// If there are none, return an empty list.
 		/// </summary>
 		/// <returns>A list of details</returns>
-		public async virtual Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
+		public async virtual Task<List<FilePropertyViewModel>> LoadPreviewAndDetailsAsync()
 		{
 			var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Item.ItemFile, 256, ThumbnailMode.SingleItem);
 
@@ -105,7 +105,7 @@ namespace Files.App.ViewModels.Previews
 				FileImage ??= await App.Window.DispatcherQueue.EnqueueAsync(() => new BitmapImage());
 			}
 
-			return new List<FileProperty>();
+			return new List<FilePropertyViewModel>();
 		}
 
 		/// <summary>
@@ -116,18 +116,18 @@ namespace Files.App.ViewModels.Previews
 		public virtual void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
 			=> LoadCancelledTokenSource.Cancel();
 
-		protected static FileProperty GetFileProperty(string nameResource, object value)
+		protected static FilePropertyViewModel GetFileProperty(string nameResource, object value)
 			=> new() { NameResource = nameResource, Value = value };
 
-		private async Task<List<FileProperty>> GetSystemFilePropertiesAsync()
+		private async Task<List<FilePropertyViewModel>> GetSystemFilePropertiesAsync()
 		{
 			if (Item.IsShortcut)
 				return null;
 
-			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile,
+			var list = await FilePropertyViewModel.RetrieveAndInitializePropertiesAsync(Item.ItemFile,
 				Core.Constants.ResourceFilePaths.PreviewPaneDetailsPropertiesJsonPath);
 
-			list.Find(x => x.ID is "address").Value = await FileProperties.GetAddressFromCoordinatesAsync(
+			list.Find(x => x.ID is "address").Value = await FilePropertiesViewModel.GetAddressFromCoordinatesAsync(
 				(double?)list.Find(x => x.Property is "System.GPS.LatitudeDecimal").Value,
 				(double?)list.Find(x => x.Property is "System.GPS.LongitudeDecimal").Value
 			);
@@ -143,7 +143,7 @@ namespace Files.App.ViewModels.Previews
 		{
 			public DetailsOnlyPreviewModel(ListedItem item) : base(item) { }
 
-			public override Task<List<FileProperty>> LoadPreviewAndDetailsAsync() => Task.FromResult(DetailsFromPreview);
+			public override Task<List<FilePropertyViewModel>> LoadPreviewAndDetailsAsync() => Task.FromResult(DetailsFromPreview);
 		}
 	}
 }

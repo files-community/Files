@@ -1,0 +1,21 @@
+﻿<vm:PropertyTab
+	x:Class="Files.App.Views.CustomizationPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="using:Files.App.ViewModels.Properties"
+	mc:Ignorable="d">
+
+	<vm:PropertyTab.Resources>
+		<ResourceDictionary>
+
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+		</ResourceDictionary>
+	</vm:PropertyTab.Resources>
+
+	<Frame x:Name="CustomIconsSelectorFrame" Loaded="CustomIconsSelectorFrame_Loaded" />
+</vm:PropertyTab>

@@ -26,9 +26,9 @@ namespace Files.App.ViewModels.Previews
 		public static bool ContainsExtension(string extension)
 			=> extension is ".txt";
 
-		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
+		public async override Task<List<FilePropertyViewModel>> LoadPreviewAndDetailsAsync()
 		{
-			var details = new List<FileProperty>();
+			var details = new List<FilePropertyViewModel>();
 
 			try
 			{

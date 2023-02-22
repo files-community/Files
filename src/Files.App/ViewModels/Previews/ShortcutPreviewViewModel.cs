@@ -11,10 +11,10 @@ namespace Files.App.ViewModels.Previews
 	{
 		public ShortcutPreviewViewModel(ListedItem item) : base(item) { }
 
-		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
+		public async override Task<List<FilePropertyViewModel>> LoadPreviewAndDetailsAsync()
 		{
 			var item = Item as ShortcutItem;
-			var details = new List<FileProperty>
+			var details = new List<FilePropertyViewModel>
 			{
 				GetFileProperty("PropertyItemPathDisplay", item.ItemPath),
 				GetFileProperty("PropertyItemName", item.Name),
@@ -33,7 +33,7 @@ namespace Files.App.ViewModels.Previews
 			var details = await LoadPreviewAndDetailsAsync();
 
 			Item.FileDetails?.Clear();
-			Item.FileDetails = new(details.OfType<FileProperty>());
+			Item.FileDetails = new(details.OfType<FilePropertyViewModel>());
 		}
 
 		private async Task LoadItemThumbnail()

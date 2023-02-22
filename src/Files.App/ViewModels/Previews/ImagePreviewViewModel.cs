@@ -29,7 +29,7 @@ namespace Files.App.ViewModels.Previews
 		public static bool ContainsExtension(string extension)
 			=> extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif" or ".tiff" or ".ico" or ".webp";
 
-		public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
+		public override async Task<List<FilePropertyViewModel>> LoadPreviewAndDetailsAsync()
 		{
 			using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
 
@@ -40,7 +40,7 @@ namespace Files.App.ViewModels.Previews
 				ImageSource = bitmap;
 			});
 
-			return new List<FileProperty>();
+			return new List<FilePropertyViewModel>();
 		}
 	}
 }

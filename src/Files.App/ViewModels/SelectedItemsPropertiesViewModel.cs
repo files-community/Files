@@ -561,15 +561,15 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private ObservableCollection<FilePropertySection> propertySections = new();
-		public ObservableCollection<FilePropertySection> PropertySections
+		private ObservableCollection<FilePropertySectionViewModel> propertySections = new();
+		public ObservableCollection<FilePropertySectionViewModel> PropertySections
 		{
 			get => propertySections;
 			set => SetProperty(ref propertySections, value);
 		}
 
-		private ObservableCollection<FileProperty> fileProperties = new();
-		public ObservableCollection<FileProperty> FileProperties
+		private ObservableCollection<FilePropertyViewModel> fileProperties = new();
+		public ObservableCollection<FilePropertyViewModel> FileProperties
 		{
 			get => fileProperties;
 			set => SetProperty(ref fileProperties, value);

@@ -37,9 +37,9 @@ namespace Files.App.ViewModels.Previews
 		public static bool ContainsExtension(string extension)
 			=> extensions.Value.ContainsKey(extension);
 
-		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
+		public async override Task<List<FilePropertyViewModel>> LoadPreviewAndDetailsAsync()
 		{
-			var details = new List<FileProperty>();
+			var details = new List<FilePropertyViewModel>();
 
 			try
 			{

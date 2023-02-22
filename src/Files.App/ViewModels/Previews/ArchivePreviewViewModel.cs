@@ -15,9 +15,9 @@ namespace Files.App.ViewModels.Previews
 		{
 		}
 
-		public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
+		public override async Task<List<FilePropertyViewModel>> LoadPreviewAndDetailsAsync()
 		{
-			var details = new List<FileProperty>();
+			var details = new List<FilePropertyViewModel>();
 
 			using SevenZipExtractor zipFile = await FilesystemTasks.Wrap(async () =>
 			{

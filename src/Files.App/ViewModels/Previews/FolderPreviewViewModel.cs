@@ -57,7 +57,7 @@ namespace Files.App.ViewModels.Previews
 				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null));
 		}
 
-		private static FileProperty GetFileProperty(string nameResource, object value)
+		private static FilePropertyViewModel GetFileProperty(string nameResource, object value)
 			=> new() { NameResource = nameResource, Value = value };
 	}
 }

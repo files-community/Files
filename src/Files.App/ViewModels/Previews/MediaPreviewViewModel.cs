@@ -32,11 +32,11 @@ namespace Files.App.ViewModels.Previews
 		public void TogglePlayback()
 			=> TogglePlaybackRequested?.Invoke(this, null);
 
-		public override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
+		public override Task<List<FilePropertyViewModel>> LoadPreviewAndDetailsAsync()
 		{
 			Source = MediaSource.CreateFromStorageFile(Item.ItemFile);
 
-			return Task.FromResult(new List<FileProperty>());
+			return Task.FromResult(new List<FilePropertyViewModel>());
 		}
 
 		public override void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)

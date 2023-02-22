@@ -364,8 +364,8 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		private ObservableCollection<FileProperty> itemProperties;
-		public ObservableCollection<FileProperty> ItemProperties
+		private ObservableCollection<FilePropertyViewModel> itemProperties;
+		public ObservableCollection<FilePropertyViewModel> ItemProperties
 		{
 			get => itemProperties;
 			set => SetProperty(ref itemProperties, value);
@@ -380,8 +380,8 @@ namespace Files.App.Filesystem
 		// Parameterless constructor for JsonConvert
 		public ListedItem() { }
 
-		private ObservableCollection<FileProperty> fileDetails;
-		public ObservableCollection<FileProperty> FileDetails
+		private ObservableCollection<FilePropertyViewModel> fileDetails;
+		public ObservableCollection<FilePropertyViewModel> FileDetails
 		{
 			get => fileDetails;
 			set => SetProperty(ref fileDetails, value);

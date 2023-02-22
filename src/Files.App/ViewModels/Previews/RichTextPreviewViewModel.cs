@@ -16,11 +16,11 @@ namespace Files.App.ViewModels.Previews
 		public static bool ContainsExtension(string extension)
 			=> extension is ".rtf";
 
-		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
+		public async override Task<List<FilePropertyViewModel>> LoadPreviewAndDetailsAsync()
 		{
 			Stream = await Item.ItemFile.OpenReadAsync();
 
-			return new List<FileProperty>();
+			return new List<FilePropertyViewModel>();
 		}
 	}
 }

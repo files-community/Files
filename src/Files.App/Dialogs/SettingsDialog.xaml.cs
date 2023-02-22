@@ -1,4 +1,4 @@
-using Files.App.SettingsPages;
+using Files.App.Settings;
 using Files.Core.ViewModels.Dialogs;
 using Files.Core.Enums;
 using Microsoft.UI.Xaml;

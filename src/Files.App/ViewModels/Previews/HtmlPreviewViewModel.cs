@@ -22,11 +22,11 @@ namespace Files.App.ViewModels.Previews
 		public static bool ContainsExtension(string extension)
 			=> extension is ".htm" or ".html" or ".svg";
 
-		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
+		public async override Task<List<FilePropertyViewModel>> LoadPreviewAndDetailsAsync()
 		{
 			TextValue = await ReadFileAsTextAsync(Item.ItemFile);
 
-			return new List<FileProperty>();
+			return new List<FilePropertyViewModel>();
 		}
 	}
 }
