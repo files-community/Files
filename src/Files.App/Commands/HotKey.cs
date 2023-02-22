@@ -57,7 +57,7 @@ namespace Files.App.Commands
 					continue;
 				}
 
-				if (key is not VirtualKey.None)
+				if (key is VirtualKey.None)
 				{
 					var k = ToKey(part);
 					if (k is not VirtualKey.None)

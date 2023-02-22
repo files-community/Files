@@ -320,7 +320,7 @@ namespace Files.App.Views
 			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));
 
-			var commands = Commands.Where(command => !command.CustomHotKey.IsNone);
+			var commands = Commands.Where(command => !command.CustomHotKey.IsNone).ToList();
 			foreach (var command in commands)
 				KeyboardAccelerators.Add(new CommandAccelerator(command));
 			Commands.HotKeyChanged += Commands_HotKeyChanged;

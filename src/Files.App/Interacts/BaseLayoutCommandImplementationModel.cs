@@ -156,11 +156,6 @@ namespace Files.App.Interacts
 			_ = QuickAccessService.UnpinFromSidebar(associatedInstance.FilesystemViewModel.WorkingDirectory);
 		}
 
-		public virtual async void EmptyRecycleBin(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.EmptyRecycleBin();
-		}
-
 		public virtual async void RestoreRecycleBin(RoutedEventArgs e)
 		{
 			await RecycleBinHelpers.RestoreRecycleBin(associatedInstance);

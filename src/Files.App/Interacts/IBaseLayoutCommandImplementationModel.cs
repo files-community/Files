@@ -33,8 +33,6 @@ namespace Files.App.Interacts
 
 		void OpenItem(RoutedEventArgs e);
 
-		void EmptyRecycleBin(RoutedEventArgs e);
-
 		void RestoreRecycleBin(RoutedEventArgs e);
 
 		void RestoreSelectionRecycleBin(RoutedEventArgs e);
