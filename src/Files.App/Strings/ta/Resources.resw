@@ -241,7 +241,7 @@
     <value>பின்னணி</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>மேம்பட்ட</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>விருப்பங்கள்</value>
@@ -1388,7 +1388,7 @@
     <value>Selected file preview pane</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Feedback</value>
+    <value>பின்னூட்டம்</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Ongoing tasks flyout</value>
@@ -1649,7 +1649,7 @@
     <value>Replace existing</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
-    <value>Generate new name</value>
+    <value>புதியப் பெயரை உருவாக்கு</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
     <value>செயல்தவிர்</value>
@@ -1784,7 +1784,7 @@
     <value>மறுபெயரிடு</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>தனியுரிமை</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Move canceled</value>
@@ -1883,7 +1883,7 @@
     <value>Recycle cancelled</value>
   </data>
   <data name="canceling" xml:space="preserve">
-    <value>canceling</value>
+    <value>இரத்து செய்கிறது</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>அழி</value>
@@ -2024,7 +2024,7 @@
     <value>This folder, subfolders and files</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
-    <value>Only files</value>
+    <value>கோப்புகள் மட்டும்</value>
   </data>
   <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
     <value>Only subfolders</value>
@@ -2033,7 +2033,7 @@
     <value>Only subfolders and files</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
-    <value>Only this folder</value>
+    <value>இந்தக் கோப்புறை மட்டும்</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
     <value>This folder and subfolders</value>
@@ -2045,10 +2045,10 @@
     <value>Change permission</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>Create folders</value>
+    <value>கோப்புறைகளை உருவாக்கு</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
-    <value>Create files</value>
+    <value>கோப்புகளை உருவாக்கு</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
     <value>Delete subdirectories and files</value>
@@ -2267,7 +2267,7 @@
     <value>கடவுச்சொல்</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
-    <value>UserName</value>
+    <value>பயனர் பெயர்</value>
   </data>
   <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Bundles Widget</value>
@@ -2306,7 +2306,7 @@
     <value>டைல்கள்</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>புதியத் தாவலில் கோப்புறைகளைத் திற</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>மொழி</value>
@@ -2336,7 +2336,7 @@
     <value>Experimental feature flags</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>உதவி மற்றும் ஆதரவு</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
     <value>Submit feature request</value>
@@ -2429,10 +2429,10 @@
     <value>Windows Vista SP2</value>
   </data>
   <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16 Bit Colors (65536)</value>
+    <value>16-bit வண்ணங்கள் (65,536)</value>
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>8 Bit Colors (256)</value>
+    <value>8-bit வண்ணங்கள் (256)</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>Compatibility mode</value>
@@ -2486,7 +2486,7 @@
     <value>Recent files</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows Startup</value>
+    <value>Windows தொடங்கும்போது Files-ஐத் திற</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>பண்புக் கூறுகள்:</value>
@@ -2903,22 +2903,22 @@
     <value>Remember my credentials</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>Network folder error</value>
+    <value>பிணையக் கோப்புறைப் பிழை</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>App version</value>
+    <value>பயன்பாட்டுப் பதிப்பு</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
-    <value>Windows version</value>
+    <value>Windows பதிப்பு</value>
   </data>
   <data name="Always" xml:space="preserve">
-    <value>Always</value>
+    <value>எப்போதும்</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
     <value>Permanent deletion only</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Never</value>
+    <value>ஒருபோதுமில்லை</value>
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Tag color</value>
@@ -2948,7 +2948,7 @@
     <value>Context menu options</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Show file extensions</value>
+    <value>கோப்பு நீட்டிப்புகளைக் காண்பி</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
     <value>Show hidden items</value>
@@ -2957,7 +2957,7 @@
     <value>Format...</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>Help</value>
+    <value>உதவி</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
     <value>Toggle full screen</value>
@@ -2966,13 +2966,13 @@
     <value>Are you sure you want to delete this tag?</value>	
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play all</value>
+    <value>அனைத்தயும் இயக்கு</value>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Height</value>
+    <value>உயரம்</value>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>Width</value>
+    <value>அகலம்</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Apply this action to all conflicting items</value>
