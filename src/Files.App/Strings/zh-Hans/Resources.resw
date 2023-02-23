@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -468,9 +468,6 @@
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>隐藏</value>
   </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>清空回收站</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>还原</value>
   </data>
@@ -512,6 +509,9 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>打开方式</value>
+  </data>
+  <data name="SendTo" xml:space="preserve">
+    <value>发送到</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>文件名不能包含下列任何字符：\ / : * ? " &lt; &gt; |</value>
@@ -1245,17 +1245,14 @@
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>以双面板模式打开标签页</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
-    <value>启用双面板视图</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
-    <value>在第二面板打开</value>
+  <data name="ShowOpenInNewPane" xml:space="preserve">
+    <value>显示“在新面板中打开”</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>新面板</value>
   </data>
-  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>在第二面板打开</value>
+  <data name="OpenInNewPane" xml:space="preserve">
+    <value>在新面板中打开</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>文件夹</value>
@@ -1295,12 +1292,6 @@
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>平铺 (Ctrl+Shift+2)</value>
-  </data>
-  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>显示文件扩展名</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>显示隐藏的项目</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>删除日期</value>
@@ -2313,12 +2304,6 @@
   <data name="Tiles" xml:space="preserve">
     <value>平铺</value>
   </data>
-  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>显示文件扩展名</value>
-  </data>
-  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>显示隐藏的项目</value>
-  </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>在新标签页中打开文件夹</value>
   </data>
@@ -2895,8 +2880,14 @@
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>包（Bundles）将在未来的某个更新中停用 📎</value>
   </data>
-  <data name="DisplayEditTagsMenu" xml:space="preserve">
+  <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>显示“编辑文件标签”</value>
+  </data>
+  <data name="ShowOpenInNewTab" xml:space="preserve">
+    <value>显示“在新标签页中打开”</value>
+  </data>
+  <data name="ShowOpenInNewWindow" xml:space="preserve">
+    <value>显示“在新窗口中打开”</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>快速访问</value>
@@ -2927,5 +2918,62 @@
   </data>
   <data name="Never" xml:space="preserve">
     <value>从不</value>
+  </data>
+  <data name="TagColor" xml:space="preserve">
+    <value>标签颜色</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="Commit" xml:space="preserve">
+    <value>提交</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>保存更改</value>
+  </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>新标签</value>
+  </data>
+  <data name="CreateNewTag" xml:space="preserve">
+    <value>创建新标签</value>
+  </data>
+  <data name="LoadingMoreOptions" xml:space="preserve">
+    <value>正在加载更多选项...</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>正在加载...</value>
+  </data>
+  <data name="ContextMenuOptions" xml:space="preserve">
+    <value>右键菜单选项</value>
+  </data>
+  <data name="ShowFileExtensions" xml:space="preserve">
+    <value>显示文件扩展名</value>
+  </data>
+  <data name="ShowHiddenItems" xml:space="preserve">
+    <value>显示隐藏的项目</value>
+  </data>
+  <data name="FormatDriveText" xml:space="preserve">
+    <value>格式化...</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>帮助</value>
+  </data>
+  <data name="FullScreen" xml:space="preserve">
+    <value>切换全屏</value>
+  </data>
+  <data name="ConfirmDeleteTag" xml:space="preserve">
+    <value>确定要删除此标签吗？</value>	
+  </data>
+  <data name="PlayAll" xml:space="preserve">
+    <value>播放全部</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>高度</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>宽度</value>
+  </data>
+  <data name="ApplyToAllConflictingItems" xml:space="preserve">
+    <value>将此操作应用到所有冲突项</value>
   </data>
 </root>

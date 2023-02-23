@@ -210,14 +210,11 @@
 					x:Name="EmptyRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="B"
-					Command="{x:Bind ViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
+					Command="{x:Bind Commands.EmptyRecycleBin}"
+					Icon="{x:Bind Commands.EmptyRecycleBin.FontIcon}"
 					IsEnabled="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=EmptyRecycleBin}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=EmptyRecycleBin}">
-					<AppBarButton.Icon>
-						<FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
-					</AppBarButton.Icon>
-				</AppBarButton>
+					Label="{x:Bind Commands.EmptyRecycleBin.Label}"
+					ToolTipService.ToolTip="{x:Bind Commands.EmptyRecycleBin.Label}" />
 				<AppBarButton
 					x:Name="RestoreRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
@@ -798,26 +795,26 @@
 									Grid.Row="0"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{x:Bind CommandManager.ToggleShowHiddenItems.Label}" />
+									Text="{x:Bind Commands.ToggleShowHiddenItems.Label}" />
 								<ToggleSwitch
 									Grid.Row="0"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
-									AutomationProperties.Name="{x:Bind CommandManager.ToggleShowHiddenItems.AutomationName}"
-									IsOn="{x:Bind CommandManager.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
+									AutomationProperties.Name="{x:Bind Commands.ToggleShowHiddenItems.AutomationName}"
+									IsOn="{x:Bind Commands.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 
 								<TextBlock
 									Grid.Row="1"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{x:Bind CommandManager.ToggleShowFileExtensions.Label}" />
+									Text="{x:Bind Commands.ToggleShowFileExtensions.Label}" />
 								<ToggleSwitch
 									Grid.Row="1"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
-									AutomationProperties.Name="{x:Bind CommandManager.ToggleShowFileExtensions.AutomationName}"
-									IsOn="{x:Bind CommandManager.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
+									AutomationProperties.Name="{x:Bind Commands.ToggleShowFileExtensions.AutomationName}"
+									IsOn="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
 									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 							</Grid>
