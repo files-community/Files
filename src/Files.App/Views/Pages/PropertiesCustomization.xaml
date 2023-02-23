@@ -1,22 +1,130 @@
-﻿<local1:PropertiesTab
+﻿<vm:PropertiesTab
 	x:Class="Files.App.Views.PropertiesCustomization"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local1="using:Files.App.ViewModels.Properties"
+	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:views="using:Files.App.Views"
-	Name="Page"
+	xmlns:shared="using:Files.Shared"
+	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:uc="using:Files.App.UserControls"
+	xmlns:vm="using:Files.App.ViewModels.Properties"
+	DataContext="{x:Bind CustomizationViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
-	<local1:PropertiesTab.Resources>
+	<vm:PropertiesTab.Resources>
 		<ResourceDictionary>
+
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
-		</ResourceDictionary>
-	</local1:PropertiesTab.Resources>
+			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
-	<Frame x:Name="CustomIconsSelectorFrame" Loaded="CustomIconsSelectorFrame_Loaded" />
-</local1:PropertiesTab>
+		</ResourceDictionary>
+	</vm:PropertiesTab.Resources>
+
+	<Grid Padding="12,0,12,12" RowSpacing="4">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid
+			Grid.Row="0"
+			Padding="12"
+			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			ColumnSpacing="8"
+			CornerRadius="4"
+			RowSpacing="8">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<TextBlock
+				Grid.Row="0"
+				Grid.Column="0"
+				Padding="4"
+				MaxLines="2"
+				Text="{helpers:ResourceString Name=ChooseCustomIcon}"
+				TextWrapping="WrapWholeWords" />
+			<Button
+				x:Name="RestoreDefaultButton"
+				Grid.Row="0"
+				Grid.Column="1"
+				HorizontalAlignment="Right"
+				x:Load="{x:Bind CustomizationViewModel.IsShortcut, Converter={StaticResource BoolNegationConverter}}"
+				Command="{x:Bind CustomizationViewModel.RestoreDefaultIconCommand}"
+				Content="{helpers:ResourceString Name=RestoreDefault}"
+				IsEnabled="{x:Bind CustomizationViewModel.RestoreButtonIsEnabled, Mode=OneWay}" />
+
+			<MenuFlyoutSeparator
+				Grid.Row="1"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Margin="-12,0"
+				Background="{ThemeResource CardStrokeColorDefaultBrush}" />
+
+			<Grid
+				Grid.Row="2"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				ColumnSpacing="8">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+
+				<TextBox
+					x:Name="ItemDisplayedPath"
+					Grid.Column="0"
+					IsReadOnly="True"
+					Text="{x:Bind CustomizationViewModel.IconResourceItemPath, Mode=OneWay}" />
+
+				<Button
+					x:Name="PickDllButton"
+					Grid.Column="1"
+					HorizontalAlignment="Right"
+					Click="PickDllButton_Click"
+					Content="{helpers:ResourceString Name=Browse}" />
+			</Grid>
+
+			<GridView
+				x:Name="IconSelectionGrid"
+				Grid.Row="3"
+				Grid.Column="0"
+				Grid.ColumnSpan="3"
+				MaxHeight="252"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				ItemsSource="{x:Bind CustomizationViewModel.DllIcons, Mode=OneWay}"
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+				ScrollViewer.HorizontalScrollMode="Disabled"
+				ScrollViewer.VerticalScrollBarVisibility="Auto"
+				ScrollViewer.VerticalScrollMode="Auto"
+				SelectionChanged="IconSelectionGrid_SelectionChanged"
+				SelectionMode="Single">
+				<GridView.ItemsPanel>
+					<ItemsPanelTemplate>
+						<ItemsWrapGrid Orientation="Horizontal" />
+					</ItemsPanelTemplate>
+				</GridView.ItemsPanel>
+				<GridView.ItemTemplate>
+					<DataTemplate x:DataType="shared:IconFileInfo">
+						<Grid Width="32" Height="32">
+							<Image uc:ImageFromBytes.SourceBytes="{x:Bind IconData}" />
+						</Grid>
+					</DataTemplate>
+				</GridView.ItemTemplate>
+			</GridView>
+		</Grid>
+	</Grid>
+</vm:PropertiesTab>
