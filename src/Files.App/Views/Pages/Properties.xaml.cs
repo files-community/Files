@@ -194,8 +194,8 @@ namespace Files.App.Views
 			{
 				Name = "Shortcut".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemShortcut,
-				RegularPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
-				FilledPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
+				RegularPathIcon = (string)Application.Current.Resources["LinkIconRegular"],
+				FilledPathIcon = (string)Application.Current.Resources["LinkIconFilled"],
 			};
 			var libraryItem = new SquareNavViewItem()
 			{
@@ -222,8 +222,8 @@ namespace Files.App.Views
 			{
 				Name = "Compatibility".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCompatibility,
-				RegularPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
-				FilledPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
+				RegularPathIcon = (string)Application.Current.Resources["WindowsAppsRegular"],
+				FilledPathIcon = (string)Application.Current.Resources["WindowsAppsFilled"],
 			};
 
 			NavViewItems.Add(generalItem);
