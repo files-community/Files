@@ -48,7 +48,7 @@
 				<Image
 					Width="18"
 					Height="18"
-					Source="ms-appx:///Assets/AppTiles/Dev/Logo.ico" />
+					Source="ms-appx:///Assets/AppTiles/Dev/Square44x44Logo.png" />
 
 				<TextBlock
 					VerticalAlignment="Center"
@@ -61,6 +61,7 @@
 		<!--  Main property window's NavigationView  -->
 		<NavigationView
 			x:Name="MainPropertyNavigationView"
+			Grid.Row="1"
 			Width="72"
 			Margin="0,-4,-1,2"
 			HorizontalAlignment="Left"
