@@ -46,8 +46,8 @@
 				Spacing="8">
 
 				<Image
-					Width="18"
-					Height="18"
+					Width="20"
+					Height="20"
 					Source="ms-appx:///Assets/AppTiles/Dev/Square44x44Logo.png" />
 
 				<TextBlock
@@ -90,7 +90,7 @@
 						IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
 						Tag="{x:Bind ItemType}">
 						<NavigationViewItem.Content>
-							<StackPanel Margin="-8,4,-12,0" Spacing="2">
+							<StackPanel Margin="-8,2,-12,0" Spacing="2">
 
 								<FontIcon
 									x:Name="NavigationViewItemGlyphPrimeryFontIcon"
@@ -126,6 +126,7 @@
 					</NavigationViewItem>
 				</DataTemplate>
 			</NavigationView.MenuItemTemplate>
+
 		</NavigationView>
 
 		<!--  NavigationView Content, Save/Cancel buttons  -->
