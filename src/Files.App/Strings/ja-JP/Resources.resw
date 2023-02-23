@@ -1246,7 +1246,7 @@
     <value>デュアル ペイン モードでタブを開く</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>「新しいペインでフォルダーを開く」オプションを表示する</value>
+    <value>"新しいペインでフォルダーを開く" オプションを表示する</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>新しいペイン</value>
@@ -2881,13 +2881,13 @@
     <value>バンドル ウィジェットは今後のアップデートで削除されます 📎</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>タグの編集セクションを表示する</value>
+    <value>タグ編集フライアウトを表示する</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>「新しいタブでフォルダーを開く」オプションを表示する</value>
+    <value>"新しいタブでフォルダーを開く" オプションを表示する</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>「新しいウインドウでフォルダーを開く」オプションを表示する</value>
+    <value>"新しいウインドウでフォルダーを開く" オプションを表示する</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>クイック アクセス</value>
@@ -2926,7 +2926,7 @@
     <value>名前の変更</value>
   </data>
   <data name="Commit" xml:space="preserve">
-    <value>適用</value>
+    <value>確定</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
     <value>変更を保存</value>
@@ -2938,16 +2938,16 @@
     <value>新しいタグを作成</value>
   </data>
   <data name="LoadingMoreOptions" xml:space="preserve">
-    <value>他のオプションの読み込み中…</value>
+    <value>他のオプションを読み込み中…</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>読み込み中…</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>コンテキスト メニューのオプション</value>
+    <value>コンテキスト メニューの設定</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>ファイル名拡張子を表示</value>
+    <value>ファイル名拡張子を表示する</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
     <value>隠しファイルを表示する</value>
