@@ -63,7 +63,8 @@
 				HorizontalAlignment="Right"
 				x:Load="{x:Bind CustomizationViewModel.IsShortcut, Converter={StaticResource BoolNegationConverter}}"
 				Command="{x:Bind CustomizationViewModel.RestoreDefaultIconCommand}"
-				Content="{helpers:ResourceString Name=RestoreDefault}" />
+				Content="{helpers:ResourceString Name=RestoreDefault}"
+				IsEnabled="{x:Bind CustomizationViewModel.RestoreButtonIsEnabled, Mode=OneWay}" />
 
 			<MenuFlyoutSeparator
 				Grid.Row="1"
