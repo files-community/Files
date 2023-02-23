@@ -134,7 +134,7 @@ namespace Files.App.UserControls.Widgets
 			OpenInNewTabCommand = new RelayCommand<WidgetCardItem>(OpenInNewTab);
 			OpenInNewWindowCommand = new RelayCommand<WidgetCardItem>(OpenInNewWindow);
 			OpenInNewPaneCommand = new AsyncRelayCommand<DriveCardItem>(OpenInNewPane);
-			OpenPropertiesCommand = new AsyncRelayCommand<DriveCardItem>(OpenProperties);
+			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(OpenProperties);
 			PinToFavoritesCommand = new RelayCommand<WidgetCardItem>(PinToFavorites);
 			UnpinFromFavoritesCommand = new RelayCommand<WidgetCardItem>(UnpinFromFavorites);
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
@@ -277,9 +277,15 @@ namespace Files.App.UserControls.Widgets
 			Win32API.OpenFormatDriveDialog(item?.Path ?? string.Empty);
 		}
 
-		private async Task OpenProperties(DriveCardItem item)
-		{ 
-			await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance); 
+		private void OpenProperties(DriveCardItem item)
+		{
+			EventHandler<object> flyoutClosed = null!;
+			flyoutClosed = async (s, e) =>
+			{
+				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance);
+			};
+			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)

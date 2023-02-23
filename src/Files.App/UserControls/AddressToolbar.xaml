@@ -24,8 +24,6 @@
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
-
 				<ResourceDictionary>
 					<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
 					<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
