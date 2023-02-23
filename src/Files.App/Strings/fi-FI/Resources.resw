@@ -511,7 +511,7 @@
     <value>Avaa sovelluksessa</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>Lähetä kohteeseen</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Kohteen nimi ei saa sisältää seuraavia merkkejä: \ / : * ? " &lt; &gt; |</value>
@@ -1252,7 +1252,7 @@
     <value>Uusi ruutu</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>Open in new pane</value>
+    <value>Avaa uudessa ruudussa</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Kansiot</value>
