@@ -582,7 +582,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				1 => 40, // Check all items columns
 				2 => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
-				3 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.FirstOrDefault()?.Name?.Length ?? 0).Max(), // file tag column
+				3 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(), // file tag column
 				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
 				5 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
 				6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
@@ -597,7 +597,8 @@ namespace Files.App.Views.LayoutModes
 			if (maxItemLength == 0)
 				return;
 
-			var columnSizeToFit = columnToResize == 10 ? maxItemLength : MeasureTextColumnEstimate(columnToResize, 5, maxItemLength);
+			var columnSizeToFit = MeasureColumnEstimate(columnToResize, 5, maxItemLength);
+
 			if (columnSizeToFit > 1)
 			{
 				var column = columnToResize switch
@@ -625,29 +626,44 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
 		}
 
+		private double MeasureColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
+		{
+			if (columnIndex == 10)
+				return maxItemLength;
+
+			if (columnIndex == 3)
+				return MeasureTagColumnEstimate(columnIndex);
+
+			return MeasureTextColumnEstimate(columnIndex, measureItemsCount, maxItemLength);
+		}
+
+		private double MeasureTagColumnEstimate(int columnIndex)
+		{
+			var grids = DependencyObjectHelpers.FindChildren<Grid>(FileList.ItemsPanelRoot).Where(grid => IsCorrectColumn(grid, columnIndex)).ToList();
+
+			// get the list of stack panels with the most letters
+			var stackPanels = grids
+				.Select(DependencyObjectHelpers.FindChildren<StackPanel>)
+				.OrderByDescending(sps => sps.Select(sp => DependencyObjectHelpers.FindChildren<TextBlock>(sp).Select(tb => tb.Text.Length).Sum()).Sum())
+				.First()
+				.ToArray();
+
+			var mesuredSize = stackPanels.Select(x =>
+			{
+				x.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+
+				return x.DesiredSize.Width;
+			}).Sum();
+
+			if (stackPanels.Length >= 2)
+				mesuredSize += 4 * (stackPanels.Length - 1); // the spacing between the tags
+
+			return mesuredSize;
+		}
+
 		private double MeasureTextColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
 		{
-			var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(tb =>
-			{
-				int columnIndexFromName = tb.Name switch
-				{
-					"ItemName" => 2,
-					"ItemTag" => 3,
-					"ItemOriginalPath" => 4,
-					"ItemDateDeleted" => 5,
-					"ItemDateModified" => 6,
-					"ItemDateCreated" => 7,
-					"ItemType" => 8,
-					"ItemSize" => 9,
-					"ItemStatus" => 10,
-					_ => -1,
-				};
-
-				if (columnIndexFromName == -1)
-					return false;
-
-				return columnIndexFromName == columnIndex;
-			});
+			var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(tb => IsCorrectColumn(tb, columnIndex));
 
 			// heuristic: usually, text with more letters are wider than shorter text with wider letters
 			// with this, we can calculate avg width using longest text(s) to avoid overshooting the width
@@ -665,6 +681,28 @@ namespace Files.App.Views.LayoutModes
 			// take weighted avg between mean and max since width is an estimate
 			var weightedAvg = (widthPerLetter.Average() + widthPerLetter.Max()) / 2;
 			return weightedAvg * maxItemLength;
+		}
+
+		private bool IsCorrectColumn(FrameworkElement element, int columnIndex)
+		{
+			int columnIndexFromName = element.Name switch
+			{
+				"ItemName" => 2,
+				"ItemTagGrid" => 3,
+				"ItemOriginalPath" => 4,
+				"ItemDateDeleted" => 5,
+				"ItemDateModified" => 6,
+				"ItemDateCreated" => 7,
+				"ItemType" => 8,
+				"ItemSize" => 9,
+				"ItemStatus" => 10,
+				_ => -1,
+			};
+
+			if (columnIndexFromName == -1)
+				return false;
+
+			return columnIndexFromName == columnIndex;
 		}
 
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
