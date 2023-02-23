@@ -6,6 +6,8 @@
 
 		// global
 		OpenHelp,
+		OpenTerminal,
+		OpenTerminalAsAdmin,
 		ToggleFullScreen,
 
 		// show

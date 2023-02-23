@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using Files.App.Commands;
 using Files.App.DataModels;
 using Files.App.EventArguments;
 using Files.App.Extensions;
@@ -53,6 +54,8 @@ namespace Files.App.Views
 		protected readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		protected readonly IUpdateService updateSettingsService = Ioc.Default.GetRequiredService<IUpdateService>();
+
+		protected readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		public ToolbarViewModel ToolbarViewModel { get; } = new ToolbarViewModel();
 
@@ -284,14 +287,10 @@ namespace Files.App.Views
 					if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 						path = SlimContentPage.SelectedItem.ItemPath;
 
-					var terminalStartInfo = new ProcessStartInfo()
-					{
-						FileName = "wt.exe",
-						Arguments = $"-d {path}",
-						Verb = shift ? "runas" : "",
-						UseShellExecute = true
-					};
-					DispatcherQueue.TryEnqueue(() => Process.Start(terminalStartInfo));
+					if (shift)
+						commands.OpenTerminalAsAdmin. Execute(path);
+					else
+						commands.OpenTerminal.Execute(path);
 
 					args.Handled = true;
 
