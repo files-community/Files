@@ -315,7 +315,13 @@ namespace Files.App.UserControls.Widgets
 
 		private void OpenProperties(FolderCardItem item)
 		{
-			CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item });
+			EventHandler<object> flyoutClosed = null!;
+			flyoutClosed = (s, e) =>
+			{
+				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item });
+			};
+			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
 		public override async void PinToFavorites(WidgetCardItem item)
