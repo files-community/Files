@@ -4,172 +4,192 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:local="using:Files.App.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkitconvers="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:uc="using:Files.App.UserControls"
 	d:DesignHeight="700"
 	d:DesignWidth="400"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyDown="Page_KeyDown"
-	Loaded="Properties_Loaded"
-	Unloaded="Properties_Unloaded"
+	Loaded="Page_Loaded"
 	mc:Ignorable="d">
 
-	<Grid VerticalAlignment="Stretch">
-		<Grid.Resources>
-			<ResourceDictionary>
-				<Thickness x:Key="NavigationViewTopPaneHeight">40</Thickness>
-				<Thickness x:Key="TopNavigationViewTopNavGridMargin">0</Thickness>
-				<SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
+	<Page.Resources>
+		<ResourceDictionary>
 
-				<!--  Removes NavigationView background  -->
-				<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+			</ResourceDictionary.MergedDictionaries>
 
-				<!--  Removes NavigationView corner radius  -->
-				<CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
-			</ResourceDictionary>
-		</Grid.Resources>
+			<toolkitconvers:BoolNegationConverter x:Key="BoolNegationConverter" />
+
+			<Thickness x:Key="NavigationViewTopPaneHeight">40</Thickness>
+			<Thickness x:Key="TopNavigationViewTopNavGridMargin">0</Thickness>
+			<SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
+			<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+
+		</ResourceDictionary>
+	</Page.Resources>
+
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
-			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
 
+		<!--  Titlebar region  -->
 		<Border
 			x:Name="TitlebarArea"
 			Grid.Row="0"
-			HorizontalAlignment="Stretch"
+			Grid.Column="0"
+			Grid.ColumnSpan="2"
+			Height="36"
 			Background="Transparent">
+			<StackPanel
+				Padding="12,0"
+				Orientation="Horizontal"
+				Spacing="8">
+
+				<Image
+					Width="18"
+					Height="18"
+					Source="ms-appx:///Assets/AppTiles/Dev/Logo.ico" />
+
+				<TextBlock
+					VerticalAlignment="Center"
+					Style="{StaticResource CaptionTextBlockStyle}"
+					Text="Property for" />
+			</StackPanel>
+		</Border>
+
+		<!--  NavigationView  -->
+		<Border Grid.Row="1" Grid.Column="0">
 			<NavigationView
-				x:Name="NavigationView"
-				Margin="8,8,120,8"
+				x:Name="MainPropertyNavigationView"
+				Width="78"
+				Margin="0,-4,1,2"
 				HorizontalAlignment="Left"
-				AllowDrop="False"
-				Canvas.ZIndex="100"
+				Canvas.ZIndex="1"
 				IsBackButtonVisible="Collapsed"
-				IsPaneOpen="False"
 				IsPaneToggleButtonVisible="False"
 				IsSettingsVisible="False"
 				IsTitleBarAutoPaddingEnabled="False"
-				PaneDisplayMode="Top"
-				SelectedItem="{x:Bind TabGeneral}"
-				SelectionChanged="NavigationView_SelectionChanged"
-				SelectionFollowsFocus="Disabled">
-				<NavigationView.Resources>
-					<Style TargetType="NavigationViewItem">
-						<Setter Target="SelectionIndicator" Property="Margin" Value="0,-8,0,0" />
-					</Style>
-				</NavigationView.Resources>
-				<!--  SelectionFollowsFocus disabled to fix #5387  -->
+				MenuItemsSource="{x:Bind NavViewItems, Mode=TwoWay}"
+				OpenPaneLength="80"
+				PaneDisplayMode="Left"
+				SelectionChanged="NavigationView_SelectionChanged">
 
-				<!--  Tabs  -->
-				<NavigationView.MenuItems>
-					<NavigationViewItem
-						x:Name="TabGeneral"
-						AccessKey="G"
-						Content="{helpers:ResourceString Name=General}"
-						CornerRadius="0"
-						Tag="General">
-						<NavigationViewItem.Icon>
-							<FontIcon Glyph="&#xE7C3;" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
-					<NavigationViewItem
-						x:Name="TabSecurity"
-						Content="{helpers:ResourceString Name=Security}"
-						CornerRadius="0"
-						Tag="Security"
-						Visibility="Collapsed">
-						<NavigationViewItem.Icon>
-							<FontIcon Glyph="&#xE730;" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
-					<NavigationViewItem
-						x:Name="TabShorcut"
-						AccessKey="S"
-						Content="{helpers:ResourceString Name=Shortcut}"
-						CornerRadius="0"
-						Tag="Shortcut"
-						Visibility="Collapsed">
-						<NavigationViewItem.Icon>
-							<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
-					<NavigationViewItem
-						x:Name="TabLibrary"
-						AccessKey="L"
-						Content="{helpers:ResourceString Name=Library}"
-						CornerRadius="0"
-						Tag="Library"
-						Visibility="Collapsed">
-						<NavigationViewItem.Icon>
-							<FontIcon Glyph="&#xE1D3;" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
-					<NavigationViewItem
-						x:Name="TabDetails"
-						AccessKey="D"
-						Content="{helpers:ResourceString Name=Details}"
-						CornerRadius="0"
-						Tag="Details"
-						Visibility="Collapsed">
-						<NavigationViewItem.Icon>
-							<FontIcon Glyph="&#xE946;" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
-					<NavigationViewItem
-						x:Name="TabCustomization"
-						Content="{helpers:ResourceString Name=Customization}"
-						CornerRadius="0"
-						Tag="Customization"
-						Visibility="Collapsed">
-						<NavigationViewItem.Icon>
-							<FontIcon Glyph="&#xE771;" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
-					<NavigationViewItem
-						x:Name="TabCompatibility"
-						Content="{helpers:ResourceString Name=Compatibility}"
-						CornerRadius="0"
-						Tag="Compatibility"
-						Visibility="Collapsed">
-						<NavigationViewItem.Icon>
-							<FontIcon Glyph="&#xECAA;" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
-				</NavigationView.MenuItems>
+				<NavigationView.Resources>
+					<x:Double x:Key="NavigationViewSelectionIndicatorWidth">4</x:Double>
+					<x:Double x:Key="NavigationViewSelectionIndicatorHeight">24</x:Double>
+					<x:Double x:Key="NavigationViewSelectionIndicatorRadius">2</x:Double>
+					<Thickness x:Key="NavigationViewItemContentPresenterMargin">0</Thickness>
+				</NavigationView.Resources>
+
+				<!--  Porperty menu item template  -->
+				<NavigationView.MenuItemTemplate>
+					<DataTemplate x:DataType="local:SquareNavViewItem">
+						<NavigationViewItem
+							Height="64"
+							IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
+							Tag="{x:Bind Name}">
+							<NavigationViewItem.Content>
+								<Grid Margin="-10,4,-12,0" RowSpacing="2">
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+
+									<FontIcon
+										x:Name="NavigationViewItemGlyphPrimeryFontIcon"
+										Margin="4,0,0,0"
+										HorizontalAlignment="Left"
+										x:Load="{x:Bind IsSelected, Mode=OneWay}"
+										FontSize="22"
+										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+										Glyph="{x:Bind GlyphPrimary, Mode=OneWay}" />
+
+									<FontIcon
+										x:Name="NavigationViewItemGlyphSecondaryFontIcon"
+										Margin="4,0,0,0"
+										HorizontalAlignment="Center"
+										x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+										FontSize="22"
+										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+										Glyph="{x:Bind GlyphSecondary, Mode=OneWay}" />
+
+									<TextBlock
+										x:Name="NavigationViewItemNameTextBlock"
+										Grid.Row="1"
+										HorizontalAlignment="Center"
+										x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+										FontSize="10"
+										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+										Style="{StaticResource CaptionTextBlockStyle}"
+										Text="{x:Bind Name}" />
+								</Grid>
+							</NavigationViewItem.Content>
+						</NavigationViewItem>
+					</DataTemplate>
+				</NavigationView.MenuItemTemplate>
 			</NavigationView>
 		</Border>
 
-		<ScrollViewer Grid.Row="1">
-			<Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
-		</ScrollViewer>
-
+		<!--  NavigationView Content, Save/Apply buttons  -->
 		<Grid
-			Grid.Row="2"
-			Padding="12"
+			Grid.Row="1"
+			Grid.Column="1"
 			Background="{ThemeResource CardBackgroundFillColorSecondary}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-			BorderThickness="0,1,0,0">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-			<Button
-				x:Name="OKButton"
-				Grid.Column="1"
-				MinWidth="100"
-				Margin="0,0,10,0"
-				HorizontalAlignment="Right"
-				Click="OKButton_Click"
-				Content="{helpers:ResourceString Name=PropertiesDialogOKButton/Content}"
-				Style="{StaticResource AccentButtonStyle}" />
-			<Button
-				x:Name="CancelButton"
-				Grid.Column="2"
-				MinWidth="100"
-				HorizontalAlignment="Right"
-				Click="CancelButton_Click"
-				Content="{helpers:ResourceString Name=Cancel}" />
+			BorderThickness="1,1,0,0"
+			CornerRadius="8,0,0,0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<Frame
+				x:Name="contentFrame"
+				Height="436"
+				Margin="0,12,0,0"
+				IsNavigationStackEnabled="False" />
+
+			<Grid
+				Grid.Row="2"
+				Padding="12"
+				Background="{ThemeResource CardBackgroundFillColorSecondary}"
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="0,1,0,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+
+				<Button
+					x:Name="ApplyChangesButton"
+					Grid.Column="2"
+					MinWidth="100"
+					HorizontalAlignment="Right"
+					Click="ApplyChangesButton_Click"
+					Content="Apply" />
+
+				<Button
+					x:Name="SaveChangesButton"
+					Grid.Column="1"
+					MinWidth="100"
+					Margin="0,0,10,0"
+					HorizontalAlignment="Right"
+					Click="SaveChangesButton_Click"
+					Content="Save"
+					Style="{StaticResource AccentButtonStyle}" />
+
+			</Grid>
 		</Grid>
 	</Grid>
 </Page>

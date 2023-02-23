@@ -85,7 +85,7 @@ namespace Files.App.Helpers
 				appWindow.SetIcon(LogoPath);
 
 				if (frame.Content is Properties properties)
-					properties.appWindow = appWindow;
+					properties.AppWindow = appWindow;
 
 				appWindow.Show();
 

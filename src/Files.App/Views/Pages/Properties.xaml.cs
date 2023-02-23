@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
@@ -11,10 +12,13 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using Windows.System;
@@ -24,221 +28,121 @@ namespace Files.App.Views
 {
 	public sealed partial class Properties : Page
 	{
-		private CancellationTokenSource? tokenSource = new CancellationTokenSource();
-		private ContentDialog propertiesDialog;
+		#region Fields and Properties
+		private CancellationTokenSource? _tokenSource;
 
-		private object navParameterItem;
-		private IShellPage AppInstance;
+		private ContentDialog _propertiesDialog;
 
-		public SettingsViewModel AppSettings => App.AppSettings;
+		private object _navParamItem;
 
-		public AppWindow appWindow;
+		private IShellPage _appInstance;
+
+		private bool _usingWinUI;
+
+		public SettingsViewModel AppSettings
+			=> App.AppSettings;
+
+		public AppWindow AppWindow;
+
+		public ObservableCollection<SquareNavViewItem> NavViewItems { get; set; }
+		#endregion
 
 		public Properties()
 		{
 			InitializeComponent();
 
-			var flowDirectionSetting = /*
-				TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
-				Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
-				replace the new instance created below with correct instance.
-				Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
-			*/new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
+			_tokenSource = new();
 
+			NavViewItems = new();
+
+			_usingWinUI = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
+
+			// TODO:
+			//  ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
+			//  Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
+			//  replace the new instance created below with correct instance.
+			//  Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
-
-			contentFrame.Navigated += ContentFrame_Navigated;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			var args = e.Parameter as PropertiesPageNavigationArguments;
-			AppInstance = args.AppInstanceArgument;
-			navParameterItem = args.Item;
-			if (args.Item is ListedItem listedItem)
-			{
-				var isShortcut = listedItem.IsShortcut;
-				var isLibrary = listedItem.IsLibrary;
-				var fileExt = listedItem.FileExtension;
-				TabShorcut.Visibility = isShortcut ? Visibility.Visible : Visibility.Collapsed;
-				TabLibrary.Visibility = isLibrary ? Visibility.Visible : Visibility.Collapsed;
-				TabDetails.Visibility = fileExt is not null && !isShortcut && !isLibrary ? Visibility.Visible : Visibility.Collapsed;
-				TabCustomization.Visibility = !isLibrary && (
-					(listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsArchive) ||
-					(isShortcut && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
-				TabCompatibility.Visibility = (
-						FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : fileExt, true)
-					) ? Visibility.Visible : Visibility.Collapsed;
-				TabSecurity.Visibility = !isLibrary && !listedItem.IsRecycleBinItem ? Visibility.Visible : Visibility.Collapsed;
-			}
-			else if (args.Item is DriveItem)
-			{
-				TabSecurity.Visibility = Visibility.Visible;
-			}
+			_appInstance = args.AppInstanceArgument;
+			_navParamItem = args.Item;
+
+			AddNavigationViewItemsToControl(args.Item);
+
 			base.OnNavigatedTo(e);
 		}
 
-		private async void Properties_Loaded(object sender, RoutedEventArgs e)
+		private async void Page_Loaded(object sender, RoutedEventArgs e)
 		{
 			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
-			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+
+			if (_usingWinUI)
 			{
+				// WINUI3: Set rectangle for the Titlebar
 				TitlebarArea.SizeChanged += TitlebarArea_SizeChanged;
-				appWindow.Destroying += AppWindow_Destroying;
+				AppWindow.Destroying += AppWindow_Destroying;
+
 				await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
 			}
 			else
 			{
-				propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
-				propertiesDialog.Closed += PropertiesDialog_Closed;
+				_propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
+				_propertiesDialog.Closed += PropertiesDialog_Closed;
 			}
 		}
 
 		private void TitlebarArea_SizeChanged(object? sender, SizeChangedEventArgs? e)
 		{
-			/*
-			 We have to calculate the width of NavigationView as 'ActualWidth' is bigger than the real size occupied by the control.
-			 This code calculates the sum of all the visible tabs' widths.
-			 If a tab is visible and its width is 0, it is shown in the overflow menu. In this case we add the overflow's size to the total.
-			 */
-			int navigationViewWidth = (int)NavigationView.MenuItems.Cast<NavigationViewItem>()
-				.Where(item => item.Visibility == Visibility.Visible)
-				.GroupBy(item => item.ActualWidth != 0)
-				.Select(group => group.Key ? group.Select(item => item.ActualWidth).Sum() : group.First().CompactPaneLength)
-				.Sum();
-
 			var scaleAdjustment = XamlRoot.RasterizationScale;
-			int x = (int)(navigationViewWidth * scaleAdjustment);
-			var y = 0;
-			var width = (int)((TitlebarArea.ActualWidth - navigationViewWidth) * scaleAdjustment);
+			var width = (int)(TitlebarArea.ActualWidth * scaleAdjustment);
 			var height = (int)(TitlebarArea.ActualHeight * scaleAdjustment);
 
 			// Sets properties window drag region.
-			appWindow.TitleBar.SetDragRectangles(new RectInt32[]
-			{
-				// This area is on the right of NavigationView and stretches for all the remaining space.
-				new RectInt32(x, y, width, height)
-			});
-		}
-
-		private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
-		{
-			if (contentFrame.Content is Page propertiesMenu)
-			{
-				propertiesMenu.Loaded -= PropertiesMenu_Loaded;
-				propertiesMenu.Loaded += PropertiesMenu_Loaded;
-			}
-		}
-
-		private void PropertiesMenu_Loaded(object sender, RoutedEventArgs e)
-		{
-			// Drag region is calculated each time the active tab is changed
-			TitlebarArea_SizeChanged(null, null);
-		}
-
-		private void AppWindow_Destroying(AppWindow sender, object args)
-		{
-			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
-			sender.Destroying -= AppWindow_Destroying;
-			if (tokenSource is not null && !tokenSource.IsCancellationRequested)
-			{
-				tokenSource.Cancel();
-				tokenSource = null;
-			}
-		}
-
-		private void PropertiesDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
-		{
-			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
-			sender.Closed -= PropertiesDialog_Closed;
-			if (tokenSource is not null && !tokenSource.IsCancellationRequested)
-			{
-				tokenSource.Cancel();
-				tokenSource = null;
-			}
-			propertiesDialog.Hide();
-		}
-
-		private void Properties_Unloaded(object sender, RoutedEventArgs e)
-		{
-			// Why is this not called? Are we cleaning up properly?
+			AppWindow.TitleBar.SetDragRectangles(new RectInt32[] { new RectInt32(0, 0, width, height) });
 		}
 
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
 		{
-			var selectedTheme = ThemeHelper.RootTheme;
-
 			await DispatcherQueue.EnqueueAsync(() =>
 			{
-				((Frame)Parent).RequestedTheme = selectedTheme;
+				((Frame)Parent).RequestedTheme = ThemeHelper.RootTheme;
 
-				if (!ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				if (!_usingWinUI)
 					return;
 
-				switch (selectedTheme)
+				switch (ThemeHelper.RootTheme)
 				{
 					case ElementTheme.Default:
-						appWindow.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-						appWindow.TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
+						AppWindow.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+						AppWindow.TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
 						break;
 
 					case ElementTheme.Light:
-						appWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-						appWindow.TitleBar.ButtonForegroundColor = Colors.Black;
+						AppWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+						AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
 						break;
 
 					case ElementTheme.Dark:
-						appWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-						appWindow.TitleBar.ButtonForegroundColor = Colors.White;
+						AppWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+						AppWindow.TitleBar.ButtonForegroundColor = Colors.White;
 						break;
 				}
 			});
-		}
-
-		private async void OKButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (contentFrame.Content is PropertiesGeneral propertiesGeneral)
-			{
-				await propertiesGeneral.SaveChangesAsync();
-			}
-			else
-			{
-				if (!await (contentFrame.Content as PropertiesTab).SaveChangesAsync())
-					return;
-			}
-
-			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				appWindow.Destroy();
-			else
-				propertiesDialog?.Hide();
-		}
-
-		private void CancelButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				appWindow.Destroy();
-			else
-				propertiesDialog?.Hide();
-		}
-
-		private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
-		{
-			if (!e.Key.Equals(VirtualKey.Escape))
-				return;
-			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				appWindow.Destroy();
-			else
-				propertiesDialog?.Hide();
 		}
 
 		private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
 			var navParam = new PropertyNavParam()
 			{
-				tokenSource = tokenSource,
-				navParameter = navParameterItem,
-				AppInstanceArgument = AppInstance
+				tokenSource = _tokenSource,
+				navParameter = _navParamItem,
+				AppInstanceArgument = _appInstance
 			};
 
 			switch (args.SelectedItemContainer.Tag)
@@ -273,6 +177,180 @@ namespace Files.App.Views
 			}
 		}
 
+		private void AddNavigationViewItemsToControl(object item)
+		{
+			var generalItem = new SquareNavViewItem()
+			{
+				Name = "General",
+				Tag = "General",
+				GlyphPrimary = "\uE7C3",
+				GlyphSecondary = "\uE7C3",
+			};
+			var securityItem = new SquareNavViewItem()
+			{
+				Name = "Security",
+				Tag = "Security",
+				GlyphPrimary = "\uE730",
+				GlyphSecondary = "\uE730",
+			};
+			var shortcutItem = new SquareNavViewItem()
+			{
+				Name = "Shortcut",
+				Tag = "Shortcut",
+				GlyphPrimary = "\uF10A",
+				GlyphSecondary = "\uF10A",
+			};
+			var libraryItem = new SquareNavViewItem()
+			{
+				Name = "Library",
+				Tag = "Library",
+				GlyphPrimary = "\uE1D3",
+				GlyphSecondary = "\uE1D3",
+			};
+			var detailsItem = new SquareNavViewItem()
+			{
+				Name = "Details",
+				Tag = "Details",
+				GlyphPrimary = "\uE946",
+				GlyphSecondary = "\uE946",
+			};
+			var customizationItem = new SquareNavViewItem()
+			{
+				Name = "Customization",
+				Tag = "Customization",
+				GlyphPrimary = "\uE771",
+				GlyphSecondary = "\uE771",
+			};
+			var compatibilityItem = new SquareNavViewItem()
+			{
+				Name = "Compatibility",
+				Tag = "Compatibility",
+				GlyphPrimary = "\uECAA",
+				GlyphSecondary = "\uECAA",
+			};
+
+			NavViewItems.Add(generalItem);
+			NavViewItems.Add(securityItem);
+			NavViewItems.Add(shortcutItem);
+			NavViewItems.Add(libraryItem);
+			NavViewItems.Add(detailsItem);
+			NavViewItems.Add(customizationItem);
+			NavViewItems.Add(compatibilityItem);
+
+			MainPropertyNavigationView.SelectedItem = generalItem;
+
+			// Unable unavailable property tabs
+			if (item is ListedItem listedItem)
+			{
+				var isShortcut = listedItem.IsShortcut;
+				var isLibrary = listedItem.IsLibrary;
+				var fileExt = listedItem.FileExtension;
+
+				var securityItemEnabled = !isLibrary && !listedItem.IsRecycleBinItem;
+				var detailsItemEnabled = fileExt is not null && !isShortcut && !isLibrary;
+				var customizationItemEnabled = !isLibrary && (
+					(listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsArchive) ||
+					(isShortcut && !listedItem.IsLinkItem));
+				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : fileExt, true);
+
+				if (!securityItemEnabled)
+					NavViewItems.Remove(securityItem);
+
+				if (!isShortcut)
+					NavViewItems.Remove(shortcutItem);
+
+				if (!isLibrary)
+					NavViewItems.Remove(libraryItem);
+
+				if (!detailsItemEnabled)
+					NavViewItems.Remove(detailsItem);
+
+				if (!customizationItemEnabled)
+					NavViewItems.Remove(customizationItem);
+
+				if (!compatibilityItemEnabled)
+					NavViewItems.Remove(compatibilityItem);
+			}
+			else if (item is DriveItem)
+			{
+				NavViewItems.Remove(shortcutItem);
+				NavViewItems.Remove(libraryItem);
+				NavViewItems.Remove(detailsItem);
+				NavViewItems.Remove(customizationItem);
+				NavViewItems.Remove(compatibilityItem);
+			}
+		}
+
+		#region Save, Apply, Escape key
+		private async void ApplyChangesButton_Click(object sender, RoutedEventArgs e)
+			=> await ApplyChanges();
+
+		private async void SaveChangesButton_Click(object sender, RoutedEventArgs e)
+		{
+			await ApplyChanges();
+
+			ClosePage();
+		}
+
+		private async Task ApplyChanges()
+		{
+			if (contentFrame.Content is PropertiesGeneral propertiesGeneral)
+			{
+				await propertiesGeneral.SaveChangesAsync();
+			}
+			else
+			{
+				if (!await (contentFrame.Content as PropertiesTab).SaveChangesAsync())
+					return;
+			}
+		}
+
+		private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			if (!e.Key.Equals(VirtualKey.Escape))
+				return;
+
+			ClosePage();
+		}
+		#endregion
+
+		#region Destroying
+		private void ClosePage()
+		{
+			if (_usingWinUI)
+				AppWindow.Destroy();
+			else
+				_propertiesDialog?.Hide();
+		}
+
+		private void AppWindow_Destroying(AppWindow sender, object args)
+		{
+			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+			sender.Destroying -= AppWindow_Destroying;
+
+			if (_tokenSource is not null && !_tokenSource.IsCancellationRequested)
+			{
+				_tokenSource.Cancel();
+				_tokenSource = null;
+			}
+		}
+
+		private void PropertiesDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+		{
+			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+			sender.Closed -= PropertiesDialog_Closed;
+
+			if (_tokenSource is not null && !_tokenSource.IsCancellationRequested)
+			{
+				_tokenSource.Cancel();
+				_tokenSource = null;
+			}
+
+			_propertiesDialog.Hide();
+		}
+		#endregion
+
+		#region other classes
 		public class PropertiesPageNavigationArguments
 		{
 			public object Item { get; set; }
@@ -285,5 +363,22 @@ namespace Files.App.Views
 			public object navParameter;
 			public IShellPage AppInstanceArgument { get; set; }
 		}
+		#endregion
+	}
+
+	public class SquareNavViewItem : ObservableObject
+	{
+		public string Name;
+
+		public string Tag;
+
+		public string GlyphPrimary;
+
+		public string GlyphSecondary;
+
+		public bool UseCustomGlyph;
+
+		private bool _isSelected;
+		public bool IsSelected { get => _isSelected; set => SetProperty(ref _isSelected, value); }
 	}
 }
