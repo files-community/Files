@@ -58,76 +58,74 @@
 			</StackPanel>
 		</Border>
 
-		<!--  NavigationView  -->
-		<Border Grid.Row="1" Grid.Column="0">
-			<NavigationView
-				x:Name="MainPropertyNavigationView"
-				Width="72"
-				Margin="0,-4,-1,2"
-				HorizontalAlignment="Left"
-				IsBackButtonVisible="Collapsed"
-				IsPaneToggleButtonVisible="False"
-				IsSettingsVisible="False"
-				IsTitleBarAutoPaddingEnabled="False"
-				MenuItemsSource="{x:Bind NavViewItems, Mode=TwoWay}"
-				OpenPaneLength="80"
-				PaneDisplayMode="Left"
-				SelectionChanged="NavigationView_SelectionChanged">
-				<!--  TODO: Fix negative margins  -->
+		<!--  Main property window's NavigationView  -->
+		<NavigationView
+			x:Name="MainPropertyNavigationView"
+			Width="72"
+			Margin="0,-4,-1,2"
+			HorizontalAlignment="Left"
+			IsBackButtonVisible="Collapsed"
+			IsPaneToggleButtonVisible="False"
+			IsSettingsVisible="False"
+			IsTitleBarAutoPaddingEnabled="False"
+			MenuItemsSource="{x:Bind NavViewItems, Mode=TwoWay}"
+			OpenPaneLength="80"
+			PaneDisplayMode="Left"
+			SelectionChanged="NavigationView_SelectionChanged">
+			<!--  TODO: Use ResourceDictionary to customize them and avoid to use negative margins  -->
 
-				<NavigationView.Resources>
-					<x:Double x:Key="NavigationViewSelectionIndicatorWidth">4</x:Double>
-					<x:Double x:Key="NavigationViewSelectionIndicatorHeight">24</x:Double>
-					<x:Double x:Key="NavigationViewSelectionIndicatorRadius">2</x:Double>
-					<Thickness x:Key="NavigationViewItemContentPresenterMargin">0</Thickness>
-				</NavigationView.Resources>
+			<NavigationView.Resources>
+				<x:Double x:Key="NavigationViewSelectionIndicatorWidth">4</x:Double>
+				<x:Double x:Key="NavigationViewSelectionIndicatorHeight">24</x:Double>
+				<x:Double x:Key="NavigationViewSelectionIndicatorRadius">2</x:Double>
+				<Thickness x:Key="NavigationViewItemContentPresenterMargin">0</Thickness>
+			</NavigationView.Resources>
 
-				<!--  Porperty menu item template  -->
-				<NavigationView.MenuItemTemplate>
-					<DataTemplate x:DataType="local:SquareNavViewItem">
-						<NavigationViewItem
-							Height="64"
-							IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
-							Tag="{x:Bind Name}">
-							<NavigationViewItem.Content>
-								<StackPanel Margin="-8,4,-12,0" Spacing="2">
+			<!--  Porperty menu item template  -->
+			<NavigationView.MenuItemTemplate>
+				<DataTemplate x:DataType="local:SquareNavViewItem">
+					<NavigationViewItem
+						Height="64"
+						IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
+						Tag="{x:Bind Name}">
+						<NavigationViewItem.Content>
+							<StackPanel Margin="-8,4,-12,0" Spacing="2">
 
-									<FontIcon
-										x:Name="NavigationViewItemGlyphPrimeryFontIcon"
-										Margin="2,0,0,0"
-										HorizontalAlignment="Center"
-										x:Load="{x:Bind IsSelected, Mode=OneWay}"
-										FontSize="22"
-										Foreground="{ThemeResource SystemAccentColor}"
-										Glyph="{x:Bind GlyphPrimary, Mode=OneWay}" />
+								<FontIcon
+									x:Name="NavigationViewItemGlyphPrimeryFontIcon"
+									Margin="2,0,0,0"
+									HorizontalAlignment="Center"
+									x:Load="{x:Bind IsSelected, Mode=OneWay}"
+									FontSize="22"
+									Foreground="{ThemeResource SystemAccentColor}"
+									Glyph="{x:Bind GlyphPrimary, Mode=OneWay}" />
 
-									<FontIcon
-										x:Name="NavigationViewItemGlyphSecondaryFontIcon"
-										Margin="2,0,0,0"
-										HorizontalAlignment="Center"
-										x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-										FontSize="22"
-										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-										Glyph="{x:Bind GlyphSecondary, Mode=OneWay}" />
+								<FontIcon
+									x:Name="NavigationViewItemGlyphSecondaryFontIcon"
+									Margin="2,0,0,0"
+									HorizontalAlignment="Center"
+									x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+									FontSize="22"
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									Glyph="{x:Bind GlyphSecondary, Mode=OneWay}" />
 
-									<TextBlock
-										x:Name="NavigationViewItemNameTextBlock"
-										Grid.Row="1"
-										Margin="-2,0,-4,0"
-										HorizontalAlignment="Center"
-										x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-										FontSize="10"
-										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-										Style="{StaticResource CaptionTextBlockStyle}"
-										Text="{x:Bind Name}" />
+								<TextBlock
+									x:Name="NavigationViewItemNameTextBlock"
+									Grid.Row="1"
+									Margin="-2,0,-4,0"
+									HorizontalAlignment="Center"
+									x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+									FontSize="10"
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									Style="{StaticResource CaptionTextBlockStyle}"
+									Text="{x:Bind Name}" />
 
-								</StackPanel>
-							</NavigationViewItem.Content>
-						</NavigationViewItem>
-					</DataTemplate>
-				</NavigationView.MenuItemTemplate>
-			</NavigationView>
-		</Border>
+							</StackPanel>
+						</NavigationViewItem.Content>
+					</NavigationViewItem>
+				</DataTemplate>
+			</NavigationView.MenuItemTemplate>
+		</NavigationView>
 
 		<!--  NavigationView Content, Save/Cancel buttons  -->
 		<Grid
@@ -171,6 +169,7 @@
 
 				</StackPanel>
 			</Grid>
+
 		</Grid>
 
 	</Grid>

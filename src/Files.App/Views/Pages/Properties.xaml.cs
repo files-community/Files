@@ -142,33 +142,33 @@ namespace Files.App.Views
 				AppInstanceArgument = _appInstance
 			};
 
-			switch (args.SelectedItemContainer.Tag)
+			switch ((PropertyNavigationViewItemEnums)args.SelectedItemContainer.Tag)
 			{
-				case "General":
+				case PropertyNavigationViewItemEnums.ItemGeneral:
 					contentFrame.Navigate(typeof(PropertiesGeneral), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 
-				case "Shortcut":
+				case PropertyNavigationViewItemEnums.ItemShortcut:
 					contentFrame.Navigate(typeof(PropertiesShortcut), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 
-				case "Library":
+				case PropertyNavigationViewItemEnums.ItemLibrary:
 					contentFrame.Navigate(typeof(PropertiesLibrary), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 
-				case "Details":
+				case PropertyNavigationViewItemEnums.ItemDetails:
 					contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 
-				case "Security":
+				case PropertyNavigationViewItemEnums.ItemSecurity:
 					contentFrame.Navigate(typeof(PropertiesSecurity), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 
-				case "Customization":
+				case PropertyNavigationViewItemEnums.ItemCustomization:
 					contentFrame.Navigate(typeof(PropertiesCustomization), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 
-				case "Compatibility":
+				case PropertyNavigationViewItemEnums.ItemCompatibility:
 					contentFrame.Navigate(typeof(PropertiesCompatibility), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 			}
@@ -179,49 +179,49 @@ namespace Files.App.Views
 			var generalItem = new SquareNavViewItem()
 			{
 				Name = "General".GetLocalizedResource(),
-				Tag = "General",
+				ItemType = PropertyNavigationViewItemEnums.ItemGeneral,
 				GlyphPrimary = "\uE7C3",
 				GlyphSecondary = "\uE7C3",
 			};
 			var securityItem = new SquareNavViewItem()
 			{
 				Name = "Security".GetLocalizedResource(),
-				Tag = "Security",
+				ItemType = PropertyNavigationViewItemEnums.ItemSecurity,
 				GlyphPrimary = "\uE730",
 				GlyphSecondary = "\uE730",
 			};
 			var shortcutItem = new SquareNavViewItem()
 			{
 				Name = "Shortcut".GetLocalizedResource(),
-				Tag = "Shortcut",
+				ItemType = PropertyNavigationViewItemEnums.ItemShortcut,
 				GlyphPrimary = "\uE90F",
 				GlyphSecondary = "\uE90F",
 			};
 			var libraryItem = new SquareNavViewItem()
 			{
 				Name = "Library".GetLocalizedResource(),
-				Tag = "Library",
+				ItemType = PropertyNavigationViewItemEnums.ItemLibrary,
 				GlyphPrimary = "\uE1D3",
 				GlyphSecondary = "\uE1D3",
 			};
 			var detailsItem = new SquareNavViewItem()
 			{
 				Name = "Details".GetLocalizedResource(),
-				Tag = "Details",
+				ItemType = PropertyNavigationViewItemEnums.ItemDetails,
 				GlyphPrimary = "\uE946",
 				GlyphSecondary = "\uE946",
 			};
 			var customizationItem = new SquareNavViewItem()
 			{
 				Name = "Customization".GetLocalizedResource(),
-				Tag = "Customization",
+				ItemType = PropertyNavigationViewItemEnums.ItemCustomization,
 				GlyphPrimary = "\uE771",
 				GlyphSecondary = "\uE771",
 			};
 			var compatibilityItem = new SquareNavViewItem()
 			{
 				Name = "Compatibility".GetLocalizedResource(),
-				Tag = "Compatibility",
+				ItemType = PropertyNavigationViewItemEnums.ItemCompatibility,
 				GlyphPrimary = "\uECAA",
 				GlyphSecondary = "\uECAA",
 			};
@@ -363,7 +363,7 @@ namespace Files.App.Views
 	{
 		public string Name;
 
-		public string Tag;
+		public PropertyNavigationViewItemEnums ItemType;
 
 		public string GlyphPrimary;
 
@@ -373,5 +373,16 @@ namespace Files.App.Views
 
 		private bool _isSelected;
 		public bool IsSelected { get => _isSelected; set => SetProperty(ref _isSelected, value); }
+	}
+
+	public enum PropertyNavigationViewItemEnums
+	{
+		ItemGeneral = 1,
+		ItemShortcut,
+		ItemLibrary,
+		ItemDetails,
+		ItemSecurity,
+		ItemCustomization,
+		ItemCompatibility,
 	}
 }
