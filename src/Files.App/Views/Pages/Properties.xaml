@@ -129,7 +129,7 @@
 			</NavigationView>
 		</Border>
 
-		<!--  NavigationView Content, Save/Apply buttons  -->
+		<!--  NavigationView Content, Save/Cancel buttons  -->
 		<Grid
 			Grid.Row="1"
 			Grid.Column="1"
