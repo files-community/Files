@@ -90,11 +90,7 @@
 							IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
 							Tag="{x:Bind Name}">
 							<NavigationViewItem.Content>
-								<Grid Margin="-8,4,-12,0" RowSpacing="2">
-									<Grid.RowDefinitions>
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-									</Grid.RowDefinitions>
+								<StackPanel Margin="-8,4,-12,0" Spacing="2">
 
 									<FontIcon
 										x:Name="NavigationViewItemGlyphPrimeryFontIcon"
@@ -117,14 +113,15 @@
 									<TextBlock
 										x:Name="NavigationViewItemNameTextBlock"
 										Grid.Row="1"
-										Margin="-2,0"
+										Margin="-2,0,-4,0"
 										HorizontalAlignment="Center"
 										x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 										FontSize="10"
 										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 										Style="{StaticResource CaptionTextBlockStyle}"
 										Text="{x:Bind Name}" />
-								</Grid>
+
+								</StackPanel>
 							</NavigationViewItem.Content>
 						</NavigationViewItem>
 					</DataTemplate>
@@ -136,7 +133,7 @@
 		<Grid
 			Grid.Row="1"
 			Grid.Column="1"
-			Background="{ThemeResource CardBackgroundFillColorSecondary}"
+			Background="{ThemeResource LayerFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1,1,0,0"
 			CornerRadius="8,0,0,0">
