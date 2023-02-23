@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -487,7 +487,7 @@
     <value>Pirms {0} stundas</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>Pirms {0} minūtēm</value>
+    <value>Pirms {0} minūtēm</value>
   </data>
   <data name="MinuteAgo" xml:space="preserve">
     <value>Pirms {0} minūtes</value>
