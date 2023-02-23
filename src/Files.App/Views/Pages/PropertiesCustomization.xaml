@@ -24,11 +24,8 @@
 		</ResourceDictionary>
 	</vm:PropertiesTab.Resources>
 
-	<Grid Padding="12,0,12,12" RowSpacing="4">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
+	<Grid Padding="12">
+
 		<Grid
 			Grid.Row="0"
 			Padding="12"
@@ -126,5 +123,6 @@
 				</GridView.ItemTemplate>
 			</GridView>
 		</Grid>
+
 	</Grid>
 </vm:PropertiesTab>

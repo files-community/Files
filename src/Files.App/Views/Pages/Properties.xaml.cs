@@ -294,23 +294,25 @@ namespace Files.App.Views
 
 		private async Task ApplyChanges()
 		{
-			if (contentFrame.Content is PropertiesGeneral propertiesGeneral)
+			if (contentFrame.Content is not null)
 			{
-				await propertiesGeneral.SaveChangesAsync();
-			}
-			else
-			{
-				if (!await (contentFrame.Content as PropertiesTab).SaveChangesAsync())
-					return;
+				if (contentFrame.Content is PropertiesGeneral propertiesGeneral)
+				{
+					await propertiesGeneral.SaveChangesAsync();
+				}
+				else
+				{
+					await ((PropertiesTab)contentFrame.Content).SaveChangesAsync();
+				}
 			}
 		}
 
 		private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (!e.Key.Equals(VirtualKey.Escape))
-				return;
-
-			ClosePage();
+			if (e.Key.Equals(VirtualKey.Escape))
+			{
+				ClosePage();
+			}
 		}
 		#endregion
 
