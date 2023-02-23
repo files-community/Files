@@ -631,15 +631,15 @@ namespace Files.App.Views.LayoutModes
 			{
 				int columnIndexFromName = tb.Name switch
 				{
-					"ItemName" => 1,
-					"ItemTag" => 2,
-					"ItemOriginalPath" => 3,
-					"ItemDateDeleted" => 4,
-					"ItemDateModified" => 5,
-					"ItemDateCreated" => 6,
-					"ItemType" => 7,
-					"ItemSize" => 8,
-					"ItemStatus" => 9,
+					"ItemName" => 2,
+					"ItemTag" => 3,
+					"ItemOriginalPath" => 4,
+					"ItemDateDeleted" => 5,
+					"ItemDateModified" => 6,
+					"ItemDateCreated" => 7,
+					"ItemType" => 8,
+					"ItemSize" => 9,
+					"ItemStatus" => 10,
 					_ => -1,
 				};
 
