@@ -511,7 +511,7 @@
     <value>Avaa sovelluksessa</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>Lähetä kohteeseen</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Kohteen nimi ei saa sisältää seuraavia merkkejä: \ / : * ? " &lt; &gt; |</value>
@@ -1246,13 +1246,13 @@
     <value>Avaa välilehdet kaksoisruutunäkymässä</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>Näytä vaihtoehto kansioiden avaamiseksi uudessa ruudussa</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Uusi ruutu</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>Open in new pane</value>
+    <value>Avaa uudessa ruudussa</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Kansiot</value>
@@ -2938,13 +2938,13 @@
     <value>Create new tag</value>
   </data>
   <data name="LoadingMoreOptions" xml:space="preserve">
-    <value>Loading more options...</value>
+    <value>Ladataan lisää asetuksia...</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>Context menu options</value>
+    <value>Kontekstivalikon asetukset</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
     <value>Show file extensions</value>
