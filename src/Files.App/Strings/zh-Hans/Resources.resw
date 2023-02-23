@@ -511,7 +511,7 @@
     <value>打开方式</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>发送到</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>文件名不能包含下列任何字符：\ / : * ? " &lt; &gt; |</value>
@@ -1246,13 +1246,13 @@
     <value>以双面板模式打开标签页</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>显示“在新面板中打开”</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>新面板</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>Open in new pane</value>
+    <value>在新面板中打开</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>文件夹</value>
@@ -2881,13 +2881,13 @@
     <value>包（Bundles）将在未来的某个更新中停用 📎</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>显示“编辑文件标签”</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>显示“在新标签页中打开”</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>显示“在新窗口中打开”</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>快速访问</value>
@@ -2920,60 +2920,60 @@
     <value>从不</value>
   </data>
   <data name="TagColor" xml:space="preserve">
-    <value>Tag color</value>
+    <value>标签颜色</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>重命名</value>
   </data>
   <data name="Commit" xml:space="preserve">
-    <value>Commit</value>
+    <value>提交</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
-    <value>Save changes</value>
+    <value>保存更改</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>New tag</value>
+    <value>新标签</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
-    <value>Create new tag</value>
+    <value>创建新标签</value>
   </data>
   <data name="LoadingMoreOptions" xml:space="preserve">
-    <value>Loading more options...</value>
+    <value>正在加载更多选项...</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>正在加载...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>Context menu options</value>
+    <value>右键菜单选项</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Show file extensions</value>
+    <value>显示文件扩展名</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>显示隐藏的项目</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format...</value>
+    <value>格式化...</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>Help</value>
+    <value>帮助</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>切换全屏</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Are you sure you want to delete this tag?</value>	
+    <value>确定要删除此标签吗？</value>	
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play all</value>
+    <value>播放全部</value>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Height</value>
+    <value>高度</value>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>Width</value>
+    <value>宽度</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Apply this action to all conflicting items</value>
+    <value>将此操作应用到所有冲突项</value>
   </data>
 </root>
