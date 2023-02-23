@@ -3,6 +3,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitconvers="using:CommunityToolkit.WinUI.UI.Converters"
@@ -57,7 +58,8 @@
 				<TextBlock
 					VerticalAlignment="Center"
 					Style="{StaticResource CaptionTextBlockStyle}"
-					Text="Files" />
+					Text="{helpers:ResourceString Name=PropertiesTitle}" />
+
 			</StackPanel>
 		</Border>
 
@@ -170,7 +172,7 @@
 					MinWidth="100"
 					HorizontalAlignment="Right"
 					Click="ApplyChangesButton_Click"
-					Content="Apply" />
+					Content="{helpers:ResourceString Name=Apply}" />
 
 				<Button
 					x:Name="SaveChangesButton"
@@ -179,7 +181,7 @@
 					Margin="0,0,10,0"
 					HorizontalAlignment="Right"
 					Click="SaveChangesButton_Click"
-					Content="Save"
+					Content="{helpers:ResourceString Name=Save}"
 					Style="{StaticResource AccentButtonStyle}" />
 
 			</Grid>

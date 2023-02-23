@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI;
+using Files.App.Extensions;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -179,49 +180,49 @@ namespace Files.App.Views
 		{
 			var generalItem = new SquareNavViewItem()
 			{
-				Name = "General",
+				Name = "General".GetLocalizedResource(),
 				Tag = "General",
 				GlyphPrimary = "\uE7C3",
 				GlyphSecondary = "\uE7C3",
 			};
 			var securityItem = new SquareNavViewItem()
 			{
-				Name = "Security",
+				Name = "Security".GetLocalizedResource(),
 				Tag = "Security",
 				GlyphPrimary = "\uE730",
 				GlyphSecondary = "\uE730",
 			};
 			var shortcutItem = new SquareNavViewItem()
 			{
-				Name = "Shortcut",
+				Name = "Shortcut".GetLocalizedResource(),
 				Tag = "Shortcut",
-				GlyphPrimary = "\uF10A",
-				GlyphSecondary = "\uF10A",
+				GlyphPrimary = "\uE90F",
+				GlyphSecondary = "\uE90F",
 			};
 			var libraryItem = new SquareNavViewItem()
 			{
-				Name = "Library",
+				Name = "Library".GetLocalizedResource(),
 				Tag = "Library",
 				GlyphPrimary = "\uE1D3",
 				GlyphSecondary = "\uE1D3",
 			};
 			var detailsItem = new SquareNavViewItem()
 			{
-				Name = "Details",
+				Name = "Details".GetLocalizedResource(),
 				Tag = "Details",
 				GlyphPrimary = "\uE946",
 				GlyphSecondary = "\uE946",
 			};
 			var customizationItem = new SquareNavViewItem()
 			{
-				Name = "Customization",
+				Name = "Customization".GetLocalizedResource(),
 				Tag = "Customization",
 				GlyphPrimary = "\uE771",
 				GlyphSecondary = "\uE771",
 			};
 			var compatibilityItem = new SquareNavViewItem()
 			{
-				Name = "Compatibility",
+				Name = "Compatibility".GetLocalizedResource(),
 				Tag = "Compatibility",
 				GlyphPrimary = "\uECAA",
 				GlyphSecondary = "\uECAA",

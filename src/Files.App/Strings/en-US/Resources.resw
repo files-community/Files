@@ -2962,7 +2962,7 @@
     <value>Toggle full screen</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Are you sure you want to delete this tag?</value>	
+    <value>Are you sure you want to delete this tag?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>Play all</value>
@@ -2975,5 +2975,11 @@
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Apply this action to all conflicting items</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
   </data>
 </root>
