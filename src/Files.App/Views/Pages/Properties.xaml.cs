@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI;
-using Files.App.Extensions;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
@@ -180,50 +180,50 @@ namespace Files.App.Views
 			{
 				Name = "General".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemGeneral,
-				GlyphSecondary = "\uE7C3",
-				PathFilled = (string)Application.Current.Resources["PageFilled"],
+				RegularPathIcon = (string)Application.Current.Resources["PageIconRegular"],
+				FilledPathIcon = (string)Application.Current.Resources["PageIconFilled"],
 			};
 			var securityItem = new SquareNavViewItem()
 			{
 				Name = "Security".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemSecurity,
-				GlyphSecondary = "\uE730",
-				PathFilled = (string)Application.Current.Resources["ShieldFilled"],
+				RegularPathIcon = (string)Application.Current.Resources["ShieldIconRegular"],
+				FilledPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
 			};
 			var shortcutItem = new SquareNavViewItem()
 			{
 				Name = "Shortcut".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemShortcut,
-				GlyphSecondary = "\uE90F",
-				PathFilled = (string)Application.Current.Resources["InfoFilled"],
+				RegularPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
+				FilledPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
 			};
 			var libraryItem = new SquareNavViewItem()
 			{
 				Name = "Library".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemLibrary,
-				GlyphSecondary = "\uE1D3",
-				PathFilled = (string)Application.Current.Resources["InfoFilled"],
+				RegularPathIcon = (string)Application.Current.Resources["LibraryIconRegular"],
+				FilledPathIcon = (string)Application.Current.Resources["LibraryIconFilled"],
 			};
 			var detailsItem = new SquareNavViewItem()
 			{
 				Name = "Details".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemDetails,
-				GlyphSecondary = "\uE946",
-				PathFilled = (string)Application.Current.Resources["InfoFilled"],
+				RegularPathIcon = (string)Application.Current.Resources["InfoIconRegular"],
+				FilledPathIcon = (string)Application.Current.Resources["InfoIconFilled"],
 			};
 			var customizationItem = new SquareNavViewItem()
 			{
 				Name = "Customization".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCustomization,
-				GlyphSecondary = "\uE771",
-				PathFilled = (string)Application.Current.Resources["InfoFilled"],
+				RegularPathIcon = (string)Application.Current.Resources["ColorIconRegular"],
+				FilledPathIcon = (string)Application.Current.Resources["ColorIconFilled"],
 			};
 			var compatibilityItem = new SquareNavViewItem()
 			{
 				Name = "Compatibility".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCompatibility,
-				GlyphSecondary = "\uECAA",
-				PathFilled = (string)Application.Current.Resources["InfoFilled"],
+				RegularPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
+				FilledPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
 			};
 
 			NavViewItems.Add(generalItem);
@@ -365,14 +365,18 @@ namespace Files.App.Views
 
 		public PropertyNavigationViewItemEnums ItemType;
 
-		public string PathFilled;
+		public string? RegularPathIcon;
 
-		public string GlyphSecondary;
+		public string? FilledPathIcon;
 
 		public bool UseCustomGlyph;
 
 		private bool _isSelected;
-		public bool IsSelected { get => _isSelected; set => SetProperty(ref _isSelected, value); }
+		public bool IsSelected
+		{
+			get => _isSelected;
+			set => SetProperty(ref _isSelected, value);
+		}
 	}
 
 	public enum PropertyNavigationViewItemEnums

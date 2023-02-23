@@ -97,17 +97,16 @@
 									Margin="2,0,0,0"
 									HorizontalAlignment="Center"
 									x:Load="{x:Bind IsSelected, Mode=OneWay}"
-									Data="{x:Bind PathFilled, Mode=OneWay}"
+									Data="{x:Bind FilledPathIcon, Mode=OneWay}"
 									Foreground="{ThemeResource SystemAccentColor}" />
 
-								<FontIcon
-									x:Name="NavigationViewItemGlyphSecondaryFontIcon"
+								<PathIcon
+									x:Name="NavigationViewItemPathIconRegular"
 									Margin="2,0,0,0"
 									HorizontalAlignment="Center"
 									x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-									FontSize="22"
-									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									Glyph="{x:Bind GlyphSecondary, Mode=OneWay}" />
+									Data="{x:Bind RegularPathIcon, Mode=OneWay}"
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
 
 								<TextBlock
 									x:Name="NavigationViewItemNameTextBlock"
