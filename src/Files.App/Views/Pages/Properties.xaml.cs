@@ -195,12 +195,14 @@ namespace Files.App.Views
 				Name = "Shortcut".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemShortcut,
 				GlyphSecondary = "\uE90F",
+				PathFilled = (string)Application.Current.Resources["InfoFilled"],
 			};
 			var libraryItem = new SquareNavViewItem()
 			{
 				Name = "Library".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemLibrary,
 				GlyphSecondary = "\uE1D3",
+				PathFilled = (string)Application.Current.Resources["InfoFilled"],
 			};
 			var detailsItem = new SquareNavViewItem()
 			{
@@ -214,12 +216,14 @@ namespace Files.App.Views
 				Name = "Customization".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCustomization,
 				GlyphSecondary = "\uE771",
+				PathFilled = (string)Application.Current.Resources["InfoFilled"],
 			};
 			var compatibilityItem = new SquareNavViewItem()
 			{
 				Name = "Compatibility".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCompatibility,
 				GlyphSecondary = "\uECAA",
+				PathFilled = (string)Application.Current.Resources["InfoFilled"],
 			};
 
 			NavViewItems.Add(generalItem);
