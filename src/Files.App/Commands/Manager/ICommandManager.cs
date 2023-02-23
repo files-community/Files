@@ -17,5 +17,7 @@ namespace Files.App.Commands
 
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
+
+		IRichCommand EmptyRecycleBin { get; }
 	}
 }

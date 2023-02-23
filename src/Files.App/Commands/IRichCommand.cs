@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Xaml.Input;
+﻿using Files.App.UserControls;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -12,6 +14,10 @@ namespace Files.App.Commands
 		string Label { get; }
 		string LabelWithHotKey { get; }
 		string AutomationName { get; }
+
+		RichGlyph Glyph { get; }
+		FontIcon? FontIcon { get; }
+		ColoredIcon? ColoredIcon { get; }
 
 		HotKey DefaultHotKey { get; }
 		HotKey CustomHotKey { get; set; }

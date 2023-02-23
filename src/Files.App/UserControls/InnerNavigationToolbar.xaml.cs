@@ -25,7 +25,7 @@ namespace Files.App.UserControls
 		}
 
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public ICommandManager CommandManager { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 

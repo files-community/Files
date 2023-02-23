@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Actions;
+using Files.App.UserControls;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections;
@@ -29,6 +31,7 @@ namespace Files.App.Commands
 		public IRichCommand ToggleFullScreen => commands[CommandCodes.ToggleFullScreen];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
+		public IRichCommand EmptyRecycleBin => commands[CommandCodes.EmptyRecycleBin];
 
 		public CommandManager()
 		{
@@ -52,6 +55,7 @@ namespace Files.App.Commands
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
+			[CommandCodes.EmptyRecycleBin] = new EmptyRecycleBinAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
@@ -66,6 +70,10 @@ namespace Files.App.Commands
 			public string Label => string.Empty;
 			public string LabelWithHotKey => string.Empty;
 			public string AutomationName => string.Empty;
+
+			public RichGlyph Glyph => RichGlyph.None;
+			public FontIcon? FontIcon => null;
+			public ColoredIcon? ColoredIcon => null;
 
 			public HotKey DefaultHotKey => HotKey.None;
 
@@ -100,6 +108,14 @@ namespace Files.App.Commands
 			public string Label => action.Label;
 			public string LabelWithHotKey => $"{Label} ({CustomHotKey})";
 			public string AutomationName => Label;
+
+			public RichGlyph Glyph => action.Glyph;
+
+			private readonly Lazy<FontIcon?> fontIcon;
+			public FontIcon? FontIcon => fontIcon.Value;
+
+			private readonly Lazy<ColoredIcon?> coloredIcon;
+			public ColoredIcon? ColoredIcon => coloredIcon.Value;
 
 			public HotKey DefaultHotKey => action.HotKey;
 
@@ -152,6 +168,8 @@ namespace Files.App.Commands
 				this.manager = manager;
 				Code = code;
 				this.action = action;
+				fontIcon = new(action.Glyph.ToFontIcon);
+				coloredIcon = new(action.Glyph.ToColoredIcon);
 				customHotKey = action.HotKey;
 				command = new AsyncRelayCommand(ExecuteAsync, () => action.IsExecutable);
 
