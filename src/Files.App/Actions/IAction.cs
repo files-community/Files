@@ -7,6 +7,8 @@ namespace Files.App.Actions
 	{
 		string Label { get; }
 
+		RichGlyph Glyph => RichGlyph.None;
+
 		HotKey HotKey => HotKey.None;
 
 		bool IsExecutable => true;
