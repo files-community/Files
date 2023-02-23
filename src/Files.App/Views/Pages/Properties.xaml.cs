@@ -180,49 +180,45 @@ namespace Files.App.Views
 			{
 				Name = "General".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemGeneral,
-				GlyphPrimary = "\uE7C3",
 				GlyphSecondary = "\uE7C3",
+				PathFilled = (string)Application.Current.Resources["PageFilled"],
 			};
 			var securityItem = new SquareNavViewItem()
 			{
 				Name = "Security".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemSecurity,
-				GlyphPrimary = "\uE730",
 				GlyphSecondary = "\uE730",
+				PathFilled = (string)Application.Current.Resources["ShieldFilled"],
 			};
 			var shortcutItem = new SquareNavViewItem()
 			{
 				Name = "Shortcut".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemShortcut,
-				GlyphPrimary = "\uE90F",
 				GlyphSecondary = "\uE90F",
 			};
 			var libraryItem = new SquareNavViewItem()
 			{
 				Name = "Library".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemLibrary,
-				GlyphPrimary = "\uE1D3",
 				GlyphSecondary = "\uE1D3",
 			};
 			var detailsItem = new SquareNavViewItem()
 			{
 				Name = "Details".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemDetails,
-				GlyphPrimary = "\uE946",
 				GlyphSecondary = "\uE946",
+				PathFilled = (string)Application.Current.Resources["InfoFilled"],
 			};
 			var customizationItem = new SquareNavViewItem()
 			{
 				Name = "Customization".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCustomization,
-				GlyphPrimary = "\uE771",
 				GlyphSecondary = "\uE771",
 			};
 			var compatibilityItem = new SquareNavViewItem()
 			{
 				Name = "Compatibility".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCompatibility,
-				GlyphPrimary = "\uECAA",
 				GlyphSecondary = "\uECAA",
 			};
 
@@ -365,7 +361,7 @@ namespace Files.App.Views
 
 		public PropertyNavigationViewItemEnums ItemType;
 
-		public string GlyphPrimary;
+		public string PathFilled;
 
 		public string GlyphSecondary;
 

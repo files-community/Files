@@ -92,14 +92,13 @@
 						<NavigationViewItem.Content>
 							<StackPanel Margin="-8,2,-12,0" Spacing="2">
 
-								<FontIcon
-									x:Name="NavigationViewItemGlyphPrimeryFontIcon"
+								<PathIcon
+									x:Name="NavigationViewItemPathIconFilled"
 									Margin="2,0,0,0"
 									HorizontalAlignment="Center"
 									x:Load="{x:Bind IsSelected, Mode=OneWay}"
-									FontSize="22"
-									Foreground="{ThemeResource SystemAccentColor}"
-									Glyph="{x:Bind GlyphPrimary, Mode=OneWay}" />
+									Data="{x:Bind PathFilled, Mode=OneWay}"
+									Foreground="{ThemeResource SystemAccentColor}" />
 
 								<FontIcon
 									x:Name="NavigationViewItemGlyphSecondaryFontIcon"
