@@ -68,7 +68,7 @@ namespace Files.App.Helpers
 				{
 					IsMinimizable = false,
 					IsMaximizable = false,
-					MinWidth = 450,
+					MinWidth = 460,
 					MinHeight = 550,
 					Width = 600,
 					Height = 550,

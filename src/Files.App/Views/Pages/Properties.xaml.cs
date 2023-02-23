@@ -278,8 +278,8 @@ namespace Files.App.Views
 			}
 		}
 
-		private async void ApplyChangesButton_Click(object sender, RoutedEventArgs e)
-			=> await ApplyChanges();
+		private void CancelChangesButton_Click(object sender, RoutedEventArgs e)
+			=> ClosePage();
 
 		private async void SaveChangesButton_Click(object sender, RoutedEventArgs e)
 		{
