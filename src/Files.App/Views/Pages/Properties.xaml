@@ -21,11 +21,6 @@
 
 			<toolkitconvers:BoolNegationConverter x:Key="BoolNegationConverter" />
 
-			<Thickness x:Key="NavigationViewTopPaneHeight">40</Thickness>
-			<Thickness x:Key="TopNavigationViewTopNavGridMargin">0</Thickness>
-			<SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
-			<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
-
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -67,10 +62,9 @@
 		<Border Grid.Row="1" Grid.Column="0">
 			<NavigationView
 				x:Name="MainPropertyNavigationView"
-				Width="78"
+				Width="72"
 				Margin="0,-4,-1,2"
 				HorizontalAlignment="Left"
-				Canvas.ZIndex="1"
 				IsBackButtonVisible="Collapsed"
 				IsPaneToggleButtonVisible="False"
 				IsSettingsVisible="False"
@@ -96,7 +90,7 @@
 							IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
 							Tag="{x:Bind Name}">
 							<NavigationViewItem.Content>
-								<Grid Margin="-10,4,-12,0" RowSpacing="2">
+								<Grid Margin="-8,4,-12,0" RowSpacing="2">
 									<Grid.RowDefinitions>
 										<RowDefinition Height="Auto" />
 										<RowDefinition Height="Auto" />
@@ -123,7 +117,7 @@
 									<TextBlock
 										x:Name="NavigationViewItemNameTextBlock"
 										Grid.Row="1"
-										Margin="3,0,0,0"
+										Margin="-2,0"
 										HorizontalAlignment="Center"
 										x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 										FontSize="10"
@@ -166,17 +160,17 @@
 					Spacing="12">
 
 					<Button
-						x:Name="CancelChangesButton"
-						Width="96"
-						Click="CancelChangesButton_Click"
-						Content="{helpers:ResourceString Name=Cancel}" />
-
-					<Button
 						x:Name="SaveChangesButton"
 						Width="96"
 						Click="SaveChangesButton_Click"
 						Content="{helpers:ResourceString Name=Save}"
 						Style="{StaticResource AccentButtonStyle}" />
+
+					<Button
+						x:Name="CancelChangesButton"
+						Width="96"
+						Click="CancelChangesButton_Click"
+						Content="{helpers:ResourceString Name=Cancel}" />
 
 				</StackPanel>
 			</Grid>
