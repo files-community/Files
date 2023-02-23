@@ -87,7 +87,7 @@
 					<NavigationViewItem
 						Height="64"
 						IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
-						Tag="{x:Bind Name}">
+						Tag="{x:Bind ItemType}">
 						<NavigationViewItem.Content>
 							<StackPanel Margin="-8,4,-12,0" Spacing="2">
 
