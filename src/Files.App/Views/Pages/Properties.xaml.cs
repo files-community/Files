@@ -27,7 +27,6 @@ namespace Files.App.Views
 {
 	public sealed partial class Properties : Page
 	{
-		#region Fields and Properties
 		private CancellationTokenSource? _tokenSource;
 
 		private ContentDialog _propertiesDialog;
@@ -44,7 +43,6 @@ namespace Files.App.Views
 		public AppWindow AppWindow;
 
 		public ObservableCollection<SquareNavViewItem> NavViewItems { get; set; }
-		#endregion
 
 		public Properties()
 		{
@@ -280,7 +278,6 @@ namespace Files.App.Views
 			}
 		}
 
-		#region Save, Apply, Escape key
 		private async void ApplyChangesButton_Click(object sender, RoutedEventArgs e)
 			=> await ApplyChanges();
 
@@ -313,9 +310,7 @@ namespace Files.App.Views
 				ClosePage();
 			}
 		}
-		#endregion
 
-		#region Destroying
 		private void ClosePage()
 		{
 			if (_usingWinUI)
@@ -349,9 +344,7 @@ namespace Files.App.Views
 
 			_propertiesDialog.Hide();
 		}
-		#endregion
 
-		#region other classes
 		public class PropertiesPageNavigationArguments
 		{
 			public object Item { get; set; }
@@ -364,7 +357,6 @@ namespace Files.App.Views
 			public object navParameter;
 			public IShellPage AppInstanceArgument { get; set; }
 		}
-		#endregion
 	}
 
 	public class SquareNavViewItem : ObservableObject

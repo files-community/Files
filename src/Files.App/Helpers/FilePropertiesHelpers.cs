@@ -68,9 +68,9 @@ namespace Files.App.Helpers
 				{
 					IsMinimizable = false,
 					IsMaximizable = false,
-					MinWidth = 550,
+					MinWidth = 450,
 					MinHeight = 550,
-					Width = 550,
+					Width = 600,
 					Height = 550,
 					Content = frame,
 					Backdrop = new WinUIEx.MicaSystemBackdrop(),
