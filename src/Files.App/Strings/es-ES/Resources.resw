@@ -484,7 +484,7 @@
     <value>Abrir con</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>Enviar a</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>El nombre del elemento no puede contener los siguientes caracteres: \ / : * ? " &lt; &gt; |</value>
@@ -1153,13 +1153,13 @@
     <value>Abrir pestañas en modo panel doble</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>Mostrar opción para abrir carpetas en un nuevo panel</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nuevo panel</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>Open in new pane</value>
+    <value>Abrir en nuevo panel</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Carpetas</value>
@@ -2704,13 +2704,13 @@
     <value>Los contenedores se retirarán en una futura actualización 📎</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>Mostrar etiquetas de edición desplegables</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>Mostrar opción de abrir carpetas en una nueva pestaña</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>Mostrar opción de abrir carpetas en una nueva ventana</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Acceso rápido</value>
