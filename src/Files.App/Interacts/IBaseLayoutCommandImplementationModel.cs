@@ -1,3 +1,4 @@
+using Files.App.Filesystem;
 using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -31,10 +32,6 @@ namespace Files.App.Interacts
 		void UnpinDirectoryFromFavorites(RoutedEventArgs e);
 
 		void OpenItem(RoutedEventArgs e);
-
-		void EmptyRecycleBin(RoutedEventArgs e);
-
-		void RestoreRecycleBin(RoutedEventArgs e);
 
 		void RestoreSelectionRecycleBin(RoutedEventArgs e);
 
@@ -119,5 +116,7 @@ namespace Files.App.Interacts
 		Task InstallFont();
 
 		Task PlayAll();
+
+		void FormatDrive(ListedItem? obj);
 	}
 }

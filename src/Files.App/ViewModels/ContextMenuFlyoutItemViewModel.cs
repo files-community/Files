@@ -1,4 +1,6 @@
+using Files.App.Commands;
 using Files.App.UserControls;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Generic;
@@ -78,10 +80,42 @@ namespace Files.App.ViewModels
 		public bool CollapseLabel { get; set; }
 
 		public ColoredIconModel ColoredIcon { get; set; }
+		public OpacityIconModel OpacityIcon { get; set; }
 
 		public bool ShowLoadingIndicator { get; set; }
 
 		public bool IsHidden { get; set; }
+
+		public ContextMenuFlyoutItemViewModel()
+		{
+		}
+
+		public ContextMenuFlyoutItemViewModel(IRichCommand command)
+		{
+			Text = command.Label;
+			Command = command;
+
+			var glyph = command.Glyph;
+			if (string.IsNullOrEmpty(glyph.OverlayGlyph))
+			{
+				Glyph = glyph.BaseGlyph;
+				GlyphFontFamilyName = glyph.FontFamily;
+			}
+			else
+			{
+				ColoredIcon = new ColoredIconModel
+				{
+					BaseLayerGlyph = glyph.BaseGlyph,
+					OverlayLayerGlyph = glyph.OverlayGlyph,
+				};
+			}
+
+			ShowItem = command.IsExecutable;
+			ShowInRecycleBin = ShowInSearchPage = ShowInFtpPage = ShowInZipPage = true;
+
+			if (!command.CustomHotKey.IsNone)
+				KeyboardAcceleratorTextOverride = command.CustomHotKey.ToString();
+		}
 	}
 
 	public enum ItemType
@@ -108,5 +142,15 @@ namespace Files.App.ViewModels
 		};
 
 		public bool IsValid => !string.IsNullOrEmpty(BaseLayerGlyph);
+	}
+
+	public struct OpacityIconModel
+	{
+		public Style OpacityIconStyle { get; set; }
+
+		public OpacityIcon ToOpacityIconIcon() => new()
+		{
+			Style = OpacityIconStyle,
+		};
 	}
 }

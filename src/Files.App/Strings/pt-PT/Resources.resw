@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -468,9 +468,6 @@
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>Oculto</value>
   </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>Esvaziar reciclagem</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Restaurar</value>
   </data>
@@ -512,6 +509,9 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>Abrir com</value>
+  </data>
+  <data name="SendTo" xml:space="preserve">
+    <value>Enviar para</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>O nome do item não pode ter os seguintes caracteres: \ / : * ? " &lt; &gt; |</value>
@@ -1245,17 +1245,14 @@
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Abrir separadores no modo de painel duplo</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
-    <value>Ativar painel duplo</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
-    <value>Abrir no painel secundário</value>
+  <data name="ShowOpenInNewPane" xml:space="preserve">
+    <value>Mostrar opção para abrir pastas num novo painel</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Novo painel</value>
   </data>
-  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>Abrir no painel secundário</value>
+  <data name="OpenInNewPane" xml:space="preserve">
+    <value>Abrir em novo painel</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Pastas</value>
@@ -1295,12 +1292,6 @@
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mosaicos (Ctrl+Shift+2)</value>
-  </data>
-  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>Mostrar extensão dos ficheiros</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar itens ocultos</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Data de eliminação</value>
@@ -2313,12 +2304,6 @@
   <data name="Tiles" xml:space="preserve">
     <value>Mosaicos</value>
   </data>
-  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar extensão dos ficheiros</value>
-  </data>
-  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>Mostrar itens ocultos</value>
-  </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Abrir pastas em novo separador</value>
   </data>
@@ -2890,13 +2875,19 @@
     <value>Tamanho:</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>Mas não se preocupe, construímos uma substituição fantástica que é mais confiável e tem mais recursos. Pode ativar o widget Tags de Ficheiros em Configurações &gt; Preferências &gt; Widgets. Ativar o widget de tags irá desativar automaticamente o widget de pacotes.</value>
+    <value>Mas não se preocupe, construímos uma substituição fantástica que é mais confiável e tem mais recursos. Pode ativar o widget Etiquetas  em Definições &gt; Preferências &gt; Widgets. Se ativar o widget Etiquetas, irá desativar automaticamente o widget Pacotes.</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>Os pacotes serão retirados numa atualização futura 📎</value>
   </data>
-  <data name="DisplayEditTagsMenu" xml:space="preserve">
-    <value>Exibir o flyout das tags de edição</value>
+  <data name="ShowEditTagsMenu" xml:space="preserve">
+    <value>Mostrar indicador para edição de etiquetas</value>
+  </data>
+  <data name="ShowOpenInNewTab" xml:space="preserve">
+    <value>Mostrar opção para abrir pastas num novo separador</value>
+  </data>
+  <data name="ShowOpenInNewWindow" xml:space="preserve">
+    <value>Mostrar opção para abrir pastas numa nova janela</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Acesso rápido</value>
@@ -2927,5 +2918,62 @@
   </data>
   <data name="Never" xml:space="preserve">
     <value>Nunca</value>
+  </data>
+  <data name="TagColor" xml:space="preserve">
+    <value>Cor da etiqueta</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Mudar nome</value>
+  </data>
+  <data name="Commit" xml:space="preserve">
+    <value>Confirmar</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Guardar alterações</value>
+  </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>Nova etiqueta</value>
+  </data>
+  <data name="CreateNewTag" xml:space="preserve">
+    <value>Criar uma etiqueta</value>
+  </data>
+  <data name="LoadingMoreOptions" xml:space="preserve">
+    <value>A carregar mais opções...</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>A carregar...</value>
+  </data>
+  <data name="ContextMenuOptions" xml:space="preserve">
+    <value>Opções do menu de contexto</value>
+  </data>
+  <data name="ShowFileExtensions" xml:space="preserve">
+    <value>Mostrar extensão dos ficheiros</value>
+  </data>
+  <data name="ShowHiddenItems" xml:space="preserve">
+    <value>Mostrar itens ocultos</value>
+  </data>
+  <data name="FormatDriveText" xml:space="preserve">
+    <value>Formato...</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Ajuda</value>
+  </data>
+  <data name="FullScreen" xml:space="preserve">
+    <value>Alternar ecrã completo</value>
+  </data>
+  <data name="ConfirmDeleteTag" xml:space="preserve">
+    <value>Tem a certeza de que deseja eliminar esta etiqueta?</value>	
+  </data>
+  <data name="PlayAll" xml:space="preserve">
+    <value>Reproduzir tudo</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Altura</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Largura</value>
+  </data>
+  <data name="ApplyToAllConflictingItems" xml:space="preserve">
+    <value>Aplicar esta ação a todos os itens em conflito</value>
   </data>
 </root>

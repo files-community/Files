@@ -11,5 +11,9 @@
 		// show
 		ToggleShowHiddenItems,
 		ToggleShowFileExtensions,
+
+		// file system
+		EmptyRecycleBin,
+		RestoreRecycleBin,
 	}
 }

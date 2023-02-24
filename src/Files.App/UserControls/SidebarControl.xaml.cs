@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
 using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -9,6 +10,7 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
+using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
@@ -29,13 +31,16 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
 using Windows.UI.Core;
+using static System.Net.Mime.MediaTypeNames;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.UserControls
 {
 	public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
 	{
-		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
@@ -71,8 +76,6 @@ namespace Files.App.UserControls
 
 		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
 
-		public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
-
 		public static readonly DependencyProperty RestoreRecycleBinCommandProperty = DependencyProperty.Register(nameof(RestoreRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
 
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
@@ -99,12 +102,6 @@ namespace Files.App.UserControls
 			set => SetValue(TabContentProperty, value);
 		}
 
-		public ICommand EmptyRecycleBinCommand
-		{
-			get => (ICommand)GetValue(EmptyRecycleBinCommandProperty);
-			set => SetValue(EmptyRecycleBinCommandProperty, value);
-		}
-
 		public ICommand RestoreRecycleBinCommand
 		{
 			get => (ICommand)GetValue(RestoreRecycleBinCommandProperty);
@@ -129,6 +126,8 @@ namespace Files.App.UserControls
 
 		private ICommand EjectDeviceCommand { get; }
 
+		private ICommand FormatDriveCommand { get; }
+
 		private ICommand OpenPropertiesCommand { get; }
 
 		private bool IsInPointerPressed = false;
@@ -149,6 +148,7 @@ namespace Files.App.UserControls
 			OpenInNewWindowCommand = new RelayCommand(OpenInNewWindow);
 			OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
 			EjectDeviceCommand = new RelayCommand(EjectDevice);
+			FormatDriveCommand = new RelayCommand(FormatDrive);
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
 		}
 
@@ -211,16 +211,12 @@ namespace Files.App.UserControls
 					Command = RestoreLibrariesCommand,
 					ShowItem = options.IsLibrariesHeader
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModel(commands.EmptyRecycleBin)
 				{
-					Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalizedResource(),
-					Glyph = "\uEF88",
-					GlyphFontFamilyName = "RecycleBinIcons",
-					Command = EmptyRecycleBinCommand,
-					ShowItem = options.ShowEmptyRecycleBin,
-					IsEnabled = false,
 					ID = "EmptyRecycleBin",
 					Tag = "EmptyRecycleBin",
+					IsEnabled = false,
+					ShowItem = options.ShowEmptyRecycleBin,
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -285,6 +281,13 @@ namespace Files.App.UserControls
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = EjectDeviceCommand,
 					ShowItem = options.ShowEjectDevice
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "FormatDriveText".GetLocalizedResource(),
+					Command = FormatDriveCommand,
+					CommandParameter = item,
+					ShowItem = options.ShowFormatDrive
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -391,6 +394,11 @@ namespace Files.App.UserControls
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
 			await UIHelpers.ShowDeviceEjectResultAsync(result);
+		}
+
+		private void FormatDrive()
+		{
+			Win32API.OpenFormatDriveDialog(rightClickedItem.Path);
 		}
 
 		private async void Sidebar_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)

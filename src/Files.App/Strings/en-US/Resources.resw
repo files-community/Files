@@ -471,9 +471,6 @@
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>Hidden</value>
   </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>Empty recycle bin</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Restore</value>
   </data>
@@ -2958,6 +2955,9 @@
   <data name="ShowHiddenItems" xml:space="preserve">
     <value>Show hidden items</value>
   </data>
+  <data name="FormatDriveText" xml:space="preserve">
+    <value>Format...</value>
+  </data>
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>
@@ -2969,6 +2969,12 @@
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>Play all</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Apply this action to all conflicting items</value>
