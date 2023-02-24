@@ -55,7 +55,7 @@
 	<x:Double x:Key="NavigationViewSelectionIndicatorWidth">4</x:Double>
 	<x:Double x:Key="NavigationViewSelectionIndicatorHeight">26</x:Double>
 	<x:Double x:Key="NavigationViewSelectionIndicatorRadius">2</x:Double>
-	<Thickness x:Key="NavigationViewItemContentPresenterMargin">0</Thickness>
+	<Thickness x:Key="NavigationViewItemContentPresenterMargin">0,0,0,0</Thickness>
 
 	<Style x:Key="MUX_NavigationViewItemPresenterStyleWhenOnLeftPane" TargetType="primitives:NavigationViewItemPresenter">
 		<Setter Property="Foreground" Value="{ThemeResource NavigationViewItemForeground}" />
@@ -116,16 +116,16 @@
 							<Grid
 								x:Name="ContentGrid"
 								MinHeight="{ThemeResource NavigationViewItemOnLeftMinHeight}"
-								Margin="0,0,14,0"
 								HorizontalAlignment="Stretch">
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="0" />
 									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="0" />
+									<ColumnDefinition Width="0" />
 								</Grid.ColumnDefinitions>
 
-								<Border x:Name="IconColumn" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SmallerIconWidth}">
+								<!--  Item icon (not used)  -->
+								<Border x:Name="IconColumn" Width="0">
 									<Viewbox
 										x:Name="IconBox"
 										Height="{ThemeResource NavigationViewItemOnLeftIconBoxHeight}"
@@ -136,10 +136,10 @@
 											muxc:AnimatedIcon.State="Normal"
 											Content="{TemplateBinding Icon}"
 											Foreground="{TemplateBinding Foreground}" />
-
 									</Viewbox>
 								</Border>
 
+								<!--  Item header content  -->
 								<ContentPresenter
 									x:Name="ContentPresenter"
 									Grid.Column="1"
@@ -152,16 +152,13 @@
 									ContentTemplate="{TemplateBinding ContentTemplate}"
 									ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
 									ContentTransitions="{TemplateBinding ContentTransitions}"
-									Foreground="{TemplateBinding Foreground}">
-									<ContentPresenter.BackgroundTransition>
-										<BrushTransition Duration="0:0:0.083" />
-									</ContentPresenter.BackgroundTransition>
-								</ContentPresenter>
+									Foreground="{TemplateBinding Foreground}" />
 
+								<!--  Item expand/collapse chevron (not used)  -->
 								<Grid
 									x:Name="ExpandCollapseChevron"
 									Grid.Column="3"
-									Width="40"
+									Width="0"
 									Margin="{ThemeResource NavigationViewItemExpandChevronMargin}"
 									HorizontalAlignment="Right"
 									muxc:AnimatedIcon.State="NormalOff"
@@ -192,9 +189,11 @@
 									</muxc:AnimatedIcon>
 								</Grid>
 
+								<!--  Item info badge (not used)  -->
 								<ContentPresenter
 									x:Name="InfoBadgePresenter"
 									Grid.Column="2"
+									Width="0"
 									VerticalAlignment="Center"
 									Content="{TemplateBinding InfoBadge}" />
 
@@ -297,7 +296,7 @@
 								<VisualState x:Name="IconCollapsed">
 									<VisualState.Setters>
 										<Setter Target="IconBox.Visibility" Value="Collapsed" />
-										<Setter Target="IconColumn.Width" Value="8" />
+										<Setter Target="IconColumn.Width" Value="0" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>

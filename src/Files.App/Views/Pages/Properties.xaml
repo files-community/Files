@@ -28,7 +28,7 @@
 			<toolkitconvers:BoolToVisibilityConverter
 				x:Key="BoolToVisibilityInverseConverter"
 				FalseValue="Visible"
-				TrueValue="Collapse" />
+				TrueValue="Collapsed" />
 
 		</ResourceDictionary>
 	</Page.Resources>
@@ -82,17 +82,18 @@
 			OpenPaneLength="88"
 			PaneDisplayMode="Left"
 			SelectionChanged="NavigationView_SelectionChanged">
-			<!--  TODO: Use ResourceDictionary to customize them and avoid to use negative margins  -->
+			<!--  NOTE: There's no way but using negative margin to place good position  -->
 
 			<!--  Porperty menu item template  -->
 			<NavigationView.MenuItemTemplate>
 				<DataTemplate x:DataType="local:SquareNavViewItem">
 					<NavigationViewItem
-						Height="62"
+						Height="64"
 						IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
 						Tag="{x:Bind ItemType}">
 						<NavigationViewItem.Content>
-							<StackPanel Margin="-8,0,-12,0" Spacing="6">
+							<!--  TODO: Customize ResourceDictionary avoid using this negative margin  -->
+							<StackPanel Margin="-8,0,-14,0" Spacing="8">
 
 								<Grid>
 									<!--  Outline Glyph  -->
@@ -125,7 +126,6 @@
 								<TextBlock
 									x:Name="NavigationViewItemNameTextBlock"
 									Grid.Row="1"
-									Margin="-2,0,-4,0"
 									HorizontalAlignment="Center"
 									x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 									FontSize="10"
