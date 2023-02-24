@@ -1,0 +1,437 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives">
+
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Dark">
+			<StaticResource x:Key="NavigationViewItemBackground" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="ControlFillColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundChecked" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundCheckedDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+
+			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundPressed" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundChecked" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundCheckedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundCheckedPressed" ResourceKey="TextFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="NavigationViewItemBackground" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundChecked" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundCheckedDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="ControlFillColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="ControlFillColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="ControlFillColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedDisabled" ResourceKey="ControlFillColorSecondaryBrush" />
+
+			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundPressed" ResourceKey="TextFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundChecked" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundCheckedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundCheckedPressed" ResourceKey="TextFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="TextFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="HighContrast">
+			<StaticResource x:Key="NavigationViewItemBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="SystemControlHighlightListLowBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="SystemControlHighlightListMediumBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundDisabled" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundChecked" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundCheckedPointerOver" ResourceKey="SystemControlHighlightListLowBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundCheckedPressed" ResourceKey="SystemControlHighlightListMediumBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundCheckedDisabled" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="SystemControlHighlightListLowBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="SystemControlHighlightListLowBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="SystemControlHighlightListMediumBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedDisabled" ResourceKey="SystemControlTransparentBrush" />
+
+			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundPressed" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundChecked" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundCheckedPointerOver" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundCheckedPressed" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundCheckedDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<x:Double x:Key="NavigationViewSelectionIndicatorWidth">4</x:Double>
+	<x:Double x:Key="NavigationViewSelectionIndicatorHeight">24</x:Double>
+	<x:Double x:Key="NavigationViewSelectionIndicatorRadius">2</x:Double>
+	<Thickness x:Key="NavigationViewItemContentPresenterMargin">0</Thickness>
+
+	<Style x:Key="MUX_NavigationViewItemPresenterStyleWhenOnLeftPane" TargetType="primitives:NavigationViewItemPresenter">
+		<Setter Property="Foreground" Value="{ThemeResource NavigationViewItemForeground}" />
+		<Setter Property="Background" Value="{ThemeResource NavigationViewItemBackground}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource NavigationViewItemBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{StaticResource NavigationViewItemBorderThickness}" />
+		<Setter Property="UseSystemFocusVisuals" Value="True" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="primitives:NavigationViewItemPresenter">
+					<Grid
+						x:Name="LayoutRoot"
+						MinHeight="{ThemeResource NavigationViewItemOnLeftMinHeight}"
+						Margin="{ThemeResource NavigationViewItemButtonMargin}"
+						Background="{TemplateBinding Background}"
+						Control.IsTemplateFocusTarget="True"
+						CornerRadius="{ThemeResource ControlCornerRadius}">
+						<Grid.Resources>
+							<Storyboard x:Name="ExpandCollapseRotateExpandedStoryboard">
+								<DoubleAnimation
+									Storyboard.TargetName="ExpandCollapseChevronRotateTransform"
+									Storyboard.TargetProperty="Angle"
+									From="0.0"
+									To="180.0"
+									Duration="0:0:0.1" />
+							</Storyboard>
+							<Storyboard x:Name="ExpandCollapseRotateCollapsedStoryboard">
+								<DoubleAnimation
+									Storyboard.TargetName="ExpandCollapseChevronRotateTransform"
+									Storyboard.TargetProperty="Angle"
+									From="180.0"
+									To="0.0"
+									Duration="0:0:0.1" />
+							</Storyboard>
+						</Grid.Resources>
+
+						<Grid.BackgroundTransition>
+							<BrushTransition Duration="0:0:0.083" />
+						</Grid.BackgroundTransition>
+
+						<Grid x:Name="PresenterContentRootGrid">
+							<!--  SelectionIndicator  -->
+							<Grid HorizontalAlignment="Left" VerticalAlignment="Center">
+
+								<Rectangle
+									x:Name="SelectionIndicator"
+									Width="{ThemeResource NavigationViewSelectionIndicatorWidth}"
+									Height="{ThemeResource NavigationViewSelectionIndicatorHeight}"
+									Fill="{ThemeResource NavigationViewSelectionIndicatorForeground}"
+									Opacity="0.0"
+									RadiusX="{ThemeResource NavigationViewSelectionIndicatorRadius}"
+									RadiusY="{ThemeResource NavigationViewSelectionIndicatorRadius}" />
+							</Grid>
+
+							<!--  Content Grid  -->
+							<Grid
+								x:Name="ContentGrid"
+								MinHeight="{ThemeResource NavigationViewItemOnLeftMinHeight}"
+								Margin="0,0,14,0"
+								HorizontalAlignment="Stretch">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<Border x:Name="IconColumn" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SmallerIconWidth}">
+									<Viewbox
+										x:Name="IconBox"
+										Height="{ThemeResource NavigationViewItemOnLeftIconBoxHeight}"
+										Margin="{ThemeResource NavigationViewItemOnLeftIconBoxMargin}"
+										HorizontalAlignment="Center">
+										<ContentPresenter
+											x:Name="Icon"
+											muxc:AnimatedIcon.State="Normal"
+											Content="{TemplateBinding Icon}"
+											Foreground="{TemplateBinding Foreground}" />
+
+									</Viewbox>
+								</Border>
+
+								<ContentPresenter
+									x:Name="ContentPresenter"
+									Grid.Column="1"
+									Margin="{ThemeResource NavigationViewItemContentPresenterMargin}"
+									Padding="{TemplateBinding Padding}"
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									AutomationProperties.AccessibilityView="Raw"
+									Content="{TemplateBinding Content}"
+									ContentTemplate="{TemplateBinding ContentTemplate}"
+									ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+									ContentTransitions="{TemplateBinding ContentTransitions}"
+									Foreground="{TemplateBinding Foreground}" />
+
+								<Grid
+									x:Name="ExpandCollapseChevron"
+									Grid.Column="3"
+									Width="40"
+									Margin="{ThemeResource NavigationViewItemExpandChevronMargin}"
+									HorizontalAlignment="Right"
+									muxc:AnimatedIcon.State="NormalOff"
+									x:Load="False"
+									Background="Transparent"
+									Visibility="Collapsed">
+									<muxc:AnimatedIcon
+										x:Name="ExpandCollapseChevronIcon"
+										Width="12"
+										Height="12"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										x:DeferLoadStrategy="Lazy"
+										AutomationProperties.AccessibilityView="Raw"
+										RenderTransformOrigin="0.5, 0.5"
+										Visibility="Collapsed">
+										<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
+										<muxc:AnimatedIcon.FallbackIconSource>
+											<muxc:FontIconSource
+												FontFamily="{StaticResource SymbolThemeFontFamily}"
+												FontSize="{ThemeResource NavigationViewItemExpandedGlyphFontSize}"
+												Foreground="{ThemeResource NavigationViewItemForeground}"
+												Glyph="{StaticResource NavigationViewItemExpandedGlyph}" />
+										</muxc:AnimatedIcon.FallbackIconSource>
+										<muxc:AnimatedIcon.RenderTransform>
+											<RotateTransform x:Name="ExpandCollapseChevronRotateTransform" Angle="0" />
+										</muxc:AnimatedIcon.RenderTransform>
+									</muxc:AnimatedIcon>
+								</Grid>
+
+								<ContentPresenter
+									x:Name="InfoBadgePresenter"
+									Grid.Column="2"
+									VerticalAlignment="Center"
+									Content="{TemplateBinding InfoBadge}" />
+
+							</Grid>
+						</Grid>
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="PointerStates">
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="Icon.(muxc:AnimatedIcon.State)" Value="PointerOver" />
+									</VisualState.Setters>
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBackgroundPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="Icon.(muxc:AnimatedIcon.State)" Value="Pressed" />
+									</VisualState.Setters>
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBackgroundPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Selected">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBackgroundSelected}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundSelected}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundSelected}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="PointerOverSelected">
+									<VisualState.Setters>
+										<Setter Target="Icon.(muxc:AnimatedIcon.State)" Value="PointerOver" />
+									</VisualState.Setters>
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBackgroundSelectedPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundSelectedPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundSelectedPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="PressedSelected">
+									<VisualState.Setters>
+										<Setter Target="Icon.(muxc:AnimatedIcon.State)" Value="Pressed" />
+									</VisualState.Setters>
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBackgroundSelectedPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundSelectedPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundSelectedPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="DisabledStates">
+								<VisualState x:Name="Enabled" />
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="LayoutRoot.Opacity" Value="{ThemeResource ListViewItemDisabledThemeOpacity}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="IconStates">
+								<VisualState x:Name="IconVisible" />
+								<VisualState x:Name="IconCollapsed">
+									<VisualState.Setters>
+										<Setter Target="IconBox.Visibility" Value="Collapsed" />
+										<Setter Target="IconColumn.Width" Value="8" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="InfoBadgeStates">
+								<VisualState x:Name="InfoBadgeVisible" />
+								<VisualState x:Name="InfoBadgeCollapsed">
+									<VisualState.Setters>
+										<Setter Target="InfoBadgePresenter.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="ChevronStates">
+								<VisualState x:Name="ChevronHidden" />
+								<VisualState x:Name="ChevronVisibleOpen">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
+										<Setter Target="ExpandCollapseChevronIcon.Visibility" Value="Visible" />
+										<Setter Target="ExpandCollapseChevronRotateTransform.Angle" Value="180" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="ChevronVisibleClosed">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
+										<Setter Target="ExpandCollapseChevronIcon.Visibility" Value="Visible" />
+										<Setter Target="ExpandCollapseChevronRotateTransform.Angle" Value="0" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="PointerChevronStates">
+								<VisualState x:Name="NormalChevronHidden" />
+								<VisualState x:Name="NormalChevronVisibleOpen">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevron.(muxc:AnimatedIcon.State)" Value="NormalOn" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="NormalChevronVisibleClosed">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevron.(muxc:AnimatedIcon.State)" Value="NormalOff" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerOverChevronHidden">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevron.(muxc:AnimatedIcon.State)" Value="PointerOverOff" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerOverChevronVisibleOpen">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevronIcon.Foreground" Value="{ThemeResource NavigationViewItemForegroundPointerOver}" />
+										<Setter Target="ExpandCollapseChevron.(muxc:AnimatedIcon.State)" Value="PointerOverOn" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerOverChevronVisibleClosed">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevronIcon.Foreground" Value="{ThemeResource NavigationViewItemForegroundPointerOver}" />
+										<Setter Target="ExpandCollapseChevron.(muxc:AnimatedIcon.State)" Value="PointerOverOff" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PressedChevronHidden">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevron.(muxc:AnimatedIcon.State)" Value="PressedOff" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PressedChevronVisibleOpen">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevronIcon.Foreground" Value="{ThemeResource NavigationViewItemForegroundPressed}" />
+										<Setter Target="ExpandCollapseChevron.(muxc:AnimatedIcon.State)" Value="PressedOn" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PressedChevronVisibleClosed">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevronIcon.Foreground" Value="{ThemeResource NavigationViewItemForegroundPressed}" />
+										<Setter Target="ExpandCollapseChevron.(muxc:AnimatedIcon.State)" Value="PressedOff" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="PaneAndTopLevelItemStates">
+								<VisualState x:Name="NotClosedCompactAndTopLevelItem" />
+								<VisualState x:Name="ClosedCompactAndTopLevelItem">
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Margin" Value="{ThemeResource NavigationViewCompactItemContentPresenterMargin}" />
+										<Setter Target="ContentGrid.Margin" Value="0,0,0,0" />
+										<Setter Target="InfoBadgePresenter.(Grid.Column)" Value="0" />
+										<Setter Target="InfoBadgePresenter.(Grid.ColumnSpan)" Value="4" />
+										<Setter Target="InfoBadgePresenter.VerticalAlignment" Value="Top" />
+										<Setter Target="InfoBadgePresenter.HorizontalAlignment" Value="Right" />
+										<Setter Target="InfoBadgePresenter.Margin" Value="0,2,2,0" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>
