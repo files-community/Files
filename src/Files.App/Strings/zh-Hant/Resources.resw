@@ -307,7 +307,7 @@
     <value>開啟</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>在新索引標籤開啟</value>
+    <value>在新分頁開啟</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
     <value>在新視窗開啟</value>
@@ -511,7 +511,7 @@
     <value>開啟檔案</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>傳送到</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>檔案名稱不可以包含下列字元：　\ / : * ? " &lt; &gt; |</value>
@@ -751,7 +751,7 @@
     <value>需要重啟應用程式以更改語言設定。您要現在就重啟嗎?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>在 GitHub 上贊助我們</value>
   </data>
   <data name="Personalization" xml:space="preserve">
     <value>個人化</value>
