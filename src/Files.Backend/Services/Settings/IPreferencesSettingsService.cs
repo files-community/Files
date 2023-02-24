@@ -52,11 +52,6 @@ namespace Files.Backend.Services.Settings
 		DateTimeFormats DateTimeFormat { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to enable dual pane feature.
-		/// </summary>
-		bool IsDualPaneEnabled { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating whether or not to always open a second pane when opening a new tab.
 		/// </summary>
 		bool AlwaysOpenDualPaneInNewTab { get; set; }
@@ -145,5 +140,36 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating if the tags section should be visible.
 		/// </summary>
 		bool ShowFileTagsSection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to move shell extensions into a sub menu.
+		/// </summary>
+		bool MoveShellExtensionsToSubMenu { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the edit tags menu.
+		/// </summary>
+		bool ShowEditTagsMenu { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to open folders in a new tab.
+		/// </summary>
+		bool ShowOpenInNewTab { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to open folders in a new window.
+		/// </summary>
+		bool ShowOpenInNewWindow { get; set; }
+
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to open folders in a new pane.
+		/// </summary>
+		bool ShowOpenInNewPane { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default option to resolve conflicts.
+		/// </summary>
+		FileNameConflictResolveOptionType ConflictsResolveOption { get; set; }
 	}
 }

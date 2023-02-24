@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -126,12 +126,6 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nové okno</value>
   </data>
-  <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Obrázok Bitmap</value>
-  </data>
-  <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
-    <value>Textový súbor</value>
-  </data>
   <data name="CopyLocation" xml:space="preserve">
     <value>Kopírovať umiestnenie</value>
   </data>
@@ -146,9 +140,6 @@
   </data>
   <data name="Size" xml:space="preserve">
     <value>Veľkosť</value>
-  </data>
-  <data name="OpenIn" xml:space="preserve">
-    <value>Otvoriť v aplikácii</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Vytvorené:</value>
@@ -255,9 +246,6 @@
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Otvoriť konkrétnu stránku alebo stránky</value>
   </data>
-  <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Predvoľby</value>
-  </data>
   <data name="Desktop" xml:space="preserve">
     <value>Pracovná plocha</value>
   </data>
@@ -296,12 +284,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Vlastnosti</value>
-  </data>
-  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>Vlastnosti</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
-    <value>Rozbaliť</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Otvoriť</value>
@@ -396,9 +378,6 @@
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Vlastnosti</value>
   </data>
-  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
-    <value>Vlastnosti</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Položka s týmto názvom už existuje.</value>
   </data>
@@ -438,9 +417,6 @@
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Súbor nenájdený</value>
   </data>
-  <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
-    <value>Súbor, ktorý sa snažíte otvoriť bol presunutý alebo zmazaný.</value>
-  </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
     <value>Priečinok, ktorý sa snažíte otvoriť bol presunutý alebo zmazaný.</value>
   </data>
@@ -467,9 +443,6 @@
   </data>
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>Skrytý</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>Vysypať kôš</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Obnoviť</value>
@@ -501,9 +474,6 @@
   <data name="Now" xml:space="preserve">
     <value>Now</value>
   </data>
-  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
-    <value>Nová karta</value>
-  </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>Požadovaná operácie nie je podporovaná.</value>
   </data>
@@ -512,6 +482,9 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>Otvoriť pomocou</value>
+  </data>
+  <data name="SendTo" xml:space="preserve">
+    <value>Send to</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Názov nesmie obsahovať tieto znaky: \ / : * ? " &lt; &gt; |</value>
@@ -536,9 +509,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Odstraňovanie súborov</value>
-  </data>
-  <data name="PasteInProgress.Title" xml:space="preserve">
-    <value>Vkladanie súborov</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Presúvanie súborov do koša</value>
@@ -575,9 +545,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Spustiť ako správca</value>
-  </data>
-  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>Obsahuje:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} súborov, {1:#,##0} priečinkov</value>
@@ -618,9 +585,6 @@
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Stav</value>
   </data>
-  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
-    <value>Pridať novú stránku</value>
-  </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Stránky:</value>
   </data>
@@ -635,12 +599,6 @@
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>Presunúť do {0}</value>
-  </data>
-  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
-    <value>Názov zdrojového a cieľového súboru je rovnaký.</value>
-  </data>
-  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
-    <value>Cieľový priečinok je rovnaký ako zdrojový.</value>
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Prekopírovať do {0}</value>
@@ -659,9 +617,6 @@
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
     <value>Typ cieľa:</value>
-  </data>
-  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>Spustiť v:</value>
   </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>Súbor</value>
@@ -764,18 +719,6 @@
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Prístup zakázaný</value>
-  </data>
-  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
-    <value>Pridať kartu</value>
-  </data>
-  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
-    <value>Otvoriť karty</value>
-  </data>
-  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>Multitasking</value>
-  </data>
-  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>Multitasking</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Nastaviť ako</value>
@@ -893,18 +836,6 @@
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
     <value>Zemepisná šírka (desatiny)</value>
-  </data>
-  <data name="PropertyLatitude" xml:space="preserve">
-    <value>Zeměpisná šírka</value>
-  </data>
-  <data name="PropertyLongitude" xml:space="preserve">
-    <value>Zeměpisná dĺžka</value>
-  </data>
-  <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>Zeměpisná šírka (strana)</value>
-  </data>
-  <data name="PropertyLongitudeRef" xml:space="preserve">
-    <value>Zeměpisná dĺžka (strana)</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>Výška</value>
@@ -1041,12 +972,6 @@
   <data name="PropertyDateCreated" xml:space="preserve">
     <value>Dátum vytvorenia</value>
   </data>
-  <data name="PropertyDateSaved" xml:space="preserve">
-    <value>Dátum uloženia</value>
-  </data>
-  <data name="PropertyDatePrinted" xml:space="preserve">
-    <value>Dátum vytlačenia</value>
-  </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
     <value>Celková doba úprav</value>
   </data>
@@ -1125,9 +1050,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Vybrať</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Súbor</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Položka koša</value>
   </data>
@@ -1170,9 +1092,6 @@
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
     <value>Nová karta (Ctrl+T)</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Zavrieť kartu (Ctrl+W)</value>
-  </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Niektoré vlastnosti môžu obsahovať osobné informácie.</value>
   </data>
@@ -1196,12 +1115,6 @@
 
 </value>
   </data>
-  <data name="SearchTabHeaderText" xml:space="preserve">
-    <value>Výsledky hladania</value>
-  </data>
-  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Podporte nás na GitHube</value>
-  </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Zoznam a triedenie adresárov vedľa súborov</value>
   </data>
@@ -1210,12 +1123,6 @@
   </data>
   <data name="No" xml:space="preserve">
     <value>Nie</value>
-  </data>
-  <data name="UpdateConsentDialogContent" xml:space="preserve">
-    <value>Chcete si stiahnuť a nainštalovať najnovšiu verziu Files?</value>
-  </data>
-  <data name="UpdateConsentDialogTitle" xml:space="preserve">
-    <value>Dostupné aktualizácie</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Zobraziť chránené systémové súbory</value>
@@ -1247,17 +1154,14 @@
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Open tabs in dual pane mode</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
-    <value>Povoliť zobrazenie dvoch panelov</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
-    <value>Otvoriť v novom paneli</value>
+  <data name="ShowOpenInNewPane" xml:space="preserve">
+    <value>Show option to open folders in a new pane</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nový panel</value>
   </data>
-  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>Otvoriť v novom paneli</value>
+  <data name="OpenInNewPane" xml:space="preserve">
+    <value>Open in new pane</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Priečinky</value>
@@ -1297,12 +1201,6 @@
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Dlaždice (Ctrl+Shift+2)</value>
-  </data>
-  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>Zobraziť prípony súborov</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Zobraziť skryté položky</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Odstránené</value>
@@ -1373,9 +1271,6 @@
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Žiaden náhľad k dispozícii</value>
   </data>
-  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>Nie sú k dispozícii žiadne podrobnosti</value>
-  </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Názov položky</value>
   </data>
@@ -1399,9 +1294,6 @@
   </data>
   <data name="Feedback" xml:space="preserve">
     <value>Feedback</value>
-  </data>
-  <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Okno prebiehajúcich úloh</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>K dispozícii  online</value>
@@ -1472,9 +1364,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Mapovať sieťový disk</value>
   </data>
-  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
-    <value>Odpojiť</value>
-  </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Viac možností balíkov</value>
   </data>
@@ -1505,17 +1394,11 @@
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Odstránenie zlyhalo</value>
   </data>
-  <data name="StatusUnknownError" xml:space="preserve">
-    <value>Vyskytla sa neznáma chyba.</value>
-  </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
     <value>Odstránenie je dokončené</value>
   </data>
   <data name="StatusDeletionCancelled" xml:space="preserve">
     <value>Odstránenie bolo zrušené</value>
-  </data>
-  <data name="StatusOperationCompleted" xml:space="preserve">
-    <value>Operácia bola dokončená.</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
     <value>Recyklácia je dokončená</value>
@@ -1573,9 +1456,6 @@
   </data>
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
     <value>Knižnica s rovnakým názvom už existuje!</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
-    <value>Odstrániť knižnicu</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Vytvoriť</value>
@@ -1646,23 +1526,14 @@
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Search unindexed items</value>
   </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Otvoriť priečinok s témami</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Nahradiť existujúce</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Nahradiť existujúce</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
-    <value>Nahradiť existujúce</value>
-  </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Vygenerujte nový názov</value>
-  </data>
-  <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
-    <value>Vrátiť späť</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
     <value>Počet konfliktných názvov súborov: {0}.</value>
@@ -1700,9 +1571,6 @@
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
     <value>Stĺpec dátumu vymazania</value>
   </data>
-  <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
-    <value>Zmena veľkosti bočného panela</value>
-  </data>
   <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Zoradiť</value>
   </data>
@@ -1729,9 +1597,6 @@
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Triediť podľa</value>
-  </data>
-  <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
-    <value>Smer zoradenia</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Zostupne</value>
@@ -1777,9 +1642,6 @@
   </data>
   <data name="ItemTimeText_Older" xml:space="preserve">
     <value>Staršie</value>
-  </data>
-  <data name="ItemTimeText_Before" xml:space="preserve">
-    <value>Pred {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} položka</value>
@@ -1964,9 +1826,6 @@
   <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
     <value>Extrahovať tu</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
-    <value>Extrahovaľ</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>Extrahovať do {0}</value>
   </data>
@@ -2023,9 +1882,6 @@
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Nemáte povolenia na zobrazenie bezpečnostných vlastností tohto objektu. Môžete sa pokúsiť prevziať vlastníctvo tohto objektu.</value>
-  </data>
-  <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
-    <value>Špecialne</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Tento priečinok a súbory</value>
@@ -2177,12 +2033,6 @@
   <data name="Home" xml:space="preserve">
     <value>Domov</value>
   </data>
-  <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
-    <value>Nová karta</value>
-  </data>
-  <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+A</value>
-  </data>
   <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Alt + Shift + +</value>
   </data>
@@ -2245,9 +2095,6 @@
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Upraviť značky súboru</value>
-  </data>
-  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
-    <value>Použiť na všetkých</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>Časť súpravy</value>
@@ -2315,12 +2162,6 @@
   <data name="Tiles" xml:space="preserve">
     <value>Dlaždice</value>
   </data>
-  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>Zobraziť prípony súborov</value>
-  </data>
-  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>Zobraziť skryté položky</value>
-  </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Otvoriť priečinky na novej karte</value>
   </data>
@@ -2329,18 +2170,6 @@
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Prebiehajúce úlohy</value>
-  </data>
-  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
-    <value>Posunúť o  jeden nadol</value>
-  </data>
-  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
-    <value>Posunúť o  jeden nahor</value>
-  </data>
-  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
-    <value>Posunúť na spodok</value>
-  </data>
-  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
-    <value>Posunúť na vrch</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Stĺpec dátumu vytvorenia</value>
@@ -2429,11 +2258,11 @@
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>Systém (pokročilé)</value>
   </data>
-  <data name="Windows7" xml:space="preserve">
-    <value>Windows 7</value>
+  <data name="OSCompatibility_Windows7" xml:space="preserve">
+    <value>Windows 7</value>
   </data>
-  <data name="Windows8" xml:space="preserve">
-    <value>Systém Windows 8</value>
+  <data name="OSCompatibility_Windows8" xml:space="preserve">
+    <value>Windows 8</value>
   </data>
   <data name="OSCompatibility_WindowsVista" xml:space="preserve">
     <value>Windows Vista</value>
@@ -2458,9 +2287,6 @@
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
     <value>Spustiť pri rozlíšení obrazovky 640 x 480</value>
-  </data>
-  <data name="Options" xml:space="preserve">
-    <value>Možnosti</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
     <value>Prepísať správanie pri škálovaní vysokého DPI</value>
@@ -2660,9 +2486,6 @@
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Nastaviť ako pozadie</value>
   </data>
-  <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Nastaviť ako obrazovku zamknutia</value>
-  </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Nastaviť ako pozadie pracovnej plochy</value>
   </data>
@@ -2687,9 +2510,6 @@
   <data name="DetailsLayoutColumns" xml:space="preserve">
     <value>Podrobnosti stĺpcoch rozloženia</value>
   </data>
-  <data name="Reset" xml:space="preserve">
-    <value>Obnoviť</value>
-  </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Obrazovka uzamknutia</value>
   </data>
@@ -2698,12 +2518,6 @@
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Otváranie položiek</value>
-  </data>
-  <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Pridať do {0}.zip</value>
-  </data>
-  <data name="AddToArchive" xml:space="preserve">
-    <value>Pridať do archívu</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
     <value>Kompresia dokončená</value>
@@ -2746,9 +2560,6 @@
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Nemáte povolenie na prístup k tomuto priečinku.</value>
-  </data>
-  <data name="LoadingThemes" xml:space="preserve">
-    <value>Načítavanie tém</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
     <value>Vysypovanie koša</value>
@@ -2803,9 +2614,6 @@
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
     <value>Žiadne</value>
-  </data>
-  <data name="SplitArchive" xml:space="preserve">
-    <value>Rozdeliť archív</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
     <value>Rozdeľovacia veľkosť</value>
@@ -2897,8 +2705,14 @@
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>Bundles will be retiring in a future update 📎</value>
   </data>
-  <data name="DisplayEditTagsMenu" xml:space="preserve">
-    <value>Display the edit tags flyout</value>
+  <data name="ShowEditTagsMenu" xml:space="preserve">
+    <value>Show edit tags flyout</value>
+  </data>
+  <data name="ShowOpenInNewTab" xml:space="preserve">
+    <value>Show option to open folders in a new tab</value>
+  </data>
+  <data name="ShowOpenInNewWindow" xml:space="preserve">
+    <value>Show option to open folders in a new window</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Quick access</value>
@@ -2929,5 +2743,53 @@
   </data>
   <data name="Never" xml:space="preserve">
     <value>Never</value>
+  </data>
+  <data name="TagColor" xml:space="preserve">
+    <value>Tag color</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>New tag</value>
+  </data>
+  <data name="CreateNewTag" xml:space="preserve">
+    <value>Create new tag</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="ContextMenuOptions" xml:space="preserve">
+    <value>Context menu options</value>
+  </data>
+  <data name="ShowFileExtensions" xml:space="preserve">
+    <value>Show file extensions</value>
+  </data>
+  <data name="ShowHiddenItems" xml:space="preserve">
+    <value>Show hidden items</value>
+  </data>
+  <data name="FormatDriveText" xml:space="preserve">
+    <value>Format...</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="FullScreen" xml:space="preserve">
+    <value>Toggle full screen</value>
+  </data>
+  <data name="ConfirmDeleteTag" xml:space="preserve">
+    <value>Are you sure you want to delete this tag?</value>
+  </data>
+  <data name="PlayAll" xml:space="preserve">
+    <value>Play all</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="ApplyToAllConflictingItems" xml:space="preserve">
+    <value>Apply this action to all conflicting items</value>
   </data>
 </root>

@@ -200,23 +200,14 @@
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsMultitaskingEnableDualPane}" HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingEnableDualPane}"
-					IsOn="{x:Bind ViewModel.IsDualPaneEnabled, Mode=TwoWay}"
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}"
+					IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-				<local:SettingsBlockControl.ExpandableContent>
-					<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}" HorizontalAlignment="Stretch">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}"
-							IsEnabled="{x:Bind ViewModel.IsDualPaneEnabled, Mode=OneWay}"
-							IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-					</local:SettingsBlockControl>
-				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Widgets}" HorizontalAlignment="Stretch">
@@ -263,64 +254,67 @@
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Sidebar}" HorizontalAlignment="Stretch">
+
+			<!--  Right Click Menu  -->
+			<TextBlock
+				Padding="0,12,0,4"
+				FontSize="14"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=SettingsContextMenu/Text}" />
+
+			<!--  Context menu options  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ContextMenuOptions}">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE145;" />
+					<FontIcon Glyph="&#xE74C;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SidebarFavorites}" HorizontalAlignment="Stretch">
+						<!--  Open in new tab  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowOpenInNewTab}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SidebarFavorites}"
-								IsOn="{x:Bind ViewModel.ShowFavoritesSection, Mode=TwoWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowOpenInNewTab}"
+								IsOn="{x:Bind ViewModel.ShowOpenInNewTab, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SidebarLibraries}" HorizontalAlignment="Stretch">
+						<!--  Open in new window  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowOpenInNewWindow}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SidebarLibraries}"
-								IsOn="{x:Bind ViewModel.ShowLibrarySection, Mode=TwoWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowOpenInNewWindow}"
+								IsOn="{x:Bind ViewModel.ShowOpenInNewWindow, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=Drives}" HorizontalAlignment="Stretch">
+						<!--  Open in new pane  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowOpenInNewPane}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=Drives}"
-								IsOn="{x:Bind ViewModel.ShowDrivesSection, Mode=TwoWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowOpenInNewPane}"
+								IsOn="{x:Bind ViewModel.ShowOpenInNewPane, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SidebarCloudDrives}" HorizontalAlignment="Stretch">
+						<!--  Edit tags  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowEditTagsMenu}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SidebarCloudDrives}"
-								IsOn="{x:Bind ViewModel.ShowCloudDrivesSection, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SidebarNetworkDrives}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SidebarNetworkDrives}"
-								IsOn="{x:Bind ViewModel.ShowNetworkDrivesSection, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=WSL}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=WSL}"
-								IsOn="{x:Bind ViewModel.ShowWslSection, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=FileTags}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=FileTags}"
-								IsOn="{x:Bind ViewModel.ShowFileTagsSection, Mode=TwoWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowEditTagsMenu}"
+								IsOn="{x:Bind ViewModel.ShowEditTagsMenu, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
+
+			<!--  Overflow Options  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsContextMenuOverflow}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE10C;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuOverflow}"
+					IsOn="{x:Bind ViewModel.MoveShellExtensionsToSubMenu, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
 		</StackPanel>
 
 		<UserControls:RestartControl

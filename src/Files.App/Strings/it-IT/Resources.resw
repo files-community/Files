@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -126,12 +126,6 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nuova finestra</value>
   </data>
-  <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Immagine bitmap</value>
-  </data>
-  <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
-    <value>Documento di testo</value>
-  </data>
   <data name="CopyLocation" xml:space="preserve">
     <value>Copia percorso</value>
   </data>
@@ -146,9 +140,6 @@
   </data>
   <data name="Size" xml:space="preserve">
     <value>Dimensione</value>
-  </data>
-  <data name="OpenIn" xml:space="preserve">
-    <value>Apri in</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Data creazione:</value>
@@ -255,9 +246,6 @@
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Apri una o più specifiche pagine</value>
   </data>
-  <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Preferenze</value>
-  </data>
   <data name="Desktop" xml:space="preserve">
     <value>Desktop</value>
   </data>
@@ -296,12 +284,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Proprietà</value>
-  </data>
-  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>Proprietà</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
-    <value>Estrai</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Apri</value>
@@ -396,9 +378,6 @@
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Proprietà</value>
   </data>
-  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
-    <value>Proprietà</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Un elemento con lo stesso nome esiste già in questa cartella.</value>
   </data>
@@ -438,9 +417,6 @@
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>File non trovato</value>
   </data>
-  <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
-    <value>Il file che si sta tentando di visualizzare in anteprima potrebbe essere stato spostato o eliminato.</value>
-  </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
     <value>La cartella a cui stai tentando di accedere potrebbe essere stata spostata o eliminata.</value>
   </data>
@@ -467,9 +443,6 @@
   </data>
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>Nascosto</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>Svuota il cestino</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Ripristina</value>
@@ -501,9 +474,6 @@
   <data name="Now" xml:space="preserve">
     <value>Ora</value>
   </data>
-  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
-    <value>Nuova scheda</value>
-  </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>L'operazione richiesta non è supportata</value>
   </data>
@@ -512,6 +482,9 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>Apri con</value>
+  </data>
+  <data name="SendTo" xml:space="preserve">
+    <value>Invia a</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Il nome dell'elemento non può contenere i seguenti caratteri: \ / : * ? "  |</value>
@@ -536,9 +509,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Eliminazione file in corso</value>
-  </data>
-  <data name="PasteInProgress.Title" xml:space="preserve">
-    <value>Copia file in corso</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Spostamento dei file nel Cestino in corso</value>
@@ -575,9 +545,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Esegui come amministratore</value>
-  </data>
-  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>Contenuto:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} File, {1:#,##0} Cartelle</value>
@@ -618,9 +585,6 @@
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Stato</value>
   </data>
-  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
-    <value>Aggiungi una nuova pagina</value>
-  </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Pagine:</value>
   </data>
@@ -635,12 +599,6 @@
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>Sposta in {0}</value>
-  </data>
-  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
-    <value>In nomi del file di origine e di destinazione coincidono.</value>
-  </data>
-  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
-    <value>La cartella di destinazione è una sottocartella della cartella di origine.</value>
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copia in {0}</value>
@@ -659,9 +617,6 @@
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
     <value>Tipo di collegamento:</value>
-  </data>
-  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>Cartella di lavoro:</value>
   </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>File</value>
@@ -764,18 +719,6 @@
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Accesso Negato</value>
-  </data>
-  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
-    <value>Aggiungi scheda</value>
-  </data>
-  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
-    <value>Apri schede</value>
-  </data>
-  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>Multitasking</value>
-  </data>
-  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>Multitasking</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Imposta come</value>
@@ -893,18 +836,6 @@
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
     <value>Latitudine Decimale</value>
-  </data>
-  <data name="PropertyLatitude" xml:space="preserve">
-    <value>Latitudine</value>
-  </data>
-  <data name="PropertyLongitude" xml:space="preserve">
-    <value>Longitudine</value>
-  </data>
-  <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>Latitudine Ref</value>
-  </data>
-  <data name="PropertyLongitudeRef" xml:space="preserve">
-    <value>Longitudine Ref</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>Altitudine</value>
@@ -1041,12 +972,6 @@
   <data name="PropertyDateCreated" xml:space="preserve">
     <value>Data creazione</value>
   </data>
-  <data name="PropertyDateSaved" xml:space="preserve">
-    <value>Data Salvataggio</value>
-  </data>
-  <data name="PropertyDatePrinted" xml:space="preserve">
-    <value>Data Stampa</value>
-  </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
     <value>Tempo di modifica totale</value>
   </data>
@@ -1125,9 +1050,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Seleziona</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>File</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Elemento del cestino</value>
   </data>
@@ -1170,9 +1092,6 @@
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
     <value>Nuova scheda (Ctrl+T)</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Chiudi scheda (Ctrl+W)</value>
-  </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Alcune proprietà potrebbero contenere informazioni personali.</value>
   </data>
@@ -1194,12 +1113,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Cerca risultati in {1} per {0}</value>
   </data>
-  <data name="SearchTabHeaderText" xml:space="preserve">
-    <value>Risultati ricerca</value>
-  </data>
-  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Supportaci su GitHub</value>
-  </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Ordina le cartelle insieme ai file</value>
   </data>
@@ -1208,12 +1121,6 @@
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
-  </data>
-  <data name="UpdateConsentDialogContent" xml:space="preserve">
-    <value>Vuoi scaricare e installare l'ultima versione di Files?</value>
-  </data>
-  <data name="UpdateConsentDialogTitle" xml:space="preserve">
-    <value>Aggiornamenti disponibili</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Mostra file di sistema protetti</value>
@@ -1245,17 +1152,14 @@
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Apri le schede in modalità doppio pannello</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
-    <value>Abilita modalità doppio pannello</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
-    <value>Apri nel pannello secondario</value>
+  <data name="ShowOpenInNewPane" xml:space="preserve">
+    <value>Mostra l'opzione per aprire le cartelle in un nuovo pannello</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nuovo pannello</value>
   </data>
-  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>Apri nel pannello secondario</value>
+  <data name="OpenInNewPane" xml:space="preserve">
+    <value>Apri in un nuovo pannello</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Cartelle</value>
@@ -1295,12 +1199,6 @@
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Riquadri (Ctrl + Shift + 2)</value>
-  </data>
-  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>Mostra estensioni file</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra elementi nascosti</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Data di eliminazione</value>
@@ -1371,9 +1269,6 @@
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Anteprima non disponibile</value>
   </data>
-  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>Dettagli non disponibili</value>
-  </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nome file</value>
   </data>
@@ -1397,9 +1292,6 @@
   </data>
   <data name="Feedback" xml:space="preserve">
     <value>Feedback</value>
-  </data>
-  <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Lista operazioni in corso</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Disponibile solo online</value>
@@ -1470,9 +1362,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Connetti disco di rete</value>
   </data>
-  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
-    <value>Disconnetti</value>
-  </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Altre opzioni dei gruppi</value>
   </data>
@@ -1503,17 +1392,11 @@
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Eliminazione non riuscita</value>
   </data>
-  <data name="StatusUnknownError" xml:space="preserve">
-    <value>Si è verificato un errore sconosciuto.</value>
-  </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
     <value>Eliminazione completata</value>
   </data>
   <data name="StatusDeletionCancelled" xml:space="preserve">
     <value>Eliminazione annullata</value>
-  </data>
-  <data name="StatusOperationCompleted" xml:space="preserve">
-    <value>L'operazione è stata completata.</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
     <value>Eliminazione nel cestino completata</value>
@@ -1571,9 +1454,6 @@
   </data>
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
     <value>Una raccolta con questo nome esiste già!</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
-    <value>Elimina Raccolta</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Crea</value>
@@ -1644,23 +1524,14 @@
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Cerca fra gli elementi non indicizzati</value>
   </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Apri cartella temi</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Sostituisci</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Sostituisci</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
-    <value>Sostituisci</value>
-  </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Genera nuovo nome</value>
-  </data>
-  <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
-    <value>Annulla</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
     <value>Ci sono {0} conflitti.</value>
@@ -1698,9 +1569,6 @@
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
     <value>Data eliminazione</value>
   </data>
-  <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
-    <value>Ridemensiona la barra laterale</value>
-  </data>
   <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ordina</value>
   </data>
@@ -1727,9 +1595,6 @@
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Ordina per</value>
-  </data>
-  <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
-    <value>Ordine</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Decrescente</value>
@@ -1775,9 +1640,6 @@
   </data>
   <data name="ItemTimeText_Older" xml:space="preserve">
     <value>Più vecchio</value>
-  </data>
-  <data name="ItemTimeText_Before" xml:space="preserve">
-    <value>Prima di {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} elemento</value>
@@ -1962,9 +1824,6 @@
   <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
     <value>Estrai qui</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
-    <value>Estrai...</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>Estrai in {0}\</value>
   </data>
@@ -2021,9 +1880,6 @@
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Non hai i permessi necessari per vedere le proprietà di questo oggetto. Puoi provare a diventare proprietario di questo oggetto.</value>
-  </data>
-  <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
-    <value>Speciali</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Questa cartella e i file</value>
@@ -2175,12 +2031,6 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
-    <value>Nuova scheda</value>
-  </data>
-  <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+A</value>
-  </data>
   <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Alt+Maiusc++</value>
   </data>
@@ -2243,9 +2093,6 @@
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Gestisci le etichette</value>
-  </data>
-  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
-    <value>Appplica a tutti</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>Parte del set</value>
@@ -2313,12 +2160,6 @@
   <data name="Tiles" xml:space="preserve">
     <value>Riquadri</value>
   </data>
-  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra estensioni file</value>
-  </data>
-  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>Mostra elementi nascosti</value>
-  </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Apri cartelle in una nuova scheda</value>
   </data>
@@ -2327,18 +2168,6 @@
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Operazioni in corso</value>
-  </data>
-  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
-    <value>Sposta giù</value>
-  </data>
-  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
-    <value>Sposta sù</value>
-  </data>
-  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
-    <value>Sposta in fondo</value>
-  </data>
-  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
-    <value>Sposta in cima</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Data creazione</value>
@@ -2427,10 +2256,10 @@
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>Sistema (avanzato)</value>
   </data>
-  <data name="Windows7" xml:space="preserve">
+  <data name="OSCompatibility_Windows7" xml:space="preserve">
     <value>Windows 7</value>
   </data>
-  <data name="Windows8" xml:space="preserve">
+  <data name="OSCompatibility_Windows8" xml:space="preserve">
     <value>Windows 8</value>
   </data>
   <data name="OSCompatibility_WindowsVista" xml:space="preserve">
@@ -2456,9 +2285,6 @@
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
     <value>Esegui a risoluzione 640 x 480</value>
-  </data>
-  <data name="Options" xml:space="preserve">
-    <value>Opzioni</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
     <value>Esegui l'override del comportamento di scaling per alti DPI</value>
@@ -2658,9 +2484,6 @@
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Imposta come sfondo</value>
   </data>
-  <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Imposta come schermata di blocco</value>
-  </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Imposta come sfondo del desktop</value>
   </data>
@@ -2685,9 +2508,6 @@
   <data name="DetailsLayoutColumns" xml:space="preserve">
     <value>Colonne in visualizzazione Dettagli</value>
   </data>
-  <data name="Reset" xml:space="preserve">
-    <value>Reimposta</value>
-  </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Schermata di blocco</value>
   </data>
@@ -2696,12 +2516,6 @@
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Apertura elementi</value>
-  </data>
-  <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Aggiungi a {0}.zip</value>
-  </data>
-  <data name="AddToArchive" xml:space="preserve">
-    <value>Aggiungi all'archivio</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
     <value>Compressione completata</value>
@@ -2744,9 +2558,6 @@
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Non sei autorizzato ad accedere a questa cartella.</value>
-  </data>
-  <data name="LoadingThemes" xml:space="preserve">
-    <value>Caricamento Temi</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
     <value>Sto svuotando il cestino</value>
@@ -2801,9 +2612,6 @@
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
     <value>Nessuno</value>
-  </data>
-  <data name="SplitArchive" xml:space="preserve">
-    <value>Dividi l'archivio</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
     <value>Dimensioni divisione</value>
@@ -2895,8 +2703,14 @@
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>I gruppi andranno in pensione in un aggiornamento futuro📎</value>
   </data>
-  <data name="DisplayEditTagsMenu" xml:space="preserve">
-    <value>Mostra il menu per la modifica delle etichette</value>
+  <data name="ShowEditTagsMenu" xml:space="preserve">
+    <value>Mostra il menù per la modifica dei tag</value>
+  </data>
+  <data name="ShowOpenInNewTab" xml:space="preserve">
+    <value>Mostra l'opzione per aprire le cartelle in una nuova scheda</value>
+  </data>
+  <data name="ShowOpenInNewWindow" xml:space="preserve">
+    <value>Mostra l'opzione per aprire le cartelle in una nuova finestra</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Accesso rapido</value>
@@ -2927,5 +2741,53 @@
   </data>
   <data name="Never" xml:space="preserve">
     <value>Mai</value>
+  </data>
+  <data name="TagColor" xml:space="preserve">
+    <value>Colore dell'etichetta</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Salvare le modifiche</value>
+  </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>Nuova etichetta</value>
+  </data>
+  <data name="CreateNewTag" xml:space="preserve">
+    <value>Crea un nuovo tag</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Caricamento...</value>
+  </data>
+  <data name="ContextMenuOptions" xml:space="preserve">
+    <value>Opzioni del menu contestuale</value>
+  </data>
+  <data name="ShowFileExtensions" xml:space="preserve">
+    <value>Mostra le estensioni dei file</value>
+  </data>
+  <data name="ShowHiddenItems" xml:space="preserve">
+    <value>Mostra elementi nascosti</value>
+  </data>
+  <data name="FormatDriveText" xml:space="preserve">
+    <value>Formatta...</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Aiuto</value>
+  </data>
+  <data name="FullScreen" xml:space="preserve">
+    <value>Modalità a schermo intero</value>
+  </data>
+  <data name="ConfirmDeleteTag" xml:space="preserve">
+    <value>Sei sicuro di voler eliminare questo tag?</value>
+  </data>
+  <data name="PlayAll" xml:space="preserve">
+    <value>Riproduci tutto</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Altezza</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Larghezza</value>
+  </data>
+  <data name="ApplyToAllConflictingItems" xml:space="preserve">
+    <value>Applica questa azione a tutti gli elementi in conflitto</value>
   </data>
 </root>

@@ -382,7 +382,8 @@
 										<CompositeTransform x:Name="PaneTransform" />
 									</Grid.RenderTransform>
 
-									<Border Child="{TemplateBinding Pane}" />
+									<!--  Margin enables users to grab the scrollbar  -->
+									<Border Padding="2" Child="{TemplateBinding Pane}" />
 
 									<Rectangle
 										x:Name="HCPaneBorder"
@@ -399,7 +400,7 @@
 									Grid.Row="0"
 									Grid.RowSpan="2"
 									Grid.Column="{Binding ElementName=PaneRoot, Path=(Grid.Column), Mode=OneWay}"
-									Width="8"
+									Width="4"
 									HorizontalAlignment="Right"
 									AllowFocusOnInteraction="True"
 									Background="Transparent"

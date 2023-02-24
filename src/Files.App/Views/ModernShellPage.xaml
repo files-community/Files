@@ -1,23 +1,24 @@
-﻿<Page
+﻿<local:BaseShellPage
 	x:Class="Files.App.Views.ModernShellPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	x:Name="RootPage"
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
 	mc:Ignorable="d">
-	<Page.Resources>
+	<local:BaseShellPage.Resources>
 		<ResourceDictionary>
 			<converters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		</ResourceDictionary>
-	</Page.Resources>
+	</local:BaseShellPage.Resources>
 
-	<Page.KeyboardAccelerators>
+	<local:BaseShellPage.KeyboardAccelerators>
 		<KeyboardAccelerator
 			Key="E"
 			Invoked="KeyboardAccelerator_Invoked"
@@ -118,10 +119,6 @@
 			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
 		<KeyboardAccelerator
-			Key="F1"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
-		<KeyboardAccelerator
 			Key="Number1"
 			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
@@ -161,7 +158,7 @@
 			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="Control" />
-	</Page.KeyboardAccelerators>
+	</local:BaseShellPage.KeyboardAccelerators>
 
 	<Frame
 		x:Name="ItemDisplayFrame"
@@ -170,4 +167,4 @@
 		BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
 		BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
 		Navigated="ItemDisplayFrame_Navigated" />
-</Page>
+</local:BaseShellPage>

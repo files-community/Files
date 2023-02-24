@@ -26,7 +26,8 @@ namespace Files.InteractionTests.Tests
 				"SettingsItemAppearance",
 				"SettingsItemPreferences",
 				"SettingsItemFolders",
-				"SettingsItemExperimental",
+				"SettingsItemTags",
+				"SettingsItemAdvanced",
 				"SettingsItemAbout"
 			};
 

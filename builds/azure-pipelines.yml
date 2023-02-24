@@ -46,19 +46,6 @@ steps:
     TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
     overWrite: true
 
-- task: DownloadSecureFile@1
-  name: appCenterDevKey
-  displayName: 'Download AppCenter Dev Key'
-  inputs:
-    secureFile: 'AppCenterKey.txt'
-
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    Contents: '$(appCenterDevKey.secureFilePath)'
-    TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
-    overWrite: true
-
 - task: UseDotNet@2
   inputs:
     packageType: sdk

@@ -234,7 +234,7 @@
 												Margin="{ThemeResource TabViewItemHeaderIconMargin}">
 												<ContentControl
 													x:Name="IconControl"
-													Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TabViewTemplateSettings.IconElement}"
+													Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TabViewTemplateSettings.IconElement, Mode=OneWay}"
 													Foreground="{ThemeResource TabViewItemIconForeground}"
 													HighContrastAdjustment="None"
 													IsTabStop="False" />
@@ -609,6 +609,7 @@
 						Header="{x:Bind Header, Mode=OneWay}"
 						IconSource="{x:Bind IconSource, Mode=OneWay}"
 						Style="{StaticResource Local.TabViewItem}"
+						Loaded="TabViewItem_Loaded"
 						ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}" />
 				</DataTemplate>
 			</TabView.TabItemTemplate>

@@ -1,5 +1,4 @@
-﻿using Files.Sdk.Storage;
-using Files.Shared.Enums;
+﻿using Files.Shared.Enums;
 using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings

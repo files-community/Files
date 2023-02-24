@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using Files.App.DataModels.NavigationControlItems;
 using Files.Backend.Services.Settings;
 using Files.Shared;
@@ -27,6 +28,20 @@ namespace Files.App.Filesystem
 					return fileTags.ToList().AsReadOnly();
 				}
 			}
+		}
+
+		public FileTagsManager()
+		{
+			fileTagsSettingsService.OnTagsUpdated += TagsUpdated;
+		}
+
+		private async void TagsUpdated(object? _, EventArgs e)
+		{
+			lock (fileTags)
+				fileTags.Clear();
+			DataChanged?.Invoke(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+
+			await UpdateFileTagsAsync();
 		}
 
 		public Task UpdateFileTagsAsync()

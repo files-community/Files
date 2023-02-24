@@ -47,6 +47,7 @@
 							<SolidColorBrush x:Key="App.Theme.AddressBar.BackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 							<SolidColorBrush x:Key="App.Theme.Sidebar.BackgroundBrush" Color="{StaticResource CardBackgroundFillColorDefault}" />
 							<SolidColorBrush x:Key="App.Theme.FileArea.BackgroundBrush" Color="{StaticResource CardBackgroundFillColorDefault}" />
+							<SolidColorBrush x:Key="App.Theme.ContentDialog.BackgroundBrush" Color="{StaticResource CardBackgroundFillColorSecondary}" />
 
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
@@ -58,6 +59,7 @@
 							<SolidColorBrush x:Key="App.Theme.AddressBar.BackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 							<SolidColorBrush x:Key="App.Theme.Sidebar.BackgroundBrush" Color="#993A3A3A" />
 							<SolidColorBrush x:Key="App.Theme.FileArea.BackgroundBrush" Color="#993A3A3A" />
+							<SolidColorBrush x:Key="App.Theme.ContentDialog.BackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorSecondary}" />
 
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
@@ -69,6 +71,7 @@
 							<SolidColorBrush x:Key="App.Theme.AddressBar.BackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="App.Theme.Sidebar.BackgroundBrush" Color="{StaticResource CardBackgroundFillColorDefault}" />
 							<SolidColorBrush x:Key="App.Theme.FileArea.BackgroundBrush" Color="{StaticResource CardBackgroundFillColorDefault}" />
+							<SolidColorBrush x:Key="App.Theme.ContentDialog.BackgroundBrush" Color="{StaticResource SolidBackgroundFillColorBase}" />
 
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SystemColorWindowColor}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerFillColorDefault}" />

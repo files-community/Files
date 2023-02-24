@@ -28,23 +28,20 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private readonly IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
-
+		
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
-		public ICommand EditFileTagsCommand { get; }
 		public ICommand SetAsDefaultExplorerCommand { get; }
 		public ICommand SetAsOpenFileDialogCommand { get; }
 		public ICommand ExportSettingsCommand { get; }
 		public ICommand ImportSettingsCommand { get; }
 		public ICommand OpenSettingsJsonCommand { get; }
 
-
 		public AdvancedViewModel()
 		{
 			IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
 			IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
 
-			EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
 			SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
 			SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
 			ExportSettingsCommand = new AsyncRelayCommand(ExportSettings);
@@ -59,16 +56,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			if (!await Launcher.LaunchFileAsync(settingsJsonPath))
 			{
 				await ContextMenu.InvokeVerb("open", settingsJsonPath.Path);
-			}
-		}
-
-		private async Task LaunchFileTagsConfigFile()
-		{
-			var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
-
-			if (!await Launcher.LaunchFileAsync(configFile))
-			{
-				await ContextMenu.InvokeVerb("open", configFile.Path);
 			}
 		}
 
@@ -88,7 +75,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
 				{
 					// Error copying files
-					goto DetectResult;
+					await DetectResult();
+					return;
 				}
 			}
 
@@ -98,7 +86,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (!Win32API.RunPowershellCommand($"-command \"New-Item -Force -Path '{dataPath}' -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
 				{
 					// Error copying files
-					goto DetectResult;
+					await DetectResult();
+					return;
 				}
 			}
 			else
@@ -116,7 +105,11 @@ namespace Files.App.ViewModels.SettingsViewModels
 				// Canceled UAC
 			}
 
-		DetectResult:
+			await DetectResult();
+		}
+
+		private async Task DetectResult()
+		{
 			IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
 			if (!IsSetAsDefaultFileManager)
 			{

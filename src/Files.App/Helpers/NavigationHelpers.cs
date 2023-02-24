@@ -45,9 +45,6 @@ namespace Files.App.Helpers
 			if (associatedInstance is null || listedItem is null)
 				return;
 
-			if (!userSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
-				return;
-
 			associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 		}
 
@@ -254,7 +251,6 @@ namespace Files.App.Helpers
 			var opened = (FilesystemResult)false;
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
-			bool isNetwork = path.StartsWith(@"\\", StringComparison.Ordinal);
 
 			if (isShortcut)
 			{
@@ -273,27 +269,6 @@ namespace Files.App.Helpers
 			{
 				await OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance);
 				opened = (FilesystemResult)true;
-			}
-			else if (isNetwork)
-			{
-				var auth = await NetworkDrivesAPI.AuthenticateNetworkShare(path);
-				if (auth)
-				{
-					if (forceOpenInNewTab || userSettingsService.FoldersSettingsService.OpenFoldersInNewTab)
-					{
-						await OpenPathInNewTab(path);
-					}
-					else
-					{
-						associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
-						associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
-						{
-							NavPathParam = path,
-							AssociatedTabInstance = associatedInstance
-						});
-					}
-					opened = (FilesystemResult)true;
-				}
 			}
 			else
 			{

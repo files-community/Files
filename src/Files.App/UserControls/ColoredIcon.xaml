@@ -31,22 +31,29 @@
 			</ResourceDictionary.ThemeDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
-	<Canvas
-		Width="19"
-		Height="19"
+	<Grid
+		Width="24"
+		Height="24"
 		HorizontalAlignment="Stretch"
 		VerticalAlignment="Stretch">
 		<FontIcon
-			x:Name="BaseIcon"
-			Canvas.Left="0"
-			Canvas.Top="-1"
+			x:Name="BaseBackdrop"
+			VerticalAlignment="Center"
 			FontFamily="{StaticResource ColoredIconFontFamily}"
+			FontSize="22"
+			Foreground="{ThemeResource ControlFillColorDefaultBrush}"
+			Glyph="{x:Bind BaseBackdropGlyph, Mode=OneWay}" />
+		<FontIcon
+			x:Name="BaseIcon"
+			VerticalAlignment="Center"
+			FontFamily="{StaticResource ColoredIconFontFamily}"
+			FontSize="22"
 			Glyph="{x:Bind BaseLayerGlyph, Mode=OneWay}" />
 		<FontIcon
 			x:Name="OverlayIcon"
-			Canvas.Left="0"
-			Canvas.Top="-1"
+			VerticalAlignment="Center"
 			FontFamily="{StaticResource ColoredIconFontFamily}"
+			FontSize="22"
 			Foreground="{ThemeResource ColoredIconOverlayForeground}"
 			Glyph="{x:Bind OverlayLayerGlyph, Mode=OneWay}"
 			HighContrastAdjustment="None" />
@@ -57,14 +64,16 @@
 				<VisualState x:Name="Disabled">
 					<VisualState.Setters>
 						<Setter Target="OverlayIcon.Foreground" Value="{ThemeResource ColoredIconOverlayForegroundDisabled}" />
+						<Setter Target="BaseBackdrop.Foreground" Value="Transparent" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="Checked">
 					<VisualState.Setters>
 						<Setter Target="OverlayIcon.Foreground" Value="{ThemeResource ColoredIconOverlayForegroundChecked}" />
+						<Setter Target="BaseBackdrop.Foreground" Value="{ThemeResource ControlFillColorDefaultBrush}" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
-	</Canvas>
+	</Grid>
 </UserControl>

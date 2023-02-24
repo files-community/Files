@@ -1,4 +1,5 @@
 using Files.App.Extensions;
+using Files.App.Filesystem;
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
 using Files.Backend.Services.Settings;
@@ -14,6 +15,8 @@ namespace Files.App.ServicesImplementation.Settings
 	internal sealed class FileTagsSettingsService : BaseJsonSettings, IFileTagsSettingsService
 	{
 		public event EventHandler OnSettingImportedEvent;
+
+		public event EventHandler OnTagsUpdated;
 
 		private static readonly List<TagViewModel> DefaultFileTags = new List<TagViewModel>()
 		{
@@ -36,7 +39,11 @@ namespace Files.App.ServicesImplementation.Settings
 		public IList<TagViewModel> FileTagList
 		{
 			get => Get<List<TagViewModel>>(DefaultFileTags);
-			set => Set(value);
+			set
+			{
+				Set(value);
+				OnTagsUpdated.Invoke(this, EventArgs.Empty);
+			}
 		}
 
 		public TagViewModel GetTagById(string uid)
@@ -73,6 +80,45 @@ namespace Files.App.ServicesImplementation.Settings
 			return FileTagList.Where(x => x.Name.StartsWith(tagName, StringComparison.OrdinalIgnoreCase));
 		}
 
+		public void CreateNewTag(string newTagName, string color)
+		{
+			var newTag = new TagViewModel(
+				newTagName,
+				color,
+				Guid.NewGuid().ToString());
+
+			var oldTags = FileTagList.ToList();
+			oldTags.Add(newTag);
+			FileTagList = oldTags;
+		}
+
+		public void EditTag(string uid, string name, string color)
+		{
+			var (tag, index) = GetTagAndIndex(uid);
+			if (tag is null)
+				return;
+
+			tag.Name = name;
+			tag.Color = color;
+
+			var oldTags = FileTagList.ToList();
+			oldTags.RemoveAt(index);
+			oldTags.Insert(index, tag);
+			FileTagList = oldTags;
+		}
+
+		public void DeleteTag(string uid)
+		{
+			var (_, index) = GetTagAndIndex(uid);
+			if (index == -1)
+				return;
+
+			var oldTags = FileTagList.ToList();
+			oldTags.RemoveAt(index);
+			FileTagList = oldTags;
+			UntagAllFiles(uid);
+		}
+
 		public override bool ImportSettings(object import)
 		{
 			if (import is string importString)
@@ -100,6 +146,39 @@ namespace Files.App.ServicesImplementation.Settings
 		{
 			// Return string in Json format
 			return JsonSettingsSerializer.SerializeToJson(FileTagList);
+		}
+
+		private (TagViewModel?, int) GetTagAndIndex(string uid)
+		{
+			TagViewModel? tag = null;
+			int index = -1;
+
+			for (int i = 0; i < FileTagList.Count; i++)
+			{
+				if (FileTagList[i].Uid == uid)
+				{
+					tag = FileTagList[i];
+					index = i;
+					break;
+				}
+			}
+
+			return (tag, index);
+		}
+
+		private void UntagAllFiles(string uid)
+		{
+			var tagDoDelete = new string [] { uid };
+
+			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
+			{
+				if (item.Tags.Contains(uid))
+				{ 
+					FileTagsHelper.WriteFileTag(
+						item.FilePath, 
+						item.Tags.Except(tagDoDelete).ToArray());
+				}
+			}
 		}
 	}
 }

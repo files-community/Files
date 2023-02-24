@@ -4,7 +4,6 @@ using CommunityToolkit.WinUI.UI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.ServicesImplementation.Settings;
 using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.Backend.Helpers;
@@ -17,6 +16,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -49,7 +49,7 @@ namespace Files.App.Helpers
 					"cut", "copy", "paste", "delete", "properties", "link",
 					"Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
 					"eject", "rename", "explore", "openinfiles", "extract",
-					"copyaspath", "undelete", "empty",
+					"copyaspath", "undelete", "empty", "format", "rotate90", "rotate270",
 					Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
 					Win32API.ExtractStringFromDLL("shell32.dll", 5384), // Pin to Start
 					Win32API.ExtractStringFromDLL("shell32.dll", 5385), // Unpin from Start
@@ -139,6 +139,9 @@ namespace Files.App.Helpers
 				}
 				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label) && menuFlyoutItem.SubItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
 				{
+					if (string.Equals(menuFlyoutItem.Label, Win32API.ExtractStringFromDLL("shell32.dll", 30312)))
+						menuFlyoutItem.CommandString = "sendto";
+
 					var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
 					{
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
@@ -150,14 +153,14 @@ namespace Files.App.Helpers
 				}
 				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
 				{
-					var menuLayoutItem = new ContextMenuFlyoutItemViewModel()
+					var menuLayoutItem = new ContextMenuFlyoutItemViewModel
 					{
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
 						Tag = menuFlyoutItem,
-						BitmapIcon = image
+						BitmapIcon = image,
+						Command = new RelayCommand<object>(x => InvokeShellMenuItem(contextMenu, x)),
+						CommandParameter = menuFlyoutItem
 					};
-					menuLayoutItem.Command = new RelayCommand<object>(x => InvokeShellMenuItem(contextMenu, x));
-					menuLayoutItem.CommandParameter = menuFlyoutItem;
 					menuItemsListLocal.Insert(0, menuLayoutItem);
 				}
 			}
@@ -223,7 +226,20 @@ namespace Files.App.Helpers
 			return item?.Items;
 		}
 
-		public static async Task LoadShellMenuItems(string path, CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options = null, bool showOpenWithMenu = false)
+		public static List<ContextMenuFlyoutItemViewModel>? GetSendToItems(List<ContextMenuFlyoutItemViewModel> flyout)
+		{
+			var item = flyout.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
+			if (item is not null)
+				flyout.Remove(item);
+			return item?.Items;
+		}
+
+		public static async Task LoadShellMenuItems(
+			string path, 
+			CommandBarFlyout itemContextMenuFlyout, 
+			ContextMenuOptions options = null, 
+			bool showOpenWithMenu = false, 
+			bool showSendToMenu = false)
 		{ 
 			try
 			{
@@ -253,12 +269,38 @@ namespace Files.App.Helpers
 
 				if (showOpenWithMenu)
 				{
-					var openWithItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.ID == 100).ToList().FirstOrDefault();
-					var (_, openWithItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
-					itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
+					var openWithItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "openas").ToList().FirstOrDefault();
+					if (openWithItem is not null)
+					{
+						openWithItem.ColoredIcon = new ColoredIconModel()
+						{
+							BaseLayerGlyph = "\uF049",
+							OverlayLayerGlyph = "\uF04A",
+						};
+						var (_, openWithItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
+						var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")).FirstOrDefault() as AppBarButton;
+						if (placeholder is not null)
+							placeholder.Visibility = Visibility.Collapsed;
+						itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
+						shellMenuItems.Remove(openWithItem);
+					}
 				}
-				
-				if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
+
+				if (showSendToMenu) 
+				{
+					var sendToItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "sendto").ToList().FirstOrDefault();
+					if (sendToItem is not null)
+					{
+						var (_, sendToItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { sendToItem });
+						var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")).FirstOrDefault() as AppBarButton;
+						if (placeholder is not null)
+							placeholder.Visibility = Visibility.Collapsed;
+						itemContextMenuFlyout.SecondaryCommands.Insert(1, sendToItems.FirstOrDefault());
+						shellMenuItems.Remove(sendToItem);
+					}
+				}
+
+				if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
 				{
 					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
 					if (secondaryElements.Any())

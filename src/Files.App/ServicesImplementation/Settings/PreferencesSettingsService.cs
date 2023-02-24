@@ -69,12 +69,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool IsDualPaneEnabled
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
 		public bool AlwaysOpenDualPaneInNewTab
 		{
 			get => Get(false);
@@ -183,6 +177,42 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		public bool MoveShellExtensionsToSubMenu
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowEditTagsMenu
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowOpenInNewTab
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowOpenInNewWindow
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowOpenInNewPane
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public FileNameConflictResolveOptionType ConflictsResolveOption
+		{
+			get => (FileNameConflictResolveOptionType)Get((long)FileNameConflictResolveOptionType.GenerateNewName);
+			set => Set((long)value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -192,7 +222,6 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ContinueLastSessionOnStartUp):
 				case nameof(OpenNewTabOnStartup):
 				case nameof(AlwaysOpenNewInstance):
-				case nameof(IsDualPaneEnabled):
 				case nameof(AlwaysOpenDualPaneInNewTab):
 				case nameof(ShowQuickAccessWidget):
 				case nameof(ShowRecentFilesWidget):
@@ -208,6 +237,12 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowNetworkDrivesSection):
 				case nameof(ShowWslSection):
 				case nameof(ShowFileTagsSection):
+				case nameof(MoveShellExtensionsToSubMenu):
+				case nameof(ShowEditTagsMenu):
+				case nameof(ShowOpenInNewTab):
+				case nameof(ShowOpenInNewWindow):
+				case nameof(ShowOpenInNewPane):
+				case nameof(ConflictsResolveOption):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

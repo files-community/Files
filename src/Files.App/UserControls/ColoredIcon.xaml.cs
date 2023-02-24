@@ -8,6 +8,12 @@ namespace Files.App.UserControls
 {
 	public sealed partial class ColoredIcon : UserControl
 	{
+		public string BaseBackdropGlyph
+		{
+			get => (string)GetValue(BaseBackdropPathProperty);
+			set => SetValue(BaseBackdropPathProperty, value);
+		}
+
 		public string BaseLayerGlyph
 		{
 			get => (string)GetValue(BaseLayerPathProperty);
@@ -20,6 +26,10 @@ namespace Files.App.UserControls
 			set => SetValue(OverlayLayerPathProperty, value);
 		}
 
+		// Using a DependencyProperty as the backing store for BaseBackdropPath.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty BaseBackdropPathProperty =
+			DependencyProperty.Register(nameof(BaseBackdropGlyph), typeof(string), typeof(ColoredIcon), new PropertyMetadata(null));
+		
 		// Using a DependencyProperty as the backing store for OverlayLayerPath.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty OverlayLayerPathProperty =
 			DependencyProperty.Register(nameof(OverlayLayerGlyph), typeof(string), typeof(ColoredIcon), new PropertyMetadata(null));

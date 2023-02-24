@@ -62,7 +62,7 @@ namespace Files.App.Shell
 
 				return true;
 			}
-			catch (Exception ex) when (ex is COMException || ex is UnauthorizedAccessException)
+			catch (Exception ex) when (ex is COMException or UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
 			}
@@ -90,7 +90,7 @@ namespace Files.App.Shell
 
 				Win32API.BringToForeground(currentWindows);
 			}
-			catch (Exception ex) when (ex is COMException || ex is UnauthorizedAccessException)
+			catch (Exception ex) when (ex is COMException or UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
 			}
@@ -110,7 +110,7 @@ namespace Files.App.Shell
 						shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPidl(fp));
 					return GetContextMenuForFiles(shellItems.ToArray(), flags, owningThread, itemFilter);
 				}
-				catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
+				catch (Exception ex) when (ex is ArgumentException or FileNotFoundException)
 				{
 					// Return empty context menu
 					return null;
@@ -137,47 +137,24 @@ namespace Files.App.Shell
 			if (!shellItems.Any())
 				return null;
 
-			// HP: The items are all in the same folder
-			using var sf = shellItems[0].Parent;
-
-			Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
-			var hMenu = User32.CreatePopupMenu();
-			menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-			var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
-			EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
-
-			return contextMenu;
-		}
-
-		public async static Task<ContextMenu?> GetContextMenuForFolder(string folderPath, Shell32.CMF flags, Func<string, bool>? itemFilter = null)
-		{
-			var owningThread = new ThreadWithMessageQueue();
-			return await owningThread.PostMethod<ContextMenu>(() =>
+			try
 			{
-				ShellFolder? shellFolder = null;
-				try
-				{
-					shellFolder = new ShellFolder(folderPath);
-					var sv = shellFolder.GetViewObject<Shell32.IShellView>(default);
-					Shell32.IContextMenu menu = sv.GetItemObject<Shell32.IContextMenu>(Shell32.SVGIO.SVGIO_BACKGROUND);
+				// HP: The items are all in the same folder
+				using var sf = shellItems[0].Parent;
 
-					var hMenu = User32.CreatePopupMenu();
-					menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-					var contextMenu = new ContextMenu(menu, hMenu, new[] { shellFolder.ParsingName }, owningThread);
-					EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
+				Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
+				var hMenu = User32.CreatePopupMenu();
+				menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
+				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
+				EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
 
-					return contextMenu;
-				}
-				catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
-				{
-					// Return empty context menu
-					return null;
-				}
-				finally
-				{
-					shellFolder?.Dispose();
-				}
-			});
+				return contextMenu;
+			}
+			catch (COMException)
+			{
+				// Return empty context menu
+				return null;
+			}
 		}
 
 		#endregion FactoryMethods
@@ -259,7 +236,7 @@ namespace Files.App.Shell
 						{
 							cMenu2?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)mii.hSubMenu, new IntPtr(ii));
 						}
-						catch (NotImplementedException)
+						catch (Exception ex) when (ex is COMException or NotImplementedException)
 						{
 							// Only for dynamic/owner drawn? (open with, etc)
 						}
@@ -297,7 +274,7 @@ namespace Files.App.Shell
 
 				return commandString.ToString();
 			}
-			catch (Exception ex) when (ex is InvalidCastException || ex is ArgumentException)
+			catch (Exception ex) when (ex is InvalidCastException or ArgumentException)
 			{
 				// TODO: Investigate this...
 				Debug.WriteLine(ex);
@@ -305,7 +282,7 @@ namespace Files.App.Shell
 				return null;
 			}
 
-			catch (Exception ex) when (ex is COMException || ex is NotImplementedException)
+			catch (Exception ex) when (ex is COMException or NotImplementedException)
 			{
 				// Not every item has an associated verb
 				return null;

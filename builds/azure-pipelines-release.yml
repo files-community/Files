@@ -63,7 +63,7 @@ jobs:
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="${{parameters.packageDisplayName}}"
         $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest')
       failOnStderr: true
-
+      
  # This replaces references to the dev icon with the specified icon variant 
   - task: PowerShell@2
     displayName: 'Use Correct Logo'
@@ -95,8 +95,8 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        gci $(Build.SourcesDirectory)\src -Include app.xaml.cs -recurse | ForEach -Process {
-        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "AppCenter.Start("", typeof(Analytics), typeof(Crashes));", "AppCenter.Start("$(appcenter.secret)", typeof(Analytics), typeof(Crashes));) | Set-Content $_ -NoNewline
+        gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process {
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "appcenter.secret", "$(appcenter.secret)"}) | Set-Content $_ -NoNewline
         }
       failOnStderr: true
 
@@ -204,19 +204,16 @@ jobs:
       TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
       overWrite: true
 
-# Adds the AppCenter token to the project
-  - task: DownloadSecureFile@1
-    name: appCenterDevKey
-    displayName: 'Download AppCenter Dev Key'
+# Injects the AppCenter token to the project
+  - task: PowerShell@2
+    displayName: 'Inject AppCenter token'
     inputs:
-      secureFile: 'AppCenterKey.txt'
-
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: '$(Agent.TempDirectory)'
-      Contents: '$(appCenterDevKey.secureFilePath)'
-      TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
-      overWrite: true
+      targetType: 'inline'
+      script: |
+        gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process {
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "appcenter.secret", "$(appcenter.secret)"}) | Set-Content $_ -NoNewline
+        }
+      failOnStderr: true
 
   - task: UseDotNet@2
     inputs:

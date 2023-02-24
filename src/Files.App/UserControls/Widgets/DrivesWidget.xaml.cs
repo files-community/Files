@@ -1,23 +1,17 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.UI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using Files.App.Helpers.ContextFlyouts;
-using Files.App.Helpers.XamlHelpers;
-using Files.App.ServicesImplementation;
+using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
@@ -25,6 +19,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -71,7 +66,9 @@ namespace Files.App.UserControls.Widgets
 	}
 
 	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
-	{		
+	{
+		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
@@ -86,6 +83,7 @@ namespace Files.App.UserControls.Widgets
 
 		private IShellPage associatedInstance;
 
+		public ICommand FormatDriveCommand;
 		public ICommand EjectDeviceCommand;
 		public ICommand DisconnectNetworkDriveCommand;
 		public ICommand GoToStorageSenseCommand;
@@ -131,46 +129,54 @@ namespace Files.App.UserControls.Widgets
 
 			App.DrivesManager.DataChanged += Manager_DataChanged;
 
+			FormatDriveCommand = new RelayCommand<DriveCardItem>(FormatDrive);
 			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDevice);
 			OpenInNewTabCommand = new RelayCommand<WidgetCardItem>(OpenInNewTab);
 			OpenInNewWindowCommand = new RelayCommand<WidgetCardItem>(OpenInNewWindow);
 			OpenInNewPaneCommand = new AsyncRelayCommand<DriveCardItem>(OpenInNewPane);
-			OpenPropertiesCommand = new AsyncRelayCommand<DriveCardItem>(OpenProperties);
+			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(OpenProperties);
 			PinToFavoritesCommand = new RelayCommand<WidgetCardItem>(PinToFavorites);
 			UnpinFromFavoritesCommand = new RelayCommand<WidgetCardItem>(UnpinFromFavorites);
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
-		
+
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
 		{
-			var options = (item.Item as DriveItem)?.MenuOptions;
+			var drive = ItemsAdded.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+			var options = drive?.Item.MenuOptions;
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "SideBarOpenInNewPane/Text".GetLocalizedResource(),
-					Glyph = "\uF117",
-					GlyphFontFamilyName = "CustomGlyph",
-					Command = OpenInNewPaneCommand,
-					CommandParameter = item,
-					ShowItem = ShowMultiPaneControls
-				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
-					CommandParameter = item
+					CommandParameter = item,
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
-					CommandParameter = item
+					CommandParameter = item,
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewPane".GetLocalizedResource(),
+					ColoredIcon = new ColoredIconModel()
+					{
+						BaseBackdropGlyph = "\uF056",
+						BaseLayerGlyph = "\uF03B",
+						OverlayLayerGlyph = "\uF03C",
+					},
+					Command = OpenInNewPaneCommand,
+					CommandParameter = item,
+					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -199,6 +205,13 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
+					Text = "FormatDriveText".GetLocalizedResource(),
+					Command = FormatDriveCommand,
+					CommandParameter = item,
+					ShowItem = options?.ShowFormatDrive ?? false
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
 					Glyph = "\uE946",
 					Command = OpenPropertiesCommand,
@@ -211,7 +224,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "LoadingMoreOptions".GetLocalizedResource(),
+					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
@@ -232,7 +245,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				foreach (DriveItem drive in App.DrivesManager.Drives)
 				{
-					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
+					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DataModels.NavigationControlItems.DriveType.VirtualDrive)
 					{
 						var cardItem = new DriveCardItem(drive);
 						ItemsAdded.AddSorted(cardItem);
@@ -259,10 +272,20 @@ namespace Files.App.UserControls.Widgets
 			await UIHelpers.ShowDeviceEjectResultAsync(result);
 		}
 
+		private void FormatDrive(DriveCardItem? item)
+		{
+			Win32API.OpenFormatDriveDialog(item?.Path ?? string.Empty);
+		}
 
-		private async Task OpenProperties(DriveCardItem item)
-		{ 
-			await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance); 
+		private void OpenProperties(DriveCardItem item)
+		{
+			EventHandler<object> flyoutClosed = null!;
+			flyoutClosed = async (s, e) =>
+			{
+				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance);
+			};
+			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
@@ -301,11 +324,6 @@ namespace Files.App.UserControls.Widgets
 			public string Path { get; set; }
 		}
 
-		public bool ShowMultiPaneControls
-		{
-			get => AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
-		}
-
 		private async Task OpenInNewPane(DriveCardItem item)
 		{
 			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
@@ -318,9 +336,6 @@ namespace Files.App.UserControls.Widgets
 
 		private void MenuFlyout_Opening(object sender, object e)
 		{
-			var newPaneMenuItem = (sender as MenuFlyout).Items.Single(x => x.Name == "OpenInNewPane");
-			newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
-
 			var pinToFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "PinToFavorites");
 			pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
 

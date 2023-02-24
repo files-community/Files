@@ -127,25 +127,6 @@
 					</i:Interaction.Behaviors>
 				</ToggleSwitch>
 			</local:SettingsBlockControl>
-
-			<!--  Edit File Tags  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}"
-				HorizontalAlignment="Stretch"
-				ButtonCommand="{x:Bind ViewModel.EditFileTagsCommand}"
-				IsClickable="True">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon
-						FontSize="14"
-						Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-						Glyph="&#xE104;" />
-				</local:SettingsBlockControl.Icon>
-
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
-			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>
 </Page>

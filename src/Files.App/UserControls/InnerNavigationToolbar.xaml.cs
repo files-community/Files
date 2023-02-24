@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Commands;
 using Files.App.DataModels;
-using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
@@ -25,6 +25,7 @@ namespace Files.App.UserControls
 		}
 
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 

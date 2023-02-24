@@ -48,15 +48,5 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value for the app theme font family.
 		/// </summary>
 		String AppThemeFontFamily { get; set; }
-		
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to move shell extensions into a sub menu.
-		/// </summary>
-		bool MoveShellExtensionsToSubMenu { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to show the edit tags menu.
-		/// </summary>
-		bool DisplayEditTagsMenu { get; set; }
 	}
 }

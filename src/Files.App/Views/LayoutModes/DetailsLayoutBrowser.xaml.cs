@@ -40,8 +40,6 @@ namespace Files.App.Views.LayoutModes
 
 		private ListedItem? _nextItemToSelect;
 
-		private IFileTagsSettingsService tagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
-
 		protected override uint IconSize => currentIconSize;
 
 		protected override ListViewBase ListViewBase => FileList;
@@ -757,7 +755,7 @@ namespace Files.App.Views.LayoutModes
 			if (tagName is null || parent?.DataContext is not ListedItem item)
 				return;
 			
-			var tagId = tagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
+			var tagId = FileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
 
 			item.FileTags = item.FileTags
 				.Except(new string[] { tagId })

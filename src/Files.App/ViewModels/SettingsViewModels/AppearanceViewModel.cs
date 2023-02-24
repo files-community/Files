@@ -70,7 +70,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			get => selectedAppThemeResources;
 			set
 			{
-				if (SetProperty(ref selectedAppThemeResources, value))
+				if (value is not null && SetProperty(ref selectedAppThemeResources, value))
 				{
 					AppThemeBackgroundColor = SelectedAppThemeResources.BackgroundColor;
 					OnPropertyChanged(nameof(selectedAppThemeResources));
@@ -95,32 +95,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public ElementTheme SelectedElementTheme
 		{
 			get => (ElementTheme)selectedThemeIndex;
-		}
-
-		public bool MoveShellExtensionsToSubMenu
-		{
-			get => UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
-				{
-					UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-		
-		public bool DisplayEditTagsMenu
-		{
-			get => UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu)
-				{
-					UserSettingsService.AppearanceSettingsService.DisplayEditTagsMenu = value;
-					OnPropertyChanged();
-				}
-			}
 		}
 
 		public bool UseCompactStyles

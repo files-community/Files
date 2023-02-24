@@ -1,4 +1,3 @@
-using Files.App.Extensions;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;

@@ -1,16 +1,12 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.UI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
-using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -25,9 +21,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.System;
-using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -106,23 +100,23 @@ namespace Files.App.UserControls.Widgets
 			OpenFileLocationCommand = new RelayCommand<RecentItem>(OpenFileLocation);
 		}
 
-		private async void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			if (sender is not Grid recentItemsGrid || recentItemsGrid.DataContext is not RecentItem item)
 				return;
 
 			var menuItems = GetItemMenuItems(item, false);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!UserSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
-				secondaryElements.OfType<FrameworkElement>()
-								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
+			secondaryElements.OfType<FrameworkElement>()
+							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
 
-			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
+			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 
 			e.Handled = true;
 		}
@@ -131,6 +125,19 @@ namespace Files.App.UserControls.Widgets
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenItemsWithCaptionText".GetLocalizedResource(),
+					Glyph = "\uE17D",
+					Tag = "OpenWithPlaceholder",
+					IsEnabled = false
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SendTo".GetLocalizedResource(),
+					Tag = "SendToPlaceholder",
+					IsEnabled = false
+				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "RecentItemRemove/Text".GetLocalizedResource(),
@@ -158,7 +165,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "LoadingMoreOptions".GetLocalizedResource(),
+					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
@@ -191,7 +198,7 @@ namespace Files.App.UserControls.Widgets
 				ItemName = Path.GetFileName(item.RecentPath),                // file name w extension
 			});
 		}
-			
+
 		private async Task UpdateRecentsList(NotifyCollectionChangedEventArgs e)
 		{
 			try

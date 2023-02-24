@@ -8,6 +8,8 @@ namespace Files.Backend.Services.Settings
 	{
 		event EventHandler OnSettingImportedEvent;
 
+		event EventHandler OnTagsUpdated;
+
 		IList<TagViewModel> FileTagList { get; set; }
 
 		TagViewModel GetTagById(string uid);
@@ -17,6 +19,12 @@ namespace Files.Backend.Services.Settings
 		IEnumerable<TagViewModel> GetTagsByName(string tagName);
 
 		IEnumerable<TagViewModel> SearchTagsByName(string tagName);
+		
+		void CreateNewTag(string newTagName, string color);
+
+		void EditTag(string uid, string name, string color);
+
+		void DeleteTag(string uid);
 
 		object ExportSettings();
 

@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
 using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -9,6 +10,7 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
+using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
@@ -29,13 +31,16 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
 using Windows.UI.Core;
+using static System.Net.Mime.MediaTypeNames;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.UserControls
 {
 	public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
 	{
-		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
@@ -71,8 +76,6 @@ namespace Files.App.UserControls
 
 		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
 
-		public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
-
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(nameof(ViewModel), typeof(SidebarViewModel), typeof(SidebarControl), new PropertyMetadata(null));
@@ -97,12 +100,6 @@ namespace Files.App.UserControls
 			set => SetValue(TabContentProperty, value);
 		}
 
-		public ICommand EmptyRecycleBinCommand
-		{
-			get => (ICommand)GetValue(EmptyRecycleBinCommandProperty);
-			set => SetValue(EmptyRecycleBinCommandProperty, value);
-		}
-
 		public readonly ICommand CreateLibraryCommand = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
 
 		public readonly ICommand RestoreLibrariesCommand = new RelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialog);
@@ -120,6 +117,8 @@ namespace Files.App.UserControls
 		private ICommand OpenInNewPaneCommand { get; }
 
 		private ICommand EjectDeviceCommand { get; }
+
+		private ICommand FormatDriveCommand { get; }
 
 		private ICommand OpenPropertiesCommand { get; }
 
@@ -141,6 +140,7 @@ namespace Files.App.UserControls
 			OpenInNewWindowCommand = new RelayCommand(OpenInNewWindow);
 			OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
 			EjectDeviceCommand = new RelayCommand(EjectDevice);
+			FormatDriveCommand = new RelayCommand(FormatDrive);
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
 		}
 
@@ -203,24 +203,12 @@ namespace Files.App.UserControls
 					Command = RestoreLibrariesCommand,
 					ShowItem = options.IsLibrariesHeader
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModel(commands.EmptyRecycleBin)
 				{
-					Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalizedResource(),
-					Glyph = "\uEF88",
-					GlyphFontFamilyName = "RecycleBinIcons",
-					Command = EmptyRecycleBinCommand,
-					ShowItem = options.ShowEmptyRecycleBin,
-					IsEnabled = false,
 					ID = "EmptyRecycleBin",
 					Tag = "EmptyRecycleBin",
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "SideBarOpenInNewPane/Text".GetLocalizedResource(),
-					Glyph = "\uF117",
-					GlyphFontFamilyName = "CustomGlyph",
-					Command = OpenInNewPaneCommand,
-					ShowItem = options.IsLocationItem && CanOpenInNewPane
+					IsEnabled = false,
+					ShowItem = options.ShowEmptyRecycleBin,
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -228,14 +216,26 @@ namespace Files.App.UserControls
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
-					ShowItem = options.IsLocationItem
+					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
-					ShowItem = options.IsLocationItem
+					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewPane".GetLocalizedResource(),
+					ColoredIcon = new ColoredIconModel()
+					{
+						BaseBackdropGlyph = "\uF056",
+						BaseLayerGlyph = "\uF03B",
+						OverlayLayerGlyph = "\uF03C",
+					},
+					Command = OpenInNewPaneCommand,
+					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -268,6 +268,13 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
+					Text = "FormatDriveText".GetLocalizedResource(),
+					Command = FormatDriveCommand,
+					CommandParameter = item,
+					ShowItem = options.ShowFormatDrive
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
 					Glyph = "\uE946",
 					Command = OpenPropertiesCommand,
@@ -282,7 +289,7 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "LoadingMoreOptions".GetLocalizedResource(),
+					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
@@ -373,6 +380,11 @@ namespace Files.App.UserControls
 			await UIHelpers.ShowDeviceEjectResultAsync(result);
 		}
 
+		private void FormatDrive()
+		{
+			Win32API.OpenFormatDriveDialog(rightClickedItem.Path);
+		}
+
 		private async void Sidebar_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
 		{
 			if (IsInPointerPressed || args.InvokedItem is null || args.InvokedItemContainer is null)
@@ -433,6 +445,7 @@ namespace Files.App.UserControls
 		private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			if (sender is not NavigationViewItem sidebarItem ||
 				sidebarItem.DataContext is not INavigationControlItem item)
 				return;
@@ -442,9 +455,8 @@ namespace Files.App.UserControls
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!userSettingsService.AppearanceSettingsService.MoveShellExtensionsToSubMenu)
-				secondaryElements.OfType<FrameworkElement>()
-								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
+			secondaryElements.OfType<FrameworkElement>()
+								.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = e.GetPosition(sidebarItem) });

@@ -156,11 +156,6 @@ namespace Files.App.Interacts
 			_ = QuickAccessService.UnpinFromSidebar(associatedInstance.FilesystemViewModel.WorkingDirectory);
 		}
 
-		public virtual async void EmptyRecycleBin(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.EmptyRecycleBin();
-		}
-
 		public virtual async void RestoreRecycleBin(RoutedEventArgs e)
 		{
 			await RecycleBinHelpers.RestoreRecycleBin(associatedInstance);
@@ -888,6 +883,16 @@ namespace Files.App.Interacts
 				Win32API.InstallFont(selectedItem.ItemPath);
 
 			return Task.CompletedTask;
+		}
+
+		public async Task PlayAll()
+		{
+			await NavigationHelpers.OpenSelectedItems(associatedInstance);
+		}
+
+		public void FormatDrive(ListedItem? e)
+		{
+			Win32API.OpenFormatDriveDialog(e?.ItemPath ?? string.Empty);
 		}
 
 		#endregion Command Implementation

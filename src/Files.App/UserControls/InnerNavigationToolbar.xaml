@@ -98,10 +98,7 @@
 						</MenuFlyout>
 					</AppBarButton.Flyout>
 
-					<local:ColoredIcon
-						Margin="0,1,0,-1"
-						BaseLayerGlyph="&#xF037;"
-						OverlayLayerGlyph="&#xF038;" />
+					<local:OpacityIcon Style="{StaticResource ColorIconNew}" />
 				</AppBarButton>
 				<AppBarSeparator />
 				<AppBarButton
@@ -115,9 +112,8 @@
 					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut/Text}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut/Text}">
-					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF03D;" OverlayLayerGlyph="&#xF03E;" />
-					</AppBarButton.Content>
+
+					<local:OpacityIcon Style="{StaticResource ColorIconCut}" />
 				</AppBarButton>
 				<AppBarButton
 					Width="Auto"
@@ -129,6 +125,7 @@
 					Label="{helpers:ResourceString Name=Copy}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Copy}">
+
 					<local:ColoredIcon BaseLayerGlyph="&#xF021;" OverlayLayerGlyph="&#xF022;" />
 				</AppBarButton>
 				<AppBarButton
@@ -148,7 +145,11 @@
 							IsEnabled="False"
 							Modifiers="Control" />
 					</AppBarButton.KeyboardAccelerators>
-					<local:ColoredIcon BaseLayerGlyph="&#xF023;" OverlayLayerGlyph="&#xF024;" />
+
+					<local:ColoredIcon
+						BaseBackdropGlyph="&#xF051;"
+						BaseLayerGlyph="&#xF023;"
+						OverlayLayerGlyph="&#xF024;" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="RenameButton"
@@ -161,9 +162,8 @@
 					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename/Text}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename/Text}">
-					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF027;" OverlayLayerGlyph="&#xF028;" />
-					</AppBarButton.Content>
+
+					<local:OpacityIcon Style="{StaticResource ColorIconRename}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="ShareButton"
@@ -175,9 +175,8 @@
 					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare/Text}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare/Text}">
-					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF025;" OverlayLayerGlyph="&#xF026;" />
-					</AppBarButton.Content>
+
+					<local:OpacityIcon Style="{StaticResource ColorIconShare}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="DeleteButton"
@@ -189,9 +188,8 @@
 					Label="{helpers:ResourceString Name=Delete}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
-					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF035;" OverlayLayerGlyph="&#xF036;" />
-					</AppBarButton.Content>
+
+					<local:OpacityIcon Style="{StaticResource ColorIconDelete}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="PropertiesButton"
@@ -204,23 +202,19 @@
 					Label="{helpers:ResourceString Name=PropertiesTitle}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=PropertiesTitle}">
-					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF031;" OverlayLayerGlyph="&#xF032;" />
-					</AppBarButton.Content>
+
+					<local:OpacityIcon Style="{StaticResource ColorIconProperties}" />
 				</AppBarButton>
 				<AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionalAction, Mode=OneWay}" />
 				<AppBarButton
 					x:Name="EmptyRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="B"
-					Command="{x:Bind ViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
+					Command="{x:Bind Commands.EmptyRecycleBin}"
+					Icon="{x:Bind Commands.EmptyRecycleBin.FontIcon}"
 					IsEnabled="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=EmptyRecycleBin}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=EmptyRecycleBin}">
-					<AppBarButton.Icon>
-						<FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
-					</AppBarButton.Icon>
-				</AppBarButton>
+					Label="{x:Bind Commands.EmptyRecycleBin.Label}"
+					ToolTipService.ToolTip="{x:Bind Commands.EmptyRecycleBin.Label}" />
 				<AppBarButton
 					x:Name="RestoreRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
@@ -396,6 +390,17 @@
 						<local:ColoredIcon BaseLayerGlyph="&#xF041;" OverlayLayerGlyph="&#xF042;" />
 					</AppBarButton.Content>
 				</AppBarButton>
+				<AppBarButton
+					x:Name="PlayAllMediaButton"
+					x:Load="{x:Bind ViewModel.IsMultipleMediaFilesSelected, Mode=OneWay, FallbackValue=False}"
+					Command="{x:Bind ViewModel.PlayAllCommand, Mode=OneWay}"
+					Label="{helpers:ResourceString Name=PlayAll}"
+					LabelPosition="Default"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=PlayAll}">
+					<AppBarButton.Icon>
+						<FontIcon Glyph="&#xE768;" />
+					</AppBarButton.Icon>
+				</AppBarButton>
 			</CommandBar.PrimaryCommands>
 		</CommandBar>
 		<CommandBar
@@ -456,7 +461,7 @@
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 
-				<local:ColoredIcon BaseLayerGlyph="&#xF02B;" OverlayLayerGlyph="&#xF02C;" />
+				<local:OpacityIcon Style="{StaticResource ColorIconSelection}" />
 			</AppBarButton>
 			<AppBarButton
 				x:Name="ArrangementOptions"
@@ -469,9 +474,8 @@
 				LabelPosition="Collapsed"
 				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSortOptionsButton/ToolTipService/ToolTip}">
-				<AppBarButton.Content>
-					<local:ColoredIcon BaseLayerGlyph="&#xF029;" OverlayLayerGlyph="&#xF02A;" />
-				</AppBarButton.Content>
+
+				<local:OpacityIcon Style="{StaticResource ColorIconSort}" />
 				<AppBarButton.Flyout>
 					<MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
 						<MenuFlyoutSubItem Text="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}">
@@ -791,26 +795,26 @@
 									Grid.Row="0"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{helpers:ResourceString Name=NavToolbarShowHiddenItemsHeader/Text}" />
+									Text="{x:Bind Commands.ToggleShowHiddenItems.Label}" />
 								<ToggleSwitch
 									Grid.Row="0"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
-									AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarShowHiddenItems/AutomationProperties/Name}"
-									IsOn="{x:Bind UserSettingsService.FoldersSettingsService.ShowHiddenItems, Mode=TwoWay}"
+									AutomationProperties.Name="{x:Bind Commands.ToggleShowHiddenItems.AutomationName}"
+									IsOn="{x:Bind Commands.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 
 								<TextBlock
 									Grid.Row="1"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{helpers:ResourceString Name=NavToolbarShowFileExtensionsHeader/Text}" />
+									Text="{x:Bind Commands.ToggleShowFileExtensions.Label}" />
 								<ToggleSwitch
 									Grid.Row="1"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
-									AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarShowFileExtensions/AutomationProperties/Name}"
-									IsOn="{x:Bind UserSettingsService.FoldersSettingsService.ShowFileExtensions, Mode=TwoWay}"
+									AutomationProperties.Name="{x:Bind Commands.ToggleShowFileExtensions.AutomationName}"
+									IsOn="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
 									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 							</Grid>
@@ -831,7 +835,10 @@
 				ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneToggle/ToolTipService/ToolTip}"
 				Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
 				<AppBarToggleButton.Content>
-					<local:ColoredIcon BaseLayerGlyph="&#xF03b;" OverlayLayerGlyph="&#xF03c;" />
+					<local:ColoredIcon
+						BaseBackdropGlyph="&#xF056;"
+						BaseLayerGlyph="&#xF03b;"
+						OverlayLayerGlyph="&#xF03c;" />
 				</AppBarToggleButton.Content>
 			</AppBarToggleButton>
 			<CommandBar.SecondaryCommands>

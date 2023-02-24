@@ -1,3 +1,4 @@
+using CommunityToolkit.WinUI.UI;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.App.ViewModels;
@@ -8,6 +9,7 @@ using System;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -235,5 +237,18 @@ namespace Files.App.UserControls.MultitaskingControl
 			DependencyProperty.Register("TabStripVisibility", typeof(Visibility), typeof(HorizontalMultitaskingControl), new PropertyMetadata(Visibility.Visible));
 
 		public Rectangle DragArea => DragAreaRectangle;
+
+		private void TabViewItem_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (sender is TabViewItem tvi && tvi.FindDescendant("IconControl") is ContentControl control)
+			{
+				control.Content = (tvi.IconSource as ImageIconSource).CreateIconElement();
+				tvi.RegisterPropertyChangedCallback(TabViewItem.IconSourceProperty, (s, args) =>
+				{
+					if (s is TabViewItem tabViewItem && tabViewItem.FindDescendant("IconControl") is ContentControl iconControl)
+						iconControl.Content = (tabViewItem.IconSource as ImageIconSource).CreateIconElement();
+				});
+			}
+		}
 	}
 }
