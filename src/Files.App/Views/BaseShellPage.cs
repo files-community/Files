@@ -277,7 +277,7 @@ namespace Files.App.Views
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
 				// Ctrl + ` (accent key), open terminal
-				case (true, false, false, true, (VirtualKey)192):
+				case (true, _, false, true, (VirtualKey)192):
 
 					// Check if there is a folder selected, if not use the current directory.
 					string path = FilesystemViewModel.WorkingDirectory;
