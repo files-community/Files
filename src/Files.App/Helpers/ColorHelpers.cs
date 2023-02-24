@@ -10,6 +10,8 @@ namespace Files.App.Helpers
 		private const int COLOR_LENGTH = 7;
 		private const int COLOR_LENGTH_INCLUDING_ALPHA = 9;
 
+		private static readonly Color unknownTagColor = Color.FromArgb(255, 0x9E, 0xA3, 0xA1);
+
 		/// <summary>
 		/// Converts Hex to Windows.UI.Color.
 		/// </summary>
@@ -20,7 +22,7 @@ namespace Files.App.Helpers
 				string.IsNullOrWhiteSpace(colorHex) ||
 				(colorHex.Length != COLOR_LENGTH && colorHex.Length != COLOR_LENGTH_INCLUDING_ALPHA)
 				)
-				return Color.FromArgb(255, 0x9E, 0xA3, 0xA1);
+				return unknownTagColor;
 
 			colorHex = colorHex.Replace("#", string.Empty);
 
@@ -37,7 +39,7 @@ namespace Files.App.Helpers
 				)
 				return Color.FromArgb(a, r, g, b);
 
-			return Color.FromArgb(255, 0x9E, 0xA3, 0xA1);
+			return unknownTagColor;
 		}
 
 		/// <summary>

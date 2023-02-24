@@ -44,12 +44,10 @@ namespace Files.App.ServicesImplementation.Settings
 			{
 				var tags = Get<List<TagViewModel>>(DefaultFileTags);
 
-				foreach (var tag in tags)
-				{
+				foreach (var tag in tags!)
 					tag.Color = ColorHelpers.FromHex(tag.Color).ToString();
-				}
 
-				return tags!;
+				return tags;
 			}
 			set
 			{
