@@ -7,12 +7,11 @@
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Dark">
-			<StaticResource x:Key="NavigationViewItemBackground" ResourceKey="ControlFillColorTransparentBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="ControlFillColorDefaultBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="ControlFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="ControlFillColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="ControlFillColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="ControlFillColorDefaultBrush" />
 
 			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
@@ -23,12 +22,11 @@
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="Light">
-			<StaticResource x:Key="NavigationViewItemBackground" ResourceKey="ControlFillColorTransparentBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="ControlFillColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="ControlFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="ControlFillColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="ControlFillColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="ControlFillColorDefaultBrush" />
 
 			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
@@ -36,11 +34,9 @@
 			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
-
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="HighContrast">
-			<StaticResource x:Key="NavigationViewItemBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="SystemControlHighlightListLowBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="SystemControlHighlightListMediumBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="SystemControlHighlightListLowBrush" />
@@ -207,7 +203,11 @@
 
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="PointerStates">
-								<VisualState x:Name="Normal" />
+								<VisualState x:Name="Normal">
+									<Storyboard>
+										<PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
+									</Storyboard>
+								</VisualState>
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
 										<Setter Target="Icon.(muxc:AnimatedIcon.State)" Value="PointerOver" />
