@@ -125,7 +125,7 @@
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Copy}">
 
-					<local:ColoredIcon BaseLayerGlyph="&#xF021;" OverlayLayerGlyph="&#xF022;" />
+					<local:OpacityIcon Style="{StaticResource ColorIconCopy}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="PasteButton"
@@ -145,10 +145,7 @@
 							Modifiers="Control" />
 					</AppBarButton.KeyboardAccelerators>
 
-					<local:ColoredIcon
-						BaseBackdropGlyph="&#xF051;"
-						BaseLayerGlyph="&#xF023;"
-						OverlayLayerGlyph="&#xF024;" />
+					<local:OpacityIcon Style="{StaticResource ColorIconPaste}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="RenameButton"
