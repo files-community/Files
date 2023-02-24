@@ -32,14 +32,14 @@ namespace Files.App.ServicesImplementation
 		/// </summary>
 		/// <param name="folderPath">The folder to unpin</param>
 		/// <returns></returns>
-		Task UnpinFromSidebar(string folderPath);
+		Task UnpinFromSidebar(string folderPath, bool syncItems = true);
 
 		/// <summary>
 		/// Unpins folders from the quick access list
 		/// </summary>
 		/// <param name="folderPaths">The array of folders to unpin</param>
 		/// <returns></returns>
-		Task UnpinFromSidebar(string[] folderPaths);
+		Task UnpinFromSidebar(string[] folderPaths, bool syncItems = true);
 
 		/// <summary>
 		/// Checks if a folder is pinned to the quick access list
@@ -47,5 +47,13 @@ namespace Files.App.ServicesImplementation
 		/// <param name="folderPath">The path of the folder</param>
 		/// <returns>true if the item is pinned</returns>
 		bool IsItemPinned(string folderPath);
+
+		/// <summary>
+		/// Moves a folder to a new location in the sidebar and in the quick access widget
+		/// </summary>
+		/// <param name="toMove"></param>
+		/// <param name="destination"></param>
+		/// <returns></returns>
+		Task MoveTo(string toMove, string destination);
 	}
 }

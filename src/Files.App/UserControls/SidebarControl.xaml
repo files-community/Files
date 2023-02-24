@@ -57,7 +57,6 @@
 					AllowDrop="True"
 					AutomationProperties.AutomationId="{x:Bind Text}"
 					CanDrag="False"
-					Content="{x:Bind Text}"
 					DataContext="{x:Bind}"
 					DragEnter="NavigationViewItem_DragEnter"
 					DragLeave="NavigationViewItem_DragLeave"
@@ -75,6 +74,22 @@
 					<NavigationViewItem.Icon>
 						<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
 					</NavigationViewItem.Icon>
+					<NavigationViewItem.Content>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<TextBlock Grid.Row="0" Text="{x:Bind Text}" />
+							<FontIcon
+								Grid.Row="1"
+								HorizontalAlignment="Right"
+								DataContext="{x:Bind}"
+								Glyph="&#xE710;"
+								PointerPressed="Sidebar_MoveItem"
+								Visibility="{x:Bind IsPinned}" />
+						</Grid>
+					</NavigationViewItem.Content>
 					<!--  WINUI3  missing some styles  -->
 					<!--<NavigationViewItem.InfoBadge>
 						<InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}" />

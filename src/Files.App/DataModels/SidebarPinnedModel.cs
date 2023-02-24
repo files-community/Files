@@ -180,13 +180,12 @@ namespace Files.App.DataModels
 			// Remove unpinned items from favoriteList
 			foreach (var childItem in Favorites)
 			{
-				if (childItem is LocationItem item && !item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
+				if (childItem is LocationItem item)
 				{
 					lock (favoriteList)
 					{
 						favoriteList.Remove(item);
 					}
-					DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 				}
 			}
 
