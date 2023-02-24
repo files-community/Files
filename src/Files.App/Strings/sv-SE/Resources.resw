@@ -484,7 +484,7 @@
     <value>Öppna med</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>Skicka till</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Filnamn kan inte innehålla något av följande tecken: \ / : * ? " &lt; &gt; |</value>
@@ -700,7 +700,7 @@
     <value>Filnamnet är för långt</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>Visa fler alternativ</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Appen måste startas om för att tillämpa språkinställningen. Vill du starta om appen?</value>
@@ -1441,7 +1441,7 @@
     <value>Ta bort</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
-    <value>No locations</value>
+    <value>Inga platser</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>Inmatningsfältet får inte vara tomt!</value>
@@ -1471,7 +1471,7 @@
     <value>{0} items will be copied</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copy item(s)</value>
+    <value>Kopiera objekt</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
     <value>Delete item(s)</value>
@@ -1483,7 +1483,7 @@
     <value>{0} items will be moved</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Move item(s)</value>
+    <value>Flytta objekt</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} objekt kommer att tas bort.</value>
@@ -1555,7 +1555,7 @@
     <value>Öppna med</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
-    <value>File icon</value>
+    <value>Filikon</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
     <value>Original path column</value>
@@ -1840,7 +1840,7 @@
     <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
-    <value>Restore Libraries</value>
+    <value>Återställ bibliotek</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Ägare</value>
@@ -1942,7 +1942,7 @@
     <value>Skriva attribut</value>
   </data>
   <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
-    <value>Write data</value>
+    <value>Skriv data</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
     <value>Skriva utökade attribut</value>
@@ -2047,22 +2047,22 @@
     <value>Ctrl+Alt+Down</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+1</value>
+    <value>Ctrl+Skift+1</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+2</value>
+    <value>Ctrl+Skift+2</value>
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
+    <value>Ctrl+Skift+3</value>
   </data>
   <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
+    <value>Ctrl+Skift+4</value>
   </data>
   <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
+    <value>Ctrl+Skift+5</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+6</value>
+    <value>Ctrl+Skift+6</value>
   </data>
   <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+T</value>
@@ -2143,7 +2143,7 @@
     <value>Öppna loggsökväg</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
-    <value>Create link in {0}</value>
+    <value>Skapa länk i {0}</value>
   </data>
   <data name="Columns" xml:space="preserve">
     <value>Kolumner</value>
@@ -2209,7 +2209,7 @@
     <value>Importinställningar</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>Manage settings</value>
+    <value>Hantera inställningar</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Couldn't import settings. The settings file is corrupted.</value>
@@ -2323,7 +2323,7 @@
     <value>Beräkna mappstorlekar</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recent files</value>
+    <value>Senaste filer</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Open Files on Windows Startup</value>
@@ -2413,7 +2413,7 @@
     <value>Preparing {0} items</value>
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
-    <value>Preparing items</value>
+    <value>Förbereder objekt</value>
   </data>
   <data name="StatusCopyFailed" xml:space="preserve">
     <value>Kopieringen misslyckades.</value>
@@ -2467,7 +2467,7 @@
     <value>Adaptive (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+7</value>
+    <value>Ctrl+Skift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
     <value>Show alternate data streams</value>
@@ -2509,13 +2509,13 @@
     <value>Details layout columns</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Låsskärm</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
     <value>Öppna mappar med enkelklick i Kolumnlayouten</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>Öppnar objekt</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
     <value>Compression completed</value>
@@ -2527,7 +2527,7 @@
     <value>{0} couldn't be compressed</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+    <value>Komprimerar arkiv</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Välj filer och mappar när man hovrar över dem</value>
@@ -2581,19 +2581,19 @@
     <value>Archive</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>Create archive</value>
+    <value>Skapa arkiv</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Skapa</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>Create {0}</value>
+    <value>Skapa {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Enter a name</value>
+    <value>Ange ett namn</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
-    <value>Compression level</value>
+    <value>Kompressionsnivå</value>
   </data>
   <data name="CompressionLevelUltra" xml:space="preserve">
     <value>Ultra</value>
@@ -2632,7 +2632,7 @@
     <value>Blu-ray</value>
   </data>
   <data name="Encryption" xml:space="preserve">
-    <value>Encryption</value>
+    <value>Kryptering</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Losenord</value>
@@ -2665,7 +2665,7 @@
     <value>Enter the location of the item:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Skapar en genväg</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
@@ -2692,7 +2692,7 @@
     <value>Dubbelklicka på ett tomt utrymme för att gå upp en mapp</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
-    <value>View more</value>
+    <value>Visa mer</value>
   </data>
   <data name="ToolTipDescriptionSize" xml:space="preserve">
     <value>Storlek:</value>
@@ -2728,7 +2728,7 @@
     <value>Network folder error</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>App version</value>
+    <value>App-version</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
     <value>Windows-version</value>
@@ -2746,16 +2746,16 @@
     <value>Tag color</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
-    <value>Save changes</value>
+    <value>Spara ändringar</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>New tag</value>
+    <value>Ny tagg</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
     <value>Create new tag</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Laddar...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
     <value>Context menu options</value>
@@ -2764,7 +2764,7 @@
     <value>Show file extensions</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>Visa dolda objekt</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>Format...</value>
@@ -2779,10 +2779,10 @@
     <value>Are you sure you want to delete this tag?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play all</value>
+    <value>Spela alla</value>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Height</value>
+    <value>Höjd</value>
   </data>
   <data name="Width" xml:space="preserve">
     <value>Width</value>
