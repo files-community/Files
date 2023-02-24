@@ -203,11 +203,7 @@
 
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="PointerStates">
-								<VisualState x:Name="Normal">
-									<Storyboard>
-										<PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
-									</Storyboard>
-								</VisualState>
+								<VisualState x:Name="Normal" />
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
 										<Setter Target="Icon.(muxc:AnimatedIcon.State)" Value="PointerOver" />

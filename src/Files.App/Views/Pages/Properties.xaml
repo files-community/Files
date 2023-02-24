@@ -22,7 +22,13 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<toolkitconvers:BoolNegationConverter x:Key="BoolNegationConverter" />
-			<convers:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
+
+			<toolkitconvers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+			<toolkitconvers:BoolToVisibilityConverter
+				x:Key="BoolToVisibilityInverseConverter"
+				FalseValue="Visible"
+				TrueValue="Collapse" />
 
 		</ResourceDictionary>
 	</Page.Resources>
@@ -94,7 +100,7 @@
 										Width="24"
 										Height="24"
 										Margin="0,4,0,0"
-										Visibility="{x:Bind IsSelected, Converter={StaticResource ObjectToBoolConverter}, ConverterParameter=Invert, Mode=OneWay}">
+										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}">
 										<PathIcon
 											x:Name="NavigationViewItemOutlinePathIcon"
 											HorizontalAlignment="Center"
@@ -106,7 +112,7 @@
 										Width="24"
 										Height="24"
 										Margin="0,0,0,4"
-										Visibility="{x:Bind IsSelected, Converter={StaticResource ObjectToBoolConverter}, Mode=OneWay}">
+										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 										<PathIcon
 											x:Name="NavigationViewItemFilledPathIcon"
 											HorizontalAlignment="Center"

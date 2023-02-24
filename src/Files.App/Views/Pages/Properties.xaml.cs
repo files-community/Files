@@ -147,27 +147,21 @@ namespace Files.App.Views
 				case PropertyNavigationViewItemEnums.ItemGeneral:
 					contentFrame.Navigate(typeof(PropertiesGeneral), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
-
 				case PropertyNavigationViewItemEnums.ItemShortcut:
 					contentFrame.Navigate(typeof(PropertiesShortcut), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
-
 				case PropertyNavigationViewItemEnums.ItemLibrary:
 					contentFrame.Navigate(typeof(PropertiesLibrary), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
-
 				case PropertyNavigationViewItemEnums.ItemDetails:
 					contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
-
 				case PropertyNavigationViewItemEnums.ItemSecurity:
 					contentFrame.Navigate(typeof(PropertiesSecurity), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
-
 				case PropertyNavigationViewItemEnums.ItemCustomization:
 					contentFrame.Navigate(typeof(PropertiesCustomization), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
-
 				case PropertyNavigationViewItemEnums.ItemCompatibility:
 					contentFrame.Navigate(typeof(PropertiesCompatibility), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
@@ -279,7 +273,9 @@ namespace Files.App.Views
 		}
 
 		private void CancelChangesButton_Click(object sender, RoutedEventArgs e)
-			=> ClosePage();
+		{
+			ClosePage();
+		}
 
 		private async void SaveChangesButton_Click(object sender, RoutedEventArgs e)
 		{
@@ -306,9 +302,7 @@ namespace Files.App.Views
 		private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key.Equals(VirtualKey.Escape))
-			{
 				ClosePage();
-			}
 		}
 
 		private void ClosePage()
