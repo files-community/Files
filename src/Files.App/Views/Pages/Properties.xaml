@@ -32,7 +32,7 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
+			<RowDefinition Height="36" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -40,7 +40,7 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<!--  Titlebar region  -->
+		<!--  Titlebar  -->
 		<Border
 			x:Name="TitlebarArea"
 			Grid.ColumnSpan="2"
@@ -64,13 +64,11 @@
 			</StackPanel>
 		</Border>
 
-		<!--  Main property window's NavigationView  -->
+		<!--  Vertical NavigationView whose each items are squared  -->
 		<NavigationView
-			x:Name="MainPropertyNavigationView"
+			x:Name="MainPropertiesWindowNavigationView"
 			Grid.Row="1"
 			Width="80"
-			Margin="0,-4,0,2"
-			HorizontalAlignment="Left"
 			IsBackButtonVisible="Collapsed"
 			IsPaneToggleButtonVisible="False"
 			IsSettingsVisible="False"
@@ -79,9 +77,7 @@
 			OpenPaneLength="88"
 			PaneDisplayMode="Left"
 			SelectionChanged="NavigationView_SelectionChanged">
-			<!--  NOTE: There's no way but using negative margin to place good position  -->
 
-			<!--  Porperty menu item template  -->
 			<NavigationView.MenuItemTemplate>
 				<DataTemplate x:DataType="local:SquareNavViewItem">
 					<NavigationViewItem
@@ -90,8 +86,9 @@
 						Tag="{x:Bind ItemType}">
 						<NavigationViewItem.Content>
 							<StackPanel Spacing="8">
-								<Grid>
-									<!--  Outline Glyph  -->
+
+								<Grid x:Name="ItemPathIconGrid">
+									<!--  Outline Path Icon  -->
 									<Viewbox
 										Width="24"
 										Height="24"
@@ -102,8 +99,7 @@
 											HorizontalAlignment="Center"
 											Data="{x:Bind OutlinePathIcon}" />
 									</Viewbox>
-
-									<!--  Filled Glyph  -->
+									<!--  Filled Path Icon  -->
 									<Viewbox
 										Width="24"
 										Height="24"
@@ -119,13 +115,14 @@
 
 								<!--  Label  -->
 								<TextBlock
-									x:Name="NavigationViewItemNameTextBlock"
+									x:Name="ItemNameLabelTextBlock"
 									Grid.Row="1"
 									HorizontalAlignment="Center"
 									x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 									FontSize="10"
 									Style="{StaticResource CaptionTextBlockStyle}"
 									Text="{x:Bind Name}" />
+
 							</StackPanel>
 						</NavigationViewItem.Content>
 					</NavigationViewItem>
