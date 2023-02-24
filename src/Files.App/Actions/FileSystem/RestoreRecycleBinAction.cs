@@ -8,7 +8,7 @@ namespace Files.App.Actions.FileSystem
 {
 	internal class RestoreRecycleBinAction : IAction
 	{
-		public string Label { get; } = "SideBarRestoreRecycleBin/Text".GetLocalizedResource();
+		public string Label { get; } = "RestoreAllItems".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new RichGlyph("\xE777");
 

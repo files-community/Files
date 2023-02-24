@@ -28,8 +28,6 @@ namespace Files.App.ViewModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		public ICommand RestoreRecycleBinCommand { get; private set; }
-
 		private IPaneHolder paneHolder;
 		public IPaneHolder PaneHolder
 		{
@@ -220,8 +218,6 @@ namespace Files.App.ViewModels
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
-
-			RestoreRecycleBinCommand = new RelayCommand<RoutedEventArgs>(RestoreRecycleBin);
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHome();
@@ -547,11 +543,6 @@ namespace Files.App.ViewModels
 			{
 				SideBarItems.Remove(SideBarItems.FirstOrDefault(x => x.Section == sectionType));
 			}
-		}
-
-		public async void RestoreRecycleBin(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.RestoreRecycleBin();
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)

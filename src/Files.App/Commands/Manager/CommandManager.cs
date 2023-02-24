@@ -33,6 +33,7 @@ namespace Files.App.Commands
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand EmptyRecycleBin => commands[CommandCodes.EmptyRecycleBin];
+		public IRichCommand RestoreRecycleBin => commands[CommandCodes.RestoreRecycleBin];
 
 		public CommandManager()
 		{

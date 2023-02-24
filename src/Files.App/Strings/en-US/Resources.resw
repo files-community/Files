@@ -123,9 +123,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>Open in new window</value>
   </data>
-  <data name="SideBarRestoreRecycleBin.Text" xml:space="preserve">
-    <value>Restore all items</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>New window</value>
   </data>

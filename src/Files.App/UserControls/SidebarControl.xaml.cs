@@ -76,8 +76,6 @@ namespace Files.App.UserControls
 
 		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
 
-		public static readonly DependencyProperty RestoreRecycleBinCommandProperty = DependencyProperty.Register(nameof(RestoreRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
-
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(nameof(ViewModel), typeof(SidebarViewModel), typeof(SidebarControl), new PropertyMetadata(null));
@@ -100,12 +98,6 @@ namespace Files.App.UserControls
 		{
 			get => (UIElement)GetValue(TabContentProperty);
 			set => SetValue(TabContentProperty, value);
-		}
-
-		public ICommand RestoreRecycleBinCommand
-		{
-			get => (ICommand)GetValue(RestoreRecycleBinCommandProperty);
-			set => SetValue(RestoreRecycleBinCommandProperty, value);
 		}
 
 		public readonly ICommand CreateLibraryCommand = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
@@ -218,11 +210,9 @@ namespace Files.App.UserControls
 					IsEnabled = false,
 					ShowItem = options.ShowEmptyRecycleBin,
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModel(commands.RestoreRecycleBin)
 				{
-					Text = "SideBarRestoreRecycleBin/Text".GetLocalizedResource(),
-					Glyph = "\xE777",
-					Command = RestoreRecycleBinCommand,
+					Text = "RestoreAllItems".GetLocalizedResource(),
 					ShowItem = options.ShowEmptyRecycleBin,
 					IsEnabled = RecycleBinHelpers.RecycleBinHasItems()
 				},

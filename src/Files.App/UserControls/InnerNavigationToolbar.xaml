@@ -219,15 +219,11 @@
 					x:Name="RestoreRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="R"
-					Command="{x:Bind ViewModel.RestoreRecycleBinCommand, Mode=OneWay}"
+					Command="{x:Bind Commands.RestoreRecycleBin}"
+					Icon="{x:Bind Commands.RestoreRecycleBin.FontIcon}"
 					IsEnabled="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=RestoreAllItems}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreAllItems}"
-					Visibility="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}">
-					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE777;" />
-					</AppBarButton.Icon>
-				</AppBarButton>
+					Label="{x:Bind Commands.RestoreRecycleBin.Label}"
+					ToolTipService.ToolTip="{x:Bind Commands.RestoreRecycleBin.Label}" />
 				<AppBarButton
 					x:Name="RestoreSelectionRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
