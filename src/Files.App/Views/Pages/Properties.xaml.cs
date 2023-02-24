@@ -180,49 +180,49 @@ namespace Files.App.Views
 			{
 				Name = "General".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemGeneral,
-				RegularPathIcon = (string)Application.Current.Resources["PageIconRegular"],
+				OutlinePathIcon = (string)Application.Current.Resources["PageIconRegular"],
 				FilledPathIcon = (string)Application.Current.Resources["PageIconFilled"],
 			};
 			var securityItem = new SquareNavViewItem()
 			{
 				Name = "Security".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemSecurity,
-				RegularPathIcon = (string)Application.Current.Resources["ShieldIconRegular"],
+				OutlinePathIcon = (string)Application.Current.Resources["ShieldIconRegular"],
 				FilledPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
 			};
 			var shortcutItem = new SquareNavViewItem()
 			{
 				Name = "Shortcut".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemShortcut,
-				RegularPathIcon = (string)Application.Current.Resources["LinkIconRegular"],
+				OutlinePathIcon = (string)Application.Current.Resources["LinkIconRegular"],
 				FilledPathIcon = (string)Application.Current.Resources["LinkIconFilled"],
 			};
 			var libraryItem = new SquareNavViewItem()
 			{
 				Name = "Library".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemLibrary,
-				RegularPathIcon = (string)Application.Current.Resources["LibraryIconRegular"],
+				OutlinePathIcon = (string)Application.Current.Resources["LibraryIconRegular"],
 				FilledPathIcon = (string)Application.Current.Resources["LibraryIconFilled"],
 			};
 			var detailsItem = new SquareNavViewItem()
 			{
 				Name = "Details".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemDetails,
-				RegularPathIcon = (string)Application.Current.Resources["InfoIconRegular"],
+				OutlinePathIcon = (string)Application.Current.Resources["InfoIconRegular"],
 				FilledPathIcon = (string)Application.Current.Resources["InfoIconFilled"],
 			};
 			var customizationItem = new SquareNavViewItem()
 			{
 				Name = "Customization".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCustomization,
-				RegularPathIcon = (string)Application.Current.Resources["ColorIconRegular"],
+				OutlinePathIcon = (string)Application.Current.Resources["ColorIconRegular"],
 				FilledPathIcon = (string)Application.Current.Resources["ColorIconFilled"],
 			};
 			var compatibilityItem = new SquareNavViewItem()
 			{
 				Name = "Compatibility".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCompatibility,
-				RegularPathIcon = (string)Application.Current.Resources["WindowsAppsRegular"],
+				OutlinePathIcon = (string)Application.Current.Resources["WindowsAppsRegular"],
 				FilledPathIcon = (string)Application.Current.Resources["WindowsAppsFilled"],
 			};
 
@@ -365,7 +365,7 @@ namespace Files.App.Views
 
 		public PropertyNavigationViewItemEnums ItemType;
 
-		public string? RegularPathIcon;
+		public string? OutlinePathIcon;
 
 		public string? FilledPathIcon;
 
