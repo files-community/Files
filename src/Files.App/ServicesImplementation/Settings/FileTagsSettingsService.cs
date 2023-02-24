@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Windows.Storage;
-using Windows.UI;
 
 namespace Files.App.ServicesImplementation.Settings
 {
