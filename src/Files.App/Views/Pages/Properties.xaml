@@ -15,21 +15,18 @@
 
 	<Page.Resources>
 		<ResourceDictionary>
-
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewStoreStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<toolkitconvers:BoolNegationConverter x:Key="BoolNegationConverter" />
-
 			<toolkitconvers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
 			<toolkitconvers:BoolToVisibilityConverter
 				x:Key="BoolToVisibilityInverseConverter"
 				FalseValue="Visible"
 				TrueValue="Collapsed" />
-
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -92,9 +89,7 @@
 						IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
 						Tag="{x:Bind ItemType}">
 						<NavigationViewItem.Content>
-							<!--  TODO: Customize ResourceDictionary avoid using this negative margin  -->
-							<StackPanel Margin="-8,0,-14,0" Spacing="8">
-
+							<StackPanel Spacing="8">
 								<Grid>
 									<!--  Outline Glyph  -->
 									<Viewbox
@@ -131,7 +126,6 @@
 									FontSize="10"
 									Style="{StaticResource CaptionTextBlockStyle}"
 									Text="{x:Bind Name}" />
-
 							</StackPanel>
 						</NavigationViewItem.Content>
 					</NavigationViewItem>
