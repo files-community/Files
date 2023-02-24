@@ -76,7 +76,7 @@
 			MenuItemsSource="{x:Bind NavViewItems, Mode=TwoWay}"
 			OpenPaneLength="88"
 			PaneDisplayMode="Left"
-			SelectionChanged="NavigationView_SelectionChanged">
+			SelectionChanged="MainPropertiesWindowNavigationView_SelectionChanged">
 
 			<NavigationView.MenuItemTemplate>
 				<DataTemplate x:DataType="local:SquareNavViewItem">
@@ -85,14 +85,14 @@
 						IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
 						Tag="{x:Bind ItemType}">
 						<NavigationViewItem.Content>
-							<StackPanel Spacing="8">
+							<StackPanel Margin="-8,0,-14,0" Spacing="8">
 
 								<Grid x:Name="ItemPathIconGrid">
 									<!--  Outline Path Icon  -->
 									<Viewbox
 										Width="24"
 										Height="24"
-										Margin="0,4,0,0"
+										Margin="0,4,2,0"
 										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}">
 										<PathIcon
 											x:Name="NavigationViewItemOutlinePathIcon"
@@ -103,7 +103,7 @@
 									<Viewbox
 										Width="24"
 										Height="24"
-										Margin="0,0,0,4"
+										Margin="0,0,2,4"
 										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 										<PathIcon
 											x:Name="NavigationViewItemFilledPathIcon"

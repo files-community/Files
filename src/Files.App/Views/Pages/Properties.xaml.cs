@@ -133,7 +133,7 @@ namespace Files.App.Views
 			});
 		}
 
-		private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+		private void MainPropertiesWindowNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
 			var navParam = new PropertyNavParam()
 			{
@@ -228,7 +228,7 @@ namespace Files.App.Views
 			NavViewItems.Add(customizationItem);
 			NavViewItems.Add(compatibilityItem);
 
-			MainPropertyNavigationView.SelectedItem = generalItem;
+			MainPropertiesWindowNavigationView.SelectedItem = generalItem;
 
 			// Unable unavailable property tabs
 			if (item is ListedItem listedItem)
