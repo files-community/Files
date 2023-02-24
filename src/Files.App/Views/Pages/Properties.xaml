@@ -18,7 +18,7 @@
 
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewPropertyStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewStoreStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<toolkitconvers:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -65,7 +65,7 @@
 		<NavigationView
 			x:Name="MainPropertyNavigationView"
 			Grid.Row="1"
-			Width="72"
+			Width="80"
 			Margin="0,-4,0,2"
 			HorizontalAlignment="Left"
 			IsBackButtonVisible="Collapsed"
@@ -86,13 +86,14 @@
 						IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
 						Tag="{x:Bind ItemType}">
 						<NavigationViewItem.Content>
-							<StackPanel Margin="-8,0,-12,0" Spacing="8">
+							<StackPanel Margin="-8,0,-12,0" Spacing="6">
 
 								<Grid>
 									<!--  Outline Glyph  -->
 									<Viewbox
 										Width="24"
 										Height="24"
+										Margin="0,4,0,0"
 										Visibility="{x:Bind IsSelected, Converter={StaticResource ObjectToBoolConverter}, ConverterParameter=Invert, Mode=OneWay}">
 										<PathIcon
 											x:Name="NavigationViewItemOutlinePathIcon"
@@ -104,6 +105,7 @@
 									<Viewbox
 										Width="24"
 										Height="24"
+										Margin="0,0,0,4"
 										Visibility="{x:Bind IsSelected, Converter={StaticResource ObjectToBoolConverter}, Mode=OneWay}">
 										<PathIcon
 											x:Name="NavigationViewItemFilledPathIcon"

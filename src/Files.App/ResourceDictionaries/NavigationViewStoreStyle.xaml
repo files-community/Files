@@ -10,56 +10,32 @@
 			<StaticResource x:Key="NavigationViewItemBackground" ResourceKey="ControlFillColorTransparentBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="ControlFillColorDefaultBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundChecked" ResourceKey="ControlFillColorTransparentBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundCheckedDisabled" ResourceKey="ControlFillColorTransparentBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="ControlFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="ControlFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundSelectedDisabled" ResourceKey="ControlFillColorTransparentBrush" />
 
-			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="TextFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPressed" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundChecked" ResourceKey="TextFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundCheckedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundCheckedPressed" ResourceKey="TextFillColorTertiaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundSelectedDisabled" ResourceKey="TextFillColorDisabledBrush" />
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="Light">
 			<StaticResource x:Key="NavigationViewItemBackground" ResourceKey="ControlFillColorTransparentBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="ControlFillColorDefaultBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundChecked" ResourceKey="ControlFillColorTransparentBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundCheckedDisabled" ResourceKey="ControlFillColorTransparentBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="ControlFillColorDefaultBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="ControlFillColorDefaultBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="ControlFillColorDefaultBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundSelectedDisabled" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="ControlFillColorSecondaryBrush" />
 
 			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="TextFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundPressed" ResourceKey="TextFillColorTertiaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundChecked" ResourceKey="TextFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundCheckedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundCheckedPressed" ResourceKey="TextFillColorTertiaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundPressed" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="TextFillColorTertiaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundSelectedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
 
 		</ResourceDictionary>
 
@@ -67,33 +43,21 @@
 			<StaticResource x:Key="NavigationViewItemBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="SystemControlHighlightListLowBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="SystemControlHighlightListMediumBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundDisabled" ResourceKey="SystemControlBackgroundBaseLowBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundChecked" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundCheckedPointerOver" ResourceKey="SystemControlHighlightListLowBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundCheckedPressed" ResourceKey="SystemControlHighlightListMediumBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundCheckedDisabled" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="SystemControlHighlightListLowBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="SystemControlHighlightListLowBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="SystemControlHighlightListMediumBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundSelectedDisabled" ResourceKey="SystemControlTransparentBrush" />
 
 			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPressed" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundChecked" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundCheckedPointerOver" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundCheckedPressed" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundCheckedDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundSelectedDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
 	<x:Double x:Key="NavigationViewSelectionIndicatorWidth">4</x:Double>
-	<x:Double x:Key="NavigationViewSelectionIndicatorHeight">24</x:Double>
+	<x:Double x:Key="NavigationViewSelectionIndicatorHeight">26</x:Double>
 	<x:Double x:Key="NavigationViewSelectionIndicatorRadius">2</x:Double>
 	<Thickness x:Key="NavigationViewItemContentPresenterMargin">0</Thickness>
 
@@ -192,7 +156,11 @@
 									ContentTemplate="{TemplateBinding ContentTemplate}"
 									ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
 									ContentTransitions="{TemplateBinding ContentTransitions}"
-									Foreground="{TemplateBinding Foreground}" />
+									Foreground="{TemplateBinding Foreground}">
+									<ContentPresenter.BackgroundTransition>
+										<BrushTransition Duration="0:0:0.083" />
+									</ContentPresenter.BackgroundTransition>
+								</ContentPresenter>
 
 								<Grid
 									x:Name="ExpandCollapseChevron"
