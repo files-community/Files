@@ -1666,7 +1666,7 @@
     <value>Namn:</value>
   </data>
   <data name="ToolTipDescriptionType" xml:space="preserve">
-    <value>Type:</value>
+    <value>Typ:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Ändrat den:</value>
@@ -1729,7 +1729,7 @@
     <value>mycket stor|jättestor|huge</value>
   </data>
   <data name="ItemSizeText_VeryLarge" xml:space="preserve">
-    <value>Very large</value>
+    <value>Mycket stor</value>
   </data>
   <data name="ItemSizeText_Large" xml:space="preserve">
     <value>Stor</value>
@@ -1789,7 +1789,7 @@
     <value>Move canceled</value>
   </data>
   <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>Copy canceled</value>
+    <value>Kopiering avbruten</value>
   </data>
   <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
     <value>Moving {0} item from {1} to {2} was canceled</value>
