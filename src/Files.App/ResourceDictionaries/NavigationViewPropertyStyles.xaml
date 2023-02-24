@@ -20,7 +20,7 @@
 			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="ControlFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundSelectedDisabled" ResourceKey="ControlFillColorTransparentBrush" />
 
-			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="TextFillColorTertiaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPressed" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />

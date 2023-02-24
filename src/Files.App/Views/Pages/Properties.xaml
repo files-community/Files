@@ -66,14 +66,14 @@
 			x:Name="MainPropertyNavigationView"
 			Grid.Row="1"
 			Width="72"
-			Margin="0,-4,-1,2"
+			Margin="0,-4,0,2"
 			HorizontalAlignment="Left"
 			IsBackButtonVisible="Collapsed"
 			IsPaneToggleButtonVisible="False"
 			IsSettingsVisible="False"
 			IsTitleBarAutoPaddingEnabled="False"
 			MenuItemsSource="{x:Bind NavViewItems, Mode=TwoWay}"
-			OpenPaneLength="80"
+			OpenPaneLength="88"
 			PaneDisplayMode="Left"
 			SelectionChanged="NavigationView_SelectionChanged">
 			<!--  TODO: Use ResourceDictionary to customize them and avoid to use negative margins  -->
@@ -82,11 +82,11 @@
 			<NavigationView.MenuItemTemplate>
 				<DataTemplate x:DataType="local:SquareNavViewItem">
 					<NavigationViewItem
-						Height="64"
+						Height="62"
 						IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
 						Tag="{x:Bind ItemType}">
 						<NavigationViewItem.Content>
-							<StackPanel Margin="-8,0,-12,0" Spacing="2">
+							<StackPanel Margin="-8,0,-12,0" Spacing="8">
 
 								<Grid>
 									<!--  Outline Glyph  -->
