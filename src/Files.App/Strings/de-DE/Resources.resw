@@ -2790,4 +2790,7 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Diese Aktionen für alle Konflikte anwenden</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
 </root>
