@@ -30,6 +30,7 @@ namespace Files.App.ServicesImplementation
 		/// Unpins a folder from the quick access list
 		/// </summary>
 		/// <param name="folderPath">The folder to unpin</param>
+		/// <param name="syncItems">Whether to sync the items with explorer</param>
 		/// <returns></returns>
 		Task UnpinFromSidebar(string folderPath, bool syncItems = true);
 
@@ -37,6 +38,7 @@ namespace Files.App.ServicesImplementation
 		/// Unpins folders from the quick access list
 		/// </summary>
 		/// <param name="folderPaths">The array of folders to unpin</param>
+		/// <param name="syncItems">Whether to sync the items with explorer</param>
 		/// <returns></returns>
 		Task UnpinFromSidebar(string[] folderPaths, bool syncItems = true);
 
@@ -50,8 +52,8 @@ namespace Files.App.ServicesImplementation
 		/// <summary>
 		/// Moves a folder to a new location in the sidebar and in the quick access widget
 		/// </summary>
-		/// <param name="toMove"></param>
-		/// <param name="destination"></param>
+		/// <param name="toMove">The path of the folder to be moved in the sidebar</param>
+		/// <param name="destination">The path of the folder over which to place the moved folder in the sidebar</param>
 		/// <returns></returns>
 		Task MoveTo(string toMove, string destination);
 	}

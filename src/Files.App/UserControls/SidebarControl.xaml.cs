@@ -430,7 +430,7 @@ namespace Files.App.UserControls
 				return;
 
 			var navItem = icon?.FindAscendant<NavigationViewItem>();
-			if (navItem != null)
+			if (navItem is not null)
 				await navItem.StartDragAsync(e.GetCurrentPoint(navItem));
 		}
 
@@ -623,7 +623,8 @@ namespace Files.App.UserControls
 					CompleteDragEventArgs(e, captionText, operationType);
 				}
 			}
-			else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem && !locationItem.IsHeader && !(locationItem.Section == SectionType.Library))
+			else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem 
+				&& !locationItem.IsHeader && !(locationItem.Section == SectionType.Library))
 				NavigationViewLocationItem_DragOver_SetCaptions(locationItem, sourceLocationItem, e);
 			
 

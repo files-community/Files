@@ -20,7 +20,9 @@ namespace Files.App.ServicesImplementation
 		}
 
 		public Task PinToSidebar(string folderPath)
-			=> PinToSidebar(new[] { folderPath });
+		{ 
+			return PinToSidebar(new[] { folderPath });
+		}
 		
 		public async Task PinToSidebar(string[] folderPaths)
 		{
@@ -31,9 +33,11 @@ namespace Files.App.ServicesImplementation
 			
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
 		}
-		
+
 		public Task UnpinFromSidebar(string folderPath, bool syncItems = true)
-			=> UnpinFromSidebar(new[] { folderPath }, syncItems);
+		{ 
+			return UnpinFromSidebar(new[] { folderPath }, syncItems); 
+		}
 		
 		public async Task UnpinFromSidebar(string[] folderPaths, bool syncItems = true)
 		{
@@ -48,11 +52,9 @@ namespace Files.App.ServicesImplementation
 
 			foreach (dynamic? fi in f2.Items())
 			{
-				App.Logger.Info((string)fi.Path);
 				if (folderPaths.Contains((string)fi.Path)
 					|| (string.Equals(fi.Path, "::{645FF040-5081-101B-9F08-00AA002F954E}") && folderPaths.Contains(Constants.CommonPaths.RecycleBinPath)))
 				{
-					App.Logger.Info("Unpinning " + fi.Path);
 					await SafetyExtensions.IgnoreExceptions(async () =>
 					{
 						await fi.InvokeVerb("unpinfromhome");
