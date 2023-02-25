@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Files.App.Views
 {
-	public sealed partial class PropertiesCustomization : PropertiesTab
+	public sealed partial class CustomizationPage : PropertiesTab
 	{
 		private CustomizationViewModel CustomizationViewModel { get; set; }
 
-		public PropertiesCustomization()
+		public CustomizationPage()
 		{
 			InitializeComponent();
 		}
@@ -44,7 +44,7 @@ namespace Files.App.Views
 			picker.FileTypeFilter.Add(".ico");
 
 			// WINUI3: Create and initialize new window
-			var parentWindowId = ((Properties)((Frame)XamlRoot.Content).Content).AppWindow.Id;
+			var parentWindowId = ((Views.Properties.MainPage)((Frame)XamlRoot.Content).Content).AppWindow.Id;
 			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
 			WinRT.Interop.InitializeWithWindow.Initialize(picker, handle);
 

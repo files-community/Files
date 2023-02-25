@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Files.App.Views
 {
-	public sealed partial class PropertiesDetails : PropertiesTab
+	public sealed partial class DetailsPage : PropertiesTab
 	{
-		public PropertiesDetails()
+		public DetailsPage()
 		{
 			InitializeComponent();
 		}

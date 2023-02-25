@@ -16,11 +16,11 @@ using Windows.Storage;
 
 namespace Files.App.Views
 {
-	public sealed partial class PropertiesGeneral : PropertiesTab
+	public sealed partial class GeneralPage : PropertiesTab
 	{
 		private readonly Regex letterRegex = new(@"\s*\(\w:\)$");
 
-		public PropertiesGeneral() => InitializeComponent();
+		public GeneralPage() => InitializeComponent();
 
 		public override async Task<bool> SaveChangesAsync()
 		{

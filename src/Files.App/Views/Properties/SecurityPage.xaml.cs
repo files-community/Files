@@ -14,11 +14,11 @@ using Microsoft.UI.Xaml.Navigation;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
-using static Files.App.Views.PropertiesSecurityAdvanced;
+using static Files.App.Views.SecurityAdvancedPage;
 
 namespace Files.App.Views
 {
-	public sealed partial class PropertiesSecurity : PropertiesTab
+	public sealed partial class SecurityPage : PropertiesTab
 	{
 		public RelayCommand OpenAdvancedPropertiesCommand { get; set; }
 
@@ -26,7 +26,7 @@ namespace Files.App.Views
 
 		private AppWindow? propsView;
 
-		public PropertiesSecurity()
+		public SecurityPage()
 		{
 			InitializeComponent();
 
@@ -35,7 +35,7 @@ namespace Files.App.Views
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = e.Parameter as Views.Properties.PropertyNavParam;
+			var np = e.Parameter as Properties.MainPage.PropertyNavParam;
 
 			if (np.navParameter is ListedItem listedItem)
 			{
@@ -82,7 +82,7 @@ namespace Files.App.Views
 				{
 					var frame = new Frame();
 					frame.RequestedTheme = ThemeHelper.RootTheme;
-					frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
+					frame.Navigate(typeof(SecurityAdvancedPage), new PropertiesPageNavigationArguments()
 					{
 						Item = SecurityProperties.Item
 					}, new SuppressNavigationTransitionInfo());
@@ -100,7 +100,7 @@ namespace Files.App.Views
 
 					// Set content
 					propertiesWindow.Content = frame;
-					if (frame.Content is PropertiesSecurityAdvanced properties)
+					if (frame.Content is SecurityAdvancedPage properties)
 						properties.appWindow = appWindow;
 
 					// Set min size

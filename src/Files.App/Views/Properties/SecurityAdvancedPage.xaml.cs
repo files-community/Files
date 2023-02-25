@@ -18,14 +18,9 @@ using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
 
-// Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Files.App.Views
 {
-	/// <summary>
-	/// Pagina vuota che può essere usata autonomamente oppure per l'esplorazione all'interno di un frame.
-	/// </summary>
-	public sealed partial class PropertiesSecurityAdvanced : Page
+	public sealed partial class SecurityAdvancedPage : Page
 	{
 		private object navParameterItem;
 
@@ -35,7 +30,7 @@ namespace Files.App.Views
 
 		public AppWindow appWindow;
 
-		public PropertiesSecurityAdvanced()
+		public SecurityAdvancedPage()
 		{
 			InitializeComponent();
 

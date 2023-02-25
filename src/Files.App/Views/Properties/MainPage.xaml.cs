@@ -23,9 +23,9 @@ using Windows.Graphics;
 using Windows.System;
 using Windows.UI;
 
-namespace Files.App.Views
+namespace Files.App.Views.Properties
 {
-	public sealed partial class Properties : Page
+	public sealed partial class MainPage : Page
 	{
 		private CancellationTokenSource? _tokenSource;
 
@@ -44,7 +44,7 @@ namespace Files.App.Views
 
 		public ObservableCollection<SquareNavViewItem> NavViewItems { get; set; }
 
-		public Properties()
+		public MainPage()
 		{
 			InitializeComponent();
 
@@ -145,25 +145,25 @@ namespace Files.App.Views
 			switch ((PropertyNavigationViewItemEnums)args.SelectedItemContainer.Tag)
 			{
 				case PropertyNavigationViewItemEnums.ItemGeneral:
-					contentFrame.Navigate(typeof(PropertiesGeneral), navParam, args.RecommendedNavigationTransitionInfo);
+					contentFrame.Navigate(typeof(GeneralPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 				case PropertyNavigationViewItemEnums.ItemShortcut:
-					contentFrame.Navigate(typeof(PropertiesShortcut), navParam, args.RecommendedNavigationTransitionInfo);
+					contentFrame.Navigate(typeof(ShortcutPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 				case PropertyNavigationViewItemEnums.ItemLibrary:
-					contentFrame.Navigate(typeof(PropertiesLibrary), navParam, args.RecommendedNavigationTransitionInfo);
+					contentFrame.Navigate(typeof(LibraryPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 				case PropertyNavigationViewItemEnums.ItemDetails:
-					contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
+					contentFrame.Navigate(typeof(DetailsPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 				case PropertyNavigationViewItemEnums.ItemSecurity:
-					contentFrame.Navigate(typeof(PropertiesSecurity), navParam, args.RecommendedNavigationTransitionInfo);
+					contentFrame.Navigate(typeof(SecurityPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 				case PropertyNavigationViewItemEnums.ItemCustomization:
-					contentFrame.Navigate(typeof(PropertiesCustomization), navParam, args.RecommendedNavigationTransitionInfo);
+					contentFrame.Navigate(typeof(CustomizationPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 				case PropertyNavigationViewItemEnums.ItemCompatibility:
-					contentFrame.Navigate(typeof(PropertiesCompatibility), navParam, args.RecommendedNavigationTransitionInfo);
+					contentFrame.Navigate(typeof(Properties.CompatibilityPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 			}
 		}
@@ -288,7 +288,7 @@ namespace Files.App.Views
 		{
 			if (contentFrame.Content is not null)
 			{
-				if (contentFrame.Content is PropertiesGeneral propertiesGeneral)
+				if (contentFrame.Content is GeneralPage propertiesGeneral)
 				{
 					await propertiesGeneral.SaveChangesAsync();
 				}

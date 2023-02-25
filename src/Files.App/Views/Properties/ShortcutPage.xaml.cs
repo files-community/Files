@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Files.App.Views
 {
-	public sealed partial class PropertiesShortcut : PropertiesTab
+	public sealed partial class ShortcutPage : PropertiesTab
 	{
-		public PropertiesShortcut()
+		public ShortcutPage()
 		{
 			InitializeComponent();
 		}
