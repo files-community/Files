@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Files.App.Views
+namespace Files.App.Views.Properties
 {
 	public sealed partial class DetailsPage : PropertiesTab
 	{

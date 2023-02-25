@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Files.App.Views
+namespace Files.App.Views.Properties
 {
 	public sealed partial class CustomizationPage : PropertiesTab
 	{

@@ -4,7 +4,7 @@ using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using System.Threading.Tasks;
 
-namespace Files.App.Views
+namespace Files.App.Views.Properties
 {
 	public sealed partial class ShortcutPage : PropertiesTab
 	{

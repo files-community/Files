@@ -14,9 +14,9 @@ using Microsoft.UI.Xaml.Navigation;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
-using static Files.App.Views.SecurityAdvancedPage;
+using static Files.App.Views.Properties.SecurityAdvancedPage;
 
-namespace Files.App.Views
+namespace Files.App.Views.Properties
 {
 	public sealed partial class SecurityPage : PropertiesTab
 	{

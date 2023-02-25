@@ -18,7 +18,7 @@ using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
 
-namespace Files.App.Views
+namespace Files.App.Views.Properties
 {
 	public sealed partial class SecurityAdvancedPage : Page
 	{

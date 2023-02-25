@@ -163,7 +163,7 @@ namespace Files.App.Views.Properties
 					contentFrame.Navigate(typeof(CustomizationPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 				case PropertyNavigationViewItemEnums.ItemCompatibility:
-					contentFrame.Navigate(typeof(Properties.CompatibilityPage), navParam, args.RecommendedNavigationTransitionInfo);
+					contentFrame.Navigate(typeof(CompatibilityPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 			}
 		}

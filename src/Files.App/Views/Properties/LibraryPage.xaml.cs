@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
 
-namespace Files.App.Views
+namespace Files.App.Views.Properties
 {
 	public sealed partial class LibraryPage : PropertiesTab, INotifyPropertyChanged
 	{
