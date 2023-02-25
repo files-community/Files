@@ -149,7 +149,7 @@ namespace Files.App.ViewModels.Properties
 
 		public IRelayCommand RunTroubleshooterCommand { get; set; }
 
-		public CompatibilityProperties(ListedItem item)
+		public CompatibilityViewModel(ListedItem item)
 		{
 			Item = item;
 
