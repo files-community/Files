@@ -70,7 +70,7 @@ namespace Files.App.Helpers
 					IsMaximizable = false,
 					MinWidth = 460,
 					MinHeight = 550,
-					Width = 550,
+					Width = 600,
 					Height = 550,
 					Content = frame,
 					Backdrop = new WinUIEx.MicaSystemBackdrop(),
@@ -85,7 +85,7 @@ namespace Files.App.Helpers
 				appWindow.SetIcon(LogoPath);
 
 				if (frame.Content is Properties properties)
-					properties.appWindow = appWindow;
+					properties.AppWindow = appWindow;
 
 				appWindow.Show();
 

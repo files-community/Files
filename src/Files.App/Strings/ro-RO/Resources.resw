@@ -126,12 +126,6 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Fereastra Noua</value>
   </data>
-  <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Imagine Bitmap</value>
-  </data>
-  <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
-    <value>Document Text</value>
-  </data>
   <data name="CopyLocation" xml:space="preserve">
     <value>Copiază Locația</value>
   </data>
@@ -146,9 +140,6 @@
   </data>
   <data name="Size" xml:space="preserve">
     <value>Mărime</value>
-  </data>
-  <data name="OpenIn" xml:space="preserve">
-    <value>Deschide în</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Creat în:</value>
@@ -255,9 +246,6 @@
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Deschideți o anumită pagină sau pagini</value>
   </data>
-  <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Preferințe</value>
-  </data>
   <data name="Desktop" xml:space="preserve">
     <value>Desktop</value>
   </data>
@@ -296,12 +284,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Proprietăți</value>
-  </data>
-  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>Proprietăți</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
-    <value>Extragere</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Deschideți</value>
@@ -396,9 +378,6 @@
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Proprietăți</value>
   </data>
-  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
-    <value>Proprietăți</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Un element cu acest nume exista deja în acest folder.</value>
   </data>
@@ -437,9 +416,6 @@
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Fișierul nu a fost găsit</value>
-  </data>
-  <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
-    <value>Fișierul pe care încercați să-l accesați a fost mutat sau șters.</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
     <value>Fișierul pe care încercați să-l accesați a fost mutat sau șters.</value>
@@ -498,9 +474,6 @@
   <data name="Now" xml:space="preserve">
     <value>Now</value>
   </data>
-  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
-    <value>Tab Nou</value>
-  </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>Operația solicitată nu este suportată</value>
   </data>
@@ -537,9 +510,6 @@
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Ștergere fișiere</value>
   </data>
-  <data name="PasteInProgress.Title" xml:space="preserve">
-    <value>Lipire fișiere</value>
-  </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Se mută fișierele in coșul de reciclare</value>
   </data>
@@ -575,9 +545,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Rulare ca administrator</value>
-  </data>
-  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>Conține:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} fișiere, {1:#,##0} foldere</value>
@@ -618,9 +585,6 @@
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Statut</value>
   </data>
-  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
-    <value>Adaugă o pagina nouă</value>
-  </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Pagini:</value>
   </data>
@@ -635,12 +599,6 @@
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>Mutare în {0}</value>
-  </data>
-  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
-    <value>Numele fişierelor sursă şi de destinaţie sunt aceleaşi.</value>
-  </data>
-  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
-    <value>Folderul destinație este același ca si folderul sursă.</value>
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copiere în {0}</value>
@@ -659,9 +617,6 @@
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
     <value>Tip de comandă rapidă:</value>
-  </data>
-  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>Directorul de lucru:</value>
   </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>Fișier</value>
@@ -764,18 +719,6 @@
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Acces Respins</value>
-  </data>
-  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
-    <value>Adaugă o filă</value>
-  </data>
-  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
-    <value>Deschideți o filă</value>
-  </data>
-  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>Multitasking</value>
-  </data>
-  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>Multitasking</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Setaţi ca</value>
@@ -893,18 +836,6 @@
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
     <value>Decimal latitudine</value>
-  </data>
-  <data name="PropertyLatitude" xml:space="preserve">
-    <value>Latitudine</value>
-  </data>
-  <data name="PropertyLongitude" xml:space="preserve">
-    <value>Longitudine</value>
-  </data>
-  <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>Latitudine de referință</value>
-  </data>
-  <data name="PropertyLongitudeRef" xml:space="preserve">
-    <value>Longitudine de referință</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>Altitudine</value>
@@ -1041,12 +972,6 @@
   <data name="PropertyDateCreated" xml:space="preserve">
     <value>Data creării</value>
   </data>
-  <data name="PropertyDateSaved" xml:space="preserve">
-    <value>Data salvării</value>
-  </data>
-  <data name="PropertyDatePrinted" xml:space="preserve">
-    <value>Data Printării</value>
-  </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
     <value>Timpul total de editare</value>
   </data>
@@ -1125,9 +1050,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Selectare</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Fișier</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Articol coș de reciclare</value>
   </data>
@@ -1170,9 +1092,6 @@
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
     <value>New tab (Ctrl+T)</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Close tab (Ctrl+W)</value>
-  </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Some properties may contain personal information.</value>
   </data>
@@ -1194,12 +1113,6 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Search results in {1} for {0}</value>
   </data>
-  <data name="SearchTabHeaderText" xml:space="preserve">
-    <value>Search results</value>
-  </data>
-  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Support us on GitHub</value>
-  </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>List and sort directories alongside files</value>
   </data>
@@ -1208,12 +1121,6 @@
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
-  </data>
-  <data name="UpdateConsentDialogContent" xml:space="preserve">
-    <value>Do you want to download and install the latest version of Files?</value>
-  </data>
-  <data name="UpdateConsentDialogTitle" xml:space="preserve">
-    <value>Updates Available</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Show protected system files</value>
@@ -1362,9 +1269,6 @@
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nicio previzualizare disponibilă</value>
   </data>
-  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>Nu sunt disponibile detalii</value>
-  </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nume Obiect</value>
   </data>
@@ -1388,9 +1292,6 @@
   </data>
   <data name="Feedback" xml:space="preserve">
     <value>Feedback</value>
-  </data>
-  <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Flyout pentru activități în curs</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Disponibil când sunteți online</value>
@@ -1461,9 +1362,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Map network drive</value>
   </data>
-  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
-    <value>Disconnect</value>
-  </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>More bundles options</value>
   </data>
@@ -1494,17 +1392,11 @@
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Deletion Failed</value>
   </data>
-  <data name="StatusUnknownError" xml:space="preserve">
-    <value>An unknown error has occurred.</value>
-  </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
     <value>Deletion complete</value>
   </data>
   <data name="StatusDeletionCancelled" xml:space="preserve">
     <value>Deletion cancelled</value>
-  </data>
-  <data name="StatusOperationCompleted" xml:space="preserve">
-    <value>The operation has completed.</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
     <value>Recycle complete</value>
@@ -1562,9 +1454,6 @@
   </data>
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
     <value>Library with the same name already exists!</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
-    <value>Delete Library</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Create</value>
@@ -1635,23 +1524,14 @@
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Search unindexed items</value>
   </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Deschidere dosarul cu teme</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Înlocuire existent</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Înlocuire existent</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
-    <value>Înlocuire existent</value>
-  </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Generează un nume nou</value>
-  </data>
-  <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
-    <value>Anulare</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
     <value>Exista {0} nume de fisiere contradictorii.</value>
@@ -1689,9 +1569,6 @@
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
     <value>Coloana dată ștergerii</value>
   </data>
-  <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
-    <value>Mărire bara laterală</value>
-  </data>
   <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Sortare</value>
   </data>
@@ -1718,9 +1595,6 @@
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sortare după</value>
-  </data>
-  <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
-    <value>Direcție sortare</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Descendentă</value>
@@ -1766,9 +1640,6 @@
   </data>
   <data name="ItemTimeText_Older" xml:space="preserve">
     <value>Older</value>
-  </data>
-  <data name="ItemTimeText_Before" xml:space="preserve">
-    <value>Before {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} item</value>
@@ -1953,9 +1824,6 @@
   <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
     <value>Extract here</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
-    <value>Extract...</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>Extract to {0}\</value>
   </data>
@@ -2012,9 +1880,6 @@
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
-  </data>
-  <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
-    <value>Special</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>This folder and files</value>
@@ -2166,12 +2031,6 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
-    <value>New tab</value>
-  </data>
-  <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+A</value>
-  </data>
   <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Alt+Shift++</value>
   </data>
@@ -2234,9 +2093,6 @@
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Edit tags</value>
-  </data>
-  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
-    <value>Apply to all</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>Part of set</value>
@@ -2312,18 +2168,6 @@
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Ongoing Tasks</value>
-  </data>
-  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
-    <value>Move one down</value>
-  </data>
-  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
-    <value>Move one up</value>
-  </data>
-  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
-    <value>Move to bottom</value>
-  </data>
-  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
-    <value>Move to top</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Date created column</value>
@@ -2412,10 +2256,10 @@
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>System (advanced)</value>
   </data>
-  <data name="Windows7" xml:space="preserve">
+  <data name="OSCompatibility_Windows7" xml:space="preserve">
     <value>Windows 7</value>
   </data>
-  <data name="Windows8" xml:space="preserve">
+  <data name="OSCompatibility_Windows8" xml:space="preserve">
     <value>Windows 8</value>
   </data>
   <data name="OSCompatibility_WindowsVista" xml:space="preserve">
@@ -2441,9 +2285,6 @@
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
     <value>Run at 640 x 480 screen resolution</value>
-  </data>
-  <data name="Options" xml:space="preserve">
-    <value>Options</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
     <value>Override high DPI scaling behaviour</value>
@@ -2643,9 +2484,6 @@
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Set as background</value>
   </data>
-  <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
-  </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Stabilire ca fundal pentru desktop</value>
   </data>
@@ -2670,9 +2508,6 @@
   <data name="DetailsLayoutColumns" xml:space="preserve">
     <value>Details layout columns</value>
   </data>
-  <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
-  </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
   </data>
@@ -2681,12 +2516,6 @@
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Opening items</value>
-  </data>
-  <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Add to {0}.zip</value>
-  </data>
-  <data name="AddToArchive" xml:space="preserve">
-    <value>Add to archive</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
     <value>Compression completed</value>
@@ -2729,9 +2558,6 @@
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>You don't have permission to access this folder.</value>
-  </data>
-  <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
     <value>Emptying recycle bin</value>
@@ -2786,9 +2612,6 @@
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
     <value>None</value>
-  </data>
-  <data name="SplitArchive" xml:space="preserve">
-    <value>Split the archive</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
     <value>Splitting size</value>
@@ -2922,12 +2745,6 @@
   <data name="TagColor" xml:space="preserve">
     <value>Tag color</value>
   </data>
-  <data name="Rename" xml:space="preserve">
-    <value>Redenumire</value>
-  </data>
-  <data name="Commit" xml:space="preserve">
-    <value>Commit</value>
-  </data>
   <data name="SaveChanges" xml:space="preserve">
     <value>Save changes</value>
   </data>
@@ -2936,9 +2753,6 @@
   </data>
   <data name="CreateNewTag" xml:space="preserve">
     <value>Create new tag</value>
-  </data>
-  <data name="LoadingMoreOptions" xml:space="preserve">
-    <value>Loading more options...</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Loading...</value>
@@ -2962,7 +2776,7 @@
     <value>Toggle full screen</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Are you sure you want to delete this tag?</value>	
+    <value>Are you sure you want to delete this tag?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>Play all</value>
