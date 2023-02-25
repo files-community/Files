@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Views.Properties
 {
-	public sealed partial class DetailsPage : PropertiesTab
+	public sealed partial class DetailsPage : BasePropertiesPage
 	{
 		public DetailsPage()
 		{

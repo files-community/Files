@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Views.Properties
 {
-	public sealed partial class ShortcutPage : PropertiesTab
+	public sealed partial class ShortcutPage : BasePropertiesPage
 	{
 		public ShortcutPage()
 		{

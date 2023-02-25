@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace Files.App.ViewModels.Properties
 {
-	public class SecurityProperties : ObservableObject
+	public class SecurityViewModel : ObservableObject
 	{
 		public ListedItem Item { get; }
 
-		public SecurityProperties(ListedItem item)
+		public SecurityViewModel(ListedItem item)
 		{
 			Item = item;
 
@@ -25,7 +25,7 @@ namespace Files.App.ViewModels.Properties
 			InitCommands();
 		}
 
-		public SecurityProperties(DriveItem item)
+		public SecurityViewModel(DriveItem item)
 		{
 			Item = new ListedItem()
 			{

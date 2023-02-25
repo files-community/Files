@@ -10,7 +10,7 @@ using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
 {
-	public abstract class PropertiesTab : Page, IDisposable
+	public abstract class BasePropertiesPage : Page, IDisposable
 	{
 		public IShellPage AppInstance = null;
 

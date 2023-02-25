@@ -294,7 +294,7 @@ namespace Files.App.Views.Properties
 				}
 				else
 				{
-					await ((PropertiesTab)contentFrame.Content).SaveChangesAsync();
+					await ((BasePropertiesPage)contentFrame.Content).SaveChangesAsync();
 				}
 			}
 		}

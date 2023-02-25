@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Views.Properties
 {
-	public sealed partial class CustomizationPage : PropertiesTab
+	public sealed partial class CustomizationPage : BasePropertiesPage
 	{
 		private CustomizationViewModel CustomizationViewModel { get; set; }
 

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.ViewModels.Properties
 {
-	public class CompatibilityProperties : ObservableObject
+	public class CompatibilityViewModel : ObservableObject
 	{
 		public ListedItem Item { get; }
 

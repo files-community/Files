@@ -16,7 +16,7 @@ using Windows.Storage;
 
 namespace Files.App.Views.Properties
 {
-	public sealed partial class GeneralPage : PropertiesTab
+	public sealed partial class GeneralPage : BasePropertiesPage
 	{
 		private readonly Regex letterRegex = new(@"\s*\(\w:\)$");
 

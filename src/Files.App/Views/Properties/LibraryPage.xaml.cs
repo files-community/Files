@@ -17,7 +17,7 @@ using Windows.Storage.Pickers;
 
 namespace Files.App.Views.Properties
 {
-	public sealed partial class LibraryPage : PropertiesTab, INotifyPropertyChanged
+	public sealed partial class LibraryPage : BasePropertiesPage, INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 

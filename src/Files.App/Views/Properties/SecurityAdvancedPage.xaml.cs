@@ -26,7 +26,7 @@ namespace Files.App.Views.Properties
 
 		public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.Name);
 
-		public SecurityProperties ViewModel { get; set; }
+		public SecurityViewModel ViewModel { get; set; }
 
 		public AppWindow appWindow;
 
@@ -54,11 +54,11 @@ namespace Files.App.Views.Properties
 
 			if (args.Item is ListedItem listedItem)
 			{
-				ViewModel = new SecurityProperties(listedItem);
+				ViewModel = new SecurityViewModel(listedItem);
 			}
 			else if (args.Item is DriveItem driveitem)
 			{
-				ViewModel = new SecurityProperties(driveitem);
+				ViewModel = new SecurityViewModel(driveitem);
 			}
 
 			base.OnNavigatedTo(e);

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Files.App.Views.Properties
 {
-	public sealed partial class CompatibilityPage : PropertiesTab
+	public sealed partial class CompatibilityPage : BasePropertiesPage
 	{
-		public CompatibilityProperties CompatibilityProperties { get; set; }
+		public CompatibilityViewModel CompatibilityProperties { get; set; }
 
 		public CompatibilityPage()
 		{
@@ -21,7 +21,7 @@ namespace Files.App.Views.Properties
 
 			if (np.navParameter is ListedItem listedItem)
 			{
-				CompatibilityProperties = new CompatibilityProperties(listedItem);
+				CompatibilityProperties = new CompatibilityViewModel(listedItem);
 			}
 
 			base.OnNavigatedTo(e);

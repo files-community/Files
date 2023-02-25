@@ -18,11 +18,11 @@ using static Files.App.Views.Properties.SecurityAdvancedPage;
 
 namespace Files.App.Views.Properties
 {
-	public sealed partial class SecurityPage : PropertiesTab
+	public sealed partial class SecurityPage : BasePropertiesPage
 	{
 		public RelayCommand OpenAdvancedPropertiesCommand { get; set; }
 
-		public SecurityProperties SecurityProperties { get; set; }
+		public SecurityViewModel SecurityProperties { get; set; }
 
 		private AppWindow? propsView;
 
@@ -39,11 +39,11 @@ namespace Files.App.Views.Properties
 
 			if (np.navParameter is ListedItem listedItem)
 			{
-				SecurityProperties = new SecurityProperties(listedItem);
+				SecurityProperties = new SecurityViewModel(listedItem);
 			}
 			else if (np.navParameter is DriveItem driveitem)
 			{
-				SecurityProperties = new SecurityProperties(driveitem);
+				SecurityProperties = new SecurityViewModel(driveitem);
 			}
 
 			base.OnNavigatedTo(e);
