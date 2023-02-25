@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace Files.App.Extensions
+namespace Files.Backend.Extensions
 {
 	public static class EnumExtensions
 	{

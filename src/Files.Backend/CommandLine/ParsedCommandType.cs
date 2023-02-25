@@ -1,6 +1,6 @@
-namespace Files.App.CommandLine
+namespace Files.Backend.CommandLine
 {
-	internal enum ParsedCommandType
+	public enum ParsedCommandType
 	{
 		Unknown,
 		OpenDirectory,

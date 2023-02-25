@@ -4,6 +4,7 @@ using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Shell;
+using Files.Backend.CommandLine;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Shared;

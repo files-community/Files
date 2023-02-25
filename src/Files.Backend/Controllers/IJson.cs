@@ -1,6 +1,6 @@
-namespace Files.App.Controllers
+namespace Files.Backend.Controllers
 {
-	internal interface IJson
+	public interface IJson
 	{
 		string JsonFileName { get; }
 
