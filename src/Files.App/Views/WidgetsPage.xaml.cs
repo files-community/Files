@@ -72,10 +72,10 @@ namespace Files.App.Views
 				Widgets.ViewModel.InsertWidget(new(quickAccessWidget, (value) => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded), 0);
 
 				quickAccessWidget.CardInvoked -= QuickAccessWidget_CardInvoked;
-				quickAccessWidget.CardNewPaneInvoked -= QuickAccessWidget_CardNewPaneInvoked;
+				quickAccessWidget.CardNewPaneInvoked -= WidgetCardNewPaneInvoked;
 				quickAccessWidget.CardPropertiesInvoked -= QuickAccessWidget_CardPropertiesInvoked;
 				quickAccessWidget.CardInvoked += QuickAccessWidget_CardInvoked;
-				quickAccessWidget.CardNewPaneInvoked += QuickAccessWidget_CardNewPaneInvoked;
+				quickAccessWidget.CardNewPaneInvoked += WidgetCardNewPaneInvoked;
 				quickAccessWidget.CardPropertiesInvoked += QuickAccessWidget_CardPropertiesInvoked;
 			}
 			if (shouldReloadDrivesWidget && drivesWidget is not null)
@@ -92,6 +92,10 @@ namespace Files.App.Views
 			{
 				Widgets.ViewModel.InsertWidget(new(fileTagsWidget, (value) => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded), 2);
 				fileTagsWidget.OpenAction = x => NavigationHelpers.OpenPath(x, AppInstance);
+				fileTagsWidget.FileTagsOpenLocationInvoked -= WidgetOpenLocationInvoked;
+				fileTagsWidget.FileTagsNewPaneInvoked -= WidgetCardNewPaneInvoked;
+				fileTagsWidget.FileTagsOpenLocationInvoked += WidgetOpenLocationInvoked;
+				fileTagsWidget.FileTagsNewPaneInvoked += WidgetCardNewPaneInvoked;
 				_ = fileTagsWidget.ViewModel.InitAsync();
 			}
 			if (shouldReloadBundles && bundlesWidget is not null)
@@ -103,9 +107,9 @@ namespace Files.App.Views
 			{
 				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded), 4);
 
-				recentFilesWidget.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
+				recentFilesWidget.RecentFilesOpenLocationInvoked -= WidgetOpenLocationInvoked;
 				recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
-				recentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
+				recentFilesWidget.RecentFilesOpenLocationInvoked += WidgetOpenLocationInvoked;
 				recentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
 			}
 		}
@@ -157,7 +161,7 @@ namespace Files.App.Views
 			}
 		}
 
-		private void RecentFilesWidget_RecentFilesOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
+		private void WidgetOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
 		{
 			AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
 			{
@@ -176,7 +180,7 @@ namespace Files.App.Views
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
 		}
 
-		private void QuickAccessWidget_CardNewPaneInvoked(object sender, QuickAccessCardInvokedEventArgs e)
+		private void WidgetCardNewPaneInvoked(object sender, QuickAccessCardInvokedEventArgs e)
 		{
 			AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
 		}

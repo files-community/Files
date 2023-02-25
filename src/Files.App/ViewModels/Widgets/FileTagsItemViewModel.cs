@@ -30,6 +30,8 @@ namespace Files.App.ViewModels.Widgets
 			set => SetProperty(ref path, value); 
 		}
 
+		public bool IsFolder => _associatedStorable is ILocatableFolder;
+
 		public FileTagsItemViewModel(ILocatableStorable associatedStorable, Func<string, Task> openAction, IImageModel? icon)
 		{
 			_associatedStorable = associatedStorable;
