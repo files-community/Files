@@ -152,7 +152,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "QuickAccess".GetLocalizedResource();
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{				

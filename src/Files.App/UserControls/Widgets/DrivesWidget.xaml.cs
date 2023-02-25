@@ -140,8 +140,8 @@ namespace Files.App.UserControls.Widgets
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
-
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
+		
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			var drive = ItemsAdded.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
 			var options = drive?.Item.MenuOptions;

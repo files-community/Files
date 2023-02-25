@@ -1,11 +1,11 @@
-﻿using CommunityToolkit.WinUI.UI;
+﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.UI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
-using Files.Backend.ViewModels.Widgets.FileTagsWidget;
 using Files.Shared.Extensions;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -52,6 +52,8 @@ namespace Files.App.UserControls.Widgets
 			// Second function is layered on top to ensure that OpenPath function is late initialized and a null reference is not passed-in
 			// See FileTagItemViewModel._openAction for more information
 			ViewModel = new(x => OpenAction!(x));
+			OpenInNewTabCommand = new RelayCommand<WidgetCardItem>(OpenInNewTab);
+			OpenInNewWindowCommand = new RelayCommand<WidgetCardItem>(OpenInNewWindow);
 		}
 
 		private async void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
@@ -60,48 +62,73 @@ namespace Files.App.UserControls.Widgets
 				await itemViewModel.ClickCommand.ExecuteAsync(null);
 		}
 
-		private void Item_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private async void Item_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
+			App.Logger.Warn("rightTapped");
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			if (sender is not StackPanel tagsItemsStackPanel || tagsItemsStackPanel.DataContext is not FileTagsItemViewModel item)
 				return;
-			itemContextMenuFlyout.ShowAt(tagsItemsStackPanel, new FlyoutShowOptions { Position = e.GetPosition(tagsItemsStackPanel) });
-			LoadShellMenuItems(item.Path, itemContextMenuFlyout);
 
+			App.Logger.Warn("Item path: " + item.Path + " widgetcarditem.path = " + (item as WidgetCardItem)?.Path);
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
+			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+
+			if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+				secondaryElements.OfType<FrameworkElement>()
+								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
+
+			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+			itemContextMenuFlyout.ShowAt(tagsItemsStackPanel, new FlyoutShowOptions { Position = e.GetPosition(tagsItemsStackPanel) });
+
+			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
 			e.Handled = true;
 		}
 
-		public async void LoadShellMenuItems(string item, CommandBarFlyout itemContextMenuFlyout)
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
-			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: null,
-				new List<ListedItem>() { new ListedItem(null!) { ItemPath = item } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
-			try
+			return new()
 			{
-				var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
-				if (!secondaryElements.Any())
-					return;
-
-				var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
-				var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
-
-				var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
-				if (itemsControl is not null)
+				new ContextMenuFlyoutItemViewModel()
 				{
-					var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
-					secondaryElements.OfType<FrameworkElement>()
-									 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
+					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
+					Glyph = "\uF113",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = OpenInNewTabCommand,
+					CommandParameter = item,
+					ShowItem = isFolder
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
+					Glyph = "\uE737",
+					Command = OpenInNewWindowCommand,
+					CommandParameter = item,
+					ShowItem = isFolder
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "RecentItemOpenFileLocation/Text".GetLocalizedResource(),
+					Glyph = "\uED25",
+					Command = OpenFileLocationCommand,
+					CommandParameter = item,
+					ShowItem = !isFolder
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ItemType.Separator,
+					Tag = "OverflowSeparator",
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "LoadingMoreOptions".GetLocalizedResource(),
+					Glyph = "\xE712",
+					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					ID = "ItemOverflow",
+					Tag = "ItemOverflow",
+					IsEnabled = false,
 				}
-				
-				secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			}
-			catch { }
-		}
-
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
-		{
-			return new();
+			};
 		}
 
 		public Task RefreshWidget()
