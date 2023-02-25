@@ -32,6 +32,8 @@ namespace Files.App.Commands
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand EmptyRecycleBin => commands[CommandCodes.EmptyRecycleBin];
+		public IRichCommand RestoreRecycleBin => commands[CommandCodes.RestoreRecycleBin];
+		public IRichCommand RestoreAllRecycleBin => commands[CommandCodes.RestoreAllRecycleBin];
 
 		public CommandManager()
 		{
@@ -56,6 +58,8 @@ namespace Files.App.Commands
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
 			[CommandCodes.EmptyRecycleBin] = new EmptyRecycleBinAction(),
+			[CommandCodes.RestoreRecycleBin] = new RestoreRecycleBinAction(),
+			[CommandCodes.RestoreAllRecycleBin] = new RestoreAllRecycleBinAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
@@ -182,11 +186,10 @@ namespace Files.App.Commands
 			public bool CanExecute(object? parameter) => command.CanExecute(parameter);
 			public void Execute(object? parameter) => command.Execute(parameter);
 
-			public Task ExecuteAsync()
+			public async Task ExecuteAsync()
 			{
 				if (IsExecutable)
-					return action.ExecuteAsync();
-				return Task.CompletedTask;
+					await action.ExecuteAsync();
 			}
 
 			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await action.ExecuteAsync();

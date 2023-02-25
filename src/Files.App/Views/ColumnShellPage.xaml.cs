@@ -80,6 +80,7 @@ namespace Files.App.Views
 			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			base.Page_Loaded(sender, e);
+			NotifyPropertyChanged(nameof(FilesystemViewModel));
 		}
 
 		protected override void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)

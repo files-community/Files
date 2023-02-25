@@ -5,36 +5,30 @@ using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class EmptyRecycleBinAction : ObservableObject, IAction
+	internal class RestoreRecycleBinAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "EmptyRecycleBin".GetLocalizedResource();
+		public string Label { get; } = "Restore".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph("\uEF88", fontFamily: "RecycleBinIcons");
+		public RichGlyph Glyph { get; } = new RichGlyph("\xE777");
 
-		public bool IsExecutable
-		{
-			get
-			{
-				if (context.PageType is ContentPageTypes.RecycleBin)
-					return context.HasItem;
-				return RecycleBinHelpers.RecycleBinHasItems();
-			}
-		}
+		public bool IsExecutable => context.PageType is ContentPageTypes.RecycleBin && context.SelectedItems.Any();
 
-		public EmptyRecycleBinAction()
+		public RestoreRecycleBinAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			await RecycleBinHelpers.EmptyRecycleBin();
+			if (context.ShellPage is not null)
+				await RecycleBinHelpers.RestoreSelectionRecycleBin(context.ShellPage);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -42,7 +36,7 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.PageType):
-				case nameof(IContentPageContext.HasItem):
+				case nameof(IContentPageContext.SelectedItems):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}

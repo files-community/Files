@@ -205,9 +205,7 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel(commands.EmptyRecycleBin)
 				{
-					ID = "EmptyRecycleBin",
-					Tag = "EmptyRecycleBin",
-					IsEnabled = false,
+					IsEnabled = commands.EmptyRecycleBin.IsExecutable,
 					ShowItem = options.ShowEmptyRecycleBin,
 				},
 				new ContextMenuFlyoutItemViewModel()

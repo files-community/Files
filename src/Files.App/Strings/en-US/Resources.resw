@@ -444,7 +444,7 @@
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>Hidden</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+  <data name="Restore" xml:space="preserve">
     <value>Restore</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">

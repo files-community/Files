@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class EmptyRecycleBinAction : ObservableObject, IAction
+	internal class RestoreAllRecycleBinAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "EmptyRecycleBin".GetLocalizedResource();
+		public string Label { get; } = "RestoreAllItems".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph("\uEF88", fontFamily: "RecycleBinIcons");
+		public RichGlyph Glyph { get; } = new RichGlyph("\xE777");
 
 		public bool IsExecutable
 		{
@@ -27,14 +27,15 @@ namespace Files.App.Actions
 			}
 		}
 
-		public EmptyRecycleBinAction()
+		public RestoreAllRecycleBinAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			await RecycleBinHelpers.EmptyRecycleBin();
+			if (context.ShellPage is not null)
+				await RecycleBinHelpers.RestoreRecycleBin(context.ShellPage);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
