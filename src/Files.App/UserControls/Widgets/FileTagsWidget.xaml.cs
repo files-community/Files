@@ -39,6 +39,7 @@ namespace Files.App.UserControls.Widgets
 
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+		public IShellPage AppInstance;
 		public Func<string, Task>? OpenAction { get; set; }
 
 		public delegate void FileTagsOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
@@ -72,6 +73,27 @@ namespace Files.App.UserControls.Widgets
 			OpenInNewWindowCommand = new RelayCommand<WidgetCardItem>(OpenInNewWindow);
 			OpenFileLocationCommand = new RelayCommand<WidgetCardItem>(OpenFileLocation);
 			OpenInNewPaneCommand = new RelayCommand<WidgetCardItem>(OpenInNewPane);
+			PinToFavoritesCommand = new RelayCommand<WidgetCardItem>(PinToFavorites);
+			UnpinFromFavoritesCommand = new RelayCommand<WidgetCardItem>(UnpinFromFavorites);
+			OpenPropertiesCommand = new RelayCommand<WidgetCardItem>(OpenProperties);
+		}
+
+		private void OpenProperties(WidgetCardItem? item)
+		{
+			EventHandler<object> flyoutClosed = null!;
+			flyoutClosed = async (s, e) =>
+			{
+				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				ListedItem listedItem = new(null!)
+				{
+					ItemPath = (item.Item as FileTagsItemViewModel).Path,
+					ItemNameRaw = (item.Item as FileTagsItemViewModel).Name,
+					PrimaryItemAttribute = StorageItemTypes.Folder,
+					ItemType = "Folder".GetLocalizedResource(),
+				};
+				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, AppInstance);
+			};
+			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
 		private void OpenInNewPane(WidgetCardItem? item)
@@ -105,6 +127,7 @@ namespace Files.App.UserControls.Widgets
 								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+			ItemContextMenuFlyout = itemContextMenuFlyout;
 			itemContextMenuFlyout.ShowAt(tagsItemsStackPanel, new FlyoutShowOptions { Position = e.GetPosition(tagsItemsStackPanel) });
 
 			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
@@ -184,7 +207,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "LoadingMoreOptions".GetLocalizedResource(),
+					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",

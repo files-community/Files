@@ -39,6 +39,7 @@ namespace Files.App.ViewModels.Widgets
 			_Icon = icon;
 			_Name = PathHelpers.FormatName(associatedStorable.Path);
 			Path = associatedStorable.TryGetPath();
+			Item = this;
 		}
 
 		[RelayCommand]

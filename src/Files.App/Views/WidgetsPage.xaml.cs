@@ -91,6 +91,8 @@ namespace Files.App.Views
 			if (shouldReloadFileTags && fileTagsWidget is not null)
 			{
 				Widgets.ViewModel.InsertWidget(new(fileTagsWidget, (value) => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded), 2);
+				
+				fileTagsWidget.AppInstance = AppInstance;
 				fileTagsWidget.OpenAction = x => NavigationHelpers.OpenPath(x, AppInstance);
 				fileTagsWidget.FileTagsOpenLocationInvoked -= WidgetOpenLocationInvoked;
 				fileTagsWidget.FileTagsNewPaneInvoked -= WidgetCardNewPaneInvoked;
