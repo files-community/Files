@@ -23,6 +23,12 @@ using Windows.System;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Used to create lists of ContextMenuFlyoutItemViewModels that can be used by ItemModelListToContextFlyoutHelper to create context 
+	/// menus and toolbars for the user.
+	/// <see cref="ContextMenuFlyoutItemViewModel"/>
+	/// <see cref="Files.App.Helpers.ContextFlyouts.ItemModelListToContextFlyoutHelper"/>
+	/// </summary>
 	public static class ContextFlyoutItemHelper
 	{
 		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();

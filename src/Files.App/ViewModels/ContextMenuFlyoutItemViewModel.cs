@@ -19,6 +19,8 @@ namespace Files.App.ViewModels
 	/// 2) models <- ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems()
 	/// 3) menu <- ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(models)
 	/// 4) menu.Open()
+	/// <see cref="Files.App.Helpers.ContextFlyoutItemHelper"/>
+	/// <see cref="Files.App.Helpers.ContextFlyouts.ItemModelListToContextFlyoutHelper"/>
 	/// </summary>
 	public class ContextMenuFlyoutItemViewModel
 	{
