@@ -37,7 +37,8 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.PageType):
 				case nameof(IContentPageContext.SelectedItems):
-					OnPropertyChanged(nameof(IsExecutable));
+					if (context.PageType is ContentPageTypes.RecycleBin)
+						OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
 		}
