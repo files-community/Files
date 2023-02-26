@@ -830,12 +830,8 @@
 				LabelPosition="Collapsed"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneToggle/ToolTipService/ToolTip}"
 				Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
-				<AppBarToggleButton.Content>
-					<local:ColoredIcon
-						BaseBackdropGlyph="&#xF056;"
-						BaseLayerGlyph="&#xF03b;"
-						OverlayLayerGlyph="&#xF03c;" />
-				</AppBarToggleButton.Content>
+				
+				<local:OpacityIcon Style="{StaticResource ColorIconRightPane}" />
 			</AppBarToggleButton>
 			<CommandBar.SecondaryCommands>
 				<AppBarButton

@@ -692,6 +692,44 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
+
+			<Style x:Key="ColorIconRightPane" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M9 14H4C2.89543 14 2 13.1046 2 12V5H9V14Z"
+										Fill="{ThemeResource IconAltBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M14 5H10V14H12C13.1046 14 14 13.1046 14 12V5Z"
+										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
+									<Path
+										x:Name="Path3"
+										Data="M15 4C15 2.34315 13.6569 1 12 1H4C2.34315 1 1 2.34315 1 4V12C1 13.6569 2.34315 15 4 15H12C13.6569 15 15 13.6569 15 12V4ZM12 2C13.1046 2 14 2.89543 14 4H2C2 2.89543 2.89543 2 4 2H12ZM10 5H14V12C14 13.1046 13.1046 14 12 14H10V5ZM9 5V14H4C2.89543 14 2 13.1046 2 12V5H9Z"
+										Fill="{ThemeResource IconBaseBrush}" />
+								</Canvas>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled">
+											<VisualState.Setters>
+												<Setter Target="Path1.Fill" Value="Transparent" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
 		</ResourceDictionary>
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
