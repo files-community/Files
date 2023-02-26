@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace Files.App.Filesystem.Permissions
 {
+	/// <summary>
+	/// Represents a ViewModel for a storage object's security and security advanced properties page
+	/// </summary>
 	public class FileSystemAccessRuleForUI : ObservableObject
 	{
 		public FileSystemAccessRuleForUI(bool isFolder)
@@ -40,6 +43,7 @@ namespace Files.App.Filesystem.Permissions
 			PropagationFlags = (PropagationFlags)accessRule.PropagationFlags;
 		}
 
+		#region Fields, Properties, Commands
 		public RelayCommand<string> ChangeAccessControlTypeCommand { get; set; }
 
 		public RelayCommand<string> ChangeInheritanceFlagsCommand { get; set; }
@@ -156,6 +160,32 @@ namespace Files.App.Filesystem.Permissions
 			set => SetProperty(ref grantedPermissions, value);
 		}
 
+		public bool GrantsWrite => FileSystemRights.HasFlag(FileSystemRights.Write);
+		public bool GrantsRead => FileSystemRights.HasFlag(FileSystemRights.Read);
+		public bool GrantsListDirectory => FileSystemRights.HasFlag(FileSystemRights.ListDirectory);
+		public bool GrantsReadAndExecute => FileSystemRights.HasFlag(FileSystemRights.ReadAndExecute);
+		public bool GrantsModify => FileSystemRights.HasFlag(FileSystemRights.Modify);
+		public bool GrantsFullControl => FileSystemRights.HasFlag(FileSystemRights.FullControl);
+
+		public bool GrantsSpecial
+		{
+			get
+			{
+				return 
+					(FileSystemRights &
+					~FileSystemRights.Synchronize &
+					(GrantsFullControl ? ~FileSystemRights.FullControl : FileSystemRights.FullControl) &
+					(GrantsModify ? ~FileSystemRights.Modify : FileSystemRights.FullControl) &
+					(GrantsReadAndExecute ? ~FileSystemRights.ReadAndExecute : FileSystemRights.FullControl) &
+					(GrantsRead ? ~FileSystemRights.Read : FileSystemRights.FullControl) &
+					(GrantsWrite ? ~FileSystemRights.Write : FileSystemRights.FullControl)) != 0;
+			}
+		}
+
+		public bool IsFolder { get; }
+		#endregion
+
+		#region Methods
 		private List<GrantedPermission> GetGrantedPermissions()
 		{
 			if (AreAdvancedPermissionsShown)
@@ -366,30 +396,6 @@ namespace Files.App.Filesystem.Permissions
 			}
 		}
 
-		public bool GrantsWrite => FileSystemRights.HasFlag(FileSystemRights.Write);
-		public bool GrantsRead => FileSystemRights.HasFlag(FileSystemRights.Read);
-		public bool GrantsListDirectory => FileSystemRights.HasFlag(FileSystemRights.ListDirectory);
-		public bool GrantsReadAndExecute => FileSystemRights.HasFlag(FileSystemRights.ReadAndExecute);
-		public bool GrantsModify => FileSystemRights.HasFlag(FileSystemRights.Modify);
-		public bool GrantsFullControl => FileSystemRights.HasFlag(FileSystemRights.FullControl);
-
-		public bool GrantsSpecial
-		{
-			get
-			{
-				return 
-					(FileSystemRights &
-					~FileSystemRights.Synchronize &
-					(GrantsFullControl ? ~FileSystemRights.FullControl : FileSystemRights.FullControl) &
-					(GrantsModify ? ~FileSystemRights.Modify : FileSystemRights.FullControl) &
-					(GrantsReadAndExecute ? ~FileSystemRights.ReadAndExecute : FileSystemRights.FullControl) &
-					(GrantsRead ? ~FileSystemRights.Read : FileSystemRights.FullControl) &
-					(GrantsWrite ? ~FileSystemRights.Write : FileSystemRights.FullControl)) != 0;
-			}
-		}
-
-		public bool IsFolder { get; }
-
 		private IList<string> GetInheritanceStrings()
 		{
 			var ret = new List<string>();
@@ -468,74 +474,6 @@ namespace Files.App.Filesystem.Permissions
 				PropagationFlags = PropagationFlags
 			};
 		}
-	}
-
-	public class SpecialPermission : GrantedPermission
-	{
-		private bool isGranted;
-		public override bool IsGranted
-		{
-			get => fsar.GrantsSpecial;
-			set => SetProperty(ref isGranted, value);
-		}
-
-		public SpecialPermission(FileSystemAccessRuleForUI fileSystemAccessRule)
-			: base(fileSystemAccessRule)
-		{
-			IsEditable = false;
-		}
-
-		protected override void Fsar_PropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "FileSystemRights")
-			{
-				OnPropertyChanged(nameof(IsGranted));
-			}
-		}
-	}
-
-	public class GrantedPermission : ObservableObject
-	{
-		protected FileSystemAccessRuleForUI fsar;
-
-		public virtual bool IsGranted
-		{
-			get => fsar.FileSystemRights.HasFlag(Permission);
-			set
-			{
-				if (IsEditable)
-					TogglePermission(Permission, value);
-			}
-		}
-
-		public string Name { get; set; }
-
-		public bool IsEditable { get; set; }
-
-		public FileSystemRights Permission { get; set; }
-
-		private void TogglePermission(FileSystemRights permission, bool value)
-		{
-			if (value && !fsar.FileSystemRights.HasFlag(permission))
-			{
-				fsar.FileSystemRights |= permission;
-			}
-			else if (!value && fsar.FileSystemRights.HasFlag(permission))
-			{
-				fsar.FileSystemRights &= ~permission;
-			}
-		}
-
-		public GrantedPermission(FileSystemAccessRuleForUI fileSystemAccessRule)
-		{
-			fsar = fileSystemAccessRule;
-			fsar.PropertyChanged += Fsar_PropertyChanged;
-		}
-
-		protected virtual void Fsar_PropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "FileSystemRights")
-				OnPropertyChanged(nameof(IsGranted));
-		}
+		#endregion
 	}
 }

@@ -10,6 +10,14 @@ namespace Files.App.Filesystem.Permissions
 {
 	public class UserGroup : ObservableObject
 	{
+		public UserGroup()
+		{
+			Groups = new();
+
+			ItemType = SecurityType.Other;
+		}
+
+		#region Properties
 		public string Glyph
 			=> ItemType switch
 			{
@@ -33,13 +41,9 @@ namespace Files.App.Filesystem.Permissions
 
 		public string FullNameOrSid
 			=> string.IsNullOrEmpty(Name) ? Sid : string.IsNullOrEmpty(Domain) ? Name : $"{Domain}\\{Name}";
+		#endregion
 
-		public UserGroup()
-		{
-			Groups = new();
-			ItemType = SecurityType.Other;
-		}
-
+		#region Methods
 		public static UserGroup FromSid(string sid)
 		{
 			var userGroup = new UserGroup()
@@ -89,6 +93,7 @@ namespace Files.App.Filesystem.Permissions
 				Domain = domainName.ToString();
 			}
 		}
+		#endregion
 
 		private enum SID_NAME_USE
 		{
@@ -103,6 +108,7 @@ namespace Files.App.Filesystem.Permissions
 			SidTypeComputer
 		}
 
+		#region P/Invoke declarations
 		[DllImport("api-ms-win-security-lsalookup-l2-1-0.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		private static extern bool LookupAccountSid(
 			string lpSystemName,
@@ -132,6 +138,7 @@ namespace Files.App.Filesystem.Permissions
 				_ => WellKnownUserGroup.None
 			};
 		}
+		#endregion
 	}
 
 	public enum SecurityType

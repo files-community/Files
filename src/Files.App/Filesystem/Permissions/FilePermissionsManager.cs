@@ -5,7 +5,7 @@ using System.Linq;
 namespace Files.App.Filesystem.Permissions
 {
 	/// <summary>
-	/// Represents security information of a storage object
+	/// Represents a storage object's security information manager
 	/// </summary>
 	public class FilePermissionsManager
 	{
@@ -24,6 +24,7 @@ namespace Files.App.Filesystem.Permissions
 			RulesForUsers = new(RulesForUser.ForAllUsers(AccessRules, IsFolder));
 		}
 
+		#region Properties
 		public string FilePath { get; set; }
 
 		public bool IsFolder { get; set; }
@@ -39,7 +40,9 @@ namespace Files.App.Filesystem.Permissions
 		public ObservableCollection<FileSystemAccessRuleForUI> AccessRules { get; set; }
 
 		public ObservableCollection<RulesForUser> RulesForUsers { get; private set; }
+		#endregion
 
+		#region Methods
 		public FileSystemRights GetEffectiveRights(UserGroup user)
 		{
 			var userSids = new List<string> { user.Sid };
@@ -107,5 +110,6 @@ namespace Files.App.Filesystem.Permissions
 				OwnerSID = Owner.Sid,
 			};
 		}
+		#endregion
 	}
 }

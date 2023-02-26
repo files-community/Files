@@ -7,16 +7,6 @@ namespace Files.App.Filesystem.Permissions
 {
 	public class RulesForUser : ObservableObject
 	{
-		private bool isFolder;
-
-		private ObservableCollection<FileSystemAccessRuleForUI> accessRules;
-
-		public RulesForUser(ObservableCollection<FileSystemAccessRuleForUI> accessRules, bool isFolder)
-		{
-			this.accessRules = accessRules;
-			this.isFolder = isFolder;
-		}
-
 		public void UpdateAccessRules()
 		{
 			foreach (var rule in accessRules.Where(x => x.IdentityReference == UserGroup.Sid && !x.IsInherited).ToList())
@@ -49,6 +39,17 @@ namespace Files.App.Filesystem.Permissions
 					PropagationFlags = PropagationFlags.None
 				});
 			}
+		}
+
+		#region Fields and Properties
+		private bool isFolder;
+
+		private ObservableCollection<FileSystemAccessRuleForUI> accessRules;
+
+		public RulesForUser(ObservableCollection<FileSystemAccessRuleForUI> accessRules, bool isFolder)
+		{
+			this.accessRules = accessRules;
+			this.isFolder = isFolder;
 		}
 
 		public FileSystemRights InheritedDenyRights { get; set; }
@@ -106,34 +107,6 @@ namespace Files.App.Filesystem.Permissions
 		public bool DeniesInheritedReadAndExecute => InheritedDenyRights.HasFlag(FileSystemRights.ReadAndExecute);
 		public bool DeniesInheritedModify => InheritedDenyRights.HasFlag(FileSystemRights.Modify);
 		public bool DeniesInheritedFullControl => InheritedDenyRights.HasFlag(FileSystemRights.FullControl);
-
-		private void ToggleAllowPermission(FileSystemRights permission, bool value)
-		{
-			if (value && !AllowRights.HasFlag(permission) && !InheritedAllowRights.HasFlag(permission))
-			{
-				AllowRights |= permission;
-				DenyRights &= ~permission;
-			}
-			else if (!value && AllowRights.HasFlag(permission))
-			{
-				AllowRights &= ~permission;
-			}
-			UpdateAccessRules();
-		}
-
-		private void ToggleDenyPermission(FileSystemRights permission, bool value)
-		{
-			if (value && !DenyRights.HasFlag(permission) && !InheritedDenyRights.HasFlag(permission))
-			{
-				DenyRights |= permission;
-				AllowRights &= ~permission;
-			}
-			else if (!value && DenyRights.HasFlag(permission))
-			{
-				DenyRights &= ~permission;
-			}
-			UpdateAccessRules();
-		}
 
 		public bool GrantsWrite
 		{
@@ -206,6 +179,36 @@ namespace Files.App.Filesystem.Permissions
 			get => DenyRights.HasFlag(FileSystemRights.FullControl) || DeniesInheritedFullControl;
 			set => ToggleDenyPermission(FileSystemRights.FullControl, value);
 		}
+		#endregion
+
+		#region Methods
+		private void ToggleAllowPermission(FileSystemRights permission, bool value)
+		{
+			if (value && !AllowRights.HasFlag(permission) && !InheritedAllowRights.HasFlag(permission))
+			{
+				AllowRights |= permission;
+				DenyRights &= ~permission;
+			}
+			else if (!value && AllowRights.HasFlag(permission))
+			{
+				AllowRights &= ~permission;
+			}
+			UpdateAccessRules();
+		}
+
+		private void ToggleDenyPermission(FileSystemRights permission, bool value)
+		{
+			if (value && !DenyRights.HasFlag(permission) && !InheritedDenyRights.HasFlag(permission))
+			{
+				DenyRights |= permission;
+				AllowRights &= ~permission;
+			}
+			else if (!value && DenyRights.HasFlag(permission))
+			{
+				DenyRights &= ~permission;
+			}
+			UpdateAccessRules();
+		}
 
 		public static List<RulesForUser> ForAllUsers(ObservableCollection<FileSystemAccessRuleForUI> accessRules, bool isFolder)
 		{
@@ -247,5 +250,6 @@ namespace Files.App.Filesystem.Permissions
 
 			return perm;
 		}
+		#endregion
 	}
 }
