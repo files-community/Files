@@ -136,7 +136,7 @@
     <value>パス:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>サイズ:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>圧縮前のサイズ:</value>
@@ -175,7 +175,7 @@
     <value>パスを入力</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>検索</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>最近アクセスしたファイルがここに表示されます</value>
@@ -247,22 +247,22 @@
     <value>最新の情報に更新</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>貼り付け</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>新規作成</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>プロパティ</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>開く</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>新しいタブで開く</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>新しいウィンドウで開く</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>共有</value>
@@ -289,7 +289,7 @@
     <value>表示</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>名前を入力</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>名前を変更</value>
@@ -373,7 +373,7 @@
     <value>使用中のファイルです</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>レイアウト</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>読み取り専用</value>
@@ -673,7 +673,7 @@
     <value>1 つ上の階層へ移動</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>言語</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>シェル拡張機能をサブメニューに移動</value>
@@ -955,7 +955,7 @@
     <value>住所</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>選択オプション</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>選択</value>
@@ -997,7 +997,7 @@
     <value>新しいタブ</value>
   </data>
   <data name="NewTabCtrlT" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+    <value>新しいタブ (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>いくつかのプロパティは個人情報を含んでいる可能性があります。</value>
@@ -1036,7 +1036,7 @@
     <value>右クリック メニューをカスタマイズ</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>元のパス:</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>追加</value>
@@ -1144,7 +1144,7 @@
     <value>名前</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>お気に入りから固定解除</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>ネットワーク ドライブ</value>
@@ -1318,7 +1318,7 @@
     <value>同じ名前のライブラリが既に存在しています!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>ストレージ センサーを開く</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>コピー</value>
@@ -1378,7 +1378,7 @@
     <value>インデックスされていないファイルを検索する</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>既存のファイルを置換</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>名前の変更</value>
@@ -1420,7 +1420,7 @@
     <value>削除日時</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>並べ替え</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>グループで表示</value>
@@ -1489,7 +1489,7 @@
     <value>閉じたタブを再度開く</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>名前を変更</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>プライバシー ポリシー</value>
@@ -1909,7 +1909,7 @@
     <value>親フォルダーを開く</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>不明</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>ファイル タグを編集</value>
@@ -1978,7 +1978,7 @@
     <value>タイル</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>新しいタブでフォルダーを開く</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>進行中のタスク</value>
@@ -2362,7 +2362,7 @@
     <value>すべてのアイテムを復元</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>復元</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>ショートカットを開くことができません</value>
