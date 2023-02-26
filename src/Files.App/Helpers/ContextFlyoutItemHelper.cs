@@ -9,7 +9,6 @@ using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
@@ -586,10 +585,9 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Open".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel()
+					OpacityIcon = new OpacityIconModel()
 					{
-						BaseLayerGlyph = "\uF047",
-						OverlayLayerGlyph = "\uF048",
+						OpacityIconStyle = "ColorIconOpenFile"
 					},
 					Command = commandsViewModel.OpenItemCommand,
 					ShowInSearchPage = true,
@@ -643,8 +641,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
-					Glyph = "\uF113",
-					GlyphFontFamilyName = "CustomGlyph",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewTab"
+					},
 					Command = commandsViewModel.OpenDirectoryInNewTabCommand,
 					ShowItem = itemsSelected && selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab,
 					ShowInSearchPage = true,
