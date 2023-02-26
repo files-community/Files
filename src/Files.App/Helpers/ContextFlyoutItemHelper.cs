@@ -604,10 +604,9 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel()
+					OpacityIcon = new OpacityIconModel()
 					{
-						BaseLayerGlyph = "\uF049",
-						OverlayLayerGlyph = "\uF04A",
+						OpacityIconStyle = "ColorIconOpenWith"
 					},
 					Command = commandsViewModel.OpenItemWithApplicationPickerCommand,
 					Tag = "OpenWith",
@@ -618,10 +617,9 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel()
+					OpacityIcon = new OpacityIconModel()
 					{
-						BaseLayerGlyph = "\uF049",
-						OverlayLayerGlyph = "\uF04A",
+						OpacityIconStyle = "ColorIconOpenWith"
 					},
 					Tag = "OpenWithOverflow",
 					IsHidden = true,
