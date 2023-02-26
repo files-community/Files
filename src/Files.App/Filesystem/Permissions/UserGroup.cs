@@ -4,46 +4,58 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using Windows.Win32;
 
 namespace Files.App.Filesystem.Permissions
 {
 	public class UserGroup : ObservableObject
 	{
-		public string Glyph => ItemType switch
-		{
-			SecurityType.User => "\xE2AF",
-			SecurityType.Group => "\xE902",
-			_ => "\xE716",
-		};
+		public string Glyph
+			=> ItemType switch
+			{
+				SecurityType.User => "\xE2AF",
+				SecurityType.Group => "\xE902",
+				_ => "\xE716",
+			};
 
 		public string Sid { get; set; }
+
 		public string Name { get; set; }
+
 		public string Domain { get; set; }
+
 		public List<string> Groups { get; set; }
+
 		public SecurityType ItemType { get; set; }
 
-		public string DisplayName => string.IsNullOrEmpty(Name) ? "SecurityUnknownAccount".GetLocalizedResource() : Name;
-		public string FullNameOrSid => string.IsNullOrEmpty(Name) ? Sid : string.IsNullOrEmpty(Domain) ? Name : $"{Domain}\\{Name}";
+		public string DisplayName
+			=> string.IsNullOrEmpty(Name) ? "SecurityUnknownAccount".GetLocalizedResource() : Name;
+
+		public string FullNameOrSid
+			=> string.IsNullOrEmpty(Name) ? Sid : string.IsNullOrEmpty(Domain) ? Name : $"{Domain}\\{Name}";
 
 		public UserGroup()
 		{
-			Groups = new List<string>();
+			Groups = new();
 			ItemType = SecurityType.Other;
 		}
 
 		public static UserGroup FromSid(string sid)
 		{
-			var userGroup = new UserGroup() { Sid = sid };
+			var userGroup = new UserGroup()
+			{
+				Sid = sid
+			};
+
 			userGroup.GetUserGroupInfo();
+
 			return userGroup;
 		}
 
 		public void GetUserGroupInfo()
 		{
 			if (string.IsNullOrEmpty(Sid))
-			{
 				return;
-			}
 
 			ConvertStringSidToSid(Sid, out IntPtr sidPtr);
 			int size = GetLengthSid(sidPtr);
@@ -54,6 +66,7 @@ namespace Files.App.Filesystem.Permissions
 			var userName = new StringBuilder();
 			var domainName = new StringBuilder();
 			int cchUserName = 0, cchDomainName = 0;
+
 			LookupAccountSid(null, binarySID, userName, ref cchUserName, domainName, ref cchDomainName, out _);
 			userName.EnsureCapacity(cchUserName);
 			domainName.EnsureCapacity(cchDomainName);
@@ -71,6 +84,7 @@ namespace Files.App.Filesystem.Permissions
 
 					_ => SecurityType.Other
 				};
+
 				Name = userName.ToString();
 				Domain = domainName.ToString();
 			}

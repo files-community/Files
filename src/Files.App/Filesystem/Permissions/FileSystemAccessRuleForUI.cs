@@ -22,6 +22,7 @@ namespace Files.App.Filesystem.Permissions
 			ChangeInheritanceFlagsCommand = new RelayCommand<string>(x =>
 			{
 				var parts = x.Split(',');
+
 				InheritanceFlags = Enum.Parse<InheritanceFlags>(parts[0]);
 				PropagationFlags = Enum.Parse<PropagationFlags>(parts[1]);
 			});
@@ -40,10 +41,10 @@ namespace Files.App.Filesystem.Permissions
 		}
 
 		public RelayCommand<string> ChangeAccessControlTypeCommand { get; set; }
+
 		public RelayCommand<string> ChangeInheritanceFlagsCommand { get; set; }
 
 		private AccessControlType accessControlType;
-
 		public AccessControlType AccessControlType
 		{
 			get => accessControlType;
@@ -57,10 +58,10 @@ namespace Files.App.Filesystem.Permissions
 		}
 
 		public string IdentityReference { get; set; }
+
 		public bool IsInherited { get; set; }
 
 		private InheritanceFlags inheritanceFlags;
-
 		public InheritanceFlags InheritanceFlags
 		{
 			get => inheritanceFlags;
@@ -74,7 +75,6 @@ namespace Files.App.Filesystem.Permissions
 		}
 
 		private PropagationFlags propagationFlags;
-
 		public PropagationFlags PropagationFlags
 		{
 			get => propagationFlags;
@@ -88,7 +88,6 @@ namespace Files.App.Filesystem.Permissions
 		}
 
 		private FileSystemRights fileSystemRights;
-
 		public FileSystemRights FileSystemRights
 		{
 			get => fileSystemRights;
@@ -101,22 +100,26 @@ namespace Files.App.Filesystem.Permissions
 			}
 		}
 
-		public UserGroup UserGroup => UserGroup.FromSid(IdentityReference);
+		public UserGroup UserGroup
+			=> UserGroup.FromSid(IdentityReference);
 
-		public string Glyph => AccessControlType switch
-		{
-			AccessControlType.Allow => "\xF13E",
-			_ => "\xF140"
-		};
+		public string Glyph
+			=> AccessControlType switch
+			{
+				AccessControlType.Allow => "\xF13E",
+				_ => "\xF140"
+			};
 
-		public string IsInheritedForUI => IsInherited ? "Yes".GetLocalizedResource() : "No".GetLocalizedResource();
+		public string IsInheritedForUI
+			=> IsInherited ? "Yes".GetLocalizedResource() : "No".GetLocalizedResource();
 
-		public string FileSystemRightsForUI => string.Join(", ", GetPermissionStrings());
+		public string FileSystemRightsForUI
+			=> string.Join(", ", GetPermissionStrings());
 
-		public string InheritanceFlagsForUI => string.Join(", ", GetInheritanceStrings());
+		public string InheritanceFlagsForUI
+			=> string.Join(", ", GetInheritanceStrings());
 
 		private bool isSelected;
-
 		public bool IsSelected
 		{
 			get => isSelected;
@@ -125,32 +128,28 @@ namespace Files.App.Filesystem.Permissions
 				if (SetProperty(ref isSelected, value))
 				{
 					if (!value)
-					{
 						AreAdvancedPermissionsShown = false;
-					}
+
 					OnPropertyChanged(nameof(IsEditEnabled));
 				}
 			}
 		}
 
 		private bool areAdvancedPermissionsShown;
-
 		public bool AreAdvancedPermissionsShown
 		{
 			get => areAdvancedPermissionsShown;
 			set
 			{
 				if (SetProperty(ref areAdvancedPermissionsShown, value))
-				{
 					GrantedPermissions = GetGrantedPermissions();
-				}
 			}
 		}
 
-		public bool IsEditEnabled => IsSelected && !IsInherited;
+		public bool IsEditEnabled
+			=> IsSelected && !IsInherited;
 
 		private List<GrantedPermission> grantedPermissions;
-
 		public List<GrantedPermission> GrantedPermissions
 		{
 			get => grantedPermissions;
@@ -162,12 +161,14 @@ namespace Files.App.Filesystem.Permissions
 			if (AreAdvancedPermissionsShown)
 			{
 				var gpl = new List<GrantedPermission>();
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.FullControl,
 					Name = "SecurityFullControlLabel/Text".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				if (IsFolder)
 				{
 					gpl.Add(new GrantedPermission(this)
@@ -186,6 +187,7 @@ namespace Files.App.Filesystem.Permissions
 						IsEditable = !IsInherited
 					});
 				}
+
 				if (IsFolder)
 				{
 					gpl.Add(new GrantedPermission(this)
@@ -204,18 +206,21 @@ namespace Files.App.Filesystem.Permissions
 						IsEditable = !IsInherited
 					});
 				}
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.ReadAttributes,
 					Name = "SecurityReadAttributesLabel/Text".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.ReadExtendedAttributes,
 					Name = "SecurityReadExtendedAttributesLabel/Text".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				if (IsFolder)
 				{
 					gpl.Add(new GrantedPermission(this)
@@ -224,6 +229,7 @@ namespace Files.App.Filesystem.Permissions
 						Name = "SecurityCreateFilesLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					});
+
 					gpl.Add(new GrantedPermission(this)
 					{
 						Permission = FileSystemRights.CreateDirectories,
@@ -239,6 +245,7 @@ namespace Files.App.Filesystem.Permissions
 						Name = "SecurityWriteDataLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					});
+
 					gpl.Add(new GrantedPermission(this)
 					{
 						Permission = FileSystemRights.AppendData,
@@ -246,18 +253,21 @@ namespace Files.App.Filesystem.Permissions
 						IsEditable = !IsInherited
 					});
 				}
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.WriteAttributes,
 					Name = "SecurityWriteAttributesLabel/Text".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.WriteExtendedAttributes,
 					Name = "SecurityWriteExtendedAttributesLabel/Text".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				if (IsFolder)
 				{
 					gpl.Add(new GrantedPermission(this)
@@ -267,53 +277,62 @@ namespace Files.App.Filesystem.Permissions
 						IsEditable = !IsInherited
 					});
 				}
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.Delete,
 					Name = "Delete".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.ReadPermissions,
 					Name = "SecurityReadPermissionsLabel/Text".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.ChangePermissions,
 					Name = "SecurityChangePermissionsLabel/Text".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.TakeOwnership,
 					Name = "SecurityTakeOwnershipLabel/Text".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				return gpl;
 			}
 			else
 			{
 				var gpl = new List<GrantedPermission>();
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.FullControl,
 					Name = "SecurityFullControlLabel/Text".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.Modify,
 					Name = "SecurityModifyLabel/Text".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.ReadAndExecute,
 					Name = "SecurityReadAndExecuteLabel/Text".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				if (IsFolder)
 				{
 					gpl.Add(new GrantedPermission(this)
@@ -323,22 +342,26 @@ namespace Files.App.Filesystem.Permissions
 						IsEditable = !IsInherited
 					});
 				}
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.Read,
 					Name = "SecurityReadLabel/Text".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				gpl.Add(new GrantedPermission(this)
 				{
 					Permission = FileSystemRights.Write,
 					Name = "Write".GetLocalizedResource(),
 					IsEditable = !IsInherited
 				});
+
 				gpl.Add(new SpecialPermission(this)
 				{
 					Name = "SecuritySpecialLabel/Text".GetLocalizedResource()
 				});
+
 				return gpl;
 			}
 		}
@@ -354,7 +377,9 @@ namespace Files.App.Filesystem.Permissions
 		{
 			get
 			{
-				return (FileSystemRights & ~FileSystemRights.Synchronize &
+				return 
+					(FileSystemRights &
+					~FileSystemRights.Synchronize &
 					(GrantsFullControl ? ~FileSystemRights.FullControl : FileSystemRights.FullControl) &
 					(GrantsModify ? ~FileSystemRights.Modify : FileSystemRights.FullControl) &
 					(GrantsReadAndExecute ? ~FileSystemRights.ReadAndExecute : FileSystemRights.FullControl) &
@@ -368,32 +393,39 @@ namespace Files.App.Filesystem.Permissions
 		private IList<string> GetInheritanceStrings()
 		{
 			var ret = new List<string>();
+
 			if (PropagationFlags == PropagationFlags.None || PropagationFlags == PropagationFlags.NoPropagateInherit)
 			{
 				ret.Add("SecurityAdvancedFlagsFolderLabel".GetLocalizedResource());
 			}
+
 			if (InheritanceFlags.HasFlag(InheritanceFlags.ContainerInherit))
 			{
 				ret.Add("SecurityAdvancedFlagsSubfoldersLabel".GetLocalizedResource());
 			}
+
 			if (InheritanceFlags.HasFlag(InheritanceFlags.ObjectInherit))
 			{
 				ret.Add("SecurityAdvancedFlagsFilesLabel".GetLocalizedResource());
 			}
+
 			if (ret.Any())
 			{
 				ret[0] = char.ToUpperInvariant(ret[0].First()) + ret[0].Substring(1);
 			}
+
 			return ret;
 		}
 
 		private IList<string> GetPermissionStrings()
 		{
 			var ret = new List<string>();
+
 			if (FileSystemRights == 0)
 			{
 				ret.Add("None".GetLocalizedResource());
 			}
+
 			if (GrantsFullControl)
 			{
 				ret.Add("SecurityFullControlLabel/Text".GetLocalizedResource());
@@ -410,10 +442,12 @@ namespace Files.App.Filesystem.Permissions
 			{
 				ret.Add("SecurityReadLabel/Text".GetLocalizedResource());
 			}
+
 			if (!GrantsFullControl && !GrantsModify && GrantsWrite)
 			{
 				ret.Add("Write".GetLocalizedResource());
 			}
+
 			if (GrantsSpecial)
 			{
 				ret.Add("SecuritySpecialLabel/Text".GetLocalizedResource());
@@ -439,7 +473,6 @@ namespace Files.App.Filesystem.Permissions
 	public class SpecialPermission : GrantedPermission
 	{
 		private bool isGranted;
-
 		public override bool IsGranted
 		{
 			get => fsar.GrantsSpecial;
@@ -471,9 +504,7 @@ namespace Files.App.Filesystem.Permissions
 			set
 			{
 				if (IsEditable)
-				{
 					TogglePermission(Permission, value);
-				}
 			}
 		}
 
@@ -501,12 +532,10 @@ namespace Files.App.Filesystem.Permissions
 			fsar.PropertyChanged += Fsar_PropertyChanged;
 		}
 
-		protected virtual void Fsar_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		protected virtual void Fsar_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "FileSystemRights")
-			{
 				OnPropertyChanged(nameof(IsGranted));
-			}
 		}
 	}
 }

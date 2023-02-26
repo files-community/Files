@@ -23,7 +23,9 @@ namespace Files.App.Filesystem.Permissions
 			{
 				accessRules.Remove(rule);
 			}
-			if (AllowRights != 0 && !InheritedAllowRights.HasFlag(AllowRights)) // Do not set if permission is already granted by inheritance
+
+			// Do not set if permission is already granted by inheritance
+			if (AllowRights != 0 && !InheritedAllowRights.HasFlag(AllowRights))
 			{
 				accessRules.Add(new FileSystemAccessRuleForUI(isFolder)
 				{
@@ -34,7 +36,9 @@ namespace Files.App.Filesystem.Permissions
 					PropagationFlags = PropagationFlags.None
 				});
 			}
-			if (DenyRights != 0 && !InheritedDenyRights.HasFlag(DenyRights)) // Do not set if permission is already denied by inheritance
+
+			// Do not set if permission is already denied by inheritance
+			if (DenyRights != 0 && !InheritedDenyRights.HasFlag(DenyRights))
 			{
 				accessRules.Add(new FileSystemAccessRuleForUI(isFolder)
 				{
@@ -48,10 +52,10 @@ namespace Files.App.Filesystem.Permissions
 		}
 
 		public FileSystemRights InheritedDenyRights { get; set; }
+
 		public FileSystemRights InheritedAllowRights { get; set; }
 
 		public FileSystemRights denyRights;
-
 		public FileSystemRights DenyRights
 		{
 			get => denyRights;
@@ -70,7 +74,6 @@ namespace Files.App.Filesystem.Permissions
 		}
 
 		public FileSystemRights allowRights;
-
 		public FileSystemRights AllowRights
 		{
 			get => allowRights;
@@ -211,7 +214,11 @@ namespace Files.App.Filesystem.Permissions
 
 		public static RulesForUser ForUser(ObservableCollection<FileSystemAccessRuleForUI> accessRules, bool isFolder, string identity)
 		{
-			var perm = new RulesForUser(accessRules, isFolder) { UserGroup = UserGroup.FromSid(identity) };
+			var perm = new RulesForUser(accessRules, isFolder)
+			{
+				UserGroup = UserGroup.FromSid(identity)
+			};
+
 			foreach (var Rule in accessRules.Where(x => x.IdentityReference == identity))
 			{
 				if (Rule.AccessControlType == AccessControlType.Deny)
@@ -237,6 +244,7 @@ namespace Files.App.Filesystem.Permissions
 					}
 				}
 			}
+
 			return perm;
 		}
 	}
