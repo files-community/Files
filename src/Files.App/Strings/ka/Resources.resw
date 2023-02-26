@@ -117,26 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
-    <value>ახალ ჩანართში გახსნა</value>
-  </data>
-  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>ახალ ფანჯარაში გახსნა</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>ახალი ფანჯარა</value>
   </data>
   <data name="CopyLocation" xml:space="preserve">
     <value>ასლის მდებარეობა</value>
   </data>
-  <data name="NavigationToolbarPaste.Label" xml:space="preserve">
-    <value>ჩასმა</value>
-  </data>
   <data name="Browse" xml:space="preserve">
     <value>გადათვალიერება</value>
-  </data>
-  <data name="nameColumn.Header" xml:space="preserve">
-    <value>სახელი</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>ზომა</value>
@@ -144,14 +132,11 @@
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>შექმნილია:</value>
   </data>
-  <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>ნივთის სახელი</value>
-  </data>
   <data name="Path" xml:space="preserve">
     <value>გზა:</value>
   </data>
-  <data name="PropertiesItemSize.Text" xml:space="preserve">
-    <value>ზომა:</value>
+  <data name="SizeLabel" xml:space="preserve">
+    <value>Size:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>შეუკუმშავი ზომა:</value>
@@ -189,14 +174,11 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>შეიყვანეთ გზა</value>
   </data>
-  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
-    <value>ძებნა</value>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>საქაღალდეებზე, რომლებზეც წვდომა ადრე გქონდათ აქ გამოჩნდებიან</value>
-  </data>
-  <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
-    <value>ფაილის ადგილმდებარეობის გახსნა</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>ამ ნივთის წაშლა</value>
@@ -255,17 +237,8 @@
   <data name="Downloads" xml:space="preserve">
     <value>გადმოწერილები</value>
   </data>
-  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
-    <value>ჩამაგრების მოხსნა ფავორიტებიდან</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
-    <value>დახარისხება</value>
-  </data>
   <data name="Name" xml:space="preserve">
     <value>სახელი</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>ნიმუში</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>ზრდადობის მიხედვით</value>
@@ -273,29 +246,23 @@
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>განახლება</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
-    <value>ჩასმა</value>
+  <data name="Paste" xml:space="preserve">
+    <value>Paste</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>ახალი</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>ფაილი</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
-    <value>თვისებები</value>
+  <data name="Properties" xml:space="preserve">
+    <value>Properties</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>გახსნა</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>ახალ ჩანართში გახსნა</value>
+  <data name="OpenInNewTab" xml:space="preserve">
+    <value>Open in new tab</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>ახალ ფანჯარაში გახსნა</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>სამუშაო მაგიდის ფონად დაყენება</value>
+  <data name="OpenInNewWindow" xml:space="preserve">
+    <value>Open in new window</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>გაზიარება</value>
@@ -306,14 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>წაშლა</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
-    <value>გადარქმევა</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>ფავორიტებში ჩამაგრება</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>თვისებები</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>მოგესალმებით ფაილებში!</value>
@@ -324,17 +285,11 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>დასაწყებად, თქვენ ჩვენ ნებართვა უნდა მოგვანიჭოთ, რათა გამოვაჩინოთ თქვენი ფაილები. ეს მოქმედება გახსნის პარამეტრების გვერდს, საიდანაც თქვენ შეგეძლებათ ჩვენთვის ნებართვის მონიჭება. ამ ნაბიჯების შესრულების შემდეგ კი აპლიკაციის ხელახლა გახსნა მოგიწევთ.</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>ფაილი</value>
-  </data>
   <data name="Display" xml:space="preserve">
     <value>Display</value>
   </data>
-  <data name="RenameDialog.Title" xml:space="preserve">
-    <value>შეიყვანეთ ნივთის სახელი</value>
-  </data>
-  <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>შეიყვანეთ ნივთის სახელი</value>
+  <data name="EnterAnItemName" xml:space="preserve">
+    <value>Enter an item name</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>სახელის დაყენება</value>
@@ -375,9 +330,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>მოძებნა (Ctrl+F)</value>
   </data>
-  <data name="PropertiesTitle" xml:space="preserve">
-    <value>თვისებები</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>ამ სახელწოდების მქონე ნივთი უკვე არსებობს ამ კატალოგში.</value>
   </data>
@@ -389,18 +341,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>ჩაკეტილი ეკრანის ფონად დაყენება</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
-    <value>მსხვილი ხატულები</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
-    <value>საშუალო ხატულები</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
-    <value>პატარა ხატულები</value>
-  </data>
-  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>კარგი</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>ჩვენ ვერ შევძელით ამ ნივთის წაშლა</value>
@@ -432,20 +372,11 @@
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>ფაილი გამოიყენება</value>
   </data>
-  <data name="NavToolbarLayout.Text" xml:space="preserve">
-    <value>განლაგება</value>
-  </data>
-  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>შერჩევის ვარიანტები</value>
+  <data name="Layout" xml:space="preserve">
+    <value>Layout</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>წაიკითხეთ-მხოლოდ</value>
-  </data>
-  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
-    <value>დამალული</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
-    <value>აღდგენა</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0} დღის წინ</value>
@@ -488,9 +419,6 @@
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>ნივთის სახელი არ უნდა შეიცავდეს შემდეგ სიმბოლოებს: \ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>კარგი</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>The item name specified is invalid</value>
@@ -542,9 +470,6 @@
   </data>
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
-    <value>ადმინისტრატორის სახელით გაშვება</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} ფაილი, {1:#,##0} საქაღალდე</value>
@@ -618,9 +543,6 @@
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
     <value>მალსახმობის ტიპი:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>ფაილი</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>ვებ ბმული</value>
   </data>
@@ -630,20 +552,11 @@
   <data name="Shortcut" xml:space="preserve">
     <value>მალსახმობი</value>
   </data>
-  <data name="ShortcutFileType" xml:space="preserve">
-    <value>მალსახმობი</value>
-  </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
     <value>ინტერნეტ მალსახმობი</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - მალსახმობი</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>ფაილის ადგილმდებარეობის გახსნა</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>უცნობი</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>ფაილებს შეექმნა პრობლემა, რისთვისაც დეველოპერები ჯერ არ მომზადებულან.</value>
@@ -744,9 +657,6 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>ჰქმნის ცარიელ საქაღალდეს</value>
   </data>
-  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>განლაგების რეჟიმი</value>
-  </data>
   <data name="LayoutMode" xml:space="preserve">
     <value>განლაგების რეჟიმი</value>
   </data>
@@ -762,8 +672,8 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>ერთი კატალოგით წინ გადასვლა</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
-    <value>ენა</value>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Move shell extensions into a sub menu</value>
@@ -1044,8 +954,8 @@
   <data name="Address" xml:space="preserve">
     <value>მისამართი</value>
   </data>
-  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>შერჩევის ვარიანტები</value>
+  <data name="SelectionOptions" xml:space="preserve">
+    <value>Selection options</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>არჩევა</value>
@@ -1086,17 +996,11 @@
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>ახალი ჩანართი</value>
   </data>
-  <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ახალი ჩანართი (Ctrl+T)</value>
-  </data>
-  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>ახალი ჩანართი (Ctrl+T)</value>
+  <data name="NewTabCtrlT" xml:space="preserve">
+    <value>New tab (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>ზოგიერთი თვისება შეიძლება შეიცავდეს პირად ინფორმაციას.</value>
-  </data>
-  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
-    <value>გასუფთავება</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>ყველა თვისების გასუფთავება</value>
@@ -1106,9 +1010,6 @@
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>სტატუს ცენტრი</value>
-  </data>
-  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>ძებნა</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>ძიების შედეგები {0} -(ს)თვის {1} -ში</value>
@@ -1134,11 +1035,8 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>მარჯვენა ღილაკით დაჭერილი კონტექსტის მენიუს მორგება</value>
   </data>
-  <data name="originalPathColumn.Header" xml:space="preserve">
-    <value>თავდაპირველი გზა</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
-    <value>თავდაპირველი გზა</value>
+  <data name="OriginalPath" xml:space="preserve">
+    <value>Original path</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>დამატება</value>
@@ -1167,32 +1065,14 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>დეტალების ხედი (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>განლაგება</value>
-  </data>
-  <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>განლაგება</value>
-  </data>
-  <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
-    <value>განლაგება</value>
-  </data>
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
     <value>გადახედვა</value>
-  </data>
-  <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>მსხვილი ხატულები</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>ქსელის ხედი (დიდი) (Ctrl+Shift+5)</value>
   </data>
-  <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>საშუალო ხატულები</value>
-  </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>ქსელის ხედი (საშუალო) (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>პატარა ხატულები</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>პატარა ხატულები (Ctrl+Shift+3)</value>
@@ -1206,9 +1086,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>ღრუბლოვანი დისკები</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>მეტი არჩევანი...</value>
-  </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
     <value>ექსპორტის პაკეტები</value>
   </data>
@@ -1217,12 +1094,6 @@
   </data>
   <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
     <value>პაკეტი მსგავსი სახელით უკვე არსებობს!</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
-    <value>შეყვანის ველი არ შეიძლება იყოს ცარიელი!</value>
-  </data>
-  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>ახალ ჩანართში გახსნა</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>ელემენტის მდებარეობის გახსნა</value>
@@ -1272,8 +1143,8 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>ნივთის სახელი</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>ჩამაგრების მოხსნა ფავორიტებიდან</value>
+  <data name="UnpinFromFavorites" xml:space="preserve">
+    <value>Unpin from Favorites</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>ქსელური დისკები</value>
@@ -1422,12 +1293,6 @@
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>საწყისი მენიუდან ჩამაგრების მოხსნა</value>
   </data>
-  <data name="ItemTypeLibrary" xml:space="preserve">
-    <value>ბიბლიოთეკა</value>
-  </data>
-  <data name="LibraryItemAutomation" xml:space="preserve">
-    <value>ბიბლიოთეკა</value>
-  </data>
   <data name="Library" xml:space="preserve">
     <value>ბიბლიოთეკა</value>
   </data>
@@ -1436,9 +1301,6 @@
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>ნაგულისხმევ დასამახსოვრებელ გზად დაყენება</value>
-  </data>
-  <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>წაშლა</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>ადგილმდებარეობები არ არის</value>
@@ -1455,14 +1317,8 @@
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
     <value>ბიბლიოთეკა მსგავსი სახელით უკვე არსებობს!</value>
   </data>
-  <data name="DialogCreateLibraryButtonText" xml:space="preserve">
-    <value>შექმნა</value>
-  </data>
-  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>შენახვის გრძნობის გახსნა</value>
-  </data>
-  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>შენახვის გრძნობის გახსნა</value>
+  <data name="OpenStorageSense" xml:space="preserve">
+    <value>Open Storage Sense</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>ასლის შექმნა</value>
@@ -1515,20 +1371,14 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO სიჩქარე</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>საქაღალდეების გახსნა ახალ ჩანართში</value>
-  </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>ვერ იპოვეთ ის რასაც ეძებდით?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Search unindexed items</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
-    <value>არსებულის ჩანაცვლება</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
-    <value>არსებულის ჩანაცვლება</value>
+  <data name="ReplaceExisting" xml:space="preserve">
+    <value>Replace existing</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>არსებულის ჩანაცვლება</value>
@@ -1569,29 +1419,17 @@
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
     <value>თარიღის წაშლის სვეტი</value>
   </data>
-  <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>დალაგება</value>
-  </data>
-  <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>დალაგება</value>
-  </data>
-  <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
-    <value>დალაგება</value>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>დაჯგუფება</value>
-  </data>
-  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>სახელი</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>შეცვლის თარიღი</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
     <value>თავდაპირველი საქაღალდე</value>
-  </data>
-  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>ნიმუში</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>დალაგება</value>
@@ -1650,8 +1488,8 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
     <value>დახურული ჩანართების ხელახლა გახსნა</value>
   </data>
-  <data name="RenameFileDialogTitle" xml:space="preserve">
-    <value>გადარქმევა</value>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Privacy</value>
@@ -1818,12 +1656,6 @@
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>გახსენით დანიშნულების საქაღალდე დასრულების შემდეგ</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
-    <value>ფაილების ამოღება</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
-    <value>ამოღება აქ</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>ამოიღეთ {0}\ -ში</value>
   </data>
@@ -1832,9 +1664,6 @@
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
     <value>ნაგულისხმევი ბიბლიოთეკების აღდგენა</value>
-  </data>
-  <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
-    <value>აღდგენა</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>დარწმუნებული ხართ, რომ გსურთ ნაგულისხმევი ბიბლიოთეკების აღდგენა? თქვენი ყველა ფაილი თქვენს სისტემაში მაინც დარჩება.</value>
@@ -1874,9 +1703,6 @@
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>უფლებები</value>
-  </data>
-  <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>ნიმუში</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>თქვენ არ გაქვთ ამ ობიექტის უსაფრთხოების პარამეტრების ნახვის უფლება, თუმცა შეგიძლიათ სცადოთ ამ ობიექტის მფლობელობის აღება.</value>
@@ -2004,9 +1830,6 @@
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>{0} განყოფილების დამალვა</value>
   </data>
-  <data name="NavSettingsButton" xml:space="preserve">
-    <value>პარამეტრები</value>
-  </data>
   <data name="AddFile" xml:space="preserve">
     <value>ფაილის დამატება</value>
   </data>
@@ -2085,11 +1908,8 @@
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>მშობელი საქაღალდის გახსნა</value>
   </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>უცნობი</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>ფაილის იარლიყი</value>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>ფაილის იარლიყების რედაქტირება</value>
@@ -2106,8 +1926,8 @@
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>დისკის ჩასმა</value>
   </data>
-  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>კარგი</value>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>სერთიფიკატი საჭიროა</value>
@@ -2117,9 +1937,6 @@
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>მიუთითეთ თქვენი სერთიფიკატი:</value>
-  </data>
-  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
-    <value>პაროლი</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>მომხმარებლის სახელი</value>
@@ -2160,11 +1977,8 @@
   <data name="Tiles" xml:space="preserve">
     <value>მოზაიკა</value>
   </data>
-  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>საქაღალდეების გახსნა ახალ ჩანართში</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>ენა</value>
+  <data name="OpenFoldersInNewTab" xml:space="preserve">
+    <value>Open folders in new tab</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>მიმდინარე დავალებები</value>
@@ -2547,8 +2361,8 @@
   <data name="RestoreAllItems" xml:space="preserve">
     <value>Restore All Items</value>
   </data>
-  <data name="RestoreSelection" xml:space="preserve">
-    <value>აღდგენა</value>
+  <data name="Restore" xml:space="preserve">
+    <value>Restore</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>Shortcut cannot be opened</value>
@@ -2693,9 +2507,6 @@
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>View more</value>
-  </data>
-  <data name="ToolTipDescriptionSize" xml:space="preserve">
-    <value>ზომა:</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
     <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
