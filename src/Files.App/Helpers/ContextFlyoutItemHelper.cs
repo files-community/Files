@@ -218,10 +218,9 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SortBy".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel()
+					OpacityIcon = new OpacityIconModel()
 					{
-						BaseLayerGlyph = "\uF029",
-						OverlayLayerGlyph = "\uF02A",
+						OpacityIconStyle = "ColorIconSort",
 					},
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
