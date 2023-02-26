@@ -74,7 +74,7 @@
 						Command="{x:Bind RemoveLocationCommand}"
 						Icon="Delete"
 						IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
-						Label="{helpers:ResourceString Name=LibraryLocationsButtonRemove/Label}" />
+						Label="{helpers:ResourceString Name=Remove}" />
 				</CommandBar>
 
 				<MenuFlyoutSeparator

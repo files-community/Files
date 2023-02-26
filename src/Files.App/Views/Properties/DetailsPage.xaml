@@ -98,7 +98,7 @@
 							<Flyout x:Name="ClearPropertiesFlyout">
 								<StackPanel Orientation="Vertical" Spacing="4">
 									<TextBlock Text="{helpers:ResourceString Name=ClearPropertiesFlyoutText/Text}" />
-									<Button Click="ClearPropertiesConfirmation_Click" Content="{helpers:ResourceString Name=ClearPropertiesFlyoutConfirmation/Content}" />
+									<Button Click="ClearPropertiesConfirmation_Click" Content="{helpers:ResourceString Name=Clear}" />
 								</StackPanel>
 							</Flyout>
 						</Button.Flyout>

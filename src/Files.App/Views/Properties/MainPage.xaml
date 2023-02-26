@@ -59,7 +59,7 @@
 				<TextBlock
 					VerticalAlignment="Center"
 					Style="{StaticResource CaptionTextBlockStyle}"
-					Text="{helpers:ResourceString Name=PropertiesTitle}" />
+					Text="{helpers:ResourceString Name=Properties}" />
 
 			</StackPanel>
 		</Border>

@@ -87,7 +87,7 @@
 						x:Load="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}"
 						GettingFocus="ItemFileName_GettingFocus"
 						LosingFocus="ItemFileName_LosingFocus"
-						PlaceholderText="{helpers:ResourceString Name=PropertiesItemFileName/PlaceholderText}"
+						PlaceholderText="{helpers:ResourceString Name=PropertyItemName}"
 						Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}" />
 					<TextBlock
 						x:Name="itemFilesAndFoldersCountValueTop"
@@ -182,7 +182,7 @@
 							Grid.Column="0"
 							HorizontalAlignment="Left"
 							Style="{StaticResource PropertyName}"
-							Text="{helpers:ResourceString Name=PropertiesItemSize/Text}"
+							Text="{helpers:ResourceString Name=SizeLabel}"
 							Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}" />
 						<Grid
 							Grid.Row="1"
@@ -553,7 +553,7 @@
 							Grid.Row="2"
 							Grid.Column="0"
 							VerticalAlignment="Center"
-							Text="{helpers:ResourceString Name=PropertiesDialogHidden/Text}"
+							Text="{helpers:ResourceString Name=Hidden}"
 							TextWrapping="WrapWholeWords" />
 						<CheckBox
 							Grid.Row="2"
