@@ -130,7 +130,7 @@ namespace Files.App.UserControls.Widgets
 			ItemContextMenuFlyout = itemContextMenuFlyout;
 			itemContextMenuFlyout.ShowAt(tagsItemsStackPanel, new FlyoutShowOptions { Position = e.GetPosition(tagsItemsStackPanel) });
 
-			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
+			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 			e.Handled = true;
 		}
 
@@ -138,6 +138,21 @@ namespace Files.App.UserControls.Widgets
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenItemsWithCaptionText".GetLocalizedResource(),
+					Glyph = "\uE17D",
+					Tag = "OpenWithPlaceholder",
+					IsEnabled = false,
+					ShowItem = !isFolder
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SendTo".GetLocalizedResource(),
+					Tag = "SendToPlaceholder",
+					IsEnabled = false,
+					ShowItem = !isFolder
+				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
@@ -157,7 +172,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "RecentItemOpenFileLocation/Text".GetLocalizedResource(),
+					Text = "OpenFileLocation".GetLocalizedResource(),
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
 					CommandParameter = item,

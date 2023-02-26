@@ -79,7 +79,7 @@
 								Command="{x:Bind ViewModel.CreateNewFileCommand, Mode=OneWay}"
 								CommandParameter="{x:Null}"
 								IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=File}">
+								Text="{helpers:ResourceString Name=BaseLayoutContextFlyoutNewFile/Text}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE7C3;" />
 								</MenuFlyoutItem.Icon>
@@ -135,9 +135,9 @@
 					AutomationProperties.AutomationId="InnerNavigationToolbarPasteButton"
 					Command="{x:Bind ViewModel.PasteItemsFromClipboardCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.AppModel.IsPasteEnabled), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=Paste}"
+					Label="{helpers:ResourceString Name=NavigationToolbarPaste/Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Paste}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutContextFlyoutPaste/Text}">
 					<AppBarButton.KeyboardAccelerators>
 						<KeyboardAccelerator
 							Key="V"
@@ -155,9 +155,9 @@
 					AutomationProperties.AutomationId="InnerNavigationToolbarRenameButton"
 					Command="{x:Bind ViewModel.Rename, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=Rename}"
+					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename/Text}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Rename}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename/Text}">
 
 					<local:OpacityIcon Style="{StaticResource ColorIconRename}" />
 				</AppBarButton>
@@ -192,12 +192,12 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="O"
-					AutomationProperties.Name="{helpers:ResourceString Name=Properties}"
+					AutomationProperties.Name="{helpers:ResourceString Name=PropertiesTitle}"
 					Command="{x:Bind ViewModel.PropertiesCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanViewProperties, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=Properties}"
+					Label="{helpers:ResourceString Name=PropertiesTitle}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Properties}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=PropertiesTitle}">
 
 					<local:OpacityIcon Style="{StaticResource ColorIconProperties}" />
 				</AppBarButton>
@@ -230,8 +230,8 @@
 					AccessKey="R"
 					Command="{x:Bind ViewModel.RestoreSelectionRecycleBinCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.CanRestoreSelectionRecycleBin, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=Restore}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Restore}"
+					Label="{helpers:ResourceString Name=RestoreSelection}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreSelection}"
 					Visibility="{x:Bind ViewModel.CanRestoreSelectionRecycleBin, Mode=OneWay}">
 					<AppBarButton.Icon>
 						<FontIcon Glyph="&#xE777;" />
@@ -417,11 +417,11 @@
 				MinWidth="40"
 				x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
 				AccessKey="S"
-				AutomationProperties.Name="{helpers:ResourceString Name=SelectionOptions}"
+				AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarSelectionOptions/AutomationProperties/Name}"
 				Label="{helpers:ResourceString Name=NavToolbarSelectionOptions/Label}"
 				LabelPosition="Collapsed"
 				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=SelectionOptions}">
+				ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSelectionOptions/ToolTipService/ToolTip}">
 				<AppBarButton.Flyout>
 					<MenuFlyout Placement="Bottom">
 						<MenuFlyoutItem
@@ -465,21 +465,21 @@
 				MinWidth="40"
 				x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
 				AccessKey="A"
-				AutomationProperties.Name="{helpers:ResourceString Name=Sort}"
-				Label="{helpers:ResourceString Name=Sort}"
+				AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarSortOptionsButton/AutomationProperties/Name}"
+				Label="{helpers:ResourceString Name=NavToolbarSortOptionsButton/Label}"
 				LabelPosition="Collapsed"
 				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=Sort}">
+				ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSortOptionsButton/ToolTipService/ToolTip}">
 
 				<local:OpacityIcon Style="{StaticResource ColorIconSort}" />
 				<AppBarButton.Flyout>
 					<MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
 						<MenuFlyoutSubItem Text="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}">
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByName, Mode=TwoWay}" Text="{helpers:ResourceString Name=Name}" />
+							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByName, Mode=TwoWay}" Text="{helpers:ResourceString Name=NavToolbarArrangementOptionName/Text}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByDateModified, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateModifiedLowerCase}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedBySize, Mode=TwoWay}" Text="{helpers:ResourceString Name=Size}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByType, Mode=TwoWay}" Text="{helpers:ResourceString Name=Type}" />
+							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByType, Mode=TwoWay}" Text="{helpers:ResourceString Name=NavToolbarArrangementOptionType/Text}" />
 							<ToggleMenuFlyoutItem
 								IsChecked="{x:Bind ViewModel.IsSortedBySyncStatus, Mode=TwoWay}"
 								IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
@@ -499,11 +499,11 @@
 						</MenuFlyoutSubItem>
 						<MenuFlyoutSubItem Text="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}">
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByNone, Mode=TwoWay}" Text="{helpers:ResourceString Name=None}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByName, Mode=TwoWay}" Text="{helpers:ResourceString Name=Name}" />
+							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByName, Mode=TwoWay}" Text="{helpers:ResourceString Name=NavToolbarArrangementOptionName/Text}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByDateModified, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateModifiedLowerCase}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedBySize, Mode=TwoWay}" Text="{helpers:ResourceString Name=Size}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByType, Mode=TwoWay}" Text="{helpers:ResourceString Name=Type}" />
+							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByType, Mode=TwoWay}" Text="{helpers:ResourceString Name=NavToolbarArrangementOptionType/Text}" />
 							<ToggleMenuFlyoutItem
 								IsChecked="{x:Bind ViewModel.IsGroupedBySyncStatus, Mode=TwoWay}"
 								IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
@@ -542,18 +542,18 @@
 				MinWidth="40"
 				x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
 				AccessKey="L"
-				AutomationProperties.Name="{helpers:ResourceString Name=Layout}"
-				Label="{helpers:ResourceString Name=Layout}"
+				AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarLayoutOptionsButton/AutomationProperties/Name}"
+				Label="{helpers:ResourceString Name=NavToolbarLayoutOptionsButton/Label}"
 				LabelPosition="Collapsed"
 				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=Layout}">
+				ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarLayoutOptionsButton/ToolTipService/ToolTip}">
 				<AppBarButton.Icon>
 					<FontIcon FontSize="10" Glyph="&#xE152;" />
 				</AppBarButton.Icon>
 				<AppBarButton.Flyout>
 					<Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
 						<StackPanel Spacing="12">
-							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=Layout}" />
+							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=NavToolbarLayout/Text}" />
 
 							<Grid ColumnSpacing="8" RowSpacing="8">
 								<Grid.RowDefinitions>
@@ -633,7 +633,7 @@
 									Padding="0"
 									HorizontalContentAlignment="Center"
 									VerticalContentAlignment="Center"
-									AutomationProperties.Name="{helpers:ResourceString Name=SmallIcons}"
+									AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarSmallIcons/AutomationProperties/Name}"
 									Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmallCommand, Mode=OneWay}"
 									CommandParameter="{xh:SystemTypeToXaml Bool=True}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
@@ -660,7 +660,7 @@
 									Padding="0"
 									HorizontalContentAlignment="Center"
 									VerticalContentAlignment="Center"
-									AutomationProperties.Name="{helpers:ResourceString Name=MediumIcons}"
+									AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarMediumIcons/AutomationProperties/Name}"
 									Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMediumCommand, Mode=OneWay}"
 									CommandParameter="{xh:SystemTypeToXaml Bool=True}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
@@ -696,7 +696,7 @@
 									Padding="0"
 									HorizontalContentAlignment="Center"
 									VerticalContentAlignment="Center"
-									AutomationProperties.Name="{helpers:ResourceString Name=LargeIcons}"
+									AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarLargeIcons/AutomationProperties/Name}"
 									Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLargeCommand, Mode=OneWay}"
 									CommandParameter="{xh:SystemTypeToXaml Bool=True}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
