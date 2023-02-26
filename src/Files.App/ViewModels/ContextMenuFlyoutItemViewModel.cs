@@ -34,8 +34,6 @@ namespace Files.App.ViewModels
 
 		public BitmapImage BitmapIcon { get; set; }
 
-		public OpacityIcon OpacityIcon { get; set; }
-
 		/// <summary>
 		/// Only show the item when the shift key is held
 		/// </summary>
@@ -82,6 +80,7 @@ namespace Files.App.ViewModels
 		public bool CollapseLabel { get; set; }
 
 		public ColoredIconModel ColoredIcon { get; set; }
+		public OpacityIconModel OpacityIcon { get; set; }
 
 		public bool ShowLoadingIndicator { get; set; }
 
@@ -143,5 +142,15 @@ namespace Files.App.ViewModels
 		};
 
 		public bool IsValid => !string.IsNullOrEmpty(BaseLayerGlyph);
+	}
+
+	public struct OpacityIconModel
+	{
+		public Style OpacityIconStyle { get; set; }
+
+		public OpacityIcon ToOpacityIconIcon() => new()
+		{
+			Style = OpacityIconStyle,
+		};
 	}
 }
