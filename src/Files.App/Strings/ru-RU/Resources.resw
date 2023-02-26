@@ -136,7 +136,7 @@
     <value>Путь:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Размер:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Размер в несжатом виде:</value>
@@ -175,7 +175,7 @@
     <value>Введите путь</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Поиск</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Файлы, с которыми Вы ранее взаимодействовали, будут отображаться здесь</value>
@@ -247,22 +247,22 @@
     <value>Обновить</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Вставить</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Создать</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Свойства</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Открыть</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Открыть в новой вкладке</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Открыть в новом окне</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Поделиться</value>
@@ -289,7 +289,7 @@
     <value>Отображение</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Введите название</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Сохранить</value>
@@ -373,7 +373,7 @@
     <value>Файл используется</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>Макет</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Только чтение</value>
@@ -673,7 +673,7 @@
     <value>Перейти на один каталог вверх</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Язык</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Переместить расширения оболочки в подменю</value>
@@ -955,7 +955,7 @@
     <value>Адрес</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>Настройки выделения</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Выделение</value>
@@ -997,7 +997,7 @@
     <value>Новая вкладка</value>
   </data>
   <data name="NewTabCtrlT" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+    <value>Новая вкладка (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Некоторые свойства могут содержать личную информацию.</value>
@@ -1036,7 +1036,7 @@
     <value>Настройки контекстного меню</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>Исходный путь</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Добавить</value>
@@ -1144,7 +1144,7 @@
     <value>Имя</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Убрать из Избранного</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Сетевые диски</value>
@@ -1318,7 +1318,7 @@
     <value>Библиотека с таким названием уже существует!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>Открыть Контроль памяти</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Копировать</value>
@@ -1378,7 +1378,7 @@
     <value>Искать неиндексированные элементы</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Заменить имеющиеся</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Сгенерировать новое имя</value>
@@ -1420,7 +1420,7 @@
     <value>Дата удаления</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Сортировка</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Группировка</value>
@@ -1489,7 +1489,7 @@
     <value>Открыть закрытую вкладку</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Переименовать</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Конфиденциальность</value>
@@ -1909,7 +1909,7 @@
     <value>Открыть родительскую папку</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Неизвестно</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Редактировать метки</value>
@@ -1927,7 +1927,7 @@
     <value>Вставьте диск</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>OK</value>
+    <value>Ок</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Требуются учетные данные</value>
@@ -1978,7 +1978,7 @@
     <value>Плитки</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Открывать папки в новой вкладке</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Текущие задачи</value>
@@ -2362,7 +2362,7 @@
     <value>Восстановить все элементы</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>Восстановить</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>Ярлык не может быть открыт</value>
