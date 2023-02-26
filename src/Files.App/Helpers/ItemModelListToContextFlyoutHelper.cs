@@ -194,6 +194,8 @@ namespace Files.App.Helpers.ContextFlyouts
 				};
 			else if (item.ColoredIcon.IsValid)
 				content = item.ColoredIcon.ToColoredIcon();
+			else if (item.OpacityIcon.IsValid)
+				content = item.OpacityIcon.ToOpacityIcon();
 			else if (item.ShowLoadingIndicator)
 				content = new ProgressRing()
 				{

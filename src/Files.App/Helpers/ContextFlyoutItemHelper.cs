@@ -542,7 +542,7 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutContextFlyoutNew/Label".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = (Style)Application.Current.Resources["ColorIconNew"],
+						OpacityIconStyle = "ColorIconNew",
 					},
 					KeyboardAccelerator = new KeyboardAccelerator
 					{

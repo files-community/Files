@@ -146,11 +146,13 @@ namespace Files.App.ViewModels
 
 	public struct OpacityIconModel
 	{
-		public Style OpacityIconStyle { get; set; }
+		public string OpacityIconStyle { get; set; }
 
-		public OpacityIcon ToOpacityIconIcon() => new()
+		public OpacityIcon ToOpacityIcon() => new()
 		{
-			Style = OpacityIconStyle,
+			Style = (Style)Application.Current.Resources[OpacityIconStyle],
 		};
+
+		public bool IsValid => !string.IsNullOrEmpty(OpacityIconStyle);
 	}
 }
