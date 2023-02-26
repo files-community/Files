@@ -77,7 +77,7 @@ namespace Files.App.Helpers
 				};
 
 				var appWindow = propertiesWindow.AppWindow;
-				appWindow.Title = "PropertiesTitle".GetLocalizedResource();
+				appWindow.Title = "Properties".GetLocalizedResource();
 				appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 				appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 				appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
