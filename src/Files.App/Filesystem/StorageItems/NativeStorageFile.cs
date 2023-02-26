@@ -35,7 +35,7 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			get
 			{
-				var itemType = "ItemTypeFile".GetLocalizedResource();
+				var itemType = "File".GetLocalizedResource();
 
 				if (Name.Contains('.', StringComparison.Ordinal))
 					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
