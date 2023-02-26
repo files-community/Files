@@ -540,9 +540,9 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutContextFlyoutNew/Label".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new UserControls.OpacityIcon()
 					{
-						OpacityIconStyle = (Style)Application.Current.Resources["ColorIconNew"],
+						Style = (Style)Application.Current.Resources["ColorIconNew"],
 					},
 					KeyboardAccelerator = new KeyboardAccelerator
 					{
