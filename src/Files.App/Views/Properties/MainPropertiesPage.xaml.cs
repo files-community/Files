@@ -25,7 +25,7 @@ using Windows.UI;
 
 namespace Files.App.Views.Properties
 {
-	public sealed partial class MainPage : Page
+	public sealed partial class MainPropertiesPage : Page
 	{
 		private CancellationTokenSource? _tokenSource;
 
@@ -44,7 +44,7 @@ namespace Files.App.Views.Properties
 
 		public ObservableCollection<SquareNavViewItem> NavViewItems { get; set; }
 
-		public MainPage()
+		public MainPropertiesPage()
 		{
 			InitializeComponent();
 

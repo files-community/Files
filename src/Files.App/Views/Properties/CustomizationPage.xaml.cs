@@ -44,7 +44,7 @@ namespace Files.App.Views.Properties
 			picker.FileTypeFilter.Add(".ico");
 
 			// WINUI3: Create and initialize new window
-			var parentWindowId = ((Views.Properties.MainPage)((Frame)XamlRoot.Content).Content).AppWindow.Id;
+			var parentWindowId = ((Views.Properties.MainPropertiesPage)((Frame)XamlRoot.Content).Content).AppWindow.Id;
 			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
 			WinRT.Interop.InitializeWithWindow.Initialize(picker, handle);
 

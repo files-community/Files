@@ -35,7 +35,7 @@ namespace Files.App.Views.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = e.Parameter as Properties.MainPage.PropertyNavParam;
+			var np = e.Parameter as Properties.MainPropertiesPage.PropertyNavParam;
 
 			if (np.navParameter is ListedItem listedItem)
 			{

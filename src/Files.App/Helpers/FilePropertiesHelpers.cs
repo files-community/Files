@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
-using static Files.App.Views.Properties.MainPage;
+using static Files.App.Views.Properties.MainPropertiesPage;
 
 namespace Files.App.Helpers
 {
@@ -84,7 +84,7 @@ namespace Files.App.Helpers
 
 				appWindow.SetIcon(LogoPath);
 
-				if (frame.Content is Views.Properties.MainPage properties)
+				if (frame.Content is Views.Properties.MainPropertiesPage properties)
 					properties.AppWindow = appWindow;
 
 				appWindow.Show();
@@ -118,7 +118,7 @@ namespace Files.App.Helpers
 					Item = item,
 					AppInstanceArgument = associatedInstance,
 				};
-				frame.Navigate(typeof(Views.Properties.MainPage), argument, new SuppressNavigationTransitionInfo());
+				frame.Navigate(typeof(Views.Properties.MainPropertiesPage), argument, new SuppressNavigationTransitionInfo());
 			}
 		}
 

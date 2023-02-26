@@ -28,7 +28,7 @@ namespace Files.App.ViewModels.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = e.Parameter as Views.Properties.MainPage.PropertyNavParam;
+			var np = e.Parameter as Views.Properties.MainPropertiesPage.PropertyNavParam;
 
 			AppInstance = np.AppInstanceArgument;
 			ViewModel = new SelectedItemsPropertiesViewModel();
