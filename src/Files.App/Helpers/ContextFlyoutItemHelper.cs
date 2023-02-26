@@ -9,6 +9,7 @@ using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
@@ -539,11 +540,9 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutContextFlyoutNew/Label".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel()
+					OpacityIcon = new OpacityIconModel()
 					{
-						BaseBackdropGlyph = "\uF051",
-						BaseLayerGlyph = "\uF037",
-						OverlayLayerGlyph = "\uF038"
+						OpacityIconStyle = (Style)Application.Current.Resources["ColorIconNew"],
 					},
 					KeyboardAccelerator = new KeyboardAccelerator
 					{
