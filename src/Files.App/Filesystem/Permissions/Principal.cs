@@ -6,6 +6,9 @@ using static Vanara.PInvoke.AdvApi32;
 
 namespace Files.App.Filesystem.Permissions
 {
+	/// <summary>
+	/// Represents an orincipal of an ACE or an owner of an ACL
+	/// </summary>
 	public class Principal : ObservableObject
 	{
 		public Principal()

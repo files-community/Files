@@ -5,7 +5,7 @@ using System.Linq;
 namespace Files.App.Filesystem.Permissions
 {
 	/// <summary>
-	/// Represents an ACL's controller
+	/// Represents controller of an ACL.
 	/// </summary>
 	public class AccessControlListController
 	{

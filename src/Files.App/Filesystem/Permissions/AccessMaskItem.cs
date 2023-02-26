@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace Files.App.Filesystem.Permissions
 {
 	/// <summary>
-	/// Represents an access mask, such as its name and changeability.
+	/// Represents an access mask details, such as its name and changeability.
 	/// </summary>
 	public class AccessMaskItem : ObservableObject
 	{

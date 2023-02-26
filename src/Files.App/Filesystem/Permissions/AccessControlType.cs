@@ -1,7 +1,7 @@
 ﻿namespace Files.App.Filesystem.Permissions
 {
 	/// <summary>
-	/// Represents type of ACE.
+	/// Represents ACE type.
 	/// </summary>
 	public enum AccessControlType
 	{
