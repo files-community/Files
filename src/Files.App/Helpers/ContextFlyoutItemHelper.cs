@@ -100,7 +100,7 @@ namespace Files.App.Helpers
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutContextFlyoutLayoutMode/Text".GetLocalizedResource(),
+					Text = "LayoutMode".GetLocalizedResource(),
 					Glyph = "\uE152",
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
@@ -139,7 +139,7 @@ namespace Files.App.Helpers
 						// Grid view small
 						new ContextMenuFlyoutItemViewModel()
 						{
-							Text = "BaseLayoutContextFlyoutSmallIcons/Text".GetLocalizedResource(),
+							Text = "SmallIcons".GetLocalizedResource(),
 							Glyph = "\uE80A",
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
@@ -153,7 +153,7 @@ namespace Files.App.Helpers
 						// Grid view medium
 						new ContextMenuFlyoutItemViewModel()
 						{
-							Text = "BaseLayoutContextFlyoutMediumIcons/Text".GetLocalizedResource(),
+							Text = "MediumIcons".GetLocalizedResource(),
 							Glyph = "\uF0E2",
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
@@ -167,7 +167,7 @@ namespace Files.App.Helpers
 						// Grid view large
 						new ContextMenuFlyoutItemViewModel()
 						{
-							Text = "BaseLayoutContextFlyoutLargeIcons/Text".GetLocalizedResource(),
+							Text = "LargeIcons".GetLocalizedResource(),
 							Glyph = "\uE739",
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
@@ -211,7 +211,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutContextFlyoutSortBy/Text".GetLocalizedResource(),
+					Text = "SortBy".GetLocalizedResource(),
 					ColoredIcon = new ColoredIconModel()
 					{
 						BaseLayerGlyph = "\uF029",
@@ -258,7 +258,7 @@ namespace Files.App.Helpers
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
-							Text = "BaseLayoutContextFlyoutSortByType/Text".GetLocalizedResource(),
+							Text = "Type".GetLocalizedResource(),
 							IsChecked = itemViewModel?.IsSortedByType ?? false,
 							Command = itemViewModel is not null ? new RelayCommand(() => itemViewModel.IsSortedByType = true) : null!,
 							ShowInRecycleBin = true,
@@ -297,7 +297,7 @@ namespace Files.App.Helpers
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
-							Text = "BaseLayoutContextFlyoutSortByOriginalPath/Text".GetLocalizedResource(),
+							Text = "OriginalPath".GetLocalizedResource(),
 							IsChecked = itemViewModel?.IsSortedByOriginalPath ?? false,
 							ShowInRecycleBin = true,
 							Command = itemViewModel is not null ? new RelayCommand(() => itemViewModel.IsSortedByOriginalPath = true) : null!,
@@ -406,7 +406,7 @@ namespace Files.App.Helpers
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
-							Text = "BaseLayoutContextFlyoutSortByType/Text".GetLocalizedResource(),
+							Text = "Type".GetLocalizedResource(),
 							IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileType,
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
@@ -578,7 +578,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutRestore/Text".GetLocalizedResource(),
+					Text = "Restore".GetLocalizedResource(),
 					Glyph = "\xE777",
 					Command = commandsViewModel.RestoreItemCommand,
 					ShowInRecycleBin = true,
@@ -635,7 +635,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutOpenFileLocation/Text".GetLocalizedResource(),
+					Text = "OpenFileLocation".GetLocalizedResource(),
 					Glyph = "\uE8DA",
 					Command = commandsViewModel.OpenFileLocationCommand,
 					ShowItem = itemsSelected && selectedItems.All(i => i.IsShortcut),
@@ -643,7 +643,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutOpenInNewTab/Text".GetLocalizedResource(),
+					Text = "OpenInNewTab".GetLocalizedResource(),
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = commandsViewModel.OpenDirectoryInNewTabCommand,
@@ -654,7 +654,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutOpenInNewWindow/Text".GetLocalizedResource(),
+					Text = "OpenInNewWindow".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = commandsViewModel.OpenInNewWindowItemCommand,
 					ShowItem = itemsSelected && selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow,
@@ -687,7 +687,7 @@ namespace Files.App.Helpers
 					{
 						new ContextMenuFlyoutItemViewModel()
 						{
-							Text = "BaseLayoutItemContextFlyoutSetAsDesktopBackground/Text".GetLocalizedResource(),
+							Text = "SetAsBackground".GetLocalizedResource(),
 							Glyph = "\uE91B",
 							Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
 							ShowInSearchPage = true,
@@ -739,7 +739,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutContextFlyoutRunAsAdmin/Text".GetLocalizedResource(),
+					Text = "RunAsAdministrator".GetLocalizedResource(),
 					Glyph = "\uE7EF",
 					Command = commandsViewModel.RunAsAdminCommand,
 					ShowInSearchPage = true,
@@ -823,7 +823,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalizedResource(),
+					Text = "Paste".GetLocalizedResource(),
 					//Glyph = "\uF16D",
 					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
@@ -872,7 +872,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutRename/Text".GetLocalizedResource(),
+					Text = "Rename".GetLocalizedResource(),
 					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
@@ -928,7 +928,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutProperties/Text".GetLocalizedResource(),
+					Text = "Properties".GetLocalizedResource(),
 					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
@@ -961,7 +961,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalizedResource(),
+					Text = "UnpinFromFavorites".GetLocalizedResource(),
 					Glyph = "\uE77A",
 					Command = commandsViewModel.SidebarUnpinItemCommand,
 					ShowItem = userSettingsService.PreferencesSettingsService.ShowFavoritesSection && selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive && x.IsPinned),
@@ -998,7 +998,7 @@ namespace Files.App.Helpers
 					{
 						new ContextMenuFlyoutItemViewModel
 						{
-							Text = "BaseLayoutItemContextFlyoutExtractFilesOption".GetLocalizedResource(),
+							Text = "ExtractFiles".GetLocalizedResource(),
 							Glyph = "\xF11A",
 							GlyphFontFamilyName = "CustomGlyph",
 							Command = commandsViewModel.DecompressArchiveCommand,
@@ -1007,7 +1007,7 @@ namespace Files.App.Helpers
 						},
 						new ContextMenuFlyoutItemViewModel
 						{
-							Text = "BaseLayoutItemContextFlyoutExtractHereOption".GetLocalizedResource(),
+							Text = "ExtractHere".GetLocalizedResource(),
 							Glyph = "\xF11A",
 							GlyphFontFamilyName = "CustomGlyph",
 							Command = commandsViewModel.DecompressArchiveHereCommand,
@@ -1115,7 +1115,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutContextFlyoutNewFile/Text".GetLocalizedResource(),
+					Text = "File".GetLocalizedResource(),
 					Glyph = "\uE7C3",
 					Command = commandsViewModel.CreateNewFileCommand,
 					CommandParameter = null,

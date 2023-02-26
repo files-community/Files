@@ -116,7 +116,7 @@
 					SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ConflictResolveOptionToIndexConverter}}">
 					<ComboBox.Items>
 						<ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
-						<ComboBoxItem Content="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting/Text}" />
+						<ComboBoxItem Content="{helpers:ResourceString Name=ReplaceExisting}" />
 						<ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
 					</ComboBox.Items>
 				</ComboBox>
@@ -180,7 +180,7 @@
 					<ComboBox.Items>
 						<ComboBoxItem Content="{helpers:ResourceString Name=Custom}" />
 						<ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
-						<ComboBoxItem Content="{helpers:ResourceString Name=ConflictingItemsDialogOptionReplaceExisting/Text}" />
+						<ComboBoxItem Content="{helpers:ResourceString Name=ReplaceExisting}" />
 						<ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
 					</ComboBox.Items>
 				</ComboBox>

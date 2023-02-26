@@ -158,7 +158,7 @@ namespace Files.App.UserControls.Widgets
 			{				
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
+					Text = "OpenInNewTab".GetLocalizedResource(),
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
@@ -167,7 +167,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
+					Text = "OpenInNewWindow".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
@@ -196,7 +196,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarUnpinFromFavorites/Text".GetLocalizedResource(),
+					Text = "UnpinFromFavorites".GetLocalizedResource(),
 					Glyph = "\uE77A",
 					Command = UnpinFromFavoritesCommand,
 					CommandParameter = item,
@@ -204,7 +204,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
+					Text = "Properties".GetLocalizedResource(),
 					Glyph = "\uE946",
 					Command = OpenPropertiesCommand,
 					CommandParameter = item

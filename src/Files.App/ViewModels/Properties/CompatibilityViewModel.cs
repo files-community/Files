@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.ViewModels.Properties
 {
-	public class CompatibilityProperties : ObservableObject
+	public class CompatibilityViewModel : ObservableObject
 	{
 		public ListedItem Item { get; }
 
@@ -149,7 +149,7 @@ namespace Files.App.ViewModels.Properties
 
 		public IRelayCommand RunTroubleshooterCommand { get; set; }
 
-		public CompatibilityProperties(ListedItem item)
+		public CompatibilityViewModel(ListedItem item)
 		{
 			Item = item;
 

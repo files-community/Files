@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
-using static Files.App.Views.Properties;
+using static Files.App.Views.Properties.MainPropertiesPage;
 
 namespace Files.App.Helpers
 {
@@ -77,14 +77,14 @@ namespace Files.App.Helpers
 				};
 
 				var appWindow = propertiesWindow.AppWindow;
-				appWindow.Title = "PropertiesTitle".GetLocalizedResource();
+				appWindow.Title = "Properties".GetLocalizedResource();
 				appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 				appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 				appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
 				appWindow.SetIcon(LogoPath);
 
-				if (frame.Content is Properties properties)
+				if (frame.Content is Views.Properties.MainPropertiesPage properties)
 					properties.AppWindow = appWindow;
 
 				appWindow.Show();
@@ -118,7 +118,7 @@ namespace Files.App.Helpers
 					Item = item,
 					AppInstanceArgument = associatedInstance,
 				};
-				frame.Navigate(typeof(Properties), argument, new SuppressNavigationTransitionInfo());
+				frame.Navigate(typeof(Views.Properties.MainPropertiesPage), argument, new SuppressNavigationTransitionInfo());
 			}
 		}
 

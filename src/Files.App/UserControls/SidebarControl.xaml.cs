@@ -212,7 +212,7 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
+					Text = "OpenInNewTab".GetLocalizedResource(),
 					Glyph = "\uF113",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
@@ -220,7 +220,7 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
+					Text = "OpenInNewWindow".GetLocalizedResource(),
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
 					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
@@ -246,7 +246,7 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarUnpinFromFavorites/Text".GetLocalizedResource(),
+					Text = "UnpinFromFavorites".GetLocalizedResource(),
 					Glyph = "\uE77A",
 					Command = UnpinItemCommand,
 					ShowItem = options.ShowUnpinItem || isDriveItemPinned
@@ -275,7 +275,7 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
+					Text = "Properties".GetLocalizedResource(),
 					Glyph = "\uE946",
 					Command = OpenPropertiesCommand,
 					CommandParameter = menu,
@@ -718,7 +718,7 @@ namespace Files.App.UserControls
 			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 			var hasStorageItems = storageItems.Any();
 
-			if ("DriveCapacityUnknown".GetLocalizedResource().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
+			if ("Unknown".GetLocalizedResource().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
 				(hasStorageItems && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
 			{
 				e.AcceptedOperation = DataPackageOperation.None;

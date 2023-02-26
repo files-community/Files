@@ -522,7 +522,7 @@
 
 		<TeachingTip
 			x:Name="FileNameTeachingTip"
-			CloseButtonContent="{helpers:ResourceString Name=FileNameTeachingTip/CloseButtonContent}"
+			CloseButtonContent="{helpers:ResourceString Name=OK}"
 			PreferredPlacement="Auto"
 			Subtitle="{helpers:ResourceString Name=FileNameTeachingTip/Subtitle}"
 			Visibility="Collapsed" />
