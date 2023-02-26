@@ -96,12 +96,12 @@
 								HorizontalContentAlignment="Center"
 								VerticalContentAlignment="Center"
 								x:Load="{x:Bind Item.ShowStorageSense, Mode=OneWay}"
-								AutomationProperties.Name="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton/AutomationProperties/Name}"
+								AutomationProperties.Name="{helpers:ResourceString Name=OpenStorageSense}"
 								Background="Transparent"
 								BorderBrush="Transparent"
 								Click="GoToStorageSense_Click"
 								Tag="{x:Bind Item.Path}"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton/ToolTipService/ToolTip}">
+								ToolTipService.ToolTip="{helpers:ResourceString Name=OpenStorageSense}">
 								<FontIcon
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"

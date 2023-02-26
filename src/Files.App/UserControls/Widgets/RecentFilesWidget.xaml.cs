@@ -153,7 +153,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "RecentItemOpenFileLocation/Text".GetLocalizedResource(),
+					Text = "OpenFileLocation".GetLocalizedResource(),
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
 					CommandParameter = item

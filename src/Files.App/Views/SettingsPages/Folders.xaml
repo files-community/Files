@@ -110,7 +110,7 @@
 								<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=DateCreated}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=Size}" />
-								<ComboBoxItem Content="{helpers:ResourceString Name=BaseLayoutContextFlyoutSortByType/Text}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Type}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
 							</ComboBox>
 						</local:SettingsBlockControl>
@@ -131,7 +131,7 @@
 								<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=DateCreated}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=Size}" />
-								<ComboBoxItem Content="{helpers:ResourceString Name=BaseLayoutContextFlyoutSortByType/Text}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Type}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
 							</ComboBox>
 						</local:SettingsBlockControl>
@@ -283,10 +283,10 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesOpenFoldersNewTab/Title}" HorizontalAlignment="Stretch">
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenFoldersInNewTab}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								x:Name="OpenFoldersNewTab"
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersNewTabToggleSwitch/AutomationProperties/Name}"
+								AutomationProperties.Name="{helpers:ResourceString Name=OpenFoldersInNewTab}"
 								IsOn="{x:Bind ViewModel.OpenFoldersNewTab, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>

@@ -4,24 +4,24 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Navigation;
 using System.Threading.Tasks;
 
-namespace Files.App.Views
+namespace Files.App.Views.Properties
 {
-	public sealed partial class PropertiesCompatibility : PropertiesTab
+	public sealed partial class CompatibilityPage : BasePropertiesPage
 	{
-		public CompatibilityProperties CompatibilityProperties { get; set; }
+		public CompatibilityViewModel CompatibilityProperties { get; set; }
 
-		public PropertiesCompatibility()
+		public CompatibilityPage()
 		{
 			InitializeComponent();
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = e.Parameter as Views.Properties.PropertyNavParam;
+			var np = e.Parameter as Views.Properties.MainPropertiesPage.PropertyNavParam;
 
 			if (np.navParameter is ListedItem listedItem)
 			{
-				CompatibilityProperties = new CompatibilityProperties(listedItem);
+				CompatibilityProperties = new CompatibilityViewModel(listedItem);
 			}
 
 			base.OnNavigatedTo(e);

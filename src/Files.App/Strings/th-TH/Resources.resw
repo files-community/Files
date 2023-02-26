@@ -117,26 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
-    <value>เปิดในแท็บใหม่</value>
-  </data>
-  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>เปิดในหน้าต่างใหม่</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>เปิดในหน้าต่างใหม่</value>
   </data>
   <data name="CopyLocation" xml:space="preserve">
     <value>คัดลอกตำแหน่งปัจจุบัน</value>
   </data>
-  <data name="NavigationToolbarPaste.Label" xml:space="preserve">
-    <value>วาง</value>
-  </data>
   <data name="Browse" xml:space="preserve">
     <value>เรียกดู</value>
-  </data>
-  <data name="nameColumn.Header" xml:space="preserve">
-    <value>ชื่อ</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>ขนาด</value>
@@ -144,14 +132,11 @@
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>สร้างเมื่อ:</value>
   </data>
-  <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>ชื่อไอเทม</value>
-  </data>
   <data name="Path" xml:space="preserve">
     <value>ตำแหน่งที่ตั้ง:</value>
   </data>
-  <data name="PropertiesItemSize.Text" xml:space="preserve">
-    <value>ขนาด:</value>
+  <data name="SizeLabel" xml:space="preserve">
+    <value>Size:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>ขนาดที่ไม่บีบอัด:</value>
@@ -189,14 +174,11 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>ระบุตำแหน่งที่ตั้ง</value>
   </data>
-  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
-    <value>ค้นหา</value>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>รายการไฟล์ที่เคยเข้าถึงจะแสดงในรายการนี้</value>
-  </data>
-  <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
-    <value>เปิดตำแหน่งที่ตั้งไฟล์</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>ลบรายการนี้</value>
@@ -255,17 +237,8 @@
   <data name="Downloads" xml:space="preserve">
     <value>ดาวน์โหลด</value>
   </data>
-  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
-    <value>ถอนออกจากรายการโปรด</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
-    <value>เรียงลำดับตาม</value>
-  </data>
   <data name="Name" xml:space="preserve">
     <value>ชื่อ</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>ประเภท</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>จากน้อยไปหามาก</value>
@@ -273,29 +246,23 @@
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>รีเฟรช</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
-    <value>วาง</value>
+  <data name="Paste" xml:space="preserve">
+    <value>Paste</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>สร้าง</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>ไฟล์</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
-    <value>คุณสมบัติ</value>
+  <data name="Properties" xml:space="preserve">
+    <value>Properties</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>เปิด</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>เปิดในแท็บใหม่</value>
+  <data name="OpenInNewTab" xml:space="preserve">
+    <value>Open in new tab</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>เปิดในหน้าต่างใหม่</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>ตั้งเป็นพื้นหลังของเดสก์ท็อป</value>
+  <data name="OpenInNewWindow" xml:space="preserve">
+    <value>Open in new window</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>ใช้ร่วมกัน</value>
@@ -306,14 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>ลบ</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
-    <value>เปลี่ยนชื่อ</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>ปักหมุดไว้ในรายการโปรด</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>คุณสมบัติ</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>ยินดีต้อนรับสู่โปรแกรมจัดการไฟล์!</value>
@@ -324,17 +285,11 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>ก่อนเริ่มต้นใช้งาน, เราต้องได้รับสิทธิ์การเข้าถึงไฟล์จากคุณก่อน. เราจะพาคุณไปยังหน้าการตั้งค่าสิทธิ์การเข้าถึงไฟล์เพื่อให้คุณอนุญาตโปรแกรมเราได้เข้าถึงสิทธิ์นั้น. เมื่อยกสิทธิ์การเข้าถึงแล้วปิดโปรแกรมแล้วเปิดใหม่อีกครั้งเพื่อให้การอนุญาตสิทธิ์เสร็จสมบูรณ์.</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>ไฟล์</value>
-  </data>
   <data name="Display" xml:space="preserve">
     <value>Display</value>
   </data>
-  <data name="RenameDialog.Title" xml:space="preserve">
-    <value>ระบุชื่อใหม่ของรายการ</value>
-  </data>
-  <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>ระบุชื่อใหม่ของรายการ</value>
+  <data name="EnterAnItemName" xml:space="preserve">
+    <value>Enter an item name</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>ตั้งขื่อนี้</value>
@@ -375,9 +330,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ค้นหา (Ctrl+F)</value>
   </data>
-  <data name="PropertiesTitle" xml:space="preserve">
-    <value>คุณสมบัติ</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>ในโฟลเดอร์นี้มีรายการที่ใช้ชื่อนี้ไปแล้ว.</value>
   </data>
@@ -389,18 +341,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>ตั้งเป็นพื้นหลังของหน้าจอเมื่อล็อค</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
-    <value>ไอคอนขนาดใหญ่</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
-    <value>ไอคอนขนาดกลาง</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
-    <value>ไอคอนขนาดเล็ก</value>
-  </data>
-  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>ตกลง</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>ไม่สามารถลบสิ่งของที่ระบุไว้ได้</value>
@@ -432,20 +372,11 @@
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>ไฟล์ถูกใช้งานอยู่</value>
   </data>
-  <data name="NavToolbarLayout.Text" xml:space="preserve">
-    <value>เค้าโครง</value>
-  </data>
-  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>เลือก</value>
+  <data name="Layout" xml:space="preserve">
+    <value>Layout</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>อ่านอย่างเดียว</value>
-  </data>
-  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
-    <value>ซ่อน</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
-    <value>เอาออกไปไว้ที่เดิม</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0} วันที่ผ่านมา</value>
@@ -488,9 +419,6 @@
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>ชื่อไฟล์ไม่สามารถมีอักขระต่อไปนี้ได้: \ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>ตกลง</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>The item name specified is invalid</value>
@@ -542,9 +470,6 @@
   </data>
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
-    <value>เรียกใช้ในฐานะผู้ดูแล</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} ไฟล์, {1:#,##0} โฟลเดอร์</value>
@@ -618,9 +543,6 @@
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
     <value>ชนิดของทางลัด:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>ไฟล์</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>ทางลัดอินเตอร์เน็ต</value>
   </data>
@@ -630,20 +552,11 @@
   <data name="Shortcut" xml:space="preserve">
     <value>ทางลัด</value>
   </data>
-  <data name="ShortcutFileType" xml:space="preserve">
-    <value>ทางลัด</value>
-  </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
     <value>ทางลัดอินเตอร์เน็ต</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - ทางลัด</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>เปิดตำแหน่งที่ตั้งไฟล์</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>ไม่ทราบ</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>โปรแกรมจัดการไฟล์เจอปัญหาที่ไม่เคยเจอมาก่อน.</value>
@@ -744,9 +657,6 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>สร้างโฟลเดอร์เปล่า</value>
   </data>
-  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>รูปแบบมุมมอง</value>
-  </data>
   <data name="LayoutMode" xml:space="preserve">
     <value>รูปแบบมุมมอง</value>
   </data>
@@ -762,8 +672,8 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>ขึ้นไป</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
-    <value>ภาษา</value>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Move shell extensions into a sub menu</value>
@@ -1044,8 +954,8 @@
   <data name="Address" xml:space="preserve">
     <value>ที่ตั้ง</value>
   </data>
-  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>เลือก</value>
+  <data name="SelectionOptions" xml:space="preserve">
+    <value>Selection options</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>เลือก</value>
@@ -1086,17 +996,11 @@
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>แท็บใหม่</value>
   </data>
-  <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>แท็บใหม่ (Ctrl+T)</value>
-  </data>
-  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>แท็บใหม่ (Ctrl+T)</value>
+  <data name="NewTabCtrlT" xml:space="preserve">
+    <value>New tab (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>รายละเอียดอาจมีข้อมูลที่เป็นส่วนบุคคล</value>
-  </data>
-  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
-    <value>ล้าง</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>ล้างรายละเอียดทุกอย่าง</value>
@@ -1106,9 +1010,6 @@
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>ศูนย์รวมสถานะ</value>
-  </data>
-  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>ค้นหา</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>ผลการค้นหา {0} ใน {1}</value>
@@ -1134,11 +1035,8 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>ปรับแต่งรายการคลิกขวา</value>
   </data>
-  <data name="originalPathColumn.Header" xml:space="preserve">
-    <value>ต้นทาง</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
-    <value>ต้นทาง</value>
+  <data name="OriginalPath" xml:space="preserve">
+    <value>Original path</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>เพิ่ม</value>
@@ -1167,32 +1065,14 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>รายละเอียด (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>เค้าโครง</value>
-  </data>
-  <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>เค้าโครง</value>
-  </data>
-  <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
-    <value>เค้าโครง</value>
-  </data>
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
     <value>แสดงตัวอย่าง</value>
-  </data>
-  <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>ไอคอนขนาดใหญ่</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>ไอคอนขนาดใหญ่ (Ctrl+Shift+5)</value>
   </data>
-  <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>ไอคอนขนาดกลาง</value>
-  </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>ไอคอนขนาดกลาง (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>ไอคอนขนาดเล็ก</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>ไอคอนขนาดเล็ก (Ctrl+Shift+3)</value>
@@ -1206,9 +1086,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>ไดร์ฟออนไลน์</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ตัวเลือกเพิ่มเติม...</value>
-  </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
     <value>ส่งออกกลุ่ม</value>
   </data>
@@ -1217,12 +1094,6 @@
   </data>
   <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
     <value>มีกลุ่มที่ใช้ชื่อนี้อยู่แล้ว</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
-    <value>ชื่อกลุ่มไม่สามารถเว้นว่างได้</value>
-  </data>
-  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>เปิดในแท็บใหม่</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>เปิดที่ตั้งรายการนี้</value>
@@ -1272,8 +1143,8 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>ชื่อไอเทม</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>ถอนออกจากรายการโปรด</value>
+  <data name="UnpinFromFavorites" xml:space="preserve">
+    <value>Unpin from Favorites</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>ตำแหน่งบนเครือข่าย</value>
@@ -1422,12 +1293,6 @@
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>ถอนออกจากเมนูเริ่ม</value>
   </data>
-  <data name="ItemTypeLibrary" xml:space="preserve">
-    <value>คลัง</value>
-  </data>
-  <data name="LibraryItemAutomation" xml:space="preserve">
-    <value>คลัง</value>
-  </data>
   <data name="Library" xml:space="preserve">
     <value>คลัง</value>
   </data>
@@ -1436,9 +1301,6 @@
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>ตั้งเป็นจุดบันทึกไฟล์เริ่มต้น</value>
-  </data>
-  <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>ลบ</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>ยังไม่ได้ระบุตำแหน่ง</value>
@@ -1455,14 +1317,8 @@
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
     <value>คลังอื่นใช้ชื่อนี้ไปแล้ว!</value>
   </data>
-  <data name="DialogCreateLibraryButtonText" xml:space="preserve">
-    <value>สร้าง</value>
-  </data>
-  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>เปิดที่เก็บข้อมูลอัจฉรียะ</value>
-  </data>
-  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>เปิดที่เก็บข้อมูลอัจฉรียะ</value>
+  <data name="OpenStorageSense" xml:space="preserve">
+    <value>Open Storage Sense</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>คัดลอก</value>
@@ -1515,20 +1371,14 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ความเร็ว ISO</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>เปิดโฟลเดอร์เหล่านี้ในแท็บใหม่</value>
-  </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>หาสิ่งที่ต้องการไม่เจอเหรอ?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Search unindexed items</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
-    <value>แทนที่ของเดิม</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
-    <value>แทนที่ของเดิม</value>
+  <data name="ReplaceExisting" xml:space="preserve">
+    <value>Replace existing</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>สุ่มชื่อใหม่ขึ้นมา</value>
@@ -1569,29 +1419,17 @@
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
     <value>แถววันที่ถูกลบ</value>
   </data>
-  <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>เรียง</value>
-  </data>
-  <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>เรียง</value>
-  </data>
-  <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
-    <value>เรียง</value>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>จัดกลุ่มโดย</value>
-  </data>
-  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>ชื่อ</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>วันที่ปรับเปลี่ยน</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
     <value>แหล่งแฟ้ม</value>
-  </data>
-  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>ประเภท</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>เรียงโดย</value>
@@ -1650,8 +1488,8 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
     <value>เปิดแท็บที่ปิดขึ้นใหม่</value>
   </data>
-  <data name="RenameFileDialogTitle" xml:space="preserve">
-    <value>เปลี่ยนชื่อ</value>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Privacy</value>
@@ -1818,12 +1656,6 @@
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>เปิดตำแหน่งปลายทางเมื่อแตกไฟล์เสร็จ</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
-    <value>แตกไฟล์ออกมา</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
-    <value>แตกไฟล์ลงที่นี่</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>แตกไฟล์ไปที่ {0}\</value>
   </data>
@@ -1832,9 +1664,6 @@
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
     <value>เรียกคืนคลังเริ่มต้น</value>
-  </data>
-  <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
-    <value>เอาออกไปไว้ที่เดิม</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>คุณแน่แล้วใช่หรือไม่ที่จะเรียกคืนคลังเป็นค่าเริ่มต้นตามเดิม? ไฟล์ในคลังจะไม่หายไปไหน.</value>
@@ -1874,9 +1703,6 @@
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>สิทธิ์</value>
-  </data>
-  <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>ประเภท</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>คุณไม่มีสิทธิ์เข้าถึงที่จะสามารถดูข้อมูลเกี่ยวกับเจ้าของและสิทธิ์ของไฟล์นี้. คุณสามารถเปลี่ยนเจ้าของเพื่อดูสิทธิ์ได้.</value>
@@ -2004,9 +1830,6 @@
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>ซ่อน {0} กลุ่ม</value>
   </data>
-  <data name="NavSettingsButton" xml:space="preserve">
-    <value>ตั้งค่า</value>
-  </data>
   <data name="AddFile" xml:space="preserve">
     <value>เพิ่มไฟล์</value>
   </data>
@@ -2085,11 +1908,8 @@
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>เปิดโฟลเดอร์หลัก</value>
   </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>ไม่ทราบ</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>แท็ก</value>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>แก้ไขแท็ก</value>
@@ -2106,8 +1926,8 @@
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>ใส่แผ่น</value>
   </data>
-  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ตกลง</value>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>ต้องการข้อมูลเข้าสู่ระบบ</value>
@@ -2117,9 +1937,6 @@
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>กรอกข้อมูลเข้าสู่ระบบ:</value>
-  </data>
-  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
-    <value>รหัสผ่าน</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>ชื่อผู้ใช้</value>
@@ -2160,11 +1977,8 @@
   <data name="Tiles" xml:space="preserve">
     <value>ไทล์</value>
   </data>
-  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>เปิดโฟลเดอร์เหล่านี้ในแท็บใหม่</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>ภาษา</value>
+  <data name="OpenFoldersInNewTab" xml:space="preserve">
+    <value>Open folders in new tab</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>งานที่กำลังดำเนินอยู่</value>
@@ -2547,8 +2361,8 @@
   <data name="RestoreAllItems" xml:space="preserve">
     <value>Restore All Items</value>
   </data>
-  <data name="RestoreSelection" xml:space="preserve">
-    <value>เอาออกไปไว้ที่เดิม</value>
+  <data name="Restore" xml:space="preserve">
+    <value>Restore</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>Shortcut cannot be opened</value>
@@ -2694,9 +2508,6 @@
   <data name="ViewMore" xml:space="preserve">
     <value>View more</value>
   </data>
-  <data name="ToolTipDescriptionSize" xml:space="preserve">
-    <value>ขนาด:</value>
-  </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
     <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
   </data>
@@ -2789,5 +2600,8 @@
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Apply this action to all conflicting items</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
   </data>
 </root>

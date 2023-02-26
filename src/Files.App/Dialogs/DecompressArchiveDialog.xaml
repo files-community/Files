@@ -68,7 +68,7 @@
 					x:Name="Password"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
-					PlaceholderText="{helpers:ResourceString Name=CredentialDialogPassword/PlaceholderText}" />
+					PlaceholderText="{helpers:ResourceString Name=Password}" />
 			</StackPanel>
 
 			<!--  Open when complete  -->
