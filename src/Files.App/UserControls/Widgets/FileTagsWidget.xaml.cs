@@ -141,7 +141,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenItemsWithCaptionText".GetLocalizedResource(),
-					Glyph = "\uE17D",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenWith",
+					},
 					Tag = "OpenWithPlaceholder",
 					IsEnabled = false,
 					ShowItem = !isFolder
@@ -156,8 +159,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
-					Glyph = "\uF113",
-					GlyphFontFamilyName = "CustomGlyph",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewTab",
+					},
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
 					ShowItem = isFolder
@@ -165,7 +170,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
-					Glyph = "\uE737",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewWindow",
+					},
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
 					ShowItem = isFolder
@@ -181,11 +189,9 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel()
+					OpacityIcon = new OpacityIconModel()
 					{
-						BaseBackdropGlyph = "\uF056",
-						BaseLayerGlyph = "\uF03B",
-						OverlayLayerGlyph = "\uF03C",
+						OpacityIconStyle = "ColorIconRightPane",
 					},
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
