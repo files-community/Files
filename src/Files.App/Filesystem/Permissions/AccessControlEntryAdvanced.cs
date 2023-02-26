@@ -4,6 +4,7 @@ using Files.App.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 
 namespace Files.App.Filesystem.Permissions
 {
@@ -29,24 +30,37 @@ namespace Files.App.Filesystem.Permissions
 				PropagationFlags = Enum.Parse<PropagationFlags>(parts[1]);
 			});
 
-			grantedPermissions = new();
-			GrantedPermissions = GetAllAccessMaskList();
+			_accessMaskItemList = new();
+			AccessMaskItemList = GetAllAccessMaskList();
 		}
 
-		public AccessControlEntryAdvanced(FileSystemAccessRule2 accessRule, bool isFolder)
+		public AccessControlEntryAdvanced(AccessControlEntryPrimitiveMapping accessRule, bool isFolder)
 			: this(isFolder)
 		{
 			AccessControlType = (AccessControlType)accessRule.AccessControlType;
-			FileSystemRights = (AccessMaskFlags)accessRule.FileSystemRights;
-			PrincipalSid = accessRule.IdentityReference;
+			AccessMaskFlags = (AccessMaskFlags)accessRule.FileSystemRights;
+			PrincipalSid = accessRule.PrincipalSid;
 			IsInherited = accessRule.IsInherited;
 			InheritanceFlags = (InheritanceFlags)accessRule.InheritanceFlags;
 			PropagationFlags = (PropagationFlags)accessRule.PropagationFlags;
 		}
 
 		#region Fields, Properties, Commands
+		public string? PrincipalSid { get; set; }
+
 		public Principal Principal
 			=> Principal.FromSid(PrincipalSid);
+
+		private AccessControlType _accessControlType;
+		public AccessControlType AccessControlType
+		{
+			get => _accessControlType;
+			set
+			{
+				if (SetProperty(ref _accessControlType, value))
+					OnPropertyChanged(nameof(AccessControlTypeGlyph));
+			}
+		}
 
 		public string AccessControlTypeGlyph
 			=> AccessControlType switch
@@ -56,72 +70,57 @@ namespace Files.App.Filesystem.Permissions
 				_ => "\xF140"
 			};
 
-		private AccessControlType accessControlType;
-		public AccessControlType AccessControlType
-		{
-			get => accessControlType;
-			set
-			{
-				if (SetProperty(ref accessControlType, value))
-				{
-					OnPropertyChanged(nameof(AccessControlTypeGlyph));
-				}
-			}
-		}
-
-		public string? PrincipalSid { get; set; }
-
 		public bool IsInherited { get; set; }
 
-		private InheritanceFlags inheritanceFlags;
+		private InheritanceFlags _inheritanceFlags;
 		public InheritanceFlags InheritanceFlags
 		{
-			get => inheritanceFlags;
+			get => _inheritanceFlags;
 			set
 			{
-				if (SetProperty(ref inheritanceFlags, value))
-					OnPropertyChanged(nameof(InheritanceFlagsForUI));
+				if (SetProperty(ref _inheritanceFlags, value))
+					OnPropertyChanged(nameof(InheritanceFlagsHumanized));
 			}
 		}
 
-		private PropagationFlags propagationFlags;
+		private PropagationFlags _propagationFlags;
 		public PropagationFlags PropagationFlags
 		{
-			get => propagationFlags;
+			get => _propagationFlags;
 			set
 			{
-				if (SetProperty(ref propagationFlags, value))
-					OnPropertyChanged(nameof(InheritanceFlagsForUI));
+				if (SetProperty(ref _propagationFlags, value))
+					OnPropertyChanged(nameof(InheritanceFlagsHumanized));
 			}
 		}
 
-		private AccessMaskFlags fileSystemRights;
-		public AccessMaskFlags FileSystemRights
+		private AccessMaskFlags _accessMaskFlags;
+		public AccessMaskFlags AccessMaskFlags
 		{
-			get => fileSystemRights;
+			get => _accessMaskFlags;
 			set
 			{
-				if (SetProperty(ref fileSystemRights, value))
-					OnPropertyChanged(nameof(FileSystemRightsForUI));
+				if (SetProperty(ref _accessMaskFlags, value))
+					OnPropertyChanged(nameof(AccessMaskFlagsHumanized));
 			}
 		}
 
-		public string FileSystemRightsForUI
-			=> string.Join(", ", GetAccessMaskStrings());
+		public string AccessMaskFlagsHumanized
+			=> string.Join(", ", HumanizeAccessMask());
 
-		public string IsInheritedForUI
+		public string IsInheritedHumanized
 			=> IsInherited ? "Yes".GetLocalizedResource() : "No".GetLocalizedResource();
 
-		public string InheritanceFlagsForUI
-			=> string.Join(", ", GetInheritanceStrings());
+		public string InheritanceFlagsHumanized
+			=> string.Join(", ", HumanizeInheritance());
 
-		private bool isSelected;
+		private bool _isSelected;
 		public bool IsSelected
 		{
-			get => isSelected;
+			get => _isSelected;
 			set
 			{
-				if (SetProperty(ref isSelected, value))
+				if (SetProperty(ref _isSelected, value))
 				{
 					if (!value)
 						AreAdvancedPermissionsShown = false;
@@ -131,14 +130,15 @@ namespace Files.App.Filesystem.Permissions
 			}
 		}
 
-		private bool areAdvancedPermissionsShown;
+		private bool _areAdvancedPermissionsShown;
 		public bool AreAdvancedPermissionsShown
 		{
-			get => areAdvancedPermissionsShown;
+			get => _areAdvancedPermissionsShown;
 			set
 			{
-				if (SetProperty(ref areAdvancedPermissionsShown, value))
-					GrantedPermissions = GetAllAccessMaskList();
+				// Reconstruct list
+				if (SetProperty(ref _areAdvancedPermissionsShown, value))
+					AccessMaskItemList = GetAllAccessMaskList();
 			}
 		}
 
@@ -147,21 +147,21 @@ namespace Files.App.Filesystem.Permissions
 
 		public bool IsFolder { get; }
 
-		private List<AccessMaskItem> grantedPermissions;
-		public List<AccessMaskItem> GrantedPermissions
+		private List<AccessMaskItem> _accessMaskItemList;
+		public List<AccessMaskItem> AccessMaskItemList
 		{
-			get => grantedPermissions;
-			set => SetProperty(ref grantedPermissions, value);
+			get => _accessMaskItemList;
+			set => SetProperty(ref _accessMaskItemList, value);
 		}
 
-		public bool WriteAccess => FileSystemRights.HasFlag(AccessMaskFlags.Write);
-		public bool ReadAccess => FileSystemRights.HasFlag(AccessMaskFlags.Read);
-		public bool ListDirectoryAccess => FileSystemRights.HasFlag(AccessMaskFlags.ListDirectory);
-		public bool ReadAndExecuteAccess => FileSystemRights.HasFlag(AccessMaskFlags.ReadAndExecute);
-		public bool ModifyAccess => FileSystemRights.HasFlag(AccessMaskFlags.Modify);
-		public bool FullControlAccess => FileSystemRights.HasFlag(AccessMaskFlags.FullControl);
+		public bool WriteAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Write);
+		public bool ReadAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Read);
+		public bool ListDirectoryAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
+		public bool ReadAndExecuteAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.ReadAndExecute);
+		public bool ModifyAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Modify);
+		public bool FullControlAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.FullControl);
 		public bool SpecialAccess
-			=> (FileSystemRights &
+			=> (AccessMaskFlags &
 					~AccessMaskFlags.Synchronize &
 					(FullControlAccess ? ~AccessMaskFlags.FullControl : AccessMaskFlags.FullControl) &
 					(ModifyAccess ? ~AccessMaskFlags.Modify : AccessMaskFlags.FullControl) &
@@ -367,7 +367,7 @@ namespace Files.App.Filesystem.Permissions
 			return accessControls;
 		}
 
-		private IList<string> GetInheritanceStrings()
+		private IList<string> HumanizeInheritance()
 		{
 			var inheritanceStrings = new List<string>();
 
@@ -396,11 +396,11 @@ namespace Files.App.Filesystem.Permissions
 			return inheritanceStrings;
 		}
 
-		private IList<string> GetAccessMaskStrings()
+		private IList<string> HumanizeAccessMask()
 		{
 			var accessMaskStrings = new List<string>();
 
-			if (FileSystemRights == AccessMaskFlags.NULL)
+			if (AccessMaskFlags == AccessMaskFlags.NULL)
 			{
 				accessMaskStrings.Add("None".GetLocalizedResource());
 			}
@@ -437,13 +437,13 @@ namespace Files.App.Filesystem.Permissions
 			return accessMaskStrings;
 		}
 
-		public FileSystemAccessRule ToFileSystemAccessRule()
+		public AccessControlEntryPrimitive ToFileSystemAccessRule()
 		{
-			return new FileSystemAccessRule()
+			return new()
 			{
 				AccessControlType = AccessControlType,
-				FileSystemRights = FileSystemRights,
-				IdentityReference = PrincipalSid,
+				AccessMaskFlags = AccessMaskFlags,
+				PrincipalSid = PrincipalSid,
 				IsInherited = IsInherited,
 				InheritanceFlags = InheritanceFlags,
 				PropagationFlags = PropagationFlags

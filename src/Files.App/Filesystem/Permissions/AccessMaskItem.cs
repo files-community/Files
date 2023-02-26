@@ -21,7 +21,7 @@ namespace Files.App.Filesystem.Permissions
 
 		public bool IsEnabled
 		{
-			get => _aceAdvanced.FileSystemRights.HasFlag(AccessMask);
+			get => _aceAdvanced.AccessMaskFlags.HasFlag(AccessMask);
 			set
 			{
 				if (IsEditable)
@@ -31,25 +31,25 @@ namespace Files.App.Filesystem.Permissions
 
 		public bool IsEditable { get; set; }
 
-		private AccessControlEntryAdvanced _aceAdvanced;
+		private readonly AccessControlEntryAdvanced _aceAdvanced;
 		#endregion
 
 		#region Methods
-		private void ToggleAccess(AccessMaskFlags permission, bool value)
+		private void ToggleAccess(AccessMaskFlags accessMask, bool value)
 		{
-			if (value && !_aceAdvanced.FileSystemRights.HasFlag(permission))
+			if (value && !_aceAdvanced.AccessMaskFlags.HasFlag(accessMask))
 			{
-				_aceAdvanced.FileSystemRights |= permission;
+				_aceAdvanced.AccessMaskFlags |= accessMask;
 			}
-			else if (!value && _aceAdvanced.FileSystemRights.HasFlag(permission))
+			else if (!value && _aceAdvanced.AccessMaskFlags.HasFlag(accessMask))
 			{
-				_aceAdvanced.FileSystemRights &= ~permission;
+				_aceAdvanced.AccessMaskFlags &= ~accessMask;
 			}
 		}
 
 		private void AccessControlEntryAdvanced_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(AccessControlEntryAdvanced.FileSystemRights))
+			if (e.PropertyName == nameof(AccessControlEntryAdvanced.AccessMaskFlags))
 				OnPropertyChanged(nameof(IsEnabled));
 		}
 		#endregion

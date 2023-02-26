@@ -84,7 +84,7 @@
 						<TextBlock
 							x:Name="OwnerText"
 							VerticalAlignment="Center"
-							x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}">
+							x:Load="{x:Bind ViewModel.FilePermissions.CanReadAccessControl, Mode=OneWay}">
 							<Run Text="{x:Bind ViewModel.FilePermissions.Owner.DisplayName, Mode=OneWay}" />
 							<Span FontWeight="Light">&#160;(</Span>
 							<Run FontWeight="Light" Text="{x:Bind ViewModel.FilePermissions.Owner.FullNameOrSid, Mode=OneWay}" />
@@ -94,7 +94,7 @@
 						<TextBlock
 							x:Name="UnknownOwnerText"
 							VerticalAlignment="Center"
-							x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+							x:Load="{x:Bind ViewModel.FilePermissions.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 							Text="{helpers:ResourceString Name=SecurityUnknownOwnerText/Text}" />
 
 						<Button
@@ -166,8 +166,8 @@
 						Grid.Row="2"
 						Grid.ColumnSpan="2"
 						HorizontalAlignment="Stretch"
-						x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
-						ItemsSource="{x:Bind ViewModel.FilePermissions.AccessRules, Mode=OneWay}"
+						x:Load="{x:Bind ViewModel.FilePermissions.CanReadAccessControl, Mode=OneWay}"
+						ItemsSource="{x:Bind ViewModel.FilePermissions.AccessControlEntriesAdvanced, Mode=OneWay}"
 						ScrollViewer.HorizontalScrollBarVisibility="Auto"
 						ScrollViewer.HorizontalScrollMode="Auto"
 						SelectionChanged="ListView_SelectionChanged"
@@ -300,7 +300,7 @@
 										Grid.Column="3"
 										VerticalAlignment="Center"
 										x:Load="{x:Bind IsEditEnabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{x:Bind FileSystemRightsForUI, Mode=OneWay}"
+										Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}"
 										TextTrimming="CharacterEllipsis" />
 
 									<DropDownButton
@@ -311,7 +311,7 @@
 										HorizontalContentAlignment="Left"
 										x:Load="{x:Bind IsEditEnabled, Mode=OneWay}">
 										<DropDownButton.Content>
-											<TextBlock Text="{x:Bind FileSystemRightsForUI, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
+											<TextBlock Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
 										</DropDownButton.Content>
 										<DropDownButton.Flyout>
 											<Flyout Placement="Bottom">
@@ -322,7 +322,7 @@
 													</Grid.RowDefinitions>
 													<GridView
 														MaxHeight="350"
-														ItemsSource="{x:Bind GrantedPermissions, Mode=OneWay}"
+														ItemsSource="{x:Bind AccessMaskItemList, Mode=OneWay}"
 														SelectionMode="None">
 														<GridView.ItemsPanel>
 															<ItemsPanelTemplate>
@@ -359,14 +359,14 @@
 									<TextBlock
 										Grid.Column="4"
 										VerticalAlignment="Center"
-										Text="{x:Bind IsInheritedForUI}" />
+										Text="{x:Bind IsInheritedHumanized}" />
 
 									<TextBlock
 										x:Name="InheritTextBox"
 										Grid.Column="5"
 										VerticalAlignment="Center"
 										x:Load="{x:Bind IsEditEnabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{x:Bind InheritanceFlagsForUI, Mode=OneWay}"
+										Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}"
 										TextTrimming="CharacterEllipsis"
 										Visibility="{x:Bind IsFolder, Mode=OneWay}" />
 
@@ -379,7 +379,7 @@
 										x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
 										Visibility="{x:Bind IsFolder, Mode=OneWay}">
 										<DropDownButton.Content>
-											<TextBlock Text="{x:Bind InheritanceFlagsForUI, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
+											<TextBlock Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
 										</DropDownButton.Content>
 										<DropDownButton.Flyout>
 											<MenuFlyout Placement="Bottom">
@@ -424,7 +424,7 @@
 						Grid.Row="2"
 						Padding="8"
 						HorizontalAlignment="Left"
-						x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+						x:Load="{x:Bind ViewModel.FilePermissions.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 						Text="{helpers:ResourceString Name=SecurityAdvancedCannotReadProperties/Text}"
 						TextWrapping="WrapWholeWords" />
 
@@ -446,17 +446,17 @@
 									<MenuFlyoutItem
 										Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand}"
 										CommandParameter="False,False"
-										IsEnabled="{x:Bind ViewModel.FilePermissions.AreAccessRulesProtected, Mode=OneWay}"
+										IsEnabled="{x:Bind ViewModel.FilePermissions.IsAccessControlListProtected, Mode=OneWay}"
 										Text="{helpers:ResourceString Name=SecurityAdvancedInheritedEnable/Text}" />
 									<MenuFlyoutItem
 										Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand}"
 										CommandParameter="True,True"
-										IsEnabled="{x:Bind ViewModel.FilePermissions.AreAccessRulesProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+										IsEnabled="{x:Bind ViewModel.FilePermissions.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 										Text="{helpers:ResourceString Name=SecurityAdvancedInheritedConvert/Text}" />
 									<MenuFlyoutItem
 										Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand}"
 										CommandParameter="True,False"
-										IsEnabled="{x:Bind ViewModel.FilePermissions.AreAccessRulesProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+										IsEnabled="{x:Bind ViewModel.FilePermissions.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 										Text="{helpers:ResourceString Name=SecurityAdvancedInheritedRemove/Text}" />
 								</MenuFlyout>
 							</SplitButton.Flyout>

@@ -10,253 +10,253 @@ namespace Files.App.Filesystem.Permissions
 	/// </summary>
 	public class AccessControlEntry : ObservableObject
 	{
-		public AccessControlEntry(ObservableCollection<AccessControlEntryAdvanced> accessRules, bool isFolder)
+		public AccessControlEntry(ObservableCollection<AccessControlEntryAdvanced> aceAdvanced, bool isFolder)
 		{
-			this.accessRules = accessRules;
-			this.isFolder = isFolder;
+			_aceAdvanced = aceAdvanced;
+			_isFolder = isFolder;
 		}
 
 		#region Fields and Properties
-		private bool isFolder;
+		private readonly bool _isFolder;
 
-		private ObservableCollection<AccessControlEntryAdvanced> accessRules;
+		private readonly ObservableCollection<AccessControlEntryAdvanced> _aceAdvanced;
 
-		public AccessMaskFlags InheritedDenyRights { get; set; }
+		public Principal Principal { get; set; }
 
-		public AccessMaskFlags InheritedAllowRights { get; set; }
+		public AccessMaskFlags InheritedDenyAccessMaskFlags { get; set; }
 
-		public AccessMaskFlags denyRights;
-		public AccessMaskFlags DenyRights
+		public AccessMaskFlags InheritedAllowAccessMaskFlags { get; set; }
+
+		public AccessMaskFlags _deniedAccessMaskFlags;
+		public AccessMaskFlags DeniedAccessMaskFlags
 		{
-			get => denyRights;
+			get => _deniedAccessMaskFlags;
 			set
 			{
-				if (SetProperty(ref denyRights, value))
+				if (SetProperty(ref _deniedAccessMaskFlags, value))
 				{
-					OnPropertyChanged(nameof(DeniesWrite));
-					OnPropertyChanged(nameof(DeniesFullControl));
-					OnPropertyChanged(nameof(DeniesListDirectory));
-					OnPropertyChanged(nameof(DeniesModify));
-					OnPropertyChanged(nameof(DeniesRead));
-					OnPropertyChanged(nameof(DeniesReadAndExecute));
+					OnPropertyChanged(nameof(DeniedWriteAccess));
+					OnPropertyChanged(nameof(DeniedFullControlAccess));
+					OnPropertyChanged(nameof(DeniedListDirectoryAccess));
+					OnPropertyChanged(nameof(DeniedModifyAccess));
+					OnPropertyChanged(nameof(DeniedReadAccess));
+					OnPropertyChanged(nameof(DeniedReadAndExecuteAccess));
 				}
 			}
 		}
 
-		public AccessMaskFlags allowRights;
-		public AccessMaskFlags AllowRights
+		public AccessMaskFlags _allowedAccessMaskFlags;
+		public AccessMaskFlags AllowedAccessMaskFlags
 		{
-			get => allowRights;
+			get => _allowedAccessMaskFlags;
 			set
 			{
-				if (SetProperty(ref allowRights, value))
+				if (SetProperty(ref _allowedAccessMaskFlags, value))
 				{
-					OnPropertyChanged(nameof(GrantsWrite));
-					OnPropertyChanged(nameof(GrantsFullControl));
-					OnPropertyChanged(nameof(GrantsListDirectory));
-					OnPropertyChanged(nameof(GrantsModify));
-					OnPropertyChanged(nameof(GrantsRead));
-					OnPropertyChanged(nameof(GrantsReadAndExecute));
+					OnPropertyChanged(nameof(AllowedWriteAccess));
+					OnPropertyChanged(nameof(AllowedFullControlAccess));
+					OnPropertyChanged(nameof(AllowedListDirectoryAccess));
+					OnPropertyChanged(nameof(AllowedModifyAccess));
+					OnPropertyChanged(nameof(AllowedReadAccess));
+					OnPropertyChanged(nameof(AllowedReadAndExecuteAccess));
 				}
 			}
 		}
 
-		public Principal UserGroup { get; set; }
+		public bool AllowedInheritedWriteAccess =>          InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.Write);
+		public bool AllowedInheritedReadAccess =>           InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.Read);
+		public bool AllowedInheritedListDirectoryAccess =>  InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
+		public bool AllowedInheritedReadAndExecuteAccess => InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.ReadAndExecute);
+		public bool AllowedInheritedModifyAccess =>         InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.Modify);
+		public bool AllowedInheritedFullControlAccess =>    InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.FullControl);
 
-		public bool GrantsInheritedWrite => InheritedAllowRights.HasFlag(AccessMaskFlags.Write);
-		public bool GrantsInheritedRead => InheritedAllowRights.HasFlag(AccessMaskFlags.Read);
-		public bool GrantsInheritedListDirectory => InheritedAllowRights.HasFlag(AccessMaskFlags.ListDirectory);
-		public bool GrantsInheritedReadAndExecute => InheritedAllowRights.HasFlag(AccessMaskFlags.ReadAndExecute);
-		public bool GrantsInheritedModify => InheritedAllowRights.HasFlag(AccessMaskFlags.Modify);
-		public bool GrantsInheritedFullControl => InheritedAllowRights.HasFlag(AccessMaskFlags.FullControl);
+		public bool DeniedInheritedWriteAccess =>           InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.Write);
+		public bool DeniedInheritedReadAccess =>            InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.Read);
+		public bool DeniedInheritedListDirectoryAccess =>   InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
+		public bool DeniedInheritedReadAndExecuteAccess =>  InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.ReadAndExecute);
+		public bool DeniedInheritedModifyAccess =>          InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.Modify);
+		public bool DeniedInheritedFullControlAccess =>     InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.FullControl);
 
-		public bool DeniesInheritedWrite => InheritedDenyRights.HasFlag(AccessMaskFlags.Write);
-		public bool DeniesInheritedRead => InheritedDenyRights.HasFlag(AccessMaskFlags.Read);
-		public bool DeniesInheritedListDirectory => InheritedDenyRights.HasFlag(AccessMaskFlags.ListDirectory);
-		public bool DeniesInheritedReadAndExecute => InheritedDenyRights.HasFlag(AccessMaskFlags.ReadAndExecute);
-		public bool DeniesInheritedModify => InheritedDenyRights.HasFlag(AccessMaskFlags.Modify);
-		public bool DeniesInheritedFullControl => InheritedDenyRights.HasFlag(AccessMaskFlags.FullControl);
-
-		public bool GrantsWrite
+		public bool AllowedWriteAccess
 		{
-			get => AllowRights.HasFlag(AccessMaskFlags.Write) || GrantsInheritedWrite;
-			set => ToggleAllowPermission(AccessMaskFlags.Write, value);
+			get => AllowedAccessMaskFlags.HasFlag(AccessMaskFlags.Write) || AllowedInheritedWriteAccess;
+			set => ToggleAllowAccess(AccessMaskFlags.Write, value);
 		}
 
-		public bool GrantsRead
+		public bool AllowedReadAccess
 		{
-			get => AllowRights.HasFlag(AccessMaskFlags.Read) || GrantsInheritedRead;
-			set => ToggleAllowPermission(AccessMaskFlags.Read, value);
+			get => AllowedAccessMaskFlags.HasFlag(AccessMaskFlags.Read) || AllowedInheritedReadAccess;
+			set => ToggleAllowAccess(AccessMaskFlags.Read, value);
 		}
 
-		public bool GrantsListDirectory
+		public bool AllowedListDirectoryAccess
 		{
-			get => AllowRights.HasFlag(AccessMaskFlags.ListDirectory) || GrantsInheritedListDirectory;
-			set => ToggleAllowPermission(AccessMaskFlags.ListDirectory, value);
+			get => AllowedAccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory) || AllowedInheritedListDirectoryAccess;
+			set => ToggleAllowAccess(AccessMaskFlags.ListDirectory, value);
 		}
 
-		public bool GrantsReadAndExecute
+		public bool AllowedReadAndExecuteAccess
 		{
-			get => AllowRights.HasFlag(AccessMaskFlags.ReadAndExecute) || GrantsInheritedReadAndExecute;
-			set => ToggleAllowPermission(AccessMaskFlags.ReadAndExecute, value);
+			get => AllowedAccessMaskFlags.HasFlag(AccessMaskFlags.ReadAndExecute) || AllowedInheritedReadAndExecuteAccess;
+			set => ToggleAllowAccess(AccessMaskFlags.ReadAndExecute, value);
 		}
 
-		public bool GrantsModify
+		public bool AllowedModifyAccess
 		{
-			get => AllowRights.HasFlag(AccessMaskFlags.Modify) || GrantsInheritedModify;
-			set => ToggleAllowPermission(AccessMaskFlags.Modify, value);
+			get => AllowedAccessMaskFlags.HasFlag(AccessMaskFlags.Modify) || AllowedInheritedModifyAccess;
+			set => ToggleAllowAccess(AccessMaskFlags.Modify, value);
 		}
 
-		public bool GrantsFullControl
+		public bool AllowedFullControlAccess
 		{
-			get => AllowRights.HasFlag(AccessMaskFlags.FullControl) || GrantsInheritedFullControl;
-			set => ToggleAllowPermission(AccessMaskFlags.FullControl, value);
+			get => AllowedAccessMaskFlags.HasFlag(AccessMaskFlags.FullControl) || AllowedInheritedFullControlAccess;
+			set => ToggleAllowAccess(AccessMaskFlags.FullControl, value);
 		}
 
-		public bool DeniesWrite
+		public bool DeniedWriteAccess
 		{
-			get => DenyRights.HasFlag(AccessMaskFlags.Write) || DeniesInheritedWrite;
-			set => ToggleDenyPermission(AccessMaskFlags.Write, value);
+			get => DeniedAccessMaskFlags.HasFlag(AccessMaskFlags.Write) || DeniedInheritedWriteAccess;
+			set => ToggleDenyAccess(AccessMaskFlags.Write, value);
 		}
 
-		public bool DeniesRead
+		public bool DeniedReadAccess
 		{
-			get => DenyRights.HasFlag(AccessMaskFlags.Read) || DeniesInheritedRead;
-			set => ToggleDenyPermission(AccessMaskFlags.Read, value);
+			get => DeniedAccessMaskFlags.HasFlag(AccessMaskFlags.Read) || DeniedInheritedReadAccess;
+			set => ToggleDenyAccess(AccessMaskFlags.Read, value);
 		}
 
-		public bool DeniesListDirectory
+		public bool DeniedListDirectoryAccess
 		{
-			get => DenyRights.HasFlag(AccessMaskFlags.ListDirectory) || DeniesInheritedListDirectory;
-			set => ToggleDenyPermission(AccessMaskFlags.ListDirectory, value);
+			get => DeniedAccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory) || DeniedInheritedListDirectoryAccess;
+			set => ToggleDenyAccess(AccessMaskFlags.ListDirectory, value);
 		}
 
-		public bool DeniesReadAndExecute
+		public bool DeniedReadAndExecuteAccess
 		{
-			get => DenyRights.HasFlag(AccessMaskFlags.ReadAndExecute) || DeniesInheritedReadAndExecute;
-			set => ToggleDenyPermission(AccessMaskFlags.ReadAndExecute, value);
+			get => DeniedAccessMaskFlags.HasFlag(AccessMaskFlags.ReadAndExecute) || DeniedInheritedReadAndExecuteAccess;
+			set => ToggleDenyAccess(AccessMaskFlags.ReadAndExecute, value);
 		}
 
-		public bool DeniesModify
+		public bool DeniedModifyAccess
 		{
-			get => DenyRights.HasFlag(AccessMaskFlags.Modify) || DeniesInheritedModify;
-			set => ToggleDenyPermission(AccessMaskFlags.Modify, value);
+			get => DeniedAccessMaskFlags.HasFlag(AccessMaskFlags.Modify) || DeniedInheritedModifyAccess;
+			set => ToggleDenyAccess(AccessMaskFlags.Modify, value);
 		}
 
-		public bool DeniesFullControl
+		public bool DeniedFullControlAccess
 		{
-			get => DenyRights.HasFlag(AccessMaskFlags.FullControl) || DeniesInheritedFullControl;
-			set => ToggleDenyPermission(AccessMaskFlags.FullControl, value);
+			get => DeniedAccessMaskFlags.HasFlag(AccessMaskFlags.FullControl) || DeniedInheritedFullControlAccess;
+			set => ToggleDenyAccess(AccessMaskFlags.FullControl, value);
 		}
 		#endregion
 
 		#region Methods
-		public void UpdateAccessRules()
+		public void UpdateAccessControlEntry()
 		{
-			foreach (var rule in accessRules.Where(x => x.PrincipalSid == UserGroup.Sid && !x.IsInherited).ToList())
+			foreach (var item in _aceAdvanced.Where(x => x.PrincipalSid == Principal.Sid && !x.IsInherited).ToList())
 			{
-				accessRules.Remove(rule);
+				_aceAdvanced.Remove(item);
 			}
 
-			// Do not set if permission is already granted by inheritance
-			if (AllowRights != 0 && !InheritedAllowRights.HasFlag(AllowRights))
+			// Do not set if permission is already allowed by inheritance
+			if (AllowedAccessMaskFlags != 0 && !InheritedAllowAccessMaskFlags.HasFlag(AllowedAccessMaskFlags))
 			{
-				accessRules.Add(new AccessControlEntryAdvanced(isFolder)
+				_aceAdvanced.Add(new AccessControlEntryAdvanced(_isFolder)
 				{
 					AccessControlType = AccessControlType.Allow,
-					FileSystemRights = AllowRights,
-					PrincipalSid = UserGroup.Sid,
-					InheritanceFlags = isFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
+					AccessMaskFlags = AllowedAccessMaskFlags,
+					PrincipalSid = Principal.Sid,
+					InheritanceFlags = _isFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
 					PropagationFlags = PropagationFlags.None
 				});
 			}
 
 			// Do not set if permission is already denied by inheritance
-			if (DenyRights != 0 && !InheritedDenyRights.HasFlag(DenyRights))
+			if (DeniedAccessMaskFlags != 0 && !InheritedDenyAccessMaskFlags.HasFlag(DeniedAccessMaskFlags))
 			{
-				accessRules.Add(new AccessControlEntryAdvanced(isFolder)
+				_aceAdvanced.Add(new AccessControlEntryAdvanced(_isFolder)
 				{
 					AccessControlType = AccessControlType.Deny,
-					FileSystemRights = DenyRights,
-					PrincipalSid = UserGroup.Sid,
-					InheritanceFlags = isFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
+					AccessMaskFlags = DeniedAccessMaskFlags,
+					PrincipalSid = Principal.Sid,
+					InheritanceFlags = _isFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
 					PropagationFlags = PropagationFlags.None
 				});
 			}
 		}
 
-		private void ToggleAllowPermission(AccessMaskFlags permission, bool value)
+		private void ToggleAllowAccess(AccessMaskFlags accessMask, bool value)
 		{
-			if (value && !AllowRights.HasFlag(permission) && !InheritedAllowRights.HasFlag(permission))
+			if (value && !AllowedAccessMaskFlags.HasFlag(accessMask) && !InheritedAllowAccessMaskFlags.HasFlag(accessMask))
 			{
-				AllowRights |= permission;
-				DenyRights &= ~permission;
+				AllowedAccessMaskFlags |= accessMask;
+				DeniedAccessMaskFlags &= ~accessMask;
 			}
-			else if (!value && AllowRights.HasFlag(permission))
+			else if (!value && AllowedAccessMaskFlags.HasFlag(accessMask))
 			{
-				AllowRights &= ~permission;
+				AllowedAccessMaskFlags &= ~accessMask;
 			}
 
-			UpdateAccessRules();
+			UpdateAccessControlEntry();
 		}
 
-		private void ToggleDenyPermission(AccessMaskFlags permission, bool value)
+		private void ToggleDenyAccess(AccessMaskFlags accessMask, bool value)
 		{
-			if (value && !DenyRights.HasFlag(permission) && !InheritedDenyRights.HasFlag(permission))
+			if (value && !DeniedAccessMaskFlags.HasFlag(accessMask) && !InheritedDenyAccessMaskFlags.HasFlag(accessMask))
 			{
-				DenyRights |= permission;
-				AllowRights &= ~permission;
+				DeniedAccessMaskFlags |= accessMask;
+				AllowedAccessMaskFlags &= ~accessMask;
 			}
-			else if (!value && DenyRights.HasFlag(permission))
+			else if (!value && DeniedAccessMaskFlags.HasFlag(accessMask))
 			{
-				DenyRights &= ~permission;
+				DeniedAccessMaskFlags &= ~accessMask;
 			}
 
-			UpdateAccessRules();
+			UpdateAccessControlEntry();
 		}
 
-		public static List<AccessControlEntry> ForAllUsers(ObservableCollection<AccessControlEntryAdvanced> accessRules, bool isFolder)
+		public static List<AccessControlEntry> ForAllUsers(ObservableCollection<AccessControlEntryAdvanced> aceAdvanceds, bool isFolder)
 		{
 			return
-				accessRules.Select(x => x.PrincipalSid)
-				.Distinct().Select(x => ForUser(accessRules, isFolder, x))
+				aceAdvanceds.Select(x => x.PrincipalSid)
+				.Distinct().Select(x => ForUser(aceAdvanceds, isFolder, x))
 				.ToList();
 		}
 
-		public static AccessControlEntry ForUser(ObservableCollection<AccessControlEntryAdvanced> accessRules, bool isFolder, string identity)
+		public static AccessControlEntry ForUser(ObservableCollection<AccessControlEntryAdvanced> aceAdvanceds, bool isFolder, string sid)
 		{
-			var perm = new AccessControlEntry(accessRules, isFolder)
+			var ace = new AccessControlEntry(aceAdvanceds, isFolder)
 			{
-				UserGroup = Principal.FromSid(identity)
+				Principal = Principal.FromSid(sid)
 			};
 
-			foreach (var Rule in accessRules.Where(x => x.PrincipalSid == identity))
+			foreach (var item in aceAdvanceds.Where(x => x.PrincipalSid == sid))
 			{
-				if (Rule.AccessControlType == AccessControlType.Deny)
+				if (item.AccessControlType == AccessControlType.Deny)
 				{
-					if (Rule.IsInherited)
+					if (item.IsInherited)
 					{
-						perm.InheritedDenyRights |= Rule.FileSystemRights;
+						ace.InheritedDenyAccessMaskFlags |= item.AccessMaskFlags;
 					}
 					else
 					{
-						perm.DenyRights |= Rule.FileSystemRights;
+						ace.DeniedAccessMaskFlags |= item.AccessMaskFlags;
 					}
 				}
-				else if (Rule.AccessControlType == AccessControlType.Allow)
+				else if (item.AccessControlType == AccessControlType.Allow)
 				{
-					if (Rule.IsInherited)
+					if (item.IsInherited)
 					{
-						perm.InheritedAllowRights |= Rule.FileSystemRights;
+						ace.InheritedAllowAccessMaskFlags |= item.AccessMaskFlags;
 					}
 					else
 					{
-						perm.AllowRights |= Rule.FileSystemRights;
+						ace.AllowedAccessMaskFlags |= item.AccessMaskFlags;
 					}
 				}
 			}
 
-			return perm;
+			return ace;
 		}
 		#endregion
 	}

@@ -10,7 +10,6 @@
 	d:DesignWidth="400"
 	Loading="OpacityIcon_Loading"
 	mc:Ignorable="d">
-
 	<VisualStateManager.VisualStateGroups>
 		<VisualStateGroup>
 			<VisualState x:Name="Normal" />

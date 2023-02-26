@@ -64,7 +64,6 @@
         <Content Remove="Assets\FilesHome.png" />
     </ItemGroup>
     <ItemGroup>
-      <None Remove="Filesystem\Permissions\etgqnm4c.0zo~" />
       <None Remove="UserControls\OpacityIcon.xaml" />
     </ItemGroup>
     <ItemGroup>

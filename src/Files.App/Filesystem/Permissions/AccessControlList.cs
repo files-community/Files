@@ -5,18 +5,15 @@ using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Tulpep.ActiveDirectoryObjectPicker;
 
 namespace Files.App.Filesystem.Permissions
 {
 	/// <summary>
-	/// Describe
+	/// Represents an ACL.
 	/// </summary>
-	public class FilePermissions
+	public class AccessControlList
 	{
-		public FilePermissions()
+		public AccessControlList()
 		{
 			AccessRules = new();
 		}
@@ -26,22 +23,21 @@ namespace Files.App.Filesystem.Permissions
 
 		public bool IsFolder { get; set; }
 
-		public bool CanReadFilePermissions { get; set; }
+		public bool IsAccessControlEntryProtected { get; set; }
+
+		public bool CanReadAccessControl { get; set; }
 
 		public string? OwnerSID { get; set; }
 
 		public string? CurrentUserSID { get; set; }
 
-		public bool AreAccessRulesProtected { get; set; }
-
-		public List<FileSystemAccessRule2> AccessRules { get; set; }
+		public List<AccessControlEntryPrimitiveMapping> AccessRules { get; set; }
 		#endregion
 
 		#region Methods
-		public bool SetPermissions()
+		public bool SetAccessControl()
 		{
-			var acsResult = GetAccessControl(FilePath, IsFolder, out var acs);
-			if (acsResult)
+			if (GetAccessControl(FilePath, IsFolder, out var acs))
 			{
 				try
 				{
@@ -59,11 +55,11 @@ namespace Files.App.Filesystem.Permissions
 
 					if (IsFolder)
 					{
-						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), acs as DirectorySecurity);
+						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), (DirectorySecurity)acs);
 					}
 					else
 					{
-						FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), acs as FileSecurity);
+						FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), (FileSecurity)acs);
 					}
 
 					return true;
@@ -84,8 +80,7 @@ namespace Files.App.Filesystem.Permissions
 
 		public bool SetAccessRuleProtection(bool isProtected, bool preserveInheritance)
 		{
-			var acsResult = GetAccessControl(FilePath, IsFolder, out var acs);
-			if (acsResult)
+			if (GetAccessControl(FilePath, IsFolder, out var acs))
 			{
 				try
 				{
@@ -93,18 +88,18 @@ namespace Files.App.Filesystem.Permissions
 
 					if (IsFolder)
 					{
-						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), acs as DirectorySecurity);
+						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), (DirectorySecurity)acs);
 					}
 					else
 					{
-						FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), acs as FileSecurity);
+						FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), (FileSecurity)acs);
 					}
 
 					return true;
 				}
 				catch (UnauthorizedAccessException)
 				{
-					// User does not have rights to set access rules
+					// User does not have permission to set access control
 					return false;
 				}
 				catch (Exception)
@@ -118,8 +113,7 @@ namespace Files.App.Filesystem.Permissions
 
 		public bool SetOwner(string ownerSid)
 		{
-			var acsResult = GetAccessControl(FilePath, IsFolder, out var acs);
-			if (acsResult)
+			if (GetAccessControl(FilePath, IsFolder, out var acs))
 			{
 				try
 				{
@@ -127,30 +121,29 @@ namespace Files.App.Filesystem.Permissions
 
 					if (IsFolder)
 					{
-						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), acs as DirectorySecurity);
+						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), (DirectorySecurity)acs);
 					}
 					else
 					{
-						FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), acs as FileSecurity);
+						FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), (FileSecurity)acs);
 					}
 
 					return true;
 				}
 				catch (UnauthorizedAccessException)
 				{
-					// User does not have rights to set the owner
+					// User does not have permission to set the owner
+					return false;
 				}
 				catch (Exception)
 				{
+					return false;
 				}
 			}
 
 			// Set through powershell (admin)
 			return Win32API.RunPowershellCommand($"-command \"try {{ $path = '{FilePath}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{ownerSid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"", true);
 		}
-
-		public bool HasPermission(AccessMaskFlags perm)
-			=> GetEffectiveRights().HasFlag(perm);
 
 		public FileSystemRights GetEffectiveRights()
 		{
@@ -161,9 +154,9 @@ namespace Files.App.Filesystem.Permissions
 			FileSystemRights inheritedDenyRights = 0, denyRights = 0;
 			FileSystemRights inheritedAllowRights = 0, allowRights = 0;
 
-			foreach (var Rule in AccessRules.Where(x => userSids.Contains(x.IdentityReference)))
+			foreach (var Rule in AccessRules.Where(x => userSids.Contains(x.PrincipalSid)))
 			{
-				if (Rule.AccessControlType == AccessControlType.Deny)
+				if (Rule.AccessControlType == System.Security.AccessControl.AccessControlType.Deny)
 				{
 					if (Rule.IsInherited)
 					{
@@ -174,7 +167,7 @@ namespace Files.App.Filesystem.Permissions
 						denyRights |= Rule.FileSystemRights;
 					}
 				}
-				else if (Rule.AccessControlType == AccessControlType.Allow)
+				else if (Rule.AccessControlType == System.Security.AccessControl.AccessControlType.Allow)
 				{
 					if (Rule.IsInherited)
 					{
@@ -190,31 +183,32 @@ namespace Files.App.Filesystem.Permissions
 			return (inheritedAllowRights & ~inheritedDenyRights) | (allowRights & ~denyRights);
 		}
 
-		public static FilePermissions FromFilePath(string filePath, bool isFolder)
+		public static AccessControlList FromFilePath(string filePath, bool isFolder)
 		{
-			var filePermissions = new FilePermissions()
+			var filePermissions = new AccessControlList()
 			{
 				FilePath = filePath,
 				IsFolder = isFolder
 			};
 
+			// Get access control
 			var acsResult = GetAccessControl(filePath, isFolder, out var acs);
 			if (acsResult)
 			{
-				var rules = new List<FileSystemAccessRule2>();
+				var rules = new List<AccessControlEntryPrimitiveMapping>();
 
 				var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
 				foreach (var accessRule in accessRules)
 				{
-					rules.Add(FileSystemAccessRule2.FromFileSystemAccessRule((FileSystemAccessRule)accessRule));
+					rules.Add(AccessControlEntryPrimitiveMapping.FromFileSystemAccessRule((FileSystemAccessRule)accessRule));
 				}
 
 				filePermissions.AccessRules.AddRange(rules);
 				filePermissions.OwnerSID = acs.GetOwner(typeof(SecurityIdentifier)).Value;
-				filePermissions.AreAccessRulesProtected = acs.AreAccessRulesProtected;
+				filePermissions.IsAccessControlEntryProtected = acs.AreAccessRulesProtected;
 			}
 
-			filePermissions.CanReadFilePermissions = acsResult;
+			filePermissions.CanReadAccessControl = acsResult;
 
 			return filePermissions;
 		}
@@ -256,44 +250,6 @@ namespace Files.App.Filesystem.Permissions
 
 				return false;
 			}
-		}
-
-		public static Task<string?> OpenObjectPicker(long hwnd)
-		{
-			return Win32API.StartSTATask(() =>
-			{
-				DirectoryObjectPickerDialog picker = new()
-				{
-					AllowedObjectTypes = ObjectTypes.All,
-					DefaultObjectTypes = ObjectTypes.Users | ObjectTypes.Groups,
-					AllowedLocations = Locations.All,
-					DefaultLocations = Locations.LocalComputer,
-					MultiSelect = false,
-					ShowAdvancedView = true
-				};
-
-				picker.AttributesToFetch.Add("objectSid");
-
-				using (picker)
-				{
-					if (picker.ShowDialog(Win32API.Win32Window.FromLong(hwnd)) == DialogResult.OK)
-					{
-						try
-						{
-							var attribs = picker.SelectedObject.FetchedAttributes;
-							if (attribs.Any() && attribs[0] is byte[] objectSid)
-							{
-								return new SecurityIdentifier(objectSid, 0).Value;
-							}
-						}
-						catch
-						{
-						}
-					}
-				}
-
-				return null;
-			});
 		}
 		#endregion
 	}

@@ -42,13 +42,13 @@ namespace Files.App.ViewModels.Properties
 		private void InitCommands()
 		{
 			EditOwnerCommand = new RelayCommand(EditOwner, () => FilePermissions is not null);
-			AddRulesForUserCommand = new RelayCommand(AddRulesForUser, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions);
-			RemoveRulesForUserCommand = new RelayCommand(RemoveRulesForUser, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions && SelectedRuleForUser is not null);
-			AddAccessRuleCommand = new RelayCommand(AddAccessRule, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions);
-			RemoveAccessRuleCommand = new RelayCommand(RemoveAccessRule, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions && SelectedAccessRules is not null);
-			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions && (FilePermissions.AreAccessRulesProtected != isProtected));
+			AddRulesForUserCommand = new RelayCommand(AddRulesForUser, () => FilePermissions is not null && FilePermissions.CanReadAccessControl);
+			RemoveRulesForUserCommand = new RelayCommand(RemoveRulesForUser, () => FilePermissions is not null && FilePermissions.CanReadAccessControl && SelectedRuleForUser is not null);
+			AddAccessRuleCommand = new RelayCommand(AddAccessRule, () => FilePermissions is not null && FilePermissions.CanReadAccessControl);
+			RemoveAccessRuleCommand = new RelayCommand(RemoveAccessRule, () => FilePermissions is not null && FilePermissions.CanReadAccessControl && SelectedAccessRules is not null);
+			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => FilePermissions is not null && FilePermissions.CanReadAccessControl && (FilePermissions.IsAccessControlListProtected != isProtected));
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
-			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions);
+			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => FilePermissions is not null && FilePermissions.CanReadAccessControl);
 		}
 
 		public RelayCommand EditOwnerCommand { get; set; }
@@ -60,8 +60,8 @@ namespace Files.App.ViewModels.Properties
 		public RelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
 		public RelayCommand ReplaceChildPermissionsCommand { get; set; }
 
-		private FilePermissionsManager filePermissions;
-		public FilePermissionsManager FilePermissions
+		private AccessControlListController filePermissions;
+		public AccessControlListController FilePermissions
 		{
 			get => filePermissions;
 			set
@@ -164,10 +164,10 @@ namespace Files.App.ViewModels.Properties
 			var pickedObject = await OpenObjectPicker();
 			if (pickedObject is not null)
 			{
-				FilePermissions.AccessRules.Add(new AccessControlEntryAdvanced(IsFolder)
+				FilePermissions.AccessControlEntriesAdvanced.Add(new AccessControlEntryAdvanced(IsFolder)
 				{
 					AccessControlType = AccessControlType.Allow,
-					FileSystemRights = AccessMaskFlags.ReadAndExecute,
+					AccessMaskFlags = AccessMaskFlags.ReadAndExecute,
 					PrincipalSid = pickedObject,
 					InheritanceFlags = IsFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
 					PropagationFlags = PropagationFlags.None
@@ -180,7 +180,7 @@ namespace Files.App.ViewModels.Properties
 			if (SelectedAccessRules is not null)
 			{
 				foreach (var rule in SelectedAccessRules)
-					FilePermissions.AccessRules.Remove(rule);
+					FilePermissions.AccessControlEntriesAdvanced.Remove(rule);
 			}
 		}
 
@@ -200,10 +200,10 @@ namespace Files.App.ViewModels.Properties
 			var pickedObject = await OpenObjectPicker();
 			if (pickedObject is not null)
 			{
-				if (!FilePermissions.RulesForUsers.Any(x => x.UserGroup.Sid == pickedObject))
+				if (!FilePermissions.AccessControlEntries.Any(x => x.Principal.Sid == pickedObject))
 				{
 					// No existing rules, add user to list
-					FilePermissions.RulesForUsers.Add(AccessControlEntry.ForUser(FilePermissions.AccessRules, IsFolder, pickedObject));
+					FilePermissions.AccessControlEntries.Add(AccessControlEntry.ForUser(FilePermissions.AccessControlEntriesAdvanced, IsFolder, pickedObject));
 				}
 			}
 		}
@@ -212,13 +212,13 @@ namespace Files.App.ViewModels.Properties
 		{
 			if (SelectedRuleForUser is not null)
 			{
-				SelectedRuleForUser.AllowRights = 0;
-				SelectedRuleForUser.DenyRights = 0;
+				SelectedRuleForUser.AllowedAccessMaskFlags = 0;
+				SelectedRuleForUser.DeniedAccessMaskFlags = 0;
 
-				if (!FilePermissions.AccessRules.Any(x => x.PrincipalSid == SelectedRuleForUser.UserGroup.Sid))
+				if (!FilePermissions.AccessControlEntriesAdvanced.Any(x => x.PrincipalSid == SelectedRuleForUser.Principal.Sid))
 				{
 					// No remaining rules, remove user from list
-					FilePermissions.RulesForUsers.Remove(SelectedRuleForUser);
+					FilePermissions.AccessControlEntries.Remove(SelectedRuleForUser);
 				}
 			}
 		}
@@ -226,15 +226,15 @@ namespace Files.App.ViewModels.Properties
 		public void GetFilePermissions()
 		{
 			bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
-			FilePermissions = new FilePermissionsManager(FileOperationsHelpers.GetFilePermissions(Item.ItemPath, isFolder));
+			FilePermissions = new AccessControlListController(FileOperationsHelpers.GetFilePermissions(Item.ItemPath, isFolder));
 		}
 
 		public bool SetFilePermissions()
 		{
-			if (FilePermissions is null || !FilePermissions.CanReadFilePermissions)
+			if (FilePermissions is null || !FilePermissions.CanReadAccessControl)
 				return true;
 
-			return FilePermissions.ToFilePermissions().SetPermissions();
+			return FilePermissions.ToFilePermissions().SetAccessControl();
 		}
 
 		public bool SetFileOwner(string ownerSid)

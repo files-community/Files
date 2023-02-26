@@ -1,15 +1,15 @@
 namespace Files.App.Filesystem.Permissions
 {
 	/// <summary>
-	/// Describe
+	/// Represents a primitive ACE.
 	/// </summary>
-	public class FileSystemAccessRule
+	public class AccessControlEntryPrimitive
 	{
 		public AccessControlType AccessControlType { get; set; }
 
-		public AccessMaskFlags FileSystemRights { get; set; }
+		public string PrincipalSid { get; set; }
 
-		public string IdentityReference { get; set; }
+		public AccessMaskFlags AccessMaskFlags { get; set; }
 
 		public bool IsInherited { get; set; }
 

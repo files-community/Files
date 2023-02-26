@@ -629,18 +629,18 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static FilePermissions GetFilePermissions(string filePath, bool isFolder)
-			=> FilePermissions.FromFilePath(filePath, isFolder);
+		public static AccessControlList GetFilePermissions(string filePath, bool isFolder)
+			=> AccessControlList.FromFilePath(filePath, isFolder);
 
 		public static bool SetFileOwner(string filePath, bool isFolder, string ownerSid)
 		{
-			var fp = FilePermissions.FromFilePath(filePath, isFolder);
+			var fp = AccessControlList.FromFilePath(filePath, isFolder);
 			return fp.SetOwner(ownerSid);
 		}
 
 		public static bool SetAccessRuleProtection(string filePath, bool isFolder, bool isProtected, bool preserveInheritance)
 		{
-			var fp = FilePermissions.FromFilePath(filePath, isFolder);
+			var fp = AccessControlList.FromFilePath(filePath, isFolder);
 			return fp.SetAccessRuleProtection(isProtected, preserveInheritance);
 		}
 
