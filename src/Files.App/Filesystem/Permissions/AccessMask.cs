@@ -6,8 +6,10 @@ namespace Files.App.Filesystem.Permissions
 	/// Represents access right flags of an ACE
 	/// </summary>
 	[Flags]
-	public enum FileSystemRights
+	public enum AccessMask
 	{
+		NULL = 0,
+
 		ReadData = 1,
 
 		ListDirectory = 1,

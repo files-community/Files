@@ -1,13 +1,13 @@
 namespace Files.App.Filesystem.Permissions
 {
 	/// <summary>
-	/// Represents a storage object's ACE(Access Control Entry) constructed by the classes in Files.App.Filesystem.Permissions
+	/// Represents access rights of an ACE constructed by the classes in Files.App.Filesystem.Permissions
 	/// </summary>
 	public class FileSystemAccessRule
 	{
 		public AccessControlType AccessControlType { get; set; }
 
-		public FileSystemRights FileSystemRights { get; set; }
+		public AccessMask FileSystemRights { get; set; }
 
 		public string IdentityReference { get; set; }
 

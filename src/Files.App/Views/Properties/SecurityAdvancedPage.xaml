@@ -225,7 +225,7 @@
 							</Border>
 						</ListView.Header>
 						<ListView.ItemTemplate>
-							<DataTemplate x:DataType="perm:FileSystemAccessRuleForUI">
+							<DataTemplate x:DataType="perm:AccessControlEntryAdvanced">
 								<Grid>
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="32" />
@@ -242,7 +242,7 @@
 										VerticalAlignment="Center"
 										FontFamily="{StaticResource SymbolThemeFontFamily}"
 										FontSize="16"
-										Glyph="{x:Bind UserGroup.Glyph}" />
+										Glyph="{x:Bind Principal.Glyph}" />
 
 									<FontIcon
 										x:Name="TypeIcon"
@@ -252,7 +252,7 @@
 										x:Load="{x:Bind IsEditEnabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 										FontFamily="{StaticResource SymbolThemeFontFamily}"
 										FontSize="16"
-										Glyph="{x:Bind Glyph, Mode=OneWay}" />
+										Glyph="{x:Bind AccessControlTypeGlyph, Mode=OneWay}" />
 
 									<DropDownButton
 										x:Name="TypeDropdown"
@@ -261,7 +261,7 @@
 										VerticalAlignment="Center"
 										x:Load="{x:Bind IsEditEnabled, Mode=OneWay}">
 										<DropDownButton.Content>
-											<FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{x:Bind Glyph, Mode=OneWay}" />
+											<FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{x:Bind AccessControlTypeGlyph, Mode=OneWay}" />
 										</DropDownButton.Content>
 										<DropDownButton.Flyout>
 											<MenuFlyout Placement="Bottom">
@@ -289,9 +289,9 @@
 										Grid.Column="2"
 										VerticalAlignment="Center"
 										TextTrimming="CharacterEllipsis">
-										<Run Text="{x:Bind UserGroup.DisplayName}" />
+										<Run Text="{x:Bind Principal.DisplayName}" />
 										<Span FontWeight="Light">&#160;(</Span>
-										<Run FontWeight="Light" Text="{x:Bind UserGroup.FullNameOrSid}" />
+										<Run FontWeight="Light" Text="{x:Bind Principal.FullNameOrSid}" />
 										<Span FontWeight="Light">)</Span>
 									</TextBlock>
 

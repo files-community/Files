@@ -165,20 +165,20 @@ namespace Files.App.Views.Properties
 
 		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			ViewModel.SelectedAccessRules = (sender as ListView).SelectedItems.Cast<FileSystemAccessRuleForUI>().ToList();
+			ViewModel.SelectedAccessRules = (sender as ListView).SelectedItems.Cast<AccessControlEntryAdvanced>().ToList();
 
 			if (e.AddedItems is not null)
 			{
 				foreach (var item in e.AddedItems)
 				{
-					(item as FileSystemAccessRuleForUI).IsSelected = true;
+					(item as AccessControlEntryAdvanced).IsSelected = true;
 				}
 			}
 			if (e.RemovedItems is not null)
 			{
 				foreach (var item in e.RemovedItems)
 				{
-					(item as FileSystemAccessRuleForUI).IsSelected = false;
+					(item as AccessControlEntryAdvanced).IsSelected = false;
 				}
 			}
 		}

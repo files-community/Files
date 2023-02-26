@@ -79,8 +79,8 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private RulesForUser selectedRuleForUser;
-		public RulesForUser SelectedRuleForUser
+		private AccessControlEntry selectedRuleForUser;
+		public AccessControlEntry SelectedRuleForUser
 		{
 			get => selectedRuleForUser;
 			set
@@ -92,8 +92,8 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private List<FileSystemAccessRuleForUI> selectedAccessRules;
-		public List<FileSystemAccessRuleForUI> SelectedAccessRules
+		private List<AccessControlEntryAdvanced> selectedAccessRules;
+		public List<AccessControlEntryAdvanced> SelectedAccessRules
 		{
 			get => selectedAccessRules;
 			set
@@ -106,7 +106,7 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public FileSystemAccessRuleForUI SelectedAccessRule
+		public AccessControlEntryAdvanced SelectedAccessRule
 			=> SelectedAccessRules?.FirstOrDefault();
 
 		private bool isFolder;
@@ -164,11 +164,11 @@ namespace Files.App.ViewModels.Properties
 			var pickedObject = await OpenObjectPicker();
 			if (pickedObject is not null)
 			{
-				FilePermissions.AccessRules.Add(new FileSystemAccessRuleForUI(IsFolder)
+				FilePermissions.AccessRules.Add(new AccessControlEntryAdvanced(IsFolder)
 				{
 					AccessControlType = AccessControlType.Allow,
-					FileSystemRights = FileSystemRights.ReadAndExecute,
-					IdentityReference = pickedObject,
+					FileSystemRights = AccessMask.ReadAndExecute,
+					PrincipalSid = pickedObject,
 					InheritanceFlags = IsFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
 					PropagationFlags = PropagationFlags.None
 				});
@@ -203,7 +203,7 @@ namespace Files.App.ViewModels.Properties
 				if (!FilePermissions.RulesForUsers.Any(x => x.UserGroup.Sid == pickedObject))
 				{
 					// No existing rules, add user to list
-					FilePermissions.RulesForUsers.Add(RulesForUser.ForUser(FilePermissions.AccessRules, IsFolder, pickedObject));
+					FilePermissions.RulesForUsers.Add(AccessControlEntry.ForUser(FilePermissions.AccessRules, IsFolder, pickedObject));
 				}
 			}
 		}
@@ -215,7 +215,7 @@ namespace Files.App.ViewModels.Properties
 				SelectedRuleForUser.AllowRights = 0;
 				SelectedRuleForUser.DenyRights = 0;
 
-				if (!FilePermissions.AccessRules.Any(x => x.IdentityReference == SelectedRuleForUser.UserGroup.Sid))
+				if (!FilePermissions.AccessRules.Any(x => x.PrincipalSid == SelectedRuleForUser.UserGroup.Sid))
 				{
 					// No remaining rules, remove user from list
 					FilePermissions.RulesForUsers.Remove(SelectedRuleForUser);

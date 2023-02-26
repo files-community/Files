@@ -608,8 +608,8 @@
 						Drop="TabViewItem_Drop"
 						Header="{x:Bind Header, Mode=OneWay}"
 						IconSource="{x:Bind IconSource, Mode=OneWay}"
-						Style="{StaticResource Local.TabViewItem}"
 						Loaded="TabViewItem_Loaded"
+						Style="{StaticResource Local.TabViewItem}"
 						ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}" />
 				</DataTemplate>
 			</TabView.TabItemTemplate>

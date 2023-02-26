@@ -5,7 +5,7 @@ using System.Linq;
 namespace Files.App.Filesystem.Permissions
 {
 	/// <summary>
-	/// Represents a storage object's security information manager
+	/// Represents a storage object's security information manager.
 	/// </summary>
 	public class FilePermissionsManager
 	{
@@ -17,15 +17,15 @@ namespace Files.App.Filesystem.Permissions
 			AreAccessRulesProtected = permissions.AreAccessRulesProtected;
 			CanReadFilePermissions = permissions.CanReadFilePermissions;
 
-			Owner = UserGroup.FromSid(permissions.OwnerSID);
-			CurrentUser = UserGroup.FromSid(permissions.CurrentUserSID);
+			Owner = Principal.FromSid(permissions.OwnerSID);
+			CurrentUser = Principal.FromSid(permissions.CurrentUserSID);
 
-			AccessRules = new(permissions.AccessRules.Select(x => new FileSystemAccessRuleForUI(x, IsFolder)));
-			RulesForUsers = new(RulesForUser.ForAllUsers(AccessRules, IsFolder));
+			AccessRules = new(permissions.AccessRules.Select(x => new AccessControlEntryAdvanced(x, IsFolder)));
+			RulesForUsers = new(AccessControlEntry.ForAllUsers(AccessRules, IsFolder));
 		}
 
 		#region Properties
-		public string FilePath { get; set; }
+		public string? FilePath { get; set; }
 
 		public bool IsFolder { get; set; }
 
@@ -33,28 +33,28 @@ namespace Files.App.Filesystem.Permissions
 
 		public bool CanReadFilePermissions { get; set; }
 
-		public UserGroup Owner { get; private set; }
+		public Principal Owner { get; private set; }
 
-		public UserGroup CurrentUser { get; private set; }
+		public Principal CurrentUser { get; private set; }
 
-		public ObservableCollection<FileSystemAccessRuleForUI> AccessRules { get; set; }
+		public ObservableCollection<AccessControlEntryAdvanced> AccessRules { get; set; }
 
-		public ObservableCollection<RulesForUser> RulesForUsers { get; private set; }
+		public ObservableCollection<AccessControlEntry> RulesForUsers { get; private set; }
 		#endregion
 
 		#region Methods
-		public FileSystemRights GetEffectiveRights(UserGroup user)
+		public AccessMask GetEffectiveRights(Principal user)
 		{
 			var userSids = new List<string> { user.Sid };
 			userSids.AddRange(user.Groups);
 
-			FileSystemRights inheritedDenyRights = 0;
-			FileSystemRights denyRights = 0;
+			AccessMask inheritedDenyRights = 0;
+			AccessMask denyRights = 0;
 
-			FileSystemRights inheritedAllowRights = 0;
-			FileSystemRights allowRights = 0;
+			AccessMask inheritedAllowRights = 0;
+			AccessMask allowRights = 0;
 
-			foreach (FileSystemAccessRuleForUI Rule in AccessRules.Where(x => userSids.Contains(x.IdentityReference)))
+			foreach (AccessControlEntryAdvanced Rule in AccessRules.Where(x => userSids.Contains(x.PrincipalSid)))
 			{
 				if (Rule.AccessControlType == AccessControlType.Deny)
 				{

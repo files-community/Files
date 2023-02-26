@@ -8,14 +8,14 @@ namespace Files.App.Filesystem.Permissions
 	/// </summary>
 	public class GrantedPermission : ObservableObject
 	{
-		public GrantedPermission(FileSystemAccessRuleForUI fileSystemAccessRule)
+		public GrantedPermission(AccessControlEntryAdvanced fileSystemAccessRule)
 		{
 			fsar = fileSystemAccessRule;
 			fsar.PropertyChanged += Fsar_PropertyChanged;
 		}
 
 		#region Properties
-		protected FileSystemAccessRuleForUI fsar;
+		protected AccessControlEntryAdvanced fsar;
 
 		public virtual bool IsGranted
 		{
@@ -31,11 +31,11 @@ namespace Files.App.Filesystem.Permissions
 
 		public bool IsEditable { get; set; }
 
-		public FileSystemRights Permission { get; set; }
+		public AccessMask Permission { get; set; }
 		#endregion
 
 		#region Methods
-		private void TogglePermission(FileSystemRights permission, bool value)
+		private void TogglePermission(AccessMask permission, bool value)
 		{
 			if (value && !fsar.FileSystemRights.HasFlag(permission))
 			{

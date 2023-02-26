@@ -105,7 +105,7 @@
 						</Style>
 					</ListView.ItemContainerStyle>
 					<ListView.ItemTemplate>
-						<DataTemplate x:DataType="perm:RulesForUser">
+						<DataTemplate x:DataType="perm:AccessControlEntry">
 							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="32" />

@@ -7,7 +7,7 @@ namespace Files.App.Filesystem.Permissions
 	/// </summary>
 	public class SpecialPermission : GrantedPermission
 	{
-		public SpecialPermission(FileSystemAccessRuleForUI fileSystemAccessRule)
+		public SpecialPermission(AccessControlEntryAdvanced fileSystemAccessRule)
 			: base(fileSystemAccessRule)
 		{
 			IsEditable = false;
