@@ -654,7 +654,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
-					Glyph = "\uE737",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewWindow"
+					},
 					Command = commandsViewModel.OpenInNewWindowItemCommand,
 					ShowItem = itemsSelected && selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow,
 					ShowInSearchPage = true,
