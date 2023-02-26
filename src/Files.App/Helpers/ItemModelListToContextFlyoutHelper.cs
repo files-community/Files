@@ -11,6 +11,11 @@ using System.Linq;
 
 namespace Files.App.Helpers.ContextFlyouts
 {
+	/// <summary>
+	/// This helper class is used to convert ContextMenuFlyoutItemViewModels into a control that can be displayed to the user.
+	/// This is for use in scenarios where XAML templates and data binding will not suffice.
+	/// <see cref="Files.App.ViewModels.ContextMenuFlyoutItemViewModel"/>
+	/// </summary>
 	public static class ItemModelListToContextFlyoutHelper
 	{
 		public static List<MenuFlyoutItemBase>? GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItemViewModel>? items)
