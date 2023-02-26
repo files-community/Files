@@ -1,5 +1,5 @@
-﻿<vm:PropertiesTab
-	x:Class="Files.App.Views.PropertiesCompatibility"
+﻿<vm:BasePropertiesPage
+	x:Class="Files.App.Views.Properties.CompatibilityPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:converters="using:Files.App.Converters"
@@ -11,7 +11,7 @@
 	Loaded="Properties_Loaded"
 	mc:Ignorable="d">
 
-	<vm:PropertiesTab.Resources>
+	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
 
 			<ResourceDictionary.MergedDictionaries>
@@ -22,7 +22,7 @@
 			<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
 
 		</ResourceDictionary>
-	</vm:PropertiesTab.Resources>
+	</vm:BasePropertiesPage.Resources>
 
 	<ScrollViewer>
 		<StackPanel Padding="12" Spacing="4">
@@ -107,4 +107,4 @@
 
 		</StackPanel>
 	</ScrollViewer>
-</vm:PropertiesTab>
+</vm:BasePropertiesPage>
