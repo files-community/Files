@@ -1,5 +1,5 @@
 ﻿<Page
-	x:Class="Files.App.Views.PropertiesSecurityAdvanced"
+	x:Class="Files.App.Views.Properties.SecurityAdvancedPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:behaviors="using:CommunityToolkit.WinUI.UI.Behaviors"
@@ -198,7 +198,7 @@
 										HorizontalAlignment="Center"
 										FontSize="12"
 										FontWeight="SemiLight"
-										Text="{helpers:ResourceString Name=SecurityAdvancedTypeLabel/Text}" />
+										Text="{helpers:ResourceString Name=Type}" />
 									<TextBlock
 										Grid.Column="2"
 										FontSize="12"
@@ -493,7 +493,7 @@
 				Margin="0,0,10,0"
 				HorizontalAlignment="Right"
 				Click="OKButton_Click"
-				Content="{helpers:ResourceString Name=PropertiesDialogOKButton/Content}"
+				Content="{helpers:ResourceString Name=OK}"
 				Style="{StaticResource AccentButtonStyle}" />
 			<Button
 				x:Name="CancelButton"
