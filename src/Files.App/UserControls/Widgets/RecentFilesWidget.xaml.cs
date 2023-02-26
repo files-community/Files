@@ -128,7 +128,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenItemsWithCaptionText".GetLocalizedResource(),
-					Glyph = "\uE17D",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenWith",
+					},
 					Tag = "OpenWithPlaceholder",
 					IsEnabled = false
 				},
