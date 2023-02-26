@@ -49,7 +49,7 @@
 				AutomationProperties.Name="{helpers:ResourceString Name=BundlesWidgetMoreOptionsButton/AutomationProperties/Name}"
 				Background="Transparent"
 				BorderBrush="Transparent"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=BundlesWidgetMoreOptionsButton/ToolTipService/ToolTip}">
+				ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
 
 				<FontIcon
 					HorizontalAlignment="Center"
@@ -305,7 +305,7 @@
 															x:Name="OpenInNewTab"
 															x:Load="{x:Bind OpenInNewTabLoad, Mode=OneWay}"
 															Command="{x:Bind OpenInNewTabCommand}"
-															Text="{helpers:ResourceString Name=BundleItemFlyouOpenInNewTabMenuItem/Text}">
+															Text="{helpers:ResourceString Name=OpenInNewTab}">
 															<MenuFlyoutItem.Icon>
 																<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
 															</MenuFlyoutItem.Icon>
