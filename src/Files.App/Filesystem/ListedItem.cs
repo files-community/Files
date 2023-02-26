@@ -53,7 +53,7 @@ namespace Files.App.Filesystem
 				tooltipBuilder.AppendLine($"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}");
 				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
 				if(!string.IsNullOrWhiteSpace(FileSize))
-					tooltipBuilder.Append($"{Environment.NewLine}{"ToolTipDescriptionSize".GetLocalizedResource()} {FileSize}");
+					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
 				if(SyncStatusUI.LoadSyncStatus)
 					tooltipBuilder.Append($"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}");
 
@@ -400,7 +400,7 @@ namespace Files.App.Filesystem
 			}
 			else if (IsLibrary)
 			{
-				suffix = "LibraryItemAutomation".GetLocalizedResource();
+				suffix = "Library".GetLocalizedResource();
 			}
 			else
 			{
@@ -493,7 +493,7 @@ namespace Files.App.Filesystem
 			PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
 			ItemPropertiesInitialized = false;
 
-			var itemType = isFile ? "ItemTypeFile".GetLocalizedResource() : "Folder".GetLocalizedResource();
+			var itemType = isFile ? "File".GetLocalizedResource() : "Folder".GetLocalizedResource();
 			if (isFile && Name.Contains('.', StringComparison.Ordinal))
 			{
 				itemType = FileExtension.Trim('.') + " " + itemType;
@@ -571,7 +571,7 @@ namespace Files.App.Filesystem
 			ItemPath = library.Path;
 			ItemNameRaw = library.Text;
 			PrimaryItemAttribute = StorageItemTypes.Folder;
-			ItemType = "ItemTypeLibrary".GetLocalizedResource();
+			ItemType = "Library".GetLocalizedResource();
 			LoadCustomIcon = true;
 			CustomIcon = library.Icon;
 			//CustomIconSource = library.IconSource;
