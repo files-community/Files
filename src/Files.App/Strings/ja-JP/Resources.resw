@@ -2790,4 +2790,7 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>すべての競合するアイテムにこれを実行する</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
 </root>
