@@ -575,7 +575,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "RestoreAllItems".GetLocalizedResource(),
-					Glyph = "\xE777",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconRestoreItem",
+					},
 					Command = commandsViewModel.RestoreRecycleBinCommand,
 					ShowItem = !itemsSelected && currentInstanceViewModel.IsPageTypeRecycleBin,
 					ShowInRecycleBin = true,
@@ -583,7 +586,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Restore".GetLocalizedResource(),
-					Glyph = "\xE777",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconRestoreItem",
+					},
 					Command = commandsViewModel.RestoreItemCommand,
 					ShowInRecycleBin = true,
 					ShowItem = itemsSelected && selectedItems.All(x => x.IsRecycleBinItem)

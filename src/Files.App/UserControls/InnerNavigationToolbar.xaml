@@ -220,9 +220,8 @@
 					Label="{helpers:ResourceString Name=RestoreAllItems}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreAllItems}"
 					Visibility="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}">
-					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE777;" />
-					</AppBarButton.Icon>
+
+					<local:OpacityIcon Style="{StaticResource ColorIconRestoreItem}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="RestoreSelectionRecycleBinButton"
@@ -233,9 +232,8 @@
 					Label="{helpers:ResourceString Name=Restore}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Restore}"
 					Visibility="{x:Bind ViewModel.CanRestoreSelectionRecycleBin, Mode=OneWay}">
-					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE777;" />
-					</AppBarButton.Icon>
+
+					<local:OpacityIcon Style="{StaticResource ColorIconRestoreItem}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="ExtractButton"

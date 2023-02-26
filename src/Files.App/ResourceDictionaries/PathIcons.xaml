@@ -415,6 +415,49 @@
 				</Setter>
 			</Style>
 
+			<Style x:Key="ColorIconRestoreItem" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox Height="16" Stretch="Uniform">
+								<Grid>
+									<Path
+										x:Name="Path1"
+										Data="M12.1468 6.03763L12.4247 4H3.57031L4.75704 12.7027C4.85839 13.4459 5.49318 14 6.24329 14H6.59971C6.21628 13.2499 6 12.4002 6 11.5C6 8.46243 8.46243 6 11.5 6C11.7188 6 11.9347 6.01278 12.1468 6.03763Z"
+										Fill="{ThemeResource IconAltBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M8 1C6.89543 1 6 1.89543 6 3H2C1.72386 3 1.5 3.22386 1.5 3.5C1.5 3.77614 1.72386 4 2 4H2.56055L3.7657 12.8378C3.93461 14.0765 4.9926 15 6.24277 15H7.25716C7.00353 14.6929 6.78261 14.3578 6.59971 14H6.24277C5.49267 14 4.85788 13.4459 4.75653 12.7027L3.5698 4H12.4242L12.1463 6.03758C12.4836 6.07706 12.8116 6.14705 13.1273 6.24473L13.4334 4H14C14.2761 4 14.5 3.77614 14.5 3.5C14.5 3.22386 14.2761 3 14 3H10C10 1.89543 9.10457 1 8 1ZM8 2C8.55228 2 9 2.44772 9 3H7C7 2.44772 7.44772 2 8 2Z"
+										Fill="{ThemeResource IconBaseBrush}" />
+									<Path
+										x:Name="Path3"
+										Data="M11.5 16C13.9853 16 16 13.9853 16 11.5C16 9.01472 13.9853 7 11.5 7C9.01472 7 7 9.01472 7 11.5C7 13.9853 9.01472 16 11.5 16Z"
+										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
+									<Path
+										x:Name="Path4"
+										Data="M10.6036 9.60355L9.70711 10.5H11.25C12.7688 10.5 14 11.7312 14 13.25V13.5C14 13.7761 13.7761 14 13.5 14C13.2239 14 13 13.7761 13 13.5V13.25C13 12.2835 12.2165 11.5 11.25 11.5H9.70711L10.6036 12.3964C10.7988 12.5917 10.7988 12.9083 10.6036 13.1036C10.4083 13.2988 10.0917 13.2988 9.89645 13.1036L8.14433 11.3514C8.09744 11.304 8.06198 11.2495 8.03794 11.1914C8.01349 11.1324 8 11.0678 8 11C8 10.9322 8.01349 10.8676 8.03794 10.8086C8.06234 10.7496 8.09851 10.6944 8.14645 10.6464L9.89645 8.89645C10.0917 8.70118 10.4083 8.70118 10.6036 8.89645C10.7988 9.09171 10.7988 9.40829 10.6036 9.60355Z"
+										Fill="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled">
+											<VisualState.Setters>
+												<Setter Target="Path1.Fill" Value="Transparent" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="Transparent" />
+											</VisualState.Setters>
+										</VisualState>
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
 			<Style x:Key="ColorIconProperties" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
