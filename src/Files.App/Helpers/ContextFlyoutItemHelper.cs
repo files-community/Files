@@ -565,25 +565,14 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel(commands.EmptyRecycleBin)
 				{
-					IsEnabled = RecycleBinHelpers.RecycleBinHasItems(),
+					IsEnabled = commands.EmptyRecycleBin.IsExecutable,
 					ShowItem = !itemsSelected && currentInstanceViewModel.IsPageTypeRecycleBin,
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModel(commands.RestoreAllRecycleBin)
 				{
-					Text = "RestoreAllItems".GetLocalizedResource(),
-					Glyph = "\xE777",
-					Command = commandsViewModel.RestoreRecycleBinCommand,
 					ShowItem = !itemsSelected && currentInstanceViewModel.IsPageTypeRecycleBin,
-					ShowInRecycleBin = true,
 				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "Restore".GetLocalizedResource(),
-					Glyph = "\xE777",
-					Command = commandsViewModel.RestoreItemCommand,
-					ShowInRecycleBin = true,
-					ShowItem = itemsSelected && selectedItems.All(x => x.IsRecycleBinItem)
-				},
+				new ContextMenuFlyoutItemViewModel(commands.RestoreRecycleBin),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Open".GetLocalizedResource(),
