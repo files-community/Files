@@ -43,16 +43,16 @@ namespace Files.App.Filesystem.Permissions
 		#endregion
 
 		#region Methods
-		public AccessMask GetEffectiveRights(Principal user)
+		public AccessMaskFlags GetEffectiveRights(Principal user)
 		{
 			var userSids = new List<string> { user.Sid };
 			userSids.AddRange(user.Groups);
 
-			AccessMask inheritedDenyRights = 0;
-			AccessMask denyRights = 0;
+			AccessMaskFlags inheritedDenyRights = 0;
+			AccessMaskFlags denyRights = 0;
 
-			AccessMask inheritedAllowRights = 0;
-			AccessMask allowRights = 0;
+			AccessMaskFlags inheritedAllowRights = 0;
+			AccessMaskFlags allowRights = 0;
 
 			foreach (AccessControlEntryAdvanced Rule in AccessRules.Where(x => userSids.Contains(x.PrincipalSid)))
 			{

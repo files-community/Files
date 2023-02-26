@@ -12,7 +12,7 @@ using Tulpep.ActiveDirectoryObjectPicker;
 namespace Files.App.Filesystem.Permissions
 {
 	/// <summary>
-	/// Represents a storage object's security information, such as owner info, access rules. Equivalent to DACL.
+	/// Describe
 	/// </summary>
 	public class FilePermissions
 	{
@@ -47,7 +47,7 @@ namespace Files.App.Filesystem.Permissions
 				{
 					var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
 
-					foreach (var existingRule in accessRules.Cast<System.Security.AccessControl.FileSystemAccessRule>().Where(x => !x.IsInherited))
+					foreach (var existingRule in accessRules.Cast<FileSystemAccessRule>().Where(x => !x.IsInherited))
 					{
 						acs.RemoveAccessRule(existingRule);
 					}
@@ -149,21 +149,21 @@ namespace Files.App.Filesystem.Permissions
 			return Win32API.RunPowershellCommand($"-command \"try {{ $path = '{FilePath}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{ownerSid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"", true);
 		}
 
-		public bool HasPermission(AccessMask perm)
+		public bool HasPermission(AccessMaskFlags perm)
 			=> GetEffectiveRights().HasFlag(perm);
 
-		public System.Security.AccessControl.FileSystemRights GetEffectiveRights()
+		public FileSystemRights GetEffectiveRights()
 		{
 			using var user = WindowsIdentity.GetCurrent();
 			var userSids = new List<string> { user.User.Value };
 			userSids.AddRange(user.Groups.Select(x => x.Value));
 
-			System.Security.AccessControl.FileSystemRights inheritedDenyRights = 0, denyRights = 0;
-			System.Security.AccessControl.FileSystemRights inheritedAllowRights = 0, allowRights = 0;
+			FileSystemRights inheritedDenyRights = 0, denyRights = 0;
+			FileSystemRights inheritedAllowRights = 0, allowRights = 0;
 
 			foreach (var Rule in AccessRules.Where(x => userSids.Contains(x.IdentityReference)))
 			{
-				if (Rule.AccessControlType == System.Security.AccessControl.AccessControlType.Deny)
+				if (Rule.AccessControlType == AccessControlType.Deny)
 				{
 					if (Rule.IsInherited)
 					{
@@ -174,7 +174,7 @@ namespace Files.App.Filesystem.Permissions
 						denyRights |= Rule.FileSystemRights;
 					}
 				}
-				else if (Rule.AccessControlType == System.Security.AccessControl.AccessControlType.Allow)
+				else if (Rule.AccessControlType == AccessControlType.Allow)
 				{
 					if (Rule.IsInherited)
 					{
@@ -206,7 +206,7 @@ namespace Files.App.Filesystem.Permissions
 				var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
 				foreach (var accessRule in accessRules)
 				{
-					rules.Add(FileSystemAccessRule2.FromFileSystemAccessRule((System.Security.AccessControl.FileSystemAccessRule)accessRule));
+					rules.Add(FileSystemAccessRule2.FromFileSystemAccessRule((FileSystemAccessRule)accessRule));
 				}
 
 				filePermissions.AccessRules.AddRange(rules);

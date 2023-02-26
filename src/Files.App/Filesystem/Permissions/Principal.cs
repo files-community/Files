@@ -49,72 +49,51 @@ namespace Files.App.Filesystem.Permissions
 		#region Methods
 		public static Principal FromSid(string sid)
 		{
-			if (string.IsNullOrEmpty(sid))
-				return default;
-
 			var userGroup = new Principal()
 			{
 				Sid = sid
 			};
 
+			if (string.IsNullOrEmpty(sid))
+				return userGroup;
+
 			var lpSid = ConvertStringSidToSid(userGroup.Sid);
 
-			var userName = new StringBuilder();
-			var domainName = new StringBuilder();
-			int cchUserName = 0;
+			var lpName = new StringBuilder();
+			var lpDomain = new StringBuilder();
+			int cchName = 0;
 			int cchDomainName = 0;
 
-			LookupAccountSid(null, lpSid, userName, ref cchUserName, domainName, ref cchDomainName, out _);
+			LookupAccountSid(null, lpSid, lpName, ref cchName, lpDomain, ref cchDomainName, out _);
 
-			userName.EnsureCapacity(cchUserName);
-			domainName.EnsureCapacity(cchDomainName);
+			lpName.EnsureCapacity(cchName);
+			lpDomain.EnsureCapacity(cchDomainName);
 
-			if (LookupAccountSid(null, lpSid, userName, ref cchUserName, domainName, ref cchDomainName, out var secType))
+			if (LookupAccountSid(null, lpSid, lpName, ref cchName, lpDomain, ref cchDomainName, out var snu))
 			{
-				userGroup.PrincipalType = secType switch
+				userGroup.PrincipalType = snu switch
 				{
+					// Group
 					var x when
-						x == SID_NAME_USE.SidTypeAlias ||
+						(x == SID_NAME_USE.SidTypeAlias ||
 						x == SID_NAME_USE.SidTypeGroup ||
-						x == SID_NAME_USE.SidTypeWellKnownGroup
+						x == SID_NAME_USE.SidTypeWellKnownGroup)
 						=> PrincipalType.Group,
-					SID_NAME_USE.SidTypeUser => PrincipalType.User,
+
+					// User
+					SID_NAME_USE.SidTypeUser
+						=> PrincipalType.User,
+
+					// Unknown
 					_ => PrincipalType.Unknown
 				};
 
-				userGroup.Name = userName.ToString();
-				userGroup.Domain = domainName.ToString();
+				userGroup.Name = lpName.ToString();
+				userGroup.Domain = lpDomain.ToString();
 			}
 
 			return userGroup;
 		}
 		#endregion
-	}
-
-	public enum PrincipalType
-	{
-		/// <summary>
-		/// User principal type
-		/// </summary>
-		User,
-
-		/// <summary>
-		/// Group principal type
-		/// </summary>
-		Group,
-
-		/// <summary>
-		/// Unknwon principal type
-		/// </summary>
-		Unknown
-	};
-
-	public enum WellKnownUserGroup
-	{
-		None,
-		Everyone,
-		AdminGroup,
-		Administrator,
-		LocalSystem,
 	}
 }

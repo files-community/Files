@@ -8,7 +8,7 @@ using System.Linq;
 namespace Files.App.Filesystem.Permissions
 {
 	/// <summary>
-	/// Represents an advanced ACE information
+	/// Represents an advanced ACE.
 	/// </summary>
 	public class AccessControlEntryAdvanced : ObservableObject
 	{
@@ -37,7 +37,7 @@ namespace Files.App.Filesystem.Permissions
 			: this(isFolder)
 		{
 			AccessControlType = (AccessControlType)accessRule.AccessControlType;
-			FileSystemRights = (AccessMask)accessRule.FileSystemRights;
+			FileSystemRights = (AccessMaskFlags)accessRule.FileSystemRights;
 			PrincipalSid = accessRule.IdentityReference;
 			IsInherited = accessRule.IsInherited;
 			InheritanceFlags = (InheritanceFlags)accessRule.InheritanceFlags;
@@ -95,8 +95,8 @@ namespace Files.App.Filesystem.Permissions
 			}
 		}
 
-		private AccessMask fileSystemRights;
-		public AccessMask FileSystemRights
+		private AccessMaskFlags fileSystemRights;
+		public AccessMaskFlags FileSystemRights
 		{
 			get => fileSystemRights;
 			set
@@ -147,148 +147,148 @@ namespace Files.App.Filesystem.Permissions
 
 		public bool IsFolder { get; }
 
-		private List<GrantedPermission> grantedPermissions;
-		public List<GrantedPermission> GrantedPermissions
+		private List<AccessMaskItem> grantedPermissions;
+		public List<AccessMaskItem> GrantedPermissions
 		{
 			get => grantedPermissions;
 			set => SetProperty(ref grantedPermissions, value);
 		}
 
+		public bool WriteAccess => FileSystemRights.HasFlag(AccessMaskFlags.Write);
+		public bool ReadAccess => FileSystemRights.HasFlag(AccessMaskFlags.Read);
+		public bool ListDirectoryAccess => FileSystemRights.HasFlag(AccessMaskFlags.ListDirectory);
+		public bool ReadAndExecuteAccess => FileSystemRights.HasFlag(AccessMaskFlags.ReadAndExecute);
+		public bool ModifyAccess => FileSystemRights.HasFlag(AccessMaskFlags.Modify);
+		public bool FullControlAccess => FileSystemRights.HasFlag(AccessMaskFlags.FullControl);
+		public bool SpecialAccess
+			=> (FileSystemRights &
+					~AccessMaskFlags.Synchronize &
+					(FullControlAccess ? ~AccessMaskFlags.FullControl : AccessMaskFlags.FullControl) &
+					(ModifyAccess ? ~AccessMaskFlags.Modify : AccessMaskFlags.FullControl) &
+					(ReadAndExecuteAccess ? ~AccessMaskFlags.ReadAndExecute : AccessMaskFlags.FullControl) &
+					(ReadAccess ? ~AccessMaskFlags.Read : AccessMaskFlags.FullControl) &
+					(WriteAccess ? ~AccessMaskFlags.Write : AccessMaskFlags.FullControl)) != 0;
+
 		public RelayCommand<string> ChangeAccessControlTypeCommand { get; set; }
 		public RelayCommand<string> ChangeInheritanceFlagsCommand { get; set; }
-
-		private bool GrantsWrite => FileSystemRights.HasFlag(AccessMask.Write);
-		private bool GrantsRead => FileSystemRights.HasFlag(AccessMask.Read);
-		private bool GrantsListDirectory => FileSystemRights.HasFlag(AccessMask.ListDirectory);
-		private bool GrantsReadAndExecute => FileSystemRights.HasFlag(AccessMask.ReadAndExecute);
-		private bool GrantsModify => FileSystemRights.HasFlag(AccessMask.Modify);
-		private bool GrantsFullControl => FileSystemRights.HasFlag(AccessMask.FullControl);
-		private bool GrantsSpecial
-			=> (FileSystemRights &
-					~AccessMask.Synchronize &
-					(GrantsFullControl ? ~AccessMask.FullControl : AccessMask.FullControl) &
-					(GrantsModify ? ~AccessMask.Modify : AccessMask.FullControl) &
-					(GrantsReadAndExecute ? ~AccessMask.ReadAndExecute : AccessMask.FullControl) &
-					(GrantsRead ? ~AccessMask.Read : AccessMask.FullControl) &
-					(GrantsWrite ? ~AccessMask.Write : AccessMask.FullControl)) != 0;
 		#endregion
 
 		#region Methods
-		private List<GrantedPermission> GetAllAccessMaskList()
+		private List<AccessMaskItem> GetAllAccessMaskList()
 		{
 			// This list will be shown in an ACE item in security advanced page
-			List<GrantedPermission> accessControls;
+			List<AccessMaskItem> accessControls;
 
 			if (AreAdvancedPermissionsShown)
 			{
 				accessControls = new()
 				{
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.FullControl,
-						Name = "SecurityFullControlLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.FullControl,
+						AccessMaskName = "SecurityFullControlLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.Traverse,
-						Name = "SecurityTraverseLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.Traverse,
+						AccessMaskName = "SecurityTraverseLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.ExecuteFile,
-						Name = "SecurityExecuteFileLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.ExecuteFile,
+						AccessMaskName = "SecurityExecuteFileLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.ListDirectory,
-						Name = "SecurityListDirectoryLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.ListDirectory,
+						AccessMaskName = "SecurityListDirectoryLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.ReadData,
-						Name = "SecurityReadDataLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.ReadData,
+						AccessMaskName = "SecurityReadDataLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.ReadAttributes,
-						Name = "SecurityReadAttributesLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.ReadAttributes,
+						AccessMaskName = "SecurityReadAttributesLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.ReadExtendedAttributes,
-						Name = "SecurityReadExtendedAttributesLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.ReadExtendedAttributes,
+						AccessMaskName = "SecurityReadExtendedAttributesLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.CreateFiles,
-						Name = "SecurityCreateFilesLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.CreateFiles,
+						AccessMaskName = "SecurityCreateFilesLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.CreateDirectories,
-						Name = "SecurityCreateDirectoriesLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.CreateDirectories,
+						AccessMaskName = "SecurityCreateDirectoriesLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.WriteData,
-						Name = "SecurityWriteDataLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.WriteData,
+						AccessMaskName = "SecurityWriteDataLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.AppendData,
-						Name = "SecurityAppendDataLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.AppendData,
+						AccessMaskName = "SecurityAppendDataLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.WriteAttributes,
-						Name = "SecurityWriteAttributesLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.WriteAttributes,
+						AccessMaskName = "SecurityWriteAttributesLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.WriteExtendedAttributes,
-						Name = "SecurityWriteExtendedAttributesLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.WriteExtendedAttributes,
+						AccessMaskName = "SecurityWriteExtendedAttributesLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.DeleteSubdirectoriesAndFiles,
-						Name = "SecurityDeleteSubdirectoriesAndFilesLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.DeleteSubdirectoriesAndFiles,
+						AccessMaskName = "SecurityDeleteSubdirectoriesAndFilesLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.Delete,
-						Name = "Delete".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.Delete,
+						AccessMaskName = "Delete".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.ReadPermissions,
-						Name = "SecurityReadPermissionsLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.ReadPermissions,
+						AccessMaskName = "SecurityReadPermissionsLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.ChangePermissions,
-						Name = "SecurityChangePermissionsLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.ChangePermissions,
+						AccessMaskName = "SecurityChangePermissionsLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.TakeOwnership,
-						Name = "SecurityTakeOwnershipLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.TakeOwnership,
+						AccessMaskName = "SecurityTakeOwnershipLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					}
 				};
@@ -296,71 +296,71 @@ namespace Files.App.Filesystem.Permissions
 				if (IsFolder)
 				{
 					accessControls.RemoveAll(x =>
-						x.Permission == AccessMask.ExecuteFile ||
-						x.Permission == AccessMask.ReadData ||
-						x.Permission == AccessMask.WriteData ||
-						x.Permission == AccessMask.AppendData);
+						x.AccessMask == AccessMaskFlags.ExecuteFile ||
+						x.AccessMask == AccessMaskFlags.ReadData ||
+						x.AccessMask == AccessMaskFlags.WriteData ||
+						x.AccessMask == AccessMaskFlags.AppendData);
 				}
 				else
 				{
 					accessControls.RemoveAll(x =>
-						x.Permission == AccessMask.Traverse ||
-						x.Permission == AccessMask.ListDirectory ||
-						x.Permission == AccessMask.CreateFiles ||
-						x.Permission == AccessMask.CreateDirectories ||
-						x.Permission == AccessMask.DeleteSubdirectoriesAndFiles);
+						x.AccessMask == AccessMaskFlags.Traverse ||
+						x.AccessMask == AccessMaskFlags.ListDirectory ||
+						x.AccessMask == AccessMaskFlags.CreateFiles ||
+						x.AccessMask == AccessMaskFlags.CreateDirectories ||
+						x.AccessMask == AccessMaskFlags.DeleteSubdirectoriesAndFiles);
 				}
 			}
 			else
 			{
 				accessControls = new()
 				{
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.FullControl,
-						Name = "SecurityFullControlLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.FullControl,
+						AccessMaskName = "SecurityFullControlLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.Modify,
-						Name = "SecurityModifyLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.Modify,
+						AccessMaskName = "SecurityModifyLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.ReadAndExecute,
-						Name = "SecurityReadAndExecuteLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.ReadAndExecute,
+						AccessMaskName = "SecurityReadAndExecuteLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.ListDirectory,
-						Name = "SecurityListDirectoryLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.ListDirectory,
+						AccessMaskName = "SecurityListDirectoryLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.Read,
-						Name = "SecurityReadLabel/Text".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.Read,
+						AccessMaskName = "SecurityReadLabel/Text".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new GrantedPermission(this)
+					new AccessMaskItem(this)
 					{
-						Permission = AccessMask.Write,
-						Name = "Write".GetLocalizedResource(),
+						AccessMask = AccessMaskFlags.Write,
+						AccessMaskName = "Write".GetLocalizedResource(),
 						IsEditable = !IsInherited
 					},
-					new SpecialPermission(this)
+					new AccessMaskItem(this, false)
 					{
-						Name = "SecuritySpecialLabel/Text".GetLocalizedResource()
+						AccessMaskName = "SecuritySpecialLabel/Text".GetLocalizedResource()
 					}
 				};
 
 				if (!IsFolder)
 				{
 					accessControls.RemoveAll(x =>
-						x.Permission == AccessMask.ListDirectory);
+						x.AccessMask == AccessMaskFlags.ListDirectory);
 				}
 			}
 
@@ -400,36 +400,36 @@ namespace Files.App.Filesystem.Permissions
 		{
 			var accessMaskStrings = new List<string>();
 
-			if (FileSystemRights == AccessMask.NULL)
+			if (FileSystemRights == AccessMaskFlags.NULL)
 			{
 				accessMaskStrings.Add("None".GetLocalizedResource());
 			}
 
-			if (GrantsFullControl)
+			if (FullControlAccess)
 			{
 				accessMaskStrings.Add("SecurityFullControlLabel/Text".GetLocalizedResource());
 			}
-			else if (GrantsModify)
+			else if (ModifyAccess)
 			{
 				accessMaskStrings.Add("SecurityModifyLabel/Text".GetLocalizedResource());
 			}
-			else if (GrantsReadAndExecute)
+			else if (ReadAndExecuteAccess)
 			{
 				accessMaskStrings.Add("SecurityReadAndExecuteLabel/Text".GetLocalizedResource());
 			}
-			else if (GrantsRead)
+			else if (ReadAccess)
 			{
 				accessMaskStrings.Add("SecurityReadLabel/Text".GetLocalizedResource());
 			}
 
-			if (!GrantsFullControl &&
-				!GrantsModify &&
-				GrantsWrite)
+			if (!FullControlAccess &&
+				!ModifyAccess &&
+				WriteAccess)
 			{
 				accessMaskStrings.Add("Write".GetLocalizedResource());
 			}
 
-			if (GrantsSpecial)
+			if (SpecialAccess)
 			{
 				accessMaskStrings.Add("SecuritySpecialLabel/Text".GetLocalizedResource());
 			}

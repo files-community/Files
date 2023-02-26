@@ -335,10 +335,10 @@
 															</Style>
 														</GridView.ItemContainerStyle>
 														<GridView.ItemTemplate>
-															<DataTemplate x:DataType="perm:GrantedPermission">
-																<CheckBox IsChecked="{x:Bind IsGranted, Mode=TwoWay}" IsEnabled="{x:Bind IsEditable}">
+															<DataTemplate x:DataType="perm:AccessMaskItem">
+																<CheckBox IsChecked="{x:Bind IsEnabled, Mode=TwoWay}" IsEnabled="{x:Bind IsEditable}">
 																	<TextBlock
-																		Text="{x:Bind Name}"
+																		Text="{x:Bind AccessMaskName}"
 																		TextTrimming="CharacterEllipsis"
 																		TextWrapping="NoWrap" />
 																</CheckBox>

@@ -167,7 +167,7 @@ namespace Files.App.ViewModels.Properties
 				FilePermissions.AccessRules.Add(new AccessControlEntryAdvanced(IsFolder)
 				{
 					AccessControlType = AccessControlType.Allow,
-					FileSystemRights = AccessMask.ReadAndExecute,
+					FileSystemRights = AccessMaskFlags.ReadAndExecute,
 					PrincipalSid = pickedObject,
 					InheritanceFlags = IsFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
 					PropagationFlags = PropagationFlags.None

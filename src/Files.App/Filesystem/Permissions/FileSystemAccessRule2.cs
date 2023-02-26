@@ -3,7 +3,7 @@
 namespace Files.App.Filesystem.Permissions
 {
 	/// <summary>
-	/// Represents access rights of an ACE constructed by the classes in System.Security.AccessControl
+	/// Describe
 	/// </summary>
 	public class FileSystemAccessRule2
 	{
