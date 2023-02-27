@@ -1,0 +1,41 @@
+﻿<ContentDialog
+	x:Class="Files.App.Dialogs.ReorderSidebarItemsDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="{helpers:ResourceString Name=NewShortcutDialogTitle}"
+	DefaultButton="Primary"
+	IsPrimaryButtonEnabled="True"
+	PrimaryButtonText="True"
+	SecondaryButtonText="True"
+	Style="{StaticResource DefaultContentDialogStyle}"
+	mc:Ignorable="d">
+
+	<Border Width="400">
+		<Grid
+			x:Name="DestinationPathGrid"
+			ColumnSpacing="8"
+			RowSpacing="8">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<!--  Header  -->
+			<TextBlock
+				Grid.ColumnSpan="2"
+				Margin="0,0,0,20"
+				Text="{x:Bind ViewModel.HeaderText}"
+				TextWrapping="Wrap" />
+
+
+		</Grid>
+	</Border>
+</ContentDialog>
