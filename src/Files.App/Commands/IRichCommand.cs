@@ -17,7 +17,6 @@ namespace Files.App.Commands
 
 		RichGlyph Glyph { get; }
 		FontIcon? FontIcon { get; }
-		ColoredIcon? ColoredIcon { get; }
 		OpacityIcon? OpacityIcon { get; }
 
 		HotKey DefaultHotKey { get; }

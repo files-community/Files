@@ -11,11 +11,11 @@ namespace Files.App.ViewModels
 	/// <summary>
 	/// This class is intended to be used with ContextFlyoutItemHelper and ItemModelListToContextFlyoutHelper.
 	/// ContextFlyoutItemHelper creates a list of ContextMenuFlyoutItemViewModels representing various commands to be displayed
-	/// in a context menu or a command bar. ItemModelListToContextFlyoutHelper has functions that take in said list, and converts 
+	/// in a context menu or a command bar. ItemModelListToContextFlyoutHelper has functions that take in said list, and converts
 	/// it to a context menu or command bar to be displayed on the window.
-	/// 
+	///
 	/// Example:
-	/// 1) user right clicks 
+	/// 1) user right clicks
 	/// 2) models <- ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems()
 	/// 3) menu <- ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(models)
 	/// 4) menu.Open()
@@ -99,37 +99,6 @@ namespace Files.App.ViewModels
 		public bool ShowLoadingIndicator { get; set; }
 
 		public bool IsHidden { get; set; }
-
-		public ContextMenuFlyoutItemViewModel()
-		{
-		}
-
-		public ContextMenuFlyoutItemViewModel(IRichCommand command)
-		{
-			Text = command.Label;
-			Command = command;
-
-			var glyph = command.Glyph;
-			if (string.IsNullOrEmpty(glyph.OverlayGlyph))
-			{
-				Glyph = glyph.BaseGlyph;
-				GlyphFontFamilyName = glyph.FontFamily;
-			}
-			else
-			{
-				ColoredIcon = new ColoredIconModel
-				{
-					BaseLayerGlyph = glyph.BaseGlyph,
-					OverlayLayerGlyph = glyph.OverlayGlyph,
-				};
-			}
-
-			ShowItem = command.IsExecutable;
-			ShowInRecycleBin = ShowInSearchPage = ShowInFtpPage = ShowInZipPage = true;
-
-			if (!command.CustomHotKey.IsNone)
-				KeyboardAcceleratorTextOverride = command.CustomHotKey.ToString();
-		}
 	}
 
 	public enum ItemType

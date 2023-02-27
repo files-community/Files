@@ -13,27 +13,21 @@ namespace Files.App.Commands
 		public bool IsNone { get; }
 
 		public string BaseGlyph { get; }
-		public string OverlayGlyph { get; }
 		public string FontFamily { get; }
 		public string OpacityStyle { get; }
 
-		public RichGlyph(string baseGlyph = "", string overlayGlyph = "", string fontFamily = "", string opacityStyle = "")
+		public RichGlyph(string baseGlyph = "", string fontFamily = "", string opacityStyle = "")
 		{
 			BaseGlyph = baseGlyph;
-			OverlayGlyph = overlayGlyph;
 			FontFamily = fontFamily;
 			OpacityStyle = opacityStyle;
 
-			IsNone = string.IsNullOrEmpty(baseGlyph)
-				&& string.IsNullOrEmpty(overlayGlyph)
-				&& string.IsNullOrEmpty(fontFamily)
-				&& string.IsNullOrEmpty(opacityStyle);
+			IsNone = string.IsNullOrEmpty(baseGlyph) && string.IsNullOrEmpty(fontFamily) && string.IsNullOrEmpty(opacityStyle);
 		}
 
-		public void Deconstruct(out string baseGlyph, out string overlayGlyph, out string fontFamily, out string opacityStyle)
+		public void Deconstruct(out string baseGlyph, out string fontFamily, out string opacityStyle)
 		{
 			baseGlyph = BaseGlyph;
-			overlayGlyph = OverlayGlyph;
 			fontFamily = FontFamily;
 			opacityStyle = OpacityStyle;
 		}
@@ -53,22 +47,6 @@ namespace Files.App.Commands
 			var icon = new FontIcon
 			{
 				Glyph = BaseGlyph,
-			};
-			if (!string.IsNullOrEmpty(FontFamily))
-				icon.FontFamily = (FontFamily)Current.Resources[FontFamily];
-
-			return icon;
-		}
-
-		public ColoredIcon? ToColoredIcon()
-		{
-			if (IsNone)
-				return null;
-
-			var icon = new ColoredIcon
-			{
-				BaseLayerGlyph = BaseGlyph,
-				OverlayLayerGlyph = OverlayGlyph,
 			};
 			if (!string.IsNullOrEmpty(FontFamily))
 				icon.FontFamily = (FontFamily)Current.Resources[FontFamily];

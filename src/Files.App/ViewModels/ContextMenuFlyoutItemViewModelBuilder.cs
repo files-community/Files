@@ -58,18 +58,10 @@ namespace Files.App.ViewModels
 					OpacityIconStyle = glyph.OpacityStyle,
 				};
 			}
-			else if (string.IsNullOrEmpty(glyph.OverlayGlyph))
+			else
 			{
 				viewModel.Glyph = glyph.BaseGlyph;
 				viewModel.GlyphFontFamilyName = glyph.FontFamily;
-			}
-			else
-			{
-				viewModel.ColoredIcon = new ColoredIconModel
-				{
-					BaseLayerGlyph = glyph.BaseGlyph,
-					OverlayLayerGlyph = glyph.OverlayGlyph,
-				};
 			}
 
 			if (!command.CustomHotKey.IsNone)
