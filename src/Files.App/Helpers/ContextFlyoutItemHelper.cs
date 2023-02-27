@@ -676,10 +676,6 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconRightPane"
-					},
 					Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
 					ShowItem = itemsSelected && userSettingsService.PreferencesSettingsService.ShowOpenInNewPane && areAllItemsFolders,
 					SingleItemOnly = true,
@@ -724,25 +720,23 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel
 				{
-					Text = "RotateRight".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel
+					Text = "RotateLeft".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
 					{
-						BaseLayerGlyph = "\uF045",
-						OverlayLayerGlyph = "\uF046",
+						OpacityIconStyle = "ColorIconRotateLeft"
 					},
-					Command = commandsViewModel.RotateImageRightCommand,
+					Command = commandsViewModel.RotateImageLeftCommand,
 					ShowInSearchPage = true,
 					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
 				},
 				new ContextMenuFlyoutItemViewModel
 				{
-					Text = "RotateLeft".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel
+					Text = "RotateRight".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
 					{
-						BaseLayerGlyph = "\uF043",
-						OverlayLayerGlyph = "\uF044",
+						OpacityIconStyle = "ColorIconRotateRight"
 					},
-					Command = commandsViewModel.RotateImageLeftCommand,
+					Command = commandsViewModel.RotateImageRightCommand,
 					ShowInSearchPage = true,
 					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
 				},
@@ -815,10 +809,9 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "CopyLocation".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel()
+					OpacityIcon = new OpacityIconModel()
 					{
-						BaseLayerGlyph = "\uF04F",
-						OverlayLayerGlyph = "\uF050"
+						OpacityIconStyle = "ColorIconCopyLocation",
 					},
 					Command = commandsViewModel.CopyPathOfSelectedItemCommand,
 					SingleItemOnly = true,
@@ -852,10 +845,9 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutCreateFolderWithSelection/Text".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel()
+					OpacityIcon = new OpacityIconModel()
 					{
-						BaseLayerGlyph = "\uF033",
-						OverlayLayerGlyph = "\uF034"
+						OpacityIconStyle = "ColorIconNewFolder",
 					},
 					Command = commandsViewModel.CreateFolderWithSelection,
 					ShowItem = itemsSelected,
@@ -863,10 +855,9 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutShortcut/Text".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel()
+					OpacityIcon = new OpacityIconModel()
 					{
-						BaseLayerGlyph = "\uF04B",
-						OverlayLayerGlyph = "\uF04C"
+						OpacityIconStyle = "ColorIconShortcut",
 					},
 					Command = commandsViewModel.CreateShortcutCommand,
 					ShowItem = itemsSelected && (!selectedItems.FirstOrDefault()?.IsShortcut ?? false),
@@ -950,7 +941,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
-					Glyph = "\uE840",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconPinToFavorites",
+					},
 					Command = commandsViewModel.SidebarPinItemCommand,
 					ShowItem = userSettingsService.PreferencesSettingsService.ShowFavoritesSection && selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive && !x.IsPinned),
 					ShowInSearchPage = true,
@@ -959,7 +953,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
-					Glyph = "\uE77A",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+					},
 					Command = commandsViewModel.SidebarUnpinItemCommand,
 					ShowItem = userSettingsService.PreferencesSettingsService.ShowFavoritesSection && selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive && x.IsPinned),
 					ShowInSearchPage = true,
@@ -968,7 +965,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "PinItemToStart/Text".GetLocalizedResource(),
-					Glyph = "\uE840",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconPinToFavorites",
+					},
 					Command = commandsViewModel.PinItemToStartCommand,
 					ShowOnShift = true,
 					ShowItem = selectedItems.All(x => !x.IsShortcut && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsArchive && !x.IsItemPinnedToStart),
@@ -979,7 +979,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "UnpinItemFromStart/Text".GetLocalizedResource(),
-					Glyph = "\uE77A",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+					},
 					Command = commandsViewModel.UnpinItemFromStartCommand,
 					ShowOnShift = true,
 					ShowItem = selectedItems.All(x => !x.IsShortcut && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsArchive && x.IsItemPinnedToStart),
@@ -991,13 +994,15 @@ namespace Files.App.Helpers
 				{
 					Text = "Archive".GetLocalizedResource(),
 					ShowInSearchPage = true,
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconZip",
+					},
 					Items = new List<ContextMenuFlyoutItemViewModel>
 					{
 						new ContextMenuFlyoutItemViewModel
 						{
 							Text = "ExtractFiles".GetLocalizedResource(),
-							Glyph = "\xF11A",
-							GlyphFontFamilyName = "CustomGlyph",
 							Command = commandsViewModel.DecompressArchiveCommand,
 							ShowItem = canDecompress,
 							ShowInSearchPage = true,
@@ -1005,8 +1010,6 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel
 						{
 							Text = "ExtractHere".GetLocalizedResource(),
-							Glyph = "\xF11A",
-							GlyphFontFamilyName = "CustomGlyph",
 							Command = commandsViewModel.DecompressArchiveHereCommand,
 							ShowItem = canDecompress,
 							ShowInSearchPage = true,
@@ -1017,8 +1020,6 @@ namespace Files.App.Helpers
 								? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
 								: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(),
 									Path.GetFileNameWithoutExtension(selectedItems.First().Name)),
-							Glyph = "\xF11A",
-							GlyphFontFamilyName = "CustomGlyph",
 							Command = commandsViewModel.DecompressArchiveToChildFolderCommand,
 							ShowInSearchPage = true,
 							ShowItem = canDecompress,
@@ -1031,7 +1032,6 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel
 						{
 							Text = "CreateArchive".GetLocalizedResource(),
-							Glyph = "\uE8DE",
 							Command = commandsViewModel.CompressIntoArchiveCommand,
 							ShowItem = canCompress,
 							ShowInSearchPage = true,
@@ -1039,7 +1039,6 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel
 						{
 							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{newArchiveName}.zip"),
-							Glyph = "\uE8DE",
 							Command = commandsViewModel.CompressIntoZipCommand,
 							ShowItem = canCompress,
 							ShowInSearchPage = true,
@@ -1047,7 +1046,6 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel
 						{
 							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{newArchiveName}.7z"),
-							Glyph = "\uE8DE",
 							Command = commandsViewModel.CompressIntoSevenZipCommand,
 							ShowItem = canCompress,
 							ShowInSearchPage = true,
