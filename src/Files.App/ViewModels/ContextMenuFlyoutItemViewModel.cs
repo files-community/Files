@@ -8,6 +8,20 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels
 {
+	/// <summary>
+	/// This class is intended to be used with ContextFlyoutItemHelper and ItemModelListToContextFlyoutHelper.
+	/// ContextFlyoutItemHelper creates a list of ContextMenuFlyoutItemViewModels representing various commands to be displayed
+	/// in a context menu or a command bar. ItemModelListToContextFlyoutHelper has functions that take in said list, and converts 
+	/// it to a context menu or command bar to be displayed on the window.
+	/// 
+	/// Example:
+	/// 1) user right clicks 
+	/// 2) models <- ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems()
+	/// 3) menu <- ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(models)
+	/// 4) menu.Open()
+	/// <see cref="Files.App.Helpers.ContextFlyoutItemHelper"/>
+	/// <see cref="Files.App.Helpers.ContextFlyouts.ItemModelListToContextFlyoutHelper"/>
+	/// </summary>
 	public class ContextMenuFlyoutItemViewModel
 	{
 		public bool ShowItem { get; set; } = true;
@@ -146,11 +160,13 @@ namespace Files.App.ViewModels
 
 	public struct OpacityIconModel
 	{
-		public Style OpacityIconStyle { get; set; }
+		public string OpacityIconStyle { get; set; }
 
-		public OpacityIcon ToOpacityIconIcon() => new()
+		public OpacityIcon ToOpacityIcon() => new()
 		{
-			Style = OpacityIconStyle,
+			Style = (Style)Application.Current.Resources[OpacityIconStyle],
 		};
+
+		public bool IsValid => !string.IsNullOrEmpty(OpacityIconStyle);
 	}
 }

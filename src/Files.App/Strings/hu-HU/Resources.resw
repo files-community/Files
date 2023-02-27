@@ -175,7 +175,7 @@
     <value>Elérési út megadása</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Keresés</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Itt fognak megjelenni a korábban megnyitott fájlok</value>
@@ -247,22 +247,22 @@
     <value>Frissítés</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Beillesztés</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Új</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Tulajdonságok</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Megnyitás</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Megnyitás új lapon</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Megnyitás új ablakban</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Megosztás</value>
@@ -289,7 +289,7 @@
     <value>Megjelenés</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Adja meg az elem nevét</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Átnevezés</value>
@@ -328,7 +328,7 @@
     <value>Frissítés (F5)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Keresés (Ctrl + F)</value>
+    <value>Keresés (Ctrl+F)</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Ezzel a névvel már létezik elem ebben a mappában.</value>
@@ -373,7 +373,7 @@
     <value>A fájl használatban van</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>Elrendezés</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Írásvédett</value>
@@ -673,7 +673,7 @@
     <value>Egy szinttel feljebb</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Nyelv</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Shell bővítmények elemei áthelyezése almenübe</value>
@@ -955,7 +955,7 @@
     <value>Cím</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>Kijelölési lehetőségek</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Kiválasztás</value>
@@ -997,7 +997,7 @@
     <value>Új lap</value>
   </data>
   <data name="NewTabCtrlT" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+    <value>Új lap (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Némelyik tulajdonság személyes adatokat tartalmazhat.</value>
@@ -1036,7 +1036,7 @@
     <value>Helyi menü testreszabása</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>Eredeti elérési út</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Hozzáadás</value>
@@ -1063,22 +1063,22 @@
     <value>Mappák</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Részletek (Ctrl + Shift + 1)</value>
+    <value>Részletek (Ctrl+Shift+1)</value>
   </data>
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
     <value>Előnézet</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Nagy ikonok (Ctrl + Shift + 5)</value>
+    <value>Nagy ikonok (Ctrl+Shift+5)</value>
   </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Közepes ikonok (Ctrl + Shift + 4)</value>
+    <value>Közepes ikonok (Ctrl+Shift+4)</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Kis ikonok (Ctrl + Shift + 3)</value>
+    <value>Kis ikonok (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Lista (Ctrl + Shift + 2)</value>
+    <value>Lista (Ctrl+Shift+2)</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Törlés dátuma</value>
@@ -1135,7 +1135,7 @@
     <value>Munkaterület neve</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Előnézet (Ctrl + P)</value>
+    <value>Előnézet (Ctrl+P)</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nincs elérhető előnézet</value>
@@ -1144,7 +1144,7 @@
     <value>Név</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Levétel a kedvencek közül</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Hálózati meghajtók</value>
@@ -1285,7 +1285,7 @@
     <value>Szeretné rendszergazdaként folytatni?</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
-    <value>Oszlopok (Ctrl + Shift + 6)</value>
+    <value>Oszlopok (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>Kitűzés a Start menübe</value>
@@ -1318,7 +1318,7 @@
     <value>Már létezik könyvtár ezzel a névvel!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>Tárterületsegéd megnyitása</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Másolás</value>
@@ -1378,7 +1378,7 @@
     <value>Nem indexelt elemek keresése</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Célhelyen lévő fájl felülírása</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Új név létrehozása</value>
@@ -1420,7 +1420,7 @@
     <value>Törlés dátuma</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Rendezés</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Csoportosítás</value>
@@ -1489,7 +1489,7 @@
     <value>Bezárt lap újranyitása</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Átnevezés</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Adatvédelem</value>
@@ -1909,7 +1909,7 @@
     <value>Tartalmazó mappa megnyitása</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Ismeretlen</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Címkék módosítása</value>
@@ -1978,7 +1978,7 @@
     <value>Lista</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Mappák megnyitása új lapon</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Folyamatban lévő műveletek</value>
@@ -2362,7 +2362,7 @@
     <value>Összes elem visszaállítása</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>Visszaállítás</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>A parancsikon nem nyitható meg</value>
@@ -2470,13 +2470,13 @@
     <value>Rendezés sorrendjének megfordítása</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
-    <value>Create a new shortcut</value>
+    <value>Új parancsikon létrehozása</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+    <value>Parancsikont hozhat létre helyi, vagy hálózaton keresztül elérhető programokhoz, fájlokhoz, mappákhoz, számítógépekhez és internetes címekhez.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Enter the location of the item:</value>
+    <value>Adja meg az elem helyét:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
     <value>Creates a shortcut</value>
@@ -2491,13 +2491,13 @@
     <value>Változások</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>Creating a shortcut in this location requires administrator privileges</value>
+    <value>Rendszergazdai jogosultságok szükségesek parancsikon lérehozásához ezen a helyen</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Would you like to create the shortcut on the desktop instead?</value>
+    <value>Szeretné inkább az Asztalon létrehozni a parancsikont?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>The specified item name is invalid</value>
+    <value>A megadott név érvénytelen</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Beállítások</value>
@@ -2527,16 +2527,16 @@
     <value>Gyors elérés</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>Enter your credentials to connect to: {0}</value>
+    <value>Adja meg {0} eléréséhez szükséges adatokat</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter Network Credentials</value>
+    <value>Hitelesítőadatok megadása</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
-    <value>Remember my credentials</value>
+    <value>Hitelesítőadatok megjegyzése</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>Network folder error</value>
+    <value>Hálózati mappa hiba</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
     <value>Alkalmazás verzió</value>
@@ -2578,16 +2578,16 @@
     <value>Rejtett fájlok és mappák</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format...</value>
+    <value>Formázás...</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>Teljes képernyő</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Are you sure you want to delete this tag?</value>
+    <value>Biztosan törölni szeretné ezt a címkét?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>Összes lejátszása</value>
@@ -2599,9 +2599,9 @@
     <value>Szélesség</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Apply this action to all conflicting items</value>
+    <value>Művelet végrehajtása minden ütközés esetén</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Mentés</value>
   </data>
 </root>
