@@ -371,8 +371,8 @@
 					Label="{helpers:ResourceString Name=Install}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
-					
-					<!-- Add icon -->
+
+					<!--  Add icon  -->
 				</AppBarButton>
 				<AppBarButton
 					x:Name="PlayAllMediaButton"
@@ -828,9 +828,8 @@
 					Command="{x:Bind ViewModel.OpenNewPaneCommand, Mode=OneWay}"
 					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=NavigationToolbarNewPane/KeyboardAcceleratorTextOverride}"
 					Label="{helpers:ResourceString Name=NavigationToolbarNewPane/Label}">
-					<AppBarButton.Icon>
-						<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
-					</AppBarButton.Icon>
+
+					<local:OpacityIcon Style="{StaticResource ColorIconRightPane}" />
 					<AppBarButton.KeyboardAccelerators>
 						<KeyboardAccelerator
 							Key="Add"
