@@ -35,8 +35,6 @@ namespace Files.App.Interacts
 			SetAsSlideshowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsSlideshowItem);
 			RunAsAdminCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RunAsAdmin);
 			RunAsAnotherUserCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RunAsAnotherUser);
-			SidebarPinItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SidebarPinItem);
-			SidebarUnpinItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SidebarUnpinItem);
 			UnpinDirectoryFromFavoritesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.UnpinDirectoryFromFavorites);
 			OpenItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItem);
 			RestoreRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreRecycleBin);
@@ -104,10 +102,6 @@ namespace Files.App.Interacts
 		public ICommand RunAsAdminCommand { get; private set; }
 
 		public ICommand RunAsAnotherUserCommand { get; private set; }
-
-		public ICommand SidebarPinItemCommand { get; private set; }
-
-		public ICommand SidebarUnpinItemCommand { get; private set; }
 
 		public ICommand OpenItemCommand { get; private set; }
 

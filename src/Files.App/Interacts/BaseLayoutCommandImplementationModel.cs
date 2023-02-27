@@ -136,16 +136,6 @@ namespace Files.App.Interacts
 			await ContextMenu.InvokeVerb("runasuser", SlimContentPage.SelectedItem.ItemPath);
 		}
 
-		public virtual void SidebarPinItem(RoutedEventArgs e)
-		{
-			_ = QuickAccessService.PinToSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
-		}
-
-		public virtual void SidebarUnpinItem(RoutedEventArgs e)
-		{
-			_ = QuickAccessService.UnpinFromSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
-		}
-
 		public virtual void OpenItem(RoutedEventArgs e)
 		{
 			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, false);

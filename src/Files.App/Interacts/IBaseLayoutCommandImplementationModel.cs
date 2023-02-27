@@ -25,10 +25,6 @@ namespace Files.App.Interacts
 
 		void RunAsAnotherUser(RoutedEventArgs e);
 
-		void SidebarPinItem(RoutedEventArgs e);
-
-		void SidebarUnpinItem(RoutedEventArgs e);
-
 		void UnpinDirectoryFromFavorites(RoutedEventArgs e);
 
 		void OpenItem(RoutedEventArgs e);
