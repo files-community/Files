@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Actions;
+using Files.App.Actions.Favorites;
 using Files.App.UserControls;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -39,7 +40,9 @@ namespace Files.App.Commands
 		public IRichCommand CreateFolder => commands[CommandCodes.CreateFolder];
 		public IRichCommand PinToStart => commands[CommandCodes.PinToStart];
 		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
-
+		public IRichCommand PinItemToFavorites => commands[CommandCodes.PinItemToFavorites];
+		public IRichCommand UnpinItemFromFavorites => commands[CommandCodes.UnpinItemFromFavorites];
+    
 		public CommandManager()
 		{
 			commands = CreateActions()
@@ -70,6 +73,8 @@ namespace Files.App.Commands
 			[CommandCodes.CreateFolder] = new CreateFolderAction(),
 			[CommandCodes.PinToStart] = new PinToStartAction(),
 			[CommandCodes.UnpinFromStart] = new UnpinFromStartAction(),
+			[CommandCodes.PinItemToFavorites] = new PinItemAction(),
+			[CommandCodes.UnpinItemFromFavorites] = new UnpinItemAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

@@ -27,5 +27,7 @@ namespace Files.App.Commands
 
 		IRichCommand PinToStart { get; }
 		IRichCommand UnpinFromStart { get; }
+		IRichCommand PinItemToFavorites { get; }
+		IRichCommand UnpinItemFromFavorites { get; }
 	}
 }

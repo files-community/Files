@@ -127,11 +127,6 @@ namespace Files.App.Interacts
 			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, false);
 		}
 
-		public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
-		{
-			_ = QuickAccessService.UnpinFromSidebar(associatedInstance.FilesystemViewModel.WorkingDirectory);
-		}
-
 		public virtual async void RestoreRecycleBin(RoutedEventArgs e)
 		{
 			await RecycleBinHelpers.RestoreRecycleBin(associatedInstance);
@@ -366,11 +361,6 @@ namespace Files.App.Interacts
 
 				// TODO: Unhook the event somewhere
 			}
-		}
-
-		public virtual void PinDirectoryToFavorites(RoutedEventArgs e)
-		{
-			QuickAccessService.PinToSidebar(new[] { associatedInstance.FilesystemViewModel.WorkingDirectory });
 		}
 
 		public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)

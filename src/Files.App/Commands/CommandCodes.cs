@@ -20,8 +20,12 @@
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
 
-		// Start
+    // Start
 		PinToStart,
 		UnpinFromStart,
+
+		// Favorites
+		PinItemToFavorites,
+		UnpinItemFromFavorites,
 	}
 }
