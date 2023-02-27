@@ -56,7 +56,6 @@ namespace Files.App.Interacts
 			PasteItemsFromClipboardCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.PasteItemsFromClipboard);
 			CopyPathOfSelectedItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CopyPathOfSelectedItem);
 			ShareItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShareItem);
-			PinDirectoryToFavoritesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.PinDirectoryToFavorites);
 			ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.ItemPointerPressed);
 			UnpinItemFromStartCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.UnpinItemFromStart);
 			PinItemToStartCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.PinItemToStart);
@@ -102,6 +101,10 @@ namespace Files.App.Interacts
 
 		public ICommand RunAsAnotherUserCommand { get; private set; }
 
+		public ICommand SidebarPinItemCommand { get; private set; }
+
+		public ICommand SidebarUnpinItemCommand { get; private set; }
+
 		public ICommand OpenItemCommand { get; private set; }
 
 		public ICommand RestoreRecycleBinCommand { get; private set; }
@@ -143,8 +146,6 @@ namespace Files.App.Interacts
 		public ICommand CopyPathOfSelectedItemCommand { get; private set; }
 
 		public ICommand ShareItemCommand { get; private set; }
-
-		public ICommand PinDirectoryToFavoritesCommand { get; private set; }
 
 		public ICommand ItemPointerPressedCommand { get; private set; }
 

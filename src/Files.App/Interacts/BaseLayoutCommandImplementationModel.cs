@@ -136,6 +136,16 @@ namespace Files.App.Interacts
 			await ContextMenu.InvokeVerb("runasuser", SlimContentPage.SelectedItem.ItemPath);
 		}
 
+		public virtual void SidebarPinItem(RoutedEventArgs e)
+		{
+			_ = QuickAccessService.PinToSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
+		}
+
+		public virtual void SidebarUnpinItem(RoutedEventArgs e)
+		{
+			_ = QuickAccessService.UnpinFromSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
+		}
+
 		public virtual void OpenItem(RoutedEventArgs e)
 		{
 			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, false);
@@ -380,11 +390,6 @@ namespace Files.App.Interacts
 
 				// TODO: Unhook the event somewhere
 			}
-		}
-
-		public virtual void PinDirectoryToFavorites(RoutedEventArgs e)
-		{
-			QuickAccessService.PinToSidebar(new[] { associatedInstance.FilesystemViewModel.WorkingDirectory });
 		}
 
 		public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)

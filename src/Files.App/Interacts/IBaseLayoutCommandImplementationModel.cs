@@ -25,6 +25,10 @@ namespace Files.App.Interacts
 
 		void RunAsAnotherUser(RoutedEventArgs e);
 
+		void SidebarPinItem(RoutedEventArgs e);
+
+		void SidebarUnpinItem(RoutedEventArgs e);
+
 		void OpenItem(RoutedEventArgs e);
 
 		void RestoreRecycleBin(RoutedEventArgs e);
@@ -66,8 +70,6 @@ namespace Files.App.Interacts
 		void CopyPathOfSelectedItem(RoutedEventArgs e);
 
 		void ShareItem(RoutedEventArgs e);
-
-		void PinDirectoryToFavorites(RoutedEventArgs e);
 
 		void ItemPointerPressed(PointerRoutedEventArgs e);
 
