@@ -207,7 +207,7 @@
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="B"
 					Command="{x:Bind Commands.EmptyRecycleBin}"
-					Icon="{x:Bind Commands.EmptyRecycleBin.Icon}"
+					Content="{x:Bind Commands.EmptyRecycleBin.OpacityIcon}"
 					IsEnabled="{x:Bind Commands.EmptyRecycleBin.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.EmptyRecycleBin.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.EmptyRecycleBin.Label}" />
