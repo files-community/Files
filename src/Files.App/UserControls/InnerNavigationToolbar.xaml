@@ -207,7 +207,7 @@
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="B"
 					Command="{x:Bind Commands.EmptyRecycleBin}"
-					Icon="{x:Bind Commands.EmptyRecycleBin.FontIcon}"
+					Icon="{x:Bind Commands.EmptyRecycleBin.Icon}"
 					IsEnabled="{x:Bind Commands.EmptyRecycleBin.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.EmptyRecycleBin.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.EmptyRecycleBin.Label}" />
@@ -371,9 +371,8 @@
 					Label="{helpers:ResourceString Name=Install}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
-					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF041;" OverlayLayerGlyph="&#xF042;" />
-					</AppBarButton.Content>
+					
+					<!-- Add icon -->
 				</AppBarButton>
 				<AppBarButton
 					x:Name="PlayAllMediaButton"

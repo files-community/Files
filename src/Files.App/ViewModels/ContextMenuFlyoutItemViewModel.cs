@@ -93,7 +93,6 @@ namespace Files.App.ViewModels
 
 		public bool CollapseLabel { get; set; }
 
-		public ColoredIconModel ColoredIcon { get; set; }
 		public OpacityIconModel OpacityIcon { get; set; }
 
 		public bool ShowLoadingIndicator { get; set; }
@@ -107,24 +106,6 @@ namespace Files.App.ViewModels
 		Separator,
 		Toggle,
 		SplitButton,
-	}
-
-	public struct ColoredIconModel
-	{
-		public string OverlayLayerGlyph { get; set; }
-
-		public string BaseLayerGlyph { get; set; }
-
-		public string BaseBackdropGlyph { get; set; }
-
-		public ColoredIcon ToColoredIcon() => new()
-		{
-			OverlayLayerGlyph = OverlayLayerGlyph,
-			BaseLayerGlyph = BaseLayerGlyph,
-			BaseBackdropGlyph = BaseBackdropGlyph,
-		};
-
-		public bool IsValid => !string.IsNullOrEmpty(BaseLayerGlyph);
 	}
 
 	public struct OpacityIconModel
