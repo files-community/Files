@@ -7,11 +7,11 @@ using Microsoft.UI.Xaml.Controls;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Files.App.Views
+namespace Files.App.Views.Properties
 {
-	public sealed partial class PropertiesDetails : PropertiesTab
+	public sealed partial class DetailsPage : BasePropertiesPage
 	{
-		public PropertiesDetails()
+		public DetailsPage()
 		{
 			InitializeComponent();
 		}

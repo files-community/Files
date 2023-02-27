@@ -4,11 +4,11 @@ using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using System.Threading.Tasks;
 
-namespace Files.App.Views
+namespace Files.App.Views.Properties
 {
-	public sealed partial class PropertiesShortcut : PropertiesTab
+	public sealed partial class ShortcutPage : BasePropertiesPage
 	{
-		public PropertiesShortcut()
+		public ShortcutPage()
 		{
 			InitializeComponent();
 		}

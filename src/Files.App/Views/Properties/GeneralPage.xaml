@@ -1,5 +1,5 @@
-﻿<vm:PropertiesTab
-	x:Class="Files.App.Views.PropertiesGeneral"
+﻿<vm:BasePropertiesPage
+	x:Class="Files.App.Views.Properties.GeneralPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,7 +11,7 @@
 	Loaded="Properties_Loaded"
 	mc:Ignorable="d">
 
-	<vm:PropertiesTab.Resources>
+	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
 
 			<ResourceDictionary.MergedDictionaries>
@@ -33,7 +33,7 @@
 			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 		</ResourceDictionary>
-	</vm:PropertiesTab.Resources>
+	</vm:BasePropertiesPage.Resources>
 
 	<ScrollViewer>
 		<StackPanel
@@ -87,7 +87,7 @@
 						x:Load="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}"
 						GettingFocus="ItemFileName_GettingFocus"
 						LosingFocus="ItemFileName_LosingFocus"
-						PlaceholderText="{helpers:ResourceString Name=PropertiesItemFileName/PlaceholderText}"
+						PlaceholderText="{helpers:ResourceString Name=PropertyItemName}"
 						Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}" />
 					<TextBlock
 						x:Name="itemFilesAndFoldersCountValueTop"
@@ -182,7 +182,7 @@
 							Grid.Column="0"
 							HorizontalAlignment="Left"
 							Style="{StaticResource PropertyName}"
-							Text="{helpers:ResourceString Name=PropertiesItemSize/Text}"
+							Text="{helpers:ResourceString Name=SizeLabel}"
 							Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}" />
 						<Grid
 							Grid.Row="1"
@@ -553,7 +553,7 @@
 							Grid.Row="2"
 							Grid.Column="0"
 							VerticalAlignment="Center"
-							Text="{helpers:ResourceString Name=PropertiesDialogHidden/Text}"
+							Text="{helpers:ResourceString Name=Hidden}"
 							TextWrapping="WrapWholeWords" />
 						<CheckBox
 							Grid.Row="2"
@@ -569,4 +569,4 @@
 
 		</StackPanel>
 	</ScrollViewer>
-</vm:PropertiesTab>
+</vm:BasePropertiesPage>

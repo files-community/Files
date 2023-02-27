@@ -63,7 +63,7 @@ namespace Files.App.Helpers
 			DynamicDialog? dialog = null;
 			TextBox inputText = new()
 			{
-				PlaceholderText = "RenameDialogInputText/PlaceholderText".GetLocalizedResource()
+				PlaceholderText = "EnterAnItemName".GetLocalizedResource()
 			};
 
 			TextBlock tipText = new()
@@ -93,7 +93,7 @@ namespace Files.App.Helpers
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = "RenameDialog/Title".GetLocalizedResource(),
+				TitleText = "EnterAnItemName".GetLocalizedResource(),
 				SubtitleText = null,
 				DisplayControl = new Grid()
 				{
@@ -149,7 +149,7 @@ namespace Files.App.Helpers
 
 			PasswordBox inputPassword = new()
 			{
-				PlaceholderText = "CredentialDialogPassword/PlaceholderText".GetLocalizedResource()
+				PlaceholderText = "Password".GetLocalizedResource()
 			};
 
 			CheckBox saveCreds = new()
@@ -184,7 +184,7 @@ namespace Files.App.Helpers
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
 				TitleText = "NetworkAuthenticationDialogTitle".GetLocalizedResource(),
-				PrimaryButtonText = "AskCredentialDialog/PrimaryButtonText".GetLocalizedResource(),
+				PrimaryButtonText = "OK".GetLocalizedResource(),
 				CloseButtonText = "Cancel".GetLocalizedResource(),
 				SubtitleText = string.Format("NetworkAuthenticationDialogMessage".GetLocalizedResource(), path.Substring(2)),
 				DisplayControl = new Grid()
