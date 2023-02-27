@@ -29,7 +29,8 @@ namespace Files.App.ServicesImplementation
 				{ typeof(FileSystemDialogViewModel), () => new FilesystemOperationDialog() },
 				{ typeof(DecompressArchiveDialogViewModel), () => new DecompressArchiveDialog() },
 				{ typeof(SettingsDialogViewModel), () => new SettingsDialog() },
-				{ typeof(CreateShortcutDialogViewModel), () => new CreateShortcutDialog() }
+				{ typeof(CreateShortcutDialogViewModel), () => new CreateShortcutDialog() },
+				{ typeof(ReorderSidebarItemsDialog), () => new ReorderSidebarItemsDialog() }
 			};
 		}
 

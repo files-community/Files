@@ -173,7 +173,6 @@ namespace Files.App.DataModels.NavigationControlItems
 				ShowProperties = true
 			};
 			item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
-			App.Logger.Warn(item.Path);
 			item.DeviceID = deviceId;
 			item.Root = root;
 

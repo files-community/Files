@@ -12,6 +12,8 @@ using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
 using Files.App.Shell;
 using Files.App.ViewModels;
+using Files.App.ViewModels.Dialogs;
+using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Microsoft.UI.Input;
@@ -122,6 +124,8 @@ namespace Files.App.UserControls
 
 		private ICommand OpenPropertiesCommand { get; }
 
+		private ICommand ReorderItemsCommand { get; }
+
 		private bool IsInPointerPressed = false;
 
 		private readonly DispatcherQueueTimer dragOverSectionTimer, dragOverItemTimer;
@@ -142,6 +146,7 @@ namespace Files.App.UserControls
 			EjectDeviceCommand = new RelayCommand(EjectDevice);
 			FormatDriveCommand = new RelayCommand(FormatDrive);
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
+			ReorderItemsCommand = new RelayCommand(ReorderItems);
 		}
 
 		public SidebarViewModel ViewModel
@@ -189,6 +194,13 @@ namespace Files.App.UserControls
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SidebarReorderItems".GetLocalizedResource(),
+					Glyph = "\uE8D8",
+					Command = ReorderItemsCommand,
+					ShowItem = options.ShowUnpinItem
+				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
@@ -326,6 +338,17 @@ namespace Files.App.UserControls
 					userSettingsService.PreferencesSettingsService.ShowFileTagsSection = false;
 					break;
 			}
+		}
+
+		private async void ReorderItems()
+		{
+			var dialog = new ReorderSidebarItemsDialogViewModel();
+			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			App.Logger.Warn("Reorder items dialog popup");
+			var result = await dialogService.ShowDialogAsync(dialog);
+
+			if (result == Shared.Enums.DialogResult.Primary)
+				App.Logger.Warn("Ok");
 		}
 
 		private async void OpenInNewPane()
