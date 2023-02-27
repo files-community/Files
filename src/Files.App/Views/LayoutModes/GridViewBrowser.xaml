@@ -303,9 +303,9 @@
 						CornerRadius="4" />
 					<Image
 						x:Name="IconOverlay"
-						Width="48"
-						Height="48"
-						Margin="8"
+						Width="32"
+						Height="32"
+						Margin="2"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Bottom"
 						x:Load="True"
@@ -321,19 +321,16 @@
 						x:Phase="1">
 						<FontIcon FontSize="28" Glyph="&#xE71B;" />
 					</Viewbox>
-					<Border
+					<Viewbox
 						x:Name="ShortcutGlyphElement"
-						Margin="8,0,0,8"
-						Padding="2"
+						Width="16"
+						Height="16"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Bottom"
 						x:Load="{x:Bind IsShortcut}"
-						x:Phase="1"
-						Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-						BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
-						BorderThickness="1">
+						x:Phase="1">
 						<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
-					</Border>
+					</Viewbox>
 				</Grid>
 
 				<Grid

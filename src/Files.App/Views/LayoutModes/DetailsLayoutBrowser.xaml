@@ -633,10 +633,7 @@
 										x:Name="ShortcutGlyphElement"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Bottom"
-										x:Load="{x:Bind IsShortcut}"
-										Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-										BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
-										BorderThickness="1">
+										x:Load="{x:Bind IsShortcut}">
 										<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
 									</Border>
 								</Grid>
