@@ -3,6 +3,7 @@ using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Commands;
+using Files.App.Contexts;
 using Files.App.DataModels;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -131,6 +132,7 @@ namespace Files.App
 				.AddSingleton<ICloudDetector, CloudDetector>()
 				.AddSingleton<IFileTagsService, FileTagsService>()
 				.AddSingleton<ICommandManager, CommandManager>()
+				.AddSingleton<IContentPageContext, ContentPageContext>()
 #if UWP
 				.AddSingleton<IStorageService, WindowsStorageService>()
 #else
