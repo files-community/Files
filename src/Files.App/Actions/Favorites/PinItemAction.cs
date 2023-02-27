@@ -23,7 +23,7 @@ namespace Files.App.Actions.Favorites
 
 		public async Task ExecuteAsync()
 		{
-			 await quickAccessService.PinToSidebar(context.SelectedItems.Select(x => x.ItemPath).ToArray());
+			 await quickAccessService.PinToSidebar(context.SelectedItems.Any() ? context.SelectedItems.Select(x => x.ItemPath).ToArray() : new[] { context.Folder.ItemPath });
 		}
 	}
 }
