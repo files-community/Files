@@ -2,7 +2,7 @@ using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using Files.App.Filesystem.Permissions;
+using Files.App.Filesystem.Security;
 using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI;
@@ -22,30 +22,32 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class SecurityAdvancedPage : Page
 	{
+		public SecurityAdvancedPage()
+		{
+			InitializeComponent();
+
+			_isWinUI3 = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
+
+			// TODO:
+			//  ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
+			//  Use your ResourceManager instance to create a ResourceContext as below.If you already have a ResourceManager instance,
+			//  replace the new instance created below with correct instance.
+			//  Read https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+			var flowDirectionSetting = new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
+			if (flowDirectionSetting == "RTL")
+				FlowDirection = FlowDirection.RightToLeft;
+		}
+
 		private object navParameterItem;
 
-		public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.Name);
+		public string DialogTitle
+			=> string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.Name);
 
 		public SecurityViewModel ViewModel { get; set; }
 
 		public AppWindow appWindow;
 
-		public SecurityAdvancedPage()
-		{
-			InitializeComponent();
-
-			var flowDirectionSetting = /*
-                TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
-                Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
-                replace the new instance created below with correct instance.
-                Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
-            */new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
-
-			if (flowDirectionSetting == "RTL")
-			{
-				FlowDirection = FlowDirection.RightToLeft;
-			}
-		}
+		private readonly bool _isWinUI3;
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
@@ -67,7 +69,8 @@ namespace Files.App.Views.Properties
 		private async void Properties_Loaded(object sender, RoutedEventArgs e)
 		{
 			App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
-			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+
+			if (_isWinUI3)
 			{
 				appWindow.Destroying += AppWindow_Destroying;
 				await App.Window.DispatcherQueue.EnqueueAsync(() => App.AppSettings.UpdateThemeElements.Execute(null));
@@ -96,7 +99,8 @@ namespace Files.App.Views.Properties
 			await DispatcherQueue.EnqueueAsync(() =>
 			{
 				((Frame)Parent).RequestedTheme = selectedTheme;
-				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+
+				if (_isWinUI3)
 				{
 					switch (selectedTheme)
 					{
@@ -119,9 +123,9 @@ namespace Files.App.Views.Properties
 			});
 		}
 
-		private async void OKButton_Click(object sender, RoutedEventArgs e)
+		private void OKButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+			if (_isWinUI3)
 			{
 				if (ViewModel.SetFilePermissions())
 				{
@@ -133,9 +137,9 @@ namespace Files.App.Views.Properties
 			}
 		}
 
-		private async void CancelButton_Click(object sender, RoutedEventArgs e)
+		private void CancelButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+			if (_isWinUI3)
 			{
 				appWindow.Destroy();
 			}
@@ -144,11 +148,11 @@ namespace Files.App.Views.Properties
 			}
 		}
 
-		private async void Page_KeyDown(object sender, KeyRoutedEventArgs e)
+		private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key.Equals(VirtualKey.Escape))
 			{
-				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				if (_isWinUI3)
 				{
 					appWindow.Destroy();
 				}
@@ -165,7 +169,7 @@ namespace Files.App.Views.Properties
 
 		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			ViewModel.SelectedAccessRules = (sender as ListView).SelectedItems.Cast<AccessControlEntryAdvanced>().ToList();
+			ViewModel.SelectedAdvancedAccessControlEntries = (sender as ListView).SelectedItems.Cast<AccessControlEntryAdvanced>().ToList();
 
 			if (e.AddedItems is not null)
 			{

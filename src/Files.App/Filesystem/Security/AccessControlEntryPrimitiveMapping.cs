@@ -1,7 +1,7 @@
 ﻿using System.Security.AccessControl;
 using System.Security.Principal;
 
-namespace Files.App.Filesystem.Permissions
+namespace Files.App.Filesystem.Security
 {
 	/// <summary>
 	/// Represents a primitive ACE for mapping C# classes.

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 using static Vanara.PInvoke.AdvApi32;
 
-namespace Files.App.Filesystem.Permissions
+namespace Files.App.Filesystem.Security
 {
 	/// <summary>
-	/// Represents an orincipal of an ACE or an owner of an ACL
+	/// Represents an principal of an ACE or an owner of an ACL.
 	/// </summary>
 	public class Principal : ObservableObject
 	{

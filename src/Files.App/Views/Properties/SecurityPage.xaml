@@ -5,7 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:perm="using:Files.App.Filesystem.Permissions"
+	xmlns:perm="using:Files.App.Filesystem.Security"
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Loaded="Properties_Loaded"
@@ -35,7 +35,7 @@
 				x:Name="Usernames"
 				Grid.Row="0"
 				Padding="8"
-				x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadAccessControl, Mode=OneWay}"
+				x:Load="{x:Bind SecurityViewModel.AccessControlListController.CanReadAccessControl, Mode=OneWay}"
 				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
@@ -66,14 +66,14 @@
 						Padding="8,6"
 						Background="Transparent"
 						BorderBrush="Transparent"
-						Command="{x:Bind SecurityProperties.AddRulesForUserCommand}">
+						Command="{x:Bind SecurityViewModel.AddRulesForUserCommand}">
 						<FontIcon FontSize="16" Glyph="&#xE109;" />
 					</Button>
 					<Button
 						Padding="8,6"
 						Background="Transparent"
 						BorderBrush="Transparent"
-						Command="{x:Bind SecurityProperties.RemoveRulesForUserCommand}">
+						Command="{x:Bind SecurityViewModel.RemoveRulesForUserCommand}">
 						<FontIcon FontSize="16" Glyph="&#xE108;" />
 					</Button>
 				</StackPanel>
@@ -93,10 +93,10 @@
 					MaxHeight="160"
 					Margin="-4,0,-4,0"
 					HorizontalAlignment="Stretch"
-					x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadAccessControl, Mode=OneWay}"
-					ItemsSource="{x:Bind SecurityProperties.FilePermissions.AccessControlEntries, Mode=OneWay}"
+					x:Load="{x:Bind SecurityViewModel.AccessControlListController.CanReadAccessControl, Mode=OneWay}"
+					ItemsSource="{x:Bind SecurityViewModel.AccessControlListController.AccessControlEntries, Mode=OneWay}"
 					SelectedIndex="0"
-					SelectedItem="{x:Bind SecurityProperties.SelectedRuleForUser, Mode=TwoWay}"
+					SelectedItem="{x:Bind SecurityViewModel.SelectedAccessControlEntry, Mode=TwoWay}"
 					SelectionMode="Single">
 					<ListView.ItemContainerStyle>
 						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
@@ -155,7 +155,7 @@
 					VerticalAlignment="Center"
 					TextTrimming="CharacterEllipsis">
 					<Run Text="{helpers:ResourceString Name=SecurityPermissionsLabel/Text}" />
-					<Run Text="{x:Bind SecurityProperties.SelectedRuleForUser.Principal.DisplayName, Mode=OneWay}" />
+					<Run Text="{x:Bind SecurityViewModel.SelectedAccessControlEntry.Principal.DisplayName, Mode=OneWay}" />
 				</TextBlock>
 
 				<Button
@@ -181,7 +181,7 @@
 					Grid.Row="2"
 					Padding="8"
 					HorizontalAlignment="Stretch"
-					x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadAccessControl, Mode=OneWay}"
+					x:Load="{x:Bind SecurityViewModel.AccessControlListController.CanReadAccessControl, Mode=OneWay}"
 					ColumnSpacing="8">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
@@ -230,8 +230,8 @@
 						Padding="0"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						IsChecked="{x:Bind SecurityProperties.SelectedRuleForUser.AllowedFullControlAccess, Mode=TwoWay}"
-						IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.AllowedInheritedFullControlAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedFullControlAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedInheritedFullControlAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
 					<CheckBox
 						Grid.Row="1"
@@ -240,8 +240,8 @@
 						Padding="0"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						IsChecked="{x:Bind SecurityProperties.SelectedRuleForUser.DeniedFullControlAccess, Mode=TwoWay}"
-						IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.DeniedInheritedFullControlAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedFullControlAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedFullControlAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
 					<TextBlock
 						Grid.Row="2"
@@ -257,8 +257,8 @@
 						Padding="0"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						IsChecked="{x:Bind SecurityProperties.SelectedRuleForUser.AllowedModifyAccess, Mode=TwoWay}"
-						IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.AllowedInheritedModifyAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedModifyAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedInheritedModifyAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
 					<CheckBox
 						Grid.Row="2"
@@ -267,8 +267,8 @@
 						Padding="0"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						IsChecked="{x:Bind SecurityProperties.SelectedRuleForUser.DeniedModifyAccess, Mode=TwoWay}"
-						IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.DeniedInheritedModifyAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedModifyAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedModifyAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
 					<TextBlock
 						Grid.Row="3"
@@ -284,8 +284,8 @@
 						Padding="0"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						IsChecked="{x:Bind SecurityProperties.SelectedRuleForUser.AllowedReadAndExecuteAccess, Mode=TwoWay}"
-						IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.AllowedInheritedReadAndExecuteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedReadAndExecuteAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedInheritedReadAndExecuteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
 					<CheckBox
 						Grid.Row="3"
@@ -294,8 +294,8 @@
 						Padding="0"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						IsChecked="{x:Bind SecurityProperties.SelectedRuleForUser.DeniedReadAndExecuteAccess, Mode=TwoWay}"
-						IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.DeniedInheritedReadAndExecuteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedReadAndExecuteAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedReadAndExecuteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
 					<TextBlock
 						Grid.Row="4"
@@ -303,7 +303,7 @@
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
 						Text="{helpers:ResourceString Name=SecurityListDirectoryLabel/Text}"
-						Visibility="{x:Bind SecurityProperties.IsFolder, Mode=OneWay}" />
+						Visibility="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}" />
 
 					<CheckBox
 						Grid.Row="4"
@@ -312,9 +312,9 @@
 						Padding="0"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						IsChecked="{x:Bind SecurityProperties.SelectedRuleForUser.AllowedListDirectoryAccess, Mode=TwoWay}"
-						IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.AllowedInheritedListDirectoryAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-						Visibility="{x:Bind SecurityProperties.IsFolder, Mode=OneWay}" />
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedListDirectoryAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedInheritedListDirectoryAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+						Visibility="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}" />
 
 					<CheckBox
 						Grid.Row="4"
@@ -323,9 +323,9 @@
 						Padding="0"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						IsChecked="{x:Bind SecurityProperties.SelectedRuleForUser.DeniedListDirectoryAccess, Mode=TwoWay}"
-						IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.DeniedInheritedListDirectoryAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-						Visibility="{x:Bind SecurityProperties.IsFolder, Mode=OneWay}" />
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedListDirectoryAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedListDirectoryAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+						Visibility="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}" />
 
 					<TextBlock
 						Grid.Row="5"
@@ -341,8 +341,8 @@
 						Padding="0"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						IsChecked="{x:Bind SecurityProperties.SelectedRuleForUser.AllowedReadAccess, Mode=TwoWay}"
-						IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.AllowedInheritedReadAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedReadAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedInheritedReadAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
 					<CheckBox
 						Grid.Row="5"
@@ -351,8 +351,8 @@
 						Padding="0"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						IsChecked="{x:Bind SecurityProperties.SelectedRuleForUser.DeniedReadAccess, Mode=TwoWay}"
-						IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.DeniedInheritedReadAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedReadAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedReadAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
 					<TextBlock
 						Grid.Row="6"
@@ -368,8 +368,8 @@
 						Padding="0"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						IsChecked="{x:Bind SecurityProperties.SelectedRuleForUser.AllowedWriteAccess, Mode=TwoWay}"
-						IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.AllowedInheritedWriteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedWriteAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedInheritedWriteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
 					<CheckBox
 						Grid.Row="6"
@@ -378,8 +378,8 @@
 						Padding="0"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						IsChecked="{x:Bind SecurityProperties.SelectedRuleForUser.DeniedWriteAccess, Mode=TwoWay}"
-						IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.DeniedInheritedWriteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedWriteAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedWriteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 				</Grid>
 
 				<TextBlock
@@ -387,7 +387,7 @@
 					Grid.Row="2"
 					Padding="8"
 					HorizontalAlignment="Left"
-					x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+					x:Load="{x:Bind SecurityViewModel.AccessControlListController.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					Text="{helpers:ResourceString Name=SecurityCannotReadProperties/Text}"
 					TextWrapping="WrapWholeWords" />
 			</Grid>

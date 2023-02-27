@@ -1,4 +1,4 @@
-﻿namespace Files.App.Filesystem.Permissions
+﻿namespace Files.App.Filesystem.Security
 {
 	/// <summary>
 	/// Represents an ACL owner or an ACE principal type

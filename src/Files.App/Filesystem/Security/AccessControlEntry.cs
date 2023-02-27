@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Files.App.Filesystem.Permissions
+namespace Files.App.Filesystem.Security
 {
 	/// <summary>
 	/// Represents an ACE.

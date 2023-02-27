@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.ComponentModel;
 
-namespace Files.App.Filesystem.Permissions
+namespace Files.App.Filesystem.Security
 {
 	/// <summary>
 	/// Represents an access mask details, such as its name and changeability.

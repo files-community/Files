@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.AccessControl;
 
-namespace Files.App.Filesystem.Permissions
+namespace Files.App.Filesystem.Security
 {
 	/// <summary>
 	/// Represents an advanced ACE.
@@ -437,7 +437,7 @@ namespace Files.App.Filesystem.Permissions
 			return accessMaskStrings;
 		}
 
-		public AccessControlEntryPrimitive ToFileSystemAccessRule()
+		public AccessControlEntryPrimitive ToAccessControlEntryPrimitive()
 		{
 			return new()
 			{

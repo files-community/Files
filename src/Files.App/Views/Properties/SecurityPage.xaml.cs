@@ -20,18 +20,22 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class SecurityPage : BasePropertiesPage
 	{
-		public RelayCommand OpenAdvancedPropertiesCommand { get; set; }
-
-		public SecurityViewModel SecurityProperties { get; set; }
-
-		private AppWindow? propsView;
-
 		public SecurityPage()
 		{
 			InitializeComponent();
 
+			_isWinUI3 = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
+
 			OpenAdvancedPropertiesCommand = new RelayCommand(() => OpenAdvancedProperties());
 		}
+
+		public RelayCommand OpenAdvancedPropertiesCommand { get; set; }
+
+		public SecurityViewModel SecurityViewModel { get; set; }
+
+		private AppWindow? propsView;
+
+		private readonly bool _isWinUI3;
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
@@ -39,11 +43,11 @@ namespace Files.App.Views.Properties
 
 			if (np.navParameter is ListedItem listedItem)
 			{
-				SecurityProperties = new SecurityViewModel(listedItem);
+				SecurityViewModel = new SecurityViewModel(listedItem);
 			}
 			else if (np.navParameter is DriveItem driveitem)
 			{
-				SecurityProperties = new SecurityViewModel(driveitem);
+				SecurityViewModel = new SecurityViewModel(driveitem);
 			}
 
 			base.OnNavigatedTo(e);
@@ -51,16 +55,16 @@ namespace Files.App.Views.Properties
 
 		public async override Task<bool> SaveChangesAsync()
 		{
-			return SecurityProperties is null || SecurityProperties.SetFilePermissions();
+			return SecurityViewModel is null || SecurityViewModel.SetFilePermissions();
 		}
 
 		protected override void Properties_Loaded(object sender, RoutedEventArgs e)
 		{
 			base.Properties_Loaded(sender, e);
 
-			if (SecurityProperties is not null)
+			if (SecurityViewModel is not null)
 			{
-				SecurityProperties.GetFilePermissions();
+				SecurityViewModel.GetFilePermissions();
 			}
 		}
 
@@ -71,12 +75,12 @@ namespace Files.App.Views.Properties
 
 		private void OpenAdvancedProperties()
 		{
-			if (SecurityProperties is null)
+			if (SecurityViewModel is null)
 			{
 				return;
 			}
 
-			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+			if (_isWinUI3)
 			{
 				if (propsView is null)
 				{
@@ -84,7 +88,7 @@ namespace Files.App.Views.Properties
 					frame.RequestedTheme = ThemeHelper.RootTheme;
 					frame.Navigate(typeof(SecurityAdvancedPage), new PropertiesPageNavigationArguments()
 					{
-						Item = SecurityProperties.Item
+						Item = SecurityViewModel.Item
 					}, new SuppressNavigationTransitionInfo());
 
 					// Initialize window
@@ -116,7 +120,7 @@ namespace Files.App.Views.Properties
 					appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 					appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-					appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.Name);
+					appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityViewModel.Item.Name);
 					appWindow.Resize(new SizeInt32(850, 550));
 					appWindow.Destroying += AppWindow_Destroying;
 					appWindow.Show();
@@ -139,9 +143,10 @@ namespace Files.App.Views.Properties
 			sender.Destroying -= AppWindow_Destroying;
 			propsView = null;
 
-			if (SecurityProperties is not null)
+			if (SecurityViewModel is not null)
 			{
-				await DispatcherQueue.EnqueueAsync(() => SecurityProperties.GetFilePermissions()); // Reload permissions
+				// Reload permissions
+				await DispatcherQueue.EnqueueAsync(() => SecurityViewModel.GetFilePermissions());
 			}
 		}
 	}

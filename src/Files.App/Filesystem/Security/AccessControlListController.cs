@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 
-namespace Files.App.Filesystem.Permissions
+namespace Files.App.Filesystem.Security
 {
 	/// <summary>
 	/// Represents controller of an ACL.
@@ -11,21 +11,21 @@ namespace Files.App.Filesystem.Permissions
 	{
 		public AccessControlListController(AccessControlList permissions)
 		{
-			FilePath = permissions.FilePath;
+			Path = permissions.Path;
 			IsFolder = permissions.IsFolder;
 
-			IsAccessControlListProtected = permissions.IsAccessControlEntryProtected;
+			IsAccessControlListProtected = permissions.IsAccessControlListProtected;
 			CanReadAccessControl = permissions.CanReadAccessControl;
 
 			Owner = Principal.FromSid(permissions.OwnerSID);
 			CurrentUser = Principal.FromSid(permissions.CurrentUserSID);
 
-			AccessControlEntriesAdvanced = new(permissions.AccessRules.Select(x => new AccessControlEntryAdvanced(x, IsFolder)));
+			AccessControlEntriesAdvanced = new(permissions.AccessControlEntryPrimitiveMappingList.Select(x => new AccessControlEntryAdvanced(x, IsFolder)));
 			AccessControlEntries = new(AccessControlEntry.ForAllUsers(AccessControlEntriesAdvanced, IsFolder));
 		}
 
 		#region Properties
-		public string? FilePath { get; set; }
+		public string? Path { get; set; }
 
 		public bool IsFolder { get; set; }
 
@@ -47,9 +47,9 @@ namespace Files.App.Filesystem.Permissions
 		{
 			return new AccessControlList()
 			{
-				AccessRules = AccessControlEntriesAdvanced.Select(x =>
+				AccessControlEntryPrimitiveMappingList = AccessControlEntriesAdvanced.Select(x =>
 				{
-					AccessControlEntryPrimitive rule = x.ToFileSystemAccessRule();
+					AccessControlEntryPrimitive rule = x.ToAccessControlEntryPrimitive();
 
 					return new AccessControlEntryPrimitiveMapping()
 					{
@@ -63,7 +63,7 @@ namespace Files.App.Filesystem.Permissions
 				})
 				.ToList(),
 
-				FilePath = FilePath,
+				Path = Path,
 				IsFolder = IsFolder,
 				CanReadAccessControl = CanReadAccessControl,
 				CurrentUserSID = CurrentUser.Sid,

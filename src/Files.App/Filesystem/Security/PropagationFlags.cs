@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files.App.Filesystem.Permissions
+namespace Files.App.Filesystem.Security
 {
 	/// <summary>
 	/// Represents propagation flags of an ACE
