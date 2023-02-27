@@ -131,8 +131,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15Z"
@@ -169,8 +169,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M3.92065 0.229682C3.77132 -0.00260291 3.46197 -0.0698544 3.22968 0.0794716C2.9974 0.228798 2.93015 0.538155 3.07947 0.77044L7.57947 7.77044C7.7288 8.00272 8.03815 8.06998 8.27044 7.92065C8.50272 7.77132 8.56998 7.46197 8.42065 7.22968L8.41752 7.22481L8.59765 7.49501L12.9206 0.77044C13.0699 0.538155 13.0027 0.228798 12.7704 0.0794716C12.5381 -0.0698544 12.2287 -0.00260291 12.0794 0.229682L8.00003 6.57538L3.92065 0.229682Z"
@@ -202,8 +202,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M2 4.00001C2 3.25973 2.4022 2.61339 3 2.26758V12.5C3 13.8807 4.11929 15 5.5 15H11.7324C11.3866 15.5978 10.7403 16 10 16H5.5C3.567 16 2 14.433 2 12.5V4.00001Z"
@@ -241,8 +241,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M2.5 2H4.08535C4.29127 2.5826 4.84689 3 5.5 3H8.5C9.15311 3 9.70873 2.5826 9.91465 2H11.5C11.7761 2 12 2.22386 12 2.5V3.5C12 3.77614 12.2239 4 12.5 4C12.7761 4 13 3.77614 13 3.5V2.5C13 1.67157 12.3284 1 11.5 1H9.91465C9.70873 0.417404 9.15311 0 8.5 0H5.5C4.84689 0 4.29127 0.417404 4.08535 1H2.5C1.67157 1 1 1.67157 1 2.5V14.5C1 15.3284 1.67157 16 2.5 16H5.5C5.77614 16 6 15.7761 6 15.5C6 15.2239 5.77614 15 5.5 15H2.5C2.22386 15 2 14.7761 2 14.5V2.5C2 2.22386 2.22386 2 2.5 2ZM5.5 2C5.22386 2 5 1.77614 5 1.5C5 1.22386 5.22386 1 5.5 1H8.5C8.77614 1 9 1.22386 9 1.5C9 1.77614 8.77614 2 8.5 2H5.5Z"
@@ -280,8 +280,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M13 3V2H13.5C14.8807 2 16 3.11929 16 4.5V11.5C16 12.8807 14.8807 14 13.5 14H13V13H13.5C14.3284 13 15 12.3284 15 11.5V4.5C15 3.67157 14.3284 3 13.5 3H13Z"
@@ -333,8 +333,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M9.37748 2.43384C9.37748 2.19424 9.18324 2 8.94363 2H3.5C2.11929 2 1 3.11929 1 4.5V12.5C1 13.8807 2.11929 15 3.5 15H11.5C12.8807 15 14 13.8807 14 12.5V12.0002C14 11.1133 12.9312 10.6653 12.2988 11.2872L12.0308 11.5507C11.0634 12.5021 9.55207 11.8474 9.3915 10.6352L9.38712 10.6022L9.37748 10.4542V9.49039C8.11438 9.7935 6.85775 10.478 5.59855 11.6024C4.4707 12.6094 2.84449 11.6027 3.01197 10.2291C3.27798 8.04747 3.98128 6.23935 5.19651 4.9287C6.19896 3.84754 7.49036 3.16911 9.01053 2.87033C9.22073 2.82902 9.37748 2.64806 9.37748 2.43384Z"
@@ -371,8 +371,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M12.4247 4L11.238 12.7027C11.1366 13.4459 10.5018 14 9.75172 14H6.24329C5.49318 14 4.85839 13.4459 4.75704 12.7027L3.57031 4C28.8139 4 -12.8189 4 12.4247 4Z"
@@ -419,8 +419,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M12.1468 6.03763L12.4247 4H3.57031L4.75704 12.7027C4.85839 13.4459 5.49318 14 6.24329 14H6.59971C6.21628 13.2499 6 12.4002 6 11.5C6 8.46243 8.46243 6 11.5 6C11.7188 6 11.9347 6.01278 12.1468 6.03763Z"
@@ -462,8 +462,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M9.08676 0.380298C8.48005 0.631493 7.92876 0.999736 7.46438 1.464C7.00011 1.92839 6.63187 2.47968 6.38067 3.08639C6.12948 3.6931 6.00025 4.34334 6.00038 5V5.008C6.00598 5.38944 6.05564 5.76896 6.14838 6.139L0.769376 11.519C0.401503 11.8859 0.15078 12.3537 0.0489546 12.8632C-0.0528703 13.3727 -0.00121608 13.9009 0.197376 14.381C0.362914 14.78 0.624304 15.1321 0.958395 15.406C1.29249 15.6798 1.68896 15.8671 2.11271 15.9512C2.28198 15.9847 2.45351 16.0014 2.62483 16.0014C2.45416 16.0013 2.28329 15.9846 2.11467 15.9512C1.69092 15.8671 1.29444 15.6798 0.960348 15.406C0.626257 15.1321 0.364867 14.78 0.199329 14.381C0.000737041 13.9009 -0.0509172 13.3727 0.0509077 12.8632C0.152733 12.3537 0.403457 11.8859 0.771329 11.519L6.15033 6.139C6.0576 5.76896 6.00793 5.38944 6.00233 5.008V5C6.00221 4.34334 6.13143 3.6931 6.38263 3.08639C6.63382 2.47968 7.00207 1.92839 7.46633 1.464C7.93072 0.999736 8.482 0.631493 9.08871 0.380298C9.69485 0.129341 10.3444 0.000122304 11.0005 8.67775e-08C10.3438 -0.000122248 9.69347 0.129103 9.08676 0.380298Z"
@@ -510,8 +510,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M5 11V12.5C5 13.8807 6.11929 15 7.5 15H12.5C13.8807 15 15 13.8807 15 12.5V7.5C15 6.11929 13.8807 5 12.5 5H11V8.5C11 9.88071 9.88071 11 8.5 11H5Z"
@@ -553,8 +553,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M11 12.2929L7.85355 9.14645C7.65829 8.95118 7.34171 8.95118 7.14645 9.14645C6.95118 9.34171 6.95118 9.65829 7.14645 9.85355L11.1464 13.8536C11.3417 14.0488 11.6583 14.0488 11.8536 13.8536L15.8536 9.85355C16.0488 9.65829 16.0488 9.34171 15.8536 9.14645C15.6583 8.95118 15.3417 8.95118 15.1464 9.14645L12 12.2929V2.5C12 2.22386 11.7761 2 11.5 2C11.2239 2 11 2.22386 11 2.5V12.2929Z"
@@ -586,8 +586,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M11.5 6H12V6.02276C11.8344 6.00765 11.6676 6 11.5 6Z"
@@ -634,8 +634,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M3.49609 2H6.99609V3.5C6.99609 4.32843 7.66767 5 8.49609 5H13.9961V6.59952C13.2297 6.20905 12.3752 6 11.499 6C10.0403 6 8.64139 6.57946 7.60994 7.61091C6.57849 8.64236 5.99902 10.0413 5.99902 11.5C5.99902 12.3773 6.2086 13.2329 6.60004 14H3.49609C2.66767 14 1.99609 13.3284 1.99609 12.5V3.5C1.99609 2.67157 2.66767 2 3.49609 2Z"
@@ -677,8 +677,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M11.5 6H2V12C2 13.1046 2.89543 14 4 14H6.60101C6.20958 13.2329 6 12.3773 6 11.5C6 10.0413 6.57946 8.64236 7.61091 7.61091C8.64236 6.57946 10.0413 6 11.5 6Z"
@@ -725,8 +725,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M2 2H4V4H2V2Z"
@@ -797,8 +797,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M9 14H4C2.89543 14 2 13.1046 2 12V5H9V14Z"
@@ -835,8 +835,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M0 5.00001C0 4.25973 0.402199 3.61339 1 3.26758V11.5C1 12.8807 2.11929 14 3.5 14H13.7324C13.3866 14.5978 12.7403 15 12 15H3.5C1.567 15 0 13.433 0 11.5V5.00001Z"
@@ -878,8 +878,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M7.91399 2.29289C8.10152 2.10536 8.35588 2 8.62109 2H13.0728C13.6251 2 14.0728 2.44772 14.0728 3V7.37426C14.0728 7.64122 13.966 7.89709 13.7763 8.08491L7.95841 13.8446C7.76366 14.0375 7.50956 14.1339 7.25545 14.134C6.99936 14.1341 6.74328 14.0364 6.54798 13.8411L2.16399 9.45711C1.77346 9.06658 1.77346 8.43342 2.16399 8.04289L7.91399 2.29289ZM12.4998 4.5C12.4998 5.05228 12.0521 5.5 11.4998 5.5C10.9475 5.5 10.4998 5.05228 10.4998 4.5C10.4998 3.94772 10.9475 3.5 11.4998 3.5C12.0521 3.5 12.4998 3.94772 12.4998 4.5Z"
@@ -911,8 +911,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M2.29289 2.29289C2.10536 2.48043 2 2.73478 2 3V13C2 13.2652 2.10536 13.5196 2.29289 13.7071C2.48043 13.8946 2.73478 14 3 14H13C13.2652 14 13.5196 13.8946 13.7071 13.7071C13.8946 13.5196 14 13.2652 14 13V3C14 2.73478 13.8946 2.48043 13.7071 2.29289C13.5196 2.10536 13.2652 2 13 2H3C2.73478 2 2.48043 2.10536 2.29289 2.29289Z"
@@ -949,8 +949,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M1.43934 2.43934C1.15804 2.72064 1 3.10218 1 3.5V4H4.894C5.19013 3.99997 5.47962 3.91228 5.726 3.748L6.283 3.377L5.7 2.6C5.56028 2.41371 5.3791 2.2625 5.17082 2.15836C4.96254 2.05422 4.73287 2 4.5 2H2.5C2.10218 2 1.72064 2.15804 1.43934 2.43934Z"
@@ -998,8 +998,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M7.99984 2.00989L6.01984 6.02389L1.58984 6.66789L4.79484 9.79189L4.03784 14.2039L7.07081 12.6098C6.94389 11.7115 7.43745 10.7652 8.39895 10.433L9.50068 10.0524L10.303 8.40545C10.9478 7.08155 12.5464 6.64041 13.7545 7.30728L14.4108 6.66789L10.5008 6.09889L9.98084 6.02389L7.99984 2.00989Z"
@@ -1036,8 +1036,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M5.40613 6.1131L1.58984 6.66789L4.79484 9.79189L4.03784 14.2039L7.07081 12.6098C6.94389 11.7115 7.43745 10.7652 8.39895 10.433L9.38532 10.0923L5.40613 6.1131Z"
@@ -1096,8 +1096,8 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Width="16" Stretch="Uniform">
-								<Canvas>
+							<Viewbox Stretch="Uniform">
+								<Canvas Width="16" Height="16">
 									<Path
 										x:Name="Path1"
 										Data="M1 3.5C1 3.10218 1.15804 2.72064 1.43934 2.43934C1.72064 2.15804 2.10218 2 2.5 2H5.5C5.73287 2 5.96254 2.05422 6.17082 2.15836C6.3791 2.2625 6.56028 2.41371 6.7 2.6L7.283 3.377L6.726 3.748C6.47962 3.91228 6.19013 3.99997 5.894 4H1V3.5Z"
