@@ -200,7 +200,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
-					Glyph = "\uE840",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconPinToFavorites",
+					},
 					Command = PinToFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned && isFolder
@@ -208,7 +211,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarUnpinFromFavorites/Text".GetLocalizedResource(),
-					Glyph = "\uE77A",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+					},
 					Command = UnpinFromFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = isPinned && isFolder

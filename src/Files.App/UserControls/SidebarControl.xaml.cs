@@ -243,14 +243,20 @@ namespace Files.App.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
-					Glyph = "\uE840",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconPinToFavorites",
+					},
 					Command = PinItemCommand,
 					ShowItem = isDriveItem && !isDriveItemPinned
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
-					Glyph = "\uE77A",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+					},
 					Command = UnpinItemCommand,
 					ShowItem = options.ShowUnpinItem || isDriveItemPinned
 				},

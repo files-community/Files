@@ -245,9 +245,8 @@
 					Label="{helpers:ResourceString Name=Extract}"
 					LabelPosition="Default"
 					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}">
-					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF03F;" OverlayLayerGlyph="&#xF040;" />
-					</AppBarButton.Content>
+
+					<local:OpacityIcon Style="{StaticResource ColorIconZip}" />
 					<AppBarButton.Flyout>
 						<MenuFlyout helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}" Placement="Bottom">
 							<MenuFlyoutItem
@@ -828,7 +827,7 @@
 				LabelPosition="Collapsed"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneToggle/ToolTipService/ToolTip}"
 				Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
-				
+
 				<local:OpacityIcon Style="{StaticResource ColorIconRightPane}" />
 			</AppBarToggleButton>
 			<CommandBar.SecondaryCommands>
