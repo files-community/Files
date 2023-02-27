@@ -25,8 +25,6 @@ namespace Files.App.Interacts
 
 		void RunAsAnotherUser(RoutedEventArgs e);
 
-		void UnpinDirectoryFromFavorites(RoutedEventArgs e);
-
 		void OpenItem(RoutedEventArgs e);
 
 		void RestoreRecycleBin(RoutedEventArgs e);

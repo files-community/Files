@@ -141,11 +141,6 @@ namespace Files.App.Interacts
 			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, false);
 		}
 
-		public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
-		{
-			_ = QuickAccessService.UnpinFromSidebar(associatedInstance.FilesystemViewModel.WorkingDirectory);
-		}
-
 		public virtual async void RestoreRecycleBin(RoutedEventArgs e)
 		{
 			await RecycleBinHelpers.RestoreRecycleBin(associatedInstance);
