@@ -136,7 +136,7 @@
     <value>Ruta:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Tamaño:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Tamaño sin comprimir:</value>
@@ -175,7 +175,7 @@
     <value>Ingrese una ubicación</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Buscar</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Los archivos a los que haya accedido anteriormente aparecerán aquí</value>
@@ -247,22 +247,22 @@
     <value>Actualizar</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Pegar</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nuevo</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Propiedades</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Abrir</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Abrir en una nueva pestaña</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Abrir en una nueva ventana</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Compartir</value>
@@ -289,7 +289,7 @@
     <value>Visualización</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Introducir nombre del elemento</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Establecer Nombre</value>
@@ -373,7 +373,7 @@
     <value>Archivo en uso</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>Diseño</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Solo lectura</value>
@@ -673,7 +673,7 @@
     <value>Subir un directorio</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Idioma</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Mover las extensiones del shell a un submenú</value>
@@ -955,7 +955,7 @@
     <value>Dirección</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>Opciones de selección</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Selección</value>
@@ -997,7 +997,7 @@
     <value>Nueva pestaña</value>
   </data>
   <data name="NewTabCtrlT" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+    <value>Nueva pestaña (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Algunas propiedades pueden contener información personal.</value>
@@ -1036,7 +1036,7 @@
     <value>Personalizar el menú contextual</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>Ruta original</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Añadir</value>
@@ -1144,7 +1144,7 @@
     <value>Nombre</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Desanclar de Favoritos</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Unidades de red</value>
@@ -1318,7 +1318,7 @@
     <value>¡Ya existe una biblioteca con el mismo nombre!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>Abrir sensor de almacenamiento</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Copiar</value>
@@ -1378,7 +1378,7 @@
     <value>Buscar elementos no indexados</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Remplazar existente</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Generar nuevo nombre</value>
@@ -1420,7 +1420,7 @@
     <value>Fecha de eliminación</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Ordenar</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Agrupar por</value>
@@ -1489,7 +1489,7 @@
     <value>Volver a abrir pestaña cerrada</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Cambiar nombre</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Privacidad</value>
@@ -1909,7 +1909,7 @@
     <value>Abrir carpeta principal</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Desconocido</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Editar etiquetas de archivo</value>
@@ -1927,7 +1927,7 @@
     <value>Inserte un disco</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>OK</value>
+    <value>Aceptar</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Credenciales requeridas</value>
@@ -1978,7 +1978,7 @@
     <value>Mosaicos</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Abrir carpetas en nueva pestaña</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tareas en curso</value>
@@ -2362,7 +2362,7 @@
     <value>Restaurar todos los elementos</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>Restablecer</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>No se puede abrir el acceso directo</value>

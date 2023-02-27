@@ -115,17 +115,17 @@ namespace Files.App.UserControls.Widgets
 			UnpinFromFavoritesCommand = new RelayCommand<FolderCardItem>(UnpinFromFavorites);
 		}
 
-		public delegate void LibraryCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
+		public delegate void QuickAccessCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
 
-		public delegate void LibraryCardNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
+		public delegate void QuickAccessCardNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
 
-		public delegate void LibraryCardPropertiesInvokedEventHandler(object sender, QuickAccessCardEventArgs e);
+		public delegate void QuickAccessCardPropertiesInvokedEventHandler(object sender, QuickAccessCardEventArgs e);
 
-		public event LibraryCardInvokedEventHandler CardInvoked;
+		public event QuickAccessCardInvokedEventHandler CardInvoked;
 
-		public event LibraryCardNewPaneInvokedEventHandler CardNewPaneInvoked;
+		public event QuickAccessCardNewPaneInvokedEventHandler CardNewPaneInvoked;
 
-		public event LibraryCardPropertiesInvokedEventHandler CardPropertiesInvoked;
+		public event QuickAccessCardPropertiesInvokedEventHandler CardPropertiesInvoked;
 
 		public event EventHandler QuickAccessWidgetShowMultiPaneControlsInvoked;
 
@@ -142,25 +142,23 @@ namespace Files.App.UserControls.Widgets
 		public ICommand OpenPropertiesCommand;
 		public ICommand OpenInNewPaneCommand;
 
-		public ICommand ShowCreateNewLibraryDialogCommand { get; } = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
-
-		public readonly ICommand ShowRestoreLibrariesDialogCommand = new RelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialog);
-
 		public string WidgetName => nameof(QuickAccessWidget);
 
 		public string AutomationProperties => "QuickAccess".GetLocalizedResource();
 
 		public string WidgetHeader => "QuickAccess".GetLocalizedResource();
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{				
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
-					Glyph = "\uF113",
-					GlyphFontFamilyName = "CustomGlyph",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewTab",
+					},
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
 					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
@@ -168,7 +166,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
-					Glyph = "\uE737",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewWindow",
+					},
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
 					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
@@ -176,12 +177,6 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel()
-					{
-						BaseBackdropGlyph = "\uF056",
-						BaseLayerGlyph = "\uF03B",
-						OverlayLayerGlyph = "\uF03C",
-					},
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
 					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
@@ -189,7 +184,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
-					Glyph = "\uE840",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconPinToFavorites",
+					},
 					Command = PinToFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned
@@ -197,7 +195,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
-					Glyph = "\uE77A",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+					},
 					Command = UnpinFromFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = isPinned
@@ -205,7 +206,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					Glyph = "\uE946",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconProperties",
+					},
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
@@ -283,15 +287,15 @@ namespace Files.App.UserControls.Widgets
 			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItem;
 		}
 
-		private void MenuFlyout_Opening(object sender, object e)
+		private void MenuFlyout_Opening(object sender)
 		{			
-			var pinToFavoritesItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "PinToFavorites");
+			var pinToFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "PinToFavorites");
 			if (pinToFavoritesItem is not null)
-				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as FolderCardItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
+				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as FolderCardItem)?.IsPinned ?? false ? Visibility.Collapsed : Visibility.Visible;
 
-			var unpinFromFavoritesItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "UnpinFromFavorites");
+			var unpinFromFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "UnpinFromFavorites");
 			if (unpinFromFavoritesItem is not null)
-				unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as FolderCardItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
+				unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as FolderCardItem)?.IsPinned ?? false ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -327,9 +331,12 @@ namespace Files.App.UserControls.Widgets
 		public override async void PinToFavorites(WidgetCardItem item)
 		{
 			await QuickAccessService.PinToSidebar(item.Path);
+
 			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
+
 			var items = (await QuickAccessService.GetPinnedFoldersAsync())
 				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
+
 			var recentItem = items.Where(x => !ItemsAdded.Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
 			if (recentItem is not null)
 			{
@@ -343,6 +350,7 @@ namespace Files.App.UserControls.Widgets
 		public override async void UnpinFromFavorites(WidgetCardItem item)
 		{
 			await QuickAccessService.UnpinFromSidebar(item.Path);
+
 			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 		}
 
@@ -369,9 +377,9 @@ namespace Files.App.UserControls.Widgets
 			return Task.CompletedTask;
 		}
 
-		public void Dispose()
-		{
-
+		public void Dispose() 
+		{ 
+		
 		}
 	}
 }
