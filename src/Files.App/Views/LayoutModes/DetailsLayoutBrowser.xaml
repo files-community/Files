@@ -624,6 +624,7 @@
 										x:Name="IconOverlay"
 										Width="16"
 										Height="16"
+										Margin="2"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Bottom"
 										x:Load="True"
