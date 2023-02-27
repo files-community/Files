@@ -16,5 +16,9 @@
 		EmptyRecycleBin,
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
+
+		// Favorites
+		PinItemToFavorites,
+		UnpinItemFromFavorites,
 	}
 }

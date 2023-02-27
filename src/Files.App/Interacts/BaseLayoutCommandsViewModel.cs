@@ -35,9 +35,6 @@ namespace Files.App.Interacts
 			SetAsSlideshowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsSlideshowItem);
 			RunAsAdminCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RunAsAdmin);
 			RunAsAnotherUserCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RunAsAnotherUser);
-			SidebarPinItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SidebarPinItem);
-			SidebarUnpinItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SidebarUnpinItem);
-			UnpinDirectoryFromFavoritesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.UnpinDirectoryFromFavorites);
 			OpenItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItem);
 			RestoreRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreRecycleBin);
 			RestoreSelectionRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreSelectionRecycleBin);
@@ -59,7 +56,6 @@ namespace Files.App.Interacts
 			PasteItemsFromClipboardCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.PasteItemsFromClipboard);
 			CopyPathOfSelectedItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CopyPathOfSelectedItem);
 			ShareItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShareItem);
-			PinDirectoryToFavoritesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.PinDirectoryToFavorites);
 			ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.ItemPointerPressed);
 			UnpinItemFromStartCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.UnpinItemFromStart);
 			PinItemToStartCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.PinItemToStart);
@@ -111,8 +107,6 @@ namespace Files.App.Interacts
 
 		public ICommand OpenItemCommand { get; private set; }
 
-		public ICommand UnpinDirectoryFromFavoritesCommand { get; private set; }
-
 		public ICommand RestoreRecycleBinCommand { get; private set; }
 
 		public ICommand RestoreSelectionRecycleBinCommand { get; private set; }
@@ -152,8 +146,6 @@ namespace Files.App.Interacts
 		public ICommand CopyPathOfSelectedItemCommand { get; private set; }
 
 		public ICommand ShareItemCommand { get; private set; }
-
-		public ICommand PinDirectoryToFavoritesCommand { get; private set; }
 
 		public ICommand ItemPointerPressedCommand { get; private set; }
 

@@ -21,5 +21,8 @@ namespace Files.App.Commands
 		IRichCommand EmptyRecycleBin { get; }
 		IRichCommand RestoreRecycleBin { get; }
 		IRichCommand RestoreAllRecycleBin { get; }
+
+		IRichCommand PinItemToFavorites { get; }
+		IRichCommand UnpinItemFromFavorites { get; }
 	}
 }
