@@ -1,6 +1,6 @@
 # Privacy Policy
 
-###### Effective date: February 23, 2023
+###### Effective date: February 27, 2023
 
 This Privacy Policy ("Policy") for Files ("we", "us", or "our") describes how and why we collect, store, use, and disclose information about users ("you", "your") when you use our services ("Services"), and our desktop application (the "Application", "Files"). By using our Services, you acknowledge and consent to the practices described in this Policy.
 
