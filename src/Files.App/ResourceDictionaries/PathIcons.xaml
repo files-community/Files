@@ -1214,6 +1214,110 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
+
+			<Style x:Key="ColorIconRotateLeft" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox
+								Width="12"
+								Height="12"
+								Stretch="Fill">
+								<Grid Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M11.0007 7.01081V7.00034C11.0007 6.62945 10.8998 6.28213 10.7238 5.98438L7.20991 9.4983C6.93264 9.77557 6.93263 10.2251 7.20991 10.5024L10.7238 14.0163C10.8998 13.7186 11.0007 13.3712 11.0007 13.0003L11.0007 9.95073C10.3541 9.78297 9.85484 9.20411 9.85484 8.48077C9.85484 7.75744 10.3541 7.17857 11.0007 7.01081Z"
+										Fill="{ThemeResource IconBaseBrush}"
+										Opacity=".40" />
+									<Path
+										x:Name="Path2"
+										Data="M5.81163 5H3C1.89543 5 1 5.89543 1 7V13C1 14.1046 1.89543 15 3 15L9 15C9.37091 15 9.71824 14.899 10.016 14.7231L6.50207 11.2092C5.83427 10.5414 5.83427 9.45865 6.50207 8.79085L10.016 5.27692C9.76052 5.12595 9.46856 5.03019 9.15651 5.00603C9.09441 5.28149 8.95422 5.54311 8.73595 5.75604C8.19182 6.28685 7.35292 6.33098 6.75828 5.90057L6.72854 5.87904L6.61281 5.78157L5.81163 5Z"
+										Fill="{ThemeResource IconAltBrush}" />
+									<Path
+										x:Name="Path3"
+										Data="M4.78653 4H3C1.34315 4 0 5.34315 0 7V13C0 14.6569 1.34315 16 3 16L9 16C10.6569 16 12 14.6569 12 13L12 9.99449C11.9142 9.99815 11.8281 10 11.7419 10H11.3871C11.2543 10 11.1244 9.98288 11 9.95054L11 13C11 13.3709 10.899 13.7182 10.7231 14.016L7.20918 10.502C6.9319 10.2248 6.9319 9.77523 7.20918 9.49796L10.7231 5.98403C10.899 6.28179 11 6.6291 11 7V7.011C11.1244 6.97866 11.2543 6.96154 11.3871 6.96154H11.7419C11.8296 6.96154 11.9155 6.95807 11.9996 6.95139C11.9782 5.60266 11.0667 4.47012 9.82683 4.11539H9.08703C9.19992 4.39958 9.22308 4.71077 9.15651 5.00604C9.46856 5.03019 9.76052 5.12595 10.016 5.27692L6.50207 8.79085C5.83427 9.45865 5.83427 10.5414 6.50207 11.2092L10.016 14.7231C9.71824 14.899 9.37091 15 9 15L3 15C1.89543 15 1 14.1046 1 13L1 7C1 5.89543 1.89543 5 3 5L5.81163 5L4.78653 4Z"
+										Fill="{ThemeResource IconBaseBrush}" />
+									<Path
+										x:Name="Path4"
+										Data="M4.49661 7.49751C4.49661 8.04842 4.05001 8.49502 3.4991 8.49502C2.94819 8.49502 2.50159 8.04842 2.50159 7.49751C2.50159 6.9466 2.94819 6.5 3.4991 6.5C4.05001 6.5 4.49661 6.9466 4.49661 7.49751Z"
+										Fill="{ThemeResource IconBaseBrush}" />
+									<Path
+										x:Name="Path5"
+										Data="M11.3871 9C11.0931 9 10.8548 8.76753 10.8548 8.48077C10.8548 8.19401 11.0931 7.96154 11.3871 7.96154H11.7419C13.5057 7.96154 14.9355 6.87669 14.9355 5.53846C14.9355 4.24079 13.591 3.18136 11.9013 3.11835L11.7419 3.11538H6.81748L8.03765 4.30593C8.24551 4.5087 8.24551 4.83746 8.03765 5.04023C7.84869 5.22457 7.55299 5.24132 7.34462 5.0905L7.28493 5.04023L5.1559 2.9633C4.94804 2.76053 4.94804 2.43177 5.1559 2.229L7.28493 0.152079L7.34462 0.101805C7.55299 -0.0490176 7.84869 -0.0322587 8.03765 0.152079C8.24551 0.354851 8.24551 0.683609 8.03765 0.886381L6.81819 2.07692H11.7419C14.0936 2.07692 16 3.62671 16 5.53846C16 7.45022 14.0936 9 11.7419 9H11.3871Z"
+										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled">
+											<VisualState.Setters>
+												<Setter Target="Path1.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="Transparent" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="ColorIconRotateRight" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox
+								Width="12"
+								Height="12"
+								Stretch="Fill">
+								<Grid Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M5 9.95073C5.64659 9.78297 6.14589 9.20411 6.14589 8.48077C6.14589 7.75744 5.64659 7.17857 5 7.01082V6.99966C5 6.62876 5.10096 6.28144 5.2769 5.98369L8.79083 9.49761C9.0681 9.77488 9.0681 10.2244 8.79083 10.5017L5.2769 14.0156C5.10096 13.7179 5 13.3706 5 12.9997V9.95073Z"
+										Fill="{ThemeResource IconBaseBrush}"
+										Opacity=".40" />
+									<Path
+										x:Name="Path2"
+										Data="M6.84386 5.00603C6.90596 5.28149 7.04615 5.54311 7.26443 5.75604C7.80855 6.28685 8.64745 6.33098 9.24209 5.90057L9.27183 5.87904L9.38757 5.78157L10.1887 5H13.0004C14.1049 5 15.0004 5.89543 15.0004 7V13C15.0004 14.1046 14.1049 15 13.0004 15H7.00037C6.62946 15 6.28214 14.899 5.98438 14.7231L9.49831 11.2092C10.1661 10.5414 10.1661 9.45864 9.4983 8.79085L5.98438 5.27692C6.23985 5.12595 6.53182 5.03019 6.84386 5.00603Z"
+										Fill="{ThemeResource IconAltBrush}" />
+									<Path
+										x:Name="Path3"
+										Data="M4.00039 6.95139C4.02181 5.60266 4.93328 4.47012 6.17317 4.11539H6.91297C6.80009 4.39958 6.77692 4.71076 6.84349 5.00603C6.53145 5.03019 6.23948 5.12595 5.984 5.27692L9.49793 8.79085C10.1657 9.45864 10.1657 10.5414 9.49793 11.2092L5.984 14.7231C6.28176 14.899 6.62909 15 7 15H13C14.1046 15 15 14.1046 15 13V7C15 5.89543 14.1046 5 13 5L10.1884 5L11.2135 4H13C14.6569 4 16 5.34315 16 7V13C16 14.6569 14.6569 16 13 16H7C5.34314 16 4 14.6569 4 13V9.99449C4.08582 9.99815 4.17187 10 4.25806 10H4.6129C4.74572 10 4.87559 9.98288 5 9.95054L5 13C5 13.3709 5.10096 13.7182 5.2769 14.016L8.79083 10.502C9.0681 10.2248 9.0681 9.77523 8.79082 9.49795L5.2769 5.98403C5.10096 6.28178 5 6.6291 5 7V7.011C4.87559 6.97866 4.74572 6.96154 4.6129 6.96154H4.25806C4.17043 6.96154 4.08447 6.95807 4.00039 6.95139Z"
+										Fill="{ThemeResource IconBaseBrush}" />
+									<Path
+										x:Name="Path4"
+										Data="M11.5034 12.5025C11.5034 11.9516 11.95 11.505 12.5009 11.505C13.0518 11.505 13.4984 11.9516 13.4984 12.5025C13.4984 13.0534 13.0518 13.5 12.5009 13.5C11.95 13.5 11.5034 13.0534 11.5034 12.5025Z"
+										Fill="{ThemeResource IconBaseBrush}" />
+									<Path
+										x:Name="Path5"
+										Data="M4.6129 9C4.90686 9 5.14516 8.76753 5.14516 8.48077C5.14516 8.19401 4.90686 7.96154 4.6129 7.96154H4.25806C2.49432 7.96154 1.06452 6.87669 1.06452 5.53846C1.06452 4.24079 2.40897 3.18136 4.09867 3.11835L4.25806 3.11538H9.18252L7.96235 4.30593C7.75449 4.5087 7.75449 4.83746 7.96235 5.04023C8.15131 5.22457 8.44701 5.24132 8.65538 5.0905L8.71507 5.04023L10.8441 2.9633C11.052 2.76053 11.052 2.43177 10.8441 2.229L8.71507 0.152079L8.65538 0.101805C8.44701 -0.0490176 8.15131 -0.0322587 7.96235 0.152079C7.75449 0.354851 7.75449 0.683609 7.96235 0.886381L9.18181 2.07692H4.25806C1.9064 2.07692 0 3.62671 0 5.53846C0 7.45022 1.9064 9 4.25806 9H4.6129Z"
+										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled">
+											<VisualState.Setters>
+												<Setter Target="Path1.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="Transparent" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
 		</ResourceDictionary>
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

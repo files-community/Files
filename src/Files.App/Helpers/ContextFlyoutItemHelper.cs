@@ -721,7 +721,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel
 				{
 					Text = "RotateRight".GetLocalizedResource(),
-					// add colored icon
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconRotateRight"
+					},
 					Command = commandsViewModel.RotateImageRightCommand,
 					ShowInSearchPage = true,
 					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
@@ -729,7 +732,10 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel
 				{
 					Text = "RotateLeft".GetLocalizedResource(),
-					// add colored icon
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconRotateLeft"
+					},
 					Command = commandsViewModel.RotateImageLeftCommand,
 					ShowInSearchPage = true,
 					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
