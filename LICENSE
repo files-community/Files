@@ -23,13 +23,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ---
 
-Files includes softwares not licensed under the MIT license. These are subject to their respective licenses.
+Files includes some of the third-party softwares listed below. These are subject to their respective licenses.
 
-7z.dll and 7z64.dll from 7-Zip
+7-Zip
 https://7-zip.org/license.txt
 
-The custom version of SevenZipSharp
+SevenZipSharp
 https://www.gnu.org/licenses/lgpl-3.0.txt
 
-FilesLauncher.exe and its source codes based on Explorer++
+Explorer++
 https://www.gnu.org/licenses/gpl-3.0.txt
