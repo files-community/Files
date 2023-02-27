@@ -66,9 +66,7 @@ namespace Files.App.ViewModels.Properties
 			set
 			{
 				if (SetProperty(ref _selectedAccessControlEntry, value))
-				{
 					RemoveRulesForUserCommand.NotifyCanExecuteChanged();
-				}
 			}
 		}
 
@@ -144,11 +142,9 @@ namespace Files.App.ViewModels.Properties
 
 		private void DisableInheritance()
 		{
+			// Update protection status and refresh access control
 			if (SetAccessControlProtection(_isProtected, _preserveInheritance))
-			{
-				// Refresh file permissions
 				GetFilePermissions();
-			}
 		}
 
 		private void SetDisableInheritanceOption(string options)

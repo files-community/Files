@@ -66,8 +66,7 @@ namespace Files.App.Filesystem.Security
 			=> AccessControlType switch
 			{
 				AccessControlType.Allow => "\xF13E",
-				AccessControlType.Deny => "\xF140",
-				_ => "\xF140"
+				_ => "\xF140" // AccessControlType.Deny
 			};
 
 		public bool IsInherited { get; set; }
@@ -162,12 +161,12 @@ namespace Files.App.Filesystem.Security
 		public bool FullControlAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.FullControl);
 		public bool SpecialAccess
 			=> (AccessMaskFlags &
-					~AccessMaskFlags.Synchronize &
-					(FullControlAccess ? ~AccessMaskFlags.FullControl : AccessMaskFlags.FullControl) &
-					(ModifyAccess ? ~AccessMaskFlags.Modify : AccessMaskFlags.FullControl) &
-					(ReadAndExecuteAccess ? ~AccessMaskFlags.ReadAndExecute : AccessMaskFlags.FullControl) &
-					(ReadAccess ? ~AccessMaskFlags.Read : AccessMaskFlags.FullControl) &
-					(WriteAccess ? ~AccessMaskFlags.Write : AccessMaskFlags.FullControl)) != 0;
+				~AccessMaskFlags.Synchronize &
+				(FullControlAccess ? ~AccessMaskFlags.FullControl : AccessMaskFlags.FullControl) &
+				(ModifyAccess ? ~AccessMaskFlags.Modify : AccessMaskFlags.FullControl) &
+				(ReadAndExecuteAccess ? ~AccessMaskFlags.ReadAndExecute : AccessMaskFlags.FullControl) &
+				(ReadAccess ? ~AccessMaskFlags.Read : AccessMaskFlags.FullControl) &
+				(WriteAccess ? ~AccessMaskFlags.Write : AccessMaskFlags.FullControl)) != 0;
 
 		public RelayCommand<string> ChangeAccessControlTypeCommand { get; set; }
 		public RelayCommand<string> ChangeInheritanceFlagsCommand { get; set; }

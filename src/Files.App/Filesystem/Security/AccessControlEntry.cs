@@ -153,10 +153,8 @@ namespace Files.App.Filesystem.Security
 		#region Methods
 		public void UpdateAccessControlEntry()
 		{
-			foreach (var item in _aceAdvanced.Where(x => x.PrincipalSid == Principal.Sid && !x.IsInherited).ToList())
-			{
+			foreach (var item in _aceAdvanced.Where(x => x.PrincipalSid == Principal.Sid && !x.IsInherited))
 				_aceAdvanced.Remove(item);
-			}
 
 			// Do not set if permission is already allowed by inheritance
 			if (AllowedAccessMaskFlags != 0 && !InheritedAllowAccessMaskFlags.HasFlag(AllowedAccessMaskFlags))

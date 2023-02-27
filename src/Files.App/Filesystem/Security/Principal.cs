@@ -7,7 +7,7 @@ using static Vanara.PInvoke.AdvApi32;
 namespace Files.App.Filesystem.Security
 {
 	/// <summary>
-	/// Represents an principal of an ACE or an owner of an ACL.
+	/// Represents a principal of an ACE or an owner of an ACL.
 	/// </summary>
 	public class Principal : ObservableObject
 	{
