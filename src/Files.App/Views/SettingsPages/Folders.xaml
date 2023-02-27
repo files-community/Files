@@ -140,8 +140,8 @@
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupInDescendingOrder}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=GroupInDescendingOrder}"
-								IsEnabled="{x:Bind ViewModel.isDefaultGrouped, Mode=OneWay}"
 								IsOn="{x:Bind ViewModel.GroupInDescendingOrder, Mode=TwoWay}"
+								IsEnabled="{x:Bind ViewModel.isDefaultGrouped, Mode=OneWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
