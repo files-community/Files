@@ -136,7 +136,7 @@
     <value>Caminho:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Tamanho:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Tamanho não compactado:</value>
@@ -247,22 +247,22 @@
     <value>Atualizar</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Colar</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Novo</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Propriedades</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Abrir</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Abrir em uma nova aba</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Abrir em uma nova janela</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Compartilhar</value>
@@ -673,7 +673,7 @@
     <value>Suba um diretório</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Idioma</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Move shell extensions into a sub menu</value>
@@ -1978,7 +1978,7 @@
     <value>Blocos</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Abrir pastas em uma nova aba</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tarefas em andamento</value>
@@ -2470,7 +2470,7 @@
     <value>Sort in descending order</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
-    <value>Create a new shortcut</value>
+    <value>Criar um novo atalho</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
     <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
