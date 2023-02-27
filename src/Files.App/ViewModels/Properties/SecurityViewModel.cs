@@ -40,8 +40,8 @@ namespace Files.App.ViewModels.Properties
 		#region Fields, Properties, Commands
 		public ListedItem Item { get; }
 
-		private AccessControlListController _accessControlListController;
-		public AccessControlListController AccessControlListController
+		private AccessControlList _accessControlListController;
+		public AccessControlList AccessControlList
 		{
 			get => _accessControlListController;
 			set
@@ -132,14 +132,14 @@ namespace Files.App.ViewModels.Properties
 		#region Methods
 		private void InitializeCommands()
 		{
-			EditOwnerCommand = new RelayCommand(ChangeOwner, () => AccessControlListController is not null);
-			AddRulesForUserCommand = new RelayCommand(AddACE, () => AccessControlListController is not null && AccessControlListController.CanReadAccessControl);
-			RemoveRulesForUserCommand = new RelayCommand(RemoveACE, () => AccessControlListController is not null && AccessControlListController.CanReadAccessControl && SelectedAccessControlEntry is not null);
-			AddAccessRuleCommand = new RelayCommand(AddAdvancedACE, () => AccessControlListController is not null && AccessControlListController.CanReadAccessControl);
-			RemoveAccessRuleCommand = new RelayCommand(RemoveAdvancedACE, () => AccessControlListController is not null && AccessControlListController.CanReadAccessControl && SelectedAdvancedAccessControlEntries is not null);
-			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => AccessControlListController is not null && AccessControlListController.CanReadAccessControl && (AccessControlListController.IsAccessControlListProtected != _isProtected));
+			EditOwnerCommand = new RelayCommand(ChangeOwner, () => AccessControlList is not null);
+			AddRulesForUserCommand = new RelayCommand(AddACE, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
+			RemoveRulesForUserCommand = new RelayCommand(RemoveACE, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && SelectedAccessControlEntry is not null);
+			AddAccessRuleCommand = new RelayCommand(AddAdvancedACE, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
+			RemoveAccessRuleCommand = new RelayCommand(RemoveAdvancedACE, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && SelectedAdvancedAccessControlEntries is not null);
+			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && (AccessControlList.IsAccessControlListProtected != _isProtected));
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
-			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlListController is not null && AccessControlListController.CanReadAccessControl);
+			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
 		}
 
 		private void DisableInheritance()
@@ -169,7 +169,7 @@ namespace Files.App.ViewModels.Properties
 			var pickedObject = await OpenObjectPicker();
 			if (pickedObject is not null)
 			{
-				AccessControlListController.AccessControlEntriesAdvanced.Add(new AccessControlEntryAdvanced(IsFolder)
+				AccessControlList.AccessControlEntriesAdvanced.Add(new AccessControlEntryAdvanced(IsFolder)
 				{
 					AccessControlType = AccessControlType.Allow,
 					AccessMaskFlags = AccessMaskFlags.ReadAndExecute,
@@ -185,7 +185,7 @@ namespace Files.App.ViewModels.Properties
 			if (SelectedAdvancedAccessControlEntries is not null)
 			{
 				foreach (var rule in SelectedAdvancedAccessControlEntries)
-					AccessControlListController.AccessControlEntriesAdvanced.Remove(rule);
+					AccessControlList.AccessControlEntriesAdvanced.Remove(rule);
 			}
 		}
 
@@ -205,10 +205,10 @@ namespace Files.App.ViewModels.Properties
 			var pickedObject = await OpenObjectPicker();
 			if (pickedObject is not null)
 			{
-				if (!AccessControlListController.AccessControlEntries.Any(x => x.Principal.Sid == pickedObject))
+				if (!AccessControlList.AccessControlEntries.Any(x => x.Principal.Sid == pickedObject))
 				{
 					// No existing rules, add user to list
-					AccessControlListController.AccessControlEntries.Add(AccessControlEntry.ForUser(AccessControlListController.AccessControlEntriesAdvanced, IsFolder, pickedObject));
+					AccessControlList.AccessControlEntries.Add(AccessControlEntry.ForUser(AccessControlList.AccessControlEntriesAdvanced, IsFolder, pickedObject));
 				}
 			}
 		}
@@ -220,10 +220,10 @@ namespace Files.App.ViewModels.Properties
 				SelectedAccessControlEntry.AllowedAccessMaskFlags = 0;
 				SelectedAccessControlEntry.DeniedAccessMaskFlags = 0;
 
-				if (!AccessControlListController.AccessControlEntriesAdvanced.Any(x => x.PrincipalSid == SelectedAccessControlEntry.Principal.Sid))
+				if (!AccessControlList.AccessControlEntriesAdvanced.Any(x => x.PrincipalSid == SelectedAccessControlEntry.Principal.Sid))
 				{
 					// No remaining rules, remove user from list
-					AccessControlListController.AccessControlEntries.Remove(SelectedAccessControlEntry);
+					AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
 				}
 			}
 		}
@@ -232,18 +232,17 @@ namespace Files.App.ViewModels.Properties
 		{
 			bool isFolder = Item.PrimaryItemAttribute == StorageItemTypes.Folder && !Item.IsShortcut;
 
-			var acl = FileOperationsHelpers.GetFilePermissions(Item.ItemPath, isFolder);
-			AccessControlListController = new(acl);
+			AccessControlList = FileOperationsHelpers.GetFilePermissions(Item.ItemPath, isFolder);
 		}
 
 		public bool SetFilePermissions()
 		{
 			// If user has no permission to change ACL
-			if (AccessControlListController is null ||
-				!AccessControlListController.CanReadAccessControl)
+			if (AccessControlList is null ||
+				!AccessControlList.CanReadAccessControl)
 				return true;
 
-			return AccessControlListController.ToAccessControlList().SetAccessControl();
+			return AccessControlList.SetAccessControl();
 		}
 
 		public bool SetFileOwner(string ownerSid)

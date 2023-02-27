@@ -27,7 +27,7 @@ namespace Files.App.Filesystem.Security
 
 		public AccessMaskFlags InheritedAllowAccessMaskFlags { get; set; }
 
-		public AccessMaskFlags _deniedAccessMaskFlags;
+		private AccessMaskFlags _deniedAccessMaskFlags;
 		public AccessMaskFlags DeniedAccessMaskFlags
 		{
 			get => _deniedAccessMaskFlags;
@@ -45,7 +45,7 @@ namespace Files.App.Filesystem.Security
 			}
 		}
 
-		public AccessMaskFlags _allowedAccessMaskFlags;
+		private AccessMaskFlags _allowedAccessMaskFlags;
 		public AccessMaskFlags AllowedAccessMaskFlags
 		{
 			get => _allowedAccessMaskFlags;

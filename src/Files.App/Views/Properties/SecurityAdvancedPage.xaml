@@ -79,22 +79,22 @@
 							VerticalAlignment="Center"
 							FontFamily="{StaticResource SymbolThemeFontFamily}"
 							FontSize="16"
-							Glyph="{x:Bind ViewModel.AccessControlListController.Owner.Glyph, Mode=OneWay}" />
+							Glyph="{x:Bind ViewModel.AccessControlList.Owner.Glyph, Mode=OneWay}" />
 
 						<TextBlock
 							x:Name="OwnerText"
 							VerticalAlignment="Center"
-							x:Load="{x:Bind ViewModel.AccessControlListController.CanReadAccessControl, Mode=OneWay}">
-							<Run Text="{x:Bind ViewModel.AccessControlListController.Owner.DisplayName, Mode=OneWay}" />
+							x:Load="{x:Bind ViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}">
+							<Run Text="{x:Bind ViewModel.AccessControlList.Owner.DisplayName, Mode=OneWay}" />
 							<Span FontWeight="Light">&#160;(</Span>
-							<Run FontWeight="Light" Text="{x:Bind ViewModel.AccessControlListController.Owner.FullNameOrSid, Mode=OneWay}" />
+							<Run FontWeight="Light" Text="{x:Bind ViewModel.AccessControlList.Owner.FullNameOrSid, Mode=OneWay}" />
 							<Span FontWeight="Light">)</Span>
 						</TextBlock>
 
 						<TextBlock
 							x:Name="UnknownOwnerText"
 							VerticalAlignment="Center"
-							x:Load="{x:Bind ViewModel.AccessControlListController.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+							x:Load="{x:Bind ViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 							Text="{helpers:ResourceString Name=SecurityUnknownOwnerText/Text}" />
 
 						<Button
@@ -166,8 +166,8 @@
 						Grid.Row="2"
 						Grid.ColumnSpan="2"
 						HorizontalAlignment="Stretch"
-						x:Load="{x:Bind ViewModel.AccessControlListController.CanReadAccessControl, Mode=OneWay}"
-						ItemsSource="{x:Bind ViewModel.AccessControlListController.AccessControlEntriesAdvanced, Mode=OneWay}"
+						x:Load="{x:Bind ViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
+						ItemsSource="{x:Bind ViewModel.AccessControlList.AccessControlEntriesAdvanced, Mode=OneWay}"
 						ScrollViewer.HorizontalScrollBarVisibility="Auto"
 						ScrollViewer.HorizontalScrollMode="Auto"
 						SelectionChanged="ListView_SelectionChanged"
@@ -424,7 +424,7 @@
 						Grid.Row="2"
 						Padding="8"
 						HorizontalAlignment="Left"
-						x:Load="{x:Bind ViewModel.AccessControlListController.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+						x:Load="{x:Bind ViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 						Text="{helpers:ResourceString Name=SecurityAdvancedCannotReadProperties/Text}"
 						TextWrapping="WrapWholeWords" />
 
@@ -446,17 +446,17 @@
 									<MenuFlyoutItem
 										Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand}"
 										CommandParameter="False,False"
-										IsEnabled="{x:Bind ViewModel.AccessControlListController.IsAccessControlListProtected, Mode=OneWay}"
+										IsEnabled="{x:Bind ViewModel.AccessControlList.IsAccessControlListProtected, Mode=OneWay}"
 										Text="{helpers:ResourceString Name=SecurityAdvancedInheritedEnable/Text}" />
 									<MenuFlyoutItem
 										Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand}"
 										CommandParameter="True,True"
-										IsEnabled="{x:Bind ViewModel.AccessControlListController.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+										IsEnabled="{x:Bind ViewModel.AccessControlList.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 										Text="{helpers:ResourceString Name=SecurityAdvancedInheritedConvert/Text}" />
 									<MenuFlyoutItem
 										Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand}"
 										CommandParameter="True,False"
-										IsEnabled="{x:Bind ViewModel.AccessControlListController.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+										IsEnabled="{x:Bind ViewModel.AccessControlList.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 										Text="{helpers:ResourceString Name=SecurityAdvancedInheritedRemove/Text}" />
 								</MenuFlyout>
 							</SplitButton.Flyout>

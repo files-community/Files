@@ -436,19 +436,6 @@ namespace Files.App.Filesystem.Security
 
 			return accessMaskStrings;
 		}
-
-		public AccessControlEntryPrimitive ToAccessControlEntryPrimitive()
-		{
-			return new()
-			{
-				AccessControlType = AccessControlType,
-				AccessMaskFlags = AccessMaskFlags,
-				PrincipalSid = PrincipalSid,
-				IsInherited = IsInherited,
-				InheritanceFlags = InheritanceFlags,
-				PropagationFlags = PropagationFlags
-			};
-		}
 		#endregion
 	}
 }

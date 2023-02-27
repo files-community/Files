@@ -35,7 +35,7 @@
 				x:Name="Usernames"
 				Grid.Row="0"
 				Padding="8"
-				x:Load="{x:Bind SecurityViewModel.AccessControlListController.CanReadAccessControl, Mode=OneWay}"
+				x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
 				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
@@ -93,8 +93,8 @@
 					MaxHeight="160"
 					Margin="-4,0,-4,0"
 					HorizontalAlignment="Stretch"
-					x:Load="{x:Bind SecurityViewModel.AccessControlListController.CanReadAccessControl, Mode=OneWay}"
-					ItemsSource="{x:Bind SecurityViewModel.AccessControlListController.AccessControlEntries, Mode=OneWay}"
+					x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
+					ItemsSource="{x:Bind SecurityViewModel.AccessControlList.AccessControlEntries, Mode=OneWay}"
 					SelectedIndex="0"
 					SelectedItem="{x:Bind SecurityViewModel.SelectedAccessControlEntry, Mode=TwoWay}"
 					SelectionMode="Single">
@@ -181,7 +181,7 @@
 					Grid.Row="2"
 					Padding="8"
 					HorizontalAlignment="Stretch"
-					x:Load="{x:Bind SecurityViewModel.AccessControlListController.CanReadAccessControl, Mode=OneWay}"
+					x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
 					ColumnSpacing="8">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
@@ -387,7 +387,7 @@
 					Grid.Row="2"
 					Padding="8"
 					HorizontalAlignment="Left"
-					x:Load="{x:Bind SecurityViewModel.AccessControlListController.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+					x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					Text="{helpers:ResourceString Name=SecurityCannotReadProperties/Text}"
 					TextWrapping="WrapWholeWords" />
 			</Grid>

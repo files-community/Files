@@ -23,19 +23,6 @@ namespace Files.App.Filesystem.Security
 		#endregion
 
 		#region Methods
-		public static AccessControlEntryPrimitiveMapping FromAccessControlEntryPrimitive(AccessControlEntryPrimitive accessControl)
-		{
-			return new()
-			{
-				AccessControlType = (System.Security.AccessControl.AccessControlType)accessControl.AccessControlType,
-				FileSystemRights = (FileSystemRights)accessControl.AccessMaskFlags,
-				IsInherited = accessControl.IsInherited,
-				PrincipalSid = accessControl.PrincipalSid,
-				InheritanceFlags = (System.Security.AccessControl.InheritanceFlags)accessControl.InheritanceFlags,
-				PropagationFlags = (System.Security.AccessControl.PropagationFlags)accessControl.PropagationFlags
-			};
-		}
-
 		public static AccessControlEntryPrimitiveMapping FromFileSystemAccessRule(FileSystemAccessRule accessControl)
 		{
 			return new()

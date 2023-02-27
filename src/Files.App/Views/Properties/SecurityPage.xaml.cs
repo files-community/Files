@@ -39,7 +39,7 @@ namespace Files.App.Views.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = e.Parameter as Properties.MainPropertiesPage.PropertyNavParam;
+			var np = e.Parameter as MainPropertiesPage.PropertyNavParam;
 
 			if (np.navParameter is ListedItem listedItem)
 			{
@@ -53,19 +53,16 @@ namespace Files.App.Views.Properties
 			base.OnNavigatedTo(e);
 		}
 
-		public async override Task<bool> SaveChangesAsync()
-		{
-			return SecurityViewModel is null || SecurityViewModel.SetFilePermissions();
-		}
-
 		protected override void Properties_Loaded(object sender, RoutedEventArgs e)
 		{
 			base.Properties_Loaded(sender, e);
 
-			if (SecurityViewModel is not null)
-			{
-				SecurityViewModel.GetFilePermissions();
-			}
+			SecurityViewModel?.GetFilePermissions();
+		}
+
+		public async override Task<bool> SaveChangesAsync()
+		{
+			return SecurityViewModel is null || SecurityViewModel.SetFilePermissions();
 		}
 
 		public override void Dispose()
