@@ -21,5 +21,7 @@ namespace Files.App.Commands
 		IRichCommand ToggleShowFileExtensions { get; }
 
 		IRichCommand EmptyRecycleBin { get; }
+		IRichCommand RestoreRecycleBin { get; }
+		IRichCommand RestoreAllRecycleBin { get; }
 	}
 }

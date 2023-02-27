@@ -6,8 +6,6 @@
 	<Application.Resources>
 		<ResourceDictionary>
 			<FontFamily x:Key="CustomGlyph">/Assets/Custom Glyphs/Custom-Glyphs.ttf#Custom-Glyphs</FontFamily>
-			<FontFamily x:Key="RecycleBinIcons">/Assets/Custom Glyphs/recyclebin-fabric-glyph.ttf#Fabric MDL2 Assets</FontFamily>
-			<FontFamily x:Key="ColoredIconFontFamily">/Assets/Custom Glyphs/Colored-Icons.ttf#Untitled1</FontFamily>
 
 			<!--  Default list view item height  -->
 			<x:Double x:Key="ListItemHeight">36</x:Double>
@@ -40,6 +38,7 @@
 
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+				<ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
 				<ResourceDictionary>
 					<ResourceDictionary.ThemeDictionaries>
 						<ResourceDictionary x:Key="Light">

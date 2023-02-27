@@ -10,7 +10,7 @@ using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
 {
-	public abstract class PropertiesTab : Page, IDisposable
+	public abstract class BasePropertiesPage : Page, IDisposable
 	{
 		public IShellPage AppInstance = null;
 
@@ -28,7 +28,7 @@ namespace Files.App.ViewModels.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = e.Parameter as Views.Properties.PropertyNavParam;
+			var np = e.Parameter as Views.Properties.MainPropertiesPage.PropertyNavParam;
 
 			AppInstance = np.AppInstanceArgument;
 			ViewModel = new SelectedItemsPropertiesViewModel();

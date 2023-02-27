@@ -14,13 +14,13 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.App.Views
+namespace Files.App.Views.Properties
 {
-	public sealed partial class PropertiesGeneral : PropertiesTab
+	public sealed partial class GeneralPage : BasePropertiesPage
 	{
 		private readonly Regex letterRegex = new(@"\s*\(\w:\)$");
 
-		public PropertiesGeneral() => InitializeComponent();
+		public GeneralPage() => InitializeComponent();
 
 		public override async Task<bool> SaveChangesAsync()
 		{

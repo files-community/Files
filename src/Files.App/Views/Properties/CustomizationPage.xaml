@@ -1,5 +1,5 @@
-﻿<vm:PropertiesTab
-	x:Class="Files.App.Views.PropertiesCustomization"
+﻿<vm:BasePropertiesPage
+	x:Class="Files.App.Views.Properties.CustomizationPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +12,7 @@
 	DataContext="{x:Bind CustomizationViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
-	<vm:PropertiesTab.Resources>
+	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
 
 			<ResourceDictionary.MergedDictionaries>
@@ -22,13 +22,10 @@
 			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 		</ResourceDictionary>
-	</vm:PropertiesTab.Resources>
+	</vm:BasePropertiesPage.Resources>
 
-	<Grid Padding="12,0,12,12" RowSpacing="4">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
+	<Grid Padding="12">
+
 		<Grid
 			Grid.Row="0"
 			Padding="12"
@@ -126,5 +123,6 @@
 				</GridView.ItemTemplate>
 			</GridView>
 		</Grid>
+
 	</Grid>
-</vm:PropertiesTab>
+</vm:BasePropertiesPage>

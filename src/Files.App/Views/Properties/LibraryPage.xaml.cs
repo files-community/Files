@@ -15,9 +15,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
 
-namespace Files.App.Views
+namespace Files.App.Views.Properties
 {
-	public sealed partial class PropertiesLibrary : PropertiesTab, INotifyPropertyChanged
+	public sealed partial class LibraryPage : BasePropertiesPage, INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -66,7 +66,7 @@ namespace Files.App.Views
 		public ICommand SetDefaultLocationCommand { get; }
 		public ICommand RemoveLocationCommand { get; }
 
-		public PropertiesLibrary()
+		public LibraryPage()
 		{
 			InitializeComponent();
 

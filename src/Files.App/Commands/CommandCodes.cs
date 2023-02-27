@@ -16,5 +16,7 @@
 
 		// file system
 		EmptyRecycleBin,
+		RestoreRecycleBin,
+		RestoreAllRecycleBin,
 	}
 }

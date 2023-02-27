@@ -18,24 +18,19 @@ using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
 
-// Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
-
-namespace Files.App.Views
+namespace Files.App.Views.Properties
 {
-	/// <summary>
-	/// Pagina vuota che può essere usata autonomamente oppure per l'esplorazione all'interno di un frame.
-	/// </summary>
-	public sealed partial class PropertiesSecurityAdvanced : Page
+	public sealed partial class SecurityAdvancedPage : Page
 	{
 		private object navParameterItem;
 
 		public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.Name);
 
-		public SecurityProperties ViewModel { get; set; }
+		public SecurityViewModel ViewModel { get; set; }
 
 		public AppWindow appWindow;
 
-		public PropertiesSecurityAdvanced()
+		public SecurityAdvancedPage()
 		{
 			InitializeComponent();
 
@@ -59,11 +54,11 @@ namespace Files.App.Views
 
 			if (args.Item is ListedItem listedItem)
 			{
-				ViewModel = new SecurityProperties(listedItem);
+				ViewModel = new SecurityViewModel(listedItem);
 			}
 			else if (args.Item is DriveItem driveitem)
 			{
-				ViewModel = new SecurityProperties(driveitem);
+				ViewModel = new SecurityViewModel(driveitem);
 			}
 
 			base.OnNavigatedTo(e);
