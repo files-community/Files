@@ -1,6 +1,8 @@
 # THIRD PARTY NOTICES
 Files uses following third-party libraries or other resources that may be distributed under licenses different than Files.
 
+In the event that we accidentally failed to list a required notice, please bring it to our attention. Post an issue on Github or send a message on Discord.
+
 ## 7-Zip
 
 **Source**: [https://sourceforge.net/projects/sevenzip/](https://sourceforge.net/projects/sevenzip/)
