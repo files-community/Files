@@ -4,7 +4,6 @@ using Files.App.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
 
 namespace Files.App.Filesystem.Security
 {
@@ -153,6 +152,7 @@ namespace Files.App.Filesystem.Security
 			set => SetProperty(ref _accessMaskItemList, value);
 		}
 
+		#region Access Controls
 		public bool WriteAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Write);
 		public bool ReadAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Read);
 		public bool ListDirectoryAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
@@ -167,6 +167,7 @@ namespace Files.App.Filesystem.Security
 				(ReadAndExecuteAccess ? ~AccessMaskFlags.ReadAndExecute : AccessMaskFlags.FullControl) &
 				(ReadAccess ? ~AccessMaskFlags.Read : AccessMaskFlags.FullControl) &
 				(WriteAccess ? ~AccessMaskFlags.Write : AccessMaskFlags.FullControl)) != 0;
+		#endregion
 
 		public RelayCommand<string> ChangeAccessControlTypeCommand { get; set; }
 		public RelayCommand<string> ChangeInheritanceFlagsCommand { get; set; }

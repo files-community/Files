@@ -28,58 +28,70 @@ namespace Files.App.Views.Properties
 
 			_isWinUI3 = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
 
-			// TODO:
-			//  ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
-			//  Use your ResourceManager instance to create a ResourceContext as below.If you already have a ResourceManager instance,
-			//  replace the new instance created below with correct instance.
-			//  Read https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+			App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+
 			var flowDirectionSetting = new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
 		}
 
-		private object navParameterItem;
+		#region Fields and Properties
+		public string WindowTitle
+			=> string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel?.Item.Name);
 
-		public string DialogTitle
-			=> string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.Name);
+		public SecurityViewModel? ViewModel { get; set; }
 
-		public SecurityViewModel ViewModel { get; set; }
-
-		public AppWindow appWindow;
+		public AppWindow? appWindow;
 
 		private readonly bool _isWinUI3;
+		#endregion
 
+		#region Methods
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var args = e.Parameter as PropertiesPageNavigationArguments;
-			navParameterItem = args.Item;
+			var args = (PropertiesPageNavigationArguments)e.Parameter;
 
 			if (args.Item is ListedItem listedItem)
-			{
 				ViewModel = new SecurityViewModel(listedItem);
-			}
 			else if (args.Item is DriveItem driveitem)
-			{
 				ViewModel = new SecurityViewModel(driveitem);
-			}
 
 			base.OnNavigatedTo(e);
 		}
 
-		private async void Properties_Loaded(object sender, RoutedEventArgs e)
+		private async void SecurityAdvancedPage_Loaded(object sender, RoutedEventArgs e)
 		{
-			App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
-
-			if (_isWinUI3)
+			if (_isWinUI3 && appWindow is not null)
 			{
 				appWindow.Destroying += AppWindow_Destroying;
+
+				// Update theme
 				await App.Window.DispatcherQueue.EnqueueAsync(() => App.AppSettings.UpdateThemeElements.Execute(null));
 			}
-			else
-			{
-			}
+		}
 
-			ViewModel.GetFilePermissions();
+		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (ViewModel is null)
+				return;
+
+			ViewModel.SelectedAdvancedAccessControlEntries =
+				((ListView)sender).SelectedItems.Cast<AccessControlEntryAdvanced>().ToList();
+
+			if (e.AddedItems is not null)
+			{
+				foreach (var item in e.AddedItems)
+				{
+					((AccessControlEntryAdvanced)item).IsSelected = true;
+				}
+			}
+			if (e.RemovedItems is not null)
+			{
+				foreach (var item in e.RemovedItems)
+				{
+					((AccessControlEntryAdvanced)item).IsSelected = false;
+				}
+			}
 		}
 
 		private void AppWindow_Destroying(AppWindow sender, object args)
@@ -88,19 +100,15 @@ namespace Files.App.Views.Properties
 			sender.Destroying -= AppWindow_Destroying;
 		}
 
-		private void Properties_Unloaded(object sender, RoutedEventArgs e)
-		{
-			// Why is this not called? Are we cleaning up properly?
-		}
-
 		private async void AppSettings_ThemeModeChanged(object sender, EventArgs e)
 		{
 			var selectedTheme = ThemeHelper.RootTheme;
+
 			await DispatcherQueue.EnqueueAsync(() =>
 			{
 				((Frame)Parent).RequestedTheme = selectedTheme;
 
-				if (_isWinUI3)
+				if (_isWinUI3 && appWindow is not null)
 				{
 					switch (selectedTheme)
 					{
@@ -108,12 +116,10 @@ namespace Files.App.Views.Properties
 							appWindow.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
 							appWindow.TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
 							break;
-
 						case ElementTheme.Light:
 							appWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
 							appWindow.TitleBar.ButtonForegroundColor = Colors.Black;
 							break;
-
 						case ElementTheme.Dark:
 							appWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
 							appWindow.TitleBar.ButtonForegroundColor = Colors.White;
@@ -125,66 +131,29 @@ namespace Files.App.Views.Properties
 
 		private void OKButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (_isWinUI3)
+			if (_isWinUI3 && appWindow is not null)
 			{
-				if (ViewModel.SetFilePermissions())
-				{
-					appWindow.Destroy();
-				}
-			}
-			else
-			{
+				ViewModel?.SetAccessControlList();
+				appWindow.Destroy();
 			}
 		}
 
 		private void CancelButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (_isWinUI3)
-			{
+			if (_isWinUI3 && appWindow is not null)
 				appWindow.Destroy();
-			}
-			else
-			{
-			}
 		}
 
-		private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
+		private void SecurityAdvancedPage_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (e.Key.Equals(VirtualKey.Escape))
-			{
-				if (_isWinUI3)
-				{
-					appWindow.Destroy();
-				}
-				else
-				{
-				}
-			}
+			if (e.Key.Equals(VirtualKey.Escape) && _isWinUI3 && appWindow is not null)
+				appWindow.Destroy();
 		}
+		#endregion
 
 		public class PropertiesPageNavigationArguments
 		{
-			public object Item { get; set; }
-		}
-
-		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			ViewModel.SelectedAdvancedAccessControlEntries = (sender as ListView).SelectedItems.Cast<AccessControlEntryAdvanced>().ToList();
-
-			if (e.AddedItems is not null)
-			{
-				foreach (var item in e.AddedItems)
-				{
-					(item as AccessControlEntryAdvanced).IsSelected = true;
-				}
-			}
-			if (e.RemovedItems is not null)
-			{
-				foreach (var item in e.RemovedItems)
-				{
-					(item as AccessControlEntryAdvanced).IsSelected = false;
-				}
-			}
+			public object? Item { get; set; }
 		}
 	}
 }

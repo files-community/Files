@@ -20,17 +20,12 @@ namespace Files.App.Filesystem.Security
 
 		#region Properties
 		public string Glyph
-		{
-			get
+			=> PrincipalType switch
 			{
-				return PrincipalType switch
-				{
-					PrincipalType.User => "\xE2AF",
-					PrincipalType.Group => "\xE902",
-					_ => "\xE716",
-				};
-			}
-		}
+				PrincipalType.User => "\xE2AF",
+				PrincipalType.Group => "\xE902",
+				_ => "\xE716",
+			};
 
 		public string? Sid { get; set; }
 

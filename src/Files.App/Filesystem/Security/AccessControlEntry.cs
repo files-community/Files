@@ -63,6 +63,7 @@ namespace Files.App.Filesystem.Security
 			}
 		}
 
+		#region Access Controls
 		public bool AllowedInheritedWriteAccess =>          InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.Write);
 		public bool AllowedInheritedReadAccess =>           InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.Read);
 		public bool AllowedInheritedListDirectoryAccess =>  InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
@@ -148,6 +149,7 @@ namespace Files.App.Filesystem.Security
 			get => DeniedAccessMaskFlags.HasFlag(AccessMaskFlags.FullControl) || DeniedInheritedFullControlAccess;
 			set => ToggleDenyAccess(AccessMaskFlags.FullControl, value);
 		}
+		#endregion
 		#endregion
 
 		#region Methods

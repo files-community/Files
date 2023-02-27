@@ -40,6 +40,37 @@ namespace Files.App.Filesystem.Security
 		#endregion
 
 		#region Methods
+		public bool SetOwner(string sid)
+		{
+			if (GetAccessControl(Path, IsFolder, out var acs))
+			{
+				try
+				{
+					acs.SetOwner(new SecurityIdentifier(sid));
+
+					if (IsFolder)
+					{
+						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(Path), (DirectorySecurity)acs);
+					}
+					else
+					{
+						FileSystemAclExtensions.SetAccessControl(new FileInfo(Path), (FileSecurity)acs);
+					}
+
+					return true;
+				}
+				catch (UnauthorizedAccessException)
+				{
+				}
+				catch (Exception)
+				{
+				}
+			}
+
+			// If previous operation was unauthorized access, try again trough elevated PowerShell
+			return Win32API.RunPowershellCommand($"-command \"try {{ $path = '{Path}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{sid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"", true);
+		}
+
 		public bool SetAccessControl()
 		{
 			if (GetAccessControl(Path, IsFolder, out var fileSystemSecurity))
@@ -106,37 +137,6 @@ namespace Files.App.Filesystem.Security
 			return false;
 		}
 
-		public bool SetOwner(string sid)
-		{
-			if (GetAccessControl(Path, IsFolder, out var acs))
-			{
-				try
-				{
-					acs.SetOwner(new SecurityIdentifier(sid));
-
-					if (IsFolder)
-					{
-						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(Path), (DirectorySecurity)acs);
-					}
-					else
-					{
-						FileSystemAclExtensions.SetAccessControl(new FileInfo(Path), (FileSecurity)acs);
-					}
-
-					return true;
-				}
-				catch (UnauthorizedAccessException)
-				{
-				}
-				catch (Exception)
-				{
-				}
-			}
-
-			// If previous operation was unauthorized access, try again trough elevated PowerShell
-			return Win32API.RunPowershellCommand($"-command \"try {{ $path = '{Path}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{sid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"", true);
-		}
-
 		public static AccessControlList FromPath(string path, bool isFolder)
 		{
 			var acl = new AccessControlList()
@@ -152,9 +152,7 @@ namespace Files.App.Filesystem.Security
 
 				var accessRules = fileSystemSecurity.GetAccessRules(true, true, typeof(SecurityIdentifier));
 				foreach (var accessRule in accessRules)
-				{
 					rules.Add(AccessControlEntryPrimitiveMapping.FromFileSystemAccessRule((FileSystemAccessRule)accessRule));
-				}
 
 				acl.AccessControlEntryPrimitiveMappingList.AddRange(rules);
 				acl.OwnerSID = fileSystemSecurity.GetOwner(typeof(SecurityIdentifier)).Value;
