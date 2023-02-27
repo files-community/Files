@@ -34,6 +34,11 @@ namespace Files.App.Commands
 		public IRichCommand EmptyRecycleBin => commands[CommandCodes.EmptyRecycleBin];
 		public IRichCommand RestoreRecycleBin => commands[CommandCodes.RestoreRecycleBin];
 		public IRichCommand RestoreAllRecycleBin => commands[CommandCodes.RestoreAllRecycleBin];
+		public IRichCommand CreateShortcut => commands[CommandCodes.CreateShortcut];
+		public IRichCommand CreateShortcutFromDialog => commands[CommandCodes.CreateShortcutFromDialog];
+		public IRichCommand CreateFolder => commands[CommandCodes.CreateFolder];
+		public IRichCommand PinToStart => commands[CommandCodes.PinToStart];
+		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
 
 		public CommandManager()
 		{
@@ -60,6 +65,11 @@ namespace Files.App.Commands
 			[CommandCodes.EmptyRecycleBin] = new EmptyRecycleBinAction(),
 			[CommandCodes.RestoreRecycleBin] = new RestoreRecycleBinAction(),
 			[CommandCodes.RestoreAllRecycleBin] = new RestoreAllRecycleBinAction(),
+			[CommandCodes.CreateShortcut] = new CreateShortcutAction(),
+			[CommandCodes.CreateShortcutFromDialog] = new CreateShortcutFromDialogAction(),
+			[CommandCodes.CreateFolder] = new CreateFolderAction(),
+			[CommandCodes.PinToStart] = new PinToStartAction(),
+			[CommandCodes.UnpinFromStart] = new UnpinFromStartAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
