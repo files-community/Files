@@ -1,41 +1,26 @@
 ﻿using Files.App.Commands;
 using Files.App.Extensions;
-using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class OpenTerminalAsAdminAction : IAction
+	internal class OpenTerminalAsAdminAction : OpenTerminalAction
 	{
-		public string Label { get; } = "OpenTerminalAsAdmin".GetLocalizedResource();
+		public new string Label { get; } = "OpenTerminalAsAdmin".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new((VirtualKey)192, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public override HotKey HotKey { get; } = new((VirtualKey)192, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
-		public RichGlyph Glyph { get; } = new RichGlyph("\uE756");
-
-		public string Path { get; set; } = string.Empty;
-
-		public Task ExecuteAsync()
+		protected override ProcessStartInfo? GetProcessStartInfo()
 		{
-			var terminalStartInfo = new ProcessStartInfo()
+			var startInfo = base.GetProcessStartInfo();
+			if (startInfo is not null)
 			{
-				FileName = "wt.exe",
-				Arguments = $"-d {Path}",
-				Verb = "runas",
-				UseShellExecute = true
-			};
-
-			try
-			{
-				App.Window.DispatcherQueue.TryEnqueue(() => Process.Start(terminalStartInfo));
-			}
-			catch (OperationCanceledException)
-			{ 
+				startInfo.Verb = "runas";
+				startInfo.UseShellExecute = true;
 			}
 
-			return Task.CompletedTask;
+			return startInfo;
 		}
 	}
 }

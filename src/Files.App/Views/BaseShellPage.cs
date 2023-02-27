@@ -287,15 +287,10 @@ namespace Files.App.Views
 				// Ctrl + ` (accent key), open terminal
 				case (true, _, false, true, (VirtualKey)192):
 
-					// Check if there is a folder selected, if not use the current directory.
-					string path = FilesystemViewModel.WorkingDirectory;
-					if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
-						path = SlimContentPage.SelectedItem.ItemPath;
-
 					if (shift)
-						commands.OpenTerminalAsAdmin. Execute(path);
+						commands.OpenTerminalAsAdmin.ExecuteAsync();
 					else
-						commands.OpenTerminal.Execute(path);
+						commands.OpenTerminal.ExecuteAsync();
 
 					args.Handled = true;
 
