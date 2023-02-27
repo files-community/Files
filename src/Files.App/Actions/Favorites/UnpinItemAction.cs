@@ -23,7 +23,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			 await quickAccessService.UnpinFromSidebar(context.SelectedItems.Select(x => x.ItemPath).ToArray());
+			 await quickAccessService.UnpinFromSidebar(context.SelectedItems.Any() ? context.SelectedItems.Select(x => x.ItemPath).ToArray() : new[] { context.Folder.ItemPath });
 		}
 	}
 }
