@@ -259,10 +259,9 @@ namespace Files.App.Helpers
 					var openWithItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "openas").ToList().FirstOrDefault();
 					if (openWithItem is not null)
 					{
-						openWithItem.ColoredIcon = new ColoredIconModel()
+						openWithItem.OpacityIcon = new OpacityIconModel()
 						{
-							BaseLayerGlyph = "\uF049",
-							OverlayLayerGlyph = "\uF04A",
+							OpacityIconStyle = "ColorIconOpenWith",
 						};
 						var (_, openWithItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
 						var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")).FirstOrDefault() as AppBarButton;
