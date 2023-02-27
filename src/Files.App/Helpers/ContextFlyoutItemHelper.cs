@@ -720,23 +720,23 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel
 				{
-					Text = "RotateRight".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconRotateRight"
-					},
-					Command = commandsViewModel.RotateImageRightCommand,
-					ShowInSearchPage = true,
-					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
-				},
-				new ContextMenuFlyoutItemViewModel
-				{
 					Text = "RotateLeft".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
 						OpacityIconStyle = "ColorIconRotateLeft"
 					},
 					Command = commandsViewModel.RotateImageLeftCommand,
+					ShowInSearchPage = true,
+					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
+				},
+				new ContextMenuFlyoutItemViewModel
+				{
+					Text = "RotateRight".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconRotateRight"
+					},
+					Command = commandsViewModel.RotateImageRightCommand,
 					ShowInSearchPage = true,
 					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
 				},
