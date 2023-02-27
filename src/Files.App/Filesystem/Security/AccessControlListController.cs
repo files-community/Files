@@ -43,7 +43,7 @@ namespace Files.App.Filesystem.Security
 		#endregion
 
 		#region Methods
-		public AccessControlList ToFilePermissions()
+		public AccessControlList ToAccessControlList()
 		{
 			return new AccessControlList()
 			{

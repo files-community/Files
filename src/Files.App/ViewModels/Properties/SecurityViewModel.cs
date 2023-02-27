@@ -243,7 +243,7 @@ namespace Files.App.ViewModels.Properties
 				!AccessControlListController.CanReadAccessControl)
 				return true;
 
-			return AccessControlListController.ToFilePermissions().SetAccessControl();
+			return AccessControlListController.ToAccessControlList().SetAccessControl();
 		}
 
 		public bool SetFileOwner(string ownerSid)

@@ -10,6 +10,8 @@ namespace Files.App.Filesystem.Security
 	{
 		public AccessMaskItem(AccessControlEntryAdvanced aceAdvanced, bool isEditable = true)
 		{
+			IsEditable = isEditable;
+
 			_aceAdvanced = aceAdvanced;
 			_aceAdvanced.PropertyChanged += AccessControlEntryAdvanced_PropertyChanged;
 		}
