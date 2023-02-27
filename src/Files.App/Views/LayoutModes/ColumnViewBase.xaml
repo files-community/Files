@@ -257,10 +257,7 @@
 										BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
 										BorderThickness="1"
 										Visibility="{x:Bind IsShortcut}">
-										<FontIcon
-											FontFamily="{StaticResource CustomGlyph}"
-											FontSize="8"
-											Glyph="&#xF10A;" />
+										<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
 									</Border>
 								</Grid>
 

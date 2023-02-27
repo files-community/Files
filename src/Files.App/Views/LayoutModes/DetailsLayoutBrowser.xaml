@@ -637,10 +637,7 @@
 										Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 										BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
 										BorderThickness="1">
-										<FontIcon
-											FontFamily="{StaticResource CustomGlyph}"
-											FontSize="8"
-											Glyph="&#xF10A;" />
+										<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
 									</Border>
 								</Grid>
 

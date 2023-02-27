@@ -155,7 +155,6 @@ namespace Files.App.UserControls.Widgets
 					{
 						OpacityIconStyle = "ColorIconOpenInNewTab",
 					},
-					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
 					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewTab

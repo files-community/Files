@@ -139,10 +139,7 @@
 						Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 						BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
 						BorderThickness="1">
-						<FontIcon
-							FontFamily="{StaticResource CustomGlyph}"
-							FontSize="18"
-							Glyph="&#xF10A;" />
+						<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
 					</Border>
 				</Grid>
 				<Grid
@@ -335,10 +332,7 @@
 						Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 						BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
 						BorderThickness="1">
-						<FontIcon
-							FontFamily="{StaticResource CustomGlyph}"
-							FontSize="15"
-							Glyph="&#xF10A;" />
+						<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
 					</Border>
 				</Grid>
 
