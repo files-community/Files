@@ -245,9 +245,8 @@
 					Label="{helpers:ResourceString Name=Extract}"
 					LabelPosition="Default"
 					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}">
-					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF03F;" OverlayLayerGlyph="&#xF040;" />
-					</AppBarButton.Content>
+
+					<local:OpacityIcon Style="{StaticResource ColorIconZip}" />
 					<AppBarButton.Flyout>
 						<MenuFlyout helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}" Placement="Bottom">
 							<MenuFlyoutItem
@@ -358,9 +357,8 @@
 					Label="{helpers:ResourceString Name=RotateLeft}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateLeft}">
-					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF043;" OverlayLayerGlyph="&#xF044;" />
-					</AppBarButton.Content>
+
+					<local:OpacityIcon Style="{StaticResource ColorIconRotateLeft}"/>
 				</AppBarButton>
 				<AppBarButton
 					x:Name="RotateImageRightButton"
@@ -369,9 +367,8 @@
 					Label="{helpers:ResourceString Name=RotateRight}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateRight}">
-					<AppBarButton.Content>
-						<local:ColoredIcon BaseLayerGlyph="&#xF045;" OverlayLayerGlyph="&#xF046;" />
-					</AppBarButton.Content>
+
+					<local:OpacityIcon Style="{StaticResource ColorIconRotateRight}"/>
 				</AppBarButton>
 				<AppBarButton
 					x:Name="InstallFontButton"
@@ -828,7 +825,7 @@
 				LabelPosition="Collapsed"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneToggle/ToolTipService/ToolTip}"
 				Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
-				
+
 				<local:OpacityIcon Style="{StaticResource ColorIconRightPane}" />
 			</AppBarToggleButton>
 			<CommandBar.SecondaryCommands>
