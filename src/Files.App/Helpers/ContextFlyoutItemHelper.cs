@@ -24,7 +24,7 @@ using Windows.System;
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Used to create lists of ContextMenuFlyoutItemViewModels that can be used by ItemModelListToContextFlyoutHelper to create context 
+	/// Used to create lists of ContextMenuFlyoutItemViewModels that can be used by ItemModelListToContextFlyoutHelper to create context
 	/// menus and toolbars for the user.
 	/// <see cref="ContextMenuFlyoutItemViewModel"/>
 	/// <see cref="Files.App.Helpers.ContextFlyouts.ItemModelListToContextFlyoutHelper"/>
@@ -566,33 +566,18 @@ namespace Files.App.Helpers
 					CommandParameter = itemViewModel?.CurrentFolder,
 					ShowItem = itemViewModel?.CurrentFolder is not null && (App.DrivesManager.Drives.FirstOrDefault(x => string.Equals(x.Path, itemViewModel?.CurrentFolder.ItemPath))?.MenuOptions.ShowFormatDrive ?? false),
 				},
-				new ContextMenuFlyoutItemViewModel(commands.EmptyRecycleBin)
+				new ContextMenuFlyoutItemViewModelBuilder(commands.EmptyRecycleBin)
 				{
-					IsEnabled = RecycleBinHelpers.RecycleBinHasItems(),
-					ShowItem = !itemsSelected && currentInstanceViewModel.IsPageTypeRecycleBin,
-				},
-				new ContextMenuFlyoutItemViewModel()
+					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && !itemsSelected,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RestoreAllRecycleBin)
 				{
-					Text = "RestoreAllItems".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconRestoreItem",
-					},
-					Command = commandsViewModel.RestoreRecycleBinCommand,
-					ShowItem = !itemsSelected && currentInstanceViewModel.IsPageTypeRecycleBin,
-					ShowInRecycleBin = true,
-				},
-				new ContextMenuFlyoutItemViewModel()
+					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && !itemsSelected,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RestoreRecycleBin)
 				{
-					Text = "Restore".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconRestoreItem",
-					},
-					Command = commandsViewModel.RestoreItemCommand,
-					ShowInRecycleBin = true,
-					ShowItem = itemsSelected && selectedItems.All(x => x.IsRecycleBinItem)
-				},
+					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && itemsSelected,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Open".GetLocalizedResource(),

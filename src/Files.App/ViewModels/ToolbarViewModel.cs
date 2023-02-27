@@ -898,9 +898,6 @@ namespace Files.App.ViewModels
 		public void UpdateAdditionalActions()
 		{
 			OnPropertyChanged(nameof(HasAdditionalAction));
-			OnPropertyChanged(nameof(CanEmptyRecycleBin));
-			OnPropertyChanged(nameof(CanRestoreRecycleBin));
-			OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
 		}
 
 		private AddressToolbar? AddressToolbar => (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
@@ -1254,15 +1251,7 @@ namespace Files.App.ViewModels
 		public bool HasItem
 		{
 			get => hasItem;
-			set
-			{
-				if (SetProperty(ref hasItem, value))
-				{
-					OnPropertyChanged(nameof(CanEmptyRecycleBin));
-					OnPropertyChanged(nameof(CanRestoreRecycleBin));
-					OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
-				}
-			}
+			set => SetProperty(ref hasItem, value);
 		}
 
 		private List<ListedItem>? selectedItems;
@@ -1290,9 +1279,6 @@ namespace Files.App.ViewModels
 					OnPropertyChanged(nameof(IsFont));
 					OnPropertyChanged(nameof(IsMultipleMediaFilesSelected));
 					OnPropertyChanged(nameof(HasAdditionalAction));
-					OnPropertyChanged(nameof(CanEmptyRecycleBin));
-					OnPropertyChanged(nameof(CanRestoreRecycleBin));
-					OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
 				}
 			}
 		}
@@ -1302,9 +1288,6 @@ namespace Files.App.ViewModels
 		public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcut && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive));
 		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
 		public bool CanViewProperties => true;
-		public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
-		public bool CanRestoreRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && (SelectedItems is null || SelectedItems.Count == 0);
-		public bool CanRestoreSelectionRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && SelectedItems is not null && SelectedItems.Count > 0;
 		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
 		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
 		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
