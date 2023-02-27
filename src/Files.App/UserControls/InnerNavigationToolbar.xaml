@@ -208,33 +208,27 @@
 					AccessKey="B"
 					Command="{x:Bind Commands.EmptyRecycleBin}"
 					Icon="{x:Bind Commands.EmptyRecycleBin.FontIcon}"
-					IsEnabled="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.EmptyRecycleBin.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.EmptyRecycleBin.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.EmptyRecycleBin.Label}" />
+				<AppBarButton
+					x:Name="RestoreAllRecycleBinButton"
+					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
+					AccessKey="R"
+					Command="{x:Bind Commands.RestoreAllRecycleBin}"
+					Content="{x:Bind Commands.RestoreAllRecycleBin.OpacityIcon}"
+					Label="{x:Bind Commands.RestoreAllRecycleBin.Label}"
+					ToolTipService.ToolTip="{x:Bind Commands.RestoreAllRecycleBin.Label}"
+					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 				<AppBarButton
 					x:Name="RestoreRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="R"
-					Command="{x:Bind ViewModel.RestoreRecycleBinCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=RestoreAllItems}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreAllItems}"
-					Visibility="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}">
-
-					<local:OpacityIcon Style="{StaticResource ColorIconRestoreItem}" />
-				</AppBarButton>
-				<AppBarButton
-					x:Name="RestoreSelectionRecycleBinButton"
-					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
-					AccessKey="R"
-					Command="{x:Bind ViewModel.RestoreSelectionRecycleBinCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.CanRestoreSelectionRecycleBin, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=Restore}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Restore}"
-					Visibility="{x:Bind ViewModel.CanRestoreSelectionRecycleBin, Mode=OneWay}">
-
-					<local:OpacityIcon Style="{StaticResource ColorIconRestoreItem}" />
-				</AppBarButton>
+					Command="{x:Bind Commands.RestoreRecycleBin}"
+					Content="{x:Bind Commands.RestoreRecycleBin.OpacityIcon}"
+					Label="{x:Bind Commands.RestoreRecycleBin.Label}"
+					ToolTipService.ToolTip="{x:Bind Commands.RestoreRecycleBin.Label}"
+					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay}" />
 				<AppBarButton
 					x:Name="ExtractButton"
 					Width="Auto"
@@ -358,7 +352,7 @@
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateLeft}">
 
-					<local:OpacityIcon Style="{StaticResource ColorIconRotateLeft}"/>
+					<local:OpacityIcon Style="{StaticResource ColorIconRotateLeft}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="RotateImageRightButton"
@@ -368,7 +362,7 @@
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateRight}">
 
-					<local:OpacityIcon Style="{StaticResource ColorIconRotateRight}"/>
+					<local:OpacityIcon Style="{StaticResource ColorIconRotateRight}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="InstallFontButton"

@@ -203,11 +203,10 @@ namespace Files.App.UserControls
 					Command = RestoreLibrariesCommand,
 					ShowItem = options.IsLibrariesHeader
 				},
-				new ContextMenuFlyoutItemViewModel(commands.EmptyRecycleBin)
+				new ContextMenuFlyoutItemViewModelBuilder(commands.EmptyRecycleBin)
 				{
-					IsEnabled = commands.EmptyRecycleBin.IsExecutable,
-					ShowItem = options.ShowEmptyRecycleBin,
-				},
+					IsVisible = options.ShowEmptyRecycleBin,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),

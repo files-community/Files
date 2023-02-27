@@ -78,6 +78,7 @@ namespace Files.App.Commands
 			public RichGlyph Glyph => RichGlyph.None;
 			public FontIcon? FontIcon => null;
 			public ColoredIcon? ColoredIcon => null;
+			public OpacityIcon? OpacityIcon => null;
 
 			public HotKey DefaultHotKey => HotKey.None;
 
@@ -120,6 +121,9 @@ namespace Files.App.Commands
 
 			private readonly Lazy<ColoredIcon?> coloredIcon;
 			public ColoredIcon? ColoredIcon => coloredIcon.Value;
+
+			private readonly Lazy<OpacityIcon?> opacityIcon;
+			public OpacityIcon? OpacityIcon => opacityIcon.Value;
 
 			public HotKey DefaultHotKey => action.HotKey;
 
@@ -174,6 +178,7 @@ namespace Files.App.Commands
 				this.action = action;
 				fontIcon = new(action.Glyph.ToFontIcon);
 				coloredIcon = new(action.Glyph.ToColoredIcon);
+				opacityIcon = new(action.Glyph.ToOpacityIcon);
 				customHotKey = action.HotKey;
 				command = new AsyncRelayCommand(ExecuteAsync, () => action.IsExecutable);
 

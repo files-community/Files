@@ -15,7 +15,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "RestoreAllItems".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph("\xE777");
+		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRestoreItem");
 
 		public bool IsExecutable
 		{

@@ -1,4 +1,5 @@
 ﻿using Files.App.UserControls;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using static Microsoft.UI.Xaml.Application;
@@ -9,24 +10,32 @@ namespace Files.App.Commands
 	{
 		public static RichGlyph None { get; } = new(string.Empty);
 
-		public bool IsNone => string.IsNullOrEmpty(BaseGlyph);
+		public bool IsNone { get; }
 
 		public string BaseGlyph { get; }
 		public string OverlayGlyph { get; }
 		public string FontFamily { get; }
+		public string OpacityStyle { get; }
 
-		public RichGlyph(string baseGlyph, string overlayGlyph = "", string fontFamily = "")
+		public RichGlyph(string baseGlyph = "", string overlayGlyph = "", string fontFamily = "", string opacityStyle = "")
 		{
 			BaseGlyph = baseGlyph;
 			OverlayGlyph = overlayGlyph;
 			FontFamily = fontFamily;
+			OpacityStyle = opacityStyle;
+
+			IsNone = string.IsNullOrEmpty(baseGlyph)
+				&& string.IsNullOrEmpty(overlayGlyph)
+				&& string.IsNullOrEmpty(fontFamily)
+				&& string.IsNullOrEmpty(opacityStyle);
 		}
 
-		public void Deconstruct(out string baseGlyph, out string overlayGlyph, out string fontFamily)
+		public void Deconstruct(out string baseGlyph, out string overlayGlyph, out string fontFamily, out string opacityStyle)
 		{
 			baseGlyph = BaseGlyph;
 			overlayGlyph = OverlayGlyph;
 			fontFamily = FontFamily;
+			opacityStyle = OpacityStyle;
 		}
 
 		public FontFamily ToFontFamily()
@@ -63,6 +72,19 @@ namespace Files.App.Commands
 			};
 			if (!string.IsNullOrEmpty(FontFamily))
 				icon.FontFamily = (FontFamily)Current.Resources[FontFamily];
+
+			return icon;
+		}
+
+		public OpacityIcon? ToOpacityIcon()
+		{
+			if (IsNone)
+				return null;
+
+			var icon = new OpacityIcon
+			{
+				Style = (Style)Current.Resources[OpacityStyle]
+			};
 
 			return icon;
 		}

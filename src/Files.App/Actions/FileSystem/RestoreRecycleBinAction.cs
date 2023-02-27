@@ -16,7 +16,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Restore".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph("\xE777");
+		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRestoreItem");
 
 		public bool IsExecutable => context.PageType is ContentPageTypes.RecycleBin && context.SelectedItems.Any();
 
