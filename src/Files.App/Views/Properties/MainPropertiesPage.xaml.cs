@@ -309,7 +309,7 @@ namespace Files.App.Views.Properties
 		private void ClosePage()
 		{
 			if (_usingWinUI)
-				Window.Close();
+				Window.Close(); // AppWindow.Destroy() doesn't seem to work well. (#11461)
 			else
 				_propertiesDialog?.Hide();
 		}
