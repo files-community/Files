@@ -639,7 +639,9 @@ namespace Files.App.Views.LayoutModes
 
 		private double MeasureTagColumnEstimate(int columnIndex)
 		{
-			var grids = DependencyObjectHelpers.FindChildren<Grid>(FileList.ItemsPanelRoot).Where(grid => IsCorrectColumn(grid, columnIndex));
+			var grids = DependencyObjectHelpers
+				.FindChildren<Grid>(FileList.ItemsPanelRoot)
+				.Where(grid => IsCorrectColumn(grid, columnIndex));
 
 			// get the list of stack panels with the most letters
 			var stackPanels = grids
@@ -663,17 +665,23 @@ namespace Files.App.Views.LayoutModes
 
 		private double MeasureTextColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
 		{
-			var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(tb => IsCorrectColumn(tb, columnIndex));
+			var tbs = DependencyObjectHelpers
+				.FindChildren<TextBlock>(FileList.ItemsPanelRoot)
+				.Where(tb => IsCorrectColumn(tb, columnIndex));
 
 			// heuristic: usually, text with more letters are wider than shorter text with wider letters
 			// with this, we can calculate avg width using longest text(s) to avoid overshooting the width
-			var widthPerLetter = tbs.OrderByDescending(x => x.Text.Length).Where(tb => !string.IsNullOrEmpty(tb.Text)).Take(measureItemsCount).Select(tb =>
-			{
-				var sampleTb = new TextBlock { Text = tb.Text, FontSize = tb.FontSize, FontFamily = tb.FontFamily };
-				sampleTb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+			var widthPerLetter = tbs
+				.OrderByDescending(x => x.Text.Length)
+				.Where(tb => !string.IsNullOrEmpty(tb.Text))
+				.Take(measureItemsCount)
+				.Select(tb =>
+				{
+					var sampleTb = new TextBlock { Text = tb.Text, FontSize = tb.FontSize, FontFamily = tb.FontFamily };
+					sampleTb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
 
-				return sampleTb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
-			});
+					return sampleTb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
+				});
 
 			if (!widthPerLetter.Any())
 				return 0;
