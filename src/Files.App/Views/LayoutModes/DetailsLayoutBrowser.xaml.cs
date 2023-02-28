@@ -643,7 +643,7 @@ namespace Files.App.Views.LayoutModes
 				.FindChildren<Grid>(FileList.ItemsPanelRoot)
 				.Where(grid => IsCorrectColumn(grid, columnIndex));
 
-			// get the list of stack panels with the most letters
+			// Get the list of stack panels with the most letters
 			var stackPanels = grids
 				.Select(DependencyObjectHelpers.FindChildren<StackPanel>)
 				.OrderByDescending(sps => sps.Select(sp => DependencyObjectHelpers.FindChildren<TextBlock>(sp).Select(tb => tb.Text.Length).Sum()).Sum())
