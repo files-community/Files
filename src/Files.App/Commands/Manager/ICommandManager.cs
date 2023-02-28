@@ -18,6 +18,11 @@ namespace Files.App.Commands
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
 
+		IRichCommand MultiSelect { get; }
+		IRichCommand SelectAll { get; }
+		IRichCommand InvertSelection { get; }
+		IRichCommand ClearSelection { get; }
+
 		IRichCommand CreateFolder { get; }
 		IRichCommand CreateShortcut { get; }
 		IRichCommand CreateShortcutFromDialog { get; }
