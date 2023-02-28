@@ -557,7 +557,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			var columnToResize = (Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) - 1) / 2;
+			var columnToResize = Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) / 2;
 			ResizeColumnToFit(columnToResize);
 			e.Handled = true;
 		}
