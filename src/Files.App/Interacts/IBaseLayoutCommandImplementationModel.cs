@@ -37,13 +37,7 @@ namespace Files.App.Interacts
 
 		void QuickLook(RoutedEventArgs e);
 
-		void CopyItem(RoutedEventArgs e);
-
-		void CutItem(RoutedEventArgs e);
-
 		void RestoreItem(RoutedEventArgs e);
-
-		void DeleteItem(RoutedEventArgs e);
 
 		void ShowFolderProperties(RoutedEventArgs e);
 

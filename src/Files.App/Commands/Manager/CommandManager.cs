@@ -37,6 +37,9 @@ namespace Files.App.Commands
 		public IRichCommand RestoreAllRecycleBin => commands[CommandCodes.RestoreAllRecycleBin];
 		public IRichCommand PinItemToFavorites => commands[CommandCodes.PinItemToFavorites];
 		public IRichCommand UnpinItemFromFavorites => commands[CommandCodes.UnpinItemFromFavorites];
+		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
+		public IRichCommand CutItem => commands[CommandCodes.CutItem];
+		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
 
 		public CommandManager()
 		{
@@ -65,6 +68,9 @@ namespace Files.App.Commands
 			[CommandCodes.RestoreAllRecycleBin] = new RestoreAllRecycleBinAction(),
 			[CommandCodes.PinItemToFavorites] = new PinItemAction(),
 			[CommandCodes.UnpinItemFromFavorites] = new UnpinItemAction(),
+			[CommandCodes.CopyItem] = new CopyItemAction(),
+			[CommandCodes.CutItem] = new CutItemAction(),
+			[CommandCodes.DeleteItem] = new DeleteItemAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

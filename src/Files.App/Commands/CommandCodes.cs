@@ -13,6 +13,9 @@
 		ToggleShowFileExtensions,
 
 		// file system
+		CopyItem,
+		CutItem,
+		DeleteItem,
 		EmptyRecycleBin,
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,

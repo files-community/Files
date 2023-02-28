@@ -166,24 +166,9 @@ namespace Files.App.Interacts
 			await QuickLookHelpers.ToggleQuickLook(associatedInstance);
 		}
 
-		public virtual async void CopyItem(RoutedEventArgs e)
-		{
-			await UIFilesystemHelpers.CopyItem(associatedInstance);
-		}
-
-		public virtual void CutItem(RoutedEventArgs e)
-		{
-			UIFilesystemHelpers.CutItem(associatedInstance);
-		}
-
 		public virtual async void RestoreItem(RoutedEventArgs e)
 		{
 			await RecycleBinHelpers.RestoreItem(associatedInstance);
-		}
-
-		public virtual async void DeleteItem(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.DeleteItem(associatedInstance);
 		}
 
 		public virtual void ShowFolderProperties(RoutedEventArgs e)

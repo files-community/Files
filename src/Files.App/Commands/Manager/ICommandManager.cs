@@ -18,6 +18,9 @@ namespace Files.App.Commands
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
 
+		IRichCommand CopyItem { get; }
+		IRichCommand CutItem { get; }
+		IRichCommand DeleteItem { get; }
 		IRichCommand EmptyRecycleBin { get; }
 		IRichCommand RestoreRecycleBin { get; }
 		IRichCommand RestoreAllRecycleBin { get; }
