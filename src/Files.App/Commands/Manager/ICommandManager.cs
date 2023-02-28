@@ -29,5 +29,9 @@ namespace Files.App.Commands
 		IRichCommand UnpinFromStart { get; }
 		IRichCommand PinItemToFavorites { get; }
 		IRichCommand UnpinItemFromFavorites { get; }
+
+		IRichCommand SetAsWallpaperBackground { get; }
+		IRichCommand SetAsSlideshowBackground { get; }
+		IRichCommand SetAsLockscreenBackground { get; }
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Actions;
+using Files.App.Actions.Background;
 using Files.App.Actions.Favorites;
 using Files.App.UserControls;
 using Microsoft.UI.Xaml.Controls;
@@ -42,7 +43,10 @@ namespace Files.App.Commands
 		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
 		public IRichCommand PinItemToFavorites => commands[CommandCodes.PinItemToFavorites];
 		public IRichCommand UnpinItemFromFavorites => commands[CommandCodes.UnpinItemFromFavorites];
-    
+		public IRichCommand SetAsWallpaperBackground => commands[CommandCodes.SetAsWallpaperBackground];
+		public IRichCommand SetAsSlideshowBackground => commands[CommandCodes.SetAsSlideshowBackground];
+		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
+
 		public CommandManager()
 		{
 			commands = CreateActions()
@@ -75,6 +79,7 @@ namespace Files.App.Commands
 			[CommandCodes.UnpinFromStart] = new UnpinFromStartAction(),
 			[CommandCodes.PinItemToFavorites] = new PinItemAction(),
 			[CommandCodes.UnpinItemFromFavorites] = new UnpinItemAction(),
+			[CommandCodes.SetAsWallpaperBackground] = new SetAsWallpaperBackgroundAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

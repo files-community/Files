@@ -20,12 +20,17 @@
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
 
-    // Start
+		// Start
 		PinToStart,
 		UnpinFromStart,
 
 		// Favorites
 		PinItemToFavorites,
 		UnpinItemFromFavorites,
+
+		// Backgrounds
+		SetAsWallpaperBackground,
+		SetAsSlideshowBackground,
+		SetAsLockscreenBackground,
 	}
 }
