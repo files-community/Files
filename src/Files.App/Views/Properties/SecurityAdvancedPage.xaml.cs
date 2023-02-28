@@ -126,7 +126,7 @@ namespace Files.App.Views.Properties
 			{
 				if (ViewModel.SetFilePermissions())
 				{
-					window.Close();
+					window.Close(); // AppWindow.Destroy() doesn't seem to work well. (#11461)
 				}
 			}
 			else
@@ -138,7 +138,7 @@ namespace Files.App.Views.Properties
 		{
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
-				window.Close();
+				window.Close(); // AppWindow.Destroy() doesn't seem to work well. (#11461)
 			}
 			else
 			{
@@ -151,7 +151,7 @@ namespace Files.App.Views.Properties
 			{
 				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 				{
-					window.Close();
+					window.Close(); // AppWindow.Destroy() doesn't seem to work well. (#11461)
 				}
 				else
 				{
