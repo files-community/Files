@@ -707,10 +707,7 @@ namespace Files.App.Views.LayoutModes
 				_ => -1,
 			};
 
-			if (columnIndexFromName == -1)
-				return false;
-
-			return columnIndexFromName == columnIndex;
+			return columnIndexFromName != -1 && columnIndexFromName == columnIndex;
 		}
 
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
