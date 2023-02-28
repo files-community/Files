@@ -37,10 +37,7 @@ namespace Files.App.Interacts
 			RestoreRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreRecycleBin);
 			RestoreSelectionRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreSelectionRecycleBin);
 			QuickLookCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.QuickLook);
-			CopyItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CopyItem);
-			CutItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CutItem);
 			RestoreItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreItem);
-			DeleteItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.DeleteItem);
 			ShowFolderPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowFolderProperties);
 			ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowProperties);
 			OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenFileLocation);
@@ -92,10 +89,6 @@ namespace Files.App.Interacts
 
 		public ICommand RunAsAnotherUserCommand { get; private set; }
 
-		public ICommand SidebarPinItemCommand { get; private set; }
-
-		public ICommand SidebarUnpinItemCommand { get; private set; }
-
 		public ICommand OpenItemCommand { get; private set; }
 
 		public ICommand RestoreRecycleBinCommand { get; private set; }
@@ -104,13 +97,7 @@ namespace Files.App.Interacts
 
 		public ICommand QuickLookCommand { get; private set; }
 
-		public ICommand CopyItemCommand { get; private set; }
-
-		public ICommand CutItemCommand { get; private set; }
-
 		public ICommand RestoreItemCommand { get; private set; }
-
-		public ICommand DeleteItemCommand { get; private set; }
 
 		public ICommand ShowFolderPropertiesCommand { get; private set; }
 

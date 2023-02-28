@@ -13,6 +13,9 @@
 		ToggleShowFileExtensions,
 
 		// File System
+		CopyItem,
+		CutItem,
+		DeleteItem,
 		CreateFolder,
 		CreateShortcut,
 		CreateShortcutFromDialog,
