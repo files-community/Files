@@ -614,7 +614,7 @@ namespace Files.App.Views.LayoutModes
 					_ => ColumnsViewModel.StatusColumn
 				};
 
-				if (columnToResize == 1) // file name column
+				if (columnToResize == 2) // file name column
 					columnSizeToFit += 20;
 
 				var minFitLength = Math.Max(columnSizeToFit, column.NormalMinLength);
