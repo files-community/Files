@@ -28,6 +28,7 @@ namespace Files.App.Views.Properties
 
 		public SecurityViewModel ViewModel { get; set; }
 
+		public Window window;
 		public AppWindow appWindow;
 
 		public SecurityAdvancedPage()
@@ -125,7 +126,8 @@ namespace Files.App.Views.Properties
 			{
 				if (ViewModel.SetFilePermissions())
 				{
-					appWindow.Destroy();
+					// AppWindow.Destroy() doesn't seem to work well. (#11461)
+					window.Close();
 				}
 			}
 			else
@@ -137,7 +139,8 @@ namespace Files.App.Views.Properties
 		{
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
-				appWindow.Destroy();
+				// AppWindow.Destroy() doesn't seem to work well. (#11461)
+				window.Close();
 			}
 			else
 			{
@@ -150,7 +153,8 @@ namespace Files.App.Views.Properties
 			{
 				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 				{
-					appWindow.Destroy();
+					// AppWindow.Destroy() doesn't seem to work well. (#11461)
+					window.Close();
 				}
 				else
 				{
