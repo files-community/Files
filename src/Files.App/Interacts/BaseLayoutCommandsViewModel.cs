@@ -89,10 +89,6 @@ namespace Files.App.Interacts
 
 		public ICommand RunAsAnotherUserCommand { get; private set; }
 
-		public ICommand SidebarPinItemCommand { get; private set; }
-
-		public ICommand SidebarUnpinItemCommand { get; private set; }
-
 		public ICommand OpenItemCommand { get; private set; }
 
 		public ICommand RestoreRecycleBinCommand { get; private set; }
@@ -102,8 +98,6 @@ namespace Files.App.Interacts
 		public ICommand QuickLookCommand { get; private set; }
 
 		public ICommand RestoreItemCommand { get; private set; }
-
-		public ICommand DeleteItemCommand { get; private set; }
 
 		public ICommand ShowFolderPropertiesCommand { get; private set; }
 
