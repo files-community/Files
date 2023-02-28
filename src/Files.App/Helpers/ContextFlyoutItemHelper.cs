@@ -1030,6 +1030,7 @@ namespace Files.App.Helpers
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
+					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 					IsEnabled = false
 				},
