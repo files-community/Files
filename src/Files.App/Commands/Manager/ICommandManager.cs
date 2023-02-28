@@ -21,10 +21,15 @@ namespace Files.App.Commands
 		IRichCommand CopyItem { get; }
 		IRichCommand CutItem { get; }
 		IRichCommand DeleteItem { get; }
+		IRichCommand CreateFolder { get; }
+		IRichCommand CreateShortcut { get; }
+		IRichCommand CreateShortcutFromDialog { get; }
 		IRichCommand EmptyRecycleBin { get; }
 		IRichCommand RestoreRecycleBin { get; }
 		IRichCommand RestoreAllRecycleBin { get; }
 
+		IRichCommand PinToStart { get; }
+		IRichCommand UnpinFromStart { get; }
 		IRichCommand PinItemToFavorites { get; }
 		IRichCommand UnpinItemFromFavorites { get; }
 	}

@@ -11,10 +11,6 @@ namespace Files.App.Interacts
 	{
 		void RenameItem(RoutedEventArgs e);
 
-		void CreateShortcut(RoutedEventArgs e);
-
-		void CreateShortcutFromDialog(RoutedEventArgs e);
-
 		void SetAsLockscreenBackgroundItem(RoutedEventArgs e);
 
 		void SetAsDesktopBackgroundItem(RoutedEventArgs e);
@@ -55,8 +51,6 @@ namespace Files.App.Interacts
 
 		void OpenInNewWindowItem(RoutedEventArgs e);
 
-		void CreateNewFolder(RoutedEventArgs e);
-
 		void CreateNewFile(ShellNewEntry e);
 
 		void PasteItemsFromClipboard(RoutedEventArgs e);
@@ -66,10 +60,6 @@ namespace Files.App.Interacts
 		void ShareItem(RoutedEventArgs e);
 
 		void ItemPointerPressed(PointerRoutedEventArgs e);
-
-		void UnpinItemFromStart(RoutedEventArgs e);
-
-		void PinItemToStart(RoutedEventArgs e);
 
 		void PointerWheelChanged(PointerRoutedEventArgs e);
 
