@@ -639,7 +639,7 @@ namespace Files.App.Views.LayoutModes
 
 		private double MeasureTagColumnEstimate(int columnIndex)
 		{
-			var grids = DependencyObjectHelpers.FindChildren<Grid>(FileList.ItemsPanelRoot).Where(grid => IsCorrectColumn(grid, columnIndex)).ToList();
+			var grids = DependencyObjectHelpers.FindChildren<Grid>(FileList.ItemsPanelRoot).Where(grid => IsCorrectColumn(grid, columnIndex));
 
 			// get the list of stack panels with the most letters
 			var stackPanels = grids
