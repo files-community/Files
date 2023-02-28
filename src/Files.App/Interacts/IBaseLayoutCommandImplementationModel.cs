@@ -11,12 +11,6 @@ namespace Files.App.Interacts
 	{
 		void RenameItem(RoutedEventArgs e);
 
-		void SetAsLockscreenBackgroundItem(RoutedEventArgs e);
-
-		void SetAsDesktopBackgroundItem(RoutedEventArgs e);
-
-		void SetAsSlideshowItem(RoutedEventArgs e);
-
 		void RunAsAdmin(RoutedEventArgs e);
 
 		void RunAsAnotherUser(RoutedEventArgs e);

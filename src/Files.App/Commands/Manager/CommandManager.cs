@@ -80,6 +80,8 @@ namespace Files.App.Commands
 			[CommandCodes.PinItemToFavorites] = new PinItemAction(),
 			[CommandCodes.UnpinItemFromFavorites] = new UnpinItemAction(),
 			[CommandCodes.SetAsWallpaperBackground] = new SetAsWallpaperBackgroundAction(),
+			[CommandCodes.SetAsSlideshowBackground] = new SetAsSlideshowBackgroundAction(),
+			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
