@@ -15,7 +15,8 @@
 		<StackPanel
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
-			Spacing="4">
+			Spacing="4"
+			Loading="{x:Bind ViewModel.About_Loading}">
 			<StackPanel.ChildrenTransitions>
 				<TransitionCollection>
 					<EntranceThemeTransition />
@@ -150,17 +151,13 @@
 					<FontIcon Glyph="&#xE15E;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel Padding="4" Spacing="4">
-						<HyperlinkButton
-							AutomationProperties.Name="QuickLook"
-							Content="QuickLook"
-							NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
-
-						<HyperlinkButton
-							AutomationProperties.Name="7-Zip (GNU LGPL)"
-							Content="7-Zip (GNU LGPL)"
-							NavigateUri="https://7-zip.org" />
-					</StackPanel>
+					<ScrollViewer Height="400">
+						<controls:MarkdownTextBlock
+							Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+							Margin="10"
+							Background="Transparent"
+							LinkClicked="{x:Bind ViewModel.ThirdPartyNotices_LinkClicked}" />
+					</ScrollViewer>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 

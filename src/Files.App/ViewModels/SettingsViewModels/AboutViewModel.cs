@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
@@ -29,6 +30,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public ICommand OpenGitHubRepoCommand { get; }
 		public ICommand OpenPrivacyPolicyCommand { get; }
 
+		private string _ThirdPartyNotices;
+		public string ThirdPartyNotices
+		{
+			get => _ThirdPartyNotices;
+			set => SetProperty(ref _ThirdPartyNotices, value);
+		}
 
 		public AboutViewModel()
 		{
@@ -45,6 +52,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 			OpenPrivacyPolicyCommand = new RelayCommand(DoOpenPrivacyPolicy);
 
 			OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
+		}
+
+		public async void About_Loading()
+		{
+			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
+			ThirdPartyNotices = await FileIO.ReadTextAsync(file);
 		}
 
 		private async Task OpenLogLocation()
@@ -102,6 +115,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public async void SupportUs()
 		{
 			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
+		}
+
+		public async void ThirdPartyNotices_LinkClicked(object sender, LinkClickedEventArgs e)
+		{
+			if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
+			{
+				await Launcher.LaunchUriAsync(link);
+			}
 		}
 
 		public string Version
