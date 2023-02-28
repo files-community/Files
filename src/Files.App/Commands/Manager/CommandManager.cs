@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Actions;
+using Files.App.Actions.Favorites;
 using Files.App.UserControls;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -32,7 +33,16 @@ namespace Files.App.Commands
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand EmptyRecycleBin => commands[CommandCodes.EmptyRecycleBin];
-
+		public IRichCommand RestoreRecycleBin => commands[CommandCodes.RestoreRecycleBin];
+		public IRichCommand RestoreAllRecycleBin => commands[CommandCodes.RestoreAllRecycleBin];
+		public IRichCommand CreateShortcut => commands[CommandCodes.CreateShortcut];
+		public IRichCommand CreateShortcutFromDialog => commands[CommandCodes.CreateShortcutFromDialog];
+		public IRichCommand CreateFolder => commands[CommandCodes.CreateFolder];
+		public IRichCommand PinToStart => commands[CommandCodes.PinToStart];
+		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
+		public IRichCommand PinItemToFavorites => commands[CommandCodes.PinItemToFavorites];
+		public IRichCommand UnpinItemFromFavorites => commands[CommandCodes.UnpinItemFromFavorites];
+    
 		public CommandManager()
 		{
 			commands = CreateActions()
@@ -56,6 +66,15 @@ namespace Files.App.Commands
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
 			[CommandCodes.EmptyRecycleBin] = new EmptyRecycleBinAction(),
+			[CommandCodes.RestoreRecycleBin] = new RestoreRecycleBinAction(),
+			[CommandCodes.RestoreAllRecycleBin] = new RestoreAllRecycleBinAction(),
+			[CommandCodes.CreateShortcut] = new CreateShortcutAction(),
+			[CommandCodes.CreateShortcutFromDialog] = new CreateShortcutFromDialogAction(),
+			[CommandCodes.CreateFolder] = new CreateFolderAction(),
+			[CommandCodes.PinToStart] = new PinToStartAction(),
+			[CommandCodes.UnpinFromStart] = new UnpinFromStartAction(),
+			[CommandCodes.PinItemToFavorites] = new PinItemAction(),
+			[CommandCodes.UnpinItemFromFavorites] = new UnpinItemAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
@@ -73,7 +92,7 @@ namespace Files.App.Commands
 
 			public RichGlyph Glyph => RichGlyph.None;
 			public FontIcon? FontIcon => null;
-			public ColoredIcon? ColoredIcon => null;
+			public OpacityIcon? OpacityIcon => null;
 
 			public HotKey DefaultHotKey => HotKey.None;
 
@@ -114,8 +133,8 @@ namespace Files.App.Commands
 			private readonly Lazy<FontIcon?> fontIcon;
 			public FontIcon? FontIcon => fontIcon.Value;
 
-			private readonly Lazy<ColoredIcon?> coloredIcon;
-			public ColoredIcon? ColoredIcon => coloredIcon.Value;
+			private readonly Lazy<OpacityIcon?> opacityIcon;
+			public OpacityIcon? OpacityIcon => opacityIcon.Value;
 
 			public HotKey DefaultHotKey => action.HotKey;
 
@@ -169,7 +188,7 @@ namespace Files.App.Commands
 				Code = code;
 				this.action = action;
 				fontIcon = new(action.Glyph.ToFontIcon);
-				coloredIcon = new(action.Glyph.ToColoredIcon);
+				opacityIcon = new(action.Glyph.ToOpacityIcon);
 				customHotKey = action.HotKey;
 				command = new AsyncRelayCommand(ExecuteAsync, () => action.IsExecutable);
 
@@ -182,11 +201,10 @@ namespace Files.App.Commands
 			public bool CanExecute(object? parameter) => command.CanExecute(parameter);
 			public void Execute(object? parameter) => command.Execute(parameter);
 
-			public Task ExecuteAsync()
+			public async Task ExecuteAsync()
 			{
 				if (IsExecutable)
-					return action.ExecuteAsync();
-				return Task.CompletedTask;
+					await action.ExecuteAsync();
 			}
 
 			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await action.ExecuteAsync();

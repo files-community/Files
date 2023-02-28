@@ -31,7 +31,9 @@ namespace Files.App.UserControls.Widgets
 		public ICommand PinToFavoritesCommand;
 		public ICommand UnpinFromFavoritesCommand;
 
-		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned);
+		protected CommandBarFlyout ItemContextMenuFlyout;
+
+		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
 		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
@@ -47,6 +49,7 @@ namespace Files.App.UserControls.Widgets
 							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+			ItemContextMenuFlyout = itemContextMenuFlyout;
 			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
 
 			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);

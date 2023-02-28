@@ -35,13 +35,13 @@
 
 
 			<!--  Language settings  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesAppLanguage/Title}" HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Language}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xF2B7;" />
 				</local:SettingsBlockControl.Icon>
 				<ComboBox
 					HorizontalAlignment="Left"
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsPreferencesAppLanguageComboBox/AutomationProperties/Name}"
+					AutomationProperties.Name="{helpers:ResourceString Name=Language}"
 					ItemsSource="{x:Bind ViewModel.AppLanguages}"
 					SelectedIndex="{x:Bind ViewModel.SelectedAppLanguageIndex, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
@@ -202,7 +202,7 @@
 
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
+					<FontIcon Glyph="&#xE126;" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}"

@@ -239,12 +239,12 @@
 								Padding="8"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Bottom"
-								AutomationProperties.Name="{helpers:ResourceString Name=HorizontalMultitaskingControlAddButton/AutomationProperties/Name}"
+								AutomationProperties.Name="{helpers:ResourceString Name=NewTabCtrlT}"
 								Background="Transparent"
 								BorderBrush="Transparent"
 								BorderThickness="0"
 								Click="{x:Bind ViewModel.AddNewTab, Mode=OneWay}"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=HorizontalMultitaskingControlAddButton/ToolTipService/ToolTip}">
+								ToolTipService.ToolTip="{helpers:ResourceString Name=NewTabCtrlT}">
 								<Button.Content>
 									<FontIcon
 										x:Name="HorizontalMultitaskingControlAddButtonIcon"

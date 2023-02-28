@@ -13,6 +13,19 @@
 		ToggleShowFileExtensions,
 
 		// file system
+		CreateFolder,
+		CreateShortcut,
+		CreateShortcutFromDialog,
 		EmptyRecycleBin,
+		RestoreRecycleBin,
+		RestoreAllRecycleBin,
+
+    // Start
+		PinToStart,
+		UnpinFromStart,
+
+		// Favorites
+		PinItemToFavorites,
+		UnpinItemFromFavorites,
 	}
 }

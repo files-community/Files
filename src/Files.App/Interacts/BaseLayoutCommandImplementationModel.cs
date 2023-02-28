@@ -86,30 +86,6 @@ namespace Files.App.Interacts
 			itemManipulationModel.StartRenameItem();
 		}
 
-		public virtual async void CreateShortcut(RoutedEventArgs e)
-		{
-			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
-
-			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) && !library.IsEmpty)
-			{
-				currentPath = library.DefaultSaveFolder;
-			}
-
-			foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
-			{
-				var fileName = string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk";
-				var filePath = Path.Combine(currentPath, fileName);
-
-				if (!await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath))
-					await UIFilesystemHelpers.HandleShortcutCannotBeCreated(fileName, selectedItem.ItemPath);
-			}
-		}
-
-		public virtual async void CreateShortcutFromDialog(RoutedEventArgs e)
-		{
-			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(associatedInstance);
-		}
-
 		public virtual void SetAsLockscreenBackgroundItem(RoutedEventArgs e)
 		{
 			WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath);
@@ -149,11 +125,6 @@ namespace Files.App.Interacts
 		public virtual void OpenItem(RoutedEventArgs e)
 		{
 			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, false);
-		}
-
-		public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
-		{
-			_ = QuickAccessService.UnpinFromSidebar(associatedInstance.FilesystemViewModel.WorkingDirectory);
 		}
 
 		public virtual async void RestoreRecycleBin(RoutedEventArgs e)
@@ -286,11 +257,6 @@ namespace Files.App.Interacts
 			}
 		}
 
-		public virtual void CreateNewFolder(RoutedEventArgs e)
-		{
-			UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, associatedInstance);
-		}
-
 		public virtual void CreateNewFile(ShellNewEntry f)
 		{
 			UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, f, associatedInstance);
@@ -397,11 +363,6 @@ namespace Files.App.Interacts
 			}
 		}
 
-		public virtual void PinDirectoryToFavorites(RoutedEventArgs e)
-		{
-			QuickAccessService.PinToSidebar(new[] { associatedInstance.FilesystemViewModel.WorkingDirectory });
-		}
-
 		public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)
 		{
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
@@ -417,32 +378,6 @@ namespace Files.App.Interacts
 					else
 						await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
 				}
-			}
-		}
-
-		public virtual async void UnpinItemFromStart(RoutedEventArgs e)
-		{
-			if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
-			{
-				foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
-					await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
-			}
-			else
-			{
-				await App.SecondaryTileHelper.UnpinFromStartAsync(associatedInstance.FilesystemViewModel.WorkingDirectory);
-			}
-		}
-
-		public async void PinItemToStart(RoutedEventArgs e)
-		{
-			if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
-			{
-				foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
-					await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.Name);
-			}
-			else
-			{
-				await App.SecondaryTileHelper.TryPinFolderAsync(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, associatedInstance.FilesystemViewModel.CurrentFolder.Name);
 			}
 		}
 
