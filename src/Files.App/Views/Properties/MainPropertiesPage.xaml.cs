@@ -363,8 +363,6 @@ namespace Files.App.Views.Properties
 
 		public string? FilledPathIcon;
 
-		public bool UseCustomGlyph;
-
 		private bool _isSelected;
 		public bool IsSelected
 		{

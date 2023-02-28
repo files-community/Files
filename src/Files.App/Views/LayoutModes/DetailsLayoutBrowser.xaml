@@ -624,6 +624,7 @@
 										x:Name="IconOverlay"
 										Width="16"
 										Height="16"
+										Margin="2"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Bottom"
 										x:Load="True"
@@ -633,14 +634,8 @@
 										x:Name="ShortcutGlyphElement"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Bottom"
-										x:Load="{x:Bind IsShortcut}"
-										Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-										BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
-										BorderThickness="1">
-										<FontIcon
-											FontFamily="{StaticResource CustomGlyph}"
-											FontSize="8"
-											Glyph="&#xF10A;" />
+										x:Load="{x:Bind IsShortcut}">
+										<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
 									</Border>
 								</Grid>
 

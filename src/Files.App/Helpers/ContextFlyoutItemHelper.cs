@@ -687,8 +687,6 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "BaseLayoutItemContextFlyoutSetAsLockscreenBackground/Text".GetLocalizedResource(),
-							Glyph = "\uF114",
-							GlyphFontFamilyName = "CustomGlyph",
 							Command = commandsViewModel.SetAsLockscreenBackgroundItemCommand,
 							ShowInSearchPage = true,
 							ShowItem = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
@@ -696,8 +694,6 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "SetAsSlideshow".GetLocalizedResource(),
-							Glyph = "\uE91B",
-							GlyphFontFamilyName = "CustomGlyph",
 							Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
 							ShowInSearchPage = true,
 							ShowItem = selectedItemsPropertiesViewModel?.SelectedItemsCount > 1

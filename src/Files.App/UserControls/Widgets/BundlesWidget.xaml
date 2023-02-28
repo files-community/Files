@@ -305,20 +305,12 @@
 															x:Name="OpenInNewTab"
 															x:Load="{x:Bind OpenInNewTabLoad, Mode=OneWay}"
 															Command="{x:Bind OpenInNewTabCommand}"
-															Text="{helpers:ResourceString Name=OpenInNewTab}">
-															<MenuFlyoutItem.Icon>
-																<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
-															</MenuFlyoutItem.Icon>
-														</MenuFlyoutItem>
+															Text="{helpers:ResourceString Name=OpenInNewTab}" />
 														<MenuFlyoutItem
 															x:Name="OpenInNewPane"
 															x:Load="{x:Bind OpenInNewPaneLoad, Mode=OneWay}"
 															Command="{x:Bind OpenInNewPaneCommand}"
-															Text="{helpers:ResourceString Name=BundlesOpenInNewPane/Text}">
-															<MenuFlyoutItem.Icon>
-																<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
-															</MenuFlyoutItem.Icon>
-														</MenuFlyoutItem>
+															Text="{helpers:ResourceString Name=BundlesOpenInNewPane/Text}" />
 														<MenuFlyoutItem Command="{x:Bind OpenItemLocationCommand}" Text="{helpers:ResourceString Name=BundleItemFlyouOpenItemLocationMenuItem/Text}">
 															<MenuFlyoutItem.Icon>
 																<FontIcon Glyph="&#xED25;" />

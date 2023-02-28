@@ -263,8 +263,6 @@ namespace Files.App.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
-					Glyph = "\uF10B",
-					GlyphFontFamilyName = "CustomGlyph",
 					Command = EjectDeviceCommand,
 					ShowItem = options.ShowEjectDevice
 				},
