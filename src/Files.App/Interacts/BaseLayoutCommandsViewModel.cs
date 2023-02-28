@@ -92,10 +92,6 @@ namespace Files.App.Interacts
 
 		public ICommand RunAsAnotherUserCommand { get; private set; }
 
-		public ICommand SidebarPinItemCommand { get; private set; }
-
-		public ICommand SidebarUnpinItemCommand { get; private set; }
-
 		public ICommand OpenItemCommand { get; private set; }
 
 		public ICommand RestoreRecycleBinCommand { get; private set; }

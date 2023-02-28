@@ -67,8 +67,8 @@
 							<MenuFlyoutItem
 								x:Name="ToolbarNewFolderItem"
 								AutomationProperties.AutomationId="InnerNavigationToolbarNewFolderButton"
-								Command="{x:Bind ViewModel.CreateNewFolderCommand, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=Folder}">
+								Command="{x:Bind Commands.CreateFolder, Mode=OneWay}"
+								Text="{x:Bind Commands.CreateFolder.Label}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE8B7;" />
 								</MenuFlyoutItem.Icon>
@@ -87,8 +87,8 @@
 							<MenuFlyoutItem
 								x:Name="NewShortcut"
 								AutomationProperties.AutomationId="InnerNavigationToolbarNewShortcutButton"
-								Command="{x:Bind ViewModel.CreateNewShortcutCommand, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=Shortcut}">
+								Command="{x:Bind Commands.CreateShortcutFromDialog, Mode=OneWay}"
+								Text="{x:Bind Commands.CreateShortcutFromDialog.Label}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE71B;" />
 								</MenuFlyoutItem.Icon>
