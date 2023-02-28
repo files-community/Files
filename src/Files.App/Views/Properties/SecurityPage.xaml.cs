@@ -101,7 +101,10 @@ namespace Files.App.Views.Properties
 					// Set content
 					propertiesWindow.Content = frame;
 					if (frame.Content is SecurityAdvancedPage properties)
+					{
+						properties.window = propertiesWindow;
 						properties.appWindow = appWindow;
+					}
 
 					// Set min size
 					propertiesWindow.MinWidth = 850;
