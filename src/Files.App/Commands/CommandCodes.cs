@@ -20,11 +20,17 @@
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
 
-    // Start
+		// selection
+		MultiSelect,
+		SelectAll,
+		InvertSelection,
+		ClearSelection,
+
+		// start
 		PinToStart,
 		UnpinFromStart,
 
-		// Favorites
+		// favorites
 		PinItemToFavorites,
 		UnpinItemFromFavorites,
 	}

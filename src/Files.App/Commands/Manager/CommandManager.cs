@@ -32,6 +32,10 @@ namespace Files.App.Commands
 		public IRichCommand ToggleFullScreen => commands[CommandCodes.ToggleFullScreen];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
+		public IRichCommand MultiSelect => commands[CommandCodes.MultiSelect];
+		public IRichCommand SelectAll => commands[CommandCodes.SelectAll];
+		public IRichCommand InvertSelection => commands[CommandCodes.InvertSelection];
+		public IRichCommand ClearSelection => commands[CommandCodes.ClearSelection];
 		public IRichCommand EmptyRecycleBin => commands[CommandCodes.EmptyRecycleBin];
 		public IRichCommand RestoreRecycleBin => commands[CommandCodes.RestoreRecycleBin];
 		public IRichCommand RestoreAllRecycleBin => commands[CommandCodes.RestoreAllRecycleBin];
@@ -42,7 +46,7 @@ namespace Files.App.Commands
 		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
 		public IRichCommand PinItemToFavorites => commands[CommandCodes.PinItemToFavorites];
 		public IRichCommand UnpinItemFromFavorites => commands[CommandCodes.UnpinItemFromFavorites];
-    
+
 		public CommandManager()
 		{
 			commands = CreateActions()
@@ -65,6 +69,10 @@ namespace Files.App.Commands
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
+			[CommandCodes.MultiSelect] = new MultiSelectAction(),
+			[CommandCodes.SelectAll] = new SelectAllAction(),
+			[CommandCodes.InvertSelection] = new InvertSelectionAction(),
+			[CommandCodes.ClearSelection] = new ClearSelectionAction(),
 			[CommandCodes.EmptyRecycleBin] = new EmptyRecycleBinAction(),
 			[CommandCodes.RestoreRecycleBin] = new RestoreRecycleBinAction(),
 			[CommandCodes.RestoreAllRecycleBin] = new RestoreAllRecycleBinAction(),
@@ -94,6 +102,7 @@ namespace Files.App.Commands
 			public FontIcon? FontIcon => null;
 			public OpacityIcon? OpacityIcon => null;
 
+			public string? HotKeyText => null;
 			public HotKey DefaultHotKey => HotKey.None;
 
 			public HotKey CustomHotKey
@@ -136,6 +145,7 @@ namespace Files.App.Commands
 			private readonly Lazy<OpacityIcon?> opacityIcon;
 			public OpacityIcon? OpacityIcon => opacityIcon.Value;
 
+			public string? HotKeyText => !customHotKey.IsNone ? CustomHotKey.ToString() : null;
 			public HotKey DefaultHotKey => action.HotKey;
 
 			private HotKey customHotKey;
@@ -164,6 +174,7 @@ namespace Files.App.Commands
 					};
 
 					SetProperty(ref customHotKey, value);
+					OnPropertyChanged(nameof(HotKeyText));
 					manager.HotKeyChanged?.Invoke(manager, args);
 				}
 			}
