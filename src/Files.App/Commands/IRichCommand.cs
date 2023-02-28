@@ -21,6 +21,7 @@ namespace Files.App.Commands
 
 		HotKey DefaultHotKey { get; }
 		HotKey CustomHotKey { get; set; }
+		string? HotKeyText { get; }
 
 		bool IsToggle { get; }
 		bool IsOn { get; set; }

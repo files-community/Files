@@ -414,34 +414,22 @@
 					<MenuFlyout Placement="Bottom">
 						<MenuFlyoutItem
 							x:Name="SelectAllMFI"
-							Command="{x:Bind ViewModel.SelectAllContentPageItemsCommand, Mode=OneWay}"
-							Text="{helpers:ResourceString Name=NavToolbarSelectAll/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon Glyph="&#xE8B3;" />
-							</MenuFlyoutItem.Icon>
-							<MenuFlyoutItem.KeyboardAccelerators>
-								<KeyboardAccelerator
-									Key="A"
-									IsEnabled="False"
-									Modifiers="Control" />
-							</MenuFlyoutItem.KeyboardAccelerators>
-						</MenuFlyoutItem>
+							Command="{x:Bind Commands.SelectAll}"
+							Icon="{x:Bind Commands.SelectAll.FontIcon}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.SelectAll.HotKeyText}"
+							Text="{x:Bind Commands.SelectAll.Label}" />
 						<MenuFlyoutItem
 							x:Name="InvertSelectionMFI"
-							Command="{x:Bind ViewModel.InvertContentPageSelctionCommand, Mode=OneWay}"
-							Text="{helpers:ResourceString Name=NavToolbarInvertSelection/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon Glyph="&#xE746;" />
-							</MenuFlyoutItem.Icon>
-						</MenuFlyoutItem>
+							Command="{x:Bind Commands.InvertSelection}"
+							Icon="{x:Bind Commands.InvertSelection.FontIcon}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.InvertSelection.HotKeyText}"
+							Text="{x:Bind Commands.InvertSelection.Label}" />
 						<MenuFlyoutItem
 							x:Name="ClearSelectionMFI"
-							Command="{x:Bind ViewModel.ClearContentPageSelectionCommand, Mode=OneWay}"
-							Text="{helpers:ResourceString Name=NavToolbarClearSelection/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon Glyph="&#xE8E6;" />
-							</MenuFlyoutItem.Icon>
-						</MenuFlyoutItem>
+							Command="{x:Bind Commands.ClearSelection}"
+							Icon="{x:Bind Commands.ClearSelection.FontIcon}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.ClearSelection.HotKeyText}"
+							Text="{x:Bind Commands.ClearSelection.Label}" />
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 

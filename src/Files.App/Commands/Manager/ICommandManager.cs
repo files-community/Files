@@ -21,6 +21,10 @@ namespace Files.App.Commands
 		IRichCommand CopyItem { get; }
 		IRichCommand CutItem { get; }
 		IRichCommand DeleteItem { get; }
+		IRichCommand MultiSelect { get; }
+		IRichCommand SelectAll { get; }
+		IRichCommand InvertSelection { get; }
+		IRichCommand ClearSelection { get; }
 		IRichCommand CreateFolder { get; }
 		IRichCommand CreateShortcut { get; }
 		IRichCommand CreateShortcutFromDialog { get; }
