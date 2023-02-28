@@ -4,15 +4,15 @@
 	{
 		None,
 
-		// global
+		// Global
 		OpenHelp,
 		ToggleFullScreen,
 
-		// show
+		// Show
 		ToggleShowHiddenItems,
 		ToggleShowFileExtensions,
 
-		// file system
+		// File System
 		CreateFolder,
 		CreateShortcut,
 		CreateShortcutFromDialog,
@@ -20,17 +20,17 @@
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
 
-		// selection
+		// Selection
 		MultiSelect,
 		SelectAll,
 		InvertSelection,
 		ClearSelection,
 
-		// start
+		// Start
 		PinToStart,
 		UnpinFromStart,
 
-		// favorites
+		// Favorites
 		PinItemToFavorites,
 		UnpinItemFromFavorites,
 	}
