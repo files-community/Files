@@ -633,10 +633,7 @@ namespace Files.App.Helpers
 			=> AccessControlList.FromPath(filePath, isFolder);
 
 		public static bool SetFileOwner(string filePath, bool isFolder, string ownerSid)
-		{
-			var fp = AccessControlList.FromPath(filePath, isFolder);
-			return fp.SetOwner(ownerSid);
-		}
+			=> AccessControlList.SetOwner(filePath, isFolder, ownerSid);
 
 		public static bool SetAccessRuleProtection(string filePath, bool isFolder, bool isProtected, bool preserveInheritance)
 		{

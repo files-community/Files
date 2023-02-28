@@ -72,26 +72,19 @@ namespace Files.App.Views.Properties
 
 		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (ViewModel is null)
-				return;
+			//if (ViewModel is null)
+			//	return;
 
-			ViewModel.SelectedAdvancedAccessControlEntries =
-				((ListView)sender).SelectedItems.Cast<AccessControlEntryAdvanced>().ToList();
-
-			if (e.AddedItems is not null)
-			{
-				foreach (var item in e.AddedItems)
-				{
-					((AccessControlEntryAdvanced)item).IsSelected = true;
-				}
-			}
-			if (e.RemovedItems is not null)
-			{
-				foreach (var item in e.RemovedItems)
-				{
-					((AccessControlEntryAdvanced)item).IsSelected = false;
-				}
-			}
+			//if (e.AddedItems is not null)
+			//{
+			//	foreach (var item in e.AddedItems)
+			//		((AccessControlEntry)item).IsSelected = true;
+			//}
+			//if (e.RemovedItems is not null)
+			//{
+			//	foreach (var item in e.RemovedItems)
+			//		((AccessControlEntry)item).IsSelected = false;
+			//}
 		}
 
 		private void AppWindow_Destroying(AppWindow sender, object args)
@@ -133,7 +126,7 @@ namespace Files.App.Views.Properties
 		{
 			if (_isWinUI3 && appWindow is not null)
 			{
-				ViewModel?.SetAccessControlList();
+				ViewModel?.SaveChangedAccessControlList();
 				appWindow.Destroy();
 			}
 		}

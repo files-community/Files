@@ -114,7 +114,7 @@ namespace Files.App.Views.Properties
 
 		public async override Task<bool> SaveChangesAsync()
 		{
-			return SecurityViewModel is null || SecurityViewModel.SetAccessControlList();
+			return SecurityViewModel is null || SecurityViewModel.SaveChangedAccessControlList();
 		}
 
 		private async void SecurityAdvancedPageWindow_Destroying(AppWindow sender, object args)

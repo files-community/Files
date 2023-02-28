@@ -14,85 +14,55 @@ namespace Files.App.Filesystem.Security
 	/// </summary>
 	public class AccessControlList
 	{
-		public AccessControlList()
+		public AccessControlList(string path, bool isFolder)
 		{
-			AccessControlEntryPrimitiveMappingList = new();
+			_path = path;
+			_isFolder = isFolder;
+
+			AccessControlEntryPrimitiveMappings = new();
 		}
 
-		#region Properties
-		public string? Path { get; set; }
-
-		public bool IsFolder { get; set; }
+		#region Fields and Properties
+		public string? OwnerSID { get; private set; }
 
 		public Principal Owner { get; private set; }
 
-		public string? OwnerSID { get; set; }
+		public bool IsAccessControlListProtected { get; private set; }
 
-		public bool IsAccessControlListProtected { get; set; }
-
-		public bool CanReadAccessControl { get; set; }
-
-		public List<AccessControlEntryPrimitiveMapping> AccessControlEntryPrimitiveMappingList { get; set; }
-
-		public ObservableCollection<AccessControlEntryAdvanced> AccessControlEntriesAdvanced { get; set; }
+		public bool CanReadAccessControl { get; private set; }
 
 		public ObservableCollection<AccessControlEntry> AccessControlEntries { get; private set; }
+
+		public List<AccessControlEntryPrimitiveMapping> AccessControlEntryPrimitiveMappings { get; private set; }
+
+		private readonly string? _path;
+
+		private readonly bool _isFolder;
 		#endregion
 
 		#region Methods
-		public bool SetOwner(string sid)
-		{
-			if (GetAccessControl(Path, IsFolder, out var acs))
-			{
-				try
-				{
-					acs.SetOwner(new SecurityIdentifier(sid));
-
-					if (IsFolder)
-					{
-						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(Path), (DirectorySecurity)acs);
-					}
-					else
-					{
-						FileSystemAclExtensions.SetAccessControl(new FileInfo(Path), (FileSecurity)acs);
-					}
-
-					return true;
-				}
-				catch (UnauthorizedAccessException)
-				{
-				}
-				catch (Exception)
-				{
-				}
-			}
-
-			// If previous operation was unauthorized access, try again trough elevated PowerShell
-			return Win32API.RunPowershellCommand($"-command \"try {{ $path = '{Path}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{sid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"", true);
-		}
-
 		public bool SetAccessControl()
 		{
-			if (GetAccessControl(Path, IsFolder, out var fileSystemSecurity))
+			// Get ACL
+			if (GetAccessControl(_path, _isFolder, out var fileSystemSecurity))
 			{
 				try
 				{
 					var accessRules = fileSystemSecurity.GetAccessRules(true, true, typeof(SecurityIdentifier));
 
+					// Remove all existing rules
 					foreach (var existingRule in accessRules.Cast<FileSystemAccessRule>().Where(x => !x.IsInherited))
 						fileSystemSecurity.RemoveAccessRule(existingRule);
 
-					foreach (var rule in AccessControlEntryPrimitiveMappingList.Where(x => !x.IsInherited))
+					// Bring back removed rules, including changed rules
+					foreach (var rule in AccessControlEntryPrimitiveMappings.Where(x => !x.IsInherited))
 						fileSystemSecurity.AddAccessRule(rule.ToFileSystemAccessRule());
 
-					if (IsFolder)
-					{
-						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(Path), (DirectorySecurity)fileSystemSecurity);
-					}
+					// Save updates
+					if (_isFolder)
+						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(_path), (DirectorySecurity)fileSystemSecurity);
 					else
-					{
-						FileSystemAclExtensions.SetAccessControl(new FileInfo(Path), (FileSecurity)fileSystemSecurity);
-					}
+						FileSystemAclExtensions.SetAccessControl(new FileInfo(_path), (FileSecurity)fileSystemSecurity);
 
 					return true;
 				}
@@ -109,20 +79,16 @@ namespace Files.App.Filesystem.Security
 
 		public bool SetAccessControlProtection(bool isProtected, bool preserveInheritance)
 		{
-			if (GetAccessControl(Path, IsFolder, out var acs))
+			if (GetAccessControl(_path, _isFolder, out var acs))
 			{
 				try
 				{
 					acs.SetAccessRuleProtection(isProtected, preserveInheritance);
 
-					if (IsFolder)
-					{
-						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(Path), (DirectorySecurity)acs);
-					}
+					if (_isFolder)
+						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(_path), (DirectorySecurity)acs);
 					else
-					{
-						FileSystemAclExtensions.SetAccessControl(new FileInfo(Path), (FileSecurity)acs);
-					}
+						FileSystemAclExtensions.SetAccessControl(new FileInfo(_path), (FileSecurity)acs);
 
 					return true;
 				}
@@ -139,34 +105,60 @@ namespace Files.App.Filesystem.Security
 
 		public static AccessControlList FromPath(string path, bool isFolder)
 		{
-			var acl = new AccessControlList()
-			{
-				Path = path,
-				IsFolder = isFolder
-			};
-
+			// Get ACL
 			var result = GetAccessControl(path, isFolder, out var fileSystemSecurity);
 			if (result)
 			{
-				var rules = new List<AccessControlEntryPrimitiveMapping>();
+				var ownerSid = fileSystemSecurity.GetOwner(typeof(SecurityIdentifier)).Value;
 
+				var acl = new AccessControlList(path, isFolder)
+				{
+					IsAccessControlListProtected = fileSystemSecurity.AreAccessRulesProtected,
+					OwnerSID = ownerSid,
+					Owner = Principal.FromSid(ownerSid),
+					CanReadAccessControl = true,
+				};
+
+				// Get all ACEs and map them with primitive class
 				var accessRules = fileSystemSecurity.GetAccessRules(true, true, typeof(SecurityIdentifier));
+				var rules = new List<AccessControlEntryPrimitiveMapping>();
 				foreach (var accessRule in accessRules)
 					rules.Add(AccessControlEntryPrimitiveMapping.FromFileSystemAccessRule((FileSystemAccessRule)accessRule));
 
-				acl.AccessControlEntryPrimitiveMappingList.AddRange(rules);
-				acl.OwnerSID = fileSystemSecurity.GetOwner(typeof(SecurityIdentifier)).Value;
-				acl.IsAccessControlListProtected = fileSystemSecurity.AreAccessRulesProtected;
+				acl.AccessControlEntryPrimitiveMappings.AddRange(rules);
+				acl.AccessControlEntries = new(rules.Select(x => new AccessControlEntry(x, isFolder)));
 
-				acl.Owner = Principal.FromSid(acl.OwnerSID);
+				return acl;
+			}
+			else
+			{
+				return new(path, isFolder);
+			}
+		}
 
-				acl.AccessControlEntriesAdvanced = new(acl.AccessControlEntryPrimitiveMappingList.Select(x => new AccessControlEntryAdvanced(x, isFolder)));
-				acl.AccessControlEntries = new(AccessControlEntry.ForAllUsers(acl.AccessControlEntriesAdvanced, isFolder));
+		public static bool SetOwner(string path, bool isFolder, string sid)
+		{
+			if (GetAccessControl(path, isFolder, out var acs))
+			{
+				try
+				{
+					// Set owner
+					acs.SetOwner(new SecurityIdentifier(sid));
+
+					// Save updates
+					if (isFolder)
+						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(path), (DirectorySecurity)acs);
+					else
+						FileSystemAclExtensions.SetAccessControl(new FileInfo(path), (FileSecurity)acs);
+
+					return true;
+				}
+				catch (UnauthorizedAccessException) {}
+				catch (Exception) {}
 			}
 
-			acl.CanReadAccessControl = result;
-
-			return acl;
+			// If previous operation was unauthorized access, try again trough elevated PowerShell
+			return Win32API.RunPowershellCommand($"-command \"try {{ $path = '{path}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{sid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"", true);
 		}
 
 		private static bool GetAccessControl(string path, bool isFolder, out FileSystemSecurity fileSystemSecurity)
@@ -176,13 +168,11 @@ namespace Files.App.Filesystem.Security
 				if (isFolder && Directory.Exists(path))
 				{
 					fileSystemSecurity = FileSystemAclExtensions.GetAccessControl(new DirectoryInfo(path));
-
 					return true;
 				}
 				else if (File.Exists(path))
 				{
 					fileSystemSecurity = FileSystemAclExtensions.GetAccessControl(new FileInfo(path));
-
 					return true;
 				}
 				else

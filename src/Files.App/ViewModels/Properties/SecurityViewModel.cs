@@ -14,20 +14,14 @@ namespace Files.App.ViewModels.Properties
 {
 	public class SecurityViewModel : ObservableObject
 	{
-		public SecurityViewModel(ListedItem item)
+		public SecurityViewModel(ListedItem item) : this()
 		{
-			InitializeCommands();
-
 			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
 			Item = item;
-
-			GetAccessControlList();
 		}
 
-		public SecurityViewModel(DriveItem item)
+		public SecurityViewModel(DriveItem item) : this()
 		{
-			InitializeCommands();
-
 			IsFolder = true;
 			Item = new ListedItem()
 			{
@@ -35,7 +29,11 @@ namespace Files.App.ViewModels.Properties
 				ItemPath = item.Path,
 				PrimaryItemAttribute = StorageItemTypes.Folder
 			};
+		}
 
+		private SecurityViewModel()
+		{
+			InitializeCommands();
 			GetAccessControlList();
 		}
 
@@ -53,8 +51,6 @@ namespace Files.App.ViewModels.Properties
 					ChangeOwnerCommand.NotifyCanExecuteChanged();
 					AddAccessControlEntryCommand.NotifyCanExecuteChanged();
 					RemoveAccessControlEntryCommand.NotifyCanExecuteChanged();
-					AddAdvancedAccessControlEntryCommand.NotifyCanExecuteChanged();
-					RemoveAdvancedAccessControlEntryCommand.NotifyCanExecuteChanged();
 					DisableInheritanceCommand.NotifyCanExecuteChanged();
 					ReplaceChildPermissionsCommand.NotifyCanExecuteChanged();
 				}
@@ -72,23 +68,6 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private List<AccessControlEntryAdvanced> _selectedAdvancedAccessControlEntries;
-		public List<AccessControlEntryAdvanced> SelectedAdvancedAccessControlEntries
-		{
-			get => _selectedAdvancedAccessControlEntries;
-			set
-			{
-				if (SetProperty(ref _selectedAdvancedAccessControlEntries, value))
-				{
-					RemoveAdvancedAccessControlEntryCommand.NotifyCanExecuteChanged();
-					OnPropertyChanged(nameof(SelectedAdvancedAccessControlEntry));
-				}
-			}
-		}
-
-		public AccessControlEntryAdvanced SelectedAdvancedAccessControlEntry
-			=> SelectedAdvancedAccessControlEntries?.FirstOrDefault();
-
 		private bool _isFolder;
 		public bool IsFolder
 		{
@@ -105,17 +84,11 @@ namespace Files.App.ViewModels.Properties
 			get
 			{
 				if (!_isProtected)
-				{
 					return "SecurityAdvancedInheritedEnable/Text".GetLocalizedResource();
-				}
 				else if (_preserveInheritance)
-				{
 					return "SecurityAdvancedInheritedConvert/Text".GetLocalizedResource();
-				}
 				else
-				{
 					return "SecurityAdvancedInheritedRemove/Text".GetLocalizedResource();
-				}
 			}
 		}
 
@@ -123,9 +96,6 @@ namespace Files.App.ViewModels.Properties
 
 		public RelayCommand AddAccessControlEntryCommand { get; set; }
 		public RelayCommand RemoveAccessControlEntryCommand { get; set; }
-
-		public RelayCommand AddAdvancedAccessControlEntryCommand { get; set; }
-		public RelayCommand RemoveAdvancedAccessControlEntryCommand { get; set; }
 
 		public RelayCommand DisableInheritanceCommand { get; set; }
 		public RelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
@@ -136,10 +106,10 @@ namespace Files.App.ViewModels.Properties
 		private void InitializeCommands()
 		{
 			ChangeOwnerCommand = new RelayCommand(ChangeOwner, () => AccessControlList is not null);
+
 			AddAccessControlEntryCommand = new RelayCommand(AddACE, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
 			RemoveAccessControlEntryCommand = new RelayCommand(RemoveACE, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && SelectedAccessControlEntry is not null);
-			AddAdvancedAccessControlEntryCommand = new RelayCommand(AddAdvancedACE, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
-			RemoveAdvancedAccessControlEntryCommand = new RelayCommand(RemoveAdvancedACE, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && SelectedAdvancedAccessControlEntries is not null);
+
 			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && (AccessControlList.IsAccessControlListProtected != _isProtected));
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
 			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
@@ -166,57 +136,27 @@ namespace Files.App.ViewModels.Properties
 				if (!AccessControlList.AccessControlEntries.Any(x => x.Principal.Sid == pickedObject))
 				{
 					// No existing rules, add user to list
-					AccessControlList.AccessControlEntries.Add(AccessControlEntry.ForUser(AccessControlList.AccessControlEntriesAdvanced, IsFolder, pickedObject));
+					//AccessControlList.AccessControlEntries.Add(AccessControlEntry.ForUser(AccessControlList.AccessControlEntriesAdvanced, IsFolder, pickedObject));
 				}
 			}
 		}
 
 		private void RemoveACE()
 		{
-			if (SelectedAccessControlEntry is not null)
-			{
-				SelectedAccessControlEntry.AllowedAccessMaskFlags = 0;
-				SelectedAccessControlEntry.DeniedAccessMaskFlags = 0;
+			//SelectedAccessControlEntry.AllowedAccessMaskFlags = 0;
+			//SelectedAccessControlEntry.DeniedAccessMaskFlags = 0;
 
-				if (!AccessControlList.AccessControlEntriesAdvanced.Any(x => x.PrincipalSid == SelectedAccessControlEntry.Principal.Sid))
-				{
-					// No remaining rules, remove user from list
-					AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
-				}
-			}
-		}
-
-		private async void AddAdvancedACE()
-		{
-			var pickedObject = await OpenObjectPicker();
-			if (pickedObject is not null)
-			{
-				AccessControlList.AccessControlEntriesAdvanced.Add(new AccessControlEntryAdvanced(IsFolder)
-				{
-					AccessControlType = AccessControlType.Allow,
-					AccessMaskFlags = AccessMaskFlags.ReadAndExecute,
-					PrincipalSid = pickedObject,
-					InheritanceFlags = IsFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
-					PropagationFlags = PropagationFlags.None
-				});
-			}
-		}
-
-		private void RemoveAdvancedACE()
-		{
-			if (SelectedAdvancedAccessControlEntries is not null)
-			{
-				foreach (var rule in SelectedAdvancedAccessControlEntries)
-					AccessControlList.AccessControlEntriesAdvanced.Remove(rule);
-			}
+			//if (!AccessControlList.AccessControlEntriesAdvanced.Any(x => x.PrincipalSid == SelectedAccessControlEntry.Principal.Sid))
+			//{
+			//	// No remaining rules, remove user from list
+			//	AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
+			//}
 		}
 
 		private void DisableInheritance()
 		{
-			bool isFolder = Item.PrimaryItemAttribute == StorageItemTypes.Folder && !Item.IsShortcut;
-
 			// Update protection status and refresh access control
-			if (FileOperationsHelpers.SetAccessRuleProtection(Item.ItemPath, isFolder, _isProtected, _preserveInheritance))
+			if (FileOperationsHelpers.SetAccessRuleProtection(Item.ItemPath, IsFolder, _isProtected, _preserveInheritance))
 				GetAccessControlList();
 		}
 
@@ -235,22 +175,15 @@ namespace Files.App.ViewModels.Properties
 
 		public void GetAccessControlList()
 		{
-			bool isFolder = Item.PrimaryItemAttribute == StorageItemTypes.Folder && !Item.IsShortcut;
-
-			AccessControlList = FileOperationsHelpers.GetFilePermissions(Item.ItemPath, isFolder);
+			AccessControlList = FileOperationsHelpers.GetFilePermissions(Item.ItemPath, IsFolder);
 		}
 
-		public bool SetAccessControlList()
+		public bool SaveChangedAccessControlList()
 		{
-			// If user has no permission to change ACL
-			if (AccessControlList is null ||
-				!AccessControlList.CanReadAccessControl)
-				return true;
-
 			return AccessControlList.SetAccessControl();
 		}
 
-		public static Task<string?> OpenObjectPicker()
+		public Task<string?> OpenObjectPicker()
 		{
 			return FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
 		}
