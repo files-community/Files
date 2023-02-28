@@ -21,6 +21,7 @@
 				x:Key="InvertedBoolVisibilityConverter"
 				FalseValue="Visible"
 				TrueValue="Collapsed" />
+			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
 		</ResourceDictionary>
 	</Page.Resources>
@@ -107,38 +108,12 @@
 								Orientation="Horizontal"
 								Spacing="12">
 								<!--  Invalid Name Warning  -->
-								<Grid
-									Padding="12,4"
-									VerticalAlignment="Stretch"
-									Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-									ColumnSpacing="8"
-									CornerRadius="4"
-									Visibility="{x:Bind ViewModel.NewTag.IsNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
-									<TextBlock
-										Grid.Column="0"
-										VerticalAlignment="Center"
-										AutomationProperties.AccessibilityView="Raw"
-										FontFamily="{ThemeResource SymbolThemeFontFamily}"
-										FontSize="{StaticResource InfoBarIconFontSize}"
-										Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
-										Text="{StaticResource InfoBarIconBackgroundGlyph}" />
-									<TextBlock
-										Grid.Column="0"
-										VerticalAlignment="Center"
-										AutomationProperties.AccessibilityView="Raw"
-										FontFamily="{ThemeResource SymbolThemeFontFamily}"
-										FontSize="{StaticResource InfoBarIconFontSize}"
-										Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
-										Text="{StaticResource InfoBarErrorIconGlyph}" />
-									<TextBlock
-										Grid.Column="1"
-										VerticalAlignment="Center"
-										Text="{helpers:ResourceString Name=InvalidTagNameWarning}" />
-								</Grid>
+								<InfoBar
+									IsClosable="False"
+									IsOpen="{x:Bind ViewModel.NewTag.IsNameValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+									Message="{helpers:ResourceString Name=InvalidTagNameWarning}"
+									Severity="Error"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=TagNameRules}" />
 
 								<!--  Cancel  -->
 								<Button Command="{x:Bind ViewModel.CancelNewTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=Cancel}" />
@@ -265,38 +240,12 @@
 											Orientation="Horizontal"
 											Spacing="12"
 											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
-											<Grid
-												Padding="12,4"
-												VerticalAlignment="Stretch"
-												Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-												ColumnSpacing="8"
-												CornerRadius="4"
-												Visibility="{x:Bind IsNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="Auto" />
-													<ColumnDefinition Width="Auto" />
-												</Grid.ColumnDefinitions>
-												<TextBlock
-													Grid.Column="0"
-													VerticalAlignment="Center"
-													AutomationProperties.AccessibilityView="Raw"
-													FontFamily="{ThemeResource SymbolThemeFontFamily}"
-													FontSize="{StaticResource InfoBarIconFontSize}"
-													Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
-													Text="{StaticResource InfoBarIconBackgroundGlyph}" />
-												<TextBlock
-													Grid.Column="0"
-													VerticalAlignment="Center"
-													AutomationProperties.AccessibilityView="Raw"
-													FontFamily="{ThemeResource SymbolThemeFontFamily}"
-													FontSize="{StaticResource InfoBarIconFontSize}"
-													Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
-													Text="{StaticResource InfoBarErrorIconGlyph}" />
-												<TextBlock
-													Grid.Column="1"
-													VerticalAlignment="Center"
-													Text="{helpers:ResourceString Name=InvalidTagNameWarning}" />
-											</Grid>
+											<InfoBar
+												IsClosable="False"
+												IsOpen="{x:Bind IsNameValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+												Message="{helpers:ResourceString Name=InvalidTagNameWarning}"
+												Severity="Error"
+												ToolTipService.ToolTip="{helpers:ResourceString Name=TagNameRules}" />
 
 											<Button
 												x:Name="CancelChangesButton"
