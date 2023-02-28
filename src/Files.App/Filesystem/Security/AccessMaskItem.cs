@@ -8,12 +8,12 @@ namespace Files.App.Filesystem.Security
 	/// </summary>
 	public class AccessMaskItem : ObservableObject
 	{
-		public AccessMaskItem(AccessControlEntryAdvanced aceAdvanced, bool isEditable = true)
+		public AccessMaskItem(AccessControlEntry ace, bool isEditable = true)
 		{
 			IsEditable = isEditable;
 
-			_aceAdvanced = aceAdvanced;
-			_aceAdvanced.PropertyChanged += AccessControlEntryAdvanced_PropertyChanged;
+			_ace = ace;
+			_ace.PropertyChanged += AccessControlEntry_PropertyChanged;
 		}
 
 		#region Properties
@@ -23,7 +23,7 @@ namespace Files.App.Filesystem.Security
 
 		public bool IsEnabled
 		{
-			get => _aceAdvanced.AccessMaskFlags.HasFlag(AccessMask);
+			get => _ace.AccessMaskFlags.HasFlag(AccessMask);
 			set
 			{
 				if (IsEditable)
@@ -33,25 +33,21 @@ namespace Files.App.Filesystem.Security
 
 		public bool IsEditable { get; set; }
 
-		private readonly AccessControlEntryAdvanced _aceAdvanced;
+		private readonly AccessControlEntry _ace;
 		#endregion
 
 		#region Methods
 		private void ToggleAccess(AccessMaskFlags accessMask, bool value)
 		{
-			if (value && !_aceAdvanced.AccessMaskFlags.HasFlag(accessMask))
-			{
-				_aceAdvanced.AccessMaskFlags |= accessMask;
-			}
-			else if (!value && _aceAdvanced.AccessMaskFlags.HasFlag(accessMask))
-			{
-				_aceAdvanced.AccessMaskFlags &= ~accessMask;
-			}
+			if (value && !_ace.AccessMaskFlags.HasFlag(accessMask))
+				_ace.AccessMaskFlags |= accessMask;
+			else if (!value && _ace.AccessMaskFlags.HasFlag(accessMask))
+				_ace.AccessMaskFlags &= ~accessMask;
 		}
 
-		private void AccessControlEntryAdvanced_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		private void AccessControlEntry_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(AccessControlEntryAdvanced.AccessMaskFlags))
+			if (e.PropertyName == nameof(AccessControlEntry.AccessMaskFlags))
 				OnPropertyChanged(nameof(IsEnabled));
 		}
 		#endregion
