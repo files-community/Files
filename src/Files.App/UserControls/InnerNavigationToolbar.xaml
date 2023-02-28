@@ -718,10 +718,10 @@
 									IsChecked="{x:Bind ViewModel.IsLayoutColumnsView, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=ColumnsShortcutTooltip}">
-									<FontIcon
-										FontFamily="{StaticResource CustomGlyph}"
-										FontSize="16"
-										Glyph="&#xF115;" />
+
+									<Viewbox Width="20">
+										<local:OpacityIcon Style="{StaticResource ColorIconColumnsLayout}" />
+									</Viewbox>
 								</RadioButton>
 
 								<TextBlock
