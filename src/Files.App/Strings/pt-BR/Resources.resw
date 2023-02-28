@@ -1420,7 +1420,7 @@
     <value>Coluna de data de exclusão</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Ordenar</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Agrupar por</value>
@@ -1909,7 +1909,7 @@
     <value>Abrir local do arquivo</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Desconhecido</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Editar etiquetas</value>
@@ -2362,7 +2362,7 @@
     <value>Restaurar todos os itens</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>Restaurar</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>O atalho não pode ser aberto</value>
@@ -2479,7 +2479,7 @@
     <value>Enter the location of the item:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Cria um atalho</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
