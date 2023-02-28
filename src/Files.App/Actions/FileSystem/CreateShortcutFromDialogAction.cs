@@ -13,7 +13,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Shortcut".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(baseGlyph: "\uF10A", fontFamily: "CustomGlyph");
+		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
 
 		public async Task ExecuteAsync()
 		{
