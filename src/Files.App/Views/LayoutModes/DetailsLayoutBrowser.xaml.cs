@@ -658,7 +658,7 @@ namespace Files.App.Views.LayoutModes
 			}).Sum();
 
 			if (stackPanels.Length >= 2)
-				mesuredSize += 4 * (stackPanels.Length - 1); // the spacing between the tags
+				mesuredSize += 4 * (stackPanels.Length - 1); // The spacing between the tags
 
 			return mesuredSize;
 		}
@@ -686,7 +686,7 @@ namespace Files.App.Views.LayoutModes
 			if (!widthPerLetter.Any())
 				return 0;
 
-			// take weighted avg between mean and max since width is an estimate
+			// Take weighted avg between mean and max since width is an estimate
 			var weightedAvg = (widthPerLetter.Average() + widthPerLetter.Max()) / 2;
 			return weightedAvg * maxItemLength;
 		}
