@@ -65,7 +65,7 @@ namespace Files.App.ViewModels
 			}
 
 			if (!command.CustomHotKey.IsNone)
-				viewModel.KeyboardAcceleratorTextOverride = command.CustomHotKey.ToString();
+				viewModel.KeyboardAcceleratorTextOverride = command.HotKeyText!;
 
 			return viewModel;
 		}

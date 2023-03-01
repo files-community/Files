@@ -13,6 +13,8 @@ namespace Files.App.Contexts
 		ListedItem? Folder { get; }
 
 		bool HasItem { get; }
+		bool HasSelection { get; }
+		ListedItem? SelectedItem { get; }
 		IReadOnlyList<ListedItem> SelectedItems { get; }
 	}
 }

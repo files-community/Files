@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.System;
@@ -61,6 +62,7 @@ namespace Files.App.Views
 
 		public IBaseLayout SlimContentPage => ContentPage;
 
+		public ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		public IFilesystemHelpers FilesystemHelpers { get; protected set; }
 
 		public Type CurrentPageType => ItemDisplay.SourcePageType;
@@ -622,11 +624,11 @@ namespace Files.App.Views
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, this));
 			ToolbarViewModel.CreateNewShortcutCommand = new RelayCommand(() => CreateNewShortcutFromDialog());
-			ToolbarViewModel.CopyCommand = new RelayCommand(async () => await UIFilesystemHelpers.CopyItem(this));
+			ToolbarViewModel.CopyCommand = new RelayCommand(async () => commands.CopyItem.Execute(null));
 			ToolbarViewModel.Rename = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RenameItemCommand.Execute(null));
 			ToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
-			ToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
-			ToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
+			ToolbarViewModel.DeleteCommand = new RelayCommand(() => commands.DeleteItem.Execute(null));
+			ToolbarViewModel.CutCommand = new RelayCommand(() => commands.CutItem.Execute(null));
 			ToolbarViewModel.RestoreRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreRecycleBinCommand.Execute(null));
 			ToolbarViewModel.RestoreSelectionRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreSelectionRecycleBinCommand.Execute(null));
 			ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
