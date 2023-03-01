@@ -57,7 +57,6 @@ namespace Files.App.Filesystem.Security
 			}
 		}
 
-		#region Fields and Properties
 		public readonly bool IsFolder;
 
 		public string? PrincipalSid { get; set; }
@@ -354,9 +353,7 @@ namespace Files.App.Filesystem.Security
 			get => DeniedAccessMaskFlags.HasFlag(AccessMaskFlags.FullControl) || DeniedInheritedFullControlAccess;
 			set => ToggleDenyAccess(AccessMaskFlags.FullControl, value);
 		}
-		#endregion
 
-		#region Methods
 		private void ToggleAllowAccess(AccessMaskFlags accessMask, bool value)
 		{
 			if (value && !AllowedAccessMaskFlags.HasFlag(accessMask) && !InheritedAllowAccessMaskFlags.HasFlag(accessMask))
@@ -611,6 +608,5 @@ namespace Files.App.Filesystem.Security
 
 			return accessControls;
 		}
-		#endregion
 	}
 }

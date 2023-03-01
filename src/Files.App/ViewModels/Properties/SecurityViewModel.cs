@@ -37,7 +37,6 @@ namespace Files.App.ViewModels.Properties
 			GetAccessControlList();
 		}
 
-		#region Fields, Properties, Commands
 		public ListedItem Item { get; }
 
 		private AccessControlList _accessControlList;
@@ -93,23 +92,17 @@ namespace Files.App.ViewModels.Properties
 		private bool _preserveInheritance;
 
 		public RelayCommand ChangeOwnerCommand { get; set; }
-
 		public RelayCommand AddAccessControlEntryCommand { get; set; }
 		public RelayCommand RemoveAccessControlEntryCommand { get; set; }
-
 		public RelayCommand DisableInheritanceCommand { get; set; }
 		public RelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
 		public RelayCommand ReplaceChildPermissionsCommand { get; set; }
-		#endregion
 
-		#region Methods
 		private void InitializeCommands()
 		{
 			ChangeOwnerCommand = new RelayCommand(ChangeOwner, () => AccessControlList is not null);
-
 			AddAccessControlEntryCommand = new RelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
 			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && SelectedAccessControlEntry is not null);
-
 			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && (AccessControlList.IsAccessControlListProtected != _isProtected));
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
 			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
@@ -200,6 +193,5 @@ namespace Files.App.ViewModels.Properties
 		{
 			return FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
 		}
-		#endregion
 	}
 }

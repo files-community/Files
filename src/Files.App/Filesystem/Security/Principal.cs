@@ -18,7 +18,6 @@ namespace Files.App.Filesystem.Security
 			PrincipalType = PrincipalType.Unknown;
 		}
 
-		#region Properties
 		public string Glyph
 			=> PrincipalType switch
 			{
@@ -42,9 +41,7 @@ namespace Files.App.Filesystem.Security
 		public List<string> Groups { get; set; }
 
 		private PrincipalType PrincipalType { get; set; }
-		#endregion
 
-		#region Methods
 		public static Principal FromSid(string sid)
 		{
 			var userGroup = new Principal()
@@ -92,6 +89,5 @@ namespace Files.App.Filesystem.Security
 
 			return userGroup;
 		}
-		#endregion
 	}
 }

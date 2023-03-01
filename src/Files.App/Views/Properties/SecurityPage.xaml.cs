@@ -28,7 +28,6 @@ namespace Files.App.Views.Properties
 			OpenSecurityAdvancedPageWindowCommand = new RelayCommand(() => OpenSecurityAdvancedPageWindow());
 		}
 
-		#region Fields and Properties
 		public SecurityViewModel? SecurityViewModel { get; set; }
 
 		private AppWindow? propsView;
@@ -36,9 +35,7 @@ namespace Files.App.Views.Properties
 		private readonly bool _isWinUI3;
 
 		public RelayCommand OpenSecurityAdvancedPageWindowCommand { get; set; }
-		#endregion
 
-		#region Methods
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			var np = (MainPropertiesPage.PropertyNavParam)e.Parameter;
@@ -135,6 +132,5 @@ namespace Files.App.Views.Properties
 		public override void Dispose()
 		{
 		}
-		#endregion
 	}
 }

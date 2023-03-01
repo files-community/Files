@@ -6,13 +6,13 @@
 	public enum AccessControlType
 	{
 		/// <summary>
-		/// ACCESS_ALLOW_ACE
+		/// ACCESS_ALLOWED_ACE
 		/// </summary>
-		Allow = 0,
+		Allow,
 
 		/// <summary>
-		/// ACCESS_DENY_ACE
+		/// ACCESS_DENIED_ACE
 		/// </summary>
-		Deny = 1
+		Deny
 	}
 }

@@ -35,7 +35,6 @@ namespace Files.App.Views.Properties
 				FlowDirection = FlowDirection.RightToLeft;
 		}
 
-		#region Fields and Properties
 		public string WindowTitle
 			=> string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel?.Item.Name);
 
@@ -46,9 +45,7 @@ namespace Files.App.Views.Properties
 		public AppWindow? appWindow;
 
 		private readonly bool _isWinUI3;
-		#endregion
 
-		#region Methods
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			var args = (PropertiesPageNavigationArguments)e.Parameter;
@@ -70,23 +67,6 @@ namespace Files.App.Views.Properties
 				// Update theme
 				await App.Window.DispatcherQueue.EnqueueAsync(() => App.AppSettings.UpdateThemeElements.Execute(null));
 			}
-		}
-
-		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			//if (ViewModel is null)
-			//	return;
-
-			//if (e.AddedItems is not null)
-			//{
-			//	foreach (var item in e.AddedItems)
-			//		((AccessControlEntry)item).IsSelected = true;
-			//}
-			//if (e.RemovedItems is not null)
-			//{
-			//	foreach (var item in e.RemovedItems)
-			//		((AccessControlEntry)item).IsSelected = false;
-			//}
 		}
 
 		private void AppWindow_Destroying(AppWindow sender, object args)
@@ -152,7 +132,6 @@ namespace Files.App.Views.Properties
 				window.Close();
 			}
 		}
-		#endregion
 
 		public class PropertiesPageNavigationArguments
 		{

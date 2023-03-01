@@ -16,7 +16,6 @@ namespace Files.App.Filesystem.Security
 			_ace.PropertyChanged += AccessControlEntry_PropertyChanged;
 		}
 
-		#region Properties
 		public string AccessMaskName { get; set; }
 
 		public AccessMaskFlags AccessMask { get; set; }
@@ -34,9 +33,7 @@ namespace Files.App.Filesystem.Security
 		public bool IsEditable { get; set; }
 
 		private readonly AccessControlEntry _ace;
-		#endregion
 
-		#region Methods
 		private void ToggleAccess(AccessMaskFlags accessMask, bool value)
 		{
 			if (value && !_ace.AccessMaskFlags.HasFlag(accessMask))
@@ -50,6 +47,5 @@ namespace Files.App.Filesystem.Security
 			if (e.PropertyName == nameof(AccessControlEntry.AccessMaskFlags))
 				OnPropertyChanged(nameof(IsEnabled));
 		}
-		#endregion
 	}
 }

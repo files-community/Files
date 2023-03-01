@@ -22,7 +22,6 @@ namespace Files.App.Filesystem.Security
 			AccessControlEntryPrimitiveMappings = new();
 		}
 
-		#region Fields and Properties
 		public string? OwnerSID { get; private set; }
 
 		public Principal Owner { get; private set; }
@@ -38,9 +37,7 @@ namespace Files.App.Filesystem.Security
 		private readonly string _path;
 
 		private readonly bool _isFolder;
-		#endregion
 
-		#region Methods
 		public bool SetAccessControl()
 		{
 			if (GetAccessControl(_path, _isFolder, out var fileSystemSecurity))
@@ -177,6 +174,5 @@ namespace Files.App.Filesystem.Security
 
 			return false;
 		}
-		#endregion
 	}
 }

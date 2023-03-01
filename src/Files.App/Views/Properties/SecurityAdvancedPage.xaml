@@ -174,7 +174,6 @@
 						ScrollViewer.HorizontalScrollBarVisibility="Auto"
 						ScrollViewer.HorizontalScrollMode="Auto"
 						SelectedItem="{x:Bind ViewModel.SelectedAccessControlEntry, Mode=TwoWay}"
-						SelectionChanged="ListView_SelectionChanged"
 						SelectionMode="Single">
 						<i:Interaction.Behaviors>
 							<behaviors:StickyHeaderBehavior />
