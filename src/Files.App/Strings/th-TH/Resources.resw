@@ -153,14 +153,14 @@
   <data name="Skip" xml:space="preserve">
     <value>ข้าม </value>
   </data>
-  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
-    <value>เลือกทั้งหมด</value>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select All</value>
   </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
-    <value>สลับส่วนที่เลือก</value>
+  <data name="InvertSelection" xml:space="preserve">
+    <value>Invert Selection</value>
   </data>
-  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
-    <value>ล้างส่วนที่เลือก</value>
+  <data name="ClearSelection" xml:space="preserve">
+    <value>Clear Selection</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>วันที่ปรับเปลี่ยน:</value>
@@ -2603,5 +2603,8 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="MultiSelect" xml:space="preserve">
+    <value>Multiselect</value>
   </data>
 </root>
