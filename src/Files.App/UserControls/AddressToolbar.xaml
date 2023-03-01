@@ -19,6 +19,7 @@
 	d:DesignWidth="800"
 	Loading="NavToolbar_Loading"
 	mc:Ignorable="d">
+
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -34,7 +35,7 @@
 						TargetType="Button">
 						<Setter Property="Padding" Value="0" />
 						<Setter Property="Background" Value="Transparent" />
-						<Setter Property="BorderBrush" Value="Transparent" />
+						<Setter Property="BorderThickness" Value="0" />
 						<Setter Property="Width" Value="36" />
 						<Setter Property="Height" Value="32" />
 					</Style>
@@ -45,329 +46,350 @@
 
 	<Grid
 		x:Name="ToolbarGrid"
-		HorizontalAlignment="Stretch"
-		VerticalAlignment="Stretch"
+		Padding="8"
 		Background="{ThemeResource App.Theme.AddressBar.BackgroundBrush}"
-		ColumnSpacing="0">
-		<Grid Padding="8" ColumnSpacing="4">
+		ColumnSpacing="8">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+
+		<!--  Backward, Forward, Up, Refresh buttons  -->
+		<StackPanel Orientation="Horizontal" Spacing="4">
+			<Button
+				x:Name="Back"
+				x:FieldModifier="public"
+				AccessKey="B"
+				AutomationProperties.Name="{helpers:ResourceString Name=NavBackButton/AutomationProperties/Name}"
+				Command="{x:Bind ViewModel.BackClickCommand, Mode=OneWay}"
+				IsEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=NavBackButton/ToolTipService/ToolTip}">
+				<AnimatedIcon x:Name="BackwardAnimatedIcon" Width="20">
+					<AnimatedIcon.Source>
+						<animatedvisuals:AnimatedBackVisualSource />
+					</AnimatedIcon.Source>
+					<AnimatedIcon.FallbackIconSource>
+						<SymbolIconSource Symbol="Back" />
+					</AnimatedIcon.FallbackIconSource>
+				</AnimatedIcon>
+				<Button.KeyboardAccelerators>
+					<KeyboardAccelerator Key="XButton1" />
+					<KeyboardAccelerator Key="Back" />
+					<KeyboardAccelerator Key="Left" Modifiers="Menu" />
+				</Button.KeyboardAccelerators>
+			</Button>
+
+			<Button
+				x:Name="Forward"
+				x:FieldModifier="public"
+				AccessKey="F"
+				AutomationProperties.Name="{helpers:ResourceString Name=NavForwardButton/AutomationProperties/Name}"
+				Command="{x:Bind ViewModel.ForwardClickCommand, Mode=OneWay}"
+				IsEnabled="{x:Bind ViewModel.CanGoForward, Mode=OneWay}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=NavForwardButton/ToolTipService/ToolTip}">
+				<Button.RenderTransform>
+					<RotateTransform Angle="180" CenterX="18" CenterY="16" />
+				</Button.RenderTransform>
+				<AnimatedIcon x:Name="ForwardAnimatedIcon" Width="20">
+					<AnimatedIcon.Source>
+						<animatedvisuals:AnimatedBackVisualSource />
+					</AnimatedIcon.Source>
+					<AnimatedIcon.FallbackIconSource>
+						<SymbolIconSource Symbol="Back" />
+					</AnimatedIcon.FallbackIconSource>
+				</AnimatedIcon>
+				<Button.KeyboardAccelerators>
+					<KeyboardAccelerator Key="XButton2" />
+					<KeyboardAccelerator Key="Right" Modifiers="Menu" />
+				</Button.KeyboardAccelerators>
+			</Button>
+
+			<Button
+				x:Name="Up"
+				x:FieldModifier="public"
+				AccessKey="U"
+				AutomationProperties.Name="{helpers:ResourceString Name=NavUpButton/AutomationProperties/Name}"
+				Command="{x:Bind ViewModel.UpClickCommand, Mode=OneWay}"
+				IsEnabled="{x:Bind ViewModel.CanNavigateToParent, Mode=OneWay}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=NavUpButton/ToolTipService/ToolTip}">
+				<FontIcon FontSize="14" Glyph="&#xE74A;" />
+				<Button.KeyboardAccelerators>
+					<KeyboardAccelerator Key="Up" Modifiers="Menu" />
+				</Button.KeyboardAccelerators>
+			</Button>
+
+			<Button
+				x:Name="Refresh"
+				x:FieldModifier="public"
+				AccessKey="R"
+				AutomationProperties.Name="{helpers:ResourceString Name=NavResfreshButton/AutomationProperties/Name}"
+				Command="{x:Bind ViewModel.RefreshClickCommand, Mode=OneWay}"
+				IsEnabled="{x:Bind ViewModel.CanRefresh, Mode=OneWay}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=NavRefreshButton/ToolTipService/ToolTip}">
+				<FontIcon FontSize="14" Glyph="&#xE72C;" />
+				<Button.KeyboardAccelerators>
+					<KeyboardAccelerator Key="F5" />
+				</Button.KeyboardAccelerators>
+			</Button>
+		</StackPanel>
+
+		<!--  Path  -->
+		<AutoSuggestBox
+			x:Name="VisiblePath"
+			Grid.Column="1"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Center"
+			x:Load="{x:Bind ViewModel.ManualEntryBoxLoaded, Mode=OneWay}"
+			BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
+			BorderThickness="{ThemeResource TextControlBorderThemeThickness}"
+			CornerRadius="{StaticResource ControlCornerRadius}"
+			DisplayMemberPath="Name"
+			FocusDisengaged="VisiblePath_LostFocus"
+			FontWeight="SemiBold"
+			ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
+			Loaded="VisiblePath_Loaded"
+			LostFocus="VisiblePath_LostFocus"
+			PlaceholderText="{helpers:ResourceString Name=NavigationToolbarVisiblePath/PlaceholderText}"
+			PreviewKeyDown="VisiblePath_KeyDown"
+			QuerySubmitted="VisiblePath_QuerySubmitted"
+			ScrollViewer.HorizontalScrollBarVisibility="Auto"
+			ScrollViewer.VerticalScrollBarVisibility="Hidden"
+			Text="{x:Bind ViewModel.PathText, Mode=OneWay}"
+			TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
+			TextMemberPath="ItemPath"
+			Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
+
+		<!--  Clickable Path  -->
+		<Grid
+			x:Name="ClickablePath"
+			Grid.Column="1"
+			MinHeight="33"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Center"
+			extensions:FrameworkElementExtensions.Cursor="Hand"
+			x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
+			Background="{ThemeResource TextControlBackground}"
+			BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+			BorderThickness="1"
+			CornerRadius="{StaticResource ControlCornerRadius}"
+			PointerPressed="ManualPathEntryItem_Click"
+			Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
-
-			<StackPanel
-				Grid.Row="1"
-				Orientation="Horizontal"
-				Spacing="4">
-				<Button
-					x:Name="Back"
-					x:FieldModifier="public"
-					AccessKey="B"
-					AutomationProperties.Name="{helpers:ResourceString Name=NavBackButton/AutomationProperties/Name}"
-					Command="{x:Bind ViewModel.BackClickCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavBackButton/ToolTipService/ToolTip}">
-					<FontIcon FontSize="14" Glyph="&#xE72B;" />
-					<Button.KeyboardAccelerators>
-						<KeyboardAccelerator Key="XButton1" />
-						<KeyboardAccelerator Key="Back" />
-						<KeyboardAccelerator Key="Left" Modifiers="Menu" />
-					</Button.KeyboardAccelerators>
-				</Button>
-
-				<Button
-					x:Name="Forward"
-					x:FieldModifier="public"
-					AccessKey="F"
-					AutomationProperties.Name="{helpers:ResourceString Name=NavForwardButton/AutomationProperties/Name}"
-					Command="{x:Bind ViewModel.ForwardClickCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.CanGoForward, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavForwardButton/ToolTipService/ToolTip}">
-					<FontIcon FontSize="14" Glyph="&#xE72A;" />
-					<Button.KeyboardAccelerators>
-						<KeyboardAccelerator Key="XButton2" />
-						<KeyboardAccelerator Key="Right" Modifiers="Menu" />
-					</Button.KeyboardAccelerators>
-				</Button>
-
-				<Button
-					x:Name="Up"
-					x:FieldModifier="public"
-					AccessKey="U"
-					AutomationProperties.Name="{helpers:ResourceString Name=NavUpButton/AutomationProperties/Name}"
-					Command="{x:Bind ViewModel.UpClickCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.CanNavigateToParent, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavUpButton/ToolTipService/ToolTip}">
-					<FontIcon FontSize="14" Glyph="&#xE74A;" />
-					<Button.KeyboardAccelerators>
-						<KeyboardAccelerator Key="Up" Modifiers="Menu" />
-					</Button.KeyboardAccelerators>
-				</Button>
-
-				<Button
-					x:Name="Refresh"
-					x:FieldModifier="public"
-					AccessKey="R"
-					AutomationProperties.Name="{helpers:ResourceString Name=NavResfreshButton/AutomationProperties/Name}"
-					Command="{x:Bind ViewModel.RefreshClickCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.CanRefresh, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavRefreshButton/ToolTipService/ToolTip}">
-					<FontIcon FontSize="14" Glyph="&#xE72C;" />
-					<Button.KeyboardAccelerators>
-						<KeyboardAccelerator Key="F5" />
-					</Button.KeyboardAccelerators>
-				</Button>
-			</StackPanel>
-
-			<AutoSuggestBox
-				x:Name="VisiblePath"
+			<uc:PathBreadcrumb
+				Grid.Column="0"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				VerticalContentAlignment="Stretch"
+				ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+			<FontIcon
 				Grid.Column="1"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Center"
-				x:Load="{x:Bind ViewModel.ManualEntryBoxLoaded, Mode=OneWay}"
-				BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
-				BorderThickness="{ThemeResource TextControlBorderThemeThickness}"
-				CornerRadius="{StaticResource ControlCornerRadius}"
-				DisplayMemberPath="Name"
-				FocusDisengaged="VisiblePath_LostFocus"
-				FontWeight="SemiBold"
-				ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
-				Loaded="VisiblePath_Loaded"
-				LostFocus="VisiblePath_LostFocus"
-				PlaceholderText="{helpers:ResourceString Name=NavigationToolbarVisiblePath/PlaceholderText}"
-				PreviewKeyDown="VisiblePath_KeyDown"
-				QuerySubmitted="VisiblePath_QuerySubmitted"
-				ScrollViewer.HorizontalScrollBarVisibility="Auto"
-				ScrollViewer.VerticalScrollBarVisibility="Hidden"
-				Text="{x:Bind ViewModel.PathText, Mode=OneWay}"
-				TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
-				TextMemberPath="ItemPath"
-				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
+				Margin="12"
+				FontSize="12"
+				Glyph="&#xE09D;" />
+		</Grid>
 
-			<Grid
-				x:Name="ClickablePath"
-				Grid.Column="1"
-				MinHeight="33"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Center"
-				extensions:FrameworkElementExtensions.Cursor="Hand"
-				x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
-				Background="{ThemeResource TextControlBackground}"
-				BorderBrush="{ThemeResource ControlElevationBorderBrush}"
-				BorderThickness="1"
-				CornerRadius="{StaticResource ControlCornerRadius}"
-				PointerPressed="ManualPathEntryItem_Click"
-				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
-				<uc:PathBreadcrumb
-					Grid.Column="0"
-					VerticalAlignment="Stretch"
-					HorizontalContentAlignment="Stretch"
-					VerticalContentAlignment="Stretch"
-					ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-				<FontIcon
-					Grid.Column="1"
-					Margin="12"
-					FontSize="16"
-					Glyph="&#xE09D;" />
-			</Grid>
+		<!--  Search box  -->
+		<uc:SearchBox
+			x:Name="SearchRegion"
+			Grid.Column="2"
+			Width="240"
+			Height="34"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Center"
+			Canvas.ZIndex="100"
+			CornerRadius="{StaticResource ControlCornerRadius}"
+			GotFocus="SearchRegion_OnGotFocus"
+			LostFocus="SearchRegion_LostFocus"
+			SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
+			Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
 
-			<uc:SearchBox
-				x:Name="SearchRegion"
-				Grid.Column="2"
-				Width="240"
-				Height="34"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Center"
-				Canvas.ZIndex="100"
-				CornerRadius="{StaticResource ControlCornerRadius}"
-				GotFocus="SearchRegion_OnGotFocus"
-				LostFocus="SearchRegion_LostFocus"
-				SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
-				Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
+		<StackPanel Grid.Column="3" Orientation="Horizontal">
 
-			<StackPanel Grid.Column="3" Orientation="Horizontal">
-				<Button
-					x:Name="SearchButton"
-					AccessKey="I"
-					AutomationProperties.Name="{helpers:ResourceString Name=Search}"
-					Click="SearchButton_Click"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavSearchButton/ToolTipService/ToolTip}"
-					Visibility="Collapsed">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
-					<Button.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="F"
-							IsEnabled="False"
-							Modifiers="Control" />
-					</Button.KeyboardAccelerators>
-				</Button>
+			<!--  Search button  -->
+			<Button
+				x:Name="SearchButton"
+				AccessKey="I"
+				AutomationProperties.Name="{helpers:ResourceString Name=Search}"
+				Click="SearchButton_Click"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=NavSearchButton/ToolTipService/ToolTip}"
+				Visibility="Collapsed">
+				<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
+				<Button.KeyboardAccelerators>
+					<KeyboardAccelerator
+						Key="F"
+						IsEnabled="False"
+						Modifiers="Control" />
+				</Button.KeyboardAccelerators>
+			</Button>
 
-				<Button
-					x:Name="OngoingTasks"
-					Padding="0"
-					AccessKey="T"
-					AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasks}"
-					Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
-					<Button.Content>
-						<Grid>
-							<FontIcon
-								x:Name="OngoingTasksFontIcon"
-								x:Load="{x:Bind OngoingTasksViewModel.AnyOperationsOngoing, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-								FontSize="16"
-								Glyph="&#xF16A;" />
-
-							<ProgressRing
-								x:Name="MedianOperationProgressRing"
-								Width="20"
-								Height="20"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								x:Load="{x:Bind OngoingTasksViewModel.AnyOperationsOngoing, Mode=OneWay}"
-								IsIndeterminate="False"
-								Value="{x:Bind OngoingTasksViewModel.MedianOperationProgressValue, Mode=OneWay}" />
-						</Grid>
-					</Button.Content>
-					<Button.Flyout>
-						<Flyout contract8Present:ShouldConstrainToRootBounds="False" AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}">
-							<uc:OngoingTasksFlyout
-								x:Name="OngoingTasksControl"
-								Width="400"
-								MinHeight="300"
-								MaxHeight="500"
-								x:FieldModifier="public"
-								IsTabStop="True"
-								OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}" />
-						</Flyout>
-					</Button.Flyout>
-				</Button>
-
-				<!--  Install Update Notification  -->
-				<Button
-					x:Name="UpdateButton"
-					HorizontalContentAlignment="Stretch"
-					VerticalContentAlignment="Stretch"
-					x:Load="{x:Bind ViewModel.IsUpdateAvailable, Mode=OneWay}"
-					AccessKey="1"
-					AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
-					Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}">
+			<!--  Ongoing tasks  -->
+			<Button
+				x:Name="OngoingTasks"
+				Padding="0"
+				AccessKey="T"
+				AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasks}"
+				Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
+				<Button.Content>
 					<Grid>
-						<!--  Icon  -->
 						<FontIcon
-							x:Name="UpdateIcon"
-							x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-							FontSize="14"
-							Foreground="{ThemeResource SystemAccentColor}"
-							Glyph="&#xE896;" />
+							x:Name="OngoingTasksFontIcon"
+							x:Load="{x:Bind OngoingTasksViewModel.AnyOperationsOngoing, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+							FontSize="16"
+							Glyph="&#xF16A;" />
 
-						<!--  Progress  -->
 						<ProgressRing
-							x:Name="UpdateProgressRing"
+							x:Name="MedianOperationProgressRing"
 							Width="20"
 							Height="20"
-							x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay}"
-							IsIndeterminate="True" />
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							x:Load="{x:Bind OngoingTasksViewModel.AnyOperationsOngoing, Mode=OneWay}"
+							IsIndeterminate="False"
+							Value="{x:Bind OngoingTasksViewModel.MedianOperationProgressValue, Mode=OneWay}" />
 					</Grid>
-				</Button>
+				</Button.Content>
+				<Button.Flyout>
+					<Flyout contract8Present:ShouldConstrainToRootBounds="False" AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}">
+						<uc:OngoingTasksFlyout
+							x:Name="OngoingTasksControl"
+							Width="400"
+							MinHeight="300"
+							MaxHeight="500"
+							x:FieldModifier="public"
+							IsTabStop="True"
+							OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}" />
+					</Flyout>
+				</Button.Flyout>
+			</Button>
 
-				<!--  Update Release Notes  -->
-				<Button
-					x:Name="ViewReleaseNotesButton"
-					HorizontalContentAlignment="Stretch"
-					VerticalContentAlignment="Stretch"
-					x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
-					AccessKey="2"
-					AutomationProperties.Name="{helpers:ResourceString Name=ReleaseNotes}"
-					Command="{x:Bind ViewModel.ViewReleaseNotesCommand, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=ReleaseNotes}">
+			<!--  Install Update Notification  -->
+			<Button
+				x:Name="UpdateButton"
+				HorizontalContentAlignment="Stretch"
+				VerticalContentAlignment="Stretch"
+				x:Load="{x:Bind ViewModel.IsUpdateAvailable, Mode=OneWay}"
+				AccessKey="1"
+				AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
+				Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
+				IsEnabled="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}">
+				<Grid>
+					<!--  Icon  -->
 					<FontIcon
+						x:Name="UpdateIcon"
+						x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 						FontSize="14"
 						Foreground="{ThemeResource SystemAccentColor}"
-						Glyph="&#xF133;" />
-				</Button>
+						Glyph="&#xE896;" />
 
-				<Button
-					x:Name="SettingsButton"
-					AccessKey="I"
-					AutomationProperties.AutomationId="SettingsButton"
-					AutomationProperties.Name="{helpers:ResourceString Name=Settings}"
-					Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Settings}"
-					Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
-					<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
-						<AnimatedIcon.Source>
-							<animatedvisuals:AnimatedSettingsVisualSource />
-						</AnimatedIcon.Source>
-						<AnimatedIcon.FallbackIconSource>
-							<SymbolIconSource Symbol="Setting" />
-						</AnimatedIcon.FallbackIconSource>
-					</AnimatedIcon>
-				</Button>
-			</StackPanel>
+					<!--  Progress  -->
+					<ProgressRing
+						x:Name="UpdateProgressRing"
+						Width="20"
+						Height="20"
+						x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay}"
+						IsIndeterminate="True" />
+				</Grid>
+			</Button>
 
-			<TeachingTip
-				x:Name="StatusCenterTeachingTip"
-				Title="{helpers:ResourceString Name=OngoingTasksTeachingTip/Title}"
-				IsOpen="False"
-				Subtitle="{helpers:ResourceString Name=OngoingTasksTeachingTip/Subtitle}"
-				Target="{x:Bind OngoingTasks}" />
+			<!--  Update Release Notes  -->
+			<Button
+				x:Name="ViewReleaseNotesButton"
+				HorizontalContentAlignment="Stretch"
+				VerticalContentAlignment="Stretch"
+				x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
+				AccessKey="2"
+				AutomationProperties.Name="{helpers:ResourceString Name=ReleaseNotes}"
+				Command="{x:Bind ViewModel.ViewReleaseNotesCommand, Mode=OneWay}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=ReleaseNotes}">
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource SystemAccentColor}"
+					Glyph="&#xF133;" />
+			</Button>
 
-			<!--  Release Notes Teaching Tip  -->
-			<TeachingTip
-				x:Name="ReleaseNotesTeachingTip"
-				IsLightDismissEnabled="True"
-				IsOpen="{x:Bind ViewModel.IsReleaseNotesOpen, Mode=TwoWay}"
-				Target="{x:Bind ViewReleaseNotesButton}">
+			<!--  Settings  -->
+			<Button
+				x:Name="SettingsButton"
+				AccessKey="I"
+				AutomationProperties.AutomationId="SettingsButton"
+				AutomationProperties.Name="{helpers:ResourceString Name=Settings}"
+				Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=Settings}"
+				Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
+				<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
+					<AnimatedIcon.Source>
+						<animatedvisuals:AnimatedSettingsVisualSource />
+					</AnimatedIcon.Source>
+					<AnimatedIcon.FallbackIconSource>
+						<SymbolIconSource Symbol="Setting" />
+					</AnimatedIcon.FallbackIconSource>
+				</AnimatedIcon>
+			</Button>
 
-				<!--  Sponsor Button  -->
-				<TeachingTip.HeroContent>
-					<Border
-						Padding="12"
-						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-						BorderThickness="0,1,0,0">
+		</StackPanel>
 
-						<HyperlinkButton
-							HorizontalAlignment="Center"
-							Content="{helpers:ResourceString Name=SponsorUsOnGitHub}"
-							NavigateUri="https://github.com/sponsors/yaira2" />
-					</Border>
-				</TeachingTip.HeroContent>
+		<!--  Status Center Teaching Tip  -->
+		<TeachingTip
+			x:Name="StatusCenterTeachingTip"
+			Title="{helpers:ResourceString Name=OngoingTasksTeachingTip/Title}"
+			IsOpen="False"
+			Subtitle="{helpers:ResourceString Name=OngoingTasksTeachingTip/Subtitle}"
+			Target="{x:Bind OngoingTasks}" />
 
-				<!--  Markdown Content  -->
-				<TeachingTip.Content>
-					<ScrollViewer
-						MinHeight="300"
-						MaxHeight="400"
-						Margin="-12"
-						Padding="12"
-						HorizontalScrollMode="Auto"
-						VerticalScrollMode="Auto">
-						<controls:MarkdownTextBlock
-							Background="Transparent"
-							ListGutterWidth="16"
-							Text="{x:Bind ViewModel.ReleaseNotes, Mode=OneWay}" />
-					</ScrollViewer>
-				</TeachingTip.Content>
-			</TeachingTip>
-		</Grid>
+		<!--  Release Notes Teaching Tip  -->
+		<TeachingTip
+			x:Name="ReleaseNotesTeachingTip"
+			IsLightDismissEnabled="True"
+			IsOpen="{x:Bind ViewModel.IsReleaseNotesOpen, Mode=TwoWay}"
+			Target="{x:Bind ViewReleaseNotesButton}">
+
+			<!--  Sponsor Button  -->
+			<TeachingTip.HeroContent>
+				<Border
+					Padding="12"
+					Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+					BorderThickness="0,1,0,0">
+
+					<HyperlinkButton
+						HorizontalAlignment="Center"
+						Content="{helpers:ResourceString Name=SponsorUsOnGitHub}"
+						NavigateUri="https://github.com/sponsors/yaira2" />
+				</Border>
+			</TeachingTip.HeroContent>
+
+			<!--  Markdown Content  -->
+			<TeachingTip.Content>
+				<ScrollViewer
+					MinHeight="300"
+					MaxHeight="400"
+					Margin="-12"
+					Padding="12"
+					HorizontalScrollMode="Auto"
+					VerticalScrollMode="Auto">
+					<controls:MarkdownTextBlock
+						Background="Transparent"
+						ListGutterWidth="16"
+						Text="{x:Bind ViewModel.ReleaseNotes, Mode=OneWay}" />
+				</ScrollViewer>
+			</TeachingTip.Content>
+		</TeachingTip>
 
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup>
