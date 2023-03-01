@@ -1,4 +1,8 @@
-; CustomOpenDialog.def: dichiara i parametri del modulo.
+; Copyright (c) 2023 Files
+; Licensed under the MIT License. See the LICENSE.
+
+; Abstract:
+;  Declare the parameters of the module.
 
 LIBRARY
 
@@ -7,4 +11,4 @@ EXPORTS
 	DllGetClassObject	PRIVATE
 	DllRegisterServer	PRIVATE
 	DllUnregisterServer	PRIVATE
-	DllInstall		PRIVATE
+	DllInstall			PRIVATE

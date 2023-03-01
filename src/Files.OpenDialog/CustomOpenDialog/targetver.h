@@ -1,8 +1,11 @@
+// Copyright (c) 2023 Files
+// Licensed under the MIT License. See the LICENSE.
+
 #pragma once
 
-// L'inclusione di SDKDDKVer.h definisce la piattaforma Windows più recente disponibile.
+// Including SDKDDKVer.h defines the latest Windows platform available.
 
-// Se si desidera compilare l'applicazione per una piattaforma Windows precedente, includere WinSDKVer.h e
-// impostare la macro _WIN32_WINNT sulla piattaforma da supportare prima di includere SDKDDKVer.h.
+// If you want to compile the application for an older Windows platform, include WinSDKVer.h and
+// set the _WIN32_WINNT macro to the platform to support before including SDKDDKVer.h.
 
 #include <SDKDDKVer.h>
