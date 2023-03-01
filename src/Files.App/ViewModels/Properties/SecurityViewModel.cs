@@ -14,13 +14,16 @@ namespace Files.App.ViewModels.Properties
 {
 	public class SecurityViewModel : ObservableObject
 	{
-		public SecurityViewModel(ListedItem item) : this()
+		public SecurityViewModel(ListedItem item)
 		{
 			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
 			Item = item;
+
+			InitializeCommands();
+			GetAccessControlList();
 		}
 
-		public SecurityViewModel(DriveItem item) : this()
+		public SecurityViewModel(DriveItem item)
 		{
 			IsFolder = true;
 			Item = new ListedItem()
@@ -29,10 +32,7 @@ namespace Files.App.ViewModels.Properties
 				ItemPath = item.Path,
 				PrimaryItemAttribute = StorageItemTypes.Folder
 			};
-		}
 
-		private SecurityViewModel()
-		{
 			InitializeCommands();
 			GetAccessControlList();
 		}
@@ -133,33 +133,37 @@ namespace Files.App.ViewModels.Properties
 			var pickedSid = await OpenObjectPicker();
 			if (pickedSid is not null)
 			{
-				if (!AccessControlList.AccessControlEntries.Any(x => x.Principal.Sid == pickedSid))
+				var mapping = new AccessControlEntryPrimitiveMapping()
 				{
-					AccessControlList.AccessControlEntries.Add(
-						new(IsFolder)
-						{
-							AccessControlType = AccessControlType.Allow,
-							AccessMaskFlags = AccessMaskFlags.ReadAndExecute,
-							PrincipalSid = pickedSid,
-							Principal = Principal.FromSid(pickedSid),
-							IsInherited = true,
-							InheritanceFlags = IsFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
-							PropagationFlags = PropagationFlags.None
-						});
+					AccessControlType = System.Security.AccessControl.AccessControlType.Allow,
+					FileSystemRights = System.Security.AccessControl.FileSystemRights.ReadAndExecute,
+					InheritanceFlags = IsFolder
+						? System.Security.AccessControl.InheritanceFlags.ContainerInherit | System.Security.AccessControl.InheritanceFlags.ObjectInherit
+						: System.Security.AccessControl.InheritanceFlags.None,
+					IsInherited = false,
+					PrincipalSid = pickedSid,
+					PropagationFlags = System.Security.AccessControl.PropagationFlags.None,
+				};
 
-					SaveChangedAccessControlList();
-				}
+				AccessControlList.AccessControlEntryPrimitiveMappings.Add(mapping);
+				AccessControlList.AccessControlEntries.Add(new(mapping, IsFolder));
+
+				SaveChangedAccessControlList();
 			}
 		}
 
 		private void RemoveAccessControlEntry()
 		{
-			if (!AccessControlList.AccessControlEntries.Any(x => x.PrincipalSid == SelectedAccessControlEntry.Principal.Sid))
-			{
-				AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
+			AccessControlList.AccessControlEntryPrimitiveMappings.RemoveAll(x =>
+				x.AccessControlType == (System.Security.AccessControl.AccessControlType)SelectedAccessControlEntry.AccessControlType &&
+				x.FileSystemRights == (System.Security.AccessControl.FileSystemRights)SelectedAccessControlEntry.AccessMaskFlags &&
+				x.InheritanceFlags == (System.Security.AccessControl.InheritanceFlags)SelectedAccessControlEntry.InheritanceFlags &&
+				x.IsInherited == SelectedAccessControlEntry.IsInherited &&
+				x.PrincipalSid == SelectedAccessControlEntry.PrincipalSid &&
+				x.PropagationFlags == (System.Security.AccessControl.PropagationFlags)SelectedAccessControlEntry.PropagationFlags);
+			AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
 
-				SaveChangedAccessControlList();
-			}
+			SaveChangedAccessControlList();
 		}
 
 		private void DisableInheritance()

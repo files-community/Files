@@ -13,19 +13,24 @@ namespace Files.App.Filesystem.Security
 	/// </summary>
 	public class AccessControlEntry : ObservableObject
 	{
-		public AccessControlEntry(bool isFolder) : this()
+		public AccessControlEntry(AccessControlEntryPrimitiveMapping accessRule, bool isFolder)
 		{
 			IsFolder = isFolder;
 
-			if (IsInherited)
-				InheritedAllowAccessMaskFlags |= AccessMaskFlags;
-			else
-				AllowedAccessMaskFlags |= AccessMaskFlags;
-		}
+			AccessMaskItemList = GetAllAccessMaskList();
 
-		public AccessControlEntry(AccessControlEntryPrimitiveMapping accessRule, bool isFolder) : this()
-		{
-			IsFolder = isFolder;
+			ChangeAccessControlTypeCommand = new RelayCommand<string>(x =>
+			{
+				AccessControlType = Enum.Parse<AccessControlType>(x);
+			});
+
+			ChangeInheritanceFlagsCommand = new RelayCommand<string>(x =>
+			{
+				var parts = x.Split(',');
+
+				InheritanceFlags = Enum.Parse<InheritanceFlags>(parts[0]);
+				PropagationFlags = Enum.Parse<PropagationFlags>(parts[1]);
+			});
 
 			AccessControlType = (AccessControlType)accessRule.AccessControlType;
 			AccessMaskFlags = (AccessMaskFlags)accessRule.FileSystemRights;
@@ -50,24 +55,6 @@ namespace Files.App.Filesystem.Security
 						DeniedAccessMaskFlags |= AccessMaskFlags;
 					break;
 			}
-		}
-
-		private AccessControlEntry()
-		{
-			AccessMaskItemList = GetAllAccessMaskList();
-
-			ChangeAccessControlTypeCommand = new RelayCommand<string>(x =>
-			{
-				AccessControlType = Enum.Parse<AccessControlType>(x);
-			});
-
-			ChangeInheritanceFlagsCommand = new RelayCommand<string>(x =>
-			{
-				var parts = x.Split(',');
-
-				InheritanceFlags = Enum.Parse<InheritanceFlags>(parts[0]);
-				PropagationFlags = Enum.Parse<PropagationFlags>(parts[1]);
-			});
 		}
 
 		#region Fields and Properties

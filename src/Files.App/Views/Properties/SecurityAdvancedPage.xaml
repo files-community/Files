@@ -340,7 +340,7 @@
 																</Style>
 															</GridView.ItemContainerStyle>
 															<GridView.ItemTemplate>
-																<DataTemplate x:DataType="perm:AccessMaskItem">
+																<DataTemplate x:DataType="security:AccessMaskItem">
 																	<CheckBox IsChecked="{x:Bind IsEnabled, Mode=TwoWay}" IsEnabled="{x:Bind IsEditable}">
 																		<TextBlock
 																			Text="{x:Bind AccessMaskName}"
