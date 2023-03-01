@@ -153,14 +153,14 @@
   <data name="Skip" xml:space="preserve">
     <value>Skip</value>
   </data>
-  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
-    <value>Select All</value>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Виділити усе</value>
   </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
-    <value>Invert selection</value>
+  <data name="InvertSelection" xml:space="preserve">
+    <value>Інвертувати виділення</value>
   </data>
-  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
-    <value>Clear Selection</value>
+  <data name="ClearSelection" xml:space="preserve">
+    <value>Очистити виділення</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modified:</value>
@@ -622,7 +622,7 @@
     <value>Sponsor us on GitHub</value>
   </data>
   <data name="Personalization" xml:space="preserve">
-    <value>Personalization</value>
+    <value>Personalisation</value>
   </data>
   <data name="LayoutAndSorting" xml:space="preserve">
     <value>Layout and sorting</value>
@@ -1144,7 +1144,7 @@
     <value>Item name</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Unpin from Favourites</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Network drives</value>
@@ -2287,7 +2287,7 @@
     <value>Show alternate data streams</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
-    <value>Behaviors</value>
+    <value>Behaviours</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Review Files</value>
@@ -2503,7 +2503,7 @@
     <value>Settings</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double click on a blank space to go up one directory</value>
+    <value>Double-click on a blank space to go up one directory</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>View more</value>
@@ -2554,7 +2554,7 @@
     <value>Never</value>
   </data>
   <data name="TagColor" xml:space="preserve">
-    <value>Tag color</value>
+    <value>Tag colour</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
     <value>Save changes</value>
@@ -2603,5 +2603,8 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="MultiSelect" xml:space="preserve">
+    <value>Виділення кількох</value>
   </data>
 </root>

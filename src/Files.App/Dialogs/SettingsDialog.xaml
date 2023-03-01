@@ -83,7 +83,7 @@
 						Content="{helpers:ResourceString Name=SettingsNavPreferences/Content}"
 						Tag="1">
 						<NavigationViewItem.Icon>
-							<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF116;" />
+							<FontIcon Glyph="&#xE9E9;" />
 						</NavigationViewItem.Icon>
 					</NavigationViewItem>
 					<NavigationViewItem

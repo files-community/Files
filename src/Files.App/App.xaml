@@ -5,8 +5,6 @@
 
 	<Application.Resources>
 		<ResourceDictionary>
-			<FontFamily x:Key="CustomGlyph">/Assets/Custom Glyphs/Custom-Glyphs.ttf#Custom-Glyphs</FontFamily>
-
 			<!--  Default list view item height  -->
 			<x:Double x:Key="ListItemHeight">36</x:Double>
 
