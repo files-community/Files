@@ -4,15 +4,18 @@
 	{
 		None,
 
-		// global
+		// Global
 		OpenHelp,
 		ToggleFullScreen,
 
-		// show
+		// Show
 		ToggleShowHiddenItems,
 		ToggleShowFileExtensions,
 
-		// file system
+		// File System
+		CopyItem,
+		CutItem,
+		DeleteItem,
 		CreateFolder,
 		CreateShortcut,
 		CreateShortcutFromDialog,
@@ -20,7 +23,13 @@
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
 
-    // Start
+		// Selection
+		MultiSelect,
+		SelectAll,
+		InvertSelection,
+		ClearSelection,
+
+		// Start
 		PinToStart,
 		UnpinFromStart,
 

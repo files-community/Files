@@ -749,47 +749,16 @@ namespace Files.App.Helpers
 					ShowInZipPage = true,
 					ShowItem = itemsSelected
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.CutItem)
 				{
-					Text = "BaseLayoutItemContextFlyoutCut/Text".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconCut",
-					},
-					Command = commandsViewModel.CutItemCommand,
+					IsVisible = itemsSelected,
 					IsPrimary = true,
-					KeyboardAccelerator = new KeyboardAccelerator
-					{
-						Key = VirtualKey.X,
-						Modifiers = VirtualKeyModifiers.Control,
-						IsEnabled = false,
-					},
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-					ShowItem = itemsSelected
-				},
-				new ContextMenuFlyoutItemViewModel()
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.CopyItem)
 				{
-					Text = "Copy".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconCopy",
-					},
-					Command = commandsViewModel.CopyItemCommand,
-					ShowInRecycleBin = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
+					IsVisible = itemsSelected,
 					IsPrimary = true,
-					KeyboardAccelerator = new KeyboardAccelerator
-					{
-						Key = VirtualKey.C,
-						Modifiers = VirtualKeyModifiers.Control,
-						IsEnabled = false,
-					},
-					ShowItem = itemsSelected
-				},
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "CopyLocation".GetLocalizedResource(),
@@ -871,26 +840,11 @@ namespace Files.App.Helpers
 					Command = commandsViewModel.ShareItemCommand,
 					ShowItem = itemsSelected && DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem || (i.IsShortcut && !i.IsLinkItem) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && !i.IsArchive)),
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.DeleteItem)
 				{
-					Text = "Delete".GetLocalizedResource(),
+					IsVisible = itemsSelected,
 					IsPrimary = true,
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconDelete",
-					},
-					Command = commandsViewModel.DeleteItemCommand,
-					ShowInRecycleBin = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-					KeyboardAccelerator = new KeyboardAccelerator
-					{
-						Key = VirtualKey.Delete,
-						IsEnabled = false,
-					},
-					ShowItem = itemsSelected
-				},
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Properties".GetLocalizedResource(),
@@ -925,10 +879,12 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModelBuilder(commands.PinToStart)
 				{
 					IsVisible = selectedItems.All(x => !x.IsShortcut && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsArchive && !x.IsItemPinnedToStart),
+					ShowOnShift = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.UnpinFromStart)
 				{
 					IsVisible = selectedItems.All(x => !x.IsShortcut && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsArchive && x.IsItemPinnedToStart),
+					ShowOnShift = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel
 				{

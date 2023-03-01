@@ -136,7 +136,7 @@
     <value>Elérési út:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Méret:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Tömörítetlen méret:</value>
@@ -153,13 +153,13 @@
   <data name="Skip" xml:space="preserve">
     <value>Kihagyás</value>
   </data>
-  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
+  <data name="SelectAll" xml:space="preserve">
     <value>Összes kijelölése</value>
   </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
+  <data name="InvertSelection" xml:space="preserve">
     <value>Kijelölés megfordítása</value>
   </data>
-  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
+  <data name="ClearSelection" xml:space="preserve">
     <value>Kijelölés megszüntetése</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -2603,5 +2603,8 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Mentés</value>
+  </data>
+  <data name="MultiSelect" xml:space="preserve">
+    <value>Több elem kijelölése</value>
   </data>
 </root>
