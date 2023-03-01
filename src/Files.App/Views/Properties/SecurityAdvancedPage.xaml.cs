@@ -41,6 +41,8 @@ namespace Files.App.Views.Properties
 
 		public SecurityViewModel? ViewModel { get; set; }
 
+		public Window window;
+    
 		public AppWindow? appWindow;
 
 		private readonly bool _isWinUI3;
@@ -127,20 +129,28 @@ namespace Files.App.Views.Properties
 			if (_isWinUI3 && appWindow is not null)
 			{
 				ViewModel?.SaveChangedAccessControlList();
-				appWindow.Destroy();
+        
+				// AppWindow.Destroy() doesn't seem to work well. (#11461)
+				window.Close();
 			}
 		}
 
 		private void CancelButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (_isWinUI3 && appWindow is not null)
-				appWindow.Destroy();
+			{
+				// AppWindow.Destroy() doesn't seem to work well. (#11461)
+				window.Close();
+			}
 		}
 
 		private void SecurityAdvancedPage_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key.Equals(VirtualKey.Escape) && _isWinUI3 && appWindow is not null)
-				appWindow.Destroy();
+			{
+				// AppWindow.Destroy() doesn't seem to work well. (#11461)
+				window.Close();
+			}
 		}
 		#endregion
 

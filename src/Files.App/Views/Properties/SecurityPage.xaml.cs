@@ -91,7 +91,10 @@ namespace Files.App.Views.Properties
 					appWindow.SetIcon(FilePropertiesHelpers.LogoPath);
 
 					if (frame.Content is SecurityAdvancedPage properties)
+					{
+						properties.window = propertiesWindow;
 						properties.appWindow = appWindow;
+					}
 
 					// Customize titlebar
 					appWindow.TitleBar.ExtendsContentIntoTitleBar = true;

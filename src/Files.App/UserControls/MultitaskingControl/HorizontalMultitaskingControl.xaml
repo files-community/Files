@@ -23,9 +23,6 @@
 							Click="{x:Bind vm:MainPageViewModel.AddNewTabAtIndex}"
 							KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlNewTab/KeyboardAcceleratorTextOverride}"
 							Text="{helpers:ResourceString Name=HorizontalMultitaskingControlNewTab/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
-							</MenuFlyoutItem.Icon>
 							<MenuFlyoutItem.KeyboardAccelerators>
 								<KeyboardAccelerator
 									Key="T"
@@ -36,11 +33,7 @@
 						<MenuFlyoutItem
 							Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
 							KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab/KeyboardAcceleratorTextOverride}"
-							Text="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11B;" />
-							</MenuFlyoutItem.Icon>
-						</MenuFlyoutItem>
+							Text="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab/Text}" />
 						<MenuFlyoutItem
 							x:Name="MenuItemMoveTabToNewWindow"
 							Click="MoveTabToNewWindow"
