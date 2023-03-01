@@ -153,13 +153,13 @@
   <data name="Skip" xml:space="preserve">
     <value>Überspringen</value>
   </data>
-  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
-    <value>Alles auswählen</value>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Alle auswählen</value>
   </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
+  <data name="InvertSelection" xml:space="preserve">
     <value>Auswahl umkehren</value>
   </data>
-  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
+  <data name="ClearSelection" xml:space="preserve">
     <value>Auswahl aufheben</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -2603,5 +2603,8 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Speichern</value>
+  </data>
+  <data name="MultiSelect" xml:space="preserve">
+    <value>Mehrfachauswahl</value>
   </data>
 </root>
