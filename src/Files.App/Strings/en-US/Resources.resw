@@ -2605,7 +2605,7 @@
     <value>Open in terminal</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in terminal as admin</value>
+    <value>Open in terminal as administrator</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
