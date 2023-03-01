@@ -107,7 +107,7 @@
 					AccessKey="X"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCutButton"
 					Command="{x:Bind Commands.CutItem, Mode=OneWay}"
-          Content="{x:Bind Commands.CutItem.Icon}"
+          				Content="{x:Bind Commands.CutItem.Icon}"
 					IsEnabled="{x:Bind Commands.CutItem.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.CutItem.Label}"
 					LabelPosition="Collapsed"
@@ -120,7 +120,7 @@
 					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
 					Command="{x:Bind Commands.CopyItem, Mode=OneWay}"
 					Content="{x:Bind Commands.CopyItem.Icon}"
-          IsEnabled="{x:Bind Commands.CopyItem.IsExecutable, Mode=OneWay}"
+          				IsEnabled="{x:Bind Commands.CopyItem.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.CopyItem}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{x:Bind Commands.CopyItem}">
@@ -178,8 +178,8 @@
 					MinWidth="40"
 					AutomationProperties.AutomationId="Delete"
 					Command="{x:Bind Commands.DeleteItem, Mode=OneWay}"
-          Content="{x:Bind Commands.DeleteItem.Icon}"
-          IsEnabled="{x:Bind Commands.DeleteItem.IsExecutable}"
+          				Content="{x:Bind Commands.DeleteItem.Icon}"
+          				IsEnabled="{x:Bind Commands.DeleteItem.IsExecutable}"
 					Label="{x:Bind Commands.DeleteItem.Label}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{x:Bind Commands.DeleteItem.Label}">
