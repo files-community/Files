@@ -318,9 +318,7 @@ namespace Files.App.Filesystem
 			else
 			{
 				if (path.EndsWith('\\') || path.EndsWith('/'))
-				{
 					path = path.Remove(path.Length - 1);
-				}
 				return new PathBoxItem
 				{
 					Title = component,
