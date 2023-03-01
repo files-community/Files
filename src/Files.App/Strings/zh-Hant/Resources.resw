@@ -136,7 +136,7 @@
     <value>路徑：</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>大小：</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>壓縮前的大小：</value>

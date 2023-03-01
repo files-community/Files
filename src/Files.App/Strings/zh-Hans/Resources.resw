@@ -136,7 +136,7 @@
     <value>路径:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>大小:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>未压缩大小:</value>
@@ -175,7 +175,7 @@
     <value>输入路径</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>搜索</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>以前访问过的文件和文件夹将显示在此处</value>
@@ -247,22 +247,22 @@
     <value>刷新</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>粘贴</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>新建</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>属性</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>打开</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>在新标签页中打开</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>在新窗口中打开</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>共享</value>
@@ -289,7 +289,7 @@
     <value>显示</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>键入名称</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>设置名称</value>
@@ -373,7 +373,7 @@
     <value>文件正在使用中</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>布局</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>只读</value>
@@ -673,7 +673,7 @@
     <value>跳转到上级目录</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>语言</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>将 shell 扩展（shell extensions）形式的菜单移入子菜单中</value>
@@ -955,7 +955,7 @@
     <value>地址</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>项目选择选项</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>选择</value>
@@ -997,7 +997,7 @@
     <value>新建标签页</value>
   </data>
   <data name="NewTabCtrlT" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+    <value>新建标签页 (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>某些属性可能包含个人信息。</value>
@@ -1036,7 +1036,7 @@
     <value>自定义右键菜单</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>原始路径</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>添加</value>
@@ -1144,7 +1144,7 @@
     <value>项目名称</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>从收藏夹取消固定</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>网络驱动器</value>
@@ -1318,7 +1318,7 @@
     <value>同名称的库已存在。</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>打开存储感知</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>复制</value>
@@ -1378,7 +1378,7 @@
     <value>搜索未编入索引的项</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>替换已有的项目</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>生成新名称</value>
@@ -1420,7 +1420,7 @@
     <value>删除日期列</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>排序</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>分组依据</value>
@@ -1489,7 +1489,7 @@
     <value>重新打开关闭的标签页</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>重命名</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>隐私</value>
@@ -1909,7 +1909,7 @@
     <value>打开上级目录</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>未知</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>编辑文件标签</value>
@@ -1927,7 +1927,7 @@
     <value>插入盘片</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>OK</value>
+    <value>确定</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>需要访问凭据</value>
@@ -1978,7 +1978,7 @@
     <value>平铺</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>在新标签页中打开文件夹</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>进行中的任务</value>
@@ -2362,7 +2362,7 @@
     <value>还原所有项目</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>还原</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>无法打开快捷方式</value>

@@ -40,6 +40,7 @@ namespace Files.App.Views.Properties
 		public SettingsViewModel AppSettings
 			=> App.AppSettings;
 
+		public Window Window;
 		public AppWindow AppWindow;
 
 		public ObservableCollection<SquareNavViewItem> NavViewItems { get; set; }
@@ -308,7 +309,8 @@ namespace Files.App.Views.Properties
 		private void ClosePage()
 		{
 			if (_usingWinUI)
-				AppWindow.Destroy();
+				// AppWindow.Destroy() doesn't seem to work well. (#11461)
+				Window.Close();
 			else
 				_propertiesDialog?.Hide();
 		}
@@ -362,8 +364,6 @@ namespace Files.App.Views.Properties
 		public string? OutlinePathIcon;
 
 		public string? FilledPathIcon;
-
-		public bool UseCustomGlyph;
 
 		private bool _isSelected;
 		public bool IsSelected
