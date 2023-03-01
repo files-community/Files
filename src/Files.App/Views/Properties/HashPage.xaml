@@ -6,6 +6,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Views.Properties"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:models="using:Files.Backend.Models"
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	mc:Ignorable="d">
@@ -20,7 +21,7 @@
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
 			CornerRadius="4">
-			<ListView>
+			<ListView ItemsSource="{x:Bind ViewModel.Hashes, Mode=OneWay}">
 				<ListView.Header>
 					<Grid
 						Height="44"
@@ -50,66 +51,28 @@
 							Text="Hash value" />
 					</Grid>
 				</ListView.Header>
-				<ListViewItem>
-					<Grid ColumnSpacing="12">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="64" />
-							<ColumnDefinition Width="1" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<TextBlock
-							VerticalAlignment="Center"
-							Style="{StaticResource BodyTextBlockStyle}"
-							Text="MD5" />
-						<TextBlock
-							Grid.Column="2"
-							VerticalAlignment="Center"
-							Style="{StaticResource BodyTextBlockStyle}"
-							Text="5E2268E379DA0E49FAB326876FAB6119"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
-					</Grid>
-				</ListViewItem>
-				<ListViewItem>
-					<Grid ColumnSpacing="12">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="64" />
-							<ColumnDefinition Width="1" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<TextBlock
-							VerticalAlignment="Center"
-							Style="{StaticResource BodyTextBlockStyle}"
-							Text="SHA-256" />
-						<TextBlock
-							Grid.Column="2"
-							VerticalAlignment="Center"
-							Style="{StaticResource BodyTextBlockStyle}"
-							Text="AFA01B3877536BFF075E7C5ABFBE13FDDC8F0CAEC2180E05E02580F6A18A733B"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
-					</Grid>
-				</ListViewItem>
-				<ListViewItem>
-					<Grid ColumnSpacing="12">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="64" />
-							<ColumnDefinition Width="1" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<TextBlock
-							VerticalAlignment="Center"
-							Style="{StaticResource BodyTextBlockStyle}"
-							Text="SHA-512" />
-						<TextBlock
-							Grid.Column="2"
-							VerticalAlignment="Center"
-							Style="{StaticResource BodyTextBlockStyle}"
-							Text="5A8A0A0335CB6866117B3793E83BACE21FFCE87DFF7516744927E5790CD14943098C17A78561D316EA374FE396D50DB04789C75884F2777E54DCD2FE05734593"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
-					</Grid>
-				</ListViewItem>
+				<ListView.ItemTemplate>
+					<DataTemplate x:DataType="models:HashInfoItem">
+						<Grid ColumnSpacing="12">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="64" />
+								<ColumnDefinition Width="1" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<TextBlock
+								VerticalAlignment="Center"
+								Style="{StaticResource BodyTextBlockStyle}"
+								Text="{x:Bind Algorithm}" />
+							<TextBlock
+								Grid.Column="2"
+								VerticalAlignment="Center"
+								Style="{StaticResource BodyTextBlockStyle}"
+								Text="{x:Bind HashValue}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap" />
+						</Grid>
+					</DataTemplate>
+				</ListView.ItemTemplate>
 			</ListView>
 		</Grid>
 	</Grid>
