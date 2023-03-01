@@ -107,26 +107,22 @@
 					AccessKey="X"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCutButton"
 					Command="{x:Bind ViewModel.CutCommand, Mode=OneWay}"
+					Content="{x:Bind Commands.CutItem.Icon}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut/Text}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut/Text}">
-
-					<local:OpacityIcon Style="{StaticResource ColorIconCut}" />
-				</AppBarButton>
+					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut/Text}" />
 				<AppBarButton
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="C"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
 					Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
+					Content="{x:Bind Commands.CopyItem.Icon}"
 					IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=Copy}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Copy}">
-
-					<local:OpacityIcon Style="{StaticResource ColorIconCopy}" />
-				</AppBarButton>
+					ToolTipService.ToolTip="{helpers:ResourceString Name=Copy}" />
 				<AppBarButton
 					x:Name="PasteButton"
 					Width="Auto"
@@ -180,13 +176,11 @@
 					MinWidth="40"
 					AutomationProperties.AutomationId="Delete"
 					Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}"
+					Content="{x:Bind Commands.DeleteItem.Icon}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=Delete}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
-
-					<local:OpacityIcon Style="{StaticResource ColorIconDelete}" />
-				</AppBarButton>
+					ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}" />
 				<AppBarButton
 					x:Name="PropertiesButton"
 					Width="Auto"
@@ -207,7 +201,7 @@
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="B"
 					Command="{x:Bind Commands.EmptyRecycleBin}"
-					Content="{x:Bind Commands.EmptyRecycleBin.Icon}"
+					Content="{x:Bind Commands.EmptyRecycleBin.OpacityIcon}"
 					IsEnabled="{x:Bind Commands.EmptyRecycleBin.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.EmptyRecycleBin.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.EmptyRecycleBin.Label}" />
@@ -216,7 +210,7 @@
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="R"
 					Command="{x:Bind Commands.RestoreAllRecycleBin}"
-					Content="{x:Bind Commands.RestoreAllRecycleBin.Icon}"
+					Content="{x:Bind Commands.RestoreAllRecycleBin.OpacityIcon}"
 					Label="{x:Bind Commands.RestoreAllRecycleBin.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.RestoreAllRecycleBin.Label}"
 					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
@@ -225,7 +219,7 @@
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="R"
 					Command="{x:Bind Commands.RestoreRecycleBin}"
-					Content="{x:Bind Commands.RestoreRecycleBin.Icon}"
+					Content="{x:Bind Commands.RestoreRecycleBin.OpacityIcon}"
 					Label="{x:Bind Commands.RestoreRecycleBin.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.RestoreRecycleBin.Label}"
 					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay}" />
