@@ -67,8 +67,8 @@
 							<MenuFlyoutItem
 								x:Name="ToolbarNewFolderItem"
 								AutomationProperties.AutomationId="InnerNavigationToolbarNewFolderButton"
-								Command="{x:Bind ViewModel.CreateNewFolderCommand, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=Folder}">
+								Command="{x:Bind Commands.CreateFolder, Mode=OneWay}"
+								Text="{x:Bind Commands.CreateFolder.Label}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE8B7;" />
 								</MenuFlyoutItem.Icon>
@@ -87,8 +87,8 @@
 							<MenuFlyoutItem
 								x:Name="NewShortcut"
 								AutomationProperties.AutomationId="InnerNavigationToolbarNewShortcutButton"
-								Command="{x:Bind ViewModel.CreateNewShortcutCommand, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=Shortcut}">
+								Command="{x:Bind Commands.CreateShortcutFromDialog, Mode=OneWay}"
+								Text="{x:Bind Commands.CreateShortcutFromDialog.Label}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE71B;" />
 								</MenuFlyoutItem.Icon>
@@ -106,23 +106,25 @@
 					MinWidth="40"
 					AccessKey="X"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCutButton"
-					Command="{x:Bind ViewModel.CutCommand, Mode=OneWay}"
-					Content="{x:Bind Commands.CutItem.Icon}"
-					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut/Text}"
+					Command="{x:Bind Commands.CutItem, Mode=OneWay}"
+          Content="{x:Bind Commands.CutItem.Icon}"
+					IsEnabled="{x:Bind Commands.CutItem.IsExecutable, Mode=OneWay}"
+					Label="{x:Bind Commands.CutItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut/Text}" />
+					ToolTipService.ToolTip="{x:Bind Commands.CutItem.Label}">
+				</AppBarButton>
 				<AppBarButton
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="C"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
-					Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
+					Command="{x:Bind Commands.CopyItem, Mode=OneWay}"
 					Content="{x:Bind Commands.CopyItem.Icon}"
-					IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=Copy}"
+          IsEnabled="{x:Bind Commands.CopyItem.IsExecutable, Mode=OneWay}"
+					Label="{x:Bind Commands.CopyItem}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Copy}" />
+					ToolTipService.ToolTip="{x:Bind Commands.CopyItem}">
+				</AppBarButton>
 				<AppBarButton
 					x:Name="PasteButton"
 					Width="Auto"
@@ -175,12 +177,13 @@
 					Width="Auto"
 					MinWidth="40"
 					AutomationProperties.AutomationId="Delete"
-					Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}"
-					Content="{x:Bind Commands.DeleteItem.Icon}"
-					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=Delete}"
+					Command="{x:Bind Commands.DeleteItem, Mode=OneWay}"
+          Content="{x:Bind Commands.DeleteItem.Icon}"
+          IsEnabled="{x:Bind Commands.DeleteItem.IsExecutable}"
+					Label="{x:Bind Commands.DeleteItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}" />
+					ToolTipService.ToolTip="{x:Bind Commands.DeleteItem.Label}">
+				</AppBarButton>
 				<AppBarButton
 					x:Name="PropertiesButton"
 					Width="Auto"
