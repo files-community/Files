@@ -32,39 +32,27 @@ namespace Files.App.Commands
 			opacityStyle = OpacityStyle;
 		}
 
-		public FontFamily ToFontFamily()
-		{
-			return string.IsNullOrEmpty(FontFamily)
-				? App.AppModel.SymbolFontFamily
-				: (FontFamily)Current.Resources[FontFamily];
-		}
-
-		public FontIcon? ToFontIcon()
+		public object? ToIcon()
 		{
 			if (IsNone)
 				return null;
 
-			var icon = new FontIcon
+			if (!string.IsNullOrEmpty(OpacityStyle))
+			{
+				return new OpacityIcon
+				{
+					Style = (Style)Current.Resources[OpacityStyle]
+				};
+			}
+
+			var fontIcon = new FontIcon
 			{
 				Glyph = BaseGlyph,
 			};
 			if (!string.IsNullOrEmpty(FontFamily))
-				icon.FontFamily = (FontFamily)Current.Resources[FontFamily];
+				fontIcon.FontFamily = (FontFamily)Current.Resources[FontFamily];
 
-			return icon;
-		}
-
-		public OpacityIcon? ToOpacityIcon()
-		{
-			if (IsNone)
-				return null;
-
-			var icon = new OpacityIcon
-			{
-				Style = (Style)Current.Resources[OpacityStyle]
-			};
-
-			return icon;
+			return fontIcon;
 		}
 	}
 }

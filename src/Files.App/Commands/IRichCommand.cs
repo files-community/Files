@@ -16,6 +16,7 @@ namespace Files.App.Commands
 		string AutomationName { get; }
 
 		RichGlyph Glyph { get; }
+		object? Icon { get; }
 		FontIcon? FontIcon { get; }
 		OpacityIcon? OpacityIcon { get; }
 
