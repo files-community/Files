@@ -1,7 +1,8 @@
 # THIRD PARTY NOTICES
 Files uses third-party libraries and resources that may be distributed under licenses different than Files.
 
-In the event that we accidentally failed to list a required notice, please bring it to our attention. Post an issue on GitHub or send a message on Discord.
+In the event that we accidentally failed to list a required notice, please bring it to our attention by opening an issue.
+
 
 ## 7-Zip
 
