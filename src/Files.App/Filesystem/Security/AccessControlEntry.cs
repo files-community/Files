@@ -13,9 +13,48 @@ namespace Files.App.Filesystem.Security
 	/// </summary>
 	public class AccessControlEntry : ObservableObject
 	{
-		public AccessControlEntry(AccessControlEntryPrimitiveMapping accessRule, bool isFolder)
+		public AccessControlEntry(bool isFolder) : this()
 		{
 			IsFolder = isFolder;
+
+			if (IsInherited)
+				InheritedAllowAccessMaskFlags |= AccessMaskFlags;
+			else
+				AllowedAccessMaskFlags |= AccessMaskFlags;
+		}
+
+		public AccessControlEntry(AccessControlEntryPrimitiveMapping accessRule, bool isFolder) : this()
+		{
+			IsFolder = isFolder;
+
+			AccessControlType = (AccessControlType)accessRule.AccessControlType;
+			AccessMaskFlags = (AccessMaskFlags)accessRule.FileSystemRights;
+			PrincipalSid = accessRule.PrincipalSid;
+			Principal = Principal.FromSid(accessRule.PrincipalSid);
+			IsInherited = accessRule.IsInherited;
+			InheritanceFlags = (InheritanceFlags)accessRule.InheritanceFlags;
+			PropagationFlags = (PropagationFlags)accessRule.PropagationFlags;
+
+			switch (AccessControlType)
+			{
+				case AccessControlType.Allow:
+					if (IsInherited)
+						InheritedAllowAccessMaskFlags |= AccessMaskFlags;
+					else
+						AllowedAccessMaskFlags |= AccessMaskFlags;
+					break;
+				case AccessControlType.Deny:
+					if (IsInherited)
+						InheritedDenyAccessMaskFlags |= AccessMaskFlags;
+					else
+						DeniedAccessMaskFlags |= AccessMaskFlags;
+					break;
+			}
+		}
+
+		private AccessControlEntry()
+		{
+			AccessMaskItemList = GetAllAccessMaskList();
 
 			ChangeAccessControlTypeCommand = new RelayCommand<string>(x =>
 			{
@@ -29,22 +68,10 @@ namespace Files.App.Filesystem.Security
 				InheritanceFlags = Enum.Parse<InheritanceFlags>(parts[0]);
 				PropagationFlags = Enum.Parse<PropagationFlags>(parts[1]);
 			});
-
-			_accessMaskItemList = new();
-			AccessMaskItemList = GetAllAccessMaskList();
-
-			AccessControlType = (AccessControlType)accessRule.AccessControlType;
-			AccessMaskFlags = (AccessMaskFlags)accessRule.FileSystemRights;
-			PrincipalSid = accessRule.PrincipalSid;
-			IsInherited = accessRule.IsInherited;
-			InheritanceFlags = (InheritanceFlags)accessRule.InheritanceFlags;
-			PropagationFlags = (PropagationFlags)accessRule.PropagationFlags;
 		}
 
 		#region Fields and Properties
-		private readonly bool _isFolder;
-
-		public bool IsFolder { get; }
+		public readonly bool IsFolder;
 
 		public string? PrincipalSid { get; set; }
 
@@ -198,49 +225,11 @@ namespace Files.App.Filesystem.Security
 			set => SetProperty(ref _accessMaskItemList, value);
 		}
 
-		#region Access Controls that are used for security advanced page
-		public bool WriteAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Write);
-		public bool ReadAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Read);
-		public bool ListDirectoryAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
-		public bool ReadAndExecuteAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.ReadAndExecute);
-		public bool ModifyAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Modify);
-		public bool FullControlAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.FullControl);
-		public bool SpecialAccess
-			=> (AccessMaskFlags &
-				~AccessMaskFlags.Synchronize &
-				(FullControlAccess ? ~AccessMaskFlags.FullControl : AccessMaskFlags.FullControl) &
-				(ModifyAccess ? ~AccessMaskFlags.Modify : AccessMaskFlags.FullControl) &
-				(ReadAndExecuteAccess ? ~AccessMaskFlags.ReadAndExecute : AccessMaskFlags.FullControl) &
-				(ReadAccess ? ~AccessMaskFlags.Read : AccessMaskFlags.FullControl) &
-				(WriteAccess ? ~AccessMaskFlags.Write : AccessMaskFlags.FullControl)) != 0;
-		#endregion
-
 		public RelayCommand<string> ChangeAccessControlTypeCommand { get; set; }
 		public RelayCommand<string> ChangeInheritanceFlagsCommand { get; set; }
 
-		// ------------ BELOW FIELDS AND PROPERTIES ARE USED FOR DIFFERENT PURPOSE FROM ABOVE ONES ------------
-
-		public AccessMaskFlags InheritedDenyAccessMaskFlags { get; set; }
-
 		public AccessMaskFlags InheritedAllowAccessMaskFlags { get; set; }
-
-		private AccessMaskFlags _deniedAccessMaskFlags;
-		public AccessMaskFlags DeniedAccessMaskFlags
-		{
-			get => _deniedAccessMaskFlags;
-			set
-			{
-				if (SetProperty(ref _deniedAccessMaskFlags, value))
-				{
-					OnPropertyChanged(nameof(DeniedWriteAccess));
-					OnPropertyChanged(nameof(DeniedFullControlAccess));
-					OnPropertyChanged(nameof(DeniedListDirectoryAccess));
-					OnPropertyChanged(nameof(DeniedModifyAccess));
-					OnPropertyChanged(nameof(DeniedReadAccess));
-					OnPropertyChanged(nameof(DeniedReadAndExecuteAccess));
-				}
-			}
-		}
+		public AccessMaskFlags InheritedDenyAccessMaskFlags { get; set; }
 
 		private AccessMaskFlags _allowedAccessMaskFlags;
 		public AccessMaskFlags AllowedAccessMaskFlags
@@ -260,7 +249,39 @@ namespace Files.App.Filesystem.Security
 			}
 		}
 
-		#region Access Controls that are used for security page
+		private AccessMaskFlags _deniedAccessMaskFlags;
+		public AccessMaskFlags DeniedAccessMaskFlags
+		{
+			get => _deniedAccessMaskFlags;
+			set
+			{
+				if (SetProperty(ref _deniedAccessMaskFlags, value))
+				{
+					OnPropertyChanged(nameof(DeniedWriteAccess));
+					OnPropertyChanged(nameof(DeniedFullControlAccess));
+					OnPropertyChanged(nameof(DeniedListDirectoryAccess));
+					OnPropertyChanged(nameof(DeniedModifyAccess));
+					OnPropertyChanged(nameof(DeniedReadAccess));
+					OnPropertyChanged(nameof(DeniedReadAndExecuteAccess));
+				}
+			}
+		}
+
+		public bool WriteAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Write);
+		public bool ReadAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Read);
+		public bool ListDirectoryAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
+		public bool ReadAndExecuteAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.ReadAndExecute);
+		public bool ModifyAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Modify);
+		public bool FullControlAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.FullControl);
+		public bool SpecialAccess
+			=> (AccessMaskFlags &
+				~AccessMaskFlags.Synchronize &
+				(FullControlAccess ? ~AccessMaskFlags.FullControl : AccessMaskFlags.FullControl) &
+				(ModifyAccess ? ~AccessMaskFlags.Modify : AccessMaskFlags.FullControl) &
+				(ReadAndExecuteAccess ? ~AccessMaskFlags.ReadAndExecute : AccessMaskFlags.FullControl) &
+				(ReadAccess ? ~AccessMaskFlags.Read : AccessMaskFlags.FullControl) &
+				(WriteAccess ? ~AccessMaskFlags.Write : AccessMaskFlags.FullControl)) != 0;
+
 		public bool AllowedInheritedWriteAccess =>          InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.Write);
 		public bool AllowedInheritedReadAccess =>           InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.Read);
 		public bool AllowedInheritedListDirectoryAccess =>  InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
@@ -346,7 +367,6 @@ namespace Files.App.Filesystem.Security
 			get => DeniedAccessMaskFlags.HasFlag(AccessMaskFlags.FullControl) || DeniedInheritedFullControlAccess;
 			set => ToggleDenyAccess(AccessMaskFlags.FullControl, value);
 		}
-		#endregion
 		#endregion
 
 		#region Methods

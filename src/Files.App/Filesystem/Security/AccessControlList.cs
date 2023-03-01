@@ -35,7 +35,7 @@ namespace Files.App.Filesystem.Security
 
 		public List<AccessControlEntryPrimitiveMapping> AccessControlEntryPrimitiveMappings { get; private set; }
 
-		private readonly string? _path;
+		private readonly string _path;
 
 		private readonly bool _isFolder;
 		#endregion
@@ -43,7 +43,6 @@ namespace Files.App.Filesystem.Security
 		#region Methods
 		public bool SetAccessControl()
 		{
-			// Get ACL
 			if (GetAccessControl(_path, _isFolder, out var fileSystemSecurity))
 			{
 				try
@@ -58,7 +57,7 @@ namespace Files.App.Filesystem.Security
 					foreach (var rule in AccessControlEntryPrimitiveMappings.Where(x => !x.IsInherited))
 						fileSystemSecurity.AddAccessRule(rule.ToFileSystemAccessRule());
 
-					// Save updates
+					// Save changes
 					if (_isFolder)
 						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(_path), (DirectorySecurity)fileSystemSecurity);
 					else
@@ -66,12 +65,8 @@ namespace Files.App.Filesystem.Security
 
 					return true;
 				}
-				catch (UnauthorizedAccessException)
-				{
-				}
-				catch (Exception)
-				{
-				}
+				catch (UnauthorizedAccessException) { }
+				catch (Exception) { }
 			}
 
 			return false;
@@ -85,6 +80,7 @@ namespace Files.App.Filesystem.Security
 				{
 					acs.SetAccessRuleProtection(isProtected, preserveInheritance);
 
+					// Save changes
 					if (_isFolder)
 						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(_path), (DirectorySecurity)acs);
 					else
@@ -92,12 +88,8 @@ namespace Files.App.Filesystem.Security
 
 					return true;
 				}
-				catch (UnauthorizedAccessException)
-				{
-				}
-				catch (Exception)
-				{
-				}
+				catch (UnauthorizedAccessException) { }
+				catch (Exception) { }
 			}
 
 			return false;
@@ -145,7 +137,7 @@ namespace Files.App.Filesystem.Security
 					// Set owner
 					acs.SetOwner(new SecurityIdentifier(sid));
 
-					// Save updates
+					// Save changes
 					if (isFolder)
 						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(path), (DirectorySecurity)acs);
 					else
@@ -153,11 +145,11 @@ namespace Files.App.Filesystem.Security
 
 					return true;
 				}
-				catch (UnauthorizedAccessException) {}
-				catch (Exception) {}
+				catch (UnauthorizedAccessException) { }
+				catch (Exception) { }
 			}
 
-			// If previous operation was unauthorized access, try again trough elevated PowerShell
+			// If previous operation was unauthorized access, try again through elevated PowerShell
 			return Win32API.RunPowershellCommand($"-command \"try {{ $path = '{path}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{sid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"", true);
 		}
 
@@ -175,17 +167,11 @@ namespace Files.App.Filesystem.Security
 					fileSystemSecurity = FileSystemAclExtensions.GetAccessControl(new FileInfo(path));
 					return true;
 				}
-				else
-				{
-					// The requested file or folder does not exist
-				}
+				// The requested file or folder does not exist
+				else { }
 			}
-			catch (UnauthorizedAccessException)
-			{
-			}
-			catch (Exception)
-			{
-			}
+			catch (UnauthorizedAccessException) { }
+			catch (Exception) { }
 
 			fileSystemSecurity = null;
 
