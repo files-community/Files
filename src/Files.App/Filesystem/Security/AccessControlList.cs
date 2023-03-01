@@ -69,29 +69,6 @@ namespace Files.App.Filesystem.Security
 			return false;
 		}
 
-		public bool SetAccessControlProtection(bool isProtected, bool preserveInheritance)
-		{
-			if (GetAccessControl(_path, _isFolder, out var acs))
-			{
-				try
-				{
-					acs.SetAccessRuleProtection(isProtected, preserveInheritance);
-
-					// Save changes
-					if (_isFolder)
-						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(_path), (DirectorySecurity)acs);
-					else
-						FileSystemAclExtensions.SetAccessControl(new FileInfo(_path), (FileSecurity)acs);
-
-					return true;
-				}
-				catch (UnauthorizedAccessException) { }
-				catch (Exception) { }
-			}
-
-			return false;
-		}
-
 		public static AccessControlList FromPath(string path, bool isFolder)
 		{
 			// Get ACL
@@ -148,6 +125,29 @@ namespace Files.App.Filesystem.Security
 
 			// If previous operation was unauthorized access, try again through elevated PowerShell
 			return Win32API.RunPowershellCommand($"-command \"try {{ $path = '{path}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{sid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"", true);
+		}
+
+		public static bool SetAccessControlProtection(string path, bool isFolder, bool isProtected, bool preserveInheritance)
+		{
+			if (GetAccessControl(path, isFolder, out var acs))
+			{
+				try
+				{
+					acs.SetAccessRuleProtection(isProtected, preserveInheritance);
+
+					// Save changes
+					if (isFolder)
+						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(path), (DirectorySecurity)acs);
+					else
+						FileSystemAclExtensions.SetAccessControl(new FileInfo(path), (FileSecurity)acs);
+
+					return true;
+				}
+				catch (UnauthorizedAccessException) { }
+				catch (Exception) { }
+			}
+
+			return false;
 		}
 
 		private static bool GetAccessControl(string path, bool isFolder, out FileSystemSecurity fileSystemSecurity)

@@ -636,10 +636,7 @@ namespace Files.App.Helpers
 			=> AccessControlList.SetOwner(filePath, isFolder, ownerSid);
 
 		public static bool SetAccessRuleProtection(string filePath, bool isFolder, bool isProtected, bool preserveInheritance)
-		{
-			var fp = AccessControlList.FromPath(filePath, isFolder);
-			return fp.SetAccessControlProtection(isProtected, preserveInheritance);
-		}
+			=> AccessControlList.SetAccessControlProtection(filePath, isFolder, isProtected, preserveInheritance);
 
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
 		{

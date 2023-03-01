@@ -112,8 +112,8 @@
 					Width="200"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
-					SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ConflictResolveOptionToIndexConverter}}"
-					Visibility="{x:Bind IsConflict, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+					Visibility="{x:Bind IsConflict, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+					SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ConflictResolveOptionToIndexConverter}}">
 					<ComboBox.Items>
 						<ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
 						<ComboBoxItem Content="{helpers:ResourceString Name=ReplaceExisting}" />
