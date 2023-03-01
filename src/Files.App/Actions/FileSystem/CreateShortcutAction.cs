@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -9,13 +10,20 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CreateShortcutAction : IAction
+	internal class CreateShortcutAction : ObservableObject, IAction
 	{
 		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "BaseLayoutItemContextFlyoutShortcut/Text".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
+
+		public bool IsExecutable  => context.ShellPage is not null && context.SelectedItems.Count > 0;
+
+		public CreateShortcutAction()
+		{
+			context.PropertyChanged += Context_PropertyChanged;
+		}
 
 		public async Task ExecuteAsync()
 		{
@@ -33,6 +41,17 @@ namespace Files.App.Actions
 
 				if (!await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath))
 					await UIFilesystemHelpers.HandleShortcutCannotBeCreated(fileName, selectedItem.ItemPath);
+			}
+		}
+
+		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.SelectedItems):
+				case nameof(IContentPageContext.Folder):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
 			}
 		}
 	}
