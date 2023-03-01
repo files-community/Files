@@ -358,18 +358,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FilesLauncher.cpp" />
-    <ClCompile Include="DocumentServiceProvider.cpp" />
     <ClCompile Include="OpenInFolder.cpp" />
-    <ClCompile Include="ServiceProviderBase.cpp" />
-    <ClCompile Include="ShellView.cpp" />
-    <ClCompile Include="WebBrowserApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DocumentServiceProvider.h" />
     <ClInclude Include="OpenInFolder.h" />
-    <ClInclude Include="ServiceProviderBase.h" />
-    <ClInclude Include="ShellView.h" />
-    <ClInclude Include="WebBrowserApp.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

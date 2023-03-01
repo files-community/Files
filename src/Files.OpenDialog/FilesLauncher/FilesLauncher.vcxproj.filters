@@ -14,35 +14,11 @@
     <ClCompile Include="FilesLauncher.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="DocumentServiceProvider.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ServiceProviderBase.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ShellView.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WebBrowserApp.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="OpenInFolder.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DocumentServiceProvider.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ServiceProviderBase.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ShellView.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WebBrowserApp.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="OpenInFolder.h">
       <Filter>Headers</Filter>
     </ClInclude>
