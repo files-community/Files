@@ -190,7 +190,7 @@ namespace Files.App.Views.Properties
 			};
 			var hashItem = new SquareNavViewItem()
 			{
-				Name = "Hash".GetLocalizedResource(),
+				Name = "Hashes".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemHash,
 				OutlinePathIcon = (string)Application.Current.Resources["WindowsAppsRegular"],
 				FilledPathIcon = (string)Application.Current.Resources["WindowsAppsFilled"],

@@ -24,7 +24,7 @@ namespace Files.App.Views.Properties
 			InitializeComponent();
 		}
 
-		private HashViewModel ViewModel { get; set }
+		private HashViewModel ViewModel { get; set; }
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
