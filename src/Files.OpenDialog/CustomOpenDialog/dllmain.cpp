@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 // Abstract:
-//  DllMain implementation.
+//  Implementation of DllMain.
 
 #include "pch.h"
 #include "framework.h"

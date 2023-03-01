@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 // Abstract:
-//  Undocumented interfaces declarations & helpers
+//  Declaration of Undocumented interfaces and helpers
 
 #pragma once
 

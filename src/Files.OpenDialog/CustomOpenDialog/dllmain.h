@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 // Abstract:
-//  Module class declaration
+//  declaration of module class
 
 class CCustomOpenDialogModule :
 	public ATL::CAtlDllModuleT<CCustomOpenDialogModule>

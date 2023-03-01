@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 // Abstract:
-//  This is a precompiled header file.
+//  pch.h is the precompiled header file named pch.h. Do not change the file name.
 
 // Note:
 //  The files listed below are compiled only once, which improves performance for subsequent compilations.
