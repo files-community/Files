@@ -1,54 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="File di origine">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="File di intestazione">
+    <Filter Include="Headers">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="File di risorse">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FilesLauncher.cpp">
-      <Filter>File di origine</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="DocumentServiceProvider.cpp">
-      <Filter>File di origine</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="ServiceProviderBase.cpp">
-      <Filter>File di origine</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="ShellView.cpp">
-      <Filter>File di origine</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="WebBrowserApp.cpp">
-      <Filter>File di origine</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="OpenInFolder.cpp">
-      <Filter>File di origine</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DocumentServiceProvider.h">
-      <Filter>File di intestazione</Filter>
+      <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="ServiceProviderBase.h">
-      <Filter>File di intestazione</Filter>
+      <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="ShellView.h">
-      <Filter>File di intestazione</Filter>
+      <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="WebBrowserApp.h">
-      <Filter>File di intestazione</Filter>
+      <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="OpenInFolder.h">
-      <Filter>File di intestazione</Filter>
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

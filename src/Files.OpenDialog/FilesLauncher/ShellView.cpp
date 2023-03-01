@@ -1,6 +1,5 @@
-// Copyright (C) Explorer++ Project
-// SPDX-License-Identifier: GPL-3.0-only
-// See LICENSE in the top level directory
+// Copyright (c) 2023 Files
+// Licensed under the MIT License. See the LICENSE.
 
 #include "ShellView.h"
 #include <ShlObj_core.h>
@@ -13,8 +12,7 @@ using unique_pidl_absolute = wil::unique_cotaskmem_ptr<std::remove_pointer_t<PID
 using unique_pidl_relative = wil::unique_cotaskmem_ptr<std::remove_pointer_t<PIDLIST_RELATIVE>>;
 using unique_pidl_child = wil::unique_cotaskmem_ptr<std::remove_pointer_t<PITEMID_CHILD>>;
 
-ShellView::ShellView(OpenInFolder* pThis, PCIDLIST_ABSOLUTE directory)
-	: m_directory(directory), m_pThis(pThis)
+ShellView::ShellView(OpenInFolder* pThis, PCIDLIST_ABSOLUTE directory) : m_directory(directory), m_pThis(pThis)
 {
 }
 
@@ -45,8 +43,7 @@ IFACEMETHODIMP ShellView::Refresh()
 	return E_NOTIMPL;
 }
 
-IFACEMETHODIMP ShellView::CreateViewWindow(IShellView* previous, LPCFOLDERSETTINGS folderSettings,
-	IShellBrowser* shellBrowser, RECT* view, HWND* hwnd)
+IFACEMETHODIMP ShellView::CreateViewWindow(IShellView* previous, LPCFOLDERSETTINGS folderSettings, IShellBrowser* shellBrowser, RECT* view, HWND* hwnd)
 {
 	UNREFERENCED_PARAMETER(previous);
 	UNREFERENCED_PARAMETER(folderSettings);
@@ -69,8 +66,7 @@ IFACEMETHODIMP ShellView::GetCurrentInfo(LPFOLDERSETTINGS folderSettings)
 	return E_NOTIMPL;
 }
 
-IFACEMETHODIMP ShellView::AddPropertySheetPages(
-	DWORD reserved, LPFNSVADDPROPSHEETPAGE callback, LPARAM lParam)
+IFACEMETHODIMP ShellView::AddPropertySheetPages(DWORD reserved, LPFNSVADDPROPSHEETPAGE callback, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(reserved);
 	UNREFERENCED_PARAMETER(callback);
@@ -88,19 +84,17 @@ IFACEMETHODIMP ShellView::SelectItem(PCUITEMID_CHILD pidlItem, SVSIF flags)
 {
 	if (flags == SVSI_EDIT)
 	{
-		auto pidlComplete =
-			unique_pidl_absolute(ILCombine(m_directory, pidlItem));
+		auto pidlComplete = unique_pidl_absolute(ILCombine(m_directory, pidlItem));
 
 		return S_OK;
 	}
 	else if (WI_IsFlagSet(flags, SVSI_SELECT))
 	{
-		auto pidlComplete =
-			unique_pidl_absolute(ILCombine(m_directory, pidlItem));
+		auto pidlComplete = unique_pidl_absolute(ILCombine(m_directory, pidlItem));
+
 		if (m_pThis)
-		{
 			m_pThis->OnItemSelected(pidlComplete.get());
-		}
+
 		return S_OK;
 	}
 
@@ -134,6 +128,7 @@ IFACEMETHODIMP ShellView::ContextSensitiveHelp(BOOL enterMode)
 namespace winrt
 {
 	template <>
+
 	bool is_guid_of<IShellView>(guid const& id) noexcept
 	{
 		return is_guid_of<IShellView, IOleWindow>(id);

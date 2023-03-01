@@ -1,6 +1,5 @@
-// Copyright (C) Explorer++ Project
-// SPDX-License-Identifier: GPL-3.0-only
-// See LICENSE in the top level directory
+// Copyright (c) 2023 Files
+// Licensed under the MIT License. See the LICENSE.
 
 #pragma once
 
@@ -12,9 +11,8 @@
 
 class OpenInFolder;
 
-// This isn't a complete implementation. There's only enough functionality to support the "New
-// Folder" item shown on the background context menu in a phone's virtual folder (when that phone is
-// connected via USB).
+// This isn't a complete implementation. There's only enough functionality to support the "New Folder"
+// item shown on the background context menu in a phone's virtual folder (when that phone is connected via USB).
 class ShellView : public winrt::implements<ShellView, IShellView>
 {
 public:
@@ -25,12 +23,10 @@ public:
 	IFACEMETHODIMP EnableModeless(BOOL enable);
 	IFACEMETHODIMP UIActivate(UINT state);
 	IFACEMETHODIMP Refresh();
-	IFACEMETHODIMP CreateViewWindow(IShellView *previous, LPCFOLDERSETTINGS folderSettings,
-		IShellBrowser *shellBrowser, RECT *view, HWND *hwnd);
+	IFACEMETHODIMP CreateViewWindow(IShellView *previous, LPCFOLDERSETTINGS folderSettings, IShellBrowser *shellBrowser, RECT *view, HWND *hwnd);
 	IFACEMETHODIMP DestroyViewWindow();
 	IFACEMETHODIMP GetCurrentInfo(LPFOLDERSETTINGS folderSettings);
-	IFACEMETHODIMP AddPropertySheetPages(
-		DWORD reserved, LPFNSVADDPROPSHEETPAGE callback, LPARAM lParam);
+	IFACEMETHODIMP AddPropertySheetPages(DWORD reserved, LPFNSVADDPROPSHEETPAGE callback, LPARAM lParam);
 	IFACEMETHODIMP SaveViewState();
 	IFACEMETHODIMP SelectItem(PCUITEMID_CHILD pidlItem, SVSIF flags);
 	IFACEMETHODIMP GetItemObject(UINT item, REFIID riid, void **ppv);

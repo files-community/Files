@@ -1,12 +1,12 @@
-// Copyright (C) Explorer++ Project
-// SPDX-License-Identifier: GPL-3.0-only
-// See LICENSE in the top level directory
+// Copyright (c) 2023 Files
+// Licensed under the MIT License. See the LICENSE.
 
 #include "DocumentServiceProvider.h"
 
 // IDispatch
-// Note that none of these methods require any implementation. When attempting to find a shell
-// window, the shell requests the IDispatch interface, but doesn't actually call any methods on it.
+// Note:
+//  None of these methods require any implementation. When attempting to find a shell window,
+//  the shell requests the IDispatch interface, but doesn't actually call any methods on it.
 IFACEMETHODIMP DocumentServiceProvider::GetTypeInfoCount(UINT *typeInfoCount)
 {
 	UNREFERENCED_PARAMETER(typeInfoCount);
@@ -23,8 +23,7 @@ IFACEMETHODIMP DocumentServiceProvider::GetTypeInfo(UINT type, LCID localeId, IT
 	return E_NOTIMPL;
 }
 
-IFACEMETHODIMP DocumentServiceProvider::GetIDsOfNames(
-	REFIID riid, LPOLESTR *names, UINT numNames, LCID localeId, DISPID *dispId)
+IFACEMETHODIMP DocumentServiceProvider::GetIDsOfNames(REFIID riid, LPOLESTR *names, UINT numNames, LCID localeId, DISPID *dispId)
 {
 	UNREFERENCED_PARAMETER(riid);
 	UNREFERENCED_PARAMETER(names);
@@ -35,8 +34,7 @@ IFACEMETHODIMP DocumentServiceProvider::GetIDsOfNames(
 	return E_NOTIMPL;
 }
 
-IFACEMETHODIMP DocumentServiceProvider::Invoke(DISPID dispIdMember, REFIID riid, LCID localeId,
-	WORD flags, DISPPARAMS *dispParams, VARIANT *varResult, EXCEPINFO *exceptionInfo, UINT *argErr)
+IFACEMETHODIMP DocumentServiceProvider::Invoke(DISPID dispIdMember, REFIID riid, LCID localeId, WORD flags, DISPPARAMS *dispParams, VARIANT *varResult, EXCEPINFO *exceptionInfo, UINT *argErr)
 {
 	UNREFERENCED_PARAMETER(dispIdMember);
 	UNREFERENCED_PARAMETER(riid);

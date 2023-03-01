@@ -1,6 +1,5 @@
-// Copyright (C) Explorer++ Project
-// SPDX-License-Identifier: GPL-3.0-only
-// See LICENSE in the top level directory
+// Copyright (c) 2023 Files
+// Licensed under the MIT License. See the LICENSE.
 
 #include "WebBrowserApp.h"
 #include <iostream>
@@ -50,6 +49,7 @@ IFACEMETHODIMP WebBrowserApp::get_Name(BSTR *name)
 IFACEMETHODIMP WebBrowserApp::get_HWND(SHANDLE_PTR *hwnd)
 {
 	*hwnd = reinterpret_cast<SHANDLE_PTR>(m_hwnd);
+
 	return S_OK;
 }
 
@@ -172,8 +172,7 @@ IFACEMETHODIMP WebBrowserApp::GoSearch()
 	return E_NOTIMPL;
 }
 
-IFACEMETHODIMP WebBrowserApp::Navigate(
-	BSTR url, VARIANT *flags, VARIANT *targetFrameName, VARIANT *postData, VARIANT *headers)
+IFACEMETHODIMP WebBrowserApp::Navigate(BSTR url, VARIANT *flags, VARIANT *targetFrameName, VARIANT *postData, VARIANT *headers)
 {
 	UNREFERENCED_PARAMETER(url);
 	UNREFERENCED_PARAMETER(flags);
@@ -336,8 +335,7 @@ IFACEMETHODIMP WebBrowserApp::GetTypeInfo(UINT type, LCID localeId, ITypeInfo **
 	return E_NOTIMPL;
 }
 
-IFACEMETHODIMP WebBrowserApp::GetIDsOfNames(
-	REFIID riid, LPOLESTR *names, UINT numNames, LCID localeId, DISPID *dispId)
+IFACEMETHODIMP WebBrowserApp::GetIDsOfNames(REFIID riid, LPOLESTR *names, UINT numNames, LCID localeId, DISPID *dispId)
 {
 	UNREFERENCED_PARAMETER(riid);
 	UNREFERENCED_PARAMETER(names);
@@ -348,8 +346,7 @@ IFACEMETHODIMP WebBrowserApp::GetIDsOfNames(
 	return E_NOTIMPL;
 }
 
-IFACEMETHODIMP WebBrowserApp::Invoke(DISPID dispIdMember, REFIID riid, LCID localeId, WORD flags,
-	DISPPARAMS *dispParams, VARIANT *varResult, EXCEPINFO *exceptionInfo, UINT *argErr)
+IFACEMETHODIMP WebBrowserApp::Invoke(DISPID dispIdMember, REFIID riid, LCID localeId, WORD flags, DISPPARAMS *dispParams, VARIANT *varResult, EXCEPINFO *exceptionInfo, UINT *argErr)
 {
 	UNREFERENCED_PARAMETER(dispIdMember);
 	UNREFERENCED_PARAMETER(riid);
@@ -366,6 +363,7 @@ IFACEMETHODIMP WebBrowserApp::Invoke(DISPID dispIdMember, REFIID riid, LCID loca
 namespace winrt
 {
 	template <>
+
 	bool is_guid_of<IWebBrowserApp>(guid const &id) noexcept
 	{
 		auto res = is_guid_of<IWebBrowserApp, IWebBrowser, IDispatch>(id);
