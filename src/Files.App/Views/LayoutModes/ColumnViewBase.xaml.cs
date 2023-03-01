@@ -1,4 +1,6 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -251,6 +253,18 @@ namespace Files.App.Views.LayoutModes
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
+			if (ctrlPressed && e.Key is VirtualKey.A)
+			{
+				e.Handled = true;
+
+				var commands = Ioc.Default.GetRequiredService<ICommandManager>();
+				var hotKey = new HotKey(VirtualKey.A, VirtualKeyModifiers.Control);
+
+				await commands[hotKey].ExecuteAsync();
+
+				return;
+			}
+
 			if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
 			{
 				if (IsRenamingItem)
@@ -408,11 +422,11 @@ namespace Files.App.Views.LayoutModes
 				if (isItemFolder && UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 				{
 					ItemInvoked?.Invoke(
-						new ColumnParam 
-						{ 
-							NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item!.ItemPath), 
-							ListView = FileList 
-						}, 
+						new ColumnParam
+						{
+							NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item!.ItemPath),
+							ListView = FileList
+						},
 						EventArgs.Empty);
 				}
 				else if (!IsRenamingItem && (isItemFile || isItemFolder))
