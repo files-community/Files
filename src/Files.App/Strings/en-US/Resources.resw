@@ -2607,7 +2607,7 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>Multiselect</value>
   </data>
-  <data name="Hash" xml:space="preserve">
-    <value>Hash</value>
+  <data name="Hashes" xml:space="preserve">
+    <value>Hashes</value>
   </data>
 </root>
