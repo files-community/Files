@@ -2610,4 +2610,7 @@
   <data name="Hashes" xml:space="preserve">
     <value>Hashes</value>
   </data>
+  <data name="HashesUnavailable" xml:space="preserve">
+    <value>Hashes are unavailable</value>
+  </data>
 </root>

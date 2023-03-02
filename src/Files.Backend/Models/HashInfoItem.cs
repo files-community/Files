@@ -5,5 +5,7 @@
 		public string Algorithm { get; set; }
 
 		public string HashValue { get; set; }
+
+		public bool IsSelected{ get; set; }
 	}
 }

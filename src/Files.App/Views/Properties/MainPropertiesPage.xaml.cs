@@ -167,7 +167,7 @@ namespace Files.App.Views.Properties
 					contentFrame.Navigate(typeof(CompatibilityPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 				case PropertyNavigationViewItemEnums.ItemHash:
-					contentFrame.Navigate(typeof(HashPage), navParam, args.RecommendedNavigationTransitionInfo);
+					contentFrame.Navigate(typeof(HashesPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 			}
 		}

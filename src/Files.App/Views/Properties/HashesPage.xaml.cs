@@ -17,20 +17,20 @@ using Windows.Graphics;
 
 namespace Files.App.Views.Properties
 {
-	public sealed partial class HashPage : BasePropertiesPage
+	public sealed partial class HashesPage : BasePropertiesPage
 	{
-		public HashPage()
+		public HashesPage()
 		{
 			InitializeComponent();
 		}
 
-		private HashViewModel ViewModel { get; set; }
+		private HashesViewModel HashesViewModel { get; set; }
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = e.Parameter as MainPropertiesPage.PropertyNavParam;
+			var np = (MainPropertiesPage.PropertyNavParam)e.Parameter;
 			if (np.navParameter is ListedItem listedItem)
-				ViewModel = new(listedItem);
+				HashesViewModel = new(listedItem);
 
 			base.OnNavigatedTo(e);
 		}
