@@ -26,24 +26,16 @@ namespace Files.App.ViewModels.Properties
 
 			Hashes = new();
 
+			LoadFileContent = new(ExecuteLoadFileContent);
 			CopyHashValueCommand = new(ExecuteCopyHashValue, () => SelectedItem is not null);
 
-			try
-			{
-				_fileStream = File.OpenRead(item.ItemPath);
-				CanAccessFile = true;
-
-				GetHashes();
-			}
-			catch
-			{
-				CanAccessFile = false;
-			}
+			if (LoadFileContent.CanExecute(null))
+				LoadFileContent.Execute(null);
 		}
 
 		public ListedItem Item { get; }
 
-		private readonly FileStream _fileStream;
+		private byte[] _fileData { get; set; }
 
 		private bool _canAccessFile;
 		public bool CanAccessFile
@@ -61,6 +53,7 @@ namespace Files.App.ViewModels.Properties
 
 		public ObservableCollection<HashInfoItem> Hashes { get; set; }
 
+		public AsyncRelayCommand LoadFileContent { get; set; }
 		public RelayCommand CopyHashValueCommand { get; set; }
 
 		private void GetHashes()
@@ -94,37 +87,52 @@ namespace Files.App.ViewModels.Properties
 
 		private string CreateMD5()
 		{
-			var hashBytes = MD5.HashData(_fileStream);
+			var hashBytes = MD5.HashData(_fileData);
 
 			return Convert.ToHexString(hashBytes);
 		}
 
 		private string CreateSHA1()
 		{
-			var hashBytes = SHA1.HashData(_fileStream);
+			var hashBytes = SHA1.HashData(_fileData);
 
 			return Convert.ToHexString(hashBytes);
 		}
 
 		private string CreateSHA256()
 		{
-			var hashBytes = SHA256.HashData(_fileStream);
+			var hashBytes = SHA256.HashData(_fileData);
 
 			return Convert.ToHexString(hashBytes);
 		}
 
 		private string CreateSHA384()
 		{
-			var hashBytes = SHA384.HashData(_fileStream);
+			var hashBytes = SHA384.HashData(_fileData);
 
 			return Convert.ToHexString(hashBytes);
 		}
 
 		private string CreateSHA512()
 		{
-			var hashBytes = SHA512.HashData(_fileStream);
+			var hashBytes = SHA512.HashData(_fileData);
 
 			return Convert.ToHexString(hashBytes);
+		}
+
+		private async Task ExecuteLoadFileContent()
+		{
+			try
+			{
+				_fileData = await File.ReadAllBytesAsync(Item.ItemPath);
+				CanAccessFile = true;
+
+				GetHashes();
+			}
+			catch
+			{
+				CanAccessFile = false;
+			}
 		}
 
 		private void ExecuteCopyHashValue()
