@@ -25,7 +25,7 @@
 		</ResourceDictionary>
 	</Page.Resources>
 	<Page.DataContext>
-		<settingsviewmodels:TagsSettingsViewModel x:Name="ViewModel" />
+		<settingsviewmodels:TagsViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
 	<Grid>
