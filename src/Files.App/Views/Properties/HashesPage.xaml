@@ -77,6 +77,7 @@
 									<ColumnDefinition Width="64" />
 									<ColumnDefinition Width="1" />
 									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 
 								<!--  Algorithm Name  -->
@@ -97,11 +98,14 @@
 								<!--  Copy button  -->
 								<Button
 									x:Name="CopyHashButton"
+									Grid.Column="3"
+									Padding="6"
+									AutomationProperties.Name="{helpers:ResourceString Name=Copy}"
 									Background="Transparent"
 									BorderBrush="Transparent"
 									Command="{Binding ViewModel.CopyHashValueCommand, ElementName=HashesListView, Mode=OneWay}"
-									Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-									<FontIcon Glyph="&#xE8C8;" />
+									ToolTipService.ToolTip="{helpers:ResourceString Name=Copy}">
+									<FontIcon FontSize="14" Glyph="&#xE8C8;" />
 								</Button>
 							</Grid>
 						</ListViewItem>
