@@ -201,7 +201,7 @@
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="B"
 					Command="{x:Bind Commands.EmptyRecycleBin}"
-					Content="{x:Bind Commands.EmptyRecycleBin.OpacityIcon}"
+					Content="{x:Bind Commands.EmptyRecycleBin.Icon}"
 					IsEnabled="{x:Bind Commands.EmptyRecycleBin.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.EmptyRecycleBin.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.EmptyRecycleBin.Label}" />
@@ -210,7 +210,7 @@
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="R"
 					Command="{x:Bind Commands.RestoreAllRecycleBin}"
-					Content="{x:Bind Commands.RestoreAllRecycleBin.OpacityIcon}"
+					Content="{x:Bind Commands.RestoreAllRecycleBin.Icon}"
 					Label="{x:Bind Commands.RestoreAllRecycleBin.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.RestoreAllRecycleBin.Label}"
 					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
@@ -219,7 +219,7 @@
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="R"
 					Command="{x:Bind Commands.RestoreRecycleBin}"
-					Content="{x:Bind Commands.RestoreRecycleBin.OpacityIcon}"
+					Content="{x:Bind Commands.RestoreRecycleBin.Icon}"
 					Label="{x:Bind Commands.RestoreRecycleBin.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.RestoreRecycleBin.Label}"
 					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay}" />
