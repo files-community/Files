@@ -157,10 +157,10 @@
     <value>Seleziona tutto</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>Inverti Selezione</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>Annulla Selezione</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Ultima modifica:</value>
@@ -2605,6 +2605,6 @@
     <value>Salva</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>Selezione multipla</value>
   </data>
 </root>
