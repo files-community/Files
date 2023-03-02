@@ -743,7 +743,6 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ItemType.Separator,
-					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
@@ -752,10 +751,12 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CutItem)
 				{
 					IsVisible = itemsSelected,
+					IsPrimary = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CopyItem)
 				{
 					IsVisible = itemsSelected,
+					IsPrimary = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -805,7 +806,8 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CreateShortcut)
 				{
-					IsVisible = itemsSelected && (!selectedItems.FirstOrDefault()?.IsShortcut ?? false),
+					IsVisible = itemsSelected && (!selectedItems.FirstOrDefault()?.IsShortcut ?? false)
+						&& !currentInstanceViewModel.IsPageTypeRecycleBin,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -841,6 +843,7 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModelBuilder(commands.DeleteItem)
 				{
 					IsVisible = itemsSelected,
+					IsPrimary = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -876,10 +879,12 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModelBuilder(commands.PinToStart)
 				{
 					IsVisible = selectedItems.All(x => !x.IsShortcut && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsArchive && !x.IsItemPinnedToStart),
+					ShowOnShift = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.UnpinFromStart)
 				{
 					IsVisible = selectedItems.All(x => !x.IsShortcut && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsArchive && x.IsItemPinnedToStart),
+					ShowOnShift = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel
 				{
