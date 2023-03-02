@@ -71,7 +71,7 @@
 				<!--  Template  -->
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="models:HashInfoItem">
-						<ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
+						<ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" ToolTipService.ToolTip="{x:Bind HashValue}">
 							<Grid ColumnSpacing="12">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="64" />
@@ -103,7 +103,6 @@
 									Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 									<FontIcon Glyph="&#xE8C8;" />
 								</Button>
-
 							</Grid>
 						</ListViewItem>
 					</DataTemplate>
