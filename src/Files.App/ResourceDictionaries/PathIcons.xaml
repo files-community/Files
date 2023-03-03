@@ -1318,6 +1318,42 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
+
+			<Style x:Key="ColorIconColumnsLayout" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox
+								Width="12"
+								Height="12"
+								Stretch="Fill">
+								<Grid Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M2 4C2 3.44772 2.44772 3 3 3H13C13.5523 3 14 3.44772 14 4V12C14 12.5523 13.5523 13 13 13H3C2.44772 13 2 12.5523 2 12V4ZM6 4.5C6 4.22386 5.77614 4 5.5 4C5.22386 4 5 4.22386 5 4.5V11.5C5 11.7761 5.22386 12 5.5 12C5.77614 12 6 11.7761 6 11.5V4.5ZM10.5 4C10.7761 4 11 4.22386 11 4.5V11.5C11 11.7761 10.7761 12 10.5 12C10.2239 12 10 11.7761 10 11.5V4.5C10 4.22386 10.2239 4 10.5 4Z"
+										Fill="{ThemeResource IconAltBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M1 4C1 2.89543 1.89543 2 3 2H13C14.1046 2 15 2.89543 15 4V12C15 13.1046 14.1046 14 13 14H3C1.89543 14 1 13.1046 1 12V4ZM3 3C2.44772 3 2 3.44772 2 4V12C2 12.5523 2.44772 13 3 13H13C13.5523 13 14 12.5523 14 12V4C14 3.44772 13.5523 3 13 3H3ZM5.5 4C5.77614 4 6 4.22386 6 4.5V11.5C6 11.7761 5.77614 12 5.5 12C5.22386 12 5 11.7761 5 11.5V4.5C5 4.22386 5.22386 4 5.5 4ZM11 4.5C11 4.22386 10.7761 4 10.5 4C10.2239 4 10 4.22386 10 4.5V11.5C10 11.7761 10.2239 12 10.5 12C10.7761 12 11 11.7761 11 11.5V4.5Z"
+										Fill="{ThemeResource IconBaseBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled">
+											<VisualState.Setters>
+												<Setter Target="Path1.Fill" Value="Transparent" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
 		</ResourceDictionary>
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

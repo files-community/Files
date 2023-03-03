@@ -25,6 +25,9 @@ namespace Files.App.Contexts
 
 		public bool HasItem => shellPage?.ToolbarViewModel?.HasItem ?? false;
 
+		public bool HasSelection => SelectedItems.Count is not 0;
+		public ListedItem? SelectedItem => SelectedItems.Count is 1 ? SelectedItems[0] : null;
+
 		private IReadOnlyList<ListedItem> selectedItems = EmptyListedItemList;
 		public IReadOnlyList<ListedItem> SelectedItems => selectedItems;
 
@@ -94,8 +97,17 @@ namespace Files.App.Contexts
 
 		private void UpdateSelectedItems()
 		{
+			bool oldHasSelection = HasSelection;
+			ListedItem? oldSelectedItem = SelectedItem;
+
 			IReadOnlyList<ListedItem> items = shellPage?.ToolbarViewModel?.SelectedItems?.AsReadOnly() ?? EmptyListedItemList;
-			SetProperty(ref selectedItems, items, nameof(SelectedItems));
+			if (SetProperty(ref selectedItems, items, nameof(SelectedItems)))
+			{
+				if (HasSelection != oldHasSelection)
+					OnPropertyChanged(nameof(HasSelection));
+				if (SelectedItem != oldSelectedItem)
+					OnPropertyChanged(nameof(SelectedItem));
+			}
 		}
 
 		private void BaseShellPage_CurrentInstanceChanged(object? sender, BaseShellPage newShellPage)
