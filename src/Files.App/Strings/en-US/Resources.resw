@@ -2607,4 +2607,7 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>Multiselect</value>
   </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>Reorder sidebar items</value>
+  </data>
 </root>

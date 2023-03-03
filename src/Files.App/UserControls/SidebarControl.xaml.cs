@@ -196,10 +196,10 @@ namespace Files.App.UserControls
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SidebarReorderItems".GetLocalizedResource(),
+					Text = "ReorderSidebarItemsDialogText".GetLocalizedResource(),
 					Glyph = "\uE8D8",
 					Command = ReorderItemsCommand,
-					ShowItem = options.ShowUnpinItem
+					ShowItem = isFavoriteItem || item.Section is SectionType.Favorites
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -350,8 +350,7 @@ namespace Files.App.UserControls
 			App.Logger.Warn("Reorder items dialog popup");
 			var result = await dialogService.ShowDialogAsync(dialog);
 
-			if (result == Shared.Enums.DialogResult.Primary)
-				App.Logger.Warn("Ok");
+			App.Logger.Warn("Result: " + result.ToString());
 		}
 
 		private async void OpenInNewPane()
@@ -447,19 +446,6 @@ namespace Files.App.UserControls
 			await NavigationHelpers.OpenPathInNewTab(item?.Path);
 		}
 
-		private async void Sidebar_MoveItem(object sender, PointerRoutedEventArgs e)
-		{
-			var properties = e.GetCurrentPoint(null).Properties;
-			var icon = sender as FontIcon;
-			var context = icon?.DataContext;
-			if (!properties.IsLeftButtonPressed || context is not LocationItem item || item.Section is not SectionType.Favorites || item.IsHeader)
-				return;
-
-			var navItem = icon?.FindAscendant<NavigationViewItem>();
-			if (navItem is not null)
-				await navItem.StartDragAsync(e.GetCurrentPoint(navItem));
-		}
-
 		private void PaneRoot_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var contextMenu = FlyoutBase.GetAttachedFlyout(this);
@@ -491,16 +477,6 @@ namespace Files.App.UserControls
 				_ = ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, itemContextMenuFlyout, item.MenuOptions);
 
 			e.Handled = true;
-		}
-
-		private void NavigationViewItem_DragStarting(object sender, DragStartingEventArgs e)
-		{
-			if (sender is not NavigationViewItem nav || nav.DataContext is not LocationItem)
-				return;
-
-			// Adding the original Location item dragged to the DragEvents data view
-			e.Data.Properties.Add("sourceLocationItem", nav);
-			e.AllowedOperations = DataPackageOperation.Move;
 		}
 
 		private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
@@ -648,11 +624,7 @@ namespace Files.App.UserControls
 					}
 					CompleteDragEventArgs(e, captionText, operationType);
 				}
-			}
-			else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem 
-				&& !locationItem.IsHeader && !(locationItem.Section == SectionType.Library))
-				NavigationViewLocationItem_DragOver_SetCaptions(locationItem, sourceLocationItem, e);
-			
+			}			
 
 			deferral.Complete();
 		}
@@ -663,20 +635,6 @@ namespace Files.App.UserControls
 			e.DragUIOverride.Caption = captionText;
 			e.AcceptedOperation = operationType;
 			return e;
-		}
-
-		private void NavigationViewLocationItem_DragOver_SetCaptions(LocationItem senderLocationItem, LocationItem sourceLocationItem, DragEventArgs e)
-		{
-			// If the location item is the same as the original dragged item
-			if (sourceLocationItem.CompareTo(senderLocationItem) == 0)
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				e.DragUIOverride.IsCaptionVisible = false;
-			}
-			else
-			{
-				CompleteDragEventArgs(e, "MoveItemsDialogPrimaryButtonText".GetLocalizedResource(), DataPackageOperation.Move);
-			}
 		}
 
 		private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
@@ -723,10 +681,7 @@ namespace Files.App.UserControls
 
 				isDropOnProcess = false;
 				deferral.Complete();
-			} 
-			else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem && !locationItem.IsHeader && !(locationItem.Section == SectionType.Library))
-				QuickAccessService.MoveTo(sourceLocationItem.Path, locationItem.Path);
-			
+			}			
 
 			await Task.Yield();
 			lockFlag = false;

@@ -29,7 +29,7 @@ namespace Files.App.DataModels
 
 		public List<string> FavoriteItems { get; set; } = new List<string>();
 
-		private readonly List<INavigationControlItem> favoriteList = new();
+		public readonly List<INavigationControlItem> favoriteList = new();
 
 		[JsonIgnore]
 		public IReadOnlyList<INavigationControlItem> Favorites

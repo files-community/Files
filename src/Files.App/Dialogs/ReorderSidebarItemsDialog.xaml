@@ -5,11 +5,14 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Title="{helpers:ResourceString Name=NewShortcutDialogTitle}"
+	xmlns:navigationcontrolitems="using:Files.App.DataModels.NavigationControlItems"
+	Title="{helpers:ResourceString Name=ReorderSidebarItemsDialogText}"
 	DefaultButton="Primary"
 	IsPrimaryButtonEnabled="True"
-	PrimaryButtonText="True"
-	SecondaryButtonText="True"
+	PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonCommand}"
+	PrimaryButtonText="{helpers:ResourceString Name=Save}"
+	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
@@ -28,14 +31,67 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<!--  Header  -->
-			<TextBlock
-				Grid.ColumnSpan="2"
-				Margin="0,0,0,20"
-				Text="{x:Bind ViewModel.HeaderText}"
-				TextWrapping="Wrap" />
-
-
+			<NavigationView
+				x:Name="SidebarNavView"
+				Grid.Row="1"
+				IsBackButtonVisible="Collapsed"
+				IsPaneToggleButtonVisible="False"
+				IsSettingsVisible="False"
+				MenuItemsSource="{x:Bind ViewModel.SidebarFavoriteItems, Mode=OneWay}"
+				PaneDisplayMode="Left">
+				<NavigationView.MenuItemTemplate>
+					<DataTemplate x:DataType="navigationcontrolitems:LocationItem">
+						<NavigationViewItem
+							AllowDrop="True"
+							AutomationProperties.AutomationId="{x:Bind Text}"
+							CanDrag="False"
+							DataContext="{x:Bind}"
+							IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+							MenuItemsSource="{x:Bind ChildItems}"
+							Tag="{x:Bind Path}"
+							ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}">
+							<NavigationViewItem.Content>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+									<TextBlock
+										Grid.Row="0"
+										Grid.RowSpan="2"
+										Text="{x:Bind Text}" />
+									<Button
+										Grid.Row="0"
+										Grid.Column="2"
+										Height="10"
+										Click="ReorderUp_Click">
+										<Button.Content>
+											<FontIcon Glyph="" />
+										</Button.Content>
+									</Button>
+									<Button
+										Grid.Row="1"
+										Grid.Column="2"
+										Height="10"
+										Click="ReorderDown_Click">
+										<Button.Content>
+											<FontIcon Glyph="" />
+										</Button.Content>
+									</Button>
+								</Grid>
+							</NavigationViewItem.Content>
+							<NavigationViewItem.Icon>
+								<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
+							</NavigationViewItem.Icon>
+						</NavigationViewItem>
+					</DataTemplate>
+				</NavigationView.MenuItemTemplate>
+			</NavigationView>
 		</Grid>
 	</Border>
 </ContentDialog>

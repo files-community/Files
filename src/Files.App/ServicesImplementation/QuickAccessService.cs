@@ -73,22 +73,17 @@ namespace Files.App.ServicesImplementation
 			return App.QuickAccessManager.Model.FavoriteItems.Contains(folderPath);
 		}
 
-		public async Task MoveTo(string toMove, string destination)
+		public async Task Save(string[] items)
 		{
-			if (string.Equals(toMove, destination))
+			if (Equals(items, App.QuickAccessManager.Model.FavoriteItems.ToArray()))
 				return;
 
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
-			var index = App.QuickAccessManager.Model.FavoriteItems.IndexOf(destination);
-			var favoriteItemsCopy = new List<string>(App.QuickAccessManager.Model.FavoriteItems);
 
 			// Unpin every item that is below this index and then pin them all in order
 			await UnpinFromSidebar(Array.Empty<string>(), false);
 
-			favoriteItemsCopy.Remove(toMove); 
-			favoriteItemsCopy.Insert(index, toMove);
-
-			await PinToSidebar(favoriteItemsCopy.ToArray());
+			await PinToSidebar(items);
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
 		}
 	}

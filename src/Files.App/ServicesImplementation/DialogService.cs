@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 
@@ -30,7 +31,7 @@ namespace Files.App.ServicesImplementation
 				{ typeof(DecompressArchiveDialogViewModel), () => new DecompressArchiveDialog() },
 				{ typeof(SettingsDialogViewModel), () => new SettingsDialog() },
 				{ typeof(CreateShortcutDialogViewModel), () => new CreateShortcutDialog() },
-				{ typeof(ReorderSidebarItemsDialog), () => new ReorderSidebarItemsDialog() }
+				{ typeof(ReorderSidebarItemsDialogViewModel), () => new ReorderSidebarItemsDialog() }
 			};
 		}
 
@@ -63,7 +64,9 @@ namespace Files.App.ServicesImplementation
 			}
 			catch (Exception ex)
 			{
-				_ = ex;
+				App.Logger.Warn(ex, "Failed to show dialog");
+
+				Debugger.Break();
 			}
 
 			return Task.FromResult(DialogResult.None);

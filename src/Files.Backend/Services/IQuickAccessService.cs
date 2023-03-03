@@ -50,11 +50,10 @@ namespace Files.App.ServicesImplementation
 		bool IsItemPinned(string folderPath);
 
 		/// <summary>
-		/// Moves a folder to a new location in the sidebar and in the quick access widget
+		/// Saves a state of favorite items in the sidebar
 		/// </summary>
-		/// <param name="toMove">The path of the folder to be moved in the sidebar</param>
-		/// <param name="destination">The path of the folder over which to place the moved folder in the sidebar</param>
+		/// <param name="items">The array of items to save</param>
 		/// <returns></returns>
-		Task MoveTo(string toMove, string destination);
+		Task Save(string[] items);
 	}
 }
