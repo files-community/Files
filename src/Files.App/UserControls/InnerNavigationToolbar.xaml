@@ -175,9 +175,9 @@
 					Width="Auto"
 					MinWidth="40"
 					AutomationProperties.AutomationId="Delete"
-					Command="{x:Bind Commands.DeleteItem, Mode=OneWay}"
+					Command="{x:Bind Commands.DeleteItem}"
 					Content="{x:Bind Commands.DeleteItem.Icon}"
-					IsEnabled="{x:Bind Commands.DeleteItem.IsExecutable}"
+					IsEnabled="{x:Bind Commands.DeleteItem.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.DeleteItem.Label}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{x:Bind Commands.DeleteItem.Label}" />

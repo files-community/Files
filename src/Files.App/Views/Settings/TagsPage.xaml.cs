@@ -7,9 +7,9 @@ using Microsoft.UI.Xaml.Input;
 using System.Linq;
 using Windows.System;
 
-namespace Files.App.SettingsPages
+namespace Files.App.Settings
 {
-	public sealed partial class Tags : Page
+	public sealed partial class TagsPage : Page
 	{
 		private string oldTagName = string.Empty;
 
@@ -18,7 +18,7 @@ namespace Files.App.SettingsPages
 
 		private FlyoutBase? deleteItemFlyout;
 
-		public Tags()
+		public TagsPage()
 		{
 			InitializeComponent();
 		}
