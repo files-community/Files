@@ -13,6 +13,7 @@ using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
@@ -28,6 +29,23 @@ using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.App.Views.LayoutModes
 {
+
+	[Bindable]
+	public class CheckboxHelper
+	{
+		public static readonly DependencyProperty ShowCheckboxProperty =
+			DependencyProperty.RegisterAttached(
+			"ShowCheckbox", typeof(string), typeof(CheckboxHelper), new PropertyMetadata(true));
+		public static void SetShowCheckboxProperty(DependencyObject element, string value)
+		{
+			element.SetValue(ShowCheckboxProperty, value);
+		}
+		public static string GetShowCheckboxProperty(DependencyObject element)
+		{
+			return (string)element.GetValue(ShowCheckboxProperty);
+		}
+	}
+
 	public sealed partial class DetailsLayoutBrowser : StandardViewBase
 	{
 		private const int TAG_TEXT_BLOCK = 1;
@@ -56,6 +74,14 @@ namespace Files.App.Views.LayoutModes
 			}
 			set { }
 		}
+
+		public bool ShowAllCheckboxes
+		{
+			get { return (bool)GetValue(ShowCheckBoxesProperty); }
+			set { SetValue(ShowCheckBoxesProperty, value); }
+		}
+		public static readonly DependencyProperty ShowCheckBoxesProperty =
+			DependencyProperty.Register("ShowAllCheckBoxes", typeof(bool), typeof(DetailsLayoutBrowser), new PropertyMetadata(false));
 
 		private double maxWidthForRenameTextbox;
 
@@ -261,6 +287,9 @@ namespace Files.App.Views.LayoutModes
 				foreach (var item in e.RemovedItems)
 					SetCheckboxSelectionState(item);
 			}
+			// We only want to show all checkboxes if any one of them is selected;
+			// Otherwise we hide them and let hover behavior take over
+			ShowAllCheckboxes = FileList.SelectedItems.Count != 0;
 		}
 
 		override public void StartRenameItem()
@@ -679,11 +708,13 @@ namespace Files.App.Views.LayoutModes
 
 		private void SelectAllCheckbox_Checked(object sender, RoutedEventArgs e)
 		{
+			ShowAllCheckboxes = true;
 			FileList.SelectAll();
 		}
 
 		private void SelectAllCheckbox_Unchecked(object sender, RoutedEventArgs e)
 		{
+			ShowAllCheckboxes = false;
 			// We should only unselect all items if the user clicked the checkbox
 			// We determine this by checking if all items were selected
 			if (SelectedItems.Count == FileList.Items.Count)
@@ -704,8 +735,16 @@ namespace Files.App.Views.LayoutModes
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
+			args.ItemContainer.PointerEntered -= ItemRow_PointerEntered;
+			args.ItemContainer.PointerExited -= ItemRow_PointerExited;
+			args.ItemContainer.PointerCanceled -= ItemRow_PointerCanceled;
+
 			base.FileList_ContainerContentChanging(sender, args);
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
+
+			args.ItemContainer.PointerEntered += ItemRow_PointerEntered;
+			args.ItemContainer.PointerExited += ItemRow_PointerExited;
+			args.ItemContainer.PointerCanceled += ItemRow_PointerCanceled;
 		}
 
 		private void SetCheckboxSelectionState(object item, ListViewItem? lviContainer = null)
@@ -754,7 +793,7 @@ namespace Files.App.Views.LayoutModes
 
 			if (tagName is null || parent?.DataContext is not ListedItem item)
 				return;
-			
+
 			var tagId = FileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
 
 			item.FileTags = item.FileTags
@@ -762,6 +801,27 @@ namespace Files.App.Views.LayoutModes
 				.ToArray();
 
 			e.Handled = true;
+		}
+
+		private void ItemRow_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			HandlePointerEventForRow(sender, true);
+		}
+
+		private void ItemRow_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			HandlePointerEventForRow(sender, false);
+		}
+
+		private void ItemRow_PointerCanceled(object sender, PointerRoutedEventArgs e)
+		{
+			HandlePointerEventForRow(sender, false);
+		}
+
+		private void HandlePointerEventForRow(object sender, bool isPointerOver)
+		{
+			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
+				VisualStateManager.GoToState(userControl, isPointerOver ? "PointerOver" : "Normal", true);
 		}
 	}
 }
