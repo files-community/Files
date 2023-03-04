@@ -25,7 +25,7 @@ using Windows.System;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class RecentFilesWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
+	public sealed partial class RecentFilesWidget : BaseWidgetControl, IWidgetItem, INotifyPropertyChanged
 	{
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 

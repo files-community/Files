@@ -1,8 +1,9 @@
-﻿<local:HomePageWidget
+﻿<local:BaseWidgetControl
 	x:Class="Files.App.UserControls.Widgets.DrivesWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:datamodels="using:Files.App.DataModels"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,7 +14,7 @@
 			x:Name="CardsList"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Top"
-			ItemsSource="{x:Bind local:DrivesWidget.ItemsAdded, Mode=OneWay}">
+			ItemsSource="{x:Bind DriveItems, Mode=OneWay}">
 			<ItemsRepeater.Layout>
 				<UniformGridLayout
 					ItemsStretch="None"
@@ -25,7 +26,7 @@
 			</ItemsRepeater.Layout>
 
 			<ItemsRepeater.ItemTemplate>
-				<DataTemplate x:DataType="local:DriveCardItem">
+				<DataTemplate x:DataType="datamodels:DriveCardItem">
 					<Button
 						Padding="0"
 						HorizontalAlignment="Stretch"
@@ -133,4 +134,4 @@
 
 		</ItemsRepeater>
 	</Grid>
-</local:HomePageWidget>
+</local:BaseWidgetControl>

@@ -22,13 +22,13 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
+		<!--  InfoBar to tell Bundles is outdated  -->
 		<InfoBar
 			Title="{helpers:ResourceString Name=BundlesBeingRemovedTitle}"
-			Grid.Row="0"
 			IsOpen="true"
 			Message="{helpers:ResourceString Name=BundlesBeingRemovedMessage}" />
 
-		<Grid Grid.Row="1" Canvas.ZIndex="10">
+		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
 				<ColumnDefinition />
@@ -141,10 +141,7 @@
 								<RowDefinition />
 							</Grid.RowDefinitions>
 
-							<Grid
-								Grid.Row="0"
-								HorizontalAlignment="Stretch"
-								ColumnSpacing="4">
+							<Grid HorizontalAlignment="Stretch" ColumnSpacing="4">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition />
 									<ColumnDefinition Width="Auto" />
@@ -256,8 +253,8 @@
 									</Style>
 								</GridView.ItemContainerStyle>
 
+								<!--  Bundle Item Template  -->
 								<GridView.ItemTemplate>
-									<!--  Bundle Item design  -->
 									<DataTemplate x:DataType="vm:BundleItemViewModel">
 										<Grid>
 											<Border

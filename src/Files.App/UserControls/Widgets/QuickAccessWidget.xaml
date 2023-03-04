@@ -1,4 +1,4 @@
-﻿<local:HomePageWidget
+﻿<local:BaseWidgetControl
 	x:Class="Files.App.UserControls.Widgets.QuickAccessWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -82,6 +82,7 @@
 					</Button>
 				</DataTemplate>
 			</ItemsRepeater.ItemTemplate>
+
 		</ItemsRepeater>
 	</Grid>
-</local:HomePageWidget>
+</local:BaseWidgetControl>

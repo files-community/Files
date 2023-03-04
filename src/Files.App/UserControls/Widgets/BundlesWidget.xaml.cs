@@ -39,9 +39,7 @@ namespace Files.App.UserControls.Widgets
 			=> InitializeComponent();
 
 		public Task RefreshWidget()
-		{
-			return Task.CompletedTask;
-		}
+			=>Task.CompletedTask;
 
 		public void Dispose()
 		{

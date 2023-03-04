@@ -22,8 +22,9 @@ using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class FileTagsWidget : HomePageWidget, IWidgetItem
+	public sealed partial class FileTagsWidget : BaseWidgetControl, IWidgetItem
 	{
+		#region Fields and Properties
 		public FileTagsWidgetViewModel ViewModel
 		{
 			get => (FileTagsWidgetViewModel)DataContext;
@@ -49,6 +50,7 @@ namespace Files.App.UserControls.Widgets
 
 		public MenuFlyoutItem? MenuFlyoutItem
 			=> null;
+		#endregion
 
 		public FileTagsWidget()
 		{
@@ -59,6 +61,7 @@ namespace Files.App.UserControls.Widgets
 			ViewModel = new(x => OpenAction!(x));
 		}
 
+		#region Methods
 		private async void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			if (e.ClickedItem is FileTagsItemViewModel itemViewModel)
@@ -117,5 +120,6 @@ namespace Files.App.UserControls.Widgets
 		public void Dispose()
 		{
 		}
+		#endregion
 	}
 }

@@ -92,7 +92,7 @@ namespace Files.App.UserControls.Widgets
 		}
 	}
 
-	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
+	public sealed partial class QuickAccessWidget : BaseWidgetControl, IWidgetItem, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -371,7 +371,6 @@ namespace Files.App.UserControls.Widgets
 
 		public void Dispose()
 		{
-
 		}
 	}
 }

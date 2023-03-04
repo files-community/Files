@@ -17,7 +17,7 @@ using System.Windows.Input;
 
 namespace Files.App.UserControls.Widgets
 {
-	public abstract class HomePageWidget : UserControl
+	public abstract class BaseWidgetControl : UserControl
 	{
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
@@ -77,6 +77,5 @@ namespace Files.App.UserControls.Widgets
 		{
 			_ = QuickAccessService.UnpinFromSidebar(item.Path);
 		}
-
 	}
 }

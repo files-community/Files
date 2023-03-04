@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -13,13 +14,11 @@ using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -29,82 +28,10 @@ using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-	public class DriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<DriveCardItem>
+	public sealed partial class DrivesWidget : BaseWidgetControl, IWidgetItem, INotifyPropertyChanged
 	{
-		private byte[] thumbnailData;
-
-		public new DriveItem Item { get; private set; }
-
-		public bool HasThumbnail
-			=> thumbnail is not null && thumbnailData is not null;
-
-		private BitmapImage thumbnail;
-		public BitmapImage Thumbnail
-		{
-			get => thumbnail;
-			set => SetProperty(ref thumbnail, value);
-		}
-
-		public DriveCardItem(DriveItem item)
-		{
-			Item = item;
-			Path = item.Path;
-		}
-
-		public async Task LoadCardThumbnailAsync()
-		{
-			// Try load thumbnail using ListView mode
-			if (thumbnailData is null || thumbnailData.Length == 0)
-				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
-
-			// Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
-			if (thumbnailData is null || thumbnailData.Length == 0)
-				thumbnailData = Item.IconData;
-
-			// Thumbnail data is valid, set the item icon
-			if (thumbnailData is not null && thumbnailData.Length > 0)
-				Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
-		}
-
-		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
-	}
-
-	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
-	{
-		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-
-		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
-
-		public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
-
-		public event DrivesWidgetNewPaneInvokedEventHandler DrivesWidgetNewPaneInvoked;
-
-		public event PropertyChangedEventHandler? PropertyChanged;
-
-		public static ObservableCollection<DriveCardItem> ItemsAdded = new();
-
-		private IShellPage associatedInstance;
-
-		public ICommand FormatDriveCommand;
-		public ICommand EjectDeviceCommand;
-		public ICommand DisconnectNetworkDriveCommand;
-		public ICommand GoToStorageSenseCommand;
-		public ICommand OpenInNewPaneCommand;
-
-		public IShellPage AppInstance
-		{
-			get => associatedInstance;
-			set
-			{
-				if (value != associatedInstance)
-				{
-					associatedInstance = value;
-					NotifyPropertyChanged(nameof(AppInstance));
-				}
-			}
-		}
+		#region Fields and Properties
+		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public string WidgetName
 			=> nameof(DrivesWidget);
@@ -116,19 +43,50 @@ namespace Files.App.UserControls.Widgets
 			=> "Drives".GetLocalizedResource();
 
 		public bool IsWidgetSettingEnabled
-			=> UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
+			=> base.UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
 
 		public bool ShowMenuFlyout
 			=> true;
 
-		public MenuFlyoutItem MenuFlyoutItem => new MenuFlyoutItem()
+		public MenuFlyoutItem MenuFlyoutItem => new()
 		{
 			Icon = new FontIcon() { Glyph = "\uE710" },
 			Text = "DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text".GetLocalizedResource(),
 			Command = MapNetworkDriveCommand
 		};
 
+		public ObservableCollection<DriveCardItem> DriveItems = new();
+
+		private IShellPage _AppInstance;
+		public IShellPage AppInstance
+		{
+			get => _AppInstance;
+			set
+			{
+				if (value != _AppInstance)
+				{
+					_AppInstance = value;
+					NotifyPropertyChanged(nameof(AppInstance));
+				}
+			}
+		}
+
+		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
+		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
+
+		public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
+		public event DrivesWidgetNewPaneInvokedEventHandler DrivesWidgetNewPaneInvoked;
+
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		public ICommand FormatDriveCommand;
+		public ICommand EjectDeviceCommand;
+		public ICommand DisconnectNetworkDriveCommand;
+		public ICommand GoToStorageSenseCommand;
+		public ICommand OpenInNewPaneCommand;
+
 		public AsyncRelayCommand MapNetworkDriveCommand { get; }
+		#endregion
 
 		public DrivesWidget()
 		{
@@ -150,9 +108,10 @@ namespace Files.App.UserControls.Widgets
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
 
+		#region Methods
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
 		{
-			var drive = ItemsAdded.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+			var drive = DriveItems.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
 			var options = drive?.Item.MenuOptions;
 
 			return new List<ContextMenuFlyoutItemViewModel>()
@@ -164,7 +123,7 @@ namespace Files.App.UserControls.Widgets
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+					ShowItem = UserSettingsService.PreferencesSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -172,7 +131,7 @@ namespace Files.App.UserControls.Widgets
 					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
+					ShowItem = UserSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -185,7 +144,7 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
+					ShowItem = UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -240,7 +199,8 @@ namespace Files.App.UserControls.Widgets
 					Tag = "ItemOverflow",
 					IsEnabled = false,
 				}
-			}.Where(x => x.ShowItem).ToList();
+			}
+			.Where(x => x.ShowItem).ToList();
 		}
 
 		private async Task DoNetworkMapDrive()
@@ -254,18 +214,18 @@ namespace Files.App.UserControls.Widgets
 			{
 				foreach (DriveItem drive in App.DrivesManager.Drives)
 				{
-					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DataModels.NavigationControlItems.DriveType.VirtualDrive)
+					if (!DriveItems.Any(x => x.Item == drive) && drive.Type != DataModels.NavigationControlItems.DriveType.VirtualDrive)
 					{
 						var cardItem = new DriveCardItem(drive);
-						ItemsAdded.AddSorted(cardItem);
+						DriveItems.AddSorted(cardItem);
 						await cardItem.LoadCardThumbnailAsync(); // After add
 					}
 				}
 
-				foreach (DriveCardItem driveCard in ItemsAdded.ToList())
+				foreach (DriveCardItem driveCard in DriveItems.ToList())
 				{
 					if (!App.DrivesManager.Drives.Contains(driveCard.Item))
-						ItemsAdded.Remove(driveCard);
+						DriveItems.Remove(driveCard);
 				}
 			});
 		}
@@ -289,11 +249,13 @@ namespace Files.App.UserControls.Widgets
 		private void OpenProperties(DriveCardItem item)
 		{
 			EventHandler<object> flyoutClosed = null!;
+
 			flyoutClosed = async (s, e) =>
 			{
 				ItemContextMenuFlyout.Closed -= flyoutClosed;
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance);
+				await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, _AppInstance);
 			};
+
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
@@ -365,12 +327,13 @@ namespace Files.App.UserControls.Widgets
 
 		public async Task RefreshWidget()
 		{
-			var updateTasks = ItemsAdded.Select(item => item.Item.UpdatePropertiesAsync());
+			var updateTasks = DriveItems.Select(item => item.Item.UpdatePropertiesAsync());
 			await Task.WhenAll(updateTasks);
 		}
 
 		public void Dispose()
 		{
 		}
+		#endregion
 	}
 }
