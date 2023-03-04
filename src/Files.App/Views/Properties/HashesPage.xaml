@@ -115,9 +115,24 @@
 			</ListView>
 		</Grid>
 
-		<!--  Unavailable Message  -->
+		<!--  Loading  -->
+		<StackPanel
+			x:Name="LoadingStatePanel"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			x:Load="{x:Bind HashesViewModel.IsLoading, Mode=OneWay}"
+			Spacing="8">
+			<ProgressRing HorizontalAlignment="Center" IsIndeterminate="True" />
+			<TextBlock
+				x:Name="LoadingTextBlock"
+				HorizontalAlignment="Center"
+				Style="{StaticResource BodyStrongTextBlockStyle}"
+				Text="{helpers:ResourceString Name=Loading}" />
+		</StackPanel>
+
+		<!--  Unavailable Label  -->
 		<TextBlock
-			x:Name="UnavailableMessageTextBlock"
+			x:Name="UnavailableTextBlock"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
 			x:Load="{x:Bind HashesViewModel.CanAccessFile, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"

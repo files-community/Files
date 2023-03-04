@@ -28,6 +28,8 @@ namespace Files.App.ViewModels.Properties
 
 			Hashes = new();
 
+			CanAccessFile = true;
+
 			LoadFileContent = new(ExecuteLoadFileContent);
 
 			if (LoadFileContent.CanExecute(null))
@@ -36,7 +38,7 @@ namespace Files.App.ViewModels.Properties
 
 		public ListedItem Item { get; }
 
-		private byte[] _fileData { get; set; }
+		private byte[] _fileData;
 
 		private bool _canAccessFile;
 		public bool CanAccessFile
@@ -55,6 +57,13 @@ namespace Files.App.ViewModels.Properties
 		public ObservableCollection<HashInfoItem> Hashes { get; set; }
 
 		public AsyncRelayCommand LoadFileContent { get; set; }
+
+		private bool _isLoading;
+		public bool IsLoading
+		{
+			get => _isLoading;
+			set => SetProperty(ref _isLoading, value);
+		}
 
 		private void GetHashes()
 		{
@@ -124,17 +133,23 @@ namespace Files.App.ViewModels.Properties
 		{
 			try
 			{
+				IsLoading = true;
+
 				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
 				{
 					_fileData = await File.ReadAllBytesAsync(Item.ItemPath);
-					CanAccessFile = true;
-
-					GetHashes();
 				});
+
+				CanAccessFile = true;
+				GetHashes();
 			}
 			catch
 			{
 				CanAccessFile = false;
+			}
+			finally
+			{
+				IsLoading = false;
 			}
 		}
 	}
