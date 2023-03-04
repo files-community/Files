@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.App.Helpers;
-using Files.App.Views.SettingsPages.Appearance;
+using Files.App.Views.Settings.Appearance;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
 using System;
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Files.App.ViewModels.SettingsViewModels
+namespace Files.App.ViewModels.Settings
 {
 	public class AppearanceViewModel : ObservableObject
 	{

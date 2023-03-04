@@ -21,7 +21,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
 
-namespace Files.App.ViewModels.SettingsViewModels
+namespace Files.App.ViewModels.Settings
 {
 	public class AdvancedViewModel : ObservableObject
 	{
