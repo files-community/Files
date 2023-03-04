@@ -1,8 +1,8 @@
-using Files.App.AppModels;
+using Files.App.DataModels;
 using Microsoft.UI.Xaml.Data;
 using System;
 
-namespace Files.App.ValueConverters
+namespace Files.App.Converters
 {
 	internal sealed class ImageModelToImageConverter : IValueConverter
 	{

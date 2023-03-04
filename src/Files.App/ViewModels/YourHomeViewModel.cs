@@ -9,7 +9,7 @@ using System;
 using System.Text.Json;
 using System.Windows.Input;
 
-namespace Files.App.ViewModels.Pages
+namespace Files.App.ViewModels
 {
 	public class YourHomeViewModel : ObservableObject, IDisposable
 	{
