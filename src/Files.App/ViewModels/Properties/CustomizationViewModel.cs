@@ -90,7 +90,7 @@ namespace Files.App.ViewModels.Properties
 			IconResourceItemPath = path;
 
 			var icons = Win32API.ExtractIconsFromDLL(path);
-			if (icons.Count == 0)
+			if (icons?.Count is null or 0)
 				return;
 
 			foreach(var item in icons)
