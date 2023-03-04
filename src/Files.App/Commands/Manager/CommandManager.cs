@@ -109,6 +109,7 @@ namespace Files.App.Commands
 			public string AutomationName => string.Empty;
 
 			public RichGlyph Glyph => RichGlyph.None;
+			public object? Icon => null;
 			public FontIcon? FontIcon => null;
 			public OpacityIcon? OpacityIcon => null;
 
@@ -148,12 +149,11 @@ namespace Files.App.Commands
 			public string AutomationName => Label;
 
 			public RichGlyph Glyph => action.Glyph;
+			public FontIcon? FontIcon => Icon as FontIcon;
+			public OpacityIcon? OpacityIcon => Icon as OpacityIcon;
 
-			private readonly Lazy<FontIcon?> fontIcon;
-			public FontIcon? FontIcon => fontIcon.Value;
-
-			private readonly Lazy<OpacityIcon?> opacityIcon;
-			public OpacityIcon? OpacityIcon => opacityIcon.Value;
+			private readonly Lazy<object?> icon;
+			public object? Icon => icon.Value;
 
 			public string? HotKeyText => !customHotKey.IsNone ? CustomHotKey.ToString() : null;
 			public HotKey DefaultHotKey => action.HotKey;
@@ -208,8 +208,7 @@ namespace Files.App.Commands
 				this.manager = manager;
 				Code = code;
 				this.action = action;
-				fontIcon = new(action.Glyph.ToFontIcon);
-				opacityIcon = new(action.Glyph.ToOpacityIcon);
+				icon = new(action.Glyph.ToIcon);
 				customHotKey = action.HotKey;
 				command = new AsyncRelayCommand(ExecuteAsync, () => action.IsExecutable);
 

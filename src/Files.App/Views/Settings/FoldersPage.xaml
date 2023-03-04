@@ -1,5 +1,5 @@
 ﻿<Page
-	x:Class="Files.App.SettingsPages.Folders"
+	x:Class="Files.App.Settings.FoldersPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:UserControls="using:Files.App.UserControls"
@@ -13,7 +13,7 @@
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-	xmlns:settingsviewmodels="using:Files.App.ViewModels.SettingsViewModels"
+	xmlns:settingsviewmodels="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
 	<Page.Resources>
 		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
@@ -140,8 +140,8 @@
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupInDescendingOrder}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=GroupInDescendingOrder}"
-								IsOn="{x:Bind ViewModel.GroupInDescendingOrder, Mode=TwoWay}"
 								IsEnabled="{x:Bind ViewModel.isDefaultGrouped, Mode=OneWay}"
+								IsOn="{x:Bind ViewModel.GroupInDescendingOrder, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 

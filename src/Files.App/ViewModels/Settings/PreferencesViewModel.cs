@@ -21,7 +21,7 @@ using Windows.Storage.Pickers;
 using static Files.App.Helpers.MenuFlyoutHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
-namespace Files.App.ViewModels.SettingsViewModels
+namespace Files.App.ViewModels.Settings
 {
 	public class PreferencesViewModel : ObservableObject, IDisposable
 	{

@@ -21,6 +21,8 @@ namespace Files.App.ViewModels
 
 		public bool IsPrimary { get; init; } = false;
 
+		public bool ShowOnShift { get; init; } = false;
+
 		public ContextMenuFlyoutItemViewModelBuilder(IRichCommand command)
 		{
 			this.command = command;
@@ -44,6 +46,7 @@ namespace Files.App.ViewModels
 				IsChecked = command.IsOn,
 				IsPrimary = IsPrimary,
 				ShowItem = true,
+				ShowOnShift = ShowOnShift,
 				ShowInRecycleBin = true,
 				ShowInSearchPage = true,
 				ShowInFtpPage = true,

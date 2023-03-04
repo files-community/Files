@@ -162,7 +162,7 @@ namespace Files.App.ServicesImplementation
 				Stopwatch timer = Stopwatch.StartNew();
 
 				await using (var stream = await _client.GetStreamAsync(DownloadUri))
-				await using (var fileStream = new FileStream(tempDownloadPath, FileMode.OpenOrCreate))
+				await using (var fileStream = new FileStream(tempDownloadPath, FileMode.Create))
 					await stream.CopyToAsync(fileStream);
 
 				timer.Stop();

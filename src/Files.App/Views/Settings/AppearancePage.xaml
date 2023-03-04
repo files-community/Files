@@ -1,8 +1,8 @@
 ﻿<Page
-	x:Class="Files.App.SettingsPages.Appearance"
+	x:Class="Files.App.Settings.AppearancePage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:appearance="using:Files.App.Views.SettingsPages.Appearance"
+	xmlns:appearance="using:Files.App.Views.Settings.Appearance"
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:converters1="using:Files.App.ValueConverters"
@@ -10,7 +10,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:settingsviewmodels="using:Files.App.ViewModels.SettingsViewModels"
+	xmlns:settingsviewmodels="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
 	<Page.Resources>
 		<ResourceDictionary>
