@@ -193,6 +193,22 @@
 		"ID": null
 	},
 	{
+		"NameResource": "Width",
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.Video.FrameWidth",
+		"IsReadOnly": true,
+		"DisplayFunctionName": "FrameWidth",
+		"ID": null
+	},
+	{
+		"NameResource": "Height",
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.Video.FrameHeight",
+		"IsReadOnly": true,
+		"DisplayFunctionName": "FrameHeight",
+		"ID": null
+	},
+	{
 		"NameResource": "PropertyProtectionType",
 		"SectionResource": "PropertySectionMedia",
 		"Property": "System.Media.ProtectionType",

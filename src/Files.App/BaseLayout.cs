@@ -588,7 +588,7 @@ namespace Files.App
 				shellContextMenuItemCancellationToken = new CancellationTokenSource();
 
 				var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-				var items = ContextFlyoutItemHelper.GetBaseContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed);
+				var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: new List<ListedItem> { ParentShellPageInstance!.FilesystemViewModel.CurrentFolder }, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, selectedItemsPropertiesViewModel: null);
 
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
 				BaseContextMenuFlyout.SecondaryCommands.Clear();
@@ -605,7 +605,7 @@ namespace Files.App
 
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
 				{
-					var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: new List<ListedItem>(), shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 					if (shellMenuItems.Any())
 						AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
 					else
@@ -650,7 +650,7 @@ namespace Files.App
 			shellContextMenuItemCancellationToken = new CancellationTokenSource();
 			SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
 			var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-			var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed);
+			var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
 			ItemContextMenuFlyout.PrimaryCommands.Clear();
 			ItemContextMenuFlyout.SecondaryCommands.Clear();
 			var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
@@ -705,7 +705,10 @@ namespace Files.App
 			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
 			{
 				Label = "SettingsEditFileTagsExpander/Title".GetLocalizedResource(),
-				Icon = new FontIcon() { Glyph = "\uE1CB" },
+				Content = new OpacityIcon()
+				{
+					Style = (Style)Application.Current.Resources["ColorIconTag"],
+				},
 				Flyout = fileTagsContextMenu
 			});
 		}
@@ -713,11 +716,12 @@ namespace Files.App
 		private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
 		{
 			var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
+			var sendToSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetSendToItems(shellMenuItems));
 			var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
 			var overflowShellMenuItemsUnfiltered = shellMenuItems.Except(mainShellMenuItems).ToList();
 			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
-				(x, i) => (x.ItemType == ItemType.Separator && 
-				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType == ItemType.Separator)
+				(x, i) => (x.ItemType == ItemType.Separator &&
+				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType != ItemType.Separator)
 				|| x.ItemType != ItemType.Separator).ToList();
 
 			var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
@@ -798,6 +802,24 @@ namespace Files.App
 				openWithOverflow.Flyout = flyout;
 				openWith.Visibility = Visibility.Collapsed;
 				openWithOverflow.Visibility = Visibility.Visible;
+			}
+
+			// Add items to sendto dropdown
+			var sendToOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendToOverflow") as AppBarButton;
+			
+			var sendTo = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendTo") as AppBarButton;
+			if (sendToSubItems is not null && sendToOverflow is not null)
+			{
+				var flyout = (MenuFlyout)sendToOverflow.Flyout;
+
+				flyout.Items.Clear();
+
+				foreach (var item in sendToSubItems)
+					flyout.Items.Add(item);
+
+				sendToOverflow.Flyout = flyout;
+				sendTo.Visibility = Visibility.Collapsed;
+				sendToOverflow.Visibility = Visibility.Visible;
 			}
 
 			if (itemsControl is not null)

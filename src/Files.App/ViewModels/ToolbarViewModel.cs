@@ -898,9 +898,6 @@ namespace Files.App.ViewModels
 		public void UpdateAdditionalActions()
 		{
 			OnPropertyChanged(nameof(HasAdditionalAction));
-			OnPropertyChanged(nameof(CanEmptyRecycleBin));
-			OnPropertyChanged(nameof(CanRestoreRecycleBin));
-			OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
 		}
 
 		private AddressToolbar? AddressToolbar => (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
@@ -954,25 +951,9 @@ namespace Files.App.ViewModels
 
 		public ICommand? CreateNewFileCommand { get; set; }
 
-		public ICommand? CreateNewFolderCommand { get; set; }
-
-		public ICommand? CreateNewShortcutCommand { get; set; }
-
-		public ICommand? CopyCommand { get; set; }
-
-		public ICommand? DeleteCommand { get; set; }
-
 		public ICommand? Rename { get; set; }
 
 		public ICommand? Share { get; set; }
-
-		public ICommand? CutCommand { get; set; }
-
-		public ICommand? EmptyRecycleBinCommand { get; set; }
-
-		public ICommand RestoreRecycleBinCommand { get; set; }
-
-		public ICommand RestoreSelectionRecycleBinCommand { get; set; }
 
 		public ICommand PropertiesCommand { get; set; }
 
@@ -999,6 +980,8 @@ namespace Files.App.ViewModels
 		public ICommand? InstallFontCommand { get; set; }
 
 		public ICommand? UpdateCommand { get; set; }
+
+		public ICommand? PlayAllCommand { get; set; }
 
 		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
 		{
@@ -1071,13 +1054,6 @@ namespace Files.App.ViewModels
 
 			if (currentInput.StartsWith('\\') && !currentInput.StartsWith("\\\\", StringComparison.Ordinal))
 				currentInput = currentInput.Insert(0, "\\");
-
-			if (currentInput.StartsWith('\\'))
-			{
-				var auth = await NetworkDrivesAPI.AuthenticateNetworkShare(currentInput);
-				if (!auth)
-					return;
-			}
 
 			if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
 				return;
@@ -1261,15 +1237,7 @@ namespace Files.App.ViewModels
 		public bool HasItem
 		{
 			get => hasItem;
-			set
-			{
-				if (SetProperty(ref hasItem, value))
-				{
-					OnPropertyChanged(nameof(CanEmptyRecycleBin));
-					OnPropertyChanged(nameof(CanRestoreRecycleBin));
-					OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
-				}
-			}
+			set => SetProperty(ref hasItem, value);
 		}
 
 		private List<ListedItem>? selectedItems;
@@ -1295,10 +1263,8 @@ namespace Files.App.ViewModels
 					OnPropertyChanged(nameof(IsImage));
 					OnPropertyChanged(nameof(IsMultipleImageSelected));
 					OnPropertyChanged(nameof(IsFont));
+					OnPropertyChanged(nameof(IsMultipleMediaFilesSelected));
 					OnPropertyChanged(nameof(HasAdditionalAction));
-					OnPropertyChanged(nameof(CanEmptyRecycleBin));
-					OnPropertyChanged(nameof(CanRestoreRecycleBin));
-					OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
 				}
 			}
 		}
@@ -1308,9 +1274,6 @@ namespace Files.App.ViewModels
 		public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcut && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive));
 		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
 		public bool CanViewProperties => true;
-		public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
-		public bool CanRestoreRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && (SelectedItems is null || SelectedItems.Count == 0);
-		public bool CanRestoreSelectionRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && SelectedItems is not null && SelectedItems.Count > 0;
 		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
 		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
 		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
@@ -1320,6 +1283,7 @@ namespace Files.App.ViewModels
 		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsMultipleMediaFilesSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsMediaFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
 		public string ExtractToText
 			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();

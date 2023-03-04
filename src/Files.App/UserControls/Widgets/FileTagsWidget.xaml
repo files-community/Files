@@ -8,7 +8,7 @@
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vc="using:Files.App.ValueConverters"
-	xmlns:vm="using:Files.Backend.ViewModels.Widgets.FileTagsWidget"
+	xmlns:vm="using:Files.App.ViewModels.Widgets"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">

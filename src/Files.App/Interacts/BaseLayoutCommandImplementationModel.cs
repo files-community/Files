@@ -86,30 +86,6 @@ namespace Files.App.Interacts
 			itemManipulationModel.StartRenameItem();
 		}
 
-		public virtual async void CreateShortcut(RoutedEventArgs e)
-		{
-			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
-
-			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) && !library.IsEmpty)
-			{
-				currentPath = library.DefaultSaveFolder;
-			}
-
-			foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
-			{
-				var fileName = string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk";
-				var filePath = Path.Combine(currentPath, fileName);
-
-				if (!await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath))
-					await UIFilesystemHelpers.HandleShortcutCannotBeCreated(fileName, selectedItem.ItemPath);
-			}
-		}
-
-		public virtual async void CreateShortcutFromDialog(RoutedEventArgs e)
-		{
-			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(associatedInstance);
-		}
-
 		public virtual void SetAsLockscreenBackgroundItem(RoutedEventArgs e)
 		{
 			WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath);
@@ -151,16 +127,6 @@ namespace Files.App.Interacts
 			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, false);
 		}
 
-		public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
-		{
-			_ = QuickAccessService.UnpinFromSidebar(associatedInstance.FilesystemViewModel.WorkingDirectory);
-		}
-
-		public virtual async void EmptyRecycleBin(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.EmptyRecycleBin();
-		}
-
 		public virtual async void RestoreRecycleBin(RoutedEventArgs e)
 		{
 			await RecycleBinHelpers.RestoreRecycleBin(associatedInstance);
@@ -176,24 +142,9 @@ namespace Files.App.Interacts
 			await QuickLookHelpers.ToggleQuickLook(associatedInstance);
 		}
 
-		public virtual async void CopyItem(RoutedEventArgs e)
-		{
-			await UIFilesystemHelpers.CopyItem(associatedInstance);
-		}
-
-		public virtual void CutItem(RoutedEventArgs e)
-		{
-			UIFilesystemHelpers.CutItem(associatedInstance);
-		}
-
 		public virtual async void RestoreItem(RoutedEventArgs e)
 		{
 			await RecycleBinHelpers.RestoreItem(associatedInstance);
-		}
-
-		public virtual async void DeleteItem(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.DeleteItem(associatedInstance);
 		}
 
 		public virtual void ShowFolderProperties(RoutedEventArgs e)
@@ -289,11 +240,6 @@ namespace Files.App.Interacts
 				var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
 				await Launcher.LaunchUriAsync(folderUri);
 			}
-		}
-
-		public virtual void CreateNewFolder(RoutedEventArgs e)
-		{
-			UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, associatedInstance);
 		}
 
 		public virtual void CreateNewFile(ShellNewEntry f)
@@ -402,11 +348,6 @@ namespace Files.App.Interacts
 			}
 		}
 
-		public virtual void PinDirectoryToFavorites(RoutedEventArgs e)
-		{
-			QuickAccessService.PinToSidebar(new[] { associatedInstance.FilesystemViewModel.WorkingDirectory });
-		}
-
 		public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)
 		{
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
@@ -422,32 +363,6 @@ namespace Files.App.Interacts
 					else
 						await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
 				}
-			}
-		}
-
-		public virtual async void UnpinItemFromStart(RoutedEventArgs e)
-		{
-			if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
-			{
-				foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
-					await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
-			}
-			else
-			{
-				await App.SecondaryTileHelper.UnpinFromStartAsync(associatedInstance.FilesystemViewModel.WorkingDirectory);
-			}
-		}
-
-		public async void PinItemToStart(RoutedEventArgs e)
-		{
-			if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
-			{
-				foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
-					await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.Name);
-			}
-			else
-			{
-				await App.SecondaryTileHelper.TryPinFolderAsync(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, associatedInstance.FilesystemViewModel.CurrentFolder.Name);
 			}
 		}
 
@@ -888,6 +803,16 @@ namespace Files.App.Interacts
 				Win32API.InstallFont(selectedItem.ItemPath);
 
 			return Task.CompletedTask;
+		}
+
+		public async Task PlayAll()
+		{
+			await NavigationHelpers.OpenSelectedItems(associatedInstance);
+		}
+
+		public void FormatDrive(ListedItem? e)
+		{
+			Win32API.OpenFormatDriveDialog(e?.ItemPath ?? string.Empty);
 		}
 
 		#endregion Command Implementation

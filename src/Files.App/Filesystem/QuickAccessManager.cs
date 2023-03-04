@@ -47,33 +47,14 @@ namespace Files.App.Filesystem
 
 		private void PinnedItemsWatcher_Changed(object sender, FileSystemEventArgs e)
 			=> PinnedItemsModified?.Invoke(this, e);
-		
-		public static async Task<IEnumerable<string>?> ReadV2PinnedItemsFile()
-		{
-			return await SafetyExtensions.IgnoreExceptions(async () =>
-			{
-				var oldPinnedItemsFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync("PinnedItems.json");
-				var model = JsonSerializer.Deserialize<SidebarPinnedModel>(await FileIO.ReadTextAsync(oldPinnedItemsFile));
-				await oldPinnedItemsFile.DeleteAsync();
-				return model?.FavoriteItems;
-			});
-		}
 
 		public async Task InitializeAsync()
 		{
 			PinnedItemsModified += Model.LoadAsync;
 
-			await Model.LoadAsync();
 			if (!Model.FavoriteItems.Contains(CommonPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
 				await QuickAccessService.PinToSidebar(CommonPaths.RecycleBinPath);
-			
-			var fileItems = (await ReadV2PinnedItemsFile())?.ToList();
 
-			if (fileItems is null)
-				return;
-
-			var itemsToLoad = fileItems.Except(Model.FavoriteItems).ToArray();
-			await QuickAccessService.PinToSidebar(itemsToLoad);
 			await Model.LoadAsync();
 		}
 	}

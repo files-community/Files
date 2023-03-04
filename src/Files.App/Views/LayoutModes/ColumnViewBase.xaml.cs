@@ -1,4 +1,6 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -107,14 +109,29 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
 			{
-				navArgs.FocusOnNavigation = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column == 0; // Focus filelist only if first column
 				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
+				var index = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column;
+				navArgs.FocusOnNavigation = index == columnsOwner?.FocusIndex;
+
+				if (index < columnsOwner?.FocusIndex)
+					FileList.ContainerContentChanging += HighlightPathDirectory;
 			}
 
 			base.OnNavigatedTo(eventArgs);
 
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
+		}
+
+		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
+		{
+			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
+				&& (ownerPath == item.ItemPath || ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\'))
+			{
+				var presenter = args.ItemContainer.FindDescendant<Grid>()!;
+				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+				FileList.ContainerContentChanging -= HighlightPathDirectory;
+			}
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -235,6 +252,18 @@ namespace Files.App.Views.LayoutModes
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
+			if (ctrlPressed && e.Key is VirtualKey.A)
+			{
+				e.Handled = true;
+
+				var commands = Ioc.Default.GetRequiredService<ICommandManager>();
+				var hotKey = new HotKey(VirtualKey.A, VirtualKeyModifiers.Control);
+
+				await commands[hotKey].ExecuteAsync();
+
+				return;
+			}
 
 			if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
 			{
@@ -393,11 +422,11 @@ namespace Files.App.Views.LayoutModes
 				if (isItemFolder && UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 				{
 					ItemInvoked?.Invoke(
-						new ColumnParam 
-						{ 
-							NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item!.ItemPath), 
-							ListView = FileList 
-						}, 
+						new ColumnParam
+						{
+							NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item!.ItemPath),
+							ListView = FileList
+						},
 						EventArgs.Empty);
 				}
 				else if (!IsRenamingItem && (isItemFile || isItemFolder))

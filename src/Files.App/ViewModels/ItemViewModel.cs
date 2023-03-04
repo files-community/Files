@@ -77,7 +77,13 @@ namespace Files.App.ViewModels
 
 		private FolderSettingsViewModel folderSettings = null;
 
-		public ListedItem CurrentFolder { get; private set; }
+		private ListedItem currentFolder;
+		public ListedItem CurrentFolder
+		{
+			get => currentFolder;
+			private set => SetProperty(ref currentFolder, value);
+		}
+
 		public CollectionViewSource viewSource;
 
 		private FileSystemWatcher watcher;
@@ -1468,9 +1474,17 @@ namespace Files.App.ViewModels
 		{
 			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
 			var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder && path.StartsWith(boxFolder);
+			bool isNetwork = path.StartsWith(@"\\", StringComparison.Ordinal) && !path.StartsWith(@"\\?\", StringComparison.Ordinal);
 			bool enumFromStorageFolder = isBoxFolder;
 
 			BaseStorageFolder? rootFolder = null;
+
+			if (isNetwork)
+			{
+				var auth = await NetworkDrivesAPI.AuthenticateNetworkShare(path);
+				if (!auth)
+					return -1;
+			}
 
 			if (!enumFromStorageFolder && FolderHelpers.CheckFolderAccessWithWin32(path))
 			{

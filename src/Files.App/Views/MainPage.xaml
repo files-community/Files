@@ -157,13 +157,6 @@
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="F11">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ToggleFullScreenAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="F12">
 			<i:Interaction.Behaviors>
 				<icore:EventTriggerBehavior EventName="Invoked">
@@ -210,7 +203,6 @@
 			HorizontalContentAlignment="Stretch"
 			CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.PaneHolder.IsMultiPaneEnabled, Mode=OneWay}"
 			DisplayModeChanged="{x:Bind SidebarAdaptiveViewModel.SidebarControl_DisplayModeChanged}"
-			EmptyRecycleBinCommand="{x:Bind SidebarAdaptiveViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
 			IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
 			IsPaneToggleButtonVisible="False"
 			Loaded="SidebarControl_Loaded"
@@ -247,12 +239,12 @@
 								Padding="8"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Bottom"
-								AutomationProperties.Name="{helpers:ResourceString Name=HorizontalMultitaskingControlAddButton/AutomationProperties/Name}"
+								AutomationProperties.Name="{helpers:ResourceString Name=NewTabCtrlT}"
 								Background="Transparent"
 								BorderBrush="Transparent"
 								BorderThickness="0"
 								Click="{x:Bind ViewModel.AddNewTab, Mode=OneWay}"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=HorizontalMultitaskingControlAddButton/ToolTipService/ToolTip}">
+								ToolTipService.ToolTip="{helpers:ResourceString Name=NewTabCtrlT}">
 								<Button.Content>
 									<FontIcon
 										x:Name="HorizontalMultitaskingControlAddButtonIcon"
@@ -326,6 +318,10 @@
 					Grid.Column="1"
 					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}"
 					ManipulationCompleted="PaneSplitter_ManipulationCompleted"
+					ManipulationStarted="PaneSplitter_ManipulationStarted"
+					PointerCanceled="PaneSplitter_PointerExited"
+					PointerEntered="PaneSplitter_PointerEntered"
+					PointerExited="PaneSplitter_PointerExited"
 					ResizeBehavior="BasedOnAlignment"
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 

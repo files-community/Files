@@ -2,6 +2,8 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
+using Files.App.Commands;
+using Files.App.Contexts;
 using Files.App.DataModels;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -78,7 +80,7 @@ namespace Files.App
 
 		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
 		public static string LogoPath;
-		
+
 		public IServiceProvider Services { get; private set; }
 
 		/// <summary>
@@ -129,6 +131,8 @@ namespace Files.App
 				.AddSingleton<ILocalizationService, LocalizationService>()
 				.AddSingleton<ICloudDetector, CloudDetector>()
 				.AddSingleton<IFileTagsService, FileTagsService>()
+				.AddSingleton<ICommandManager, CommandManager>()
+				.AddSingleton<IContentPageContext, ContentPageContext>()
 #if UWP
 				.AddSingleton<IStorageService, WindowsStorageService>()
 #else

@@ -30,7 +30,7 @@ namespace Files.Shared
 			return System.Text.RegularExpressions.Regex.Replace(value.Trim(), @"\s+", " ");
 		}
 
-		public static CompatibilityOptions FromString(string rawValue)
+		public static CompatibilityOptions FromString(string? rawValue)
 		{
 			var compatOptions = new CompatibilityOptions();
 			if (!string.IsNullOrEmpty(rawValue))

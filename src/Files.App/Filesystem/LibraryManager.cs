@@ -246,7 +246,7 @@ namespace Files.App.Filesystem
 					{
 						library.Commit();
 						library.Reload(); // Reload folders list
-						ShellFolderExtensions.GetShellLibraryItem(library, libraryPath);
+						return Task.FromResult(ShellFolderExtensions.GetShellLibraryItem(library, libraryPath));
 					}
 				}
 				catch (Exception e)
@@ -302,7 +302,7 @@ namespace Files.App.Filesystem
 			{
 				TitleText = "DialogRestoreLibrariesTitleText".GetLocalizedResource(),
 				SubtitleText = "DialogRestoreLibrariesSubtitleText".GetLocalizedResource(),
-				PrimaryButtonText = "DialogRestoreLibrariesButtonText".GetLocalizedResource(),
+				PrimaryButtonText = "Restore".GetLocalizedResource(),
 				CloseButtonText = "Cancel".GetLocalizedResource(),
 				PrimaryButtonAction = async (vm, e) =>
 				{
@@ -353,7 +353,7 @@ namespace Files.App.Filesystem
 				},
 				TitleText = "FolderWidgetCreateNewLibraryDialogTitleText".GetLocalizedResource(),
 				SubtitleText = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
-				PrimaryButtonText = "DialogCreateLibraryButtonText".GetLocalizedResource(),
+				PrimaryButtonText = "Create".GetLocalizedResource(),
 				CloseButtonText = "Cancel".GetLocalizedResource(),
 				PrimaryButtonAction = async (vm, e) =>
 				{
