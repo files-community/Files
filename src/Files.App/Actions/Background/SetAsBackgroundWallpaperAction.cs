@@ -4,6 +4,7 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
+using Files.Shared.Enums;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,9 +17,9 @@ namespace Files.App.Actions.Background
 
 		public string Label { get; } = "SetAsBackground".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph("\uE91B");
+		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconUnpinFromFavorites");//new RichGlyph("\uE91B");
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() && context.SelectedItems.Count > 1;
+		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() && context.SelectedItems.Count == 1;
 
 		public SetAsWallpaperBackgroundAction()
 		{
@@ -28,10 +29,7 @@ namespace Files.App.Actions.Background
 		public async Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
-			{
-				var imagePaths = context.SelectedItems.Select(item => item.ItemPath).ToArray();
-				WallpaperHelpers.SetSlideshow(imagePaths);
-			}
+				WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, context.SelectedItems.FirstOrDefault().ItemPath);
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()

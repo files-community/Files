@@ -17,9 +17,9 @@ namespace Files.App.Actions.Background
 
 		public string Label { get; } = "SetAsSlideshow/Text".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph("\uE91B");
+		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconUnpinFromFavorites");//new RichGlyph("\uE91B");
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() && context.SelectedItems.Count == 1;
+		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() && context.SelectedItems.Count > 1;
 
 		public SetAsSlideshowBackgroundAction()
 		{
@@ -29,7 +29,10 @@ namespace Files.App.Actions.Background
 		public async Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
-				WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, context.SelectedItems.FirstOrDefault().ItemPath);
+			{
+				var imagePaths = context.SelectedItems.Select(item => item.ItemPath).ToArray();
+				WallpaperHelpers.SetSlideshow(imagePaths);
+			}
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()
