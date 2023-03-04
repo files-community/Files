@@ -1,5 +1,5 @@
 ﻿<Page
-	x:Class="Files.App.Views.WidgetsPage"
+	x:Class="Files.App.Views.HomePage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,6 +8,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:widgets="using:Files.App.UserControls.Widgets"
 	mc:Ignorable="d">
+
 	<i:Interaction.Behaviors>
 		<icore:EventTriggerBehavior EventName="Loaded">
 			<icore:InvokeCommandAction Command="{x:Bind ViewModel.YourHomeLoadedCommand, Mode=OneWay}" />
@@ -20,4 +21,5 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch" />
 	</ScrollViewer>
+
 </Page>

@@ -13,8 +13,10 @@ namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 	public sealed partial class FileTagsItemViewModel : ObservableObject
 	{
 		private readonly ILocatableStorable _associatedStorable;
-		private readonly Func<string, Task> _openAction;	// A workaround for lack of MVVM-compliant navigation support.
-															// This workaround must be kept until further refactor of navigation code is completed
+
+		// A workaround for lack of MVVM-compliant navigation support.
+		// This workaround must be kept until further refactor of navigation code is completed
+		private readonly Func<string, Task> _openAction;
 
 		[ObservableProperty]
 		private IImageModel? _Icon;

@@ -276,7 +276,7 @@ namespace Files.App.Views
 								return; // return if already selected
 
 							navigationPath = "Home";
-							sourcePageType = typeof(WidgetsPage);
+							sourcePageType = typeof(HomePage);
 						}
 						else // Any other item
 						{

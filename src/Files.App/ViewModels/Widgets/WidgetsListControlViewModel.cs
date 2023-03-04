@@ -9,7 +9,7 @@ namespace Files.App.ViewModels.Widgets
 	{
 		public event EventHandler WidgetListRefreshRequestedInvoked;
 
-		public ObservableCollection<WidgetsListControlItemViewModel> Widgets { get; private set; } = new ObservableCollection<WidgetsListControlItemViewModel>();
+		public ObservableCollection<WidgetItem> Widgets { get; private set; } = new();
 
 		public void RefreshWidgetList()
 		{
@@ -24,15 +24,15 @@ namespace Files.App.ViewModels.Widgets
 			WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
 		}
 
-		public bool AddWidget(WidgetsListControlItemViewModel widgetModel)
+		public bool AddWidget(WidgetItem widgetModel)
 		{
 			return InsertWidget(widgetModel, Widgets.Count + 1);
 		}
 
-		public bool InsertWidget(WidgetsListControlItemViewModel widgetModel, int atIndex)
+		public bool InsertWidget(WidgetItem widgetModel, int atIndex)
 		{
 			// The widget must not be null and must implement IWidgetItemModel
-			if (widgetModel.WidgetItemModel is not IWidgetItemModel widgetItemModel)
+			if (widgetModel.WidgetItemModel is not IWidgetItem widgetItemModel)
 			{
 				return false;
 			}
@@ -71,7 +71,7 @@ namespace Files.App.ViewModels.Widgets
 			Widgets.RemoveAt(index);
 		}
 
-		public void RemoveWidget<TWidget>() where TWidget : IWidgetItemModel
+		public void RemoveWidget<TWidget>() where TWidget : IWidgetItem
 		{
 			int indexToRemove = -1;
 
@@ -88,7 +88,7 @@ namespace Files.App.ViewModels.Widgets
 			RemoveWidgetAt(indexToRemove);
 		}
 
-		public void ReorderWidget(WidgetsListControlItemViewModel widgetModel, int place)
+		public void ReorderWidget(WidgetItem widgetModel, int place)
 		{
 			int widgetIndex = Widgets.IndexOf(widgetModel);
 			Widgets.Move(widgetIndex, place);

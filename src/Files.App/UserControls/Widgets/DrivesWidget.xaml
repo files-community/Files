@@ -7,6 +7,7 @@
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
+
 	<Grid>
 		<ItemsRepeater
 			x:Name="CardsList"
@@ -22,6 +23,7 @@
 					MinRowSpacing="8"
 					Orientation="Horizontal" />
 			</ItemsRepeater.Layout>
+
 			<ItemsRepeater.ItemTemplate>
 				<DataTemplate x:DataType="local:DriveCardItem">
 					<Button
@@ -53,6 +55,7 @@
 								<RowDefinition Height="*" />
 								<RowDefinition Height="*" />
 							</Grid.RowDefinitions>
+
 							<Image
 								Grid.RowSpan="3"
 								Grid.Column="0"
@@ -122,10 +125,12 @@
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap"
 								ToolTipService.ToolTip="{x:Bind Item.SpaceText, Mode=OneWay}" />
+
 						</Grid>
 					</Button>
 				</DataTemplate>
 			</ItemsRepeater.ItemTemplate>
+
 		</ItemsRepeater>
 	</Grid>
 </local:HomePageWidget>

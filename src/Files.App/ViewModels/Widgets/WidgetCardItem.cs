@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Files.App.UserControls.Widgets
+namespace Files.App.ViewModels.Widgets
 {
 	public abstract class WidgetCardItem : ObservableObject
 	{

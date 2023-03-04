@@ -25,7 +25,7 @@ using Windows.System;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class RecentFilesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
+	public sealed partial class RecentFilesWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
 	{
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -121,17 +121,14 @@ namespace Files.App.UserControls.Widgets
 			e.Handled = true;
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenItemsWithCaptionText".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenWith",
-					},
+					Glyph = "\uE17D",
 					Tag = "OpenWithPlaceholder",
 					IsEnabled = false
 				},
@@ -156,7 +153,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "OpenFileLocation".GetLocalizedResource(),
+					Text = "RecentItemOpenFileLocation/Text".GetLocalizedResource(),
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
 					CommandParameter = item

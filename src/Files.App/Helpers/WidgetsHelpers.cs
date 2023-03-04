@@ -7,7 +7,7 @@ namespace Files.App.Helpers
 {
 	public static class WidgetsHelpers
 	{
-		public static TWidget? TryGetWidget<TWidget>(IPreferencesSettingsService preferencesSettingsService, WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItemModel, new()
+		public static TWidget? TryGetWidget<TWidget>(IPreferencesSettingsService preferencesSettingsService, WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItem, new()
 		{
 			bool canAddWidget = widgetsViewModel.CanAddWidget(typeof(TWidget).Name);
 			bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>(preferencesSettingsService);
@@ -35,7 +35,7 @@ namespace Files.App.Helpers
 			return (defaultValue);
 		}
 
-		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IPreferencesSettingsService preferencesSettingsService) where TWidget : IWidgetItemModel
+		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IPreferencesSettingsService preferencesSettingsService) where TWidget : IWidgetItem
 		{
 			if (typeof(TWidget) == typeof(QuickAccessWidget))
 			{
@@ -59,7 +59,7 @@ namespace Files.App.Helpers
 			}
 
 			// A custom widget it is - TWidget implements ICustomWidgetItemModel
-			return typeof(ICustomWidgetItemModel).IsAssignableFrom(typeof(TWidget)); // Return true for custom widgets - they're always enabled
+			return typeof(ICustomWidgetItem).IsAssignableFrom(typeof(TWidget)); // Return true for custom widgets - they're always enabled
 		}
 	}
 }

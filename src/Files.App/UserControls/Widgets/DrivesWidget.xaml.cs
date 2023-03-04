@@ -31,16 +31,20 @@ namespace Files.App.UserControls.Widgets
 {
 	public class DriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<DriveCardItem>
 	{
-		private BitmapImage thumbnail;
 		private byte[] thumbnailData;
 
 		public new DriveItem Item { get; private set; }
-		public bool HasThumbnail => thumbnail is not null && thumbnailData is not null;
+
+		public bool HasThumbnail
+			=> thumbnail is not null && thumbnailData is not null;
+
+		private BitmapImage thumbnail;
 		public BitmapImage Thumbnail
 		{
 			get => thumbnail;
 			set => SetProperty(ref thumbnail, value);
 		}
+
 		public DriveCardItem(DriveItem item)
 		{
 			Item = item;
@@ -65,7 +69,7 @@ namespace Files.App.UserControls.Widgets
 		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
 	}
 
-	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
+	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItem, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -102,15 +106,20 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		public string WidgetName => nameof(DrivesWidget);
+		public string WidgetName
+			=> nameof(DrivesWidget);
 
-		public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
+		public string AutomationProperties
+			=> "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
 
-		public string WidgetHeader => "Drives".GetLocalizedResource();
+		public string WidgetHeader
+			=> "Drives".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
+		public bool IsWidgetSettingEnabled
+			=> UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
 
-		public bool ShowMenuFlyout => true;
+		public bool ShowMenuFlyout
+			=> true;
 
 		public MenuFlyoutItem MenuFlyoutItem => new MenuFlyoutItem()
 		{
@@ -140,8 +149,8 @@ namespace Files.App.UserControls.Widgets
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
-		
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
 		{
 			var drive = ItemsAdded.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
 			var options = drive?.Item.MenuOptions;
@@ -150,22 +159,17 @@ namespace Files.App.UserControls.Widgets
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewTab",
-					},
+					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
+					Glyph = "\uF113",
+					GlyphFontFamilyName = "CustomGlyph",
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
 					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewWindow",
-					},
+					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
+					Glyph = "\uE737",
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
 					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
@@ -173,6 +177,12 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
+					ColoredIcon = new ColoredIconModel()
+					{
+						BaseBackdropGlyph = "\uF056",
+						BaseLayerGlyph = "\uF03B",
+						OverlayLayerGlyph = "\uF03C",
+					},
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
 					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
@@ -180,21 +190,15 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconPinToFavorites",
-					},
+					Glyph = "\uE840",
 					Command = PinToFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "UnpinFromFavorites".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconUnpinFromFavorites",
-					},
+					Text = "SideBarUnpinFromFavorites/Text".GetLocalizedResource(),
+					Glyph = "\uE77A",
 					Command = UnpinFromFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = isPinned
@@ -202,6 +206,8 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
+					Glyph = "\uF10B",
+					GlyphFontFamilyName = "CustomGlyph",
 					Command = EjectDeviceCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowEjectDevice ?? false
@@ -215,11 +221,8 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconProperties",
-					},
+					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
+					Glyph = "\uE946",
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
@@ -368,7 +371,6 @@ namespace Files.App.UserControls.Widgets
 
 		public void Dispose()
 		{
-
 		}
 	}
 }

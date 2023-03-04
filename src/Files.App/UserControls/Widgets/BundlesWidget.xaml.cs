@@ -7,37 +7,36 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class BundlesWidget : UserControl, IWidgetItemModel, IDisposable
+	public sealed partial class BundlesWidget : UserControl, IWidgetItem, IDisposable
 	{
+		#region Fields and Properties
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		public BundlesViewModel ViewModel
-		{
-			get => (BundlesViewModel)DataContext;
-			private set => DataContext = value;
-		}
+		public BundlesViewModel ViewModel { get; set; } = new();
 
-		public string WidgetName => nameof(BundlesWidget);
+		public string WidgetName
+			=> nameof(BundlesWidget);
 
-		public string AutomationProperties => "BundlesWidgetAutomationProperties/Name".GetLocalizedResource();
+		public string AutomationProperties
+			=> "BundlesWidgetAutomationProperties/Name".GetLocalizedResource();
 
-		public string WidgetHeader => "Bundles".GetLocalizedResource();
+		public string WidgetHeader
+			=> "Bundles".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowBundlesWidget;
+		public bool IsWidgetSettingEnabled
+			=> UserSettingsService.PreferencesSettingsService.ShowBundlesWidget;
 		
-		public bool ShowMenuFlyout => false;
+		public bool ShowMenuFlyout
+			=> false;
 
-		public MenuFlyoutItem? MenuFlyoutItem => null;
+		public MenuFlyoutItem? MenuFlyoutItem
+			=> null;
+		#endregion
 
 		public BundlesWidget()
-		{
-			InitializeComponent();
-			ViewModel = new BundlesViewModel();
-		}
+			=> InitializeComponent();
 
 		public Task RefreshWidget()
 		{

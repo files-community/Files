@@ -3,6 +3,7 @@ using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
 using Files.App.ViewModels;
+using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
 using Files.Sdk.Storage;
 using Files.Shared.Extensions;
@@ -56,7 +57,6 @@ namespace Files.App.UserControls.Widgets
 
 			e.Handled = true;
 		}
-
 
 		public async void OpenInNewTab(WidgetCardItem item)
 		{

@@ -511,7 +511,7 @@ namespace Files.App.Views
 				};
 				await FilesystemViewModel.SearchAsync(searchInstance);
 			}
-			else if (CurrentPageType != typeof(WidgetsPage))
+			else if (CurrentPageType != typeof(HomePage))
 			{
 				ToolbarViewModel.CanRefresh = false;
 				FilesystemViewModel?.RefreshItems(null);
@@ -523,7 +523,7 @@ namespace Files.App.Views
 			var previousPageContent = ItemDisplay.BackStack[ItemDisplay.BackStack.Count - 1];
 			HandleBackForwardRequest(previousPageContent);
 
-			if (previousPageContent.SourcePageType == typeof(WidgetsPage))
+			if (previousPageContent.SourcePageType == typeof(HomePage))
 				ItemDisplay.GoBack(new EntranceNavigationTransitionInfo());
 			else
 				ItemDisplay.GoBack();
@@ -631,8 +631,15 @@ namespace Files.App.Views
 			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
+			ToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, this));
+			ToolbarViewModel.CreateNewShortcutCommand = new RelayCommand(() => CreateNewShortcutFromDialog());
+			ToolbarViewModel.CopyCommand = new RelayCommand(async () => commands.CopyItem.Execute(null));
 			ToolbarViewModel.Rename = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RenameItemCommand.Execute(null));
 			ToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
+			ToolbarViewModel.DeleteCommand = new RelayCommand(() => commands.DeleteItem.Execute(null));
+			ToolbarViewModel.CutCommand = new RelayCommand(() => commands.CutItem.Execute(null));
+			ToolbarViewModel.RestoreRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreRecycleBinCommand.Execute(null));
+			ToolbarViewModel.RestoreSelectionRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreSelectionRecycleBinCommand.Execute(null));
 			ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
 			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
 			ToolbarViewModel.SetAsBackgroundCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsDesktopBackgroundItemCommand.Execute(null));
@@ -675,7 +682,7 @@ namespace Files.App.Views
 
 		protected void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
 		{
-			if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType is not null)
+			if (incomingSourcePageType == typeof(HomePage) && incomingSourcePageType is not null)
 				ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
 		}
 
@@ -704,7 +711,7 @@ namespace Files.App.Views
 		{
 			var incomingPageNavPath = pageContent.Parameter as NavigationArguments;
 			incomingPageNavPath.IsLayoutSwitch = false;
-			if (pageContent.SourcePageType != typeof(WidgetsPage)) // Update layout type
+			if (pageContent.SourcePageType != typeof(HomePage)) // Update layout type
 				InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
 			SelectSidebarItemFromPath(pageContent.SourcePageType);
 		}

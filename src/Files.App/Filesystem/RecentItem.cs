@@ -1,6 +1,6 @@
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using Files.App.UserControls.Widgets;
+using Files.App.ViewModels.Widgets;
 using Files.Shared;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;

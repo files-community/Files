@@ -7,6 +7,7 @@
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
+
 	<Grid>
 		<ItemsRepeater
 			x:Name="CardsList"
@@ -23,6 +24,7 @@
 					MinRowSpacing="8"
 					Orientation="Horizontal" />
 			</ItemsRepeater.Layout>
+
 			<ItemsRepeater.ItemTemplate>
 				<DataTemplate x:DataType="local:FolderCardItem">
 					<Button
@@ -47,6 +49,7 @@
 								<RowDefinition Height="*" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
+
 							<FontIcon
 								x:Name="PinIcon"
 								HorizontalAlignment="Right"
@@ -54,6 +57,7 @@
 								x:Load="{x:Bind IsPinned, Mode=OneWay}"
 								FontSize="12"
 								Glyph="&#xE840;" />
+
 							<Image
 								Grid.Row="0"
 								Width="32"
@@ -62,6 +66,7 @@
 								VerticalAlignment="Center"
 								Source="{x:Bind Thumbnail, Mode=OneWay}"
 								Stretch="Uniform" />
+
 							<TextBlock
 								x:Name="ItemLocationName"
 								Grid.Row="1"
@@ -72,6 +77,7 @@
 								Text="{x:Bind Text}"
 								TextTrimming="WordEllipsis"
 								TextWrapping="NoWrap" />
+
 						</Grid>
 					</Button>
 				</DataTemplate>

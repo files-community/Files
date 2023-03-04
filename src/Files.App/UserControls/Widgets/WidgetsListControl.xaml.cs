@@ -2,28 +2,18 @@ using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml.Controls;
 using System;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls.Widgets
 {
 	public sealed partial class WidgetsListControl : UserControl, IDisposable
 	{
-		public WidgetsListControlViewModel ViewModel
-		{
-			get => (WidgetsListControlViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public WidgetsListControlViewModel ViewModel { get; set; } = new();
 
 		public WidgetsListControl()
-		{
-			InitializeComponent();
-
-			ViewModel = new WidgetsListControlViewModel();
-		}
+			=> InitializeComponent();
 
 		public void Dispose()
 		{
-			ViewModel?.Dispose();
+			ViewModel.Dispose();
 		}
 	}
 }

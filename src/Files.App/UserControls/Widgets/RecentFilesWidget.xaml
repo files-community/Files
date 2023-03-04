@@ -12,6 +12,7 @@
 	mc:Ignorable="d">
 
 	<StackPanel x:Name="RecentsListGrid" Orientation="Vertical">
+
 		<!--  Message when recent files are disabled in File Explorer  -->
 		<muxc:InfoBar
 			x:Name="RecentFilesDisabledOnWindowsWarning"
@@ -114,5 +115,6 @@
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
+
 	</StackPanel>
 </local:HomePageWidget>

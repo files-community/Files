@@ -951,9 +951,23 @@ namespace Files.App.ViewModels
 
 		public ICommand? CreateNewFileCommand { get; set; }
 
+		public ICommand? CreateNewFolderCommand { get; set; }
+
+		public ICommand? CreateNewShortcutCommand { get; set; }
+
+		public ICommand? CopyCommand { get; set; }
+
+		public ICommand? DeleteCommand { get; set; }
+
 		public ICommand? Rename { get; set; }
 
 		public ICommand? Share { get; set; }
+
+		public ICommand? CutCommand { get; set; }
+
+		public ICommand RestoreRecycleBinCommand { get; set; }
+
+		public ICommand RestoreSelectionRecycleBinCommand { get; set; }
 
 		public ICommand PropertiesCommand { get; set; }
 
@@ -1058,7 +1072,7 @@ namespace Files.App.ViewModels
 			if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
 				return;
 
-			if (currentInput != shellPage.FilesystemViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(WidgetsPage))
+			if (currentInput != shellPage.FilesystemViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(HomePage))
 			{
 				if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
@@ -1105,7 +1119,7 @@ namespace Files.App.ViewModels
 						{
 							var workingDir =
 								string.IsNullOrEmpty(shellPage.FilesystemViewModel.WorkingDirectory) ||
-								shellPage.CurrentPageType == typeof(WidgetsPage) ?
+								shellPage.CurrentPageType == typeof(HomePage) ?
 									CommonPaths.HomePath :
 									shellPage.FilesystemViewModel.WorkingDirectory;
 

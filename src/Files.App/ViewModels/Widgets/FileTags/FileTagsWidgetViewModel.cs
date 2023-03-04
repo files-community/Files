@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.ViewModels.Widgets
+namespace Files.App.ViewModels.Widgets.FileTags
 {
 	public sealed partial class FileTagsWidgetViewModel : ObservableObject, IAsyncInitialize
 	{

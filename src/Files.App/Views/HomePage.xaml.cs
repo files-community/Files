@@ -18,18 +18,15 @@ using Windows.Storage;
 
 namespace Files.App.Views
 {
-	public sealed partial class WidgetsPage : Page, IDisposable
+	public sealed partial class HomePage : Page, IDisposable
 	{
+		#region Fileds and Properties
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private IShellPage AppInstance = null;
-		public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
 
-		private QuickAccessWidget quickAccessWidget;
-		private DrivesWidget drivesWidget;
-		private BundlesWidget bundlesWidget;
-		private FileTagsWidget fileTagsWidget;
-		private RecentFilesWidget recentFilesWidget;
+		public FolderSettingsViewModel FolderSettings
+			=> AppInstance?.InstanceViewModel.FolderSettings;
 
 		public YourHomeViewModel ViewModel
 		{
@@ -37,7 +34,17 @@ namespace Files.App.Views
 			set => DataContext = value;
 		}
 
-		public WidgetsPage()
+		private static bool IsWinUI3
+			=> Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
+
+		private QuickAccessWidget quickAccessWidget;
+		private DrivesWidget drivesWidget;
+		private BundlesWidget bundlesWidget;
+		private FileTagsWidget fileTagsWidget;
+		private RecentFilesWidget recentFilesWidget;
+		#endregion
+
+		public HomePage()
 		{
 			InitializeComponent();
 
@@ -46,18 +53,54 @@ namespace Files.App.Views
 			Widgets.ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
 		}
 
+		protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
+		{
+			var parameters = eventArgs.Parameter as NavigationArguments;
+			AppInstance = parameters.AssociatedTabInstance;
+			AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
+			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
+			AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
+			AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
+			AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
+			AppInstance.InstanceViewModel.IsPageTypeFtp = false;
+			AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
+			AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
+			AppInstance.ToolbarViewModel.CanRefresh = true;
+			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
+			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
+			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
+
+			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
+			AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
+
+			// Set path of working directory empty
+			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
+
+			// Clear the path UI and replace with Favorites
+			AppInstance.ToolbarViewModel.PathComponents.Clear();
+			string componentLabel = parameters.NavPathParam == "Home" ? "Home".GetLocalizedResource() : parameters.NavPathParam;
+			string tag = parameters.NavPathParam;
+			PathBoxItem item = new PathBoxItem()
+			{
+				Title = componentLabel,
+				Path = tag,
+			};
+			AppInstance.ToolbarViewModel.PathComponents.Add(item);
+			base.OnNavigatedTo(eventArgs);
+		}
+
 		protected override void OnNavigatedFrom(NavigationEventArgs e)
 		{
 			Dispose();
 			base.OnNavigatedFrom(e);
 		}
 
-		public void RefreshWidgetList() => Widgets.ViewModel.RefreshWidgetList();
+		#region Event Methods
+		public void RefreshWidgetList()
+			=> Widgets.ViewModel.RefreshWidgetList();
 
 		private void ViewModel_WidgetListRefreshRequestedInvoked(object? sender, EventArgs e)
-		{
-			ReloadWidgets();
-		}
+			=> ReloadWidgets();
 
 		public void ReloadWidgets()
 		{
@@ -121,16 +164,6 @@ namespace Files.App.Views
 			// We must change the associatedInstance because only now it has loaded and not null
 			ViewModel.ChangeAppInstance(AppInstance);
 			ReloadWidgets();
-		}
-
-		// WINUI3
-		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
-			return contentDialog;
 		}
 
 		private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
@@ -213,53 +246,21 @@ namespace Files.App.Views
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
 		}
 
-		protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
-		{
-			var parameters = eventArgs.Parameter as NavigationArguments;
-			AppInstance = parameters.AssociatedTabInstance;
-			AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
-			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
-			AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
-			AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
-			AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
-			AppInstance.InstanceViewModel.IsPageTypeFtp = false;
-			AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
-			AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
-			AppInstance.ToolbarViewModel.CanRefresh = true;
-			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
-			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
-			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
-
-			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
-			AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
-
-			// Set path of working directory empty
-			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
-
-			// Clear the path UI and replace with Favorites
-			AppInstance.ToolbarViewModel.PathComponents.Clear();
-			string componentLabel = parameters.NavPathParam == "Home" ? "Home".GetLocalizedResource() : parameters.NavPathParam;
-			string tag = parameters.NavPathParam;
-			PathBoxItem item = new PathBoxItem()
-			{
-				Title = componentLabel,
-				Path = tag,
-			};
-			AppInstance.ToolbarViewModel.PathComponents.Add(item);
-			base.OnNavigatedTo(eventArgs);
-		}
-
-		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-		{
-			base.OnNavigatingFrom(e);
-			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
-		}
-
 		private async void ToolbarViewModel_RefreshRequested(object? sender, EventArgs e)
 		{
 			AppInstance.ToolbarViewModel.CanRefresh = false;
 			await Task.WhenAll(Widgets.ViewModel.Widgets.Select(w => w.WidgetItemModel.RefreshWidget()));
 			AppInstance.ToolbarViewModel.CanRefresh = true;
+		}
+		#endregion
+
+		// WINUI3
+		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+		{
+			if (IsWinUI3)
+				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+
+			return contentDialog;
 		}
 
 		public void Dispose()

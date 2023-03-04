@@ -4,7 +4,7 @@ using System;
 
 namespace Files.App.ViewModels.Widgets
 {
-	public class WidgetsListControlItemViewModel : ObservableObject, IDisposable
+	public class WidgetItem : ObservableObject, IDisposable
 	{
 		private readonly Action<bool> _expanderValueChangedCallback;
 
@@ -17,7 +17,7 @@ namespace Files.App.ViewModels.Widgets
 			set => SetProperty(ref _WidgetControl, value);
 		}
 
-		public WidgetsListControlItemViewModel(object widgetControl, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
+		public WidgetItem(object widgetControl, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
 		{
 			WidgetControl = widgetControl;
 			_expanderValueChangedCallback = expanderValueChangedCallback;
@@ -34,9 +34,9 @@ namespace Files.App.ViewModels.Widgets
 			}
 		}
 
-		public IWidgetItemModel WidgetItemModel
+		public IWidgetItem WidgetItemModel
 		{
-			get => WidgetControl as IWidgetItemModel;
+			get => WidgetControl as IWidgetItem;
 		}
 
 		public string WidgetAutomationProperties

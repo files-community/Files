@@ -9,12 +9,10 @@
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Widgets.Bundles"
-	d:DesignHeight="300"
-	d:DesignWidth="400"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
-		<!--  Converters  -->
 		<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 	</UserControl.Resources>
 
@@ -95,7 +93,6 @@
 			<!--  Remove Reveal Highlight Effect  -->
 			<GridView.ItemContainerStyle>
 				<Style TargetType="GridViewItem">
-					<!--  Spacing  -->
 					<Setter Property="Margin" Value="0,0,8,8" />
 					<Setter Property="Template">
 						<Setter.Value>
@@ -138,7 +135,6 @@
 							HorizontalAlignment="Stretch"
 							AllowDrop="True"
 							RowSpacing="8">
-
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
@@ -377,7 +373,7 @@
 			Background="{ThemeResource ControlFillColorDefaultBrush}"
 			CornerRadius="{StaticResource ControlCornerRadius}">
 
-			<!--  heh xD  -->
+			<!--  Create Bundle Button  -->
 			<Button
 				Width="48"
 				Height="48"
@@ -469,5 +465,6 @@
 				</Button.Flyout>
 			</Button>
 		</Grid>
+
 	</Grid>
 </UserControl>

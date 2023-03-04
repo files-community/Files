@@ -7,21 +7,31 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Files.Backend.Helpers;
-using Files.App.UserControls.Widgets;
 
-namespace Files.App.ViewModels.Widgets
+namespace Files.App.ViewModels.Widgets.FileTags
 {
 	public sealed partial class FileTagsItemViewModel : WidgetCardItem
 	{
+		#region Fields and Properties
 		private readonly ILocatableStorable _associatedStorable;
-		private readonly Func<string, Task> _openAction;	// A workaround for lack of MVVM-compliant navigation support.
-															// This workaround must be kept until further refactor of navigation code is completed
 
-		[ObservableProperty]
+		// A workaround for lack of MVVM-compliant navigation support.
+		// This workaround must be kept until further refactor of navigation code is completed.
+		private readonly Func<string, Task> _openAction;
+
 		private IImageModel? _Icon;
+		public string Icon
+		{
+			get => _Icon;
+			set => SetProperty(ref _Icon, value);
+		}
 
-		[ObservableProperty]
 		private string _Name;
+		public string Name
+		{
+			get => _Name;
+			set => SetProperty(ref _Name, value);
+		}
 
 		private string path;
 		public override string Path
@@ -30,7 +40,9 @@ namespace Files.App.ViewModels.Widgets
 			set => SetProperty(ref path, value); 
 		}
 
-		public bool IsFolder => _associatedStorable is ILocatableFolder;
+		public bool IsFolder
+			=> _associatedStorable is ILocatableFolder;
+		#endregion
 
 		public FileTagsItemViewModel(ILocatableStorable associatedStorable, Func<string, Task> openAction, IImageModel? icon)
 		{
