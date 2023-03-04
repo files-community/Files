@@ -88,6 +88,7 @@ namespace Files.App.ViewModels.Properties
 		public void LoadIconsForPath(string path)
 		{
 			IconResourceItemPath = path;
+			_dllIcons.Clear();
 
 			var icons = Win32API.ExtractIconsFromDLL(path);
 			if (icons?.Count is null or 0)
