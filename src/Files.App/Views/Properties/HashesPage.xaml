@@ -25,11 +25,13 @@
 			Grid.Row="1"
 			Margin="12"
 			VerticalAlignment="Top"
-			x:Load="{x:Bind HashesViewModel.CanAccessFile, Mode=OneWay}"
+			x:Load="{x:Bind HashesViewModel.IsLoading, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
 			CornerRadius="4">
+
+			<!--  Hashes ListView  -->
 			<ListView
 				x:Name="HashesListView"
 				ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=TwoWay}"
@@ -113,6 +115,14 @@
 				</ListView.ItemTemplate>
 
 			</ListView>
+
+			<!--  Unavailable Label  -->
+			<TextBlock
+				x:Name="UnavailableTextBlock"
+				Margin="16,56,16,16"
+				x:Load="{x:Bind HashesViewModel.CanAccessFile, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+				Style="{StaticResource BodyTextBlockStyle}"
+				Text="{helpers:ResourceString Name=UnableToCalcHashes}" />
 		</Grid>
 
 		<!--  Loading  -->
@@ -129,15 +139,6 @@
 				Style="{StaticResource BodyStrongTextBlockStyle}"
 				Text="{helpers:ResourceString Name=Loading}" />
 		</StackPanel>
-
-		<!--  Unavailable Label  -->
-		<TextBlock
-			x:Name="UnavailableTextBlock"
-			HorizontalAlignment="Center"
-			VerticalAlignment="Center"
-			x:Load="{x:Bind HashesViewModel.CanAccessFile, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-			Style="{StaticResource BodyStrongTextBlockStyle}"
-			Text="{helpers:ResourceString Name=HashesUnavailable}" />
 
 	</Grid>
 </vm:BasePropertiesPage>

@@ -1,22 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
 using Files.App.Filesystem;
-using Files.App.Filesystem.Permissions;
-using Files.App.Helpers;
 using Files.Backend.Models;
-using System;
-using System.Collections.Generic;
+using Files.Shared.Helpers;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
-using Windows.ApplicationModel.DataTransfer;
-using Microsoft.UI.Dispatching;
 using CommunityToolkit.WinUI;
+using System;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -38,8 +29,6 @@ namespace Files.App.ViewModels.Properties
 
 		public ListedItem Item { get; }
 
-		private byte[] _fileData;
-
 		private bool _canAccessFile;
 		public bool CanAccessFile
 		{
@@ -56,6 +45,8 @@ namespace Files.App.ViewModels.Properties
 
 		public ObservableCollection<HashInfoItem> Hashes { get; set; }
 
+		private byte[] _fileData;
+
 		public AsyncRelayCommand LoadFileContent { get; set; }
 
 		private bool _isLoading;
@@ -70,63 +61,28 @@ namespace Files.App.ViewModels.Properties
 			Hashes.Add(new()
 			{
 				Algorithm = "MD5",
-				HashValue = CreateMD5(),
+				HashValue = ChecksumHelpers.CreateMD5(_fileData),
 			});
 			Hashes.Add(new()
 			{
 				Algorithm = "SHA1",
-				HashValue = CreateSHA1(),
+				HashValue = ChecksumHelpers.CreateSHA1(_fileData),
 			});
 			Hashes.Add(new()
 			{
 				Algorithm = "SHA256",
-				HashValue = CreateSHA256(),
+				HashValue = ChecksumHelpers.CreateSHA256(_fileData),
 			});
 			Hashes.Add(new()
 			{
 				Algorithm = "SHA384",
-				HashValue = CreateSHA384(),
+				HashValue = ChecksumHelpers.CreateSHA384(_fileData),
 			});
 			Hashes.Add(new()
 			{
 				Algorithm = "SHA512",
-				HashValue = CreateSHA512(),
+				HashValue = ChecksumHelpers.CreateSHA512(_fileData),
 			});
-		}
-
-		private string CreateMD5()
-		{
-			var hashBytes = MD5.HashData(_fileData);
-
-			return Convert.ToHexString(hashBytes);
-		}
-
-		private string CreateSHA1()
-		{
-			var hashBytes = SHA1.HashData(_fileData);
-
-			return Convert.ToHexString(hashBytes);
-		}
-
-		private string CreateSHA256()
-		{
-			var hashBytes = SHA256.HashData(_fileData);
-
-			return Convert.ToHexString(hashBytes);
-		}
-
-		private string CreateSHA384()
-		{
-			var hashBytes = SHA384.HashData(_fileData);
-
-			return Convert.ToHexString(hashBytes);
-		}
-
-		private string CreateSHA512()
-		{
-			var hashBytes = SHA512.HashData(_fileData);
-
-			return Convert.ToHexString(hashBytes);
 		}
 
 		private async Task ExecuteLoadFileContent()
