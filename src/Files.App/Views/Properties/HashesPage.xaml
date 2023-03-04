@@ -4,18 +4,16 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.Views.Properties"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:models="using:Files.Backend.Models"
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
-	DataContext="{x:Bind HashesListView, Mode=OneWay}"
+	DataContext="{x:Bind HashesViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
 			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
-
 			<toolkitconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
@@ -71,7 +69,7 @@
 				<!--  Template  -->
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="models:HashInfoItem">
-						<ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" ToolTipService.ToolTip="{x:Bind HashValue}">
+						<ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
 							<Grid ColumnSpacing="12">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="64" />
@@ -93,7 +91,8 @@
 									Style="{StaticResource BodyTextBlockStyle}"
 									Text="{x:Bind HashValue}"
 									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap" />
+									TextWrapping="NoWrap"
+									ToolTipService.ToolTip="{x:Bind HashValue}" />
 
 								<!--  Copy button  -->
 								<Button
@@ -103,10 +102,11 @@
 									AutomationProperties.Name="{helpers:ResourceString Name=Copy}"
 									Background="Transparent"
 									BorderBrush="Transparent"
-									Command="{Binding ViewModel.CopyHashValueCommand, ElementName=HashesListView, Mode=OneWay}"
+									Click="CopyHashButton_Click"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Copy}">
 									<FontIcon FontSize="14" Glyph="&#xE8C8;" />
 								</Button>
+
 							</Grid>
 						</ListViewItem>
 					</DataTemplate>

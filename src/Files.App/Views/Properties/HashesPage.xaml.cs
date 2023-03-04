@@ -1,19 +1,9 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
+﻿using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
-using Microsoft.UI;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.Threading.Tasks;
-using Windows.Foundation.Metadata;
-using Windows.Graphics;
 
 namespace Files.App.Views.Properties
 {
@@ -42,6 +32,15 @@ namespace Files.App.Views.Properties
 
 		public override void Dispose()
 		{
+		}
+
+		private void CopyHashButton_Click(object sender, RoutedEventArgs e)
+		{
+			var item = (Backend.Models.HashInfoItem)(((Button)sender).DataContext);
+
+			var dp = new Windows.ApplicationModel.DataTransfer.DataPackage();
+			dp.SetText(item.HashValue);
+			Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dp);
 		}
 	}
 }

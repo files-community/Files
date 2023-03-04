@@ -15,6 +15,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using Windows.ApplicationModel.DataTransfer;
+using Microsoft.UI.Dispatching;
+using CommunityToolkit.WinUI;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -27,7 +29,6 @@ namespace Files.App.ViewModels.Properties
 			Hashes = new();
 
 			LoadFileContent = new(ExecuteLoadFileContent);
-			CopyHashValueCommand = new(ExecuteCopyHashValue, () => SelectedItem is not null);
 
 			if (LoadFileContent.CanExecute(null))
 				LoadFileContent.Execute(null);
@@ -54,7 +55,6 @@ namespace Files.App.ViewModels.Properties
 		public ObservableCollection<HashInfoItem> Hashes { get; set; }
 
 		public AsyncRelayCommand LoadFileContent { get; set; }
-		public RelayCommand CopyHashValueCommand { get; set; }
 
 		private void GetHashes()
 		{
@@ -124,22 +124,18 @@ namespace Files.App.ViewModels.Properties
 		{
 			try
 			{
-				_fileData = await File.ReadAllBytesAsync(Item.ItemPath);
-				CanAccessFile = true;
+				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				{
+					_fileData = await File.ReadAllBytesAsync(Item.ItemPath);
+					CanAccessFile = true;
 
-				GetHashes();
+					GetHashes();
+				});
 			}
 			catch
 			{
 				CanAccessFile = false;
 			}
-		}
-
-		private void ExecuteCopyHashValue()
-		{
-			var dp = new DataPackage();
-			dp.SetText(SelectedItem.HashValue);
-			Clipboard.SetContent(dp);
 		}
 	}
 }
