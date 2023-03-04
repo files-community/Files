@@ -29,23 +29,6 @@ using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.App.Views.LayoutModes
 {
-
-	[Bindable]
-	public class CheckboxHelper
-	{
-		public static readonly DependencyProperty ShowCheckboxProperty =
-			DependencyProperty.RegisterAttached(
-			"ShowCheckbox", typeof(string), typeof(CheckboxHelper), new PropertyMetadata(true));
-		public static void SetShowCheckboxProperty(DependencyObject element, string value)
-		{
-			element.SetValue(ShowCheckboxProperty, value);
-		}
-		public static string GetShowCheckboxProperty(DependencyObject element)
-		{
-			return (string)element.GetValue(ShowCheckboxProperty);
-		}
-	}
-
 	public sealed partial class DetailsLayoutBrowser : StandardViewBase
 	{
 		private const int TAG_TEXT_BLOCK = 1;
