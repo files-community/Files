@@ -13,8 +13,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using Windows.Storage;
 using Windows.System;
@@ -82,6 +80,7 @@ namespace Files.App.Views
 			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			base.Page_Loaded(sender, e);
+			NotifyPropertyChanged(nameof(FilesystemViewModel));
 		}
 
 		protected override void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
@@ -128,7 +127,7 @@ namespace Files.App.Views
 				ContentPage.ItemManipulationModel.StartRenameItem();
 				return;
 			}
-			
+
 			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
 			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
 			var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
@@ -236,10 +235,6 @@ namespace Files.App.Views
 
 				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
 					userSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
-					break;
-
-				case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
-					await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl));
 					break;
 			}
 		}

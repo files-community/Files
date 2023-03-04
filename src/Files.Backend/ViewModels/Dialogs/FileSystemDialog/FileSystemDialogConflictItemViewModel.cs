@@ -53,11 +53,6 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 			get => Path.GetFileName(Path.GetDirectoryName(DestinationPath));
 		}
 
-		public bool IsDefault
-		{
-			get => ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName; // Default value
-		}
-
 		public bool IsConflict
 		{
 			get => ConflictResolveOption != FileNameConflictResolveOptionType.None;

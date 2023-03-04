@@ -1,0 +1,171 @@
+﻿<Page
+	x:Class="Files.App.Settings.AppearancePage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:appearance="using:Files.App.Views.Settings.Appearance"
+	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:converters1="using:Files.App.ValueConverters"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:local="using:Files.App.UserControls.Settings"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:settingsviewmodels="using:Files.App.ViewModels.Settings"
+	mc:Ignorable="d">
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<converters1:StringToBrushConverter x:Key="StringToBrushConverter" />
+
+			<DataTemplate x:Key="AppThemeResourcesItemTemplate" x:DataType="appearance:AppThemeResource">
+				<Grid
+					Width="120"
+					AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
+					BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+					BorderThickness="1"
+					CornerRadius="6"
+					ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="16" />
+						<RowDefinition Height="50" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<!--  Background  -->
+					<Border
+						Grid.RowSpan="2"
+						Height="66"
+						Background="{x:Bind BackgroundColor, Converter={StaticResource StringToBrushConverter}, Mode=OneWay}"
+						CornerRadius="4,4,0,0" />
+
+					<!--  Tab Bar  -->
+					<StackPanel Orientation="Horizontal">
+						<Border
+							Width="4"
+							Height="1"
+							VerticalAlignment="Bottom"
+							Background="{ThemeResource ControlElevationBorderBrush}" />
+						<Border
+							Width="32"
+							Height="12"
+							VerticalAlignment="Bottom"
+							Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
+							BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+							BorderThickness="1,1,1,0"
+							CornerRadius="4,4,0,0" />
+						<Border
+							Width="86"
+							Height="1"
+							VerticalAlignment="Bottom"
+							Background="{ThemeResource ControlElevationBorderBrush}" />
+					</StackPanel>
+
+					<!--  File area  -->
+					<Border
+						Grid.Row="1"
+						Height="50"
+						VerticalAlignment="Bottom"
+						Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
+						BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+						BorderThickness="0,0,0,.5" />
+
+					<TextBlock
+						Grid.Row="2"
+						Padding="4"
+						HorizontalAlignment="Center"
+						Text="{x:Bind Name, Mode=OneWay}"
+						TextTrimming="CharacterEllipsis" />
+				</Grid>
+			</DataTemplate>
+		</ResourceDictionary>
+	</Page.Resources>
+	<Page.DataContext>
+		<settingsviewmodels:AppearanceViewModel x:Name="ViewModel" />
+	</Page.DataContext>
+
+	<Grid>
+		<StackPanel
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Spacing="4">
+			<StackPanel.ChildrenTransitions>
+				<TransitionCollection>
+					<EntranceThemeTransition />
+				</TransitionCollection>
+			</StackPanel.ChildrenTransitions>
+
+			<!--  Personalization  -->
+			<TextBlock
+				Padding="0,0,0,4"
+				FontSize="14"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=Personalization}" />
+
+			<!--  Theme  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE790;" />
+				</local:SettingsBlockControl.Icon>
+				<ComboBox
+					x:Name="ThemeChooser"
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsAppearanceTheme}"
+					ItemsSource="{x:Bind ViewModel.Themes, Mode=OneWay}"
+					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
+			</local:SettingsBlockControl>
+
+			<!--  App Background  -->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=Background}"
+				HorizontalAlignment="Stretch"
+				IsExpanded="True">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE771;" />
+				</local:SettingsBlockControl.Icon>
+				<Button Padding="0" AutomationProperties.Name="{helpers:ResourceString Name=Background}">
+					<StackPanel Orientation="Horizontal">
+						<Border
+							Width="24"
+							Height="24"
+							Margin="4"
+							Background="{ThemeResource App.Theme.BackgroundBrush}"
+							CornerRadius="4" />
+						<FontIcon
+							Margin="8,4,10,4"
+							FontSize="12"
+							Glyph="&#xE019;" />
+					</StackPanel>
+					<Button.Flyout>
+						<Flyout>
+							<controls:ColorPicker
+								IsAlphaEnabled="True"
+								IsColorSpectrumVisible="False"
+								Color="{x:Bind ViewModel.AppThemeBackgroundColor, Mode=TwoWay}" />
+						</Flyout>
+					</Button.Flyout>
+				</Button>
+				<local:SettingsBlockControl.ExpandableContent>
+					<GridView
+						Padding="8"
+						HorizontalAlignment="Stretch"
+						ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
+						ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
+						SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
+			<!--  Compact Spacing  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=UseCompactSpacing}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE14C;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=UseCompactSpacing}"
+					IsOn="{x:Bind ViewModel.UseCompactStyles, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+		</StackPanel>
+	</Grid>
+</Page>

@@ -29,9 +29,8 @@
 			HorizontalAlignment="Left"
 			VerticalAlignment="Stretch"
 			x:Load="{x:Bind ViewModel.LoadCombinedItemsGlyph, Mode=OneWay}"
-			FontFamily="{StaticResource CustomGlyph}"
 			FontSize="{x:Bind LargerItemSize}"
-			Glyph="&#xF109;" />
+			Glyph="&#xF571;" />
 		<Image
 			x:Name="DriveItemIcon"
 			HorizontalAlignment="Center"

@@ -5,7 +5,7 @@
         <AssemblyName>Files</AssemblyName>
         <DefaultLanguage>en-US</DefaultLanguage>
         <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;cs-CZ;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;cs-CZ;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lt;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
         <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
         <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
         <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
@@ -64,6 +64,9 @@
         <Content Remove="Assets\FilesHome.png" />
     </ItemGroup>
     <ItemGroup>
+      <None Remove="UserControls\OpacityIcon.xaml" />
+    </ItemGroup>
+    <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
         <PackageReference Include="FluentFTP" Version="43.0.1" />
@@ -75,7 +78,7 @@
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
         <PackageReference Include="SevenZipSharp" Version="1.0.0" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230118.102" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230217.4" />
         <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
         <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.410601" PrivateAssets="all" />
         <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
@@ -116,5 +119,10 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Markdown" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="UserControls\OpacityIcon.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
     </ItemGroup>
 </Project>

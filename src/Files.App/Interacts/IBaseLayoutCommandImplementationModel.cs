@@ -1,3 +1,4 @@
+using Files.App.Filesystem;
 using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -9,10 +10,6 @@ namespace Files.App.Interacts
 	public interface IBaseLayoutCommandImplementationModel : IDisposable
 	{
 		void RenameItem(RoutedEventArgs e);
-
-		void CreateShortcut(RoutedEventArgs e);
-
-		void CreateShortcutFromDialog(RoutedEventArgs e);
 
 		void SetAsLockscreenBackgroundItem(RoutedEventArgs e);
 
@@ -28,11 +25,7 @@ namespace Files.App.Interacts
 
 		void SidebarUnpinItem(RoutedEventArgs e);
 
-		void UnpinDirectoryFromFavorites(RoutedEventArgs e);
-
 		void OpenItem(RoutedEventArgs e);
-
-		void EmptyRecycleBin(RoutedEventArgs e);
 
 		void RestoreRecycleBin(RoutedEventArgs e);
 
@@ -40,13 +33,7 @@ namespace Files.App.Interacts
 
 		void QuickLook(RoutedEventArgs e);
 
-		void CopyItem(RoutedEventArgs e);
-
-		void CutItem(RoutedEventArgs e);
-
 		void RestoreItem(RoutedEventArgs e);
-
-		void DeleteItem(RoutedEventArgs e);
 
 		void ShowFolderProperties(RoutedEventArgs e);
 
@@ -64,8 +51,6 @@ namespace Files.App.Interacts
 
 		void OpenInNewWindowItem(RoutedEventArgs e);
 
-		void CreateNewFolder(RoutedEventArgs e);
-
 		void CreateNewFile(ShellNewEntry e);
 
 		void PasteItemsFromClipboard(RoutedEventArgs e);
@@ -74,13 +59,7 @@ namespace Files.App.Interacts
 
 		void ShareItem(RoutedEventArgs e);
 
-		void PinDirectoryToFavorites(RoutedEventArgs e);
-
 		void ItemPointerPressed(PointerRoutedEventArgs e);
-
-		void UnpinItemFromStart(RoutedEventArgs e);
-
-		void PinItemToStart(RoutedEventArgs e);
 
 		void PointerWheelChanged(PointerRoutedEventArgs e);
 
@@ -117,5 +96,9 @@ namespace Files.App.Interacts
 		Task RotateImageRight();
 
 		Task InstallFont();
+
+		Task PlayAll();
+
+		void FormatDrive(ListedItem? obj);
 	}
 }

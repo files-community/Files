@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using Files.App.Commands;
 using Files.App.DataModels;
 using Files.App.EventArguments;
 using Files.App.Extensions;
@@ -30,6 +31,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -41,6 +43,8 @@ namespace Files.App.Views
 {
 	public abstract class BaseShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
+		public static event EventHandler<BaseShellPage>? CurrentInstanceChanged;
+
 		public static readonly DependencyProperty NavParamsProperty =
 			DependencyProperty.Register("NavParams", typeof(NavigationParams), typeof(ModernShellPage), new PropertyMetadata(null));
 
@@ -58,6 +62,7 @@ namespace Files.App.Views
 
 		public IBaseLayout SlimContentPage => ContentPage;
 
+		public ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		public IFilesystemHelpers FilesystemHelpers { get; protected set; }
 
 		public Type CurrentPageType => ItemDisplay.SourcePageType;
@@ -149,6 +154,9 @@ namespace Files.App.Views
 					else if (SlimContentPage is not ColumnViewBrowser)
 						ToolbarViewModel.IsEditModeEnabled = false;
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
+
+					if (isCurrentInstance)
+						CurrentInstanceChanged?.Invoke(null, this);
 				}
 			}
 		}
@@ -277,7 +285,7 @@ namespace Files.App.Views
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
 				// Ctrl + ` (accent key), open terminal
-				case (true, false, false, true, (VirtualKey)192):
+				case (true, _, false, true, (VirtualKey)192):
 
 					// Check if there is a folder selected, if not use the current directory.
 					string path = FilesystemViewModel.WorkingDirectory;
@@ -623,16 +631,8 @@ namespace Files.App.Views
 			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
-			ToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, this));
-			ToolbarViewModel.CreateNewShortcutCommand = new RelayCommand(() => CreateNewShortcutFromDialog());
-			ToolbarViewModel.CopyCommand = new RelayCommand(async () => await UIFilesystemHelpers.CopyItem(this));
 			ToolbarViewModel.Rename = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RenameItemCommand.Execute(null));
 			ToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
-			ToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
-			ToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
-			ToolbarViewModel.EmptyRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyRecycleBinCommand.Execute(null));
-			ToolbarViewModel.RestoreRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreRecycleBinCommand.Execute(null));
-			ToolbarViewModel.RestoreSelectionRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreSelectionRecycleBinCommand.Execute(null));
 			ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
 			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
 			ToolbarViewModel.SetAsBackgroundCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsDesktopBackgroundItemCommand.Execute(null));
@@ -646,6 +646,7 @@ namespace Files.App.Views
 			ToolbarViewModel.RotateImageRightCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.CanExecute(null) == true);
 			ToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
+			ToolbarViewModel.PlayAllCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.PlayAllCommand.Execute(null));
 		}
 
 		protected async Task<BaseLayout> GetContentOrNullAsync()
