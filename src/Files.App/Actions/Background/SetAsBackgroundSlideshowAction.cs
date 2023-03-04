@@ -15,9 +15,9 @@ namespace Files.App.Actions.Background
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "SetAsSlideshow/Text".GetLocalizedResource();
+		public string Label { get; } = "SetAsSlideshow".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconUnpinFromFavorites");//new RichGlyph("\uE91B");
+		public RichGlyph Glyph { get; } = new RichGlyph("\uE91B");
 
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() && context.SelectedItems.Count > 1;
 

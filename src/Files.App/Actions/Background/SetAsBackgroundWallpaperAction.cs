@@ -17,7 +17,7 @@ namespace Files.App.Actions.Background
 
 		public string Label { get; } = "SetAsBackground".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconUnpinFromFavorites");//new RichGlyph("\uE91B");
+		public RichGlyph Glyph { get; } = new RichGlyph("\uE91B");
 
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() && context.SelectedItems.Count == 1;
 

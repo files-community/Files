@@ -17,7 +17,7 @@ namespace Files.App.Actions.Background
 
 		public string Label { get; } = "BaseLayoutItemContextFlyoutSetAsLockscreenBackground/Text".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconUnpinFromFavorites");//("\uF114", "CustomGlyph");
+		public RichGlyph Glyph { get; } = new RichGlyph("\uF114");//, "CustomGlyph");
 
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() && context.SelectedItems.Count == 1;
 
