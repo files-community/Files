@@ -16,11 +16,13 @@ namespace Files.App.Commands
 		string AutomationName { get; }
 
 		RichGlyph Glyph { get; }
+		object? Icon { get; }
 		FontIcon? FontIcon { get; }
-		ColoredIcon? ColoredIcon { get; }
+		OpacityIcon? OpacityIcon { get; }
 
 		HotKey DefaultHotKey { get; }
 		HotKey CustomHotKey { get; set; }
+		string? HotKeyText { get; }
 
 		bool IsToggle { get; }
 		bool IsOn { get; set; }

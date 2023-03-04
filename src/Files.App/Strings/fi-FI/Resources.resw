@@ -117,49 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
-    <value>Avaa uudessa välilehdessä</value>
-  </data>
-  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>Avaa uudessa ikkunassa</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Uusi ikkuna</value>
-  </data>
-  <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Bittikarttakuva</value>
-  </data>
-  <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
-    <value>Tekstitiedosto</value>
   </data>
   <data name="CopyLocation" xml:space="preserve">
     <value>Kopioi sijainti</value>
   </data>
-  <data name="NavigationToolbarPaste.Label" xml:space="preserve">
-    <value>Liitä</value>
-  </data>
   <data name="Browse" xml:space="preserve">
     <value>Selaa</value>
-  </data>
-  <data name="nameColumn.Header" xml:space="preserve">
-    <value>Nimi</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Koko</value>
   </data>
-  <data name="OpenIn" xml:space="preserve">
-    <value>Avaa kohteessa</value>
-  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Luotu:</value>
-  </data>
-  <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>Kohteen nimi</value>
   </data>
   <data name="Path" xml:space="preserve">
     <value>Polku:</value>
   </data>
-  <data name="PropertiesItemSize.Text" xml:space="preserve">
+  <data name="SizeLabel" xml:space="preserve">
     <value>Koko:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
@@ -177,13 +153,13 @@
   <data name="Skip" xml:space="preserve">
     <value>Ohita</value>
   </data>
-  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
+  <data name="SelectAll" xml:space="preserve">
     <value>Valitse kaikki</value>
   </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
+  <data name="InvertSelection" xml:space="preserve">
     <value>Käännä valinta</value>
   </data>
-  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
+  <data name="ClearSelection" xml:space="preserve">
     <value>Tyhjennä valinta</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -198,14 +174,11 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Syötä polku</value>
   </data>
-  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
+  <data name="Search" xml:space="preserve">
     <value>Etsi</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Aiemmin käyttämäsi tiedostot näkyvät tässä</value>
-  </data>
-  <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
-    <value>Avaa tiedoston sijainti</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Poista tämä kohde</value>
@@ -255,9 +228,6 @@
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Avaa tietty sivu tai tietyt sivut</value>
   </data>
-  <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Asetukset</value>
-  </data>
   <data name="Desktop" xml:space="preserve">
     <value>Työpöytä</value>
   </data>
@@ -267,17 +237,8 @@
   <data name="Downloads" xml:space="preserve">
     <value>Lataukset</value>
   </data>
-  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Irrota suosikeista</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
-    <value>Lajitteluperuste</value>
-  </data>
   <data name="Name" xml:space="preserve">
     <value>Nimi</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>Tyyppi</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Nouseva</value>
@@ -285,35 +246,23 @@
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Päivitä</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
+  <data name="Paste" xml:space="preserve">
     <value>Liitä</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Uusi</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Tiedosto</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
+  <data name="Properties" xml:space="preserve">
     <value>Ominaisuudet</value>
-  </data>
-  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>Ominaisuudet</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
-    <value>Pura</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Avaa</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
+  <data name="OpenInNewTab" xml:space="preserve">
     <value>Avaa uudessa välilehdessä</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
+  <data name="OpenInNewWindow" xml:space="preserve">
     <value>Avaa uudessa ikkunassa</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>Aseta työpöydän taustakuvaksi</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Jaa</value>
@@ -324,14 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>Poista</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
-    <value>Nimeä uudelleen</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Kiinnitä suosikkeihin</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>Ominaisuudet</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Tervetuloa Filesiin!</value>
@@ -342,16 +285,10 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Aloittaaksesi sinun on myönnettävä meille lupa tiedostojesi näyttämiseen. Tämä avaa asetukset-sivun, jolla voit myöntää meille tämän luvan. Sinun on avattava sovellus uudelleen, kun olet suorittanut tämän vaiheen. </value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Tiedosto</value>
-  </data>
   <data name="Display" xml:space="preserve">
     <value>Näytä</value>
   </data>
-  <data name="RenameDialog.Title" xml:space="preserve">
-    <value>Syötä kohteen nimi</value>
-  </data>
-  <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
+  <data name="EnterAnItemName" xml:space="preserve">
     <value>Syötä kohteen nimi</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
@@ -393,12 +330,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Hae (Ctrl+F)</value>
   </data>
-  <data name="PropertiesTitle" xml:space="preserve">
-    <value>Ominaisuudet</value>
-  </data>
-  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
-    <value>Ominaisuudet</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Tämänniminen kohde on jo tässä hakemistossa.</value>
   </data>
@@ -410,18 +341,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Aseta lukitusnäytön taustaksi</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
-    <value>Isot kuvakkeet</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
-    <value>Keskikokoiset kuvakkeet</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
-    <value>Pienet kuvakkeet</value>
-  </data>
-  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Emme voineet poistaa tätä kohdetta</value>
@@ -438,9 +357,6 @@
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Tiedostoa ei löytynyt</value>
   </data>
-  <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
-    <value>Tiedosto, jota yrität esikatsella, on saatettu siirtää tai poistaa.</value>
-  </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
     <value>Kansio, jota yrität käyttää, on saatettu siirtää tai poistaa.</value>
   </data>
@@ -456,20 +372,11 @@
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Tiedosto on käytössä</value>
   </data>
-  <data name="NavToolbarLayout.Text" xml:space="preserve">
+  <data name="Layout" xml:space="preserve">
     <value>Ulkoasu</value>
-  </data>
-  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Valintavaihtoehdot</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Vain luku</value>
-  </data>
-  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
-    <value>Piilotettu</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
-    <value>Palauta</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0} päivää sitten</value>
@@ -498,9 +405,6 @@
   <data name="Now" xml:space="preserve">
     <value>Nyt</value>
   </data>
-  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
-    <value>Uusi välilehti</value>
-  </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>Pyydettyä toimintoa ei tueta</value>
   </data>
@@ -515,9 +419,6 @@
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Kohteen nimi ei saa sisältää seuraavia merkkejä: \ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Määritetty kohteen nimi on virheellinen</value>
@@ -536,9 +437,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Poistetaan tiedostoja</value>
-  </data>
-  <data name="PasteInProgress.Title" xml:space="preserve">
-    <value>Liitetään tiedostoja</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Siirretään tiedostoja roskakoriin</value>
@@ -572,12 +470,6 @@
   </data>
   <data name="ByteSymbol" xml:space="preserve">
     <value>t</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
-    <value>Suorita järjestelmänvalvojana</value>
-  </data>
-  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>Sisältää:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} tiedostoa, {1:#,##0} kansiota</value>
@@ -618,9 +510,6 @@
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Tila</value>
   </data>
-  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
-    <value>Lisää uusi sivu</value>
-  </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Sivut:</value>
   </data>
@@ -635,12 +524,6 @@
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>Siirrä kansioon {0}</value>
-  </data>
-  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
-    <value>Lähde- ja kohdetiedostojen nimet ovat samat.</value>
-  </data>
-  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
-    <value>Kohdekansio on sama kuin lähdekansio.</value>
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Kopioi kansioon {0}</value>
@@ -660,12 +543,6 @@
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
     <value>Pikakuvakkeen tyyppi:</value>
   </data>
-  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>Työhakemisto:</value>
-  </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Tiedosto</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Verkkolinkki</value>
   </data>
@@ -675,20 +552,11 @@
   <data name="Shortcut" xml:space="preserve">
     <value>Pikakuvake</value>
   </data>
-  <data name="ShortcutFileType" xml:space="preserve">
-    <value>Pikakuvake</value>
-  </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
     <value>Internet-pikakuvake</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0}-pikakuvake</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>Avaa tiedoston sijainti</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Tuntematon</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files törmäsi ongelmaan, johon kehittäjät eivät osanneet vielä varautua.</value>
@@ -765,18 +633,6 @@
   <data name="AccessDenied" xml:space="preserve">
     <value>Käyttö estetty</value>
   </data>
-  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
-    <value>Lisää välilehti</value>
-  </data>
-  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
-    <value>Avoimet välilehdet</value>
-  </data>
-  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>Moniajo</value>
-  </data>
-  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>Moniajo</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Määritä</value>
   </data>
@@ -801,9 +657,6 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Luo tyhjän kansion</value>
   </data>
-  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>Asettelutila</value>
-  </data>
   <data name="LayoutMode" xml:space="preserve">
     <value>Asettelutila</value>
   </data>
@@ -819,7 +672,7 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mene yksi hakemisto ylöspäin</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
+  <data name="Language" xml:space="preserve">
     <value>Kieli</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
@@ -893,18 +746,6 @@
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
     <value>Leveysaste-desimaali</value>
-  </data>
-  <data name="PropertyLatitude" xml:space="preserve">
-    <value>Leveysaste</value>
-  </data>
-  <data name="PropertyLongitude" xml:space="preserve">
-    <value>Pituusaste</value>
-  </data>
-  <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>Leveysaste-viite</value>
-  </data>
-  <data name="PropertyLongitudeRef" xml:space="preserve">
-    <value>Pituusaste-viite</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>Korkeus</value>
@@ -1041,12 +882,6 @@
   <data name="PropertyDateCreated" xml:space="preserve">
     <value>Luontipäivämäärä</value>
   </data>
-  <data name="PropertyDateSaved" xml:space="preserve">
-    <value>Tallennuspäivämäärä</value>
-  </data>
-  <data name="PropertyDatePrinted" xml:space="preserve">
-    <value>Tulostuspäivämäärä</value>
-  </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
     <value>Kokonaismuokkausaika</value>
   </data>
@@ -1119,14 +954,11 @@
   <data name="Address" xml:space="preserve">
     <value>Osoite</value>
   </data>
-  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="SelectionOptions" xml:space="preserve">
     <value>Valintavaihtoehdot</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Valitse</value>
-  </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Tiedosto</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Roskakorikohde</value>
@@ -1164,20 +996,11 @@
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>Uusi välilehti</value>
   </data>
-  <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NewTabCtrlT" xml:space="preserve">
     <value>Uusi välilehti (Ctrl+T)</value>
-  </data>
-  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Uusi välilehti (Ctrl+T)</value>
-  </data>
-  <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sulje välilehti (Ctrl+W)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Jotkut ominaisuudet voivat sisältää henkilökohtaisia tietoja.</value>
-  </data>
-  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
-    <value>Tyhjennä</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>Tyhjennä kaikki ominaisuudet</value>
@@ -1188,17 +1011,8 @@
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>Tilakeskus</value>
   </data>
-  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Etsi</value>
-  </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Hakutulokset kohteessa {1} haulle {0}</value>
-  </data>
-  <data name="SearchTabHeaderText" xml:space="preserve">
-    <value>Hakutulokset</value>
-  </data>
-  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Tue meitä GitHubissa</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Listaa ja lajittele hakemistot tiedostojen rinnalla</value>
@@ -1208,12 +1022,6 @@
   </data>
   <data name="No" xml:space="preserve">
     <value>Ei</value>
-  </data>
-  <data name="UpdateConsentDialogContent" xml:space="preserve">
-    <value>Haluatko ladata ja asentaa uusimman version Filesista?</value>
-  </data>
-  <data name="UpdateConsentDialogTitle" xml:space="preserve">
-    <value>Päivityksiä saatavilla</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Näytä suojatut järjestelmätiedostot</value>
@@ -1227,10 +1035,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Mukauta hiiren kakkospainikkeen kontekstivalikkoa</value>
   </data>
-  <data name="originalPathColumn.Header" xml:space="preserve">
-    <value>Alkuperäinen polku</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+  <data name="OriginalPath" xml:space="preserve">
     <value>Alkuperäinen polku</value>
   </data>
   <data name="Add" xml:space="preserve">
@@ -1260,32 +1065,14 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tiedot (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Ulkoasu</value>
-  </data>
-  <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ulkoasu</value>
-  </data>
-  <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
-    <value>Ulkoasu</value>
-  </data>
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
     <value>Esikatselu</value>
-  </data>
-  <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Isot kuvakkeet</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Suuret kuvakkeet (Ctrl+Shift+5)</value>
   </data>
-  <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Keskikokoiset kuvakkeet</value>
-  </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Keskikokoiset kuvakkeet (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Pienet kuvakkeet</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Pienet kuvakkeet (Ctrl+Shift+3)</value>
@@ -1299,9 +1086,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Pilviasemat</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Lisää vaihtoehtoja...</value>
-  </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
     <value>Vie paketteja</value>
   </data>
@@ -1310,12 +1094,6 @@
   </data>
   <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
     <value>Samanniminen paketti on jo olemassa!</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
-    <value>Syöttökenttä ei voi olla tyhjä!</value>
-  </data>
-  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>Avaa uudessa välilehdessä</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>Avaa kohteen sijainti</value>
@@ -1362,13 +1140,10 @@
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Esikatselua ei ole saatavilla</value>
   </data>
-  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>Tietoja ei ole saatavilla</value>
-  </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Kohteen nimi</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
+  <data name="UnpinFromFavorites" xml:space="preserve">
     <value>Irrota suosikeista</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
@@ -1388,9 +1163,6 @@
   </data>
   <data name="Feedback" xml:space="preserve">
     <value>Palaute</value>
-  </data>
-  <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Käynnissä olevat tehtävät</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Käytettävissä online-tilassa</value>
@@ -1461,9 +1233,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Yhdistä verkkoasemaan</value>
   </data>
-  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
-    <value>Katkaise yhteys</value>
-  </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Lisää pakettivaihtoehtoja</value>
   </data>
@@ -1494,17 +1263,11 @@
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Poistaminen epäonnistui</value>
   </data>
-  <data name="StatusUnknownError" xml:space="preserve">
-    <value>Tuntematon virhe on tapahtunut.</value>
-  </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
     <value>Poistaminen valmis</value>
   </data>
   <data name="StatusDeletionCancelled" xml:space="preserve">
     <value>Poistaminen peruutettu</value>
-  </data>
-  <data name="StatusOperationCompleted" xml:space="preserve">
-    <value>Operaatio on valmis.</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
     <value>Roskakoriin siirto valmis</value>
@@ -1530,12 +1293,6 @@
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>Irrota kiinnitys aloitusvalikosta</value>
   </data>
-  <data name="ItemTypeLibrary" xml:space="preserve">
-    <value>Kirjasto</value>
-  </data>
-  <data name="LibraryItemAutomation" xml:space="preserve">
-    <value>Kirjasto</value>
-  </data>
   <data name="Library" xml:space="preserve">
     <value>Kirjasto</value>
   </data>
@@ -1544,9 +1301,6 @@
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>Aseta oletustallennuspoluksi</value>
-  </data>
-  <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>Poista</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Ei sijainteja</value>
@@ -1563,16 +1317,7 @@
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
     <value>Samanniminen kirjasto on jo olemassa!</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
-    <value>Poista kirjasto</value>
-  </data>
-  <data name="DialogCreateLibraryButtonText" xml:space="preserve">
-    <value>Luo</value>
-  </data>
-  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Avaa tallennusseuranta</value>
-  </data>
-  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="OpenStorageSense" xml:space="preserve">
     <value>Avaa tallennusseuranta</value>
   </data>
   <data name="Copy" xml:space="preserve">
@@ -1626,32 +1371,17 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO-nopeus</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>Avaa kansiot uudessa välilehdessä</value>
-  </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Etkö löytänyt etsimääsi?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Hae indeksoimattomia kohteita</value>
   </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Avaa teemakansio</value>
-  </data>
-  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Korvaa olemassa oleva</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Korvaa olemassa oleva</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
+  <data name="ReplaceExisting" xml:space="preserve">
     <value>Korvaa olemassa oleva</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Luo uusi nimi</value>
-  </data>
-  <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
-    <value>Kumoa</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
     <value>{0} ristiriitaista tiedostonimeä.</value>
@@ -1689,23 +1419,11 @@
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
     <value>Poistopäivämäärä -sarake</value>
   </data>
-  <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
-    <value>Sivupalkin koon muuttaja</value>
-  </data>
-  <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Lajittele</value>
-  </data>
-  <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Lajittele</value>
-  </data>
-  <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
+  <data name="Sort" xml:space="preserve">
     <value>Lajittele</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Ryhmittelyperuste</value>
-  </data>
-  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Nimi</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Muokkauspäivämäärä</value>
@@ -1713,14 +1431,8 @@
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
     <value>Alkuperäinen kansio</value>
   </data>
-  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Tyyppi</value>
-  </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Lajitteluperuste</value>
-  </data>
-  <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
-    <value>Lajittelusuunta</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Laskeva</value>
@@ -1767,9 +1479,6 @@
   <data name="ItemTimeText_Older" xml:space="preserve">
     <value>Vanhempi</value>
   </data>
-  <data name="ItemTimeText_Before" xml:space="preserve">
-    <value>Ennen {0}</value>
-  </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} kohde</value>
   </data>
@@ -1779,7 +1488,7 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
     <value>Avaa suljettu välilehti uudelleen</value>
   </data>
-  <data name="RenameFileDialogTitle" xml:space="preserve">
+  <data name="Rename" xml:space="preserve">
     <value>Nimeä uudelleen</value>
   </data>
   <data name="Privacy" xml:space="preserve">
@@ -1947,15 +1656,6 @@
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Avaa kohdekansio, kun valmis</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
-    <value>Pura tiedostot</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
-    <value>Pura tähän</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
-    <value>Pura...</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>Pura kohteeseen {0}\</value>
   </data>
@@ -1964,9 +1664,6 @@
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
     <value>Palauta oletuskirjastot</value>
-  </data>
-  <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
-    <value>Palauta</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>Haluatko varmasti palauttaa oletuskirjastot? Kaikki tiedostosi säilyvät tallennustilassasi.</value>
@@ -2007,14 +1704,8 @@
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Käyttöoikeudet</value>
   </data>
-  <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>Tyyppi</value>
-  </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Sinulla ei ole oikeuksia tarkastella tämän objektin suojausominaisuuksia. Voit yrittää ottaa tämän kohteen omistukseen.</value>
-  </data>
-  <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
-    <value>Mukautettu</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Tämä kansio ja tiedostot</value>
@@ -2139,9 +1830,6 @@
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>Piilota {0}-osio</value>
   </data>
-  <data name="NavSettingsButton" xml:space="preserve">
-    <value>Asetukset</value>
-  </data>
   <data name="AddFile" xml:space="preserve">
     <value>Lisää tiedosto</value>
   </data>
@@ -2165,12 +1853,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Koti</value>
-  </data>
-  <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
-    <value>Uusi välilehti</value>
-  </data>
-  <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+A</value>
   </data>
   <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Alt+Vaihto++</value>
@@ -2226,17 +1908,11 @@
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Avaa yläkansio</value>
   </data>
-  <data name="FileTagUnknown" xml:space="preserve">
+  <data name="Unknown" xml:space="preserve">
     <value>Tuntematon</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Tunniste</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Muokkaa tunnisteita</value>
-  </data>
-  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
-    <value>Käytä kaikkiin</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>Ryhmän osa</value>
@@ -2250,7 +1926,7 @@
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Aseta levy levyasemaan</value>
   </data>
-  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
@@ -2261,9 +1937,6 @@
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Anna käyttäjätunnuksesi:</value>
-  </data>
-  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
-    <value>Salasana</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Käyttäjätunnus</value>
@@ -2304,26 +1977,11 @@
   <data name="Tiles" xml:space="preserve">
     <value>Laatat</value>
   </data>
-  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+  <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Avaa kansiot uudessa välilehdessä</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Kieli</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Käynnissä olevat tehtävät</value>
-  </data>
-  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
-    <value>Siirrä yksi alas</value>
-  </data>
-  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
-    <value>Siirrä yksi ylös</value>
-  </data>
-  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
-    <value>Siirrä alimmaksi</value>
-  </data>
-  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
-    <value>Siirrä ylimmäksi</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Luontipäivämäärä -sarake</value>
@@ -2412,10 +2070,10 @@
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>Järjestelmä (edistynyt)</value>
   </data>
-  <data name="Windows7" xml:space="preserve">
+  <data name="OSCompatibility_Windows7" xml:space="preserve">
     <value>Windows 7</value>
   </data>
-  <data name="Windows8" xml:space="preserve">
+  <data name="OSCompatibility_Windows8" xml:space="preserve">
     <value>Windows 8</value>
   </data>
   <data name="OSCompatibility_WindowsVista" xml:space="preserve">
@@ -2441,9 +2099,6 @@
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
     <value>Aja 640 x 480 näytön resoluutiolla</value>
-  </data>
-  <data name="Options" xml:space="preserve">
-    <value>Asetukset</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
     <value>Ohita korkean DPI:n skaalauskäyttäytyminen</value>
@@ -2643,9 +2298,6 @@
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Aseta taustakuvaksi</value>
   </data>
-  <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Aseta lukitusnäytöksi</value>
-  </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Aseta työpöydän taustakuvaksi</value>
   </data>
@@ -2670,9 +2322,6 @@
   <data name="DetailsLayoutColumns" xml:space="preserve">
     <value>Yksityiskohtainen asettelu -sarakkeet</value>
   </data>
-  <data name="Reset" xml:space="preserve">
-    <value>Nollaa</value>
-  </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lukitusnäyttö</value>
   </data>
@@ -2681,12 +2330,6 @@
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Avataan kohteita</value>
-  </data>
-  <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Lisää {0}.zip:iin</value>
-  </data>
-  <data name="AddToArchive" xml:space="preserve">
-    <value>Lisää arkistoon</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
     <value>Pakkaaminen suoritettu</value>
@@ -2718,7 +2361,7 @@
   <data name="RestoreAllItems" xml:space="preserve">
     <value>Palauta kaikki kohteet</value>
   </data>
-  <data name="RestoreSelection" xml:space="preserve">
+  <data name="Restore" xml:space="preserve">
     <value>Palauta</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
@@ -2729,9 +2372,6 @@
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Sinulla ei ole lupaa käyttää tätä kansiota.</value>
-  </data>
-  <data name="LoadingThemes" xml:space="preserve">
-    <value>Ladataan teemoja</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
     <value>Tyhjennetään roskakoria</value>
@@ -2786,9 +2426,6 @@
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
     <value>Ei mitään</value>
-  </data>
-  <data name="SplitArchive" xml:space="preserve">
-    <value>Jaa arkisto</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
     <value>Jakokoko</value>
@@ -2871,9 +2508,6 @@
   <data name="ViewMore" xml:space="preserve">
     <value>Näytä lisää</value>
   </data>
-  <data name="ToolTipDescriptionSize" xml:space="preserve">
-    <value>Koko:</value>
-  </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
     <value>Mutta älä huoli, loimme upean korvaavan, joka on luotettavampi ja jossa on enemmän ominaisuuksia. Voit ottaa tiedostotunnisteet-widgetin käyttöön kohdasta Asetukset &gt; Asetukset &gt; Widgetit. Tunnisteet-widgetin käyttöönotto poistaa paketit-widgetin automaattisesti käytöstä.</value>
   </data>
@@ -2881,13 +2515,13 @@
     <value>Paketit poistuvat käytöstä tulevassa päivityksessä 📎</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>Näytä muokkaa tunnisteita -pikaikkuna</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>Näytä vaihtoehto kansioiden avaamiseksi uudessa välilehdessä</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>Näytä vaihtoehto kansioiden avaamiseksi uudessa ikkunassa</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Pikakäyttö</value>
@@ -2920,60 +2554,57 @@
     <value>Ei koskaan</value>
   </data>
   <data name="TagColor" xml:space="preserve">
-    <value>Tag color</value>
-  </data>
-  <data name="Rename" xml:space="preserve">
-    <value>Nimeä uudelleen</value>
-  </data>
-  <data name="Commit" xml:space="preserve">
-    <value>Commit</value>
+    <value>Tunnisteen väri</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
-    <value>Save changes</value>
+    <value>Tallenna muutokset</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>New tag</value>
+    <value>Uusi tunniste</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
-    <value>Create new tag</value>
-  </data>
-  <data name="LoadingMoreOptions" xml:space="preserve">
-    <value>Ladataan lisää asetuksia...</value>
+    <value>Luo uusi tunniste</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Ladataan...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
     <value>Kontekstivalikon asetukset</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Show file extensions</value>
+    <value>Näytä tiedostopäätteet</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>Näytä piilotetut kohteet</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format...</value>
+    <value>Muoto...</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>Help</value>
+    <value>Tuki</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>Vaihda koko näytön tilaan</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Are you sure you want to delete this tag?</value>	
+    <value>Haluatko varmasti poistaa tämän tunnisteen?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play all</value>
+    <value>Toista kaikki</value>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Height</value>
+    <value>Korkeus</value>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>Width</value>
+    <value>Leveys</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Apply this action to all conflicting items</value>
+    <value>Käytä tätä toimintoa kaikkiin ristiriitaisiin kohteisiin</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Tallenna</value>
+  </data>
+  <data name="MultiSelect" xml:space="preserve">
+    <value>Monivalinta</value>
   </data>
 </root>

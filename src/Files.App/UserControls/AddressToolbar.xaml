@@ -24,8 +24,6 @@
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
-
 				<ResourceDictionary>
 					<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
 					<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
@@ -201,7 +199,7 @@
 				<Button
 					x:Name="SearchButton"
 					AccessKey="I"
-					AutomationProperties.Name="{helpers:ResourceString Name=NavSearchButton/AutomationProperties/Name}"
+					AutomationProperties.Name="{helpers:ResourceString Name=Search}"
 					Click="SearchButton_Click"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=NavSearchButton/ToolTipService/ToolTip}"
@@ -308,10 +306,10 @@
 					x:Name="SettingsButton"
 					AccessKey="I"
 					AutomationProperties.AutomationId="SettingsButton"
-					AutomationProperties.Name="{helpers:ResourceString Name=NavSettingsButton}"
+					AutomationProperties.Name="{helpers:ResourceString Name=Settings}"
 					Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavSettingsButton}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=Settings}"
 					Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
 					<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
 						<AnimatedIcon.Source>

@@ -705,7 +705,10 @@ namespace Files.App
 			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
 			{
 				Label = "SettingsEditFileTagsExpander/Title".GetLocalizedResource(),
-				Icon = new FontIcon() { Glyph = "\uE1CB" },
+				Content = new OpacityIcon()
+				{
+					Style = (Style)Application.Current.Resources["ColorIconTag"],
+				},
 				Flyout = fileTagsContextMenu
 			});
 		}

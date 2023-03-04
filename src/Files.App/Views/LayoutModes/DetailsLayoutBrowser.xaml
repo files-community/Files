@@ -214,7 +214,7 @@
 
 		<TeachingTip
 			x:Name="FileNameTeachingTip"
-			CloseButtonContent="{helpers:ResourceString Name=FileNameTeachingTip/CloseButtonContent}"
+			CloseButtonContent="{helpers:ResourceString Name=OK}"
 			PreferredPlacement="Auto"
 			Subtitle="{helpers:ResourceString Name=FileNameTeachingTip/Subtitle}"
 			Visibility="Collapsed" />
@@ -273,7 +273,7 @@
 									<ToggleMenuFlyoutItem
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowFileTag/Text}"
+										Text="{helpers:ResourceString Name=Tag}"
 										Visibility="{x:Bind ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 									<ToggleMenuFlyoutItem
 										Click="ToggleMenuFlyoutItem_Click"
@@ -383,7 +383,7 @@
 								Grid.Column="3"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Name"
-								Header="{helpers:ResourceString Name=nameColumn/Header}" />
+								Header="{helpers:ResourceString Name=Name}" />
 
 							<controls:GridSplitter
 								Grid.Column="4"
@@ -421,7 +421,7 @@
 								Grid.Column="7"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="OriginalPath"
-								Header="{helpers:ResourceString Name=originalPathColumn/Header}"
+								Header="{helpers:ResourceString Name=OriginalPath}"
 								Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
@@ -624,6 +624,7 @@
 										x:Name="IconOverlay"
 										Width="16"
 										Height="16"
+										Margin="2"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Bottom"
 										x:Load="True"
@@ -633,14 +634,8 @@
 										x:Name="ShortcutGlyphElement"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Bottom"
-										x:Load="{x:Bind IsShortcut}"
-										Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-										BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
-										BorderThickness="1">
-										<FontIcon
-											FontFamily="{StaticResource CustomGlyph}"
-											FontSize="8"
-											Glyph="&#xF10A;" />
+										x:Load="{x:Bind IsShortcut}">
+										<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
 									</Border>
 								</Grid>
 
@@ -675,7 +670,7 @@
 								<Grid
 									x:Name="ItemTagGrid"
 									Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-									Padding="0,0,12,0"
+									Padding="12,0,12,0"
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">

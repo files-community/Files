@@ -1,4 +1,4 @@
-using Files.App.SettingsPages;
+using Files.App.Settings;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
@@ -48,13 +48,13 @@ namespace Files.App.Dialogs
 
 			_ = selectedItemTag switch
 			{
-				0 => SettingsContentFrame.Navigate(typeof(Appearance)),
-				1 => SettingsContentFrame.Navigate(typeof(Preferences)),
-				2 => SettingsContentFrame.Navigate(typeof(Folders)),
-				3 => SettingsContentFrame.Navigate(typeof(Tags)),
-				4 => SettingsContentFrame.Navigate(typeof(Advanced)),
-				5 => SettingsContentFrame.Navigate(typeof(About)),
-				_ => SettingsContentFrame.Navigate(typeof(Appearance))
+				0 => SettingsContentFrame.Navigate(typeof(AppearancePage)),
+				1 => SettingsContentFrame.Navigate(typeof(PreferencesPage)),
+				2 => SettingsContentFrame.Navigate(typeof(FoldersPage)),
+				3 => SettingsContentFrame.Navigate(typeof(TagsPage)),
+				4 => SettingsContentFrame.Navigate(typeof(AdvancedPage)),
+				5 => SettingsContentFrame.Navigate(typeof(AboutPage)),
+				_ => SettingsContentFrame.Navigate(typeof(AppearancePage))
 			};
 		}
 

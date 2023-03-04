@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Actions;
+using Files.App.Actions.Favorites;
 using Files.App.UserControls;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -31,7 +32,23 @@ namespace Files.App.Commands
 		public IRichCommand ToggleFullScreen => commands[CommandCodes.ToggleFullScreen];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
+		public IRichCommand MultiSelect => commands[CommandCodes.MultiSelect];
+		public IRichCommand SelectAll => commands[CommandCodes.SelectAll];
+		public IRichCommand InvertSelection => commands[CommandCodes.InvertSelection];
+		public IRichCommand ClearSelection => commands[CommandCodes.ClearSelection];
 		public IRichCommand EmptyRecycleBin => commands[CommandCodes.EmptyRecycleBin];
+		public IRichCommand RestoreRecycleBin => commands[CommandCodes.RestoreRecycleBin];
+		public IRichCommand RestoreAllRecycleBin => commands[CommandCodes.RestoreAllRecycleBin];
+		public IRichCommand CreateShortcut => commands[CommandCodes.CreateShortcut];
+		public IRichCommand CreateShortcutFromDialog => commands[CommandCodes.CreateShortcutFromDialog];
+		public IRichCommand CreateFolder => commands[CommandCodes.CreateFolder];
+		public IRichCommand PinToStart => commands[CommandCodes.PinToStart];
+		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
+		public IRichCommand PinItemToFavorites => commands[CommandCodes.PinItemToFavorites];
+		public IRichCommand UnpinItemFromFavorites => commands[CommandCodes.UnpinItemFromFavorites];
+		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
+		public IRichCommand CutItem => commands[CommandCodes.CutItem];
+		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
 
 		public CommandManager()
 		{
@@ -55,7 +72,23 @@ namespace Files.App.Commands
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
+			[CommandCodes.MultiSelect] = new MultiSelectAction(),
+			[CommandCodes.SelectAll] = new SelectAllAction(),
+			[CommandCodes.InvertSelection] = new InvertSelectionAction(),
+			[CommandCodes.ClearSelection] = new ClearSelectionAction(),
 			[CommandCodes.EmptyRecycleBin] = new EmptyRecycleBinAction(),
+			[CommandCodes.RestoreRecycleBin] = new RestoreRecycleBinAction(),
+			[CommandCodes.RestoreAllRecycleBin] = new RestoreAllRecycleBinAction(),
+			[CommandCodes.CreateShortcut] = new CreateShortcutAction(),
+			[CommandCodes.CreateShortcutFromDialog] = new CreateShortcutFromDialogAction(),
+			[CommandCodes.CreateFolder] = new CreateFolderAction(),
+			[CommandCodes.PinToStart] = new PinToStartAction(),
+			[CommandCodes.UnpinFromStart] = new UnpinFromStartAction(),
+			[CommandCodes.PinItemToFavorites] = new PinItemAction(),
+			[CommandCodes.UnpinItemFromFavorites] = new UnpinItemAction(),
+			[CommandCodes.CopyItem] = new CopyItemAction(),
+			[CommandCodes.CutItem] = new CutItemAction(),
+			[CommandCodes.DeleteItem] = new DeleteItemAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
@@ -72,9 +105,11 @@ namespace Files.App.Commands
 			public string AutomationName => string.Empty;
 
 			public RichGlyph Glyph => RichGlyph.None;
+			public object? Icon => null;
 			public FontIcon? FontIcon => null;
-			public ColoredIcon? ColoredIcon => null;
+			public OpacityIcon? OpacityIcon => null;
 
+			public string? HotKeyText => null;
 			public HotKey DefaultHotKey => HotKey.None;
 
 			public HotKey CustomHotKey
@@ -110,13 +145,13 @@ namespace Files.App.Commands
 			public string AutomationName => Label;
 
 			public RichGlyph Glyph => action.Glyph;
+			public FontIcon? FontIcon => Icon as FontIcon;
+			public OpacityIcon? OpacityIcon => Icon as OpacityIcon;
 
-			private readonly Lazy<FontIcon?> fontIcon;
-			public FontIcon? FontIcon => fontIcon.Value;
+			private readonly Lazy<object?> icon;
+			public object? Icon => icon.Value;
 
-			private readonly Lazy<ColoredIcon?> coloredIcon;
-			public ColoredIcon? ColoredIcon => coloredIcon.Value;
-
+			public string? HotKeyText => !customHotKey.IsNone ? CustomHotKey.ToString() : null;
 			public HotKey DefaultHotKey => action.HotKey;
 
 			private HotKey customHotKey;
@@ -145,6 +180,7 @@ namespace Files.App.Commands
 					};
 
 					SetProperty(ref customHotKey, value);
+					OnPropertyChanged(nameof(HotKeyText));
 					manager.HotKeyChanged?.Invoke(manager, args);
 				}
 			}
@@ -168,8 +204,7 @@ namespace Files.App.Commands
 				this.manager = manager;
 				Code = code;
 				this.action = action;
-				fontIcon = new(action.Glyph.ToFontIcon);
-				coloredIcon = new(action.Glyph.ToColoredIcon);
+				icon = new(action.Glyph.ToIcon);
 				customHotKey = action.HotKey;
 				command = new AsyncRelayCommand(ExecuteAsync, () => action.IsExecutable);
 
@@ -182,11 +217,10 @@ namespace Files.App.Commands
 			public bool CanExecute(object? parameter) => command.CanExecute(parameter);
 			public void Execute(object? parameter) => command.Execute(parameter);
 
-			public Task ExecuteAsync()
+			public async Task ExecuteAsync()
 			{
 				if (IsExecutable)
-					return action.ExecuteAsync();
-				return Task.CompletedTask;
+					await action.ExecuteAsync();
 			}
 
 			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await action.ExecuteAsync();
