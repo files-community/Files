@@ -30,7 +30,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.System;
@@ -62,7 +61,6 @@ namespace Files.App.Views
 
 		public IBaseLayout SlimContentPage => ContentPage;
 
-		public ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		public IFilesystemHelpers FilesystemHelpers { get; protected set; }
 
 		public Type CurrentPageType => ItemDisplay.SourcePageType;
