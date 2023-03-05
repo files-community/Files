@@ -22,9 +22,12 @@ namespace Files.App.ViewModels.Properties
 
 			CanAccessFile = true;
 
+			LoadFileContent = new(ExecuteLoadFileContent);
+
 			CancellationTokenSource = new CancellationTokenSource();
 
-			Task.Run(() => ExecuteLoadFileContent(CancellationTokenSource.Token));
+			if (LoadFileContent.CanExecute(CancellationTokenSource.Token))
+				LoadFileContent.Execute(CancellationTokenSource.Token);
 		}
 
 		public ListedItem Item { get; }
