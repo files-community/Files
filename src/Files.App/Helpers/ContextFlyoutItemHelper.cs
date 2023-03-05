@@ -915,13 +915,10 @@ namespace Files.App.Helpers
 							ShowItem = canDecompress && canCompress,
 							ItemType = ItemType.Separator,
 						},
-						new ContextMenuFlyoutItemViewModel
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoArchive)
 						{
-							Text = "CreateArchive".GetLocalizedResource(),
-							Command = commandsViewModel.CompressIntoArchiveCommand,
-							ShowItem = canCompress,
-							ShowInSearchPage = true,
-						},
+							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
+						}.Build(),
 						new ContextMenuFlyoutItemViewModel
 						{
 							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{newArchiveName}.zip"),

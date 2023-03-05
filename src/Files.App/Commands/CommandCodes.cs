@@ -41,5 +41,8 @@
 		SetAsWallpaperBackground,
 		SetAsSlideshowBackground,
 		SetAsLockscreenBackground,
+
+		// Archives
+		CompressIntoArchive
 	}
 }

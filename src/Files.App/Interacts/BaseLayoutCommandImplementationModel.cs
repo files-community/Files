@@ -491,33 +491,6 @@ namespace Files.App.Interacts
 			await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
 		}
 
-		public async Task CompressIntoArchive()
-		{
-			var (sources, directory, fileName) = GetCompressDestination();
-
-			var dialog = new CreateArchiveDialog
-			{
-				FileName = fileName,
-			};
-			await dialog.ShowAsync();
-
-			if (!dialog.CanCreate)
-				return;
-
-			IArchiveCreator creator = new ArchiveCreator
-			{
-				Sources = sources,
-				Directory = directory,
-				FileName = dialog.FileName,
-				Password = dialog.Password,
-				FileFormat = dialog.FileFormat,
-				CompressionLevel = dialog.CompressionLevel,
-				SplittingSize = dialog.SplittingSize,
-			};
-
-			await CompressArchiveAsync(creator);
-		}
-
 		public async Task CompressIntoZip()
 		{
 			var (sources, directory, fileName) = GetCompressDestination();

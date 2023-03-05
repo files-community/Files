@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Actions;
+using Files.App.Actions.Content.Archives;
 using Files.App.Actions.Content.Background;
 using Files.App.Actions.Favorites;
 using Files.App.UserControls;
@@ -53,6 +54,7 @@ namespace Files.App.Commands
 		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
 		public IRichCommand CutItem => commands[CommandCodes.CutItem];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
+		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
 
 		public CommandManager()
 		{
@@ -96,6 +98,7 @@ namespace Files.App.Commands
 			[CommandCodes.CopyItem] = new CopyItemAction(),
 			[CommandCodes.CutItem] = new CutItemAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
+			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction()
 		};
 
 		[DebuggerDisplay("Command None")]
