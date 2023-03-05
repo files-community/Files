@@ -30,12 +30,12 @@ namespace Files.App.Views.Properties
 		{
 			InitializeComponent();
 
-			OpenAdvancedPropertiesCommand = new RelayCommand(() => OpenAdvancedProperties());
+			OpenAdvancedPropertiesCommand = new RelayCommand(OpenAdvancedProperties);
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = e.Parameter as Properties.MainPropertiesPage.PropertyNavParam;
+			var np = e.Parameter as MainPropertiesPage.PropertyNavParam;
 
 			if (np.navParameter is ListedItem listedItem)
 			{
