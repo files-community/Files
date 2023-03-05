@@ -33,6 +33,10 @@ namespace Files.App.Commands
 		public IRichCommand ToggleFullScreen => commands[CommandCodes.ToggleFullScreen];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
+		public IRichCommand MultiSelect => commands[CommandCodes.MultiSelect];
+		public IRichCommand SelectAll => commands[CommandCodes.SelectAll];
+		public IRichCommand InvertSelection => commands[CommandCodes.InvertSelection];
+		public IRichCommand ClearSelection => commands[CommandCodes.ClearSelection];
 		public IRichCommand EmptyRecycleBin => commands[CommandCodes.EmptyRecycleBin];
 		public IRichCommand RestoreRecycleBin => commands[CommandCodes.RestoreRecycleBin];
 		public IRichCommand RestoreAllRecycleBin => commands[CommandCodes.RestoreAllRecycleBin];
@@ -46,6 +50,9 @@ namespace Files.App.Commands
 		public IRichCommand SetAsWallpaperBackground => commands[CommandCodes.SetAsWallpaperBackground];
 		public IRichCommand SetAsSlideshowBackground => commands[CommandCodes.SetAsSlideshowBackground];
 		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
+		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
+		public IRichCommand CutItem => commands[CommandCodes.CutItem];
+		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
 
 		public CommandManager()
 		{
@@ -69,6 +76,10 @@ namespace Files.App.Commands
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
+			[CommandCodes.MultiSelect] = new MultiSelectAction(),
+			[CommandCodes.SelectAll] = new SelectAllAction(),
+			[CommandCodes.InvertSelection] = new InvertSelectionAction(),
+			[CommandCodes.ClearSelection] = new ClearSelectionAction(),
 			[CommandCodes.EmptyRecycleBin] = new EmptyRecycleBinAction(),
 			[CommandCodes.RestoreRecycleBin] = new RestoreRecycleBinAction(),
 			[CommandCodes.RestoreAllRecycleBin] = new RestoreAllRecycleBinAction(),
@@ -82,6 +93,9 @@ namespace Files.App.Commands
 			[CommandCodes.SetAsWallpaperBackground] = new SetAsWallpaperBackgroundAction(),
 			[CommandCodes.SetAsSlideshowBackground] = new SetAsSlideshowBackgroundAction(),
 			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
+			[CommandCodes.CopyItem] = new CopyItemAction(),
+			[CommandCodes.CutItem] = new CutItemAction(),
+			[CommandCodes.DeleteItem] = new DeleteItemAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
@@ -98,9 +112,11 @@ namespace Files.App.Commands
 			public string AutomationName => string.Empty;
 
 			public RichGlyph Glyph => RichGlyph.None;
+			public object? Icon => null;
 			public FontIcon? FontIcon => null;
 			public OpacityIcon? OpacityIcon => null;
 
+			public string? HotKeyText => null;
 			public HotKey DefaultHotKey => HotKey.None;
 
 			public HotKey CustomHotKey
@@ -136,13 +152,13 @@ namespace Files.App.Commands
 			public string AutomationName => Label;
 
 			public RichGlyph Glyph => action.Glyph;
+			public FontIcon? FontIcon => Icon as FontIcon;
+			public OpacityIcon? OpacityIcon => Icon as OpacityIcon;
 
-			private readonly Lazy<FontIcon?> fontIcon;
-			public FontIcon? FontIcon => fontIcon.Value;
+			private readonly Lazy<object?> icon;
+			public object? Icon => icon.Value;
 
-			private readonly Lazy<OpacityIcon?> opacityIcon;
-			public OpacityIcon? OpacityIcon => opacityIcon.Value;
-
+			public string? HotKeyText => !customHotKey.IsNone ? CustomHotKey.ToString() : null;
 			public HotKey DefaultHotKey => action.HotKey;
 
 			private HotKey customHotKey;
@@ -171,6 +187,7 @@ namespace Files.App.Commands
 					};
 
 					SetProperty(ref customHotKey, value);
+					OnPropertyChanged(nameof(HotKeyText));
 					manager.HotKeyChanged?.Invoke(manager, args);
 				}
 			}
@@ -194,8 +211,7 @@ namespace Files.App.Commands
 				this.manager = manager;
 				Code = code;
 				this.action = action;
-				fontIcon = new(action.Glyph.ToFontIcon);
-				opacityIcon = new(action.Glyph.ToOpacityIcon);
+				icon = new(action.Glyph.ToIcon);
 				customHotKey = action.HotKey;
 				command = new AsyncRelayCommand(ExecuteAsync, () => action.IsExecutable);
 

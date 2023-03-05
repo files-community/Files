@@ -954,23 +954,9 @@ namespace Files.App.ViewModels
 
 		public ICommand? CreateNewFileCommand { get; set; }
 
-		public ICommand? CreateNewFolderCommand { get; set; }
-
-		public ICommand? CreateNewShortcutCommand { get; set; }
-
-		public ICommand? CopyCommand { get; set; }
-
-		public ICommand? DeleteCommand { get; set; }
-
 		public ICommand? Rename { get; set; }
 
 		public ICommand? Share { get; set; }
-
-		public ICommand? CutCommand { get; set; }
-
-		public ICommand RestoreRecycleBinCommand { get; set; }
-
-		public ICommand RestoreSelectionRecycleBinCommand { get; set; }
 
 		public ICommand PropertiesCommand { get; set; }
 

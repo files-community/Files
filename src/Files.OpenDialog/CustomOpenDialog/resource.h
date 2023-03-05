@@ -1,14 +1,13 @@
 //{{NO_DEPENDENCIES}}
-// File di inclusione generato con Microsoft Visual C++.
-// Utilizzato da CustomOpenDialog.rc
-//
+// Include file generated with Microsoft Visual C++.
+// Used by CustomOpenDialog.rc
+
 #define IDS_PROJNAME                    100
 #define IDR_CUSTOMOPENDIALOG            101
 #define IDR_FILESOPENDIALOG             106
 #define IDR_FILESOPENDIALOG1            108
 
 // Next default values for new objects
-// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        201

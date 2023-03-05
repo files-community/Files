@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Files.App.Views.SettingsPages.Appearance
+namespace Files.App.Views.Settings.Appearance
 {
 	public static class AppThemeResourceFactory
 	{

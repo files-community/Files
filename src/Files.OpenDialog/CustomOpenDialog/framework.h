@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files
+// Licensed under the MIT License. See the LICENSE.
+
 #pragma once
 
 #ifndef STRICT
@@ -10,8 +13,8 @@
 
 #define _ATL_NO_AUTOMATIC_NAMESPACE
 
-#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// alcuni costruttori CString saranno espliciti
-
+// Some CString constructors will be explicit
+#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS
 
 #define ATL_NO_ASSERT_ON_DESTROY_NONEXISTENT_WINDOW
 

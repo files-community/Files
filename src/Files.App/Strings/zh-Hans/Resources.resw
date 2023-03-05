@@ -153,13 +153,13 @@
   <data name="Skip" xml:space="preserve">
     <value>跳过</value>
   </data>
-  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
-    <value>全选</value>
+  <data name="SelectAll" xml:space="preserve">
+    <value>全部选择</value>
   </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
-    <value>反选</value>
+  <data name="InvertSelection" xml:space="preserve">
+    <value>反向选择</value>
   </data>
-  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
+  <data name="ClearSelection" xml:space="preserve">
     <value>清除选择</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -2603,5 +2603,8 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
+  </data>
+  <data name="MultiSelect" xml:space="preserve">
+    <value>多重选择</value>
   </data>
 </root>
