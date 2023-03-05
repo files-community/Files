@@ -235,25 +235,15 @@ namespace Files.App.Views.Properties
 
 			if (item is List<ListedItem> listedItems)
 			{
-				var areAllShortcuts = listedItems.All(x => x.IsShortcut);
-				var areAllLibraries = listedItems.All(x => x.IsLibrary);
 				var commonFileExt = listedItems.Select(x => x.FileExtension).Distinct().Count() == 1 ? listedItems.First().FileExtension : null;
-
-				var detailsItemEnabled = commonFileExt is not null && !areAllShortcuts && !areAllLibraries;
 				var compatibilityItemEnabled = listedItems.All(listedItem => FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : commonFileExt, true));
-
-				if (!areAllShortcuts)
-					NavViewItems.Remove(shortcutItem);
-
-				if (!areAllLibraries)
-					NavViewItems.Remove(libraryItem);
-
-				if (!detailsItemEnabled)
-					NavViewItems.Remove(detailsItem);
 
 				if (!compatibilityItemEnabled)
 					NavViewItems.Remove(compatibilityItem);
 
+				NavViewItems.Remove(libraryItem);
+				NavViewItems.Remove(shortcutItem);
+				NavViewItems.Remove(detailsItem);
 				NavViewItems.Remove(securityItem);
 				NavViewItems.Remove(customizationItem);
 			} 
