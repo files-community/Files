@@ -8,21 +8,16 @@ namespace Files.App.Filesystem.Security
 	/// </summary>
 	public class AccessMaskItem : ObservableObject
 	{
-		public AccessMaskItem(AccessControlEntry ace, bool isEditable = true)
-		{
-			IsEditable = isEditable;
-
-			_ace = ace;
-			_ace.PropertyChanged += AccessControlEntry_PropertyChanged;
-		}
-
 		public string AccessMaskName { get; set; }
 
 		public AccessMaskFlags AccessMask { get; set; }
 
 		public bool IsEnabled
 		{
-			get => _ace.AccessMaskFlags.HasFlag(AccessMask);
+			get
+			{
+				return _ace.AccessMaskFlags.HasFlag(AccessMask);
+			}
 			set
 			{
 				if (IsEditable)
@@ -33,6 +28,14 @@ namespace Files.App.Filesystem.Security
 		public bool IsEditable { get; set; }
 
 		private readonly AccessControlEntry _ace;
+
+		public AccessMaskItem(AccessControlEntry ace, bool isEditable = true)
+		{
+			IsEditable = isEditable;
+
+			_ace = ace;
+			_ace.PropertyChanged += AccessControlEntry_PropertyChanged;
+		}
 
 		private void ToggleAccess(AccessMaskFlags accessMask, bool value)
 		{

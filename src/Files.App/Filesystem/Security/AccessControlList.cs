@@ -164,8 +164,6 @@ namespace Files.App.Filesystem.Security
 					fileSystemSecurity = FileSystemAclExtensions.GetAccessControl(new FileInfo(path));
 					return true;
 				}
-				// The requested file or folder does not exist
-				else { }
 			}
 			catch (UnauthorizedAccessException) { }
 			catch (Exception) { }

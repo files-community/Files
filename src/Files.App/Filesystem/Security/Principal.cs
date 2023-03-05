@@ -11,13 +11,6 @@ namespace Files.App.Filesystem.Security
 	/// </summary>
 	public class Principal : ObservableObject
 	{
-		public Principal()
-		{
-			Groups = new();
-
-			PrincipalType = PrincipalType.Unknown;
-		}
-
 		public string Glyph
 			=> PrincipalType switch
 			{
@@ -41,6 +34,13 @@ namespace Files.App.Filesystem.Security
 		public List<string> Groups { get; set; }
 
 		private PrincipalType PrincipalType { get; set; }
+
+		public Principal()
+		{
+			Groups = new();
+
+			PrincipalType = PrincipalType.Unknown;
+		}
 
 		public static Principal FromSid(string sid)
 		{

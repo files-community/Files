@@ -13,50 +13,6 @@ namespace Files.App.Filesystem.Security
 	/// </summary>
 	public class AccessControlEntry : ObservableObject
 	{
-		public AccessControlEntry(AccessControlEntryPrimitiveMapping accessRule, bool isFolder)
-		{
-			IsFolder = isFolder;
-
-			AccessMaskItemList = GetAllAccessMaskList();
-
-			ChangeAccessControlTypeCommand = new RelayCommand<string>(x =>
-			{
-				AccessControlType = Enum.Parse<AccessControlType>(x);
-			});
-
-			ChangeInheritanceFlagsCommand = new RelayCommand<string>(x =>
-			{
-				var parts = x.Split(',');
-
-				InheritanceFlags = Enum.Parse<InheritanceFlags>(parts[0]);
-				PropagationFlags = Enum.Parse<PropagationFlags>(parts[1]);
-			});
-
-			AccessControlType = (AccessControlType)accessRule.AccessControlType;
-			AccessMaskFlags = (AccessMaskFlags)accessRule.FileSystemRights;
-			PrincipalSid = accessRule.PrincipalSid;
-			Principal = Principal.FromSid(accessRule.PrincipalSid);
-			IsInherited = accessRule.IsInherited;
-			InheritanceFlags = (InheritanceFlags)accessRule.InheritanceFlags;
-			PropagationFlags = (PropagationFlags)accessRule.PropagationFlags;
-
-			switch (AccessControlType)
-			{
-				case AccessControlType.Allow:
-					if (IsInherited)
-						InheritedAllowAccessMaskFlags |= AccessMaskFlags;
-					else
-						AllowedAccessMaskFlags |= AccessMaskFlags;
-					break;
-				case AccessControlType.Deny:
-					if (IsInherited)
-						InheritedDenyAccessMaskFlags |= AccessMaskFlags;
-					else
-						DeniedAccessMaskFlags |= AccessMaskFlags;
-					break;
-			}
-		}
-
 		public readonly bool IsFolder;
 
 		public string? PrincipalSid { get; set; }
@@ -123,9 +79,7 @@ namespace Files.App.Filesystem.Security
 				var accessMaskStrings = new List<string>();
 
 				if (AccessMaskFlags == AccessMaskFlags.NULL)
-				{
 					accessMaskStrings.Add("None".GetLocalizedResource());
-				}
 
 				if (FullControlAccess)
 					accessMaskStrings.Add("SecurityFullControlLabel/Text".GetLocalizedResource());
@@ -354,6 +308,50 @@ namespace Files.App.Filesystem.Security
 			set => ToggleDenyAccess(AccessMaskFlags.FullControl, value);
 		}
 
+		public AccessControlEntry(AccessControlEntryPrimitiveMapping accessRule, bool isFolder)
+		{
+			IsFolder = isFolder;
+
+			AccessMaskItemList = GetAllAccessMaskList();
+
+			ChangeAccessControlTypeCommand = new RelayCommand<string>(x =>
+			{
+				AccessControlType = Enum.Parse<AccessControlType>(x);
+			});
+
+			ChangeInheritanceFlagsCommand = new RelayCommand<string>(x =>
+			{
+				var parts = x.Split(',');
+
+				InheritanceFlags = Enum.Parse<InheritanceFlags>(parts[0]);
+				PropagationFlags = Enum.Parse<PropagationFlags>(parts[1]);
+			});
+
+			AccessControlType = (AccessControlType)accessRule.AccessControlType;
+			AccessMaskFlags = (AccessMaskFlags)accessRule.FileSystemRights;
+			PrincipalSid = accessRule.PrincipalSid;
+			Principal = Principal.FromSid(accessRule.PrincipalSid);
+			IsInherited = accessRule.IsInherited;
+			InheritanceFlags = (InheritanceFlags)accessRule.InheritanceFlags;
+			PropagationFlags = (PropagationFlags)accessRule.PropagationFlags;
+
+			switch (AccessControlType)
+			{
+				case AccessControlType.Allow:
+					if (IsInherited)
+						InheritedAllowAccessMaskFlags |= AccessMaskFlags;
+					else
+						AllowedAccessMaskFlags |= AccessMaskFlags;
+					break;
+				case AccessControlType.Deny:
+					if (IsInherited)
+						InheritedDenyAccessMaskFlags |= AccessMaskFlags;
+					else
+						DeniedAccessMaskFlags |= AccessMaskFlags;
+					break;
+			}
+		}
+
 		private void ToggleAllowAccess(AccessMaskFlags accessMask, bool value)
 		{
 			if (value && !AllowedAccessMaskFlags.HasFlag(accessMask) && !InheritedAllowAccessMaskFlags.HasFlag(accessMask))
@@ -386,34 +384,6 @@ namespace Files.App.Filesystem.Security
 
 		private void UpdateAccessControlEntry()
 		{
-			//foreach (var item in _aceAdvanced.Where(x => x.PrincipalSid == Principal.Sid && !x.IsInherited))
-			//	_aceAdvanced.Remove(item);
-
-			//// Do not set if permission is already allowed by inheritance
-			//if (AllowedAccessMaskFlags != 0 && !InheritedAllowAccessMaskFlags.HasFlag(AllowedAccessMaskFlags))
-			//{
-			//	_aceAdvanced.Add(new AccessControlEntryAdvanced(_isFolder)
-			//	{
-			//		AccessControlType = AccessControlType.Allow,
-			//		AccessMaskFlags = AllowedAccessMaskFlags,
-			//		PrincipalSid = Principal.Sid,
-			//		InheritanceFlags = _isFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
-			//		PropagationFlags = PropagationFlags.None
-			//	});
-			//}
-
-			//// Do not set if permission is already denied by inheritance
-			//if (DeniedAccessMaskFlags != 0 && !InheritedDenyAccessMaskFlags.HasFlag(DeniedAccessMaskFlags))
-			//{
-			//	_aceAdvanced.Add(new AccessControlEntryAdvanced(_isFolder)
-			//	{
-			//		AccessControlType = AccessControlType.Deny,
-			//		AccessMaskFlags = DeniedAccessMaskFlags,
-			//		PrincipalSid = Principal.Sid,
-			//		InheritanceFlags = _isFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
-			//		PropagationFlags = PropagationFlags.None
-			//	});
-			//}
 		}
 
 		private List<AccessMaskItem> GetAllAccessMaskList()
