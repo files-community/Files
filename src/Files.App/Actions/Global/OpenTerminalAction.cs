@@ -46,7 +46,7 @@ namespace Files.App.Actions
 			return new()
 			{
 				FileName = "wt.exe",
-				Arguments = $"-d {path}"
+				Arguments = $"-d \"{path}\""
 			};
 		}
 
