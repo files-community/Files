@@ -25,6 +25,9 @@ namespace Files.App.Views.Properties
 			base.OnNavigatedTo(e);
 		}
 
+		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+			=> Dispose();
+
 		public async override Task<bool> SaveChangesAsync()
 		{
 			return true;
@@ -32,6 +35,7 @@ namespace Files.App.Views.Properties
 
 		public override void Dispose()
 		{
+			HashesViewModel.Dispose();
 		}
 
 		private void CopyHashButton_Click(object sender, RoutedEventArgs e)

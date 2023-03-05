@@ -8,10 +8,11 @@ using System.IO;
 using System.Threading.Tasks;
 using CommunityToolkit.WinUI;
 using System;
+using System.Threading;
 
 namespace Files.App.ViewModels.Properties
 {
-	public class HashesViewModel : ObservableObject
+	public class HashesViewModel : ObservableObject, IDisposable
 	{
 		public HashesViewModel(ListedItem item)
 		{
@@ -21,10 +22,9 @@ namespace Files.App.ViewModels.Properties
 
 			CanAccessFile = true;
 
-			LoadFileContent = new(ExecuteLoadFileContent);
+			CancellationTokenSource = new CancellationTokenSource();
 
-			if (LoadFileContent.CanExecute(null))
-				LoadFileContent.Execute(null);
+			Task.Run(() => ExecuteLoadFileContent(CancellationTokenSource.Token));
 		}
 
 		public ListedItem Item { get; }
@@ -48,6 +48,8 @@ namespace Files.App.ViewModels.Properties
 		private byte[] _fileData;
 
 		public AsyncRelayCommand LoadFileContent { get; set; }
+
+		public CancellationTokenSource CancellationTokenSource { get; set; }
 
 		private bool _isLoading;
 		public bool IsLoading
@@ -85,7 +87,7 @@ namespace Files.App.ViewModels.Properties
 			});
 		}
 
-		private async Task ExecuteLoadFileContent()
+		private async Task ExecuteLoadFileContent(CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -99,7 +101,11 @@ namespace Files.App.ViewModels.Properties
 				CanAccessFile = true;
 				GetHashes();
 			}
-			catch
+			catch (OperationCanceledException)
+			{
+				CanAccessFile = false;
+			}
+			catch (Exception)
 			{
 				CanAccessFile = false;
 			}
@@ -107,6 +113,11 @@ namespace Files.App.ViewModels.Properties
 			{
 				IsLoading = false;
 			}
+		}
+
+		public void Dispose()
+		{
+			CancellationTokenSource.Cancel();
 		}
 	}
 }
