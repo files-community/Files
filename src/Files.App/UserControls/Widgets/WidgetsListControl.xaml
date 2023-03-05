@@ -6,7 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.App.ViewModels.Widgets"
+	xmlns:vm="using:Files.App.ViewModels.UserControls.Widgets"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">

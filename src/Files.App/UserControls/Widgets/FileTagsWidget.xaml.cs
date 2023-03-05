@@ -7,7 +7,6 @@ using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
 using Files.App.ViewModels.UserControls.Widgets;
-using Files.App.ViewModels.Widgets;
 using Files.App.Views;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;

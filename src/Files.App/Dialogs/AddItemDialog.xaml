@@ -5,7 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vc="using:Files.App.ValueConverters"
+	xmlns:vc="using:Files.App.Converters"
 	xmlns:vm="using:Files.Backend.ViewModels.Dialogs.AddItemDialog"
 	x:Name="AddDialog"
 	Title="{helpers:ResourceString Name=AddDialog/Title}"

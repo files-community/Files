@@ -5,7 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UserControls.FilePreviews"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vms="using:Files.App.ViewModels.Previews"
+	xmlns:vms="using:Files.App.ViewModels.UserControls.Previews"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">

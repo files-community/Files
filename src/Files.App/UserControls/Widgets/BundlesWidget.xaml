@@ -8,7 +8,7 @@
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.App.ViewModels.Widgets.Bundles"
+	xmlns:vm="using:Files.App.ViewModels.UserControls.Widgets.Bundles"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">

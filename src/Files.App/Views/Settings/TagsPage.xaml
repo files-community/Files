@@ -9,7 +9,7 @@
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:settingsviewmodels="using:Files.App.ViewModels.Settings"
-	xmlns:vc="using:Files.App.ValueConverters"
+	xmlns:vc="using:Files.App.Converters"
 	mc:Ignorable="d">
 	<Page.Resources>
 		<ResourceDictionary>
