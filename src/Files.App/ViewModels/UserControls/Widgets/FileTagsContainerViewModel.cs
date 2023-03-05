@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
 using Files.Sdk.Storage.LocatableStorage;
 
-namespace Files.App.ViewModels.Widgets
+namespace Files.App.ViewModels.UserControls.Widgets
 {
 	public sealed partial class FileTagsContainerViewModel : ObservableObject, IAsyncInitialize
 	{

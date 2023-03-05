@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels
 {
-	public class YourHomeViewModel : ObservableObject, IDisposable
+	public class HomeViewModel : ObservableObject, IDisposable
 	{
 		private BundlesViewModel bundlesViewModel;
 
@@ -27,7 +27,7 @@ namespace Files.App.ViewModels
 
 		public ICommand LoadBundlesCommand { get; private set; }
 
-		public YourHomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
+		public HomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
 		{
 			this.widgetsViewModel = widgetsViewModel;
 			this.associatedInstance = associatedInstance;

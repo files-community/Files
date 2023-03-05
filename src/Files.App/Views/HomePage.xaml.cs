@@ -30,9 +30,9 @@ namespace Files.App.Views
 		private FileTagsWidget fileTagsWidget;
 		private RecentFilesWidget recentFilesWidget;
 
-		public YourHomeViewModel ViewModel
+		public HomeViewModel ViewModel
 		{
-			get => (YourHomeViewModel)DataContext;
+			get => (HomeViewModel)DataContext;
 			set => DataContext = value;
 		}
 
@@ -40,7 +40,7 @@ namespace Files.App.Views
 		{
 			InitializeComponent();
 
-			ViewModel = new YourHomeViewModel(Widgets.ViewModel, AppInstance);
+			ViewModel = new HomeViewModel(Widgets.ViewModel, AppInstance);
 			ViewModel.YourHomeLoadedInvoked += ViewModel_YourHomeLoadedInvoked;
 			Widgets.ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
 		}

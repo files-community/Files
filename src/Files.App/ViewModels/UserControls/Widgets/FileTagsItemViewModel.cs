@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Files.Backend.Helpers;
 using Files.App.UserControls.Widgets;
 
-namespace Files.App.ViewModels.Widgets
+namespace Files.App.ViewModels.UserControls.Widgets
 {
 	public sealed partial class FileTagsItemViewModel : WidgetCardItem
 	{
