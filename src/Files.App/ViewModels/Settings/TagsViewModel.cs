@@ -9,9 +9,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
-namespace Files.App.ViewModels.SettingsViewModels
+namespace Files.App.ViewModels.Settings
 {
-    public class TagsSettingsViewModel : ObservableObject
+    public class TagsViewModel : ObservableObject
     {
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
@@ -34,7 +34,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public NewTagViewModel NewTag = new();
 
-		public TagsSettingsViewModel()
+		public TagsViewModel()
 		{
 			// Tags Commands
 			AddTagCommand = new RelayCommand(DoAddNewTag);

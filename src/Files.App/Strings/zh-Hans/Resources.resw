@@ -154,13 +154,13 @@
     <value>跳过</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>全部选择</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>反向选择</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>清除选择</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>修改日期:</value>
@@ -2605,6 +2605,6 @@
     <value>保存</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>多重选择</value>
   </data>
 </root>

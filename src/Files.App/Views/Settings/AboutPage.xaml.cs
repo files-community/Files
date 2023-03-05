@@ -1,9 +1,9 @@
-using Files.App.ViewModels.SettingsViewModels;
+using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.SettingsPages
+namespace Files.App.Settings
 {
-	public sealed partial class About : Page
+	public sealed partial class AboutPage : Page
 	{
 		public AboutViewModel ViewModel
 		{
@@ -11,7 +11,7 @@ namespace Files.App.SettingsPages
 			set => DataContext = value;
 		}
 
-		public About()
+		public AboutPage()
 		{
 			InitializeComponent();
 
