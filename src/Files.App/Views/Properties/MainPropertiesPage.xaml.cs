@@ -15,7 +15,9 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
@@ -231,8 +233,31 @@ namespace Files.App.Views.Properties
 
 			MainPropertiesWindowNavigationView.SelectedItem = generalItem;
 
-			// Unable unavailable property tabs
-			if (item is ListedItem listedItem)
+			if (item is List<ListedItem> listedItems)
+			{
+				var areAllShortcuts = listedItems.All(x => x.IsShortcut);
+				var areAllLibraries = listedItems.All(x => x.IsLibrary);
+				var commonFileExt = listedItems.Select(x => x.FileExtension).Distinct().Count() == 1 ? listedItems.First().FileExtension : null;
+
+				var detailsItemEnabled = commonFileExt is not null && !areAllShortcuts && !areAllLibraries;
+				var compatibilityItemEnabled = listedItems.All(listedItem => FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : commonFileExt, true));
+
+				if (!areAllShortcuts)
+					NavViewItems.Remove(shortcutItem);
+
+				if (!areAllLibraries)
+					NavViewItems.Remove(libraryItem);
+
+				if (!detailsItemEnabled)
+					NavViewItems.Remove(detailsItem);
+
+				if (!compatibilityItemEnabled)
+					NavViewItems.Remove(compatibilityItem);
+
+				NavViewItems.Remove(securityItem);
+				NavViewItems.Remove(customizationItem);
+			} 
+			else if (item is ListedItem listedItem)
 			{
 				var isShortcut = listedItem.IsShortcut;
 				var isLibrary = listedItem.IsLibrary;
