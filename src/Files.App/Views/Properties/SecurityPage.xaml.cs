@@ -25,7 +25,7 @@ namespace Files.App.Views.Properties
 
 			_isWinUI3 = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
 
-			OpenSecurityAdvancedPageWindowCommand = new RelayCommand(() => OpenSecurityAdvancedPageWindow());
+			OpenSecurityAdvancedPageWindowCommand = new RelayCommand(OpenSecurityAdvancedPageWindow);
 		}
 
 		public SecurityViewModel? SecurityViewModel { get; set; }
