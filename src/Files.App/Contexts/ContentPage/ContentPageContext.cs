@@ -17,6 +17,8 @@ namespace Files.App.Contexts
 
 		private readonly IPageContext context = Ioc.Default.GetRequiredService<IPageContext>();
 
+		private ItemViewModel? filesystemViewModel;
+
 		public IShellPage? ShellPage => context?.PaneOrColumn;
 
 		private ContentPageTypes pageType = ContentPageTypes.None;
@@ -47,6 +49,11 @@ namespace Files.App.Contexts
 				page.InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
 				page.ToolbarViewModel.PropertyChanged -= ToolbarViewModel_PropertyChanged;
 			}
+
+			if (filesystemViewModel is not null)
+				filesystemViewModel.PropertyChanged -= FilesystemViewModel_PropertyChanged;
+			filesystemViewModel = null;
+
 			OnPropertyChanging(nameof(ShellPage));
 		}
 		private void Context_Changed(object? sender, EventArgs e)
@@ -57,6 +64,11 @@ namespace Files.App.Contexts
 				page.InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
 				page.ToolbarViewModel.PropertyChanged -= ToolbarViewModel_PropertyChanged;
 			}
+
+			filesystemViewModel = ShellPage?.FilesystemViewModel;
+			if (filesystemViewModel is not null)
+				filesystemViewModel.PropertyChanged += FilesystemViewModel_PropertyChanged;
+
 			Update();
 			OnPropertyChanged(nameof(ShellPage));
 		}
@@ -91,6 +103,12 @@ namespace Files.App.Contexts
 					UpdateSelectedItems();
 					break;
 			}
+		}
+
+		private void FilesystemViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(ItemViewModel.CurrentFolder))
+				OnPropertyChanged(nameof(Folder));
 		}
 
 		private void Update()
