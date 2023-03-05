@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
@@ -16,8 +15,6 @@ namespace Files.App.Actions.Content.Background
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "BaseLayoutItemContextFlyoutSetAsLockscreenBackground/Text".GetLocalizedResource();
-
-		public RichGlyph Glyph { get; } = new RichGlyph("\uF114");
 
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() && context.SelectedItems.Count == 1;
 

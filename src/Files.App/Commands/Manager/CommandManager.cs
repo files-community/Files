@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Actions;
-using Files.App.Actions.Background;
+using Files.App.Actions.Content.Background;
 using Files.App.Actions.Favorites;
 using Files.App.UserControls;
 using Microsoft.UI.Xaml.Controls;
