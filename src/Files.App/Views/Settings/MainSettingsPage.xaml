@@ -1,0 +1,129 @@
+﻿<Page
+	x:Class="Files.App.Views.Settings.MainSettingsPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
+	mc:Ignorable="d">
+
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewButtonStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Page.Resources>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="36" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<!--  Titlebar  -->
+		<Border
+			x:Name="TitlebarArea"
+			Grid.ColumnSpan="2"
+			Height="36"
+			Background="Transparent">
+			<StackPanel
+				Padding="12,0"
+				Orientation="Horizontal"
+				Spacing="8">
+
+				<Image
+					Width="20"
+					Height="20"
+					Source="ms-appx:///Assets/AppTiles/Dev/Square44x44Logo.png" />
+
+				<TextBlock
+					VerticalAlignment="Center"
+					Style="{StaticResource CaptionTextBlockStyle}"
+					Text="{helpers:ResourceString Name=Settings}" />
+
+			</StackPanel>
+		</Border>
+
+		<!--  Left side NavigationView  -->
+		<NavigationView
+			x:Name="MainSettingsNavigationView"
+			Grid.Row="1"
+			IsBackButtonVisible="Collapsed"
+			IsBackEnabled="False"
+			IsPaneToggleButtonVisible="False"
+			IsSettingsVisible="False"
+			IsTitleBarAutoPaddingEnabled="False"
+			OpenPaneLength="260"
+			PaneDisplayMode="Left"
+			SelectionChanged="MainSettingsNavigationView_SelectionChanged">
+
+			<!--  NavigationView's MenuItems  -->
+			<NavigationView.MenuItems>
+				<NavigationViewItem
+					AccessKey="A"
+					AutomationProperties.AutomationId="MainSettingsNavigationViewItemAppearance"
+					Content="{helpers:ResourceString Name=Appearance}"
+					IsSelected="True"
+					Tag="Appearance">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE790;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
+					AccessKey="P"
+					AutomationProperties.AutomationId="MainSettingsNavigationViewItemPreferences"
+					Content="{helpers:ResourceString Name=SettingsNavPreferences/Content}"
+					Tag="Preferences">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE9E9;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
+					AccessKey="F"
+					AutomationProperties.AutomationId="MainSettingsNavigationViewItemFolders"
+					Content="{helpers:ResourceString Name=Folders}"
+					Tag="Folders">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE8B7;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
+					AccessKey="T"
+					AutomationProperties.AutomationId="MainSettingsNavigationViewItemTags"
+					Content="{helpers:ResourceString Name=FileTags}"
+					Tag="Tags">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE1CB;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
+					AccessKey="E"
+					AutomationProperties.AutomationId="MainSettingsNavigationViewItemAdvanced"
+					Content="{helpers:ResourceString Name=Advanced}"
+					Tag="Advanced">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xF1AD;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
+					AccessKey="B"
+					AutomationProperties.AutomationId="MainSettingsNavigationViewItemAbout"
+					Content="{helpers:ResourceString Name=About}"
+					Tag="About">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE946;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+			</NavigationView.MenuItems>
+
+			<!--  Contents  -->
+			<ScrollViewer x:Name="SettingsScrollViewer" VerticalAlignment="Stretch">
+				<Frame x:Name="SettingsContentFrame" Padding="12" />
+			</ScrollViewer>
+
+		</NavigationView>
+
+	</Grid>
+</Page>

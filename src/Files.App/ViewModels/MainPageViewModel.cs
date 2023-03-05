@@ -7,13 +7,13 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views;
-using Files.Backend.Extensions;
-using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Extensions;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -21,6 +21,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Foundation.Metadata;
+using Windows.Graphics;
 using Windows.Storage;
 using Windows.System;
 
@@ -167,11 +169,34 @@ namespace Files.App.ViewModels
 			e!.Handled = true;
 		}
 
-		private async void OpenSettings()
+		private void OpenSettings()
 		{
-			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-			var dialog = dialogService.GetDialog(new SettingsDialogViewModel());
-			await dialog.TryShowAsync();
+			// Show settings window
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+			{
+				// Initialize window
+				var window = new WinUIEx.WindowEx()
+				{
+					IsMinimizable = false,
+					IsMaximizable = false,
+					Content = new Frame() { RequestedTheme = ThemeHelper.RootTheme },
+					MinWidth = 850,
+					MinHeight = 550,
+					Backdrop = new WinUIEx.MicaSystemBackdrop(),
+				};
+
+				((Frame)window.Content).Navigate(typeof(Views.Settings.MainSettingsPage), null, new SuppressNavigationTransitionInfo());
+
+				var appWindow = window.AppWindow;
+				((Views.Settings.MainSettingsPage)((Frame)window.Content).Content).AppWindow = appWindow;
+				appWindow.SetIcon(FilePropertiesHelpers.LogoPath);
+				appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+				appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+				appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+				appWindow.Title = "Settings".GetLocalizedResource();
+				appWindow.Resize(new SizeInt32(850, 550));
+				appWindow.Show();
+			}
 		}
 
 		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
