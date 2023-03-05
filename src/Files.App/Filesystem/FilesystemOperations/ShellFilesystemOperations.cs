@@ -4,6 +4,7 @@ using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Shell;
+using Files.Backend.CommandLine;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Shared;
@@ -197,7 +198,7 @@ namespace Files.App.Filesystem
 						var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
 						if (newEntryInfo?.Command is not null)
 						{
-							var args = CommandLine.CommandLineParser.SplitArguments(newEntryInfo.Command);
+							var args = CommandLineParser.SplitArguments(newEntryInfo.Command);
 							if (args.Any())
 							{
 								if (await LaunchHelper.LaunchAppAsync(args[0].Replace("\"", "", StringComparison.Ordinal),

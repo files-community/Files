@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Filesystem;
 using Files.App.ViewModels;
+using Files.App.ViewModels.UserControls;
 using Files.App.Views;
 using System.Collections.Generic;
 using System.Collections.Immutable;

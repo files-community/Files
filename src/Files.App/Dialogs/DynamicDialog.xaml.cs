@@ -10,9 +10,9 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class DynamicDialog : ContentDialog, IDisposable
 	{
-		public DynamicDialogViewModel ViewModel
+		public DynamicViewModel ViewModel
 		{
-			get => (DynamicDialogViewModel)DataContext;
+			get => (DynamicViewModel)DataContext;
 			private set => DataContext = value;
 		}
 
@@ -33,7 +33,7 @@ namespace Files.App.Dialogs
 			return contentDialog;
 		}
 
-		public DynamicDialog(DynamicDialogViewModel dynamicDialogViewModel)
+		public DynamicDialog(DynamicViewModel dynamicDialogViewModel)
 		{
 			InitializeComponent();
 

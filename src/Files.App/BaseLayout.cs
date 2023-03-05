@@ -12,6 +12,7 @@ using Files.App.Interacts;
 using Files.App.UserControls;
 using Files.App.UserControls.Menus;
 using Files.App.ViewModels;
+using Files.App.ViewModels.UserControls;
 using Files.App.Views;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;

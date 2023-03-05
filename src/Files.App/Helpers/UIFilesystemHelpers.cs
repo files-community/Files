@@ -4,8 +4,8 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Interacts;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
+using Files.App.ViewModels.UserControls;
 using Files.Backend.Enums;
 using Files.Backend.Extensions;
 using Files.Backend.Services;
@@ -390,7 +390,7 @@ namespace Files.App.Helpers
 				currentPath = library.DefaultSaveFolder;
 			}
 
-			var viewModel = new CreateShortcutDialogViewModel(currentPath);
+			var viewModel = new CreateShortcutViewModel(currentPath);
 			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 			var result = await dialogService.ShowDialogAsync(viewModel);
 

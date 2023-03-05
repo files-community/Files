@@ -12,6 +12,7 @@ using Files.App.ServicesImplementation;
 using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
+using Files.App.ViewModels.UserControls;
 using Files.App.Views;
 using Files.Backend.Enums;
 using Files.Shared;
@@ -279,8 +280,8 @@ namespace Files.App.Interacts
 
 		public virtual void ShareItem(RoutedEventArgs e)
 		{
-			var interop = DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>();
-			IntPtr result = interop.GetForWindow(App.WindowHandle, UWPToWinAppSDKUpgradeHelpers.InteropHelpers.DataTransferManagerInteropIID);
+			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
+			IntPtr result = interop.GetForWindow(App.WindowHandle, InteropHelpers.DataTransferManagerInteropIID);
 
 			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
 			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
@@ -642,7 +643,7 @@ namespace Files.App.Interacts
 			var password = string.Empty;
 
 			DecompressArchiveDialog decompressArchiveDialog = new();
-			DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
+			DecompressArchiveViewModel decompressArchiveViewModel = new(archive)
 			{
 				IsArchiveEncrypted = isArchiveEncrypted,
 				ShowPathSelection = true
@@ -686,7 +687,7 @@ namespace Files.App.Interacts
 				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
 				{
 					DecompressArchiveDialog decompressArchiveDialog = new();
-					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
+					DecompressArchiveViewModel decompressArchiveViewModel = new(archive)
 					{
 						IsArchiveEncrypted = true,
 						ShowPathSelection = false
@@ -718,7 +719,7 @@ namespace Files.App.Interacts
 				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
 				{
 					DecompressArchiveDialog decompressArchiveDialog = new();
-					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
+					DecompressArchiveViewModel decompressArchiveViewModel = new(archive)
 					{
 						IsArchiveEncrypted = true,
 						ShowPathSelection = false

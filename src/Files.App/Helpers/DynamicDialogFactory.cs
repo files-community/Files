@@ -17,7 +17,7 @@ namespace Files.App.Helpers
 	{
 		public static DynamicDialog GetFor_PropertySaveErrorDialog()
 		{
-			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+			DynamicDialog dialog = new DynamicDialog(new DynamicViewModel()
 			{
 				TitleText = "PropertySaveErrorDialog/Title".GetLocalizedResource(),
 				SubtitleText = "PropertySaveErrorMessage/Text".GetLocalizedResource(), // We can use subtitle here as our content
@@ -31,7 +31,7 @@ namespace Files.App.Helpers
 
 		public static DynamicDialog GetFor_ConsentDialog()
 		{
-			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+			DynamicDialog dialog = new DynamicDialog(new DynamicViewModel()
 			{
 				TitleText = "WelcomeDialog/Title".GetLocalizedResource(),
 				SubtitleText = "WelcomeDialogTextBlock/Text".GetLocalizedResource(), // We can use subtitle here as our content
@@ -44,7 +44,7 @@ namespace Files.App.Helpers
 
 		public static DynamicDialog GetFor_ShortcutNotFound(string targetPath)
 		{
-			DynamicDialog dialog = new(new DynamicDialogViewModel
+			DynamicDialog dialog = new(new DynamicViewModel
 			{
 				TitleText = "ShortcutCannotBeOpened".GetLocalizedResource(),
 				SubtitleText = string.Format("DeleteShortcutDescription".GetLocalizedResource(), targetPath),
@@ -88,7 +88,7 @@ namespace Files.App.Helpers
 				_ = inputText.DispatcherQueue.EnqueueAsync(() => inputText.Focus(Microsoft.UI.Xaml.FocusState.Programmatic));
 			};
 
-			dialog = new DynamicDialog(new DynamicDialogViewModel()
+			dialog = new DynamicDialog(new DynamicViewModel()
 			{
 				TitleText = "EnterAnItemName".GetLocalizedResource(),
 				SubtitleText = null,
@@ -123,7 +123,7 @@ namespace Files.App.Helpers
 
 		public static DynamicDialog GetFor_FileInUseDialog(List<Shared.Win32Process> lockingProcess = null)
 		{
-			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+			DynamicDialog dialog = new DynamicDialog(new DynamicViewModel()
 			{
 				TitleText = "FileInUseDialog/Title".GetLocalizedResource(),
 				SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalizedResource() :
@@ -178,7 +178,7 @@ namespace Files.App.Helpers
 				dialog.ViewModel.AdditionalData = userAndPass;
 			};
 
-			dialog = new DynamicDialog(new DynamicDialogViewModel()
+			dialog = new DynamicDialog(new DynamicViewModel()
 			{
 				TitleText = "NetworkAuthenticationDialogTitle".GetLocalizedResource(),
 				PrimaryButtonText = "OK".GetLocalizedResource(),

@@ -11,6 +11,7 @@ using Files.App.Helpers;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
+using Files.App.ViewModels.UserControls;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
@@ -26,7 +27,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.Services.Store;
@@ -276,7 +276,7 @@ namespace Files.App.Views
 								return; // return if already selected
 
 							navigationPath = "Home";
-							sourcePageType = typeof(WidgetsPage);
+							sourcePageType = typeof(HomePage);
 						}
 						else // Any other item
 						{

@@ -1,6 +1,7 @@
 using Files.App.Filesystem;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
+using Files.App.ViewModels.UserControls;
 using Files.App.Views;
 using System;
 using System.ComponentModel;

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Files.App.Dialogs
 {
-	public sealed partial class CreateShortcutDialog : ContentDialog, IDialog<CreateShortcutDialogViewModel>
+	public sealed partial class CreateShortcutDialog : ContentDialog, IDialog<CreateShortcutViewModel>
 	{
-		public CreateShortcutDialogViewModel ViewModel
+		public CreateShortcutViewModel ViewModel
 		{
-			get => (CreateShortcutDialogViewModel)DataContext;
+			get => (CreateShortcutViewModel)DataContext;
 			set => DataContext = value;
 		}
 

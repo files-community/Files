@@ -1,10 +1,10 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.CommandLine;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.App.Views;
+using Files.Backend.CommandLine;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Microsoft.UI;

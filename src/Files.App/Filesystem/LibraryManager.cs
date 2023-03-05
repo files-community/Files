@@ -298,7 +298,7 @@ namespace Files.App.Filesystem
 
 		public static async void ShowRestoreDefaultLibrariesDialog()
 		{
-			var dialog = new DynamicDialog(new DynamicDialogViewModel
+			var dialog = new DynamicDialog(new DynamicViewModel
 			{
 				TitleText = "DialogRestoreLibrariesTitleText".GetLocalizedResource(),
 				SubtitleText = "DialogRestoreLibrariesSubtitleText".GetLocalizedResource(),
@@ -334,7 +334,7 @@ namespace Files.App.Filesystem
 				Visibility = Visibility.Collapsed
 			};
 
-			var dialog = new DynamicDialog(new DynamicDialogViewModel
+			var dialog = new DynamicDialog(new DynamicViewModel
 			{
 				DisplayControl = new Grid
 				{

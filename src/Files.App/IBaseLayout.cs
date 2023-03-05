@@ -1,6 +1,7 @@
 using Files.App.Filesystem;
 using Files.App.Interacts;
 using Files.App.ViewModels;
+using Files.App.ViewModels.UserControls;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;

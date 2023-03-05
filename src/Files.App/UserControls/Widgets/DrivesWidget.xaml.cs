@@ -7,7 +7,7 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Shell;
 using Files.App.ViewModels;
-using Files.App.ViewModels.Widgets;
+using Files.App.ViewModels.UserControls.Widgets;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;

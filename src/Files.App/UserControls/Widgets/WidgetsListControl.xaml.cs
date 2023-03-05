@@ -1,4 +1,4 @@
-using Files.App.ViewModels.Widgets;
+using Files.App.ViewModels.UserControls.Widgets;
 using Microsoft.UI.Xaml.Controls;
 using System;
 

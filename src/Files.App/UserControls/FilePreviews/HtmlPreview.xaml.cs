@@ -1,4 +1,4 @@
-using Files.App.ViewModels.Previews;
+using Files.App.ViewModels.UserControls.Previews;
 using Microsoft.UI.Xaml.Controls;
 using System;
 

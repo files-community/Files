@@ -1,6 +1,6 @@
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using Files.App.ViewModels;
+using Files.App.ViewModels.UserControls;
 using Files.Shared.Enums;
 using System.Collections.Generic;
 using System.Linq;

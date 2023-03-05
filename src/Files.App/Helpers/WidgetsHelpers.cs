@@ -1,5 +1,5 @@
 using Files.App.UserControls.Widgets;
-using Files.App.ViewModels.Widgets;
+using Files.App.ViewModels.UserControls.Widgets;
 using Files.Backend.Services.Settings;
 using System.Collections.Generic;
 

@@ -16,6 +16,7 @@ using Files.App.ServicesImplementation.Settings;
 using Files.App.Storage.NativeStorage;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
+using Files.App.ViewModels.UserControls;
 using Files.App.Views;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;

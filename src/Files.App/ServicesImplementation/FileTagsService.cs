@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Filesystem;
-using Files.Backend.AppModels;
+using Files.Backend.DataModels;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
