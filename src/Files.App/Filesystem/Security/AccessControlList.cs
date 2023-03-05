@@ -14,14 +14,6 @@ namespace Files.App.Filesystem.Security
 	/// </summary>
 	public class AccessControlList
 	{
-		public AccessControlList(string path, bool isFolder)
-		{
-			_path = path;
-			_isFolder = isFolder;
-
-			AccessControlEntryPrimitiveMappings = new();
-		}
-
 		public string? OwnerSID { get; private set; }
 
 		public Principal Owner { get; private set; }
@@ -37,6 +29,14 @@ namespace Files.App.Filesystem.Security
 		private readonly string _path;
 
 		private readonly bool _isFolder;
+
+		public AccessControlList(string path, bool isFolder)
+		{
+			_path = path;
+			_isFolder = isFolder;
+
+			AccessControlEntryPrimitiveMappings = new();
+		}
 
 		public bool SetAccessControl()
 		{
