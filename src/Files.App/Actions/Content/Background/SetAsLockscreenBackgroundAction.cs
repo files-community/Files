@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Files.App.Actions.Background
+namespace Files.App.Actions.Content.Background
 {
 	internal class SetAsLockscreenBackgroundAction : ObservableObject, IAction
 	{
@@ -34,8 +34,8 @@ namespace Files.App.Actions.Background
 
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
-			return context.PageType is not ContentPageTypes.RecycleBin 
-				and not ContentPageTypes.ZipFolder 
+			return context.PageType is not ContentPageTypes.RecycleBin
+				and not ContentPageTypes.ZipFolder
 				and not ContentPageTypes.None;
 		}
 
