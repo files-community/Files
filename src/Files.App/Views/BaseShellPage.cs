@@ -295,7 +295,7 @@ namespace Files.App.Views
 					var terminalStartInfo = new ProcessStartInfo()
 					{
 						FileName = "wt.exe",
-						Arguments = $"-d {path}",
+						Arguments = $"-d \"{path}\"",
 						Verb = shift ? "runas" : "",
 						UseShellExecute = true
 					};
