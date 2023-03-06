@@ -680,15 +680,15 @@ namespace Files.App.Helpers
 					{
 						new ContextMenuFlyoutItemViewModelBuilder(commands.SetAsWallpaperBackground)
 						{
-							isVisible = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
+							IsVisible = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
 						}.Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.SetAsLockscreenBackground)
 						{
-							isVisible = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
+							IsVisible = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
 						}.Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.SetAsSlideshowBackground)
 						{
-							isVisible = selectedItemsPropertiesViewModel?.SelectedItemsCount > 1
+							IsVisible = selectedItemsPropertiesViewModel?.SelectedItemsCount > 1
 						}.Build(),
 					}
 				},
