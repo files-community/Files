@@ -300,8 +300,15 @@ namespace Files.App.Filesystem
 					if (component == "..")
 					{
 						var lastListIndex = components.Count - 1;
-						components.RemoveAt(lastListIndex);
-						paths.RemoveAt(lastListIndex);
+						if (lastListIndex > 0)
+						{
+							components.RemoveAt(lastListIndex);
+							paths.RemoveAt(lastListIndex);
+						}
+						else if (lastListIndex == -1)
+						{
+
+						}
 					}
 					else
 					{
@@ -333,10 +340,10 @@ namespace Files.App.Filesystem
 
 		private static string ResolvePath(string path)
 		{
-			var trailingSeparator = path.EndsWith('\\') ? "\\" : path.EndsWith('/') ? "/" : "";
+			path = NormalizePath(path);
 			var (components, _) = GetComponentsAndRelativePaths(path);
 
-			return string.Join(Path.DirectorySeparatorChar, components) + trailingSeparator;
+			return string.Join(Path.DirectorySeparatorChar, components) + Path.DirectorySeparatorChar;
 		}
 
 		private static string GetPathWithoutEnvironmentVariable(string path)
