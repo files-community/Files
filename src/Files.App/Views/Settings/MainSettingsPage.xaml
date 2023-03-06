@@ -27,26 +27,17 @@
 			x:Name="TitlebarArea"
 			Grid.ColumnSpan="2"
 			Height="36"
+			Padding="16,0"
 			Background="Transparent">
-			<StackPanel
-				Padding="12,0"
-				Orientation="Horizontal"
-				Spacing="8">
 
-				<Image
-					Width="20"
-					Height="20"
-					Source="ms-appx:///Assets/AppTiles/Dev/Square44x44Logo.png" />
+			<TextBlock
+				VerticalAlignment="Center"
+				Style="{StaticResource BodyStrongTextBlockStyle}"
+				Text="{helpers:ResourceString Name=Settings}" />
 
-				<TextBlock
-					VerticalAlignment="Center"
-					Style="{StaticResource CaptionTextBlockStyle}"
-					Text="{helpers:ResourceString Name=Settings}" />
-
-			</StackPanel>
 		</Border>
 
-		<!--  Left side NavigationView  -->
+		<!--  Navigation View  -->
 		<NavigationView
 			x:Name="MainSettingsNavigationView"
 			Grid.Row="1"
@@ -55,7 +46,7 @@
 			IsPaneToggleButtonVisible="False"
 			IsSettingsVisible="False"
 			IsTitleBarAutoPaddingEnabled="False"
-			OpenPaneLength="260"
+			OpenPaneLength="200"
 			PaneDisplayMode="Left"
 			SelectionChanged="MainSettingsNavigationView_SelectionChanged">
 
@@ -120,7 +111,7 @@
 
 			<!--  Contents  -->
 			<ScrollViewer x:Name="SettingsScrollViewer" VerticalAlignment="Stretch">
-				<Frame x:Name="SettingsContentFrame" Padding="12" />
+				<Frame x:Name="SettingsContentFrame" />
 			</ScrollViewer>
 
 		</NavigationView>

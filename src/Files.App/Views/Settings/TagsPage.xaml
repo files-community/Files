@@ -6,33 +6,47 @@
 	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:labs="using:CommunityToolkit.Labs.WinUI"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:settingsviewmodels="using:Files.App.ViewModels.Settings"
 	xmlns:vc="using:Files.App.ValueConverters"
+	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
+
 	<Page.Resources>
 		<ResourceDictionary>
+
 			<converters1:BoolToVisibilityConverter
 				x:Key="BoolVisibilityConverter"
 				FalseValue="Collapsed"
 				TrueValue="Visible" />
+
 			<converters1:BoolToVisibilityConverter
 				x:Key="InvertedBoolVisibilityConverter"
 				FalseValue="Visible"
 				TrueValue="Collapsed" />
+
 			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
+
+			<x:Double x:Key="SettingsCardSpacing">3</x:Double>
+
+			<Style
+				x:Key="SettingsSectionHeaderTextBlockStyle"
+				BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+				TargetType="TextBlock">
+				<Style.Setters>
+					<Setter Property="Margin" Value="1,29,0,5" />
+				</Style.Setters>
+			</Style>
 		</ResourceDictionary>
 	</Page.Resources>
+
 	<Page.DataContext>
-		<settingsviewmodels:TagsViewModel x:Name="ViewModel" />
+		<vm:TagsViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
-	<Grid>
-		<StackPanel
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Spacing="4">
+	<Grid Padding="24">
+		<StackPanel Spacing="{StaticResource SettingsCardSpacing}">
 			<StackPanel.ChildrenTransitions>
 				<TransitionCollection>
 					<EntranceThemeTransition />
@@ -40,25 +54,15 @@
 			</StackPanel.ChildrenTransitions>
 
 			<!--  Edit Tags  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=FileTags}"
-				HorizontalAlignment="Stretch"
-				IsExpanded="True">
-				<local:SettingsBlockControl.Icon>
+			<labs:SettingsExpander Header="{helpers:ResourceString Name=FileTags}" IsExpanded="True">
+				<labs:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE1CB;" />
-				</local:SettingsBlockControl.Icon>
-
+				</labs:SettingsExpander.HeaderIcon>
 				<Button Command="{x:Bind ViewModel.AddTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=NewTag}" />
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<!--  Create new tag  -->
-						<Grid
-							x:Name="AddTagGrid"
-							Padding="32,12"
-							x:Load="{x:Bind ViewModel.IsCreatingNewTag, Mode=OneWay}"
-							Background="{ThemeResource CardBackgroundFillColorDefault}"
-							BorderBrush="{ThemeResource ControlElevationBorderBrush}"
-							BorderThickness="0,0,0,1">
+				<labs:SettingsExpander.Items>
+					<!--  Create New Tag  -->
+					<labs:SettingsCard x:Name="AddTagGrid" x:Load="{x:Bind ViewModel.IsCreatingNewTag, Mode=OneWay}">
+						<Grid>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="*" />
@@ -100,7 +104,6 @@
 									</Button.Flyout>
 								</Button>
 							</StackPanel>
-
 							<StackPanel
 								Grid.Column="1"
 								HorizontalAlignment="Right"
@@ -117,7 +120,9 @@
 									Style="{StaticResource AccentButtonStyle}" />
 							</StackPanel>
 						</Grid>
-
+					</labs:SettingsCard>
+					<!--  Tags List  -->
+					<labs:SettingsCard>
 						<ListView
 							x:Name="TagsList"
 							MaxHeight="500"
@@ -269,9 +274,10 @@
 								</DataTemplate>
 							</ListView.ItemTemplate>
 						</ListView>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+					</labs:SettingsCard>
+				</labs:SettingsExpander.Items>
+			</labs:SettingsExpander>
+
 		</StackPanel>
 	</Grid>
 </Page>

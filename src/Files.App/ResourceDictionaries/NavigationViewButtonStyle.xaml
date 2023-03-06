@@ -16,7 +16,7 @@
 			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPressed" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
 
@@ -40,7 +40,7 @@
 			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPressed" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
 
@@ -56,6 +56,7 @@
 	</ResourceDictionary.ThemeDictionaries>
 
 	<Thickness x:Key="NavigationViewItemBorderThickness">1,1,1,1</Thickness>
+	<x:Double x:Key="NavigationViewItemOnLeftMinHeight">36</x:Double>
 
 	<Style x:Key="MUX_NavigationViewItemPresenterStyleWhenOnLeftPane" TargetType="primitives:NavigationViewItemPresenter">
 		<Setter Property="Foreground" Value="{ThemeResource NavigationViewItemForeground}" />
