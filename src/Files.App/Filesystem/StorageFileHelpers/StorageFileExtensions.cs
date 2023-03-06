@@ -5,6 +5,7 @@ using Files.App.Views;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,12 +16,14 @@ namespace Files.App.Filesystem
 {
 	public static class StorageFileExtensions
 	{
-		public static BaseStorageFile AsBaseStorageFile(this IStorageItem item)
+		public static readonly ImmutableHashSet<string> _ftpPaths =
+			new HashSet<string>() { "ftp:/", "ftps:/", "ftpes:/" }.ToImmutableHashSet();
+
+		public static BaseStorageFile? AsBaseStorageFile(this IStorageItem item)
 		{
 			if (item is null || !item.IsOfType(StorageItemTypes.File))
-			{
 				return null;
-			}
+
 			return item is StorageFile file ? (BaseStorageFile)file : item as BaseStorageFile;
 		}
 
@@ -55,7 +58,8 @@ namespace Files.App.Filesystem
 		{
 			try
 			{
-				return itemsPath.Any(itemPath => Path.GetPathRoot(itemPath).Equals(Path.GetPathRoot(destinationPath), StringComparison.OrdinalIgnoreCase));
+				var destinationRoot = Path.GetPathRoot(destinationPath);
+				return itemsPath.Any(itemPath => Path.GetPathRoot(itemPath).Equals(destinationRoot, StringComparison.OrdinalIgnoreCase));
 			}
 			catch
 			{
@@ -71,7 +75,8 @@ namespace Files.App.Filesystem
 		{
 			try
 			{
-				return itemsPath.All(itemPath => Path.GetDirectoryName(itemPath).Equals(destinationPath.TrimPath(), StringComparison.OrdinalIgnoreCase));
+				var trimmedDestination = destinationPath.TrimPath();
+				return itemsPath.All(itemPath => Path.GetDirectoryName(itemPath).Equals(trimmedDestination, StringComparison.OrdinalIgnoreCase));
 			}
 			catch
 			{
@@ -83,23 +88,15 @@ namespace Files.App.Filesystem
 		public static bool AreItemsAlreadyInFolder(this IEnumerable<IStorageItemWithPath> storageItems, string destinationPath)
 			=> storageItems.Select(x => x.Path).AreItemsAlreadyInFolder(destinationPath);
 
-		public static BaseStorageFolder AsBaseStorageFolder(this IStorageItem item)
+		public static BaseStorageFolder? AsBaseStorageFolder(this IStorageItem item)
 		{
-			if (item is null)
+			if (item is not null && item.IsOfType(StorageItemTypes.Folder))
 			{
-				return null;
+				return item is StorageFolder folder
+					? (BaseStorageFolder)folder
+					: item as BaseStorageFolder;
 			}
-			else if (item.IsOfType(StorageItemTypes.Folder))
-			{
-				if (item is StorageFolder folder)
-				{
-					return (BaseStorageFolder)folder;
-				}
-				else
-				{
-					return item as BaseStorageFolder;
-				}
-			}
+
 			return null;
 		}
 
@@ -107,12 +104,12 @@ namespace Files.App.Filesystem
 		{
 			List<PathBoxItem> pathBoxItems = new();
 
-			value = NormalizePath(value);
+			value = PathNormalization.NormalizePath(value);
 
 			var (components, paths) = GetComponentsAndRelativePaths(value);
 			for (int i = 0; i < components.Count; i++)
 			{
-				if (!new[] { "ftp:/", "ftps:/", "ftpes:/" }.Contains(paths[i], StringComparer.OrdinalIgnoreCase))
+				if (!_ftpPaths.Contains(paths[i], StringComparer.OrdinalIgnoreCase))
 					pathBoxItems.Add(GetPathItem(components[i], paths[i]));
 			}
 
@@ -164,7 +161,8 @@ namespace Files.App.Filesystem
 				}
 			}
 
-			if (parentFolder is not null && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
+			// "::{" not a valid root
+			if (parentFolder is not null && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value))
 			{
 				// Relative path
 				var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
@@ -231,19 +229,17 @@ namespace Files.App.Filesystem
 			(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
 				=> (await parentFolder.Item.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, maxNumberOfItems))
 					.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
-		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync
+		public async static Task<IList<StorageFolderWithPath>?> GetFoldersWithPathAsync
 			(this StorageFolderWithPath parentFolder, string nameFilter, uint maxNumberOfItems = uint.MaxValue)
 		{
 			if (parentFolder is null)
-			{
 				return null;
-			}
 
 			var queryOptions = new QueryOptions
 			{
 				ApplicationSearchFilter = $"System.FileName:{nameFilter}*"
 			};
-			BaseStorageFolderQueryResult queryResult = parentFolder.Item.CreateFolderQueryWithOptions(queryOptions);
+			var queryResult = parentFolder.Item.CreateFolderQueryWithOptions(queryOptions);
 
 			return (await queryResult.GetFoldersAsync(0, maxNumberOfItems))
 				.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
@@ -320,24 +316,9 @@ namespace Files.App.Filesystem
 			return (components, paths);
 		}
 
-		private static string NormalizePath(string path)
-		{
-			if (path.Contains('/', StringComparison.Ordinal))
-			{
-				if (!path.EndsWith('/'))
-					path += "/";
-			}
-			else if (!path.EndsWith('\\'))
-			{
-				path += "\\";
-			}
-
-			return path;
-		}
-
 		private static string ResolvePath(string path)
 		{
-			path = NormalizePath(path);
+			path = PathNormalization.NormalizePath(path);
 
 			var (components, _) = GetComponentsAndRelativePaths(path);
 
@@ -350,22 +331,15 @@ namespace Files.App.Filesystem
 			{
 				path = $"{CommonPaths.HomePath}{path.Remove(0, 1)}";
 			}
-			if (path.Contains("%temp%", StringComparison.OrdinalIgnoreCase))
-			{
-				path = path.Replace("%temp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
-			}
-			if (path.Contains("%tmp%", StringComparison.OrdinalIgnoreCase))
-			{
-				path = path.Replace("%tmp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
-			}
-			if (path.Contains("%localappdata%", StringComparison.OrdinalIgnoreCase))
-			{
-				path = path.Replace("%localappdata%", CommonPaths.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
-			}
-			if (path.Contains("%homepath%", StringComparison.OrdinalIgnoreCase))
-			{
-				path = path.Replace("%homepath%", CommonPaths.HomePath, StringComparison.OrdinalIgnoreCase);
-			}
+
+			path = path.Replace("%temp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
+
+			path = path.Replace("%tmp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
+
+			path = path.Replace("%localappdata%", CommonPaths.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
+
+			path = path.Replace("%homepath%", CommonPaths.HomePath, StringComparison.OrdinalIgnoreCase);
+
 			return Environment.ExpandEnvironmentVariables(path);
 		}
 	}
