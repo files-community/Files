@@ -678,28 +678,18 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					Items = new List<ContextMenuFlyoutItemViewModel>()
 					{
-						new ContextMenuFlyoutItemViewModel()
+						new ContextMenuFlyoutItemViewModelBuilder(commands.SetAsWallpaperBackground)
 						{
-							Text = "SetAsBackground".GetLocalizedResource(),
-							Glyph = "\uE91B",
-							Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
-							ShowInSearchPage = true,
-							ShowItem = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
-						},
-						new ContextMenuFlyoutItemViewModel()
+							isVisible = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
+						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.SetAsLockscreenBackground)
 						{
-							Text = "BaseLayoutItemContextFlyoutSetAsLockscreenBackground/Text".GetLocalizedResource(),
-							Command = commandsViewModel.SetAsLockscreenBackgroundItemCommand,
-							ShowInSearchPage = true,
-							ShowItem = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
-						},
-						new ContextMenuFlyoutItemViewModel()
+							isVisible = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
+						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.SetAsSlideshowBackground)
 						{
-							Text = "SetAsSlideshow".GetLocalizedResource(),
-							Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
-							ShowInSearchPage = true,
-							ShowItem = selectedItemsPropertiesViewModel?.SelectedItemsCount > 1
-						},
+							isVisible = selectedItemsPropertiesViewModel?.SelectedItemsCount > 1
+						}.Build(),
 					}
 				},
 				new ContextMenuFlyoutItemViewModel
