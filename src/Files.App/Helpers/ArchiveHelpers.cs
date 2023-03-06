@@ -18,7 +18,8 @@ namespace Files.App.Helpers
 	{
 		public static bool CanDecompress(IReadOnlyList<ListedItem> selectedItems)
 		{
-			return selectedItems.Any() && selectedItems.All(x => x.IsArchive) || selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
+			return selectedItems.Any() && selectedItems.All(x => x.IsArchive) 
+				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
 		}
 
 		public static bool CanCompress(IReadOnlyList<ListedItem> selectedItems)

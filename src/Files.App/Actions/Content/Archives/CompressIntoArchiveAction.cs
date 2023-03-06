@@ -21,7 +21,8 @@ namespace Files.App.Actions.Content.Archives
 
 		public string Label => "CreateArchive".GetLocalizedResource();
 
-		public bool IsExecutable => ArchiveHelpers.CanCompress(context.SelectedItems);
+		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
+									&& ArchiveHelpers.CanCompress(context.SelectedItems);
 
 		public CompressIntoArchiveAction()
 		{
