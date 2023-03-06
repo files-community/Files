@@ -71,8 +71,6 @@ namespace Files.App.Interacts
 
 		Task CreateFolderWithSelection(RoutedEventArgs e);
 
-		Task CompressIntoSevenZip();
-
 		Task DecompressArchive();
 
 		Task DecompressArchiveHere();

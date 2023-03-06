@@ -923,13 +923,10 @@ namespace Files.App.Helpers
 						{
 							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
 						}.Build(),
-						new ContextMenuFlyoutItemViewModel
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoSevenZip)
 						{
-							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{newArchiveName}.7z"),
-							Command = commandsViewModel.CompressIntoSevenZipCommand,
-							ShowItem = canCompress,
-							ShowInSearchPage = true,
-						},
+							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
+						}.Build(),
 					},
 					ShowItem = itemsSelected
 				},

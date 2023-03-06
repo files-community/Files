@@ -44,6 +44,7 @@
 
 		// Archives
 		CompressIntoArchive,
+		CompressIntoSevenZip,
 		CompressIntoZip
 	}
 }

@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions.Content.Archives
 {
-	internal class CompressIntoZipAction : ObservableObject, IAction
+	internal class CompressIntoSevenZipAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label => string.Format("CreateNamedArchive".GetLocalizedResource(), $"{ArchiveHelpers.DetermineArchiveNameFromSelection(context.SelectedItems)}.zip");
+		public string Label => string.Format("CreateNamedArchive".GetLocalizedResource(), $"{ArchiveHelpers.DetermineArchiveNameFromSelection(context.SelectedItems)}.7z");
 
 		public bool IsExecutable => ArchiveHelpers.CanCompress(context.SelectedItems);
 
-		public CompressIntoZipAction()
+		public CompressIntoSevenZipAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -31,7 +31,7 @@ namespace Files.App.Actions.Content.Archives
 				Sources = sources,
 				Directory = directory,
 				FileName = fileName,
-				FileFormat = ArchiveFormats.Zip,
+				FileFormat = ArchiveFormats.SevenZip,
 			};
 
 			await ArchiveHelpers.CompressArchiveAsync(creator);
