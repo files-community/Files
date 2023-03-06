@@ -41,5 +41,10 @@
 		SetAsWallpaperBackground,
 		SetAsSlideshowBackground,
 		SetAsLockscreenBackground,
+
+		// Archives
+		CompressIntoArchive,
+		CompressIntoSevenZip,
+		CompressIntoZip
 	}
 }
