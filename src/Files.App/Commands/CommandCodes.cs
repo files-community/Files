@@ -36,5 +36,10 @@
 		// Favorites
 		PinItemToFavorites,
 		UnpinItemFromFavorites,
+
+		// Backgrounds
+		SetAsWallpaperBackground,
+		SetAsSlideshowBackground,
+		SetAsLockscreenBackground,
 	}
 }

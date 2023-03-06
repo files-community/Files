@@ -28,9 +28,6 @@ namespace Files.App.Interacts
 		private void InitializeCommands()
 		{
 			RenameItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RenameItem);
-			SetAsLockscreenBackgroundItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsLockscreenBackgroundItem);
-			SetAsDesktopBackgroundItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsDesktopBackgroundItem);
-			SetAsSlideshowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsSlideshowItem);
 			RunAsAdminCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RunAsAdmin);
 			RunAsAnotherUserCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RunAsAnotherUser);
 			OpenItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItem);
@@ -78,12 +75,6 @@ namespace Files.App.Interacts
 		#region Commands
 
 		public ICommand RenameItemCommand { get; private set; }
-
-		public ICommand SetAsLockscreenBackgroundItemCommand { get; private set; }
-
-		public ICommand SetAsDesktopBackgroundItemCommand { get; private set; }
-
-		public ICommand SetAsSlideshowItemCommand { get; private set; }
 
 		public ICommand RunAsAdminCommand { get; private set; }
 

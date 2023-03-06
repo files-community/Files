@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
@@ -44,6 +45,8 @@ namespace Files.App.ViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
+
+		private static readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -965,11 +968,11 @@ namespace Files.App.ViewModels
 
 		public ICommand? RunWithPowerShellCommand { get; set; }
 
-		public ICommand? SetAsBackgroundCommand { get; set; }
+		public IRichCommand SetAsBackgroundCommand => commands.SetAsWallpaperBackground;
 
-		public ICommand? SetAsLockscreenBackgroundCommand { get; set; }
+		public IRichCommand SetAsLockscreenBackgroundCommand => commands.SetAsLockscreenBackground;
 
-		public ICommand? SetAsSlideshowCommand { get; set; }
+		public IRichCommand SetAsSlideshowCommand => commands.SetAsSlideshowBackground;
 
 		public ICommand? InstallInfCommand { get; set; }
 
