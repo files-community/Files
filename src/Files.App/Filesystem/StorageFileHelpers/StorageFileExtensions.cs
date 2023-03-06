@@ -333,11 +333,10 @@ namespace Files.App.Filesystem
 
 		private static string ResolvePath(string path)
 		{
-			path = NormalizePath(path);
-
+			var trailingSeparator = path.EndsWith('\\') ? "\\" : path.EndsWith('/') ? "/" : "";
 			var (components, _) = GetComponentsAndRelativePaths(path);
 
-			return string.Join(Path.DirectorySeparatorChar, components);
+			return string.Join(Path.DirectorySeparatorChar, components) + trailingSeparator;
 		}
 
 		private static string GetPathWithoutEnvironmentVariable(string path)
