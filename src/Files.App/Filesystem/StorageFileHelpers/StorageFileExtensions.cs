@@ -107,67 +107,22 @@ namespace Files.App.Filesystem
 		{
 			List<PathBoxItem> pathBoxItems = new();
 
-			if (value.Contains('/', StringComparison.Ordinal))
+			value = NormalizePath(value);
+
+			var (components, paths) = GetComponentsAndRelativePaths(value);
+			for (int i = 0; i < components.Count; i++)
 			{
-				if (!value.EndsWith('/'))
-				{
-					value += "/";
-				}
-			}
-			else if (!value.EndsWith('\\'))
-			{
-				value += "\\";
-			}
-
-			int lastIndex = 0;
-
-			for (var i = 0; i < value.Length; i++)
-			{
-				if (value[i] is '?' || value[i] == Path.DirectorySeparatorChar || value[i] == Path.AltDirectorySeparatorChar)
-				{
-					if (lastIndex == i)
-					{
-						++lastIndex;
-						continue;
-					}
-
-					var component = value.Substring(lastIndex, i - lastIndex);
-					var path = value.Substring(0, i + 1);
-					if (!new[] { "ftp:/", "ftps:/", "ftpes:/" }.Contains(path, StringComparer.OrdinalIgnoreCase))
-					{
-						pathBoxItems.Add(GetPathItem(component, path));
-					}
-
-					lastIndex = i + 1;
-				}
+				if (!new[] { "ftp:/", "ftps:/", "ftpes:/" }.Contains(paths[i], StringComparer.OrdinalIgnoreCase))
+					pathBoxItems.Add(GetPathItem(components[i], paths[i]));
 			}
 
 			return pathBoxItems;
 		}
 
-		public static string GetPathWithoutEnvironmentVariable(string path)
+		public static string GetResolvedPath(string path)
 		{
-			if (path.StartsWith("~\\", StringComparison.Ordinal))
-			{
-				path = $"{CommonPaths.HomePath}{path.Remove(0, 1)}";
-			}
-			if (path.Contains("%temp%", StringComparison.OrdinalIgnoreCase))
-			{
-				path = path.Replace("%temp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
-			}
-			if (path.Contains("%tmp%", StringComparison.OrdinalIgnoreCase))
-			{
-				path = path.Replace("%tmp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
-			}
-			if (path.Contains("%localappdata%", StringComparison.OrdinalIgnoreCase))
-			{
-				path = path.Replace("%localappdata%", CommonPaths.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
-			}
-			if (path.Contains("%homepath%", StringComparison.OrdinalIgnoreCase))
-			{
-				path = path.Replace("%homepath%", CommonPaths.HomePath, StringComparison.OrdinalIgnoreCase);
-			}
-			return Environment.ExpandEnvironmentVariables(path);
+			var withoutEnvironment = GetPathWithoutEnvironmentVariable(path);
+			return ResolvePath(withoutEnvironment);
 		}
 
 		public async static Task<BaseStorageFile> DangerousGetFileFromPathAsync
@@ -326,6 +281,92 @@ namespace Files.App.Filesystem
 					Path = path
 				};
 			}
+		}
+
+		private static (List<string>, List<string>) GetComponentsAndRelativePaths(string value)
+		{
+			List<string> components = new();
+			List<string> paths = new();
+
+			for (int i = 0, lastIndex = 0; i < value.Length; i++)
+			{
+				if (value[i] == '?' || value[i] == Path.DirectorySeparatorChar || value[i] == Path.AltDirectorySeparatorChar)
+				{
+					if (lastIndex == i)
+					{
+						++lastIndex;
+						continue;
+					}
+
+					var component = value.Substring(lastIndex, i - lastIndex);
+					var path = value.Substring(0, i + 1);
+
+					if (component == "..")
+					{
+						var lastListIndex = components.Count - 1;
+						components.RemoveAt(lastListIndex);
+						paths.RemoveAt(lastListIndex);
+					}
+					else
+					{
+						components.Add(component);
+						paths.Add(path);
+					}
+
+					lastIndex = i + 1;
+				}
+			}
+
+			return (components, paths);
+		}
+
+		private static string NormalizePath(string path)
+		{
+			if (path.Contains('/', StringComparison.Ordinal))
+			{
+				if (!path.EndsWith('/'))
+					path += "/";
+			}
+			else if (!path.EndsWith('\\'))
+			{
+				path += "\\";
+			}
+
+			return path;
+		}
+
+		private static string ResolvePath(string path)
+		{
+			path = NormalizePath(path);
+
+			var (components, _) = GetComponentsAndRelativePaths(path);
+
+			return string.Join(Path.DirectorySeparatorChar, components);
+		}
+
+		private static string GetPathWithoutEnvironmentVariable(string path)
+		{
+			if (path.StartsWith("~\\", StringComparison.Ordinal))
+			{
+				path = $"{CommonPaths.HomePath}{path.Remove(0, 1)}";
+			}
+			if (path.Contains("%temp%", StringComparison.OrdinalIgnoreCase))
+			{
+				path = path.Replace("%temp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
+			}
+			if (path.Contains("%tmp%", StringComparison.OrdinalIgnoreCase))
+			{
+				path = path.Replace("%tmp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
+			}
+			if (path.Contains("%localappdata%", StringComparison.OrdinalIgnoreCase))
+			{
+				path = path.Replace("%localappdata%", CommonPaths.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
+			}
+			if (path.Contains("%homepath%", StringComparison.OrdinalIgnoreCase))
+			{
+				path = path.Replace("%homepath%", CommonPaths.HomePath, StringComparison.OrdinalIgnoreCase);
+			}
+			return Environment.ExpandEnvironmentVariables(path);
 		}
 	}
 }

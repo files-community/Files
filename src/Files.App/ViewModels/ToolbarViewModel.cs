@@ -1066,7 +1066,7 @@ namespace Files.App.ViewModels
 				}
 				else
 				{
-					currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
+					currentInput = StorageFileExtensions.GetResolvedPath(currentInput);
 					if (currentSelectedPath == currentInput)
 						return;
 
@@ -1153,7 +1153,7 @@ namespace Files.App.ViewModels
 				if (!await SafetyExtensions.IgnoreExceptions(async () =>
 				{
 					IList<ListedItem>? suggestions = null;
-					var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
+					var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text);
 					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
 					StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
