@@ -40,5 +40,8 @@ namespace Files.App.Commands
 		IRichCommand SetAsWallpaperBackground { get; }
 		IRichCommand SetAsSlideshowBackground { get; }
 		IRichCommand SetAsLockscreenBackground { get; }
+
+		IRichCommand RunAsAdmin { get; }
+		IRichCommand RunAsAnotherUser { get; }
 	}
 }

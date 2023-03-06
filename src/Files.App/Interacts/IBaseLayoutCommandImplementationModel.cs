@@ -11,25 +11,7 @@ namespace Files.App.Interacts
 	{
 		void RenameItem(RoutedEventArgs e);
 
-		void RunAsAdmin(RoutedEventArgs e);
-
-		void RunAsAnotherUser(RoutedEventArgs e);
-
-		void SidebarPinItem(RoutedEventArgs e);
-
-		void SidebarUnpinItem(RoutedEventArgs e);
-
 		void OpenItem(RoutedEventArgs e);
-
-		void RestoreRecycleBin(RoutedEventArgs e);
-
-		void RestoreSelectionRecycleBin(RoutedEventArgs e);
-
-		void QuickLook(RoutedEventArgs e);
-
-		void RestoreItem(RoutedEventArgs e);
-
-		void ShowFolderProperties(RoutedEventArgs e);
 
 		void ShowProperties(RoutedEventArgs e);
 

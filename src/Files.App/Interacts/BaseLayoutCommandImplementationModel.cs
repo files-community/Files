@@ -86,53 +86,10 @@ namespace Files.App.Interacts
 			itemManipulationModel.StartRenameItem();
 		}
 
-		public virtual async void RunAsAdmin(RoutedEventArgs e)
-		{
-			await ContextMenu.InvokeVerb("runas", SlimContentPage.SelectedItem.ItemPath);
-		}
-
-		public virtual async void RunAsAnotherUser(RoutedEventArgs e)
-		{
-			await ContextMenu.InvokeVerb("runasuser", SlimContentPage.SelectedItem.ItemPath);
-		}
-
-		public virtual void SidebarPinItem(RoutedEventArgs e)
-		{
-			_ = QuickAccessService.PinToSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
-		}
-
-		public virtual void SidebarUnpinItem(RoutedEventArgs e)
-		{
-			_ = QuickAccessService.UnpinFromSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
-		}
-
 		public virtual void OpenItem(RoutedEventArgs e)
 		{
 			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, false);
 		}
-
-		public virtual async void RestoreRecycleBin(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.RestoreRecycleBin(associatedInstance);
-		}
-
-		public virtual async void RestoreSelectionRecycleBin(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.RestoreSelectionRecycleBin(associatedInstance);
-		}
-
-		public virtual async void QuickLook(RoutedEventArgs e)
-		{
-			await QuickLookHelpers.ToggleQuickLook(associatedInstance);
-		}
-
-		public virtual async void RestoreItem(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.RestoreItem(associatedInstance);
-		}
-
-		public virtual void ShowFolderProperties(RoutedEventArgs e)
-			=> ShowProperties(e);
 
 		public virtual void ShowProperties(RoutedEventArgs e)
 		{

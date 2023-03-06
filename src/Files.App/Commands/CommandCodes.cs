@@ -41,5 +41,9 @@
 		SetAsWallpaperBackground,
 		SetAsSlideshowBackground,
 		SetAsLockscreenBackground,
+
+		// Run
+		RunAsAdmin,
+		RunAsAnotherUser,
 	}
 }

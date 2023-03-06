@@ -714,14 +714,7 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
 				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "RunAsAdministrator".GetLocalizedResource(),
-					Glyph = "\uE7EF",
-					Command = commandsViewModel.RunAsAdminCommand,
-					ShowInSearchPage = true,
-					ShowItem = itemsSelected && isFirstFileExecutable
-				},
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAdmin).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutContextFlyoutRunAsAnotherUser/Text".GetLocalizedResource(),

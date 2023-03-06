@@ -53,6 +53,8 @@ namespace Files.App.Commands
 		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
 		public IRichCommand CutItem => commands[CommandCodes.CutItem];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
+		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
+		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
 
 		public CommandManager()
 		{
@@ -96,6 +98,8 @@ namespace Files.App.Commands
 			[CommandCodes.CopyItem] = new CopyItemAction(),
 			[CommandCodes.CutItem] = new CutItemAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
+			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
+			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
