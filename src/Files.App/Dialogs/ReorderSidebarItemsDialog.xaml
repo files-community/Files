@@ -64,10 +64,7 @@
 										<RowDefinition Height="Auto" />
 										<RowDefinition Height="Auto" />
 									</Grid.RowDefinitions>
-									<TextBlock
-										Grid.Row="0"
-										Grid.RowSpan="2"
-										Text="{x:Bind Text}" />
+									<TextBlock Grid.RowSpan="2" Text="{x:Bind Text}" />
 									<FontIcon
 										Grid.Row="1"
 										HorizontalAlignment="Right"
