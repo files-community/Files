@@ -104,7 +104,7 @@ namespace Files.App.Filesystem
 		{
 			List<PathBoxItem> pathBoxItems = new();
 
-			value = PathNormalization.NormalizePath(value);
+			value = NormalizePath(value);
 
 			var (components, paths) = GetComponentsAndRelativePaths(value);
 			for (int i = 0; i < components.Count; i++)
@@ -316,9 +316,24 @@ namespace Files.App.Filesystem
 			return (components, paths);
 		}
 
+		private static string NormalizePath(string path)
+		{
+			if (path.Contains('/', StringComparison.Ordinal))
+			{
+				if (!path.EndsWith('/'))
+					path += "/";
+			}
+			else if (!path.EndsWith('\\'))
+			{
+				path += "\\";
+			}
+
+			return path;
+		}
+
 		private static string ResolvePath(string path)
 		{
-			path = PathNormalization.NormalizePath(path);
+			path = NormalizePath(path);
 
 			var (components, _) = GetComponentsAndRelativePaths(path);
 
@@ -328,9 +343,7 @@ namespace Files.App.Filesystem
 		private static string GetPathWithoutEnvironmentVariable(string path)
 		{
 			if (path.StartsWith("~\\", StringComparison.Ordinal))
-			{
 				path = $"{CommonPaths.HomePath}{path.Remove(0, 1)}";
-			}
 
 			path = path.Replace("%temp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
 
