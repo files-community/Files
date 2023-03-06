@@ -1,4 +1,5 @@
-﻿using Files.App.Filesystem;
+﻿using CommunityToolkit.WinUI;
+using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -45,6 +46,14 @@ namespace Files.App.Views.Properties
 			var dp = new Windows.ApplicationModel.DataTransfer.DataPackage();
 			dp.SetText(item.HashValue);
 			Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dp);
+		}
+
+		private async void BasePropertiesPage_Loaded(object sender, RoutedEventArgs e)
+		{
+			await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+			{
+				await HashesViewModel.ExecuteLoadFileContent(HashesViewModel.CancellationTokenSource.Token);
+			});
 		}
 	}
 }

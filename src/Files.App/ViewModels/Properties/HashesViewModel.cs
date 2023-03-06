@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI;
 using Files.App.Filesystem;
 using Files.Backend.Models;
 using Files.Shared.Helpers;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
-using CommunityToolkit.WinUI;
 using System;
 using System.Threading;
 
@@ -24,10 +24,10 @@ namespace Files.App.ViewModels.Properties
 
 			LoadFileContent = new(ExecuteLoadFileContent);
 
-			CancellationTokenSource = new CancellationTokenSource();
+			CancellationTokenSource = new();
 
-			if (LoadFileContent.CanExecute(CancellationTokenSource.Token))
-				LoadFileContent.Execute(CancellationTokenSource.Token);
+			//if (LoadFileContent.CanExecute(CancellationTokenSource.Token))
+			//	LoadFileContent.Execute(CancellationTokenSource.Token);
 		}
 
 		public ListedItem Item { get; }
@@ -90,16 +90,13 @@ namespace Files.App.ViewModels.Properties
 			});
 		}
 
-		private async Task ExecuteLoadFileContent(CancellationToken cancellationToken)
+		public async Task ExecuteLoadFileContent(CancellationToken cancellationToken)
 		{
 			try
 			{
 				IsLoading = true;
 
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
-				{
-					_fileData = await File.ReadAllBytesAsync(Item.ItemPath);
-				});
+				_fileData = await File.ReadAllBytesAsync(Item.ItemPath, cancellationToken);
 
 				CanAccessFile = true;
 				GetHashes();
