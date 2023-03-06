@@ -42,5 +42,6 @@ namespace Files.App.Commands
 		IRichCommand SetAsLockscreenBackground { get; }
 
 		IRichCommand CompressIntoArchive { get; }
+		IRichCommand CompressIntoZip { get; }
 	}
 }

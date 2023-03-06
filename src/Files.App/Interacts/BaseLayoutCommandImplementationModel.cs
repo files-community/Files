@@ -491,21 +491,6 @@ namespace Files.App.Interacts
 			await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
 		}
 
-		public async Task CompressIntoZip()
-		{
-			var (sources, directory, fileName) = ArchiveHelpers.GetCompressDestination(associatedInstance);
-
-			IArchiveCreator creator = new ArchiveCreator
-			{
-				Sources = sources,
-				Directory = directory,
-				FileName = fileName,
-				FileFormat = ArchiveFormats.Zip,
-			};
-
-			await ArchiveHelpers.CompressArchiveAsync(creator);
-		}
-
 		public async Task CompressIntoSevenZip()
 		{
 			var (sources, directory, fileName) = ArchiveHelpers.GetCompressDestination(associatedInstance);

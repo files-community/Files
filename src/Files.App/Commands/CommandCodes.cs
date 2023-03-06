@@ -43,6 +43,7 @@
 		SetAsLockscreenBackground,
 
 		// Archives
-		CompressIntoArchive
+		CompressIntoArchive,
+		CompressIntoZip
 	}
 }

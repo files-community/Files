@@ -26,6 +26,15 @@ namespace Files.App.Helpers
 			return !CanDecompress(selectedItems) || selectedItems.Count > 1;
 		}
 
+		public static string DetermineArchiveNameFromSelection(IReadOnlyList<ListedItem> selectedItems)
+		{
+			return Path.GetFileName(
+					selectedItems.Count is 1 
+					? selectedItems[0].ItemPath 
+					: Path.GetDirectoryName(selectedItems[0].ItemPath
+				))?? string.Empty;
+		}
+
 		public static (string[] Sources, string directory, string fileName) GetCompressDestination(IShellPage associatedInstance)
 		{
 			string[] sources = associatedInstance.SlimContentPage.SelectedItems
