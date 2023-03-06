@@ -715,14 +715,7 @@ namespace Files.App.Helpers
 					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAdmin).Build(),
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "BaseLayoutContextFlyoutRunAsAnotherUser/Text".GetLocalizedResource(),
-					Glyph = "\uE7EE",
-					Command = commandsViewModel.RunAsAnotherUserCommand,
-					ShowInSearchPage = true,
-					ShowItem = itemsSelected && isFirstFileExecutable
-				},
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAnotherUser).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ItemType.Separator,
