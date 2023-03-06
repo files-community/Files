@@ -41,6 +41,9 @@ namespace Files.App.Commands
 		IRichCommand SetAsSlideshowBackground { get; }
 		IRichCommand SetAsLockscreenBackground { get; }
 
+		IRichCommand RunAsAdmin { get; }
+		IRichCommand RunAsAnotherUser { get; }
+
 		IRichCommand CompressIntoArchive { get; }
 		IRichCommand CompressIntoSevenZip { get; }
 		IRichCommand CompressIntoZip { get; }
