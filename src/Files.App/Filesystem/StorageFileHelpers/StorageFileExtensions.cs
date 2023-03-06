@@ -1,3 +1,5 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
@@ -307,7 +309,11 @@ namespace Files.App.Filesystem
 						}
 						else if (lastListIndex == -1)
 						{
+							var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+							value = context.ShellPage.FilesystemViewModel.WorkingDirectory + 
+								$"{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}";
 
+							i = lastIndex = -1;
 						}
 					}
 					else
