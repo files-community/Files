@@ -51,18 +51,18 @@
 			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=ManageSettings}" />
 
 			<!--  Export  -->
-			<labs:SettingsCard
+			<settingsuc:SettingsBlockControl
+				Title="{helpers:ResourceString Name=ExportSettings}"
 				ButtonCommand="{x:Bind ViewModel.ExportSettingsCommand}"
-				Header="{helpers:ResourceString Name=ExportSettings}"
 				IsClickable="True">
-				<labs:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xEDE1;" />
-				</labs:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsBlockControl.Icon>
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
 					Glyph="&#xE2B4;" />
-			</labs:SettingsCard>
+			</settingsuc:SettingsBlockControl>
 
 			<!--  Import  -->
 			<settingsuc:SettingsBlockControl
