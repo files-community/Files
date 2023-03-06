@@ -44,8 +44,11 @@
 						<NavigationViewItem
 							AllowDrop="True"
 							AutomationProperties.AutomationId="{x:Bind Text}"
-							CanDrag="False"
+							CanDrag="True"
 							DataContext="{x:Bind}"
+							DragOver="NavigationViewItem_DragOver"
+							DragStarting="NavigationViewItem_DragStarting"
+							Drop="NavigationViewItem_Drop"
 							IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
 							MenuItemsSource="{x:Bind ChildItems}"
 							Tag="{x:Bind Path}"
@@ -65,24 +68,13 @@
 										Grid.Row="0"
 										Grid.RowSpan="2"
 										Text="{x:Bind Text}" />
-									<Button
-										Grid.Row="0"
-										Grid.Column="2"
-										Height="10"
-										Click="ReorderUp_Click">
-										<Button.Content>
-											<FontIcon Glyph="" />
-										</Button.Content>
-									</Button>
-									<Button
+									<FontIcon
 										Grid.Row="1"
-										Grid.Column="2"
-										Height="10"
-										Click="ReorderDown_Click">
-										<Button.Content>
-											<FontIcon Glyph="" />
-										</Button.Content>
-									</Button>
+										HorizontalAlignment="Right"
+										DataContext="{x:Bind}"
+										Glyph="&#xE76F;"
+										PointerPressed="MoveItem"
+										Visibility="{x:Bind IsPinned}" />
 								</Grid>
 							</NavigationViewItem.Content>
 							<NavigationViewItem.Icon>

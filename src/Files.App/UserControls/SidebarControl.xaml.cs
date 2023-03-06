@@ -347,10 +347,7 @@ namespace Files.App.UserControls
 		{
 			var dialog = new ReorderSidebarItemsDialogViewModel();
 			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-			App.Logger.Warn("Reorder items dialog popup");
 			var result = await dialogService.ShowDialogAsync(dialog);
-
-			App.Logger.Warn("Result: " + result.ToString());
 		}
 
 		private async void OpenInNewPane()
@@ -681,7 +678,7 @@ namespace Files.App.UserControls
 
 				isDropOnProcess = false;
 				deferral.Complete();
-			}			
+			}
 
 			await Task.Yield();
 			lockFlag = false;

@@ -1,12 +1,19 @@
+using CommunityToolkit.WinUI.UI;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.ServicesImplementation;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
+using static Vanara.Windows.Shell.ShellFileOperationDialog;
 
 namespace Files.App.Dialogs
 {
@@ -23,26 +30,66 @@ namespace Files.App.Dialogs
 			InitializeComponent();
 		}
 
-		private void ReorderUp_Click(object sender, RoutedEventArgs e)
+		private async void MoveItem(object sender, PointerRoutedEventArgs e)
 		{
-			if (sender is not Button clickButton || clickButton.DataContext is not LocationItem item)
+			var properties = e.GetCurrentPoint(null).Properties;
+			var icon = sender as FontIcon;
+			if (!properties.IsLeftButtonPressed)
 				return;
 
-			int index = ViewModel.SidebarFavoriteItems.IndexOf(item) - 1 >= 0 
-				? ViewModel.SidebarFavoriteItems.IndexOf(item) - 1 : ViewModel.SidebarFavoriteItems.IndexOf(item);
-			ViewModel.SidebarFavoriteItems.Remove(item);
-			ViewModel.SidebarFavoriteItems.Insert(index, item);
+			var navItem = icon?.FindAscendant<NavigationViewItem>();
+			if (navItem is not null)
+				await navItem.StartDragAsync(e.GetCurrentPoint(navItem));
 		}
 
-		private void ReorderDown_Click(object sender, RoutedEventArgs e)
+		private void NavigationViewItem_DragStarting(object sender, DragStartingEventArgs e)
 		{
-			if (sender is not Button clickButton || clickButton.DataContext is not LocationItem item)
+			if (sender is not NavigationViewItem nav || nav.DataContext is not LocationItem)
 				return;
 
-			int index = ViewModel.SidebarFavoriteItems.IndexOf(item) + 1 < ViewModel.SidebarFavoriteItems.Count 
-				? ViewModel.SidebarFavoriteItems.IndexOf(item) + 1 : ViewModel.SidebarFavoriteItems.IndexOf(item);
-			ViewModel.SidebarFavoriteItems.Remove(item);
-			ViewModel.SidebarFavoriteItems.Insert(index, item);
+			// Adding the original Location item dragged to the DragEvents data view
+			e.Data.Properties.Add("sourceLocationItem", nav);
+			e.AllowedOperations = DataPackageOperation.Move;
+		}
+
+		
+		private async void NavigationViewItem_DragOver(object sender, DragEventArgs e)
+		{
+			if ((sender as NavigationViewItem)?.DataContext is not LocationItem locationItem)
+				return;
+			var deferral = e.GetDeferral();
+			
+			if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
+			{
+				DragOver_SetCaptions(sourceLocationItem, locationItem, e);
+			}
+
+			deferral.Complete();
+		}
+
+		private void DragOver_SetCaptions(LocationItem senderLocationItem, LocationItem sourceLocationItem, DragEventArgs e)
+		{
+			// If the location item is the same as the original dragged item
+			if (sourceLocationItem.CompareTo(senderLocationItem) == 0)
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				e.DragUIOverride.IsCaptionVisible = false;
+			}
+			else
+			{
+				e.DragUIOverride.IsCaptionVisible = true;
+				e.DragUIOverride.Caption = "MoveItemsDialogPrimaryButtonText".GetLocalizedResource();
+				e.AcceptedOperation = DataPackageOperation.Move;
+			}
+		}
+
+		private void NavigationViewItem_Drop(object sender, DragEventArgs e)
+		{
+			if (sender is not NavigationViewItem navView || navView.DataContext is not LocationItem locationItem)
+				return;
+
+			if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
+				ViewModel.SidebarFavoriteItems.Move(ViewModel.SidebarFavoriteItems.IndexOf(sourceLocationItem), ViewModel.SidebarFavoriteItems.IndexOf(locationItem));
 		}
 
 		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
