@@ -792,17 +792,13 @@
 				x:Name="PreviewPane"
 				Width="Auto"
 				MinWidth="40"
-				AccessKey="P"
-				AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneToggle/AutomationProperties/Name}"
-				IsChecked="{x:Bind PreviewPaneViewModel.IsEnabled, Mode=TwoWay}"
-				IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
-				Label="{helpers:ResourceString Name=PreviewPaneToggle/Label}"
+				AutomationProperties.Name="{x:Bind Commands.TogglePreviewPane.AutomationName}"
+				Content="{x:Bind Commands.TogglePreviewPane.Icon}"
+				IsChecked="{x:Bind Commands.TogglePreviewPane.IsOn, Mode=TwoWay}"
+				Label="{x:Bind Commands.TogglePreviewPane.Label}"
 				LabelPosition="Collapsed"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneToggle/ToolTipService/ToolTip}"
-				Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
-
-				<local:OpacityIcon Style="{StaticResource ColorIconRightPane}" />
-			</AppBarToggleButton>
+				ToolTipService.ToolTip="{x:Bind Commands.TogglePreviewPane.LabelWithHotKey, Mode=OneWay}"
+				Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}" />
 			<CommandBar.SecondaryCommands>
 				<AppBarButton
 					x:Name="NavToolbarNewPane"

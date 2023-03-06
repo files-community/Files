@@ -11,6 +11,7 @@
 		// Show
 		ToggleShowHiddenItems,
 		ToggleShowFileExtensions,
+		TogglePreviewPane,
 
 		// File System
 		CopyItem,

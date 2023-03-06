@@ -17,6 +17,7 @@ namespace Files.App.Commands
 
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
+		IRichCommand TogglePreviewPane { get; }
 
 		IRichCommand CopyItem { get; }
 		IRichCommand CutItem { get; }
