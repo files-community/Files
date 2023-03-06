@@ -49,9 +49,6 @@ namespace Files.App.Interacts
 			RefreshCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RefreshItems);
 			SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
 			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
-			CompressIntoArchiveCommand = new AsyncRelayCommand(CommandsModel.CompressIntoArchive);
-			CompressIntoZipCommand = new AsyncRelayCommand(CommandsModel.CompressIntoZip);
-			CompressIntoSevenZipCommand = new AsyncRelayCommand(CommandsModel.CompressIntoSevenZip);
 			DecompressArchiveCommand = new AsyncRelayCommand(CommandsModel.DecompressArchive);
 			DecompressArchiveHereCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveHere);
 			DecompressArchiveToChildFolderCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveToChildFolder);
@@ -111,12 +108,6 @@ namespace Files.App.Interacts
 
 		public ICommand CreateFolderWithSelection { get; private set; }
 
-		public ICommand CompressIntoArchiveCommand { get; private set; }
-
-		public ICommand CompressIntoZipCommand { get; private set; }
-
-		public ICommand CompressIntoSevenZipCommand { get; private set; }
-
 		public ICommand DecompressArchiveCommand { get; private set; }
 
 		public ICommand DecompressArchiveHereCommand { get; private set; }
@@ -132,6 +123,7 @@ namespace Files.App.Interacts
 		public ICommand InstallFontCommand { get; private set; }
 
 		public ICommand PlayAllCommand { get; private set; }
+
 		public ICommand FormatDriveCommand { get; private set; }
 
 		#endregion Commands

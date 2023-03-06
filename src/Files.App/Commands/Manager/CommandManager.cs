@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Actions;
+using Files.App.Actions.Content.Archives;
 using Files.App.Actions.Content.Background;
 using Files.App.Actions.Favorites;
 using Files.App.UserControls;
@@ -55,6 +56,9 @@ namespace Files.App.Commands
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
+		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
+		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
+		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
 
 		public CommandManager()
 		{
@@ -100,6 +104,9 @@ namespace Files.App.Commands
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
+			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
+			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
+			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction()
 		};
 
 		[DebuggerDisplay("Command None")]

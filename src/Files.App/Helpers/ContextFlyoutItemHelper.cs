@@ -901,27 +901,18 @@ namespace Files.App.Helpers
 							ShowItem = canDecompress && canCompress,
 							ItemType = ItemType.Separator,
 						},
-						new ContextMenuFlyoutItemViewModel
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoArchive)
 						{
-							Text = "CreateArchive".GetLocalizedResource(),
-							Command = commandsViewModel.CompressIntoArchiveCommand,
-							ShowItem = canCompress,
-							ShowInSearchPage = true,
-						},
-						new ContextMenuFlyoutItemViewModel
+							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
+						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoZip)
 						{
-							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{newArchiveName}.zip"),
-							Command = commandsViewModel.CompressIntoZipCommand,
-							ShowItem = canCompress,
-							ShowInSearchPage = true,
-						},
-						new ContextMenuFlyoutItemViewModel
+							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
+						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoSevenZip)
 						{
-							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{newArchiveName}.7z"),
-							Command = commandsViewModel.CompressIntoSevenZipCommand,
-							ShowItem = canCompress,
-							ShowInSearchPage = true,
-						},
+							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
+						}.Build(),
 					},
 					ShowItem = itemsSelected
 				},

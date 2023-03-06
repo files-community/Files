@@ -45,5 +45,10 @@
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
+
+    // Archives
+		CompressIntoArchive,
+		CompressIntoSevenZip,
+		CompressIntoZip
 	}
 }
