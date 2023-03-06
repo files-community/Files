@@ -86,22 +86,6 @@ namespace Files.App.Interacts
 			itemManipulationModel.StartRenameItem();
 		}
 
-		public virtual void SetAsLockscreenBackgroundItem(RoutedEventArgs e)
-		{
-			WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath);
-		}
-
-		public virtual void SetAsDesktopBackgroundItem(RoutedEventArgs e)
-		{
-			WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath);
-		}
-
-		public virtual void SetAsSlideshowItem(RoutedEventArgs e)
-		{
-			var images = (from o in SlimContentPage.SelectedItems select o.ItemPath).ToArray();
-			WallpaperHelpers.SetSlideshow(images);
-		}
-
 		public virtual async void RunAsAdmin(RoutedEventArgs e)
 		{
 			await ContextMenu.InvokeVerb("runas", SlimContentPage.SelectedItem.ItemPath);
