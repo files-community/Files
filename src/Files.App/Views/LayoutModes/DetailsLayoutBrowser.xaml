@@ -47,6 +47,7 @@
 				NotEmptyValue="Visible" />
 
 			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
+			<converters1:GridLengthToDouble x:Key="GridLengthToDouble" />
 			<converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 			<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
@@ -571,7 +572,7 @@
 
 								<CheckBox
 									x:Name="SelectionCheckbox"
-									Width="{Binding ElementName=SelectAllColumn, Mode=OneWay, Path=Width}"
+									Width="{Binding ElementName=SelectAllColumn, Mode=OneWay, Path=Width, Converter={StaticResource GridLengthToDouble}}"
 									MinWidth="0"
 									Checked="ItemSelected_Checked"
 									Unchecked="ItemSelected_Unchecked"
