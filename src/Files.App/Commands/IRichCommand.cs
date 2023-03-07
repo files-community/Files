@@ -1,4 +1,5 @@
 ﻿using Files.App.UserControls;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System.ComponentModel;
@@ -18,7 +19,7 @@ namespace Files.App.Commands
 		RichGlyph Glyph { get; }
 		object? Icon { get; }
 		FontIcon? FontIcon { get; }
-		OpacityIcon? OpacityIcon { get; }
+		Style? OpacityStyle { get; }
 
 		HotKey DefaultHotKey { get; }
 		HotKey CustomHotKey { get; set; }
