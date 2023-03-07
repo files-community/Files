@@ -24,16 +24,20 @@
 			</StackPanel.ChildrenTransitions>
 
 			<!--  Version  -->
-			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Version}" />
+			<TextBlock
+				Padding="0,12,0,4"
+				FontSize="14"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=Version}" />
 
 			<!--  App Info  -->
-			<settingsuc:SettingsCard
+			<settingsuc:SettingsBlockControl
+				Title="{x:Bind ViewModel.AppName}"
 				HorizontalAlignment="Stretch"
-				Description="{x:Bind ViewModel.Version}"
-				Header="{x:Bind ViewModel.AppName}">
-				<settingsuc:SettingsCard.HeaderIcon>
+				Description="{x:Bind ViewModel.Version}">
+				<settingsuc:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE946;" />
-				</settingsuc:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsBlockControl.Icon>
 				<Button x:Name="CopyVersionInfo" Content="{helpers:ResourceString Name=Copy}">
 					<Button.Flyout>
 						<MenuFlyout>
@@ -42,7 +46,7 @@
 						</MenuFlyout>
 					</Button.Flyout>
 				</Button>
-			</settingsuc:SettingsCard>
+			</settingsuc:SettingsBlockControl>
 
 			<!--  GitHub Sponsor  -->
 			<settingsuc:SettingsBlockControl
