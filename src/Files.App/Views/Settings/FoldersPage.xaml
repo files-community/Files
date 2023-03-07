@@ -1,5 +1,5 @@
 ﻿<Page
-	x:Class="Files.App.Settings.FoldersPage"
+	x:Class="Files.App.Views.Settings.FoldersPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:UserControls="using:Files.App.UserControls"

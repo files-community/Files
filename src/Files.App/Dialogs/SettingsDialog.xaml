@@ -6,9 +6,11 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Closing="ContentDialog_Closing"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
+
 	<ContentDialog.Resources>
 		<ResourceDictionary>
 			<x:Double x:Key="ContentDialogMaxWidth">1100</x:Double>
@@ -20,18 +22,13 @@
 		<Grid
 			x:Name="ContainerGrid"
 			MaxHeight="790"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
 			Background="{ThemeResource App.Theme.ContentDialog.BackgroundBrush}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="44" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
-			<Grid
-				Grid.Row="0"
-				Padding="8,0"
-				HorizontalAlignment="Stretch">
+			<Grid Padding="8,0">
 				<TextBlock
 					Padding="8,0,0,0"
 					HorizontalAlignment="Left"
@@ -40,7 +37,7 @@
 					Text="{helpers:ResourceString Name=Settings}" />
 
 				<Button
-					x:Name="ButtonClose"
+					x:Name="CloseSettingsDialogButton"
 					Width="36"
 					Height="36"
 					HorizontalAlignment="Right"
@@ -48,28 +45,29 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=Close}"
 					Background="Transparent"
 					BorderBrush="Transparent"
-					Click="ButtonClose_Click"
+					Click="CloseSettingsDialogButton_Click"
+					CornerRadius="{StaticResource OverlayCornerRadius}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
 					<FontIcon FontSize="12" Glyph="&#xE8BB;" />
 				</Button>
 			</Grid>
 
 			<NavigationView
-				x:Name="SettingsPane"
+				x:Name="MainSettingsNavigationView"
 				Grid.Row="1"
 				IsBackButtonVisible="Collapsed"
 				IsBackEnabled="False"
 				IsPaneToggleButtonVisible="False"
 				IsSettingsVisible="False"
 				IsTitleBarAutoPaddingEnabled="False"
-				OpenPaneLength="260"
+				OpenPaneLength="224"
 				PaneDisplayMode="Left"
-				SelectionChanged="SettingsPane_SelectionChanged">
+				SelectionChanged="MainSettingsNavigationView_SelectionChanged">
 
 				<NavigationView.MenuItems>
 					<NavigationViewItem
 						AccessKey="A"
-						AutomationProperties.AutomationId="SettingsItemAppearance"
+						AutomationProperties.AutomationId="MainSettingsNavigationViewItemAppearance"
 						Content="{helpers:ResourceString Name=Appearance}"
 						IsSelected="True"
 						Tag="0">
@@ -79,7 +77,7 @@
 					</NavigationViewItem>
 					<NavigationViewItem
 						AccessKey="P"
-						AutomationProperties.AutomationId="SettingsItemPreferences"
+						AutomationProperties.AutomationId="MainSettingsNavigationViewItemPreferences"
 						Content="{helpers:ResourceString Name=SettingsNavPreferences/Content}"
 						Tag="1">
 						<NavigationViewItem.Icon>
@@ -88,7 +86,7 @@
 					</NavigationViewItem>
 					<NavigationViewItem
 						AccessKey="F"
-						AutomationProperties.AutomationId="SettingsItemFolders"
+						AutomationProperties.AutomationId="MainSettingsNavigationViewItemFolders"
 						Content="{helpers:ResourceString Name=Folders}"
 						Tag="2">
 						<NavigationViewItem.Icon>
@@ -97,7 +95,7 @@
 					</NavigationViewItem>
 					<NavigationViewItem
 						AccessKey="T"
-						AutomationProperties.AutomationId="SettingsItemTags"
+						AutomationProperties.AutomationId="MainSettingsNavigationViewItemTags"
 						Content="{helpers:ResourceString Name=FileTags}"
 						Tag="3">
 						<NavigationViewItem.Icon>
@@ -106,7 +104,7 @@
 					</NavigationViewItem>
 					<NavigationViewItem
 						AccessKey="E"
-						AutomationProperties.AutomationId="SettingsItemAdvanced"
+						AutomationProperties.AutomationId="MainSettingsNavigationViewItemAdvanced"
 						Content="{helpers:ResourceString Name=Advanced}"
 						CornerRadius="0"
 						Tag="4">
@@ -116,7 +114,7 @@
 					</NavigationViewItem>
 					<NavigationViewItem
 						AccessKey="B"
-						AutomationProperties.AutomationId="SettingsItemAbout"
+						AutomationProperties.AutomationId="MainSettingsNavigationViewItemAbout"
 						Content="{helpers:ResourceString Name=About}"
 						Tag="5">
 						<NavigationViewItem.Icon>
@@ -125,12 +123,8 @@
 					</NavigationViewItem>
 				</NavigationView.MenuItems>
 
-				<ScrollViewer
-					x:Name="SettingsScrollViewer"
-					VerticalAlignment="Stretch"
-					VerticalScrollBarVisibility="Visible"
-					VerticalScrollMode="Enabled">
-					<Frame x:Name="SettingsContentFrame" Padding="12" />
+				<ScrollViewer x:Name="SettingsContentScrollViewer">
+					<Frame x:Name="SettingsContentFrame" />
 				</ScrollViewer>
 			</NavigationView>
 		</Grid>
