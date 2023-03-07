@@ -54,5 +54,6 @@
 
 		// Navigation
 		NewTab,
+		DuplicateTab,
 	}
 }

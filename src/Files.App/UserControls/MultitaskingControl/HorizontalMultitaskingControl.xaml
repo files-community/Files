@@ -24,9 +24,9 @@
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.NewTab.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.NewTab.Label}" />
 						<MenuFlyoutItem
-							Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
-							KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab/KeyboardAcceleratorTextOverride}"
-							Text="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab/Text}" />
+							Command="{x:Bind Commands.DuplicateTab}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.DuplicateTab.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.DuplicateTab.Label}" />
 						<MenuFlyoutItem
 							x:Name="MenuItemMoveTabToNewWindow"
 							Click="MoveTabToNewWindow"

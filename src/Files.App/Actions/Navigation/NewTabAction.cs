@@ -8,7 +8,7 @@ namespace Files.App.Actions
 {
 	internal class NewTabAction : IAction
 	{
-		public string Label { get; } = "HorizontalMultitaskingControlNewTab/Text".GetLocalizedResource();
+		public string Label { get; } = "NewTab".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(VirtualKey.T, VirtualKeyModifiers.Control);
 

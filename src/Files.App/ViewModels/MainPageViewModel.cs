@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
@@ -406,14 +407,16 @@ namespace Files.App.ViewModels
 			AddNewTabAsync();
 		}
 
-		public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
+		public static async Task DuplicateTabAsync()
 		{
-			var tabItem = (TabItem)((FrameworkElement)sender).DataContext;
-			var index = AppInstances.IndexOf(tabItem);
+			var tabItem = AppInstances.FirstOrDefault(instance => instance.Control.TabItemContent.IsCurrentInstance);
+			if (tabItem is null)
+				return;
 
-			if (AppInstances[index].TabItemArguments is not null)
+			var index = AppInstances.IndexOf(tabItem);
+			if (tabItem.TabItemArguments is not null)
 			{
-				var tabArgs = AppInstances[index].TabItemArguments;
+				var tabArgs = tabItem.TabItemArguments;
 				await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg, index + 1);
 			}
 			else

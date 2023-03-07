@@ -50,5 +50,6 @@ namespace Files.App.Commands
 		IRichCommand CompressIntoZip { get; }
 
 		IRichCommand NewTab { get; }
+		IRichCommand DuplicateTab { get; }
 	}
 }

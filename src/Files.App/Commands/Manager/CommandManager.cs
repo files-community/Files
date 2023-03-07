@@ -62,6 +62,7 @@ namespace Files.App.Commands
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
+		public IRichCommand DuplicateTab => commands[CommandCodes.DuplicateTab];
 
 		public CommandManager()
 		{
@@ -112,6 +113,7 @@ namespace Files.App.Commands
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
+			[CommandCodes.DuplicateTab] = new DuplicateTabAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
