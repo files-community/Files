@@ -8,13 +8,15 @@
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:settingsviewmodels="using:Files.App.ViewModels.Settings"
+	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
+
 	<Page.Resources>
 		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 	</Page.Resources>
+
 	<Page.DataContext>
-		<settingsviewmodels:AdvancedViewModel x:Name="ViewModel" />
+		<vm:AdvancedViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
 	<Grid>
@@ -23,9 +25,8 @@
 			VerticalAlignment="Stretch"
 			Spacing="4">
 			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
+				<EntranceThemeTransition FromVerticalOffset="50" />
+				<RepositionThemeTransition IsStaggeringEnabled="False" />
 			</StackPanel.ChildrenTransitions>
 
 			<!--  Manage Settings  -->

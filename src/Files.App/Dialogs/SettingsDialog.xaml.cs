@@ -12,7 +12,7 @@ namespace Files.App.Dialogs
 	{
 		public SettingsDialogViewModel ViewModel { get; set; }
 
-		private static FrameworkElement RootAppElement
+		private FrameworkElement RootAppElement
 			=> (FrameworkElement)App.Window.Content;
 
 		public SettingsDialog()

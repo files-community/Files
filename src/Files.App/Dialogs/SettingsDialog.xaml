@@ -13,6 +13,10 @@
 
 	<ContentDialog.Resources>
 		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewItemButtonStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
 			<x:Double x:Key="ContentDialogMaxWidth">1100</x:Double>
 			<Thickness x:Key="ContentDialogPadding">0</Thickness>
 		</ResourceDictionary>
@@ -28,6 +32,7 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
+			<!--  Titlebar  -->
 			<Grid Padding="8,0">
 				<TextBlock
 					Padding="8,0,0,0"
@@ -52,6 +57,7 @@
 				</Button>
 			</Grid>
 
+			<!--  Settings Navigation View  -->
 			<NavigationView
 				x:Name="MainSettingsNavigationView"
 				Grid.Row="1"
@@ -64,6 +70,7 @@
 				PaneDisplayMode="Left"
 				SelectionChanged="MainSettingsNavigationView_SelectionChanged">
 
+				<!--  Menu Items  -->
 				<NavigationView.MenuItems>
 					<NavigationViewItem
 						AccessKey="A"
@@ -123,9 +130,11 @@
 					</NavigationViewItem>
 				</NavigationView.MenuItems>
 
+				<!--  Content Frame  -->
 				<ScrollViewer x:Name="SettingsContentScrollViewer">
 					<Frame x:Name="SettingsContentFrame" />
 				</ScrollViewer>
+
 			</NavigationView>
 		</Grid>
 	</Border>
