@@ -54,7 +54,7 @@ namespace Files.App.ViewModels.Settings
 			OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
 		}
 
-		public async void About_Loading()
+		public async void ThirdPartyLicenses_Tapped()
 		{
 			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
 			ThirdPartyNotices = await FileIO.ReadTextAsync(file);
