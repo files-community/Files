@@ -258,7 +258,7 @@ namespace Files.App.UserControls.Settings
 		/// <summary>
 		/// Gets or sets the description.
 		/// </summary>
-		public new object Description
+		public object Description
 		{
 			get => (object)GetValue(DescriptionProperty);
 			set => SetValue(DescriptionProperty, value);

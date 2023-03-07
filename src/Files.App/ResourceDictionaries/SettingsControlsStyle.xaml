@@ -87,9 +87,9 @@
 		</Style.Setters>
 	</Style>
 
-	<Style BasedOn="{StaticResource DefaultSettingsCardStyle}" TargetType="labs:SettingsCard" />
+	<Style BasedOn="{StaticResource DefaultSettingsCardStyle}" TargetType="settingsuc:SettingsCard" />
 
-	<Style x:Key="DefaultSettingsCardStyle" TargetType="labs:SettingsCard">
+	<Style x:Key="DefaultSettingsCardStyle" TargetType="settingsuc:SettingsCard">
 		<Style.Setters>
 			<Setter Property="Background" Value="{ThemeResource SettingsCardBackground}" />
 			<Setter Property="Foreground" Value="{ThemeResource SettingsCardForeground}" />
@@ -111,7 +111,7 @@
 			<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
 			<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
 			<Setter Property="FocusVisualMargin" Value="-3" />
-			<Setter Property="labs:StyleExtensions.Resources">
+			<Setter Property="settingsuc:StyleExtensions.Resources">
 				<Setter.Value>
 					<ResourceDictionary>
 						<!--  Making sure ToggleSwitches are right-aligned by default  -->
