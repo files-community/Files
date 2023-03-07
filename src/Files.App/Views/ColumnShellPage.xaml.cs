@@ -199,11 +199,6 @@ namespace Files.App.Views
 						UIFilesystemHelpers.CutItem(this);
 					break;
 
-				case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
-					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-						SlimContentPage.ItemManipulationModel.SelectAllItems();
-					break;
-
 				case (true, false, false, true, VirtualKey.D): // ctrl + d, delete item
 				case (false, false, false, true, VirtualKey.Delete): // delete, delete item
 					if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
