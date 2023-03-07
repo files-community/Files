@@ -1,5 +1,4 @@
-﻿using ABI.Windows.ApplicationModel.Activation;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Extensions;
