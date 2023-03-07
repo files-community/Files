@@ -47,7 +47,6 @@
 				NotEmptyValue="Visible" />
 
 			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
-			<converters1:GridLengthToDouble x:Key="GridLengthToDouble" />
 			<converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 			<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
