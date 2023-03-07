@@ -1,0 +1,24 @@
+name: Bump up Files version
+run-name: Bump up Files version to ${{ inputs.files_new_version }} by @${{ github.actor }}
+on:
+    workflow_dispatch:
+        inputs:
+            files_new_version:
+                required: true
+
+jobs:
+    resources:
+        name: Update resources
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Fetch resources
+              run: |
+                  sed -i "s/<Identity Name=\"\(.*\)\" Publisher=\"\(.*\)\" Version=\"\(.*\)\" \/>/<Identity Name=\"\1\" Publisher=\"\2\" Version=\"${{ inputs.files_new_version }}\" \/>/g" "src/Files.App (Package)/Package.appxmanifest"
+            - name: Commit changes
+              uses: EndBug/add-and-commit@v9
+              with:
+                  author_name: onein528
+                  author_email: onein528@outlook.com
+                  message: 'Update Package.appxmanifest'
+                  github_token: ${{ secrets.ACCESS_TOKEN }}
