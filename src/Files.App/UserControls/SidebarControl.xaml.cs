@@ -196,13 +196,6 @@ namespace Files.App.UserControls
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ReorderSidebarItemsDialogText".GetLocalizedResource(),
-					Glyph = "\uE8D8",
-					Command = ReorderItemsCommand,
-					ShowItem = isFavoriteItem || item.Section is SectionType.Favorites
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
 					Text = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
 					Glyph = "\uE710",
 					Command = CreateLibraryCommand,
@@ -264,6 +257,13 @@ namespace Files.App.UserControls
 					},
 					Command = UnpinItemCommand,
 					ShowItem = options.ShowUnpinItem || isDriveItemPinned
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ReorderSidebarItemsDialogText".GetLocalizedResource(),
+					Glyph = "\uE8D8",
+					Command = ReorderItemsCommand,
+					ShowItem = isFavoriteItem || item.Section is SectionType.Favorites
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
