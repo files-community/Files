@@ -32,27 +32,40 @@ namespace Files.App.Commands
 			opacityStyle = OpacityStyle;
 		}
 
-		public object? ToIcon()
+		public object? ToIcon() => (object?)ToOpacityIcon() ?? ToFontIcon();
+
+		public FontIcon? ToFontIcon()
 		{
 			if (IsNone)
 				return null;
 
-			if (!string.IsNullOrEmpty(OpacityStyle))
-			{
-				return new OpacityIcon
-				{
-					Style = (Style)Current.Resources[OpacityStyle]
-				};
-			}
-
 			var fontIcon = new FontIcon
 			{
-				Glyph = BaseGlyph,
+				Glyph = BaseGlyph
 			};
+
 			if (!string.IsNullOrEmpty(FontFamily))
 				fontIcon.FontFamily = (FontFamily)Current.Resources[FontFamily];
 
 			return fontIcon;
+		}
+
+		public OpacityIcon? ToOpacityIcon()
+		{
+			if (string.IsNullOrEmpty(OpacityStyle))
+				return null;
+
+			return new()
+			{
+				Style = (Style)Current.Resources[OpacityStyle]
+			};
+		}
+
+		public Style? ToOpacityStyle()
+		{
+			if (string.IsNullOrEmpty(OpacityStyle))
+				return null;
+			return (Style)Current.Resources[OpacityStyle];
 		}
 	}
 }
