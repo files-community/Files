@@ -61,6 +61,7 @@ namespace Files.App.Commands
 		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
+		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 
 		public CommandManager()
 		{
@@ -109,7 +110,8 @@ namespace Files.App.Commands
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
 			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
-			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction()
+			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
+			[CommandCodes.NewTab] = new NewTabAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

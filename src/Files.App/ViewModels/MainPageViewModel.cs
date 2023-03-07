@@ -53,7 +53,6 @@ namespace Files.App.ViewModels
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
-		public IAsyncRelayCommand AddNewInstanceAcceleratorCommand { get; private set; }
 		public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
 		public ICommand OpenSettingsCommand { get; private set; }
 
@@ -63,7 +62,6 @@ namespace Files.App.ViewModels
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
 			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
 			CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
-			AddNewInstanceAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
 			ReopenClosedTabAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ReopenClosedTabAccelerator);
 			OpenSettingsCommand = new RelayCommand(OpenSettings);
 		}
@@ -152,12 +150,6 @@ namespace Files.App.ViewModels
 
 			var tabItem = AppInstances[index];
 			MultitaskingControl?.CloseTab(tabItem);
-			e!.Handled = true;
-		}
-
-		private async Task AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			await AddNewTabAsync();
 			e!.Handled = true;
 		}
 
@@ -412,11 +404,6 @@ namespace Files.App.ViewModels
 		public void AddNewTab()
 		{
 			AddNewTabAsync();
-		}
-
-		public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
-		{
-			await AddNewTabAsync();
 		}
 
 		public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
