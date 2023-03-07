@@ -2604,4 +2604,7 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>Multiselect</value>
   </data>
+  <data name="OpenAllItems" xml:space="preserve">
+    <value>Open all items</value>
+  </data>
 </root>

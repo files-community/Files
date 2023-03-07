@@ -1,16 +1,15 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using ABI.Windows.ApplicationModel.Activation;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
-using Files.App.Views;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -22,8 +21,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
-using Windows.System;
-using Windows.UI.Core;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -62,6 +59,8 @@ namespace Files.App.UserControls.Widgets
 
 		private ICommand OpenInNewPaneCommand;
 
+		private ICommand OpenAllItems;
+
 		public FileTagsWidget()
 		{
 			InitializeComponent();
@@ -76,6 +75,7 @@ namespace Files.App.UserControls.Widgets
 			PinToFavoritesCommand = new RelayCommand<WidgetCardItem>(PinToFavorites);
 			UnpinFromFavoritesCommand = new RelayCommand<WidgetCardItem>(UnpinFromFavorites);
 			OpenPropertiesCommand = new RelayCommand<WidgetCardItem>(OpenProperties);
+			OpenAllItems = new RelayCommand<IEnumerable<FileTagsItemViewModel>>(OpenAllTaggedItems);
 		}
 
 		private void OpenProperties(WidgetCardItem? item)
@@ -110,16 +110,48 @@ namespace Files.App.UserControls.Widgets
 				await itemViewModel.ClickCommand.ExecuteAsync(null);
 		}
 
-		private async void Item_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private void TagTitle_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			App.Logger.Warn("rightTapped");
-			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
-			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			if (sender is not StackPanel tagsItemsStackPanel || tagsItemsStackPanel.DataContext is not FileTagsItemViewModel item)
+			if (sender is not Grid grid || grid.Parent is not Grid parent)
 				return;
 
-			App.Logger.Warn("Item path: " + item.Path + " widgetcarditem.path = " + (item as WidgetCardItem)?.Path);
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
+			LoadContextMenuItem(parent, e, true);
+		}
+
+		private void Item_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			if (sender is not Grid tagsItemsGrid)
+				return;
+
+			LoadContextMenuItem(tagsItemsGrid, e);
+		}
+
+		private async void LoadContextMenuItem(Grid contextGrid, RightTappedRoutedEventArgs e, bool isWidgetMenu = false)
+		{
+			List<ContextMenuFlyoutItemViewModel> menuItems;
+			FileTagsItemViewModel? selectedItem = null;
+
+			if (isWidgetMenu)
+			{
+				if (contextGrid.Children[1] is not AdaptiveGridView gridView)
+					return;
+
+				var items = gridView.Items.Select(item => (FileTagsItemViewModel)item);
+				menuItems = GetWidgetMenuItems(items);
+			}
+			else
+			{
+				if (contextGrid.DataContext is not FileTagsItemViewModel item)
+					return;
+
+				selectedItem = item;
+				menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
+			}
+
+
+			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
 			if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
@@ -128,9 +160,11 @@ namespace Files.App.UserControls.Widgets
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			ItemContextMenuFlyout = itemContextMenuFlyout;
-			itemContextMenuFlyout.ShowAt(tagsItemsStackPanel, new FlyoutShowOptions { Position = e.GetPosition(tagsItemsStackPanel) });
+			itemContextMenuFlyout.ShowAt(contextGrid, new FlyoutShowOptions { Position = e.GetPosition(contextGrid) });
 
-			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
+			if (selectedItem is not null)
+				await ShellContextmenuHelper.LoadShellMenuItems(selectedItem.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
+			
 			e.Handled = true;
 		}
 
@@ -240,6 +274,23 @@ namespace Files.App.UserControls.Widgets
 			}.Where(x => x.ShowItem).ToList();
 		}
 
+		public List<ContextMenuFlyoutItemViewModel> GetWidgetMenuItems(IEnumerable<FileTagsItemViewModel> items)
+		{
+			return new List<ContextMenuFlyoutItemViewModel>()
+			{
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenAllItems".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenFile"
+					},
+					Command = OpenAllItems,
+					CommandParameter = items
+				}
+			};
+		}
+
 		public void OpenFileLocation(WidgetCardItem? item)
 		{
 			FileTagsOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
@@ -247,6 +298,15 @@ namespace Files.App.UserControls.Widgets
 				ItemPath = Directory.GetParent(item?.Path ?? string.Empty)?.FullName ?? string.Empty,
 				ItemName = Path.GetFileName(item?.Path ?? string.Empty),
 			});
+		}
+
+		private async void OpenAllTaggedItems(IEnumerable<FileTagsItemViewModel> items)
+		{
+			var files = items.Where(taggedItem => !taggedItem.IsFolder);
+			var folders = items.Where(taggedItem => taggedItem.IsFolder);
+
+			await Task.WhenAll(files.Select(file => file.ClickCommand.ExecuteAsync(null)));
+			folders.ForEach(folder => OpenInNewTab(folder));
 		}
 
 		public Task RefreshWidget()

@@ -52,22 +52,29 @@
 					</Grid.RowDefinitions>
 
 					<!--  Title  -->
-					<StackPanel
+					<Grid
 						Grid.Row="0"
 						Padding="12,8"
 						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 						BorderThickness="0,0,0,1"
-						Orientation="Horizontal"
-						Spacing="8">
+						ColumnSpacing="8"
+						RightTapped="TagTitle_RightTapped">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+
 						<Ellipse
 							Width="12"
 							Height="12"
 							Fill="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
 						<TextBlock
+							Grid.Column="1"
 							Margin="0,-2,0,0"
+							HorizontalAlignment="Stretch"
 							FontWeight="SemiBold"
 							Text="{x:Bind Name, Mode=OneWay}" />
-					</StackPanel>
+					</Grid>
 
 					<!--  Contents  -->
 					<controls:AdaptiveGridView
@@ -89,11 +96,15 @@
 
 						<controls:AdaptiveGridView.ItemTemplate>
 							<DataTemplate x:DataType="vm:FileTagsItemViewModel">
-								<StackPanel
+								<Grid
+									ColumnSpacing="8"
 									DataContext="{x:Bind}"
-									Orientation="Horizontal"
-									RightTapped="Item_RightTapped"
-									Spacing="8">
+									RightTapped="Item_RightTapped">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition />
+									</Grid.ColumnDefinitions>
+
 									<!--  Icon  -->
 									<Image
 										Width="20"
@@ -103,10 +114,11 @@
 
 									<!--  Name  -->
 									<TextBlock
+										Grid.Column="1"
 										VerticalAlignment="Center"
 										Text="{x:Bind Name, Mode=OneWay}"
 										TextTrimming="CharacterEllipsis" />
-								</StackPanel>
+								</Grid>
 							</DataTemplate>
 						</controls:AdaptiveGridView.ItemTemplate>
 					</controls:AdaptiveGridView>
