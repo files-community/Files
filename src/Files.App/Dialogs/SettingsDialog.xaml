@@ -51,7 +51,6 @@
 					Background="Transparent"
 					BorderBrush="Transparent"
 					Click="CloseSettingsDialogButton_Click"
-					CornerRadius="{StaticResource OverlayCornerRadius}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
 					<FontIcon FontSize="12" Glyph="&#xE8BB;" />
 				</Button>
@@ -113,7 +112,6 @@
 						AccessKey="E"
 						AutomationProperties.AutomationId="SettingsItemAdvanced"
 						Content="{helpers:ResourceString Name=Advanced}"
-						CornerRadius="0"
 						Tag="4">
 						<NavigationViewItem.Icon>
 							<FontIcon Glyph="&#xF1AD;" />
