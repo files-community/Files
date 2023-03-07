@@ -10,7 +10,7 @@
 	mc:Ignorable="d">
 
 	<Page.DataContext>
-		<vm:AdvancedViewModel x:Name="ViewModel" />
+		<vm:AboutViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
 	<Grid>
