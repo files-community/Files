@@ -17,7 +17,7 @@
 		<vm:FoldersViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
-	<Grid>
+	<Grid Padding="16">
 		<StackPanel
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"

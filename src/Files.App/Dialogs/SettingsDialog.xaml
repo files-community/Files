@@ -74,7 +74,7 @@
 				<NavigationView.MenuItems>
 					<NavigationViewItem
 						AccessKey="A"
-						AutomationProperties.AutomationId="MainSettingsNavigationViewItemAppearance"
+						AutomationProperties.AutomationId="SettingsItemAppearance"
 						Content="{helpers:ResourceString Name=Appearance}"
 						IsSelected="True"
 						Tag="0">
@@ -84,7 +84,7 @@
 					</NavigationViewItem>
 					<NavigationViewItem
 						AccessKey="P"
-						AutomationProperties.AutomationId="MainSettingsNavigationViewItemPreferences"
+						AutomationProperties.AutomationId="SettingsItemPreferences"
 						Content="{helpers:ResourceString Name=SettingsNavPreferences/Content}"
 						Tag="1">
 						<NavigationViewItem.Icon>
@@ -93,7 +93,7 @@
 					</NavigationViewItem>
 					<NavigationViewItem
 						AccessKey="F"
-						AutomationProperties.AutomationId="MainSettingsNavigationViewItemFolders"
+						AutomationProperties.AutomationId="SettingsItemFolders"
 						Content="{helpers:ResourceString Name=Folders}"
 						Tag="2">
 						<NavigationViewItem.Icon>
@@ -102,7 +102,7 @@
 					</NavigationViewItem>
 					<NavigationViewItem
 						AccessKey="T"
-						AutomationProperties.AutomationId="MainSettingsNavigationViewItemTags"
+						AutomationProperties.AutomationId="SettingsItemTags"
 						Content="{helpers:ResourceString Name=FileTags}"
 						Tag="3">
 						<NavigationViewItem.Icon>
@@ -111,7 +111,7 @@
 					</NavigationViewItem>
 					<NavigationViewItem
 						AccessKey="E"
-						AutomationProperties.AutomationId="MainSettingsNavigationViewItemAdvanced"
+						AutomationProperties.AutomationId="SettingsItemAdvanced"
 						Content="{helpers:ResourceString Name=Advanced}"
 						CornerRadius="0"
 						Tag="4">
@@ -121,7 +121,7 @@
 					</NavigationViewItem>
 					<NavigationViewItem
 						AccessKey="B"
-						AutomationProperties.AutomationId="MainSettingsNavigationViewItemAbout"
+						AutomationProperties.AutomationId="SettingsItemAbout"
 						Content="{helpers:ResourceString Name=About}"
 						Tag="5">
 						<NavigationViewItem.Icon>
