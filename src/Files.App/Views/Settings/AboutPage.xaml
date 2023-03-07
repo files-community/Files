@@ -147,7 +147,7 @@
 			<!--  Third Party Licenses  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ThirdPartyLicenses}"
 										HorizontalAlignment="Stretch"
-										Tapped="{x:Bind ViewModel.ThirdPartyLicenses_Tapped}">
+										Tapped="ThirdPartyLicenses_Tapped">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE15E;" />
 				</local:SettingsBlockControl.Icon>
@@ -157,7 +157,7 @@
 							Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 							Margin="10"
 							Background="Transparent"
-							LinkClicked="{x:Bind ViewModel.ThirdPartyNotices_LinkClicked}" />
+							LinkClicked="MarkdownTextBlock_LinkClicked" />
 					</ScrollViewer>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>

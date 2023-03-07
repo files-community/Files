@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
-using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
@@ -111,21 +110,10 @@ namespace Files.App.ViewModels.Settings
 			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
 		}
 
-		public async void ThirdPartyLicenses_Tapped()
+		public async void LoadThirdPartyNotices()
 		{
-			if (ThirdPartyNotices is null)
-			{
-				StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
-				ThirdPartyNotices = await FileIO.ReadTextAsync(file);
-			}
-		}
-
-		public async void ThirdPartyNotices_LinkClicked(object sender, LinkClickedEventArgs e)
-		{
-			if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
-			{
-				await Launcher.LaunchUriAsync(link);
-			}
+			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
+			ThirdPartyNotices = await FileIO.ReadTextAsync(file);
 		}
 
 		public string Version
