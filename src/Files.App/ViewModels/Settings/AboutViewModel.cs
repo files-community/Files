@@ -54,15 +54,6 @@ namespace Files.App.ViewModels.Settings
 			OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
 		}
 
-		public async void ThirdPartyLicenses_Tapped()
-		{
-			if (ThirdPartyNotices is null)
-			{
-				StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
-				ThirdPartyNotices = await FileIO.ReadTextAsync(file);
-			}
-		}
-
 		private async Task OpenLogLocation()
 		{
 			await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
@@ -118,6 +109,15 @@ namespace Files.App.ViewModels.Settings
 		public async void SupportUs()
 		{
 			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
+		}
+
+		public async void ThirdPartyLicenses_Tapped()
+		{
+			if (ThirdPartyNotices is null)
+			{
+				StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
+				ThirdPartyNotices = await FileIO.ReadTextAsync(file);
+			}
 		}
 
 		public async void ThirdPartyNotices_LinkClicked(object sender, LinkClickedEventArgs e)
