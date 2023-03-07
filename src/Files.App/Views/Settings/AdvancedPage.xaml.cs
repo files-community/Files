@@ -5,6 +5,8 @@ namespace Files.App.Views.Settings
 	public sealed partial class AdvancedPage : Page
 	{
 		public AdvancedPage()
-			=> InitializeComponent();
+		{
+			InitializeComponent();
+		}
 	}
 }

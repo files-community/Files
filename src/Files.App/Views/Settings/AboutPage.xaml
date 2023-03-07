@@ -13,16 +13,16 @@
 		<vm:AboutViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
-	<Grid Padding="16">
+	<Grid>
 		<StackPanel
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Spacing="4">
 			<StackPanel.ChildrenTransitions>
-				<EntranceThemeTransition FromVerticalOffset="50" />
-				<RepositionThemeTransition IsStaggeringEnabled="False" />
+				<TransitionCollection>
+					<EntranceThemeTransition />
+				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
-
 			<!--  Version  -->
 			<TextBlock
 				Padding="0,0,0,4"

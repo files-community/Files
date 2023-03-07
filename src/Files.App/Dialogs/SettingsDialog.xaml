@@ -33,7 +33,7 @@
 			</Grid.RowDefinitions>
 
 			<!--  Titlebar  -->
-			<Grid Padding="8,0">
+			<Grid Grid.Row="0" Padding="8,0">
 				<TextBlock
 					Padding="8,0,0,0"
 					HorizontalAlignment="Left"
@@ -130,7 +130,7 @@
 
 				<!--  Content Frame  -->
 				<ScrollViewer x:Name="SettingsContentScrollViewer">
-					<Frame x:Name="SettingsContentFrame" />
+					<Frame x:Name="SettingsContentFrame" Padding="12" />
 				</ScrollViewer>
 
 			</NavigationView>
