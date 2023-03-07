@@ -5,6 +5,7 @@ using Files.App.Actions.Content.Archives;
 using Files.App.Actions.Content.Background;
 using Files.App.Actions.Favorites;
 using Files.App.UserControls;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
@@ -127,7 +128,7 @@ namespace Files.App.Commands
 			public RichGlyph Glyph => RichGlyph.None;
 			public object? Icon => null;
 			public FontIcon? FontIcon => null;
-			public OpacityIcon? OpacityIcon => null;
+			public Style? OpacityStyle => null;
 
 			public string? HotKeyText => null;
 			public HotKey DefaultHotKey => HotKey.None;
@@ -165,11 +166,9 @@ namespace Files.App.Commands
 			public string AutomationName => Label;
 
 			public RichGlyph Glyph => action.Glyph;
-			public FontIcon? FontIcon => Icon as FontIcon;
-			public OpacityIcon? OpacityIcon => Icon as OpacityIcon;
-
-			private readonly Lazy<object?> icon;
-			public object? Icon => icon.Value;
+			public object? Icon { get; }
+			public FontIcon? FontIcon { get; }
+			public Style? OpacityStyle { get; }
 
 			public string? HotKeyText => !customHotKey.IsNone ? CustomHotKey.ToString() : null;
 			public HotKey DefaultHotKey => action.HotKey;
@@ -224,7 +223,9 @@ namespace Files.App.Commands
 				this.manager = manager;
 				Code = code;
 				this.action = action;
-				icon = new(action.Glyph.ToIcon);
+				Icon = action.Glyph.ToIcon();
+				FontIcon = action.Glyph.ToFontIcon();
+				OpacityStyle = action.Glyph.ToOpacityStyle();
 				customHotKey = action.HotKey;
 				command = new AsyncRelayCommand(ExecuteAsync, () => action.IsExecutable);
 
