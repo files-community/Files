@@ -56,8 +56,11 @@ namespace Files.App.ViewModels.Settings
 
 		public async void ThirdPartyLicenses_Tapped()
 		{
-			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
-			ThirdPartyNotices = await FileIO.ReadTextAsync(file);
+			if (ThirdPartyNotices is null)
+			{
+				StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
+				ThirdPartyNotices = await FileIO.ReadTextAsync(file);
+			}
 		}
 
 		private async Task OpenLogLocation()
