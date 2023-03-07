@@ -1132,7 +1132,7 @@
     <value>Haluttu nimi</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Toggle the preview pane</value>
+    <value>Vaihda esikatseluruutua</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Esikatselua ei ole saatavilla</value>
