@@ -129,6 +129,19 @@ namespace Files.App.Dialogs
 			(sender as TextBox)?.Focus(FocusState.Programmatic);
 		}
 
+		private void ConflictOptions_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (sender is ComboBox comboBox)
+				comboBox.SelectedIndex = ViewModel.LoadConflictResolveOption() switch
+				{
+					FileNameConflictResolveOptionType.None => -1,
+					FileNameConflictResolveOptionType.GenerateNewName => 0,
+					FileNameConflictResolveOptionType.ReplaceExisting => 1,
+					FileNameConflictResolveOptionType.Skip => 2,
+					_ => -1
+				};
+		}
+
 		private void FilesystemOperationDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
 		{
 			if (ViewModel.FileSystemDialogMode.IsInDeleteMode)
@@ -136,7 +149,6 @@ namespace Files.App.Dialogs
 				DescriptionText.Foreground = App.Current.Resources["TextControlForeground"] as SolidColorBrush;
 			}
 
-			ViewModel.LoadConflictResolveOption();
 			UpdateDialogLayout();
 		}
 	}

@@ -154,13 +154,13 @@
     <value>略過</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>全選</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>反向選取</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>取消選取</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>修改日期：</value>
@@ -259,7 +259,7 @@
     <value>開啟</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>在新索引標籤中開啟</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>Open in new window</value>

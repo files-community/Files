@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Actions;
+using Files.App.Actions.Content.Archives;
+using Files.App.Actions.Content.Background;
 using Files.App.Actions.Favorites;
 using Files.App.UserControls;
 using Microsoft.UI.Xaml.Controls;
@@ -32,6 +34,7 @@ namespace Files.App.Commands
 		public IRichCommand ToggleFullScreen => commands[CommandCodes.ToggleFullScreen];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
+		public IRichCommand TogglePreviewPane => commands[CommandCodes.TogglePreviewPane];
 		public IRichCommand MultiSelect => commands[CommandCodes.MultiSelect];
 		public IRichCommand SelectAll => commands[CommandCodes.SelectAll];
 		public IRichCommand InvertSelection => commands[CommandCodes.InvertSelection];
@@ -46,9 +49,17 @@ namespace Files.App.Commands
 		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
 		public IRichCommand PinItemToFavorites => commands[CommandCodes.PinItemToFavorites];
 		public IRichCommand UnpinItemFromFavorites => commands[CommandCodes.UnpinItemFromFavorites];
+		public IRichCommand SetAsWallpaperBackground => commands[CommandCodes.SetAsWallpaperBackground];
+		public IRichCommand SetAsSlideshowBackground => commands[CommandCodes.SetAsSlideshowBackground];
+		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
 		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
 		public IRichCommand CutItem => commands[CommandCodes.CutItem];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
+		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
+		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
+		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
+		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
+		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
 
 		public CommandManager()
 		{
@@ -72,6 +83,7 @@ namespace Files.App.Commands
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
+			[CommandCodes.TogglePreviewPane] = new TogglePreviewPaneAction(),
 			[CommandCodes.MultiSelect] = new MultiSelectAction(),
 			[CommandCodes.SelectAll] = new SelectAllAction(),
 			[CommandCodes.InvertSelection] = new InvertSelectionAction(),
@@ -86,9 +98,17 @@ namespace Files.App.Commands
 			[CommandCodes.UnpinFromStart] = new UnpinFromStartAction(),
 			[CommandCodes.PinItemToFavorites] = new PinItemAction(),
 			[CommandCodes.UnpinItemFromFavorites] = new UnpinItemAction(),
+			[CommandCodes.SetAsWallpaperBackground] = new SetAsWallpaperBackgroundAction(),
+			[CommandCodes.SetAsSlideshowBackground] = new SetAsSlideshowBackgroundAction(),
+			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
 			[CommandCodes.CopyItem] = new CopyItemAction(),
 			[CommandCodes.CutItem] = new CutItemAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
+			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
+			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
+			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
+			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
+			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction()
 		};
 
 		[DebuggerDisplay("Command None")]

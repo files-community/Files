@@ -154,13 +154,13 @@
     <value>Skip</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Виділити усе</value>
+    <value>Select All</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Інвертувати виділення</value>
+    <value>Invert Selection</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Очистити виділення</value>
+    <value>Clear Selection</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modified:</value>
@@ -2605,6 +2605,6 @@
     <value>Save</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Виділення кількох</value>
+    <value>Multiselect</value>
   </data>
 </root>

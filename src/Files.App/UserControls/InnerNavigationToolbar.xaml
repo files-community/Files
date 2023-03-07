@@ -107,26 +107,22 @@
 					AccessKey="X"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCutButton"
 					Command="{x:Bind Commands.CutItem, Mode=OneWay}"
+					Content="{x:Bind Commands.CutItem.Icon}"
 					IsEnabled="{x:Bind Commands.CutItem.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.CutItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.CutItem.Label}">
-
-					<local:OpacityIcon Style="{StaticResource ColorIconCut}" />
-				</AppBarButton>
+					ToolTipService.ToolTip="{x:Bind Commands.CutItem.Label}" />
 				<AppBarButton
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="C"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
 					Command="{x:Bind Commands.CopyItem, Mode=OneWay}"
+					Content="{x:Bind Commands.CopyItem.Icon}"
 					IsEnabled="{x:Bind Commands.CopyItem.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.CopyItem}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.CopyItem}">
-
-					<local:OpacityIcon Style="{StaticResource ColorIconCopy}" />
-				</AppBarButton>
+					ToolTipService.ToolTip="{x:Bind Commands.CopyItem}" />
 				<AppBarButton
 					x:Name="PasteButton"
 					Width="Auto"
@@ -179,14 +175,12 @@
 					Width="Auto"
 					MinWidth="40"
 					AutomationProperties.AutomationId="Delete"
-					Command="{x:Bind Commands.DeleteItem, Mode=OneWay}"
-					IsEnabled="{x:Bind Commands.DeleteItem.IsExecutable}"
+					Command="{x:Bind Commands.DeleteItem}"
+					Content="{x:Bind Commands.DeleteItem.Icon}"
+					IsEnabled="{x:Bind Commands.DeleteItem.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.DeleteItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.DeleteItem.Label}">
-
-					<local:OpacityIcon Style="{StaticResource ColorIconDelete}" />
-				</AppBarButton>
+					ToolTipService.ToolTip="{x:Bind Commands.DeleteItem.Label}" />
 				<AppBarButton
 					x:Name="PropertiesButton"
 					Width="Auto"
@@ -798,17 +792,13 @@
 				x:Name="PreviewPane"
 				Width="Auto"
 				MinWidth="40"
-				AccessKey="P"
-				AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneToggle/AutomationProperties/Name}"
-				IsChecked="{x:Bind PreviewPaneViewModel.IsEnabled, Mode=TwoWay}"
-				IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
-				Label="{helpers:ResourceString Name=PreviewPaneToggle/Label}"
+				AutomationProperties.Name="{x:Bind Commands.TogglePreviewPane.AutomationName}"
+				Content="{x:Bind Commands.TogglePreviewPane.Icon}"
+				IsChecked="{x:Bind Commands.TogglePreviewPane.IsOn, Mode=TwoWay}"
+				Label="{x:Bind Commands.TogglePreviewPane.Label}"
 				LabelPosition="Collapsed"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneToggle/ToolTipService/ToolTip}"
-				Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
-
-				<local:OpacityIcon Style="{StaticResource ColorIconRightPane}" />
-			</AppBarToggleButton>
+				ToolTipService.ToolTip="{x:Bind Commands.TogglePreviewPane.LabelWithHotKey, Mode=OneWay}"
+				Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}" />
 			<CommandBar.SecondaryCommands>
 				<AppBarButton
 					x:Name="NavToolbarNewPane"
