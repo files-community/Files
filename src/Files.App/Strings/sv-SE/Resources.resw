@@ -1065,9 +1065,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detaljvy</value>
   </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>Förhandsgranskning</value>
-  </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Rutnätsvy (Stor)</value>
   </data>
@@ -1134,8 +1131,8 @@
   <data name="DesiredName" xml:space="preserve">
     <value>Önskat namn</value>
   </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Växla förhandsgranskningsfönstret (Ctrl + P)</value>
+  <data name="TogglePreviewPane" xml:space="preserve">
+    <value>Toggle the preview pane</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ingen förhandsgranskning är tillgänglig</value>

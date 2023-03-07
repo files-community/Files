@@ -1065,9 +1065,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ayrıntılar Görünümü (Ctrl+Shift+1)</value>
   </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>Ön izleme</value>
-  </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Izgara Görünümü (Büyük) (Ctrl+Shift+5)</value>
   </data>
@@ -1134,8 +1131,8 @@
   <data name="DesiredName" xml:space="preserve">
     <value>İstenilen ad</value>
   </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Önizleme bölmesini aç/kapat (Ctrl+P)</value>
+  <data name="TogglePreviewPane" xml:space="preserve">
+    <value>Toggle the preview pane</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ön izleme yok</value>
