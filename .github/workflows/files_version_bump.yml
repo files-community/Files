@@ -18,7 +18,7 @@ jobs:
             - name: Commit changes
               uses: EndBug/add-and-commit@v9
               with:
-                  author_name: onein528
-                  author_email: onein528@outlook.com
+                  author_name: yaira2
+                  author_email: domain@example.com
                   message: 'Update Package.appxmanifest'
                   github_token: ${{ secrets.ACCESS_TOKEN }}
