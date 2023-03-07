@@ -147,7 +147,7 @@
 			<!--  Third Party Licenses  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ThirdPartyLicenses}"
 										HorizontalAlignment="Stretch"
-										Tapped="ThirdPartyLicenses_Tapped">
+										Click="ThirdPartyLicenses_Click">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE15E;" />
 				</local:SettingsBlockControl.Icon>
