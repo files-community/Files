@@ -163,7 +163,7 @@ namespace Files.App.UserControls.Widgets
 
 			if (selectedItem is not null)
 				await ShellContextmenuHelper.LoadShellMenuItems(selectedItem.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
-			
+
 			e.Handled = true;
 		}
 
@@ -280,10 +280,11 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenAllItems".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenFile"
-					},
+					Glyph = "\uE8E5",
+					//OpacityIcon = new OpacityIconModel()
+					//{
+					//	OpacityIconStyle = "ColorIconOpenWith"
+					//},
 					Command = OpenAllItems,
 					CommandParameter = items
 				}
