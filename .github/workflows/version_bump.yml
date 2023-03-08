@@ -20,14 +20,15 @@ jobs:
               with:
                 token: ${{ secrets.ACCESS_TOKEN }}
                 commit-message: 'Package: Bump Files to ${{ inputs.new_version }}'
-                committer: ${{ github.actor }} <${{ github.actor }}@outlook.com>
-                author: ${{ github.actor }} <${{ github.actor }}@outlook.com>
+                committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+                author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
                 signoff: false
-                branch: onein528/bump-up-to-${{ inputs.new_version }}
+                branch: ${{ github.actor }}/bump-up-to-${{ inputs.new_version }}
                 delete-branch: true
                 title: 'Package: Bump Files to ${{ inputs.new_version }}'
                 body: |
-                    body here
+                    *This PR was created by automation with GitHub Actions*<br>
+                    Bumps Files to 45.2.0.
                 labels: |
                     automation
                 reviewers: ${{ github.actor }}
