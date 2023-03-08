@@ -2605,9 +2605,9 @@
     <value>複数選択</value>
   </data>
   <data name="Hashes" xml:space="preserve">
-    <value>Hashes</value>
+    <value>ハッシュ値</value>
   </data>
   <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Unable to calculate hashes due to a system error</value>
+    <value>システムエラーのためハッシュ値を計算できません</value>
   </data>
 </root>
