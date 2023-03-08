@@ -38,7 +38,7 @@ namespace Files.InteractionTests.Tests
 			TestHelper.InvokeButtonById("Desktop");
 
 			// Wait for the desktop folder to load
-			Thread.Sleep(3000);
+			Thread.Sleep(2000);
 		}
 
 
@@ -50,8 +50,14 @@ namespace Files.InteractionTests.Tests
 			// Click the "New" button on the toolbar
 			TestHelper.InvokeButtonById("InnerNavigationToolbarNewButton");
 
+			// Wait for the flyout to load
+			Thread.Sleep(1000);
+
 			// Click the "Folder" item from the menu flyout
 			TestHelper.InvokeButtonById("InnerNavigationToolbarNewFolderButton");
+
+			// Wait for the content dialog to load
+			Thread.Sleep(3000);
 
 			// Check for accessibility issues in the new folder prompt
 			AxeHelper.AssertNoAccessibilityErrors();
