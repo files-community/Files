@@ -25,7 +25,7 @@
 	<Grid
 		x:Name="ContainerGrid"
 		MaxHeight="790"
-		Background="{ThemeResource App.Theme.BackgroundBrush}">
+		Background="{ThemeResource SolidBackgroundFillColorBase}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="44" />
 			<RowDefinition Height="*" />
@@ -132,7 +132,7 @@
 				<Frame
 					x:Name="SettingsContentFrame"
 					Padding="12"
-					Background="{ThemeResource LayerFillColorDefaultBrush}" />
+					Background="{ThemeResource SolidBackgroundFillColorTertiary}" />
 			</ScrollViewer>
 
 		</NavigationView>
