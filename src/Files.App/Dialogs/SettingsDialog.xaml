@@ -65,7 +65,7 @@
 				IsPaneToggleButtonVisible="False"
 				IsSettingsVisible="False"
 				IsTitleBarAutoPaddingEnabled="False"
-				OpenPaneLength="224"
+				OpenPaneLength="260"
 				PaneDisplayMode="Left"
 				SelectionChanged="MainSettingsNavigationView_SelectionChanged">
 

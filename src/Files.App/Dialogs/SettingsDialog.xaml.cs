@@ -27,7 +27,9 @@ namespace Files.App.Dialogs
 			=> (DialogResult)await base.ShowAsync();
 
 		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
-			=> UpdateDialogLayout();
+		{
+			UpdateDialogLayout();
+		}
 
 		private void UpdateDialogLayout()
 		{
@@ -59,6 +61,8 @@ namespace Files.App.Dialogs
 		}
 
 		private void CloseSettingsDialogButton_Click(object sender, RoutedEventArgs e)
-			=> Hide();
+		{
+			Hide();
+		}
 	}
 }
