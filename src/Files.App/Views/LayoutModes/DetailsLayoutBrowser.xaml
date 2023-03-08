@@ -571,7 +571,6 @@
 
 								<CheckBox
 									x:Name="SelectionCheckbox"
-									Width="{Binding ElementName=SelectAllColumn, Mode=OneWay, Path=Width}"
 									MinWidth="0"
 									Checked="ItemSelected_Checked"
 									Unchecked="ItemSelected_Unchecked"
