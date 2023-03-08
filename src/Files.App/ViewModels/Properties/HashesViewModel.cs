@@ -4,11 +4,11 @@ using CommunityToolkit.WinUI;
 using Files.App.Filesystem;
 using Files.Backend.Models;
 using Files.Shared.Helpers;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Threading.Tasks;
-using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -17,19 +17,16 @@ namespace Files.App.ViewModels.Properties
 		public HashesViewModel(ListedItem item)
 		{
 			Item = item;
-
 			Hashes = new();
-
 			CanAccessFile = true;
-
-			LoadFileContent = new(ExecuteLoadFileContent);
-
 			CancellationTokenSource = new();
+			LoadAndCalcHashesCommand = new(ExecuteLoadAndCalcHashesCommandAsync);
 
 			//if (LoadFileContent.CanExecute(CancellationTokenSource.Token))
 			//	LoadFileContent.Execute(CancellationTokenSource.Token);
 		}
 
+		#region Fields and Properties
 		public ListedItem Item { get; }
 
 		private bool _canAccessFile;
@@ -48,9 +45,9 @@ namespace Files.App.ViewModels.Properties
 
 		public ObservableCollection<HashInfoItem> Hashes { get; set; }
 
-		private byte[] _fileData;
+		private Stream _stream;
 
-		public AsyncRelayCommand LoadFileContent { get; set; }
+		public AsyncRelayCommand LoadAndCalcHashesCommand { get; set; }
 
 		public CancellationTokenSource CancellationTokenSource { get; set; }
 
@@ -60,46 +57,18 @@ namespace Files.App.ViewModels.Properties
 			get => _isLoading;
 			set => SetProperty(ref _isLoading, value);
 		}
+		#endregion
 
-		private void GetHashes()
-		{
-			Hashes.Add(new()
-			{
-				Algorithm = "MD5",
-				HashValue = ChecksumHelpers.CreateMD5(_fileData),
-			});
-			Hashes.Add(new()
-			{
-				Algorithm = "SHA1",
-				HashValue = ChecksumHelpers.CreateSHA1(_fileData),
-			});
-			Hashes.Add(new()
-			{
-				Algorithm = "SHA256",
-				HashValue = ChecksumHelpers.CreateSHA256(_fileData),
-			});
-			Hashes.Add(new()
-			{
-				Algorithm = "SHA384",
-				HashValue = ChecksumHelpers.CreateSHA384(_fileData),
-			});
-			Hashes.Add(new()
-			{
-				Algorithm = "SHA512",
-				HashValue = ChecksumHelpers.CreateSHA512(_fileData),
-			});
-		}
-
-		public async Task ExecuteLoadFileContent(CancellationToken cancellationToken)
+		public async Task ExecuteLoadAndCalcHashesCommandAsync(CancellationToken cancellationToken)
 		{
 			try
 			{
 				IsLoading = true;
 
-				_fileData = await File.ReadAllBytesAsync(Item.ItemPath, cancellationToken);
+				_stream = File.OpenRead(Item.ItemPath);
 
 				CanAccessFile = true;
-				GetHashes();
+				await GetHashesAsync(cancellationToken);
 			}
 			catch (OperationCanceledException)
 			{
@@ -113,6 +82,35 @@ namespace Files.App.ViewModels.Properties
 			{
 				IsLoading = false;
 			}
+		}
+
+		private async Task GetHashesAsync(CancellationToken cancellationToken)
+		{
+			Hashes.Add(new()
+			{
+				Algorithm = "MD5",
+				HashValue = await ChecksumHelpers.CreateMD5(_stream, cancellationToken),
+			});
+			Hashes.Add(new()
+			{
+				Algorithm = "SHA1",
+				HashValue = await ChecksumHelpers.CreateSHA1(_stream, cancellationToken),
+			});
+			Hashes.Add(new()
+			{
+				Algorithm = "SHA256",
+				HashValue = await ChecksumHelpers.CreateSHA256(_stream, cancellationToken),
+			});
+			Hashes.Add(new()
+			{
+				Algorithm = "SHA384",
+				HashValue = await ChecksumHelpers.CreateSHA384(_stream, cancellationToken),
+			});
+			Hashes.Add(new()
+			{
+				Algorithm = "SHA512",
+				HashValue = await ChecksumHelpers.CreateSHA512(_stream, cancellationToken),
+			});
 		}
 
 		public void Dispose()

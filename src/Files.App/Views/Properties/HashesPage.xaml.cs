@@ -26,19 +26,6 @@ namespace Files.App.Views.Properties
 			base.OnNavigatedTo(e);
 		}
 
-		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-			=> Dispose();
-
-		public async override Task<bool> SaveChangesAsync()
-		{
-			return true;
-		}
-
-		public override void Dispose()
-		{
-			HashesViewModel.Dispose();
-		}
-
 		private void CopyHashButton_Click(object sender, RoutedEventArgs e)
 		{
 			var item = (Backend.Models.HashInfoItem)(((Button)sender).DataContext);
@@ -52,8 +39,21 @@ namespace Files.App.Views.Properties
 		{
 			await App.Window.DispatcherQueue.EnqueueAsync(async () =>
 			{
-				await HashesViewModel.ExecuteLoadFileContent(HashesViewModel.CancellationTokenSource.Token);
+				await HashesViewModel.ExecuteLoadAndCalcHashesCommandAsync(HashesViewModel.CancellationTokenSource.Token);
 			});
+		}
+
+		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+			=> Dispose();
+
+		public async override Task<bool> SaveChangesAsync()
+		{
+			return true;
+		}
+
+		public override void Dispose()
+		{
+			HashesViewModel.Dispose();
 		}
 	}
 }

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Files.Shared.Helpers
 {
@@ -14,37 +17,37 @@ namespace Files.Shared.Helpers
 			return BitConverter.ToString(hash).Replace("-", string.Empty);
 		}
 
-		public static string CreateMD5(byte[] fileData)
+		public async static Task<string> CreateMD5(Stream stream, CancellationToken cancellationToken)
 		{
-			var hashBytes = MD5.HashData(fileData);
+			var hashBytes = await MD5.HashDataAsync(stream, cancellationToken);
 
 			return Convert.ToHexString(hashBytes);
 		}
 
-		public static string CreateSHA1(byte[] fileData)
+		public async static Task<string> CreateSHA1(Stream stream, CancellationToken cancellationToken)
 		{
-			var hashBytes = SHA1.HashData(fileData);
+			var hashBytes = await SHA1.HashDataAsync(stream, cancellationToken);
 
 			return Convert.ToHexString(hashBytes);
 		}
 
-		public static string CreateSHA256(byte[] fileData)
+		public async static Task<string> CreateSHA256(Stream stream, CancellationToken cancellationToken)
 		{
-			var hashBytes = SHA256.HashData(fileData);
+			var hashBytes = await SHA256.HashDataAsync(stream, cancellationToken);
 
 			return Convert.ToHexString(hashBytes);
 		}
 
-		public static string CreateSHA384(byte[] fileData)
+		public async static Task<string> CreateSHA384(Stream stream, CancellationToken cancellationToken)
 		{
-			var hashBytes = SHA384.HashData(fileData);
+			var hashBytes = await SHA384.HashDataAsync(stream, cancellationToken);
 
 			return Convert.ToHexString(hashBytes);
 		}
 
-		public static string CreateSHA512(byte[] fileData)
+		public async static Task<string> CreateSHA512(Stream stream, CancellationToken cancellationToken)
 		{
-			var hashBytes = SHA512.HashData(fileData);
+			var hashBytes = await SHA512.HashDataAsync(stream, cancellationToken);
 
 			return Convert.ToHexString(hashBytes);
 		}
