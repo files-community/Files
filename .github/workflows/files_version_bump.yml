@@ -1,9 +1,9 @@
-name: Files Version Bump
-run-name: Bump up Files version to ${{ inputs.files_new_version }} by @${{ github.actor }}
+name: Files Version Bump Workflow
+run-name: Bump up Files version to ${{ inputs.new_version }} by @${{ github.actor }}
 on:
     workflow_dispatch:
         inputs:
-            files_new_version:
+            new_version:
                 required: true
 
 jobs:
@@ -12,13 +12,23 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - name: Fetch resources
+            - name: Update Package.appxmanifest
               run: |
-                  sed -i "s/<Identity Name=\"\(.*\)\" Publisher=\"\(.*\)\" Version=\"\(.*\)\" \/>/<Identity Name=\"\1\" Publisher=\"\2\" Version=\"${{ inputs.files_new_version }}\" \/>/g" "src/Files.App (Package)/Package.appxmanifest"
-            - name: Commit changes
-              uses: EndBug/add-and-commit@v9
+                  sed -i "s/<Identity Name=\"\(.*\)\" Publisher=\"\(.*\)\" Version=\"\(.*\)\" \/>/<Identity Name=\"\1\" Publisher=\"\2\" Version=\"${{ inputs.files_new_version }}\" \/>/g" "Package.appxmanifest"
+            - name: Create a new PR for changes
+              uses: peter-evans/create-pull-request@v4
               with:
-                  author_name: yaira2
-                  author_email: domain@example.com
-                  message: 'Update Package.appxmanifest'
-                  github_token: ${{ secrets.ACCESS_TOKEN }}
+                token: ${{ secrets.ACCESS_TOKEN }}
+                commit-message: 'Package: Bump Files to ${{ inputs.new_version }}'
+                committer: ${{ github.actor }} <${{ github.actor }}@outlook.com>
+                author: ${{ github.actor }} <${{ github.actor }}@outlook.com>
+                signoff: false
+                branch: onein528/bump-up-to-${{ inputs.new_version }}
+                delete-branch: true
+                title: 'Package: Bump Files to ${{ inputs.new_version }}'
+                body: |
+                    body here
+                labels: |
+                    automation
+                reviewers: ${{ github.actor }}
+                draft: false
