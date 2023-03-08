@@ -2512,7 +2512,7 @@
     <value>バンドル ウィジェットは今後のアップデートで削除されます 📎</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>タグ編集フライアウトを表示する</value>
+    <value>"ファイル タグを編集" オプションを表示する</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>"新しいタブでフォルダーを開く" オプションを表示する</value>
