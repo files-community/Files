@@ -2608,6 +2608,6 @@
     <value>Hashes</value>
   </data>
   <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Unable to calculate hashes due to a system error</value>
+    <value>Hashes können aufgrund eines Systemfehlers nicht berechnet werden</value>
   </data>
 </root>
