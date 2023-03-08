@@ -5,8 +5,8 @@
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Dark">
-			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="ControlFillColorDefaultBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="ControlFillColorDefaultBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="ControlFillColorDefaultBrush" />
@@ -66,6 +66,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="primitives:NavigationViewItemPresenter">
+
 					<Grid
 						x:Name="LayoutRoot"
 						MinHeight="{ThemeResource NavigationViewItemOnLeftMinHeight}"
@@ -78,21 +79,20 @@
 						</Grid.BackgroundTransition>
 
 						<!--  Selection indicator  -->
-						<Rectangle
-							x:Name="SelectionIndicator"
-							Width="{ThemeResource NavigationViewSelectionIndicatorWidth}"
-							Height="{ThemeResource NavigationViewSelectionIndicatorHeight}"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Center"
-							Fill="{ThemeResource NavigationViewSelectionIndicatorForeground}"
-							Opacity="0.0"
-							RadiusX="{ThemeResource NavigationViewSelectionIndicatorRadius}"
-							RadiusY="{ThemeResource NavigationViewSelectionIndicatorRadius}" />
+						<Grid HorizontalAlignment="Left" VerticalAlignment="Center">
+							<Rectangle
+								x:Name="SelectionIndicator"
+								Width="{ThemeResource NavigationViewSelectionIndicatorWidth}"
+								Height="{ThemeResource NavigationViewSelectionIndicatorHeight}"
+								Fill="{ThemeResource NavigationViewSelectionIndicatorForeground}"
+								Opacity="0.0"
+								RadiusX="{ThemeResource NavigationViewSelectionIndicatorRadius}"
+								RadiusY="{ThemeResource NavigationViewSelectionIndicatorRadius}" />
+						</Grid>
 
 						<!--  Content grid  -->
 						<ContentPresenter
 							x:Name="ContentPresenter"
-							Grid.Column="1"
 							MinHeight="{ThemeResource NavigationViewItemOnLeftMinHeight}"
 							Margin="{ThemeResource NavigationViewItemContentPresenterMargin}"
 							Padding="{TemplateBinding Padding}"
@@ -170,6 +170,155 @@
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 					</Grid>
+
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style TargetType="NavigationViewItem">
+		<Setter Property="Foreground" Value="{ThemeResource NavigationViewItemForeground}" />
+		<Setter Property="Background" Value="{ThemeResource NavigationViewItemBackground}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource NavigationViewItemBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{StaticResource NavigationViewItemBorderThickness}" />
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+		<Setter Property="FontWeight" Value="Normal" />
+		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+		<Setter Property="Margin" Value="{ThemeResource NavigationViewItemMargin}" />
+		<Setter Property="UseSystemFocusVisuals" Value="True" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="TabNavigation" Value="Once" />
+		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="NavigationViewItem">
+
+					<Grid x:Name="NVIRootGrid">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<Grid.BackgroundTransition>
+							<BrushTransition Duration="0:0:0.083" />
+						</Grid.BackgroundTransition>
+
+						<!--  Primitive NavigationViewItem Presenter  -->
+						<primitives:NavigationViewItemPresenter
+							x:Name="NavigationViewItemPresenter"
+							Margin="{TemplateBinding Margin}"
+							Padding="{TemplateBinding Padding}"
+							HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalAlignment}"
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							Content="{TemplateBinding Content}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+							ContentTransitions="{TemplateBinding ContentTransitions}"
+							Control.IsTemplateFocusTarget="True"
+							CornerRadius="{TemplateBinding CornerRadius}"
+							Foreground="{TemplateBinding Foreground}"
+							Icon="{TemplateBinding Icon}"
+							IsTabStop="false"
+							UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}" />
+
+						<!--  NavigationViewItem's MenuItems Repeater  -->
+						<ItemsRepeater
+							x:Name="NavigationViewItemMenuItemsHost"
+							Grid.Row="1"
+							Visibility="Collapsed">
+							<ItemsRepeater.Layout>
+								<StackLayout Orientation="Vertical" />
+							</ItemsRepeater.Layout>
+						</ItemsRepeater>
+
+						<!--  NavigationViewItem's Flyout  -->
+						<FlyoutBase.AttachedFlyout>
+							<Flyout x:Name="ChildrenFlyout" Placement="RightEdgeAlignedTop">
+								<Flyout.FlyoutPresenterStyle>
+									<Style TargetType="FlyoutPresenter">
+										<Setter Property="Padding" Value="{ThemeResource NavigationViewItemChildrenMenuFlyoutPadding}" />
+										<!--  Set negative top margin to make the flyout align exactly with the button  -->
+										<Setter Property="Margin" Value="0,-4,0,0" />
+										<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto" />
+										<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+										<Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
+										<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+										<Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+										<Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+										<Setter Property="Template">
+											<Setter.Value>
+												<ControlTemplate TargetType="FlyoutPresenter">
+													<ScrollViewer
+														x:Name="ScrollViewer"
+														AutomationProperties.AccessibilityView="Raw"
+														HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+														HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+														VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+														VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+														ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+														<ContentPresenter
+															x:Name="ContentPresenter"
+															Padding="{TemplateBinding Padding}"
+															HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+															VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+															Background="{TemplateBinding Background}"
+															BorderBrush="{TemplateBinding BorderBrush}"
+															BorderThickness="{TemplateBinding BorderThickness}"
+															Content="{TemplateBinding Content}"
+															ContentTemplate="{TemplateBinding ContentTemplate}"
+															ContentTransitions="{TemplateBinding ContentTransitions}"
+															CornerRadius="{TemplateBinding CornerRadius}" />
+													</ScrollViewer>
+												</ControlTemplate>
+											</Setter.Value>
+										</Setter>
+									</Style>
+								</Flyout.FlyoutPresenterStyle>
+								<Grid x:Name="FlyoutRootGrid">
+									<Grid x:Name="FlyoutContentGrid" />
+								</Grid>
+							</Flyout>
+						</FlyoutBase.AttachedFlyout>
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="ItemOnNavigationViewListPositionStates">
+								<VisualState x:Name="OnLeftNavigation">
+									<VisualState.Setters>
+										<Setter Target="NavigationViewItemPresenter.Style" Value="{StaticResource MUX_NavigationViewItemPresenterStyleWhenOnLeftPane}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="OnLeftNavigationReveal">
+									<VisualState.Setters>
+										<Setter Target="NavigationViewItemPresenter.Style" Value="{StaticResource MUX_NavigationViewItemPresenterStyleWhenOnLeftPaneWithRevealFocus}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="OnTopNavigationPrimary">
+									<VisualState.Setters>
+										<Setter Target="NavigationViewItemPresenter.Margin" Value="{ThemeResource TopNavigationViewItemMargin}" />
+										<Setter Target="NavigationViewItemPresenter.Style" Value="{StaticResource MUX_NavigationViewItemPresenterStyleWhenOnTopPane}" />
+										<Setter Target="ChildrenFlyout.Placement" Value="BottomEdgeAlignedLeft" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="OnTopNavigationPrimaryReveal">
+									<VisualState.Setters>
+										<Setter Target="NavigationViewItemPresenter.Margin" Value="{ThemeResource TopNavigationViewItemMargin}" />
+										<Setter Target="NavigationViewItemPresenter.Style" Value="{StaticResource MUX_NavigationViewItemPresenterStyleWhenOnTopPaneWithRevealFocus}" />
+										<Setter Target="ChildrenFlyout.Placement" Value="BottomEdgeAlignedLeft" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="OnTopNavigationOverflow">
+									<VisualState.Setters>
+										<Setter Target="NavigationViewItemPresenter.Style" Value="{StaticResource MUX_NavigationViewItemPresenterStyleWhenOnTopPaneOverflow}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
