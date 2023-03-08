@@ -6,7 +6,10 @@ namespace Files.App.UserControls
 {
 	public sealed partial class OpacityIcon : Control
 	{
-		public OpacityIcon() => InitializeComponent();
+		public OpacityIcon()
+		{
+			InitializeComponent();
+		}
 
 		private void IsEnabledChange(DependencyObject sender, DependencyProperty dp)
 		{
