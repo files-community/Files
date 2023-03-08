@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI.Controls;
+using Files.App.Commands;
+using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -35,6 +37,10 @@ namespace Files.App.UserControls.Widgets
 
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+		private readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
+
+		private readonly ITagsContext tagsContext = Ioc.Default.GetRequiredService<ITagsContext>();
+
 		public IShellPage AppInstance;
 		public Func<string, Task>? OpenAction { get; set; }
 
@@ -58,8 +64,6 @@ namespace Files.App.UserControls.Widgets
 
 		private ICommand OpenInNewPaneCommand;
 
-		private ICommand OpenAllItems;
-
 		public FileTagsWidget()
 		{
 			InitializeComponent();
@@ -74,7 +78,6 @@ namespace Files.App.UserControls.Widgets
 			PinToFavoritesCommand = new RelayCommand<WidgetCardItem>(PinToFavorites);
 			UnpinFromFavoritesCommand = new RelayCommand<WidgetCardItem>(UnpinFromFavorites);
 			OpenPropertiesCommand = new RelayCommand<WidgetCardItem>(OpenProperties);
-			OpenAllItems = new RelayCommand<IEnumerable<FileTagsItemViewModel>>(OpenAllTaggedItems);
 		}
 
 		private void OpenProperties(WidgetCardItem? item)
@@ -136,7 +139,9 @@ namespace Files.App.UserControls.Widgets
 					return;
 
 				var items = gridView.Items.Select(item => (FileTagsItemViewModel)item);
-				menuItems = GetWidgetMenuItems(items);
+
+				tagsContext.TaggedItems = items;
+				menuItems = GetWidgetMenuItems();
 			}
 			else
 			{
@@ -273,7 +278,7 @@ namespace Files.App.UserControls.Widgets
 			}.Where(x => x.ShowItem).ToList();
 		}
 
-		public List<ContextMenuFlyoutItemViewModel> GetWidgetMenuItems(IEnumerable<FileTagsItemViewModel> items)
+		public List<ContextMenuFlyoutItemViewModel> GetWidgetMenuItems()
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -281,12 +286,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					Text = "OpenAllItems".GetLocalizedResource(),
 					Glyph = "\uE8E5",
-					//OpacityIcon = new OpacityIconModel()
-					//{
-					//	OpacityIconStyle = "ColorIconOpenWith"
-					//},
-					Command = OpenAllItems,
-					CommandParameter = items
+					Command = commands.OpenAllTaggedItems
 				}
 			};
 		}
@@ -298,15 +298,6 @@ namespace Files.App.UserControls.Widgets
 				ItemPath = Directory.GetParent(item?.Path ?? string.Empty)?.FullName ?? string.Empty,
 				ItemName = Path.GetFileName(item?.Path ?? string.Empty),
 			});
-		}
-
-		private async void OpenAllTaggedItems(IEnumerable<FileTagsItemViewModel> items)
-		{
-			var files = items.Where(taggedItem => !taggedItem.IsFolder);
-			var folders = items.Where(taggedItem => taggedItem.IsFolder);
-
-			await Task.WhenAll(files.Select(file => file.ClickCommand.ExecuteAsync(null)));
-			folders.ForEach(folder => OpenInNewTab(folder));
 		}
 
 		public Task RefreshWidget()

@@ -3,8 +3,8 @@ using CommunityToolkit.Mvvm.Input;
 using Files.App.Actions;
 using Files.App.Actions.Content.Archives;
 using Files.App.Actions.Content.Background;
+using Files.App.Actions.Content.Tags;
 using Files.App.Actions.Favorites;
-using Files.App.UserControls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -61,6 +61,7 @@ namespace Files.App.Commands
 		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
+		public IRichCommand OpenAllTaggedItems => commands[CommandCodes.OpenAllTaggedItems];
 
 		public CommandManager()
 		{
@@ -109,7 +110,8 @@ namespace Files.App.Commands
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
 			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
-			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction()
+			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
+			[CommandCodes.OpenAllTaggedItems] = new OpenAllTaggedAction()
 		};
 
 		[DebuggerDisplay("Command None")]
