@@ -86,6 +86,7 @@ namespace Files.App.Views.Properties
 			{
 				// WinUI3: Set rectangle for the Titlebar
 				TitlebarArea.SizeChanged += (_, _) => DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight);
+				DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight);
 				AppWindow.Destroying += AppWindow_Destroying;
 
 				await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
