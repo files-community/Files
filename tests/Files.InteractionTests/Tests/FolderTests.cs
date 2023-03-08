@@ -62,7 +62,7 @@ namespace Files.InteractionTests.Tests
 			action.SendKeys(Keys.Enter).Perform();
 
 			// Wait for folder to be created
-			Thread.Sleep(2000);
+			Thread.Sleep(3000);
 
 			// Check for accessibility issues in the file area
 			AxeHelper.AssertNoAccessibilityErrors();
@@ -85,7 +85,7 @@ namespace Files.InteractionTests.Tests
 			action.SendKeys(Keys.Enter).Perform();
 
 			// Wait for the folder to be renamed
-			Thread.Sleep(2000);
+			Thread.Sleep(3000);
 		}
 
 		/// <summary>
@@ -97,13 +97,13 @@ namespace Files.InteractionTests.Tests
 			TestHelper.InvokeButtonById("InnerNavigationToolbarCopyButton");
 
 			// Wait for folder to be copied
-			Thread.Sleep(2000);
+			Thread.Sleep(3000);
 
 			// Click the "paste" button on the toolbar
 			TestHelper.InvokeButtonById("InnerNavigationToolbarPasteButton");
 
 			// Wait for folder to be pasted
-			Thread.Sleep(2000);
+			Thread.Sleep(3000);
 		}
 
 		/// <summary>
@@ -116,7 +116,7 @@ namespace Files.InteractionTests.Tests
 			TestHelper.InvokeButtonById("Delete");
 
 			// Wait for prompt to show
-			Thread.Sleep(2000);
+			Thread.Sleep(3000);
 
 			// Check for accessibility issues in the confirm delete prompt
 			AxeHelper.AssertNoAccessibilityErrors();
@@ -131,7 +131,7 @@ namespace Files.InteractionTests.Tests
 			TestHelper.InvokeButtonById("Delete");
 
 			// Wait for prompt to show
-			Thread.Sleep(2000);
+			Thread.Sleep(3000);
 
 			// Check for accessibility issues in the confirm delete prompt
 			AxeHelper.AssertNoAccessibilityErrors();
@@ -141,7 +141,7 @@ namespace Files.InteractionTests.Tests
 			action.SendKeys(Keys.Enter).Perform();
 
 			// Wait for items to finish being deleted
-			Thread.Sleep(2000);
+			Thread.Sleep(3000);
 		}
 	}
 }
