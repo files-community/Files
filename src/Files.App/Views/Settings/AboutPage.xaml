@@ -146,22 +146,20 @@
 				Text="{helpers:ResourceString Name=OpenSource}" />
 
 			<!--  Third Party Licenses  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ThirdPartyLicenses}" HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ThirdPartyLicenses}"
+										HorizontalAlignment="Stretch"
+										Click="ThirdPartyLicenses_Click">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE15E;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel Padding="4" Spacing="4">
-						<HyperlinkButton
-							AutomationProperties.Name="QuickLook"
-							Content="QuickLook"
-							NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
-
-						<HyperlinkButton
-							AutomationProperties.Name="7-Zip (GNU LGPL)"
-							Content="7-Zip (GNU LGPL)"
-							NavigateUri="https://7-zip.org" />
-					</StackPanel>
+					<ScrollViewer Height="400">
+						<controls:MarkdownTextBlock
+							Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+							Margin="10"
+							Background="Transparent"
+							LinkClicked="MarkdownTextBlock_LinkClicked" />
+					</ScrollViewer>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
