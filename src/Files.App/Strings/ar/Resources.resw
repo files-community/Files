@@ -136,7 +136,7 @@
     <value>المسار:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>الحجم:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>الحجم الغير مضغوط:</value>
@@ -154,13 +154,13 @@
     <value>‏‏تخطي</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>تحديد الكل</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>عكس التحديد</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>إزالة التحديد</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>تاريخ التعديل</value>
@@ -175,7 +175,7 @@
     <value>ادخل وجهة معينة</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>بحث</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>الملفات التي قمت بالوصول اليها مؤخرا سوف تظهر هنا</value>
@@ -184,13 +184,13 @@
     <value>إزالة هذا العنصر</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>مستودع GitHub</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>حول التطبيق</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>مفتوح المصدر</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>تنسيق التاريخ.</value>
@@ -214,7 +214,7 @@
     <value>الخلفية</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>متقدم</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>التفضيلات</value>
@@ -247,22 +247,22 @@
     <value>تحديث</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>لصق</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>جديدة</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>خصائص</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>فتح</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>فتح تبويب جديد</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>فتح في نافذة جديدة</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>مشاركة</value>
@@ -286,10 +286,10 @@
     <value>للبدء ، ستحتاج إلى منحنا إذنًا لعرض ملفاتك. سيؤدي هذا إلى فتح صفحة الإعدادات حيث يمكنك منحنا هذا الإذن. ستحتاج إلى إعادة فتح التطبيق بمجرد الانتهاء من هذه الخطوة</value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>عرض</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>ادخل اسم عنصر</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>اسم المجموعة</value>
@@ -367,13 +367,13 @@
     <value>الملف الذي تحاول الوصول إليه يتم استخدامه حاليا من قبل {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>الملف الذي تحاول الوصول إليه يتم استخدامه حاليا من قبل تطبيق آخر</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>الملف قيد الاستخدام</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>نموذج العرض</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>للقراءة فقط</value>
@@ -400,10 +400,10 @@
     <value>منذ {0} من الثواني</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>منذ ثانية</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>الآن</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>العملية التي قمت بها غير مدعومة</value>
@@ -415,13 +415,13 @@
     <value>فتح بواسطة</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>الإرسال إلى</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>اسم الملف لا يجب ان يحتوي على: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>اسم العنصر المحدد غير صالح</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>تم تحديد العنصر</value>
@@ -613,19 +613,19 @@
     <value>اسم العنصر طويل جدا</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>إظهار خيارات أكثر</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>يحتاج التطبيق إلى إعادة التشغيل من أجل تطبيق إعداد اللغة ، هل ترغب في إعادة تشغيل التطبيق؟</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>ادعمنا على Github</value>
   </data>
   <data name="Personalization" xml:space="preserve">
-    <value>Personalization</value>
+    <value>تخصيص</value>
   </data>
   <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Layout and sorting</value>
+    <value>التخطيط والفرز</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>لم نتمكن من إنشاء هذا العنصر</value>
@@ -673,13 +673,13 @@
     <value>اصعد دليل واحد</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>اللغة</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>نقل ملحقات المشغل إلى قائمة فرعية</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>إظهار مربع التأكيد عند حذف اي عنصر</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>كانت هناك مشكلة في حفظ بعض الخصائص</value>
@@ -955,7 +955,7 @@
     <value>العنوان</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>خيارات التحديد</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>تحديد</value>
@@ -997,7 +997,7 @@
     <value>علامة تبويب جديدة</value>
   </data>
   <data name="NewTabCtrlT" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+    <value>علامة تبويب جديدة (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>قد تحتوي بعض الخصائص على معلومات شخصية</value>
@@ -1030,7 +1030,7 @@
     <value>تضمين العناصر الغير مفهرسة في نتائج البحث</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
+    <value>مزامنة التخطيط وفرز التفضيلات عبر الدلائل</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>تخصيص قائمة سياق النقر بزر الماوس الأيمن</value>
@@ -1064,9 +1064,6 @@
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>طريقة عرض التفاصيل</value>
-  </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>معاينة</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>عرض الشبكة (كبير)</value>
@@ -1134,8 +1131,8 @@
   <data name="DesiredName" xml:space="preserve">
     <value>الاسم المطلوب</value>
   </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>لوحة المعاينة (Ctrl+P)</value>
+  <data name="TogglePreviewPane" xml:space="preserve">
+    <value>Toggle the preview pane</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>المعاينة غير متوفرة</value>

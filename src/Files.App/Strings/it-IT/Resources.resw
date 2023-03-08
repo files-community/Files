@@ -157,10 +157,10 @@
     <value>Seleziona tutto</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>Inverti Selezione</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>Annulla Selezione</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Ultima modifica:</value>
@@ -1065,9 +1065,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Dettagli (Ctrl + Shift + 1)</value>
   </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>Anteprima</value>
-  </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Icone (Grandi) (Ctrl + Shift + 5)</value>
   </data>
@@ -1134,8 +1131,8 @@
   <data name="DesiredName" xml:space="preserve">
     <value>Nome desiderato</value>
   </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Riquadro anteprima (Ctrl + P)</value>
+  <data name="TogglePreviewPane" xml:space="preserve">
+    <value>Abilita anteprima</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Anteprima non disponibile</value>
@@ -2605,6 +2602,6 @@
     <value>Salva</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>Selezione multipla</value>
   </data>
 </root>

@@ -107,12 +107,10 @@
 					AccessKey="X"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCutButton"
 					Command="{x:Bind Commands.CutItem, Mode=OneWay}"
-					IsEnabled="{x:Bind Commands.CutItem.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.CutItem.Label}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{x:Bind Commands.CutItem.Label}">
-
-					<local:OpacityIcon Style="{StaticResource ColorIconCut}" />
+					<local:OpacityIcon Style="{x:Bind Commands.CutItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					Width="Auto"
@@ -120,12 +118,10 @@
 					AccessKey="C"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
 					Command="{x:Bind Commands.CopyItem, Mode=OneWay}"
-					IsEnabled="{x:Bind Commands.CopyItem.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.CopyItem}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{x:Bind Commands.CopyItem}">
-
-					<local:OpacityIcon Style="{StaticResource ColorIconCopy}" />
+					<local:OpacityIcon Style="{x:Bind Commands.CopyItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="PasteButton"
@@ -179,13 +175,11 @@
 					Width="Auto"
 					MinWidth="40"
 					AutomationProperties.AutomationId="Delete"
-					Command="{x:Bind Commands.DeleteItem, Mode=OneWay}"
-					IsEnabled="{x:Bind Commands.DeleteItem.IsExecutable}"
+					Command="{x:Bind Commands.DeleteItem}"
 					Label="{x:Bind Commands.DeleteItem.Label}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{x:Bind Commands.DeleteItem.Label}">
-
-					<local:OpacityIcon Style="{StaticResource ColorIconDelete}" />
+					<local:OpacityIcon Style="{x:Bind Commands.DeleteItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="PropertiesButton"
@@ -207,28 +201,30 @@
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="B"
 					Command="{x:Bind Commands.EmptyRecycleBin}"
-					Content="{x:Bind Commands.EmptyRecycleBin.Icon}"
-					IsEnabled="{x:Bind Commands.EmptyRecycleBin.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.EmptyRecycleBin.Label}"
-					ToolTipService.ToolTip="{x:Bind Commands.EmptyRecycleBin.Label}" />
+					ToolTipService.ToolTip="{x:Bind Commands.EmptyRecycleBin.Label}">
+					<local:OpacityIcon Style="{x:Bind Commands.EmptyRecycleBin.OpacityStyle}" />
+				</AppBarButton>
 				<AppBarButton
 					x:Name="RestoreAllRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="R"
 					Command="{x:Bind Commands.RestoreAllRecycleBin}"
-					Content="{x:Bind Commands.RestoreAllRecycleBin.Icon}"
 					Label="{x:Bind Commands.RestoreAllRecycleBin.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.RestoreAllRecycleBin.Label}"
-					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+					<local:OpacityIcon Style="{x:Bind Commands.RestoreAllRecycleBin.OpacityStyle}" />
+				</AppBarButton>
 				<AppBarButton
 					x:Name="RestoreRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="R"
 					Command="{x:Bind Commands.RestoreRecycleBin}"
-					Content="{x:Bind Commands.RestoreRecycleBin.Icon}"
 					Label="{x:Bind Commands.RestoreRecycleBin.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.RestoreRecycleBin.Label}"
-					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay}" />
+					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay}">
+					<local:OpacityIcon Style="{x:Bind Commands.RestoreRecycleBin.OpacityStyle}" />
+				</AppBarButton>
 				<AppBarButton
 					x:Name="ExtractButton"
 					Width="Auto"
@@ -798,16 +794,13 @@
 				x:Name="PreviewPane"
 				Width="Auto"
 				MinWidth="40"
-				AccessKey="P"
-				AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneToggle/AutomationProperties/Name}"
-				IsChecked="{x:Bind PreviewPaneViewModel.IsEnabled, Mode=TwoWay}"
-				IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
-				Label="{helpers:ResourceString Name=PreviewPaneToggle/Label}"
+				AutomationProperties.Name="{x:Bind Commands.TogglePreviewPane.AutomationName}"
+				IsChecked="{x:Bind Commands.TogglePreviewPane.IsOn, Mode=TwoWay}"
+				Label="{x:Bind Commands.TogglePreviewPane.Label}"
 				LabelPosition="Collapsed"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneToggle/ToolTipService/ToolTip}"
+				ToolTipService.ToolTip="{x:Bind Commands.TogglePreviewPane.LabelWithHotKey, Mode=OneWay}"
 				Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
-
-				<local:OpacityIcon Style="{StaticResource ColorIconRightPane}" />
+				<local:OpacityIcon Style="{x:Bind Commands.TogglePreviewPane.OpacityStyle}" />
 			</AppBarToggleButton>
 			<CommandBar.SecondaryCommands>
 				<AppBarButton

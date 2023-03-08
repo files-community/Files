@@ -136,7 +136,7 @@
     <value>Yol:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Boyut:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Sıkıştırılmamış Boyut:</value>
@@ -154,13 +154,13 @@
     <value>Atla</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>Tümünü Seç</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>Seçimi Tersine Çevir</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>Seçimi Temizle</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Değiştirme:</value>
@@ -175,7 +175,7 @@
     <value>Bir yol yazın</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Ara</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Daha önce eriştiğiniz dosya ve klasörler burada görüntülenir</value>
@@ -247,22 +247,22 @@
     <value>Yenile</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Yapıştır</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Yeni</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Özellikler</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Aç</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Yeni sekmede aç</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Yeni pencerede aç</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Paylaş</value>
@@ -289,7 +289,7 @@
     <value>Görünüm</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Bir öge adı yazın</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Adı Ayarla</value>
@@ -307,13 +307,13 @@
     <value>Sistem</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>Yeni Klasör</value>
+    <value>Yeni Dizin</value>
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Yeni Dosya</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>Bu klasör boş.</value>
+    <value>Bu dizin boş.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Geri (Alt + Sol Ok)</value>
@@ -331,7 +331,7 @@
     <value>Ara (Ctrl+F)</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>Bu klasörde aynı adlı bir öge zaten var.</value>
+    <value>Bu dizinde aynı adlı bir öge zaten var.</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Var olan ögeyi değiştir</value>
@@ -373,7 +373,7 @@
     <value>Dosya kullanımda</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>Sayfa Düzeni</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Salt okunur</value>
@@ -475,7 +475,7 @@
     <value>{0:#,##0} dosya, {1:#,##0} klasör</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} dosya, {1:#,##0} klasöründen {2:#,##0} konum</value>
+    <value>{2:#,##0} konumundan {0:#,##0} dosya, {1:#,##0} dizin</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Farklı kullanıcı olarak çalıştır</value>
@@ -652,10 +652,10 @@
     <value>Boş bir dosya oluşturur</value>
   </data>
   <data name="Folder" xml:space="preserve">
-    <value>Klasör</value>
+    <value>Dizin</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
-    <value>Yeni bir klasör oluşturur</value>
+    <value>Yeni bir dizin oluşturur</value>
   </data>
   <data name="LayoutMode" xml:space="preserve">
     <value>Görünüm kipi</value>
@@ -667,13 +667,13 @@
     <value>İleri git</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Klasörü yenile</value>
+    <value>Dizini yenile</value>
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Üst klasöre git</value>
+    <value>Üst dizine git</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Dil</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Shell seçeneklerini alt menüye taşı</value>
@@ -955,7 +955,7 @@
     <value>Adres</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>Seçim seçenekleri</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Seçme</value>
@@ -997,7 +997,7 @@
     <value>Yeni sekme</value>
   </data>
   <data name="NewTabCtrlT" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+    <value>Yeni sekme (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Bazı özellikler kişisel bilgiler içerebilir.</value>
@@ -1036,7 +1036,7 @@
     <value>Sağ tık menüsünü özelleştir</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>Asıl yol</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Ekle</value>
@@ -1048,10 +1048,10 @@
     <value>Kaldır</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Open tabs in dual pane mode</value>
+    <value>Sekmeleri çift bölme modunda aç</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>Dizinleri yeni bir bölmede açma seçeneğini göster</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Yeni bölme</value>
@@ -1060,13 +1060,10 @@
     <value>Yeni bölmede aç</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Klasörler</value>
+    <value>Dizinler</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ayrıntılar Görünümü (Ctrl+Shift+1)</value>
-  </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>Ön izleme</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Izgara Görünümü (Büyük) (Ctrl+Shift+5)</value>
@@ -1108,7 +1105,7 @@
     <value>Paketler</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Hızlı erişmek istediğiniz dosya ya da klasörü sürükleyip buraya bırakın</value>
+    <value>Hızlı erişmek istediğiniz dosya ya da dizini sürükleyip buraya bırakın</value>
   </data>
   <data name="EnterBundleName" xml:space="preserve">
     <value>Paket adını yazın</value>
@@ -1134,8 +1131,8 @@
   <data name="DesiredName" xml:space="preserve">
     <value>İstenilen ad</value>
   </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Önizleme bölmesini aç/kapat (Ctrl+P)</value>
+  <data name="TogglePreviewPane" xml:space="preserve">
+    <value>Toggle the preview pane</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ön izleme yok</value>
@@ -1144,7 +1141,7 @@
     <value>Öge Adı</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Favorilerden kaldır</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Ağ sürücüleri</value>
@@ -1318,7 +1315,7 @@
     <value>Aynı ada sahip kitaplık zaten var!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>Akıllı Depolama'yı aç</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopyala</value>
@@ -1378,7 +1375,7 @@
     <value>Dizine alınmamış ögeleri arayın</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Var olanı değiştir</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Yeni ad oluştur</value>
@@ -1390,7 +1387,7 @@
     <value>Çakışan bir dosya adı var.</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>Seçimle klasör oluştur</value>
+    <value>Seçimle dizin oluştur</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>İsim:</value>
@@ -1420,7 +1417,7 @@
     <value>Silinen tarih sütunu</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Sırala</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Gruplandırma Ölçütü</value>
@@ -1429,7 +1426,7 @@
     <value>Değiştirilme tarihi</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Orijinal klasör</value>
+    <value>Orijinal dizin</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sıralama Ölçütü</value>
@@ -1489,7 +1486,7 @@
     <value>Kapatılan sekmeyi yeniden aç</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Yeniden adlandır</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Gizlilik</value>
@@ -1654,10 +1651,10 @@
     <value>Arşivi Ayıkla</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Tamamlandığında hedef klasörü aç</value>
+    <value>Tamamlandığında hedef dizini aç</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>{0}\ klasörüne çıkar</value>
+    <value>{0}\ dizinine çıkar</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
     <value>Yeni kitaplık oluştur</value>
@@ -1693,10 +1690,10 @@
     <value>dosyalar</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
-    <value>bu klasör</value>
+    <value>bu dizin</value>
   </data>
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
-    <value>alt klasör</value>
+    <value>alt dizinler</value>
   </data>
   <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
     <value>Miras</value>
@@ -1708,25 +1705,25 @@
     <value>Bu nesnenin güvenlik özelliklerini görüntüleme izniniz yok. Bu nesnenin sahipliğini almayı deneyebilirsiniz.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
-    <value>Bu klasör ve dosyalar</value>
+    <value>Bu dizin ve dosyalar</value>
   </data>
   <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
-    <value>Bu klasör, alt klasörler ve dosyalar</value>
+    <value>Bu dizin, alt dizinler ve dosyalar</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
     <value>Yalnızca dosyalar</value>
   </data>
   <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
-    <value>Yalnızca alt klasörler</value>
+    <value>Yalnızca alt dizinler</value>
   </data>
   <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
     <value>Yalnızca alt klasörler ve dosyalar</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
-    <value>Sadece bu klasör</value>
+    <value>Sadece bu dizin</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
-    <value>Bu klasör ve alt klasörler</value>
+    <value>Bu dizin ve alt dizinler</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
     <value>Veri ekle</value>
@@ -1735,7 +1732,7 @@
     <value>İzni değiştir</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>Klasör oluştur</value>
+    <value>Dizin oluştur</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Dosya oluştur</value>
@@ -1762,7 +1759,7 @@
     <value>Sahipliğini almak</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>Klasörü ziyaret et</value>
+    <value>Dizini ziyaret et</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
     <value>Nitelikleri yaz</value>
@@ -1819,7 +1816,7 @@
     <value>Öğeyi buluttan indirir ve önizlemeyi yükler</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} öğe ({1} dosya, {2} klasör)</value>
+    <value>{0} öğe ({1} dosya, {2} dizin)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Sıkıştırılmamış boyut</value>
@@ -1906,10 +1903,10 @@
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Ana klasörü aç</value>
+    <value>Ana dizini aç</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Bilinmeyen</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Dosya etiketlerini düzenle</value>
@@ -1927,7 +1924,7 @@
     <value>Bir disk yerlestirin</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>OK</value>
+    <value>Tamam</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Kimlik Bilgileri Gerekli</value>
@@ -1978,7 +1975,7 @@
     <value>Sıralar</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Dizinleri yeni sekmede aç</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Devam Eden Görevler</value>
@@ -1990,7 +1987,7 @@
     <value>Öğe Sütun Boyutu</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>Experimental feature flags</value>
+    <value>Deneysel özellik işaretleri</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
     <value>Yardım ve Destek</value>
@@ -2014,7 +2011,7 @@
     <value>Öğeleri tek bir tıklamayla açın</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
-    <value>Klasör yolu</value>
+    <value>Dizin yolu</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Ayarları Dışa Aktar</value>
@@ -2038,7 +2035,7 @@
     <value>Kenar</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
-    <value>Özel bir klasör simgesi seçin</value>
+    <value>Özel bir dizin simgesi seçin</value>
   </data>
   <data name="Customization" xml:space="preserve">
     <value>Kişiselleştirme</value>
@@ -2191,7 +2188,7 @@
     <value>PowerShell'le Çalıştır</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Klasör boyutlarını hesaplamak için yoğun kaynak kullanılır ve CPU kullanımınızın artmasına neden olabilir.</value>
+    <value>Dizin boyutlarını hesaplamak yoğun kaynak kullanılır ve CPU kullanımınızın artmasına neden olabilir.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Sola Döndür</value>
@@ -2245,7 +2242,7 @@
     <value>Etiketler</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Use compact spacing in the details layout</value>
+    <value>Ayrıntılar düzeninde küçük boşluklar kullanın</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Evrensel</value>
@@ -2284,7 +2281,7 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show alternate data streams</value>
+    <value>Alternatif veri akışını göster</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
     <value>Davranışlar</value>
@@ -2326,7 +2323,7 @@
     <value>Kilit Ekranı</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Sütunlar Düzeninde tek bir tıklama ile klasörleri aç</value>
+    <value>Sütunlar Düzeninde tek bir tıklama ile dizinleri aç</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Açılış öğeleri</value>
@@ -2344,7 +2341,7 @@
     <value>Arşiv sıkıştırılıyor</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Üzerine getirildiğinde dosyaları ve klasörleri seçin</value>
+    <value>Üzerine getirildiğinde dosyaları ve dizinleri seçin</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Geri dönüşüm kutusundaki tüm öğeleri geri yüklemek istediğinizden emin misiniz?</value>
@@ -2362,7 +2359,7 @@
     <value>Bütün öğeleri geri yükle</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>Geri yükle</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>Kısayol açılamadı</value>
@@ -2464,7 +2461,7 @@
     <value>Sırala</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
-    <value>Group in descending order</value>
+    <value>Azalan sıraya göre grupla</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
     <value>Azalan sıraya göre sırala</value>
@@ -2473,31 +2470,31 @@
     <value>Yeni kısayol oluştur</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+    <value>Yerel veya ağ programlarına, dosyalara, dizinlere, bilgisayarlara veya İnternet adreslerine kısayollar oluşturun.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Enter the location of the item:</value>
+    <value>Öğenin konumunu girin:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Kısayol oluşturur</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Son kullanılan dosyalar şu an için Windows Dosya Gezgininde devre dışıdır.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit Settings File</value>
+    <value>Ayar Dosyasını Düzenle</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
     <value>Sürüm Notları</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>Creating a shortcut in this location requires administrator privileges</value>
+    <value>Bu konumda bir kısayol oluşturmak, yönetici ayrıcalıkları gerektirir</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Would you like to create the shortcut on the desktop instead?</value>
+    <value>Bunun yerine masaüstünde kısayol oluşturmak ister misiniz?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>The specified item name is invalid</value>
+    <value>Belirtilen öğe adı geçersiz</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Ayarlar</value>
@@ -2515,28 +2512,28 @@
     <value>Paketler ileri güncellemelerde kaldırılacak</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>Etiketleri düzenle açılır penceresini göster</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>Dizinleri yeni bir sekmede açma seçeneğini göster</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>Dizinleri yeni bir pencerede açma seçeneğini göster</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Hızlı erişim</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>Enter your credentials to connect to: {0}</value>
+    <value>Bağlanmak için kimlik bilgilerinizi girin: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter Network Credentials</value>
+    <value>Ağ Kimlik Bilgilerini Girin</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>Kimlik bilgilerimi hatırla</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>Network folder error</value>
+    <value>Ağ dizini hatası</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
     <value>Uygulama sürümü</value>
@@ -2548,7 +2545,7 @@
     <value>Her zaman</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>Permanent deletion only</value>
+    <value>Yalnızca kalıcı silme</value>
   </data>
   <data name="Never" xml:space="preserve">
     <value>Asla</value>
@@ -2569,7 +2566,7 @@
     <value>Yükleniyor...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>Context menu options</value>
+    <value>Bağlam menüsü seçenekleri</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
     <value>Dosya eklentilerini göster</value>
@@ -2578,7 +2575,7 @@
     <value>Gizli dosyaları göster</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format...</value>
+    <value>Biçim...</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Yardım</value>
@@ -2593,18 +2590,18 @@
     <value>Hepsini oynat</value>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Height</value>
+    <value>Boy</value>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>Width</value>
+    <value>En</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Apply this action to all conflicting items</value>
+    <value>Bu eylemi tüm çakışan öğelere uygula</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Kaydet</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>Çoklu seçim</value>
   </data>
 </root>

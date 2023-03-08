@@ -33,7 +33,6 @@
 		<vc2:ConflictResolveOptionToIndexConverter x:Key="ConflictResolveOptionToIndexConverter" />
 		<vc3:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
 		<tvc:BoolNegationConverter x:Key="BoolNegationConverter" />
-		<tvc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
 		<DataTemplate x:Key="ConflictItemDataTemplate" x:DataType="vm:FileSystemDialogConflictItemViewModel">
 			<Grid ColumnSpacing="12">
@@ -105,15 +104,15 @@
 				</Grid>
 
 				<!--  Options  -->
-				<!--  Use Visibility because x:Load does not reflect the SelectedIndex value in the combo box  -->
 				<ComboBox
 					x:Name="ConflictOptions"
 					Grid.Column="2"
 					Width="200"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
-					SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ConflictResolveOptionToIndexConverter}}"
-					Visibility="{x:Bind IsConflict, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+					x:Load="{x:Bind IsConflict, Mode=OneWay}"
+					Loaded="ConflictOptions_Loaded"
+					SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ConflictResolveOptionToIndexConverter}}">
 					<ComboBox.Items>
 						<ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
 						<ComboBoxItem Content="{helpers:ResourceString Name=ReplaceExisting}" />
