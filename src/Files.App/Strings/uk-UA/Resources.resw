@@ -1065,9 +1065,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Список</value>
   </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>Попередній перегляд</value>
-  </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Величезні піктограми</value>
   </data>
@@ -1134,8 +1131,8 @@
   <data name="DesiredName" xml:space="preserve">
     <value>Бажане ім'я</value>
   </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Переключити панель попереднього перегляду (Ctrl + P)</value>
+  <data name="TogglePreviewPane" xml:space="preserve">
+    <value>Перемкнути панель попереднього перегляду</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Попередній перегляд недоступний</value>
