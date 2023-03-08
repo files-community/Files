@@ -1065,9 +1065,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>詳細ビュー (Ctrl+Shift+1)</value>
   </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>プレビュー</value>
-  </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>グリッドビュー (大)  (Ctrl+Shift+5)</value>
   </data>
@@ -1134,8 +1131,8 @@
   <data name="DesiredName" xml:space="preserve">
     <value>新しい名前</value>
   </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>プレビューペインの表示/非表示切替 (Ctrl+P)</value>
+  <data name="TogglePreviewPane" xml:space="preserve">
+    <value>プレビュー ペインの表示を切り替える</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>プレビューを利用できません</value>
@@ -2515,7 +2512,7 @@
     <value>バンドル ウィジェットは今後のアップデートで削除されます 📎</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>タグ編集フライアウトを表示する</value>
+    <value>"ファイル タグを編集" オプションを表示する</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>"新しいタブでフォルダーを開く" オプションを表示する</value>
@@ -2606,5 +2603,11 @@
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>複数選択</value>
+  </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>Hashes</value>
+  </data>
+  <data name="UnableToCalcHashes" xml:space="preserve">
+    <value>Unable to calculate hashes due to a system error</value>
   </data>
 </root>
