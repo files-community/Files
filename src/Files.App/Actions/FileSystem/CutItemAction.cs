@@ -4,7 +4,7 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
-using System.Linq;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.System;
 
@@ -12,7 +12,7 @@ namespace Files.App.Actions
 {
 	internal class CutItemAction : ObservableObject, IAction
 	{
-		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "BaseLayoutItemContextFlyoutCut/Text".GetLocalizedResource();
 
@@ -20,28 +20,24 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCut");
 
-		public bool IsExecutable => context.ShellPage is not null && context.SelectedItems is not null
-			&& context.SelectedItems.Any() && context.PageType is not ContentPageTypes.Home;
+		public bool IsExecutable => context.HasSelection;
 
 		public CutItemAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
-			UIFilesystemHelpers.CutItem(context.ShellPage);
+			if (context.ShellPage is not null)
+				UIFilesystemHelpers.CutItem(context.ShellPage);
+			return Task.CompletedTask;
 		}
 
-		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.SelectedItems):
-				case nameof(IContentPageContext.Folder):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
+			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
 }
