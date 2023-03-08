@@ -38,7 +38,6 @@
 
 		<Grid
 			x:Name="HashesListGrid"
-			Grid.Row="1"
 			Margin="12"
 			VerticalAlignment="Top"
 			x:Load="{x:Bind HashesViewModel.IsLoading, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
