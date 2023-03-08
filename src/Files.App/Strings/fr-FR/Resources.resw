@@ -2604,4 +2604,10 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>Sélection Multiple</value>
   </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>Hash</value>
+  </data>
+  <data name="UnableToCalcHashes" xml:space="preserve">
+    <value>Impossible de calculer le hach en raison d'une erreur système</value>
+  </data>
 </root>

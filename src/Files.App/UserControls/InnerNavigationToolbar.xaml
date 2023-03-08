@@ -104,10 +104,8 @@
 					x:Name="CutButton"
 					Width="Auto"
 					MinWidth="40"
-					AccessKey="X"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCutButton"
-					Command="{x:Bind Commands.CutItem, Mode=OneWay}"
-					IsEnabled="{x:Bind Commands.CutItem.IsExecutable, Mode=OneWay}"
+					Command="{x:Bind Commands.CutItem}"
 					Label="{x:Bind Commands.CutItem.Label}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{x:Bind Commands.CutItem.Label}">
@@ -116,10 +114,8 @@
 				<AppBarButton
 					Width="Auto"
 					MinWidth="40"
-					AccessKey="C"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
 					Command="{x:Bind Commands.CopyItem, Mode=OneWay}"
-					IsEnabled="{x:Bind Commands.CopyItem.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.CopyItem}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{x:Bind Commands.CopyItem}">
@@ -176,9 +172,8 @@
 					x:Name="DeleteButton"
 					Width="Auto"
 					MinWidth="40"
-					AutomationProperties.AutomationId="Delete"
+					AutomationProperties.AutomationId="InnerNavigationToolbarDeleteButton"
 					Command="{x:Bind Commands.DeleteItem}"
-					IsEnabled="{x:Bind Commands.DeleteItem.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.DeleteItem.Label}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{x:Bind Commands.DeleteItem.Label}">
@@ -189,7 +184,7 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="O"
-					AutomationProperties.Name="{helpers:ResourceString Name=Properties}"
+					AutomationProperties.AutomationId="InnerNavigationToolbarPropertiesButton"
 					Command="{x:Bind ViewModel.PropertiesCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanViewProperties, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=Properties}"
