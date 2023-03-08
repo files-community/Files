@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Commands;
 using Files.App.Extensions;
-using Files.App.ViewModels;
+using Files.App.ViewModels.UserControls;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.System;
