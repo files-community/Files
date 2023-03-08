@@ -21,6 +21,21 @@
 
 	<Grid x:Name="RootGrid">
 
+		<!--  Loading  -->
+		<StackPanel
+			x:Name="LoadingStatePanel"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			x:Load="{x:Bind HashesViewModel.IsLoading, Mode=OneWay}"
+			Spacing="8">
+			<ProgressRing HorizontalAlignment="Center" IsIndeterminate="True" />
+			<TextBlock
+				x:Name="LoadingTextBlock"
+				HorizontalAlignment="Center"
+				Style="{StaticResource BodyStrongTextBlockStyle}"
+				Text="{helpers:ResourceString Name=Loading}" />
+		</StackPanel>
+
 		<Grid
 			x:Name="HashesListGrid"
 			Grid.Row="1"
@@ -125,21 +140,6 @@
 				Style="{StaticResource BodyTextBlockStyle}"
 				Text="{helpers:ResourceString Name=UnableToCalcHashes}" />
 		</Grid>
-
-		<!--  Loading  -->
-		<StackPanel
-			x:Name="LoadingStatePanel"
-			HorizontalAlignment="Center"
-			VerticalAlignment="Center"
-			x:Load="{x:Bind HashesViewModel.IsLoading, Mode=OneWay}"
-			Spacing="8">
-			<ProgressRing HorizontalAlignment="Center" IsIndeterminate="True" />
-			<TextBlock
-				x:Name="LoadingTextBlock"
-				HorizontalAlignment="Center"
-				Style="{StaticResource BodyStrongTextBlockStyle}"
-				Text="{helpers:ResourceString Name=Loading}" />
-		</StackPanel>
 
 	</Grid>
 </vm:BasePropertiesPage>

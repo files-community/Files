@@ -21,12 +21,8 @@ namespace Files.App.ViewModels.Properties
 			CanAccessFile = true;
 			CancellationTokenSource = new();
 			LoadAndCalcHashesCommand = new(ExecuteLoadAndCalcHashesCommandAsync);
-
-			//if (LoadFileContent.CanExecute(CancellationTokenSource.Token))
-			//	LoadFileContent.Execute(CancellationTokenSource.Token);
 		}
 
-		#region Fields and Properties
 		public ListedItem Item { get; }
 
 		private bool _canAccessFile;
@@ -57,7 +53,6 @@ namespace Files.App.ViewModels.Properties
 			get => _isLoading;
 			set => SetProperty(ref _isLoading, value);
 		}
-		#endregion
 
 		public async Task ExecuteLoadAndCalcHashesCommandAsync(CancellationToken cancellationToken)
 		{
