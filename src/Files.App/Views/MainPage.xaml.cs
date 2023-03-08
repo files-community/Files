@@ -294,10 +294,10 @@ namespace Files.App.Views
 					return;
 
 				default:
-				{
-					navigationPath = invokedItemContainer.Tag?.ToString();
-					break;
-				}
+					{
+						navigationPath = invokedItemContainer.Tag?.ToString();
+						break;
+					}
 			}
 
 			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shellPage)
