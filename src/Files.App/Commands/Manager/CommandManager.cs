@@ -1,8 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Actions;
+using Files.App.Actions.Content.Archives;
+using Files.App.Actions.Content.Background;
 using Files.App.Actions.Favorites;
 using Files.App.UserControls;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
@@ -32,6 +35,7 @@ namespace Files.App.Commands
 		public IRichCommand ToggleFullScreen => commands[CommandCodes.ToggleFullScreen];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
+		public IRichCommand TogglePreviewPane => commands[CommandCodes.TogglePreviewPane];
 		public IRichCommand MultiSelect => commands[CommandCodes.MultiSelect];
 		public IRichCommand SelectAll => commands[CommandCodes.SelectAll];
 		public IRichCommand InvertSelection => commands[CommandCodes.InvertSelection];
@@ -46,9 +50,17 @@ namespace Files.App.Commands
 		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
 		public IRichCommand PinItemToFavorites => commands[CommandCodes.PinItemToFavorites];
 		public IRichCommand UnpinItemFromFavorites => commands[CommandCodes.UnpinItemFromFavorites];
+		public IRichCommand SetAsWallpaperBackground => commands[CommandCodes.SetAsWallpaperBackground];
+		public IRichCommand SetAsSlideshowBackground => commands[CommandCodes.SetAsSlideshowBackground];
+		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
 		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
 		public IRichCommand CutItem => commands[CommandCodes.CutItem];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
+		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
+		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
+		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
+		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
+		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
 
 		public CommandManager()
 		{
@@ -72,6 +84,7 @@ namespace Files.App.Commands
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
+			[CommandCodes.TogglePreviewPane] = new TogglePreviewPaneAction(),
 			[CommandCodes.MultiSelect] = new MultiSelectAction(),
 			[CommandCodes.SelectAll] = new SelectAllAction(),
 			[CommandCodes.InvertSelection] = new InvertSelectionAction(),
@@ -86,9 +99,17 @@ namespace Files.App.Commands
 			[CommandCodes.UnpinFromStart] = new UnpinFromStartAction(),
 			[CommandCodes.PinItemToFavorites] = new PinItemAction(),
 			[CommandCodes.UnpinItemFromFavorites] = new UnpinItemAction(),
+			[CommandCodes.SetAsWallpaperBackground] = new SetAsWallpaperBackgroundAction(),
+			[CommandCodes.SetAsSlideshowBackground] = new SetAsSlideshowBackgroundAction(),
+			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
 			[CommandCodes.CopyItem] = new CopyItemAction(),
 			[CommandCodes.CutItem] = new CutItemAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
+			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
+			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
+			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
+			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
+			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction()
 		};
 
 		[DebuggerDisplay("Command None")]
@@ -107,7 +128,7 @@ namespace Files.App.Commands
 			public RichGlyph Glyph => RichGlyph.None;
 			public object? Icon => null;
 			public FontIcon? FontIcon => null;
-			public OpacityIcon? OpacityIcon => null;
+			public Style? OpacityStyle => null;
 
 			public string? HotKeyText => null;
 			public HotKey DefaultHotKey => HotKey.None;
@@ -145,11 +166,9 @@ namespace Files.App.Commands
 			public string AutomationName => Label;
 
 			public RichGlyph Glyph => action.Glyph;
-			public FontIcon? FontIcon => Icon as FontIcon;
-			public OpacityIcon? OpacityIcon => Icon as OpacityIcon;
-
-			private readonly Lazy<object?> icon;
-			public object? Icon => icon.Value;
+			public object? Icon { get; }
+			public FontIcon? FontIcon { get; }
+			public Style? OpacityStyle { get; }
 
 			public string? HotKeyText => !customHotKey.IsNone ? CustomHotKey.ToString() : null;
 			public HotKey DefaultHotKey => action.HotKey;
@@ -204,7 +223,9 @@ namespace Files.App.Commands
 				this.manager = manager;
 				Code = code;
 				this.action = action;
-				icon = new(action.Glyph.ToIcon);
+				Icon = action.Glyph.ToIcon();
+				FontIcon = action.Glyph.ToFontIcon();
+				OpacityStyle = action.Glyph.ToOpacityStyle();
 				customHotKey = action.HotKey;
 				command = new AsyncRelayCommand(ExecuteAsync, () => action.IsExecutable);
 

@@ -263,12 +263,6 @@ namespace Files.App.Views
 
 					break;
 
-				case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
-					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-						SlimContentPage.ItemManipulationModel.SelectAllItems();
-
-					break;
-
 				case (true, false, false, true, VirtualKey.D): // ctrl + d, delete item
 				case (false, false, false, true, VirtualKey.Delete): // delete, delete item
 					if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
@@ -279,10 +273,6 @@ namespace Files.App.Views
 						await FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
 					}
 
-					break;
-
-				case (true, false, false, true, VirtualKey.P): // ctrl + p, toggle preview pane
-					App.PreviewPaneViewModel.IsEnabled = !App.PreviewPaneViewModel.IsEnabled;
 					break;
 
 				case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
