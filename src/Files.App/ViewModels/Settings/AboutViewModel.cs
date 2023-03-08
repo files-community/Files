@@ -29,6 +29,12 @@ namespace Files.App.ViewModels.Settings
 		public ICommand OpenGitHubRepoCommand { get; }
 		public ICommand OpenPrivacyPolicyCommand { get; }
 
+		private string _ThirdPartyNotices;
+		public string ThirdPartyNotices
+		{
+			get => _ThirdPartyNotices;
+			set => SetProperty(ref _ThirdPartyNotices, value);
+		}
 
 		public AboutViewModel()
 		{
@@ -102,6 +108,12 @@ namespace Files.App.ViewModels.Settings
 		public async void SupportUs()
 		{
 			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
+		}
+
+		public async void LoadThirdPartyNotices()
+		{
+			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
+			ThirdPartyNotices = await FileIO.ReadTextAsync(file);
 		}
 
 		public string Version
