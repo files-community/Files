@@ -122,7 +122,7 @@ namespace Files.InteractionTests.Tests
 		{
 			// Select the "Renamed Folder" folder and clicks the "delete" button on the toolbar
 			TestHelper.InvokeButtonByName("Renamed Folder");
-			TestHelper.InvokeButtonById("Delete");
+			TestHelper.InvokeButtonById("InnerNavigationToolbarDeleteButton");
 
 			// Wait for prompt to show
 			Thread.Sleep(3000);
@@ -137,7 +137,7 @@ namespace Files.InteractionTests.Tests
 
 			// Select the "Renamed Folder - Copy" folder and clicks the "delete" button on the toolbar
 			TestHelper.InvokeButtonByName("Renamed Folder - Copy");
-			TestHelper.InvokeButtonById("Delete");
+			TestHelper.InvokeButtonById("InnerNavigationToolbarDeleteButton");
 
 			// Wait for prompt to show
 			Thread.Sleep(3000);
