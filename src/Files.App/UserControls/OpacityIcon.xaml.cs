@@ -28,7 +28,7 @@ namespace Files.App.UserControls
 		{
 			var control = this.FindAscendant<Control>();
 			if (control is not null && !control.IsEnabled)
-				VisualStateManager.GoToState(this, "Disabled", true);
+				VisualStateManager.GoToState(this, "Disabled", false);
 		}
 	}
 }
