@@ -15,8 +15,8 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Get Scale Adjustment
 		/// </summary>
-		/// <returns>scale factor percent</returns>
 		/// <param name="window"></param>
+		/// <returns>scale factor percent</returns>
 		public static double GetScaleAdjustment(Window window) => window.Content.XamlRoot.RasterizationScale;
 
 		/// <summary>
@@ -58,20 +58,19 @@ namespace Files.App.Helpers
 								draggingZonesY.InsertRange(i, new[] { y, yResult });
 								draggingZonesX.InsertRange(i, new[]
 								{
-								x with { Upper = xResult[0].Upper },
-								x with { Lower = xSubtrahend.Lower }
-							});
+									x with { Upper = xResult[0].Upper },
+									x with { Lower = xSubtrahend.Lower }
+								});
 							}
 							else // xResult[0].Upper == x.Upper
 							{
 								draggingZonesY.InsertRange(i, new[] { yResult, y });
 								draggingZonesX.InsertRange(i, new[]
 								{
-								x with { Upper = xSubtrahend.Upper },
-								x with { Lower = xResult[0].Lower }
-							});
+									x with { Upper = xSubtrahend.Upper },
+									x with { Lower = xResult[0].Lower }
+								});
 							}
-
 							++i;
 							break;
 						case 2:
@@ -80,10 +79,10 @@ namespace Files.App.Helpers
 							draggingZonesY.InsertRange(i, new[] { y, yResult, y });
 							draggingZonesX.InsertRange(i, new[]
 							{
-							x with { Upper = xResult[0].Upper } ,
-							xSubtrahend,
-							x with { Lower = xResult[1].Lower }
-						});
+								x with { Upper = xResult[0].Upper },
+								xSubtrahend,
+								x with { Lower = xResult[1].Lower }
+							});
 							++i;
 							++i;
 							break;
@@ -125,7 +124,7 @@ namespace Files.App.Helpers
 			var scaleAdjustment = GetScaleAdjustment(window);
 			var windowWidth = (int)(appWindow.Size.Width / scaleAdjustment);
 			nonDraggingZones ??= Array.Empty<RectInt32>();
-#if DEBUG
+#if DEBUG   // subtract the toolbar area (center-top in window), only in DEBUG mode.
 			nonDraggingZones = nonDraggingZones.Concat(new RectInt32[] { new((windowWidth - DebugToolbarWidth) / 2, 0, DebugToolbarWidth, DebugToolbarHeight) });
 #endif
 			appWindow.TitleBar.SetDragRectangles(
