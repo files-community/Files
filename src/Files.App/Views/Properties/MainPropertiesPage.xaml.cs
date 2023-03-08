@@ -99,12 +99,7 @@ namespace Files.App.Views.Properties
 
 		private void TitlebarArea_SizeChanged(object? sender, SizeChangedEventArgs? e)
 		{
-			var scaleAdjustment = XamlRoot.RasterizationScale;
-			var width = (int)(TitlebarArea.ActualWidth * scaleAdjustment);
-			var height = (int)(TitlebarArea.ActualHeight * scaleAdjustment);
-
-			// Sets properties window drag region.
-			AppWindow.TitleBar.SetDragRectangles(new RectInt32[] { new RectInt32(0, 0, width, height) });
+			DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight);
 		}
 
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)

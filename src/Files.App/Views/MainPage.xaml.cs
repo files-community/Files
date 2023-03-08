@@ -136,16 +136,8 @@ namespace Files.App.Views
 
 		private void SetRectDragRegion()
 		{
-			var scaleAdjustment = XamlRoot.RasterizationScale;
-			var dragArea = TabControl.DragArea;
-
-			var x = (int)((TabControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
-			var y = 0;
-			var width = (int)(dragArea.ActualWidth * scaleAdjustment);
-			var height = (int)(TabControl.TitlebarArea.ActualHeight * scaleAdjustment);
-
-			var dragRect = new RectInt32(x, y, width, height);
-			App.Window.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
+			DragZoneHelper.SetDragZones(App.Window,
+				dragZoneLeftIndent: (int)(TabControl.ActualWidth - TabControl.DragArea.ActualWidth));
 		}
 
 		public void TabItemContent_ContentChanged(object? sender, TabItemArguments e)
@@ -263,28 +255,28 @@ namespace Files.App.Views
 			switch ((invokedItemContainer.DataContext as INavigationControlItem)?.ItemType)
 			{
 				case NavigationControlItemType.Location:
+				{
+					var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path; // Get the path of the invoked item
+
+					if (string.IsNullOrEmpty(ItemPath)) // Section item
 					{
-						var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path; // Get the path of the invoked item
-
-						if (string.IsNullOrEmpty(ItemPath)) // Section item
-						{
-							navigationPath = invokedItemContainer.Tag?.ToString();
-						}
-						else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
-						{
-							if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
-								return; // return if already selected
-
-							navigationPath = "Home";
-							sourcePageType = typeof(WidgetsPage);
-						}
-						else // Any other item
-						{
-							navigationPath = invokedItemContainer.Tag?.ToString();
-						}
-
-						break;
+						navigationPath = invokedItemContainer.Tag?.ToString();
 					}
+					else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
+					{
+						if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
+							return; // return if already selected
+
+						navigationPath = "Home";
+						sourcePageType = typeof(WidgetsPage);
+					}
+					else // Any other item
+					{
+						navigationPath = invokedItemContainer.Tag?.ToString();
+					}
+
+					break;
+				}
 
 				case NavigationControlItemType.FileTag:
 					var tagPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path; // Get the path of the invoked item
@@ -302,10 +294,10 @@ namespace Files.App.Views
 					return;
 
 				default:
-					{
-						navigationPath = invokedItemContainer.Tag?.ToString();
-						break;
-					}
+				{
+					navigationPath = invokedItemContainer.Tag?.ToString();
+					break;
+				}
 			}
 
 			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shellPage)
