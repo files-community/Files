@@ -36,6 +36,9 @@ namespace Files.InteractionTests.Tests
 		{
 			// Click on the desktop item in the sidebar
 			TestHelper.InvokeButtonById("Desktop");
+
+			// Wait for the desktop folder to load
+			Thread.Sleep(3000);
 		}
 
 
