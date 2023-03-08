@@ -2605,9 +2605,9 @@
     <value>Monivalinta</value>
   </data>
   <data name="Hashes" xml:space="preserve">
-    <value>Hashes</value>
+    <value>Hajautusarvot</value>
   </data>
   <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Unable to calculate hashes due to a system error</value>
+    <value>Hajautusarvoja ei voida laskea järjestelmävirheen vuoksi</value>
   </data>
 </root>
