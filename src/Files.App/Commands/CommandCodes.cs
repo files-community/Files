@@ -13,6 +13,7 @@
 		// Show
 		ToggleShowHiddenItems,
 		ToggleShowFileExtensions,
+		TogglePreviewPane,
 
 		// File System
 		CopyItem,
@@ -43,5 +44,14 @@
 		SetAsWallpaperBackground,
 		SetAsSlideshowBackground,
 		SetAsLockscreenBackground,
+
+		// Run
+		RunAsAdmin,
+		RunAsAnotherUser,
+
+    // Archives
+		CompressIntoArchive,
+		CompressIntoSevenZip,
+		CompressIntoZip
 	}
 }
