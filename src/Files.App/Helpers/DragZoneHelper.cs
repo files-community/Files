@@ -124,7 +124,7 @@ namespace Files.App.Helpers
 			var windowWidth = (int)(appWindow.Size.Width / scaleAdjustment);
 			nonDraggingZones ??= Array.Empty<RectInt32>();
 #if DEBUG
-			// subtract the toolbar area (center-top in window), only in DEBUG mode.
+			// Subtract the toolbar area (center-top in window), only in DEBUG mode.
 			nonDraggingZones = nonDraggingZones.Concat(new RectInt32[] { new((windowWidth - DebugToolbarWidth) / 2, 0, DebugToolbarWidth, DebugToolbarHeight) });
 #endif
 			appWindow.TitleBar.SetDragRectangles(
