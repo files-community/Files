@@ -15,7 +15,9 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
@@ -166,6 +168,9 @@ namespace Files.App.Views.Properties
 				case PropertyNavigationViewItemEnums.ItemCompatibility:
 					contentFrame.Navigate(typeof(CompatibilityPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
+				case PropertyNavigationViewItemEnums.ItemHash:
+					contentFrame.Navigate(typeof(HashesPage), navParam, args.RecommendedNavigationTransitionInfo);
+					break;
 			}
 		}
 
@@ -184,6 +189,13 @@ namespace Files.App.Views.Properties
 				ItemType = PropertyNavigationViewItemEnums.ItemSecurity,
 				OutlinePathIcon = (string)Application.Current.Resources["ShieldIconRegular"],
 				FilledPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
+			};
+			var hashItem = new SquareNavViewItem()
+			{
+				Name = "Hashes".GetLocalizedResource(),
+				ItemType = PropertyNavigationViewItemEnums.ItemHash,
+				OutlinePathIcon = (string)Application.Current.Resources["WindowsAppsRegular"],
+				FilledPathIcon = (string)Application.Current.Resources["WindowsAppsFilled"],
 			};
 			var shortcutItem = new SquareNavViewItem()
 			{
@@ -223,6 +235,7 @@ namespace Files.App.Views.Properties
 
 			NavViewItems.Add(generalItem);
 			NavViewItems.Add(securityItem);
+			NavViewItems.Add(hashItem);
 			NavViewItems.Add(shortcutItem);
 			NavViewItems.Add(libraryItem);
 			NavViewItems.Add(detailsItem);
@@ -231,22 +244,38 @@ namespace Files.App.Views.Properties
 
 			MainPropertiesWindowNavigationView.SelectedItem = generalItem;
 
-			// Unable unavailable property tabs
-			if (item is ListedItem listedItem)
+			if (item is List<ListedItem> listedItems)
+			{
+				var commonFileExt = listedItems.Select(x => x.FileExtension).Distinct().Count() == 1 ? listedItems.First().FileExtension : null;
+				var compatibilityItemEnabled = listedItems.All(listedItem => FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : commonFileExt, true));
+
+				if (!compatibilityItemEnabled)
+					NavViewItems.Remove(compatibilityItem);
+
+				NavViewItems.Remove(libraryItem);
+				NavViewItems.Remove(shortcutItem);
+				NavViewItems.Remove(detailsItem);
+				NavViewItems.Remove(securityItem);
+				NavViewItems.Remove(customizationItem);
+			} 
+			else if (item is ListedItem listedItem)
 			{
 				var isShortcut = listedItem.IsShortcut;
 				var isLibrary = listedItem.IsLibrary;
 				var fileExt = listedItem.FileExtension;
+				var isFolder = listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder;
 
 				var securityItemEnabled = !isLibrary && !listedItem.IsRecycleBinItem;
+				var hashItemEnabled = !isFolder && !isLibrary && !listedItem.IsRecycleBinItem;
 				var detailsItemEnabled = fileExt is not null && !isShortcut && !isLibrary;
-				var customizationItemEnabled = !isLibrary && (
-					(listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsArchive) ||
-					(isShortcut && !listedItem.IsLinkItem));
+				var customizationItemEnabled = !isLibrary && ((isFolder && !listedItem.IsArchive) || (isShortcut && !listedItem.IsLinkItem));
 				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : fileExt, true);
 
 				if (!securityItemEnabled)
 					NavViewItems.Remove(securityItem);
+
+				if (!hashItemEnabled)
+					NavViewItems.Remove(hashItem);
 
 				if (!isShortcut)
 					NavViewItems.Remove(shortcutItem);
@@ -265,6 +294,7 @@ namespace Files.App.Views.Properties
 			}
 			else if (item is DriveItem)
 			{
+				NavViewItems.Remove(hashItem);
 				NavViewItems.Remove(shortcutItem);
 				NavViewItems.Remove(libraryItem);
 				NavViewItems.Remove(detailsItem);
@@ -382,5 +412,6 @@ namespace Files.App.Views.Properties
 		ItemSecurity,
 		ItemCustomization,
 		ItemCompatibility,
+		ItemHash,
 	}
 }

@@ -11,6 +11,7 @@
 		// Show
 		ToggleShowHiddenItems,
 		ToggleShowFileExtensions,
+		TogglePreviewPane,
 
 		// File System
 		CopyItem,
@@ -36,5 +37,19 @@
 		// Favorites
 		PinItemToFavorites,
 		UnpinItemFromFavorites,
+
+		// Backgrounds
+		SetAsWallpaperBackground,
+		SetAsSlideshowBackground,
+		SetAsLockscreenBackground,
+
+		// Run
+		RunAsAdmin,
+		RunAsAnotherUser,
+
+    // Archives
+		CompressIntoArchive,
+		CompressIntoSevenZip,
+		CompressIntoZip
 	}
 }

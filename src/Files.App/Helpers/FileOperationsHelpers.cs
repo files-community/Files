@@ -1,5 +1,5 @@
 using Files.App.Filesystem;
-using Files.App.Filesystem.Permissions;
+using Files.App.Filesystem.Security;
 using Files.App.Shell;
 using Files.Backend.Helpers;
 using Files.Shared;
@@ -629,20 +629,14 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static FilePermissions GetFilePermissions(string filePath, bool isFolder)
-			=> FilePermissions.FromFilePath(filePath, isFolder);
+		public static AccessControlList GetFilePermissions(string filePath, bool isFolder)
+			=> AccessControlList.FromPath(filePath, isFolder);
 
 		public static bool SetFileOwner(string filePath, bool isFolder, string ownerSid)
-		{
-			var fp = FilePermissions.FromFilePath(filePath, isFolder);
-			return fp.SetOwner(ownerSid);
-		}
+			=> AccessControlList.SetOwner(filePath, isFolder, ownerSid);
 
 		public static bool SetAccessRuleProtection(string filePath, bool isFolder, bool isProtected, bool preserveInheritance)
-		{
-			var fp = FilePermissions.FromFilePath(filePath, isFolder);
-			return fp.SetAccessRuleProtection(isProtected, preserveInheritance);
-		}
+			=> AccessControlList.SetAccessControlProtection(filePath, isFolder, isProtected, preserveInheritance);
 
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
 		{

@@ -136,7 +136,7 @@
     <value>Cesta:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Velikost:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Nekomprimovaná velikost:</value>
@@ -154,13 +154,13 @@
     <value>Přeskočit</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>Vybrat vše</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>Obrátit výběr</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>Vymazat výběr</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Upraveno:</value>
@@ -175,7 +175,7 @@
     <value>Zadejte cestu</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Hledat</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Soubory které jste dříve otevřeli se zobrazí zde</value>
@@ -184,13 +184,13 @@
     <value>Odstranit tuto položku</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>GitHub repozitář</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>O aplikaci</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>Open Source</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Časový formát</value>
@@ -214,7 +214,7 @@
     <value>Pozadí</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Pokročilé</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Předvolby</value>
@@ -247,22 +247,22 @@
     <value>Obnovit</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Vložit</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nový</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Vlastnosti</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Otevřít</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Otevřít v nové kartě</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Otevřít v novém okně</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Sdílet</value>
@@ -286,10 +286,10 @@
     <value>Chcete-li začít, musíte nám udělit oprávnění k zobrazení vašich souborů. Toto otevře stránku s nastavením, kde nám můžete toto oprávnění udělit. Po dokončení tohoto kroku budete muset aplikaci znovu otevřít. </value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>Obrazovka</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Zadejte název položky</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Pojmenovat</value>
@@ -367,13 +367,13 @@
     <value>Soubor, ke kterému se snažíte přistoupit je využíván {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>Soubor, ke kterému se snažíte přistoupit je právě využíván jinou aplikací</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Soubor je používán</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>Rozložení</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Pouze pro čtení</value>
@@ -400,10 +400,10 @@
     <value>před {0} sekundami</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>Před vteřinou</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Nyní</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>Požadovaná operace není podporována</value>
@@ -415,13 +415,13 @@
     <value>Otevřít v aplikaci</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>Poslat do</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Název položky nesmí obsahovat následující znaky: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>Zadaný název položky je neplatný</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>položka vybrána</value>
@@ -613,19 +613,19 @@
     <value>Název položky byl příliš dlouhý</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>Zobrazit více možností</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Aplikace musí být restartována, aby se uplatnila tato nastavení, chcete aplikaci restartovat?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>Podpořte nás na GitHubu</value>
   </data>
   <data name="Personalization" xml:space="preserve">
-    <value>Personalization</value>
+    <value>Přizpůsobení</value>
   </data>
   <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Layout and sorting</value>
+    <value>Rozložení a třídění</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Nepodařilo se nám vytvořit tuto položku</value>
@@ -673,13 +673,13 @@
     <value>Přejít o adresář výše</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Jazyk</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>Přesunout rozšíření do podnabídky</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>Vyžadovat potvrzení pro mazání souborů</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Při ukládání některých vlastností došlo k chybě.</value>
@@ -955,7 +955,7 @@
     <value>Adresa</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>Možnosti výběru</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Vybrat</value>
@@ -997,7 +997,7 @@
     <value>Nový panel</value>
   </data>
   <data name="NewTabCtrlT" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+    <value>Nová karta (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Některé vlastnosti mohou obsahovat osobní informace.</value>
@@ -1030,13 +1030,13 @@
     <value>Zahrnout neindexované položky do výsledků hledání</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
+    <value>Synchronizovat rozložení a řazení předvoleb napříč adresáři</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Přizpůsobit kontextovou nabídku pravého tlačítka</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>Původní cesta</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Přidat</value>
@@ -1048,25 +1048,22 @@
     <value>Odstranit</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Open tabs in dual pane mode</value>
+    <value>Otevčít panely v režimu dvojitého panelu</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>Zobrazit možnost otevření složek v novém panelu</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nový panel</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>Open in new pane</value>
+    <value>Otevřít v novém panelu</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Složky</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Podrobnosti (Ctrl+Shift+1)</value>
-  </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>Náhled</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Velké ikony (Ctrl+Shift+5)</value>
@@ -1134,8 +1131,8 @@
   <data name="DesiredName" xml:space="preserve">
     <value>Požadovaný název</value>
   </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Přepnout panel náhledu (Ctrl+P)</value>
+  <data name="TogglePreviewPane" xml:space="preserve">
+    <value>Toggle the preview pane</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Náhled není dostupný</value>
@@ -1144,7 +1141,7 @@
     <value>Název položky</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Odepnout z Oblíbených</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Síťové disky</value>
@@ -1162,13 +1159,13 @@
     <value>Náhled vybraného souboru</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Feedback</value>
+    <value>Zpětná vazba</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>K dispozici, když jste online</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Dokumentace</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>K dispozici offline</value>
@@ -1189,7 +1186,7 @@
     <value>Neznámý</value>
   </data>
   <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
+    <value>Zobrazit zaškrtávací políčko vedle názvů souborů</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Pokud změníte příponu souboru, soubor se může stát nepoužitelným. Jste si jisti že jí chcete změnit?</value>
@@ -1318,7 +1315,7 @@
     <value>Knihovna se stejným názvem již existuje!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>Otevřít úložiště</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopírovat</value>
@@ -1375,10 +1372,10 @@
     <value>Nenašli jste, co hledáte?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Search unindexed items</value>
+    <value>Hledat neindexované položky</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Nahradit stávající</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Generovat nové jméno</value>
@@ -1420,7 +1417,7 @@
     <value>Sloupec data smazání</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Seřadit</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Seskupit podle</value>
@@ -1489,10 +1486,10 @@
     <value>Znovu otevřít zavřené karty</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Přejmenovat</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>Soukromí</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Přesun zrušen</value>
@@ -1909,7 +1906,7 @@
     <value>Otevřít nadřazenou složku</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Neznámý</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Upravit štítky</value>
@@ -1978,7 +1975,7 @@
     <value>Dlaždice</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Otevřít složky v nové kartě</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Probíhající úlohy</value>
@@ -1990,13 +1987,13 @@
     <value>Slopuec velikosti položky</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>Experimental feature flags</value>
+    <value>Experimentální funkce</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>Pomoc a podpora</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>Submit feature request</value>
+    <value>Odeslat žádost o vylepšení</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
     <value>Submit bug report</value>
@@ -2596,7 +2593,7 @@
     <value>Height</value>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>Width</value>
+    <value>Šířka</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Apply this action to all conflicting items</value>
@@ -2606,5 +2603,11 @@
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Multiselect</value>
+  </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>Hashes</value>
+  </data>
+  <data name="UnableToCalcHashes" xml:space="preserve">
+    <value>Unable to calculate hashes due to a system error</value>
   </data>
 </root>

@@ -154,13 +154,13 @@
     <value>略過</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>全選</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>反向選取</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>取消選取</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>修改日期：</value>
@@ -259,7 +259,7 @@
     <value>開啟</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>在新索引標籤中開啟</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>Open in new window</value>
@@ -1065,9 +1065,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>詳細資料（Ctrl + Shift + 1）</value>
   </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>預覽</value>
-  </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>大圖示（Ctrl + Shift + 5）</value>
   </data>
@@ -1134,8 +1131,8 @@
   <data name="DesiredName" xml:space="preserve">
     <value>您想要的名稱</value>
   </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>開啟/關閉預覽畫面（Ctrl + P）</value>
+  <data name="TogglePreviewPane" xml:space="preserve">
+    <value>Toggle the preview pane</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>無法預覽</value>
@@ -2606,5 +2603,11 @@
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Multiselect</value>
+  </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>Hashes</value>
+  </data>
+  <data name="UnableToCalcHashes" xml:space="preserve">
+    <value>Unable to calculate hashes due to a system error</value>
   </data>
 </root>

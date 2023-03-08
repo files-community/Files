@@ -1065,9 +1065,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detailansicht (Strg+Shift+1)</value>
   </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>Vorschau</value>
-  </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Rasteransicht (Groß) (Strg+Shift+5)</value>
   </data>
@@ -1134,8 +1131,8 @@
   <data name="DesiredName" xml:space="preserve">
     <value>Gewünschter Name</value>
   </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vorschauleiste anzeigen/ausblenden (Strg+P)</value>
+  <data name="TogglePreviewPane" xml:space="preserve">
+    <value>Vorschaupanel umschalten</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Keine Vorschau verfügbar</value>
@@ -2606,5 +2603,11 @@
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Mehrfachauswahl</value>
+  </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>Hashes</value>
+  </data>
+  <data name="UnableToCalcHashes" xml:space="preserve">
+    <value>Unable to calculate hashes due to a system error</value>
   </data>
 </root>

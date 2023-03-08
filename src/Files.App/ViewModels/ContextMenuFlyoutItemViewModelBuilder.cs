@@ -12,7 +12,7 @@ namespace Files.App.ViewModels
 
 		private readonly IRichCommand command;
 
-		public bool? isVisible = null;
+		private bool? isVisible = null;
 		public bool IsVisible
 		{
 			get => isVisible ?? command.IsExecutable;

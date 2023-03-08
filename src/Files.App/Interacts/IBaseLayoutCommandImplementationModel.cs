@@ -11,31 +11,7 @@ namespace Files.App.Interacts
 	{
 		void RenameItem(RoutedEventArgs e);
 
-		void SetAsLockscreenBackgroundItem(RoutedEventArgs e);
-
-		void SetAsDesktopBackgroundItem(RoutedEventArgs e);
-
-		void SetAsSlideshowItem(RoutedEventArgs e);
-
-		void RunAsAdmin(RoutedEventArgs e);
-
-		void RunAsAnotherUser(RoutedEventArgs e);
-
-		void SidebarPinItem(RoutedEventArgs e);
-
-		void SidebarUnpinItem(RoutedEventArgs e);
-
 		void OpenItem(RoutedEventArgs e);
-
-		void RestoreRecycleBin(RoutedEventArgs e);
-
-		void RestoreSelectionRecycleBin(RoutedEventArgs e);
-
-		void QuickLook(RoutedEventArgs e);
-
-		void RestoreItem(RoutedEventArgs e);
-
-		void ShowFolderProperties(RoutedEventArgs e);
 
 		void ShowProperties(RoutedEventArgs e);
 
@@ -76,12 +52,6 @@ namespace Files.App.Interacts
 		void SearchUnindexedItems(RoutedEventArgs e);
 
 		Task CreateFolderWithSelection(RoutedEventArgs e);
-
-		Task CompressIntoArchive();
-
-		Task CompressIntoZip();
-
-		Task CompressIntoSevenZip();
 
 		Task DecompressArchive();
 
