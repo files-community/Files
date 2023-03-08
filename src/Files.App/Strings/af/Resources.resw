@@ -1066,9 +1066,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Besonderhede (Ctrl+Shift+1)</value>
   </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>Voorskou</value>
-  </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Groot Ikone (Ctrl+Shift+5)</value>
   </data>
@@ -1135,8 +1132,8 @@
   <data name="DesiredName" xml:space="preserve">
     <value>Gewenste naam</value>
   </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Wissel die voorskoupaneel (Ctrl+P)</value>
+  <data name="TogglePreviewPane" xml:space="preserve">
+    <value>Toggle the preview pane</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorskou beskikbaar nie</value>
@@ -2607,5 +2604,11 @@
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Multiselect</value>
+  </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>Hashes</value>
+  </data>
+  <data name="UnableToCalcHashes" xml:space="preserve">
+    <value>Unable to calculate hashes due to a system error</value>
   </data>
 </root>

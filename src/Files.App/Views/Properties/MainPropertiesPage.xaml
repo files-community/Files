@@ -21,6 +21,7 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<toolkitconvers:BoolNegationConverter x:Key="BoolNegationConverter" />
+
 			<toolkitconvers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
 			<toolkitconvers:BoolToVisibilityConverter
@@ -85,14 +86,14 @@
 						IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
 						Tag="{x:Bind ItemType}">
 						<NavigationViewItem.Content>
-							<StackPanel Margin="-8,0,-14,0" Spacing="8">
+							<StackPanel Spacing="4">
 
 								<Grid x:Name="ItemPathIconGrid">
 									<!--  Outline Path Icon  -->
 									<Viewbox
 										Width="24"
 										Height="24"
-										Margin="0,4,4,0"
+										Margin="0,0,4,0"
 										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}">
 										<PathIcon
 											x:Name="NavigationViewItemOutlinePathIcon"
@@ -103,7 +104,7 @@
 									<Viewbox
 										Width="24"
 										Height="24"
-										Margin="0,0,4,4"
+										Margin="0,0,4,0"
 										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 										<PathIcon
 											x:Name="NavigationViewItemFilledPathIcon"
