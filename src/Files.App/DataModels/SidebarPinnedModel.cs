@@ -178,12 +178,13 @@ namespace Files.App.DataModels
 			// Remove unpinned items from favoriteList
 			foreach (var childItem in Favorites)
 			{
-				if (childItem is LocationItem item)
+				if (childItem is LocationItem item && !item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
 				{
 					lock (favoriteList)
 					{
 						favoriteList.Remove(item);
 					}
+					DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 				}
 			}
 
@@ -192,9 +193,13 @@ namespace Files.App.DataModels
 		}
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)
-			=> await LoadAsync();
+		{
+			await LoadAsync();
+		}
 
 		public async Task LoadAsync()
-			=> await UpdateItemsWithExplorer();
+		{
+			await UpdateItemsWithExplorer();
+		}
 	}
 }
