@@ -17,8 +17,8 @@
 			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPressed" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="TextFillColorPrimaryBrush" />
 
 			<StaticResource x:Key="NavigationViewItemBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
 			<StaticResource x:Key="NavigationViewItemBorderBrushPointerOver" ResourceKey="ControlElevationBorderBrush" />
@@ -41,8 +41,8 @@
 			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundPressed" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
-			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="TextFillColorPrimaryBrush" />
 
 			<StaticResource x:Key="NavigationViewItemBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
 			<StaticResource x:Key="NavigationViewItemBorderBrushPointerOver" ResourceKey="ControlElevationBorderBrush" />
@@ -206,9 +206,6 @@
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="PointerStates">
 								<VisualState x:Name="Normal">
-									<Storyboard>
-										<PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
-									</Storyboard>
 									<VisualState.Setters>
 										<Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource NavigationViewItemBorderBrush}" />
 									</VisualState.Setters>
@@ -227,7 +224,6 @@
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundPointerOver}" />
 										</ObjectAnimationUsingKeyFrames>
-										<PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
 									</Storyboard>
 									<VisualState.Setters>
 										<Setter Target="Icon.(muxc:AnimatedIcon.State)" Value="PointerOver" />
@@ -247,7 +243,6 @@
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundPressed}" />
 										</ObjectAnimationUsingKeyFrames>
-										<PointerDownThemeAnimation Storyboard.TargetName="LayoutRoot" />
 									</Storyboard>
 									<VisualState.Setters>
 										<Setter Target="Icon.(muxc:AnimatedIcon.State)" Value="Pressed" />

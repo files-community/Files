@@ -131,7 +131,7 @@
 			<ScrollViewer x:Name="SettingsContentScrollViewer">
 				<Frame
 					x:Name="SettingsContentFrame"
-					Padding="12"
+					Padding="16"
 					Background="{ThemeResource SolidBackgroundFillColorTertiary}" />
 			</ScrollViewer>
 
