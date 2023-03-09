@@ -18,7 +18,7 @@ namespace Files.App.Helpers
 	{
 		public static bool CanDecompress(IReadOnlyList<ListedItem> selectedItems)
 		{
-			return selectedItems.Any() && selectedItems.All(x => x.IsArchive) 
+			return selectedItems.Any() && selectedItems.All(x => x.IsArchive)
 				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
 		}
 
@@ -29,11 +29,14 @@ namespace Files.App.Helpers
 
 		public static string DetermineArchiveNameFromSelection(IReadOnlyList<ListedItem> selectedItems)
 		{
+			if (!selectedItems.Any())
+				return string.Empty;
+
 			return Path.GetFileName(
-					selectedItems.Count is 1 
-					? selectedItems[0].ItemPath 
+					selectedItems.Count is 1
+					? selectedItems[0].ItemPath
 					: Path.GetDirectoryName(selectedItems[0].ItemPath
-				))?? string.Empty;
+				)) ?? string.Empty;
 		}
 
 		public static (string[] Sources, string directory, string fileName) GetCompressDestination(IShellPage associatedInstance)
@@ -46,7 +49,7 @@ namespace Files.App.Helpers
 				return (sources, string.Empty, string.Empty);
 
 			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory.Normalize();
-				
+
 
 			if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)
 				directory = library.DefaultSaveFolder;
