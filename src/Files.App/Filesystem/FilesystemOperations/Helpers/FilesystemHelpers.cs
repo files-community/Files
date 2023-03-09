@@ -760,12 +760,20 @@ namespace Files.App.Filesystem
 				{
 					stream.Seek(0);
 
-					byte[] dropBytes = new byte[stream.Size];
-					int bytesRead = await stream.AsStreamForRead().ReadAsync(dropBytes);
-
+					byte[]? dropBytes = null;
+					int bytesRead = 0;
+					try
+					{
+						dropBytes = new byte[stream.Size];
+						bytesRead = await stream.AsStreamForRead().ReadAsync(dropBytes);
+					}
+					catch (COMException)
+					{
+					}
+					
 					if (bytesRead > 0)
 					{
-						IntPtr dropStructPointer = Marshal.AllocHGlobal(dropBytes.Length);
+						IntPtr dropStructPointer = Marshal.AllocHGlobal(dropBytes!.Length);
 
 						try
 						{
