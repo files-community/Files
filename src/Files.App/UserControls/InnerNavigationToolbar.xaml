@@ -341,8 +341,8 @@
 				<AppBarButton
 					x:Name="RotateImageLeftButton"
 					x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
-					Command="{x:Bind ViewModel.RotateImageLeftCommand, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=RotateLeft}"
+					Command="{x:Bind Commands.RotateLeft, Mode=OneWay}"
+					Label="{x:Bind Commands.RotateLeft.Label}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateLeft}">
 
@@ -351,8 +351,8 @@
 				<AppBarButton
 					x:Name="RotateImageRightButton"
 					x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
-					Command="{x:Bind ViewModel.RotateImageRightCommand, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=RotateRight}"
+					Command="{x:Bind Commands.RotateRight, Mode=OneWay}"
+					Label="{x:Bind Commands.RotateRight.Label}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateRight}">
 
