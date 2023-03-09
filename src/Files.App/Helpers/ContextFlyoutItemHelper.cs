@@ -696,17 +696,10 @@ namespace Files.App.Helpers
 				{
 					IsVisible = selectedItemsPropertiesViewModel.IsSelectedItemImage
 				}.Build(),
-				new ContextMenuFlyoutItemViewModel
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RotateRight)
 				{
-					Text = "RotateRight".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconRotateRight"
-					},
-					Command = commandsViewModel.RotateImageRightCommand,
-					ShowInSearchPage = true,
-					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
-				},
+					IsVisible = selectedItemsPropertiesViewModel.IsSelectedItemImage
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAdmin).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAnotherUser).Build(),
 				new ContextMenuFlyoutItemViewModel()
