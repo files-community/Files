@@ -692,17 +692,10 @@ namespace Files.App.Helpers
 						}.Build(),
 					}
 				},
-				new ContextMenuFlyoutItemViewModel
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RotateLeft)
 				{
-					Text = "RotateLeft".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconRotateLeft"
-					},
-					Command = commandsViewModel.RotateImageLeftCommand,
-					ShowInSearchPage = true,
-					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
-				},
+					IsVisible = selectedItemsPropertiesViewModel.IsSelectedItemImage
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel
 				{
 					Text = "RotateRight".GetLocalizedResource(),
