@@ -694,11 +694,11 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RotateLeft)
 				{
-					IsVisible = selectedItemsPropertiesViewModel.IsSelectedItemImage
+					IsVisible = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RotateRight)
 				{
-					IsVisible = selectedItemsPropertiesViewModel.IsSelectedItemImage
+					IsVisible = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAdmin).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAnotherUser).Build(),
