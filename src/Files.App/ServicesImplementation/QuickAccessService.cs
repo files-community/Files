@@ -34,12 +34,12 @@ namespace Files.App.ServicesImplementation
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
 		}
 
-		public Task UnpinFromSidebar(string folderPath, bool syncItems = true)
+		public Task UnpinFromSidebar(string folderPath)
 		{ 
-			return UnpinFromSidebar(new[] { folderPath }, syncItems); 
+			return UnpinFromSidebar(new[] { folderPath }); 
 		}
 		
-		public async Task UnpinFromSidebar(string[] folderPaths, bool syncItems = true)
+		public async Task UnpinFromSidebar(string[] folderPaths)
 		{
 			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
 			object? shell = Activator.CreateInstance(shellAppType);
@@ -62,8 +62,7 @@ namespace Files.App.ServicesImplementation
 				}
 			}
 
-			if (syncItems)
-				await App.QuickAccessManager.Model.LoadAsync();
+			await App.QuickAccessManager.Model.LoadAsync();
 			
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));
 		}
@@ -81,10 +80,11 @@ namespace Files.App.ServicesImplementation
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 
 			// Unpin every item that is below this index and then pin them all in order
-			await UnpinFromSidebar(Array.Empty<string>(), false);
+			await UnpinFromSidebar(Array.Empty<string>());
 
 			await PinToSidebar(items);
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
+			await App.QuickAccessManager.Model.LoadAsync();
 		}
 	}
 }

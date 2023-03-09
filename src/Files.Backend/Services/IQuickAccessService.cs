@@ -30,17 +30,15 @@ namespace Files.App.ServicesImplementation
 		/// Unpins a folder from the quick access list
 		/// </summary>
 		/// <param name="folderPath">The folder to unpin</param>
-		/// <param name="syncItems">Whether to sync the items with explorer</param>
 		/// <returns></returns>
-		Task UnpinFromSidebar(string folderPath, bool syncItems = true);
+		Task UnpinFromSidebar(string folderPath);
 
 		/// <summary>
 		/// Unpins folders from the quick access list
 		/// </summary>
 		/// <param name="folderPaths">The array of folders to unpin</param>
-		/// <param name="syncItems">Whether to sync the items with explorer</param>
 		/// <returns></returns>
-		Task UnpinFromSidebar(string[] folderPaths, bool syncItems = true);
+		Task UnpinFromSidebar(string[] folderPaths);
 
 		/// <summary>
 		/// Checks if a folder is pinned to the quick access list
