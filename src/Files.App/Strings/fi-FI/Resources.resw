@@ -268,7 +268,7 @@
     <value>Jaa</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>Leikkaa</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Poista</value>
@@ -1789,7 +1789,7 @@
     <value>Sulje ruutu</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>Syötä kompakti peittokuva</value>
+    <value>Siirry suppeaan asetteluun</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
     <value>Poistu suppeasta asettelusta</value>
@@ -2506,7 +2506,7 @@
     <value>Näytä lisää</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>Mutta älä huoli, loimme upean korvaavan, joka on luotettavampi ja jossa on enemmän ominaisuuksia. Voit ottaa tiedostotunnisteet-widgetin käyttöön kohdasta Asetukset &gt; Asetukset &gt; Widgetit. Tunnisteet-widgetin käyttöönotto poistaa paketit-widgetin automaattisesti käytöstä.</value>
+    <value>Mutta älä huoli, loimme upean korvaavan vaihtoehdon, joka on luotettavampi ja jossa on enemmän ominaisuuksia. Voit ottaa tiedostotunnisteet-widgetin käyttöön kohdasta Asetukset &gt; Asetukset &gt; Widgetit. Tunnisteet-widgetin käyttöönotto poistaa paketit-widgetin automaattisesti käytöstä.</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>Paketit poistuvat käytöstä tulevassa päivityksessä 📎</value>
