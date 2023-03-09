@@ -27,6 +27,9 @@ namespace Files.App.Helpers
 				if (JumpList.IsSupported())
 				{
 					instance = await JumpList.LoadCurrentAsync();
+					App.QuickAccessManager.PinnedItemsModified += QuickAccessManager_DataChanged;
+
+					QuickAccessManager_DataChanged(null, null);
 
 					// Disable automatic jumplist. It doesn't work with Files UWP.
 					instance.SystemGroupKind = JumpListSystemGroupKind.None;
@@ -48,14 +51,14 @@ namespace Files.App.Helpers
 			{
 				if (instance is not null)
 				{
-					AddFolder(path);
+					AddFolder(path, "ms-resource:///Resources/JumpListRecentGroupHeader");
 					await instance.SaveAsync();
 				}
 			}
 			catch { }
 		}
 
-		private void AddFolder(string path)
+		private void AddFolder(string path, string group)
 		{
 			if (instance is not null)
 			{
@@ -65,9 +68,7 @@ namespace Files.App.Helpers
 					// Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
 					var drive = App.DrivesManager.Drives.Where(drive => drive.Path == path).FirstOrDefault();
 					if (drive is null)
-					{
 						return;
-					}
 
 					displayName = drive.Text;
 					path += '?';
@@ -76,13 +77,9 @@ namespace Files.App.Helpers
 				if (displayName is null)
 				{
 					if (path.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
-					{
 						displayName = "ms-resource:///Resources/Desktop";
-					}
 					else if (path.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
-					{
 						displayName = "ms-resource:///Resources/Downloads";
-					}
 					else if (path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 					{
 						var localSettings = ApplicationData.Current.LocalSettings;
@@ -108,21 +105,22 @@ namespace Files.App.Helpers
 						}
 					}
 					else
-					{
 						displayName = Path.GetFileName(path);
-					}
 				}
 
 				var jumplistItem = JumpListItem.CreateWithArguments(path, displayName);
 				jumplistItem.Description = jumplistItem.Arguments;
-				jumplistItem.GroupName = "ms-resource:///Resources/JumpListRecentGroupHeader";
+				jumplistItem.GroupName = group;
 				jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
 
 				// Keep newer items at the top.
 				instance.Items.Remove(instance.Items.FirstOrDefault(x => x.Arguments.Equals(path, StringComparison.OrdinalIgnoreCase)));
 				instance.Items.Insert(0, jumplistItem);
-				JumpListItemPaths.Remove(JumpListItemPaths.FirstOrDefault(x => x.Equals(path, StringComparison.OrdinalIgnoreCase)));
-				JumpListItemPaths.Add(path);
+
+				if (string.Equals(group, "ms-resource:///Resources/JumpListRecentGroupHeader", StringComparison.OrdinalIgnoreCase)) {
+					JumpListItemPaths.Remove(JumpListItemPaths.FirstOrDefault(x => x.Equals(path, StringComparison.OrdinalIgnoreCase)));
+					JumpListItemPaths.Add(path); 
+				}
 			}
 		}
 
@@ -133,9 +131,7 @@ namespace Files.App.Helpers
 			try
 			{
 				if (instance is null)
-				{
 					return;
-				}
 
 				if (JumpListItemPaths.Remove(path))
 				{
@@ -145,6 +141,15 @@ namespace Files.App.Helpers
 				}
 			}
 			catch { }
+		}
+
+		private async void QuickAccessManager_DataChanged(object sender, FileSystemEventArgs e)
+		{
+			if (instance is null)
+				return;
+
+			App.QuickAccessManager.Model.FavoriteItems.ForEach(x => AddFolder(x, "ms-resource:///Resources/JumpListPinnedGroupHeader"));
+			await instance.SaveAsync();
 		}
 	}
 }
