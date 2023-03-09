@@ -16,9 +16,9 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Copy".GetLocalizedResource();
 
-		public HotKey HotKey = new(VirtualKey.C, VirtualKeyModifiers.Control);
-
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCopy");
+
+		public HotKey HotKey { get; } = new(VirtualKey.C, VirtualKeyModifiers.Control);
 
 		public bool IsExecutable => context.HasSelection;
 
