@@ -238,10 +238,6 @@ namespace Files.App.Commands
 					notifyPropertyChanging.PropertyChanging += Action_PropertyChanging;
 				if (action is INotifyPropertyChanged notifyPropertyChanged)
 					notifyPropertyChanged.PropertyChanged += Action_PropertyChanged;
-
-				if (code is CommandCodes.CutItem)
-				{
-				}
 			}
 
 			public bool CanExecute(object? parameter) => command.CanExecute(parameter);
