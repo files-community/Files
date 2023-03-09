@@ -2607,4 +2607,10 @@
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
     <value>Reorder sidebar items</value>
   </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>Hashes</value>
+  </data>
+  <data name="UnableToCalcHashes" xml:space="preserve">
+    <value>Unable to calculate hashes due to a system error</value>
+  </data>
 </root>

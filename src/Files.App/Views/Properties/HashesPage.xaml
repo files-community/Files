@@ -1,0 +1,144 @@
+﻿<vm:BasePropertiesPage
+	x:Class="Files.App.Views.Properties.HashesPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:models="using:Files.Backend.Models"
+	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:vm="using:Files.App.ViewModels.Properties"
+	DataContext="{x:Bind HashesViewModel, Mode=OneWay}"
+	Loaded="BasePropertiesPage_Loaded"
+	mc:Ignorable="d">
+
+	<vm:BasePropertiesPage.Resources>
+		<ResourceDictionary>
+			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<toolkitconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+		</ResourceDictionary>
+	</vm:BasePropertiesPage.Resources>
+
+	<Grid x:Name="RootGrid">
+
+		<!--  Loading  -->
+		<StackPanel
+			x:Name="LoadingStatePanel"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			x:Load="{x:Bind HashesViewModel.IsLoading, Mode=OneWay}"
+			Spacing="8">
+			<ProgressRing HorizontalAlignment="Center" IsIndeterminate="True" />
+			<TextBlock
+				x:Name="LoadingTextBlock"
+				HorizontalAlignment="Center"
+				Style="{StaticResource BodyStrongTextBlockStyle}"
+				Text="{helpers:ResourceString Name=Loading}" />
+		</StackPanel>
+
+		<Grid
+			x:Name="HashesListGrid"
+			Margin="12"
+			VerticalAlignment="Top"
+			x:Load="{x:Bind HashesViewModel.IsLoading, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			CornerRadius="4">
+
+			<!--  Hashes ListView  -->
+			<ListView
+				x:Name="HashesListView"
+				ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=TwoWay}"
+				SelectedItem="{x:Bind HashesViewModel.SelectedItem, Mode=TwoWay}">
+
+				<!--  Header  -->
+				<ListView.Header>
+					<Grid
+						Height="44"
+						Padding="16,8,16,0"
+						BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+						BorderThickness="0,0,0,1"
+						ColumnSpacing="12">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="64" />
+							<ColumnDefinition Width="1" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<TextBlock
+							VerticalAlignment="Center"
+							Style="{StaticResource BodyTextBlockStyle}"
+							Text="Algorithm" />
+						<Border
+							Grid.Column="1"
+							Width="1"
+							Height="36"
+							VerticalAlignment="Bottom"
+							Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+						<TextBlock
+							Grid.Column="2"
+							VerticalAlignment="Center"
+							Style="{StaticResource BodyTextBlockStyle}"
+							Text="Hash value" />
+					</Grid>
+				</ListView.Header>
+
+				<!--  Template  -->
+				<ListView.ItemTemplate>
+					<DataTemplate x:DataType="models:HashInfoItem">
+						<ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
+							<Grid ColumnSpacing="12">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="64" />
+									<ColumnDefinition Width="1" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<!--  Algorithm Name  -->
+								<TextBlock
+									VerticalAlignment="Center"
+									Style="{StaticResource BodyTextBlockStyle}"
+									Text="{x:Bind Algorithm}" />
+
+								<!--  Hash Value  -->
+								<TextBlock
+									Grid.Column="2"
+									VerticalAlignment="Center"
+									Style="{StaticResource BodyTextBlockStyle}"
+									Text="{x:Bind HashValue}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap"
+									ToolTipService.ToolTip="{x:Bind HashValue}" />
+
+								<!--  Copy button  -->
+								<Button
+									x:Name="CopyHashButton"
+									Grid.Column="3"
+									Padding="6"
+									AutomationProperties.Name="{helpers:ResourceString Name=Copy}"
+									Background="Transparent"
+									BorderBrush="Transparent"
+									Click="CopyHashButton_Click"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=Copy}">
+									<FontIcon FontSize="14" Glyph="&#xE8C8;" />
+								</Button>
+
+							</Grid>
+						</ListViewItem>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+
+			</ListView>
+
+			<!--  Unavailable Label  -->
+			<TextBlock
+				x:Name="UnavailableTextBlock"
+				Margin="16,56,16,16"
+				x:Load="{x:Bind HashesViewModel.CanAccessFile, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+				Style="{StaticResource BodyTextBlockStyle}"
+				Text="{helpers:ResourceString Name=UnableToCalcHashes}" />
+		</Grid>
+
+	</Grid>
+</vm:BasePropertiesPage>
