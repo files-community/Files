@@ -5,6 +5,7 @@ using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 
@@ -37,7 +38,10 @@ namespace Files.App.Actions.Content.ImageEdition
 		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
+			{
+				context.ShellPage.SlimContentPage.SelectedItemsPropertiesViewModel.CheckAllFileExtensions(context.SelectedItems.Select(selectedItem => selectedItem?.FileExtension).ToList<string>());
 				OnPropertyChanged(nameof(IsExecutable));
+			}
 		}
 	}
 }
