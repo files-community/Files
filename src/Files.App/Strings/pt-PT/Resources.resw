@@ -2605,9 +2605,9 @@
     <value>Seleção múltipla</value>
   </data>
   <data name="Hashes" xml:space="preserve">
-    <value>Hashes</value>
+    <value>'Hashes'</value>
   </data>
   <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Unable to calculate hashes due to a system error</value>
+    <value>Não foi possível determinar as 'hashes devido a um erro do sistema.</value>
   </data>
 </root>
