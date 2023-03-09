@@ -53,8 +53,6 @@ namespace Files.App.Interacts
 			DecompressArchiveHereCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveHere);
 			DecompressArchiveToChildFolderCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveToChildFolder);
 			InstallInfDriver = new AsyncRelayCommand(CommandsModel.InstallInfDriver);
-			RotateImageLeftCommand = new AsyncRelayCommand(CommandsModel.RotateImageLeft);
-			RotateImageRightCommand = new AsyncRelayCommand(CommandsModel.RotateImageRight);
 			InstallFontCommand = new AsyncRelayCommand(CommandsModel.InstallFont);
 			PlayAllCommand = new AsyncRelayCommand(CommandsModel.PlayAll);
 			FormatDriveCommand = new RelayCommand<ListedItem>(CommandsModel.FormatDrive);
@@ -115,10 +113,6 @@ namespace Files.App.Interacts
 		public ICommand DecompressArchiveToChildFolderCommand { get; private set; }
 
 		public ICommand InstallInfDriver { get; set; }
-
-		public ICommand RotateImageLeftCommand { get; private set; }
-
-		public ICommand RotateImageRightCommand { get; private set; }
 
 		public ICommand InstallFontCommand { get; private set; }
 
