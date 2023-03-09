@@ -16,9 +16,9 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "BaseLayoutItemContextFlyoutCut/Text".GetLocalizedResource();
 
-		public HotKey HotKey = new(VirtualKey.X, VirtualKeyModifiers.Control);
-
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCut");
+
+		public HotKey HotKey { get; } = new(VirtualKey.X, VirtualKeyModifiers.Control);
 
 		public bool IsExecutable => context.HasSelection;
 

@@ -167,7 +167,7 @@ namespace Files.App.Commands
 			public CommandCodes Code { get; }
 
 			public string Label => action.Label;
-			public string LabelWithHotKey => $"{Label} ({CustomHotKey})";
+			public string LabelWithHotKey => !customHotKey.IsNone ? $"{Label} ({CustomHotKey})" : Label;
 			public string AutomationName => Label;
 
 			public RichGlyph Glyph => action.Glyph;
@@ -238,6 +238,10 @@ namespace Files.App.Commands
 					notifyPropertyChanging.PropertyChanging += Action_PropertyChanging;
 				if (action is INotifyPropertyChanged notifyPropertyChanged)
 					notifyPropertyChanged.PropertyChanged += Action_PropertyChanged;
+
+				if (code is CommandCodes.CutItem)
+				{
+				}
 			}
 
 			public bool CanExecute(object? parameter) => command.CanExecute(parameter);
