@@ -2604,4 +2604,10 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>Множинний вибір</value>
   </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>Хеші</value>
+  </data>
+  <data name="UnableToCalcHashes" xml:space="preserve">
+    <value>Не вдалося обчислити хеші через системну помилку</value>
+  </data>
 </root>
