@@ -257,6 +257,7 @@ namespace Files.App.Views.Properties
 				NavViewItems.Remove(detailsItem);
 				NavViewItems.Remove(securityItem);
 				NavViewItems.Remove(customizationItem);
+				NavViewItems.Remove(hashItem);
 			} 
 			else if (item is ListedItem listedItem)
 			{
