@@ -316,7 +316,7 @@ namespace Files.App.Filesystem
 							i = lastIndex = -1;
 						}
 					}
-					else
+					else if (component != ".")
 					{
 						components.Add(component);
 						paths.Add(path);
