@@ -206,51 +206,104 @@
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="PointerStates">
 								<VisualState x:Name="Normal">
+									<Storyboard>
+										<PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
+									</Storyboard>
 									<VisualState.Setters>
 										<Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource NavigationViewItemBorderBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PointerOver">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBackgroundPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBorderBrushPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
+									</Storyboard>
 									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background" Value="{ThemeResource NavigationViewItemBackgroundPointerOver}" />
-										<Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource NavigationViewItemBorderBrushPointerOver}" />
-										<Setter Target="Icon.Foreground" Value="{ThemeResource NavigationViewItemForegroundPointerOver}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource NavigationViewItemForegroundPointerOver}" />
 										<Setter Target="Icon.(muxc:AnimatedIcon.State)" Value="PointerOver" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBackgroundPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBorderBrushPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<PointerDownThemeAnimation Storyboard.TargetName="LayoutRoot" />
+									</Storyboard>
 									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background" Value="{ThemeResource NavigationViewItemBackgroundPressed}" />
-										<Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource NavigationViewItemBorderBrushPressed}" />
-										<Setter Target="Icon.Foreground" Value="{ThemeResource NavigationViewItemForegroundPressed}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource NavigationViewItemForegroundPressed}" />
 										<Setter Target="Icon.(muxc:AnimatedIcon.State)" Value="Pressed" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Selected">
-									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background" Value="{ThemeResource NavigationViewItemBackgroundSelected}" />
-										<Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource NavigationViewItemBorderBrushSelected}" />
-										<Setter Target="Icon.Foreground" Value="{ThemeResource NavigationViewItemForegroundSelected}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource NavigationViewItemForegroundSelected}" />
-									</VisualState.Setters>
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBackgroundSelected}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBorderBrushSelected}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundSelected}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundSelected}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
 								</VisualState>
 								<VisualState x:Name="PointerOverSelected">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBackgroundSelectedPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBorderBrushSelectedPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundSelectedPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundSelectedPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
 									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background" Value="{ThemeResource NavigationViewItemBackgroundSelectedPointerOver}" />
-										<Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource NavigationViewItemBorderBrushSelectedPointerOver}" />
-										<Setter Target="Icon.Foreground" Value="{ThemeResource NavigationViewItemForegroundSelectedPointerOver}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource NavigationViewItemForegroundSelectedPointerOver}" />
 										<Setter Target="Icon.(muxc:AnimatedIcon.State)" Value="PointerOver" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PressedSelected">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBackgroundSelectedPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemBorderBrushSelectedPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundSelectedPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewItemForegroundSelectedPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
 									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background" Value="{ThemeResource NavigationViewItemBackgroundSelectedPressed}" />
-										<Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource NavigationViewItemBorderBrushSelectedPressed}" />
-										<Setter Target="Icon.Foreground" Value="{ThemeResource NavigationViewItemForegroundSelectedPressed}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource NavigationViewItemForegroundSelectedPressed}" />
 										<Setter Target="Icon.(muxc:AnimatedIcon.State)" Value="Pressed" />
 									</VisualState.Setters>
 								</VisualState>
