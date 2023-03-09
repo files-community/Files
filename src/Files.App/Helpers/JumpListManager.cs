@@ -1,4 +1,5 @@
 using Files.App.Filesystem;
+using Files.App.UserControls.Widgets;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Files.App.Helpers
 				if (JumpList.IsSupported())
 				{
 					instance = await JumpList.LoadCurrentAsync();
-					App.QuickAccessManager.PinnedItemsModified += QuickAccessManager_DataChanged;
+					App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
 
 					QuickAccessManager_DataChanged(null, null);
 
@@ -113,13 +114,19 @@ namespace Files.App.Helpers
 				jumplistItem.GroupName = group;
 				jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
 
-				// Keep newer items at the top.
-				instance.Items.Remove(instance.Items.FirstOrDefault(x => x.Arguments.Equals(path, StringComparison.OrdinalIgnoreCase)));
-				instance.Items.Insert(0, jumplistItem);
+				if (string.Equals(group, "ms-resource:///Resources/JumpListRecentGroupHeader", StringComparison.OrdinalIgnoreCase))
+				{
+					// Keep newer items at the top.
+					instance.Items.Remove(instance.Items.FirstOrDefault(x => x.Arguments.Equals(path, StringComparison.OrdinalIgnoreCase)));
+					instance.Items.Insert(0, jumplistItem);
 
-				if (string.Equals(group, "ms-resource:///Resources/JumpListRecentGroupHeader", StringComparison.OrdinalIgnoreCase)) {
 					JumpListItemPaths.Remove(JumpListItemPaths.FirstOrDefault(x => x.Equals(path, StringComparison.OrdinalIgnoreCase)));
-					JumpListItemPaths.Add(path); 
+					JumpListItemPaths.Add(path);
+				}
+				else
+				{
+					var pinnedItemsCount = instance.Items.Where(x => x.GroupName == "ms-resource:///Resources/JumpListPinnedGroupHeader").Count();
+					instance.Items.Insert(pinnedItemsCount, jumplistItem);
 				}
 			}
 		}
@@ -143,11 +150,13 @@ namespace Files.App.Helpers
 			catch { }
 		}
 
-		private async void QuickAccessManager_DataChanged(object sender, FileSystemEventArgs e)
+		private async void QuickAccessManager_DataChanged(object sender, ModifyQuickAccessEventArgs e)
 		{
 			if (instance is null)
 				return;
 
+			var itemsToRemove = instance.Items.Where(x => string.Equals(x.GroupName, "ms-resource:///Resources/JumpListPinnedGroupHeader", StringComparison.OrdinalIgnoreCase)).ToList();
+			itemsToRemove.ForEach(x => instance.Items.Remove(x));
 			App.QuickAccessManager.Model.FavoriteItems.ForEach(x => AddFolder(x, "ms-resource:///Resources/JumpListPinnedGroupHeader"));
 			await instance.SaveAsync();
 		}
