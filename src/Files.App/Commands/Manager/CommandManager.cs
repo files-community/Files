@@ -167,7 +167,7 @@ namespace Files.App.Commands
 			public CommandCodes Code { get; }
 
 			public string Label => action.Label;
-			public string LabelWithHotKey => $"{Label} ({CustomHotKey})";
+			public string LabelWithHotKey => !customHotKey.IsNone ? $"{Label} ({CustomHotKey})" : Label;
 			public string AutomationName => Label;
 
 			public RichGlyph Glyph => action.Glyph;
