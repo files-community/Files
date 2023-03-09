@@ -347,24 +347,6 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		protected override async void ReloadSelectedItemIcon()
-		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
-			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, IconSize);
-		}
-
-		protected override async void ReloadSelectedItemsIcon()
-		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-
-			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
-			{
-				selectedItem.ItemPropertiesInitialized = false;
-				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(selectedItem, IconSize);
-			}
-		}
-
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var clickedItem = e.OriginalSource as FrameworkElement;
