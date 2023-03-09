@@ -2604,4 +2604,10 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>Monivalinta</value>
   </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>Hajautusarvot</value>
+  </data>
+  <data name="UnableToCalcHashes" xml:space="preserve">
+    <value>Hajautusarvoja ei voida laskea järjestelmävirheen vuoksi</value>
+  </data>
 </root>
