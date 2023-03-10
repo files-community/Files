@@ -268,7 +268,7 @@
     <value>공유</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>잘라내기</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>삭제</value>
