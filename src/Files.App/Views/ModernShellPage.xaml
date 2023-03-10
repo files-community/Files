@@ -10,10 +10,10 @@
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
 	mc:Ignorable="d">
+
 	<local:BaseShellPage.Resources>
 		<ResourceDictionary>
 			<converters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		</ResourceDictionary>
 	</local:BaseShellPage.Resources>
@@ -137,9 +137,9 @@
 
 	<Frame
 		x:Name="ItemDisplayFrame"
-		HorizontalAlignment="Stretch"
 		x:FieldModifier="public"
 		BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
 		BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
 		Navigated="ItemDisplayFrame_Navigated" />
+
 </local:BaseShellPage>

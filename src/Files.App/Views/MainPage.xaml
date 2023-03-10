@@ -10,9 +10,8 @@
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
+	xmlns:tabcontrol="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:viewmodels="using:Files.App.ViewModels"
-	AllowDrop="True"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
@@ -197,6 +196,7 @@
 	</Page.KeyboardAccelerators>
 
 	<Border>
+		<!--  All-In-One Control  -->
 		<controls:SidebarControl
 			x:Name="SidebarControl"
 			HorizontalAlignment="Stretch"
@@ -209,6 +209,8 @@
 			PaneDisplayMode="Left"
 			SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
+
+			<!--  Header Contents  -->
 			<controls:SidebarControl.TabContent>
 				<Grid
 					x:Name="RightMarginGrid"
@@ -220,7 +222,8 @@
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
-					<usercontrols:HorizontalMultitaskingControl
+					<!--  Tab Control  -->
+					<tabcontrol:HorizontalMultitaskingControl
 						x:Name="TabControl"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
@@ -231,30 +234,27 @@
 						TabIndex="0"
 						TabStripVisibility="Visible"
 						Visibility="Visible">
-						<usercontrols:HorizontalMultitaskingControl.ActionsControl>
+						<tabcontrol:HorizontalMultitaskingControl.ActionsControl>
 							<Button
 								x:Name="HorizontalMultitaskingControlAddButton"
-								Width="32"
-								Height="32"
+								Width="28"
+								Height="28"
 								Padding="8"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Bottom"
 								AutomationProperties.Name="{helpers:ResourceString Name=NewTabCtrlT}"
 								Background="Transparent"
 								BorderBrush="Transparent"
-								BorderThickness="0"
 								Click="{x:Bind ViewModel.AddNewTab, Mode=OneWay}"
 								ToolTipService.ToolTip="{helpers:ResourceString Name=NewTabCtrlT}">
 								<Button.Content>
-									<FontIcon
-										x:Name="HorizontalMultitaskingControlAddButtonIcon"
-										FontSize="12"
-										Glyph="&#xE710;" />
+									<FontIcon FontSize="12" Glyph="&#xE710;" />
 								</Button.Content>
 							</Button>
-						</usercontrols:HorizontalMultitaskingControl.ActionsControl>
-					</usercontrols:HorizontalMultitaskingControl>
+						</tabcontrol:HorizontalMultitaskingControl.ActionsControl>
+					</tabcontrol:HorizontalMultitaskingControl>
 
+					<!--  Address Toolbar  -->
 					<controls:AddressToolbar
 						x:Name="NavToolbar"
 						Grid.Row="1"
@@ -268,14 +268,15 @@
 						ShowSearchBox="True"
 						ShowSettingsButton="{x:Bind ViewModel.IsWindowCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 						TabIndex="1" />
+
 				</Grid>
 			</controls:SidebarControl.TabContent>
 
+			<!--  Root Contents  -->
 			<Grid
 				x:Name="RootGrid"
 				PreviewKeyDown="RootGrid_PreviewKeyDown"
 				SizeChanged="RootGrid_SizeChanged">
-
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition
@@ -295,6 +296,7 @@
 					<ColumnDefinition x:Name="PaneColumn" Width="Auto" />
 				</Grid.ColumnDefinitions>
 
+				<!--  File Navigation Toolbar  -->
 				<controls:InnerNavigationToolbar
 					x:Name="InnerNavigationToolbar"
 					Grid.ColumnSpan="3"
@@ -305,6 +307,7 @@
 					ShowPreviewPaneButton="{x:Bind ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
 					TabIndex="2" />
 
+				<!--  Tab Item's  Contents  Container  -->
 				<ContentPresenter
 					Grid.Row="1"
 					Grid.Column="0"
@@ -312,6 +315,7 @@
 					HorizontalContentAlignment="Stretch"
 					Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
 
+				<!--  PreviewPane Splitter  -->
 				<custom:GridSplitter
 					x:Name="PaneSplitter"
 					Grid.Row="1"
@@ -325,6 +329,7 @@
 					ResizeBehavior="BasedOnAlignment"
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 
+				<!--  PreviewPane  -->
 				<controls:PreviewPane
 					x:Name="PreviewPane"
 					Grid.Row="1"
@@ -332,15 +337,19 @@
 					HorizontalContentAlignment="Stretch"
 					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}" />
 
+				<!--  Status Bar  -->
 				<controls:StatusBarControl
 					x:Name="StatusBarControl"
 					Grid.Row="4"
 					Grid.ColumnSpan="3"
 					x:Load="False"
 					ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+
 			</Grid>
+
 		</controls:SidebarControl>
 
+		<!--  Visual States  -->
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup>
 				<VisualState>

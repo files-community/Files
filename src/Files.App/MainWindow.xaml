@@ -11,5 +11,4 @@
 		<winuiex:MicaSystemBackdrop Kind="BaseAlt" />
 	</winuiex:WindowEx.Backdrop>
 
-	<Grid />
 </winuiex:WindowEx>

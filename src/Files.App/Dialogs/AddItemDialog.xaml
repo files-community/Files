@@ -7,11 +7,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vc="using:Files.App.ValueConverters"
 	xmlns:vm="using:Files.Backend.ViewModels.Dialogs.AddItemDialog"
-	x:Name="AddDialog"
 	Title="{helpers:ResourceString Name=AddDialog/Title}"
-	Grid.RowSpan="4"
-	BorderThickness="0"
-	CornerRadius="{StaticResource OverlayCornerRadius}"
 	Loaded="AddItemDialog_Loaded"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
@@ -22,18 +18,19 @@
 		<vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
 	</ContentDialog.Resources>
 
-	<Grid RowSpacing="25">
+	<Grid x:Name="RootGrid" RowSpacing="24">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Grid x:Name="SubtitleArea">
+
+		<!--  Description  -->
+		<Grid x:Name="SubtitleArea" Grid.Row="0">
 			<TextBlock x:Name="Description" Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
 		</Grid>
-		<Grid
-			x:Name="SelectionListContent"
-			Grid.Row="1"
-			HorizontalAlignment="Stretch">
+
+		<!--  Adding items list  -->
+		<Grid x:Name="SelectionListContent" Grid.Row="1">
 			<ListView
 				x:Name="AddItemsListView"
 				Width="400"
@@ -42,8 +39,11 @@
 				ItemsSource="{x:Bind ViewModel.AddItemsList, Mode=OneWay}">
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="vm:AddItemDialogListItemViewModel">
-						<Grid Height="50">
+						<Grid Height="48">
+
 							<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+
+								<!--  Object image  -->
 								<Grid Margin="0,0,10,0" VerticalAlignment="Center">
 									<Viewbox
 										x:Name="IconRoot"
@@ -62,15 +62,20 @@
 										Source="{x:Bind Icon, Converter={StaticResource ImageModelToImageConverter}}"
 										Stretch="Uniform" />
 								</Grid>
+
+								<!--  Object name  -->
 								<StackPanel>
 									<TextBlock Text="{x:Bind Header}" />
 									<TextBlock Foreground="Gray" Text="{x:Bind SubHeader}" />
 								</StackPanel>
+
 							</StackPanel>
+
 						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 			</ListView>
 		</Grid>
+
 	</Grid>
 </ContentDialog>

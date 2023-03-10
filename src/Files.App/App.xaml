@@ -5,6 +5,7 @@
 
 	<Application.Resources>
 		<ResourceDictionary>
+
 			<!--  Default list view item height  -->
 			<x:Double x:Key="ListItemHeight">36</x:Double>
 
@@ -36,7 +37,7 @@
 
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-				<ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PathIcons.xaml" />
 				<ResourceDictionary>
 					<ResourceDictionary.ThemeDictionaries>
 						<ResourceDictionary x:Key="Light">
@@ -51,6 +52,7 @@
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SubtleFillColorSecondary}" />
 						</ResourceDictionary>
+
 						<ResourceDictionary x:Key="Dark">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="App.Theme.AddressBar.BackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
@@ -63,6 +65,7 @@
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SubtleFillColorSecondary}" />
 						</ResourceDictionary>
+
 						<ResourceDictionary x:Key="HighContrast">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="App.Theme.AddressBar.BackgroundBrush" Color="Transparent" />
@@ -78,6 +81,7 @@
 					</ResourceDictionary.ThemeDictionaries>
 				</ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
+
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

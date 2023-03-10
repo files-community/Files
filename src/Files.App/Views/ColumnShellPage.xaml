@@ -6,15 +6,13 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	x:Name="RootPage"
-	Background="Transparent"
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
 	mc:Ignorable="d">
+
 	<local:BaseShellPage.Resources>
 		<ResourceDictionary>
 			<converters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		</ResourceDictionary>
 	</local:BaseShellPage.Resources>
@@ -100,6 +98,7 @@
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="Control" />
 	</local:BaseShellPage.KeyboardAccelerators>
+
 	<Grid
 		x:Name="RootGrid"
 		BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
@@ -115,7 +114,6 @@
 				MaxHeight="400" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="3*" />
 			<ColumnDefinition Width="Auto" />
@@ -133,5 +131,6 @@
 			x:FieldModifier="public"
 			Canvas.ZIndex="30"
 			Navigated="ItemDisplayFrame_Navigated" />
+
 	</Grid>
 </local:BaseShellPage>

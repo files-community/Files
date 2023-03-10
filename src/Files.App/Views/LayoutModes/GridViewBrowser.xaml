@@ -3,7 +3,6 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:converters1="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -14,13 +13,14 @@
 	xmlns:local2="using:Files.App.Filesystem"
 	xmlns:local3="using:Files.App.Filesystem.Cloud"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
+	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vc="using:Files.App.ValueConverters"
 	x:Name="PageRoot"
 	NavigationCacheMode="Enabled"
 	mc:Ignorable="d">
+
 	<i:Interaction.Behaviors>
 		<icore:EventTriggerBehavior EventName="PointerWheelChanged">
 			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
@@ -29,7 +29,9 @@
 			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
+
 	<local:StandardViewBase.Resources>
+
 		<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
 		<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		<converters:BoolToVisibilityConverter
@@ -40,7 +42,6 @@
 			x:Key="EmptyObjectToObjectConverter"
 			EmptyValue="Collapsed"
 			NotEmptyValue="Visible" />
-
 		<converters:BoolToObjectConverter
 			x:Key="NegatedBoolToOpacityConverter"
 			FalseValue="1"
@@ -49,7 +50,6 @@
 			x:Key="BoolToVisibilityConverter"
 			FalseValue="Collapsed"
 			TrueValue="Visible" />
-
 		<converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 
 		<DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
@@ -463,13 +463,10 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+
 	</local:StandardViewBase.Resources>
 
-	<Grid
-		x:Name="RootGrid"
-		Padding="0,0,0,0"
-		VerticalAlignment="Stretch"
-		ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+	<Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
 		<Grid.KeyboardAccelerators>
 			<KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
 				<i:Interaction.Behaviors>
@@ -501,6 +498,7 @@
 			</KeyboardAccelerator>
 		</Grid.KeyboardAccelerators>
 
+		<!--  Empty Indicator  -->
 		<uc:FolderEmptyIndicator
 			Grid.Row="3"
 			Margin="0,125,0,0"
@@ -509,6 +507,7 @@
 			Canvas.ZIndex="0"
 			EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
+		<!--  Unusable Charactors TeachingTip  -->
 		<TeachingTip
 			x:Name="FileNameTeachingTip"
 			CloseButtonContent="{helpers:ResourceString Name=OK}"
@@ -521,8 +520,9 @@
 			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+
 			<SemanticZoom.ZoomedInView>
-				<controls:AdaptiveGridView
+				<toolkit:AdaptiveGridView
 					x:Name="FileList"
 					Padding="8"
 					VerticalContentAlignment="Stretch"
@@ -549,7 +549,8 @@
 					ShowsScrollingPlaceholders="True"
 					StretchContentForSingleRow="False"
 					Tapped="FileList_ItemTapped">
-					<controls:AdaptiveGridView.GroupStyle>
+
+					<toolkit:AdaptiveGridView.GroupStyle>
 						<GroupStyle>
 							<GroupStyle.HeaderTemplate>
 								<DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
@@ -567,6 +568,8 @@
 											<RowDefinition Height="Auto" />
 											<RowDefinition Height="Auto" />
 										</Grid.RowDefinitions>
+
+										<!--  Label  -->
 										<TextBlock
 											Grid.Row="0"
 											Grid.Column="0"
@@ -575,6 +578,7 @@
 											Style="{StaticResource SubtitleTextBlockStyle}"
 											Text="{x:Bind Model.Text}" />
 
+										<!--  Count  -->
 										<TextBlock
 											Grid.Row="0"
 											Grid.Column="1"
@@ -583,6 +587,7 @@
 											Text="{x:Bind Model.CountText}"
 											Visibility="{x:Bind Model.ShowCountTextBelow, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
+										<!--  Sub Label  -->
 										<TextBlock
 											Grid.Row="0"
 											Grid.Column="2"
@@ -592,19 +597,22 @@
 											Text="{x:Bind Model.Subtext}"
 											Visibility="{x:Bind Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
 
+										<!--  Count  -->
 										<TextBlock
 											Grid.Row="1"
 											Grid.ColumnSpan="3"
 											Style="{StaticResource BodyTextBlockStyle}"
 											Text="{x:Bind Model.CountText}"
 											Visibility="{x:Bind Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
+
 									</Grid>
 								</DataTemplate>
 							</GroupStyle.HeaderTemplate>
 						</GroupStyle>
-					</controls:AdaptiveGridView.GroupStyle>
+					</toolkit:AdaptiveGridView.GroupStyle>
 
-					<controls:AdaptiveGridView.Footer>
+					<!--  Search Unindexed Items  -->
+					<toolkit:AdaptiveGridView.Footer>
 						<StackPanel
 							x:Name="SearchUnindexedItemsPanel"
 							HorizontalAlignment="Stretch"
@@ -617,14 +625,16 @@
 								Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
 								Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
 						</StackPanel>
-					</controls:AdaptiveGridView.Footer>
-					<controls:AdaptiveGridView.ItemContainerStyle>
+					</toolkit:AdaptiveGridView.Footer>
+
+					<toolkit:AdaptiveGridView.ItemContainerStyle>
 						<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
 							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 							<Setter Property="HorizontalAlignment" Value="Stretch" />
 						</Style>
-					</controls:AdaptiveGridView.ItemContainerStyle>
-				</controls:AdaptiveGridView>
+					</toolkit:AdaptiveGridView.ItemContainerStyle>
+
+				</toolkit:AdaptiveGridView>
 			</SemanticZoom.ZoomedInView>
 
 			<SemanticZoom.ZoomedOutView>
@@ -638,7 +648,6 @@
 						<DataTemplate x:DataType="ICollectionViewGroup">
 							<Grid
 								Padding="8"
-								VerticalAlignment="Center"
 								AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text}"
 								ColumnSpacing="12"
 								RowSpacing="4">
@@ -652,6 +661,8 @@
 									<RowDefinition Height="*" />
 									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
+
+								<!--  Header Image  -->
 								<Image
 									Grid.Row="0"
 									Grid.RowSpan="2"
@@ -661,6 +672,8 @@
 									VerticalAlignment="Center"
 									Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource}"
 									Stretch="Uniform" />
+
+								<!--  Header Icon  -->
 								<FontIcon
 									Grid.Row="0"
 									Grid.RowSpan="2"
@@ -670,6 +683,7 @@
 									FontSize="24"
 									Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon}" />
 
+								<!--  Header Label  -->
 								<TextBlock
 									Grid.Row="0"
 									Grid.Column="1"
@@ -678,6 +692,7 @@
 									Style="{StaticResource SubtitleTextBlockStyle}"
 									Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text}" />
 
+								<!--  Count  -->
 								<TextBlock
 									Grid.Row="0"
 									Grid.Column="2"
@@ -687,6 +702,7 @@
 									Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText}"
 									Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
+								<!--  Sub Label  -->
 								<TextBlock
 									Grid.Row="0"
 									Grid.Column="3"
@@ -697,6 +713,7 @@
 									Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext}"
 									Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
 
+								<!--  Count  -->
 								<TextBlock
 									Grid.Row="1"
 									Grid.Column="1"
@@ -705,13 +722,16 @@
 									Style="{StaticResource BodyTextBlockStyle}"
 									Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText}"
 									Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
+
 							</Grid>
 						</DataTemplate>
 					</ListView.ItemTemplate>
 				</ListView>
 			</SemanticZoom.ZoomedOutView>
+
 		</SemanticZoom>
 
+		<!--  File/Directory Selector Canvas  -->
 		<Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<Rectangle
 				Name="SelectionRectangle"
@@ -724,5 +744,6 @@
 				Stroke="{ThemeResource SystemAccentColorLight1}"
 				StrokeThickness="1" />
 		</Canvas>
+
 	</Grid>
 </local:StandardViewBase>

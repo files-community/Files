@@ -2,7 +2,7 @@
 	x:Class="Files.App.Views.LayoutModes.DetailsLayoutBrowser"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:behaviors2="using:Files.App.Behaviors"
+	xmlns:behaviors="using:Files.App.Behaviors"
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:converters1="using:Files.App.Converters"
@@ -18,10 +18,10 @@
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vc="using:Files.App.ValueConverters"
-	xmlns:winui="using:ABI.Microsoft.UI.Xaml.Controls"
 	x:Name="PageRoot"
 	NavigationCacheMode="Enabled"
 	mc:Ignorable="d">
+
 	<i:Interaction.Behaviors>
 		<icore:EventTriggerBehavior EventName="PointerWheelChanged">
 			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
@@ -30,6 +30,7 @@
 			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
+
 	<local:StandardViewBase.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -45,7 +46,6 @@
 				x:Key="EmptyObjectToObjectConverter"
 				EmptyValue="Collapsed"
 				NotEmptyValue="Visible" />
-
 			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
 			<converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 			<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -169,8 +169,6 @@
 
 	<Grid
 		x:Name="RootGrid"
-		Padding="0,0,0,0"
-		VerticalAlignment="Stretch"
 		ContextFlyout="{x:Bind BaseContextMenuFlyout}"
 		SizeChanged="RootGrid_SizeChanged">
 		<Grid.KeyboardAccelerators>
@@ -190,6 +188,7 @@
 			</KeyboardAccelerator>
 		</Grid.KeyboardAccelerators>
 
+		<!--  Empty Indicator  -->
 		<uc:FolderEmptyIndicator
 			Grid.Row="3"
 			Margin="0,125,0,0"
@@ -198,6 +197,7 @@
 			Canvas.ZIndex="0"
 			EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
+		<!--  Search Unindexed Items  -->
 		<StackPanel
 			x:Name="SearchUnindexedItemsPanel"
 			HorizontalAlignment="Center"
@@ -212,6 +212,7 @@
 				Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
 		</StackPanel>
 
+		<!--  Unusable Charactors TeachingTip  -->
 		<TeachingTip
 			x:Name="FileNameTeachingTip"
 			CloseButtonContent="{helpers:ResourceString Name=OK}"
@@ -224,6 +225,7 @@
 			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+
 			<SemanticZoom.ZoomedInView>
 				<ListView
 					x:Name="FileList"
@@ -253,11 +255,13 @@
 					SelectionMode="Extended"
 					Tapped="FileList_ItemTapped"
 					Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+
 					<ListView.ItemContainerTransitions>
 						<TransitionCollection>
 							<AddDeleteThemeTransition />
 						</TransitionCollection>
 					</ListView.ItemContainerTransitions>
+
 					<ListView.Header>
 						<Grid
 							x:Name="HeaderGrid"
@@ -314,6 +318,7 @@
 									<MenuFlyoutItem Click="SetDetailsColumnsAsDefault_Click" Text="{helpers:ResourceString Name=SetAsDefault}" />
 								</MenuFlyout>
 							</Grid.ContextFlyout>
+
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition x:Name="SelectAllColumn" Width="0" />
 								<ColumnDefinition
@@ -559,6 +564,7 @@
 								Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 						</Grid>
 					</ListView.Header>
+
 					<ListView.ItemTemplate>
 						<DataTemplate x:DataType="local2:ListedItem">
 							<StackPanel
@@ -569,6 +575,7 @@
 								Orientation="Horizontal"
 								ToolTipService.ToolTip="{x:Bind ItemTooltipText}">
 
+								<!--  Item Selecting CheckBox  -->
 								<CheckBox
 									x:Name="SelectionCheckbox"
 									MinWidth="0"
@@ -576,6 +583,7 @@
 									Unchecked="ItemSelected_Unchecked"
 									Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}}" />
 
+								<!--  Item Thumbnail  -->
 								<Grid
 									Width="24"
 									Height="Auto"
@@ -638,6 +646,7 @@
 									</Border>
 								</Grid>
 
+								<!--  Item Name & Renaming TextBox  -->
 								<Grid
 									Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 									Padding="12,0,0,0"
@@ -666,6 +675,7 @@
 									</TextBox>
 								</Grid>
 
+								<!--  Item Tags  -->
 								<Grid
 									x:Name="ItemTagGrid"
 									Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -678,9 +688,11 @@
 										x:Load="{x:Bind HasTags}"
 										ItemsSource="{x:Bind FileTagsUI}"
 										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}}">
+
 										<ItemsRepeater.Layout>
 											<StackLayout Orientation="Horizontal" Spacing="4" />
 										</ItemsRepeater.Layout>
+
 										<ItemsRepeater.ItemTemplate>
 											<DataTemplate x:DataType="filetags:TagViewModel">
 												<UserControl PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
@@ -726,9 +738,11 @@
 												</UserControl>
 											</DataTemplate>
 										</ItemsRepeater.ItemTemplate>
+
 									</ItemsRepeater>
 								</Grid>
 
+								<!--  Item Original Path  -->
 								<TextBlock
 									x:Name="ItemOriginalPath"
 									Width="{Binding ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -740,6 +754,7 @@
 									Text="{x:Bind AsRecycleBinItem.ItemOriginalPath}"
 									Visibility="{Binding ColumnsViewModel.OriginalPathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
+								<!--  Item Deleted Date (for Recycle Bin Items)  -->
 								<TextBlock
 									x:Name="ItemDateDeleted"
 									Width="{Binding ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -751,6 +766,7 @@
 									Text="{x:Bind AsRecycleBinItem.ItemDateDeleted}"
 									Visibility="{Binding ColumnsViewModel.DateDeletedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
+								<!--  Item Modified Date  -->
 								<TextBlock
 									x:Name="ItemDateModified"
 									Width="{Binding ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -761,6 +777,7 @@
 									Text="{x:Bind ItemDateModified}"
 									Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
+								<!--  Item Created Date  -->
 								<TextBlock
 									x:Name="ItemDateCreated"
 									Width="{Binding ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -771,6 +788,7 @@
 									Text="{x:Bind ItemDateCreated}"
 									Visibility="{Binding ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
+								<!--  Item Type Humanized  -->
 								<TextBlock
 									x:Name="ItemType"
 									Width="{Binding ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -781,6 +799,7 @@
 									Text="{x:Bind ItemType}"
 									Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
+								<!--  Item Size  -->
 								<TextBlock
 									x:Name="ItemSize"
 									Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -791,6 +810,7 @@
 									Text="{x:Bind FileSize}"
 									Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
+								<!--  Item Status  -->
 								<FontIcon
 									x:Name="ItemStatus"
 									Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -801,12 +821,15 @@
 									FontSize="12"
 									Glyph="{x:Bind SyncStatusUI.Glyph}"
 									Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+
 							</StackPanel>
 						</DataTemplate>
 					</ListView.ItemTemplate>
+
 					<i:Interaction.Behaviors>
-						<behaviors2:StickyHeaderBehavior />
+						<behaviors:StickyHeaderBehavior />
 					</i:Interaction.Behaviors>
+
 					<ListView.Resources>
 						<ResourceDictionary>
 							<Style TargetType="ListView">
@@ -940,11 +963,13 @@
 							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
 						</Style>
 					</ListView.ItemContainerStyle>
+
 					<ListView.ItemsPanel>
 						<ItemsPanelTemplate>
 							<ItemsStackPanel AreStickyGroupHeadersEnabled="False" Orientation="Vertical" />
 						</ItemsPanelTemplate>
 					</ListView.ItemsPanel>
+
 				</ListView>
 			</SemanticZoom.ZoomedInView>
 
@@ -953,29 +978,36 @@
 					HorizontalAlignment="Stretch"
 					ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
 					SelectionMode="None">
+
 					<ListView.ItemContainerTransitions>
 						<TransitionCollection>
 							<ContentThemeTransition />
 						</TransitionCollection>
 					</ListView.ItemContainerTransitions>
+
 					<ListView.ItemTemplate>
 						<DataTemplate x:DataType="ICollectionViewGroup">
 							<StackPanel
-								Margin="0,4,0,4"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Center"
+								Margin="0,4"
 								Orientation="Horizontal"
 								Spacing="4">
+
+								<!--  Header Image  -->
 								<Image
 									Height="36"
 									Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource}"
 									Stretch="Uniform" />
+
+								<!--  Header Icon  -->
 								<FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon}" />
+
+								<!--  Header Label Group  -->
 								<StackPanel
 									VerticalAlignment="Center"
 									AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text}"
 									Orientation="Vertical">
 									<StackPanel Orientation="Horizontal" Spacing="4">
+
 										<TextBlock
 											VerticalAlignment="Center"
 											FontSize="16"
@@ -997,25 +1029,33 @@
 											Style="{StaticResource SubheaderTextBlockStyle}"
 											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext}"
 											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
+
 									</StackPanel>
+
 									<TextBlock
 										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 										Style="{StaticResource BodyTextBlockStyle}"
 										Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText}"
 										Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
+
 								</StackPanel>
+
 							</StackPanel>
 						</DataTemplate>
 					</ListView.ItemTemplate>
+
 					<ListView.ItemContainerStyle>
 						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 						</Style>
 					</ListView.ItemContainerStyle>
+
 				</ListView>
 			</SemanticZoom.ZoomedOutView>
+
 		</SemanticZoom>
 
+		<!--  File/Directory Selector Canvas  -->
 		<Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<Rectangle
 				Name="SelectionRectangle"
@@ -1029,6 +1069,7 @@
 				StrokeThickness="1" />
 		</Canvas>
 
+		<!--  Visual States  -->
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup>
 				<VisualState x:Name="MultiselectDisabled" />

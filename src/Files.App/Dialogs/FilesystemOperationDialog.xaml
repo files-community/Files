@@ -157,9 +157,11 @@
 
 	<Grid x:Name="ContainerGrid">
 		<StackPanel Spacing="16">
+
+			<!--  Apply to all  -->
 			<Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition />
+					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 
@@ -185,12 +187,14 @@
 				</ComboBox>
 			</Grid>
 
+			<!--  Description  -->
 			<TextBlock
 				x:Name="DescriptionText"
 				Foreground="{ThemeResource SystemFillColorCautionBrush}"
 				Text="{x:Bind ViewModel.Description, Mode=OneWay}"
 				TextWrapping="WrapWholeWords" />
 
+			<!--  Separator  -->
 			<Border
 				x:Name="SeparatorLine"
 				Height="1"
@@ -199,6 +203,7 @@
 				Opacity="0.8"
 				Visibility="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}" />
 
+			<!--  Do permanently delete  -->
 			<CheckBox
 				x:Name="chkPermanentlyDelete"
 				x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Mode=OneWay}"
@@ -206,6 +211,7 @@
 				IsChecked="{x:Bind ViewModel.DeletePermanently, Mode=TwoWay}"
 				IsEnabled="{x:Bind ViewModel.IsDeletePermanentlyEnabled, Mode=OneWay}" />
 
+			<!--  Details  -->
 			<ListView
 				x:Name="DetailsGrid"
 				MaxHeight="200"
@@ -229,7 +235,9 @@
 						<Setter Property="Padding" Value="0,12" />
 					</Style>
 				</ListView.ItemContainerStyle>
+
 			</ListView>
+
 		</StackPanel>
 	</Grid>
 </ContentDialog>

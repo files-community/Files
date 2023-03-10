@@ -21,13 +21,16 @@
 			<Setter Property="ContentTemplate">
 				<Setter.Value>
 					<DataTemplate x:DataType="ContentDialog">
-						<StackPanel Orientation="Horizontal" Spacing="5">
+
+						<StackPanel Orientation="Horizontal" Spacing="6">
 							<FontIcon FontSize="14" Glyph="&#xEA18;" />
 							<TextBlock Text="{x:Bind PrimaryButtonText, Mode=OneWay}" />
 						</StackPanel>
+
 					</DataTemplate>
 				</Setter.Value>
 			</Setter>
 		</Style>
 	</ContentDialog.PrimaryButtonStyle>
+
 </ContentDialog>

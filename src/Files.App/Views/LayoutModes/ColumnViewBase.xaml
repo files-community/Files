@@ -10,12 +10,14 @@
 	xmlns:local2="using:Files.App.Filesystem"
 	xmlns:local3="using:Files.App.Filesystem.Cloud"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:tui="using:CommunityToolkit.WinUI.UI"
+	xmlns:toolkit="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vc="using:Files.App.ValueConverters"
 	x:Name="PageRoot"
 	mc:Ignorable="d">
+
 	<local:StandardViewBase.Resources>
+
 		<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
 		<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		<converters:BoolToVisibilityConverter
@@ -30,7 +32,6 @@
 			x:Key="EmptyObjectToObjectConverter"
 			EmptyValue="Collapsed"
 			NotEmptyValue="Visible" />
-
 		<converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 
 		<Style TargetType="ListViewHeaderItem">
@@ -120,15 +121,19 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+
 	</local:StandardViewBase.Resources>
 
 	<Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+
+		<!--  Empty Indicator  -->
 		<uc:FolderEmptyIndicator
 			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
 			Canvas.ZIndex="0"
 			EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
+		<!--  Unusable Charactors TeachingTip  -->
 		<TeachingTip
 			x:Name="FileNameTeachingTip"
 			Grid.RowSpan="2"
@@ -142,10 +147,11 @@
 			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+
 			<SemanticZoom.ZoomedInView>
 				<ListView
 					x:Name="FileList"
-					tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
+					toolkit:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					CanDragItems="True"
@@ -180,11 +186,7 @@
 							<Grid
 								x:Name="FilesRootGrid"
 								Height="30"
-								Margin="0"
 								Padding="12,0,12,0"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Stretch"
-								CornerRadius="{StaticResource ControlCornerRadius}"
 								IsRightTapEnabled="True"
 								Loaded="Grid_Loaded"
 								ToolTipService.ToolTip="{x:Bind ItemTooltipText}">
@@ -284,6 +286,7 @@
 
 								<Grid Grid.Column="2">
 									<StackPanel Orientation="Horizontal" Spacing="4">
+
 										<!--  Cloud Status  -->
 										<FontIcon
 											x:Name="CloudDriveSyncStatusGlyph"
@@ -313,8 +316,10 @@
 											FontSize="12"
 											Foreground="{ThemeResource TextFillColorSecondary}"
 											Glyph="&#xE76C;" />
+
 									</StackPanel>
 								</Grid>
+
 							</Grid>
 						</DataTemplate>
 					</ListView.ItemTemplate>
@@ -359,6 +364,7 @@
 							</GroupStyle.HeaderTemplate>
 						</GroupStyle>
 					</ListView.GroupStyle>
+
 					<ListView.ItemContainerStyle>
 						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -367,13 +373,16 @@
 							<Setter Property="Padding" Value="4,0" />
 						</Style>
 					</ListView.ItemContainerStyle>
+
 					<ListView.ItemsPanel>
 						<ItemsPanelTemplate>
 							<ItemsStackPanel AreStickyGroupHeadersEnabled="True" Orientation="Vertical" />
 						</ItemsPanelTemplate>
 					</ListView.ItemsPanel>
+
 				</ListView>
 			</SemanticZoom.ZoomedInView>
+
 			<SemanticZoom.ZoomedOutView>
 				<ListView
 					HorizontalAlignment="Stretch"
@@ -381,21 +390,28 @@
 					SelectionMode="None">
 					<ListView.ItemTemplate>
 						<DataTemplate x:DataType="ICollectionViewGroup">
+
 							<StackPanel
-								Margin="0,4,0,4"
-								VerticalAlignment="Center"
+								Margin="0,4"
 								Orientation="Horizontal"
 								Spacing="4">
+
+								<!--  Header Image  -->
 								<Image
 									Height="36"
 									Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource}"
 									Stretch="Uniform" />
+
+								<!--  Header Icon  -->
 								<FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon}" />
+
+								<!--  Header Label Group  -->
 								<StackPanel
 									VerticalAlignment="Center"
 									AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text}"
 									Orientation="Vertical">
 									<StackPanel Orientation="Horizontal" Spacing="4">
+
 										<TextBlock
 											VerticalAlignment="Center"
 											FontSize="16"
@@ -417,20 +433,27 @@
 											Style="{StaticResource SubheaderTextBlockStyle}"
 											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext}"
 											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
+
 									</StackPanel>
+
 									<TextBlock
 										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 										Style="{StaticResource BodyTextBlockStyle}"
 										Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText}"
 										Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
+
 								</StackPanel>
+
 							</StackPanel>
+
 						</DataTemplate>
 					</ListView.ItemTemplate>
 				</ListView>
 			</SemanticZoom.ZoomedOutView>
+
 		</SemanticZoom>
 
+		<!--  File/Directory Selector Canvas  -->
 		<Canvas>
 			<Rectangle
 				Name="SelectionRectangle"
@@ -443,5 +466,6 @@
 				Stroke="{ThemeResource SystemAccentColorLight1}"
 				StrokeThickness="1" />
 		</Canvas>
+
 	</Grid>
 </local:StandardViewBase>
