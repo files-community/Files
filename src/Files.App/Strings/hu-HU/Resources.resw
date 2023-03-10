@@ -267,7 +267,7 @@
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Megosztás</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+  <data name="Cut" xml:space="preserve">
     <value>Kivágás</value>
   </data>
   <data name="Delete" xml:space="preserve">
@@ -1065,9 +1065,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Részletek (Ctrl+Shift+1)</value>
   </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>Előnézet</value>
-  </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Nagy ikonok (Ctrl+Shift+5)</value>
   </data>
@@ -1134,8 +1131,8 @@
   <data name="DesiredName" xml:space="preserve">
     <value>Munkaterület neve</value>
   </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Előnézet (Ctrl+P)</value>
+  <data name="TogglePreviewPane" xml:space="preserve">
+    <value>Előnézet elrejtése/megjelenítése</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nincs elérhető előnézet</value>
@@ -2581,7 +2578,7 @@
     <value>Formázás...</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>Help</value>
+    <value>Súgó</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
     <value>Teljes képernyő</value>
@@ -2606,5 +2603,11 @@
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Több elem kijelölése</value>
+  </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>Hash-ek</value>
+  </data>
+  <data name="UnableToCalcHashes" xml:space="preserve">
+    <value>Egy hiba miatt nem sikerült kiszámítani a hash-eket</value>
   </data>
 </root>

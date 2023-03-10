@@ -114,10 +114,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 			}
 		}
 
-		public void LoadConflictResolveOption()
-		{
-			AggregatedResolveOption = UserSettingsService.PreferencesSettingsService.ConflictsResolveOption;
-		}
+		public FileNameConflictResolveOptionType LoadConflictResolveOption() => UserSettingsService.PreferencesSettingsService.ConflictsResolveOption;
 
 		public void SaveConflictResolveOption()
 		{

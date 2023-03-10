@@ -28,17 +28,7 @@ namespace Files.App.Interacts
 		private void InitializeCommands()
 		{
 			RenameItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RenameItem);
-			SetAsLockscreenBackgroundItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsLockscreenBackgroundItem);
-			SetAsDesktopBackgroundItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsDesktopBackgroundItem);
-			SetAsSlideshowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsSlideshowItem);
-			RunAsAdminCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RunAsAdmin);
-			RunAsAnotherUserCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RunAsAnotherUser);
 			OpenItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItem);
-			RestoreRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreRecycleBin);
-			RestoreSelectionRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreSelectionRecycleBin);
-			QuickLookCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.QuickLook);
-			RestoreItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreItem);
-			ShowFolderPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowFolderProperties);
 			ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowProperties);
 			OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenFileLocation);
 			OpenParentFolderCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenParentFolder);
@@ -59,15 +49,10 @@ namespace Files.App.Interacts
 			RefreshCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RefreshItems);
 			SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
 			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
-			CompressIntoArchiveCommand = new AsyncRelayCommand(CommandsModel.CompressIntoArchive);
-			CompressIntoZipCommand = new AsyncRelayCommand(CommandsModel.CompressIntoZip);
-			CompressIntoSevenZipCommand = new AsyncRelayCommand(CommandsModel.CompressIntoSevenZip);
 			DecompressArchiveCommand = new AsyncRelayCommand(CommandsModel.DecompressArchive);
 			DecompressArchiveHereCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveHere);
 			DecompressArchiveToChildFolderCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveToChildFolder);
 			InstallInfDriver = new AsyncRelayCommand(CommandsModel.InstallInfDriver);
-			RotateImageLeftCommand = new AsyncRelayCommand(CommandsModel.RotateImageLeft);
-			RotateImageRightCommand = new AsyncRelayCommand(CommandsModel.RotateImageRight);
 			InstallFontCommand = new AsyncRelayCommand(CommandsModel.InstallFont);
 			PlayAllCommand = new AsyncRelayCommand(CommandsModel.PlayAll);
 			FormatDriveCommand = new RelayCommand<ListedItem>(CommandsModel.FormatDrive);
@@ -79,27 +64,7 @@ namespace Files.App.Interacts
 
 		public ICommand RenameItemCommand { get; private set; }
 
-		public ICommand SetAsLockscreenBackgroundItemCommand { get; private set; }
-
-		public ICommand SetAsDesktopBackgroundItemCommand { get; private set; }
-
-		public ICommand SetAsSlideshowItemCommand { get; private set; }
-
-		public ICommand RunAsAdminCommand { get; private set; }
-
-		public ICommand RunAsAnotherUserCommand { get; private set; }
-
 		public ICommand OpenItemCommand { get; private set; }
-
-		public ICommand RestoreRecycleBinCommand { get; private set; }
-
-		public ICommand RestoreSelectionRecycleBinCommand { get; private set; }
-
-		public ICommand QuickLookCommand { get; private set; }
-
-		public ICommand RestoreItemCommand { get; private set; }
-
-		public ICommand ShowFolderPropertiesCommand { get; private set; }
 
 		public ICommand ShowPropertiesCommand { get; private set; }
 
@@ -141,12 +106,6 @@ namespace Files.App.Interacts
 
 		public ICommand CreateFolderWithSelection { get; private set; }
 
-		public ICommand CompressIntoArchiveCommand { get; private set; }
-
-		public ICommand CompressIntoZipCommand { get; private set; }
-
-		public ICommand CompressIntoSevenZipCommand { get; private set; }
-
 		public ICommand DecompressArchiveCommand { get; private set; }
 
 		public ICommand DecompressArchiveHereCommand { get; private set; }
@@ -155,13 +114,10 @@ namespace Files.App.Interacts
 
 		public ICommand InstallInfDriver { get; set; }
 
-		public ICommand RotateImageLeftCommand { get; private set; }
-
-		public ICommand RotateImageRightCommand { get; private set; }
-
 		public ICommand InstallFontCommand { get; private set; }
 
 		public ICommand PlayAllCommand { get; private set; }
+
 		public ICommand FormatDriveCommand { get; private set; }
 
 		#endregion Commands

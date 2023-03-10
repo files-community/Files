@@ -678,68 +678,30 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					Items = new List<ContextMenuFlyoutItemViewModel>()
 					{
-						new ContextMenuFlyoutItemViewModel()
+						new ContextMenuFlyoutItemViewModelBuilder(commands.SetAsWallpaperBackground)
 						{
-							Text = "SetAsBackground".GetLocalizedResource(),
-							Glyph = "\uE91B",
-							Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
-							ShowInSearchPage = true,
-							ShowItem = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
-						},
-						new ContextMenuFlyoutItemViewModel()
+							IsVisible = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
+						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.SetAsLockscreenBackground)
 						{
-							Text = "BaseLayoutItemContextFlyoutSetAsLockscreenBackground/Text".GetLocalizedResource(),
-							Command = commandsViewModel.SetAsLockscreenBackgroundItemCommand,
-							ShowInSearchPage = true,
-							ShowItem = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
-						},
-						new ContextMenuFlyoutItemViewModel()
+							IsVisible = selectedItemsPropertiesViewModel?.SelectedItemsCount == 1
+						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.SetAsSlideshowBackground)
 						{
-							Text = "SetAsSlideshow".GetLocalizedResource(),
-							Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
-							ShowInSearchPage = true,
-							ShowItem = selectedItemsPropertiesViewModel?.SelectedItemsCount > 1
-						},
+							IsVisible = selectedItemsPropertiesViewModel?.SelectedItemsCount > 1
+						}.Build(),
 					}
 				},
-				new ContextMenuFlyoutItemViewModel
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RotateLeft)
 				{
-					Text = "RotateLeft".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconRotateLeft"
-					},
-					Command = commandsViewModel.RotateImageLeftCommand,
-					ShowInSearchPage = true,
-					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
-				},
-				new ContextMenuFlyoutItemViewModel
+					IsVisible = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RotateRight)
 				{
-					Text = "RotateRight".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconRotateRight"
-					},
-					Command = commandsViewModel.RotateImageRightCommand,
-					ShowInSearchPage = true,
-					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "RunAsAdministrator".GetLocalizedResource(),
-					Glyph = "\uE7EF",
-					Command = commandsViewModel.RunAsAdminCommand,
-					ShowInSearchPage = true,
-					ShowItem = itemsSelected && isFirstFileExecutable
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "BaseLayoutContextFlyoutRunAsAnotherUser/Text".GetLocalizedResource(),
-					Glyph = "\uE7EE",
-					Command = commandsViewModel.RunAsAnotherUserCommand,
-					ShowInSearchPage = true,
-					ShowItem = itemsSelected && isFirstFileExecutable
-				},
+					IsVisible = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAdmin).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAnotherUser).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ItemType.Separator,
@@ -925,27 +887,18 @@ namespace Files.App.Helpers
 							ShowItem = canDecompress && canCompress,
 							ItemType = ItemType.Separator,
 						},
-						new ContextMenuFlyoutItemViewModel
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoArchive)
 						{
-							Text = "CreateArchive".GetLocalizedResource(),
-							Command = commandsViewModel.CompressIntoArchiveCommand,
-							ShowItem = canCompress,
-							ShowInSearchPage = true,
-						},
-						new ContextMenuFlyoutItemViewModel
+							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
+						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoZip)
 						{
-							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{newArchiveName}.zip"),
-							Command = commandsViewModel.CompressIntoZipCommand,
-							ShowItem = canCompress,
-							ShowInSearchPage = true,
-						},
-						new ContextMenuFlyoutItemViewModel
+							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
+						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoSevenZip)
 						{
-							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{newArchiveName}.7z"),
-							Command = commandsViewModel.CompressIntoSevenZipCommand,
-							ShowItem = canCompress,
-							ShowInSearchPage = true,
-						},
+							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
+						}.Build(),
 					},
 					ShowItem = itemsSelected
 				},

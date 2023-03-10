@@ -17,6 +17,7 @@ namespace Files.App.Commands
 
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
+		IRichCommand TogglePreviewPane { get; }
 
 		IRichCommand CopyItem { get; }
 		IRichCommand CutItem { get; }
@@ -36,5 +37,19 @@ namespace Files.App.Commands
 		IRichCommand UnpinFromStart { get; }
 		IRichCommand PinItemToFavorites { get; }
 		IRichCommand UnpinItemFromFavorites { get; }
+
+		IRichCommand SetAsWallpaperBackground { get; }
+		IRichCommand SetAsSlideshowBackground { get; }
+		IRichCommand SetAsLockscreenBackground { get; }
+
+		IRichCommand RunAsAdmin { get; }
+		IRichCommand RunAsAnotherUser { get; }
+
+		IRichCommand CompressIntoArchive { get; }
+		IRichCommand CompressIntoSevenZip { get; }
+		IRichCommand CompressIntoZip { get; }
+
+		IRichCommand RotateLeft { get; }
+		IRichCommand RotateRight { get; }
 	}
 }
