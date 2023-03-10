@@ -282,18 +282,6 @@ namespace Files.App.Views
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
-				// Ctrl + ` (accent key), open terminal
-				case (true, _, false, true, (VirtualKey)192):
-
-					if (shift)
-						commands.OpenTerminalAsAdmin.ExecuteAsync();
-					else
-						commands.OpenTerminal.ExecuteAsync();
-
-					args.Handled = true;
-
-					break;
-
 				// Ctrl + space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
 
