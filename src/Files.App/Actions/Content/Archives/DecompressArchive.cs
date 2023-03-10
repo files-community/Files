@@ -1,54 +1,30 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
-using Files.App.Dialogs;
 using Files.App.Extensions;
-using Files.App.Filesystem.Archive;
 using Files.App.Helpers;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions.Content.Archives
 {
-	internal class CompressIntoArchiveAction : ObservableObject, IAction
+	internal class DecompressArchive : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label => "CreateArchive".GetLocalizedResource();
+		public string Label => "ExtractFiles".GetLocalizedResource();
 
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
-									&& ArchiveHelpers.CanCompress(context.SelectedItems);
+									&& ArchiveHelpers.CanDecompress(context.SelectedItems);
 
-		public CompressIntoArchiveAction()
+		public DecompressArchive()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			var (sources, directory, fileName) = ArchiveHelpers.GetCompressDestination(context.ShellPage);
-
-			var dialog = new CreateArchiveDialog
-			{
-				FileName = fileName,
-			};
-			await dialog.ShowAsync();
-
-			if (!dialog.CanCreate)
-				return;
-
-			IArchiveCreator creator = new ArchiveCreator
-			{
-				Sources = sources,
-				Directory = directory,
-				FileName = dialog.FileName,
-				Password = dialog.Password,
-				FileFormat = dialog.FileFormat,
-				CompressionLevel = dialog.CompressionLevel,
-				SplittingSize = dialog.SplittingSize,
-			};
-
-			await ArchiveHelpers.CompressArchiveAsync(creator);
+			await ArchiveHelpers.DecompressArchive(context.ShellPage);
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()

@@ -858,13 +858,10 @@ namespace Files.App.Helpers
 					},
 					Items = new List<ContextMenuFlyoutItemViewModel>
 					{
-						new ContextMenuFlyoutItemViewModel
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchive)
 						{
-							Text = "ExtractFiles".GetLocalizedResource(),
-							Command = commandsViewModel.DecompressArchiveCommand,
-							ShowItem = canDecompress,
-							ShowInSearchPage = true,
-						},
+							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
+						}.Build(),
 						new ContextMenuFlyoutItemViewModel
 						{
 							Text = "ExtractHere".GetLocalizedResource(),
