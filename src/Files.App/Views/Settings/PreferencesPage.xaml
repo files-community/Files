@@ -1,25 +1,23 @@
 ﻿<Page
-	x:Class="Files.App.Settings.PreferencesPage"
+	x:Class="Files.App.Views.Settings.PreferencesPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:UserControls="using:Files.App.UserControls"
-	xmlns:contract13NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,13)"
-	xmlns:contract13Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,13)"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:datamodels="using:Files.App.DataModels"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-	xmlns:settingsviewmodels="using:Files.App.ViewModels.Settings"
+	xmlns:uc="using:Files.App.UserControls"
+	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
+
 	<Page.Resources>
 		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 	</Page.Resources>
+
 	<Page.DataContext>
-		<settingsviewmodels:PreferencesViewModel x:Name="ViewModel" />
+		<vm:PreferencesViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
 	<Grid>
@@ -33,7 +31,6 @@
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
-
 			<!--  Language settings  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Language}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
@@ -45,7 +42,7 @@
 					ItemsSource="{x:Bind ViewModel.AppLanguages}"
 					SelectedIndex="{x:Bind ViewModel.SelectedAppLanguageIndex, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
-						<DataTemplate x:DataType="settingsviewmodels:AppLanguageItem">
+						<DataTemplate x:DataType="vm:AppLanguageItem">
 							<TextBlock Text="{x:Bind LanguageName}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
@@ -68,7 +65,7 @@
 					ItemsSource="{x:Bind ViewModel.DateFormats}"
 					SelectedIndex="{x:Bind ViewModel.SelectedDateTimeFormatIndex, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
-						<DataTemplate x:DataType="settingsviewmodels:DateTimeFormatItem">
+						<DataTemplate x:DataType="vm:DateTimeFormatItem">
 							<StackPanel Orientation="Vertical">
 								<TextBlock Text="{x:Bind Label}" />
 								<TextBlock
@@ -317,7 +314,7 @@
 			</local:SettingsBlockControl>
 		</StackPanel>
 
-		<UserControls:RestartControl
+		<uc:RestartControl
 			x:Name="RestartControl"
 			VerticalAlignment="Bottom"
 			ShowDialog="{x:Bind ViewModel.ShowRestartControl, Mode=TwoWay}" />
