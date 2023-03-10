@@ -71,13 +71,13 @@
 					RightTapped="NavigationViewItem_RightTapped"
 					SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
 					Tag="{x:Bind Path}"
-					ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind ToolTipText}">
 					<NavigationViewItem.Icon>
-						<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
+						<ImageIcon Source="{x:Bind Icon}" />
 					</NavigationViewItem.Icon>
 					<!--  WINUI3  missing some styles  -->
 					<!--<NavigationViewItem.InfoBadge>
-						<InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}" />
+						<InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid}" />
 					</NavigationViewItem.InfoBadge>-->
 				</NavigationViewItem>
 			</DataTemplate>
@@ -87,7 +87,7 @@
 					Padding="0"
 					AllowDrop="True"
 					AutomationProperties.AutomationId="{x:Bind Text}"
-					Content="{x:Bind Text, Mode=OneWay}"
+					Content="{x:Bind Text}"
 					DataContext="{x:Bind}"
 					DragEnter="NavigationViewItem_DragEnter"
 					DragLeave="NavigationViewItem_DragLeave"
@@ -127,7 +127,7 @@
 								<TextBlock
 									x:Name="DriveNameTextBlock"
 									x:Load="{x:Bind ShowDriveDetails, Converter={StaticResource BoolNegationConverter}}"
-									Text="{x:Bind Text, Mode=OneWay}" />
+									Text="{x:Bind Text}" />
 
 								<!--  Label  -->
 								<TextBlock
@@ -138,7 +138,7 @@
 									x:Load="{x:Bind ShowDriveDetails}"
 									FontSize="14"
 									FontWeight="Medium"
-									Text="{x:Bind Text, Mode=OneWay}" />
+									Text="{x:Bind Text}" />
 
 								<!--  Space used progress  -->
 								<ProgressRing
@@ -152,7 +152,7 @@
 									x:Load="{x:Bind ShowDriveDetails}"
 									Background="{ThemeResource ProgressRingBackgroundThemeBrush}"
 									IsIndeterminate="False"
-									Value="{x:Bind PercentageUsed, Mode=OneWay}">
+									Value="{x:Bind PercentageUsed}">
 
 									<ProgressRing.Template>
 										<ControlTemplate TargetType="ProgressRing">
@@ -161,7 +161,7 @@
 													<TextBlock
 														Margin="0"
 														FontWeight="SemiBold"
-														Text="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0}%', Mode=OneWay}"
+														Text="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0}%'}"
 														TextAlignment="Center" />
 												</StackPanel>
 
@@ -214,7 +214,7 @@
 									Grid.Column="2"
 									x:Load="{x:Bind ShowDriveDetails}"
 									Style="{StaticResource PropertyValueTextBlock}"
-									Text="{x:Bind UsedSpaceText, Mode=OneWay}" />
+									Text="{x:Bind UsedSpaceText}" />
 
 								<!--  Disk free space  -->
 								<StackPanel
@@ -242,7 +242,7 @@
 									Grid.Column="2"
 									x:Load="{x:Bind ShowDriveDetails}"
 									Style="{StaticResource PropertyValueTextBlock}"
-									Text="{x:Bind FreeSpaceText, Mode=OneWay}" />
+									Text="{x:Bind FreeSpaceText}" />
 
 								<!--  Drive capacity  -->
 								<TextBlock
@@ -260,12 +260,12 @@
 									Grid.Column="2"
 									x:Load="{x:Bind ShowDriveDetails}"
 									Style="{StaticResource PropertyValueTextBlock}"
-									Text="{x:Bind MaxSpaceText, Mode=OneWay}" />
+									Text="{x:Bind MaxSpaceText}" />
 							</Grid>
 						</ToolTip>
 					</ToolTipService.ToolTip>
 					<NavigationViewItem.Icon>
-						<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
+						<ImageIcon Source="{x:Bind Icon}" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 			</DataTemplate>
@@ -308,7 +308,7 @@
 					Tag="{x:Bind Path}"
 					ToolTipService.ToolTip="{x:Bind ToolTipText}">
 					<NavigationViewItem.Icon>
-						<PathIcon Foreground="{x:Bind FileTag.Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}">
+						<PathIcon Foreground="{x:Bind FileTag.Color, Converter={StaticResource StringToBrushConverter}}">
 							<PathIcon.Data>
 								<EllipseGeometry
 									Center="24,24"
@@ -384,7 +384,7 @@
 									x:Name="ResizeElementBorder"
 									Grid.Row="0"
 									Grid.RowSpan="2"
-									Grid.Column="{Binding ElementName=PaneRoot, Path=(Grid.Column), Mode=OneWay}"
+									Grid.Column="{Binding ElementName=PaneRoot, Path=(Grid.Column)}"
 									Width="4"
 									HorizontalAlignment="Right"
 									AllowFocusOnInteraction="True"
@@ -398,8 +398,8 @@
 									PointerCanceled="Border_PointerExited"
 									PointerEntered="Border_PointerEntered"
 									PointerExited="Border_PointerExited"
-									RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}"
-									Visibility="{Binding ElementName=PaneRoot, Path=Visibility, Mode=OneWay}">
+									RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform}"
+									Visibility="{Binding ElementName=PaneRoot, Path=Visibility}">
 									<UserControl
 										x:Name="ResizeElementControl"
 										AutomationProperties.Name="{helpers:ResourceString Name=ResizeElementControl/AutomationProperties/Name}"

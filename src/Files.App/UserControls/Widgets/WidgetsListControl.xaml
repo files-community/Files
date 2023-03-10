@@ -187,8 +187,8 @@
 								Padding="16,0,16,0"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Stretch"
-								AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}"
-								Header="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}"
+								AutomationProperties.Name="{x:Bind WidgetAutomationProperties}"
+								Header="{x:Bind WidgetItemModel.WidgetHeader}"
 								IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
 								Style="{StaticResource Local.WidgetExpanderStyle}">
 								<controls:Expander.Resources>
@@ -202,7 +202,7 @@
 								<ContentControl
 									HorizontalAlignment="Stretch"
 									HorizontalContentAlignment="Stretch"
-									Content="{x:Bind WidgetControl, Mode=OneWay}" />
+									Content="{x:Bind WidgetControl}" />
 							</controls:Expander>
 
 							<!--  Menu Flyout  -->
@@ -214,7 +214,7 @@
 								Padding="0"
 								HorizontalAlignment="Right"
 								VerticalAlignment="Top"
-								x:Load="{x:Bind ShowMenuFlyout, Mode=OneWay}"
+								x:Load="{x:Bind ShowMenuFlyout}"
 								AutomationProperties.Name="{helpers:ResourceString Name=MoreOptions}"
 								Background="Transparent"
 								BorderBrush="Transparent"

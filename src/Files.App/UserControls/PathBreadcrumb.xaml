@@ -16,14 +16,14 @@
 			<StackPanel
 				x:Name="ListViewItemContentGrid"
 				AllowDrop="True"
-				AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
+				AutomationProperties.Name="{x:Bind Title}"
 				Background="Transparent"
 				DragLeave="PathBoxItem_DragLeave"
 				DragOver="PathBoxItem_DragOver"
 				Drop="PathBoxItem_Drop"
 				Orientation="Horizontal"
 				Spacing="4"
-				Tag="{x:Bind Path, Mode=OneWay}">
+				Tag="{x:Bind Path}">
 				<Interactivity:Interaction.Behaviors>
 					<Core:EventTriggerBehavior EventName="PointerEntered">
 						<Core:ChangePropertyAction PropertyName="Opacity">
@@ -45,7 +45,7 @@
 				<TextBlock
 					FontSize="12"
 					FontWeight="Medium"
-					Text="{x:Bind Title, Mode=OneWay}" />
+					Text="{x:Bind Title}" />
 				<FontIcon FontSize="12" Glyph="&#xE76C;" />
 			</StackPanel>
 		</DataTemplate>
@@ -54,20 +54,20 @@
 				x:Name="ListViewItemContentGrid"
 				VerticalAlignment="Center"
 				AllowDrop="True"
-				AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
+				AutomationProperties.Name="{x:Bind Title}"
 				Background="Transparent"
 				DragLeave="PathBoxItem_DragLeave"
 				DragOver="PathBoxItem_DragOver"
 				Drop="PathBoxItem_Drop"
 				Orientation="Horizontal"
 				Spacing="4"
-				Tag="{x:Bind Path, Mode=OneWay}">
+				Tag="{x:Bind Path}">
 				<TextBlock
 					Padding="0,4"
 					FontSize="12"
 					PointerPressed="PathBoxItem_PointerPressed"
 					Tapped="PathBoxItem_Tapped"
-					Text="{x:Bind Title, Mode=OneWay}">
+					Text="{x:Bind Title}">
 					<Interactivity:Interaction.Behaviors>
 						<Core:EventTriggerBehavior EventName="PointerEntered">
 							<Core:ChangePropertyAction PropertyName="Opacity">

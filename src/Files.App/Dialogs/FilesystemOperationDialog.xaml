@@ -51,7 +51,7 @@
 					Width="48"
 					Height="48"
 					VerticalAlignment="Center"
-					Source="{x:Bind ItemIcon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
+					Source="{x:Bind ItemIcon, Converter={StaticResource ImageModelToImageConverter}}" />
 
 				<!--  Content  -->
 				<Grid Grid.Column="1">
@@ -61,18 +61,18 @@
 						Background="Transparent"
 						Spacing="4"
 						Tapped="NameStackPanel_Tapped"
-						Visibility="{x:Bind IsTextBoxVisible, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}">
+						Visibility="{x:Bind IsTextBoxVisible, Converter={StaticResource VisibilityInvertConverter}}">
 						<StackPanel Orientation="Horizontal" Spacing="8">
 							<TextBlock
 								FontSize="14"
-								Text="{x:Bind DisplayName, Mode=OneWay}"
-								ToolTipService.ToolTip="{x:Bind DisplayName, Mode=OneWay}" />
+								Text="{x:Bind DisplayName}"
+								ToolTipService.ToolTip="{x:Bind DisplayName}" />
 							<FontIcon FontSize="10" Glyph="&#xE72A;" />
 							<TextBlock
 								FontSize="14"
-								Text="{x:Bind DestinationDisplayName, Mode=OneWay}"
+								Text="{x:Bind DestinationDisplayName}"
 								TextTrimming="CharacterEllipsis"
-								ToolTipService.ToolTip="{x:Bind DestinationDisplayName, Mode=OneWay}" />
+								ToolTipService.ToolTip="{x:Bind DestinationDisplayName}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Spacing="8">
 							<TextBlock
@@ -88,7 +88,7 @@
 								FontSize="13"
 								Foreground="{ThemeResource SystemAccentColor}"
 								Text="{x:Bind DestinationDirectoryDisplayName}"
-								ToolTipService.ToolTip="{x:Bind DestinationPath, Mode=OneWay}" />
+								ToolTipService.ToolTip="{x:Bind DestinationPath}" />
 						</StackPanel>
 					</StackPanel>
 
@@ -97,7 +97,7 @@
 						x:Name="NameEdit"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Center"
-						x:Load="{x:Bind IsTextBoxVisible, Mode=OneWay}"
+						x:Load="{x:Bind IsTextBoxVisible}"
 						Loaded="NameEdit_Loaded"
 						LostFocus="NameEdit_LostFocus"
 						Text="{x:Bind CustomName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -110,7 +110,7 @@
 					Width="200"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
-					x:Load="{x:Bind IsConflict, Mode=OneWay}"
+					x:Load="{x:Bind IsConflict}"
 					Loaded="ConflictOptions_Loaded"
 					SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ConflictResolveOptionToIndexConverter}}">
 					<ComboBox.Items>
@@ -138,7 +138,7 @@
 					Height="48"
 					HorizontalAlignment="Left"
 					VerticalAlignment="Center"
-					Source="{x:Bind ItemIcon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
+					Source="{x:Bind ItemIcon, Converter={StaticResource ImageModelToImageConverter}}" />
 
 				<!--  Content  -->
 				<StackPanel
@@ -210,7 +210,7 @@
 				x:Name="DetailsGrid"
 				MaxHeight="200"
 				IsItemClickEnabled="False"
-				ItemsSource="{x:Bind ViewModel.Items}"
+				ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
 				SelectionMode="None">
 
 				<ListView.ItemTemplateSelector>

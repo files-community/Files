@@ -237,7 +237,7 @@
 											<ColumnDefinition Width="*" MinWidth="200" />
 											<ColumnDefinition Width="*" MinWidth="160" />
 											<ColumnDefinition Width="70" />
-											<ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
+											<ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}}" />
 										</Grid.ColumnDefinitions>
 
 										<FontIcon
@@ -253,19 +253,19 @@
 											Grid.Column="1"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
-											x:Load="{x:Bind IsEditEnabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+											x:Load="{x:Bind IsEditEnabled, Converter={StaticResource BoolNegationConverter}}"
 											FontFamily="{StaticResource SymbolThemeFontFamily}"
 											FontSize="16"
-											Glyph="{x:Bind AccessControlTypeGlyph, Mode=OneWay}" />
+											Glyph="{x:Bind AccessControlTypeGlyph}" />
 
 										<DropDownButton
 											x:Name="TypeDropdown"
 											Grid.Column="1"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
-											x:Load="{x:Bind IsEditEnabled, Mode=OneWay}">
+											x:Load="{x:Bind IsEditEnabled}">
 											<DropDownButton.Content>
-												<FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{x:Bind AccessControlTypeGlyph, Mode=OneWay}" />
+												<FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{x:Bind AccessControlTypeGlyph}" />
 											</DropDownButton.Content>
 											<DropDownButton.Flyout>
 												<MenuFlyout Placement="Bottom">
@@ -303,8 +303,8 @@
 											x:Name="RightsTextBox"
 											Grid.Column="3"
 											VerticalAlignment="Center"
-											x:Load="{x:Bind IsEditEnabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-											Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}"
+											x:Load="{x:Bind IsEditEnabled, Converter={StaticResource BoolNegationConverter}}"
+											Text="{x:Bind AccessMaskFlagsHumanized}"
 											TextTrimming="CharacterEllipsis" />
 
 										<DropDownButton
@@ -313,9 +313,9 @@
 											HorizontalAlignment="Stretch"
 											VerticalAlignment="Center"
 											HorizontalContentAlignment="Left"
-											x:Load="{x:Bind IsEditEnabled, Mode=OneWay}">
+											x:Load="{x:Bind IsEditEnabled}">
 											<DropDownButton.Content>
-												<TextBlock Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
+												<TextBlock Text="{x:Bind AccessMaskFlagsHumanized}" TextTrimming="CharacterEllipsis" />
 											</DropDownButton.Content>
 											<DropDownButton.Flyout>
 												<Flyout Placement="Bottom">
@@ -326,7 +326,7 @@
 														</Grid.RowDefinitions>
 														<GridView
 															MaxHeight="350"
-															ItemsSource="{x:Bind AccessMaskItemList, Mode=OneWay}"
+															ItemsSource="{x:Bind AccessMaskItemList}"
 															SelectionMode="None">
 															<GridView.ItemsPanel>
 																<ItemsPanelTemplate>
@@ -369,10 +369,10 @@
 											x:Name="InheritTextBox"
 											Grid.Column="5"
 											VerticalAlignment="Center"
-											x:Load="{x:Bind IsEditEnabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-											Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}"
+											x:Load="{x:Bind IsEditEnabled, Converter={StaticResource BoolNegationConverter}}"
+											Text="{x:Bind InheritanceFlagsHumanized}"
 											TextTrimming="CharacterEllipsis"
-											Visibility="{x:Bind IsFolder, Mode=OneWay}" />
+											Visibility="{x:Bind IsFolder}" />
 
 										<DropDownButton
 											x:Name="InheritDropdown"
@@ -380,10 +380,10 @@
 											HorizontalAlignment="Stretch"
 											VerticalAlignment="Center"
 											HorizontalContentAlignment="Left"
-											x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
-											Visibility="{x:Bind IsFolder, Mode=OneWay}">
+											x:Load="{x:Bind IsEditEnabled}"
+											Visibility="{x:Bind IsFolder}">
 											<DropDownButton.Content>
-												<TextBlock Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
+												<TextBlock Text="{x:Bind InheritanceFlagsHumanized}" TextTrimming="CharacterEllipsis" />
 											</DropDownButton.Content>
 											<DropDownButton.Flyout>
 												<MenuFlyout Placement="Bottom">

@@ -24,11 +24,11 @@
 			<DataTemplate x:Key="AppThemeResourcesItemTemplate" x:DataType="appearance:AppThemeResource">
 				<Grid
 					Width="120"
-					AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Name}"
 					BorderBrush="{ThemeResource ControlElevationBorderBrush}"
 					BorderThickness="1"
 					CornerRadius="6"
-					ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind Name}">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="16" />
 						<RowDefinition Height="50" />
@@ -38,7 +38,7 @@
 					<Border
 						Grid.RowSpan="2"
 						Height="66"
-						Background="{x:Bind BackgroundColor, Converter={StaticResource StringToBrushConverter}, Mode=OneWay}"
+						Background="{x:Bind BackgroundColor, Converter={StaticResource StringToBrushConverter}}"
 						CornerRadius="4,4,0,0" />
 
 					<!--  Tab Bar  -->
@@ -76,7 +76,7 @@
 						Grid.Row="2"
 						Padding="4"
 						HorizontalAlignment="Center"
-						Text="{x:Bind Name, Mode=OneWay}"
+						Text="{x:Bind Name}"
 						TextTrimming="CharacterEllipsis" />
 				</Grid>
 			</DataTemplate>

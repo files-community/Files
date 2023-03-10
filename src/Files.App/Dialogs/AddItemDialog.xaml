@@ -39,7 +39,7 @@
 				Width="400"
 				IsItemClickEnabled="True"
 				ItemClick="ListView_ItemClick"
-				ItemsSource="{x:Bind ViewModel.AddItemsList}">
+				ItemsSource="{x:Bind ViewModel.AddItemsList, Mode=OneWay}">
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="vm:AddItemDialogListItemViewModel">
 						<Grid Height="50">
@@ -51,7 +51,7 @@
 										Height="24"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center">
-										<FontIcon Glyph="{x:Bind Glyph, Mode=OneWay}" />
+										<FontIcon Glyph="{x:Bind Glyph}" />
 									</Viewbox>
 									<Image
 										Width="24"
@@ -59,12 +59,12 @@
 										Margin="0"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center"
-										Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}"
+										Source="{x:Bind Icon, Converter={StaticResource ImageModelToImageConverter}}"
 										Stretch="Uniform" />
 								</Grid>
 								<StackPanel>
-									<TextBlock Text="{x:Bind Header, Mode=OneWay}" />
-									<TextBlock Foreground="Gray" Text="{x:Bind SubHeader, Mode=OneWay}" />
+									<TextBlock Text="{x:Bind Header}" />
+									<TextBlock Foreground="Gray" Text="{x:Bind SubHeader}" />
 								</StackPanel>
 							</StackPanel>
 						</Grid>

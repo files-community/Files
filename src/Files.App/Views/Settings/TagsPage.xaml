@@ -145,14 +145,14 @@
 											Padding="8,0"
 											HorizontalAlignment="Left"
 											VerticalAlignment="Center"
-											BorderBrush="{x:Bind NewColor, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+											BorderBrush="{x:Bind NewColor, Converter={StaticResource StringToBrushConverter}}"
 											BorderThickness="1"
 											CornerRadius="12"
 											Orientation="Horizontal"
 											ToolTipService.ToolTip="{x:Bind Tag.Name}">
 											<FontIcon
 												FontSize="12"
-												Foreground="{x:Bind NewColor, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+												Foreground="{x:Bind NewColor, Converter={StaticResource StringToBrushConverter}}"
 												Glyph="&#xE1CB;" />
 											<TextBlock
 												x:Name="TagName"
@@ -168,13 +168,13 @@
 											Grid.Column="1"
 											Orientation="Horizontal"
 											Spacing="8"
-											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}}">
 											<TextBox
 												x:Name="TagNameTextBox"
 												Width="200"
 												VerticalAlignment="Center"
 												KeyDown="RenameTextBox_KeyDown"
-												Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+												Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}}">
 												<TextBox.Resources>
 													<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 												</TextBox.Resources>
@@ -189,7 +189,7 @@
 														Width="20"
 														Height="20"
 														Margin="4"
-														Background="{x:Bind NewColor, Mode=OneWay}"
+														Background="{x:Bind NewColor}"
 														CornerRadius="4" />
 													<FontIcon
 														Margin="8,4,10,4"
@@ -207,7 +207,7 @@
 										<StackPanel
 											Grid.Column="2"
 											Orientation="Horizontal"
-											Visibility="{x:Bind IsEditing, Converter={StaticResource InvertedBoolVisibilityConverter}, Mode=OneWay}">
+											Visibility="{x:Bind IsEditing, Converter={StaticResource InvertedBoolVisibilityConverter}}">
 											<Button
 												x:Name="EditTagButton"
 												Padding="8,4"
@@ -252,7 +252,7 @@
 											Grid.Column="2"
 											Orientation="Horizontal"
 											Spacing="12"
-											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}}">
 											<Button
 												x:Name="CancelChangesButton"
 												Click="CancelRenameTag_Click"
@@ -262,7 +262,7 @@
 												x:Name="SaveChangesButton"
 												Click="CommitRenameTag_Click"
 												Content="{helpers:ResourceString Name=SaveChanges}"
-												IsEnabled="{x:Bind IsNameValid, Mode=OneWay}"
+												IsEnabled="{x:Bind IsNameValid}"
 												Style="{StaticResource AccentButtonStyle}" />
 										</StackPanel>
 									</Grid>

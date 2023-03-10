@@ -102,7 +102,7 @@
 									<ColumnDefinition Width="36" />
 									<ColumnDefinition />
 								</Grid.ColumnDefinitions>
-								<FontIcon Glyph="&#xE008;" Visibility="{x:Bind IsDefault, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+								<FontIcon Glyph="&#xE008;" Visibility="{x:Bind IsDefault, Converter={StaticResource BoolToVisibilityConverter}}" />
 								<TextBlock
 									Grid.Column="2"
 									Margin="0,0,0,2"

@@ -187,7 +187,7 @@
 								CornerRadius="{StaticResource ControlCornerRadius}"
 								IsRightTapEnabled="True"
 								Loaded="Grid_Loaded"
-								ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
+								ToolTipService.ToolTip="{x:Bind ItemTooltipText}">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="24" />
 									<ColumnDefinition Width="*" />
@@ -199,7 +199,7 @@
 									Grid.Column="0"
 									Width="24"
 									Height="24"
-									Opacity="{x:Bind Opacity, Mode=OneWay}"
+									Opacity="{x:Bind Opacity}"
 									Tag="ItemImage">
 									<ContentPresenter
 										x:Name="PicturePresenter"
@@ -207,11 +207,11 @@
 										Height="20"
 										HorizontalAlignment="Center"
 										VerticalAlignment="Center"
-										x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+										x:Load="{x:Bind LoadFileIcon}"
 										CornerRadius="{StaticResource DetailsLayoutThumbnailCornerRadius}">
 										<Image
 											x:Name="Picture"
-											Source="{x:Bind FileImage, Mode=OneWay}"
+											Source="{x:Bind FileImage}"
 											Stretch="Uniform" />
 									</ContentPresenter>
 									<Image
@@ -220,15 +220,15 @@
 										Height="20"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Stretch"
-										x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
-										Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
+										x:Load="{x:Bind LoadDefaultIcon}"
+										Source="{x:Bind PlaceholderDefaultIcon}" />
 									<Border
 										x:Name="TypeUnknownGlyph"
 										Width="20"
 										Height="20"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Stretch"
-										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
+										x:Load="{x:Bind NeedsPlaceholderGlyph}"
 										Background="{ThemeResource SystemChromeHighColor}"
 										CornerRadius="4" />
 									<Image
@@ -239,7 +239,7 @@
 										HorizontalAlignment="Left"
 										VerticalAlignment="Bottom"
 										x:Load="True"
-										Source="{x:Bind IconOverlay, Mode=OneWay}"
+										Source="{x:Bind IconOverlay}"
 										Stretch="Uniform" />
 									<Viewbox
 										x:Name="WebShortcutGlyph"
@@ -247,7 +247,7 @@
 										MaxHeight="20"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Stretch"
-										Visibility="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
+										Visibility="{x:Bind LoadWebShortcutGlyph}">
 										<FontIcon FontSize="20" Glyph="&#xE71B;" />
 									</Viewbox>
 									<Border
@@ -266,7 +266,7 @@
 									Margin="5,0,5,0"
 									HorizontalAlignment="Left"
 									VerticalAlignment="Center"
-									Text="{x:Bind Name, Mode=OneWay}"
+									Text="{x:Bind Name}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap" />
 
@@ -291,8 +291,8 @@
 											VerticalAlignment="Center"
 											x:Phase="2"
 											FontSize="12"
-											Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-											Visibility="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}" />
+											Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph}"
+											Visibility="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus}" />
 
 										<!--  Tag Ellipse  -->
 										<Ellipse
@@ -300,9 +300,9 @@
 											Height="12"
 											Margin="8,0,4,0"
 											x:Phase="2"
-											Fill="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-											ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
-											Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+											Fill="{x:Bind FileTagsUI[0].Color, Converter={StaticResource StringToBrushConverter}}"
+											ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name}"
+											Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}}" />
 
 										<!--  Open Folder Icon  -->
 										<FontIcon
@@ -333,27 +333,27 @@
 												VerticalAlignment="Center"
 												FontSize="16"
 												Style="{StaticResource SubtitleTextBlockStyle}"
-												Text="{x:Bind Model.Text, Mode=OneWay}" />
+												Text="{x:Bind Model.Text}" />
 
 											<TextBlock
 												Margin="4,0,0,0"
 												VerticalAlignment="Center"
 												Style="{StaticResource BodyTextBlockStyle}"
-												Text="{x:Bind Model.CountText, Mode=OneWay}"
-												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+												Text="{x:Bind Model.CountText}"
+												Visibility="{x:Bind Model.ShowCountTextBelow, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 											<TextBlock
 												VerticalAlignment="Center"
 												FontSize="14"
 												Style="{StaticResource SubheaderTextBlockStyle}"
-												Text="{x:Bind Model.Subtext, Mode=OneWay}"
-												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+												Text="{x:Bind Model.Subtext}"
+												Visibility="{x:Bind Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
 										</StackPanel>
 										<TextBlock
 											Margin="0,2,0,0"
 											Style="{StaticResource BodyTextBlockStyle}"
-											Text="{x:Bind Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+											Text="{x:Bind Model.CountText}"
+											Visibility="{x:Bind Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
 									</StackPanel>
 								</DataTemplate>
 							</GroupStyle.HeaderTemplate>
@@ -388,41 +388,41 @@
 								Spacing="4">
 								<Image
 									Height="36"
-									Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
+									Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource}"
 									Stretch="Uniform" />
-								<FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
+								<FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon}" />
 								<StackPanel
 									VerticalAlignment="Center"
-									AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
+									AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text}"
 									Orientation="Vertical">
 									<StackPanel Orientation="Horizontal" Spacing="4">
 										<TextBlock
 											VerticalAlignment="Center"
 											FontSize="16"
 											Style="{StaticResource SubtitleTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
+											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text}" />
 
 										<TextBlock
 											Margin="4,0,0,0"
 											VerticalAlignment="Center"
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 											Style="{StaticResource BodyTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText}"
+											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 										<TextBlock
 											VerticalAlignment="Center"
 											FontSize="14"
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 											Style="{StaticResource SubheaderTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext}"
+											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
 									</StackPanel>
 									<TextBlock
 										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 										Style="{StaticResource BodyTextBlockStyle}"
-										Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-										Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+										Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText}"
+										Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
 								</StackPanel>
 							</StackPanel>
 						</DataTemplate>

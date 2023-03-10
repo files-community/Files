@@ -41,7 +41,7 @@
 			IsRightTapEnabled="True"
 			ItemClick="RecentsView_ItemClick"
 			ItemContainerTransitions="{x:Null}"
-			ItemsSource="{x:Bind recentItemsCollection}"
+			ItemsSource="{x:Bind recentItemsCollection, Mode=OneWay}"
 			SelectionMode="None">
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
@@ -93,7 +93,7 @@
 							VerticalAlignment="Center"
 							x:Load="{x:Bind FileIconVis}"
 							x:Phase="1"
-							Source="{x:Bind FileImg, Mode=OneWay}"
+							Source="{x:Bind FileImg}"
 							Stretch="Uniform" />
 
 						<TextBlock

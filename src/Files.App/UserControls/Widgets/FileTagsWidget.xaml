@@ -19,7 +19,7 @@
 	</UserControl.Resources>
 
 	<!--  Collection of containers  -->
-	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Containers}">
+	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Containers, Mode=OneWay}">
 		<ItemsRepeater.Layout>
 			<UniformGridLayout
 				ItemsStretch="Fill"
@@ -62,11 +62,11 @@
 						<Ellipse
 							Width="12"
 							Height="12"
-							Fill="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+							Fill="{x:Bind Color, Converter={StaticResource StringToBrushConverter}}" />
 						<TextBlock
 							Margin="0,-2,0,0"
 							FontWeight="SemiBold"
-							Text="{x:Bind Name, Mode=OneWay}" />
+							Text="{x:Bind Name}" />
 					</StackPanel>
 
 					<!--  Contents  -->
@@ -99,12 +99,12 @@
 										Width="20"
 										Height="20"
 										VerticalAlignment="Center"
-										Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
+										Source="{x:Bind Icon, Converter={StaticResource ImageModelToImageConverter}}" />
 
 									<!--  Name  -->
 									<TextBlock
 										VerticalAlignment="Center"
-										Text="{x:Bind Name, Mode=OneWay}"
+										Text="{x:Bind Name}"
 										TextTrimming="CharacterEllipsis" />
 								</StackPanel>
 							</DataTemplate>

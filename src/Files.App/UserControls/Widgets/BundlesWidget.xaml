@@ -88,7 +88,7 @@
 			x:Load="{x:Bind ViewModel.NoBundlesAddItemLoad, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 			AllowDrop="True"
 			CanReorderItems="True"
-			ItemsSource="{x:Bind ViewModel.Items}"
+			ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
 			ReorderMode="Enabled"
 			SelectionMode="None">
 
@@ -170,7 +170,7 @@
 										FontFamily="Segoe UI"
 										FontWeight="SemiBold"
 										Opacity="0.9"
-										Text="{x:Bind BundleName, Mode=OneWay}"
+										Text="{x:Bind BundleName}"
 										TextTrimming="CharacterEllipsis" />
 								</Grid>
 
@@ -194,7 +194,7 @@
 													<FontIcon Glyph="&#xE8AC;" />
 												</MenuFlyoutItem.Icon>
 											</MenuFlyoutItem>
-											<MenuFlyoutSubItem IsEnabled="{x:Bind IsAddItemOptionEnabled, Mode=OneWay}" Text="{helpers:ResourceString Name=BundleOptionsFlyoutAddItemMenuItem/Text}">
+											<MenuFlyoutSubItem IsEnabled="{x:Bind IsAddItemOptionEnabled}" Text="{helpers:ResourceString Name=BundleOptionsFlyoutAddItemMenuItem/Text}">
 												<MenuFlyoutSubItem.Icon>
 													<FontIcon Glyph="&#xE710;" />
 												</MenuFlyoutSubItem.Icon>
@@ -228,7 +228,7 @@
 								CanDragItems="True"
 								CanReorderItems="True"
 								IsItemClickEnabled="True"
-								ItemsSource="{x:Bind Contents}"
+								ItemsSource="{x:Bind Contents, Mode=OneWay}"
 								ReorderMode="Enabled"
 								SelectionMode="None">
 
@@ -286,7 +286,7 @@
 														Height="20"
 														HorizontalAlignment="Left"
 														VerticalAlignment="Center"
-														Source="{x:Bind Icon, Mode=OneWay}" />
+														Source="{x:Bind Icon}" />
 
 													<!--  Bundle Item name  -->
 													<TextBlock
@@ -295,7 +295,7 @@
 														VerticalAlignment="Center"
 														FontSize="12"
 														MaxLines="1"
-														Text="{x:Bind Name, Mode=OneWay}"
+														Text="{x:Bind Name}"
 														TextTrimming="CharacterEllipsis" />
 												</Grid>
 
@@ -303,12 +303,12 @@
 													<MenuFlyout>
 														<MenuFlyoutItem
 															x:Name="OpenInNewTab"
-															x:Load="{x:Bind OpenInNewTabLoad, Mode=OneWay}"
+															x:Load="{x:Bind OpenInNewTabLoad}"
 															Command="{x:Bind OpenInNewTabCommand}"
 															Text="{helpers:ResourceString Name=OpenInNewTab}" />
 														<MenuFlyoutItem
 															x:Name="OpenInNewPane"
-															x:Load="{x:Bind OpenInNewPaneLoad, Mode=OneWay}"
+															x:Load="{x:Bind OpenInNewPaneLoad}"
 															Command="{x:Bind OpenInNewPaneCommand}"
 															Text="{helpers:ResourceString Name=BundlesOpenInNewPane/Text}" />
 														<MenuFlyoutItem Command="{x:Bind OpenItemLocationCommand}" Text="{helpers:ResourceString Name=BundleItemFlyouOpenItemLocationMenuItem/Text}">
@@ -326,7 +326,7 @@
 												</Border.ContextFlyout>
 
 												<ToolTipService.ToolTip>
-													<ToolTip Content="{x:Bind Path, Mode=OneWay}" />
+													<ToolTip Content="{x:Bind Path}" />
 												</ToolTipService.ToolTip>
 											</Border>
 										</Grid>

@@ -54,16 +54,16 @@
 						x:Name="Picture"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
-						x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
+						x:Load="{x:Bind LoadFileIcon}">
 						<Image
 							Width="24"
 							Height="24"
-							Source="{x:Bind FileImage, Mode=OneWay}"
+							Source="{x:Bind FileImage}"
 							Stretch="Uniform" />
 					</Border>
 					<FontIcon
 						x:Name="EmptyIconGlyph"
-						x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
+						x:Load="{x:Bind NeedsPlaceholderGlyph}"
 						Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
 				</Grid>
 				<TextBlock VerticalAlignment="Center" Text="{x:Bind Name}" />

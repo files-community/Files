@@ -53,22 +53,22 @@
 
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="models:StatusBanner">
-					<Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}">
+					<Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind FullTitle}">
 						<InfoBar
-							Title="{x:Bind FullTitle, Mode=OneWay}"
+							Title="{x:Bind FullTitle}"
 							Background="{ThemeResource ControlFillColorDefault}"
 							IsClosable="False"
 							IsIconVisible="False"
 							IsOpen="True"
-							Message="{x:Bind Message, Mode=OneWay}"
+							Message="{x:Bind Message}"
 							Severity="{x:Bind InfoBarSeverity}">
 
 							<ProgressBar
 								x:Name="ProgressBar"
 								Margin="0,0,12,12"
-								IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
-								Visibility="{x:Bind IsProgressing, Mode=OneWay}"
-								Value="{x:Bind Progress, Mode=OneWay}" />
+								IsIndeterminate="{x:Bind IsCancelled}"
+								Visibility="{x:Bind IsProgressing}"
+								Value="{x:Bind Progress}" />
 						</InfoBar>
 
 						<Button
@@ -103,7 +103,7 @@
 							BorderBrush="Transparent"
 							Command="{x:Bind CancelCommand}"
 							DataContext="{x:Bind}"
-							IsEnabled="{x:Bind IsCancelled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+							IsEnabled="{x:Bind IsCancelled, Converter={StaticResource BoolNegationConverter}}"
 							ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
 							<Button.Content>
 								<FontIcon FontSize="11" Glyph="&#xE711;" />

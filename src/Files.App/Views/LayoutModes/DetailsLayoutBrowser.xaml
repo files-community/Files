@@ -563,18 +563,18 @@
 						<DataTemplate x:DataType="local2:ListedItem">
 							<StackPanel
 								HorizontalAlignment="Stretch"
-								AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
+								AutomationProperties.Name="{x:Bind Name}"
 								IsRightTapEnabled="True"
 								Loaded="StackPanel_Loaded"
 								Orientation="Horizontal"
-								ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
+								ToolTipService.ToolTip="{x:Bind ItemTooltipText}">
 
 								<CheckBox
 									x:Name="SelectionCheckbox"
 									MinWidth="0"
 									Checked="ItemSelected_Checked"
 									Unchecked="ItemSelected_Unchecked"
-									Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+									Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 								<Grid
 									Width="24"
@@ -582,7 +582,7 @@
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"
 									AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
-									Opacity="{x:Bind Opacity, Mode=OneWay}"
+									Opacity="{x:Bind Opacity}"
 									TabFocusNavigation="Local"
 									Tag="ItemImage">
 									<ContentPresenter
@@ -591,11 +591,11 @@
 										Height="20"
 										HorizontalAlignment="Center"
 										VerticalAlignment="Center"
-										x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+										x:Load="{x:Bind LoadFileIcon}"
 										CornerRadius="{StaticResource DetailsLayoutThumbnailCornerRadius}">
 										<Image
 											x:Name="Picture"
-											Source="{x:Bind FileImage, Mode=OneWay}"
+											Source="{x:Bind FileImage}"
 											Stretch="Uniform" />
 									</ContentPresenter>
 									<Image
@@ -604,20 +604,20 @@
 										Height="20"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Stretch"
-										x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
-										Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
+										x:Load="{x:Bind LoadDefaultIcon}"
+										Source="{x:Bind PlaceholderDefaultIcon}" />
 									<Border
 										x:Name="TypeUnknownGlyph"
 										Width="20"
 										Height="20"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Stretch"
-										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
+										x:Load="{x:Bind NeedsPlaceholderGlyph}"
 										Background="{ThemeResource SystemChromeHighColor}"
 										CornerRadius="4" />
 									<FontIcon
 										x:Name="WebShortcutGlyph"
-										x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
+										x:Load="{x:Bind LoadWebShortcutGlyph}"
 										Glyph="&#xE71B;" />
 									<Image
 										x:Name="IconOverlay"
@@ -627,7 +627,7 @@
 										HorizontalAlignment="Left"
 										VerticalAlignment="Bottom"
 										x:Load="True"
-										Source="{x:Bind IconOverlay, Mode=OneWay}"
+										Source="{x:Bind IconOverlay}"
 										Stretch="Uniform" />
 									<Border
 										x:Name="ShortcutGlyphElement"
@@ -651,11 +651,11 @@
 									<TextBlock
 										x:Name="ItemName"
 										VerticalAlignment="Center"
-										Text="{x:Bind Name, Mode=OneWay}"
+										Text="{x:Bind Name}"
 										TextTrimming="CharacterEllipsis" />
 									<TextBox
 										x:Name="ItemNameTextBox"
-										MaxWidth="{Binding MaxWidthForRenameTextbox, ElementName=PageRoot, Mode=OneWay}"
+										MaxWidth="{Binding MaxWidthForRenameTextbox, ElementName=PageRoot}"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center"
 										BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
@@ -675,9 +675,9 @@
 									Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
 									<ItemsRepeater
 										x:Name="TagsRepeater"
-										x:Load="{x:Bind HasTags, Mode=OneWay}"
-										ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}"
-										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
+										x:Load="{x:Bind HasTags}"
+										ItemsSource="{x:Bind FileTagsUI}"
+										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}}">
 										<ItemsRepeater.Layout>
 											<StackLayout Orientation="Horizontal" Spacing="4" />
 										</ItemsRepeater.Layout>
@@ -689,16 +689,16 @@
 														Padding="8,0"
 														HorizontalAlignment="Left"
 														x:Phase="2"
-														BorderBrush="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+														BorderBrush="{x:Bind Color, Converter={StaticResource StringToBrushConverter}}"
 														BorderThickness="1"
 														CornerRadius="12"
 														Orientation="Horizontal"
 														Tapped="TagItem_Tapped"
-														ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
+														ToolTipService.ToolTip="{x:Bind Name}">
 														<FontIcon
 															x:Name="TagIcon"
 															FontSize="12"
-															Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+															Foreground="{x:Bind Color, Converter={StaticResource StringToBrushConverter}}"
 															Glyph="&#xE1CB;"
 															Tapped="TagIcon_Tapped"
 															ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
@@ -708,7 +708,7 @@
 															FontSize="12"
 															LineHeight="18"
 															Style="{StaticResource ColumnContentTextBlock}"
-															Text="{x:Bind Name, Mode=OneWay}"
+															Text="{x:Bind Name}"
 															TextTrimming="CharacterEllipsis" />
 
 														<VisualStateManager.VisualStateGroups>
@@ -737,7 +737,7 @@
 									VerticalAlignment="Center"
 									x:Load="{x:Bind IsRecycleBinItem}"
 									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
+									Text="{x:Bind AsRecycleBinItem.ItemOriginalPath}"
 									Visibility="{Binding ColumnsViewModel.OriginalPathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 								<TextBlock
@@ -748,7 +748,7 @@
 									VerticalAlignment="Center"
 									x:Load="{x:Bind IsRecycleBinItem}"
 									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
+									Text="{x:Bind AsRecycleBinItem.ItemDateDeleted}"
 									Visibility="{Binding ColumnsViewModel.DateDeletedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 								<TextBlock
@@ -758,7 +758,7 @@
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind ItemDateModified, Mode=OneWay}"
+									Text="{x:Bind ItemDateModified}"
 									Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 								<TextBlock
@@ -768,7 +768,7 @@
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind ItemDateCreated, Mode=OneWay}"
+									Text="{x:Bind ItemDateCreated}"
 									Visibility="{Binding ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 								<TextBlock
@@ -778,7 +778,7 @@
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind ItemType, Mode=OneWay}"
+									Text="{x:Bind ItemType}"
 									Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 								<TextBlock
@@ -788,7 +788,7 @@
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind FileSize, Mode=OneWay}"
+									Text="{x:Bind FileSize}"
 									Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 								<FontIcon
@@ -797,9 +797,9 @@
 									Margin="12,0,0,0"
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
-									AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
+									AutomationProperties.Name="{x:Bind SyncStatusString}"
 									FontSize="12"
-									Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}"
+									Glyph="{x:Bind SyncStatusUI.Glyph}"
 									Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 							</StackPanel>
 						</DataTemplate>
@@ -968,41 +968,41 @@
 								Spacing="4">
 								<Image
 									Height="36"
-									Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
+									Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource}"
 									Stretch="Uniform" />
-								<FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
+								<FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon}" />
 								<StackPanel
 									VerticalAlignment="Center"
-									AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
+									AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text}"
 									Orientation="Vertical">
 									<StackPanel Orientation="Horizontal" Spacing="4">
 										<TextBlock
 											VerticalAlignment="Center"
 											FontSize="16"
 											Style="{StaticResource SubtitleTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
+											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text}" />
 
 										<TextBlock
 											Margin="4,0,0,0"
 											VerticalAlignment="Center"
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 											Style="{StaticResource BodyTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText}"
+											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 										<TextBlock
 											VerticalAlignment="Center"
 											FontSize="14"
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 											Style="{StaticResource SubheaderTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext}"
+											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
 									</StackPanel>
 									<TextBlock
 										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 										Style="{StaticResource BodyTextBlockStyle}"
-										Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-										Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+										Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText}"
+										Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Converter={StaticResource BoolToVisibilityConverter}}" />
 								</StackPanel>
 							</StackPanel>
 						</DataTemplate>

@@ -30,14 +30,14 @@
 						VerticalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
 						VerticalContentAlignment="Stretch"
-						AutomationProperties.Name="{x:Bind Item.Text, Mode=OneWay}"
+						AutomationProperties.Name="{x:Bind Item.Text}"
 						Click="Button_Click"
 						CornerRadius="{StaticResource ControlCornerRadius}"
 						DataContext="{x:Bind}"
 						PointerPressed="Button_PointerPressed"
 						RightTapped="Button_RightTapped"
 						Tag="{x:Bind Item.Path}"
-						ToolTipService.ToolTip="{x:Bind Item.Text, Mode=OneWay}">
+						ToolTipService.ToolTip="{x:Bind Item.Text}">
 						<Grid
 							Margin="8"
 							HorizontalAlignment="Stretch"
@@ -59,7 +59,7 @@
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
 								x:Phase="1"
-								Source="{x:Bind Thumbnail, Mode=OneWay}"
+								Source="{x:Bind Thumbnail}"
 								Stretch="Uniform" />
 
 							<TextBlock
@@ -70,7 +70,7 @@
 								VerticalAlignment="Center"
 								FontSize="14"
 								FontWeight="Medium"
-								Text="{x:Bind Item.Text, Mode=OneWay}"
+								Text="{x:Bind Item.Text}"
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
 
@@ -80,10 +80,10 @@
 								Grid.Column="1"
 								VerticalAlignment="Stretch"
 								VerticalContentAlignment="Stretch"
-								x:Load="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
+								x:Load="{x:Bind Item.ShowDriveDetails}"
 								AutomationProperties.AccessibilityView="Raw"
-								Maximum="{x:Bind Item.MaxSpace.GigaBytes, Mode=OneWay}"
-								Value="{x:Bind Item.SpaceUsed.GigaBytes, Mode=OneWay}" />
+								Maximum="{x:Bind Item.MaxSpace.GigaBytes}"
+								Value="{x:Bind Item.SpaceUsed.GigaBytes}" />
 
 							<Button
 								x:Name="GoToStorageSense"
@@ -95,7 +95,7 @@
 								Padding="0"
 								HorizontalContentAlignment="Center"
 								VerticalContentAlignment="Center"
-								x:Load="{x:Bind Item.ShowStorageSense, Mode=OneWay}"
+								x:Load="{x:Bind Item.ShowStorageSense}"
 								AutomationProperties.Name="{helpers:ResourceString Name=OpenStorageSense}"
 								Background="Transparent"
 								BorderBrush="Transparent"
@@ -115,13 +115,13 @@
 								Grid.Column="1"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
-								x:Load="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
+								x:Load="{x:Bind Item.ShowDriveDetails}"
 								x:Phase="1"
 								FontSize="12"
-								Text="{x:Bind Item.SpaceText, Mode=OneWay}"
+								Text="{x:Bind Item.SpaceText}"
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap"
-								ToolTipService.ToolTip="{x:Bind Item.SpaceText, Mode=OneWay}" />
+								ToolTipService.ToolTip="{x:Bind Item.SpaceText}" />
 						</Grid>
 					</Button>
 				</DataTemplate>

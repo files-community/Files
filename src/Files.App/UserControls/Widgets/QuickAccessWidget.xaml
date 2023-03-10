@@ -51,7 +51,7 @@
 								x:Name="PinIcon"
 								HorizontalAlignment="Right"
 								VerticalAlignment="Top"
-								x:Load="{x:Bind IsPinned, Mode=OneWay}"
+								x:Load="{x:Bind IsPinned}"
 								FontSize="12"
 								Glyph="&#xE840;" />
 							<Image
@@ -60,7 +60,7 @@
 								Height="32"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
-								Source="{x:Bind Thumbnail, Mode=OneWay}"
+								Source="{x:Bind Thumbnail}"
 								Stretch="Uniform" />
 							<TextBlock
 								x:Name="ItemLocationName"

@@ -55,7 +55,7 @@
 												Grid.Column="0"
 												HorizontalAlignment="Stretch"
 												Style="{StaticResource PropertyName}"
-												Text="{x:Bind Name, Mode=OneWay}"
+												Text="{x:Bind Name}"
 												TextWrapping="Wrap" />
 
 											<TextBox
@@ -63,7 +63,7 @@
 												Grid.Row="0"
 												Grid.Column="1"
 												HorizontalAlignment="Stretch"
-												IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
+												IsReadOnly="{x:Bind IsReadOnly}"
 												Style="{StaticResource PropertyValueTextBox}"
 												Text="{x:Bind ValueText, Mode=TwoWay}" />
 										</Grid>
