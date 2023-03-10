@@ -104,21 +104,23 @@
 					x:Name="CutButton"
 					Width="Auto"
 					MinWidth="40"
+					AccessKey="X"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCutButton"
 					Command="{x:Bind Commands.CutItem}"
 					Label="{x:Bind Commands.CutItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.CutItem.Label}">
+					ToolTipService.ToolTip="{x:Bind Commands.CutItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.CutItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					Width="Auto"
 					MinWidth="40"
+					AccessKey="C"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
 					Command="{x:Bind Commands.CopyItem, Mode=OneWay}"
 					Label="{x:Bind Commands.CopyItem}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.CopyItem}">
+					ToolTipService.ToolTip="{x:Bind Commands.CopyItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.CopyItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
@@ -176,7 +178,7 @@
 					Command="{x:Bind Commands.DeleteItem}"
 					Label="{x:Bind Commands.DeleteItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.DeleteItem.Label}">
+					ToolTipService.ToolTip="{x:Bind Commands.DeleteItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.DeleteItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
