@@ -183,24 +183,12 @@ namespace Files.App.Views
 					}
 					break;
 
-				case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
-					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-						await UIFilesystemHelpers.CopyItem(this);
-
-					break;
-
 				case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
 						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
 					break;
 
-				case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
-					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-						UIFilesystemHelpers.CutItem(this);
-					break;
-
 				case (true, false, false, true, VirtualKey.D): // ctrl + d, delete item
-				case (false, false, false, true, VirtualKey.Delete): // delete, delete item
 					if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
 					{
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(

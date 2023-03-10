@@ -36,7 +36,7 @@ namespace Files.App.Shell
 			if (!newMenuItems.Any(x => ".txt".Equals(x.Extension, StringComparison.OrdinalIgnoreCase)))
 				newMenuItems.Add(await CreateShellNewEntry(".txt", null, null, null));
 
-			return newMenuItems;
+			return newMenuItems.OrderBy(item => item.Name).ToList();
 		}
 
 		public static async Task<ShellNewEntry> GetNewContextMenuEntryForType(string extension)

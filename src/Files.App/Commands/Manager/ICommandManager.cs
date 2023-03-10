@@ -50,5 +50,8 @@ namespace Files.App.Commands
 		IRichCommand CompressIntoArchive { get; }
 		IRichCommand CompressIntoSevenZip { get; }
 		IRichCommand CompressIntoZip { get; }
+
+		IRichCommand RotateLeft { get; }
+		IRichCommand RotateRight { get; }
 	}
 }
