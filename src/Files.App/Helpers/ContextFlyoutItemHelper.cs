@@ -692,28 +692,14 @@ namespace Files.App.Helpers
 						}.Build(),
 					}
 				},
-				new ContextMenuFlyoutItemViewModel
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RotateLeft)
 				{
-					Text = "RotateLeft".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconRotateLeft"
-					},
-					Command = commandsViewModel.RotateImageLeftCommand,
-					ShowInSearchPage = true,
-					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
-				},
-				new ContextMenuFlyoutItemViewModel
+					IsVisible = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RotateRight)
 				{
-					Text = "RotateRight".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconRotateRight"
-					},
-					Command = commandsViewModel.RotateImageRightCommand,
-					ShowInSearchPage = true,
-					ShowItem = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
-				},
+					IsVisible = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAdmin).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAnotherUser).Build(),
 				new ContextMenuFlyoutItemViewModel()

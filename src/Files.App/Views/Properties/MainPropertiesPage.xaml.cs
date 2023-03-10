@@ -159,6 +159,9 @@ namespace Files.App.Views.Properties
 				case PropertyNavigationViewItemEnums.ItemCompatibility:
 					contentFrame.Navigate(typeof(CompatibilityPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
+				case PropertyNavigationViewItemEnums.ItemHash:
+					contentFrame.Navigate(typeof(HashesPage), navParam, args.RecommendedNavigationTransitionInfo);
+					break;
 			}
 		}
 
@@ -177,6 +180,13 @@ namespace Files.App.Views.Properties
 				ItemType = PropertyNavigationViewItemEnums.ItemSecurity,
 				OutlinePathIcon = (string)Application.Current.Resources["ShieldIconRegular"],
 				FilledPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
+			};
+			var hashItem = new SquareNavViewItem()
+			{
+				Name = "Hashes".GetLocalizedResource(),
+				ItemType = PropertyNavigationViewItemEnums.ItemHash,
+				OutlinePathIcon = (string)Application.Current.Resources["WindowsAppsRegular"],
+				FilledPathIcon = (string)Application.Current.Resources["WindowsAppsFilled"],
 			};
 			var shortcutItem = new SquareNavViewItem()
 			{
@@ -216,6 +226,7 @@ namespace Files.App.Views.Properties
 
 			NavViewItems.Add(generalItem);
 			NavViewItems.Add(securityItem);
+			NavViewItems.Add(hashItem);
 			NavViewItems.Add(shortcutItem);
 			NavViewItems.Add(libraryItem);
 			NavViewItems.Add(detailsItem);
@@ -237,22 +248,26 @@ namespace Files.App.Views.Properties
 				NavViewItems.Remove(detailsItem);
 				NavViewItems.Remove(securityItem);
 				NavViewItems.Remove(customizationItem);
-			}
+				NavViewItems.Remove(hashItem);
+			} 
 			else if (item is ListedItem listedItem)
 			{
 				var isShortcut = listedItem.IsShortcut;
 				var isLibrary = listedItem.IsLibrary;
 				var fileExt = listedItem.FileExtension;
+				var isFolder = listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder;
 
 				var securityItemEnabled = !isLibrary && !listedItem.IsRecycleBinItem;
+				var hashItemEnabled = !isFolder && !isLibrary && !listedItem.IsRecycleBinItem;
 				var detailsItemEnabled = fileExt is not null && !isShortcut && !isLibrary;
-				var customizationItemEnabled = !isLibrary && (
-					(listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsArchive) ||
-					(isShortcut && !listedItem.IsLinkItem));
+				var customizationItemEnabled = !isLibrary && ((isFolder && !listedItem.IsArchive) || (isShortcut && !listedItem.IsLinkItem));
 				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : fileExt, true);
 
 				if (!securityItemEnabled)
 					NavViewItems.Remove(securityItem);
+
+				if (!hashItemEnabled)
+					NavViewItems.Remove(hashItem);
 
 				if (!isShortcut)
 					NavViewItems.Remove(shortcutItem);
@@ -271,6 +286,7 @@ namespace Files.App.Views.Properties
 			}
 			else if (item is DriveItem)
 			{
+				NavViewItems.Remove(hashItem);
 				NavViewItems.Remove(shortcutItem);
 				NavViewItems.Remove(libraryItem);
 				NavViewItems.Remove(detailsItem);
@@ -388,5 +404,6 @@ namespace Files.App.Views.Properties
 		ItemSecurity,
 		ItemCustomization,
 		ItemCompatibility,
+		ItemHash,
 	}
 }

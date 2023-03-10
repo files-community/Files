@@ -267,7 +267,7 @@
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Condividi</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+  <data name="Cut" xml:space="preserve">
     <value>Taglia</value>
   </data>
   <data name="Delete" xml:space="preserve">
@@ -2603,5 +2603,11 @@
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Selezione multipla</value>
+  </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>Hash</value>
+  </data>
+  <data name="UnableToCalcHashes" xml:space="preserve">
+    <value>Impossibile calcolare gli hash a causa di un errore di sistema</value>
   </data>
 </root>

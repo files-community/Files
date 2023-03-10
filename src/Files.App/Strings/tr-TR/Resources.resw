@@ -267,8 +267,8 @@
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Paylaş</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
-    <value>Kes</value>
+  <data name="Cut" xml:space="preserve">
+    <value>Cut</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Sil</value>
@@ -1132,7 +1132,7 @@
     <value>İstenilen ad</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Toggle the preview pane</value>
+    <value>Önizleme bölmesini değiştir</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ön izleme yok</value>
@@ -2603,5 +2603,11 @@
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Çoklu seçim</value>
+  </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>Hashes</value>
+  </data>
+  <data name="UnableToCalcHashes" xml:space="preserve">
+    <value>Unable to calculate hashes due to a system error</value>
   </data>
 </root>

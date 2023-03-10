@@ -3,28 +3,29 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
+using Files.App.Filesystem;
 using Files.App.Helpers;
-using System;
-using System.Collections.Generic;
+using Files.Backend.Services.Settings;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.System;
 
 namespace Files.App.Actions
 {
 	internal class DeleteItemAction : ObservableObject, IAction
 	{
-		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
 		public string Label { get; } = "Delete".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconDelete");
 
-		public HotKey HotKey = new(VirtualKey.Delete);
+		public HotKey HotKey { get; } = new(VirtualKey.Delete);
 
-		public bool IsExecutable => context.ShellPage is not null && context.SelectedItems is not null
-			&& context.SelectedItems.Any() && context.PageType is not ContentPageTypes.Home;
+		public bool IsExecutable => context.HasSelection;
 
 		public DeleteItemAction()
 		{
@@ -33,18 +34,20 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			await RecycleBinHelpers.DeleteItem(context.ShellPage);
+			if (context.ShellPage is null || !IsExecutable)
+				return;
+
+			var items = context.SelectedItems.Select(item => StorageHelpers.FromPathAndType(item.ItemPath,
+					item.PrimaryItemAttribute is StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+
+			await context.ShellPage.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, true, true);
+			await context.ShellPage.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
 		}
 
-		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.SelectedItems):
-				case nameof(IContentPageContext.Folder):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
+			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
 }

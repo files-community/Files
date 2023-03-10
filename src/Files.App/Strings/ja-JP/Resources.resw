@@ -267,7 +267,7 @@
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>共有</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+  <data name="Cut" xml:space="preserve">
     <value>切り取り</value>
   </data>
   <data name="Delete" xml:space="preserve">
@@ -2512,7 +2512,7 @@
     <value>バンドル ウィジェットは今後のアップデートで削除されます 📎</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>タグ編集フライアウトを表示する</value>
+    <value>"ファイル タグを編集" オプションを表示する</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>"新しいタブでフォルダーを開く" オプションを表示する</value>
@@ -2603,5 +2603,11 @@
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>複数選択</value>
+  </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>ハッシュ値</value>
+  </data>
+  <data name="UnableToCalcHashes" xml:space="preserve">
+    <value>システムエラーのためハッシュ値を計算できません</value>
   </data>
 </root>

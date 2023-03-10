@@ -106,10 +106,10 @@
 					MinWidth="40"
 					AccessKey="X"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCutButton"
-					Command="{x:Bind Commands.CutItem, Mode=OneWay}"
+					Command="{x:Bind Commands.CutItem}"
 					Label="{x:Bind Commands.CutItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.CutItem.Label}">
+					ToolTipService.ToolTip="{x:Bind Commands.CutItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.CutItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
@@ -120,7 +120,7 @@
 					Command="{x:Bind Commands.CopyItem, Mode=OneWay}"
 					Label="{x:Bind Commands.CopyItem}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.CopyItem}">
+					ToolTipService.ToolTip="{x:Bind Commands.CopyItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.CopyItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
@@ -174,11 +174,11 @@
 					x:Name="DeleteButton"
 					Width="Auto"
 					MinWidth="40"
-					AutomationProperties.AutomationId="Delete"
+					AutomationProperties.AutomationId="InnerNavigationToolbarDeleteButton"
 					Command="{x:Bind Commands.DeleteItem}"
 					Label="{x:Bind Commands.DeleteItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.DeleteItem.Label}">
+					ToolTipService.ToolTip="{x:Bind Commands.DeleteItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.DeleteItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
@@ -186,7 +186,7 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="O"
-					AutomationProperties.Name="{helpers:ResourceString Name=Properties}"
+					AutomationProperties.AutomationId="InnerNavigationToolbarPropertiesButton"
 					Command="{x:Bind ViewModel.PropertiesCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanViewProperties, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=Properties}"
@@ -343,8 +343,8 @@
 				<AppBarButton
 					x:Name="RotateImageLeftButton"
 					x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
-					Command="{x:Bind ViewModel.RotateImageLeftCommand, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=RotateLeft}"
+					Command="{x:Bind Commands.RotateLeft, Mode=OneWay}"
+					Label="{x:Bind Commands.RotateLeft.Label}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateLeft}">
 
@@ -353,8 +353,8 @@
 				<AppBarButton
 					x:Name="RotateImageRightButton"
 					x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
-					Command="{x:Bind ViewModel.RotateImageRightCommand, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=RotateRight}"
+					Command="{x:Bind Commands.RotateRight, Mode=OneWay}"
+					Label="{x:Bind Commands.RotateRight.Label}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateRight}">
 
