@@ -15,6 +15,8 @@ namespace Files.App.Helpers
 	{
 		private JumpList instance = null;
 		private List<string> JumpListItemPaths { get; set; }
+		private readonly string JumpListRecentGroupHeader = "ms-resource:///Resources/JumpListRecentGroupHeader";
+		private readonly string JumpListPinnedGroupHeader = "ms-resource:///Resources/JumpListPinnedGroupHeader";
 
 		public JumpListManager()
 		{
@@ -52,7 +54,7 @@ namespace Files.App.Helpers
 			{
 				if (instance is not null)
 				{
-					AddFolder(path, "ms-resource:///Resources/JumpListRecentGroupHeader");
+					AddFolder(path, JumpListRecentGroupHeader);
 					await instance.SaveAsync();
 				}
 			}
@@ -114,7 +116,7 @@ namespace Files.App.Helpers
 				jumplistItem.GroupName = group;
 				jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
 
-				if (string.Equals(group, "ms-resource:///Resources/JumpListRecentGroupHeader", StringComparison.OrdinalIgnoreCase))
+				if (string.Equals(group, JumpListRecentGroupHeader, StringComparison.OrdinalIgnoreCase))
 				{
 					// Keep newer items at the top.
 					instance.Items.Remove(instance.Items.FirstOrDefault(x => x.Arguments.Equals(path, StringComparison.OrdinalIgnoreCase)));
@@ -125,7 +127,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					var pinnedItemsCount = instance.Items.Where(x => x.GroupName == "ms-resource:///Resources/JumpListPinnedGroupHeader").Count();
+					var pinnedItemsCount = instance.Items.Where(x => x.GroupName == JumpListPinnedGroupHeader).Count();
 					instance.Items.Insert(pinnedItemsCount, jumplistItem);
 				}
 			}
@@ -155,9 +157,9 @@ namespace Files.App.Helpers
 			if (instance is null)
 				return;
 
-			var itemsToRemove = instance.Items.Where(x => string.Equals(x.GroupName, "ms-resource:///Resources/JumpListPinnedGroupHeader", StringComparison.OrdinalIgnoreCase)).ToList();
+			var itemsToRemove = instance.Items.Where(x => string.Equals(x.GroupName, JumpListPinnedGroupHeader, StringComparison.OrdinalIgnoreCase)).ToList();
 			itemsToRemove.ForEach(x => instance.Items.Remove(x));
-			App.QuickAccessManager.Model.FavoriteItems.ForEach(x => AddFolder(x, "ms-resource:///Resources/JumpListPinnedGroupHeader"));
+			App.QuickAccessManager.Model.FavoriteItems.ForEach(x => AddFolder(x, JumpListPinnedGroupHeader));
 			await instance.SaveAsync();
 		}
 	}
