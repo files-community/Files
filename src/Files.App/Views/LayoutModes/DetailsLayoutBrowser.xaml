@@ -596,74 +596,75 @@
 											Checked="ItemSelected_Checked"
 											Unchecked="ItemSelected_Unchecked"
 											Visibility="{Binding ElementName=PageRoot, Path=ShowAllCheckBoxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-                  <Grid
-                    x:Name="IconBox"
-                    Width="20"
-                    Height="Auto"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
-                    Opacity="{x:Bind Opacity, Mode=OneWay}"
-                    TabFocusNavigation="Local"
-                    Visibility="{Binding ElementName=PageRoot, Path=ShowAllCheckBoxes, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}"
-                    Tag="ItemImage">
-                    <ContentPresenter
-                      x:Name="PicturePresenter"
-                      Width="20"
-                      Height="20"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"
-                      x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
-                      CornerRadius="{StaticResource DetailsLayoutThumbnailCornerRadius}">
-                      <Image
-                        x:Name="Picture"
-                        Source="{x:Bind FileImage, Mode=OneWay}"
-                        Stretch="Uniform" />
-                    </ContentPresenter>
-                    <Image
-                      x:Name="FolderGlyphIcon"
-                      Width="20"
-                      Height="20"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch"
-                      x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
-                      Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
-                    <Border
-                      x:Name="TypeUnknownGlyph"
-                      Width="20"
-                      Height="20"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch"
-                      x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-                      Background="{ThemeResource SystemChromeHighColor}"
-                      CornerRadius="4" />
-                    <FontIcon
-                      x:Name="WebShortcutGlyph"
-                      x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
-                      Glyph="&#xE71B;" />
-                    <Image
-                      x:Name="IconOverlay"
-                      Width="16"
-                      Height="16"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Bottom"
-                      x:Load="True"
-                      Source="{x:Bind IconOverlay, Mode=OneWay}"
-                      Stretch="Uniform" />
-                    <Border
-                      x:Name="ShortcutGlyphElement"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Bottom"
-                      x:Load="{x:Bind IsShortcut}"
-                      Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-                      BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
-                      BorderThickness="1">
-                      <FontIcon
-                        FontFamily="{StaticResource CustomGlyph}"
-                        FontSize="8"
-                        Glyph="&#xF10A;" />
-                    </Border>
-                  </Grid>
+										<Grid
+											x:Name="IconBox"
+											Width="20"
+											Height="Auto"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
+											Opacity="{x:Bind Opacity, Mode=OneWay}"
+											TabFocusNavigation="Local"
+											Visibility="{Binding ElementName=PageRoot, Path=ShowAllCheckBoxes, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}"
+											Tag="ItemImage">
+											<ContentPresenter
+												x:Name="PicturePresenter"
+												Width="20"
+												Height="20"
+												HorizontalAlignment="Center"
+												VerticalAlignment="Center"
+												x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+												CornerRadius="{StaticResource DetailsLayoutThumbnailCornerRadius}">
+												<Image
+													x:Name="Picture"
+													Source="{x:Bind FileImage, Mode=OneWay}"
+													Stretch="Uniform" />
+											</ContentPresenter>
+											<Image
+												x:Name="FolderGlyphIcon"
+												Width="20"
+												Height="20"
+												HorizontalAlignment="Stretch"
+												VerticalAlignment="Stretch"
+												x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
+												Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
+											<Border
+												x:Name="TypeUnknownGlyph"
+												Width="20"
+												Height="20"
+												HorizontalAlignment="Stretch"
+												VerticalAlignment="Stretch"
+												x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
+												Background="{ThemeResource SystemChromeHighColor}"
+												CornerRadius="4" />
+											<FontIcon
+												x:Name="WebShortcutGlyph"
+												x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
+												Glyph="&#xE71B;" />
+											<Image
+												x:Name="IconOverlay"
+												Width="16"
+												Height="16"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Bottom"
+												x:Load="True"
+												Source="{x:Bind IconOverlay, Mode=OneWay}"
+												Stretch="Uniform" />
+											<Border
+												x:Name="ShortcutGlyphElement"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Bottom"
+												x:Load="{x:Bind IsShortcut}"
+												Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+												BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
+												BorderThickness="1">
+												<FontIcon
+													FontFamily="{StaticResource CustomGlyph}"
+													FontSize="8"
+													Glyph="&#xF10A;" />
+											</Border>
+										</Grid>
+									</Grid>
 
 									<Grid
 										Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -693,25 +694,25 @@
 										</TextBox>
 									</Grid>
 
-								<Grid
+									<Grid
 									x:Name="ItemTagGrid"
 									Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 									Padding="12,0,12,0"
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-									<ItemsRepeater
+										<ItemsRepeater
 										x:Name="TagsRepeater"
 										x:Load="{x:Bind HasTags, Mode=OneWay}"
 										ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}"
 										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
-										<ItemsRepeater.Layout>
-											<StackLayout Orientation="Horizontal" Spacing="4" />
-										</ItemsRepeater.Layout>
-										<ItemsRepeater.ItemTemplate>
-											<DataTemplate x:DataType="filetags:TagViewModel">
-												<UserControl PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
-													<StackPanel
+											<ItemsRepeater.Layout>
+												<StackLayout Orientation="Horizontal" Spacing="4" />
+											</ItemsRepeater.Layout>
+											<ItemsRepeater.ItemTemplate>
+												<DataTemplate x:DataType="filetags:TagViewModel">
+													<UserControl PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
+														<StackPanel
 														Height="24"
 														Padding="8,0"
 														HorizontalAlignment="Left"
@@ -722,14 +723,14 @@
 														Orientation="Horizontal"
 														Tapped="TagItem_Tapped"
 														ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
-														<FontIcon
+															<FontIcon
 															x:Name="TagIcon"
 															FontSize="12"
 															Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
 															Glyph="&#xE1CB;"
 															Tapped="TagIcon_Tapped"
 															ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
-														<TextBlock
+															<TextBlock
 															Padding="8,0,0,0"
 															VerticalAlignment="Center"
 															FontSize="12"
