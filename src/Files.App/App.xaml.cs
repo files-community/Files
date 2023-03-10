@@ -133,6 +133,7 @@ namespace Files.App
 				.AddSingleton<IFileTagsService, FileTagsService>()
 				.AddSingleton<ICommandManager, CommandManager>()
 				.AddSingleton<IContentPageContext, ContentPageContext>()
+				.AddSingleton<IWidgetsPageContext, WidgetsPageContext>()
 #if UWP
 				.AddSingleton<IStorageService, WindowsStorageService>()
 #else

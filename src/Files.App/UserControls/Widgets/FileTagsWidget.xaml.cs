@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -38,6 +39,7 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IWidgetsPageContext widgetsContext = Ioc.Default.GetRequiredService<IWidgetsPageContext>();
 
 		public IShellPage AppInstance;
 		public Func<string, Task>? OpenAction { get; set; }
@@ -80,10 +82,13 @@ namespace Files.App.UserControls.Widgets
 
 		private void OpenProperties(WidgetCardItem? item)
 		{
+			if (!widgetsContext.IsAnyItemRightClicked)
+				return;
+
 			EventHandler<object> flyoutClosed = null!;
 			flyoutClosed = async (s, e) =>
 			{
-				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				widgetsContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
 				ListedItem listedItem = new(null!)
 				{
 					ItemPath = (item.Item as FileTagsItemViewModel).Path,
@@ -93,7 +98,7 @@ namespace Files.App.UserControls.Widgets
 				};
 				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, AppInstance);
 			};
-			ItemContextMenuFlyout.Closed += flyoutClosed;
+			widgetsContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;
 		}
 
 		private void OpenInNewPane(WidgetCardItem? item)
@@ -118,6 +123,8 @@ namespace Files.App.UserControls.Widgets
 			if (sender is not StackPanel tagsItemsStackPanel || tagsItemsStackPanel.DataContext is not FileTagsItemViewModel item)
 				return;
 
+			OnRightClickedItemChanged((WidgetCardItem)item, itemContextMenuFlyout);
+
 			App.Logger.Warn("Item path: " + item.Path + " widgetcarditem.path = " + (item as WidgetCardItem)?.Path);
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
@@ -127,7 +134,6 @@ namespace Files.App.UserControls.Widgets
 								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			ItemContextMenuFlyout = itemContextMenuFlyout;
 			itemContextMenuFlyout.ShowAt(tagsItemsStackPanel, new FlyoutShowOptions { Position = e.GetPosition(tagsItemsStackPanel) });
 
 			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);

@@ -1,9 +1,9 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using Files.App.Contexts;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
@@ -94,6 +94,8 @@ namespace Files.App.UserControls.Widgets
 
 	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
+		private readonly IWidgetsPageContext widgetsContext = Ioc.Default.GetRequiredService<IWidgetsPageContext>();
+
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public ObservableCollection<FolderCardItem> ItemsAdded = new();
@@ -319,13 +321,16 @@ namespace Files.App.UserControls.Widgets
 
 		private void OpenProperties(FolderCardItem item)
 		{
+			if (!widgetsContext.IsAnyItemRightClicked)
+				return;
+
 			EventHandler<object> flyoutClosed = null!;
 			flyoutClosed = (s, e) =>
 			{
-				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				widgetsContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
 				CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item });
 			};
-			ItemContextMenuFlyout.Closed += flyoutClosed;
+			widgetsContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;
 		}
 
 		public override async void PinToFavorites(WidgetCardItem item)

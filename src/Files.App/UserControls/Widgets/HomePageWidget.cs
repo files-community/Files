@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -18,6 +19,8 @@ namespace Files.App.UserControls.Widgets
 {
 	public abstract class HomePageWidget : UserControl
 	{
+		public static event EventHandler<(WidgetCardItem, CommandBarFlyout)>? RightClickedItemChanged;
+
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 		public IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
@@ -31,8 +34,6 @@ namespace Files.App.UserControls.Widgets
 		public ICommand PinToFavoritesCommand;
 		public ICommand UnpinFromFavoritesCommand;
 
-		protected CommandBarFlyout ItemContextMenuFlyout;
-
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
 		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -42,6 +43,8 @@ namespace Files.App.UserControls.Widgets
 			if (sender is not Button widgetCardItem || widgetCardItem.DataContext is not WidgetCardItem item)
 				return;
 
+			OnRightClickedItemChanged(item, itemContextMenuFlyout);
+
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
@@ -49,7 +52,6 @@ namespace Files.App.UserControls.Widgets
 							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			ItemContextMenuFlyout = itemContextMenuFlyout;
 			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
 
 			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
@@ -78,5 +80,9 @@ namespace Files.App.UserControls.Widgets
 			_ = QuickAccessService.UnpinFromSidebar(item.Path);
 		}
 
+		protected void OnRightClickedItemChanged(WidgetCardItem item, CommandBarFlyout flyout)
+		{
+			RightClickedItemChanged?.Invoke(this, (item, flyout));
+		}
 	}
 }

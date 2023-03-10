@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using Files.App.Contexts;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -67,6 +68,7 @@ namespace Files.App.UserControls.Widgets
 
 	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
+		private IWidgetsPageContext widgetsContext = Ioc.Default.GetRequiredService<IWidgetsPageContext>();
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
@@ -285,13 +287,16 @@ namespace Files.App.UserControls.Widgets
 
 		private void OpenProperties(DriveCardItem item)
 		{
+			if (!widgetsContext.IsAnyItemRightClicked)
+				return;
+
 			EventHandler<object> flyoutClosed = null!;
 			flyoutClosed = async (s, e) =>
 			{
-				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				widgetsContext.ItemContextFlyoutMenu!.Closed -= flyoutClosed;
 				await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance);
 			};
-			ItemContextMenuFlyout.Closed += flyoutClosed;
+			widgetsContext.ItemContextFlyoutMenu!.Closed += flyoutClosed;
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
