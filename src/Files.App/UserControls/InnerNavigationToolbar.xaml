@@ -105,7 +105,7 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="X"
-					AutomationProperties.AutomationId="InnerNavigationToolbarCutButton"
+					AutomationProperties.AutomationId="{x:Bind Commands.CutItem.AutomationName}"
 					Command="{x:Bind Commands.CutItem}"
 					Label="{x:Bind Commands.CutItem.Label}"
 					LabelPosition="Collapsed"
@@ -116,9 +116,9 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="C"
-					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
-					Command="{x:Bind Commands.CopyItem, Mode=OneWay}"
-					Label="{x:Bind Commands.CopyItem}"
+					AutomationProperties.AutomationId="{x:Bind Commands.CopyItem.AutomationName}"
+					Command="{x:Bind Commands.CopyItem}"
+					Label="{x:Bind Commands.CopyItem.Label}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{x:Bind Commands.CopyItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.CopyItem.OpacityStyle}" />
