@@ -54,6 +54,11 @@
 
 		// Image Edition
 		RotateLeft,
-		RotateRight
+		RotateRight,
+
+		// Open
+		OpenInNewPane,
+		OpenInNewTab,
+		OpenInNewWindow
 	}
 }

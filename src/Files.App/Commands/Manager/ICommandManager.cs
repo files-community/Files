@@ -51,5 +51,9 @@ namespace Files.App.Commands
 
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
+
+		IRichCommand OpenInNewPane { get; }
+		IRichCommand OpenInNewTab { get; }
+		IRichCommand OpenInNewWindow { get; }
 	}
 }

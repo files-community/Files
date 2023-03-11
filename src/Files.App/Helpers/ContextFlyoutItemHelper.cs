@@ -635,42 +635,9 @@ namespace Files.App.Helpers
 					ShowItem = itemsSelected && selectedItems.All(i => i.IsShortcut),
 					ShowInSearchPage = true,
 				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewTab"
-					},
-					Command = commandsViewModel.OpenDirectoryInNewTabCommand,
-					ShowItem = itemsSelected && selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewWindow"
-					},
-					Command = commandsViewModel.OpenInNewWindowItemCommand,
-					ShowItem = itemsSelected && selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenInNewPane".GetLocalizedResource(),
-					Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
-					ShowItem = itemsSelected && userSettingsService.PreferencesSettingsService.ShowOpenInNewPane && areAllItemsFolders,
-					SingleItemOnly = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewTab).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewWindow).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewPane).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),
