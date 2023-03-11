@@ -1,8 +1,8 @@
-﻿using CommunityToolkit.WinUI;
-using Files.App.Filesystem;
+﻿using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
 using System.Threading.Tasks;
 
@@ -21,7 +21,10 @@ namespace Files.App.Views.Properties
 		{
 			var np = (MainPropertiesPage.PropertyNavParam)e.Parameter;
 			if (np.navParameter is ListedItem listedItem)
-				HashesViewModel = new(listedItem);
+			{
+				HashesViewModel = new();
+				HashesViewModel.Initialize(listedItem);
+			}
 
 			base.OnNavigatedTo(e);
 		}
@@ -35,12 +38,17 @@ namespace Files.App.Views.Properties
 			Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dp);
 		}
 
-		private async void BasePropertiesPage_Loaded(object sender, RoutedEventArgs e)
+		private bool _Cancel;
+
+		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{
-			await App.Window.DispatcherQueue.EnqueueAsync(async () =>
-			{
-				await HashesViewModel.ExecuteLoadAndCalcHashesCommandAsync(HashesViewModel.CancellationTokenSource.Token);
-			});
+			_Cancel = true;
+		}
+
+		private void MenuFlyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs e)
+		{
+			e.Cancel = _Cancel;
+			_Cancel = false;
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

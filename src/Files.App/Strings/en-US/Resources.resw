@@ -2607,7 +2607,22 @@
   <data name="Hashes" xml:space="preserve">
     <value>Hashes</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Unable to calculate hashes due to a system error</value>
+  <data name="UnableToLoadTheFile" xml:space="preserve">
+    <value>Unable to load the file</value>
+  </data>
+  <data name="UnableToCalculateTheHashValue" xml:space="preserve">
+    <value>Unable to calculate the hash value</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algorithm</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Hash value</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Select hashes to show</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Calculating...</value>
   </data>
 </root>

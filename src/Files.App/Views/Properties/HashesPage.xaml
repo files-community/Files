@@ -9,7 +9,6 @@
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	DataContext="{x:Bind HashesViewModel, Mode=OneWay}"
-	Loaded="BasePropertiesPage_Loaded"
 	mc:Ignorable="d">
 
 	<vm:BasePropertiesPage.Resources>
@@ -22,25 +21,10 @@
 	<Grid x:Name="RootGrid">
 
 		<!--  Loading  -->
-		<StackPanel
-			x:Name="LoadingStatePanel"
-			HorizontalAlignment="Center"
-			VerticalAlignment="Center"
-			x:Load="{x:Bind HashesViewModel.IsLoading, Mode=OneWay}"
-			Spacing="8">
-			<ProgressRing HorizontalAlignment="Center" IsIndeterminate="True" />
-			<TextBlock
-				x:Name="LoadingTextBlock"
-				HorizontalAlignment="Center"
-				Style="{StaticResource BodyStrongTextBlockStyle}"
-				Text="{helpers:ResourceString Name=Loading}" />
-		</StackPanel>
-
 		<Grid
 			x:Name="HashesListGrid"
 			Margin="12"
 			VerticalAlignment="Top"
-			x:Load="{x:Bind HashesViewModel.IsLoading, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
@@ -49,6 +33,7 @@
 			<!--  Hashes ListView  -->
 			<ListView
 				x:Name="HashesListView"
+				x:Load="{x:Bind HashesViewModel.CanAccessFile}"
 				ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=TwoWay}"
 				SelectedItem="{x:Bind HashesViewModel.SelectedItem, Mode=TwoWay}">
 
@@ -56,7 +41,7 @@
 				<ListView.Header>
 					<Grid
 						Height="44"
-						Padding="16,8,16,0"
+						Padding="16,8,12,0"
 						BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 						BorderThickness="0,0,0,1"
 						ColumnSpacing="12">
@@ -64,11 +49,12 @@
 							<ColumnDefinition Width="64" />
 							<ColumnDefinition Width="1" />
 							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 						<TextBlock
 							VerticalAlignment="Center"
 							Style="{StaticResource BodyTextBlockStyle}"
-							Text="Algorithm" />
+							Text="{helpers:ResourceString Name=Algorithm}" />
 						<Border
 							Grid.Column="1"
 							Width="1"
@@ -79,14 +65,43 @@
 							Grid.Column="2"
 							VerticalAlignment="Center"
 							Style="{StaticResource BodyTextBlockStyle}"
-							Text="Hash value" />
+							Text="{helpers:ResourceString Name=HashValue}" />
+						<Button
+							x:Name="SelectAlgorithmsButton"
+							Grid.Column="3"
+							Padding="6"
+							AutomationProperties.Name="{helpers:ResourceString Name=SelectHashesToShow}"
+							Background="Transparent"
+							BorderBrush="Transparent"
+							ToolTipService.ToolTip="{helpers:ResourceString Name=SelectHashesToShow}">
+							<FontIcon FontSize="14" Glyph="&#xE7B3;" />
+							<Button.Flyout>
+								<MenuFlyout x:Name="SelectAlgorithmsMenuFlyout" Closing="MenuFlyout_Closing">
+									<ToggleMenuFlyoutItem Text="{x:Bind HashesViewModel.Hashes[0].Algorithm}"
+														  IsChecked="{x:Bind HashesViewModel.Hashes[0].IsEnabled, Mode=TwoWay}"
+														  Click="ToggleMenuFlyoutItem_Click" />
+									<ToggleMenuFlyoutItem Text="{x:Bind HashesViewModel.Hashes[1].Algorithm}"
+														  IsChecked="{x:Bind HashesViewModel.Hashes[1].IsEnabled, Mode=TwoWay}"
+														  Click="ToggleMenuFlyoutItem_Click" />
+									<ToggleMenuFlyoutItem Text="{x:Bind HashesViewModel.Hashes[2].Algorithm}"
+														  IsChecked="{x:Bind HashesViewModel.Hashes[2].IsEnabled, Mode=TwoWay}"
+														  Click="ToggleMenuFlyoutItem_Click" />
+									<ToggleMenuFlyoutItem Text="{x:Bind HashesViewModel.Hashes[3].Algorithm}"
+														  IsChecked="{x:Bind HashesViewModel.Hashes[3].IsEnabled, Mode=TwoWay}"
+														  Click="ToggleMenuFlyoutItem_Click" />
+									<ToggleMenuFlyoutItem Text="{x:Bind HashesViewModel.Hashes[4].Algorithm}"
+														  IsChecked="{x:Bind HashesViewModel.Hashes[4].IsEnabled, Mode=TwoWay}"
+														  Click="ToggleMenuFlyoutItem_Click" />
+								</MenuFlyout>
+							</Button.Flyout>
+						</Button>
 					</Grid>
 				</ListView.Header>
 
 				<!--  Template  -->
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="models:HashInfoItem">
-						<ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
+						<ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Visibility="{x:Bind IsEnabled, Mode=OneWay}">
 							<Grid ColumnSpacing="12">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="64" />
@@ -106,7 +121,7 @@
 									Grid.Column="2"
 									VerticalAlignment="Center"
 									Style="{StaticResource BodyTextBlockStyle}"
-									Text="{x:Bind HashValue}"
+									Text="{x:Bind HashValue, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap"
 									ToolTipService.ToolTip="{x:Bind HashValue}" />
@@ -114,6 +129,7 @@
 								<!--  Copy button  -->
 								<Button
 									x:Name="CopyHashButton"
+									x:Load="{x:Bind IsCalculated, Mode=OneWay}"
 									Grid.Column="3"
 									Padding="6"
 									AutomationProperties.Name="{helpers:ResourceString Name=Copy}"
@@ -134,10 +150,10 @@
 			<!--  Unavailable Label  -->
 			<TextBlock
 				x:Name="UnavailableTextBlock"
-				Margin="16,56,16,16"
+				Margin="16,16,16,16"
 				x:Load="{x:Bind HashesViewModel.CanAccessFile, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 				Style="{StaticResource BodyTextBlockStyle}"
-				Text="{helpers:ResourceString Name=UnableToCalcHashes}" />
+				Text="{helpers:ResourceString Name=UnableToLoadTheFile}" />
 		</Grid>
 
 	</Grid>
