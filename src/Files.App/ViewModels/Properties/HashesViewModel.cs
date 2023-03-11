@@ -12,7 +12,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
-using static Vanara.PInvoke.Ole32;
 
 namespace Files.App.ViewModels.Properties
 {
