@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.EventArguments;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
@@ -19,7 +20,7 @@ namespace Files.App.UserControls.Widgets
 {
 	public abstract class HomePageWidget : UserControl
 	{
-		public static event EventHandler<(WidgetCardItem, CommandBarFlyout)>? RightClickedItemChanged;
+		public static event EventHandler<WidgetsRightClickedItemChangedEventArgs>? RightClickedItemChanged;
 
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();

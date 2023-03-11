@@ -32,6 +32,8 @@ namespace Files.App.UserControls.Widgets
 {
 	public sealed partial class FileTagsWidget : HomePageWidget, IWidgetItemModel
 	{
+		public static event EventHandler<IEnumerable<FileTagsItemViewModel>>? SelectedTaggedItemsChanged;
+
 		public FileTagsWidgetViewModel ViewModel
 		{
 			get => (FileTagsWidgetViewModel)DataContext;

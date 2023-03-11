@@ -18,9 +18,9 @@ namespace Files.App.Contexts
 		CommandBarFlyout? ItemContextFlyoutMenu { get; }
 
 		/// <summary>
-		/// An Enumerable containing all the selected tagged items
+		/// An list containing all the selected tagged items
 		/// </summary>
-		IEnumerable<FileTagsItemViewModel> SelectedTaggedItems { get; set; }
+		IReadOnlyList<FileTagsItemViewModel> SelectedTaggedItems { get; }
 
 		/// <summary>
 		/// Tells whether any item has been right clicked
