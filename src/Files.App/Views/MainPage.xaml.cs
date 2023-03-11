@@ -139,16 +139,8 @@ namespace Files.App.Views
 
 		private void SetRectDragRegion()
 		{
-			var scaleAdjustment = XamlRoot.RasterizationScale;
-			var dragArea = TabControl.DragArea;
-
-			var x = (int)((TabControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
-			var y = 0;
-			var width = (int)(dragArea.ActualWidth * scaleAdjustment);
-			var height = (int)(TabControl.TitlebarArea.ActualHeight * scaleAdjustment);
-
-			var dragRect = new RectInt32(x, y, width, height);
-			App.Window.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
+			DragZoneHelper.SetDragZones(App.Window,
+				dragZoneLeftIndent: (int)(TabControl.ActualWidth - TabControl.DragArea.ActualWidth));
 		}
 
 		public void TabItemContent_ContentChanged(object? sender, TabItemArguments e)
