@@ -13,8 +13,6 @@ namespace Files.App.Commands
 		IRichCommand None { get; }
 
 		IRichCommand OpenHelp { get; }
-		IRichCommand OpenTerminal { get; }
-		IRichCommand OpenTerminalAsAdmin { get; }
 		IRichCommand ToggleFullScreen { get; }
 
 		IRichCommand ToggleShowHiddenItems { get; }
@@ -53,5 +51,8 @@ namespace Files.App.Commands
 
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
+
+		IRichCommand OpenTerminal { get; }
+		IRichCommand OpenTerminalAsAdmin { get; }
 	}
 }

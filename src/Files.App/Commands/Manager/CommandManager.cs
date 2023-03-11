@@ -33,8 +33,6 @@ namespace Files.App.Commands
 
 		public IRichCommand None => commands[CommandCodes.None];
 		public IRichCommand OpenHelp => commands[CommandCodes.OpenHelp];
-		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
-		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
 		public IRichCommand ToggleFullScreen => commands[CommandCodes.ToggleFullScreen];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
@@ -66,6 +64,8 @@ namespace Files.App.Commands
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
+		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
+		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
 
 		public CommandManager()
 		{
@@ -86,8 +86,6 @@ namespace Files.App.Commands
 		private static IDictionary<CommandCodes, IAction> CreateActions() => new Dictionary<CommandCodes, IAction>
 		{
 			[CommandCodes.OpenHelp] = new OpenHelpAction(),
-			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
-			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
@@ -119,6 +117,8 @@ namespace Files.App.Commands
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction()
+			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
+			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

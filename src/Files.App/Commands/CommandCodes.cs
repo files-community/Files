@@ -6,8 +6,6 @@
 
 		// Global
 		OpenHelp,
-		OpenTerminal,
-		OpenTerminalAsAdmin,
 		ToggleFullScreen,
 
 		// Show
@@ -56,6 +54,10 @@
 
 		// Image Edition
 		RotateLeft,
-		RotateRight
+		RotateRight,
+
+		// Open
+		OpenTerminal,
+		OpenTerminalAsAdmin,
 	}
 }
