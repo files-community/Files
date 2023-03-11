@@ -8,6 +8,7 @@ using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
+using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -39,6 +40,7 @@ namespace Files.App.UserControls.Widgets
 	public class ModifyQuickAccessEventArgs : EventArgs
 	{
 		public string[] Paths { get; set; }
+		public ShellFileItem[] Items { get; set; }
 		public bool Add;
 		public bool Pin = true;
 		public bool Reset = false;
@@ -49,10 +51,11 @@ namespace Files.App.UserControls.Widgets
 			Add = add;
 		}
 
-		public ModifyQuickAccessEventArgs()
+		public ModifyQuickAccessEventArgs(ShellFileItem[] items, bool add)
 		{
-			Paths = Array.Empty<string>();
-			Add = false;
+			Paths = items.Select(x => x.FilePath).ToArray();
+			Items = items;
+			Add = add;
 		}
 	}
 
@@ -259,7 +262,9 @@ namespace Files.App.UserControls.Widgets
 					{
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
-						ItemsAdded.Insert(e.Pin && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin)
+						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault().Properties["System.Home.IsPinned"] ?? false;
+
+						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
 						{
 							Path = item.Path,
 							SelectCommand = QuickAccessCardCommand
