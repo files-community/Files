@@ -64,6 +64,9 @@ namespace Files.App.Commands
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
+		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
+		public IRichCommand OpenItemWithApplicationPicker => commands[CommandCodes.OpenItemWithApplicationPicker];
+		public IRichCommand OpenParentFolder => commands[CommandCodes.OpenParentFolder];
 
 		public CommandManager()
 		{
@@ -114,7 +117,10 @@ namespace Files.App.Commands
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
-			[CommandCodes.RotateRight] = new RotateRightAction()
+			[CommandCodes.RotateRight] = new RotateRightAction(),
+			[CommandCodes.OpenItem] = new OpenItemAction(),
+			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
+			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

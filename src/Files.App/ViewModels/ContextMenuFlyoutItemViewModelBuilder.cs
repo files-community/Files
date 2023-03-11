@@ -21,6 +21,8 @@ namespace Files.App.ViewModels
 
 		public bool IsPrimary { get; init; } = false;
 
+		public object Tag { get; init; }
+
 		public bool ShowOnShift { get; init; } = false;
 
 		public ContextMenuFlyoutItemViewModelBuilder(IRichCommand command)
@@ -41,6 +43,7 @@ namespace Files.App.ViewModels
 			var viewModel = new ContextMenuFlyoutItemViewModel
 			{
 				Text = command.Label,
+				Tag = Tag,
 				Command = command,
 				IsEnabled = isExecutable,
 				IsChecked = command.IsOn,

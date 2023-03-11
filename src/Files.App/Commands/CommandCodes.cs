@@ -23,6 +23,9 @@
 		EmptyRecycleBin,
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
+		OpenItem,
+		OpenItemWithApplicationPicker,
+		OpenParentFolder,
 
 		// Selection
 		MultiSelect,

@@ -28,11 +28,8 @@ namespace Files.App.Interacts
 		private void InitializeCommands()
 		{
 			RenameItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RenameItem);
-			OpenItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItem);
 			ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowProperties);
 			OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenFileLocation);
-			OpenParentFolderCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenParentFolder);
-			OpenItemWithApplicationPickerCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItemWithApplicationPicker);
 			OpenDirectoryInNewTabCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewTab);
 			OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewPane);
 			OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenInNewWindowItem);
@@ -64,15 +61,9 @@ namespace Files.App.Interacts
 
 		public ICommand RenameItemCommand { get; private set; }
 
-		public ICommand OpenItemCommand { get; private set; }
-
 		public ICommand ShowPropertiesCommand { get; private set; }
 
 		public ICommand OpenFileLocationCommand { get; private set; }
-
-		public ICommand OpenParentFolderCommand { get; private set; }
-
-		public ICommand OpenItemWithApplicationPickerCommand { get; private set; }
 
 		public ICommand OpenDirectoryInNewTabCommand { get; private set; }
 
