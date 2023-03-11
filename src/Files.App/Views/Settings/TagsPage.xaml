@@ -1,5 +1,5 @@
 ﻿<Page
-	x:Class="Files.App.Settings.TagsPage"
+	x:Class="Files.App.Views.Settings.TagsPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
@@ -8,9 +8,10 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:settingsviewmodels="using:Files.App.ViewModels.Settings"
 	xmlns:vc="using:Files.App.ValueConverters"
+	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
+
 	<Page.Resources>
 		<ResourceDictionary>
 			<converters1:BoolToVisibilityConverter
@@ -24,8 +25,9 @@
 			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
 		</ResourceDictionary>
 	</Page.Resources>
+
 	<Page.DataContext>
-		<settingsviewmodels:TagsViewModel x:Name="ViewModel" />
+		<vm:TagsViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
 	<Grid>

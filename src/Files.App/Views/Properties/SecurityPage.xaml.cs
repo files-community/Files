@@ -82,6 +82,8 @@ namespace Files.App.Views.Properties
 						Backdrop = new WinUIEx.MicaSystemBackdrop(),
 					};
 
+					frame.SizeChanged += (_, _) => DragZoneHelper.SetDragZones(newWindow);
+
 					var appWindow = newWindow.AppWindow;
 
 					// Set icon
