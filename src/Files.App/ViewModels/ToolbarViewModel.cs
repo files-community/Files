@@ -938,14 +938,6 @@ namespace Files.App.ViewModels
 		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox)
 			=> CloseSearchBox();
 
-		public ICommand? SelectAllContentPageItemsCommand { get; set; }
-
-		public ICommand? InvertContentPageSelctionCommand { get; set; }
-
-		public ICommand? ClearContentPageSelectionCommand { get; set; }
-
-		public ICommand? PasteItemsFromClipboardCommand { get; set; }
-
 		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
 
 		public ICommand? OpenNewPaneCommand { get; set; }

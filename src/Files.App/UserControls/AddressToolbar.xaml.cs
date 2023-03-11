@@ -52,14 +52,6 @@ namespace Files.App.UserControls
 			set => SetValue(SettingsButtonCommandProperty, value);
 		}
 
-		public static readonly DependencyProperty CanPasteInPageProperty =
-			DependencyProperty.Register("CanPasteInPage", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
-		public bool CanPasteInPage
-		{
-			get => (bool)GetValue(dp: CanPasteInPageProperty);
-			set => SetValue(CanPasteInPageProperty, value);
-		}
-
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(AddressToolbar), new PropertyMetadata(null));

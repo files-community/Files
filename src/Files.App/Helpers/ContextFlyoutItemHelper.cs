@@ -712,13 +712,16 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CutItem)
 				{
-					IsVisible = itemsSelected,
 					IsPrimary = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CopyItem)
 				{
-					IsVisible = itemsSelected,
 					IsPrimary = true,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.PasteItem)
+				{
+					IsPrimary = true,
+					IsVisible = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -733,28 +736,6 @@ namespace Files.App.Helpers
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
 					ShowItem = itemsSelected
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "Paste".GetLocalizedResource(),
-					IsPrimary = true,
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconPaste",
-					},
-					Command = commandsViewModel.PasteItemsFromClipboardCommand,
-					ShowItem = areAllItemsFolders || !itemsSelected,
-					SingleItemOnly = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-					IsEnabled = App.AppModel.IsPasteEnabled,
-					KeyboardAccelerator = new KeyboardAccelerator
-					{
-						Key = VirtualKey.V,
-						Modifiers = VirtualKeyModifiers.Control,
-						IsEnabled = false,
-					},
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
