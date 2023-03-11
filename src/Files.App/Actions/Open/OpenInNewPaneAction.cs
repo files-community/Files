@@ -32,7 +32,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
 			NavigationHelpers.OpenInSecondaryPane(context.ShellPage!, context.SelectedItem!);
 		}
