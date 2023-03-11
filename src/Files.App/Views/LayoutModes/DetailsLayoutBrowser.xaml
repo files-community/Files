@@ -576,7 +576,7 @@
 									<VisualStateManager.VisualStateGroups>
 										<VisualStateGroup x:Name="CheckboxVisibilityStates">
 											<VisualState x:Name="Normal"/>
-											<VisualState x:Name="PointerOver">
+											<VisualState x:Name="ShowCheckbox">
 												<VisualState.Setters>
 													<Setter Target="SelectionCheckbox.Visibility" Value="Visible"/>
 													<Setter Target="IconBox.Visibility" Value="Collapsed"/>
@@ -594,8 +594,8 @@
 											MinWidth="0"
 											HorizontalAlignment="Center"
 											Checked="ItemSelected_Checked"
-											Unchecked="ItemSelected_Unchecked"
-											Visibility="{Binding ElementName=PageRoot, Path=ShowAllCheckBoxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+											Visibility="Collapsed"
+											Unchecked="ItemSelected_Unchecked"/>
 										<Grid
 											x:Name="IconBox"
 											Width="20"
@@ -605,7 +605,6 @@
 											AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
 											Opacity="{x:Bind Opacity, Mode=OneWay}"
 											TabFocusNavigation="Local"
-											Visibility="{Binding ElementName=PageRoot, Path=ShowAllCheckBoxes, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}"
 											Tag="ItemImage">
 											<ContentPresenter
 												x:Name="PicturePresenter"

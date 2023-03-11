@@ -58,14 +58,6 @@ namespace Files.App.Views.LayoutModes
 			set { }
 		}
 
-		public bool ShowAllCheckboxes
-		{
-			get { return (bool)GetValue(ShowCheckBoxesProperty); }
-			set { SetValue(ShowCheckBoxesProperty, value); }
-		}
-		public static readonly DependencyProperty ShowCheckBoxesProperty =
-			DependencyProperty.Register("ShowAllCheckBoxes", typeof(bool), typeof(DetailsLayoutBrowser), new PropertyMetadata(false));
-
 		private double maxWidthForRenameTextbox;
 
 		public double MaxWidthForRenameTextbox
@@ -270,9 +262,6 @@ namespace Files.App.Views.LayoutModes
 				foreach (var item in e.RemovedItems)
 					SetCheckboxSelectionState(item);
 			}
-			// We only want to show all checkboxes if any one of them is selected;
-			// Otherwise we hide them and let hover behavior take over
-			ShowAllCheckboxes = FileList.SelectedItems.Count != 0;
 		}
 
 		override public void StartRenameItem()
@@ -746,13 +735,11 @@ namespace Files.App.Views.LayoutModes
 
 		private void SelectAllCheckbox_Checked(object sender, RoutedEventArgs e)
 		{
-			ShowAllCheckboxes = true;
 			FileList.SelectAll();
 		}
 
 		private void SelectAllCheckbox_Unchecked(object sender, RoutedEventArgs e)
 		{
-			ShowAllCheckboxes = false;
 			// We should only unselect all items if the user clicked the checkbox
 			// We determine this by checking if all items were selected
 			if (SelectedItems.Count == FileList.Items.Count)
@@ -802,6 +789,7 @@ namespace Files.App.Views.LayoutModes
 					checkbox.Checked += ItemSelected_Checked;
 					checkbox.Unchecked += ItemSelected_Unchecked;
 				}
+				UpdateCheckboxVisibility(container, false);
 			}
 		}
 
@@ -843,23 +831,28 @@ namespace Files.App.Views.LayoutModes
 
 		private void ItemRow_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			HandlePointerEventForRow(sender, true);
+			UpdateCheckboxVisibility(sender, true);
 		}
 
 		private void ItemRow_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
-			HandlePointerEventForRow(sender, false);
+			UpdateCheckboxVisibility(sender, false);
 		}
 
 		private void ItemRow_PointerCanceled(object sender, PointerRoutedEventArgs e)
 		{
-			HandlePointerEventForRow(sender, false);
+			UpdateCheckboxVisibility(sender, false);
 		}
 
-		private void HandlePointerEventForRow(object sender, bool isPointerOver)
+		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
 		{
 			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
-				VisualStateManager.GoToState(userControl, isPointerOver ? "PointerOver" : "Normal", true);
+			{
+				if (control.IsSelected)
+					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
+				else
+					VisualStateManager.GoToState(userControl, isPointerOver ? "ShowCheckbox" : "Normal", true);
+			}
 		}
 	}
 }
