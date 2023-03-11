@@ -448,36 +448,6 @@ namespace Files.App.Interacts
 			await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
 		}
 
-		public async Task DecompressArchiveHere()
-		{
-			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
-			{
-				var password = string.Empty;
-				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
-				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
-
-				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
-				{
-					DecompressArchiveDialog decompressArchiveDialog = new();
-					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
-					{
-						IsArchiveEncrypted = true,
-						ShowPathSelection = false
-					};
-
-					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
-
-					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
-					if (option != ContentDialogResult.Primary)
-						return;
-
-					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
-				}
-
-				await ExtractArchive(archive, currentFolder, password);
-			}
-		}
-
 		public async Task DecompressArchiveToChildFolder()
 		{
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)

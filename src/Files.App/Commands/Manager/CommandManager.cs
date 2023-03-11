@@ -63,6 +63,7 @@ namespace Files.App.Commands
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
 		public IRichCommand DecompressArchive => commands[CommandCodes.DecompressArchive];
+		public IRichCommand DecompressArchiveHere => commands[CommandCodes.DecompressArchiveHere];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
 
@@ -115,6 +116,7 @@ namespace Files.App.Commands
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
 			[CommandCodes.DecompressArchive] = new DecompressArchive(),
+			[CommandCodes.DecompressArchiveHere] = new DecompressArchiveHere(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction()
 		};

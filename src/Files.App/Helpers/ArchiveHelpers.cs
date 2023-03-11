@@ -111,6 +111,40 @@ namespace Files.App.Helpers
 			}
 		}
 
+		private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder? destinationFolder, string password)
+		{
+			if (archive is null || destinationFolder is null)
+				return;
+
+			CancellationTokenSource extractCancellation = new();
+
+			PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
+				archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
+				"ExtractingArchiveText".GetLocalizedResource(),
+				0,
+				ReturnResult.InProgress,
+				FileOperationType.Extract,
+				extractCancellation);
+
+			Stopwatch sw = new();
+			sw.Start();
+
+			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, extractCancellation.Token));
+
+			sw.Stop();
+			banner.Remove();
+
+			if (sw.Elapsed.TotalSeconds >= 6)
+			{
+				App.OngoingTasksViewModel.PostBanner(
+					"ExtractingCompleteText".GetLocalizedResource(),
+					"ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
+					0,
+					ReturnResult.Success,
+					FileOperationType.Extract);
+			}
+		}
+
 		public static async Task DecompressArchive(IShellPage associatedInstance)
 		{
 			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItems.Count != 0
@@ -157,37 +191,33 @@ namespace Files.App.Helpers
 				await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
 		}
 
-		private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder? destinationFolder, string password)
+		public static async Task DecompressArchiveHere(IShellPage associatedInstance)
 		{
-			if (archive is null || destinationFolder is null)
-				return;
-
-			CancellationTokenSource extractCancellation = new();
-
-			PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
-				archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
-				"ExtractingArchiveText".GetLocalizedResource(),
-				0,
-				ReturnResult.InProgress,
-				FileOperationType.Extract,
-				extractCancellation);
-
-			Stopwatch sw = new();
-			sw.Start();
-
-			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, extractCancellation.Token));
-
-			sw.Stop();
-			banner.Remove();
-
-			if (sw.Elapsed.TotalSeconds >= 6)
+			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
 			{
-				App.OngoingTasksViewModel.PostBanner(
-					"ExtractingCompleteText".GetLocalizedResource(),
-					"ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
-					0,
-					ReturnResult.Success,
-					FileOperationType.Extract);
+				var password = string.Empty;
+				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
+				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+
+				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
+				{
+					DecompressArchiveDialog decompressArchiveDialog = new();
+					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
+					{
+						IsArchiveEncrypted = true,
+						ShowPathSelection = false
+					};
+
+					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+
+					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
+					if (option != ContentDialogResult.Primary)
+						return;
+
+					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
+				}
+
+				await ExtractArchive(archive, currentFolder, password);
 			}
 		}
 	}

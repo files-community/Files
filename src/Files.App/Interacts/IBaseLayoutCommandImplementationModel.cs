@@ -53,8 +53,6 @@ namespace Files.App.Interacts
 
 		Task CreateFolderWithSelection(RoutedEventArgs e);
 
-		Task DecompressArchiveHere();
-
 		Task DecompressArchiveToChildFolder();
 
 		Task InstallInfDriver();

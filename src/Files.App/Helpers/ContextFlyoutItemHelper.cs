@@ -862,13 +862,10 @@ namespace Files.App.Helpers
 						{
 							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
 						}.Build(),
-						new ContextMenuFlyoutItemViewModel
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHere)
 						{
-							Text = "ExtractHere".GetLocalizedResource(),
-							Command = commandsViewModel.DecompressArchiveHereCommand,
-							ShowItem = canDecompress,
-							ShowInSearchPage = true,
-						},
+							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
+						}.Build(),
 						new ContextMenuFlyoutItemViewModel
 						{
 							Text = selectedItems.Count > 1

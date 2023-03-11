@@ -49,7 +49,6 @@ namespace Files.App.Interacts
 			RefreshCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RefreshItems);
 			SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
 			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
-			DecompressArchiveHereCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveHere);
 			DecompressArchiveToChildFolderCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveToChildFolder);
 			InstallInfDriver = new AsyncRelayCommand(CommandsModel.InstallInfDriver);
 			InstallFontCommand = new AsyncRelayCommand(CommandsModel.InstallFont);
@@ -104,8 +103,6 @@ namespace Files.App.Interacts
 		public ICommand SearchUnindexedItems { get; private set; }
 
 		public ICommand CreateFolderWithSelection { get; private set; }
-
-		public ICommand DecompressArchiveHereCommand { get; private set; }
 
 		public ICommand DecompressArchiveToChildFolderCommand { get; private set; }
 
