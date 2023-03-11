@@ -282,12 +282,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenAllItems".GetLocalizedResource(),
-					Glyph = "\uE8E5",
-					Command = commands.OpenAllTaggedItems
-				}
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenAllTaggedItems).Build()
 			};
 		}
 
