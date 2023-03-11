@@ -11,13 +11,13 @@ namespace Files.App.Actions
 
 		public override HotKey HotKey { get; } = new((VirtualKey)192, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
-		protected override ProcessStartInfo[] GetProcessesStartInfo()
+		protected override ProcessStartInfo? GetProcessStartInfo()
 		{
-			var startInfo = base.GetProcessesStartInfo();
-			for (int i = 0; i < startInfo.Length; i++)
+			var startInfo = base.GetProcessStartInfo();
+			if (startInfo is not null)
 			{
-				startInfo[i].Verb = "runas";
-				startInfo[i].UseShellExecute = true;
+				startInfo.Verb = "runas";
+				startInfo.UseShellExecute = true;
 			}
 
 			return startInfo;

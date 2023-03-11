@@ -7,6 +7,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
@@ -16,7 +17,6 @@ namespace Files.App.Actions
 	internal class OpenTerminalAction : ObservableObject, IAction
 	{
 		private readonly string[] emptyStrings = Array.Empty<string>();
-		private readonly ProcessStartInfo[] emptyProcessInfos = Array.Empty<ProcessStartInfo>();
 
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -31,7 +31,7 @@ namespace Files.App.Actions
 			context.PageType is not ContentPageTypes.Home &&
 			context.PageType is not ContentPageTypes.RecycleBin &&
 			context.PageType is not ContentPageTypes.ZipFolder &&
-			!(context.PageType is ContentPageTypes.SearchResults && 
+			!(context.PageType is ContentPageTypes.SearchResults &&
 			!context.SelectedItems.Any(item => item.PrimaryItemAttribute is StorageItemTypes.Folder));
 
 		public OpenTerminalAction()
@@ -46,14 +46,14 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			var terminalStartInfo = GetProcessesStartInfo();
-			foreach (var startInfo in terminalStartInfo)
+			var terminalStartInfo = GetProcessStartInfo();
+			if (terminalStartInfo is not null)
 			{
 				App.Window.DispatcherQueue.TryEnqueue(() =>
 				{
 					try
 					{
-						Process.Start(startInfo);
+						Process.Start(terminalStartInfo);
 					}
 					catch (Win32Exception)
 					{
@@ -64,17 +64,21 @@ namespace Files.App.Actions
 			return Task.CompletedTask;
 		}
 
-		protected virtual ProcessStartInfo[] GetProcessesStartInfo()
+		protected virtual ProcessStartInfo? GetProcessStartInfo()
 		{
 			var paths = GetPaths();
 			if (paths.Length == 0)
-				return emptyProcessInfos;
+				return null;
 
-			return paths.Select(path => new ProcessStartInfo()
+			var args = new StringBuilder($"-d \"{paths[0]}\"");
+			for (int i = 1; i < paths.Length; i++)
+				args.Append($" ; nt -d \"{paths[i]}\"");
+
+			return new()
 			{
 				FileName = "wt.exe",
-				Arguments = $"-d \"{path}\""
-			}).ToArray();
+				Arguments = args.ToString()
+			};
 		}
 
 		protected string[] GetPaths()
