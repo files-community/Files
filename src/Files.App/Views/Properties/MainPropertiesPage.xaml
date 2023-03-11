@@ -67,15 +67,53 @@
 						Height="64"
 						IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
 						Tag="{x:Bind ItemType}">
-						<NavigationViewItem.Icon>
-							<PathIcon Data="{x:Bind OutlinePathIcon}" />
-						</NavigationViewItem.Icon>
 						<NavigationViewItem.Content>
-							<TextBlock Text="{x:Bind Name}" />
+							<Grid ColumnSpacing="8">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+
+								<!--  Icon  -->
+								<Grid x:Name="ItemPathIconGrid">
+									<!--  Outline Path Icon  -->
+									<Viewbox
+										Width="14"
+										Height="14"
+										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}">
+										<PathIcon
+											x:Name="NavigationViewItemOutlinePathIcon"
+											HorizontalAlignment="Center"
+											Data="{x:Bind OutlinePathIcon}" />
+									</Viewbox>
+									<!--  Filled Path Icon  -->
+									<Viewbox
+										Width="14"
+										Height="14"
+										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+										<PathIcon
+											x:Name="NavigationViewItemFilledPathIcon"
+											HorizontalAlignment="Center"
+											Data="{x:Bind FilledPathIcon}"
+											Foreground="{ThemeResource AccentFillColorDefaultBrush}" />
+									</Viewbox>
+								</Grid>
+
+								<!--  Label  -->
+								<TextBlock
+									x:Name="ItemNameLabelTextBlock"
+									Grid.Column="1"
+									HorizontalAlignment="Center"
+									Style="{StaticResource BodyTextBlockStyle}"
+									Text="{x:Bind Name}" />
+
+							</Grid>
 						</NavigationViewItem.Content>
 					</NavigationViewItem>
 				</DataTemplate>
 			</NavigationView.MenuItemTemplate>
+
+
 
 			<!--  NavigationView Content, Save/Cancel buttons  -->
 			<NavigationView.Content>
