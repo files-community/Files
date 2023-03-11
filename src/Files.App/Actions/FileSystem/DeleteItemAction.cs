@@ -25,7 +25,7 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.Delete);
 
-		public bool IsExecutable => context.PageType is not ContentPageTypes.SearchResults && context.HasSelection;
+		public bool IsExecutable => context.HasSelection;
 
 		public DeleteItemAction()
 		{
@@ -38,19 +38,16 @@ namespace Files.App.Actions
 				return;
 
 			var items = context.SelectedItems.Select(item => StorageHelpers.FromPathAndType(item.ItemPath,
-					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-			await context.ShellPage.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, true, true);
+					item.PrimaryItemAttribute is StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+
+			await context.ShellPage.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, false, true);
+			await context.ShellPage.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
 		}
 
 		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.PageType):
-				case nameof(IContentPageContext.HasSelection):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
+			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
 }
