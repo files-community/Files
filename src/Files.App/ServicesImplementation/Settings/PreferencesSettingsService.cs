@@ -215,13 +215,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public Dictionary<string, bool> ShowHashesDictionary
 		{
-			get => Get(new Dictionary<string, bool>() {
-				{ "MD5", true },
-				{ "SHA1", true },
-				{ "SHA256", true },
-				{ "SHA384", false },
-				{ "SHA512", false },
-			});
+			get => Get(new Dictionary<string, bool>());
 			set => Set(value);
 		}
 

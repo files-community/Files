@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
+using static Vanara.PInvoke.Ole32;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -64,7 +65,21 @@ namespace Files.App.ViewModels.Properties
 			Hashes.ForEach(x =>
 			{
 				x.PropertyChanged += HashInfoItem_PropertyChanged;
-				x.IsEnabled = _showHashesDictionary[x.Algorithm];
+				if (_showHashesDictionary.TryGetValue(x.Algorithm, out var value)) {
+					x.IsEnabled = value;
+				} 
+				else
+				{
+					x.IsEnabled = x.Algorithm switch
+					{
+						"MD5" => true,
+						"SHA1" => true,
+						"SHA256" => true,
+						"SHA384" => false,
+						"SHA512" => false,
+						_ => throw new InvalidOperationException()
+					};
+				}
 			});
 		}
 
