@@ -14,16 +14,19 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "BaseLayoutItemContextFlyoutCut/Text".GetLocalizedResource();
+		public string Label { get; } = "Cut".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCut");
 
 		public HotKey HotKey { get; } = new(VirtualKey.X, VirtualKeyModifiers.Control);
 
-		public bool IsExecutable => context.HasSelection;
+		private bool isExecutable;
+		public bool IsExecutable => isExecutable;
 
 		public CutItemAction()
 		{
+			isExecutable = GetIsExecutable();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -34,10 +37,17 @@ namespace Files.App.Actions
 			return Task.CompletedTask;
 		}
 
-		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private bool GetIsExecutable() => context.PageType is not ContentPageTypes.RecycleBin && context.HasSelection;
+
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
-				OnPropertyChanged(nameof(IsExecutable));
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.PageType):
+				case nameof(IContentPageContext.HasSelection):
+					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+					break;
+			}
 		}
 	}
 }
