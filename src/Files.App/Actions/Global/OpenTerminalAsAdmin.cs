@@ -7,17 +7,17 @@ namespace Files.App.Actions
 {
 	internal class OpenTerminalAsAdminAction : OpenTerminalAction
 	{
-		public new string Label { get; } = "OpenTerminalAsAdmin".GetLocalizedResource();
+		public override string Label { get; } = "OpenTerminalAsAdmin".GetLocalizedResource();
 
 		public override HotKey HotKey { get; } = new((VirtualKey)192, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
-		protected override ProcessStartInfo? GetProcessStartInfo()
+		protected override ProcessStartInfo[] GetProcessesStartInfo()
 		{
-			var startInfo = base.GetProcessStartInfo();
-			if (startInfo is not null)
+			var startInfo = base.GetProcessesStartInfo();
+			for (int i = 0; i < startInfo.Length; i++)
 			{
-				startInfo.Verb = "runas";
-				startInfo.UseShellExecute = true;
+				startInfo[i].Verb = "runas";
+				startInfo[i].UseShellExecute = true;
 			}
 
 			return startInfo;
