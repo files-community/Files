@@ -866,16 +866,10 @@ namespace Files.App.Helpers
 						{
 							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
 						}.Build(),
-						new ContextMenuFlyoutItemViewModel
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveToChildFolder)
 						{
-							Text = selectedItems.Count > 1
-								? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
-								: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(),
-									Path.GetFileNameWithoutExtension(selectedItems.First().Name)),
-							Command = commandsViewModel.DecompressArchiveToChildFolderCommand,
-							ShowInSearchPage = true,
-							ShowItem = canDecompress,
-						},
+							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
+						}.Build(),
 						new ContextMenuFlyoutItemViewModel
 						{
 							ShowItem = canDecompress && canCompress,

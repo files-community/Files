@@ -147,6 +147,9 @@ namespace Files.App.Helpers
 
 		public static async Task DecompressArchive(IShellPage associatedInstance)
 		{
+			if (associatedInstance == null)
+				return;
+
 			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItems.Count != 0
 				? associatedInstance.SlimContentPage.SelectedItem.ItemPath
 				: associatedInstance.FilesystemViewModel.WorkingDirectory);
@@ -193,6 +196,9 @@ namespace Files.App.Helpers
 
 		public static async Task DecompressArchiveHere(IShellPage associatedInstance)
 		{
+			if (associatedInstance == null)
+				return;
+
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
 			{
 				var password = string.Empty;
@@ -218,6 +224,43 @@ namespace Files.App.Helpers
 				}
 
 				await ExtractArchive(archive, currentFolder, password);
+			}
+		}
+
+		public static async Task DecompressArchiveToChildFolder(IShellPage associatedInstance)
+		{
+			if(associatedInstance == null)
+				return;
+
+			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
+			{
+				var password = string.Empty;
+
+				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
+				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+				BaseStorageFolder destinationFolder = null;
+
+				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
+				{
+					DecompressArchiveDialog decompressArchiveDialog = new();
+					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
+					{
+						IsArchiveEncrypted = true,
+						ShowPathSelection = false
+					};
+					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+
+					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
+					if (option != ContentDialogResult.Primary)
+						return;
+
+					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
+				}
+
+				if (currentFolder is not null)
+					destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
+
+				await ExtractArchive(archive, destinationFolder, password);
 			}
 		}
 	}
