@@ -40,7 +40,7 @@ namespace Files.App.Actions
 			var items = context.SelectedItems.Select(item => StorageHelpers.FromPathAndType(item.ItemPath,
 					item.PrimaryItemAttribute is StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
 
-			await context.ShellPage.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, true, true);
+			await context.ShellPage.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, false, true);
 			await context.ShellPage.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
 		}
 
