@@ -17,7 +17,7 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewStoreStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewItemButtonStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<toolkitconvers:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -33,49 +33,31 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="36" />
+			<RowDefinition Height="44" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
 
 		<!--  Titlebar  -->
-		<Border
-			x:Name="TitlebarArea"
-			Grid.ColumnSpan="2"
-			Height="36"
-			Background="Transparent">
-			<StackPanel
+		<Border x:Name="TitlebarArea" Height="36">
+
+			<TextBlock
 				Padding="12,0"
-				Orientation="Horizontal"
-				Spacing="8">
+				VerticalAlignment="Center"
+				Style="{StaticResource BodyStrongTextBlockStyle}"
+				Text="{helpers:ResourceString Name=Properties}" />
 
-				<Image
-					Width="20"
-					Height="20"
-					Source="ms-appx:///Assets/AppTiles/Dev/Square44x44Logo.png" />
-
-				<TextBlock
-					VerticalAlignment="Center"
-					Style="{StaticResource CaptionTextBlockStyle}"
-					Text="{helpers:ResourceString Name=Properties}" />
-
-			</StackPanel>
 		</Border>
 
 		<!--  Vertical NavigationView whose each items are squared  -->
 		<NavigationView
 			x:Name="MainPropertiesWindowNavigationView"
 			Grid.Row="1"
-			Width="80"
 			IsBackButtonVisible="Collapsed"
 			IsPaneToggleButtonVisible="False"
 			IsSettingsVisible="False"
 			IsTitleBarAutoPaddingEnabled="False"
 			MenuItemsSource="{x:Bind NavViewItems, Mode=TwoWay}"
-			OpenPaneLength="88"
+			OpenPaneLength="200"
 			PaneDisplayMode="Left"
 			SelectionChanged="MainPropertiesWindowNavigationView_SelectionChanged">
 
@@ -85,97 +67,58 @@
 						Height="64"
 						IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
 						Tag="{x:Bind ItemType}">
+						<NavigationViewItem.Icon>
+							<PathIcon Data="{x:Bind OutlinePathIcon}" />
+						</NavigationViewItem.Icon>
 						<NavigationViewItem.Content>
-							<StackPanel Spacing="4">
-
-								<Grid x:Name="ItemPathIconGrid">
-									<!--  Outline Path Icon  -->
-									<Viewbox
-										Width="24"
-										Height="24"
-										Margin="0,0,4,0"
-										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}">
-										<PathIcon
-											x:Name="NavigationViewItemOutlinePathIcon"
-											HorizontalAlignment="Center"
-											Data="{x:Bind OutlinePathIcon}" />
-									</Viewbox>
-									<!--  Filled Path Icon  -->
-									<Viewbox
-										Width="24"
-										Height="24"
-										Margin="0,0,4,0"
-										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-										<PathIcon
-											x:Name="NavigationViewItemFilledPathIcon"
-											HorizontalAlignment="Center"
-											Data="{x:Bind FilledPathIcon}"
-											Foreground="{ThemeResource AccentFillColorDefaultBrush}" />
-									</Viewbox>
-								</Grid>
-
-								<!--  Label  -->
-								<TextBlock
-									x:Name="ItemNameLabelTextBlock"
-									Grid.Row="1"
-									HorizontalAlignment="Center"
-									x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-									FontSize="10"
-									Style="{StaticResource CaptionTextBlockStyle}"
-									Text="{x:Bind Name}" />
-
-							</StackPanel>
+							<TextBlock Text="{x:Bind Name}" />
 						</NavigationViewItem.Content>
 					</NavigationViewItem>
 				</DataTemplate>
 			</NavigationView.MenuItemTemplate>
 
+			<!--  NavigationView Content, Save/Cancel buttons  -->
+			<NavigationView.Content>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+
+					<Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
+
+					<Grid
+						Grid.Row="2"
+						Height="58"
+						Background="{ThemeResource CardBackgroundFillColorSecondary}"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderThickness="0,1,0,0">
+						<StackPanel
+							Margin="12,0"
+							HorizontalAlignment="Right"
+							Orientation="Horizontal"
+							Spacing="12">
+
+							<Button
+								x:Name="SaveChangesButton"
+								Width="96"
+								Click="SaveChangesButton_Click"
+								Content="{helpers:ResourceString Name=Save}"
+								Style="{StaticResource AccentButtonStyle}" />
+
+							<Button
+								x:Name="CancelChangesButton"
+								Width="96"
+								Click="CancelChangesButton_Click"
+								Content="{helpers:ResourceString Name=Cancel}" />
+
+						</StackPanel>
+					</Grid>
+
+				</Grid>
+			</NavigationView.Content>
+
 		</NavigationView>
-
-		<!--  NavigationView Content, Save/Cancel buttons  -->
-		<Grid
-			Grid.Row="1"
-			Grid.Column="1"
-			Background="{ThemeResource LayerFillColorDefaultBrush}"
-			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-			BorderThickness="1,1,0,0"
-			CornerRadius="8,0,0,0">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
-
-			<Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
-
-			<Grid
-				Grid.Row="2"
-				Height="58"
-				Background="{ThemeResource CardBackgroundFillColorSecondary}"
-				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-				BorderThickness="0,1,0,0">
-				<StackPanel
-					Margin="12,0"
-					HorizontalAlignment="Right"
-					Orientation="Horizontal"
-					Spacing="12">
-
-					<Button
-						x:Name="SaveChangesButton"
-						Width="96"
-						Click="SaveChangesButton_Click"
-						Content="{helpers:ResourceString Name=Save}"
-						Style="{StaticResource AccentButtonStyle}" />
-
-					<Button
-						x:Name="CancelChangesButton"
-						Width="96"
-						Click="CancelChangesButton_Click"
-						Content="{helpers:ResourceString Name=Cancel}" />
-
-				</StackPanel>
-			</Grid>
-
-		</Grid>
 
 	</Grid>
 </Page>
