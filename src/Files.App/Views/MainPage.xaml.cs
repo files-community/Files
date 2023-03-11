@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Commands;
 using Files.App.DataModels;
@@ -23,7 +24,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -31,6 +31,7 @@ using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
+using Windows.System;
 
 namespace Files.App.Views
 {
@@ -39,6 +40,8 @@ namespace Files.App.Views
 	/// </summary>
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
+		private VirtualKeyModifiers currentModifiers = VirtualKeyModifiers.None;
+
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
@@ -136,16 +139,8 @@ namespace Files.App.Views
 
 		private void SetRectDragRegion()
 		{
-			var scaleAdjustment = XamlRoot.RasterizationScale;
-			var dragArea = TabControl.DragArea;
-
-			var x = (int)((TabControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
-			var y = 0;
-			var width = (int)(dragArea.ActualWidth * scaleAdjustment);
-			var height = (int)(TabControl.TitlebarArea.ActualHeight * scaleAdjustment);
-
-			var dragRect = new RectInt32(x, y, width, height);
-			App.Window.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
+			DragZoneHelper.SetDragZones(App.Window,
+				dragZoneLeftIndent: (int)(TabControl.ActualWidth - TabControl.DragArea.ActualWidth));
 		}
 
 		public void TabItemContent_ContentChanged(object? sender, TabItemArguments e)
@@ -216,6 +211,62 @@ namespace Files.App.Views
 			SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
 			SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
 			SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
+		}
+
+		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e)
+		{
+			base.OnPreviewKeyDown(e);
+
+			switch (e.Key)
+			{
+				case VirtualKey.Menu:
+					currentModifiers |= VirtualKeyModifiers.Menu;
+					break;
+				case VirtualKey.Control:
+					currentModifiers |= VirtualKeyModifiers.Control;
+					break;
+				case VirtualKey.Shift:
+					currentModifiers |= VirtualKeyModifiers.Shift;
+					break;
+				default:
+					// break for natives hotkeys in textbox (cut/copy/paste/selectAll/cancel)
+					bool isTextBox = e.OriginalSource is DependencyObject source && source.FindAscendantOrSelf<TextBox>() is not null;
+					if (isTextBox)
+					{
+						if (currentModifiers is VirtualKeyModifiers.Control &&
+							e.Key is VirtualKey.X or VirtualKey.C or VirtualKey.V or VirtualKey.A or VirtualKey.Z)
+						{
+							break;
+						}
+					}
+
+					// execute command for hotkey
+					var hotKey = new HotKey(e.Key, currentModifiers);
+					var command = Commands[hotKey];
+					if (command.Code is not CommandCodes.None)
+					{
+						e.Handled = true;
+						await command.ExecuteAsync();
+					}
+					break;
+			}
+		}
+		protected override void OnPreviewKeyUp(KeyRoutedEventArgs e)
+		{
+			base.OnPreviewKeyDown(e);
+
+			switch (e.Key)
+			{
+				case VirtualKey.Menu:
+					currentModifiers &= ~VirtualKeyModifiers.Menu;
+					break;
+				case VirtualKey.Control:
+					currentModifiers &= ~VirtualKeyModifiers.Control;
+					break;
+				case VirtualKey.Shift:
+					currentModifiers &= ~VirtualKeyModifiers.Shift;
+					break;
+			}
 		}
 
 		private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
@@ -319,11 +370,6 @@ namespace Files.App.Views
 			FindName(nameof(InnerNavigationToolbar));
 			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));
-
-			var commands = Commands.Where(command => !command.CustomHotKey.IsNone);
-			foreach (var command in commands)
-				KeyboardAccelerators.Add(new CommandAccelerator(command));
-			Commands.HotKeyChanged += Commands_HotKeyChanged;
 
 			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
 				return;
@@ -513,51 +559,5 @@ namespace Files.App.Views
 		}
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
-
-		private void Commands_HotKeyChanged(object? sender, HotKeyChangedEventArgs e)
-		{
-			if (!e.OldHotKey.IsNone)
-			{
-				var oldAccelerator = KeyboardAccelerators.FirstOrDefault(IsOldHotKey);
-				if (oldAccelerator is CommandAccelerator commandAccelerator)
-				{
-					commandAccelerator.Dispose();
-					KeyboardAccelerators.Remove(commandAccelerator);
-				}
-			}
-
-			if (!e.NewHotKey.IsNone)
-			{
-				var newAccelerator = new CommandAccelerator(e.Command);
-				KeyboardAccelerators.Add(newAccelerator);
-			}
-
-			bool IsOldHotKey(KeyboardAccelerator accelerator)
-				=> accelerator is CommandAccelerator commandAccelerator
-				&& accelerator.Key == e.OldHotKey.Key
-				&& accelerator.Modifiers == e.OldHotKey.Modifiers;
-		}
-
-		private class CommandAccelerator : KeyboardAccelerator, IDisposable
-		{
-			public IRichCommand Command { get; }
-
-			public CommandAccelerator(IRichCommand command)
-			{
-				Command = command;
-
-				Key = Command.CustomHotKey.Key;
-				Modifiers = Command.CustomHotKey.Modifiers;
-				Invoked += CommandAccelerator_Invoked;
-			}
-
-			public void Dispose() => Invoked -= CommandAccelerator_Invoked;
-
-			private async void CommandAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
-			{
-				e.Handled = true;
-				await Command.ExecuteAsync();
-			}
-		}
 	}
 }

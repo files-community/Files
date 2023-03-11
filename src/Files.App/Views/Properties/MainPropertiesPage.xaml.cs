@@ -84,8 +84,9 @@ namespace Files.App.Views.Properties
 
 			if (_usingWinUI)
 			{
-				// WINUI3: Set rectangle for the Titlebar
-				TitlebarArea.SizeChanged += TitlebarArea_SizeChanged;
+				// WinUI3: Set rectangle for the Titlebar
+				TitlebarArea.SizeChanged += (_, _) => DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight);
+				DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight);
 				AppWindow.Destroying += AppWindow_Destroying;
 
 				await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
@@ -95,16 +96,6 @@ namespace Files.App.Views.Properties
 				_propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
 				_propertiesDialog.Closed += PropertiesDialog_Closed;
 			}
-		}
-
-		private void TitlebarArea_SizeChanged(object? sender, SizeChangedEventArgs? e)
-		{
-			var scaleAdjustment = XamlRoot.RasterizationScale;
-			var width = (int)(TitlebarArea.ActualWidth * scaleAdjustment);
-			var height = (int)(TitlebarArea.ActualHeight * scaleAdjustment);
-
-			// Sets properties window drag region.
-			AppWindow.TitleBar.SetDragRectangles(new RectInt32[] { new RectInt32(0, 0, width, height) });
 		}
 
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
@@ -257,6 +248,7 @@ namespace Files.App.Views.Properties
 				NavViewItems.Remove(detailsItem);
 				NavViewItems.Remove(securityItem);
 				NavViewItems.Remove(customizationItem);
+				NavViewItems.Remove(hashItem);
 			} 
 			else if (item is ListedItem listedItem)
 			{

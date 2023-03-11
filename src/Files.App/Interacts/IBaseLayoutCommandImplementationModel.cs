@@ -61,10 +61,6 @@ namespace Files.App.Interacts
 
 		Task InstallInfDriver();
 
-		Task RotateImageLeft();
-
-		Task RotateImageRight();
-
 		Task InstallFont();
 
 		Task PlayAll();

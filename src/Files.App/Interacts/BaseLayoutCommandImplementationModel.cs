@@ -599,24 +599,6 @@ namespace Files.App.Interacts
 				await Win32API.InstallInf(selectedItem.ItemPath);
 		}
 
-		public async Task RotateImageLeft()
-		{
-			foreach (var image in SlimContentPage.SelectedItems)
-				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise270Degrees);
-
-			SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
-			App.PreviewPaneViewModel.UpdateSelectedItemPreview();
-		}
-
-		public async Task RotateImageRight()
-		{
-			foreach (var image in SlimContentPage.SelectedItems)
-				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise90Degrees);
-
-			SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
-			App.PreviewPaneViewModel.UpdateSelectedItemPreview();
-		}
-
 		public Task InstallFont()
 		{
 			foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
