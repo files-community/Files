@@ -721,7 +721,7 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModelBuilder(commands.PasteItem)
 				{
 					IsPrimary = true,
-					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin,
+					IsVisible = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{

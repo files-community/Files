@@ -20,13 +20,10 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.X, VirtualKeyModifiers.Control);
 
-		private bool isExecutable;
-		public bool IsExecutable => isExecutable;
+		public bool IsExecutable => context.HasSelection;
 
 		public CutItemAction()
 		{
-			isExecutable = GetIsExecutable();
-
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -37,17 +34,10 @@ namespace Files.App.Actions
 			return Task.CompletedTask;
 		}
 
-		private bool GetIsExecutable() => context.PageType is not ContentPageTypes.RecycleBin && context.HasSelection;
-
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.PageType):
-				case nameof(IContentPageContext.HasSelection):
-					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
-					break;
-			}
+			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
 }
