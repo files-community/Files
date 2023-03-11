@@ -116,7 +116,7 @@ namespace Files.App.Commands
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
-			[CommandCodes.RotateRight] = new RotateRightAction()
+			[CommandCodes.RotateRight] = new RotateRightAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
 		};
