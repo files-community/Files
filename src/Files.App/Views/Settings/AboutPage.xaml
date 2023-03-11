@@ -160,7 +160,7 @@
 							Margin="10"
 							Background="Transparent"
 							LinkClicked="MarkdownTextBlock_LinkClicked"
-							Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=OneWay}" />
+							Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 					</ScrollViewer>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>

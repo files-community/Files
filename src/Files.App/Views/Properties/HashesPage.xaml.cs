@@ -21,10 +21,7 @@ namespace Files.App.Views.Properties
 		{
 			var np = (MainPropertiesPage.PropertyNavParam)e.Parameter;
 			if (np.navParameter is ListedItem listedItem)
-			{
-				HashesViewModel = new();
-				HashesViewModel.Initialize(listedItem);
-			}
+				HashesViewModel = new(listedItem);
 
 			base.OnNavigatedTo(e);
 		}
@@ -38,17 +35,17 @@ namespace Files.App.Views.Properties
 			Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dp);
 		}
 
-		private bool _Cancel;
+		private bool _cancel;
 
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{
-			_Cancel = true;
+			_cancel = true;
 		}
 
 		private void MenuFlyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs e)
 		{
-			e.Cancel = _Cancel;
-			_Cancel = false;
+			e.Cancel = _cancel;
+			_cancel = false;
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

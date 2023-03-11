@@ -34,7 +34,7 @@ namespace Files.App.ViewModels.Properties
 
 		private Dictionary<string, bool> _showHashesDictionary;
 
-		public void Initialize(ListedItem item)
+		public HashesViewModel(ListedItem item)
 		{
 			_item = item;
 			_cancellationTokenSource = new();
@@ -78,32 +78,18 @@ namespace Files.App.ViewModels.Properties
 				if (hashInfoItem.HashValue is null && hashInfoItem.IsEnabled)
 				{
 					hashInfoItem.HashValue = "Calculating".GetLocalizedResource();
-
 					try
 					{
 						var stream = File.OpenRead(_item.ItemPath);
-						switch (hashInfoItem.Algorithm)
+						hashInfoItem.HashValue = hashInfoItem.Algorithm switch
 						{
-							case "MD5":
-								hashInfoItem.HashValue = await ChecksumHelpers.CreateMD5(stream, _cancellationTokenSource.Token);
-								break;
-
-							case "SHA1":
-								hashInfoItem.HashValue = await ChecksumHelpers.CreateSHA1(stream, _cancellationTokenSource.Token);
-								break;
-
-							case "SHA256":
-								hashInfoItem.HashValue = await ChecksumHelpers.CreateSHA256(stream, _cancellationTokenSource.Token);
-								break;
-
-							case "SHA384":
-								hashInfoItem.HashValue = await ChecksumHelpers.CreateSHA384(stream, _cancellationTokenSource.Token);
-								break;
-
-							case "SHA512":
-								hashInfoItem.HashValue = await ChecksumHelpers.CreateSHA512(stream, _cancellationTokenSource.Token);
-								break;
-						}
+							"MD5" => await ChecksumHelpers.CreateMD5(stream, _cancellationTokenSource.Token),
+							"SHA1" => await ChecksumHelpers.CreateSHA1(stream, _cancellationTokenSource.Token),
+							"SHA256" => await ChecksumHelpers.CreateSHA256(stream, _cancellationTokenSource.Token),
+							"SHA384" => await ChecksumHelpers.CreateSHA384(stream, _cancellationTokenSource.Token),
+							"SHA512" => await ChecksumHelpers.CreateSHA512(stream, _cancellationTokenSource.Token),
+							_ => throw new InvalidOperationException()
+						};
 						hashInfoItem.IsCalculated = true;
 					}
 					catch (Exception)
