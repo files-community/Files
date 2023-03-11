@@ -19,13 +19,6 @@ namespace Files.App.ViewModels.Properties
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 
-		private bool _canAccessFile;
-		public bool CanAccessFile
-		{
-			get => _canAccessFile;
-			set => SetProperty(ref _canAccessFile, value);
-		}
-
 		private HashInfoItem _selectedItem;
 		public HashInfoItem SelectedItem
 		{
@@ -35,7 +28,7 @@ namespace Files.App.ViewModels.Properties
 
 		public ObservableCollection<HashInfoItem> Hashes { get; set; }
 
-		private Stream _stream;
+		private ListedItem _item;
 
 		private CancellationTokenSource _cancellationTokenSource;
 
@@ -43,43 +36,36 @@ namespace Files.App.ViewModels.Properties
 
 		public void Initialize(ListedItem item)
 		{
-			try
-			{
-				_stream = File.OpenRead(item.ItemPath);
-				CanAccessFile = true;
-				_cancellationTokenSource = new();
-				_showHashesDictionary = UserSettingsService.PreferencesSettingsService.ShowHashesDictionary;
+			_item = item;
+			_cancellationTokenSource = new();
+			_showHashesDictionary = UserSettingsService.PreferencesSettingsService.ShowHashesDictionary;
 
-				Hashes = new();
-				Hashes.Add(new()
-				{
-					Algorithm = "MD5",
-				});
-				Hashes.Add(new()
-				{
-					Algorithm = "SHA1",
-				});
-				Hashes.Add(new()
-				{
-					Algorithm = "SHA256",
-				});
-				Hashes.Add(new()
-				{
-					Algorithm = "SHA384",
-				});
-				Hashes.Add(new()
-				{
-					Algorithm = "SHA512",
-				});
-				Hashes.ForEach(x =>
-				{
-					x.PropertyChanged += HashInfoItem_PropertyChanged;
-					x.IsEnabled = _showHashesDictionary[x.Algorithm];
-				});
-			}
-			catch (Exception)
+			Hashes = new();
+			Hashes.Add(new()
 			{
-			}
+				Algorithm = "MD5",
+			});
+			Hashes.Add(new()
+			{
+				Algorithm = "SHA1",
+			});
+			Hashes.Add(new()
+			{
+				Algorithm = "SHA256",
+			});
+			Hashes.Add(new()
+			{
+				Algorithm = "SHA384",
+			});
+			Hashes.Add(new()
+			{
+				Algorithm = "SHA512",
+			});
+			Hashes.ForEach(x =>
+			{
+				x.PropertyChanged += HashInfoItem_PropertyChanged;
+				x.IsEnabled = _showHashesDictionary[x.Algorithm];
+			});
 		}
 
 		private async void HashInfoItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -92,28 +78,30 @@ namespace Files.App.ViewModels.Properties
 				if (hashInfoItem.HashValue is null && hashInfoItem.IsEnabled)
 				{
 					hashInfoItem.HashValue = "Calculating".GetLocalizedResource();
+
 					try
 					{
+						var stream = File.OpenRead(_item.ItemPath);
 						switch (hashInfoItem.Algorithm)
 						{
 							case "MD5":
-								hashInfoItem.HashValue = await ChecksumHelpers.CreateMD5(_stream, _cancellationTokenSource.Token);
+								hashInfoItem.HashValue = await ChecksumHelpers.CreateMD5(stream, _cancellationTokenSource.Token);
 								break;
 
 							case "SHA1":
-								hashInfoItem.HashValue = await ChecksumHelpers.CreateSHA1(_stream, _cancellationTokenSource.Token);
+								hashInfoItem.HashValue = await ChecksumHelpers.CreateSHA1(stream, _cancellationTokenSource.Token);
 								break;
 
 							case "SHA256":
-								hashInfoItem.HashValue = await ChecksumHelpers.CreateSHA256(_stream, _cancellationTokenSource.Token);
+								hashInfoItem.HashValue = await ChecksumHelpers.CreateSHA256(stream, _cancellationTokenSource.Token);
 								break;
 
 							case "SHA384":
-								hashInfoItem.HashValue = await ChecksumHelpers.CreateSHA384(_stream, _cancellationTokenSource.Token);
+								hashInfoItem.HashValue = await ChecksumHelpers.CreateSHA384(stream, _cancellationTokenSource.Token);
 								break;
 
 							case "SHA512":
-								hashInfoItem.HashValue = await ChecksumHelpers.CreateSHA512(_stream, _cancellationTokenSource.Token);
+								hashInfoItem.HashValue = await ChecksumHelpers.CreateSHA512(stream, _cancellationTokenSource.Token);
 								break;
 						}
 						hashInfoItem.IsCalculated = true;
@@ -128,11 +116,8 @@ namespace Files.App.ViewModels.Properties
 
 		public void Dispose()
 		{
-			if (CanAccessFile)
-			{
-				_cancellationTokenSource.Cancel();
-				Hashes.ForEach(x => x.PropertyChanged -= HashInfoItem_PropertyChanged);
-			}
+			_cancellationTokenSource.Cancel();
+			Hashes.ForEach(x => x.PropertyChanged -= HashInfoItem_PropertyChanged);
 		}
 	}
 }

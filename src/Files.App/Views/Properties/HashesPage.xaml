@@ -33,7 +33,6 @@
 			<!--  Hashes ListView  -->
 			<ListView
 				x:Name="HashesListView"
-				x:Load="{x:Bind HashesViewModel.CanAccessFile}"
 				ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=TwoWay}"
 				SelectedItem="{x:Bind HashesViewModel.SelectedItem, Mode=TwoWay}">
 
@@ -146,14 +145,6 @@
 				</ListView.ItemTemplate>
 
 			</ListView>
-
-			<!--  Unavailable Label  -->
-			<TextBlock
-				x:Name="UnavailableTextBlock"
-				Margin="16,16,16,16"
-				x:Load="{x:Bind HashesViewModel.CanAccessFile, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-				Style="{StaticResource BodyTextBlockStyle}"
-				Text="{helpers:ResourceString Name=UnableToLoadTheFile}" />
 		</Grid>
 
 	</Grid>
