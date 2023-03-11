@@ -83,7 +83,7 @@ namespace Files.App.UserControls.Widgets
 
 		protected void OnRightClickedItemChanged(WidgetCardItem item, CommandBarFlyout flyout)
 		{
-			RightClickedItemChanged?.Invoke(this, (item, flyout));
+			RightClickedItemChanged?.Invoke(this, new WidgetsRightClickedItemChangedEventArgs(item, flyout));
 		}
 	}
 }
