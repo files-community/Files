@@ -195,7 +195,7 @@
 		</KeyboardAccelerator>
 	</Page.KeyboardAccelerators>
 
-	<Border>
+	<Grid>
 		<!--  All-In-One Control  -->
 		<controls:SidebarControl
 			x:Name="SidebarControl"
@@ -351,6 +351,8 @@
 
 		<!--  Visual States  -->
 		<VisualStateManager.VisualStateGroups>
+
+			<!--  Collapse Search Box  -->
 			<VisualStateGroup>
 				<VisualState>
 					<VisualState.StateTriggers>
@@ -367,6 +369,7 @@
 				</VisualState>
 			</VisualStateGroup>
 
+			<!--  Minimalize Sidebar  -->
 			<VisualStateGroup>
 				<VisualState>
 					<VisualState.StateTriggers>
@@ -388,5 +391,5 @@
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
-	</Border>
+	</Grid>
 </Page>

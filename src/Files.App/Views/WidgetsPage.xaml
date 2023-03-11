@@ -8,12 +8,14 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:widgets="using:Files.App.UserControls.Widgets"
 	mc:Ignorable="d">
+
 	<i:Interaction.Behaviors>
 		<icore:EventTriggerBehavior EventName="Loaded">
 			<icore:InvokeCommandAction Command="{x:Bind ViewModel.YourHomeLoadedCommand, Mode=OneWay}" />
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
+	<!--  Home Page (Files navigate this page on startup)  -->
 	<ScrollViewer>
 		<widgets:WidgetsListControl
 			x:Name="Widgets"

@@ -51,12 +51,14 @@
 				IsReadOnly="True"
 				Text="{x:Bind ViewModel.DestinationFolderPath, Mode=OneWay}" />
 
+			<!--  Browse Path  -->
 			<Button
 				x:Name="SelectDestination"
 				Grid.Row="1"
 				Grid.Column="1"
 				Command="{x:Bind ViewModel.SelectDestinationCommand}"
 				Content="{helpers:ResourceString Name=Browse}" />
+
 		</Grid>
 
 		<!--  Password  -->
@@ -77,7 +79,7 @@
 				PlaceholderText="{helpers:ResourceString Name=Password}" />
 		</StackPanel>
 
-		<!--  Open when complete  -->
+		<!--  Open When Complete  -->
 		<CheckBox
 			x:Name="OpenDestination"
 			Grid.Row="3"

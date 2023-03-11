@@ -27,6 +27,7 @@
 		</Style>
 	</local:BaseLayout.Resources>
 
+	<!--  A Horizontal Collection Of Directories  -->
 	<toolkit:BladeView x:Name="ColumnHost" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
 		<toolkit:BladeView.ItemContainerTransitions>
 			<TransitionCollection />

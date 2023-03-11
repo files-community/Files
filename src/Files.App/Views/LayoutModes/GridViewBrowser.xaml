@@ -515,12 +515,14 @@
 			Subtitle="{helpers:ResourceString Name=FileNameTeachingTip/Subtitle}"
 			Visibility="Collapsed" />
 
+		<!--  Switch Between Two Different Views Of The Same Content  -->
 		<SemanticZoom
 			x:Name="RootGridZoom"
 			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
 
+			<!--  Main View Of The Content  -->
 			<SemanticZoom.ZoomedInView>
 				<toolkit:AdaptiveGridView
 					x:Name="FileList"
@@ -637,6 +639,7 @@
 				</toolkit:AdaptiveGridView>
 			</SemanticZoom.ZoomedInView>
 
+			<!--  A Higher-Level (Grouped By Label) View Of The Same Content  -->
 			<SemanticZoom.ZoomedOutView>
 				<ListView
 					Padding="0,12,0,0"

@@ -25,10 +25,10 @@
 	<Grid RowSpacing="20">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<!--  Subtitle  -->
+		<!--  Description  -->
 		<TextBlock
 			x:Name="Subtitle"
 			Grid.Row="0"

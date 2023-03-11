@@ -25,9 +25,10 @@
 		</Grid.RowDefinitions>
 
 		<!--  Description  -->
-		<Grid x:Name="SubtitleArea" Grid.Row="0">
-			<TextBlock x:Name="Description" Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
-		</Grid>
+		<TextBlock
+			x:Name="DescriptionTextBlock"
+			Grid.Row="0"
+			Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
 
 		<!--  Adding items list  -->
 		<Grid x:Name="SelectionListContent" Grid.Row="1">
