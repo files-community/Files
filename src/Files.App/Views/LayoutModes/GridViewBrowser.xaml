@@ -53,164 +53,178 @@
 		<converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 
 		<DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
-			<Grid
-				x:Name="GridViewBrowserListedItem"
-				Height="Auto"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Stretch"
-				tui:FrameworkElementExtensions.EnableActualSizeBinding="True"
-				Background="Transparent"
-				IsRightTapEnabled="True"
-				Loaded="Grid_Loaded"
-				ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="*" />
-				</Grid.RowDefinitions>
+			<UserControl>
 				<Grid
-					Grid.Row="0"
-					Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
-					Height="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-					MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-					Opacity="{x:Bind Opacity, Mode=OneWay}"
-					Tag="ItemImage">
-					<ContentPresenter
-						x:Name="PictureBorder"
-						Margin="12"
-						HorizontalAlignment="Center"
-						VerticalAlignment="Center"
-						x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
-						x:Phase="1"
-						CornerRadius="{StaticResource GridViewThumbnailCornerRadius}">
-						<Image
-							x:Name="Picture"
-							Source="{x:Bind FileImage, Mode=OneWay}"
-							Stretch="Uniform" />
-					</ContentPresenter>
-					<Image
-						x:Name="FolderGlyphIcon"
-						MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-						MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-						Margin="12"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Stretch"
-						x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
-						Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
-					<Border
-						x:Name="TypeUnknownGlyph"
-						MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-						MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-						Margin="12"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Stretch"
-						x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-						Background="{ThemeResource SystemChromeHighColor}"
-						CornerRadius="4" />
-					<Image
-						x:Name="IconOverlay"
-						Width="32"
-						Height="32"
-						Margin="16"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Bottom"
-						x:Load="True"
-						x:Phase="1"
-						Source="{x:Bind IconOverlay, Mode=OneWay}"
-						Stretch="Uniform" />
-					<Viewbox
-						x:Name="WebShortcutGlyph"
-						MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-						MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-						Margin="12"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Stretch"
-						x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
-						x:Phase="1">
-						<FontIcon FontSize="28" Glyph="&#xE71B;" />
-					</Viewbox>
-					<Viewbox
-						x:Name="ShortcutGlyphElement"
-						Width="16"
-						Height="16"
-						Margin="14"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Bottom"
-						x:Load="{x:Bind IsShortcut}"
-						x:Phase="1">
-						<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
-					</Viewbox>
-				</Grid>
-				<Grid
-					Grid.Row="1"
-					MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-					Margin="4,0,4,8"
-					HorizontalAlignment="Center"
-					VerticalAlignment="Stretch">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<FontIcon
-						x:Name="CloudDriveSyncStatusGlyph"
-						Grid.Column="0"
-						Margin="0,0,4,0"
-						VerticalAlignment="Stretch"
-						x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
-						x:Phase="2"
-						FontSize="12"
-						Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
-					<Ellipse
-						Grid.Column="1"
-						Width="12"
-						Height="12"
-						Margin="0,0,4,0"
-						x:Phase="2"
-						Fill="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-						ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
-						Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
-					<TextBlock
-						x:Name="ItemName"
-						Grid.Column="2"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Stretch"
-						Opacity="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToOpacityConverter}}"
-						Text="{x:Bind Name, Mode=OneWay}"
-						TextAlignment="Center"
-						TextTrimming="CharacterEllipsis"
-						TextWrapping="Wrap" />
-				</Grid>
-				<CheckBox
-					x:Name="SelectionCheckbox"
-					Grid.RowSpan="2"
-					Grid.ColumnSpan="2"
-					Width="32"
-					MinWidth="0"
-					MinHeight="0"
-					Margin="6"
-					Padding="0"
-					HorizontalAlignment="Left"
-					VerticalAlignment="Top"
-					Checked="ItemSelected_Checked"
-					Unchecked="ItemSelected_Unchecked"
-					Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-				<Popup
-					x:Name="EditPopup"
-					Grid.Row="1"
-					x:Load="False">
-					<TextBox
-						x:Name="GridViewTextBoxItemName"
+					x:Name="GridViewBrowserListedItem"
+					Height="Auto"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					tui:FrameworkElementExtensions.EnableActualSizeBinding="True"
+					Background="Transparent"
+					IsRightTapEnabled="True"
+					Loaded="Grid_Loaded"
+					ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
+
+					<VisualStateManager.VisualStateGroups>
+						<VisualStateGroup x:Name="CheckboxVisibilityStates">
+							<VisualState x:Name="Normal"/>
+							<VisualState x:Name="ShowCheckbox">
+								<VisualState.Setters>
+									<Setter Target="SelectionCheckbox.Visibility" Value="Visible"/>
+								</VisualState.Setters>
+							</VisualState>
+						</VisualStateGroup>
+					</VisualStateManager.VisualStateGroups>
+					
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+					<Grid
+						Grid.Row="0"
 						Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
-						Margin="0"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Stretch"
-						Background="{ThemeResource SolidBackgroundFillColorSecondary}"
-						BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
-						Text="{x:Bind Name, Mode=OneWay}"
-						TextAlignment="Center"
-						TextWrapping="Wrap" />
-				</Popup>
-			</Grid>
+						Height="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+						MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+						Opacity="{x:Bind Opacity, Mode=OneWay}"
+						Tag="ItemImage">
+						<ContentPresenter
+							x:Name="PictureBorder"
+							Margin="12"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+							x:Phase="1"
+							CornerRadius="{StaticResource GridViewThumbnailCornerRadius}">
+							<Image
+								x:Name="Picture"
+								Source="{x:Bind FileImage, Mode=OneWay}"
+								Stretch="Uniform" />
+						</ContentPresenter>
+						<Image
+							x:Name="FolderGlyphIcon"
+							MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							Margin="12"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
+							Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
+						<Border
+							x:Name="TypeUnknownGlyph"
+							MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							Margin="12"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
+							Background="{ThemeResource SystemChromeHighColor}"
+							CornerRadius="4" />
+						<Image
+							x:Name="IconOverlay"
+							Width="32"
+							Height="32"
+							Margin="16"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Bottom"
+							x:Load="True"
+							x:Phase="1"
+							Source="{x:Bind IconOverlay, Mode=OneWay}"
+							Stretch="Uniform" />
+						<Viewbox
+							x:Name="WebShortcutGlyph"
+							MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+							Margin="12"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
+							x:Phase="1">
+							<FontIcon FontSize="28" Glyph="&#xE71B;" />
+						</Viewbox>
+						<Viewbox
+							x:Name="ShortcutGlyphElement"
+							Width="16"
+							Height="16"
+							Margin="14"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Bottom"
+							x:Load="{x:Bind IsShortcut}"
+							x:Phase="1">
+							<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
+						</Viewbox>
+					</Grid>
+					<Grid
+						Grid.Row="1"
+						MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+						Margin="4,0,4,8"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Stretch">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<FontIcon
+							x:Name="CloudDriveSyncStatusGlyph"
+							Grid.Column="0"
+							Margin="0,0,4,0"
+							VerticalAlignment="Stretch"
+							x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
+							x:Phase="2"
+							FontSize="12"
+							Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
+						<Ellipse
+							Grid.Column="1"
+							Width="12"
+							Height="12"
+							Margin="0,0,4,0"
+							x:Phase="2"
+							Fill="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+							ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
+							Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+						<TextBlock
+							x:Name="ItemName"
+							Grid.Column="2"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							Opacity="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToOpacityConverter}}"
+							Text="{x:Bind Name, Mode=OneWay}"
+							TextAlignment="Center"
+							TextTrimming="CharacterEllipsis"
+							TextWrapping="Wrap" />
+					</Grid>
+					<CheckBox
+						x:Name="SelectionCheckbox"
+						Grid.RowSpan="2"
+						Grid.ColumnSpan="2"
+						Width="32"
+						MinWidth="0"
+						MinHeight="0"
+						Margin="6"
+						Padding="0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Top"
+						Checked="ItemSelected_Checked"
+						Unchecked="ItemSelected_Unchecked"
+						Visibility="Collapsed" />
+					<Popup
+						x:Name="EditPopup"
+						Grid.Row="1"
+						x:Load="False">
+						<TextBox
+							x:Name="GridViewTextBoxItemName"
+							Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
+							Margin="0"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							Background="{ThemeResource SolidBackgroundFillColorSecondary}"
+							BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
+							Text="{x:Bind Name, Mode=OneWay}"
+							TextAlignment="Center"
+							TextWrapping="Wrap" />
+					</Popup>
+				</Grid>
+			</UserControl>
 		</DataTemplate>
 
 		<DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">

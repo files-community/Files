@@ -474,8 +474,16 @@ namespace Files.App.Views.LayoutModes
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
+			args.ItemContainer.PointerEntered -= ItemRow_PointerEntered;
+			args.ItemContainer.PointerExited -= ItemRow_PointerExited;
+			args.ItemContainer.PointerCanceled -= ItemRow_PointerCanceled;
+
 			base.FileList_ContainerContentChanging(sender, args);
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as GridViewItem);
+
+			args.ItemContainer.PointerEntered += ItemRow_PointerEntered;
+			args.ItemContainer.PointerExited += ItemRow_PointerExited;
+			args.ItemContainer.PointerCanceled += ItemRow_PointerCanceled;
 		}
 
 		private void SetCheckboxSelectionState(object item, GridViewItem? lviContainer = null)
@@ -495,6 +503,7 @@ namespace Files.App.Views.LayoutModes
 					checkbox.Checked += ItemSelected_Checked;
 					checkbox.Unchecked += ItemSelected_Unchecked;
 				}
+				UpdateCheckboxVisibility(container, false);
 			}
 		}
 
@@ -507,6 +516,32 @@ namespace Files.App.Views.LayoutModes
 				item = VisualTreeHelper.GetParent(item);
 			if (item is GridViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
+		}
+
+		private void ItemRow_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility(sender, true);
+		}
+
+		private void ItemRow_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility(sender, false);
+		}
+
+		private void ItemRow_PointerCanceled(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility(sender, false);
+		}
+
+		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
+		{
+			if (sender is GridViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
+			{
+				if (control.IsSelected)
+					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
+				else
+					VisualStateManager.GoToState(userControl, isPointerOver ? "ShowCheckbox" : "Normal", true);
+			}
 		}
 	}
 }
