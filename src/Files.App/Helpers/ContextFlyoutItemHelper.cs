@@ -784,6 +784,7 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
+					ShowInRecycleBin = false,
 					KeyboardAccelerator = new KeyboardAccelerator
 					{
 						Key = VirtualKey.F2,
