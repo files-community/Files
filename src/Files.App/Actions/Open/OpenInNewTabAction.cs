@@ -5,6 +5,7 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Filesystem;
+using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.Views;
 using System.ComponentModel;
