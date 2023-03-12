@@ -267,8 +267,8 @@
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Compartilhar</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
-    <value>Recortar</value>
+  <data name="Cut" xml:space="preserve">
+    <value>Cortar</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Excluir</value>
@@ -1036,7 +1036,7 @@
     <value>Personalize o menu de contexto (Botão Direito)</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>Caminho original</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Adicionar</value>
@@ -2482,7 +2482,7 @@
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit Settings File</value>
+    <value>Editar arquivo de configurações</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
     <value>Notas da versão</value>
@@ -2521,7 +2521,7 @@
     <value>Show option to open folders in a new window</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+    <value>Acesso rápido</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
     <value>Enter your credentials to connect to: {0}</value>
@@ -2548,13 +2548,13 @@
     <value>Permanent deletion only</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Never</value>
+    <value>Nunca</value>
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Tag color</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
-    <value>Save changes</value>
+    <value>Salvar mudanças</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>New tag</value>
