@@ -17,6 +17,8 @@ namespace Files.App.Views
 {
 	public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent
 	{
+		public static event EventHandler<PaneHolderPage>? CurrentInstanceChanged;
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public bool IsLeftPaneActive => ActivePane == PaneLeft;
@@ -176,6 +178,9 @@ namespace Files.App.Views
 			get => isCurrentInstance;
 			set
 			{
+				if (isCurrentInstance == value)
+					return;
+
 				isCurrentInstance = value;
 				PaneLeft.IsCurrentInstance = false;
 				if (PaneRight is not null)
@@ -186,6 +191,8 @@ namespace Files.App.Views
 				{
 					ActivePane.IsCurrentInstance = value;
 				}
+
+				CurrentInstanceChanged?.Invoke(null, this);
 			}
 		}
 

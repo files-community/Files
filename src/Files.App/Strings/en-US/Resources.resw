@@ -2610,4 +2610,7 @@
   <data name="UnableToCalcHashes" xml:space="preserve">
     <value>Unable to calculate hashes due to a system error</value>
   </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Pinned items</value>
+  </data>
 </root>
