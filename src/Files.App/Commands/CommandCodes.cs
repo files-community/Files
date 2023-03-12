@@ -47,9 +47,13 @@
 		RunAsAdmin,
 		RunAsAnotherUser,
 
-    // Archives
+		// Archives
 		CompressIntoArchive,
 		CompressIntoSevenZip,
-		CompressIntoZip
+		CompressIntoZip,
+
+		// Image Edition
+		RotateLeft,
+		RotateRight
 	}
 }

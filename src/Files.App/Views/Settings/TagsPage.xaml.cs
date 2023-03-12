@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Input;
 using System.Linq;
 using Windows.System;
 
-namespace Files.App.Settings
+namespace Files.App.Views.Settings
 {
 	public sealed partial class TagsPage : Page
 	{

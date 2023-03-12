@@ -267,7 +267,7 @@
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Share</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+  <data name="Cut" xml:space="preserve">
     <value>Cut</value>
   </data>
   <data name="Delete" xml:space="preserve">
@@ -2609,5 +2609,8 @@
   </data>
   <data name="UnableToCalcHashes" xml:space="preserve">
     <value>Unable to calculate hashes due to a system error</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Pinned items</value>
   </data>
 </root>
