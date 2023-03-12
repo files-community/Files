@@ -32,6 +32,7 @@ namespace Files.App.Commands
 			[VirtualKey.NumberPad8] = "Pad8",
 			[VirtualKey.NumberPad9] = "Pad9",
 			[VirtualKey.Delete] = "Del",
+			[(VirtualKey)192] = "`",
 		}.ToImmutableDictionary();
 
 		public static HotKey None { get; } = new(VirtualKey.None, VirtualKeyModifiers.None);
