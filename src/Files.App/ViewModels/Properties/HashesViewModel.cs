@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.Backend.Models;
@@ -9,9 +11,10 @@ using Files.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Threading;
+using System.Windows.Input;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -28,17 +31,20 @@ namespace Files.App.ViewModels.Properties
 
 		public ObservableCollection<HashInfoItem> Hashes { get; set; }
 
+		public Dictionary<string, bool> ShowHashes { get; private set; }
+
+		public ICommand ToggleIsEnabledCommand { get; private set; }
+
 		private ListedItem _item;
 
 		private CancellationTokenSource _cancellationTokenSource;
 
-		private Dictionary<string, bool> _showHashesDictionary;
-
 		public HashesViewModel(ListedItem item)
 		{
+			ToggleIsEnabledCommand = new RelayCommand<string>(ToggleIsEnabled);
+
 			_item = item;
 			_cancellationTokenSource = new();
-			_showHashesDictionary = UserSettingsService.PreferencesSettingsService.ShowHashesDictionary;
 
 			Hashes = new()
 			{
@@ -49,42 +55,34 @@ namespace Files.App.ViewModels.Properties
 				new() { Algorithm = "SHA512" },
 			};
 
-			Hashes.ForEach(x =>
-			{
-				x.PropertyChanged += HashInfoItem_PropertyChanged;
-				if (_showHashesDictionary.TryGetValue(x.Algorithm, out var value)) {
-					x.IsEnabled = value;
-				} 
-				else
-				{
-					x.IsEnabled = x.Algorithm switch
-					{
-						"MD5" => true,
-						"SHA1" => true,
-						"SHA256" => true,
-						"SHA384" => false,
-						"SHA512" => false,
-						_ => false
-					};
-				}
-			});
+			ShowHashes = UserSettingsService.PreferencesSettingsService.ShowHashesDictionary ?? new();
+			// Default settings
+			ShowHashes.TryAdd("MD5", true);
+			ShowHashes.TryAdd("SHA1", true);
+			ShowHashes.TryAdd("SHA256", true);
+			ShowHashes.TryAdd("SHA384", false);
+			ShowHashes.TryAdd("SHA512", false);
+
+			Hashes.Where(x => ShowHashes[x.Algorithm]).ForEach(x => ToggleIsEnabledCommand.Execute(x.Algorithm));
 		}
 
-		private async void HashInfoItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void ToggleIsEnabled(string? algorithm)
 		{
-			if (sender is HashInfoItem hashInfoItem && e.PropertyName == nameof(HashInfoItem.IsEnabled))
+			var hashInfoItem = Hashes.Where(x => x.Algorithm == algorithm).First();
+			hashInfoItem.IsEnabled = !hashInfoItem.IsEnabled;
+
+			if (ShowHashes[hashInfoItem.Algorithm] != hashInfoItem.IsEnabled)
 			{
-				if (!_showHashesDictionary.ContainsKey(hashInfoItem.Algorithm) ||
-					_showHashesDictionary[hashInfoItem.Algorithm] != hashInfoItem.IsEnabled)
-				{
-					_showHashesDictionary[hashInfoItem.Algorithm] = hashInfoItem.IsEnabled;
-					UserSettingsService.PreferencesSettingsService.ShowHashesDictionary = _showHashesDictionary;
-				}
+				ShowHashes[hashInfoItem.Algorithm] = hashInfoItem.IsEnabled;
+				UserSettingsService.PreferencesSettingsService.ShowHashesDictionary = ShowHashes;
+			}
 
-				if (hashInfoItem.HashValue is null && hashInfoItem.IsEnabled)
-				{
-					hashInfoItem.HashValue = "Calculating".GetLocalizedResource();
+			if (hashInfoItem.HashValue is null && hashInfoItem.IsEnabled)
+			{
+				hashInfoItem.HashValue = "Calculating".GetLocalizedResource();
 
+				App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				{
 					try
 					{
 						using (var stream = File.OpenRead(_item.ItemPath))
@@ -110,14 +108,13 @@ namespace Files.App.ViewModels.Properties
 					{
 						hashInfoItem.HashValue = "CalculationError".GetLocalizedResource();
 					}
-				}
+				});
 			}
 		}
 
 		public void Dispose()
 		{
 			_cancellationTokenSource.Cancel();
-			Hashes.ForEach(x => x.PropertyChanged -= HashInfoItem_PropertyChanged);
 		}
 	}
 }

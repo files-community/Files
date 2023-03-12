@@ -215,7 +215,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public Dictionary<string, bool> ShowHashesDictionary
 		{
-			get => Get(new Dictionary<string, bool>());
+			get => Get<Dictionary<string, bool>>(null);
 			set => Set(value);
 		}
 

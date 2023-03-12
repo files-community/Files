@@ -75,21 +75,31 @@
 							<FontIcon FontSize="14" Glyph="&#xE7B3;" />
 							<Button.Flyout>
 								<MenuFlyout x:Name="SelectAlgorithmsMenuFlyout" Closing="MenuFlyout_Closing">
-									<ToggleMenuFlyoutItem Text="{x:Bind HashesViewModel.Hashes[0].Algorithm}"
-														  IsChecked="{x:Bind HashesViewModel.Hashes[0].IsEnabled, Mode=TwoWay}"
-														  Click="ToggleMenuFlyoutItem_Click" />
-									<ToggleMenuFlyoutItem Text="{x:Bind HashesViewModel.Hashes[1].Algorithm}"
-														  IsChecked="{x:Bind HashesViewModel.Hashes[1].IsEnabled, Mode=TwoWay}"
-														  Click="ToggleMenuFlyoutItem_Click" />
-									<ToggleMenuFlyoutItem Text="{x:Bind HashesViewModel.Hashes[2].Algorithm}"
-														  IsChecked="{x:Bind HashesViewModel.Hashes[2].IsEnabled, Mode=TwoWay}"
-														  Click="ToggleMenuFlyoutItem_Click" />
-									<ToggleMenuFlyoutItem Text="{x:Bind HashesViewModel.Hashes[3].Algorithm}"
-														  IsChecked="{x:Bind HashesViewModel.Hashes[3].IsEnabled, Mode=TwoWay}"
-														  Click="ToggleMenuFlyoutItem_Click" />
-									<ToggleMenuFlyoutItem Text="{x:Bind HashesViewModel.Hashes[4].Algorithm}"
-														  IsChecked="{x:Bind HashesViewModel.Hashes[4].IsEnabled, Mode=TwoWay}"
-														  Click="ToggleMenuFlyoutItem_Click" />
+									<ToggleMenuFlyoutItem Text="MD5"
+														  IsChecked="{x:Bind HashesViewModel.ShowHashes['MD5']}"
+														  Click="ToggleMenuFlyoutItem_Click"
+														  Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+														  CommandParameter="MD5" />
+									<ToggleMenuFlyoutItem Text="SHA1"
+														  IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA1']}"
+														  Click="ToggleMenuFlyoutItem_Click"
+														  Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+														  CommandParameter="SHA1" />
+									<ToggleMenuFlyoutItem Text="SHA256"
+														  IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA256']}"
+														  Click="ToggleMenuFlyoutItem_Click"
+														  Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+														  CommandParameter="SHA256" />
+									<ToggleMenuFlyoutItem Text="SHA384"
+														  IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA384']}"
+														  Click="ToggleMenuFlyoutItem_Click"
+														  Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+														  CommandParameter="SHA384" />
+									<ToggleMenuFlyoutItem Text="SHA512"
+														  IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA512']}"
+														  Click="ToggleMenuFlyoutItem_Click"
+														  Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+														  CommandParameter="SHA512" />
 								</MenuFlyout>
 							</Button.Flyout>
 						</Button>
