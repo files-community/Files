@@ -254,8 +254,7 @@
 					HorizontalAlignment="Left"
 					VerticalAlignment="Top"
 					Checked="ItemSelected_Checked"
-					Unchecked="ItemSelected_Unchecked"
-					Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+					Unchecked="ItemSelected_Unchecked"/>
 				<StackPanel
 					Width="20"
 					Margin="8,4,0,4"

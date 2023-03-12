@@ -264,6 +264,7 @@
 							x:Name="HeaderGrid"
 							Height="40"
 							Padding="16,0,0,0"
+							Margin="0"
 							BorderBrush="{ThemeResource ControlStrokeColorDefault}"
 							BorderThickness="0,0,0,1"
 							PointerPressed="Grid_PointerPressed">
@@ -378,7 +379,7 @@
 									Checked="SelectAllCheckbox_Checked"
 									IsChecked="{x:Bind AreAllItemsSelected, Mode=OneWay}"
 									Unchecked="SelectAllCheckbox_Unchecked"
-									Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+									Visibility="Visible" />
 							</Grid>
 
 							<uc:DataGridHeader
@@ -1051,20 +1052,5 @@
 				Stroke="{ThemeResource SystemAccentColorLight1}"
 				StrokeThickness="1" />
 		</Canvas>
-
-		<VisualStateManager.VisualStateGroups>
-			<VisualStateGroup>
-				<VisualState x:Name="MultiselectDisabled" />
-				<VisualState x:Name="MultiselectEnabled">
-					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind AppModel.ShowSelectionCheckboxes, Mode=OneWay}" To="True" />
-					</VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="HeaderGrid.Margin" Value="0,0,0,0" />
-						<Setter Target="SelectAllColumn.Width" Value="32" />
-					</VisualState.Setters>
-				</VisualState>
-			</VisualStateGroup>
-		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </local:StandardViewBase>

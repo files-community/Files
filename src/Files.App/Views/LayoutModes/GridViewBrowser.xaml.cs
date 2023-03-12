@@ -405,7 +405,7 @@ namespace Files.App.Views.LayoutModes
 			(
 				ctrlPressed ||
 				shiftPressed ||
-				AppModel.ShowSelectionCheckboxes && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick ||
+				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick ||
 				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle
 			)
 			{
