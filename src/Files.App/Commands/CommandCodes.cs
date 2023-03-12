@@ -26,7 +26,6 @@
 		RestoreAllRecycleBin,
 
 		// Selection
-		MultiSelect,
 		SelectAll,
 		InvertSelection,
 		ClearSelection,
