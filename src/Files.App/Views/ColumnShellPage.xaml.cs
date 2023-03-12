@@ -208,10 +208,6 @@ namespace Files.App.Views
 					ToolbarViewModel.IsEditModeEnabled = true;
 					break;
 
-				case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
-					await NavigationHelpers.OpenPathInNewTab(FilesystemViewModel.WorkingDirectory);
-					break;
-
 				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
 					userSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
 					break;

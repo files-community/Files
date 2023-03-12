@@ -1185,9 +1185,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Ukjent</value>
   </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Hvis du endrer filendelsen, kan filen bli ubrukelig. Er du sikker på at du vil endre den?</value>
   </data>

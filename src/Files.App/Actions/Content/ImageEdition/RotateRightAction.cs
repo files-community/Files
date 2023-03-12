@@ -19,7 +19,8 @@ namespace Files.App.Actions.Content.ImageEdition
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRotateRight");
 
-		public bool IsExecutable => context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false;
+		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
+						&& (context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
 
 		public RotateRightAction()
 		{
@@ -35,11 +36,18 @@ namespace Files.App.Actions.Content.ImageEdition
 			App.PreviewPaneViewModel.UpdateSelectedItemPreview();
 		}
 
+		private bool IsContextPageTypeAdaptedToCommand()
+		{
+			return context.PageType is not ContentPageTypes.RecycleBin
+				and not ContentPageTypes.ZipFolder
+				and not ContentPageTypes.None;
+		}
+
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
 			{
-				if (context.ShellPage is not null)
+				if (context.ShellPage is not null && context.ShellPage.SlimContentPage is not null)
 				{
 					var viewModel = context.ShellPage.SlimContentPage.SelectedItemsPropertiesViewModel;
 					var extensions = context.SelectedItems.Select(selectedItem => selectedItem.FileExtension).Distinct().ToList();
