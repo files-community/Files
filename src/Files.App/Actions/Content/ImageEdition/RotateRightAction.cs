@@ -39,7 +39,7 @@ namespace Files.App.Actions.Content.ImageEdition
 		{
 			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
 			{
-				if (context.ShellPage is not null)
+				if (context.ShellPage is not null && context.ShellPage.SlimContentPage is not null)
 				{
 					var viewModel = context.ShellPage.SlimContentPage.SelectedItemsPropertiesViewModel;
 					var extensions = context.SelectedItems.Select(selectedItem => selectedItem.FileExtension).Distinct().ToList();
