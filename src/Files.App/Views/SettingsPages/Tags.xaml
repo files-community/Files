@@ -13,15 +13,20 @@
 	mc:Ignorable="d">
 	<Page.Resources>
 		<ResourceDictionary>
-			<converters1:BoolToVisibilityConverter
-				x:Key="BoolVisibilityConverter"
-				FalseValue="Collapsed"
-				TrueValue="Visible" />
-			<converters1:BoolToVisibilityConverter
-				x:Key="InvertedBoolVisibilityConverter"
-				FalseValue="Visible"
-				TrueValue="Collapsed" />
-			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary>
+					<converters1:BoolToVisibilityConverter
+						x:Key="BoolVisibilityConverter"
+						FalseValue="Collapsed"
+						TrueValue="Visible" />
+					<converters1:BoolToVisibilityConverter
+						x:Key="InvertedBoolVisibilityConverter"
+						FalseValue="Visible"
+						TrueValue="Collapsed" />
+					<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
+				</ResourceDictionary>
+				<ResourceDictionary Source="/ResourceDictionaries/CompactInfoBarStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
 			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
 		</ResourceDictionary>
 	</Page.Resources>
@@ -109,10 +114,12 @@
 								Spacing="12">
 								<!--  Invalid Name Warning  -->
 								<InfoBar
+									Height="32"
 									IsClosable="False"
 									IsOpen="{x:Bind ViewModel.NewTag.IsNameValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 									Message="{helpers:ResourceString Name=InvalidTagNameWarning}"
 									Severity="Error"
+									Style="{StaticResource CompactInfoBarStyle}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=TagNameRules}" />
 
 								<!--  Cancel  -->
@@ -241,10 +248,12 @@
 											Spacing="12"
 											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
 											<InfoBar
+												Height="32"
 												IsClosable="False"
 												IsOpen="{x:Bind IsNameValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 												Message="{helpers:ResourceString Name=InvalidTagNameWarning}"
 												Severity="Error"
+												Style="{StaticResource CompactInfoBarStyle}"
 												ToolTipService.ToolTip="{helpers:ResourceString Name=TagNameRules}" />
 
 											<Button

@@ -64,6 +64,9 @@
         <Content Remove="Assets\FilesHome.png" />
     </ItemGroup>
     <ItemGroup>
+      <None Remove="ResourceDictionaries\CompactInfoBarStyle.xaml" />
+    </ItemGroup>
+    <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
         <PackageReference Include="FluentFTP" Version="43.0.1" />
@@ -116,5 +119,10 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Markdown" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="ResourceDictionaries\CompactInfoBarStyle.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
 </Project>

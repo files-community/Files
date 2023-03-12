@@ -5,6 +5,7 @@ using Files.Backend.ViewModels.FileTags;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Linq;
 using Windows.System;
@@ -124,6 +125,8 @@ namespace Files.App.SettingsPages
 		{
 			var item = (ListViewItem)TagsList.ContainerFromItem(editingTag);
 			editingTag!.NewColor = editingTag.Tag.Color;
+			editingTag!.IsNameValid = true;
+			editingTag!.CanCommit = false;
 
 			EndEditing(item.FindDescendant("TagNameTextBox") as TextBox);
 		}
