@@ -763,20 +763,23 @@
 									Grid.Row="0"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{x:Bind Commands.ToggleShowHiddenItems.Label}" />
+									Text="{x:Bind Commands.ToggleShowHiddenItems.Label}"
+									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowHiddenItems.LabelWithHotKey, Mode=OneWay}" />
 								<ToggleSwitch
 									Grid.Row="0"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowHiddenItems.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
-									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+									Style="{StaticResource RightAlignedToggleSwitchStyle}"
+									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowHiddenItems.LabelWithHotKey, Mode=OneWay}" />
 
 								<TextBlock
 									Grid.Row="1"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{x:Bind Commands.ToggleShowFileExtensions.Label}" />
+									Text="{x:Bind Commands.ToggleShowFileExtensions.Label}"
+									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowFileExtensions.LabelWithHotKey, Mode=OneWay}" />
 								<ToggleSwitch
 									Grid.Row="1"
 									Grid.Column="1"
@@ -784,7 +787,8 @@
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowFileExtensions.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
 									Rotation="1"
-									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+									Style="{StaticResource RightAlignedToggleSwitchStyle}"
+									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowFileExtensions.LabelWithHotKey, Mode=OneWay}" />
 							</Grid>
 						</StackPanel>
 					</Flyout>
