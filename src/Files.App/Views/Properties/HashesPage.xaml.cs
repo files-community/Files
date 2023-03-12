@@ -1,8 +1,8 @@
-﻿using CommunityToolkit.WinUI;
-using Files.App.Filesystem;
+﻿using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
 using System.Threading.Tasks;
 
@@ -35,12 +35,17 @@ namespace Files.App.Views.Properties
 			Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dp);
 		}
 
-		private async void BasePropertiesPage_Loaded(object sender, RoutedEventArgs e)
+		private bool _cancel;
+
+		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{
-			await App.Window.DispatcherQueue.EnqueueAsync(async () =>
-			{
-				await HashesViewModel.ExecuteLoadAndCalcHashesCommandAsync(HashesViewModel.CancellationTokenSource.Token);
-			});
+			_cancel = true;
+		}
+
+		private void MenuFlyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs e)
+		{
+			e.Cancel = _cancel;
+			_cancel = false;
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

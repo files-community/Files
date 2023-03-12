@@ -213,6 +213,12 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set((long)value);
 		}
 
+		public Dictionary<string, bool> ShowHashesDictionary
+		{
+			get => Get<Dictionary<string, bool>>(null);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -243,6 +249,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowOpenInNewWindow):
 				case nameof(ShowOpenInNewPane):
 				case nameof(ConflictsResolveOption):
+				case nameof(ShowHashesDictionary):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}
