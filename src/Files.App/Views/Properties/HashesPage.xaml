@@ -20,7 +20,6 @@
 
 	<Grid x:Name="RootGrid">
 
-		<!--  Loading  -->
 		<Grid
 			x:Name="HashesListGrid"
 			Margin="12"
