@@ -41,6 +41,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			itemContextMenuFlyout.Closed += (sender, e) => OnRightClickedItemChanged(null, null);
 			if (sender is not Button widgetCardItem || widgetCardItem.DataContext is not WidgetCardItem item)
 				return;
 
@@ -81,7 +82,7 @@ namespace Files.App.UserControls.Widgets
 			_ = QuickAccessService.UnpinFromSidebar(item.Path);
 		}
 
-		protected void OnRightClickedItemChanged(WidgetCardItem item, CommandBarFlyout flyout)
+		protected void OnRightClickedItemChanged(WidgetCardItem? item, CommandBarFlyout? flyout)
 		{
 			RightClickedItemChanged?.Invoke(this, new WidgetsRightClickedItemChangedEventArgs(item, flyout));
 		}

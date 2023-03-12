@@ -122,10 +122,11 @@ namespace Files.App.UserControls.Widgets
 			App.Logger.Warn("rightTapped");
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			itemContextMenuFlyout.Closed += (sender, e) => OnRightClickedItemChanged(null, null);
 			if (sender is not StackPanel tagsItemsStackPanel || tagsItemsStackPanel.DataContext is not FileTagsItemViewModel item)
 				return;
 
-			OnRightClickedItemChanged((WidgetCardItem)item, itemContextMenuFlyout);
+			OnRightClickedItemChanged(item, itemContextMenuFlyout);
 
 			App.Logger.Warn("Item path: " + item.Path + " widgetcarditem.path = " + (item as WidgetCardItem)?.Path);
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
