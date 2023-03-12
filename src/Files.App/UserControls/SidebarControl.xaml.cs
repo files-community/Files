@@ -31,13 +31,14 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
 using Windows.UI.Core;
-using static System.Net.Mime.MediaTypeNames;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.UserControls
 {
 	public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
 	{
+		public static event EventHandler<INavigationControlItem>? RightClickedItemChanged;
+
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
@@ -441,6 +442,7 @@ namespace Files.App.UserControls
 				return;
 
 			rightClickedItem = item;
+			RightClickedItemChanged?.Invoke(this, item);
 
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);

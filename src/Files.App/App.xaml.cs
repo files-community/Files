@@ -4,6 +4,7 @@ using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Commands;
 using Files.App.Contexts;
+using Files.App.Contexts.Sidebar;
 using Files.App.DataModels;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -127,6 +128,7 @@ namespace Files.App
 				.AddSingleton<IPageContext, PageContext>()
 				.AddSingleton<IContentPageContext, ContentPageContext>()
 				.AddSingleton<IDisplayPageContext, DisplayPageContext>()
+				.AddSingleton<ISidebarContext, SidebarContext>()
 
 				// Other services
 				.AddSingleton(Logger)
