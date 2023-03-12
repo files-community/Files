@@ -19,7 +19,8 @@ namespace Files.App.Actions.Content.ImageEdition
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRotateLeft");
 
-		public bool IsExecutable => context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false;
+		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
+						&& (context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
 
 		public RotateLeftAction()
 		{
@@ -33,6 +34,13 @@ namespace Files.App.Actions.Content.ImageEdition
 
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.RefreshItemsThumbnail();
 			App.PreviewPaneViewModel.UpdateSelectedItemPreview();
+		}
+
+		private bool IsContextPageTypeAdaptedToCommand()
+		{
+			return context.PageType is not ContentPageTypes.RecycleBin
+				and not ContentPageTypes.ZipFolder
+				and not ContentPageTypes.None;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
