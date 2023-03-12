@@ -70,9 +70,14 @@ namespace Files.App.Actions
 			if (paths.Length == 0)
 				return null;
 
-			var args = new StringBuilder($"-d \"{paths[0]}\"");
+			var path = paths[0] + (paths[0].EndsWith('\\') ? "\\" : "");
+
+			var args = new StringBuilder($"-d \"{path}\"");
 			for (int i = 1; i < paths.Length; i++)
-				args.Append($" ; nt -d \"{paths[i]}\"");
+			{
+				path = paths[i] + (paths[i].EndsWith('\\') ? "\\" : "");
+				args.Append($" ; nt -d \"{path}\"");
+			}
 
 			return new()
 			{
