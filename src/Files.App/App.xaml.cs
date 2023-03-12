@@ -127,9 +127,9 @@ namespace Files.App
 				.AddSingleton<IPageContext, PageContext>()
 				.AddSingleton<IContentPageContext, ContentPageContext>()
 				.AddSingleton<IDisplayPageContext, DisplayPageContext>()
-        .AddSingleton<ITagsContext, TagsContext>()
+				.AddSingleton<ITagsContext, TagsContext>()
 				
-        // Other services
+				// Other services
 				.AddSingleton(Logger)
 				.AddSingleton<IDialogService, DialogService>()
 				.AddSingleton<IImageService, ImagingService>()

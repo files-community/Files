@@ -2605,7 +2605,7 @@
     <value>Multiselect</value>
   </data>
   <data name="OpenAllItems" xml:space="preserve">
-    <value>Open all items in tag</value>
+    <value>Open all</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hashes</value>

@@ -64,7 +64,7 @@ namespace Files.App.Commands
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
-    public IRichCommand OpenAllTaggedItems => commands[CommandCodes.OpenAllTaggedItems];
+		public IRichCommand OpenAllTaggedItems => commands[CommandCodes.OpenAllTaggedItems];
 
 		public CommandManager()
 		{
@@ -116,7 +116,7 @@ namespace Files.App.Commands
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction(),
-      [CommandCodes.OpenAllTaggedItems] = new OpenAllTaggedAction()
+			[CommandCodes.OpenAllTaggedItems] = new OpenAllTaggedAction()
 		};
 
 		[DebuggerDisplay("Command None")]

@@ -56,7 +56,7 @@
 		RotateLeft,
 		RotateRight,
     
-    // Tags
+		// Tags
 		OpenAllTaggedItems
 	}
 }
