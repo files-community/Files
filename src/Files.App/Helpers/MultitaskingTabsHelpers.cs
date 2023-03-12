@@ -51,27 +51,5 @@ namespace Files.App.Helpers
 				? NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize())
 				: NavigationHelpers.OpenPathInNewWindowAsync("Home");
 		}
-
-		public static async Task AddNewTab(Type type, object tabViewItemArgs, int atIndex = -1)
-		{
-			FontIconSource fontIconSource = new FontIconSource();
-			fontIconSource.FontFamily = App.AppModel.SymbolFontFamily;
-
-			TabItem tabItem = new TabItem()
-			{
-				Header = null,
-				IconSource = fontIconSource,
-				Description = null,
-				ToolTipText = null
-			};
-			tabItem.Control.NavigationArguments = new TabItemArguments()
-			{
-				InitialPageType = type,
-				NavigationArg = tabViewItemArgs
-			};
-			tabItem.Control.ContentChanged += MainPageViewModel.Control_ContentChanged;
-			await MainPageViewModel.UpdateTabInfo(tabItem, tabViewItemArgs);
-			MainPageViewModel.AppInstances.Insert(atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex, tabItem);
-		}
 	}
 }

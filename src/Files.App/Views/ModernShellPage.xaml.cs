@@ -275,10 +275,6 @@ namespace Files.App.Views
 
 					break;
 
-				case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
-					await NavigationHelpers.OpenPathInNewTab(FilesystemViewModel.WorkingDirectory);
-					break;
-
 				case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
 					InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
 					break;
