@@ -23,6 +23,7 @@ namespace Files.App.Commands
 		string? HotKeyText { get; }
 		HotKey HotKey { get; }
 		HotKey SecondHotKey { get; }
+		HotKey ThirdHotKey { get; }
 		HotKey MediaHotKey { get; }
 
 		bool IsToggle { get; }

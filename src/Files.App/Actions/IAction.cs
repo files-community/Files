@@ -11,6 +11,7 @@ namespace Files.App.Actions
 
 		HotKey HotKey => HotKey.None;
 		HotKey SecondHotKey => HotKey.None;
+		HotKey ThirdHotKey => HotKey.None;
 		HotKey MediaHotKey => HotKey.None;
 
 		bool IsExecutable => true;

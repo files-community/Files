@@ -77,6 +77,8 @@ namespace Files.App.Commands
 					hotKeys.Add(command.HotKey, command);
 				if (!command.SecondHotKey.IsNone)
 					hotKeys.Add(command.SecondHotKey, command);
+				if (!command.ThirdHotKey.IsNone)
+					hotKeys.Add(command.ThirdHotKey, command);
 				if (!command.MediaHotKey.IsNone)
 					hotKeys.Add(command.MediaHotKey, command);
 			}
@@ -143,6 +145,7 @@ namespace Files.App.Commands
 			public string? HotKeyText => null;
 			public HotKey HotKey => HotKey.None;
 			public HotKey SecondHotKey => HotKey.None;
+			public HotKey ThirdHotKey => HotKey.None;
 			public HotKey MediaHotKey => HotKey.None;
 
 			public bool IsToggle => false;
@@ -179,6 +182,7 @@ namespace Files.App.Commands
 			public string? HotKeyText { get; }
 			public HotKey HotKey => action.HotKey;
 			public HotKey SecondHotKey => action.SecondHotKey;
+			public HotKey ThirdHotKey => action.ThirdHotKey;
 			public HotKey MediaHotKey => action.MediaHotKey;
 
 			public bool IsToggle => action is IToggleAction;
@@ -262,13 +266,12 @@ namespace Files.App.Commands
 
 			private string? GetHotKeyText()
 			{
-				if (action.HotKey.IsNone && action.SecondHotKey.IsNone)
-					return null;
-				if (action.SecondHotKey.IsNone)
-					return action.HotKey.ToString();
-				if (action.HotKey.IsNone)
-					return action.SecondHotKey.ToString();
-				return $"{action.HotKey},{action.SecondHotKey}";
+				string text = string.Join(',',
+					new List<HotKey> { HotKey, SecondHotKey, ThirdHotKey }
+					.Where(hotKey => !hotKey.IsNone)
+					.Select(HotKey => HotKey.ToString())
+				);
+				return text.Length > 0 ? text : null;
 			}
 		}
 	}
