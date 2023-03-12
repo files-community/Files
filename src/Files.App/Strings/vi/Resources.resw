@@ -1185,9 +1185,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Không xác định</value>
   </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Nếu bạn thay đổi định dạng của tệp tin, nó có thể mất khả năng để dùng. Chắc chắn bạn muốn thay đổi không?</value>
   </data>

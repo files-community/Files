@@ -46,11 +46,6 @@ namespace Files.Backend.Services.Settings
 		bool ShowSyncStatusColumn { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if CheckBoxes should be displayed to allow selecting items.
-		/// </summary>
-		bool ShowSelectionCheckboxes { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating the default layout mode.
 		/// </summary>
 		FolderLayoutModes DefaultLayoutMode { get; set; }

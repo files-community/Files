@@ -16,28 +16,13 @@ namespace Files.App.DataModels
 	{
 		private IFoldersSettingsService FoldersSettings;
 
-		public bool ShowSelectionCheckboxes
-		{
-			get => FoldersSettings.ShowSelectionCheckboxes;
-			set => FoldersSettings.ShowSelectionCheckboxes = value;
-		}
-
 		public AppModel()
 		{
 			FoldersSettings = Ioc.Default.GetRequiredService<IUserSettingsService>().FoldersSettingsService;
-			FoldersSettings.PropertyChanged += FoldersSettings_PropertyChanged; ;
 			Clipboard.ContentChanged += Clipboard_ContentChanged;
 
 			// TODO: This doesn't belong here
 			DetectFontName();
-		}
-
-		private void FoldersSettings_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == nameof(FoldersSettingsService.ShowSelectionCheckboxes))
-			{
-				OnPropertyChanged(nameof(ShowSelectionCheckboxes));
-			}
 		}
 
 		// TODO: Refactor this method
