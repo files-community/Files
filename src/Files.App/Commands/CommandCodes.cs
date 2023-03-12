@@ -52,7 +52,11 @@
 		CompressIntoSevenZip,
 		CompressIntoZip,
 
-		// Tags
+		// Image Edition
+		RotateLeft,
+		RotateRight,
+    
+    // Tags
 		OpenAllTaggedItems
 	}
 }

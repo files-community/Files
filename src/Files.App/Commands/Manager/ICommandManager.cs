@@ -49,6 +49,9 @@ namespace Files.App.Commands
 		IRichCommand CompressIntoSevenZip { get; }
 		IRichCommand CompressIntoZip { get; }
 
-		IRichCommand OpenAllTaggedItems { get; }
+		IRichCommand RotateLeft { get; }
+		IRichCommand RotateRight { get; }
+    
+    IRichCommand OpenAllTaggedItems { get; }
 	}
 }

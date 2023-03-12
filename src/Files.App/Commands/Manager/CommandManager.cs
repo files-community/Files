@@ -4,6 +4,7 @@ using Files.App.Actions;
 using Files.App.Actions.Content.Archives;
 using Files.App.Actions.Content.Background;
 using Files.App.Actions.Content.Tags;
+using Files.App.Actions.Content.ImageEdition;
 using Files.App.Actions.Favorites;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -61,7 +62,9 @@ namespace Files.App.Commands
 		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
-		public IRichCommand OpenAllTaggedItems => commands[CommandCodes.OpenAllTaggedItems];
+		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
+		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
+    public IRichCommand OpenAllTaggedItems => commands[CommandCodes.OpenAllTaggedItems];
 
 		public CommandManager()
 		{
@@ -111,7 +114,9 @@ namespace Files.App.Commands
 			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
-			[CommandCodes.OpenAllTaggedItems] = new OpenAllTaggedAction()
+			[CommandCodes.RotateLeft] = new RotateLeftAction(),
+			[CommandCodes.RotateRight] = new RotateRightAction(),
+      [CommandCodes.OpenAllTaggedItems] = new OpenAllTaggedAction()
 		};
 
 		[DebuggerDisplay("Command None")]
@@ -164,7 +169,7 @@ namespace Files.App.Commands
 			public CommandCodes Code { get; }
 
 			public string Label => action.Label;
-			public string LabelWithHotKey => $"{Label} ({CustomHotKey})";
+			public string LabelWithHotKey => !customHotKey.IsNone ? $"{Label} ({CustomHotKey})" : Label;
 			public string AutomationName => Label;
 
 			public RichGlyph Glyph => action.Glyph;
