@@ -102,6 +102,10 @@ namespace Files.App.ViewModels.Properties
 
 						hashInfoItem.IsCalculated = true;
 					}
+					catch (OperationCanceledException)
+					{
+						// not an error
+					}
 					catch (Exception)
 					{
 						hashInfoItem.HashValue = "CalculationError".GetLocalizedResource();
