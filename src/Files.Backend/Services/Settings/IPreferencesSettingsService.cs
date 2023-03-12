@@ -173,7 +173,7 @@ namespace Files.Backend.Services.Settings
 		FileNameConflictResolveOptionType ConflictsResolveOption { get; set; }
 
 		/// <summary>
-		/// A dictionary to determine if hashes should be shown or not.
+		/// A dictionary to determine which hashes should be shown.
 		/// </summary>
 		Dictionary<string, bool> ShowHashesDictionary { get; set; }
 	}
