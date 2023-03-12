@@ -144,6 +144,10 @@ namespace Files.App.Contexts
 
 			switch (e.PropertyName)
 			{
+				case nameof(FolderSettingsViewModel.LayoutMode):
+				case nameof(FolderSettingsViewModel.GridViewSize):
+					SetProperty(ref layoutType, GetLayoutType(), nameof(LayoutType));
+					break;
 				case nameof(FolderSettingsViewModel.DirectorySortOption):
 					SetProperty(ref sortOption, viewModel.DirectorySortOption, nameof(SortOption));
 					break;

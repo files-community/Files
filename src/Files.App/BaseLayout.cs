@@ -410,7 +410,6 @@ namespace Files.App
 			FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
 
 			ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
-			ParentShellPageInstance.ToolbarViewModel.UpdateSortAndGroupOptions();
 			ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
 
 			if (!navigationArguments.IsSearchResultPage)
@@ -529,7 +528,7 @@ namespace Files.App
 			groupingCancellationToken?.Cancel();
 			groupingCancellationToken = new CancellationTokenSource();
 			var token = groupingCancellationToken.Token;
-			
+
 			await ParentShellPageInstance!.FilesystemViewModel.GroupOptionsUpdated(token);
 
 			UpdateCollectionViewSource();
@@ -596,7 +595,7 @@ namespace Files.App
 				var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
 
 				AddCloseHandler(BaseContextMenuFlyout, primaryElements, secondaryElements);
-        
+
 				primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
 
 				// Set menu min width
@@ -806,7 +805,7 @@ namespace Files.App
 
 			// Add items to sendto dropdown
 			var sendToOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendToOverflow") as AppBarButton;
-			
+
 			var sendTo = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendTo") as AppBarButton;
 			if (sendToSubItems is not null && sendToOverflow is not null)
 			{

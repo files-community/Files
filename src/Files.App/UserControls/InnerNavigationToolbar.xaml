@@ -579,6 +579,7 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutTiles.AutomationName}"
 									Command="{x:Bind Commands.LayoutTiles}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
+									IsChecked="{x:Bind Commands.LayoutTiles.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutTiles.LabelWithHotKey}">
 									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutTiles.Glyph.BaseGlyph}" />
@@ -604,6 +605,7 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutGridSmall.AutomationName}"
 									Command="{x:Bind Commands.LayoutGridSmall}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
+									IsChecked="{x:Bind Commands.LayoutGridSmall.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridSmall.LabelWithHotKey}">
 									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutGridSmall.Glyph.BaseGlyph}" />
@@ -629,6 +631,7 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutGridMedium.AutomationName}"
 									Command="{x:Bind Commands.LayoutGridMedium}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
+									IsChecked="{x:Bind Commands.LayoutGridMedium.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridMedium.LabelWithHotKey}">
 									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutGridMedium.Glyph.BaseGlyph}" />
@@ -663,6 +666,7 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutGridLarge.AutomationName}"
 									Command="{x:Bind Commands.LayoutGridLarge}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
+									IsChecked="{x:Bind Commands.LayoutGridLarge.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridLarge.LabelWithHotKey}">
 									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutGridLarge.Glyph.BaseGlyph}" />
@@ -692,7 +696,7 @@
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutColumns.LabelWithHotKey}">
 									<Viewbox Width="20">
-										<local:OpacityIcon Style="{StaticResource ColorIconColumnsLayout}" />
+										<local:OpacityIcon Style="{x:Bind Commands.LayoutColumns.OpacityStyle}" />
 									</Viewbox>
 								</RadioButton>
 
@@ -716,6 +720,7 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutAdaptive.AutomationName}"
 									Command="{x:Bind Commands.LayoutAdaptive}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
+									IsChecked="{x:Bind Commands.LayoutAdaptive.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey}">
 									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutAdaptive.Glyph.BaseGlyph}" />
