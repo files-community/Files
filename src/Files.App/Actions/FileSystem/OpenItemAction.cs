@@ -17,7 +17,9 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph => new(opacityStyle: "ColorIconOpenFile");
 
-		public bool IsExecutable => context.HasSelection && context.SelectedItems.Count <= 10;
+		private const int MaxOpenCount = 10;
+
+		public bool IsExecutable => context.HasSelection && context.SelectedItems.Count <= MaxOpenCount;
 
 		public OpenItemAction()
 		{
