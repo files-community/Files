@@ -367,11 +367,15 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RotateLeft)
 				{
-					IsVisible = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
+					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
+								&& !currentInstanceViewModel.IsPageTypeZipFolder
+								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RotateRight)
 				{
-					IsVisible = selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false
+					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
+								&& !currentInstanceViewModel.IsPageTypeZipFolder
+								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAdmin).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAnotherUser).Build(),
@@ -457,6 +461,7 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
+					ShowInRecycleBin = false,
 					KeyboardAccelerator = new KeyboardAccelerator
 					{
 						Key = VirtualKey.F2,
