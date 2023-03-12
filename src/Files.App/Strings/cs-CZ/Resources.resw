@@ -267,8 +267,8 @@
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Sdílet</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
-    <value>Vyjmout</value>
+  <data name="Cut" xml:space="preserve">
+    <value>Cut</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Smazat</value>
@@ -1184,9 +1184,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Neznámý</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Zobrazit zaškrtávací políčko vedle názvů souborů</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Pokud změníte příponu souboru, soubor se může stát nepoužitelným. Jste si jisti že jí chcete změnit?</value>

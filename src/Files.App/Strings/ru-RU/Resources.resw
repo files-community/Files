@@ -267,7 +267,7 @@
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Поделиться</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+  <data name="Cut" xml:space="preserve">
     <value>Вырезать</value>
   </data>
   <data name="Delete" xml:space="preserve">
@@ -1184,9 +1184,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Неизвестно</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Показывать флажок при выборе файла</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Если Вы измените расширение файла, файл может стать непригодным для использования. Вы уверены, что хотите его изменить?</value>

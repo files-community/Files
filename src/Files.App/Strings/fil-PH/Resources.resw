@@ -267,8 +267,8 @@
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Ibahagi</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
-    <value>I-cut</value>
+  <data name="Cut" xml:space="preserve">
+    <value>Cut</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Burahin</value>
@@ -1184,9 +1184,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Hindi kilala</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Kung babaguhin mo ang isang extension ng file, maaaring hindi na magamit ang file. Sigurado ka bang gusto mong baguhin ito?</value>

@@ -20,8 +20,8 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: Steps to fix
-      description: describe all the requirements to fix the issue (if left blank, issue will likely be closed without discussion).
+      label: Requirements
+      description: describe all the requirements to fix the issue (eg. Fix crash that occurs when...). If left blank, the issue will likely be closed without discussion.
       value: |
         - eg. Fix crash that occurs when...
         - eg. Correct action happens when clicking...

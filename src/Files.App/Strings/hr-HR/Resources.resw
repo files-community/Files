@@ -267,8 +267,8 @@
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Podijeli</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
-    <value>Izreži</value>
+  <data name="Cut" xml:space="preserve">
+    <value>Cut</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Izbriši</value>
@@ -1184,9 +1184,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Nepoznato</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Ako promijenite ekstenziju datoteke, datoteka bi mogla postati neupotrebljiva. Jeste li sigurni da želite promijeniti ekstenziju?</value>
