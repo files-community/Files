@@ -48,6 +48,7 @@ namespace Files.App.ViewModels.Properties
 				new() { Algorithm = "SHA384" },
 				new() { Algorithm = "SHA512" },
 			};
+
 			Hashes.ForEach(x =>
 			{
 				x.PropertyChanged += HashInfoItem_PropertyChanged;
@@ -63,7 +64,7 @@ namespace Files.App.ViewModels.Properties
 						"SHA256" => true,
 						"SHA384" => false,
 						"SHA512" => false,
-						_ => throw new InvalidOperationException()
+						_ => false
 					};
 				}
 			});
@@ -73,8 +74,8 @@ namespace Files.App.ViewModels.Properties
 		{
 			if (sender is HashInfoItem hashInfoItem && e.PropertyName == nameof(HashInfoItem.IsEnabled))
 			{
-				if (!_showHashesDictionary.ContainsKey(hashInfoItem.Algorithm)
-					|| _showHashesDictionary[hashInfoItem.Algorithm] != hashInfoItem.IsEnabled)
+				if (!_showHashesDictionary.ContainsKey(hashInfoItem.Algorithm) ||
+					_showHashesDictionary[hashInfoItem.Algorithm] != hashInfoItem.IsEnabled)
 				{
 					_showHashesDictionary[hashInfoItem.Algorithm] = hashInfoItem.IsEnabled;
 					UserSettingsService.PreferencesSettingsService.ShowHashesDictionary = _showHashesDictionary;
@@ -83,6 +84,7 @@ namespace Files.App.ViewModels.Properties
 				if (hashInfoItem.HashValue is null && hashInfoItem.IsEnabled)
 				{
 					hashInfoItem.HashValue = "Calculating".GetLocalizedResource();
+
 					try
 					{
 						using (var stream = File.OpenRead(_item.ItemPath))
@@ -97,6 +99,7 @@ namespace Files.App.ViewModels.Properties
 								_ => throw new InvalidOperationException()
 							};
 						}
+
 						hashInfoItem.IsCalculated = true;
 					}
 					catch (Exception)
