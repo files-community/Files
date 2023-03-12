@@ -52,8 +52,8 @@
 		CompressIntoSevenZip,
 		CompressIntoZip,
 
-		// Navigation
-		NewTab,
-		DuplicateTab,
+		// Image Edition
+		RotateLeft,
+		RotateRight
 	}
 }

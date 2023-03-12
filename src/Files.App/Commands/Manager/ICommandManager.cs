@@ -49,7 +49,7 @@ namespace Files.App.Commands
 		IRichCommand CompressIntoSevenZip { get; }
 		IRichCommand CompressIntoZip { get; }
 
-		IRichCommand NewTab { get; }
-		IRichCommand DuplicateTab { get; }
+		IRichCommand RotateLeft { get; }
+		IRichCommand RotateRight { get; }
 	}
 }
