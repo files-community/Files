@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace Files.App.Actions
 		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "Next".GetLocalizedResource();
+		public HotKey HotKey { get; } = (HotKey)"Ctrl+B";
 
 		public Task ExecuteAsync()
 		{
@@ -20,7 +22,8 @@ namespace Files.App.Actions
 				LayoutTypes.GridSmall => LayoutTypes.GridMedium,
 				LayoutTypes.GridMedium => LayoutTypes.GridLarge,
 				LayoutTypes.GridLarge => LayoutTypes.Columns,
-				LayoutTypes.Columns => LayoutTypes.Adaptive,
+				LayoutTypes.Columns when context.IsLayoutAdaptiveEnabled => LayoutTypes.Adaptive,
+				LayoutTypes.Columns => LayoutTypes.Details,
 				LayoutTypes.Adaptive => LayoutTypes.Details,
 				_ => LayoutTypes.None,
 			};

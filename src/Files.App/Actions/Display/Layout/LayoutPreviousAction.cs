@@ -15,7 +15,8 @@ namespace Files.App.Actions
 		{
 			context.LayoutType = context.LayoutType switch
 			{
-				LayoutTypes.Details => LayoutTypes.Adaptive,
+				LayoutTypes.Details when context.IsLayoutAdaptiveEnabled => LayoutTypes.Adaptive,
+				LayoutTypes.Details => LayoutTypes.Columns,
 				LayoutTypes.Tiles => LayoutTypes.Details,
 				LayoutTypes.GridSmall => LayoutTypes.Tiles,
 				LayoutTypes.GridMedium => LayoutTypes.GridSmall,
