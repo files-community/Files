@@ -14,10 +14,7 @@ namespace Files.App.Actions.Content.Archives
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label => context.SelectedItems.Count > 1
-								? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
-								: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(),Path.GetFileNameWithoutExtension(context.SelectedItems.First().Name));
-
+		public string Label => ComputeLabel();
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
 									&& ArchiveHelpers.CanDecompress(context.SelectedItems);
 
@@ -37,6 +34,15 @@ namespace Files.App.Actions.Content.Archives
 				and not ContentPageTypes.ZipFolder
 				and not ContentPageTypes.None;
 		}
+		private string ComputeLabel()
+		{
+			if (context.SelectedItem == null || context.SelectedItems.Count == 0)
+				return string.Empty;
+
+			return context.SelectedItems.Count > 1
+				? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
+				: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), Path.GetFileNameWithoutExtension(context.SelectedItems.First().Name));
+		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
@@ -44,7 +50,10 @@ namespace Files.App.Actions.Content.Archives
 			{
 				case nameof(IContentPageContext.SelectedItems):
 					if (IsContextPageTypeAdaptedToCommand())
+					{
+						OnPropertyChanged(nameof(Label));
 						OnPropertyChanged(nameof(IsExecutable));
+					}
 					break;
 			}
 		}
