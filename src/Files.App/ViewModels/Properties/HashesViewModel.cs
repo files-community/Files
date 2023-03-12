@@ -85,16 +85,18 @@ namespace Files.App.ViewModels.Properties
 					hashInfoItem.HashValue = "Calculating".GetLocalizedResource();
 					try
 					{
-						var stream = File.OpenRead(_item.ItemPath);
-						hashInfoItem.HashValue = hashInfoItem.Algorithm switch
+						using (var stream = File.OpenRead(_item.ItemPath))
 						{
-							"MD5" => await ChecksumHelpers.CreateMD5(stream, _cancellationTokenSource.Token),
-							"SHA1" => await ChecksumHelpers.CreateSHA1(stream, _cancellationTokenSource.Token),
-							"SHA256" => await ChecksumHelpers.CreateSHA256(stream, _cancellationTokenSource.Token),
-							"SHA384" => await ChecksumHelpers.CreateSHA384(stream, _cancellationTokenSource.Token),
-							"SHA512" => await ChecksumHelpers.CreateSHA512(stream, _cancellationTokenSource.Token),
-							_ => throw new InvalidOperationException()
-						};
+							hashInfoItem.HashValue = hashInfoItem.Algorithm switch
+							{
+								"MD5" => await ChecksumHelpers.CreateMD5(stream, _cancellationTokenSource.Token),
+								"SHA1" => await ChecksumHelpers.CreateSHA1(stream, _cancellationTokenSource.Token),
+								"SHA256" => await ChecksumHelpers.CreateSHA256(stream, _cancellationTokenSource.Token),
+								"SHA384" => await ChecksumHelpers.CreateSHA384(stream, _cancellationTokenSource.Token),
+								"SHA512" => await ChecksumHelpers.CreateSHA512(stream, _cancellationTokenSource.Token),
+								_ => throw new InvalidOperationException()
+							};
+						}
 						hashInfoItem.IsCalculated = true;
 					}
 					catch (Exception)
