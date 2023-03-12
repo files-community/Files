@@ -41,26 +41,11 @@ namespace Files.App.ViewModels.Properties
 			_showHashesDictionary = UserSettingsService.PreferencesSettingsService.ShowHashesDictionary;
 
 			Hashes = new();
-			Hashes.Add(new()
-			{
-				Algorithm = "MD5",
-			});
-			Hashes.Add(new()
-			{
-				Algorithm = "SHA1",
-			});
-			Hashes.Add(new()
-			{
-				Algorithm = "SHA256",
-			});
-			Hashes.Add(new()
-			{
-				Algorithm = "SHA384",
-			});
-			Hashes.Add(new()
-			{
-				Algorithm = "SHA512",
-			});
+			Hashes.Add(new() { Algorithm = "MD5" });
+			Hashes.Add(new() { Algorithm = "SHA1" });
+			Hashes.Add(new() { Algorithm = "SHA256" });
+			Hashes.Add(new() { Algorithm = "SHA384" });
+			Hashes.Add(new() { Algorithm = "SHA512" });
 			Hashes.ForEach(x =>
 			{
 				x.PropertyChanged += HashInfoItem_PropertyChanged;
