@@ -24,24 +24,21 @@ namespace Files.App.Contexts
 			rightClickedItem!.Section is SectionType.Favorites &&
 			FavoriteIndex is not -1;
 
-		public bool IsDriveItem => rightClickedItem is DriveItem;
-
-		public bool IsDriveItemPinned => IsDriveItem && ((DriveItem)rightClickedItem!).IsPinned;
+		public DriveItem? OpenDriveItem => rightClickedItem as DriveItem;
 
 		public SidebarContext()
 		{
 			SidebarControl.RightClickedItemChanged += SidebarControl_RightClickedItemChanged;
 		}
 
-		private void SidebarControl_RightClickedItemChanged(object? sender, INavigationControlItem e)
+		private void SidebarControl_RightClickedItemChanged(object? sender, INavigationControlItem? e)
 		{
 			if (SetProperty(ref rightClickedItem, e, nameof(RightClickedItem)))
 			{
 				OnPropertyChanged(nameof(IsAnyItemRightClicked));
 				OnPropertyChanged(nameof(FavoriteIndex));
 				OnPropertyChanged(nameof(IsFavoriteItem));
-				OnPropertyChanged(nameof(IsDriveItem));
-				OnPropertyChanged(nameof(IsDriveItemPinned));
+				OnPropertyChanged(nameof(OpenDriveItem));
 			}
 		}
 	}

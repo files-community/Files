@@ -1,4 +1,5 @@
-﻿using Files.App.Filesystem;
+﻿using Files.App.DataModels.NavigationControlItems;
+using Files.App.Filesystem;
 
 namespace Files.App.Contexts
 {
@@ -20,13 +21,8 @@ namespace Files.App.Contexts
 		bool IsFavoriteItem { get; }
 
 		/// <summary>
-		/// Tells whether right clicked item is a drive
+		/// The drive item to open if any
 		/// </summary>
-		bool IsDriveItem { get; }
-
-		/// <summary>
-		/// Tells wheter right clicked item is a drive and is pinned
-		/// </summary>
-		bool IsDriveItemPinned { get; }
+		DriveItem? OpenDriveItem { get; }
 	}
 }

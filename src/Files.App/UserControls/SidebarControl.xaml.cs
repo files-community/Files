@@ -37,7 +37,7 @@ namespace Files.App.UserControls
 {
 	public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
 	{
-		public static event EventHandler<INavigationControlItem>? RightClickedItemChanged;
+		public static event EventHandler<INavigationControlItem?>? RightClickedItemChanged;
 
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
@@ -437,6 +437,7 @@ namespace Files.App.UserControls
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			itemContextMenuFlyout.Closed += (sender, e) => RightClickedItemChanged?.Invoke(this, null);
 			if (sender is not NavigationViewItem sidebarItem ||
 				sidebarItem.DataContext is not INavigationControlItem item)
 				return;
