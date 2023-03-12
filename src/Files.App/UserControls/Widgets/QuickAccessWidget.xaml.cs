@@ -8,6 +8,7 @@ using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
+using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -39,12 +40,21 @@ namespace Files.App.UserControls.Widgets
 	public class ModifyQuickAccessEventArgs : EventArgs
 	{
 		public string[] Paths { get; set; }
+		public ShellFileItem[] Items { get; set; }
 		public bool Add;
 		public bool Pin = true;
+		public bool Reset = false;
 
 		public ModifyQuickAccessEventArgs(string[] paths, bool add)
 		{
 			Paths = paths;
+			Add = add;
+		}
+
+		public ModifyQuickAccessEventArgs(ShellFileItem[] items, bool add)
+		{
+			Paths = items.Select(x => x.FilePath).ToArray();
+			Items = items;
 			Add = add;
 		}
 	}
@@ -237,6 +247,34 @@ namespace Files.App.UserControls.Widgets
 
 			await DispatcherQueue.EnqueueAsync(async () =>
 			{
+				if (e.Reset)
+				{
+					// Find the intersection between the two lists and determine whether to remove or add
+					var itemsToRemove = ItemsAdded.Where(x => !e.Paths.Contains(x.Path)).ToList();
+					var itemsToAdd = e.Paths.Where(x => !ItemsAdded.Any(y => y.Path == x)).ToList();
+
+					// Remove items
+					foreach (var itemToRemove in itemsToRemove)
+						ItemsAdded.Remove(itemToRemove);
+
+					// Add items
+					foreach (var itemToAdd in itemsToAdd)
+					{
+						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
+						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
+						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault().Properties["System.Home.IsPinned"] ?? false;
+
+						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
+						{
+							Path = item.Path,
+							SelectCommand = QuickAccessCardCommand
+						});
+					}
+					var cardLoadTasks = ItemsAdded.Select(cardItem => cardItem.LoadCardThumbnailAsync());
+					await Task.WhenAll(cardLoadTasks);
+
+					return;
+				}
 				if (e.Add)
 				{
 					foreach (var itemToAdd in e.Paths)
