@@ -263,8 +263,8 @@
 						<Grid
 							x:Name="HeaderGrid"
 							Height="40"
-							Padding="16,0,0,0"
 							Margin="0"
+							Padding="16,0,0,0"
 							BorderBrush="{ThemeResource ControlStrokeColorDefault}"
 							BorderThickness="0,0,0,1"
 							PointerPressed="Grid_PointerPressed">
@@ -566,9 +566,9 @@
 										<CheckBox
 											x:Name="SelectionCheckbox"
 											Width="20"
-											AutomationProperties.AccessibilityView="Raw"
 											MinWidth="0"
 											HorizontalAlignment="Center"
+											AutomationProperties.AccessibilityView="Raw"
 											Checked="ItemSelected_Checked"
 											Unchecked="ItemSelected_Unchecked"
 											Visibility="Collapsed" />
@@ -620,6 +620,7 @@
 												x:Name="IconOverlay"
 												Width="16"
 												Height="16"
+												Margin="2"
 												HorizontalAlignment="Left"
 												VerticalAlignment="Bottom"
 												x:Load="True"
