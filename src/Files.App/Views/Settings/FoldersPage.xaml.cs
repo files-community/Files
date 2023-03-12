@@ -1,6 +1,6 @@
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.Settings
+namespace Files.App.Views.Settings
 {
 	public sealed partial class FoldersPage : Page
 	{
