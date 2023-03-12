@@ -1185,9 +1185,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>غير معروف</value>
   </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>إذا قمت بتغيير امتداد الملف، فقد يصبح الملف غير قابل للاستخدام. هل أنت متأكد أنك تريد تغييره؟</value>
   </data>

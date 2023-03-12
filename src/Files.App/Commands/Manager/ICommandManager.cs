@@ -1,12 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Files.App.Commands
 {
 	public interface ICommandManager : IEnumerable<IRichCommand>
 	{
-		event EventHandler<HotKeyChangedEventArgs>? HotKeyChanged;
-
 		IRichCommand this[CommandCodes code] { get; }
 		IRichCommand this[HotKey customHotKey] { get; }
 
@@ -22,7 +20,6 @@ namespace Files.App.Commands
 		IRichCommand CopyItem { get; }
 		IRichCommand CutItem { get; }
 		IRichCommand DeleteItem { get; }
-		IRichCommand MultiSelect { get; }
 		IRichCommand SelectAll { get; }
 		IRichCommand InvertSelection { get; }
 		IRichCommand ClearSelection { get; }
@@ -90,5 +87,8 @@ namespace Files.App.Commands
 		IRichCommand GroupAscending { get; }
 		IRichCommand GroupDescending { get; }
 		IRichCommand ToggleGroupDirection { get; }
+
+		IRichCommand NewTab { get; }
+		IRichCommand DuplicateTab { get; }
 	}
 }

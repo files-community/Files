@@ -1,4 +1,4 @@
-﻿namespace Files.App.Commands
+namespace Files.App.Commands
 {
 	public enum CommandCodes
 	{
@@ -25,7 +25,6 @@
 		RestoreAllRecycleBin,
 
 		// Selection
-		MultiSelect,
 		SelectAll,
 		InvertSelection,
 		ClearSelection,
@@ -97,5 +96,9 @@
 		GroupAscending,
 		GroupDescending,
 		ToggleGroupDirection,
+    
+		// Navigation
+		NewTab,
+		DuplicateTab,
 	}
 }
