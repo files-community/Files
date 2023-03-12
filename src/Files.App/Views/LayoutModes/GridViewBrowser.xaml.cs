@@ -362,7 +362,6 @@ namespace Files.App.Views.LayoutModes
 			(
 				ctrlPressed ||
 				shiftPressed ||
-				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick ||
 				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle
 			)
 			{
