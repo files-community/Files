@@ -33,9 +33,6 @@ namespace Files.App.Interacts
 			OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenFileLocation);
 			OpenParentFolderCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenParentFolder);
 			OpenItemWithApplicationPickerCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItemWithApplicationPicker);
-			OpenDirectoryInNewTabCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewTab);
-			OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewPane);
-			OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenInNewWindowItem);
 			CreateNewFileCommand = new RelayCommand<ShellNewEntry>(CommandsModel.CreateNewFile);
 			PasteItemsFromClipboardCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.PasteItemsFromClipboard);
 			CopyPathOfSelectedItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CopyPathOfSelectedItem);
@@ -73,12 +70,6 @@ namespace Files.App.Interacts
 		public ICommand OpenParentFolderCommand { get; private set; }
 
 		public ICommand OpenItemWithApplicationPickerCommand { get; private set; }
-
-		public ICommand OpenDirectoryInNewTabCommand { get; private set; }
-
-		public ICommand OpenDirectoryInNewPaneCommand { get; private set; }
-
-		public ICommand OpenInNewWindowItemCommand { get; private set; }
 
 		public ICommand CreateNewFileCommand { get; private set; }
 

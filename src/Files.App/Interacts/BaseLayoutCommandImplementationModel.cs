@@ -154,35 +154,6 @@ namespace Files.App.Interacts
 			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, true);
 		}
 
-		public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
-		{
-			foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
-			{
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
-				{
-					await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
-				},
-				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-			}
-		}
-
-		public virtual void OpenDirectoryInNewPane(RoutedEventArgs e)
-		{
-			NavigationHelpers.OpenInSecondaryPane(associatedInstance, SlimContentPage.SelectedItems.FirstOrDefault());
-		}
-
-		public virtual async void OpenInNewWindowItem(RoutedEventArgs e)
-		{
-			List<ListedItem> items = SlimContentPage.SelectedItems;
-
-			foreach (ListedItem listedItem in items)
-			{
-				var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
-				var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
-				await Launcher.LaunchUriAsync(folderUri);
-			}
-		}
-
 		public virtual void CreateNewFile(ShellNewEntry f)
 		{
 			UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, f, associatedInstance);

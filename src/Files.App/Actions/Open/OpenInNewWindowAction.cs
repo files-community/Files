@@ -4,8 +4,8 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using Files.Backend.Services.Settings;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -16,14 +16,13 @@ namespace Files.App.Actions
 	internal class OpenInNewWindowAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private readonly IUserSettingsService userSettings = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public string Label => "OpenInNewWindow".GetLocalizedResource();
 
 		public RichGlyph Glyph = new(opacityStyle: "ColorIconOpenInNewWindow");
 
 		public bool IsExecutable =>
-			userSettings.PreferencesSettingsService.ShowOpenInNewWindow &&
+			context.PageType is not ContentPageTypes.RecycleBin &&
 			context.HasSelection &&
 			context.SelectedItems.Count < 5 &&
 			context.SelectedItems.All(item => item.PrimaryItemAttribute is StorageItemTypes.Folder);
@@ -43,9 +42,15 @@ namespace Files.App.Actions
 			}
 		}
 
-		private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			OnPropertyChanged(nameof(IsExecutable));
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.SelectedItems):
+				case nameof(IContentPageContext.PageType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 	}
 }

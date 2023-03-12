@@ -21,12 +21,6 @@ namespace Files.App.Interacts
 
 		void OpenItemWithApplicationPicker(RoutedEventArgs e);
 
-		void OpenDirectoryInNewTab(RoutedEventArgs e);
-
-		void OpenDirectoryInNewPane(RoutedEventArgs e);
-
-		void OpenInNewWindowItem(RoutedEventArgs e);
-
 		void CreateNewFile(ShellNewEntry e);
 
 		void PasteItemsFromClipboard(RoutedEventArgs e);

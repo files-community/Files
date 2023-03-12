@@ -635,9 +635,18 @@ namespace Files.App.Helpers
 					ShowItem = itemsSelected && selectedItems.All(i => i.IsShortcut),
 					ShowInSearchPage = true,
 				},
-				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewTab).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewWindow).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewPane).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewTab)
+				{
+					IsVisible = userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewWindow)
+				{
+					IsVisible = userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewPane)
+				{
+					IsVisible = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),

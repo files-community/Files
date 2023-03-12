@@ -7,7 +7,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.ViewModels;
 using Files.App.Views;
-using Files.Backend.Services.Settings;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -17,14 +17,13 @@ namespace Files.App.Actions
 	internal class OpenInNewTabAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private readonly IUserSettingsService userSettings = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public string Label => "OpenInNewTab".GetLocalizedResource();
 
 		public RichGlyph Glyph = new(opacityStyle: "ColorIconOpenInNewTab");
 
-		public bool IsExecutable => 
-			userSettings.PreferencesSettingsService.ShowOpenInNewTab &&
+		public bool IsExecutable =>
+			context.PageType is not ContentPageTypes.RecycleBin &&
 			context.HasSelection &&
 			context.SelectedItems.Count < 5 &&
 			context.SelectedItems.All(item => item.PrimaryItemAttribute is StorageItemTypes.Folder);
@@ -48,9 +47,15 @@ namespace Files.App.Actions
 			}
 		}
 
-		private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			OnPropertyChanged(nameof(IsExecutable));
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.SelectedItems):
+				case nameof(IContentPageContext.PageType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 	}
 }

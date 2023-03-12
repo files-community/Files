@@ -4,7 +4,7 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
-using Files.Backend.Services.Settings;
+using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions
@@ -12,14 +12,12 @@ namespace Files.App.Actions
 	internal class OpenInNewPaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private readonly IUserSettingsService userSettings = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public string Label => "OpenInNewPane".GetLocalizedResource();
 
 		public RichGlyph Glyph = new(opacityStyle: "ColorIconRightPane");
 
 		public bool IsExecutable =>
-			userSettings.PreferencesSettingsService.ShowOpenInNewPane &&
 			context.PageType is not ContentPageTypes.RecycleBin &&
 			context.ShellPage is not null &&
 			context.ShellPage.SlimContentPage is not null &&
@@ -35,11 +33,18 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			NavigationHelpers.OpenInSecondaryPane(context.ShellPage!, context.SelectedItem!);
+			return Task.CompletedTask;
 		}
 
-		private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			OnPropertyChanged(nameof(IsExecutable));
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.SelectedItems):
+				case nameof(IContentPageContext.PageType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 	}
 }
