@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Uitwerpen</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>Tabblad dupliceren</value>
+  <data name="DuplicateTab" xml:space="preserve">
+    <value>Duplicate tab</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Tabblad naar nieuw venster verplaatsen</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>Nieuw tabblad</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+  <data name="NewTab" xml:space="preserve">
+    <value>New tab</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Sommige eigenschappen kunnen persoonlijke informatie bevatten.</value>
@@ -1881,9 +1878,6 @@
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
-  </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
@@ -2604,7 +2598,22 @@
   <data name="Hashes" xml:space="preserve">
     <value>Hashes</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Unable to calculate hashes due to a system error</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>An error occurred during the calculation</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algorithm</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Hash value</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Select hashes to show</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Calculating...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Pinned items</value>
   </data>
 </root>
