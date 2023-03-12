@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>取り出す</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>タブを複製</value>
+  <data name="DuplicateTab" xml:space="preserve">
+    <value>Duplicate tab</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>新しいウィンドウにタブを移動</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>新しいタブ</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>新しいタブ (Ctrl+T)</value>
+  <data name="NewTab" xml:space="preserve">
+    <value>New tab</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>いくつかのプロパティは個人情報を含んでいる可能性があります。</value>
@@ -1881,9 +1878,6 @@
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
-  </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
@@ -2350,7 +2344,7 @@
     <value>選択した {0} アイテムを復元しますか?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>選択範囲を復元</value>
+    <value>選択したファイルを復元</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
     <value>すべてのアイテムを復元</value>
@@ -2604,7 +2598,22 @@
   <data name="Hashes" xml:space="preserve">
     <value>ハッシュ値</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>システムエラーのためハッシュ値を計算できません</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>An error occurred during the calculation</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algorithm</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Hash value</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Select hashes to show</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Calculating...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>ピン留めされたアイテム</value>
   </data>
 </root>
