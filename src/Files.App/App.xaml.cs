@@ -123,6 +123,12 @@ namespace Files.App
 				.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
 				.AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
 
+				// Contexts
+				.AddSingleton<IPageContext, PageContext>()
+				.AddSingleton<IContentPageContext, ContentPageContext>()
+				.AddSingleton<IDisplayPageContext, DisplayPageContext>()
+        .AddSingleton<IWidgetsPageContext, WidgetsPageContext>()
+
 				// Other services
 				.AddSingleton(Logger)
 				.AddSingleton<IDialogService, DialogService>()
@@ -132,8 +138,7 @@ namespace Files.App
 				.AddSingleton<ICloudDetector, CloudDetector>()
 				.AddSingleton<IFileTagsService, FileTagsService>()
 				.AddSingleton<ICommandManager, CommandManager>()
-				.AddSingleton<IContentPageContext, ContentPageContext>()
-				.AddSingleton<IWidgetsPageContext, WidgetsPageContext>()
+
 #if UWP
 				.AddSingleton<IStorageService, WindowsStorageService>()
 #else

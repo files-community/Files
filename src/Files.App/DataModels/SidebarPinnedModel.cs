@@ -4,6 +4,7 @@ using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ServicesImplementation;
+using Files.App.UserControls.Widgets;
 using Files.Backend.Services.Settings;
 using System;
 using System.Collections.Generic;
@@ -193,7 +194,15 @@ namespace Files.App.DataModels
 		}
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)
-			=> await LoadAsync();
+		{
+			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
+			await LoadAsync();
+			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(null, new ModifyQuickAccessEventArgs((await QuickAccessService.GetPinnedFoldersAsync()).Select(x => x.FilePath).ToArray(), true)
+			{
+				Reset = true
+			});
+			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
+		}
 
 		public async Task LoadAsync()
 			=> await UpdateItemsWithExplorer();
