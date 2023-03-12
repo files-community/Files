@@ -1185,9 +1185,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Desconhecido</value>
   </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Mostrar caixa de seleção ao lado do nome de ficheiro</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Se alterar a extensão, o ficheiro pode tornar-se inutilizável. Tem a certeza de que a pretende alterar?</value>
   </data>
