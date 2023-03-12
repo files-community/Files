@@ -10,6 +10,8 @@ namespace Files.App.Actions
 		RichGlyph Glyph => RichGlyph.None;
 
 		HotKey HotKey => HotKey.None;
+		HotKey SecondHotKey => HotKey.None;
+		HotKey MediaHotKey => HotKey.None;
 
 		bool IsExecutable => true;
 

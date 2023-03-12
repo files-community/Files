@@ -1,5 +1,4 @@
-﻿using Files.App.UserControls;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System.ComponentModel;
@@ -21,9 +20,10 @@ namespace Files.App.Commands
 		FontIcon? FontIcon { get; }
 		Style? OpacityStyle { get; }
 
-		HotKey DefaultHotKey { get; }
-		HotKey CustomHotKey { get; set; }
 		string? HotKeyText { get; }
+		HotKey HotKey { get; }
+		HotKey SecondHotKey { get; }
+		HotKey MediaHotKey { get; }
 
 		bool IsToggle { get; }
 		bool IsOn { get; set; }
