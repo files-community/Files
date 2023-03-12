@@ -11,15 +11,28 @@ namespace Files.App.UserControls
 			InitializeComponent();
 		}
 
+
+		public bool IsSelected
+		{
+			get => (bool)GetValue(IsSelectedProperty);
+			set => SetValue(IsSelectedProperty, value);
+		}
+
+		public static readonly DependencyProperty IsSelectedProperty =
+			DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(OpacityIcon), new PropertyMetadata(null));
+
 		private void IsEnabledChange(DependencyObject sender, DependencyProperty dp)
 		{
 			string state = sender.GetValue(dp) is false ? "Disabled" : "Normal";
-			VisualStateManager.GoToState(this, state, true);
+
+			if (state == "Normal" && IsSelected)
+				VisualStateManager.GoToState(this, "Selected", true);
+			else
+				VisualStateManager.GoToState(this, state, true);
 		}
 
 		private void OpacityIcon_Loading(FrameworkElement sender, object e)
 		{
-			// register a property change callback for the parent content presenter's foreground to allow reacting to button state changes, eg disabled
 			var control = this.FindAscendant<Control>();
 			control?.RegisterPropertyChangedCallback(IsEnabledProperty, IsEnabledChange);
 		}
@@ -29,6 +42,9 @@ namespace Files.App.UserControls
 			var control = this.FindAscendant<Control>();
 			if (control is not null && !control.IsEnabled)
 				VisualStateManager.GoToState(this, "Disabled", false);
+
+			if (control is not null && control.IsEnabled && IsSelected)
+				VisualStateManager.GoToState(this, "Selected", true);
 		}
 	}
 }
