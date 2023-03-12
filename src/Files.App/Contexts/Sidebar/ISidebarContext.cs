@@ -1,6 +1,6 @@
 ﻿using Files.App.Filesystem;
 
-namespace Files.App.Contexts.Sidebar
+namespace Files.App.Contexts
 {
 	public interface ISidebarContext
 	{

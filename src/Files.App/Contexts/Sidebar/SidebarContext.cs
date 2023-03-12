@@ -4,7 +4,7 @@ using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.UserControls;
 
-namespace Files.App.Contexts.Sidebar
+namespace Files.App.Contexts
 {
 	internal class SidebarContext : ObservableObject, ISidebarContext
 	{
