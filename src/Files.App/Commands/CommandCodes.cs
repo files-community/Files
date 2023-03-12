@@ -54,6 +54,48 @@
 
 		// Image Edition
 		RotateLeft,
-		RotateRight
+		RotateRight,
+
+		// Layout
+		LayoutPrevious,
+		LayoutNext,
+		LayoutDetails,
+		LayoutTiles,
+		LayoutGridSmall,
+		LayoutGridMedium,
+		LayoutGridLarge,
+		LayoutColumns,
+		LayoutAdaptive,
+
+		// Sort by
+		SortByName,
+		SortByDateModified,
+		SortByDateCreated,
+		SortBySize,
+		SortByType,
+		SortBySyncStatus,
+		SortByTag,
+		SortByOriginalFolder,
+		SortByDateDeleted,
+		SortAscending,
+		SortDescending,
+		ToggleSortDirection,
+		ToggleSortDirectoriesAlongsideFiles,
+
+		// Group by
+		GroupByNone,
+		GroupByName,
+		GroupByDateModified,
+		GroupByDateCreated,
+		GroupBySize,
+		GroupByType,
+		GroupBySyncStatus,
+		GroupByTag,
+		GroupByOriginalFolder,
+		GroupByDateDeleted,
+		GroupByFolderPath,
+		GroupAscending,
+		GroupDescending,
+		ToggleGroupDirection,
 	}
 }

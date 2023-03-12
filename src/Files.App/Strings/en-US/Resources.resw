@@ -1425,7 +1425,7 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Date modified</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+  <data name="OriginalFolder" xml:space="preserve">
     <value>Original folder</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
@@ -2010,7 +2010,7 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Open items with a single click</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+  <data name="FolderPath" xml:space="preserve">
     <value>Folder path</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
@@ -2612,5 +2612,14 @@
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Pinned items</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Toggle sort direction</value>
   </data>
 </root>

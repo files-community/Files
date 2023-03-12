@@ -5,7 +5,6 @@ using Files.App.Actions.Content.Archives;
 using Files.App.Actions.Content.Background;
 using Files.App.Actions.Content.ImageEdition;
 using Files.App.Actions.Favorites;
-using Files.App.UserControls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -64,6 +63,42 @@ namespace Files.App.Commands
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
+		public IRichCommand LayoutPrevious => commands[CommandCodes.LayoutPrevious];
+		public IRichCommand LayoutNext => commands[CommandCodes.LayoutNext];
+		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
+		public IRichCommand LayoutTiles => commands[CommandCodes.LayoutTiles];
+		public IRichCommand LayoutGridSmall => commands[CommandCodes.LayoutGridSmall];
+		public IRichCommand LayoutGridMedium => commands[CommandCodes.LayoutGridMedium];
+		public IRichCommand LayoutGridLarge => commands[CommandCodes.LayoutGridLarge];
+		public IRichCommand LayoutColumns => commands[CommandCodes.LayoutColumns];
+		public IRichCommand LayoutAdaptive => commands[CommandCodes.LayoutAdaptive];
+		public IRichCommand SortByName => commands[CommandCodes.SortByName];
+		public IRichCommand SortByDateModified => commands[CommandCodes.SortByDateModified];
+		public IRichCommand SortByDateCreated => commands[CommandCodes.SortByDateCreated];
+		public IRichCommand SortBySize => commands[CommandCodes.SortBySize];
+		public IRichCommand SortByType => commands[CommandCodes.SortByType];
+		public IRichCommand SortBySyncStatus => commands[CommandCodes.SortBySyncStatus];
+		public IRichCommand SortByTag => commands[CommandCodes.SortByTag];
+		public IRichCommand SortByOriginalFolder => commands[CommandCodes.SortByOriginalFolder];
+		public IRichCommand SortByDateDeleted => commands[CommandCodes.SortByDateDeleted];
+		public IRichCommand SortAscending => commands[CommandCodes.SortAscending];
+		public IRichCommand SortDescending => commands[CommandCodes.SortDescending];
+		public IRichCommand ToggleSortDirection => commands[CommandCodes.ToggleSortDirection];
+		public IRichCommand ToggleSortDirectoriesAlongsideFiles => commands[CommandCodes.ToggleSortDirectoriesAlongsideFiles];
+		public IRichCommand GroupByNone => commands[CommandCodes.GroupByNone];
+		public IRichCommand GroupByName => commands[CommandCodes.GroupByName];
+		public IRichCommand GroupByDateModified => commands[CommandCodes.GroupByDateModified];
+		public IRichCommand GroupByDateCreated => commands[CommandCodes.GroupByDateCreated];
+		public IRichCommand GroupBySize => commands[CommandCodes.GroupBySize];
+		public IRichCommand GroupByType => commands[CommandCodes.GroupByType];
+		public IRichCommand GroupBySyncStatus => commands[CommandCodes.GroupBySyncStatus];
+		public IRichCommand GroupByTag => commands[CommandCodes.GroupByTag];
+		public IRichCommand GroupByOriginalFolder => commands[CommandCodes.GroupByOriginalFolder];
+		public IRichCommand GroupByDateDeleted => commands[CommandCodes.GroupByDateDeleted];
+		public IRichCommand GroupByFolderPath => commands[CommandCodes.GroupByFolderPath];
+		public IRichCommand GroupAscending => commands[CommandCodes.GroupAscending];
+		public IRichCommand GroupDescending => commands[CommandCodes.GroupDescending];
+		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
 
 		public CommandManager()
 		{
@@ -114,7 +149,45 @@ namespace Files.App.Commands
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
-			[CommandCodes.RotateRight] = new RotateRightAction()
+			[CommandCodes.RotateRight] = new RotateRightAction(),
+			[CommandCodes.LayoutPrevious] = new LayoutPreviousAction(),
+			[CommandCodes.LayoutNext] = new LayoutNextAction(),
+			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),
+			[CommandCodes.LayoutTiles] = new LayoutTilesAction(),
+			[CommandCodes.LayoutGridSmall] = new LayoutGridSmallAction(),
+			[CommandCodes.LayoutGridMedium] = new LayoutGridMediumAction(),
+			[CommandCodes.LayoutGridLarge] = new LayoutGridLargeAction(),
+			[CommandCodes.LayoutColumns] = new LayoutColumnsAction(),
+			[CommandCodes.LayoutAdaptive] = new LayoutAdaptiveAction(),
+			[CommandCodes.SortByName] = new SortByNameAction(),
+			[CommandCodes.SortByDateModified] = new SortByDateModifiedAction(),
+			[CommandCodes.SortByDateCreated] = new SortByDateCreatedAction(),
+			[CommandCodes.SortBySize] = new SortBySizeAction(),
+			[CommandCodes.SortByType] = new SortByTypeAction(),
+			[CommandCodes.SortBySyncStatus] = new SortBySyncStatusAction(),
+			[CommandCodes.SortByTag] = new SortByTagAction(),
+			[CommandCodes.SortByOriginalFolder] = new SortByOriginalFolderAction(),
+			[CommandCodes.SortByDateDeleted] = new SortByDateDeletedAction(),
+			[CommandCodes.SortAscending] = new SortAscendingAction(),
+			[CommandCodes.SortDescending] = new SortDescendingAction(),
+			[CommandCodes.ToggleSortDirection] = new ToggleSortDirectionAction(),
+			[CommandCodes.ToggleSortDirectoriesAlongsideFiles] = new ToggleSortDirectoriesAlongsideFilesAction(),
+			[CommandCodes.GroupByNone] = new GroupByNoneAction(),
+			[CommandCodes.GroupByName] = new GroupByNameAction(),
+			[CommandCodes.GroupByDateModified] = new GroupByDateModifiedAction(),
+			[CommandCodes.GroupByDateCreated] = new GroupByDateCreatedAction(),
+			[CommandCodes.GroupBySize] = new GroupBySizeAction(),
+			[CommandCodes.GroupByType] = new GroupByTypeAction(),
+			[CommandCodes.GroupBySyncStatus] = new GroupBySyncStatusAction(),
+			[CommandCodes.GroupByTag] = new GroupByTagAction(),
+			[CommandCodes.GroupByOriginalFolder] = new GroupByOriginalFolderAction(),
+			[CommandCodes.GroupByDateDeleted] = new GroupByDateDeletedAction(),
+			[CommandCodes.GroupByFolderPath] = new GroupByFolderPathAction(),
+			[CommandCodes.GroupAscending] = new GroupAscendingAction(),
+			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
+			[CommandCodes.GroupAscending] = new GroupAscendingAction(),
+			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
+			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

@@ -51,5 +51,44 @@ namespace Files.App.Commands
 
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
+
+		IRichCommand LayoutPrevious { get; }
+		IRichCommand LayoutNext { get; }
+		IRichCommand LayoutDetails { get; }
+		IRichCommand LayoutTiles { get; }
+		IRichCommand LayoutGridSmall { get; }
+		IRichCommand LayoutGridMedium { get; }
+		IRichCommand LayoutGridLarge { get; }
+		IRichCommand LayoutColumns { get; }
+		IRichCommand LayoutAdaptive { get; }
+
+		IRichCommand SortByName { get; }
+		IRichCommand SortByDateModified { get; }
+		IRichCommand SortByDateCreated { get; }
+		IRichCommand SortBySize { get; }
+		IRichCommand SortByType { get; }
+		IRichCommand SortBySyncStatus { get; }
+		IRichCommand SortByTag { get; }
+		IRichCommand SortByOriginalFolder { get; }
+		IRichCommand SortByDateDeleted { get; }
+		IRichCommand SortAscending { get; }
+		IRichCommand SortDescending { get; }
+		IRichCommand ToggleSortDirection { get; }
+		IRichCommand ToggleSortDirectoriesAlongsideFiles { get; }
+
+		IRichCommand GroupByNone { get; }
+		IRichCommand GroupByName { get; }
+		IRichCommand GroupByDateModified { get; }
+		IRichCommand GroupByDateCreated { get; }
+		IRichCommand GroupBySize { get; }
+		IRichCommand GroupByType { get; }
+		IRichCommand GroupBySyncStatus { get; }
+		IRichCommand GroupByTag { get; }
+		IRichCommand GroupByOriginalFolder { get; }
+		IRichCommand GroupByDateDeleted { get; }
+		IRichCommand GroupByFolderPath { get; }
+		IRichCommand GroupAscending { get; }
+		IRichCommand GroupDescending { get; }
+		IRichCommand ToggleGroupDirection { get; }
 	}
 }
