@@ -86,7 +86,8 @@ namespace Files.App.ViewModels.Properties
 		{
 			if (sender is HashInfoItem hashInfoItem && e.PropertyName == nameof(HashInfoItem.IsEnabled))
 			{
-				if (_showHashesDictionary[hashInfoItem.Algorithm] != hashInfoItem.IsEnabled)
+				if (!_showHashesDictionary.ContainsKey(hashInfoItem.Algorithm)
+					|| _showHashesDictionary[hashInfoItem.Algorithm] != hashInfoItem.IsEnabled)
 				{
 					_showHashesDictionary[hashInfoItem.Algorithm] = hashInfoItem.IsEnabled;
 					UserSettingsService.PreferencesSettingsService.ShowHashesDictionary = _showHashesDictionary;
