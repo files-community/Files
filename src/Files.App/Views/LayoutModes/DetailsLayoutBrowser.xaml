@@ -11,8 +11,8 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
-	xmlns:local="using:Files.App"
 	xmlns:layoutmode="Files.App.Views.LayoutModes"
+	xmlns:local="using:Files.App"
 	xmlns:local2="using:Files.App.Filesystem"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
@@ -366,13 +366,14 @@
 								<ColumnDefinition Width="0" />
 							</Grid.ColumnDefinitions>
 
-							<Grid Grid.Column="0"
+							<Grid
+								Grid.Column="0"
 								Width="24"
 								Padding="0,8,0,0">
 								<CheckBox
 									x:Name="SelectAllItemsCheckbox"
-									MinWidth="0"
 									Width="20"
+									MinWidth="0"
 									HorizontalAlignment="Center"
 									Checked="SelectAllCheckbox_Checked"
 									IsChecked="{x:Bind AreAllItemsSelected, Mode=OneWay}"
@@ -572,30 +573,18 @@
 									Loaded="StackPanel_Loaded"
 									Orientation="Horizontal"
 									ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
-
-									<VisualStateManager.VisualStateGroups>
-										<VisualStateGroup x:Name="CheckboxVisibilityStates">
-											<VisualState x:Name="Normal"/>
-											<VisualState x:Name="ShowCheckbox">
-												<VisualState.Setters>
-													<Setter Target="SelectionCheckbox.Visibility" Value="Visible"/>
-													<Setter Target="IconBox.Visibility" Value="Collapsed"/>
-												</VisualState.Setters>
-											</VisualState>
-										</VisualStateGroup>
-									</VisualStateManager.VisualStateGroups>
-
-									<Grid Width="24" 
-										VerticalAlignment="Stretch" 
-										HorizontalAlignment="Left">
+									<Grid
+										Width="24"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Stretch">
 										<CheckBox
 											x:Name="SelectionCheckbox"
 											Width="20"
 											MinWidth="0"
 											HorizontalAlignment="Center"
 											Checked="ItemSelected_Checked"
-											Visibility="Collapsed"
-											Unchecked="ItemSelected_Unchecked"/>
+											Unchecked="ItemSelected_Unchecked"
+											Visibility="Collapsed" />
 										<Grid
 											x:Name="IconBox"
 											Width="20"
@@ -694,17 +683,17 @@
 									</Grid>
 
 									<Grid
-									x:Name="ItemTagGrid"
-									Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-									Padding="12,0,12,0"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center"
-									Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+										x:Name="ItemTagGrid"
+										Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,12,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
 										<ItemsRepeater
-										x:Name="TagsRepeater"
-										x:Load="{x:Bind HasTags, Mode=OneWay}"
-										ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}"
-										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
+											x:Name="TagsRepeater"
+											x:Load="{x:Bind HasTags, Mode=OneWay}"
+											ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}"
+											Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
 											<ItemsRepeater.Layout>
 												<StackLayout Orientation="Horizontal" Spacing="4" />
 											</ItemsRepeater.Layout>
@@ -712,31 +701,31 @@
 												<DataTemplate x:DataType="filetags:TagViewModel">
 													<UserControl PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
 														<StackPanel
-														Height="24"
-														Padding="8,0"
-														HorizontalAlignment="Left"
-														x:Phase="2"
-														BorderBrush="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-														BorderThickness="1"
-														CornerRadius="12"
-														Orientation="Horizontal"
-														Tapped="TagItem_Tapped"
-														ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
+															Height="24"
+															Padding="8,0"
+															HorizontalAlignment="Left"
+															x:Phase="2"
+															BorderBrush="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+															BorderThickness="1"
+															CornerRadius="12"
+															Orientation="Horizontal"
+															Tapped="TagItem_Tapped"
+															ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
 															<FontIcon
-															x:Name="TagIcon"
-															FontSize="12"
-															Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-															Glyph="&#xE1CB;"
-															Tapped="TagIcon_Tapped"
-															ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
+																x:Name="TagIcon"
+																FontSize="12"
+																Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+																Glyph="&#xE1CB;"
+																Tapped="TagIcon_Tapped"
+																ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
 															<TextBlock
-															Padding="8,0,0,0"
-															VerticalAlignment="Center"
-															FontSize="12"
-															LineHeight="18"
-															Style="{StaticResource ColumnContentTextBlock}"
-															Text="{x:Bind Name, Mode=OneWay}"
-															TextTrimming="CharacterEllipsis" />
+																Padding="8,0,0,0"
+																VerticalAlignment="Center"
+																FontSize="12"
+																LineHeight="18"
+																Style="{StaticResource ColumnContentTextBlock}"
+																Text="{x:Bind Name, Mode=OneWay}"
+																TextTrimming="CharacterEllipsis" />
 
 															<VisualStateManager.VisualStateGroups>
 																<VisualStateGroup x:Name="CommonStates">
@@ -828,6 +817,18 @@
 										FontSize="12"
 										Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+
+									<VisualStateManager.VisualStateGroups>
+										<VisualStateGroup x:Name="CheckboxVisibilityStates">
+											<VisualState x:Name="Normal" />
+											<VisualState x:Name="ShowCheckbox">
+												<VisualState.Setters>
+													<Setter Target="SelectionCheckbox.Visibility" Value="Visible" />
+													<Setter Target="IconBox.Visibility" Value="Collapsed" />
+												</VisualState.Setters>
+											</VisualState>
+										</VisualStateGroup>
+									</VisualStateManager.VisualStateGroups>
 								</StackPanel>
 							</UserControl>
 						</DataTemplate>
