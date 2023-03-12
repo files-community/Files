@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Filesystem;
+using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
-using Files.App.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel;
@@ -11,128 +13,67 @@ namespace Files.App.Contexts
 {
 	internal class ContentPageContext : ObservableObject, IContentPageContext
 	{
-		private static readonly IReadOnlyList<ListedItem> EmptyListedItemList = Enumerable.Empty<ListedItem>().ToImmutableList();
+		private static readonly IReadOnlyList<ListedItem> emptyItems = Enumerable.Empty<ListedItem>().ToImmutableList();
+
+		private readonly IPageContext context = Ioc.Default.GetRequiredService<IPageContext>();
 
 		private ItemViewModel? filesystemViewModel;
 
-		private BaseShellPage? shellPage;
-		public IShellPage? ShellPage => shellPage;
+		public IShellPage? ShellPage => context?.PaneOrColumn;
 
 		private ContentPageTypes pageType = ContentPageTypes.None;
 		public ContentPageTypes PageType => pageType;
 
-		public ListedItem? Folder => shellPage?.FilesystemViewModel?.CurrentFolder;
+		public ListedItem? Folder => ShellPage?.FilesystemViewModel?.CurrentFolder;
 
-		public bool HasItem => shellPage?.ToolbarViewModel?.HasItem ?? false;
+		public bool HasItem => ShellPage?.ToolbarViewModel?.HasItem ?? false;
 
 		public bool HasSelection => SelectedItems.Count is not 0;
 		public ListedItem? SelectedItem => SelectedItems.Count is 1 ? SelectedItems[0] : null;
 
-		private IReadOnlyList<ListedItem> selectedItems = EmptyListedItemList;
+		private IReadOnlyList<ListedItem> selectedItems = emptyItems;
 		public IReadOnlyList<ListedItem> SelectedItems => selectedItems;
 
 		public ContentPageContext()
 		{
-			BaseShellPage.CurrentInstanceChanged += BaseShellPage_CurrentInstanceChanged;
+			context.Changing += Context_Changing;
+			context.Changed += Context_Changed;
+			Update();
 		}
 
-		private void UpdateShellPage(BaseShellPage? newShellPage)
+		private void Context_Changing(object? sender, EventArgs e)
 		{
-			if (shellPage == newShellPage)
-				return;
-
-			if (shellPage is not null)
+			if (ShellPage is IShellPage page)
 			{
-				shellPage.PropertyChanged -= ShellPage_PropertyChanged;
-				shellPage.InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
-				shellPage.ToolbarViewModel.PropertyChanged -= ToolbarViewModel_PropertyChanged;
-
-				if (filesystemViewModel is not null)
-				{
-					filesystemViewModel.PropertyChanged -= FilesystemViewModel_PropertyChanged;
-					filesystemViewModel = null;
-				}
+				page.ContentChanged -= Page_ContentChanged;
+				page.InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
+				page.ToolbarViewModel.PropertyChanged -= ToolbarViewModel_PropertyChanged;
 			}
 
-			shellPage = newShellPage;
+			if (filesystemViewModel is not null)
+				filesystemViewModel.PropertyChanged -= FilesystemViewModel_PropertyChanged;
+			filesystemViewModel = null;
 
-			if (shellPage is not null)
+			OnPropertyChanging(nameof(ShellPage));
+		}
+		private void Context_Changed(object? sender, EventArgs e)
+		{
+			if (ShellPage is IShellPage page)
 			{
-				shellPage.PropertyChanged += ShellPage_PropertyChanged;
-				shellPage.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
-				shellPage.ToolbarViewModel.PropertyChanged += ToolbarViewModel_PropertyChanged;
-
-				if (shellPage.FilesystemViewModel is not null)
-				{
-					filesystemViewModel = shellPage.FilesystemViewModel;
-					filesystemViewModel.PropertyChanged += FilesystemViewModel_PropertyChanged;
-				}
+				page.ContentChanged += Page_ContentChanged;
+				page.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
+				page.ToolbarViewModel.PropertyChanged += ToolbarViewModel_PropertyChanged;
 			}
 
-			UpdatePageType();
-			UpdateSelectedItems();
+			filesystemViewModel = ShellPage?.FilesystemViewModel;
+			if (filesystemViewModel is not null)
+				filesystemViewModel.PropertyChanged += FilesystemViewModel_PropertyChanged;
 
-			OnPropertyChanged(nameof(HasItem));
-			OnPropertyChanged(nameof(Folder));
+			Update();
 			OnPropertyChanged(nameof(ShellPage));
 		}
 
-		private void UpdatePageType()
-		{
-			var type = shellPage?.InstanceViewModel switch
-			{
-				null => ContentPageTypes.None,
-				{ IsPageTypeNotHome: false } => ContentPageTypes.Home,
-				{ IsPageTypeRecycleBin: true } => ContentPageTypes.RecycleBin,
-				{ IsPageTypeZipFolder: true } => ContentPageTypes.ZipFolder,
-				{ IsPageTypeFtp: true } => ContentPageTypes.Ftp,
-				{ IsPageTypeLibrary: true } => ContentPageTypes.Library,
-				{ IsPageTypeCloudDrive: true } => ContentPageTypes.CloudDrive,
-				{ IsPageTypeMtpDevice: true } => ContentPageTypes.MtpDevice,
-				{ IsPageTypeSearchResults: true } => ContentPageTypes.SearchResults,
-				_ => ContentPageTypes.Folder,
-			};
-			SetProperty(ref pageType, type, nameof(PageType));
-		}
-
-		private void UpdateSelectedItems()
-		{
-			bool oldHasSelection = HasSelection;
-			ListedItem? oldSelectedItem = SelectedItem;
-
-			IReadOnlyList<ListedItem> items = shellPage?.ToolbarViewModel?.SelectedItems?.AsReadOnly() ?? EmptyListedItemList;
-			if (SetProperty(ref selectedItems, items, nameof(SelectedItems)))
-			{
-				if (HasSelection != oldHasSelection)
-					OnPropertyChanged(nameof(HasSelection));
-				if (SelectedItem != oldSelectedItem)
-					OnPropertyChanged(nameof(SelectedItem));
-			}
-		}
-
-		private void BaseShellPage_CurrentInstanceChanged(object? sender, BaseShellPage newShellPage)
-		{
-			UpdateShellPage(newShellPage);
-		}
-
-		private void ShellPage_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(IShellPage.IsCurrentInstance):
-					if (shellPage is BaseShellPage { IsCurrentInstance: false })
-						UpdateShellPage(null);
-					break;
-				case nameof(IShellPage.FilesystemViewModel):
-					if (filesystemViewModel is not null)
-						filesystemViewModel.PropertyChanged -= FilesystemViewModel_PropertyChanged;
-					filesystemViewModel = shellPage?.FilesystemViewModel;
-					if (filesystemViewModel is not null)
-						filesystemViewModel.PropertyChanged += FilesystemViewModel_PropertyChanged;
-					OnPropertyChanged(nameof(Folder));
-					break;
-			}
-		}
+		private void Page_ContentChanged(object? sender, TabItemArguments e) => Update();
 
 		private void InstanceViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
@@ -168,6 +109,48 @@ namespace Files.App.Contexts
 		{
 			if (e.PropertyName is nameof(ItemViewModel.CurrentFolder))
 				OnPropertyChanged(nameof(Folder));
+		}
+
+		private void Update()
+		{
+			UpdatePageType();
+			UpdateSelectedItems();
+
+			OnPropertyChanged(nameof(Folder));
+			OnPropertyChanged(nameof(HasItem));
+		}
+
+		private void UpdatePageType()
+		{
+			var type = ShellPage?.InstanceViewModel switch
+			{
+				null => ContentPageTypes.None,
+				{ IsPageTypeNotHome: false } => ContentPageTypes.Home,
+				{ IsPageTypeRecycleBin: true } => ContentPageTypes.RecycleBin,
+				{ IsPageTypeZipFolder: true } => ContentPageTypes.ZipFolder,
+				{ IsPageTypeFtp: true } => ContentPageTypes.Ftp,
+				{ IsPageTypeLibrary: true } => ContentPageTypes.Library,
+				{ IsPageTypeCloudDrive: true } => ContentPageTypes.CloudDrive,
+				{ IsPageTypeMtpDevice: true } => ContentPageTypes.MtpDevice,
+				{ IsPageTypeSearchResults: true } => ContentPageTypes.SearchResults,
+				_ => ContentPageTypes.Folder,
+			};
+			SetProperty(ref pageType, type, nameof(PageType));
+		}
+
+		private void UpdateSelectedItems()
+		{
+			bool oldHasSelection = HasSelection;
+			ListedItem? oldSelectedItem = SelectedItem;
+
+			IReadOnlyList<ListedItem> items = ShellPage?.ToolbarViewModel?.SelectedItems?.AsReadOnly() ?? emptyItems;
+			if (SetProperty(ref selectedItems, items, nameof(SelectedItems)))
+			{
+				if (HasSelection != oldHasSelection)
+					OnPropertyChanged(nameof(HasSelection));
+				if (SelectedItem != oldSelectedItem)
+					OnPropertyChanged(nameof(SelectedItem));
+			}
 		}
 	}
 }
