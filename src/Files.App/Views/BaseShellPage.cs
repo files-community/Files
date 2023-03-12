@@ -40,8 +40,6 @@ namespace Files.App.Views
 {
 	public abstract class BaseShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
-		public static event EventHandler<BaseShellPage>? CurrentInstanceChanged;
-
 		public static readonly DependencyProperty NavParamsProperty =
 			DependencyProperty.Register("NavParams", typeof(NavigationParams), typeof(ModernShellPage), new PropertyMetadata(null));
 
@@ -152,9 +150,6 @@ namespace Files.App.Views
 					else if (SlimContentPage is not ColumnViewBrowser)
 						ToolbarViewModel.IsEditModeEnabled = false;
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
-
-					if (isCurrentInstance)
-						CurrentInstanceChanged?.Invoke(null, this);
 				}
 			}
 		}
