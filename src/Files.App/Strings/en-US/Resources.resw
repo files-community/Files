@@ -2607,8 +2607,8 @@
   <data name="Hashes" xml:space="preserve">
     <value>Hashes</value>
   </data>
-  <data name="UnableToCalculateTheHashValue" xml:space="preserve">
-    <value>Unable to calculate the hash value</value>
+  <data name="CalculatingError" xml:space="preserve">
+    <value>An error occured when calculating</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algorithm</value>
