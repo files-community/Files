@@ -101,7 +101,7 @@ namespace Files.App.ViewModels.Properties
 					}
 					catch (Exception)
 					{
-						hashInfoItem.HashValue = "CalculatingError".GetLocalizedResource();
+						hashInfoItem.HashValue = "CalculationError".GetLocalizedResource();
 					}
 				}
 			}
