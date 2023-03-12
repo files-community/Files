@@ -367,21 +367,6 @@
 								<ColumnDefinition Width="0" />
 							</Grid.ColumnDefinitions>
 
-							<Grid
-								Grid.Column="0"
-								Width="24"
-								Padding="0,8,0,0">
-								<CheckBox
-									x:Name="SelectAllItemsCheckbox"
-									Width="20"
-									MinWidth="0"
-									HorizontalAlignment="Center"
-									Checked="SelectAllCheckbox_Checked"
-									IsChecked="{x:Bind AreAllItemsSelected, Mode=OneWay}"
-									Unchecked="SelectAllCheckbox_Unchecked"
-									Visibility="Visible" />
-							</Grid>
-
 							<uc:DataGridHeader
 								x:Name="NameHeader"
 								Grid.Column="2"
@@ -581,6 +566,7 @@
 										<CheckBox
 											x:Name="SelectionCheckbox"
 											Width="20"
+											AutomationProperties.AccessibilityView="Raw"
 											MinWidth="0"
 											HorizontalAlignment="Center"
 											Checked="ItemSelected_Checked"

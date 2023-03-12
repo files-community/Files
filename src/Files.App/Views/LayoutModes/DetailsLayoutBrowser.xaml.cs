@@ -263,7 +263,7 @@ namespace Files.App.Views.LayoutModes
 					SetCheckboxSelectionState(item);
 			}
 		}
-
+		S
 		override public void StartRenameItem()
 		{
 			StartRenameItem("ItemNameTextBox");
@@ -731,19 +731,6 @@ namespace Files.App.Views.LayoutModes
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
 			FolderSettings.SetDefaultLayoutPreferences(ColumnsViewModel);
-		}
-
-		private void SelectAllCheckbox_Checked(object sender, RoutedEventArgs e)
-		{
-			FileList.SelectAll();
-		}
-
-		private void SelectAllCheckbox_Unchecked(object sender, RoutedEventArgs e)
-		{
-			// We should only unselect all items if the user clicked the checkbox
-			// We determine this by checking if all items were selected
-			if (SelectedItems.Count == FileList.Items.Count)
-				FileList.SelectedItem = null;
 		}
 
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
