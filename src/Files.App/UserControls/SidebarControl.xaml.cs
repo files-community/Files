@@ -110,6 +110,12 @@ namespace Files.App.UserControls
 
 		private ICommand UnpinItemCommand { get; }
 
+		private ICommand OpenInNewTabCommand { get; }
+
+		private ICommand OpenInNewWindowCommand { get; }
+
+		private ICommand OpenInNewPaneCommand { get; }
+
 		private ICommand EjectDeviceCommand { get; }
 
 		private ICommand FormatDriveCommand { get; }
@@ -130,6 +136,9 @@ namespace Files.App.UserControls
 			HideSectionCommand = new RelayCommand(HideSection);
 			UnpinItemCommand = new RelayCommand(UnpinItem);
 			PinItemCommand = new RelayCommand(PinItem);
+			OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
+			OpenInNewWindowCommand = new RelayCommand(OpenInNewWindow);
+			OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
 			EjectDeviceCommand = new RelayCommand(EjectDevice);
 			FormatDriveCommand = new RelayCommand(FormatDrive);
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
@@ -198,18 +207,32 @@ namespace Files.App.UserControls
 				{
 					IsVisible = options.ShowEmptyRecycleBin,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewTab)
+				new ContextMenuFlyoutItemViewModel()
 				{
-					IsVisible = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
-				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewWindow)
+					Text = "OpenInNewTab".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewTab",
+					},
+					Command = OpenInNewTabCommand,
+					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+				},
+				new ContextMenuFlyoutItemViewModel()
 				{
-					IsVisible = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
-				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewPane)
+					Text = "OpenInNewWindow".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewWindow",
+					},
+					Command = OpenInNewWindowCommand,
+					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+				},
+				new ContextMenuFlyoutItemViewModel()
 				{
-					IsVisible = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
-				}.Build(),
+					Text = "OpenInNewPane".GetLocalizedResource(),
+					Command = OpenInNewPaneCommand,
+					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
+				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
@@ -306,6 +329,30 @@ namespace Files.App.UserControls
 					userSettingsService.PreferencesSettingsService.ShowFileTagsSection = false;
 					break;
 			}
+		}
+
+		private async void OpenInNewPane()
+		{
+			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
+				return;
+
+			SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(rightClickedItem));
+		}
+
+		private async void OpenInNewTab()
+		{
+			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
+				return;
+
+			await NavigationHelpers.OpenPathInNewTab(rightClickedItem.Path);
+		}
+
+		private async void OpenInNewWindow()
+		{
+			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
+				return;
+
+			await NavigationHelpers.OpenPathInNewWindowAsync(rightClickedItem.Path);
 		}
 
 		private void PinItem()
