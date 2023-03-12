@@ -13,7 +13,6 @@ using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
@@ -263,7 +262,7 @@ namespace Files.App.Views.LayoutModes
 					SetCheckboxSelectionState(item);
 			}
 		}
-		S
+
 		override public void StartRenameItem()
 		{
 			StartRenameItem("ItemNameTextBox");
