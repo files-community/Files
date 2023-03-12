@@ -1,4 +1,6 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.App.ViewModels;
@@ -9,7 +11,6 @@ using System;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -17,6 +18,8 @@ namespace Files.App.UserControls.MultitaskingControl
 {
 	public sealed partial class HorizontalMultitaskingControl : BaseMultitaskingControl
 	{
+		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
 		private TabViewItem? hoveredTabViewItem;
 
