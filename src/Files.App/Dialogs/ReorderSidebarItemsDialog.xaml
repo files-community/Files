@@ -26,33 +26,25 @@
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<NavigationView
+		<ListView
 			x:Name="SidebarNavView"
 			Grid.Row="1"
-			IsBackButtonVisible="Collapsed"
-			IsPaneToggleButtonVisible="False"
-			IsSettingsVisible="False"
-			MenuItemsSource="{x:Bind ViewModel.SidebarFavoriteItems, Mode=OneWay}"
-			PaneDisplayMode="Left">
-			<NavigationView.MenuItemTemplate>
+			ItemsSource="{x:Bind ViewModel.SidebarFavoriteItems, Mode=OneWay}">
+			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="navigationcontrolitems:LocationItem">
-					<NavigationViewItem
+					<ListViewItem
 						AllowDrop="True"
 						AutomationProperties.AutomationId="{x:Bind Text}"
 						CanDrag="True"
 						DataContext="{x:Bind}"
-						DragOver="NavigationViewItem_DragOver"
-						DragStarting="NavigationViewItem_DragStarting"
-						Drop="NavigationViewItem_Drop"
-						IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
-						MenuItemsSource="{x:Bind ChildItems}"
+						DragOver="ListViewItem_DragOver"
+						DragStarting="ListViewItem_DragStarting"
+						Drop="ListViewItem_Drop"
 						Tag="{x:Bind Path}"
 						ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}">
-						<NavigationViewItem.Content>
+						<ListViewItem.Content>
 							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
@@ -72,13 +64,10 @@
 									PointerPressed="MoveItem"
 									Visibility="{x:Bind IsPinned}" />
 							</Grid>
-						</NavigationViewItem.Content>
-						<NavigationViewItem.Icon>
-							<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
+						</ListViewItem.Content>
+					</ListViewItem>
 				</DataTemplate>
-			</NavigationView.MenuItemTemplate>
-		</NavigationView>
+			</ListView.ItemTemplate>
+		</ListView>
 	</Grid>
 </ContentDialog>

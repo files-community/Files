@@ -28,6 +28,7 @@ namespace Files.App.ViewModels.Dialogs
 
 		public ReorderSidebarItemsDialogViewModel() 
 		{
+			//App.Logger.Warn(string.Join(", ", SidebarFavoriteItems.Select(x => x.Path)));
 			PrimaryButtonCommand = new RelayCommand(SaveChanges);
 		}
 
