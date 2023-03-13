@@ -207,10 +207,6 @@ namespace Files.App.Views
 				case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
 					ToolbarViewModel.IsEditModeEnabled = true;
 					break;
-
-				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-					userSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
-					break;
 			}
 		}
 
