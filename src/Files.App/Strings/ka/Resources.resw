@@ -1185,9 +1185,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>უცნობი</value>
   </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>ფაილის გაფართოების შეცვლის შემთხვევაში, ფაილი შესაძლოა გამოუსადეგარი გახდეს. დარწმუნებული ხართ, რომ გსურთ მისი შეცვლა?</value>
   </data>
