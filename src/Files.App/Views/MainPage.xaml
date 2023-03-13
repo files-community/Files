@@ -136,24 +136,10 @@
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="T" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.AddNewInstanceAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="T" Modifiers="Control,Shift">
 			<i:Interaction.Behaviors>
 				<icore:EventTriggerBehavior EventName="Invoked">
 					<icore:InvokeCommandAction Command="{x:Bind ViewModel.ReopenClosedTabAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="K" Modifiers="Control,Shift">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.AddNewInstanceAcceleratorCommand}" />
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>

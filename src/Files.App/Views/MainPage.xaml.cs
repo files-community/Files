@@ -219,6 +219,10 @@ namespace Files.App.Views
 
 			switch (e.Key)
 			{
+				case VirtualKey.LeftWindows:
+				case VirtualKey.RightWindows:
+					currentModifiers |= VirtualKeyModifiers.Windows;
+					break;
 				case VirtualKey.Menu:
 					currentModifiers |= VirtualKeyModifiers.Menu;
 					break;
