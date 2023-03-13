@@ -339,7 +339,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Datei oder Ordner existiert bereits</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>Als Sperrbildschirm festlegen</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
