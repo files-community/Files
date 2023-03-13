@@ -88,11 +88,6 @@
 			Key="F3"
 			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
-		<KeyboardAccelerator
-			Key="H"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
 	</local:BaseShellPage.KeyboardAccelerators>
 
 	<Frame

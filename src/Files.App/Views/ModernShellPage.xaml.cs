@@ -274,10 +274,6 @@ namespace Files.App.Views
 						ToolbarViewModel.IsEditModeEnabled = true;
 
 					break;
-
-				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-					userSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
-					break;
 			}
 		}
 
