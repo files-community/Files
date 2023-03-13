@@ -339,8 +339,8 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Elementet finnes allerede</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>Bruk som bakgrunn på låst skjerm</value>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Set as lockscreen background</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Vi kunne ikke slette dette elementet</value>
