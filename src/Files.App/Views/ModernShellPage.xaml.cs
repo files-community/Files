@@ -275,10 +275,6 @@ namespace Files.App.Views
 
 					break;
 
-				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-					userSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
-					break;
-
 				case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
 					InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
 					break;
