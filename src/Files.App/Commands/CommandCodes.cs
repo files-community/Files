@@ -25,7 +25,6 @@
 		RestoreAllRecycleBin,
 
 		// Selection
-		MultiSelect,
 		SelectAll,
 		InvertSelection,
 		ClearSelection,
@@ -58,5 +57,9 @@
     
 		// Tags
 		OpenAllTaggedItems
+
+		// Navigation
+		NewTab,
+		DuplicateTab,
 	}
 }
