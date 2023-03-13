@@ -1185,9 +1185,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Nezināms</value>
   </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Rādīt atzīmēšanas rūtiņu pie faila nosaukuma</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Ja nomainīsiet faila paplašinājumu, fails var palikt nelietojams. Vai tiešām vēlaties to mainīt?</value>
   </data>

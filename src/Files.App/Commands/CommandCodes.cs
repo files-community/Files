@@ -25,7 +25,6 @@
 		RestoreAllRecycleBin,
 
 		// Selection
-		MultiSelect,
 		SelectAll,
 		InvertSelection,
 		ClearSelection,
@@ -59,5 +58,9 @@
 		// Open
 		OpenTerminal,
 		OpenTerminalAsAdmin,
+
+		// Navigation
+		NewTab,
+		DuplicateTab,
 	}
 }
