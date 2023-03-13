@@ -1185,9 +1185,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Hindi kilala</value>
   </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Kung babaguhin mo ang isang extension ng file, maaaring hindi na magamit ang file. Sigurado ka bang gusto mong baguhin ito?</value>
   </data>

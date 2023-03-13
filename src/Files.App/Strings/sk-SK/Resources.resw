@@ -1187,9 +1187,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Neznáma</value>
   </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Zobraziť výberové pole vedľa názvov súborov</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Ak zmeníte príponu súboru, súbor sa môže stať nepoužiteľným. Naozaj ju chcete zmeniť?</value>
   </data>

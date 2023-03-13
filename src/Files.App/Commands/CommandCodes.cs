@@ -25,7 +25,6 @@
 		RestoreAllRecycleBin,
 
 		// Selection
-		MultiSelect,
 		SelectAll,
 		InvertSelection,
 		ClearSelection,
@@ -54,6 +53,10 @@
 
 		// Image Edition
 		RotateLeft,
-		RotateRight
+		RotateRight,
+
+		// Navigation
+		NewTab,
+		DuplicateTab,
 	}
 }
