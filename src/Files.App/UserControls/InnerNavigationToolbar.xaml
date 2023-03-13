@@ -769,7 +769,8 @@
 									HorizontalAlignment="Right"
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowHiddenItems.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
-									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+									Style="{StaticResource RightAlignedToggleSwitchStyle}"
+									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowHiddenItems.HotKeyText, Mode=OneWay}" />
 
 								<TextBlock
 									Grid.Row="1"
@@ -783,7 +784,8 @@
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowFileExtensions.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
 									Rotation="1"
-									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+									Style="{StaticResource RightAlignedToggleSwitchStyle}"
+									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowFileExtensions.HotKeyText, Mode=OneWay}" />
 							</Grid>
 						</StackPanel>
 					</Flyout>
