@@ -300,7 +300,7 @@
 								x:Name="SetAsBackgroundFlyoutItem"
 								Command="{x:Bind Commands.SetAsWallpaperBackground}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.SetAsWallpaperBackground.HotKeyText, Mode=OneWay}"
-								Text="{x:Bind Commands.SetAsWallpaperBackground.Label}">
+								Text="{helpers:ResourceString Name=Desktop}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="{x:Bind Commands.SetAsWallpaperBackground.Glyph.BaseGlyph}" />
 								</MenuFlyoutItem.Icon>
@@ -309,7 +309,7 @@
 								x:Name="SetAsLockscreenFlyoutItem"
 								Command="{x:Bind Commands.SetAsLockscreenBackground}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.SetAsLockscreenBackground.HotKeyText, Mode=OneWay}"
-								Text="{x:Bind Commands.SetAsLockscreenBackground.Label}">
+								Text="{helpers:ResourceString Name=Lockscreen}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="{x:Bind Commands.SetAsLockscreenBackground.Glyph.BaseGlyph}" />
 								</MenuFlyoutItem.Icon>
