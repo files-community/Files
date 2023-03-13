@@ -339,8 +339,8 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Položka už existuje</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>Nastaviť ako pozadie uzamknutej obrazovky.</value>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Set as lockscreen background</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nepodarilo sa nám zmazať túto položku</value>
