@@ -570,6 +570,8 @@ namespace Files.App.Views.LayoutModes
 		{
 			var columnToResize = Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) / 2 + 1;
 			ResizeColumnToFit(columnToResize);
+
+			this.ChangeCursor(arrowCursor);
 			e.Handled = true;
 		}
 

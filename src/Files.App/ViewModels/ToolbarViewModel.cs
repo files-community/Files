@@ -960,12 +960,6 @@ namespace Files.App.ViewModels
 
 		public ICommand? RunWithPowerShellCommand { get; set; }
 
-		public IRichCommand SetAsBackgroundCommand => commands.SetAsWallpaperBackground;
-
-		public IRichCommand SetAsLockscreenBackgroundCommand => commands.SetAsLockscreenBackground;
-
-		public IRichCommand SetAsSlideshowCommand => commands.SetAsSlideshowBackground;
-
 		public ICommand? InstallInfCommand { get; set; }
 
 		public ICommand? RotateImageLeftCommand { get; set; }
@@ -1267,7 +1261,7 @@ namespace Files.App.ViewModels
 		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
 		public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcut && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive));
-		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
+		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1 && InstanceViewModel.IsPageTypeRecycleBin == false;
 		public bool CanViewProperties => true;
 		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
 		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));

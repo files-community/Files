@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Hashing;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -15,6 +16,16 @@ namespace Files.Shared.Helpers
 			var hash = MD5.HashData(buffer);
 
 			return BitConverter.ToString(hash).Replace("-", string.Empty);
+		}
+
+		public async static Task<string> CreateCRC32(Stream stream, CancellationToken cancellationToken)
+		{
+			var crc32 = new Crc32();
+			await crc32.AppendAsync(stream, cancellationToken);
+			var hashBytes = crc32.GetCurrentHash();
+			Array.Reverse(hashBytes);
+
+			return Convert.ToHexString(hashBytes);
 		}
 
 		public async static Task<string> CreateMD5(Stream stream, CancellationToken cancellationToken)

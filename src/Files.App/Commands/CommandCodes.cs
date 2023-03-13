@@ -54,6 +54,10 @@
 
 		// Image Edition
 		RotateLeft,
-		RotateRight
+		RotateRight,
+
+		// Navigation
+		NewTab,
+		DuplicateTab,
 	}
 }
