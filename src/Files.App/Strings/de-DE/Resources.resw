@@ -1185,9 +1185,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Unbekannt</value>
   </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Auswahlkästchen neben Dateinamen anzeigen</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Wenn Du die Dateierweiterung änderst, wird die Datei möglicherweise unbrauchbar. Bist Du sicher, dass Du sie ändern möchtest?</value>
   </data>

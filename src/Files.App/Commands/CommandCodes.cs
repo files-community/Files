@@ -25,7 +25,6 @@
 		RestoreAllRecycleBin,
 
 		// Selection
-		MultiSelect,
 		SelectAll,
 		InvertSelection,
 		ClearSelection,
@@ -60,5 +59,9 @@
 		OpenInNewPane,
 		OpenInNewTab,
 		OpenInNewWindow
+
+		// Navigation
+		NewTab,
+		DuplicateTab,
 	}
 }
