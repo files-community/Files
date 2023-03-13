@@ -1185,9 +1185,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>לא ידוע</value>
   </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>אם תשנו סיומת קובץ, הוא עלול להפוך לבלתי שמיש. האם אתם בטוחים שתרצו לשנות אותה?</value>
   </data>
