@@ -968,12 +968,6 @@ namespace Files.App.ViewModels
 
 		public ICommand? RunWithPowerShellCommand { get; set; }
 
-		public IRichCommand SetAsBackgroundCommand => commands.SetAsWallpaperBackground;
-
-		public IRichCommand SetAsLockscreenBackgroundCommand => commands.SetAsLockscreenBackground;
-
-		public IRichCommand SetAsSlideshowCommand => commands.SetAsSlideshowBackground;
-
 		public ICommand? InstallInfCommand { get; set; }
 
 		public ICommand? RotateImageLeftCommand { get; set; }

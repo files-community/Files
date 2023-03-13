@@ -286,30 +286,30 @@
 					x:Name="SetAsBackgroundButton"
 					Width="Auto"
 					MinWidth="40"
-					x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(ViewModel.IsImage, ViewModel.IsMultipleImageSelected), Mode=OneWay}"
+					x:Load="{x:Bind Commands.SetAsWallpaperBackground.IsExecutable, Mode=OneWay}"
+					Icon="{x:Bind Commands.SetAsWallpaperBackground.FontIcon}"
 					Label="{helpers:ResourceString Name=SetAsBackgroundFlyout}"
 					LabelPosition="Default"
 					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsBackgroundFlyout}">
-					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE91B;" />
-					</AppBarButton.Icon>
 					<AppBarButton.Flyout>
 						<MenuFlyout Placement="Bottom">
 							<MenuFlyoutItem
 								x:Name="SetAsBackgroundFlyoutItem"
-								Command="{x:Bind ViewModel.SetAsBackgroundCommand, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=Desktop}">
+								Command="{x:Bind Commands.SetAsWallpaperBackground}"
+								KeyboardAcceleratorTextOverride="{x:Bind Commands.SetAsWallpaperBackground.HotKeyText, Mode=OneWay}"
+								Text="{x:Bind Commands.SetAsWallpaperBackground.Label}">
 								<MenuFlyoutItem.Icon>
-									<FontIcon Glyph="&#xE91B;" />
+									<FontIcon Glyph="{x:Bind Commands.SetAsWallpaperBackground.Glyph.BaseGlyph}" />
 								</MenuFlyoutItem.Icon>
 							</MenuFlyoutItem>
 							<MenuFlyoutItem
 								x:Name="SetAsLockscreenFlyoutItem"
-								Command="{x:Bind ViewModel.SetAsLockscreenBackgroundCommand, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=Lockscreen}">
+								Command="{x:Bind Commands.SetAsLockscreenBackground}"
+								KeyboardAcceleratorTextOverride="{x:Bind Commands.SetAsLockscreenBackground.HotKeyText, Mode=OneWay}"
+								Text="{x:Bind Commands.SetAsLockscreenBackground.Label}">
 								<MenuFlyoutItem.Icon>
-									<FontIcon Glyph="&#xEE3F;" />
+									<FontIcon Glyph="{x:Bind Commands.SetAsLockscreenBackground.Glyph.BaseGlyph}" />
 								</MenuFlyoutItem.Icon>
 							</MenuFlyoutItem>
 						</MenuFlyout>
@@ -319,15 +319,12 @@
 					x:Name="SetAsSlideshowButton"
 					Width="Auto"
 					MinWidth="40"
-					x:Load="{x:Bind ViewModel.IsMultipleImageSelected, Mode=OneWay, FallbackValue=False}"
-					Command="{x:Bind ViewModel.SetAsSlideshowCommand, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=SetAsSlideshow}"
+					x:Load="{x:Bind Commands.SetAsSlideshowBackground.IsExecutable, Mode=OneWay}"
+					Command="{x:Bind Commands.SetAsSlideshowBackground}"
+					Icon="{x:Bind Commands.SetAsSlideshowBackground.FontIcon}"
+					Label="{x:Bind Commands.SetAsSlideshowBackground.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsSlideshow}">
-					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE91B;" />
-					</AppBarButton.Icon>
-				</AppBarButton>
+					ToolTipService.ToolTip="{x:Bind Commands.SetAsSlideshowBackground.LabelWithHotKey}" />
 				<AppBarButton
 					x:Name="InstallInfButton"
 					x:Load="{x:Bind ViewModel.IsInfFile, Mode=OneWay, FallbackValue=False}"
