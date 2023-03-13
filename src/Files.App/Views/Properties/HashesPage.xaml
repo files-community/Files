@@ -75,6 +75,11 @@
 							<FontIcon FontSize="14" Glyph="&#xE7B3;" />
 							<Button.Flyout>
 								<MenuFlyout x:Name="SelectAlgorithmsMenuFlyout" Closing="MenuFlyout_Closing">
+									<ToggleMenuFlyoutItem Text="CRC32"
+														  IsChecked="{x:Bind HashesViewModel.ShowHashes['CRC32']}"
+														  Click="ToggleMenuFlyoutItem_Click"
+														  Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+														  CommandParameter="CRC32" />
 									<ToggleMenuFlyoutItem Text="MD5"
 														  IsChecked="{x:Bind HashesViewModel.ShowHashes['MD5']}"
 														  Click="ToggleMenuFlyoutItem_Click"

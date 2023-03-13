@@ -48,6 +48,7 @@ namespace Files.App.ViewModels.Properties
 
 			Hashes = new()
 			{
+				new() { Algorithm = "CRC32" },
 				new() { Algorithm = "MD5" },
 				new() { Algorithm = "SHA1" },
 				new() { Algorithm = "SHA256" },
@@ -57,6 +58,7 @@ namespace Files.App.ViewModels.Properties
 
 			ShowHashes = UserSettingsService.PreferencesSettingsService.ShowHashesDictionary ?? new();
 			// Default settings
+			ShowHashes.TryAdd("CRC32", true);
 			ShowHashes.TryAdd("MD5", true);
 			ShowHashes.TryAdd("SHA1", true);
 			ShowHashes.TryAdd("SHA256", true);
@@ -89,6 +91,7 @@ namespace Files.App.ViewModels.Properties
 						{
 							hashInfoItem.HashValue = hashInfoItem.Algorithm switch
 							{
+								"CRC32" => await ChecksumHelpers.CreateCRC32(stream, _cancellationTokenSource.Token),
 								"MD5" => await ChecksumHelpers.CreateMD5(stream, _cancellationTokenSource.Token),
 								"SHA1" => await ChecksumHelpers.CreateSHA1(stream, _cancellationTokenSource.Token),
 								"SHA256" => await ChecksumHelpers.CreateSHA256(stream, _cancellationTokenSource.Token),
