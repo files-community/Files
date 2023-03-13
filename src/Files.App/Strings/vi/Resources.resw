@@ -339,8 +339,8 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Mục đã hiện hữu rồi</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>Đặt nền màn hình khóa</value>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Set as lockscreen background</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Chúng tôi đã không xóa bỏ mục này được.</value>
