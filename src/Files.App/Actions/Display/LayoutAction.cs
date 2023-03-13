@@ -127,52 +127,34 @@ namespace Files.App.Actions
 		protected virtual void OnContextChanged(string propertyName) { }
 	}
 
-	internal class LayoutPreviousAction : IAction
+	internal class LayoutDecreaseSizeAction : IAction
 	{
 		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
-		public string Label { get; } = "Previous".GetLocalizedResource();
+		public string Label { get; } = "DecreaseSize".GetLocalizedResource();
+
+		public HotKey HotKey { get; } = new(VirtualKey.Subtract, VirtualKeyModifiers.Control);
+		public HotKey MediaHotKey { get; } = new((VirtualKey)189, VirtualKeyModifiers.Control);
 
 		public Task ExecuteAsync()
 		{
-			context.LayoutType = context.LayoutType switch
-			{
-				LayoutTypes.Details when context.IsLayoutAdaptiveEnabled => LayoutTypes.Adaptive,
-				LayoutTypes.Details => LayoutTypes.Columns,
-				LayoutTypes.Tiles => LayoutTypes.Details,
-				LayoutTypes.GridSmall => LayoutTypes.Tiles,
-				LayoutTypes.GridMedium => LayoutTypes.GridSmall,
-				LayoutTypes.GridLarge => LayoutTypes.GridMedium,
-				LayoutTypes.Columns => LayoutTypes.GridLarge,
-				LayoutTypes.Adaptive => LayoutTypes.Columns,
-				_ => LayoutTypes.None,
-			};
-
+			context.DecreaseLayoutSize();
 			return Task.CompletedTask;
 		}
 	}
 
-	internal class LayoutNextAction : IAction
+	internal class LayoutIncreaseSizeAction : IAction
 	{
 		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
-		public string Label { get; } = "Next".GetLocalizedResource();
+		public string Label { get; } = "IncreaseSize".GetLocalizedResource();
+
+		public HotKey HotKey { get; } = new(VirtualKey.Add, VirtualKeyModifiers.Control);
+		public HotKey MediaHotKey { get; } = new((VirtualKey)187, VirtualKeyModifiers.Control);
 
 		public Task ExecuteAsync()
 		{
-			context.LayoutType = context.LayoutType switch
-			{
-				LayoutTypes.Details => LayoutTypes.Tiles,
-				LayoutTypes.Tiles => LayoutTypes.GridSmall,
-				LayoutTypes.GridSmall => LayoutTypes.GridMedium,
-				LayoutTypes.GridMedium => LayoutTypes.GridLarge,
-				LayoutTypes.GridLarge => LayoutTypes.Columns,
-				LayoutTypes.Columns when context.IsLayoutAdaptiveEnabled => LayoutTypes.Adaptive,
-				LayoutTypes.Columns => LayoutTypes.Details,
-				LayoutTypes.Adaptive => LayoutTypes.Details,
-				_ => LayoutTypes.None,
-			};
-
+			context.IncreaseLayoutSize();
 			return Task.CompletedTask;
 		}
 	}

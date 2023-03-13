@@ -56,8 +56,8 @@ namespace Files.App.Commands
 		RotateRight,
 
 		// Layout
-		LayoutPrevious,
-		LayoutNext,
+		LayoutDecreaseSize,
+		LayoutIncreaseSize,
 		LayoutDetails,
 		LayoutTiles,
 		LayoutGridSmall,

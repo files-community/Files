@@ -5,6 +5,7 @@ using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using System;
 using System.ComponentModel;
+using static Files.App.Constants.Browser.GridViewBrowser;
 
 namespace Files.App.Contexts
 {
@@ -119,6 +120,17 @@ namespace Files.App.Contexts
 			context.Changing += Context_Changing;
 			context.Changed += Context_Changed;
 			settings.PropertyChanged += Settings_PropertyChanged;
+		}
+
+		public void DecreaseLayoutSize()
+		{
+			if (FolderSettings is FolderSettingsViewModel viewModel)
+				viewModel.GridViewSize -= GridViewIncrement;
+		}
+		public void IncreaseLayoutSize()
+		{
+			if (FolderSettings is FolderSettingsViewModel viewModel)
+				viewModel.GridViewSize += GridViewIncrement;
 		}
 
 		private void Context_Changing(object? sender, EventArgs e)

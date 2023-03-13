@@ -49,8 +49,8 @@ namespace Files.App.Commands
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
 
-		IRichCommand LayoutPrevious { get; }
-		IRichCommand LayoutNext { get; }
+		IRichCommand LayoutDecreaseSize { get; }
+		IRichCommand LayoutIncreaseSize { get; }
 		IRichCommand LayoutDetails { get; }
 		IRichCommand LayoutTiles { get; }
 		IRichCommand LayoutGridSmall { get; }

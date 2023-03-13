@@ -15,5 +15,8 @@ namespace Files.App.Contexts
 		SortDirection GroupDirection { get; set; }
 
 		bool SortDirectoriesAlongsideFiles { get; set; }
+
+		void DecreaseLayoutSize();
+		void IncreaseLayoutSize();
 	}
 }

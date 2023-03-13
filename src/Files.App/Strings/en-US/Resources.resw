@@ -2616,11 +2616,11 @@
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Pinned items</value>
   </data>
-  <data name="Previous" xml:space="preserve">
-    <value>Previous</value>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Decrease size</value>
   </data>
-  <data name="Next" xml:space="preserve">
-    <value>Next</value>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Increase size</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Toggle sort direction</value>

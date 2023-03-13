@@ -60,8 +60,8 @@ namespace Files.App.Commands
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
-		public IRichCommand LayoutPrevious => commands[CommandCodes.LayoutPrevious];
-		public IRichCommand LayoutNext => commands[CommandCodes.LayoutNext];
+		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
+		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
 		public IRichCommand LayoutTiles => commands[CommandCodes.LayoutTiles];
 		public IRichCommand LayoutGridSmall => commands[CommandCodes.LayoutGridSmall];
@@ -158,8 +158,8 @@ namespace Files.App.Commands
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction(),
-			[CommandCodes.LayoutPrevious] = new LayoutPreviousAction(),
-			[CommandCodes.LayoutNext] = new LayoutNextAction(),
+			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
+			[CommandCodes.LayoutIncreaseSize] = new LayoutIncreaseSizeAction(),
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),
 			[CommandCodes.LayoutTiles] = new LayoutTilesAction(),
 			[CommandCodes.LayoutGridSmall] = new LayoutGridSmallAction(),

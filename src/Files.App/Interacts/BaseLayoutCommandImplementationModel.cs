@@ -5,7 +5,6 @@ using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using Files.App.Filesystem.Archive;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.ServicesImplementation;
@@ -30,9 +29,9 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
-using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.System;
+using static Files.App.Constants.Browser.GridViewBrowser;
 
 namespace Files.App.Interacts
 {
@@ -309,37 +308,19 @@ namespace Files.App.Interacts
 
 		public virtual void PointerWheelChanged(PointerRoutedEventArgs e)
 		{
-			if (e.KeyModifiers == VirtualKeyModifiers.Control)
+			if (e.KeyModifiers is VirtualKeyModifiers.Control)
 			{
-				// Mouse wheel down
-				if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0)
-					GridViewSizeDecrease(null);
-				// Mouse wheel up
-				else
-					GridViewSizeIncrease(null);
+				if (associatedInstance.IsCurrentInstance)
+				{
+					int delta = e.GetCurrentPoint(null).Properties.MouseWheelDelta;
+					if (delta < 0) // Mouse wheel down
+						associatedInstance.InstanceViewModel.FolderSettings.GridViewSize -= GridViewIncrement;
+					else if (delta > 0) // Mouse wheel up
+						associatedInstance.InstanceViewModel.FolderSettings.GridViewSize += GridViewIncrement;
+				}
 
 				e.Handled = true;
 			}
-		}
-
-		public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
-		{
-			// Make Smaller
-			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement;
-
-			if (e is not null)
-				e.Handled = true;
-		}
-
-		public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
-		{
-			// Make Larger
-			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement;
-
-			if (e is not null)
-				e.Handled = true;
 		}
 
 		public virtual async Task DragOver(DragEventArgs e)
