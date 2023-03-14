@@ -137,7 +137,7 @@
 									Text="{x:Bind HashValue, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap"
-									ToolTipService.ToolTip="{x:Bind HashValue}" />
+									ToolTipService.ToolTip="{x:Bind HashValue, Mode=OneWay}" />
 
 								<!--  Copy button  -->
 								<Button
