@@ -127,7 +127,7 @@ namespace Files.App.Commands
 			[CommandCodes.RotateRight] = new RotateRightAction(),
 			[CommandCodes.OpenInNewPane] = new OpenInNewPaneAction(),
 			[CommandCodes.OpenInNewTab] = new OpenInNewTabAction(),
-			[CommandCodes.OpenInNewWindow] = new OpenInNewWindowAction()
+			[CommandCodes.OpenInNewWindow] = new OpenInNewWindowAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.DuplicateTab] = new DuplicateTabAction(),
 		};

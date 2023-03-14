@@ -58,7 +58,7 @@
 		// Open
 		OpenInNewPane,
 		OpenInNewTab,
-		OpenInNewWindow
+		OpenInNewWindow,
 
 		// Navigation
 		NewTab,
