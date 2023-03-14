@@ -335,6 +335,8 @@ namespace Files.App
 			base.Page_CharacterReceived(sender, args);
 		}
 
+		protected void SelectionCheckbox_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e) => e.Handled = true;
+
 		public override void Dispose()
 		{
 			base.Dispose();
