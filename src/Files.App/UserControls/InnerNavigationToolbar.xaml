@@ -244,7 +244,7 @@
 								x:Load="{x:Bind ViewModel.IsMultipleArchivesSelected, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind Commands.DecompressArchive, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
-								KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=ExtractKeyboardAcceleratorTextOverride}"
+								KeyboardAcceleratorTextOverride="{x:Bind Commands.DecompressArchive.HotKeyText, Mode=OneWay}"
 								Text="{x:Bind Commands.DecompressArchive.Label}">
 								<MenuFlyoutItem.KeyboardAccelerators>
 									<KeyboardAccelerator
