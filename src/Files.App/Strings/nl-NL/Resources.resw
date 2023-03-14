@@ -1185,9 +1185,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Onbekend</value>
   </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Als u een bestandsnaamextensie wijzigt, wordt het bestand mogelijk onbruikbaar. Weet u zeker dat u de extensie wilt wijzigen?</value>
   </data>

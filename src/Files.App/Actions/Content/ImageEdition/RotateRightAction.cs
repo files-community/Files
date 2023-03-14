@@ -19,7 +19,8 @@ namespace Files.App.Actions.Content.ImageEdition
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRotateRight");
 
-		public bool IsExecutable => context.ShellPage.SlimContentPage.SelectedItemsPropertiesViewModel.IsSelectedItemImage;
+		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
+						&& (context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
 
 		public RotateRightAction()
 		{
@@ -31,15 +32,29 @@ namespace Files.App.Actions.Content.ImageEdition
 			foreach (var image in context.SelectedItems)
 				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise90Degrees);
 
-			context.ShellPage.SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
+			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.RefreshItemsThumbnail();
 			App.PreviewPaneViewModel.UpdateSelectedItemPreview();
 		}
 
-		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private bool IsContextPageTypeAdaptedToCommand()
+		{
+			return context.PageType is not ContentPageTypes.RecycleBin
+				and not ContentPageTypes.ZipFolder
+				and not ContentPageTypes.None;
+		}
+
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
 			{
-				context.ShellPage.SlimContentPage.SelectedItemsPropertiesViewModel.CheckAllFileExtensions(context.SelectedItems.Select(selectedItem => selectedItem?.FileExtension).ToList<string>());
+				if (context.ShellPage is not null && context.ShellPage.SlimContentPage is not null)
+				{
+					var viewModel = context.ShellPage.SlimContentPage.SelectedItemsPropertiesViewModel;
+					var extensions = context.SelectedItems.Select(selectedItem => selectedItem.FileExtension).Distinct().ToList();
+
+					viewModel.CheckAllFileExtensions(extensions);
+				}
+
 				OnPropertyChanged(nameof(IsExecutable));
 			}
 		}

@@ -6,7 +6,6 @@ using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.Shared.Enums;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions.Content.Background
@@ -17,35 +16,35 @@ namespace Files.App.Actions.Content.Background
 
 		public string Label { get; } = "SetAsBackground".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph("\uE91B");
+		public RichGlyph Glyph { get; } = new("\uE91B");
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() && context.SelectedItems.Count == 1;
+		private bool isExecutable;
+		public bool IsExecutable => isExecutable;
 
 		public SetAsWallpaperBackgroundAction()
 		{
+			isExecutable = GetIsExecutable();
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
-			if (context.ShellPage is not null)
-				WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, context.SelectedItems.FirstOrDefault().ItemPath);
+			if (context.SelectedItem is not null)
+				WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, context.SelectedItem.ItemPath);
+			return Task.CompletedTask;
 		}
 
-		private bool IsContextPageTypeAdaptedToCommand()
-		{
-			return context.PageType is not ContentPageTypes.RecycleBin
-				and not ContentPageTypes.ZipFolder
-				and not ContentPageTypes.None;
-		}
+		private bool GetIsExecutable() => context.ShellPage is not null && context.SelectedItem is not null
+			&& context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder
+			&& (context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IContentPageContext.SelectedItems):
-					if (IsContextPageTypeAdaptedToCommand())
-						OnPropertyChanged(nameof(IsExecutable));
+				case nameof(IContentPageContext.PageType):
+				case nameof(IContentPageContext.SelectedItem):
+					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
 					break;
 			}
 		}
