@@ -59,7 +59,7 @@ namespace Files.App.Commands
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
-		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];d
+		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
