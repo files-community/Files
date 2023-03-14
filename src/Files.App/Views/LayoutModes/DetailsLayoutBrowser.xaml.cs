@@ -484,10 +484,9 @@ namespace Files.App.Views.LayoutModes
 			{
 				_ = NavigationHelpers.OpenPath(item.ItemPath, ParentShellPageInstance);
 			}
-			else
+			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-				if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-					ParentShellPageInstance.Up_Click();
+				ParentShellPageInstance.Up_Click();
 			}
 			ResetRenameDoubleClick();
 		}
