@@ -219,6 +219,10 @@ namespace Files.App.Views
 
 			switch (e.Key)
 			{
+				case VirtualKey.LeftWindows:
+				case VirtualKey.RightWindows:
+					currentModifiers |= VirtualKeyModifiers.Windows;
+					break;
 				case VirtualKey.Menu:
 					currentModifiers |= VirtualKeyModifiers.Menu;
 					break;
@@ -245,7 +249,7 @@ namespace Files.App.Views
 					var command = Commands[hotKey];
 					if (command.Code is not CommandCodes.None)
 					{
-						e.Handled = true;
+						e.Handled = command.IsExecutable;
 						await command.ExecuteAsync();
 					}
 					break;

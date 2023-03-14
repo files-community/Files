@@ -60,6 +60,8 @@ namespace Files.App.Commands
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
+		public IRichCommand NewTab => commands[CommandCodes.NewTab];
+		public IRichCommand DuplicateTab => commands[CommandCodes.DuplicateTab];
 
 		public CommandManager()
 		{
@@ -119,7 +121,9 @@ namespace Files.App.Commands
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
-			[CommandCodes.RotateRight] = new RotateRightAction()
+			[CommandCodes.RotateRight] = new RotateRightAction(),
+			[CommandCodes.NewTab] = new NewTabAction(),
+			[CommandCodes.DuplicateTab] = new DuplicateTabAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
