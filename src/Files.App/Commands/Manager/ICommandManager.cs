@@ -51,5 +51,8 @@ namespace Files.App.Commands
 
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
+
+		IRichCommand NewTab { get; }
+		IRichCommand DuplicateTab { get; }
 	}
 }
