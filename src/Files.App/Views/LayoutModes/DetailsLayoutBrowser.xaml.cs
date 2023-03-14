@@ -48,15 +48,6 @@ namespace Files.App.Views.LayoutModes
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
-		public bool AreAllItemsSelected
-		{
-			get
-			{
-				return FileList.SelectedItems.Count == FileList.Items.Count;
-			}
-			set { }
-		}
-
 		private double maxWidthForRenameTextbox;
 
 		public double MaxWidthForRenameTextbox
@@ -248,10 +239,6 @@ namespace Files.App.Views.LayoutModes
 			{
 				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
 			}
-
-
-			// If the selection is not all items, uncheck the select all checkbox and vice versa
-			NotifyPropertyChanged(nameof(AreAllItemsSelected));
 
 			if (e != null)
 			{
@@ -500,8 +487,6 @@ namespace Files.App.Views.LayoutModes
 				item = VisualTreeHelper.GetParent(item);
 			if (item is ListViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
-
-			NotifyPropertyChanged(nameof(AreAllItemsSelected));
 		}
 
 		private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
