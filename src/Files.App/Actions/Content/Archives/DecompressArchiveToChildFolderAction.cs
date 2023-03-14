@@ -35,9 +35,10 @@ namespace Files.App.Actions.Content.Archives
 				and not ContentPageTypes.ZipFolder
 				and not ContentPageTypes.None;
 		}
+
 		private string ComputeLabel()
 		{
-			if (context.SelectedItem == null || context.SelectedItems.Count == 0)
+			if (context.SelectedItems == null || context.SelectedItems.Count == 0)
 				return string.Empty;
 
 			return context.SelectedItems.Count > 1
