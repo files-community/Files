@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Windows.System;
 
 namespace Files.App.Actions.Content.Archives
 {
@@ -14,8 +16,10 @@ namespace Files.App.Actions.Content.Archives
 
 		public string Label => "ExtractFiles".GetLocalizedResource();
 
+		public HotKey HotKey { get; } = new(VirtualKey.E, VirtualKeyModifiers.Control);
+
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
-									&& ArchiveHelpers.CanDecompress(context.SelectedItems);
+										&& ArchiveHelpers.CanDecompress(context.SelectedItems);
 
 		public DecompressArchive()
 		{

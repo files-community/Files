@@ -15,6 +15,7 @@ namespace Files.App.Actions.Content.Archives
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label => ComputeLabel();
+
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
 									&& ArchiveHelpers.CanDecompress(context.SelectedItems);
 
