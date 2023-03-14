@@ -230,7 +230,7 @@ namespace Files.App.Views
 
 		public override void Up_Click()
 		{
-			this.FindAscendant<ColumnViewBrowser>().NavigateUp();
+			this.FindAscendant<ColumnViewBrowser>()?.NavigateUp();
 		}
 
 		public override void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
