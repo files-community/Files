@@ -25,7 +25,9 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.Delete);
 
-		public bool IsExecutable => context.HasSelection;
+		public bool IsExecutable =>
+			context.HasSelection &&
+			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
 
 		public DeleteItemAction()
 		{
