@@ -124,7 +124,7 @@ namespace Files.App.Commands
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction(),
-			[CommandCodes.OpenAllTaggedItems] = new OpenAllTaggedAction()
+			[CommandCodes.OpenAllTaggedItems] = new OpenAllTaggedAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.DuplicateTab] = new DuplicateTabAction(),
 		};

@@ -56,7 +56,7 @@
 		RotateRight,
     
 		// Tags
-		OpenAllTaggedItems
+		OpenAllTaggedItems,
 
 		// Navigation
 		NewTab,
