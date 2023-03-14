@@ -409,8 +409,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
-			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp
-				&& ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent)
+			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
 				ParentShellPageInstance.Up_Click();
 			}

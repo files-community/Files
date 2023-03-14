@@ -350,12 +350,12 @@ namespace Files.App.Views.LayoutModes
 							ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						break;
 					default:
-						if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp && ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent)
+						if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 							ParentShellPageInstance.Up_Click();
 						break;
 				}
 			}
-			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp && ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent)
+			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
 				ParentShellPageInstance.Up_Click();
 			}

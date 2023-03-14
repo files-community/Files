@@ -484,8 +484,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				_ = NavigationHelpers.OpenPath(item.ItemPath, ParentShellPageInstance);
 			}
-			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp
-				&& ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent)
+			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
 				ParentShellPageInstance.Up_Click();
 			}
