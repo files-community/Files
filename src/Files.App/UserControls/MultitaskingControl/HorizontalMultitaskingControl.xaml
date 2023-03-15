@@ -20,10 +20,12 @@
 						x:Name="TabItemContextMenu"
 						Opening="TabItemContextMenu_Opening">
 						<MenuFlyoutItem
+							x:Name="AddNewTab"
 							Command="{x:Bind Commands.NewTab}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.NewTab.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.NewTab.Label}" />
 						<MenuFlyoutItem
+							x:Name="DuplicateTab"
 							Command="{x:Bind Commands.DuplicateTab}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.DuplicateTab.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.DuplicateTab.Label}" />
