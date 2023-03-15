@@ -2619,7 +2619,4 @@
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Pinned items</value>
   </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
-  </data>
 </root>
