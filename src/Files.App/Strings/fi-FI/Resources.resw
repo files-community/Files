@@ -339,7 +339,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Kohde on jo olemassa</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>Aseta lukitusnäytön taustaksi</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Poista levy</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+  <data name="DuplicateTab" xml:space="preserve">
     <value>Monista välilehti</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Siirrä välilehti uuteen ikkunaan</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>Uusi välilehti</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>Uusi välilehti (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Jotkut ominaisuudet voivat sisältää henkilökohtaisia tietoja.</value>
@@ -1184,9 +1181,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Tuntematon</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Näytä valintaruutu tiedostonimien vieressä</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Jos muutat tiedostopäätettä, tiedosto saattaa muuttua käyttökelvottomaksi. Haluatko varmasti vaihtaa sen?</value>
@@ -1883,9 +1877,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Vaihto+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Vaihto+T</value>
@@ -2607,7 +2598,22 @@
   <data name="Hashes" xml:space="preserve">
     <value>Hajautusarvot</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Hajautusarvoja ei voida laskea järjestelmävirheen vuoksi</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>Laskennassa tapahtui virhe</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algoritmi</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Hajautusarvo</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Valitse näytettävät hajautusarvot</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Lasketaan...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Kiinnitetyt kohteet</value>
   </data>
 </root>
