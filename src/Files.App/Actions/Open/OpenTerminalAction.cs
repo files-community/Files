@@ -16,8 +16,6 @@ namespace Files.App.Actions
 {
 	internal class OpenTerminalAction : ObservableObject, IAction
 	{
-		private readonly string[] emptyStrings = Array.Empty<string>();
-
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public virtual string Label { get; } = "OpenTerminal".GetLocalizedResource();
@@ -26,22 +24,13 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new("\uE756");
 
-		public bool IsExecutable =>
-			context.PageType is not ContentPageTypes.None &&
-			context.PageType is not ContentPageTypes.Home &&
-			context.PageType is not ContentPageTypes.RecycleBin &&
-			context.PageType is not ContentPageTypes.ZipFolder &&
-			!(context.PageType is ContentPageTypes.SearchResults &&
-			!context.SelectedItems.Any(item => item.PrimaryItemAttribute is StorageItemTypes.Folder));
+		private bool isExecutable;
+		public bool IsExecutable => isExecutable;
 
 		public OpenTerminalAction()
 		{
+			isExecutable = GetIsExecutable();
 			context.PropertyChanged += Context_PropertyChanged;
-		}
-
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			OnPropertyChanged(nameof(IsExecutable));
 		}
 
 		public Task ExecuteAsync()
@@ -67,7 +56,7 @@ namespace Files.App.Actions
 		protected virtual ProcessStartInfo? GetProcessStartInfo()
 		{
 			var paths = GetPaths();
-			if (paths.Length == 0)
+			if (paths.Length is 0)
 				return null;
 
 			var path = paths[0] + (paths[0].EndsWith('\\') ? "\\" : "");
@@ -88,19 +77,43 @@ namespace Files.App.Actions
 
 		protected string[] GetPaths()
 		{
-			var paths = context.ShellPage?.SlimContentPage?.SelectedItems?
-				.Where(item => item.PrimaryItemAttribute is StorageItemTypes.Folder)
-				.Select(item => item.ItemPath)
-				.ToArray();
-
-			if (paths is null || paths.Length == 0)
+			if (context.HasSelection)
 			{
-				paths = context.ShellPage?.FilesystemViewModel.WorkingDirectory is not null
-					? new string[1] { context.ShellPage!.FilesystemViewModel.WorkingDirectory }
-					: emptyStrings;
+				return context.SelectedItems!
+					.Where(item => item.PrimaryItemAttribute is StorageItemTypes.Folder)
+					.Select(item => item.ItemPath)
+					.ToArray();
 			}
+			else if (context.Folder is not null)
+				return new string[1] { context.Folder.ItemPath };
 
-			return paths;
+			return Array.Empty<string>();
+		}
+
+		private bool GetIsExecutable()
+		{
+			if (context.PageType is ContentPageTypes.None or ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.ZipFolder)
+				return false;
+
+			if (!context.HasSelection)
+				return false;
+
+			if (context.SelectedItems.Count > Constants.Actions.MaxSelectedItems)
+				return false;
+
+			return context.SelectedItems.Any(item => item.PrimaryItemAttribute is StorageItemTypes.Folder);
+		}
+
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.PageType):
+				case nameof(IContentPageContext.Folder):
+				case nameof(IContentPageContext.SelectedItems):
+					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+					break;
+			}
 		}
 	}
 }
