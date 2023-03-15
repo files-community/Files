@@ -297,6 +297,9 @@ namespace Files.App.Views
 
 		public override void Up_Click()
 		{
+			if (!ToolbarViewModel.CanNavigateToParent)
+				return;
+
 			ToolbarViewModel.CanNavigateToParent = false;
 			if (string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory))
 				return;

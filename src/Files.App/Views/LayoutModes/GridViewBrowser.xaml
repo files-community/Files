@@ -14,6 +14,7 @@
 	xmlns:local2="using:Files.App.Filesystem"
 	xmlns:local3="using:Files.App.Filesystem.Cloud"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vc="using:Files.App.ValueConverters"
@@ -63,6 +64,18 @@
 					IsRightTapEnabled="True"
 					Loaded="Grid_Loaded"
 					ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
+
+					<VisualStateManager.VisualStateGroups>
+						<VisualStateGroup x:Name="CheckboxVisibilityStates">
+							<VisualState x:Name="Normal"/>
+							<VisualState x:Name="ShowCheckbox">
+								<VisualState.Setters>
+									<Setter Target="SelectionCheckbox.Visibility" Value="Visible"/>
+								</VisualState.Setters>
+							</VisualState>
+						</VisualStateGroup>
+					</VisualStateManager.VisualStateGroups>
+
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
@@ -191,6 +204,7 @@
 						Padding="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Top"
+						DoubleTapped="SelectionCheckbox_DoubleTapped"
 						Checked="ItemSelected_Checked"
 						Unchecked="ItemSelected_Unchecked"
 						Visibility="Collapsed" />
@@ -210,17 +224,6 @@
 							TextAlignment="Center"
 							TextWrapping="Wrap" />
 					</Popup>
-
-					<VisualStateManager.VisualStateGroups>
-						<VisualStateGroup x:Name="CheckboxVisibilityStates">
-							<VisualState x:Name="Normal" />
-							<VisualState x:Name="ShowCheckbox">
-								<VisualState.Setters>
-									<Setter Target="SelectionCheckbox.Visibility" Value="Visible" />
-								</VisualState.Setters>
-							</VisualState>
-						</VisualStateGroup>
-					</VisualStateManager.VisualStateGroups>
 				</Grid>
 			</UserControl>
 		</DataTemplate>
@@ -251,8 +254,9 @@
 					Padding="0"
 					HorizontalAlignment="Left"
 					VerticalAlignment="Top"
+					DoubleTapped="SelectionCheckbox_DoubleTapped"
 					Checked="ItemSelected_Checked"
-					Unchecked="ItemSelected_Unchecked" />
+					Unchecked="ItemSelected_Unchecked"/>
 				<StackPanel
 					Width="20"
 					Margin="8,4,0,4"
@@ -481,6 +485,36 @@
 		Padding="0,0,0,0"
 		VerticalAlignment="Stretch"
 		ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+		<Grid.KeyboardAccelerators>
+			<KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
+				<i:Interaction.Behaviors>
+					<icore:EventTriggerBehavior EventName="Invoked">
+						<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
+					</icore:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+			</KeyboardAccelerator>
+			<KeyboardAccelerator Key="{x:Bind MinusKey}" Modifiers="Control">
+				<i:Interaction.Behaviors>
+					<icore:EventTriggerBehavior EventName="Invoked">
+						<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
+					</icore:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+			</KeyboardAccelerator>
+			<KeyboardAccelerator Key="Add" Modifiers="Control">
+				<i:Interaction.Behaviors>
+					<icore:EventTriggerBehavior EventName="Invoked">
+						<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
+					</icore:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+			</KeyboardAccelerator>
+			<KeyboardAccelerator Key="Subtract" Modifiers="Control">
+				<i:Interaction.Behaviors>
+					<icore:EventTriggerBehavior EventName="Invoked">
+						<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
+					</icore:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+			</KeyboardAccelerator>
+		</Grid.KeyboardAccelerators>
 
 		<uc:FolderEmptyIndicator
 			Grid.Row="3"

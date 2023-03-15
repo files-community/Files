@@ -2625,4 +2625,7 @@
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Toggle sort direction</value>
   </data>
+  <data name="NewTabCtrlT" xml:space="preserve">
+    <value>New tab (Ctrl+T)</value>
+  </data>
 </root>

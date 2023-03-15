@@ -339,7 +339,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>L'elemento esiste già</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>Imposta come sfondo della schermata di blocco</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Espelli</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+  <data name="DuplicateTab" xml:space="preserve">
     <value>Duplica scheda</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Muovi scheda in una nuova finestra</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>Nuova scheda</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>Nuova scheda (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Alcune proprietà potrebbero contenere informazioni personali.</value>
@@ -1881,9 +1878,6 @@
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maiusc+6</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
-  </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maiusc+T</value>
   </data>
@@ -2604,7 +2598,22 @@
   <data name="Hashes" xml:space="preserve">
     <value>Hash</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Impossibile calcolare gli hash a causa di un errore di sistema</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>Si è verificato un errore durante il calcolo</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algoritmo</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Valore di hash</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Seleziona gli hash da mostrare</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Calcolando...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Elementi fissati</value>
   </data>
 </root>
