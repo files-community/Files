@@ -340,7 +340,7 @@
     <value>El elemento ya existe</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>Establecer como fondo de pantalla de bloqueo</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>No se pudo eliminar este elemento</value>
