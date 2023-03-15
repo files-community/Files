@@ -117,8 +117,8 @@
 					MinWidth="40"
 					AccessKey="C"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
-					Command="{x:Bind Commands.CopyItem, Mode=OneWay}"
-					Label="{x:Bind Commands.CopyItem}"
+					Command="{x:Bind Commands.CopyItem}"
+					Label="{x:Bind Commands.CopyItem.Label}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{x:Bind Commands.CopyItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.CopyItem.OpacityStyle}" />
@@ -127,21 +127,13 @@
 					x:Name="PasteButton"
 					Width="Auto"
 					MinWidth="40"
-					AccessKey="P"
+					AccessKey="V"
 					AutomationProperties.AutomationId="InnerNavigationToolbarPasteButton"
-					Command="{x:Bind ViewModel.PasteItemsFromClipboardCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.AppModel.IsPasteEnabled), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=Paste}"
+					Command="{x:Bind Commands.PasteItem}"
+					Label="{x:Bind Commands.PasteItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Paste}">
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="V"
-							IsEnabled="False"
-							Modifiers="Control" />
-					</AppBarButton.KeyboardAccelerators>
-
-					<local:OpacityIcon Style="{StaticResource ColorIconPaste}" />
+					ToolTipService.ToolTip="{x:Bind Commands.PasteItem.LabelWithHotKey, Mode=OneWay}">
+					<local:OpacityIcon Style="{x:Bind Commands.PasteItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="RenameButton"

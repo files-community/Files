@@ -29,8 +29,6 @@ namespace Files.App.Interacts
 
 		void CreateNewFile(ShellNewEntry e);
 
-		void PasteItemsFromClipboard(RoutedEventArgs e);
-
 		void CopyPathOfSelectedItem(RoutedEventArgs e);
 
 		void ShareItem(RoutedEventArgs e);
