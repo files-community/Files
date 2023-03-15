@@ -985,7 +985,7 @@
     <value>このデバイスは現在使用中です。デバイスを使用している可能性のあるすべてのプログラム、ウィンドウやタブを閉じてから再度試してください。</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
-    <value>取り出す</value>
+    <value>取り出し</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
     <value>タブを複製</value>
