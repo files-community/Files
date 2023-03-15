@@ -23,12 +23,12 @@ namespace Files.App.UserControls
 
 		private void IsEnabledChange(DependencyObject sender, DependencyProperty dp)
 		{
-			string state = sender.GetValue(dp) is false ? "Disabled" : "Normal";
-
-			if (state == "Normal" && IsSelected)
+			if (sender.GetValue(dp) is false)
+				VisualStateManager.GoToState(this, "Disabled", true);
+			else if (IsSelected)
 				VisualStateManager.GoToState(this, "Selected", true);
 			else
-				VisualStateManager.GoToState(this, state, true);
+				VisualStateManager.GoToState(this, "Normal", true);
 		}
 
 		private void OpacityIcon_Loading(FrameworkElement sender, object e)
