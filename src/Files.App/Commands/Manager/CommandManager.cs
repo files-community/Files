@@ -68,7 +68,7 @@ namespace Files.App.Commands
 		public CommandManager()
 		{
 			commands = CreateActions()
-				.Select(action => new ActionCommand(this, action.Key, action.Value))
+				.Select(action => new ActionCommand(action.Key, action.Value))
 				.Cast<IRichCommand>()
 				.Append(new NoneCommand())
 				.ToImmutableDictionary(command => command.Code);
@@ -167,8 +167,6 @@ namespace Files.App.Commands
 		[DebuggerDisplay("Command {Code}")]
 		private class ActionCommand : ObservableObject, IRichCommand
 		{
-			private readonly CommandManager manager;
-
 			public event EventHandler? CanExecuteChanged;
 
 			private readonly IAction action;
@@ -205,9 +203,8 @@ namespace Files.App.Commands
 
 			public bool IsExecutable => action.IsExecutable;
 
-			public ActionCommand(CommandManager manager, CommandCodes code, IAction action)
+			public ActionCommand(CommandCodes code, IAction action)
 			{
-				this.manager = manager;
 				Code = code;
 				this.action = action;
 				Icon = action.Glyph.ToIcon();

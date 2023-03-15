@@ -75,7 +75,7 @@
 							</VisualState>
 						</VisualStateGroup>
 					</VisualStateManager.VisualStateGroups>
-					
+
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
@@ -204,6 +204,7 @@
 						Padding="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Top"
+						DoubleTapped="SelectionCheckbox_DoubleTapped"
 						Checked="ItemSelected_Checked"
 						Unchecked="ItemSelected_Unchecked"
 						Visibility="Collapsed" />
@@ -253,6 +254,7 @@
 					Padding="0"
 					HorizontalAlignment="Left"
 					VerticalAlignment="Top"
+					DoubleTapped="SelectionCheckbox_DoubleTapped"
 					Checked="ItemSelected_Checked"
 					Unchecked="ItemSelected_Unchecked"/>
 				<StackPanel

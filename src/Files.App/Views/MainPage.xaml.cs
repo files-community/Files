@@ -249,7 +249,7 @@ namespace Files.App.Views
 					var command = Commands[hotKey];
 					if (command.Code is not CommandCodes.None)
 					{
-						e.Handled = true;
+						e.Handled = command.IsExecutable;
 						await command.ExecuteAsync();
 					}
 					break;

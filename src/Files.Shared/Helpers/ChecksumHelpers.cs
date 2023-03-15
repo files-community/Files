@@ -13,9 +13,9 @@ namespace Files.Shared.Helpers
 		public static string CalculateChecksumForPath(string path)
 		{
 			var buffer = Encoding.UTF8.GetBytes(path);
-			var hash = MD5.HashData(buffer);
-
-			return BitConverter.ToString(hash).Replace("-", string.Empty);
+			Span<byte> hash = stackalloc byte[MD5.HashSizeInBytes];
+			MD5.HashData(buffer, hash);
+			return Convert.ToHexString(hash);
 		}
 
 		public async static Task<string> CreateCRC32(Stream stream, CancellationToken cancellationToken)
@@ -32,35 +32,35 @@ namespace Files.Shared.Helpers
 		{
 			var hashBytes = await MD5.HashDataAsync(stream, cancellationToken);
 
-			return Convert.ToHexString(hashBytes);
+			return Convert.ToHexString(hashBytes).ToLower();
 		}
 
 		public async static Task<string> CreateSHA1(Stream stream, CancellationToken cancellationToken)
 		{
 			var hashBytes = await SHA1.HashDataAsync(stream, cancellationToken);
 
-			return Convert.ToHexString(hashBytes);
+			return Convert.ToHexString(hashBytes).ToLower();
 		}
 
 		public async static Task<string> CreateSHA256(Stream stream, CancellationToken cancellationToken)
 		{
 			var hashBytes = await SHA256.HashDataAsync(stream, cancellationToken);
 
-			return Convert.ToHexString(hashBytes);
+			return Convert.ToHexString(hashBytes).ToLower();
 		}
 
 		public async static Task<string> CreateSHA384(Stream stream, CancellationToken cancellationToken)
 		{
 			var hashBytes = await SHA384.HashDataAsync(stream, cancellationToken);
 
-			return Convert.ToHexString(hashBytes);
+			return Convert.ToHexString(hashBytes).ToLower();
 		}
 
 		public async static Task<string> CreateSHA512(Stream stream, CancellationToken cancellationToken)
 		{
 			var hashBytes = await SHA512.HashDataAsync(stream, cancellationToken);
 
-			return Convert.ToHexString(hashBytes);
+			return Convert.ToHexString(hashBytes).ToLower();
 		}
 	}
 }
