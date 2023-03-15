@@ -41,9 +41,7 @@ namespace Files.App.Actions.Favorites
 				await service.PinToSidebar(items);
 			}
 			else if (context.Folder is not null)
-			{
 				await service.PinToSidebar(context.Folder.ItemPath);
-			}
 		}
 
 		private bool GetIsExecutable()
