@@ -68,7 +68,6 @@
         <Content Remove="Assets\FilesHome.png" />
     </ItemGroup>
     <ItemGroup>
-      <None Remove="Dialogs\ReorderSidebarItemsDialog.xaml" />
       <None Remove="UserControls\OpacityIcon.xaml" />
     </ItemGroup>
     <ItemGroup>
@@ -126,9 +125,6 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
     </ItemGroup>
     <ItemGroup>
-      <Page Update="Dialogs\ReorderSidebarItemsDialog.xaml">
-        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      </Page>
       <Page Update="UserControls\OpacityIcon.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
