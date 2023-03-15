@@ -340,7 +340,7 @@
     <value>L'elemento esiste già</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>Imposta come sfondo della schermata di blocco</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Non è stato possibile eliminare questo elemento</value>
@@ -988,13 +988,13 @@
     <value>Espelli</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>Duplica scheda</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Muovi scheda in una nuova finestra</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
+    <value>Nuova scheda</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Alcune proprietà potrebbero contenere informazioni personali.</value>
