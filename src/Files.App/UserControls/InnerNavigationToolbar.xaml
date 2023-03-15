@@ -264,7 +264,7 @@
 								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind Commands.DecompressArchiveToChildFolder, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
-								Text="{x:Bind Commands.DecompressArchiveToChildFolder.Label}" />
+								Text="{x:Bind Commands.DecompressArchiveToChildFolder.Label, Mode=OneWay}" />
 						</MenuFlyout>
 					</AppBarButton.Flyout>
 				</AppBarButton>
