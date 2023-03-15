@@ -235,7 +235,7 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
+					Text = "PinToFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
 						OpacityIconStyle = "ColorIconPinToFavorites",
@@ -555,7 +555,7 @@ namespace Files.App.UserControls
 					}
 					else
 					{
-						var captionText = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource();
+						var captionText = "PinToFavorites".GetLocalizedResource();
 						CompleteDragEventArgs(e, captionText, DataPackageOperation.Move);
 					}
 				}

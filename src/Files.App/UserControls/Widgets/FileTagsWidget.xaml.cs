@@ -195,7 +195,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
+					Text = "PinToFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
 						OpacityIconStyle = "ColorIconPinToFavorites",
