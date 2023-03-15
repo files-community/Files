@@ -8,7 +8,7 @@ I ACKNOWLEDGE THE FOLLOWING BEFORE PROCEEDING:
 
 **Resolved / Related Issues**
 - [ ] Were these changes approved in an issue or discussion with the project maintainers? In order to prevent extra work, feature requests and changes to the codebase must be approved before the pull request will be reviewed. This prevents extra work for the contributors and maintainers.
-   Closes #
+   Closes #issue...
 
 **Validation**
 How did you test these changes?
