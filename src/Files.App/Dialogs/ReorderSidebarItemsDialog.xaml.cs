@@ -36,14 +36,14 @@ namespace Files.App.Dialogs
 			if (!properties.IsLeftButtonPressed)
 				return;
 
-			var navItem = icon?.FindAscendant<ListViewItem>();
+			var navItem = icon?.FindAscendant<Grid>();
 			if (navItem is not null)
 				await navItem.StartDragAsync(e.GetCurrentPoint(navItem));
 		}
 
 		private void ListViewItem_DragStarting(object sender, DragStartingEventArgs e)
 		{
-			if (sender is not ListViewItem nav || nav.DataContext is not LocationItem)
+			if (sender is not Grid nav || nav.DataContext is not LocationItem)
 				return;
 
 			// Adding the original Location item dragged to the DragEvents data view
@@ -54,11 +54,11 @@ namespace Files.App.Dialogs
 		
 		private void ListViewItem_DragOver(object sender, DragEventArgs e)
 		{
-			if ((sender as ListViewItem)?.DataContext is not LocationItem locationItem)
+			if ((sender as Grid)?.DataContext is not LocationItem locationItem)
 				return;
 			var deferral = e.GetDeferral();
 			
-			if ((e.DataView.Properties["sourceLocationItem"] as ListViewItem)?.DataContext is LocationItem sourceLocationItem)
+			if ((e.DataView.Properties["sourceLocationItem"] as Grid)?.DataContext is LocationItem sourceLocationItem)
 			{
 				DragOver_SetCaptions(sourceLocationItem, locationItem, e);
 			}
@@ -84,17 +84,11 @@ namespace Files.App.Dialogs
 
 		private void ListViewItem_Drop(object sender, DragEventArgs e)
 		{
-			if (sender is not ListViewItem navView || navView.DataContext is not LocationItem locationItem)
+			if (sender is not Grid navView || navView.DataContext is not LocationItem locationItem)
 				return;
 
-			if ((e.DataView.Properties["sourceLocationItem"] as ListViewItem)?.DataContext is LocationItem sourceLocationItem)
+			if ((e.DataView.Properties["sourceLocationItem"] as Grid)?.DataContext is LocationItem sourceLocationItem)
 				ViewModel.SidebarFavoriteItems.Move(ViewModel.SidebarFavoriteItems.IndexOf(sourceLocationItem), ViewModel.SidebarFavoriteItems.IndexOf(locationItem));
-		}
-
-		private void DataContextChanged(object sender, EventArgs e)
-		{
-			App.Logger.Warn("sender: " + sender);
-			Debugger.Break();
 		}
 
 		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();

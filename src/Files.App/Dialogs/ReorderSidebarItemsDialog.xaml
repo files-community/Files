@@ -34,38 +34,33 @@
 			ItemsSource="{x:Bind ViewModel.SidebarFavoriteItems, Mode=OneWay}">
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="navigationcontrolitems:LocationItem">
-					<ListViewItem
+					<Grid
 						AllowDrop="True"
 						AutomationProperties.AutomationId="{x:Bind Text}"
-						CanDrag="True"
 						DataContext="{x:Bind}"
 						DragOver="ListViewItem_DragOver"
 						DragStarting="ListViewItem_DragStarting"
 						Drop="ListViewItem_Drop"
 						Tag="{x:Bind Path}"
 						ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}">
-						<ListViewItem.Content>
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-								</Grid.RowDefinitions>
-								<TextBlock Grid.RowSpan="2" Text="{x:Bind Text}" />
-								<FontIcon
-									Grid.Row="1"
-									HorizontalAlignment="Right"
-									DataContext="{x:Bind}"
-									Glyph="&#xE76F;"
-									PointerPressed="MoveItem"
-									Visibility="{x:Bind IsPinned}" />
-							</Grid>
-						</ListViewItem.Content>
-					</ListViewItem>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<TextBlock Grid.RowSpan="2" Text="{x:Bind Text}" />
+						<FontIcon
+							Grid.Row="1"
+							HorizontalAlignment="Right"
+							DataContext="{x:Bind}"
+							Glyph="&#xE76F;"
+							PointerPressed="MoveItem"
+							Visibility="{x:Bind IsPinned}" />
+					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
