@@ -126,28 +126,7 @@
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE771;" />
 				</local:SettingsBlockControl.Icon>
-				<Button Padding="0" AutomationProperties.Name="{helpers:ResourceString Name=Background}">
-					<StackPanel Orientation="Horizontal">
-						<Border
-							Width="24"
-							Height="24"
-							Margin="4"
-							Background="{ThemeResource App.Theme.BackgroundBrush}"
-							CornerRadius="4" />
-						<FontIcon
-							Margin="8,4,10,4"
-							FontSize="12"
-							Glyph="&#xE019;" />
-					</StackPanel>
-					<Button.Flyout>
-						<Flyout>
-							<toolkit:ColorPicker
-								IsAlphaEnabled="True"
-								IsColorSpectrumVisible="False"
-								Color="{x:Bind ViewModel.AppThemeBackgroundColor, Mode=TwoWay}" />
-						</Flyout>
-					</Button.Flyout>
-				</Button>
+				<toolkit:ColorPickerButton AutomationProperties.Name="{helpers:ResourceString Name=Background}" SelectedColor="{x:Bind ViewModel.AppThemeBackgroundColor, Mode=TwoWay}" />
 				<local:SettingsBlockControl.ExpandableContent>
 					<GridView
 						Padding="8"

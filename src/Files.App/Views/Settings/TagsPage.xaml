@@ -182,28 +182,10 @@
 												</TextBox.Resources>
 											</TextBox>
 
-											<Button
+											<controls:ColorPickerButton
 												Margin="8,0"
-												Padding="0"
-												AutomationProperties.Name="{helpers:ResourceString Name=TagColor}">
-												<StackPanel Orientation="Horizontal">
-													<Border
-														Width="20"
-														Height="20"
-														Margin="4"
-														Background="{x:Bind NewColor, Mode=OneWay}"
-														CornerRadius="4" />
-													<FontIcon
-														Margin="8,4,10,4"
-														FontSize="12"
-														Glyph="&#xE019;" />
-												</StackPanel>
-												<Button.Flyout>
-													<Flyout>
-														<controls:ColorPicker Color="{x:Bind NewColor, Mode=TwoWay}" />
-													</Flyout>
-												</Button.Flyout>
-											</Button>
+												AutomationProperties.Name="{helpers:ResourceString Name=TagColor}"
+												SelectedColor="{x:Bind NewColor, Mode=TwoWay}" />
 										</StackPanel>
 
 										<StackPanel
