@@ -20,12 +20,10 @@
 						x:Name="TabItemContextMenu"
 						Opening="TabItemContextMenu_Opening">
 						<MenuFlyoutItem
-							AutomationProperties.Name="{x:Bind Commands.NewTab.Label}"
 							Command="{x:Bind Commands.NewTab}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.NewTab.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.NewTab.Label}" />
 						<MenuFlyoutItem
-							AutomationProperties.Name="{x:Bind Commands.DuplicateTab.Label}"
 							Command="{x:Bind Commands.DuplicateTab}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.DuplicateTab.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.DuplicateTab.Label}" />

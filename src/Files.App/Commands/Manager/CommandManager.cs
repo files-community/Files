@@ -144,7 +144,7 @@ namespace Files.App.Commands
 			public FontIcon? FontIcon => null;
 			public Style? OpacityStyle => null;
 
-			public string? HotKeyText => null;
+			public string? HotKeyText => string.Empty;
 			public HotKey HotKey => HotKey.None;
 			public HotKey SecondHotKey => HotKey.None;
 			public HotKey ThirdHotKey => HotKey.None;
@@ -210,7 +210,7 @@ namespace Files.App.Commands
 				FontIcon = action.Glyph.ToFontIcon();
 				OpacityStyle = action.Glyph.ToOpacityStyle();
 				HotKeyText = GetHotKeyText();
-				LabelWithHotKey = HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
+				LabelWithHotKey = string.IsNullOrEmpty(HotKeyText) ? Label : $"{Label} ({HotKeyText})";
 				command = new AsyncRelayCommand(ExecuteAsync, () => action.IsExecutable);
 
 				if (action is INotifyPropertyChanging notifyPropertyChanging)
