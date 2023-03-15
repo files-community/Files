@@ -339,8 +339,8 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Položka už existuje</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>Nastaviť ako pozadie uzamknutej obrazovky.</value>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Set as lockscreen background</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nepodarilo sa nám zmazať túto položku</value>
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Vysunúť</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>Duplikovať kartu</value>
+  <data name="DuplicateTab" xml:space="preserve">
+    <value>Duplicate tab</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Presunúť kartu to nového okna</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>Nová karta</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>Nová karta (Ctrl+T)</value>
+  <data name="NewTab" xml:space="preserve">
+    <value>New tab</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Niektoré vlastnosti môžu obsahovať osobné informácie.</value>
@@ -1883,9 +1880,6 @@
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
-  </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
@@ -2606,7 +2600,22 @@
   <data name="Hashes" xml:space="preserve">
     <value>Hashe</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Nebolo možné vypočítať hashe kvôli systémovej chybe</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>An error occurred during the calculation</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algorithm</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Hash value</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Select hashes to show</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Calculating...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Pinned items</value>
   </data>
 </root>

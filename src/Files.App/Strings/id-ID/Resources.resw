@@ -136,7 +136,7 @@
     <value>Jalur:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Ukuran:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Ukuran tidak terkompresi:</value>
@@ -154,13 +154,13 @@
     <value>Lewati</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>Pilih Semua</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>Pilihan Sebaliknya</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>Hapus Pilihan</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Diubah:</value>
@@ -175,7 +175,7 @@
     <value>Masukkan jalur</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Cari</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>File yang sebelumnya Anda akses akan muncul di sini</value>
@@ -214,7 +214,7 @@
     <value>Latar belakang</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Lanjutan</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferensi</value>
@@ -247,7 +247,7 @@
     <value>Segarkan</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Tempel</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Baru</value>
@@ -259,16 +259,16 @@
     <value>Buka</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Buka di tab baru</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Buka di jendela baru</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Berbagi</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>Potong</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Hapus</value>
@@ -286,10 +286,10 @@
     <value>Untuk memulai, Anda harus memberi kami izin untuk menampilkan file Anda. Ini akan membuka halaman Pengaturan di mana Anda dapat memberi kami izin ini. Anda harus membuka kembali aplikasi setelah menyelesaikan langkah ini. </value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>Menampilkan</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Masukkan nama item</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Atur Nama</value>
@@ -339,8 +339,8 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Item sudah ada</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>Atur sebagai latar belakang layar kunci</value>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Tetapkan sebagai latar belakang layar kunci</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Kami tidak dapat menghapus item ini</value>
@@ -367,13 +367,13 @@
     <value>File yang Anda coba akses saat ini sedang digunakan oleh {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>File yang Anda coba akses saat ini sedang digunakan oleh aplikasi lain</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>File sedang digunakan</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>Tata letak</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Baca-saja</value>
@@ -415,13 +415,13 @@
     <value>Buka dengan</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>Kirim ke</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Nama item tidak boleh mengandung karakter berikut: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>Nama item yang ditentukan tidak valid</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>item dipilih</value>
@@ -613,7 +613,7 @@
     <value>Nama item terlalu panjang</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>Tampilkan lebih banyak pilihan</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Aplikasi perlu dimulai ulang untuk menerapkan pengaturan ini, apakah Anda ingin memulai ulang aplikasi?</value>
@@ -673,7 +673,7 @@
     <value>Naik satu direktori</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Bahasa</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Move shell extensions into a sub menu</value>
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Keluarkan</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>Duplikat tab</value>
+  <data name="DuplicateTab" xml:space="preserve">
+    <value>Duplicate tab</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Pindah tab ke jendela baru</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>Tab baru</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+  <data name="NewTab" xml:space="preserve">
+    <value>New tab</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Beberapa properti mungkin berisi informasi pribadi.</value>
@@ -1030,7 +1027,7 @@
     <value>Sertakan item yang tidak diindeks dalam hasil pencarian</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
+    <value>Sinkronkan tata letak dan preferensi penyortiran di seluruh direktori</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Sesuaikan menu konteks klik kanan</value>
@@ -1159,7 +1156,7 @@
     <value>Panel pratinjau file yang dipilih</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Feedback</value>
+    <value>Masukan</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Tersedia ketika online</value>
@@ -1483,7 +1480,7 @@
     <value>Buka kembali tab yang ditutup</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Ganti nama</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Privasi</value>
@@ -1881,9 +1878,6 @@
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
-  </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
@@ -1903,7 +1897,7 @@
     <value>Buka folder induk</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Tidak dikenal</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Edit tag</value>
@@ -1972,7 +1966,7 @@
     <value>Ubin</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Buka folder di tab baru</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tugas yang Berjalan</value>
@@ -1987,13 +1981,13 @@
     <value>Experimental feature flags</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>Bantuan dan dukungan</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>Submit feature request</value>
+    <value>Kirim permintaan fitur</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>Submit bug report</value>
+    <value>Kirim laporan bug</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Atur Files sebagai pengelola file bawaan</value>
@@ -2017,7 +2011,7 @@
     <value>Impor Pengaturan</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>Manage settings</value>
+    <value>Kelola setelan</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Tidak dapat mengimpor pengaturan. File pengaturan rusak.</value>
@@ -2131,7 +2125,7 @@
     <value>Kalkulasi ukuran folder</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recent files</value>
+    <value>File terbaru</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Buka Files saat Windows aktif</value>
@@ -2458,37 +2452,37 @@
     <value>Urutkan berdasarkan</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
-    <value>Group in descending order</value>
+    <value>Kelompokkan dalam urutan menurun</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
-    <value>Sort in descending order</value>
+    <value>Urutkan dalam urutan menurun</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
-    <value>Create a new shortcut</value>
+    <value>Buat pintasan baru</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
     <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Enter the location of the item:</value>
+    <value>Masukkan lokasi item:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Membuat pintasan</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit Settings File</value>
+    <value>Edit Pengaturan File</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>Catatan Rilis</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Creating a shortcut in this location requires administrator privileges</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Would you like to create the shortcut on the desktop instead?</value>
+    <value>Apakah Anda ingin membuat pintasan di desktop?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
     <value>The specified item name is invalid</value>
@@ -2500,7 +2494,7 @@
     <value>Double click on a blank space to go up one directory</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
-    <value>View more</value>
+    <value>Lihat lebih banyak</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
     <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
@@ -2542,16 +2536,16 @@
     <value>Selalu</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>Permanent deletion only</value>
+    <value>Penghapusan permanen saja</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Never</value>
+    <value>Jangan Pernah</value>
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Tag color</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
-    <value>Save changes</value>
+    <value>Simpan perubahan</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>New tag</value>
@@ -2560,7 +2554,7 @@
     <value>Create new tag</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Memuat...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
     <value>Context menu options</value>
@@ -2569,7 +2563,7 @@
     <value>Show file extensions</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>Tampilkan item tersembunyi</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>Format...</value>
@@ -2581,7 +2575,7 @@
     <value>Toggle full screen</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Are you sure you want to delete this tag?</value>
+    <value>Yakin ingin menghapus tag ini?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>Play all</value>
@@ -2596,15 +2590,30 @@
     <value>Apply this action to all conflicting items</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Simpan</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>Pilih banyak</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hashes</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Unable to calculate hashes due to a system error</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>An error occurred during the calculation</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algorithm</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Hash value</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Select hashes to show</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Calculating...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Item yang disematkan</value>
   </data>
 </root>
