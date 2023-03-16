@@ -311,7 +311,7 @@ namespace Files.App.Filesystem
 						{
 							var context = Ioc.Default.GetRequiredService<IContentPageContext>();
 							value = context.ShellPage.FilesystemViewModel.WorkingDirectory + 
-								$"{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}";
+								$"{Path.DirectorySeparatorChar}..{value.Substring(i)}";
 
 							i = lastIndex = -1;
 						}
