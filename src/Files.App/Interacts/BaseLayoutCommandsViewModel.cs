@@ -42,8 +42,6 @@ namespace Files.App.Interacts
 			ShareItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShareItem);
 			ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.ItemPointerPressed);
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.PointerWheelChanged);
-			GridViewSizeDecreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CommandsModel.GridViewSizeDecrease);
-			GridViewSizeIncreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CommandsModel.GridViewSizeIncrease);
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.DragOver);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.Drop);
 			RefreshCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RefreshItems);
@@ -88,10 +86,6 @@ namespace Files.App.Interacts
 		public ICommand ItemPointerPressedCommand { get; private set; }
 
 		public ICommand PointerWheelChangedCommand { get; private set; }
-
-		public ICommand GridViewSizeDecreaseCommand { get; private set; }
-
-		public ICommand GridViewSizeIncreaseCommand { get; private set; }
 
 		public ICommand DragOverCommand { get; private set; }
 
