@@ -2595,6 +2595,9 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>Monivalinta</value>
   </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>Reorder sidebar items</value>
+  </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hajautusarvot</value>
   </data>
