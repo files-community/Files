@@ -40,7 +40,9 @@ namespace Files.App.Actions
 				await service.UnpinFromSidebar(items);
 			}
 			else if (context.Folder is not null)
+			{
 				await service.UnpinFromSidebar(context.Folder.ItemPath);
+			}
 		}
 
 		private bool GetIsExecutable()
