@@ -59,6 +59,8 @@ namespace Files.App.Views
 		/// </summary>
 		private bool draggingPreviewPane;
 
+		private bool keyReleased = true;
+
 		public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
 
 		public OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
@@ -235,20 +237,19 @@ namespace Files.App.Views
 				default:
 					// break for natives hotkeys in textbox (cut/copy/paste/selectAll/cancel)
 					bool isTextBox = e.OriginalSource is DependencyObject source && source.FindAscendantOrSelf<TextBox>() is not null;
-					if (isTextBox)
+					if (isTextBox &&
+						currentModifiers is VirtualKeyModifiers.Control &&
+						e.Key is VirtualKey.X or VirtualKey.C or VirtualKey.V or VirtualKey.A or VirtualKey.Z)
 					{
-						if (currentModifiers is VirtualKeyModifiers.Control &&
-							e.Key is VirtualKey.X or VirtualKey.C or VirtualKey.V or VirtualKey.A or VirtualKey.Z)
-						{
-							break;
-						}
+						break;
 					}
 
 					// execute command for hotkey
 					var hotKey = new HotKey(e.Key, currentModifiers);
 					var command = Commands[hotKey];
-					if (command.Code is not CommandCodes.None)
+					if (command.Code is not CommandCodes.None && keyReleased)
 					{
+						keyReleased = false;
 						e.Handled = command.IsExecutable;
 						await command.ExecuteAsync();
 					}
@@ -261,6 +262,10 @@ namespace Files.App.Views
 
 			switch (e.Key)
 			{
+				case VirtualKey.LeftWindows:
+				case VirtualKey.RightWindows:
+					currentModifiers |= VirtualKeyModifiers.Windows;
+					break;
 				case VirtualKey.Menu:
 					currentModifiers &= ~VirtualKeyModifiers.Menu;
 					break;
@@ -269,6 +274,9 @@ namespace Files.App.Views
 					break;
 				case VirtualKey.Shift:
 					currentModifiers &= ~VirtualKeyModifiers.Shift;
+					break;
+				default:
+					keyReleased = true;
 					break;
 			}
 		}
