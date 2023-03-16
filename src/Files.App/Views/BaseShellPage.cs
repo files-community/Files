@@ -462,14 +462,20 @@ namespace Files.App.Views
 			FilesystemViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
 			InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
-			ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
+
+			var args = new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,
 				SearchPathParam = FilesystemViewModel.WorkingDirectory,
 				SearchQuery = query,
 				SearchUnindexedItems = searchUnindexedItems,
-			});
+			};
+
+			if (this is ColumnShellPage)
+				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutBrowser), args);
+			else
+				ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), args);
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
@@ -479,7 +485,10 @@ namespace Files.App.Views
 
 		public void NavigateToPath(string navigationPath, NavigationArguments? navArgs = null)
 		{
-			NavigateToPath(navigationPath, FolderSettings.GetLayoutType(navigationPath), navArgs);
+			var layout = navigationPath.StartsWith("tag:")
+				? typeof(DetailsLayoutBrowser)
+				: FolderSettings.GetLayoutType(navigationPath);
+			NavigateToPath(navigationPath, layout, navArgs);
 		}
 
 		public Task TabItemDragOver(object sender, DragEventArgs e)
@@ -630,9 +639,6 @@ namespace Files.App.Views
 			ToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
 			ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
 			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
-			ToolbarViewModel.ExtractCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveCommand.Execute(null));
-			ToolbarViewModel.ExtractHereCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveHereCommand.Execute(null));
-			ToolbarViewModel.ExtractToCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveToChildFolderCommand.Execute(null));
 			ToolbarViewModel.InstallInfCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallInfDriver.Execute(null));;
 			ToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
