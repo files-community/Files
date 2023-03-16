@@ -462,14 +462,20 @@ namespace Files.App.Views
 			FilesystemViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
 			InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
-			ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
+
+			var args = new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,
 				SearchPathParam = FilesystemViewModel.WorkingDirectory,
 				SearchQuery = query,
 				SearchUnindexedItems = searchUnindexedItems,
-			});
+			};
+
+			if (this is ColumnShellPage)
+				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutBrowser), args);
+			else
+				ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), args);
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
@@ -479,7 +485,10 @@ namespace Files.App.Views
 
 		public void NavigateToPath(string navigationPath, NavigationArguments? navArgs = null)
 		{
-			NavigateToPath(navigationPath, FolderSettings.GetLayoutType(navigationPath), navArgs);
+			var layout = navigationPath.StartsWith("tag:")
+				? typeof(DetailsLayoutBrowser)
+				: FolderSettings.GetLayoutType(navigationPath);
+			NavigateToPath(navigationPath, layout, navArgs);
 		}
 
 		public Task TabItemDragOver(object sender, DragEventArgs e)
