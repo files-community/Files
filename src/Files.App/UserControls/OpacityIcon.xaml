@@ -12,6 +12,7 @@
 	<VisualStateManager.VisualStateGroups>
 		<VisualStateGroup>
 			<VisualState x:Name="Normal" />
+			<VisualState x:Name="Selected" />
 			<VisualState x:Name="Disabled" />
 		</VisualStateGroup>
 	</VisualStateManager.VisualStateGroups>

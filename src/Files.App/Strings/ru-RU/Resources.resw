@@ -339,8 +339,8 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Элемент уже существует</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>Применить как фон экрана блокировки</value>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Сделать фоном экрана блокировки</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Ошибка при удалении этого элемента</value>
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Извлечь</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>Создать копию вкладки</value>
+  <data name="DuplicateTab" xml:space="preserve">
+    <value>Дублировать вкладку</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Переместить вкладку в новое окно</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>Новая вкладка</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>Новая вкладка (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Некоторые свойства могут содержать личную информацию.</value>
@@ -1881,9 +1878,6 @@
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
-  </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
@@ -2601,10 +2595,28 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>Мультивыбор</value>
   </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>Reorder sidebar items</value>
+  </data>
   <data name="Hashes" xml:space="preserve">
     <value>Хеши</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Невозможно вычислить хеши из-за системной ошибки</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>Произошла ошибка при вычислении</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Алгоритм</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Значение хеша</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Выберите хеши для отображения</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Вычисление...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Закрепленные элементы</value>
   </data>
 </root>

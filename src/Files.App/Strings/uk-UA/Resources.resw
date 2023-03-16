@@ -339,7 +339,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Елемент вже існує</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>Установити як тло екрану блокування</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Вилучити</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>Створити копію вкладки</value>
+  <data name="DuplicateTab" xml:space="preserve">
+    <value>Дублювати вкладку</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Перемістити вкладку у нове вікно</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>Нова вкладка</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>Нова вкладка (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Деякі об’єкти можуть містити особисту інформацію.</value>
@@ -1881,9 +1878,6 @@
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl + T</value>
-  </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+Е</value>
   </data>
@@ -2601,10 +2595,28 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>Множинний вибір</value>
   </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>Reorder sidebar items</value>
+  </data>
   <data name="Hashes" xml:space="preserve">
     <value>Хеші</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Не вдалося обчислити хеші через системну помилку</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>Під час обрахунку сталась помилка</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Алгоритм</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Значення хешу</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Виберіть хеші для показу</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Обчислення...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Закріплені елементи</value>
   </data>
 </root>

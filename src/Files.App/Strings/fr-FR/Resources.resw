@@ -339,7 +339,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>L‘élément existe déjà</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>Définir en tant qu'écran de verrouillage</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Éjecter</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+  <data name="DuplicateTab" xml:space="preserve">
     <value>Dupliquer l'onglet</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Déplacer l'onglet vers une nouvelle fenêtre</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>Nouvel onglet</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>Nouvel onglet (Ctrl + T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Certaines propriétés peuvent contenir des informations personnelles.</value>
@@ -1881,9 +1878,6 @@
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
-  </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maj+T</value>
   </data>
@@ -2601,10 +2595,28 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>Sélection Multiple</value>
   </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>Reorder sidebar items</value>
+  </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hash</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Impossible de calculer le hach en raison d'une erreur système</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>Une erreur s'est produite lors du calcul</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algorithme</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Valeur de hachage</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Sélectionnez les hachages à afficher</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Calcul en cours...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Éléments épinglés</value>
   </data>
 </root>
