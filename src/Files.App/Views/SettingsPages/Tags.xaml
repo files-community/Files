@@ -23,154 +23,6 @@
 				TrueValue="Collapsed" />
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
-			<Style x:Key="CompactInfoBarStyle" TargetType="InfoBar">
-				<Setter Property="Template">
-					<Setter.Value>
-						<ControlTemplate TargetType="InfoBar">
-							<Border
-								x:Name="ContentRoot"
-								VerticalAlignment="Top"
-								Background="{ThemeResource InfoBarInformationalSeverityBackgroundBrush}"
-								BorderBrush="{TemplateBinding BorderBrush}"
-								BorderThickness="{TemplateBinding BorderThickness}"
-								CornerRadius="{TemplateBinding CornerRadius}">
-								<!--  Background is used here so that it overrides the severity status color if set.  -->
-								<Grid
-									MinHeight="{ThemeResource InfoBarMinHeight}"
-									Padding="{StaticResource InfoBarContentRootPadding}"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center"
-									Background="{TemplateBinding Background}"
-									CornerRadius="{TemplateBinding CornerRadius}">
-
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<!--  Icon  -->
-										<ColumnDefinition Width="*" />
-										<!--  Title, message, and action  -->
-										<ColumnDefinition Width="Auto" />
-										<!--  Close button  -->
-									</Grid.ColumnDefinitions>
-
-									<Grid.RowDefinitions>
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-									</Grid.RowDefinitions>
-									<Grid
-										x:Name="StandardIconArea"
-										Margin="0,0,14,0"
-										VerticalAlignment="Center"
-										Visibility="Collapsed">
-										<TextBlock
-											x:Name="IconBackground"
-											Grid.Column="0"
-											AutomationProperties.AccessibilityView="Raw"
-											FontFamily="{ThemeResource SymbolThemeFontFamily}"
-											FontSize="{StaticResource InfoBarIconFontSize}"
-											Foreground="{ThemeResource InfoBarInformationalSeverityIconBackground}"
-											Text="{StaticResource InfoBarIconBackgroundGlyph}" />
-										<TextBlock
-											x:Name="StandardIcon"
-											Grid.Column="0"
-											FontFamily="{ThemeResource SymbolThemeFontFamily}"
-											FontSize="{StaticResource InfoBarIconFontSize}"
-											Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
-											Text="{StaticResource InfoBarInformationalIconGlyph}" />
-									</Grid>
-									<Viewbox
-										x:Name="UserIconBox"
-										Grid.Column="0"
-										MaxWidth="{ThemeResource InfoBarIconFontSize}"
-										MaxHeight="{ThemeResource InfoBarIconFontSize}"
-										Margin="{ThemeResource InfoBarIconMargin}"
-										VerticalAlignment="Top"
-										Child="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IconElement}"
-										Visibility="Collapsed" />
-									<InfoBarPanel
-										Grid.Column="1"
-										Margin="0,0,16,0"
-										HorizontalOrientationPadding="{StaticResource InfoBarPanelHorizontalOrientationPadding}"
-										VerticalOrientationPadding="{StaticResource InfoBarPanelVerticalOrientationPadding}">
-										<TextBlock
-											x:Name="Title"
-											AutomationProperties.LandmarkType="Navigation"
-											FontSize="{StaticResource InfoBarTitleFontSize}"
-											FontWeight="{StaticResource InfoBarTitleFontWeight}"
-											Foreground="{ThemeResource InfoBarTitleForeground}"
-											InfoBarPanel.HorizontalOrientationMargin="{StaticResource InfoBarTitleHorizontalOrientationMargin}"
-											InfoBarPanel.VerticalOrientationMargin="{StaticResource InfoBarTitleVerticalOrientationMargin}"
-											Text="{TemplateBinding Title}"
-											TextWrapping="WrapWholeWords" />
-										<TextBlock
-											x:Name="Message"
-											FontSize="{StaticResource InfoBarMessageFontSize}"
-											FontWeight="{StaticResource InfoBarMessageFontWeight}"
-											Foreground="{ThemeResource InfoBarMessageForeground}"
-											InfoBarPanel.HorizontalOrientationMargin="{StaticResource InfoBarMessageHorizontalOrientationMargin}"
-											InfoBarPanel.VerticalOrientationMargin="{StaticResource InfoBarMessageVerticalOrientationMargin}"
-											Text="{TemplateBinding Message}"
-											TextWrapping="WrapWholeWords" />
-										<ContentPresenter
-											VerticalAlignment="Top"
-											Content="{TemplateBinding ActionButton}"
-											InfoBarPanel.HorizontalOrientationMargin="{StaticResource InfoBarActionHorizontalOrientationMargin}"
-											InfoBarPanel.VerticalOrientationMargin="{StaticResource InfoBarActionVerticalOrientationMargin}">
-											<ContentPresenter.Resources>
-												<Style BasedOn="{StaticResource DefaultHyperlinkButtonStyle}" TargetType="HyperlinkButton">
-													<Style.Setters>
-														<Setter Property="Margin" Value="{StaticResource InfoBarHyperlinkButtonMargin}" />
-														<Setter Property="Foreground" Value="{ThemeResource InfoBarHyperlinkButtonForeground}" />
-													</Style.Setters>
-												</Style>
-											</ContentPresenter.Resources>
-										</ContentPresenter>
-									</InfoBarPanel>
-									<ContentPresenter
-										Grid.Row="1"
-										Grid.Column="1"
-										Content="{TemplateBinding Content}"
-										ContentTemplate="{TemplateBinding ContentTemplate}" />
-
-								</Grid>
-
-								<VisualStateManager.VisualStateGroups>
-									<VisualStateGroup x:Name="SeverityLevels">
-										<VisualState x:Name="Error">
-											<VisualState.Setters>
-												<Setter Target="ContentRoot.Background" Value="{ThemeResource InfoBarErrorSeverityBackgroundBrush}" />
-												<Setter Target="IconBackground.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconBackground}" />
-												<Setter Target="StandardIcon.Text" Value="{StaticResource InfoBarErrorIconGlyph}" />
-												<Setter Target="StandardIcon.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconForeground}" />
-
-											</VisualState.Setters>
-										</VisualState>
-									</VisualStateGroup>
-									<VisualStateGroup x:Name="IconStates">
-										<VisualState x:Name="StandardIconVisible">
-											<VisualState.Setters>
-												<Setter Target="UserIconBox.Visibility" Value="Collapsed" />
-												<Setter Target="StandardIconArea.Visibility" Value="Visible" />
-
-											</VisualState.Setters>
-										</VisualState>
-									</VisualStateGroup>
-									<VisualStateGroup x:Name="InfoBarVisibility">
-										<VisualState x:Name="InfoBarVisible" />
-										<VisualState x:Name="InfoBarCollapsed">
-											<VisualState.Setters>
-												<Setter Target="ContentRoot.Visibility" Value="Collapsed" />
-
-											</VisualState.Setters>
-										</VisualState>
-
-									</VisualStateGroup>
-
-								</VisualStateManager.VisualStateGroups>
-							</Border>
-						</ControlTemplate>
-					</Setter.Value>
-				</Setter>
-			</Style>
 		</ResourceDictionary>
 	</Page.Resources>
 	<Page.DataContext>
@@ -256,14 +108,40 @@
 								Orientation="Horizontal"
 								Spacing="12">
 								<!--  Invalid Name Warning  -->
-								<InfoBar
-									Height="32"
-									IsClosable="False"
-									IsOpen="{x:Bind ViewModel.NewTag.IsNameValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-									Message="{helpers:ResourceString Name=InvalidTagNameWarning}"
-									Severity="Error"
-									Style="{StaticResource CompactInfoBarStyle}"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=TagNameRules}" />
+								<Grid
+									Padding="12,4"
+									VerticalAlignment="Stretch"
+									Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+									BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+									BorderThickness="1"
+									ColumnSpacing="8"
+									CornerRadius="4"
+									Visibility="{x:Bind ViewModel.NewTag.IsNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+									<TextBlock
+										Grid.Column="0"
+										VerticalAlignment="Center"
+										AutomationProperties.AccessibilityView="Raw"
+										FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										FontSize="{StaticResource InfoBarIconFontSize}"
+										Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
+										Text="{StaticResource InfoBarIconBackgroundGlyph}" />
+									<TextBlock
+										Grid.Column="0"
+										VerticalAlignment="Center"
+										AutomationProperties.AccessibilityView="Raw"
+										FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										FontSize="{StaticResource InfoBarIconFontSize}"
+										Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+										Text="{StaticResource InfoBarErrorIconGlyph}" />
+									<TextBlock
+										Grid.Column="1"
+										VerticalAlignment="Center"
+										Text="{helpers:ResourceString Name=InvalidTagNameWarning}" />
+								</Grid>
 
 								<!--  Cancel  -->
 								<Button Command="{x:Bind ViewModel.CancelNewTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=Cancel}" />
@@ -390,14 +268,39 @@
 											Orientation="Horizontal"
 											Spacing="12"
 											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
-											<InfoBar
-												Height="32"
-												IsClosable="False"
-												IsOpen="{x:Bind IsNameValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-												Message="{helpers:ResourceString Name=InvalidTagNameWarning}"
-												Severity="Error"
-												Style="{StaticResource CompactInfoBarStyle}"
-												ToolTipService.ToolTip="{helpers:ResourceString Name=TagNameRules}" />
+											<Grid
+												Padding="12,4"
+												VerticalAlignment="Stretch"
+												Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+												BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+												BorderThickness="1"
+												ColumnSpacing="8"
+												CornerRadius="4"
+												Visibility="{x:Bind IsNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition Width="Auto" />
+													<ColumnDefinition Width="Auto" />
+												</Grid.ColumnDefinitions>
+												<TextBlock
+													Grid.Column="0"
+													VerticalAlignment="Center"
+													AutomationProperties.AccessibilityView="Raw"
+													FontFamily="{ThemeResource SymbolThemeFontFamily}"
+													FontSize="{StaticResource InfoBarIconFontSize}"
+													Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
+													Text="{StaticResource InfoBarIconBackgroundGlyph}" />
+												<TextBlock
+													Grid.Column="0"
+													VerticalAlignment="Center"
+													FontFamily="{ThemeResource SymbolThemeFontFamily}"
+													FontSize="{StaticResource InfoBarIconFontSize}"
+													Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+													Text="{StaticResource InfoBarErrorIconGlyph}" />
+												<TextBlock
+													Grid.Column="1"
+													VerticalAlignment="Center"
+													Text="{helpers:ResourceString Name=InvalidTagNameWarning}" />
+											</Grid>
 
 											<Button
 												x:Name="CancelChangesButton"
