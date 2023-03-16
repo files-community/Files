@@ -72,6 +72,8 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public ContextMenuOptions MenuOptions { get; set; }
 
+		public bool IsHeader { get; set; }
+
 		public int CompareTo(INavigationControlItem other)
 			=> Text.CompareTo(other.Text);
 

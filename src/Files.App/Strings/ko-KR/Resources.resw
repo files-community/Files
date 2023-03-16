@@ -136,7 +136,7 @@
     <value>경로:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>크기:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>압축 해제된 크기:</value>
@@ -154,7 +154,7 @@
     <value>넘어가기</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>모두 선택</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Invert Selection</value>
@@ -175,7 +175,7 @@
     <value>경로 입력</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>검색</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>최근에 액세스한 파일이 여기에 표시됩니다.</value>
@@ -2594,6 +2594,9 @@
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Multiselect</value>
+  </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>Reorder sidebar items</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hashes</value>
