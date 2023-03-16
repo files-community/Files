@@ -119,6 +119,10 @@ namespace Files.App.Helpers.ContextFlyouts
 					CommandParameter = i.CommandParameter,
 					IsChecked = i.IsChecked,
 				};
+				if (!string.IsNullOrEmpty(i.Glyph))
+				{
+					flyoutItem.Icon = new FontIcon{ Glyph = i.Glyph };
+				}
 			}
 			else
 			{

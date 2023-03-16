@@ -1,4 +1,4 @@
-﻿namespace Files.App.Commands
+namespace Files.App.Commands
 {
 	public enum CommandCodes
 	{
@@ -50,6 +50,9 @@
 		CompressIntoArchive,
 		CompressIntoSevenZip,
 		CompressIntoZip,
+		DecompressArchive,
+		DecompressArchiveHere,
+		DecompressArchiveToChildFolder,
 
 		// Image Edition
 		RotateLeft,
@@ -59,6 +62,48 @@
 		OpenTerminal,
 		OpenTerminalAsAdmin,
 
+		// Layout
+		LayoutDecreaseSize,
+		LayoutIncreaseSize,
+		LayoutDetails,
+		LayoutTiles,
+		LayoutGridSmall,
+		LayoutGridMedium,
+		LayoutGridLarge,
+		LayoutColumns,
+		LayoutAdaptive,
+
+		// Sort by
+		SortByName,
+		SortByDateModified,
+		SortByDateCreated,
+		SortBySize,
+		SortByType,
+		SortBySyncStatus,
+		SortByTag,
+		SortByOriginalFolder,
+		SortByDateDeleted,
+		SortAscending,
+		SortDescending,
+		ToggleSortDirection,
+		ToggleSortDirectoriesAlongsideFiles,
+
+		// Group by
+		GroupByNone,
+		GroupByName,
+		GroupByDateModified,
+		GroupByDateCreated,
+		GroupBySize,
+		GroupByType,
+		GroupBySyncStatus,
+		GroupByTag,
+		GroupByOriginalFolder,
+		GroupByDateDeleted,
+		GroupByFolderPath,
+		GroupAscending,
+		GroupDescending,
+		ToggleGroupDirection,
+    
 		// Navigation
 		NewTab,
 		DuplicateTab,

@@ -5,6 +5,7 @@ using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using System;
 using System.ComponentModel;
+using static Files.App.Constants.Browser.GridViewBrowser;
 
 namespace Files.App.Contexts
 {
@@ -101,15 +102,81 @@ namespace Files.App.Contexts
 			}
 		}
 
+		private bool sortDirectoriesAlongsideFiles = false;
+		public bool SortDirectoriesAlongsideFiles
+		{
+			get => sortDirectoriesAlongsideFiles;
+			set
+			{
+				if (FolderSettings is FolderSettingsViewModel viewModel)
+					viewModel.SortDirectoriesAlongsideFiles = value;
+			}
+		}
+
 		private FolderSettingsViewModel? FolderSettings => context.Pane?.InstanceViewModel?.FolderSettings;
 
 		public DisplayPageContext()
 		{
+			context.Changing += Context_Changing;
 			context.Changed += Context_Changed;
 			settings.PropertyChanged += Settings_PropertyChanged;
 		}
 
-		private void Context_Changed(object? sender, EventArgs e) => Update();
+		public void DecreaseLayoutSize()
+		{
+			if (FolderSettings is FolderSettingsViewModel viewModel)
+				viewModel.GridViewSize -= GridViewIncrement;
+		}
+		public void IncreaseLayoutSize()
+		{
+			if (FolderSettings is FolderSettingsViewModel viewModel)
+				viewModel.GridViewSize += GridViewIncrement;
+		}
+
+		private void Context_Changing(object? sender, EventArgs e)
+		{
+			var viewModel = FolderSettings;
+			if (viewModel is not null)
+				viewModel.PropertyChanged -= FolderSettings_PropertyChanged;
+			Update();
+		}
+		private void Context_Changed(object? sender, EventArgs e)
+		{
+			var viewModel = FolderSettings;
+			if (viewModel is not null)
+				viewModel.PropertyChanged += FolderSettings_PropertyChanged;
+			Update();
+		}
+
+		private void FolderSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			var viewModel = FolderSettings;
+			if (viewModel is null)
+				return;
+
+			switch (e.PropertyName)
+			{
+				case nameof(FolderSettingsViewModel.LayoutMode):
+				case nameof(FolderSettingsViewModel.GridViewSize):
+					SetProperty(ref layoutType, GetLayoutType(), nameof(LayoutType));
+					break;
+				case nameof(FolderSettingsViewModel.DirectorySortOption):
+					SetProperty(ref sortOption, viewModel.DirectorySortOption, nameof(SortOption));
+					break;
+				case nameof(FolderSettingsViewModel.DirectorySortDirection):
+					SetProperty(ref sortDirection, viewModel.DirectorySortDirection, nameof(SortDirection));
+					break;
+				case nameof(FolderSettingsViewModel.DirectoryGroupOption):
+					SetProperty(ref groupOption, viewModel.DirectoryGroupOption, nameof(GroupOption));
+					break;
+				case nameof(FolderSettingsViewModel.DirectoryGroupDirection):
+					SetProperty(ref groupDirection, viewModel.DirectoryGroupDirection, nameof(GroupDirection));
+					break;
+				case nameof(FolderSettingsViewModel.SortDirectoriesAlongsideFiles):
+					SetProperty(ref sortDirectoriesAlongsideFiles, viewModel.SortDirectoriesAlongsideFiles, nameof(SortDirectoriesAlongsideFiles));
+					break;
+			}
+		}
 
 		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
@@ -139,6 +206,7 @@ namespace Files.App.Contexts
 				SetProperty(ref sortDirection, viewModel.DirectorySortDirection, nameof(SortDirection));
 				SetProperty(ref groupOption, viewModel.DirectoryGroupOption, nameof(GroupOption));
 				SetProperty(ref groupDirection, viewModel.DirectoryGroupDirection, nameof(GroupDirection));
+				SetProperty(ref sortDirectoriesAlongsideFiles, viewModel.SortDirectoriesAlongsideFiles, nameof(SortDirectoriesAlongsideFiles));
 			}
 		}
 

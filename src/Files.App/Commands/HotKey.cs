@@ -31,6 +31,8 @@ namespace Files.App.Commands
 			[VirtualKey.NumberPad7] = "Pad7",
 			[VirtualKey.NumberPad8] = "Pad8",
 			[VirtualKey.NumberPad9] = "Pad9",
+			[VirtualKey.Add] = "+",
+			[VirtualKey.Subtract] = "-",
 			[VirtualKey.Delete] = "Del",
 			[(VirtualKey)192] = "`",
 		}.ToImmutableDictionary();

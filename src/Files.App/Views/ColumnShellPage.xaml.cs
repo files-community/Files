@@ -134,11 +134,6 @@ namespace Files.App.Views
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
 			{
-				case (true, false, false, true, VirtualKey.E): // ctrl + e, extract
-					if (ToolbarViewModel.CanExtract)
-						ToolbarViewModel.ExtractCommand.Execute(null);
-					break;
-
 				case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
 					if (!InstanceViewModel.IsPageTypeSearchResults)
 						await storageHistoryHelpers.TryUndo();
@@ -230,7 +225,7 @@ namespace Files.App.Views
 
 		public override void Up_Click()
 		{
-			this.FindAscendant<ColumnViewBrowser>().NavigateUp();
+			this.FindAscendant<ColumnViewBrowser>()?.NavigateUp();
 		}
 
 		public override void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)

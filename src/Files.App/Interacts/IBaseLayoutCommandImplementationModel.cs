@@ -39,10 +39,6 @@ namespace Files.App.Interacts
 
 		void PointerWheelChanged(PointerRoutedEventArgs e);
 
-		void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e);
-
-		void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e);
-
 		Task DragOver(DragEventArgs e);
 
 		Task Drop(DragEventArgs e);
@@ -52,12 +48,6 @@ namespace Files.App.Interacts
 		void SearchUnindexedItems(RoutedEventArgs e);
 
 		Task CreateFolderWithSelection(RoutedEventArgs e);
-
-		Task DecompressArchive();
-
-		Task DecompressArchiveHere();
-
-		Task DecompressArchiveToChildFolder();
 
 		Task InstallInfDriver();
 
