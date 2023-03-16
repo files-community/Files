@@ -4,7 +4,6 @@ using Files.App.Commands;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using Files.App.Interacts;
 using Files.App.UserControls.Selection;
 using Files.Shared.Enums;
 using Microsoft.UI.Input;
@@ -47,23 +46,6 @@ namespace Files.App.Views.LayoutModes
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
 
-		protected override void HookEvents()
-		{
-			base.HookEvents();
-			ItemManipulationModel.RefreshItemThumbnailInvoked += ItemManipulationModel_RefreshItemThumbnail;
-			ItemManipulationModel.RefreshItemsThumbnailInvoked += ItemManipulationModel_RefreshItemsThumbnail;
-		}
-
-		private void ItemManipulationModel_RefreshItemsThumbnail(object? sender, EventArgs e)
-		{
-			ReloadSelectedItemsIcon();
-		}
-
-		private void ItemManipulationModel_RefreshItemThumbnail(object? sender, EventArgs args)
-		{
-			ReloadSelectedItemIcon();
-		}
-
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
 			FileList.ScrollIntoView(e);
@@ -90,13 +72,6 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (FileList?.Items.Contains(e) ?? false)
 				FileList.SelectedItems.Remove(e);
-		}
-
-		protected override void UnhookEvents()
-		{
-			base.UnhookEvents();
-			ItemManipulationModel.RefreshItemThumbnailInvoked -= ItemManipulationModel_RefreshItemThumbnail;
-			ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -372,24 +347,6 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private async void ReloadSelectedItemIcon()
-		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
-			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, currentIconSize);
-		}
-
-		private async void ReloadSelectedItemsIcon()
-		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-
-			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
-			{
-				selectedItem.ItemPropertiesInitialized = false;
-				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(selectedItem, currentIconSize);
-			}
-		}
-
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var clickedItem = e.OriginalSource as FrameworkElement;
@@ -405,7 +362,6 @@ namespace Files.App.Views.LayoutModes
 			(
 				ctrlPressed ||
 				shiftPressed ||
-				AppModel.ShowSelectionCheckboxes && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick ||
 				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle
 			)
 			{
@@ -453,13 +409,13 @@ namespace Files.App.Views.LayoutModes
 			{
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
-			else
+			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-				if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-					ParentShellPageInstance.Up_Click();
+				ParentShellPageInstance.Up_Click();
 			}
 			ResetRenameDoubleClick();
 		}
+
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{
 			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
@@ -474,8 +430,16 @@ namespace Files.App.Views.LayoutModes
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
+			args.ItemContainer.PointerEntered -= ItemRow_PointerEntered;
+			args.ItemContainer.PointerExited -= ItemRow_PointerExited;
+			args.ItemContainer.PointerCanceled -= ItemRow_PointerCanceled;
+
 			base.FileList_ContainerContentChanging(sender, args);
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as GridViewItem);
+
+			args.ItemContainer.PointerEntered += ItemRow_PointerEntered;
+			args.ItemContainer.PointerExited += ItemRow_PointerExited;
+			args.ItemContainer.PointerCanceled += ItemRow_PointerCanceled;
 		}
 
 		private void SetCheckboxSelectionState(object item, GridViewItem? lviContainer = null)
@@ -495,6 +459,7 @@ namespace Files.App.Views.LayoutModes
 					checkbox.Checked += ItemSelected_Checked;
 					checkbox.Unchecked += ItemSelected_Unchecked;
 				}
+				UpdateCheckboxVisibility(container, false);
 			}
 		}
 
@@ -507,6 +472,32 @@ namespace Files.App.Views.LayoutModes
 				item = VisualTreeHelper.GetParent(item);
 			if (item is GridViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
+		}
+
+		private void ItemRow_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility(sender, true);
+		}
+
+		private void ItemRow_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility(sender, false);
+		}
+
+		private void ItemRow_PointerCanceled(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility(sender, false);
+		}
+
+		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
+		{
+			if (sender is GridViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
+			{
+				if (control.IsSelected)
+					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
+				else
+					VisualStateManager.GoToState(userControl, isPointerOver ? "ShowCheckbox" : "Normal", true);
+			}
 		}
 	}
 }

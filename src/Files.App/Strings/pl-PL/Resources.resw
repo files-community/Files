@@ -136,7 +136,7 @@
     <value>Lokalizacja:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Rozmiar:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Rozmiar nieskompresowany:</value>
@@ -154,13 +154,13 @@
     <value>Pomiń</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>Zaznacz wszystko</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>Odwróć zaznaczenie</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>Wyczyść zaznaczenie</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Zmodyfikowany:</value>
@@ -175,7 +175,7 @@
     <value>Wprowadź ścieżkę</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Szukaj</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Tutaj pojawią się wcześniej otwierane pliki</value>
@@ -247,28 +247,28 @@
     <value>Odśwież</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Wklej</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nowy</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Właściwości</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Otwórz</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Otwórz w nowej karcie</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Otwórz w nowym oknie</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Udostępnij</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>Wytnij</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Usuń</value>
@@ -289,7 +289,7 @@
     <value>Widok</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Wprowadź nazwę elementu</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ustaw nazwę</value>
@@ -339,8 +339,8 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Element już istnieje</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>Ustaw jako tło blokady ekranu</value>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Set as lockscreen background</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nie mogliśmy usunąć tego elementu</value>
@@ -373,7 +373,7 @@
     <value>Plik jest w użyciu</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>Układ</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Tylko do odczytu</value>
@@ -673,10 +673,10 @@
     <value>Przejdź w górę o jeden katalog</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Język</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>Przenieś rozszerzenia powłoki do podmenu</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Pokaż komunikat potwierdzenia przy usuwaniu elementów</value>
@@ -955,7 +955,7 @@
     <value>Adres</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>Opcje zaznaczania</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Wybierz</value>
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Wysuń</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>Duplikuj kartę</value>
+  <data name="DuplicateTab" xml:space="preserve">
+    <value>Duplicate tab</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Przenieś kartę do nowego okna</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>Nowa karta</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+  <data name="NewTab" xml:space="preserve">
+    <value>New tab</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Niektóre właściwości mogą zawierać informacje osobiste.</value>
@@ -1036,7 +1033,7 @@
     <value>Dostosuj menu kontekstowe prawego przycisku myszy</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>Oryginalna ścieżka</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Dodaj</value>
@@ -1132,7 +1129,7 @@
     <value>Żądana nazwa</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Toggle the preview pane</value>
+    <value>Przełącz panel zapory sieciowej</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Podgląd niedostępny</value>
@@ -1141,7 +1138,7 @@
     <value>Nazwa</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Odepnij od Ulubionych</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Dyski sieciowe</value>
@@ -1159,7 +1156,7 @@
     <value>Panel podglądu wybranego pliku</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Feedback</value>
+    <value>Opinia</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Dostępne w trybie Online</value>
@@ -1184,9 +1181,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Nieznany</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Jeżeli zmienisz rozszerzenie, plik może stać się nieużywalny. Czy na pewno chcesz to zrobić?</value>
@@ -1315,7 +1309,7 @@
     <value>Bliblioteka z tą samą nazwą już istnieje!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>Otwórz Storage Sense</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopiuj</value>
@@ -1375,7 +1369,7 @@
     <value>Wyszukaj niezindeksowane elementy</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Zamień istniejące</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Wygeneruj nową nazwę</value>
@@ -1417,7 +1411,7 @@
     <value>Kolumna daty usunięcia</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Sortuj</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Grupuj według</value>
@@ -1486,7 +1480,7 @@
     <value>Otwórz ponownie zamkniętą kartę</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Zmień nazwę</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Prywatność</value>
@@ -1884,9 +1878,6 @@
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
-  </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
@@ -1906,7 +1897,7 @@
     <value>Otwórz folder nadrzędny</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Nieznany</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Edytuj tagi plików</value>
@@ -1975,7 +1966,7 @@
     <value>Kafelki</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Otwieraj foldery w nowej karcie</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Zadania w toku</value>
@@ -1993,7 +1984,7 @@
     <value>Pomoc i wsparcie</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>Submit feature request</value>
+    <value>Prześlij propozycję funkcji</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
     <value>Wyślij raport o błędzie</value>
@@ -2242,7 +2233,7 @@
     <value>Tagi</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Use compact spacing in the details layout</value>
+    <value>Użyj kompaktowych stylów w układzie szczegółów</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Uniwersalny</value>
@@ -2359,7 +2350,7 @@
     <value>Przywróć wszystkie elementy</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>Przywróć</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>Skrót nie może zostać otworzony</value>
@@ -2470,13 +2461,13 @@
     <value>Utwórz nowy skrót</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+    <value>Ten program konfiguracyjny pomoże ci stworzyć skróty do lokalnych lub\nsieciowych programów, plików, katalogów, komputerów, bądź addresów\nInternetowych.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
     <value>Wpisz ścieżkę do elementu:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Utwórz skrót</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Funkcja Ostatnio używane pliki jest obecnie wyłączona w Eksploratorze plików Windows.</value>
@@ -2488,19 +2479,19 @@
     <value>Lista zmian</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>Creating a shortcut in this location requires administrator privileges</value>
+    <value>Tworzenie skrótu w tej lokalizacji wymaga uprawnień administratora</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Would you like to create the shortcut on the desktop instead?</value>
+    <value>Czy chcesz zamiast tego utworzyć skrót na pulpicie?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>The specified item name is invalid</value>
+    <value>Podana nazwa jest nieprawidłowa.</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Ustawienia</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double click on a blank space to go up one directory</value>
+    <value>Kliknij dwukrotnie na pustą przestrzeń, aby przejść w górę</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>Pokaż więcej</value>
@@ -2512,22 +2503,22 @@
     <value>Paczki zostaną wycofane w przyszłej aktualizacji 📎</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>Pokaż edycję tagów</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>Pokaż opcję otwierania folderów w nowym panelu</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>Pokaż opcję otwierania folderów w nowym panelu</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Szybki dostęp</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>Enter your credentials to connect to: {0}</value>
+    <value>Wprować dane do logowania aby kontynuować.</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter Network Credentials</value>
+    <value>Wprowadź poświadczenia sieciowe</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>Zapamiętaj moje dane logowania</value>
@@ -2584,7 +2575,7 @@
     <value>Przełącz pełny ekran</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Are you sure you want to delete this tag?</value>
+    <value>Na pewno chcesz usunąć ten tag?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>Odtwórz wszystko</value>
@@ -2596,18 +2587,33 @@
     <value>Szerokość</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Apply this action to all conflicting items</value>
+    <value>Zastosuj tę akcję do wszystkich sprzecznych elementów</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Zapisz</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>Wielokrotne zaznaczanie</value>
   </data>
   <data name="Hashes" xml:space="preserve">
-    <value>Hashes</value>
+    <value>Hashe</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Unable to calculate hashes due to a system error</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>Wystąpił błąd podczas obliczeń</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algorytm</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Wartość haszowania</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Wybierz hasze do pokazania</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Obliczanie...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Przypięte elementy</value>
   </data>
 </root>

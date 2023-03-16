@@ -70,8 +70,8 @@ namespace Files.App.ViewModels
 				viewModel.GlyphFontFamilyName = glyph.FontFamily;
 			}
 
-			if (!command.CustomHotKey.IsNone)
-				viewModel.KeyboardAcceleratorTextOverride = command.HotKeyText!;
+			if (command.HotKeyText is not null)
+				viewModel.KeyboardAcceleratorTextOverride = command.HotKeyText;
 
 			return viewModel;
 		}

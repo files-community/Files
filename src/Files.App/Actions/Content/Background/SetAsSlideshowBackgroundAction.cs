@@ -16,38 +16,36 @@ namespace Files.App.Actions.Content.Background
 
 		public string Label { get; } = "SetAsSlideshow".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph("\uE91B");
+		public RichGlyph Glyph { get; } = new("\uE91B");
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() && context.SelectedItems.Count > 1;
+		private bool isExecutable;
+		public bool IsExecutable => isExecutable;
 
 		public SetAsSlideshowBackgroundAction()
 		{
+			isExecutable = GetIsExecutable();
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
-			if (context.ShellPage is not null)
-			{
-				var imagePaths = context.SelectedItems.Select(item => item.ItemPath).ToArray();
-				WallpaperHelpers.SetSlideshow(imagePaths);
-			}
+			var paths = context.SelectedItems.Select(item => item.ItemPath).ToArray();
+			WallpaperHelpers.SetSlideshow(paths);
+
+			return Task.CompletedTask;
 		}
 
-		private bool IsContextPageTypeAdaptedToCommand()
-		{
-			return context.PageType is not ContentPageTypes.RecycleBin
-				and not ContentPageTypes.ZipFolder
-				and not ContentPageTypes.None;
-		}
+		private bool GetIsExecutable() => context.ShellPage is not null && context.SelectedItems.Count > 1
+			&& context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder
+			&& (context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
+				case nameof(IContentPageContext.PageType):
 				case nameof(IContentPageContext.SelectedItems):
-					if (IsContextPageTypeAdaptedToCommand())
-						OnPropertyChanged(nameof(IsExecutable));
+					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
 					break;
 			}
 		}

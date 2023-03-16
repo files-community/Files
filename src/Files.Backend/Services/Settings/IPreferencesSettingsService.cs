@@ -171,5 +171,10 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating the default option to resolve conflicts.
 		/// </summary>
 		FileNameConflictResolveOptionType ConflictsResolveOption { get; set; }
+
+		/// <summary>
+		/// A dictionary to determine which hashes should be shown.
+		/// </summary>
+		Dictionary<string, bool> ShowHashesDictionary { get; set; }
 	}
 }

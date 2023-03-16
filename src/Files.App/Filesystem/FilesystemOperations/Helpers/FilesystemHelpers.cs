@@ -294,7 +294,7 @@ namespace Files.App.Filesystem
 			}
 			finally
 			{
-				packageView.ReportOperationCompleted(operation);
+				packageView.ReportOperationCompleted(packageView.RequestedOperation);
 			}
 		}
 

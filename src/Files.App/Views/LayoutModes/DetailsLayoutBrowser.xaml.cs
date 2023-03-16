@@ -48,15 +48,6 @@ namespace Files.App.Views.LayoutModes
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
-		public bool AreAllItemsSelected
-		{
-			get
-			{
-				return FileList.SelectedItems.Count == FileList.Items.Count;
-			}
-			set { }
-		}
-
 		private double maxWidthForRenameTextbox;
 
 		public double MaxWidthForRenameTextbox
@@ -248,10 +239,6 @@ namespace Files.App.Views.LayoutModes
 			{
 				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
 			}
-
-
-			// If the selection is not all items, uncheck the select all checkbox and vice versa
-			NotifyPropertyChanged(nameof(AreAllItemsSelected));
 
 			if (e != null)
 			{
@@ -445,7 +432,6 @@ namespace Files.App.Views.LayoutModes
 			(
 				ctrlPressed ||
 				shiftPressed ||
-				AppModel.ShowSelectionCheckboxes && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick ||
 				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle
 			)
 			{
@@ -485,10 +471,9 @@ namespace Files.App.Views.LayoutModes
 			{
 				_ = NavigationHelpers.OpenPath(item.ItemPath, ParentShellPageInstance);
 			}
-			else
+			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-				if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-					ParentShellPageInstance.Up_Click();
+				ParentShellPageInstance.Up_Click();
 			}
 			ResetRenameDoubleClick();
 		}
@@ -502,8 +487,6 @@ namespace Files.App.Views.LayoutModes
 				item = VisualTreeHelper.GetParent(item);
 			if (item is ListViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
-
-			NotifyPropertyChanged(nameof(AreAllItemsSelected));
 		}
 
 		private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -569,8 +552,10 @@ namespace Files.App.Views.LayoutModes
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			var columnToResize = Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) / 2;
+			var columnToResize = Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) / 2 + 1;
 			ResizeColumnToFit(columnToResize);
+
+			this.ChangeCursor(arrowCursor);
 			e.Handled = true;
 		}
 
@@ -732,19 +717,6 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.SetDefaultLayoutPreferences(ColumnsViewModel);
 		}
 
-		private void SelectAllCheckbox_Checked(object sender, RoutedEventArgs e)
-		{
-			FileList.SelectAll();
-		}
-
-		private void SelectAllCheckbox_Unchecked(object sender, RoutedEventArgs e)
-		{
-			// We should only unselect all items if the user clicked the checkbox
-			// We determine this by checking if all items were selected
-			if (SelectedItems.Count == FileList.Items.Count)
-				FileList.SelectedItem = null;
-		}
-
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{
 			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
@@ -759,8 +731,16 @@ namespace Files.App.Views.LayoutModes
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
+			args.ItemContainer.PointerEntered -= ItemRow_PointerEntered;
+			args.ItemContainer.PointerExited -= ItemRow_PointerExited;
+			args.ItemContainer.PointerCanceled -= ItemRow_PointerCanceled;
+
 			base.FileList_ContainerContentChanging(sender, args);
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
+
+			args.ItemContainer.PointerEntered += ItemRow_PointerEntered;
+			args.ItemContainer.PointerExited += ItemRow_PointerExited;
+			args.ItemContainer.PointerCanceled += ItemRow_PointerCanceled;
 		}
 
 		private void SetCheckboxSelectionState(object item, ListViewItem? lviContainer = null)
@@ -780,6 +760,7 @@ namespace Files.App.Views.LayoutModes
 					checkbox.Checked += ItemSelected_Checked;
 					checkbox.Unchecked += ItemSelected_Unchecked;
 				}
+				UpdateCheckboxVisibility(container, false);
 			}
 		}
 
@@ -809,7 +790,7 @@ namespace Files.App.Views.LayoutModes
 
 			if (tagName is null || parent?.DataContext is not ListedItem item)
 				return;
-			
+
 			var tagId = FileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
 
 			item.FileTags = item.FileTags
@@ -817,6 +798,32 @@ namespace Files.App.Views.LayoutModes
 				.ToArray();
 
 			e.Handled = true;
+		}
+
+		private void ItemRow_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility(sender, true);
+		}
+
+		private void ItemRow_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility(sender, false);
+		}
+
+		private void ItemRow_PointerCanceled(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility(sender, false);
+		}
+
+		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
+		{
+			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
+			{
+				if (control.IsSelected)
+					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
+				else
+					VisualStateManager.GoToState(userControl, isPointerOver ? "ShowCheckbox" : "Normal", true);
+			}
 		}
 	}
 }

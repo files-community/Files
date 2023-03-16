@@ -154,7 +154,7 @@
     <value>தவிர்</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>அனைத்தையும் தேர்ந்தெடு</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Invert Selection</value>
@@ -175,7 +175,7 @@
     <value>ஒரு பாதையை உள்ளிடுக</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>தேடு</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>நீங்கள் முன்பு அணுகிய கோப்புகள் மற்றும் கோப்புறைகள் இங்கு காட்டப்படும்</value>
@@ -184,7 +184,7 @@
     <value>இந்த உருப்படியை அகற்று</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>GitHub களஞ்சியம்</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>பற்றி</value>
@@ -247,28 +247,28 @@
     <value>புதுப்பி</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>ஒட்டு</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>புதிது</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>பண்புகள்</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>திற</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>புதியத் தாவலில் திற</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>புதியச் சாளரத்தில் திற</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>பகிர்</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>வெட்டு</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>நீக்கு</value>
@@ -339,8 +339,8 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>உருப்படி ஏற்கனவே உள்ளது</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>பூட்டுத்திரை பின்புலமாக அமை</value>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Set as lockscreen background</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>இந்த உருப்படியை எங்களால் நீக்க இயலவில்லை</value>
@@ -373,7 +373,7 @@
     <value>கோப்புப் பயன்பாட்டில் உள்ளது</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>தளவமைப்பு</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>படிக்க மட்டும்</value>
@@ -469,7 +469,7 @@
     <value>ப்பி.பி</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>பி</value>
+    <value>பை</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} கோப்புகள், {1:#,##0} கோப்புறைகள்</value>
@@ -613,7 +613,7 @@
     <value>உருப்படி பெயர் மிகவும் நீளமாக இருந்தது</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>மேலும் விருப்பங்களைக் காட்டு</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>மொழி மாற்றத்தை செயற்படுத்த இந்த பயன்பாடு மறுதொடங்க வேண்டும். இப்போது மறுதொடக்கம் செய்ய விரும்புகிறீர்களா?</value>
@@ -673,7 +673,7 @@
     <value>ஒரு கோப்புறை மேல் செல்</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>மொழி</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Move shell extensions into a sub menu</value>
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>வெளியேற்று</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>பிரதி தாவல்</value>
+  <data name="DuplicateTab" xml:space="preserve">
+    <value>Duplicate tab</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Move tab to new window</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>புதிய தாவல்</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+  <data name="NewTab" xml:space="preserve">
+    <value>புதியத் தாவல்</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Some properties may contain personal information.</value>
@@ -1036,7 +1033,7 @@
     <value>Customize the right click context menu</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>அசல் பாதை</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>சேர்</value>
@@ -1184,9 +1181,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>தெரியாதவை</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Show selection checkbox next to file names</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
@@ -1417,7 +1411,7 @@
     <value>Date deleted column</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>வரிசைப்படுத்து</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>இதன்படி குழுவாக்கு</value>
@@ -1486,7 +1480,7 @@
     <value>மூடிய தாவலை மீண்டும் திற</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>மறுபெயரிடு</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>தனியுரிமை</value>
@@ -1884,9 +1878,6 @@
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl + T</value>
-  </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
@@ -1924,7 +1915,7 @@
     <value>வட்டைச் செருகவும்</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>OK</value>
+    <value>சரி</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>தேவையான நற்சான்று</value>
@@ -2017,10 +2008,10 @@
     <value>Export Settings</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Import Settings</value>
+    <value>அமைப்புகளை இறக்குமதி செய்</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>Manage settings</value>
+    <value>அமைப்புகளை நிர்வகி</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Couldn't import settings. The settings file is corrupted.</value>
@@ -2431,7 +2422,7 @@
     <value>Do not split</value>
   </data>
   <data name="CD" xml:space="preserve">
-    <value>CD</value>
+    <value>குறுந்தட்டு</value>
   </data>
   <data name="DVD" xml:space="preserve">
     <value>DVD</value>
@@ -2503,7 +2494,7 @@
     <value>Double click on a blank space to go up one directory</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
-    <value>View more</value>
+    <value>மேலும் காண்க</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
     <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
@@ -2563,7 +2554,7 @@
     <value>Create new tag</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>ஏற்றுகிறது...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
     <value>Context menu options</value>
@@ -2599,7 +2590,7 @@
     <value>Apply this action to all conflicting items</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>சேமி</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Multiselect</value>
@@ -2607,7 +2598,22 @@
   <data name="Hashes" xml:space="preserve">
     <value>Hashes</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Unable to calculate hashes due to a system error</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>An error occurred during the calculation</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algorithm</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Hash value</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Select hashes to show</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Calculating...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Pinned items</value>
   </data>
 </root>

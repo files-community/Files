@@ -339,7 +339,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>项目已存在</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>设为锁屏背景</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>弹出</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+  <data name="DuplicateTab" xml:space="preserve">
     <value>复制标签页</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>将标签页移动到新窗口</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>新建标签页</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>新建标签页 (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>某些属性可能包含个人信息。</value>
@@ -1184,9 +1181,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>未知</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>在文件名旁边显示复选框</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>如果改变文件扩展名，可能会导致文件不可用。确实要更改吗？</value>
@@ -1883,9 +1877,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
@@ -2607,7 +2598,22 @@
   <data name="Hashes" xml:space="preserve">
     <value>哈希值</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>由于系统错误，无法计算哈希值</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>计算时发生错误</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>算法</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>哈希值</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>选择要显示的哈希值</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>正在计算...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>已固定的项目</value>
   </data>
 </root>

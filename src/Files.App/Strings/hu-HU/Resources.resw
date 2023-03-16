@@ -339,7 +339,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Az elem már létezik</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>Beállítás zárolási képernyő háttérként</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Kiadás</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+  <data name="DuplicateTab" xml:space="preserve">
     <value>Lap megkettőzése</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Lap áthelyezése új ablakba</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>Új lap</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>Új lap (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Némelyik tulajdonság személyes adatokat tartalmazhat.</value>
@@ -1184,9 +1181,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Ismeretlen</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Jelölőnégyzetek megjelenítése fájlnevek mellett</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Ha módosítja egy fájl kiterjesztését, akkor az használhatatlanná válhat. Végrehajtja a módosítást?</value>
@@ -1883,9 +1877,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
@@ -2607,7 +2598,22 @@
   <data name="Hashes" xml:space="preserve">
     <value>Hash-ek</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Egy hiba miatt nem sikerült kiszámítani a hash-eket</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>Hiba történt a számolás során</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algoritmus</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Hash érték</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Válassza ki a megjelenítendő hash-eket</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Számolás...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Rögzített elemek</value>
   </data>
 </root>
