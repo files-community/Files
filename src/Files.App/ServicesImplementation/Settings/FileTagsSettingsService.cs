@@ -1,5 +1,6 @@
 using Files.App.Extensions;
 using Files.App.Filesystem;
+using Files.App.Helpers;
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
 using Files.Backend.Services.Settings;
@@ -38,7 +39,15 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public IList<TagViewModel> FileTagList
 		{
-			get => Get<List<TagViewModel>>(DefaultFileTags);
+			get
+			{
+				var tags = Get<List<TagViewModel>>(DefaultFileTags);
+
+				foreach (var tag in tags!)
+					tag.Color = ColorHelpers.FromHex(tag.Color).ToString();
+
+				return tags;
+			}
 			set
 			{
 				Set(value);
@@ -168,14 +177,14 @@ namespace Files.App.ServicesImplementation.Settings
 
 		private void UntagAllFiles(string uid)
 		{
-			var tagDoDelete = new string [] { uid };
+			var tagDoDelete = new string[] { uid };
 
 			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
 			{
 				if (item.Tags.Contains(uid))
-				{ 
+				{
 					FileTagsHelper.WriteFileTag(
-						item.FilePath, 
+						item.FilePath,
 						item.Tags.Except(tagDoDelete).ToArray());
 				}
 			}
