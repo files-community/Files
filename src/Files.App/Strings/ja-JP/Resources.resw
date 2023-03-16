@@ -2595,6 +2595,9 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>複数選択</value>
   </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>サイドバーの項目を並べ替え</value>
+  </data>
   <data name="Hashes" xml:space="preserve">
     <value>ハッシュ</value>
   </data>
