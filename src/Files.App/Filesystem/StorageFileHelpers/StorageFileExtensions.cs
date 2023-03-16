@@ -108,7 +108,7 @@ namespace Files.App.Filesystem
 
 			value = NormalizePath(value);
 
-			var (components, paths) = GetComponentsAndRelativePaths(value);
+			var (components, paths) = GetComponentsAndRelativePaths(value, FtpHelpers.IsFtpPath(value));
 			for (int i = 0; i < components.Count; i++)
 			{
 				if (!_ftpPaths.Contains(paths[i], StringComparer.OrdinalIgnoreCase))
@@ -118,10 +118,10 @@ namespace Files.App.Filesystem
 			return pathBoxItems;
 		}
 
-		public static string GetResolvedPath(string path)
+		public static string GetResolvedPath(string path, bool isFtp)
 		{
 			var withoutEnvironment = GetPathWithoutEnvironmentVariable(path);
-			return ResolvePath(withoutEnvironment);
+			return ResolvePath(withoutEnvironment, isFtp);
 		}
 
 		public async static Task<BaseStorageFile> DangerousGetFileFromPathAsync
@@ -281,7 +281,7 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		private static (List<string>, List<string>) GetComponentsAndRelativePaths(string value)
+		private static (List<string>, List<string>) GetComponentsAndRelativePaths(string value, bool isFtp)
 		{
 			List<string> components = new();
 			List<string> paths = new();
@@ -299,15 +299,15 @@ namespace Files.App.Filesystem
 					var component = value.Substring(lastIndex, i - lastIndex);
 					var path = value.Substring(0, i + 1);
 
-					if (component == "..")
+					if (component is "..")
 					{
 						var lastListIndex = components.Count - 1;
-						if (lastListIndex > 0)
+						if (lastListIndex > 0 || (isFtp && lastListIndex == 0))
 						{
 							components.RemoveAt(lastListIndex);
 							paths.RemoveAt(lastListIndex);
 						}
-						else if (lastListIndex == -1)
+						else if (lastListIndex == -1 && !isFtp)
 						{
 							var context = Ioc.Default.GetRequiredService<IContentPageContext>();
 							value = context.ShellPage.FilesystemViewModel.WorkingDirectory + 
@@ -316,7 +316,7 @@ namespace Files.App.Filesystem
 							i = lastIndex = -1;
 						}
 					}
-					else if (component != ".")
+					else if (component is not "." && component is not "\0")
 					{
 						components.Add(component);
 						paths.Add(path);
@@ -344,12 +344,18 @@ namespace Files.App.Filesystem
 			return path;
 		}
 
-		private static string ResolvePath(string path)
+		private static string ResolvePath(string path, bool isFtp)
 		{
 			path = NormalizePath(path);
-			var (components, _) = GetComponentsAndRelativePaths(path);
 
-			return string.Join(Path.DirectorySeparatorChar, components) + Path.DirectorySeparatorChar;
+			var workingPath = isFtp ? FtpHelpers.GetFtpPath(path) : path;
+			var pathSeparator = isFtp ? '/' : Path.DirectorySeparatorChar;
+			var prefix = isFtp ? FtpHelpers.GetFtpRoot(path) : string.Empty;
+
+			var (components, _) = GetComponentsAndRelativePaths(workingPath, isFtp);
+			var suffix = components.Count == 0 ? '\0' : pathSeparator;
+
+			return prefix + string.Join(pathSeparator, components) + suffix;
 		}
 
 		private static string GetPathWithoutEnvironmentVariable(string path)

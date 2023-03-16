@@ -84,5 +84,13 @@ namespace Files.App.Helpers
 			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
 			return hostIndex == -1 ? "/" : path.Substring(hostIndex);
 		}
+
+		public static string GetFtpRoot(string path)
+		{
+			path = path.Replace("\\", "/", StringComparison.Ordinal);
+			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
+			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
+			return hostIndex == -1 ? path : path.Substring(0, hostIndex + 1);
+		}
 	}
 }
