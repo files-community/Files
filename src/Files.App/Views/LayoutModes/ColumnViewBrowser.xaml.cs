@@ -316,7 +316,13 @@ namespace Files.App.Views.LayoutModes
 
 		public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
 		{
-			var destPath = navArgs is not null ? (navArgs.IsSearchResultPage ? navArgs.SearchPathParam : navArgs.NavPathParam) : navigationPath;
+			if (navArgs is not null && navArgs.IsSearchResultPage)
+			{
+				ParentShellPageInstance?.NavigateToPath(navArgs.SearchPathParam, typeof(DetailsLayoutBrowser), navArgs);
+				return;
+			}
+
+			var destPath = navArgs is not null ? navArgs.NavPathParam : navigationPath;
 			var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
 			var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
 

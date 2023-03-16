@@ -242,10 +242,10 @@
 							<MenuFlyoutItem
 								x:Name="ExtractSingle"
 								x:Load="{x:Bind ViewModel.IsMultipleArchivesSelected, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-								Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
+								Command="{x:Bind Commands.DecompressArchive, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
-								KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=ExtractKeyboardAcceleratorTextOverride}"
-								Text="{helpers:ResourceString Name=ExtractFiles}">
+								KeyboardAcceleratorTextOverride="{x:Bind Commands.DecompressArchive.HotKeyText, Mode=OneWay}"
+								Text="{x:Bind Commands.DecompressArchive.Label}">
 								<MenuFlyoutItem.KeyboardAccelerators>
 									<KeyboardAccelerator
 										Key="E"
@@ -256,15 +256,15 @@
 							<MenuFlyoutItem
 								x:Name="ExtractHere"
 								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-								Command="{x:Bind ViewModel.ExtractHereCommand, Mode=OneWay}"
+								Command="{x:Bind Commands.DecompressArchiveHere, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
-								Text="{helpers:ResourceString Name=ExtractHere}" />
+								Text="{x:Bind Commands.DecompressArchiveHere.Label}" />
 							<MenuFlyoutItem
 								x:Name="ExtractTo"
 								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-								Command="{x:Bind ViewModel.ExtractToCommand, Mode=OneWay}"
+								Command="{x:Bind Commands.DecompressArchiveToChildFolder, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
-								Text="{x:Bind ViewModel.ExtractToText, Mode=OneWay}" />
+								Text="{x:Bind Commands.DecompressArchiveToChildFolder.Label, Mode=OneWay}" />
 						</MenuFlyout>
 					</AppBarButton.Flyout>
 				</AppBarButton>

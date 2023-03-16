@@ -825,30 +825,18 @@ namespace Files.App.Helpers
 					},
 					Items = new List<ContextMenuFlyoutItemViewModel>
 					{
-						new ContextMenuFlyoutItemViewModel
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchive)
 						{
-							Text = "ExtractFiles".GetLocalizedResource(),
-							Command = commandsViewModel.DecompressArchiveCommand,
-							ShowItem = canDecompress,
-							ShowInSearchPage = true,
-						},
-						new ContextMenuFlyoutItemViewModel
+							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
+						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHere)
 						{
-							Text = "ExtractHere".GetLocalizedResource(),
-							Command = commandsViewModel.DecompressArchiveHereCommand,
-							ShowItem = canDecompress,
-							ShowInSearchPage = true,
-						},
-						new ContextMenuFlyoutItemViewModel
+							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
+						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveToChildFolder)
 						{
-							Text = selectedItems.Count > 1
-								? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
-								: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(),
-									Path.GetFileNameWithoutExtension(selectedItems.First().Name)),
-							Command = commandsViewModel.DecompressArchiveToChildFolderCommand,
-							ShowInSearchPage = true,
-							ShowItem = canDecompress,
-						},
+							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
+						}.Build(),
 						new ContextMenuFlyoutItemViewModel
 						{
 							ShowItem = canDecompress && canCompress,

@@ -58,6 +58,9 @@ namespace Files.App.Commands
 		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
+		public IRichCommand DecompressArchive => commands[CommandCodes.DecompressArchive];
+		public IRichCommand DecompressArchiveHere => commands[CommandCodes.DecompressArchiveHere];
+		public IRichCommand DecompressArchiveToChildFolder => commands[CommandCodes.DecompressArchiveToChildFolder];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
@@ -69,7 +72,7 @@ namespace Files.App.Commands
 		public CommandManager()
 		{
 			commands = CreateActions()
-				.Select(action => new ActionCommand(this, action.Key, action.Value))
+				.Select(action => new ActionCommand(action.Key, action.Value))
 				.Cast<IRichCommand>()
 				.Append(new NoneCommand())
 				.ToImmutableDictionary(command => command.Code);
@@ -123,6 +126,9 @@ namespace Files.App.Commands
 			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
+			[CommandCodes.DecompressArchive] = new DecompressArchive(),
+			[CommandCodes.DecompressArchiveHere] = new DecompressArchiveHere(),
+			[CommandCodes.DecompressArchiveToChildFolder] = new DecompressArchiveToChildFolderAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction(),
 			[CommandCodes.OpenItem] = new OpenItemAction(),
@@ -169,8 +175,6 @@ namespace Files.App.Commands
 		[DebuggerDisplay("Command {Code}")]
 		private class ActionCommand : ObservableObject, IRichCommand
 		{
-			private readonly CommandManager manager;
-
 			public event EventHandler? CanExecuteChanged;
 
 			private readonly IAction action;
@@ -207,9 +211,8 @@ namespace Files.App.Commands
 
 			public bool IsExecutable => action.IsExecutable;
 
-			public ActionCommand(CommandManager manager, CommandCodes code, IAction action)
+			public ActionCommand(CommandCodes code, IAction action)
 			{
-				this.manager = manager;
 				Code = code;
 				this.action = action;
 				Icon = action.Glyph.ToIcon();

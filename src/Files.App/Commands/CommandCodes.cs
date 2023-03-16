@@ -53,6 +53,9 @@
 		CompressIntoArchive,
 		CompressIntoSevenZip,
 		CompressIntoZip,
+		DecompressArchive,
+		DecompressArchiveHere,
+		DecompressArchiveToChildFolder,
 
 		// Image Edition
 		RotateLeft,

@@ -2595,6 +2595,9 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>เลือกด้วยการกาเช็ค</value>
   </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>Reorder sidebar items</value>
+  </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hashes</value>
   </data>

@@ -85,7 +85,11 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
-			FileList.ScrollIntoView(FileList.Items.Last());
+			if (SelectedItems.Any())
+			{
+				FileList.ScrollIntoView(SelectedItems.Last());
+				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
+			}
 		}
 
 		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)

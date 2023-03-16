@@ -389,6 +389,7 @@ namespace Files.App.ViewModels
 						section.Path = "Home";
 						section.Font = App.AppModel.SymbolFontFamily;
 						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -403,6 +404,7 @@ namespace Files.App.ViewModels
 						section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						section.Font = App.AppModel.SymbolFontFamily;
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FavoritesIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -415,6 +417,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.Libraries;
+						section.IsHeader = true;
 
 						break;
 					}
@@ -427,6 +430,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("Drives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.ThisPC;
+						section.IsHeader = true;
 
 						break;
 					}
@@ -439,6 +443,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -451,6 +456,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("SidebarNetworkDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.NetworkDrives;
+						section.IsHeader = true;
 
 						break;
 					}
@@ -463,6 +469,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -475,6 +482,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
+						section.IsHeader = true;
 
 						break;
 					}
