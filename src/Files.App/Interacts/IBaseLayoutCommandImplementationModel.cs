@@ -39,10 +39,6 @@ namespace Files.App.Interacts
 
 		void PointerWheelChanged(PointerRoutedEventArgs e);
 
-		void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e);
-
-		void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e);
-
 		Task DragOver(DragEventArgs e);
 
 		Task Drop(DragEventArgs e);
