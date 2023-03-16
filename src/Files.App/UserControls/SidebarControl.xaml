@@ -62,7 +62,6 @@
 					DragEnter="NavigationViewItem_DragEnter"
 					DragLeave="NavigationViewItem_DragLeave"
 					DragOver="NavigationViewLocationItem_DragOver"
-					DragStarting="NavigationViewItem_DragStarting"
 					Drop="NavigationViewLocationItem_Drop"
 					IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
 					IsRightTapEnabled="True"

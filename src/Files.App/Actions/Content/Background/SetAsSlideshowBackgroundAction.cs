@@ -37,7 +37,7 @@ namespace Files.App.Actions.Content.Background
 
 		private bool GetIsExecutable() => context.ShellPage is not null && context.SelectedItems.Count > 1
 			&& context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder
-			&& context.ShellPage.SlimContentPage.SelectedItemsPropertiesViewModel.IsSelectedItemImage;
+			&& (context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
