@@ -49,12 +49,6 @@ namespace Files.App.Interacts
 
 		Task CreateFolderWithSelection(RoutedEventArgs e);
 
-		Task DecompressArchive();
-
-		Task DecompressArchiveHere();
-
-		Task DecompressArchiveToChildFolder();
-
 		Task InstallInfDriver();
 
 		Task InstallFont();

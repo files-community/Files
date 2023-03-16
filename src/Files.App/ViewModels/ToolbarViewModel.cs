@@ -594,19 +594,9 @@ namespace Files.App.ViewModels
 
 		public ICommand PropertiesCommand { get; set; }
 
-		public ICommand? ExtractCommand { get; set; }
-
-		public ICommand? ExtractHereCommand { get; set; }
-
-		public ICommand? ExtractToCommand { get; set; }
-
 		public ICommand? RunWithPowerShellCommand { get; set; }
 
 		public ICommand? InstallInfCommand { get; set; }
-
-		public ICommand? RotateImageLeftCommand { get; set; }
-
-		public ICommand? RotateImageRightCommand { get; set; }
 
 		public ICommand? InstallFontCommand { get; set; }
 

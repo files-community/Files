@@ -503,7 +503,7 @@ namespace Files.App.Filesystem
 			FileSizeBytes = item.Size;
 			ContainsFilesOrFolders = !isFile;
 			FileImage = null;
-			FileSize = FileSizeBytes.ToSizeString();
+			FileSize = isFile ? FileSizeBytes.ToSizeString() : null;
 			Opacity = 1;
 			IsHiddenItem = false;
 		}
