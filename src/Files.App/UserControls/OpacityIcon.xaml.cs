@@ -35,6 +35,7 @@ namespace Files.App.UserControls
 		{
 			var control = this.FindAscendant<Control>();
 			control?.RegisterPropertyChangedCallback(IsEnabledProperty, IsEnabledChange);
+			RegisterPropertyChangedCallback(IsSelectedProperty, IsEnabledChange);
 		}
 
 		private void OpacityIcon_Loaded(object sender, RoutedEventArgs e)

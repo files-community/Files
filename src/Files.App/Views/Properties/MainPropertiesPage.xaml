@@ -8,6 +8,7 @@
 	xmlns:local="using:Files.App.Views.Properties"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitconvers="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:usercontrols="using:Files.App.UserControls"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyDown="Page_KeyDown"
 	Loaded="Page_Loaded"
@@ -88,38 +89,19 @@
 						<NavigationViewItem.Content>
 							<StackPanel Spacing="4">
 
-								<Grid x:Name="ItemPathIconGrid">
-									<!--  Outline Path Icon  -->
-									<Viewbox
-										Width="24"
-										Height="24"
-										Margin="0,0,4,0"
-										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}">
-										<PathIcon
-											x:Name="NavigationViewItemOutlinePathIcon"
-											HorizontalAlignment="Center"
-											Data="{x:Bind OutlinePathIcon}" />
-									</Viewbox>
-									<!--  Filled Path Icon  -->
-									<Viewbox
-										Width="24"
-										Height="24"
-										Margin="0,0,4,0"
-										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-										<PathIcon
-											x:Name="NavigationViewItemFilledPathIcon"
-											HorizontalAlignment="Center"
-											Data="{x:Bind FilledPathIcon}"
-											Foreground="{ThemeResource AccentFillColorDefaultBrush}" />
-									</Viewbox>
-								</Grid>
+								<!--  Icon  -->
+								<Viewbox
+									Width="24"
+									Height="24"
+									VerticalAlignment="Center">
+									<usercontrols:OpacityIcon IsSelected="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind OpacityIconStyle, Mode=OneWay}" />
+								</Viewbox>
 
 								<!--  Label  -->
 								<TextBlock
 									x:Name="ItemNameLabelTextBlock"
 									Grid.Row="1"
 									HorizontalAlignment="Center"
-									x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 									FontSize="10"
 									Style="{StaticResource CaptionTextBlockStyle}"
 									Text="{x:Bind Name}" />
