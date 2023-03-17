@@ -116,8 +116,8 @@
 					MinWidth="40"
 					AccessKey="C"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
-					Command="{x:Bind Commands.CopyItem, Mode=OneWay}"
-					Label="{x:Bind Commands.CopyItem}"
+					Command="{x:Bind Commands.CopyItem}"
+					Label="{x:Bind Commands.CopyItem.Label}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{x:Bind Commands.CopyItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.CopyItem.OpacityStyle}" />

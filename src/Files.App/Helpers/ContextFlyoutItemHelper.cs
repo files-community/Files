@@ -380,12 +380,10 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CutItem)
 				{
-					IsVisible = itemsSelected,
 					IsPrimary = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CopyItem)
 				{
-					IsVisible = itemsSelected,
 					IsPrimary = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.PasteItem)
