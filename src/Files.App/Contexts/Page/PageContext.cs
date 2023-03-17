@@ -25,9 +25,14 @@ namespace Files.App.Contexts
 
 		private void Page_CurrentInstanceChanged(object? sender, PaneHolderPage? modifiedPage)
 		{
-			bool isCurrent = modifiedPage?.IsCurrentInstance ?? false;
-			var newPage = isCurrent ? modifiedPage : null;
-			UpdatePage(newPage);
+			if (page is not null && !page.IsCurrentInstance)
+			{
+				UpdatePage(null);
+			}
+			else if (modifiedPage is not null && modifiedPage.IsCurrentInstance)
+			{
+				UpdatePage(modifiedPage);
+			}
 		}
 
 		private void Page_ContentChanged(object? sender, TabItemArguments e)
@@ -37,12 +42,9 @@ namespace Files.App.Contexts
 
 		private void Page_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			switch (e.PropertyName)
+			if (e.PropertyName is nameof(IPaneHolder.ActivePaneOrColumn))
 			{
-				case nameof(IPaneHolder.ActivePane):
-				case nameof(IPaneHolder.ActivePaneOrColumn):
-					UpdateContent();
-					break;
+				UpdateContent();
 			}
 		}
 
