@@ -1419,8 +1419,8 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Дата изменения</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Исходная папка</value>
+  <data name="OriginalFolder" xml:space="preserve">
+    <value>Original folder</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Сортировка</value>
@@ -2001,8 +2001,8 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Открывать файлы и папки одним нажатием</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
-    <value>Путь папки</value>
+  <data name="FolderPath" xml:space="preserve">
+    <value>Folder path</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Экспорт Настроек</value>
@@ -2596,7 +2596,7 @@
     <value>Мультивыбор</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>Изменить порядок элементов боковой панели</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Хеши</value>
@@ -2618,5 +2618,14 @@
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Закрепленные элементы</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Decrease size</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Increase size</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Toggle sort direction</value>
   </data>
 </root>
