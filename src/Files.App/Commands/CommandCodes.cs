@@ -16,6 +16,7 @@ namespace Files.App.Commands
 		// File System
 		CopyItem,
 		CutItem,
+		PasteItem,
 		DeleteItem,
 		CreateFolder,
 		CreateShortcut,

@@ -578,8 +578,6 @@ namespace Files.App.ViewModels
 
 		public ICommand? ClearContentPageSelectionCommand { get; set; }
 
-		public ICommand? PasteItemsFromClipboardCommand { get; set; }
-
 		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
 
 		public ICommand? OpenNewPaneCommand { get; set; }
