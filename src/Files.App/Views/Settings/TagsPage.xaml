@@ -118,6 +118,7 @@
 									BorderThickness="1"
 									ColumnSpacing="8"
 									CornerRadius="4"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=TagNameRules}"
 									Visibility="{x:Bind ViewModel.NewTag.IsNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="Auto" />
@@ -301,6 +302,7 @@
 												BorderThickness="1"
 												ColumnSpacing="8"
 												CornerRadius="4"
+												ToolTipService.ToolTip="{helpers:ResourceString Name=TagNameRules}"
 												Visibility="{x:Bind IsNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
 												<Grid.ColumnDefinitions>
 													<ColumnDefinition Width="Auto" />
