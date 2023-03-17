@@ -294,7 +294,7 @@ namespace Files.App.Filesystem
 			}
 			finally
 			{
-				packageView.ReportOperationCompleted(operation);
+				packageView.ReportOperationCompleted(packageView.RequestedOperation);
 			}
 		}
 
@@ -563,7 +563,7 @@ namespace Files.App.Filesystem
 					if (showExtensionDialog &&
 						Path.GetExtension(source.Path) != Path.GetExtension(newName)) // Only prompt user when extension has changed, not when file name has changed
 					{
-						var yesSelected = await DialogDisplayHelper.ShowDialogAsync("RenameFileDialogTitle".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
+						var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
 						if (yesSelected)
 						{
 							history = await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
@@ -760,12 +760,20 @@ namespace Files.App.Filesystem
 				{
 					stream.Seek(0);
 
-					byte[] dropBytes = new byte[stream.Size];
-					int bytesRead = await stream.AsStreamForRead().ReadAsync(dropBytes);
-
+					byte[]? dropBytes = null;
+					int bytesRead = 0;
+					try
+					{
+						dropBytes = new byte[stream.Size];
+						bytesRead = await stream.AsStreamForRead().ReadAsync(dropBytes);
+					}
+					catch (COMException)
+					{
+					}
+					
 					if (bytesRead > 0)
 					{
-						IntPtr dropStructPointer = Marshal.AllocHGlobal(dropBytes.Length);
+						IntPtr dropStructPointer = Marshal.AllocHGlobal(dropBytes!.Length);
 
 						try
 						{

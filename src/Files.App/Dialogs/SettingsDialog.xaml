@@ -6,133 +6,135 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Closing="ContentDialog_Closing"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
+
 	<ContentDialog.Resources>
 		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewItemButtonStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
 			<x:Double x:Key="ContentDialogMaxWidth">1100</x:Double>
 			<Thickness x:Key="ContentDialogPadding">0</Thickness>
 		</ResourceDictionary>
 	</ContentDialog.Resources>
 
-	<Border Background="{ThemeResource App.Theme.BackgroundBrush}">
-		<Grid
-			x:Name="ContainerGrid"
-			MaxHeight="790"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Background="{ThemeResource App.Theme.ContentDialog.BackgroundBrush}">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="44" />
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
+	<Grid
+		x:Name="ContainerGrid"
+		MaxHeight="790"
+		Background="{ThemeResource SolidBackgroundFillColorBase}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="44" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
 
-			<Grid
-				Grid.Row="0"
-				Padding="8,0"
-				HorizontalAlignment="Stretch">
-				<TextBlock
-					Padding="8,0,0,0"
-					HorizontalAlignment="Left"
-					VerticalAlignment="Center"
-					FontWeight="SemiBold"
-					Text="{helpers:ResourceString Name=Settings}" />
+		<!--  Titlebar  -->
+		<Grid Grid.Row="0" Padding="8,0">
+			<TextBlock
+				Padding="8,0,0,0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Center"
+				FontWeight="SemiBold"
+				Text="{helpers:ResourceString Name=Settings}" />
 
-				<Button
-					x:Name="ButtonClose"
-					Width="36"
-					Height="36"
-					HorizontalAlignment="Right"
-					VerticalAlignment="Center"
-					AutomationProperties.Name="{helpers:ResourceString Name=Close}"
-					Background="Transparent"
-					BorderBrush="Transparent"
-					Click="ButtonClose_Click"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
-					<FontIcon FontSize="12" Glyph="&#xE8BB;" />
-				</Button>
-			</Grid>
-
-			<NavigationView
-				x:Name="SettingsPane"
-				Grid.Row="1"
-				IsBackButtonVisible="Collapsed"
-				IsBackEnabled="False"
-				IsPaneToggleButtonVisible="False"
-				IsSettingsVisible="False"
-				IsTitleBarAutoPaddingEnabled="False"
-				OpenPaneLength="260"
-				PaneDisplayMode="Left"
-				SelectionChanged="SettingsPane_SelectionChanged">
-
-				<NavigationView.MenuItems>
-					<NavigationViewItem
-						AccessKey="A"
-						AutomationProperties.AutomationId="SettingsItemAppearance"
-						Content="{helpers:ResourceString Name=Appearance}"
-						IsSelected="True"
-						Tag="0">
-						<NavigationViewItem.Icon>
-							<FontIcon HorizontalAlignment="Left" Glyph="&#xE790;" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
-					<NavigationViewItem
-						AccessKey="P"
-						AutomationProperties.AutomationId="SettingsItemPreferences"
-						Content="{helpers:ResourceString Name=SettingsNavPreferences/Content}"
-						Tag="1">
-						<NavigationViewItem.Icon>
-							<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF116;" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
-					<NavigationViewItem
-						AccessKey="F"
-						AutomationProperties.AutomationId="SettingsItemFolders"
-						Content="{helpers:ResourceString Name=Folders}"
-						Tag="2">
-						<NavigationViewItem.Icon>
-							<FontIcon Glyph="&#xE8B7;" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
-					<NavigationViewItem
-						AccessKey="T"
-						AutomationProperties.AutomationId="SettingsItemTags"
-						Content="{helpers:ResourceString Name=FileTags}"
-						Tag="3">
-						<NavigationViewItem.Icon>
-							<FontIcon Glyph="&#xE1CB;" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
-					<NavigationViewItem
-						AccessKey="E"
-						AutomationProperties.AutomationId="SettingsItemAdvanced"
-						Content="{helpers:ResourceString Name=Advanced}"
-						CornerRadius="0"
-						Tag="4">
-						<NavigationViewItem.Icon>
-							<FontIcon Glyph="&#xF1AD;" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
-					<NavigationViewItem
-						AccessKey="B"
-						AutomationProperties.AutomationId="SettingsItemAbout"
-						Content="{helpers:ResourceString Name=About}"
-						Tag="5">
-						<NavigationViewItem.Icon>
-							<FontIcon FontSize="16" Glyph="&#xE946;" />
-						</NavigationViewItem.Icon>
-					</NavigationViewItem>
-				</NavigationView.MenuItems>
-
-				<ScrollViewer
-					x:Name="SettingsScrollViewer"
-					VerticalAlignment="Stretch"
-					VerticalScrollBarVisibility="Visible"
-					VerticalScrollMode="Enabled">
-					<Frame x:Name="SettingsContentFrame" Padding="12" />
-				</ScrollViewer>
-			</NavigationView>
+			<Button
+				x:Name="CloseSettingsDialogButton"
+				Width="36"
+				Height="36"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Center"
+				AutomationProperties.Name="{helpers:ResourceString Name=Close}"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				Click="CloseSettingsDialogButton_Click"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
+				<FontIcon FontSize="12" Glyph="&#xE8BB;" />
+			</Button>
 		</Grid>
-	</Border>
+
+		<!--  Settings Navigation View  -->
+		<NavigationView
+			x:Name="MainSettingsNavigationView"
+			Grid.Row="1"
+			IsBackButtonVisible="Collapsed"
+			IsBackEnabled="False"
+			IsPaneToggleButtonVisible="False"
+			IsSettingsVisible="False"
+			IsTitleBarAutoPaddingEnabled="False"
+			OpenPaneLength="260"
+			PaneDisplayMode="Left"
+			SelectionChanged="MainSettingsNavigationView_SelectionChanged">
+
+			<!--  Menu Items  -->
+			<NavigationView.MenuItems>
+				<NavigationViewItem
+					AccessKey="A"
+					AutomationProperties.AutomationId="SettingsItemAppearance"
+					Content="{helpers:ResourceString Name=Appearance}"
+					IsSelected="True"
+					Tag="0">
+					<NavigationViewItem.Icon>
+						<FontIcon HorizontalAlignment="Left" Glyph="&#xE790;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
+					AccessKey="P"
+					AutomationProperties.AutomationId="SettingsItemPreferences"
+					Content="{helpers:ResourceString Name=SettingsNavPreferences/Content}"
+					Tag="1">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE9E9;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
+					AccessKey="F"
+					AutomationProperties.AutomationId="SettingsItemFolders"
+					Content="{helpers:ResourceString Name=Folders}"
+					Tag="2">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE8B7;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
+					AccessKey="T"
+					AutomationProperties.AutomationId="SettingsItemTags"
+					Content="{helpers:ResourceString Name=FileTags}"
+					Tag="3">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE1CB;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
+					AccessKey="E"
+					AutomationProperties.AutomationId="SettingsItemAdvanced"
+					Content="{helpers:ResourceString Name=Advanced}"
+					Tag="4">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xF1AD;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
+					AccessKey="B"
+					AutomationProperties.AutomationId="SettingsItemAbout"
+					Content="{helpers:ResourceString Name=About}"
+					Tag="5">
+					<NavigationViewItem.Icon>
+						<FontIcon FontSize="16" Glyph="&#xE946;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+			</NavigationView.MenuItems>
+
+			<!--  Content Frame  -->
+			<ScrollViewer x:Name="SettingsContentScrollViewer">
+				<Frame
+					x:Name="SettingsContentFrame"
+					Padding="12"
+					Background="{ThemeResource SolidBackgroundFillColorTertiary}" />
+			</ScrollViewer>
+
+		</NavigationView>
+	</Grid>
 </ContentDialog>

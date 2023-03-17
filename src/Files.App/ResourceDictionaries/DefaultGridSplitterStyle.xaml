@@ -9,7 +9,7 @@
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Stretch" />
 		<Setter Property="IsFocusEngagementEnabled" Value="True" />
-		<Setter Property="MinWidth" Value="2" />
+		<Setter Property="MinWidth" Value="4" />
 		<Setter Property="MinHeight" Value="2" />
 		<Setter Property="BorderBrush" Value="{ThemeResource SplitterBorderBrush}" />
 		<Setter Property="Background" Value="Transparent" />

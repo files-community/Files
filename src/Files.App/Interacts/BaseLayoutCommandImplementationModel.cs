@@ -5,7 +5,6 @@ using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using Files.App.Filesystem.Archive;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.ServicesImplementation;
@@ -30,9 +29,9 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
-using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.System;
+using static Files.App.Constants.Browser.GridViewBrowser;
 
 namespace Files.App.Interacts
 {
@@ -86,118 +85,10 @@ namespace Files.App.Interacts
 			itemManipulationModel.StartRenameItem();
 		}
 
-		public virtual async void CreateShortcut(RoutedEventArgs e)
-		{
-			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
-
-			if (App.LibraryManager.TryGetLibrary(currentPath, out var library) && !library.IsEmpty)
-			{
-				currentPath = library.DefaultSaveFolder;
-			}
-
-			foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
-			{
-				var fileName = string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk";
-				var filePath = Path.Combine(currentPath, fileName);
-
-				if (!await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath))
-					await UIFilesystemHelpers.HandleShortcutCannotBeCreated(fileName, selectedItem.ItemPath);
-			}
-		}
-
-		public virtual async void CreateShortcutFromDialog(RoutedEventArgs e)
-		{
-			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(associatedInstance);
-		}
-
-		public virtual void SetAsLockscreenBackgroundItem(RoutedEventArgs e)
-		{
-			WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath);
-		}
-
-		public virtual void SetAsDesktopBackgroundItem(RoutedEventArgs e)
-		{
-			WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath);
-		}
-
-		public virtual void SetAsSlideshowItem(RoutedEventArgs e)
-		{
-			var images = (from o in SlimContentPage.SelectedItems select o.ItemPath).ToArray();
-			WallpaperHelpers.SetSlideshow(images);
-		}
-
-		public virtual async void RunAsAdmin(RoutedEventArgs e)
-		{
-			await ContextMenu.InvokeVerb("runas", SlimContentPage.SelectedItem.ItemPath);
-		}
-
-		public virtual async void RunAsAnotherUser(RoutedEventArgs e)
-		{
-			await ContextMenu.InvokeVerb("runasuser", SlimContentPage.SelectedItem.ItemPath);
-		}
-
-		public virtual void SidebarPinItem(RoutedEventArgs e)
-		{
-			_ = QuickAccessService.PinToSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
-		}
-
-		public virtual void SidebarUnpinItem(RoutedEventArgs e)
-		{
-			_ = QuickAccessService.UnpinFromSidebar(SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray());
-		}
-
 		public virtual void OpenItem(RoutedEventArgs e)
 		{
 			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, false);
 		}
-
-		public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
-		{
-			_ = QuickAccessService.UnpinFromSidebar(associatedInstance.FilesystemViewModel.WorkingDirectory);
-		}
-
-		public virtual async void EmptyRecycleBin(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.EmptyRecycleBin();
-		}
-
-		public virtual async void RestoreRecycleBin(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.RestoreRecycleBin(associatedInstance);
-		}
-
-		public virtual async void RestoreSelectionRecycleBin(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.RestoreSelectionRecycleBin(associatedInstance);
-		}
-
-		public virtual async void QuickLook(RoutedEventArgs e)
-		{
-			await QuickLookHelpers.ToggleQuickLook(associatedInstance);
-		}
-
-		public virtual async void CopyItem(RoutedEventArgs e)
-		{
-			await UIFilesystemHelpers.CopyItem(associatedInstance);
-		}
-
-		public virtual void CutItem(RoutedEventArgs e)
-		{
-			UIFilesystemHelpers.CutItem(associatedInstance);
-		}
-
-		public virtual async void RestoreItem(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.RestoreItem(associatedInstance);
-		}
-
-		public virtual async void DeleteItem(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.DeleteItem(associatedInstance);
-		}
-
-		public virtual void ShowFolderProperties(RoutedEventArgs e)
-			=> ShowProperties(e);
 
 		public virtual void ShowProperties(RoutedEventArgs e)
 		{
@@ -289,11 +180,6 @@ namespace Files.App.Interacts
 				var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
 				await Launcher.LaunchUriAsync(folderUri);
 			}
-		}
-
-		public virtual void CreateNewFolder(RoutedEventArgs e)
-		{
-			UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, associatedInstance);
 		}
 
 		public virtual void CreateNewFile(ShellNewEntry f)
@@ -402,11 +288,6 @@ namespace Files.App.Interacts
 			}
 		}
 
-		public virtual void PinDirectoryToFavorites(RoutedEventArgs e)
-		{
-			QuickAccessService.PinToSidebar(new[] { associatedInstance.FilesystemViewModel.WorkingDirectory });
-		}
-
 		public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)
 		{
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
@@ -425,65 +306,21 @@ namespace Files.App.Interacts
 			}
 		}
 
-		public virtual async void UnpinItemFromStart(RoutedEventArgs e)
-		{
-			if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
-			{
-				foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
-					await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
-			}
-			else
-			{
-				await App.SecondaryTileHelper.UnpinFromStartAsync(associatedInstance.FilesystemViewModel.WorkingDirectory);
-			}
-		}
-
-		public async void PinItemToStart(RoutedEventArgs e)
-		{
-			if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
-			{
-				foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
-					await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.Name);
-			}
-			else
-			{
-				await App.SecondaryTileHelper.TryPinFolderAsync(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, associatedInstance.FilesystemViewModel.CurrentFolder.Name);
-			}
-		}
-
 		public virtual void PointerWheelChanged(PointerRoutedEventArgs e)
 		{
-			if (e.KeyModifiers == VirtualKeyModifiers.Control)
+			if (e.KeyModifiers is VirtualKeyModifiers.Control)
 			{
-				// Mouse wheel down
-				if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0)
-					GridViewSizeDecrease(null);
-				// Mouse wheel up
-				else
-					GridViewSizeIncrease(null);
+				if (associatedInstance.IsCurrentInstance)
+				{
+					int delta = e.GetCurrentPoint(null).Properties.MouseWheelDelta;
+					if (delta < 0) // Mouse wheel down
+						associatedInstance.InstanceViewModel.FolderSettings.GridViewSize -= GridViewIncrement;
+					else if (delta > 0) // Mouse wheel up
+						associatedInstance.InstanceViewModel.FolderSettings.GridViewSize += GridViewIncrement;
+				}
 
 				e.Handled = true;
 			}
-		}
-
-		public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
-		{
-			// Make Smaller
-			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement;
-
-			if (e is not null)
-				e.Handled = true;
-		}
-
-		public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
-		{
-			// Make Larger
-			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement;
-
-			if (e is not null)
-				e.Handled = true;
 		}
 
 		public virtual async Task DragOver(DragEventArgs e)
@@ -592,294 +429,10 @@ namespace Files.App.Interacts
 			await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
 		}
 
-		public async Task CompressIntoArchive()
-		{
-			var (sources, directory, fileName) = GetCompressDestination();
-
-			var dialog = new CreateArchiveDialog
-			{
-				FileName = fileName,
-			};
-			await dialog.ShowAsync();
-
-			if (!dialog.CanCreate)
-				return;
-
-			IArchiveCreator creator = new ArchiveCreator
-			{
-				Sources = sources,
-				Directory = directory,
-				FileName = dialog.FileName,
-				Password = dialog.Password,
-				FileFormat = dialog.FileFormat,
-				CompressionLevel = dialog.CompressionLevel,
-				SplittingSize = dialog.SplittingSize,
-			};
-
-			await CompressArchiveAsync(creator);
-		}
-
-		public async Task CompressIntoZip()
-		{
-			var (sources, directory, fileName) = GetCompressDestination();
-
-			IArchiveCreator creator = new ArchiveCreator
-			{
-				Sources = sources,
-				Directory = directory,
-				FileName = fileName,
-				FileFormat = ArchiveFormats.Zip,
-			};
-
-			await CompressArchiveAsync(creator);
-		}
-
-		public async Task CompressIntoSevenZip()
-		{
-			var (sources, directory, fileName) = GetCompressDestination();
-
-			IArchiveCreator creator = new ArchiveCreator
-			{
-				Sources = sources,
-				Directory = directory,
-				FileName = fileName,
-				FileFormat = ArchiveFormats.SevenZip,
-			};
-
-			await CompressArchiveAsync(creator);
-		}
-
-		private (string[] Sources, string directory, string fileName) GetCompressDestination()
-		{
-			string[] sources = associatedInstance.SlimContentPage.SelectedItems
-				.Select(item => item.ItemPath)
-				.ToArray();
-
-			if (sources.Length is 0)
-				return (sources, string.Empty, string.Empty);
-
-			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory.Normalize();
-
-			if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)
-				directory = library.DefaultSaveFolder;
-
-			string fileName = Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
-
-			return (sources, directory, fileName);
-		}
-
-		private static async Task CompressArchiveAsync(IArchiveCreator creator)
-		{
-			var archivePath = creator.ArchivePath;
-
-			CancellationTokenSource compressionToken = new();
-			PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner
-			(
-				"CompressionInProgress".GetLocalizedResource(),
-				archivePath,
-				0,
-				ReturnResult.InProgress,
-				FileOperationType.Compressed,
-				compressionToken
-			);
-
-			creator.Progress = banner.ProgressEventSource;
-			bool isSuccess = await creator.RunCreationAsync();
-
-			banner.Remove();
-
-			if (isSuccess)
-			{
-				App.OngoingTasksViewModel.PostBanner
-				(
-					"CompressionCompleted".GetLocalizedResource(),
-					string.Format("CompressionSucceded".GetLocalizedResource(), archivePath),
-					0,
-					ReturnResult.Success,
-					FileOperationType.Compressed
-				);
-			}
-			else
-			{
-				NativeFileOperationsHelper.DeleteFileFromApp(archivePath);
-
-				App.OngoingTasksViewModel.PostBanner
-				(
-					"CompressionCompleted".GetLocalizedResource(),
-					string.Format("CompressionFailed".GetLocalizedResource(), archivePath),
-					0,
-					ReturnResult.Failed,
-					FileOperationType.Compressed
-				);
-			}
-		}
-
-		public async Task DecompressArchive()
-		{
-			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItems.Count != 0
-				? associatedInstance.SlimContentPage.SelectedItem.ItemPath
-				: associatedInstance.FilesystemViewModel.WorkingDirectory);
-
-			if (archive is null)
-				return;
-
-			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive));
-			var password = string.Empty;
-
-			DecompressArchiveDialog decompressArchiveDialog = new();
-			DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
-			{
-				IsArchiveEncrypted = isArchiveEncrypted,
-				ShowPathSelection = true
-			};
-			decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
-
-			ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
-			if (option != ContentDialogResult.Primary)
-				return;
-
-			if (isArchiveEncrypted)
-				password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
-
-			// Check if archive still exists
-			if (!StorageHelpers.Exists(archive.Path))
-				return;
-
-			BaseStorageFolder destinationFolder = decompressArchiveViewModel.DestinationFolder;
-			string destinationFolderPath = decompressArchiveViewModel.DestinationFolderPath;
-
-			if (destinationFolder is null)
-			{
-				BaseStorageFolder parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path));
-				destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
-			}
-
-			await ExtractArchive(archive, destinationFolder, password);
-
-			if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
-				await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
-		}
-
-		public async Task DecompressArchiveHere()
-		{
-			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
-			{
-				var password = string.Empty;
-				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
-				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
-
-				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
-				{
-					DecompressArchiveDialog decompressArchiveDialog = new();
-					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
-					{
-						IsArchiveEncrypted = true,
-						ShowPathSelection = false
-					};
-
-					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
-
-					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
-					if (option != ContentDialogResult.Primary)
-						return;
-
-					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
-				}
-
-				await ExtractArchive(archive, currentFolder, password);
-			}
-		}
-
-		public async Task DecompressArchiveToChildFolder()
-		{
-			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
-			{
-				var password = string.Empty;
-
-				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
-				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
-				BaseStorageFolder destinationFolder = null;
-
-				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
-				{
-					DecompressArchiveDialog decompressArchiveDialog = new();
-					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
-					{
-						IsArchiveEncrypted = true,
-						ShowPathSelection = false
-					};
-					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
-
-					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
-					if (option != ContentDialogResult.Primary)
-						return;
-
-					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
-				}
-
-				if (currentFolder is not null)
-					destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
-
-				await ExtractArchive(archive, destinationFolder, password);
-			}
-		}
-
-		private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder? destinationFolder, string password)
-		{
-			if (archive is null || destinationFolder is null)
-				return;
-
-			CancellationTokenSource extractCancellation = new();
-
-			PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
-				archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
-				"ExtractingArchiveText".GetLocalizedResource(),
-				0,
-				ReturnResult.InProgress,
-				FileOperationType.Extract,
-				extractCancellation);
-
-			Stopwatch sw = new();
-			sw.Start();
-
-			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, extractCancellation.Token));
-
-			sw.Stop();
-			banner.Remove();
-
-			if (sw.Elapsed.TotalSeconds >= 6)
-			{
-				App.OngoingTasksViewModel.PostBanner(
-					"ExtractingCompleteText".GetLocalizedResource(),
-					"ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
-					0,
-					ReturnResult.Success,
-					FileOperationType.Extract);
-			}
-		}
-
 		public async Task InstallInfDriver()
 		{
 			foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
 				await Win32API.InstallInf(selectedItem.ItemPath);
-		}
-
-		public async Task RotateImageLeft()
-		{
-			foreach (var image in SlimContentPage.SelectedItems)
-				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise270Degrees);
-
-			SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
-			App.PreviewPaneViewModel.UpdateSelectedItemPreview();
-		}
-
-		public async Task RotateImageRight()
-		{
-			foreach (var image in SlimContentPage.SelectedItems)
-				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise90Degrees);
-
-			SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
-			App.PreviewPaneViewModel.UpdateSelectedItemPreview();
 		}
 
 		public Task InstallFont()
@@ -888,6 +441,16 @@ namespace Files.App.Interacts
 				Win32API.InstallFont(selectedItem.ItemPath);
 
 			return Task.CompletedTask;
+		}
+
+		public async Task PlayAll()
+		{
+			await NavigationHelpers.OpenSelectedItems(associatedInstance);
+		}
+
+		public void FormatDrive(ListedItem? e)
+		{
+			Win32API.OpenFormatDriveDialog(e?.ItemPath ?? string.Empty);
 		}
 
 		#endregion Command Implementation

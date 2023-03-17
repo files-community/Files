@@ -3,6 +3,7 @@ using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Commands;
+using Files.App.Contexts;
 using Files.App.DataModels;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -121,6 +122,11 @@ namespace Files.App
 				// Settings not related to IUserSettingsService:
 				.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
 				.AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
+
+				// Contexts
+				.AddSingleton<IPageContext, PageContext>()
+				.AddSingleton<IContentPageContext, ContentPageContext>()
+				.AddSingleton<IDisplayPageContext, DisplayPageContext>()
 
 				// Other services
 				.AddSingleton(Logger)

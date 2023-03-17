@@ -1,0 +1,396 @@
+﻿<vm:BasePropertiesPage
+	x:Class="Files.App.Views.Properties.SecurityPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:perm="using:Files.App.Filesystem.Security"
+	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:vm="using:Files.App.ViewModels.Properties"
+	mc:Ignorable="d">
+
+	<Page.Resources>
+		<ResourceDictionary>
+
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+
+		</ResourceDictionary>
+	</Page.Resources>
+
+	<ScrollViewer>
+		<Grid Padding="12" RowSpacing="4">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<!--  Usernames  -->
+			<Grid
+				x:Name="Usernames"
+				Grid.Row="0"
+				Padding="8"
+				x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
+				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="1"
+				CornerRadius="4"
+				RowSpacing="4">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<TextBlock
+					Grid.Row="0"
+					Grid.Column="0"
+					Padding="8"
+					VerticalAlignment="Center"
+					Text="{helpers:ResourceString Name=SecurityUsersGroupLabel/Text}" />
+
+				<StackPanel
+					Grid.Row="0"
+					Grid.Column="1"
+					Orientation="Horizontal"
+					Spacing="4">
+					<Button
+						Padding="8,6"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						Command="{x:Bind SecurityViewModel.AddAccessControlEntryCommand}">
+						<FontIcon FontSize="16" Glyph="&#xE109;" />
+					</Button>
+					<Button
+						Padding="8,6"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						Command="{x:Bind SecurityViewModel.RemoveAccessControlEntryCommand}">
+						<FontIcon FontSize="16" Glyph="&#xE108;" />
+					</Button>
+				</StackPanel>
+
+				<MenuFlyoutSeparator
+					Grid.Row="1"
+					Grid.Column="0"
+					Grid.ColumnSpan="2"
+					Margin="-12,0"
+					Background="{ThemeResource CardStrokeColorDefaultBrush}" />
+
+				<ListView
+					x:Name="ListView"
+					Grid.Row="2"
+					Grid.Column="0"
+					Grid.ColumnSpan="2"
+					MaxHeight="160"
+					Margin="-4,0,-4,0"
+					HorizontalAlignment="Stretch"
+					x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
+					ItemsSource="{x:Bind SecurityViewModel.AccessControlList.AccessControlEntries, Mode=OneWay}"
+					SelectedIndex="0"
+					SelectedItem="{x:Bind SecurityViewModel.SelectedAccessControlEntry, Mode=TwoWay}"
+					SelectionMode="Single">
+					<ListView.ItemContainerStyle>
+						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+							<Setter Property="MinHeight" Value="1" />
+							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
+						</Style>
+					</ListView.ItemContainerStyle>
+					<ListView.ItemTemplate>
+						<DataTemplate x:DataType="perm:AccessControlEntry">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="32" />
+									<ColumnDefinition />
+								</Grid.ColumnDefinitions>
+
+								<FontIcon
+									x:Name="FontIcon"
+									HorizontalAlignment="Left"
+									FontFamily="{StaticResource SymbolThemeFontFamily}"
+									FontSize="16"
+									Glyph="{x:Bind Principal.Glyph}" />
+
+								<StackPanel Grid.Column="1" Orientation="Horizontal">
+									<TextBlock Text="{x:Bind Principal.DisplayName}" />
+									<TextBlock
+										Padding="4,0,0,0"
+										FontWeight="Light"
+										Text="&#160;(" />
+									<TextBlock FontWeight="Light" Text="{x:Bind Principal.FullNameOrSid}" />
+									<TextBlock FontWeight="Light" Text=")" />
+								</StackPanel>
+							</Grid>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</Grid>
+
+			<!--  Permissions  -->
+			<Grid
+				Grid.Row="1"
+				Padding="8"
+				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="1"
+				CornerRadius="4"
+				RowSpacing="4">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+
+				<TextBlock
+					Grid.Row="0"
+					Padding="8"
+					VerticalAlignment="Center"
+					TextTrimming="CharacterEllipsis">
+					<Run Text="{helpers:ResourceString Name=SecurityPermissionsLabel/Text}" />
+					<Run Text="{x:Bind SecurityViewModel.SelectedAccessControlEntry.Principal.DisplayName, Mode=OneWay}" />
+				</TextBlock>
+
+				<Button
+					Grid.Row="0"
+					Padding="8,6"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Center"
+					AutomationProperties.Name="{helpers:ResourceString Name=AdvancedPermissions}"
+					Background="Transparent"
+					BorderBrush="Transparent"
+					Command="{x:Bind OpenSecurityAdvancedPageWindowCommand}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=AdvancedPermissions}">
+					<FontIcon FontSize="16" Glyph="&#xE00F;" />
+				</Button>
+
+				<MenuFlyoutSeparator
+					Grid.Row="1"
+					Margin="-12,0"
+					Background="{ThemeResource CardStrokeColorDefaultBrush}" />
+
+				<Grid
+					x:Name="CheckBoxGrid"
+					Grid.Row="2"
+					Padding="8"
+					HorizontalAlignment="Stretch"
+					x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
+					ColumnSpacing="8">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="12" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+
+					<TextBlock
+						Grid.Row="0"
+						Grid.Column="1"
+						Margin="0,0,0,4"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						Text="{helpers:ResourceString Name=Allow}" />
+
+					<TextBlock
+						Grid.Row="0"
+						Grid.Column="3"
+						Margin="0,0,0,4"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						Text="{helpers:ResourceString Name=SecurityDenyLabel/Text}" />
+
+					<TextBlock
+						Grid.Row="1"
+						Grid.Column="0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text="{helpers:ResourceString Name=SecurityFullControlLabel/Text}" />
+
+					<CheckBox
+						Grid.Row="1"
+						Grid.Column="1"
+						MinWidth="0"
+						Padding="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedFullControlAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedInheritedFullControlAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+
+					<CheckBox
+						Grid.Row="1"
+						Grid.Column="3"
+						MinWidth="0"
+						Padding="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedFullControlAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedFullControlAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+
+					<TextBlock
+						Grid.Row="2"
+						Grid.Column="0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text="{helpers:ResourceString Name=SecurityModifyLabel/Text}" />
+
+					<CheckBox
+						Grid.Row="2"
+						Grid.Column="1"
+						MinWidth="0"
+						Padding="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedModifyAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedInheritedModifyAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+
+					<CheckBox
+						Grid.Row="2"
+						Grid.Column="3"
+						MinWidth="0"
+						Padding="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedModifyAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedModifyAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+
+					<TextBlock
+						Grid.Row="3"
+						Grid.Column="0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text="{helpers:ResourceString Name=SecurityReadAndExecuteLabel/Text}" />
+
+					<CheckBox
+						Grid.Row="3"
+						Grid.Column="1"
+						MinWidth="0"
+						Padding="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedReadAndExecuteAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedInheritedReadAndExecuteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+
+					<CheckBox
+						Grid.Row="3"
+						Grid.Column="3"
+						MinWidth="0"
+						Padding="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedReadAndExecuteAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedReadAndExecuteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+
+					<TextBlock
+						Grid.Row="4"
+						Grid.Column="0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text="{helpers:ResourceString Name=SecurityListDirectoryLabel/Text}"
+						Visibility="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}" />
+
+					<CheckBox
+						Grid.Row="4"
+						Grid.Column="1"
+						MinWidth="0"
+						Padding="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedListDirectoryAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedInheritedListDirectoryAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+						Visibility="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}" />
+
+					<CheckBox
+						Grid.Row="4"
+						Grid.Column="3"
+						MinWidth="0"
+						Padding="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedListDirectoryAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedListDirectoryAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+						Visibility="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}" />
+
+					<TextBlock
+						Grid.Row="5"
+						Grid.Column="0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text="{helpers:ResourceString Name=SecurityReadLabel/Text}" />
+
+					<CheckBox
+						Grid.Row="5"
+						Grid.Column="1"
+						MinWidth="0"
+						Padding="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedReadAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedInheritedReadAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+
+					<CheckBox
+						Grid.Row="5"
+						Grid.Column="3"
+						MinWidth="0"
+						Padding="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedReadAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedReadAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+
+					<TextBlock
+						Grid.Row="6"
+						Grid.Column="0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text="{helpers:ResourceString Name=Write}" />
+
+					<CheckBox
+						Grid.Row="6"
+						Grid.Column="1"
+						MinWidth="0"
+						Padding="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedWriteAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedInheritedWriteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+
+					<CheckBox
+						Grid.Row="6"
+						Grid.Column="3"
+						MinWidth="0"
+						Padding="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedWriteAccess, Mode=TwoWay}"
+						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedWriteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+				</Grid>
+
+				<TextBlock
+					x:Name="CannotReadPropsText"
+					Grid.Row="2"
+					Padding="8"
+					HorizontalAlignment="Left"
+					x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+					Text="{helpers:ResourceString Name=SecurityCannotReadProperties/Text}"
+					TextWrapping="WrapWholeWords" />
+			</Grid>
+
+		</Grid>
+	</ScrollViewer>
+</vm:BasePropertiesPage>

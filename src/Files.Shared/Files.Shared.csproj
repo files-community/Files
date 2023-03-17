@@ -12,6 +12,7 @@
     <ItemGroup>
         <!-- Do not update LiteDB to version 5 -->
         <PackageReference Include="LiteDB" Version="4.1.4" />
+        <PackageReference Include="System.IO.Hashing" Version="7.0.0" />
         <PackageReference Include="System.Threading.Tasks.Dataflow" Version="7.0.0" />
     </ItemGroup>
 

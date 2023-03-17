@@ -169,6 +169,7 @@ namespace Files.App.DataModels.NavigationControlItems
 				IsLocationItem = true,
 				ShowEjectDevice = item.IsRemovable,
 				ShowShellItems = true,
+				ShowFormatDrive = !(item.Type == DriveType.Network || string.Equals(root.Path, "C:\\", StringComparison.OrdinalIgnoreCase)),
 				ShowProperties = true
 			};
 			item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
@@ -213,7 +214,7 @@ namespace Files.App.DataModels.NavigationControlItems
 				}
 				else
 				{
-					SpaceText = "DriveCapacityUnknown".GetLocalizedResource();
+					SpaceText = "Unknown".GetLocalizedResource();
 					MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
 				}
 
@@ -221,7 +222,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			}
 			catch (Exception)
 			{
-				SpaceText = "DriveCapacityUnknown".GetLocalizedResource();
+				SpaceText = "Unknown".GetLocalizedResource();
 				MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
 
 				OnPropertyChanged(nameof(ShowDriveDetails));

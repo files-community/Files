@@ -20,27 +20,13 @@
 						x:Name="TabItemContextMenu"
 						Opening="TabItemContextMenu_Opening">
 						<MenuFlyoutItem
-							Click="{x:Bind vm:MainPageViewModel.AddNewTabAtIndex}"
-							KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlNewTab/KeyboardAcceleratorTextOverride}"
-							Text="{helpers:ResourceString Name=HorizontalMultitaskingControlNewTab/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
-							</MenuFlyoutItem.Icon>
-							<MenuFlyoutItem.KeyboardAccelerators>
-								<KeyboardAccelerator
-									Key="T"
-									IsEnabled="False"
-									Modifiers="Control" />
-							</MenuFlyoutItem.KeyboardAccelerators>
-						</MenuFlyoutItem>
+							Command="{x:Bind Commands.NewTab}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.NewTab.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.NewTab.Label}" />
 						<MenuFlyoutItem
-							Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
-							KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab/KeyboardAcceleratorTextOverride}"
-							Text="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11B;" />
-							</MenuFlyoutItem.Icon>
-						</MenuFlyoutItem>
+							Command="{x:Bind Commands.DuplicateTab}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.DuplicateTab.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.DuplicateTab.Label}" />
 						<MenuFlyoutItem
 							x:Name="MenuItemMoveTabToNewWindow"
 							Click="MoveTabToNewWindow"
@@ -608,8 +594,8 @@
 						Drop="TabViewItem_Drop"
 						Header="{x:Bind Header, Mode=OneWay}"
 						IconSource="{x:Bind IconSource, Mode=OneWay}"
-						Style="{StaticResource Local.TabViewItem}"
 						Loaded="TabViewItem_Loaded"
+						Style="{StaticResource Local.TabViewItem}"
 						ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}" />
 				</DataTemplate>
 			</TabView.TabItemTemplate>

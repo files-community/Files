@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
@@ -13,7 +14,6 @@ using Files.App.Views;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
 using Microsoft.UI.Dispatching;
@@ -35,7 +35,6 @@ using Windows.UI.Text;
 using static Files.App.UserControls.IAddressToolbar;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 using SearchBox = Files.App.UserControls.SearchBox;
-using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.App.ViewModels
 {
@@ -44,6 +43,8 @@ namespace Files.App.ViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
+
+		private static readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -82,273 +83,6 @@ namespace Files.App.ViewModels
 		public event EventHandler? RefreshWidgetsRequested;
 
 		public ObservableCollection<PathBoxItem> PathComponents { get; } = new ObservableCollection<PathBoxItem>();
-
-		public bool IsSortedAscending
-		{
-			get => InstanceViewModel?.FolderSettings.DirectorySortDirection == SortDirection.Ascending;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectorySortDirection = SortDirection.Ascending;
-			}
-		}
-
-		public bool IsSortedDescending
-		{
-			get => InstanceViewModel?.FolderSettings.DirectorySortDirection == SortDirection.Descending;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectorySortDirection = SortDirection.Descending;
-			}
-		}
-
-		public bool IsGroupedAscending
-		{
-			get => InstanceViewModel?.FolderSettings.DirectoryGroupDirection == SortDirection.Ascending;
-			set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupDirection = SortDirection.Ascending; }
-		}
-
-		public bool IsGroupedDescending
-		{
-			get => InstanceViewModel?.FolderSettings.DirectoryGroupDirection == SortDirection.Descending;
-			set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupDirection = SortDirection.Descending; }
-		}
-
-		public bool AreDirectoriesSortedAlongsideFiles
-		{
-			get => InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFiles;
-			set => InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFiles = value;
-		}
-
-		// Sort by
-
-		public bool IsSortedByName
-		{
-			get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.Name;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.Name; OnPropertyChanged();
-			}
-		}
-
-		public bool IsSortedByDateModified
-		{
-			get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.DateModified;
-			set
-			{
-			if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.DateModified; OnPropertyChanged();
-			}
-		}
-
-		public bool IsSortedByDateCreated
-		{
-			get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.DateCreated;
-			set
-			{ if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.DateCreated; OnPropertyChanged();
-			}
-		}
-
-		public bool IsSortedBySize
-		{
-			get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.Size;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.Size; OnPropertyChanged();
-			}
-		}
-
-		public bool IsSortedByType
-		{
-			get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.FileType;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.FileType; OnPropertyChanged();
-			}
-		}
-
-		public bool IsSortedBySyncStatus
-		{
-			get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.SyncStatus;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.SyncStatus; OnPropertyChanged();
-			}
-		}
-
-		public bool IsSortedByOriginalFolder
-		{
-			get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.OriginalFolder;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.OriginalFolder; OnPropertyChanged();
-			}
-		}
-
-		public bool IsSortedByDateDeleted
-		{
-			get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.DateDeleted;
-			set
-			{
-				if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.DateDeleted; OnPropertyChanged();
-			}
-		}
-
-		public bool IsSortedByFileTag
-		{
-			get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.FileTag;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.FileTag; OnPropertyChanged();
-			}
-		}
-
-		// Group by
-
-		public bool IsGroupedByNone
-		{
-			get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.None;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.None; OnPropertyChanged();
-			}
-		}
-
-		public bool IsGroupedByName
-		{
-			get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.Name;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.Name; OnPropertyChanged();
-			}
-		}
-
-		public bool IsGroupedByDateModified
-		{
-			get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateModified;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.DateModified; OnPropertyChanged();
-			}
-		}
-
-		public bool IsGroupedByDateCreated
-		{
-			get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateCreated;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.DateCreated; OnPropertyChanged();
-			}
-		}
-
-		public bool IsGroupedBySize
-		{
-			get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.Size;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.Size; OnPropertyChanged();
-			}
-		}
-
-		public bool IsGroupedByType
-		{
-			get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileType;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FileType; OnPropertyChanged();
-			}
-		}
-
-		public bool IsGroupedBySyncStatus
-		{
-			get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.SyncStatus;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.SyncStatus; OnPropertyChanged();
-			}
-		}
-
-		public bool IsGroupedByOriginalFolder
-		{
-			get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.OriginalFolder;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.OriginalFolder; OnPropertyChanged();
-			}
-		}
-
-		public bool IsGroupedByDateDeleted
-		{
-			get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateDeleted;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.DateDeleted; OnPropertyChanged();
-			}
-		}
-
-		public bool IsGroupedByFileTag
-		{
-			get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FileTag; OnPropertyChanged();
-			}
-		}
-
-		public bool IsGroupedByFolderPath
-		{
-			get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FolderPath;
-			set
-			{
-				if (value)
-					InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FolderPath; OnPropertyChanged();
-			}
-		}
-
-		public bool IsLayoutDetailsView
-			=> InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.DetailsView && !IsLayoutAdaptive;
-
-		public bool IsLayoutTilesView
-			=> InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.TilesView && !IsLayoutAdaptive;
-
-		public bool IsLayoutGridViewSmall
-			=> InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView
-			&& InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Small && !IsLayoutAdaptive;
-
-		public bool IsLayoutGridViewMedium
-			=> InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView
-			&& InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Medium && !IsLayoutAdaptive;
-
-		public bool IsLayoutGridViewLarge
-			=> InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView
-			&& InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Large && !IsLayoutAdaptive;
-
-		public bool IsLayoutColumnsView
-			=> InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.ColumnView && !IsLayoutAdaptive;
-
-		public bool IsLayoutAdaptive
-			=> InstanceViewModel.FolderSettings.IsAdaptiveLayoutEnabled
-			&& !InstanceViewModel.FolderSettings.IsLayoutModeFixed
-			&& IsAdaptiveLayoutEnabled;
-
-		public bool IsAdaptiveLayoutEnabled
-			=> UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories;
 
 		private bool isUpdating;
 		public bool IsUpdating
@@ -460,37 +194,10 @@ namespace Files.App.ViewModels
 		public ObservableCollection<ListedItem> NavigationBarSuggestions = new ObservableCollection<ListedItem>();
 
 		private CurrentInstanceViewModel instanceViewModel;
-
 		public CurrentInstanceViewModel InstanceViewModel
 		{
 			get => instanceViewModel;
-			set
-			{
-				if (instanceViewModel != value)
-				{
-					if (instanceViewModel is not null)
-					{
-						InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
-						InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
-						InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
-						InstanceViewModel.FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
-						InstanceViewModel.FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
-						InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
-					}
-
-					SetProperty(ref instanceViewModel, value);
-
-					if (instanceViewModel is not null)
-					{
-						InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
-						InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
-						InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
-						InstanceViewModel.FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
-						InstanceViewModel.FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
-						InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
-					}
-				}
-			}
+			set => SetProperty(ref instanceViewModel, value);
 		}
 
 		private PointerRoutedEventArgs? pointerRoutedEventArgs;
@@ -554,9 +261,6 @@ namespace Files.App.ViewModels
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 					OnPropertyChanged(e.SettingName);
 					break;
-				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
-					FolderSettings_LayoutPreferencesUpdateRequired(null, 0);
-					break;
 			}
 		}
 
@@ -576,73 +280,6 @@ namespace Files.App.ViewModels
 		public bool IsSingleItemOverride { get; set; } = false;
 
 		private string? dragOverPath = null;
-
-		public void UpdateSortAndGroupOptions()
-		{
-			FolderSettings_SortDirectionPreferenceUpdated(null, 0);
-			FolderSettings_SortOptionPreferenceUpdated(null, 0);
-			FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(null, true);
-			FolderSettings_GroupDirectionPreferenceUpdated(null, 0);
-			FolderSettings_GroupOptionPreferenceUpdated(null, 0);
-			FolderSettings_LayoutPreferencesUpdateRequired(null, 0);
-		}
-
-		private void FolderSettings_SortDirectionPreferenceUpdated(object? sender, SortDirection e)
-		{
-			OnPropertyChanged(nameof(IsSortedAscending));
-			OnPropertyChanged(nameof(IsSortedDescending));
-		}
-
-		private void FolderSettings_SortOptionPreferenceUpdated(object? sender, SortOption e)
-		{
-			OnPropertyChanged(nameof(IsSortedByName));
-			OnPropertyChanged(nameof(IsSortedByDateModified));
-			OnPropertyChanged(nameof(IsSortedByDateCreated));
-			OnPropertyChanged(nameof(IsSortedBySize));
-			OnPropertyChanged(nameof(IsSortedByType));
-			OnPropertyChanged(nameof(IsSortedBySyncStatus));
-			OnPropertyChanged(nameof(IsSortedByOriginalFolder));
-			OnPropertyChanged(nameof(IsSortedByDateDeleted));
-			OnPropertyChanged(nameof(IsSortedByFileTag));
-		}
-
-		private void FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object? sender, bool e)
-		{
-			OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
-		}
-
-		private void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
-		{
-			OnPropertyChanged(nameof(IsGroupedAscending));
-			OnPropertyChanged(nameof(IsGroupedDescending));
-		}
-
-		private void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
-		{
-			OnPropertyChanged(nameof(IsGroupedByNone));
-			OnPropertyChanged(nameof(IsGroupedByName));
-			OnPropertyChanged(nameof(IsGroupedByDateModified));
-			OnPropertyChanged(nameof(IsGroupedByDateCreated));
-			OnPropertyChanged(nameof(IsGroupedBySize));
-			OnPropertyChanged(nameof(IsGroupedByType));
-			OnPropertyChanged(nameof(IsGroupedBySyncStatus));
-			OnPropertyChanged(nameof(IsGroupedByOriginalFolder));
-			OnPropertyChanged(nameof(IsGroupedByDateDeleted));
-			OnPropertyChanged(nameof(IsGroupedByFileTag));
-			OnPropertyChanged(nameof(IsGroupedByFolderPath));
-		}
-
-		private void FolderSettings_LayoutPreferencesUpdateRequired(object? sender, object args)
-		{
-			OnPropertyChanged(nameof(IsLayoutColumnsView));
-			OnPropertyChanged(nameof(IsLayoutDetailsView));
-			OnPropertyChanged(nameof(IsLayoutGridViewLarge));
-			OnPropertyChanged(nameof(IsLayoutGridViewMedium));
-			OnPropertyChanged(nameof(IsLayoutGridViewSmall));
-			OnPropertyChanged(nameof(IsLayoutTilesView));
-			OnPropertyChanged(nameof(IsLayoutAdaptive));
-			OnPropertyChanged(nameof(IsAdaptiveLayoutEnabled));
-		}
 
 		public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
 		{
@@ -898,9 +535,6 @@ namespace Files.App.ViewModels
 		public void UpdateAdditionalActions()
 		{
 			OnPropertyChanged(nameof(HasAdditionalAction));
-			OnPropertyChanged(nameof(CanEmptyRecycleBin));
-			OnPropertyChanged(nameof(CanRestoreRecycleBin));
-			OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
 		}
 
 		private AddressToolbar? AddressToolbar => (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
@@ -954,51 +588,21 @@ namespace Files.App.ViewModels
 
 		public ICommand? CreateNewFileCommand { get; set; }
 
-		public ICommand? CreateNewFolderCommand { get; set; }
-
-		public ICommand? CreateNewShortcutCommand { get; set; }
-
-		public ICommand? CopyCommand { get; set; }
-
-		public ICommand? DeleteCommand { get; set; }
-
 		public ICommand? Rename { get; set; }
 
 		public ICommand? Share { get; set; }
 
-		public ICommand? CutCommand { get; set; }
-
-		public ICommand? EmptyRecycleBinCommand { get; set; }
-
-		public ICommand RestoreRecycleBinCommand { get; set; }
-
-		public ICommand RestoreSelectionRecycleBinCommand { get; set; }
-
 		public ICommand PropertiesCommand { get; set; }
-
-		public ICommand? ExtractCommand { get; set; }
-
-		public ICommand? ExtractHereCommand { get; set; }
-
-		public ICommand? ExtractToCommand { get; set; }
 
 		public ICommand? RunWithPowerShellCommand { get; set; }
 
-		public ICommand? SetAsBackgroundCommand { get; set; }
-
-		public ICommand? SetAsLockscreenBackgroundCommand { get; set; }
-
-		public ICommand? SetAsSlideshowCommand { get; set; }
-
 		public ICommand? InstallInfCommand { get; set; }
-
-		public ICommand? RotateImageLeftCommand { get; set; }
-
-		public ICommand? RotateImageRightCommand { get; set; }
 
 		public ICommand? InstallFontCommand { get; set; }
 
 		public ICommand? UpdateCommand { get; set; }
+
+		public ICommand? PlayAllCommand { get; set; }
 
 		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
 		{
@@ -1254,15 +858,7 @@ namespace Files.App.ViewModels
 		public bool HasItem
 		{
 			get => hasItem;
-			set
-			{
-				if (SetProperty(ref hasItem, value))
-				{
-					OnPropertyChanged(nameof(CanEmptyRecycleBin));
-					OnPropertyChanged(nameof(CanRestoreRecycleBin));
-					OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
-				}
-			}
+			set => SetProperty(ref hasItem, value);
 		}
 
 		private List<ListedItem>? selectedItems;
@@ -1288,10 +884,8 @@ namespace Files.App.ViewModels
 					OnPropertyChanged(nameof(IsImage));
 					OnPropertyChanged(nameof(IsMultipleImageSelected));
 					OnPropertyChanged(nameof(IsFont));
+					OnPropertyChanged(nameof(IsMultipleMediaFilesSelected));
 					OnPropertyChanged(nameof(HasAdditionalAction));
-					OnPropertyChanged(nameof(CanEmptyRecycleBin));
-					OnPropertyChanged(nameof(CanRestoreRecycleBin));
-					OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
 				}
 			}
 		}
@@ -1299,11 +893,8 @@ namespace Files.App.ViewModels
 		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
 		public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcut && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive));
-		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
+		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1 && InstanceViewModel.IsPageTypeRecycleBin == false;
 		public bool CanViewProperties => true;
-		public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
-		public bool CanRestoreRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && (SelectedItems is null || SelectedItems.Count == 0);
-		public bool CanRestoreSelectionRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && SelectedItems is not null && SelectedItems.Count > 0;
 		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
 		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
 		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
@@ -1313,6 +904,7 @@ namespace Files.App.ViewModels
 		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsMultipleMediaFilesSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsMediaFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
 		public string ExtractToText
 			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();
@@ -1321,13 +913,6 @@ namespace Files.App.ViewModels
 		{
 			SearchBox.Escaped -= SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
-
-			InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
-			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
-			InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
-			InstanceViewModel.FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
-			InstanceViewModel.FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
-			InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
 		}
 	}
 }

@@ -49,7 +49,7 @@ namespace Files.App.Helpers
 					"cut", "copy", "paste", "delete", "properties", "link",
 					"Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
 					"eject", "rename", "explore", "openinfiles", "extract",
-					"copyaspath", "undelete", "empty",
+					"copyaspath", "undelete", "empty", "format", "rotate90", "rotate270",
 					Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
 					Win32API.ExtractStringFromDLL("shell32.dll", 5384), // Pin to Start
 					Win32API.ExtractStringFromDLL("shell32.dll", 5385), // Unpin from Start
@@ -235,36 +235,23 @@ namespace Files.App.Helpers
 		}
 
 		public static async Task LoadShellMenuItems(
-			string path, 
-			CommandBarFlyout itemContextMenuFlyout, 
-			ContextMenuOptions options = null, 
-			bool showOpenWithMenu = false, 
+			string path,
+			CommandBarFlyout itemContextMenuFlyout,
+			ContextMenuOptions options = null,
+			bool showOpenWithMenu = false,
 			bool showSendToMenu = false)
-		{ 
+		{
 			try
 			{
-				if (options is not null)
-				{
-					if (options.ShowEmptyRecycleBin)
-					{
-						var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
-						if (emptyRecycleBinItem is not null)
-						{
-							var binHasItems = RecycleBinHelpers.RecycleBinHasItems();
-							emptyRecycleBinItem.IsEnabled = binHasItems;
-						}
-					}
+				if (options is not null && !options.IsLocationItem)
+					return;
 
-					if (!options.IsLocationItem)
-						return;
-				}
-				
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(
 					workingDir: null,
-					new List<ListedItem>() { new ListedItem(null) { ItemPath = path } }, 
-					shiftPressed: shiftPressed, 
-					showOpenMenu: false, 
+					new List<ListedItem>() { new ListedItem(null) { ItemPath = path } },
+					shiftPressed: shiftPressed,
+					showOpenMenu: false,
 					default);
 
 				if (showOpenWithMenu)
@@ -272,10 +259,9 @@ namespace Files.App.Helpers
 					var openWithItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "openas").ToList().FirstOrDefault();
 					if (openWithItem is not null)
 					{
-						openWithItem.ColoredIcon = new ColoredIconModel()
+						openWithItem.OpacityIcon = new OpacityIconModel()
 						{
-							BaseLayerGlyph = "\uF049",
-							OverlayLayerGlyph = "\uF04A",
+							OpacityIconStyle = "ColorIconOpenWith",
 						};
 						var (_, openWithItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
 						var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")).FirstOrDefault() as AppBarButton;
@@ -286,7 +272,7 @@ namespace Files.App.Helpers
 					}
 				}
 
-				if (showSendToMenu) 
+				if (showSendToMenu)
 				{
 					var sendToItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "sendto").ToList().FirstOrDefault();
 					if (sendToItem is not null)

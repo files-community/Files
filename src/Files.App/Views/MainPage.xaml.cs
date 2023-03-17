@@ -1,7 +1,9 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
+using Files.App.Commands;
 using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -13,6 +15,7 @@ using Files.App.ViewModels;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -23,10 +26,12 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
+using Windows.System;
 
 namespace Files.App.Views
 {
@@ -35,7 +40,10 @@ namespace Files.App.Views
 	/// </summary>
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
+		private VirtualKeyModifiers currentModifiers = VirtualKeyModifiers.None;
+
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		public AppModel AppModel => App.AppModel;
 
@@ -45,11 +53,17 @@ namespace Files.App.Views
 			set => DataContext = value;
 		}
 
+
+		/// <summary>
+		/// True if the user is currently resizing the preview pane
+		/// </summary>
+		private bool draggingPreviewPane;
+
+		private bool keyReleased = true;
+
 		public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
 
 		public OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
-
-		public ICommand ToggleFullScreenAcceleratorCommand { get; }
 
 		private ICommand ToggleCompactOverlayCommand { get; }
 		private ICommand SetCompactOverlayCommand { get; }
@@ -64,7 +78,6 @@ namespace Files.App.Views
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
 
-			ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
 			ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
 			SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
@@ -128,16 +141,8 @@ namespace Files.App.Views
 
 		private void SetRectDragRegion()
 		{
-			var scaleAdjustment = XamlRoot.RasterizationScale;
-			var dragArea = TabControl.DragArea;
-
-			var x = (int)((TabControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
-			var y = 0;
-			var width = (int)(dragArea.ActualWidth * scaleAdjustment);
-			var height = (int)(TabControl.TitlebarArea.ActualHeight * scaleAdjustment);
-
-			var dragRect = new RectInt32(x, y, width, height);
-			App.Window.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
+			DragZoneHelper.SetDragZones(App.Window,
+				dragZoneLeftIndent: (int)(TabControl.ActualWidth - TabControl.DragArea.ActualWidth));
 		}
 
 		public void TabItemContent_ContentChanged(object? sender, TabItemArguments e)
@@ -208,6 +213,72 @@ namespace Files.App.Views
 			SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
 			SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
 			SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
+		}
+
+		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e)
+		{
+			base.OnPreviewKeyDown(e);
+
+			switch (e.Key)
+			{
+				case VirtualKey.LeftWindows:
+				case VirtualKey.RightWindows:
+					currentModifiers |= VirtualKeyModifiers.Windows;
+					break;
+				case VirtualKey.Menu:
+					currentModifiers |= VirtualKeyModifiers.Menu;
+					break;
+				case VirtualKey.Control:
+					currentModifiers |= VirtualKeyModifiers.Control;
+					break;
+				case VirtualKey.Shift:
+					currentModifiers |= VirtualKeyModifiers.Shift;
+					break;
+				default:
+					// break for natives hotkeys in textbox (cut/copy/paste/selectAll/cancel)
+					bool isTextBox = e.OriginalSource is DependencyObject source && source.FindAscendantOrSelf<TextBox>() is not null;
+					if (isTextBox &&
+						currentModifiers is VirtualKeyModifiers.Control &&
+						e.Key is VirtualKey.X or VirtualKey.C or VirtualKey.V or VirtualKey.A or VirtualKey.Z)
+					{
+						break;
+					}
+
+					// execute command for hotkey
+					var hotKey = new HotKey(e.Key, currentModifiers);
+					var command = Commands[hotKey];
+					if (command.Code is not CommandCodes.None && keyReleased)
+					{
+						keyReleased = false;
+						e.Handled = command.IsExecutable;
+						await command.ExecuteAsync();
+					}
+					break;
+			}
+		}
+		protected override void OnPreviewKeyUp(KeyRoutedEventArgs e)
+		{
+			base.OnPreviewKeyDown(e);
+
+			switch (e.Key)
+			{
+				case VirtualKey.LeftWindows:
+				case VirtualKey.RightWindows:
+					currentModifiers |= VirtualKeyModifiers.Windows;
+					break;
+				case VirtualKey.Menu:
+					currentModifiers &= ~VirtualKeyModifiers.Menu;
+					break;
+				case VirtualKey.Control:
+					currentModifiers &= ~VirtualKeyModifiers.Control;
+					break;
+				case VirtualKey.Shift:
+					currentModifiers &= ~VirtualKeyModifiers.Shift;
+					break;
+				default:
+					keyReleased = true;
+					break;
+			}
 		}
 
 		private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
@@ -316,15 +387,7 @@ namespace Files.App.Views
 				return;
 
 			var totalLaunchCount = SystemInformation.Instance.TotalLaunchCount;
-
-			if
-			(
-				totalLaunchCount == 10 ||
-				totalLaunchCount == 20 ||
-				totalLaunchCount == 30 ||
-				totalLaunchCount == 40 ||
-				totalLaunchCount == 50
-			)
+			if (totalLaunchCount is 10 or 20 or 30 or 40 or 50)
 			{
 				// Prompt user to review app in the Store
 				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
@@ -344,18 +407,6 @@ namespace Files.App.Views
 					UpdatePositioning();
 					break;
 			}
-		}
-
-		private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			var view = App.GetAppWindow(App.Window);
-
-			view.SetPresenter(view.Presenter.Kind == AppWindowPresenterKind.FullScreen
-				? AppWindowPresenterKind.Overlapped
-				: AppWindowPresenterKind.FullScreen);
-
-			if (e is not null)
-				e.Handled = true;
 		}
 
 		private void ToggleSidebarCollapsedState(KeyboardAcceleratorInvokedEventArgs? e)
@@ -431,6 +482,11 @@ namespace Files.App.Views
 			}
 		}
 
+		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+		{
+			draggingPreviewPane = true;
+		}
+
 		private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			switch (PreviewPane?.Position)
@@ -442,6 +498,23 @@ namespace Files.App.Views
 					UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx = PreviewPane.ActualHeight;
 					break;
 			}
+
+			draggingPreviewPane = false;
+		}
+
+		private void PaneSplitter_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			if (draggingPreviewPane)
+				return;
+
+			var paneSplitter = (GridSplitter)sender;
+			paneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+		}
+
+		private void PaneSplitter_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			var paneSplitter = (GridSplitter)sender;
+			paneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
 		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
