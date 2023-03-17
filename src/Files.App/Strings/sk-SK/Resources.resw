@@ -1421,8 +1421,8 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Dátum zmeny</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Pôvodný priečinok</value>
+  <data name="OriginalFolder" xml:space="preserve">
+    <value>Original folder</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Triediť podľa</value>
@@ -2003,8 +2003,8 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Otvoriť položky jedným kliknutím</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
-    <value>Cesta k priečinku: </value>
+  <data name="FolderPath" xml:space="preserve">
+    <value>Folder path</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Nastavenia exportu</value>
@@ -2620,5 +2620,14 @@
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Pinned items</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Decrease size</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Increase size</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Toggle sort direction</value>
   </data>
 </root>
