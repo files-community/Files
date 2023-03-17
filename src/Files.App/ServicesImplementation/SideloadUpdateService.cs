@@ -156,16 +156,19 @@ namespace Files.App.ServicesImplementation
 		public async Task CheckAndUpdateFilesLauncherAsync()
 		{
 			var destFolderPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, "Files");
-			var destHashFilePath = Path.Combine(destFolderPath, "FilesLauncher.exe.sha256");
+			var destExeFilePath = Path.Combine(destFolderPath, "FilesLauncher.exe");
 
-			if (Path.Exists(destHashFilePath))
+			if (Path.Exists(destExeFilePath))
 			{
+				var hashEqual = false;
 				var srcHashFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/FilesLauncher.exe.sha256"));
+				var destHashFilePath = Path.Combine(destFolderPath, "FilesLauncher.exe.sha256");
 
-				bool hashEqual;
-				using (var srcStream = (await srcHashFile.OpenReadAsync()).AsStream())
-				using (var destStream = File.OpenRead(destHashFilePath))
+				if (Path.Exists(destHashFilePath))
 				{
+					using var srcStream = (await srcHashFile.OpenReadAsync()).AsStream();
+					using var destStream = File.OpenRead(destHashFilePath);
+
 					hashEqual = HashEqual(srcStream, destStream);
 				}
 
