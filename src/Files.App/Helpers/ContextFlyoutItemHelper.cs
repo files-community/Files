@@ -501,11 +501,11 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.PinItemToFavorites)
 				{
-					IsVisible = userSettingsService.PreferencesSettingsService.ShowFavoritesSection && selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive && !x.IsPinned),
+					IsVisible = commands.PinItemToFavorites.IsExecutable && userSettingsService.PreferencesSettingsService.ShowFavoritesSection,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.UnpinItemFromFavorites)
 				{
-					IsVisible = userSettingsService.PreferencesSettingsService.ShowFavoritesSection && selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive && x.IsPinned),
+					IsVisible = commands.UnpinItemFromFavorites.IsExecutable && userSettingsService.PreferencesSettingsService.ShowFavoritesSection,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.PinToStart)
 				{
