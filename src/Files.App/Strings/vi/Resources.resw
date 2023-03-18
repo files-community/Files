@@ -273,8 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>Xóa bỏ</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>Gắn vào Ưa thích</value>
+  <data name="PinToFavorites" xml:space="preserve">
+    <value>Pin to Favorites</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Chào mừng đến Files!</value>
@@ -528,8 +528,8 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Sao chép sang {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
-    <value>Tạo lối tắt</value>
+  <data name="CreateShortcut" xml:space="preserve">
+    <value>Create shortcut</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Mở vị trí tệp</value>
