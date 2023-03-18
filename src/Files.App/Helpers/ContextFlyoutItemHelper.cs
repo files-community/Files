@@ -386,7 +386,7 @@ namespace Files.App.Helpers
 				{
 					IsPrimary = true,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(commands.PasteItem)
+				new ContextMenuFlyoutItemViewModelBuilder(commands.PasteItemToSelection)
 				{
 					IsPrimary = true,
 					IsVisible = true,

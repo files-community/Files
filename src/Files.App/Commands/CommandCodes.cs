@@ -17,6 +17,7 @@ namespace Files.App.Commands
 		CopyItem,
 		CutItem,
 		PasteItem,
+		PasteItemToSelection,
 		DeleteItem,
 		CreateFolder,
 		CreateShortcut,
