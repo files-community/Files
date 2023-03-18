@@ -32,18 +32,25 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			if (context.ShellPage is not null && context.SelectedItem is ListedItem selectedItem)
-			{
-				await UIFilesystemHelpers.PasteItemAsync(selectedItem.ItemPath, context.ShellPage);
-			}
+			if (context.ShellPage is null)
+				return;
+
+			string path = context.SelectedItem is ListedItem selectedItem
+				? selectedItem.ItemPath
+				: context.ShellPage.FilesystemViewModel.WorkingDirectory;
+
+			await UIFilesystemHelpers.PasteItemAsync(path, context.ShellPage);
 		}
 
 		public bool GetIsExecutable()
 		{
-			return App.AppModel.IsPasteEnabled
-				&& context.SelectedItem is ListedItem selectedItem
-				&& selectedItem.PrimaryItemAttribute is Windows.Storage.StorageItemTypes.Folder
-				&& context.PageType is not ContentPageTypes.Home and not ContentPageTypes.RecycleBin and not ContentPageTypes.SearchResults;
+			if (!App.AppModel.IsPasteEnabled)
+				return false;
+			if (context.PageType is ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.SearchResults)
+				return false;
+			if (!context.HasSelection)
+				return true;
+			return context.SelectedItem?.PrimaryItemAttribute is Windows.Storage.StorageItemTypes.Folder;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
