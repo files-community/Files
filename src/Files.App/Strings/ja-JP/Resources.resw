@@ -273,7 +273,7 @@
   <data name="Delete" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>お気に入りに固定</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>{0} にコピー</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>ショートカットの作成</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -2620,12 +2620,12 @@
     <value>ピン留めされたアイテム</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>サイズを小さくする</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>サイズを大きくする</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>昇順と降順を切り替える</value>
   </data>
 </root>
