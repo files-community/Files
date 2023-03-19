@@ -273,7 +273,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Poista</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>Kiinnitä suosikkeihin</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Kopioi kansioon {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>Luo pikakuvake</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -1420,7 +1420,7 @@
     <value>Muokkauspäivämäärä</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Original folder</value>
+    <value>Alkuperäinen kansio</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Lajitteluperuste</value>
@@ -2002,7 +2002,7 @@
     <value>Avaa kohteet yhdellä napsautuksella</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>Folder path</value>
+    <value>Kansion polku</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Vientiasetukset</value>
@@ -2620,12 +2620,12 @@
     <value>Kiinnitetyt kohteet</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>Pienennä kokoa</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>Suurenna kokoa</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>Vaihda lajittelusuuntaa</value>
   </data>
 </root>

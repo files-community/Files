@@ -273,7 +273,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Elimina</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>Aggiungi ai preferiti</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copia in {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>Crea collegamento</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
