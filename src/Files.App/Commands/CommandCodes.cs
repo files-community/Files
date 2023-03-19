@@ -49,7 +49,7 @@ namespace Files.App.Commands
 		RunAsAnotherUser,
 		
 		// QuickLook
-		QuickLook,
+		LaunchQuickLook,
 
 		// Archives
 		CompressIntoArchive,

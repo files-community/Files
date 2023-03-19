@@ -44,7 +44,7 @@ namespace Files.App.Commands
 		IRichCommand RunAsAdmin { get; }
 		IRichCommand RunAsAnotherUser { get; }
 		
-		IRichCommand OpenQuickLook { get; }
+		IRichCommand LaunchQuickLook { get; }
 
 		IRichCommand CompressIntoArchive { get; }
 		IRichCommand CompressIntoSevenZip { get; }

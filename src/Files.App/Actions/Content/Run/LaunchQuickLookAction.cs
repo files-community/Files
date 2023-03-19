@@ -11,7 +11,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class OpenQuickLookAction : ObservableObject, IAction
+	internal class LaunchQuickLookAction : ObservableObject, IAction
 	{
 		public HotKey HotKey { get; } = new(VirtualKey.Space);
 
@@ -23,7 +23,7 @@ namespace Files.App.Actions
 
 		public string Label => "LaunchQuickLook".GetLocalizedResource();
 
-		public OpenQuickLookAction()
+		public LaunchQuickLookAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
