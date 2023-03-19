@@ -925,7 +925,7 @@
     <value>Orientación</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>Núcleo</value>
+    <value>Archivo</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
     <value>Imagen</value>
@@ -1783,10 +1783,10 @@
     <value>Cerrar panel</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>Entrar en la superposición compacta</value>
+    <value>Entrar en superposición compacta</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
-    <value>Salir de la superposición compacta</value>
+    <value>Salir de superposición compacta</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>Descripción del archivo</value>
