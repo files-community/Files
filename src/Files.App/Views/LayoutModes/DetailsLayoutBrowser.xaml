@@ -787,7 +787,7 @@
 
 									<VisualStateManager.VisualStateGroups>
 										<VisualStateGroup x:Name="CheckboxVisibilityStates">
-											<VisualState x:Name="Normal" />
+											<VisualState x:Name="HideCheckbox" />
 											<VisualState x:Name="ShowCheckbox">
 												<VisualState.Setters>
 													<Setter Target="SelectionCheckbox.Visibility" Value="Visible" />
