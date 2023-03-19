@@ -326,7 +326,7 @@ namespace Files.App.Filesystem
 			var pathBuilder = new StringBuilder(path);
 			var lastPathIndex = path.Length - 1;
 			var separatorChar = isFtp || path.Contains('/', StringComparison.Ordinal) ? '/' : '\\';
-			var rootIndex = isFtp ? FtpHelpers.GetRootIndex(path) + 1 : path.IndexOf(":/", StringComparison.Ordinal) + 2;
+			var rootIndex = isFtp ? FtpHelpers.GetRootIndex(path) + 1 : path.IndexOf($":{separatorChar}", StringComparison.Ordinal) + 2;
 
 			for (int i = 0, lastIndex = 0; i < pathBuilder.Length; i++)
 			{
