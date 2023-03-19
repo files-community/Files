@@ -274,7 +274,7 @@
     <value>删除</value>
   </data>
   <data name="PinToFavorites" xml:space="preserve">
-    <value>Pin to Favorites</value>
+    <value>固定到收藏</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>欢迎使用 Files!</value>
@@ -529,7 +529,7 @@
     <value>复制到 {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Create shortcut</value>
+    <value>创建快捷方式</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>打开文件位置</value>
@@ -1420,7 +1420,7 @@
     <value>修改日期</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Original folder</value>
+    <value>原始文件夹</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>排序方式</value>
@@ -2002,7 +2002,7 @@
     <value>通过单击打开文件</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>Folder path</value>
+    <value>文件夹路径</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>导出设置</value>
@@ -2620,12 +2620,12 @@
     <value>已固定的项目</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>减小大小</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>增加大小</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>切换排序方向</value>
   </data>
 </root>
