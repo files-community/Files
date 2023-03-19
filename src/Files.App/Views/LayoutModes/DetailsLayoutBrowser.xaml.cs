@@ -237,7 +237,7 @@ namespace Files.App.Views.LayoutModes
 			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
 			{
-				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
+				await QuickLookHelpers.ToggleQuickLook(SelectedItem.ItemPath, true);
 			}
 
 			if (e != null)
@@ -356,14 +356,6 @@ namespace Files.App.Views.LayoutModes
 			{
 				FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
 				e.Handled = true;
-			}
-			else if (e.Key == VirtualKey.Space)
-			{
-				if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
-				{
-					e.Handled = true;
-					await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
-				}
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
 			{

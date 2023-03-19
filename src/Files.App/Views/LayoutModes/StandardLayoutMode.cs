@@ -170,7 +170,7 @@ namespace Files.App
 			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 
 			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
-				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
+				await QuickLookHelpers.ToggleQuickLook(SelectedItem.ItemPath, true);
 		}
 
 		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);

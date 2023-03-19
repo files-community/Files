@@ -45,6 +45,9 @@ namespace Files.App.Commands
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
+		
+		// QuickLook
+		QuickLook,
 
 		// Archives
 		CompressIntoArchive,

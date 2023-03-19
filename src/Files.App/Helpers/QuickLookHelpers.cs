@@ -10,11 +10,8 @@ public static class QuickLookHelpers
 {
 	private const int TIMEOUT = 500;
 
-	public static async Task ToggleQuickLook(IShellPage associatedInstance, bool switchPreview = false)
+	public static async Task ToggleQuickLook(string path, bool switchPreview = false)
 	{
-		if (!associatedInstance.SlimContentPage.IsItemSelected || associatedInstance.SlimContentPage.IsRenamingItem)
-			return;
-
 		App.AppModel.IsQuickLookAvailable = await DetectQuickLookAvailability();
 
 		if (App.AppModel.IsQuickLookAvailable == false)
@@ -29,7 +26,7 @@ public static class QuickLookHelpers
 			await client.ConnectAsync(TIMEOUT);
 
 			await using var writer = new StreamWriter(client);
-			await writer.WriteLineAsync($"{message}|{associatedInstance.SlimContentPage.SelectedItem.ItemPath}");
+			await writer.WriteLineAsync($"{message}|{path}");
 			await writer.FlushAsync();
 		}
 		catch (TimeoutException)
