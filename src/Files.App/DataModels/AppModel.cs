@@ -76,13 +76,6 @@ namespace Files.App.DataModels
 			set => SetProperty(ref isPasteEnabled, value);
 		}
 
-		private bool isQuickLookAvailable;
-		public bool IsQuickLookAvailable
-		{
-			get => isQuickLookAvailable;
-			set => SetProperty(ref isQuickLookAvailable, value);
-		}
-
 		private FontFamily symbolFontFamily;
 		public FontFamily SymbolFontFamily
 		{

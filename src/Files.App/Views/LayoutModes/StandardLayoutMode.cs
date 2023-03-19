@@ -169,7 +169,7 @@ namespace Files.App
 		{
 			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 
-			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
+			if (SelectedItems.Count == 1)
 				await QuickLookHelpers.ToggleQuickLook(SelectedItem.ItemPath, true);
 		}
 
