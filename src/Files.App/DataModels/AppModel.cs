@@ -72,12 +72,5 @@ namespace Files.App.DataModels
 			get => isPasteEnabled;
 			set => SetProperty(ref isPasteEnabled, value);
 		}
-
-		private FontFamily symbolFontFamily;
-		public FontFamily SymbolFontFamily
-		{
-			get => symbolFontFamily;
-			set => SetProperty(ref symbolFontFamily, value);
-		}
 	}
 }
