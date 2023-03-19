@@ -52,6 +52,8 @@ namespace Files.App.Commands
 		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
 		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
 		public IRichCommand CutItem => commands[CommandCodes.CutItem];
+		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
+		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
@@ -153,6 +155,8 @@ namespace Files.App.Commands
 			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
 			[CommandCodes.CopyItem] = new CopyItemAction(),
 			[CommandCodes.CutItem] = new CutItemAction(),
+			[CommandCodes.PasteItem] = new PasteItemAction(),
+			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
@@ -288,7 +292,7 @@ namespace Files.App.Commands
 				OpacityStyle = action.Glyph.ToOpacityStyle();
 				HotKeyText = GetHotKeyText();
 				LabelWithHotKey = HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
-				command = new AsyncRelayCommand(ExecuteAsync, () => action.IsExecutable);
+				command = new AsyncRelayCommand(ExecuteAsync);
 
 				if (action is INotifyPropertyChanging notifyPropertyChanging)
 					notifyPropertyChanging.PropertyChanging += Action_PropertyChanging;
@@ -296,7 +300,7 @@ namespace Files.App.Commands
 					notifyPropertyChanged.PropertyChanged += Action_PropertyChanged;
 			}
 
-			public bool CanExecute(object? parameter) => command.CanExecute(parameter);
+			public bool CanExecute(object? parameter) => action.IsExecutable;
 			public void Execute(object? parameter) => command.Execute(parameter);
 
 			public async Task ExecuteAsync()

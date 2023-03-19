@@ -572,8 +572,6 @@ namespace Files.App.ViewModels
 		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox)
 			=> CloseSearchBox();
 
-		public ICommand? PasteItemsFromClipboardCommand { get; set; }
-
 		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
 
 		public ICommand? OpenNewPaneCommand { get; set; }
