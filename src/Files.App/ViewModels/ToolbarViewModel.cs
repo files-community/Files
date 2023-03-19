@@ -31,6 +31,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.UI.Input.Inking.Analysis;
 using Windows.UI.Text;
 using static Files.App.UserControls.IAddressToolbar;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
@@ -660,7 +661,9 @@ namespace Files.App.ViewModels
 
 		public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
-			if (currentInput.Contains('/') && !FtpHelpers.IsFtpPath(currentInput))
+			var isFtp = FtpHelpers.IsFtpPath(currentInput);
+
+			if (currentInput.Contains('/') && !isFtp)
 				currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
 
 			currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
@@ -679,7 +682,7 @@ namespace Files.App.ViewModels
 				}
 				else
 				{
-					currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
+					currentInput = StorageFileExtensions.GetResolvedPath(currentInput, isFtp);
 					if (currentSelectedPath == currentInput)
 						return;
 
@@ -702,7 +705,7 @@ namespace Files.App.ViewModels
 						var pathToNavigate = resFolder.Result?.Path ?? currentInput;
 						shellPage.NavigateToPath(pathToNavigate);
 					}
-					else if (FtpHelpers.IsFtpPath(currentInput))
+					else if (isFtp)
 					{
 						shellPage.NavigateToPath(currentInput);
 					}
@@ -766,7 +769,8 @@ namespace Files.App.ViewModels
 				if (!await SafetyExtensions.IgnoreExceptions(async () =>
 				{
 					IList<ListedItem>? suggestions = null;
-					var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
+					var isFtp = FtpHelpers.IsFtpPath(sender.Text);
+					var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
 					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
 					StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
