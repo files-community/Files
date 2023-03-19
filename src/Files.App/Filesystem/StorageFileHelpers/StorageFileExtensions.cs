@@ -143,7 +143,7 @@ namespace Files.App.Filesystem
 		public static string GetResolvedPath(string path, bool isFtp)
 		{
 			var withoutEnvirnment = GetPathWithoutEnvironmentVariable(path);
-			return ResolvePath(path, isFtp);
+			return ResolvePath(withoutEnvirnment, isFtp);
 		}
 
 		public async static Task<BaseStorageFile> DangerousGetFileFromPathAsync
@@ -330,60 +330,60 @@ namespace Files.App.Filesystem
 
 			for (int i = 0, lastIndex = 0; i < pathBuilder.Length; i++)
 			{
-				if (pathBuilder[i] is '?' ||
-					pathBuilder[i] == Path.DirectorySeparatorChar ||
-					pathBuilder[i] == Path.AltDirectorySeparatorChar ||
-					i == lastPathIndex)
+				if (pathBuilder[i] is not '?' &&
+					pathBuilder[i] != Path.DirectorySeparatorChar &&
+					pathBuilder[i] != Path.AltDirectorySeparatorChar &&
+					i != lastIndex)
+					continue;
+
+				if (lastIndex == i)
 				{
-					if (lastIndex == i)
-					{
-						++lastIndex;
-						continue;
-					}
-
-					var component = pathBuilder.ToString().Substring(lastIndex, i - lastIndex);
-					if (component is "..")
-					{
-						if (lastIndex is 0)
-						{
-							SetCurrentWorkingDirectory(pathBuilder, separatorChar, lastIndex, ref i);
-						}
-						else if (lastIndex == rootIndex)
-						{
-							pathBuilder.Remove(lastIndex, DOUBLE_DOT_DIRECTORY_LENGTH);
-							i = lastIndex - 1;
-						}
-						else
-						{
-							var directoryIndex = pathBuilder.ToString().LastIndexOf(
-								separatorChar,
-								lastIndex - DOUBLE_DOT_DIRECTORY_LENGTH);
-
-							if (directoryIndex is not -1)
-							{
-								pathBuilder.Remove(directoryIndex, i - directoryIndex);
-								i = directoryIndex;
-							}
-						}
-
-						lastPathIndex = pathBuilder.Length - 1;
-					}
-					else if (component is ".")
-					{
-						if (lastIndex is 0)
-						{
-							SetCurrentWorkingDirectory(pathBuilder, separatorChar, lastIndex, ref i);
-						}
-						else
-						{
-							pathBuilder.Remove(lastIndex, SINGLE_DOT_DIRECTORY_LENGTH);
-							i -= 3;
-						}
-						lastPathIndex = pathBuilder.Length - 1;
-					}
-
-					lastIndex = i + 1;
+					++lastIndex;
+					continue;
 				}
+
+				var component = pathBuilder.ToString().Substring(lastIndex, i - lastIndex);
+				if (component is "..")
+				{
+					if (lastIndex is 0)
+					{
+						SetCurrentWorkingDirectory(pathBuilder, separatorChar, lastIndex, ref i);
+					}
+					else if (lastIndex == rootIndex)
+					{
+						pathBuilder.Remove(lastIndex, DOUBLE_DOT_DIRECTORY_LENGTH);
+						i = lastIndex - 1;
+					}
+					else
+					{
+						var directoryIndex = pathBuilder.ToString().LastIndexOf(
+							separatorChar,
+							lastIndex - DOUBLE_DOT_DIRECTORY_LENGTH);
+
+						if (directoryIndex is not -1)
+						{
+							pathBuilder.Remove(directoryIndex, i - directoryIndex);
+							i = directoryIndex;
+						}
+					}
+
+					lastPathIndex = pathBuilder.Length - 1;
+				}
+				else if (component is ".")
+				{
+					if (lastIndex is 0)
+					{
+						SetCurrentWorkingDirectory(pathBuilder, separatorChar, lastIndex, ref i);
+					}
+					else
+					{
+						pathBuilder.Remove(lastIndex, SINGLE_DOT_DIRECTORY_LENGTH);
+						i -= 3;
+					}
+					lastPathIndex = pathBuilder.Length - 1;
+				}
+
+				lastIndex = i + 1;
 			}
 
 			return pathBuilder.ToString();
