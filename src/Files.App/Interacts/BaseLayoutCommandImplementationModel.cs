@@ -93,14 +93,22 @@ namespace Files.App.Interacts
 		public virtual void ShowProperties(RoutedEventArgs e)
 		{
 			if (SlimContentPage.ItemContextMenuFlyout.IsOpen)
-				SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
+				SlimContentPage.ItemContextMenuFlyout.Closed += OpenPropertiesFromItemContextMenuFlyout;
+			else if (SlimContentPage.BaseContextMenuFlyout.IsOpen)
+				SlimContentPage.BaseContextMenuFlyout.Closed += OpenPropertiesFromBaseContextMenuFlyout;
 			else
 				FilePropertiesHelpers.ShowProperties(associatedInstance);
 		}
 
-		private void OpenProperties(object sender, object e)
+		private void OpenPropertiesFromItemContextMenuFlyout(object sender, object e)
 		{
-			SlimContentPage.ItemContextMenuFlyout.Closed -= OpenProperties;
+			SlimContentPage.ItemContextMenuFlyout.Closed -= OpenPropertiesFromItemContextMenuFlyout;
+			FilePropertiesHelpers.ShowProperties(associatedInstance);
+		}
+
+		private void OpenPropertiesFromBaseContextMenuFlyout(object sender, object e)
+		{
+			SlimContentPage.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
 			FilePropertiesHelpers.ShowProperties(associatedInstance);
 		}
 
@@ -185,14 +193,6 @@ namespace Files.App.Interacts
 		public virtual void CreateNewFile(ShellNewEntry f)
 		{
 			UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, f, associatedInstance);
-		}
-
-		public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)
-		{
-			if (SlimContentPage.SelectedItems.Count == 1 && SlimContentPage.SelectedItems.Single().PrimaryItemAttribute == StorageItemTypes.Folder)
-				await UIFilesystemHelpers.PasteItemAsync(SlimContentPage.SelectedItems.Single().ItemPath, associatedInstance);
-			else
-				await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
 		}
 
 		public virtual void CopyPathOfSelectedItem(RoutedEventArgs e)
