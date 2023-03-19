@@ -17,7 +17,6 @@ namespace Files.App.Actions
 
 		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		public bool IsExecutable => context.SelectedItem is not null &&
-			context.SelectedItems.Count == 1 &&
 			(!context.ShellPage?.ToolbarViewModel?.IsEditModeEnabled ?? false) &&
 			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
 
