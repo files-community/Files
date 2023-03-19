@@ -273,7 +273,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Löschen</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>Zu Favoriten hinzufügen</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Kopieren nach {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>Verknüpfung erstellen</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -1420,7 +1420,7 @@
     <value>Änderungsdatum</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Original folder</value>
+    <value>Ursprünglicher Ordner</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sortieren nach</value>
@@ -2002,7 +2002,7 @@
     <value>Elemente mit einem Klick öffnen</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>Folder path</value>
+    <value>Ordnerpfad</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Einstellungen exportieren</value>
@@ -2620,12 +2620,12 @@
     <value>Favoriten</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>Größe verringern</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>Größe vergrößern</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>Sortierungsrichtung umschalten</value>
   </data>
 </root>
