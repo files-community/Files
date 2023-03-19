@@ -20,9 +20,6 @@ namespace Files.App.DataModels
 		{
 			FoldersSettings = Ioc.Default.GetRequiredService<IUserSettingsService>().FoldersSettingsService;
 			Clipboard.ContentChanged += Clipboard_ContentChanged;
-
-			// TODO: This doesn't belong here
-			DetectFontName();
 		}
 
 		// TODO: Refactor this method
@@ -81,17 +78,6 @@ namespace Files.App.DataModels
 		{
 			get => symbolFontFamily;
 			set => SetProperty(ref symbolFontFamily, value);
-		}
-
-		// TODO: Refactor this method
-		private void DetectFontName()
-		{
-			var rawVersion = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
-			var currentVersion = new Version((int)((rawVersion & 0xFFFF000000000000) >> 48), (int)((rawVersion & 0x0000FFFF00000000) >> 32), (int)((rawVersion & 0x00000000FFFF0000) >> 16), (int)(rawVersion & 0x000000000000FFFF));
-			var newIconsMinVersion = new Version(10, 0, 21327, 1000);
-			bool isWindows11 = currentVersion >= newIconsMinVersion;
-
-			SymbolFontFamily = (isWindows11) ? new FontFamily("Segoe Fluent Icons") : new FontFamily("Segoe MDL2 Assets");
 		}
 	}
 }

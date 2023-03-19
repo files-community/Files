@@ -87,7 +87,6 @@ namespace Files.App.DataModels
 			else
 				locationItem = LocationItem.Create<LocationItem>();
 
-			locationItem.Font = App.AppModel.SymbolFontFamily;
 			locationItem.Path = path;
 			locationItem.Section = SectionType.Favorites;
 			locationItem.MenuOptions = new ContextMenuOptions
