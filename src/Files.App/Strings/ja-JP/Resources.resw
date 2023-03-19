@@ -2626,6 +2626,6 @@
     <value>サイズを大きくする</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>昇順と降順を切り替える</value>
+    <value>昇順と降順の切り替え</value>
   </data>
 </root>
