@@ -36,6 +36,14 @@ namespace Files.App.Views.LayoutModes
 		/// </summary>
 		public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
 
+		public bool IsPointerOver
+		{
+			get { return (bool)GetValue(IsPointerOverProperty); }
+			set { SetValue(IsPointerOverProperty, value); }
+		}
+		public static readonly DependencyProperty IsPointerOverProperty =
+			DependencyProperty.Register("IsPointerOver", typeof(bool), typeof(GridViewBrowser), new PropertyMetadata(false));
+
 		public GridViewBrowser()
 			: base()
 		{
@@ -459,7 +467,7 @@ namespace Files.App.Views.LayoutModes
 					checkbox.Checked += ItemSelected_Checked;
 					checkbox.Unchecked += ItemSelected_Unchecked;
 				}
-				UpdateCheckboxVisibility(container, false);
+				UpdateCheckboxVisibility(container);
 			}
 		}
 
@@ -489,14 +497,18 @@ namespace Files.App.Views.LayoutModes
 			UpdateCheckboxVisibility(sender, false);
 		}
 
-		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
+		private void UpdateCheckboxVisibility(object sender, bool? isPointerOver = null)
 		{
 			if (sender is GridViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
 			{
-				if (control.IsSelected)
+				// Save pointer over state accordingly
+				if (isPointerOver.HasValue)
+					control.SetValue(IsPointerOverProperty, isPointerOver);
+				// Handle visual states
+				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
-					VisualStateManager.GoToState(userControl, isPointerOver ? "ShowCheckbox" : "Normal", true);
+					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
 			}
 		}
 	}

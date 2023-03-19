@@ -273,8 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>Видалити</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>Закріпити в меню уподобань</value>
+  <data name="PinToFavorites" xml:space="preserve">
+    <value>Прикріпити до Вподобань</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Ласкаво просимо до Files!</value>
@@ -528,8 +528,8 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Копіювати до {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
-    <value>Створити ярлик</value>
+  <data name="CreateShortcut" xml:space="preserve">
+    <value>Створити комбінацію клавіш</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Відкрити розташування файлу</value>
@@ -1419,8 +1419,8 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Дата змінення</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Початкова папка</value>
+  <data name="OriginalFolder" xml:space="preserve">
+    <value>Початкова тека</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Сортувати за</value>
@@ -2001,8 +2001,8 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Відкривати елементи одним кліком</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
-    <value>Шлях до папки:</value>
+  <data name="FolderPath" xml:space="preserve">
+    <value>Шлях до теки</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Настройки експорту</value>
@@ -2596,7 +2596,7 @@
     <value>Множинний вибір</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>Перевпорядкувати елементи бічної панелі</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Хеші</value>
@@ -2618,5 +2618,14 @@
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Закріплені елементи</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Зменшити розмір</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Збільшити розмір</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Перемкнути напрямок сортування</value>
   </data>
 </root>

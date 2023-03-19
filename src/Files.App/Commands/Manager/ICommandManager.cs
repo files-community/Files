@@ -19,6 +19,8 @@ namespace Files.App.Commands
 
 		IRichCommand CopyItem { get; }
 		IRichCommand CutItem { get; }
+		IRichCommand PasteItem { get; }
+		IRichCommand PasteItemToSelection { get; }
 		IRichCommand DeleteItem { get; }
 		IRichCommand SelectAll { get; }
 		IRichCommand InvertSelection { get; }
