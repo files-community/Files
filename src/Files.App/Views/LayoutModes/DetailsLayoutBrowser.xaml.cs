@@ -244,6 +244,8 @@ namespace Files.App.Views.LayoutModes
 
 		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+
 			await commands.LaunchQuickLook.ExecuteAsync();
 
 			if (e != null)
@@ -818,7 +820,7 @@ namespace Files.App.Views.LayoutModes
 			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
 			{
 				// Save pointer over state accordingly
-				if(isPointerOver.HasValue)
+				if (isPointerOver.HasValue)
 					control.SetValue(IsPointerOverProperty, isPointerOver);
 				// Handle visual states
 				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false)

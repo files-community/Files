@@ -171,6 +171,8 @@ namespace Files.App
 
 		protected virtual async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+
 			await commands.LaunchQuickLook.ExecuteAsync();
 		}
 

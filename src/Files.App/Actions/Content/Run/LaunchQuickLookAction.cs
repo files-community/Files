@@ -16,9 +16,7 @@ namespace Files.App.Actions
 		public HotKey HotKey { get; } = new(VirtualKey.Space);
 
 		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
-		public bool IsExecutable => context.SelectedItem is not null &&
-			(!context.ShellPage?.ToolbarViewModel?.IsEditModeEnabled ?? false) &&
-			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
+		public bool IsExecutable => context.HasSelection;
 
 		public string Label => "LaunchQuickLook".GetLocalizedResource();
 
@@ -34,13 +32,8 @@ namespace Files.App.Actions
 
 		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.SelectedItems):
-				case nameof(IContentPageContext.Folder):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
+			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
 }
