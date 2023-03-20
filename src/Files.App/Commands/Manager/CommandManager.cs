@@ -51,6 +51,7 @@ namespace Files.App.Commands
 		public IRichCommand SetAsSlideshowBackground => commands[CommandCodes.SetAsSlideshowBackground];
 		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
 		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
+		public IRichCommand CopyPath => commands[CommandCodes.CopyPath];
 		public IRichCommand CutItem => commands[CommandCodes.CutItem];
 		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
 		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
@@ -154,6 +155,7 @@ namespace Files.App.Commands
 			[CommandCodes.SetAsSlideshowBackground] = new SetAsSlideshowBackgroundAction(),
 			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
 			[CommandCodes.CopyItem] = new CopyItemAction(),
+			[CommandCodes.CopyPath] = new CopyPathAction(),
 			[CommandCodes.CutItem] = new CutItemAction(),
 			[CommandCodes.PasteItem] = new PasteItemAction(),
 			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
