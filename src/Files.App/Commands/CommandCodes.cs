@@ -102,9 +102,12 @@ namespace Files.App.Commands
 		GroupAscending,
 		GroupDescending,
 		ToggleGroupDirection,
-    
+
 		// Navigation
 		NewTab,
 		DuplicateTab,
+
+		// Other
+		InstallFont,
 	}
 }

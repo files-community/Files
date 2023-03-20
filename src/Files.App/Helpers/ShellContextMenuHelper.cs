@@ -178,14 +178,14 @@ namespace Files.App.Helpers
 					case "install" when isFont:
 						{
 							foreach (string path in contextMenu.ItemsPath)
-								InstallFont(path, false);
+								Win32API.InstallFont(path, false);
 						}
 						break;
 
 					case "installAllUsers" when isFont:
 						{
 							foreach (string path in contextMenu.ItemsPath)
-								InstallFont(path, true);
+								Win32API.InstallFont(path, true);
 						}
 						break;
 
@@ -204,16 +204,6 @@ namespace Files.App.Helpers
 						break;
 				}
 
-				void InstallFont(string path, bool asAdmin)
-				{
-					string dir = asAdmin ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
-						: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
-
-					string registryKey = asAdmin ? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
-						: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
-
-					Win32API.RunPowershellCommand($"-command \"Copy-Item '{path}' '{dir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(path)}' -Path '{registryKey}' -PropertyType string -Value '{dir}'\"", asAdmin);
-				}
 				//contextMenu.Dispose(); // Prevents some menu items from working (TBC)
 			}
 		}
