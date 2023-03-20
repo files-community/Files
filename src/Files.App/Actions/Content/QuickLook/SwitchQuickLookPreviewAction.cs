@@ -27,7 +27,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			await QuickLookHelpers.ToggleQuickLook(context.SelectedItem!.ItemPath);
+			await QuickLookHelpers.ToggleQuickLook(context.SelectedItem!.ItemPath, true);
 		}
 
 		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
