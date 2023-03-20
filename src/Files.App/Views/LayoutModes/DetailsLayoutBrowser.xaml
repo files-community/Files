@@ -174,22 +174,6 @@
 		VerticalAlignment="Stretch"
 		ContextFlyout="{x:Bind BaseContextMenuFlyout}"
 		SizeChanged="RootGrid_SizeChanged">
-		<Grid.KeyboardAccelerators>
-			<KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
-				<i:Interaction.Behaviors>
-					<icore:EventTriggerBehavior EventName="Invoked">
-						<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
-					</icore:EventTriggerBehavior>
-				</i:Interaction.Behaviors>
-			</KeyboardAccelerator>
-			<KeyboardAccelerator Key="Add" Modifiers="Control">
-				<i:Interaction.Behaviors>
-					<icore:EventTriggerBehavior EventName="Invoked">
-						<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
-					</icore:EventTriggerBehavior>
-				</i:Interaction.Behaviors>
-			</KeyboardAccelerator>
-		</Grid.KeyboardAccelerators>
 
 		<uc:FolderEmptyIndicator
 			Grid.Row="3"
@@ -803,7 +787,7 @@
 
 									<VisualStateManager.VisualStateGroups>
 										<VisualStateGroup x:Name="CheckboxVisibilityStates">
-											<VisualState x:Name="Normal" />
+											<VisualState x:Name="HideCheckbox" />
 											<VisualState x:Name="ShowCheckbox">
 												<VisualState.Setters>
 													<Setter Target="SelectionCheckbox.Visibility" Value="Visible" />

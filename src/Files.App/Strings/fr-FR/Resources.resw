@@ -273,7 +273,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Supprimer</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>Ajouter aux favoris</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copier vers {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>Créer un raccourci</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -1419,7 +1419,7 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Date de modification</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+  <data name="OriginalFolder" xml:space="preserve">
     <value>Dossier original</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
@@ -2001,7 +2001,7 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Ouvrir les éléments d'un seul clic</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+  <data name="FolderPath" xml:space="preserve">
     <value>Chemin du dossier</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
@@ -2596,7 +2596,7 @@
     <value>Sélection Multiple</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>Réorganiser la barre latérale des éléments</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hash</value>
@@ -2618,5 +2618,14 @@
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Éléments épinglés</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Diminuer la taille</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Augmenter la taille</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Changer l'ordre de tri</value>
   </data>
 </root>

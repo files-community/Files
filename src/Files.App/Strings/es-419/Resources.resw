@@ -273,7 +273,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Eliminar</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>Anclar a Favoritos</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copiar a {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>Crear acceso directo</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -988,13 +988,13 @@
     <value>Expulsar</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>Duplicar pestaña</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Mover a una nueva ventana</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
+    <value>Nueva pestaña</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Algunas propiedades pueden contener información personal.</value>
@@ -1419,7 +1419,7 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Fecha de modificación</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+  <data name="OriginalFolder" xml:space="preserve">
     <value>Carpeta original</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
@@ -2001,7 +2001,7 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Abrir elementos con un solo clic</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+  <data name="FolderPath" xml:space="preserve">
     <value>Ruta de la carpeta</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
@@ -2596,7 +2596,7 @@
     <value>Selección múltiple</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>Reordenar elementos de la barra lateral</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hashes</value>
@@ -2617,6 +2617,15 @@
     <value>Calculando...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>Pinned items</value>
+    <value>Elementos anclados</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Disminuir tamaño</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Aumentar tamaño</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Cambiar el sentido de la clasificación</value>
   </data>
 </root>

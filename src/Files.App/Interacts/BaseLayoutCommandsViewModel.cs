@@ -34,13 +34,9 @@ namespace Files.App.Interacts
 			OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewPane);
 			OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenInNewWindowItem);
 			CreateNewFileCommand = new RelayCommand<ShellNewEntry>(CommandsModel.CreateNewFile);
-			PasteItemsFromClipboardCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.PasteItemsFromClipboard);
-			CopyPathOfSelectedItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CopyPathOfSelectedItem);
 			ShareItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShareItem);
 			ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.ItemPointerPressed);
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.PointerWheelChanged);
-			GridViewSizeDecreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CommandsModel.GridViewSizeDecrease);
-			GridViewSizeIncreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CommandsModel.GridViewSizeIncrease);
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.DragOver);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.Drop);
 			RefreshCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RefreshItems);
@@ -70,19 +66,11 @@ namespace Files.App.Interacts
 
 		public ICommand CreateNewFileCommand { get; private set; }
 
-		public ICommand PasteItemsFromClipboardCommand { get; private set; }
-
-		public ICommand CopyPathOfSelectedItemCommand { get; private set; }
-
 		public ICommand ShareItemCommand { get; private set; }
 
 		public ICommand ItemPointerPressedCommand { get; private set; }
 
 		public ICommand PointerWheelChangedCommand { get; private set; }
-
-		public ICommand GridViewSizeDecreaseCommand { get; private set; }
-
-		public ICommand GridViewSizeIncreaseCommand { get; private set; }
 
 		public ICommand DragOverCommand { get; private set; }
 

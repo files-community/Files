@@ -23,19 +23,11 @@ namespace Files.App.Interacts
 
 		void CreateNewFile(ShellNewEntry e);
 
-		void PasteItemsFromClipboard(RoutedEventArgs e);
-
-		void CopyPathOfSelectedItem(RoutedEventArgs e);
-
 		void ShareItem(RoutedEventArgs e);
 
 		void ItemPointerPressed(PointerRoutedEventArgs e);
 
 		void PointerWheelChanged(PointerRoutedEventArgs e);
-
-		void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e);
-
-		void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e);
 
 		Task DragOver(DragEventArgs e);
 

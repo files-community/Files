@@ -273,8 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>ลบ</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>ปักหมุดไว้ในรายการโปรด</value>
+  <data name="PinToFavorites" xml:space="preserve">
+    <value>Pin to Favorites</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>ยินดีต้อนรับสู่โปรแกรมจัดการไฟล์!</value>
@@ -528,8 +528,8 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>คัดลอกไปที่ {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
-    <value>สร้างทางลัด</value>
+  <data name="CreateShortcut" xml:space="preserve">
+    <value>Create shortcut</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>เปิดตำแหน่งที่ตั้งไฟล์</value>
@@ -1419,8 +1419,8 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>วันที่ปรับเปลี่ยน</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>แหล่งแฟ้ม</value>
+  <data name="OriginalFolder" xml:space="preserve">
+    <value>Original folder</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>เรียงโดย</value>
@@ -2001,8 +2001,8 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>คลิกครั้งเดียวเพื่อเปิดรายการ</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
-    <value>เส้นทางโฟลเดอร์</value>
+  <data name="FolderPath" xml:space="preserve">
+    <value>Folder path</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>ส่งออกการตั้งค่า</value>
@@ -2618,5 +2618,14 @@
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Pinned items</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Decrease size</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Increase size</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Toggle sort direction</value>
   </data>
 </root>

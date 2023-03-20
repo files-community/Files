@@ -20,6 +20,7 @@ namespace Files.App.ViewModels
 		}
 
 		public bool IsPrimary { get; init; } = false;
+		public bool IsToggle { get; init; } = false;
 
 		public object Tag { get; init; }
 
@@ -40,6 +41,8 @@ namespace Files.App.ViewModels
 			if (isVisible is null && !isExecutable)
 				return none;
 
+			ItemType type = IsToggle ? ItemType.Toggle : ItemType.Item;
+
 			var viewModel = new ContextMenuFlyoutItemViewModel
 			{
 				Text = command.Label,
@@ -48,6 +51,7 @@ namespace Files.App.ViewModels
 				IsEnabled = isExecutable,
 				IsChecked = command.IsOn,
 				IsPrimary = IsPrimary,
+				ItemType = type,
 				ShowItem = true,
 				ShowOnShift = ShowOnShift,
 				ShowInRecycleBin = true,

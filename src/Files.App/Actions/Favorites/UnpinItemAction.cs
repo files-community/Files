@@ -3,57 +3,80 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
+using Files.App.Filesystem;
 using Files.App.ServicesImplementation;
-using System;
-using System.Collections.Generic;
+using Files.App.UserControls.Widgets;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
 	internal class UnpinItemAction : ObservableObject, IAction
 	{
-		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-		private readonly IQuickAccessService quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IQuickAccessService service = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public string Label { get; } = "UnpinFromFavorites".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconUnpinFromFavorites");
+		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconUnpinFromFavorites");
 
-		public bool IsExecutable
-		{
-			get
-			{
-				if ((context.SelectedItems.Any() && context.SelectedItems.All(x => x.IsPinned))
-					|| (context.Folder is not null && context.Folder.IsPinned))
-					return true;
-
-				return false;
-			}
-		}
+		private bool isExecutable;
+		public bool IsExecutable => isExecutable;
 
 		public UnpinItemAction()
 		{
-			context.PropertyChanged += Context_PropertyChanged;
-		}
+			isExecutable = GetIsExecutable();
 
+			context.PropertyChanged += Context_PropertyChanged;
+			App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
+		}
 
 		public async Task ExecuteAsync()
 		{
-			 await quickAccessService.UnpinFromSidebar(context.SelectedItems.Any() ? context.SelectedItems.Select(x => x.ItemPath).ToArray() : new[] { context.Folder.ItemPath });
+			if (context.HasSelection)
+			{
+				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
+				await service.UnpinFromSidebar(items);
+			}
+			else if (context.Folder is not null)
+			{
+				await service.UnpinFromSidebar(context.Folder.ItemPath);
+			}
 		}
 
-		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private bool GetIsExecutable()
+		{
+			string[] favorites = App.QuickAccessManager.Model.FavoriteItems.ToArray();
+
+			return context.HasSelection
+				? context.SelectedItems.All(IsPinned)
+				: context.Folder is not null && IsPinned(context.Folder);
+
+			bool IsPinned(ListedItem item)
+			{
+				return favorites.Contains(item.ItemPath);
+			}
+		}
+		private void UpdateIsExecutable()
+		{
+			SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+		}
+
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IContentPageContext.SelectedItems):
 				case nameof(IContentPageContext.Folder):
-					OnPropertyChanged(nameof(IsExecutable));
+				case nameof(IContentPageContext.SelectedItems):
+					UpdateIsExecutable();
 					break;
 			}
+		}
+
+		private void QuickAccessManager_DataChanged(object? sender, ModifyQuickAccessEventArgs e)
+		{
+			UpdateIsExecutable();
 		}
 	}
 }

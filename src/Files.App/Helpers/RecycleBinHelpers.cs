@@ -71,7 +71,7 @@ namespace Files.App.Helpers
 				var banner = App.OngoingTasksViewModel.PostBanner(
 					bannerTitle,
 					"EmptyingRecycleBin".GetLocalizedResource(),
-					0.0f,
+					0,
 					ReturnResult.InProgress,
 					FileOperationType.Delete);
 
@@ -81,14 +81,14 @@ namespace Files.App.Helpers
 					App.OngoingTasksViewModel.PostBanner(
 						bannerTitle,
 						"BinEmptyingSucceded".GetLocalizedResource(),
-						100.0f,
+						100,
 						ReturnResult.Success,
 						FileOperationType.Delete);
 				else
 					App.OngoingTasksViewModel.PostBanner(
 						bannerTitle,
 						"BinEmptyingFailed".GetLocalizedResource(),
-						100.0f,
+						100,
 						ReturnResult.Failed,
 						FileOperationType.Delete);
 			}

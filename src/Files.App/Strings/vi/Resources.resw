@@ -273,8 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>Xóa bỏ</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>Gắn vào Ưa thích</value>
+  <data name="PinToFavorites" xml:space="preserve">
+    <value>Pin to Favorites</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Chào mừng đến Files!</value>
@@ -528,8 +528,8 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Sao chép sang {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
-    <value>Tạo lối tắt</value>
+  <data name="CreateShortcut" xml:space="preserve">
+    <value>Create shortcut</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Mở vị trí tệp</value>
@@ -1419,8 +1419,8 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Ngày thay đổi</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Thư mục gốc</value>
+  <data name="OriginalFolder" xml:space="preserve">
+    <value>Original folder</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sắp xếp theo</value>
@@ -2001,8 +2001,8 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Mở mục bằng một cú nhấp chuột</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
-    <value>Đường dẫn thư mục</value>
+  <data name="FolderPath" xml:space="preserve">
+    <value>Folder path</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Xuất các thiết lập</value>
@@ -2618,5 +2618,14 @@
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Pinned items</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Decrease size</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Increase size</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Toggle sort direction</value>
   </data>
 </root>

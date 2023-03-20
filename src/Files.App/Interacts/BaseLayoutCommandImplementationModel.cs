@@ -2,37 +2,30 @@
 
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
-using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using Files.App.Filesystem.Archive;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.Shell;
 using Files.App.ViewModels;
-using Files.App.ViewModels.Dialogs;
 using Files.App.Views;
 using Files.Backend.Enums;
 using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
-using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.System;
+using static Files.App.Constants.Browser.GridViewBrowser;
 
 namespace Files.App.Interacts
 {
@@ -89,14 +82,22 @@ namespace Files.App.Interacts
 		public virtual void ShowProperties(RoutedEventArgs e)
 		{
 			if (SlimContentPage.ItemContextMenuFlyout.IsOpen)
-				SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
+				SlimContentPage.ItemContextMenuFlyout.Closed += OpenPropertiesFromItemContextMenuFlyout;
+			else if (SlimContentPage.BaseContextMenuFlyout.IsOpen)
+				SlimContentPage.BaseContextMenuFlyout.Closed += OpenPropertiesFromBaseContextMenuFlyout;
 			else
 				FilePropertiesHelpers.ShowProperties(associatedInstance);
 		}
 
-		private void OpenProperties(object sender, object e)
+		private void OpenPropertiesFromItemContextMenuFlyout(object sender, object e)
 		{
-			SlimContentPage.ItemContextMenuFlyout.Closed -= OpenProperties;
+			SlimContentPage.ItemContextMenuFlyout.Closed -= OpenPropertiesFromItemContextMenuFlyout;
+			FilePropertiesHelpers.ShowProperties(associatedInstance);
+		}
+
+		private void OpenPropertiesFromBaseContextMenuFlyout(object sender, object e)
+		{
+			SlimContentPage.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
 			FilePropertiesHelpers.ShowProperties(associatedInstance);
 		}
 
@@ -163,36 +164,6 @@ namespace Files.App.Interacts
 		public virtual void CreateNewFile(ShellNewEntry f)
 		{
 			UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, f, associatedInstance);
-		}
-
-		public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)
-		{
-			if (SlimContentPage.SelectedItems.Count == 1 && SlimContentPage.SelectedItems.Single().PrimaryItemAttribute == StorageItemTypes.Folder)
-				await UIFilesystemHelpers.PasteItemAsync(SlimContentPage.SelectedItems.Single().ItemPath, associatedInstance);
-			else
-				await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
-		}
-
-		public virtual void CopyPathOfSelectedItem(RoutedEventArgs e)
-		{
-			try
-			{
-				if (SlimContentPage is not null)
-				{
-					var path = SlimContentPage.SelectedItem is not null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
-					if (FtpHelpers.IsFtpPath(path))
-						path = path.Replace("\\", "/", StringComparison.Ordinal);
-					DataPackage data = new();
-					data.SetText(path);
-
-					Clipboard.SetContent(data);
-					Clipboard.Flush();
-				}
-			}
-			catch (Exception)
-			{
-				Debugger.Break();
-			}
 		}
 
 		public virtual void ShareItem(RoutedEventArgs e)
@@ -286,37 +257,19 @@ namespace Files.App.Interacts
 
 		public virtual void PointerWheelChanged(PointerRoutedEventArgs e)
 		{
-			if (e.KeyModifiers == VirtualKeyModifiers.Control)
+			if (e.KeyModifiers is VirtualKeyModifiers.Control)
 			{
-				// Mouse wheel down
-				if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0)
-					GridViewSizeDecrease(null);
-				// Mouse wheel up
-				else
-					GridViewSizeIncrease(null);
+				if (associatedInstance.IsCurrentInstance)
+				{
+					int delta = e.GetCurrentPoint(null).Properties.MouseWheelDelta;
+					if (delta < 0) // Mouse wheel down
+						associatedInstance.InstanceViewModel.FolderSettings.GridViewSize -= GridViewIncrement;
+					else if (delta > 0) // Mouse wheel up
+						associatedInstance.InstanceViewModel.FolderSettings.GridViewSize += GridViewIncrement;
+				}
 
 				e.Handled = true;
 			}
-		}
-
-		public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
-		{
-			// Make Smaller
-			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement;
-
-			if (e is not null)
-				e.Handled = true;
-		}
-
-		public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
-		{
-			// Make Larger
-			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement;
-
-			if (e is not null)
-				e.Handled = true;
 		}
 
 		public virtual async Task DragOver(DragEventArgs e)
