@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.WinUI.UI;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
@@ -25,6 +27,8 @@ namespace Files.App
 		private const int KEY_DOWN_MASK = 0x8000;
 
 		protected int NextRenameIndex = 0;
+
+		private readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		protected abstract ListViewBase ListViewBase
 		{
@@ -167,10 +171,7 @@ namespace Files.App
 
 		protected virtual async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
-
-			if (SelectedItems.Count == 1)
-				await QuickLookHelpers.ToggleQuickLook(SelectedItem.ItemPath, true);
+			await commands.LaunchQuickLook.ExecuteAsync();
 		}
 
 		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);

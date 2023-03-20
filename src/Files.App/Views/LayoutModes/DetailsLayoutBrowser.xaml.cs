@@ -30,6 +30,8 @@ namespace Files.App.Views.LayoutModes
 {
 	public sealed partial class DetailsLayoutBrowser : StandardViewBase
 	{
+		private readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		public bool IsPointerOver
 		{
 			get { return (bool)GetValue(IsPointerOverProperty); }
@@ -242,11 +244,7 @@ namespace Files.App.Views.LayoutModes
 
 		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
-			if (SelectedItems.Count == 1)
-			{
-				await QuickLookHelpers.ToggleQuickLook(SelectedItem.ItemPath, true);
-			}
+			await commands.LaunchQuickLook.ExecuteAsync();
 
 			if (e != null)
 			{
