@@ -51,6 +51,7 @@ namespace Files.App.Commands
 		
 		// QuickLook
 		LaunchQuickLook,
+		SwitchQuickLookPreview,
 
 		// Archives
 		CompressIntoArchive,

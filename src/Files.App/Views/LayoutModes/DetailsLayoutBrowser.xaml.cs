@@ -246,8 +246,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 
-			if (SelectedItems.Count == 1)
-				await QuickLookHelpers.ToggleQuickLook(SelectedItem.ItemPath, true);
+			await commands.SwitchQuickLookPreview.ExecuteAsync();
 
 			if (e != null)
 			{
