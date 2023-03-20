@@ -8,6 +8,7 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -18,6 +19,8 @@ namespace Files.App.Actions
 		public string Label { get; } = "Paste".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconPaste");
+
+		public HotKey HotKey { get; } = new(VirtualKey.V, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
 		private bool isExecutable;
 		public bool IsExecutable => isExecutable;
