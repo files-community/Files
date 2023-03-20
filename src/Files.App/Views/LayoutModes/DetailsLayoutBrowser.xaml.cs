@@ -365,6 +365,11 @@ namespace Files.App.Views.LayoutModes
 				FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
 				e.Handled = true;
 			}
+			else if (e.Key == VirtualKey.Space)
+			{
+				if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
+					e.Handled = true;
+			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
 			{
 				// Unfocus the GridView so keyboard shortcut can be handled
