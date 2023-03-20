@@ -16,7 +16,7 @@ namespace Files.App.Actions
 		public HotKey HotKey { get; } = new(VirtualKey.Space);
 
 		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
-		public bool IsExecutable => context.SelectedItem is not null &&
+		public bool IsExecutable => context.SelectedItems.Count == 1 &&
 			(!context.ShellPage?.ToolbarViewModel?.IsEditModeEnabled ?? false) &&
 			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
 
