@@ -37,7 +37,6 @@ namespace Files.App.Interacts
 			OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewPane);
 			OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenInNewWindowItem);
 			CreateNewFileCommand = new RelayCommand<ShellNewEntry>(CommandsModel.CreateNewFile);
-			CopyPathOfSelectedItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CopyPathOfSelectedItem);
 			ShareItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShareItem);
 			ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.ItemPointerPressed);
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.PointerWheelChanged);
@@ -75,8 +74,6 @@ namespace Files.App.Interacts
 		public ICommand OpenInNewWindowItemCommand { get; private set; }
 
 		public ICommand CreateNewFileCommand { get; private set; }
-
-		public ICommand CopyPathOfSelectedItemCommand { get; private set; }
 
 		public ICommand ShareItemCommand { get; private set; }
 

@@ -15,6 +15,7 @@ namespace Files.App.Commands
 
 		// File System
 		CopyItem,
+		CopyPath,
 		CutItem,
 		PasteItem,
 		PasteItemToSelection,

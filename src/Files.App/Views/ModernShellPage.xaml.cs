@@ -202,10 +202,6 @@ namespace Files.App.Views
 
 					break;
 
-				case (true, true, false, true, VirtualKey.C):
-					SlimContentPage?.CommandsViewModel.CopyPathOfSelectedItemCommand.Execute(null);
-					break;
-
 				case (false, false, false, _, VirtualKey.F3): //f3
 				case (true, false, false, _, VirtualKey.F): // ctrl + f
 					if (tabInstance || CurrentPageType == typeof(WidgetsPage))

@@ -18,6 +18,7 @@ namespace Files.App.Commands
 		IRichCommand TogglePreviewPane { get; }
 
 		IRichCommand CopyItem { get; }
+		IRichCommand CopyPath { get; }
 		IRichCommand CutItem { get; }
 		IRichCommand PasteItem { get; }
 		IRichCommand PasteItemToSelection { get; }

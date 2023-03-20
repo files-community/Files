@@ -529,7 +529,7 @@
     <value>Copier vers {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Create shortcut</value>
+    <value>Créer un raccourci</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Ouvrir l'emplacement du fichier</value>
