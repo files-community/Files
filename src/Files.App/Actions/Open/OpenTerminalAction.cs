@@ -95,13 +95,15 @@ namespace Files.App.Actions
 			if (context.PageType is ContentPageTypes.None or ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.ZipFolder)
 				return false;
 
-			if (!context.HasSelection)
+			var isFolderNull = context.Folder is null;
+
+			if (!context.HasSelection && isFolderNull)
 				return false;
 
 			if (context.SelectedItems.Count > Constants.Actions.MaxSelectedItems)
 				return false;
 
-			return context.SelectedItems.Any(item => item.PrimaryItemAttribute is StorageItemTypes.Folder);
+			return context.SelectedItems.Any(item => item.PrimaryItemAttribute is StorageItemTypes.Folder) || !isFolderNull;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
