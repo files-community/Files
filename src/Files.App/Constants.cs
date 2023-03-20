@@ -217,5 +217,10 @@ namespace Files.App
 			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/Privacy.md";
 			public const string SupportUsUrl = @"https://github.com/sponsors/yaira2";
 		}
+
+		public static class Actions
+		{
+			public const int MaxSelectedItems = 5;
+		}
 	}
 }

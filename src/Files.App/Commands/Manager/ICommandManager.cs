@@ -55,6 +55,9 @@ namespace Files.App.Commands
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
 
+		IRichCommand OpenTerminal { get; }
+		IRichCommand OpenTerminalAsAdmin { get; }
+
 		IRichCommand LayoutDecreaseSize { get; }
 		IRichCommand LayoutIncreaseSize { get; }
 		IRichCommand LayoutDetails { get; }
