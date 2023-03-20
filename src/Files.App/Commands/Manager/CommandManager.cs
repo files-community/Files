@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Files.App.Actions;
 using Files.App.Actions.Content.Archives;
 using Files.App.Actions.Content.Background;
@@ -16,7 +15,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Files.App.Commands
 {
@@ -51,6 +49,7 @@ namespace Files.App.Commands
 		public IRichCommand SetAsSlideshowBackground => commands[CommandCodes.SetAsSlideshowBackground];
 		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
 		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
+		public IRichCommand CopyPath => commands[CommandCodes.CopyPath];
 		public IRichCommand CutItem => commands[CommandCodes.CutItem];
 		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
 		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
@@ -155,6 +154,7 @@ namespace Files.App.Commands
 			[CommandCodes.SetAsSlideshowBackground] = new SetAsSlideshowBackgroundAction(),
 			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
 			[CommandCodes.CopyItem] = new CopyItemAction(),
+			[CommandCodes.CopyPath] = new CopyPathAction(),
 			[CommandCodes.CutItem] = new CutItemAction(),
 			[CommandCodes.PasteItem] = new PasteItemAction(),
 			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
@@ -252,7 +252,6 @@ namespace Files.App.Commands
 			public event EventHandler? CanExecuteChanged;
 
 			private readonly IAction action;
-			private readonly ICommand command;
 
 			public CommandCodes Code { get; }
 
@@ -279,7 +278,7 @@ namespace Files.App.Commands
 				set
 				{
 					if (action is IToggleAction toggleAction && toggleAction.IsOn != value)
-						command.Execute(null);
+						Execute(null);
 				}
 			}
 
@@ -294,7 +293,6 @@ namespace Files.App.Commands
 				OpacityStyle = action.Glyph.ToOpacityStyle();
 				HotKeyText = GetHotKeyText();
 				LabelWithHotKey = HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
-				command = new AsyncRelayCommand(ExecuteAsync);
 
 				if (action is INotifyPropertyChanging notifyPropertyChanging)
 					notifyPropertyChanging.PropertyChanging += Action_PropertyChanging;
@@ -303,7 +301,7 @@ namespace Files.App.Commands
 			}
 
 			public bool CanExecute(object? parameter) => action.IsExecutable;
-			public void Execute(object? parameter) => command.Execute(parameter);
+			public async void Execute(object? parameter) => await ExecuteAsync();
 
 			public async Task ExecuteAsync()
 			{
@@ -311,7 +309,7 @@ namespace Files.App.Commands
 					await action.ExecuteAsync();
 			}
 
-			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await action.ExecuteAsync();
+			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
 
 			private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
 			{

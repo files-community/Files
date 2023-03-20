@@ -9,7 +9,7 @@ namespace Files.App.Interacts
 	{
 		event EventHandler<PostedStatusBanner> ProgressBannerPosted;
 
-		float MedianOperationProgressValue { get; }
+		int MedianOperationProgressValue { get; }
 
 		int OngoingOperationsCount { get; }
 
@@ -27,7 +27,7 @@ namespace Files.App.Interacts
 		/// <param name="status"></param>
 		/// <param name="operation"></param>
 		/// <returns>A StatusBanner object which may be used to track/update the progress of an operation.</returns>
-		PostedStatusBanner PostBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation);
+		PostedStatusBanner PostBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation);
 
 		/// <summary>
 		/// Posts a new banner with expanded height to the Status Center control. This is typically
@@ -51,7 +51,7 @@ namespace Files.App.Interacts
 		/// <param name="operation"></param>
 		/// <param name="cancellationTokenSource"></param>
 		/// <returns></returns>
-		PostedStatusBanner PostOperationBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource);
+		PostedStatusBanner PostOperationBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource);
 
 		/// <summary>
 		/// Dismisses <paramref name="banner"/> and removes it from the collection
