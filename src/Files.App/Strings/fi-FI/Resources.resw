@@ -2589,6 +2589,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Käytä tätä toimintoa kaikkiin ristiriitaisiin kohteisiin</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Avaa päätteessä</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Avaa päätteessä järjestelmänvalvojana</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Tallenna</value>
   </data>
