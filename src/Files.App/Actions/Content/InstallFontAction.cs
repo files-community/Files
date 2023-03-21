@@ -16,9 +16,9 @@ namespace Files.App.Actions
 
 		public string Label => "Install".GetLocalizedResource();
 
-		public bool IsExecutable => context.SelectedItems.Any()
-			&& context.SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension))
-			&& context.PageType is not ContentPageTypes.RecycleBin;
+		public bool IsExecutable => context.SelectedItems.Any() &&
+			context.SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) &&
+			context.PageType is not ContentPageTypes.RecycleBin;
 
 		public InstallFontAction()
 		{
