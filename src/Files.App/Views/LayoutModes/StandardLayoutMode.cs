@@ -168,9 +168,6 @@ namespace Files.App
 		protected virtual async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
-
-			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
-				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
 		}
 
 		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);
