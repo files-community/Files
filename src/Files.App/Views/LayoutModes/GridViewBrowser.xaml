@@ -245,18 +245,6 @@
 						<ColumnDefinition Width="*" />
 					</Grid.ColumnDefinitions>
 
-
-					<VisualStateManager.VisualStateGroups>
-						<VisualStateGroup x:Name="CheckboxVisibilityStates">
-							<VisualState x:Name="HideCheckbox" />
-							<VisualState x:Name="ShowCheckbox">
-								<VisualState.Setters>
-									<Setter Target="SelectionCheckbox.Visibility" Value="Visible" />
-								</VisualState.Setters>
-							</VisualState>
-						</VisualStateGroup>
-					</VisualStateManager.VisualStateGroups>
-
 					<CheckBox
 						x:Name="SelectionCheckbox"
 						Grid.ColumnSpan="2"
@@ -264,13 +252,13 @@
 						MinWidth="0"
 						MinHeight="0"
 						Margin="6"
-						Visibility="Collapsed"
 						Padding="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Top"
 						Checked="ItemSelected_Checked"
 						DoubleTapped="SelectionCheckbox_DoubleTapped"
-						Unchecked="ItemSelected_Unchecked" />
+						Unchecked="ItemSelected_Unchecked"
+						Visibility="Collapsed" />
 					<StackPanel
 						Width="20"
 						Margin="8,4,0,4"
@@ -402,6 +390,17 @@
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
 					</Grid>
+
+					<VisualStateManager.VisualStateGroups>
+						<VisualStateGroup x:Name="CheckboxVisibilityStates">
+							<VisualState x:Name="HideCheckbox" />
+							<VisualState x:Name="ShowCheckbox">
+								<VisualState.Setters>
+									<Setter Target="SelectionCheckbox.Visibility" Value="Visible" />
+								</VisualState.Setters>
+							</VisualState>
+						</VisualStateGroup>
+					</VisualStateManager.VisualStateGroups>
 				</Grid>
 			</UserControl>
 		</DataTemplate>
