@@ -13,9 +13,10 @@ namespace Files.App.Actions
 {
 	internal class LaunchQuickLookAction : ObservableObject, IAction
 	{
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 		public HotKey HotKey { get; } = new(VirtualKey.Space);
 
-		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		public bool IsExecutable => context.SelectedItems.Count == 1 &&
 			(!context.ShellPage?.ToolbarViewModel?.IsEditModeEnabled ?? false) &&
 			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
