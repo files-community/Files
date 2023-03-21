@@ -57,7 +57,6 @@ namespace Files.App.Commands
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
 		public IRichCommand LaunchQuickLook => commands[CommandCodes.LaunchQuickLook];
-		public IRichCommand SwitchQuickLookPreview => commands[CommandCodes.SwitchQuickLookPreview];
 		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
@@ -163,7 +162,6 @@ namespace Files.App.Commands
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
 			[CommandCodes.LaunchQuickLook] = new LaunchQuickLookAction(),
-			[CommandCodes.SwitchQuickLookPreview] = new SwitchQuickLookPreviewAction(),
 			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
