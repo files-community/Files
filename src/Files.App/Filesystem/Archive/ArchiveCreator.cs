@@ -13,7 +13,6 @@ namespace Files.App.Filesystem.Archive
 	{
 		private int itemsAmount = 1;
 		private int processedItems = 0;
-		private int oldPercentage = 0;
 
 		private string archivePath = string.Empty;
 		public string ArchivePath => archivePath;
@@ -144,15 +143,14 @@ namespace Files.App.Filesystem.Archive
 			}
 			else
 			{
-				oldPercentage = processedItems * 100 / itemsAmount;
-				fsProgress.Percentage = oldPercentage;
+				fsProgress.Percentage = processedItems * 100 / itemsAmount;
 				fsProgress.Report();
 			}
 		}
 
 		private void Compressor_Compressing(object? _, ProgressEventArgs e)
 		{
-			fsProgress.Percentage = oldPercentage + e.PercentDone / itemsAmount;
+			fsProgress.Percentage += e.PercentDelta / itemsAmount;
 			fsProgress.Report();
 		}
 	}
