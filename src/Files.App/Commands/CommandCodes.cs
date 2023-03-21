@@ -51,6 +51,9 @@ namespace Files.App.Commands
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
+		
+		// QuickLook
+		LaunchQuickLook,
 
 		// Archives
 		CompressIntoArchive,
@@ -63,6 +66,10 @@ namespace Files.App.Commands
 		// Image Edition
 		RotateLeft,
 		RotateRight,
+
+		// Open
+		OpenTerminal,
+		OpenTerminalAsAdmin,
 
 		// Layout
 		LayoutDecreaseSize,

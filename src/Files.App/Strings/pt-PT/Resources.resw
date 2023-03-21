@@ -2589,6 +2589,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Aplicar esta ação a todos os itens em conflito</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Abrir no terminal</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Abrir no terminal como administrador</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Guardar</value>
   </data>

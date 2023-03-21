@@ -47,6 +47,8 @@ namespace Files.App.Commands
 
 		IRichCommand RunAsAdmin { get; }
 		IRichCommand RunAsAnotherUser { get; }
+		
+		IRichCommand LaunchQuickLook { get; }
 
 		IRichCommand CompressIntoArchive { get; }
 		IRichCommand CompressIntoSevenZip { get; }
@@ -57,6 +59,9 @@ namespace Files.App.Commands
 
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
+
+		IRichCommand OpenTerminal { get; }
+		IRichCommand OpenTerminalAsAdmin { get; }
 
 		IRichCommand LayoutDecreaseSize { get; }
 		IRichCommand LayoutIncreaseSize { get; }
