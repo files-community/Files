@@ -30,8 +30,6 @@ namespace Files.App.Views.LayoutModes
 {
 	public sealed partial class DetailsLayoutBrowser : StandardViewBase
 	{
-		private readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
-
 		public bool IsPointerOver
 		{
 			get { return (bool)GetValue(IsPointerOverProperty); }
