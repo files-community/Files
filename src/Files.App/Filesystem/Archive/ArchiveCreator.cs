@@ -11,6 +11,10 @@ namespace Files.App.Filesystem.Archive
 {
 	public class ArchiveCreator : IArchiveCreator
 	{
+		private int itemsAmount = 1;
+		private int processedItems = 0;
+		private int oldPercentage = 0;
+
 		private string archivePath = string.Empty;
 		public string ArchivePath => archivePath;
 
@@ -104,6 +108,8 @@ namespace Files.App.Filesystem.Archive
 				var files = sources.Where(source => File.Exists(source)).ToArray();
 				var directories = sources.Where(source => System.IO.Directory.Exists(source));
 
+				itemsAmount = files.Length + directories.Count();
+
 				foreach (string directory in directories)
 				{
 					await compressor.CompressDirectoryAsync(directory, path, Password);
@@ -131,13 +137,22 @@ namespace Files.App.Filesystem.Archive
 
 		private void Compressor_CompressionFinished(object? sender, EventArgs e)
 		{
-			fsProgress.Percentage = null;
-			fsProgress.ReportStatus(Shared.Enums.FileSystemStatusCode.Success);
+			if (++processedItems == itemsAmount)
+			{
+				fsProgress.Percentage = null;
+				fsProgress.ReportStatus(Shared.Enums.FileSystemStatusCode.Success);
+			}
+			else
+			{
+				oldPercentage = processedItems * 100 / itemsAmount
+				fsProgress.Percentage = oldPercentage;
+				fsProgress.Report();
+			}
 		}
 
 		private void Compressor_Compressing(object? _, ProgressEventArgs e)
 		{
-			fsProgress.Percentage = e.PercentDone;
+			fsProgress.Percentage = oldPercentage + e.PercentDone / itemsAmount;
 			fsProgress.Report();
 		}
 	}
