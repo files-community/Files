@@ -2591,6 +2591,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Použiť túto akciu na všetky konfliktné položky</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Open in terminal</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Open in terminal as administrator</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Uložiť</value>
   </data>

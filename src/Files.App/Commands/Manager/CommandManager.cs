@@ -65,6 +65,8 @@ namespace Files.App.Commands
 		public IRichCommand DecompressArchiveToChildFolder => commands[CommandCodes.DecompressArchiveToChildFolder];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
+		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
+		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
 		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
 		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
@@ -170,6 +172,8 @@ namespace Files.App.Commands
 			[CommandCodes.DecompressArchiveToChildFolder] = new DecompressArchiveToChildFolderAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction(),
+			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
+			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
 			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
 			[CommandCodes.LayoutIncreaseSize] = new LayoutIncreaseSizeAction(),
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),

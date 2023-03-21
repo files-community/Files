@@ -2589,6 +2589,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Застосувати цю дію до всіх конфліктуючих елементів</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Відкрити в терміналі</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Відкрити в терміналі як адміністратор</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Зберегти</value>
   </data>

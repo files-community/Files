@@ -64,6 +64,10 @@ namespace Files.App.Commands
 		RotateLeft,
 		RotateRight,
 
+		// Open
+		OpenTerminal,
+		OpenTerminalAsAdmin,
+
 		// Layout
 		LayoutDecreaseSize,
 		LayoutIncreaseSize,
