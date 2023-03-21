@@ -2589,6 +2589,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>将此操作应用到所有冲突项</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Open in terminal</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Open in terminal as administrator</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
   </data>
