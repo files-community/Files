@@ -144,7 +144,7 @@ namespace Files.App.Filesystem.Archive
 			}
 			else
 			{
-				oldPercentage = processedItems * 100 / itemsAmount
+				oldPercentage = processedItems * 100 / itemsAmount;
 				fsProgress.Percentage = oldPercentage;
 				fsProgress.Report();
 			}
