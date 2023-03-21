@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI.UI;
-using Files.App.Commands;
+﻿using CommunityToolkit.WinUI.UI;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
@@ -27,8 +25,6 @@ namespace Files.App
 		private const int KEY_DOWN_MASK = 0x8000;
 
 		protected int NextRenameIndex = 0;
-
-		private readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		protected abstract ListViewBase ListViewBase
 		{
