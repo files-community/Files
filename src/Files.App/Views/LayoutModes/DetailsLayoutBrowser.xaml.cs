@@ -246,8 +246,6 @@ namespace Files.App.Views.LayoutModes
 		{
 			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 
-			await commands.SwitchQuickLookPreview.ExecuteAsync();
-
 			if (e != null)
 			{
 				foreach (var item in e.AddedItems)

@@ -38,8 +38,15 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.SelectedItems):
 					OnPropertyChanged(nameof(IsExecutable));
+					var _ = SwitchQuickLookPreview();
 					break;
 			}
+		}
+
+		private async Task SwitchQuickLookPreview()
+		{
+			if (IsExecutable)
+				await QuickLookHelpers.ToggleQuickLook(context.SelectedItem!.ItemPath, true);
 		}
 	}
 }
