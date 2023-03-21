@@ -16,8 +16,7 @@ namespace Files.App.Actions
 
 		public string Label => "Install".GetLocalizedResource();
 
-		public bool IsExecutable => context.SelectedItems is not null
-			&& context.SelectedItems.Any()
+		public bool IsExecutable => context.SelectedItems.Any()
 			&& context.SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension))
 			&& context.PageType is not ContentPageTypes.RecycleBin;
 
@@ -28,9 +27,6 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			if (context.SelectedItems is null)
-				return Task.CompletedTask;
-
 			foreach (ListedItem selectedItem in context.SelectedItems)
 				Win32API.InstallFont(selectedItem.ItemPath, false);
 
