@@ -221,20 +221,14 @@ namespace Files.App.Views
 
 			switch (e.Key)
 			{
+				case VirtualKey.Menu:
+				case VirtualKey.Control:
+				case VirtualKey.Shift:
 				case VirtualKey.LeftWindows:
 				case VirtualKey.RightWindows:
-					currentModifiers |= VirtualKeyModifiers.Windows;
-					break;
-				case VirtualKey.Menu:
-					currentModifiers |= VirtualKeyModifiers.Menu;
-					break;
-				case VirtualKey.Control:
-					currentModifiers |= VirtualKeyModifiers.Control;
-					break;
-				case VirtualKey.Shift:
-					currentModifiers |= VirtualKeyModifiers.Shift;
 					break;
 				default:
+					var currentModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
 					HotKey hotKey = new(e.Key, currentModifiers);
 
 					// A textbox takes precedence over certain hotkeys.
@@ -268,18 +262,11 @@ namespace Files.App.Views
 
 			switch (e.Key)
 			{
+				case VirtualKey.Menu:
+				case VirtualKey.Control:
+				case VirtualKey.Shift:
 				case VirtualKey.LeftWindows:
 				case VirtualKey.RightWindows:
-					currentModifiers &= ~VirtualKeyModifiers.Windows;
-					break;
-				case VirtualKey.Menu:
-					currentModifiers &= ~VirtualKeyModifiers.Menu;
-					break;
-				case VirtualKey.Control:
-					currentModifiers &= ~VirtualKeyModifiers.Control;
-					break;
-				case VirtualKey.Shift:
-					currentModifiers &= ~VirtualKeyModifiers.Shift;
 					break;
 				default:
 					keyReleased = true;
