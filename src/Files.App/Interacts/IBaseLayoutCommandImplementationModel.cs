@@ -39,8 +39,6 @@ namespace Files.App.Interacts
 
 		Task CreateFolderWithSelection(RoutedEventArgs e);
 
-		Task InstallInfDriver();
-
 		Task PlayAll();
 
 		void FormatDrive(ListedItem? obj);

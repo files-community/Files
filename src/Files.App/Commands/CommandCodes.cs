@@ -48,6 +48,9 @@ namespace Files.App.Commands
 		SetAsSlideshowBackground,
 		SetAsLockscreenBackground,
 
+		// Install
+		InstallInfDriver,
+
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
