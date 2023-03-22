@@ -363,11 +363,6 @@ namespace Files.App.Interacts
 			deferral.Complete();
 		}
 
-		public virtual void RefreshItems(RoutedEventArgs e)
-		{
-			associatedInstance.Refresh_Click();
-		}
-
 		public void SearchUnindexedItems(RoutedEventArgs e)
 		{
 			associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);

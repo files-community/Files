@@ -202,7 +202,7 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
-					Command = commandsViewModel.RefreshCommand,
+					Command = commands.RefreshItems,
 					KeyboardAccelerator = new KeyboardAccelerator
 					{
 						Key = VirtualKey.F5,

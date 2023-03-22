@@ -33,8 +33,6 @@ namespace Files.App.Interacts
 
 		Task Drop(DragEventArgs e);
 
-		void RefreshItems(RoutedEventArgs e);
-
 		void SearchUnindexedItems(RoutedEventArgs e);
 
 		Task CreateFolderWithSelection(RoutedEventArgs e);
