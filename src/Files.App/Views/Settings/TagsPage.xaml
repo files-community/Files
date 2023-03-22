@@ -125,7 +125,6 @@
 										<ColumnDefinition Width="Auto" />
 									</Grid.ColumnDefinitions>
 									<TextBlock
-										Grid.Column="0"
 										VerticalAlignment="Center"
 										AutomationProperties.AccessibilityView="Raw"
 										FontFamily="{ThemeResource SymbolThemeFontFamily}"
@@ -133,7 +132,6 @@
 										Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
 										Text="{StaticResource InfoBarIconBackgroundGlyph}" />
 									<TextBlock
-										Grid.Column="0"
 										VerticalAlignment="Center"
 										AutomationProperties.AccessibilityView="Raw"
 										FontFamily="{ThemeResource SymbolThemeFontFamily}"
@@ -309,7 +307,6 @@
 													<ColumnDefinition Width="Auto" />
 												</Grid.ColumnDefinitions>
 												<TextBlock
-													Grid.Column="0"
 													VerticalAlignment="Center"
 													AutomationProperties.AccessibilityView="Raw"
 													FontFamily="{ThemeResource SymbolThemeFontFamily}"
@@ -317,7 +314,6 @@
 													Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
 													Text="{StaticResource InfoBarIconBackgroundGlyph}" />
 												<TextBlock
-													Grid.Column="0"
 													VerticalAlignment="Center"
 													FontFamily="{ThemeResource SymbolThemeFontFamily}"
 													FontSize="{StaticResource InfoBarIconFontSize}"

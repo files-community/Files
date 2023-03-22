@@ -32,6 +32,9 @@ namespace Files.App.Views.Settings
 			switch (e.Key)
 			{
 				case VirtualKey.Enter:
+					if (!editingTag!.CanCommit)
+						return;
+
 					CommitChanges(textBox);
 					e.Handled = true;
 					break;
@@ -92,15 +95,22 @@ namespace Files.App.Views.Settings
 		private void RenameTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var text = ((TextBox)sender).Text;
-			editingTag!.IsNameValid = IsNameValid(text) || (text == editingTag!.Tag.Name);
-			editingTag!.CanCommit = IsNameValid(text) && ((text != editingTag!.Tag.Name) || (editingTag!.NewColor != editingTag!.Tag.Color));
+			editingTag!.IsNameValid = IsNameValid(text) && !ViewModel.Tags.Any(tag => tag.Tag.Name == text && editingTag!.Tag.Name != text);
+			editingTag!.CanCommit = editingTag!.IsNameValid && (
+				text != editingTag!.Tag.Name ||
+				editingTag!.NewColor != editingTag!.Tag.Color
+			);
 		}
 
 		private void EditColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
 		{
-			if (editingTag is null) return;
+			if (editingTag is null)
+				return;
 
-			editingTag!.CanCommit = IsNameValid(editingTag!.NewName) && (editingTag!.NewName != editingTag!.Tag.Name || (CommunityToolkit.WinUI.Helpers.ColorHelper.ToHex(sender.Color) != editingTag!.Tag.Color));
+			editingTag!.CanCommit = editingTag!.IsNameValid && (
+				editingTag!.NewName != editingTag!.Tag.Name ||
+				CommunityToolkit.WinUI.Helpers.ColorHelper.ToHex(sender.Color) != editingTag!.Tag.Color
+			);
 		}
 
 		private void NewTagTextBox_TextChanged(object sender, TextChangedEventArgs e)
