@@ -63,7 +63,7 @@ namespace Files.App.Filesystem
 		public bool TryGetDistro(string path, out WslDistroItem? distro)
 		{
 			var normalizedPath = PathNormalization.NormalizePath(path);
-			distro = Distros.FirstOrDefault(x => path.StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+			distro = Distros.FirstOrDefault(x => normalizedPath.StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
 
 			return distro is not null;
 		}
