@@ -185,6 +185,8 @@
 				Height="34"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Center"
+				AccessKey="K"
+				AccessKeyInvoked="SearchRegion_AccessKeyInvoked"
 				Canvas.ZIndex="100"
 				CornerRadius="{StaticResource ControlCornerRadius}"
 				GotFocus="SearchRegion_OnGotFocus"

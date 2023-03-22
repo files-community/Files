@@ -120,6 +120,7 @@ namespace Files.App.UserControls
 		private void SearchButton_Click(object _, RoutedEventArgs e) => ViewModel.SwitchSearchBoxVisibility();
 		private void SearchRegion_OnGotFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_GotFocus(sender, e);
 		private void SearchRegion_LostFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_LostFocus(sender, e);
+		private void SearchRegion_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args) => sender.Focus(FocusState.Keyboard);
 
 		private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
 			=> ViewModel.VisiblePath_QuerySubmitted(sender, args);
