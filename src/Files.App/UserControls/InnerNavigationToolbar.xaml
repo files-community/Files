@@ -284,9 +284,8 @@
 					LabelPosition="Default"
 					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsBackgroundFlyout}">
-					<AppBarButton.Icon>
-						<FontIcon Glyph="{x:Bind Commands.SetAsWallpaperBackground.Glyph.BaseGlyph}" />
-					</AppBarButton.Icon>
+					
+					<local:OpacityIcon Style="{StaticResource ColorIconSetAsBackground}" />
 					<AppBarButton.Flyout>
 						<MenuFlyout Placement="Bottom">
 							<MenuFlyoutItem
