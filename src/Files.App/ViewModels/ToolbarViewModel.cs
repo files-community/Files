@@ -591,8 +591,6 @@ namespace Files.App.ViewModels
 
 		public ICommand? InstallInfCommand { get; set; }
 
-		public ICommand? InstallFontCommand { get; set; }
-
 		public ICommand? UpdateCommand { get; set; }
 
 		public ICommand? PlayAllCommand { get; set; }

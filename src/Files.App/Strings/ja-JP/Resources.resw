@@ -2634,4 +2634,7 @@
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>昇順と降順の切り替え</value>
   </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>QuickLook を起動</value>
+  </data>
 </root>

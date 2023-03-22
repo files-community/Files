@@ -2634,4 +2634,7 @@
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Перемкнути напрямок сортування</value>
   </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>Запустити QuickLook</value>
+  </data>
 </root>

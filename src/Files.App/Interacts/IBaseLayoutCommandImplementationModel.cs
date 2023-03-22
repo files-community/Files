@@ -47,8 +47,6 @@ namespace Files.App.Interacts
 
 		Task InstallInfDriver();
 
-		Task InstallFont();
-
 		Task PlayAll();
 
 		void FormatDrive(ListedItem? obj);

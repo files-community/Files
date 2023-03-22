@@ -2634,4 +2634,7 @@
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Attiva/Disattiva direzione di ordinamento</value>
   </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>Avvia QuickLook</value>
+  </data>
 </root>

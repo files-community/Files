@@ -2590,10 +2590,10 @@
     <value>将此操作应用到所有冲突项</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in terminal</value>
+    <value>在终端中打开</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in terminal as administrator</value>
+    <value>以管理员身份在终端中打开</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
@@ -2633,5 +2633,8 @@
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>切换排序方向</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>Launch QuickLook</value>
   </data>
 </root>

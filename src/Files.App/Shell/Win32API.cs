@@ -805,12 +805,19 @@ namespace Files.App.Shell
 			}
 		}
 
-		public static void InstallFont(string fontFilePath)
+		public static void InstallFont(string fontFilePath, bool forAllUsers)
 		{
-			var userFontDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
-			var destName = Path.Combine(userFontDir, Path.GetFileName(fontFilePath));
+			string fontDirectory = forAllUsers
+				? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
+				: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
 
-			RunPowershellCommand($"-command \"Copy-Item '{fontFilePath}' '{userFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{destName}'\"", false);
+			string registryKey = forAllUsers 
+				? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
+				: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
+
+			var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
+
+			RunPowershellCommand($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
 		}
 	}
 }

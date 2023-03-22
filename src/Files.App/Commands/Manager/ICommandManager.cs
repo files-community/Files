@@ -101,5 +101,7 @@ namespace Files.App.Commands
 
 		IRichCommand NewTab { get; }
 		IRichCommand DuplicateTab { get; }
+
+		IRichCommand InstallFont { get; }
 	}
 }
