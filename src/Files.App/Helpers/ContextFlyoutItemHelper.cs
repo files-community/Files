@@ -196,7 +196,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = commands.RefreshItems.LabelWithHotKey,
+					Text = commands.RefreshItems.Label,
 					Glyph = "\uE72C",
 					Command = commands.RefreshItems,
 					ShowItem = !itemsSelected
