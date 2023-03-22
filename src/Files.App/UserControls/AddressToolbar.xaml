@@ -113,15 +113,12 @@
 					x:Name="Refresh"
 					x:FieldModifier="public"
 					AccessKey="R"
-					AutomationProperties.Name="{helpers:ResourceString Name=NavResfreshButton/AutomationProperties/Name}"
-					Command="{x:Bind ViewModel.RefreshClickCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.CanRefresh, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Commands.RefreshItems.Label}"
+					Command="{x:Bind Commands.RefreshItems, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavRefreshButton/ToolTipService/ToolTip}">
-					<FontIcon FontSize="14" Glyph="&#xE72C;" />
-					<Button.KeyboardAccelerators>
-						<KeyboardAccelerator Key="F5" />
-					</Button.KeyboardAccelerators>
+					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.Label}">
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph}" />
 				</Button>
 			</StackPanel>
 

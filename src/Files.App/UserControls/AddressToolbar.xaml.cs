@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Commands;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
@@ -16,6 +17,7 @@ namespace Files.App.UserControls
 	public sealed partial class AddressToolbar : UserControl
 	{
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		// Using a DependencyProperty as the backing store for ShowOngoingTasks.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowOngoingTasksProperty =
