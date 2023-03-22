@@ -34,7 +34,7 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.ShellPage))
+			if (e.PropertyName is nameof(IContentPageContext.ShellPage.ToolbarViewModel.CanRefresh))
 				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
