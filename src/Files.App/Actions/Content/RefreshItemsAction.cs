@@ -16,7 +16,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Refresh".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new("\uE72c");
+		public RichGlyph Glyph { get; } = new("\uE72C");
 
 		public HotKey HotKey { get; } = new(VirtualKey.R, VirtualKeyModifiers.Control);
 

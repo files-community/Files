@@ -324,8 +324,8 @@
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Up (Alt+Up Arrow)</value>
   </data>
-  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Refresh (F5)</value>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Search (Ctrl+F)</value>
