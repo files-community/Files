@@ -196,18 +196,9 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutContextFlyoutRefresh/Text".GetLocalizedResource(),
+					Text = commands.RefreshItems.LabelWithHotKey,
 					Glyph = "\uE72C",
-					ShowInRecycleBin = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
 					Command = commands.RefreshItems,
-					KeyboardAccelerator = new KeyboardAccelerator
-					{
-						Key = VirtualKey.F5,
-						IsEnabled = false,
-					},
 					ShowItem = !itemsSelected
 				},
 				new ContextMenuFlyoutItemViewModel()

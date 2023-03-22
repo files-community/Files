@@ -243,9 +243,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>Ascending</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>Refresh</value>
-  </data>
   <data name="Paste" xml:space="preserve">
     <value>Paste</value>
   </data>
