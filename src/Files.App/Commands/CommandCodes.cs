@@ -15,7 +15,10 @@ namespace Files.App.Commands
 
 		// File System
 		CopyItem,
+		CopyPath,
 		CutItem,
+		PasteItem,
+		PasteItemToSelection,
 		DeleteItem,
 		CreateFolder,
 		CreateShortcut,
@@ -45,6 +48,9 @@ namespace Files.App.Commands
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
+		
+		// QuickLook
+		LaunchQuickLook,
 
 		// Archives
 		CompressIntoArchive,
@@ -57,6 +63,10 @@ namespace Files.App.Commands
 		// Image Edition
 		RotateLeft,
 		RotateRight,
+
+		// Open
+		OpenTerminal,
+		OpenTerminalAsAdmin,
 
 		// Layout
 		LayoutDecreaseSize,

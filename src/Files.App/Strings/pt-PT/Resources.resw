@@ -273,7 +273,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Eliminar</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>Afixar nos favoritos</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copiar para {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>Criar atalho</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -2589,6 +2589,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Aplicar esta ação a todos os itens em conflito</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Abrir no terminal</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Abrir no terminal como administrador</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Guardar</value>
   </data>
@@ -2627,5 +2633,8 @@
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Alternar sentido de ordenação</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>Launch QuickLook</value>
   </data>
 </root>

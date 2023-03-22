@@ -380,50 +380,21 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CutItem)
 				{
-					IsVisible = itemsSelected,
 					IsPrimary = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CopyItem)
 				{
-					IsVisible = itemsSelected,
 					IsPrimary = true,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.PasteItemToSelection)
 				{
-					Text = "CopyLocation".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconCopyLocation",
-					},
-					Command = commandsViewModel.CopyPathOfSelectedItemCommand,
-					SingleItemOnly = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-					ShowItem = itemsSelected
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "Paste".GetLocalizedResource(),
 					IsPrimary = true,
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconPaste",
-					},
-					Command = commandsViewModel.PasteItemsFromClipboardCommand,
-					ShowItem = areAllItemsFolders || !itemsSelected,
-					SingleItemOnly = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-					IsEnabled = App.AppModel.IsPasteEnabled,
-					KeyboardAccelerator = new KeyboardAccelerator
-					{
-						Key = VirtualKey.V,
-						Modifiers = VirtualKeyModifiers.Control,
-						IsEnabled = false,
-					},
-				},
+					IsVisible = true,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.CopyPath)
+				{
+					IsVisible = itemsSelected && selectedItems.Count == 1 && !currentInstanceViewModel.IsPageTypeRecycleBin,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutCreateFolderWithSelection/Text".GetLocalizedResource(),

@@ -46,8 +46,6 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public virtual string ToolTipText { get; set; }
 
-		public FontFamily Font { get; set; }
-
 		public NavigationControlItemType ItemType
 			=> NavigationControlItemType.Location;
 

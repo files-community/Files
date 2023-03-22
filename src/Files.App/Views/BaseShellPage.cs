@@ -28,12 +28,10 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Shared.Enums.SortDirection;
@@ -279,27 +277,6 @@ namespace Files.App.Views
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
-				// Ctrl + ` (accent key), open terminal
-				case (true, _, false, true, (VirtualKey)192):
-
-					// Check if there is a folder selected, if not use the current directory.
-					string path = FilesystemViewModel.WorkingDirectory;
-					if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
-						path = SlimContentPage.SelectedItem.ItemPath;
-
-					var terminalStartInfo = new ProcessStartInfo()
-					{
-						FileName = "wt.exe",
-						Arguments = $"-d \"{path}\"",
-						Verb = shift ? "runas" : "",
-						UseShellExecute = true
-					};
-					DispatcherQueue.TryEnqueue(() => Process.Start(terminalStartInfo));
-
-					args.Handled = true;
-
-					break;
-
 				// Ctrl + space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
 
@@ -627,10 +604,6 @@ namespace Files.App.Views
 
 		protected void InitToolbarCommands()
 		{
-			ToolbarViewModel.SelectAllContentPageItemsCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.SelectAllItems());
-			ToolbarViewModel.InvertContentPageSelctionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.InvertSelection());
-			ToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
-			ToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
 			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());

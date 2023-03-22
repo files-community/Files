@@ -30,6 +30,14 @@ namespace Files.App.Views.LayoutModes
 {
 	public sealed partial class DetailsLayoutBrowser : StandardViewBase
 	{
+		public bool IsPointerOver
+		{
+			get { return (bool)GetValue(IsPointerOverProperty); }
+			set { SetValue(IsPointerOverProperty, value); }
+		}
+		public static readonly DependencyProperty IsPointerOverProperty =
+			DependencyProperty.Register("IsPointerOver", typeof(bool), typeof(DetailsLayoutBrowser), new PropertyMetadata(false));
+
 		private const int TAG_TEXT_BLOCK = 1;
 
 		private uint currentIconSize;
@@ -235,10 +243,6 @@ namespace Files.App.Views.LayoutModes
 		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
-			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
-			{
-				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
-			}
 
 			if (e != null)
 			{
@@ -359,11 +363,8 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Space)
 			{
-				if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
-				{
+				if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 					e.Handled = true;
-					await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
-				}
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
 			{
@@ -760,7 +761,7 @@ namespace Files.App.Views.LayoutModes
 					checkbox.Checked += ItemSelected_Checked;
 					checkbox.Unchecked += ItemSelected_Unchecked;
 				}
-				UpdateCheckboxVisibility(container, false);
+				UpdateCheckboxVisibility(container);
 			}
 		}
 
@@ -815,14 +816,18 @@ namespace Files.App.Views.LayoutModes
 			UpdateCheckboxVisibility(sender, false);
 		}
 
-		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
+		private void UpdateCheckboxVisibility(object sender, bool? isPointerOver = null)
 		{
 			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
 			{
-				if (control.IsSelected)
+				// Save pointer over state accordingly
+				if (isPointerOver.HasValue)
+					control.SetValue(IsPointerOverProperty, isPointerOver);
+				// Handle visual states
+				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
-					VisualStateManager.GoToState(userControl, isPointerOver ? "ShowCheckbox" : "Normal", true);
+					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
 			}
 		}
 	}

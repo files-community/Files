@@ -14,7 +14,7 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "BaseLayoutItemContextFlyoutCut/Text".GetLocalizedResource();
+		public string Label { get; } = "Cut".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCut");
 
@@ -34,7 +34,7 @@ namespace Files.App.Actions
 			return Task.CompletedTask;
 		}
 
-		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
 				OnPropertyChanged(nameof(IsExecutable));

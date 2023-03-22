@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Files.App.Actions;
 using Files.App.Actions.Content.Archives;
 using Files.App.Actions.Content.Background;
@@ -16,7 +15,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Files.App.Commands
 {
@@ -51,10 +49,14 @@ namespace Files.App.Commands
 		public IRichCommand SetAsSlideshowBackground => commands[CommandCodes.SetAsSlideshowBackground];
 		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
 		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
+		public IRichCommand CopyPath => commands[CommandCodes.CopyPath];
 		public IRichCommand CutItem => commands[CommandCodes.CutItem];
+		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
+		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
+		public IRichCommand LaunchQuickLook => commands[CommandCodes.LaunchQuickLook];
 		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
@@ -63,6 +65,8 @@ namespace Files.App.Commands
 		public IRichCommand DecompressArchiveToChildFolder => commands[CommandCodes.DecompressArchiveToChildFolder];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
+		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
+		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
 		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
 		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
@@ -152,10 +156,14 @@ namespace Files.App.Commands
 			[CommandCodes.SetAsSlideshowBackground] = new SetAsSlideshowBackgroundAction(),
 			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
 			[CommandCodes.CopyItem] = new CopyItemAction(),
+			[CommandCodes.CopyPath] = new CopyPathAction(),
 			[CommandCodes.CutItem] = new CutItemAction(),
+			[CommandCodes.PasteItem] = new PasteItemAction(),
+			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
+			[CommandCodes.LaunchQuickLook] = new LaunchQuickLookAction(),
 			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
@@ -164,6 +172,8 @@ namespace Files.App.Commands
 			[CommandCodes.DecompressArchiveToChildFolder] = new DecompressArchiveToChildFolderAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction(),
+			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
+			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
 			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
 			[CommandCodes.LayoutIncreaseSize] = new LayoutIncreaseSizeAction(),
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),
@@ -246,7 +256,6 @@ namespace Files.App.Commands
 			public event EventHandler? CanExecuteChanged;
 
 			private readonly IAction action;
-			private readonly ICommand command;
 
 			public CommandCodes Code { get; }
 
@@ -273,7 +282,7 @@ namespace Files.App.Commands
 				set
 				{
 					if (action is IToggleAction toggleAction && toggleAction.IsOn != value)
-						command.Execute(null);
+						Execute(null);
 				}
 			}
 
@@ -288,7 +297,6 @@ namespace Files.App.Commands
 				OpacityStyle = action.Glyph.ToOpacityStyle();
 				HotKeyText = GetHotKeyText();
 				LabelWithHotKey = HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
-				command = new AsyncRelayCommand(ExecuteAsync, () => action.IsExecutable);
 
 				if (action is INotifyPropertyChanging notifyPropertyChanging)
 					notifyPropertyChanging.PropertyChanging += Action_PropertyChanging;
@@ -296,8 +304,8 @@ namespace Files.App.Commands
 					notifyPropertyChanged.PropertyChanged += Action_PropertyChanged;
 			}
 
-			public bool CanExecute(object? parameter) => command.CanExecute(parameter);
-			public void Execute(object? parameter) => command.Execute(parameter);
+			public bool CanExecute(object? parameter) => action.IsExecutable;
+			public async void Execute(object? parameter) => await ExecuteAsync();
 
 			public async Task ExecuteAsync()
 			{
@@ -305,7 +313,7 @@ namespace Files.App.Commands
 					await action.ExecuteAsync();
 			}
 
-			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await action.ExecuteAsync();
+			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
 
 			private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
 			{

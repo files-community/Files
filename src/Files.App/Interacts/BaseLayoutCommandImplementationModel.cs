@@ -2,7 +2,6 @@
 
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
-using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
@@ -10,21 +9,16 @@ using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.Shell;
 using Files.App.ViewModels;
-using Files.App.ViewModels.Dialogs;
 using Files.App.Views;
 using Files.Backend.Enums;
 using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
@@ -93,14 +87,22 @@ namespace Files.App.Interacts
 		public virtual void ShowProperties(RoutedEventArgs e)
 		{
 			if (SlimContentPage.ItemContextMenuFlyout.IsOpen)
-				SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
+				SlimContentPage.ItemContextMenuFlyout.Closed += OpenPropertiesFromItemContextMenuFlyout;
+			else if (SlimContentPage.BaseContextMenuFlyout.IsOpen)
+				SlimContentPage.BaseContextMenuFlyout.Closed += OpenPropertiesFromBaseContextMenuFlyout;
 			else
 				FilePropertiesHelpers.ShowProperties(associatedInstance);
 		}
 
-		private void OpenProperties(object sender, object e)
+		private void OpenPropertiesFromItemContextMenuFlyout(object sender, object e)
 		{
-			SlimContentPage.ItemContextMenuFlyout.Closed -= OpenProperties;
+			SlimContentPage.ItemContextMenuFlyout.Closed -= OpenPropertiesFromItemContextMenuFlyout;
+			FilePropertiesHelpers.ShowProperties(associatedInstance);
+		}
+
+		private void OpenPropertiesFromBaseContextMenuFlyout(object sender, object e)
+		{
+			SlimContentPage.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
 			FilePropertiesHelpers.ShowProperties(associatedInstance);
 		}
 
@@ -185,36 +187,6 @@ namespace Files.App.Interacts
 		public virtual void CreateNewFile(ShellNewEntry f)
 		{
 			UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, f, associatedInstance);
-		}
-
-		public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)
-		{
-			if (SlimContentPage.SelectedItems.Count == 1 && SlimContentPage.SelectedItems.Single().PrimaryItemAttribute == StorageItemTypes.Folder)
-				await UIFilesystemHelpers.PasteItemAsync(SlimContentPage.SelectedItems.Single().ItemPath, associatedInstance);
-			else
-				await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
-		}
-
-		public virtual void CopyPathOfSelectedItem(RoutedEventArgs e)
-		{
-			try
-			{
-				if (SlimContentPage is not null)
-				{
-					var path = SlimContentPage.SelectedItem is not null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
-					if (FtpHelpers.IsFtpPath(path))
-						path = path.Replace("\\", "/", StringComparison.Ordinal);
-					DataPackage data = new();
-					data.SetText(path);
-
-					Clipboard.SetContent(data);
-					Clipboard.Flush();
-				}
-			}
-			catch (Exception)
-			{
-				Debugger.Break();
-			}
 		}
 
 		public virtual void ShareItem(RoutedEventArgs e)

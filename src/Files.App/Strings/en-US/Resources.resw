@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copy to {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>Create shortcut</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -2586,6 +2586,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Apply this action to all conflicting items</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Open in terminal</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Open in terminal as administrator</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
@@ -2625,6 +2631,7 @@
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Toggle sort direction</value>
   </data>
+<<<<<<< HEAD
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Invalid name</value>
   </data>
@@ -2633,5 +2640,9 @@
   </data>
   <data name="Videos" xml:space="preserve">
     <value>Videos</value>
+=======
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>Launch QuickLook</value>
+>>>>>>> 70bbb184a4fb134daed6950da32391c1785fb8d5
   </data>
 </root>

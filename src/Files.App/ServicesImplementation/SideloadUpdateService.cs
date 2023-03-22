@@ -153,6 +153,49 @@ namespace Files.App.ServicesImplementation
 			}
 		}
 
+		public async Task CheckAndUpdateFilesLauncherAsync()
+		{
+			var destFolderPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, "Files");
+			var destExeFilePath = Path.Combine(destFolderPath, "FilesLauncher.exe");
+
+			if (Path.Exists(destExeFilePath))
+			{
+				var hashEqual = false;
+				var srcHashFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/FilesLauncher.exe.sha256"));
+				var destHashFilePath = Path.Combine(destFolderPath, "FilesLauncher.exe.sha256");
+
+				if (Path.Exists(destHashFilePath))
+				{
+					using var srcStream = (await srcHashFile.OpenReadAsync()).AsStream();
+					using var destStream = File.OpenRead(destHashFilePath);
+
+					hashEqual = HashEqual(srcStream, destStream);
+				}
+
+				if (!hashEqual)
+				{
+					var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/FilesLauncher.exe"));
+					var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
+
+					await srcExeFile.CopyAsync(destFolder, "FilesLauncher.exe", NameCollisionOption.ReplaceExisting);
+					await srcHashFile.CopyAsync(destFolder, "FilesLauncher.exe.sha256", NameCollisionOption.ReplaceExisting);
+
+					App.Logger.Info("FilesLauncher updated.");
+				}
+			}
+
+			bool HashEqual(Stream a, Stream b)
+			{
+				Span<byte> bufferA = stackalloc byte[64];
+				Span<byte> bufferB = stackalloc byte[64];
+
+				a.Read(bufferA);
+				b.Read(bufferB);
+
+				return bufferA.SequenceEqual(bufferB);
+			}
+		}
+
 		private async Task StartBackgroundDownload()
 		{
 			try
