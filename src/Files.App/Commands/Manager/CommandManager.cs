@@ -55,6 +55,7 @@ namespace Files.App.Commands
 		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
 		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
+		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
 		public IRichCommand InstallInfDriver => commands[CommandCodes.InstallInfDriver];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
@@ -110,7 +111,6 @@ namespace Files.App.Commands
 		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 		public IRichCommand DuplicateTab => commands[CommandCodes.DuplicateTab];
-		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
 
 		public CommandManager()
 		{
@@ -167,6 +167,7 @@ namespace Files.App.Commands
 			[CommandCodes.PasteItem] = new PasteItemAction(),
 			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
+			[CommandCodes.InstallFont] = new InstallFontAction(),
 			[CommandCodes.InstallInfDriver] = new InstallInfDriverAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
@@ -222,7 +223,6 @@ namespace Files.App.Commands
 			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.DuplicateTab] = new DuplicateTabAction(),
-			[CommandCodes.InstallFont] = new InstallFontAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

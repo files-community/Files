@@ -49,6 +49,7 @@ namespace Files.App.Commands
 		SetAsLockscreenBackground,
 
 		// Install
+		InstallFont,
 		InstallInfDriver,
 
 		// Run
@@ -119,8 +120,5 @@ namespace Files.App.Commands
 		// Navigation
 		NewTab,
 		DuplicateTab,
-
-		// Other
-		InstallFont,
 	}
 }

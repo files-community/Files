@@ -45,6 +45,7 @@ namespace Files.App.Commands
 		IRichCommand SetAsSlideshowBackground { get; }
 		IRichCommand SetAsLockscreenBackground { get; }
 
+		IRichCommand InstallFont { get; }
 		IRichCommand InstallInfDriver { get; }
 
 		IRichCommand RunAsAdmin { get; }
@@ -106,7 +107,5 @@ namespace Files.App.Commands
 
 		IRichCommand NewTab { get; }
 		IRichCommand DuplicateTab { get; }
-
-		IRichCommand InstallFont { get; }
 	}
 }
