@@ -46,7 +46,6 @@ namespace Files.App.Interacts
 			SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
 			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
 			InstallInfDriver = new AsyncRelayCommand(CommandsModel.InstallInfDriver);
-			InstallFontCommand = new AsyncRelayCommand(CommandsModel.InstallFont);
 			PlayAllCommand = new AsyncRelayCommand(CommandsModel.PlayAll);
 			FormatDriveCommand = new RelayCommand<ListedItem>(CommandsModel.FormatDrive);
 		}
@@ -92,8 +91,6 @@ namespace Files.App.Interacts
 		public ICommand CreateFolderWithSelection { get; private set; }
 
 		public ICommand InstallInfDriver { get; set; }
-
-		public ICommand InstallFontCommand { get; private set; }
 
 		public ICommand PlayAllCommand { get; private set; }
 

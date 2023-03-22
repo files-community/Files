@@ -407,14 +407,6 @@ namespace Files.App.Interacts
 				await Win32API.InstallInf(selectedItem.ItemPath);
 		}
 
-		public Task InstallFont()
-		{
-			foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
-				Win32API.InstallFont(selectedItem.ItemPath);
-
-			return Task.CompletedTask;
-		}
-
 		public async Task PlayAll()
 		{
 			await NavigationHelpers.OpenSelectedItems(associatedInstance);

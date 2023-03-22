@@ -352,9 +352,9 @@
 				</AppBarButton>
 				<AppBarButton
 					x:Name="InstallFontButton"
-					x:Load="{x:Bind ViewModel.IsFont, Mode=OneWay, FallbackValue=False}"
-					Command="{x:Bind ViewModel.InstallFontCommand, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=Install}"
+					x:Load="{x:Bind Commands.InstallFont.IsExecutable, Mode=OneWay, FallbackValue=False}"
+					Command="{x:Bind Commands.InstallFont, Mode=OneWay}"
+					Label="{x:Bind Commands.InstallFont.Label}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
 
