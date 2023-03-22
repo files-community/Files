@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.UI.Input;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.App.Commands
 {
@@ -55,5 +57,34 @@ namespace Files.App.Commands
 
 		public static bool IsGlobalKey(this VirtualKey key) => globalKeys.Contains(key);
 		public static bool IsTextBoxHotKey(this HotKey hotKey) => textBoxHotKeys.Contains(hotKey);
+
+		public static VirtualKeyModifiers GetCurrentKeyModifiers()
+		{
+			var modifiers = VirtualKeyModifiers.None;
+
+			if (IsPressed(VirtualKey.Menu))
+			{
+				modifiers |= VirtualKeyModifiers.Menu;
+			}
+			if (IsPressed(VirtualKey.Control))
+			{
+				modifiers |= VirtualKeyModifiers.Control;
+			}
+			if (IsPressed(VirtualKey.Shift))
+			{
+				modifiers |= VirtualKeyModifiers.Shift;
+			}
+			if (IsPressed(VirtualKey.LeftWindows) || IsPressed(VirtualKey.RightWindows))
+			{
+				modifiers |= VirtualKeyModifiers.Windows;
+			}
+
+			return modifiers;
+
+			static bool IsPressed(VirtualKey key)
+			{
+				return InputKeyboardSource.GetKeyStateForCurrentThread(key).HasFlag(CoreVirtualKeyStates.Down);
+			}
+		}
 	}
 }
