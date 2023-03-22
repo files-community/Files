@@ -227,6 +227,7 @@
 					<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 						<Setter Property="Padding" Value="0,12" />
+						<Setter Property="IsTabStop" Value="False" />
 					</Style>
 				</ListView.ItemContainerStyle>
 			</ListView>

@@ -138,6 +138,7 @@ namespace Files.App.ViewModels.Settings
 		public void Reset()
 		{
 			Name = string.Empty;
+			IsNameValid = false;
 			Color = ColorHelpers.RandomColor();
 		}
 	}

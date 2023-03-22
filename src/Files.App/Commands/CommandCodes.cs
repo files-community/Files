@@ -26,6 +26,9 @@ namespace Files.App.Commands
 		EmptyRecycleBin,
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
+		OpenItem,
+		OpenItemWithApplicationPicker,
+		OpenParentFolder,
 
 		// Selection
 		SelectAll,
@@ -48,6 +51,9 @@ namespace Files.App.Commands
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
+		
+		// QuickLook
+		LaunchQuickLook,
 
 		// Archives
 		CompressIntoArchive,
@@ -106,9 +112,12 @@ namespace Files.App.Commands
 		GroupAscending,
 		GroupDescending,
 		ToggleGroupDirection,
-    
+
 		// Navigation
 		NewTab,
 		DuplicateTab,
+
+		// Other
+		InstallFont,
 	}
 }
