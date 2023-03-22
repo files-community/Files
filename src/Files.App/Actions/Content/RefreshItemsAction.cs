@@ -19,6 +19,8 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.R, VirtualKeyModifiers.Control);
 
+        public HotKey SecondHotKey { get; } = new(VirtualKey.F5);
+        
 		public bool IsExecutable => context.ShellPage?.ToolbarViewModel?.CanRefresh ?? false;
 
 		public RefreshItemsAction()
