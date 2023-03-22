@@ -194,13 +194,10 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupDescending){IsVisible = true}.Build(),
 					},
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RefreshItems)
 				{
-					Text = commands.RefreshItems.Label,
-					Glyph = "\uE72C",
-					Command = commands.RefreshItems,
-					ShowItem = !itemsSelected
-				},
+					IsVisible = !itemsSelected,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ItemType.Separator,
