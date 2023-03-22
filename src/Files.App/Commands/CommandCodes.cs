@@ -26,6 +26,9 @@ namespace Files.App.Commands
 		EmptyRecycleBin,
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
+		OpenItem,
+		OpenItemWithApplicationPicker,
+		OpenParentFolder,
 
 		// Selection
 		SelectAll,

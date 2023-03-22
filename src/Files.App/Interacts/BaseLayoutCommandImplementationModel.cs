@@ -79,11 +79,6 @@ namespace Files.App.Interacts
 			itemManipulationModel.StartRenameItem();
 		}
 
-		public virtual void OpenItem(RoutedEventArgs e)
-		{
-			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, false);
-		}
-
 		public virtual void ShowProperties(RoutedEventArgs e)
 		{
 			if (SlimContentPage.ItemContextMenuFlyout.IsOpen)
@@ -135,24 +130,6 @@ namespace Files.App.Interacts
 				await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
 					string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, destFolder.ErrorCode.ToString()));
 			}
-		}
-
-		public virtual void OpenParentFolder(RoutedEventArgs e)
-		{
-			var item = SlimContentPage.SelectedItem;
-			var folderPath = Path.GetDirectoryName(item.ItemPath.TrimEnd('\\'));
-
-			associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
-			{
-				NavPathParam = folderPath,
-				SelectItems = new[] { item.ItemNameRaw },
-				AssociatedTabInstance = associatedInstance
-			});
-		}
-
-		public virtual void OpenItemWithApplicationPicker(RoutedEventArgs e)
-		{
-			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, true);
 		}
 
 		public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
