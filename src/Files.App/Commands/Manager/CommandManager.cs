@@ -4,7 +4,6 @@ using Files.App.Actions.Content.Archives;
 using Files.App.Actions.Content.Background;
 using Files.App.Actions.Content.ImageEdition;
 using Files.App.Actions.Favorites;
-using Files.App.Actions.Navigation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
