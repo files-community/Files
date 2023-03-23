@@ -14,6 +14,7 @@ namespace Files.App.Actions
 		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 
 		public string Label { get; } = "DuplicateTab".GetLocalizedResource();
+		public string Description => "TODO: Need to be described.";
 
 		public HotKey HotKey { get; } = new(VirtualKey.K, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
