@@ -20,7 +20,7 @@ namespace Files.App.Actions.Content.Install
 
 		public bool IsExecutable => context.SelectedItems.Count == 1 &&
 			FileExtensionHelpers.IsInfFile(context.SelectedItems[0].FileExtension) &&
-			context.PageType is not ContentPageTypes.RecycleBin;
+			context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder;
 
 		public InstallInfDriverAction()
 		{

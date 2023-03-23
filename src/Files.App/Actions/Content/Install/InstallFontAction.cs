@@ -18,7 +18,7 @@ namespace Files.App.Actions.Content.Install
 
 		public bool IsExecutable => context.SelectedItems.Any() &&
 			context.SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) &&
-			context.PageType is not ContentPageTypes.RecycleBin;
+			context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder;
 
 		public InstallFontAction()
 		{
