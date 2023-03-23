@@ -5,13 +5,16 @@ using System.Drawing;
 
 namespace Files.App.ServicesImplementation;
 
+/// <inheritdoc cref="IResourcesService"/>
 public class ResourcesService : IResourcesService
 {
+	/// <inheritdoc/>
 	public void SetAppThemeBackgroundColor(Color appThemeBackgroundColor)
 	{
 		Application.Current.Resources["App.Theme.BackgroundBrush"] = appThemeBackgroundColor.ToWindowsColor();
 	}
 
+	/// <inheritdoc/>
 	public void SetAppThemeAddressBarBackgroundColor(Color appThemeAddressBarBackgroundColor)
 	{
 		Application.Current.Resources["App.Theme.AddressBar.BackgroundBrush"] = appThemeAddressBarBackgroundColor.ToWindowsColor();
@@ -20,22 +23,25 @@ public class ResourcesService : IResourcesService
 		Application.Current.Resources["TabViewItemHeaderBackgroundSelected"] = appThemeAddressBarBackgroundColor.ToWindowsColor();
 	}
 
-	
+	/// <inheritdoc/>
 	public void SetAppThemeSidebarBackgroundColor(Color appThemeSidebarBackgroundColor)
 	{
 		Application.Current.Resources["App.Theme.Sidebar.BackgroundBrush"] = appThemeSidebarBackgroundColor.ToWindowsColor();
 	}
 
+	/// <inheritdoc/>
 	public void SetAppThemeFileAreaBackgroundColor(Color appThemeFileAreaBackgroundColor)
 	{
 		Application.Current.Resources["App.Theme.FileArea.BackgroundBrush"] = appThemeFileAreaBackgroundColor.ToWindowsColor();
 	}
 
+	/// <inheritdoc/>
 	public void SetAppThemeFontFamily(string contentControlThemeFontFamily)
 	{
 		Application.Current.Resources["ContentControlThemeFontFamily"] = contentControlThemeFontFamily;
 	}
 
+	/// <inheritdoc/>
 	public void SetCompactSpacing(bool useCompactSpacing)
 	{
 		var listItemHeight = useCompactSpacing ? 24 : 36;
@@ -45,6 +51,7 @@ public class ResourcesService : IResourcesService
 		Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = navigationViewItemOnLeftMinHeight;
 	}
 
+	/// <inheritdoc/>
 	public void ApplyResources()
 	{
 		// Get the index of the current theme
