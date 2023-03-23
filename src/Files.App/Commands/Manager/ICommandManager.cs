@@ -105,9 +105,12 @@ namespace Files.App.Commands
 		IRichCommand NewTab { get; }
 		IRichCommand DuplicateCurrentTab { get; }
 		IRichCommand DuplicateSelectedTab { get; }
-		IRichCommand CloseTabsToTheLeft { get; }
-		IRichCommand CloseTabsToTheRight { get; }
-		IRichCommand CloseOtherTabs { get; }
+		IRichCommand CloseTabsToTheLeftCurrent { get; }
+		IRichCommand CloseTabsToTheLeftSelected { get; }
+		IRichCommand CloseTabsToTheRightCurrent { get; }
+		IRichCommand CloseTabsToTheRightSelected { get; }
+		IRichCommand CloseOtherTabsCurrent { get; }
+		IRichCommand CloseOtherTabsSelected { get; }
 
 		IRichCommand InstallFont { get; }
 	}

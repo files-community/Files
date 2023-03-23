@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CloseOtherTabsAction : ObservableObject, IAction
+	internal class CloseOtherTabsCurrentAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 
@@ -17,7 +17,7 @@ namespace Files.App.Actions
 		private bool isExecutable;
 		public bool IsExecutable => isExecutable;
 
-		public CloseOtherTabsAction()
+		public CloseOtherTabsCurrentAction()
 		{
 			isExecutable = GetIsExecutable();
 			context.PropertyChanged += Context_PropertyChanged;
@@ -27,7 +27,7 @@ namespace Files.App.Actions
 		{
 			if (context.Control is not null)
 			{
-				MultitaskingTabsHelpers.CloseOtherTabs(context.SelectedTabItem, context.Control);
+				MultitaskingTabsHelpers.CloseOtherTabs(context.CurrentTabItem, context.Control);
 			}
 			return Task.CompletedTask;
 		}

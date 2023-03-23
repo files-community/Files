@@ -17,8 +17,8 @@
 					<MenuFlyout
 						x:Key="TabFlyout"
 						x:Name="TabItemContextMenu"
-						Opening="TabItemContextMenu_Opening"
-						Closing="TabItemContextMenu_Closing">
+						Closing="TabItemContextMenu_Closing"
+						Opening="TabItemContextMenu_Opening">
 						<MenuFlyoutItem
 							Command="{x:Bind Commands.NewTab}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.NewTab.HotKeyText, Mode=OneWay}"
@@ -36,20 +36,17 @@
 							</MenuFlyoutItem.Icon>
 						</MenuFlyoutItem>
 						<MenuFlyoutItem
-							x:Name="MenuItemCloseTabsToTheLeft"
-							Click="CloseTabsToTheLeft"
-							DataContextChanged="MenuItemCloseTabsToTheLeft_DataContextChanged"
-							Text="{helpers:ResourceString Name=CloseTabsToTheLeft}" />
+							Command="{x:Bind Commands.CloseTabsToTheLeftSelected}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.CloseTabsToTheLeftSelected.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.CloseTabsToTheLeftSelected.Label}" />
 						<MenuFlyoutItem
-							x:Name="MenuItemCloseTabsToTheRight"
-							Click="CloseTabsToTheRight"
-							DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged"
-							Text="{helpers:ResourceString Name=CloseTabsToTheRight}" />
+							Command="{x:Bind Commands.CloseTabsToTheRightSelected}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.CloseTabsToTheRightSelected.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.CloseTabsToTheRightSelected.Label}" />
 						<MenuFlyoutItem
-							x:Name="MenuItemCloseOtherTabs"
-							Click="CloseOtherTabs"
-							DataContextChanged="MenuItemCloseOtherTabs_DataContextChanged"
-							Text="{helpers:ResourceString Name=CloseOtherTabs}" />
+							Command="{x:Bind Commands.CloseOtherTabsSelected}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.CloseOtherTabsSelected.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.CloseOtherTabsSelected.Label}" />
 						<MenuFlyoutItem
 							x:Name="MenuItemReopenClosedTab"
 							Click="ReopenClosedTab"

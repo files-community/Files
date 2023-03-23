@@ -117,9 +117,12 @@ namespace Files.App.Commands
 		NewTab,
 		DuplicateCurrentTab,
 		DuplicateSelectedTab,
-		CloseTabsToTheLeft,
-		CloseTabsToTheRight,
-		CloseOtherTabs,
+		CloseTabsToTheLeftCurrent,
+		CloseTabsToTheLeftSelected,
+		CloseTabsToTheRightCurrent,
+		CloseTabsToTheRightSelected,
+		CloseOtherTabsCurrent,
+		CloseOtherTabsSelected,
 
 		// Other
 		InstallFont,

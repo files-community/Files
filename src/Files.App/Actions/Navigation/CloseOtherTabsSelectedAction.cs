@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CloseTabsToTheRightAction : ObservableObject, IAction
+	internal class CloseOtherTabsSelectedAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 
-		public string Label { get; } = "CloseTabsToTheRight".GetLocalizedResource();
+		public string Label { get; } = "CloseOtherTabs".GetLocalizedResource();
 
 		private bool isExecutable;
 		public bool IsExecutable => isExecutable;
 
-		public CloseTabsToTheRightAction()
+		public CloseOtherTabsSelectedAction()
 		{
 			isExecutable = GetIsExecutable();
 			context.PropertyChanged += Context_PropertyChanged;
@@ -27,14 +27,14 @@ namespace Files.App.Actions
 		{
 			if (context.Control is not null)
 			{
-				MultitaskingTabsHelpers.CloseTabsToTheRight(context.SelectedTabItem, context.Control);
+				MultitaskingTabsHelpers.CloseOtherTabs(context.SelectedTabItem, context.Control);
 			}
 			return Task.CompletedTask;
 		}
 
 		private bool GetIsExecutable()
 		{
-			return context.Control is not null && context.SelectedTabIndex < context.TabCount - 1;
+			return context.Control is not null && context.TabCount > 1;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -42,7 +42,6 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IMultitaskingContext.Control):
-				case nameof(IMultitaskingContext.SelectedTabIndex):
 				case nameof(IMultitaskingContext.TabCount):
 					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
 					break;

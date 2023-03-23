@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CloseTabsToTheLeftAction : ObservableObject, IAction
+	internal class CloseTabsToTheLeftSelectedAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 
@@ -17,7 +17,7 @@ namespace Files.App.Actions
 		private bool isExecutable;
 		public bool IsExecutable => isExecutable;
 
-		public CloseTabsToTheLeftAction()
+		public CloseTabsToTheLeftSelectedAction()
 		{
 			isExecutable = GetIsExecutable();
 			context.PropertyChanged += Context_PropertyChanged;

@@ -4,6 +4,7 @@ using Files.App.Actions.Content.Archives;
 using Files.App.Actions.Content.Background;
 using Files.App.Actions.Content.ImageEdition;
 using Files.App.Actions.Favorites;
+using Files.App.Actions.Navigation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -109,9 +110,12 @@ namespace Files.App.Commands
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 		public IRichCommand DuplicateCurrentTab => commands[CommandCodes.DuplicateCurrentTab];
 		public IRichCommand DuplicateSelectedTab => commands[CommandCodes.DuplicateSelectedTab];
-		public IRichCommand CloseTabsToTheLeft => commands[CommandCodes.CloseTabsToTheLeft];
-		public IRichCommand CloseTabsToTheRight => commands[CommandCodes.CloseTabsToTheRight];
-		public IRichCommand CloseOtherTabs => commands[CommandCodes.CloseOtherTabs];
+		public IRichCommand CloseTabsToTheLeftCurrent => commands[CommandCodes.CloseTabsToTheLeftCurrent];
+		public IRichCommand CloseTabsToTheLeftSelected => commands[CommandCodes.CloseTabsToTheLeftSelected];
+		public IRichCommand CloseTabsToTheRightCurrent => commands[CommandCodes.CloseTabsToTheRightCurrent];
+		public IRichCommand CloseTabsToTheRightSelected => commands[CommandCodes.CloseTabsToTheRightSelected];
+		public IRichCommand CloseOtherTabsCurrent => commands[CommandCodes.CloseOtherTabsCurrent];
+		public IRichCommand CloseOtherTabsSelected => commands[CommandCodes.CloseOtherTabsSelected];
 		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
 
 		public CommandManager()
@@ -224,9 +228,12 @@ namespace Files.App.Commands
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.DuplicateCurrentTab] = new DuplicateCurrentTabAction(),
 			[CommandCodes.DuplicateSelectedTab] = new DuplicateSelectedTabAction(),
-			[CommandCodes.CloseTabsToTheLeft] = new CloseTabsToTheLeftAction(),
-			[CommandCodes.CloseTabsToTheRight] = new CloseTabsToTheRightAction(),
-			[CommandCodes.CloseOtherTabs] = new CloseOtherTabsAction(),
+			[CommandCodes.CloseTabsToTheLeftCurrent] = new CloseTabsToTheLeftCurrentAction(),
+			[CommandCodes.CloseTabsToTheLeftSelected] = new CloseTabsToTheLeftSelectedAction(),
+			[CommandCodes.CloseTabsToTheRightCurrent] = new CloseTabsToTheRightCurrentAction(),
+			[CommandCodes.CloseTabsToTheRightSelected] = new CloseTabsToTheRightSelectedAction(),
+			[CommandCodes.CloseOtherTabsCurrent] = new CloseOtherTabsCurrentAction(),
+			[CommandCodes.CloseOtherTabsSelected] = new CloseOtherTabsSelectedAction(),
 			[CommandCodes.InstallFont] = new InstallFontAction(),
 		};
 
