@@ -9,6 +9,8 @@ namespace Files.App.Actions
 	{
 		public override string Label { get; } = "OpenTerminalAsAdmin".GetLocalizedResource();
 
+		public override string Description => "TODO: Need to be described.";
+
 		public override HotKey HotKey { get; } = new((VirtualKey)192, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
 		protected override ProcessStartInfo? GetProcessStartInfo()

@@ -15,6 +15,8 @@ namespace Files.App.Actions.Content.Archives
 
 		public string Label => string.Format("CreateNamedArchive".GetLocalizedResource(), $"{ArchiveHelpers.DetermineArchiveNameFromSelection(context.SelectedItems)}.zip");
 
+		public string Description => "TODO: Need to be described.";
+
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
 									&& ArchiveHelpers.CanCompress(context.SelectedItems);
 

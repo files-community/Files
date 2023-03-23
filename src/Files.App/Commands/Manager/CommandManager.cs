@@ -235,6 +235,8 @@ namespace Files.App.Commands
 			public string LabelWithHotKey => string.Empty;
 			public string AutomationName => string.Empty;
 
+			public string Description => string.Empty;
+
 			public RichGlyph Glyph => RichGlyph.None;
 			public object? Icon => null;
 			public FontIcon? FontIcon => null;
@@ -268,6 +270,8 @@ namespace Files.App.Commands
 			public string Label => action.Label;
 			public string LabelWithHotKey { get; }
 			public string AutomationName => Label;
+
+			public string Description => action.Description;
 
 			public RichGlyph Glyph => action.Glyph;
 			public object? Icon { get; }
