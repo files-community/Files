@@ -2640,4 +2640,19 @@
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Toggle compact overlay</value>
   </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Copy item(s) to clipboard</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Copy path of item to clipboard</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Cut item(s) to clipboard</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to the current folder</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to the selected folder</value>
+  </data>
 </root>

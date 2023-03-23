@@ -16,6 +16,8 @@ namespace Files.App.Actions.Content.Background
 
 		public string Label { get; } = "SetAsBackground".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public RichGlyph Glyph { get; } = new("\uE91B");
 
 		private bool isExecutable;

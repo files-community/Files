@@ -95,6 +95,8 @@ namespace Files.App.Actions
 
 		public abstract string Label { get; }
 
+		public string Description => "TODO: Need to be described.";
+
 		public abstract RichGlyph Glyph { get; }
 		public abstract HotKey HotKey { get; }
 
@@ -133,6 +135,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "DecreaseSize".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public HotKey HotKey { get; } = new(VirtualKey.Subtract, VirtualKeyModifiers.Control);
 		public HotKey MediaHotKey { get; } = new((VirtualKey)189, VirtualKeyModifiers.Control);
 
@@ -148,6 +152,8 @@ namespace Files.App.Actions
 		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "IncreaseSize".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public HotKey HotKey { get; } = new(VirtualKey.Add, VirtualKeyModifiers.Control);
 		public HotKey MediaHotKey { get; } = new((VirtualKey)187, VirtualKeyModifiers.Control);

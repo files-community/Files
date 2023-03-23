@@ -14,6 +14,8 @@ namespace Files.App.Actions.Content.Archives
 
 		public string Label => "ExtractHere".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
 									&& ArchiveHelpers.CanDecompress(context.SelectedItems);
 
