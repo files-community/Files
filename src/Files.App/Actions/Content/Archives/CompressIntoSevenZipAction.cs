@@ -7,7 +7,7 @@ using Files.App.Helpers;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace Files.App.Actions.Content.Archives
+namespace Files.App.Actions
 {
 	internal class CompressIntoSevenZipAction : ObservableObject, IAction
 	{

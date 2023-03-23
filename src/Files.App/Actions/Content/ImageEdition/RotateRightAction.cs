@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 
-namespace Files.App.Actions.Content.ImageEdition
+namespace Files.App.Actions
 {
 	internal class RotateRightAction : ObservableObject, IAction
 	{

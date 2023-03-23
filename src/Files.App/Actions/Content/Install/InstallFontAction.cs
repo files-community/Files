@@ -8,7 +8,7 @@ using Files.Backend.Helpers;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Files.App.Actions.Content.Install
+namespace Files.App.Actions
 {
 	internal class InstallFontAction : ObservableObject, IAction
 	{

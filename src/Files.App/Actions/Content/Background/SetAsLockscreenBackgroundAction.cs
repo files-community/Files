@@ -8,7 +8,7 @@ using Files.Shared.Enums;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace Files.App.Actions.Content.Background
+namespace Files.App.Actions
 {
 	internal class SetAsLockscreenBackgroundAction : ObservableObject, IAction
 	{

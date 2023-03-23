@@ -8,7 +8,7 @@ using Files.App.Shell;
 using Files.Backend.Helpers;
 using System.Threading.Tasks;
 
-namespace Files.App.Actions.Content.Install
+namespace Files.App.Actions
 {
 	internal class InstallInfDriverAction : ObservableObject, IAction
 	{

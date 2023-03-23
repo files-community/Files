@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Files.App.Actions.Content.Background
+namespace Files.App.Actions
 {
 	internal class SetAsSlideshowBackgroundAction : ObservableObject, IAction
 	{

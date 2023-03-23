@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.App.Actions.Favorites
+namespace Files.App.Actions
 {
 	internal class PinItemAction : ObservableObject, IAction
 	{
