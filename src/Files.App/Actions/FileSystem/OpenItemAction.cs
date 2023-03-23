@@ -19,6 +19,8 @@ namespace Files.App.Actions
 
 		public string Label => "Open".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public RichGlyph Glyph => new(opacityStyle: "ColorIconOpenFile");
 
 		private const int MaxOpenCount = 10;
@@ -48,6 +50,8 @@ namespace Files.App.Actions
 
 		public string Label => "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public RichGlyph Glyph => new(opacityStyle: "ColorIconOpenWith");
 
 		public bool IsExecutable => context.HasSelection && context.SelectedItems.All(
@@ -75,6 +79,8 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label => "BaseLayoutItemContextFlyoutOpenParentFolder/Text".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph => new(baseGlyph: "\uE197");
 

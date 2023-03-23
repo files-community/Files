@@ -1782,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Aizvērt paneli</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Atvērt kompakto pārklāju</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Iziet kompakto pārklājumu</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
@@ -2204,9 +2204,6 @@
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>Attēli</value>
-  </data>
-  <data name="Videos" xml:space="preserve">
-    <value>Video</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Atjaunināt Files</value>
@@ -2633,6 +2630,15 @@
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Toggle sort direction</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Invalid name</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>Name must not be empty or start or end with a period.</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Video</value>
   </data>
   <data name="LaunchQuickLook" xml:space="preserve">
     <value>Launch QuickLook</value>

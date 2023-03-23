@@ -15,6 +15,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "RestoreAllItems".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRestoreItem");
 
 		public bool IsExecutable

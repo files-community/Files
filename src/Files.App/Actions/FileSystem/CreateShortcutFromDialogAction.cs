@@ -14,6 +14,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Shortcut".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
 
 		public async Task ExecuteAsync()
