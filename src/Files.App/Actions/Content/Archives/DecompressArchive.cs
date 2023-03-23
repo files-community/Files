@@ -16,6 +16,8 @@ namespace Files.App.Actions.Content.Archives
 
 		public string Label => "ExtractFiles".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public HotKey HotKey { get; } = new(VirtualKey.E, VirtualKeyModifiers.Control);
 
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()

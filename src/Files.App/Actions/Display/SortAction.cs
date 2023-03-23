@@ -86,6 +86,8 @@ namespace Files.App.Actions
 
 		public abstract string Label { get; }
 
+		public string Description => "TODO: Need to be described.";
+
 		private bool isOn;
 		public bool IsOn => isOn;
 
@@ -128,6 +130,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Ascending".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public bool IsOn => context.SortDirection is SortDirection.Ascending;
 
 		public SortAscendingAction()
@@ -154,6 +158,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Descending".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public bool IsOn => context.SortDirection is SortDirection.Descending;
 
 		public SortDescendingAction()
@@ -179,6 +185,8 @@ namespace Files.App.Actions
 		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "ToggleSortDirection".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public Task ExecuteAsync()
 		{

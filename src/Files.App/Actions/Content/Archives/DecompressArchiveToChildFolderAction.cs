@@ -16,6 +16,8 @@ namespace Files.App.Actions.Content.Archives
 
 		public string Label => ComputeLabel();
 
+		public string Description => "TODO: Need to be described.";
+
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
 									&& ArchiveHelpers.CanDecompress(context.SelectedItems);
 
