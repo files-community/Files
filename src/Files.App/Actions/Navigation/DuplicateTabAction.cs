@@ -10,6 +10,8 @@ namespace Files.App.Actions
 	{
 		public string Label { get; } = "DuplicateTab".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public HotKey HotKey { get; } = new(VirtualKey.K, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
 		public Task ExecuteAsync() => MainPageViewModel.DuplicateTabAsync();

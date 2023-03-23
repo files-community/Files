@@ -17,6 +17,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "CopyLocation".GetLocalizedResource();
 
+		public string Description => "CopyPathDescription".GetLocalizedResource();
+
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCopyLocation");
 
 		public HotKey HotKey { get; } = new(VirtualKey.C, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
