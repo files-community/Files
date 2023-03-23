@@ -11,7 +11,8 @@ namespace Files.App.Actions
 		string Label { get; }
 
 		/// <summary>
-		/// A brief description of what the action does
+		/// A brief description of what the action does.
+		/// It will be used as the command name in the command palette.
 		/// </summary>
 		string Description { get; }
 
