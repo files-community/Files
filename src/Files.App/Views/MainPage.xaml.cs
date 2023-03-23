@@ -63,7 +63,7 @@ namespace Files.App.Views
 
 		public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
 
-		public OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
+		public readonly OngoingTasksViewModel OngoingTasksViewModel;
 
 		private ICommand ToggleCompactOverlayCommand { get; }
 		private ICommand SetCompactOverlayCommand { get; }
@@ -73,7 +73,8 @@ namespace Files.App.Views
 		public MainPage()
 		{
 			InitializeComponent();
-
+			DataContext = Ioc.Default.GetRequiredService<MainPageViewModel>();
+			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
@@ -82,6 +83,11 @@ namespace Files.App.Views
 			SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+		}
+
+		private void InitializeJumpList()
+		{
+
 		}
 
 		private async Task PromptForReview()

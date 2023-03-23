@@ -1,10 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.App.Views.Settings.Appearance;
 using Files.Backend.Services.Settings;
+using Files.Shared.Services;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
@@ -15,14 +15,18 @@ namespace Files.App.ViewModels.Settings
 {
 	public class AppearanceViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService UserSettingsService;
+		private readonly IResourcesService ResourcesService;
 
 		public List<string> Themes { get; private set; }
 
 		public ObservableCollection<AppThemeResource> AppThemeResources { get; }
 
-		public AppearanceViewModel()
+		public AppearanceViewModel(IUserSettingsService userSettingsService, IResourcesService resourcesService)
 		{
+			UserSettingsService = userSettingsService;
+			ResourcesService = resourcesService;
+
 			Themes = new List<string>()
 			{
 				"Default".GetLocalizedResource(),
@@ -107,8 +111,8 @@ namespace Files.App.ViewModels.Settings
 					UserSettingsService.AppearanceSettingsService.UseCompactStyles = value;
 
 					// Apply the updated compact spacing resource
-					App.AppThemeResourcesHelper.SetCompactSpacing(UseCompactStyles);
-					App.AppThemeResourcesHelper.ApplyResources();
+					ResourcesService.SetCompactSpacing(UseCompactStyles);
+					ResourcesService.ApplyResources();
 
 					OnPropertyChanged();
 				}
@@ -125,8 +129,8 @@ namespace Files.App.ViewModels.Settings
 					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor = value;
 
 					// Apply the updated background resource
-					App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(ColorHelper.ToColor(value));
-					App.AppThemeResourcesHelper.ApplyResources();
+					ResourcesService.SetAppThemeBackgroundColor(ColorHelper.ToColor(value).FromWindowsColor());
+					ResourcesService.ApplyResources();
 
 					OnPropertyChanged();
 				}

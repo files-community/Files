@@ -4,6 +4,8 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
+using Files.App.ViewModels;
+using Files.Backend.Services.Settings;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,7 +35,7 @@ namespace Files.App.Actions.Content.ImageEdition
 				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise270Degrees);
 
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.RefreshItemsThumbnail();
-			App.PreviewPaneViewModel.UpdateSelectedItemPreview();
+			Ioc.Default.GetRequiredService<PreviewPaneViewModel>().UpdateSelectedItemPreview();
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()
