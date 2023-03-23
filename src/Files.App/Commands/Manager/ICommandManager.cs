@@ -32,6 +32,9 @@ namespace Files.App.Commands
 		IRichCommand EmptyRecycleBin { get; }
 		IRichCommand RestoreRecycleBin { get; }
 		IRichCommand RestoreAllRecycleBin { get; }
+		IRichCommand OpenItem { get; }
+		IRichCommand OpenItemWithApplicationPicker { get; }
+		IRichCommand OpenParentFolder { get; }
 
 		IRichCommand PinToStart { get; }
 		IRichCommand UnpinFromStart { get; }
@@ -44,6 +47,8 @@ namespace Files.App.Commands
 
 		IRichCommand RunAsAdmin { get; }
 		IRichCommand RunAsAnotherUser { get; }
+		
+		IRichCommand LaunchQuickLook { get; }
 
 		IRichCommand CompressIntoArchive { get; }
 		IRichCommand CompressIntoSevenZip { get; }
@@ -99,5 +104,7 @@ namespace Files.App.Commands
 
 		IRichCommand NewTab { get; }
 		IRichCommand DuplicateTab { get; }
+
+		IRichCommand InstallFont { get; }
 	}
 }

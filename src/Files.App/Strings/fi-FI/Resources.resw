@@ -2205,9 +2205,6 @@
   <data name="Pictures" xml:space="preserve">
     <value>Kuvat</value>
   </data>
-  <data name="Videos" xml:space="preserve">
-    <value>Videot</value>
-  </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Päivitä Files</value>
   </data>
@@ -2589,6 +2586,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Käytä tätä toimintoa kaikkiin ristiriitaisiin kohteisiin</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Avaa päätteessä</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Avaa päätteessä järjestelmänvalvojana</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Tallenna</value>
   </data>
@@ -2627,5 +2630,17 @@
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Vaihda lajittelusuuntaa</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Virheellinen nimi</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>Nimi ei saa olla tyhjä eikä se saa alkaa tai päättyä pisteellä.</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videot</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>Käynnistä pikakatselu</value>
   </data>
 </root>

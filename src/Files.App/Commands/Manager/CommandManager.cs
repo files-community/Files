@@ -56,6 +56,7 @@ namespace Files.App.Commands
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
+		public IRichCommand LaunchQuickLook => commands[CommandCodes.LaunchQuickLook];
 		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
@@ -64,6 +65,9 @@ namespace Files.App.Commands
 		public IRichCommand DecompressArchiveToChildFolder => commands[CommandCodes.DecompressArchiveToChildFolder];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
+		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
+		public IRichCommand OpenItemWithApplicationPicker => commands[CommandCodes.OpenItemWithApplicationPicker];
+		public IRichCommand OpenParentFolder => commands[CommandCodes.OpenParentFolder];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
 		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
@@ -104,6 +108,7 @@ namespace Files.App.Commands
 		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 		public IRichCommand DuplicateTab => commands[CommandCodes.DuplicateTab];
+		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
 
 		public CommandManager()
 		{
@@ -162,6 +167,7 @@ namespace Files.App.Commands
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
+			[CommandCodes.LaunchQuickLook] = new LaunchQuickLookAction(),
 			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
@@ -170,6 +176,9 @@ namespace Files.App.Commands
 			[CommandCodes.DecompressArchiveToChildFolder] = new DecompressArchiveToChildFolderAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction(),
+			[CommandCodes.OpenItem] = new OpenItemAction(),
+			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
+			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
 			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
@@ -207,11 +216,10 @@ namespace Files.App.Commands
 			[CommandCodes.GroupByFolderPath] = new GroupByFolderPathAction(),
 			[CommandCodes.GroupAscending] = new GroupAscendingAction(),
 			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
-			[CommandCodes.GroupAscending] = new GroupAscendingAction(),
-			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
 			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.DuplicateTab] = new DuplicateTabAction(),
+			[CommandCodes.InstallFont] = new InstallFontAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

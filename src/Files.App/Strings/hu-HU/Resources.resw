@@ -2205,9 +2205,6 @@
   <data name="Pictures" xml:space="preserve">
     <value>Képek</value>
   </data>
-  <data name="Videos" xml:space="preserve">
-    <value>Videók</value>
-  </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Frissítés érhető el</value>
   </data>
@@ -2467,7 +2464,7 @@
     <value>Adja meg az elem helyét:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Parancsikon létrehozása</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Az előzmények jelenleg le vannak tiltva a Windows Fájlkezelőben.</value>
@@ -2589,6 +2586,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Művelet végrehajtása minden ütközés esetén</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Megnyitás terminálban</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Megnyitás terminálban adminisztrátorként</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Mentés</value>
   </data>
@@ -2596,7 +2599,7 @@
     <value>Több elem kijelölése</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>Oldalsáv átrendezése</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hash-ek</value>
@@ -2620,12 +2623,24 @@
     <value>Rögzített elemek</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>Kicsinyítés</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>Nagyítás</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Rendezés irányának megfordítása</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Érvénytelen név</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>A név nem lehet üres és nem kezdődhet, vagy fejeződhet be kötőjellel.</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videók</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>QuickLook indítása</value>
   </data>
 </root>

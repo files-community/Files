@@ -11,15 +11,9 @@ namespace Files.App.Interacts
 	{
 		void RenameItem(RoutedEventArgs e);
 
-		void OpenItem(RoutedEventArgs e);
-
 		void ShowProperties(RoutedEventArgs e);
 
 		void OpenFileLocation(RoutedEventArgs e);
-
-		void OpenParentFolder(RoutedEventArgs e);
-
-		void OpenItemWithApplicationPicker(RoutedEventArgs e);
 
 		void OpenDirectoryInNewTab(RoutedEventArgs e);
 
@@ -46,8 +40,6 @@ namespace Files.App.Interacts
 		Task CreateFolderWithSelection(RoutedEventArgs e);
 
 		Task InstallInfDriver();
-
-		Task InstallFont();
 
 		Task PlayAll();
 

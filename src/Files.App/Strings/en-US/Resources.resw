@@ -2205,9 +2205,6 @@
   <data name="Pictures" xml:space="preserve">
     <value>Pictures</value>
   </data>
-  <data name="Videos" xml:space="preserve">
-    <value>Videos</value>
-  </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Update Files</value>
   </data>
@@ -2633,5 +2630,17 @@
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Toggle sort direction</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Invalid name</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>Name must not be empty or start or end with a period.</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videos</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>Launch QuickLook</value>
   </data>
 </root>

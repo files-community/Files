@@ -222,31 +222,31 @@ namespace Files.App.Views
 
 			switch (e.Key)
 			{
+				case VirtualKey.Menu:
+				case VirtualKey.Control:
+				case VirtualKey.Shift:
 				case VirtualKey.LeftWindows:
 				case VirtualKey.RightWindows:
-					currentModifiers |= VirtualKeyModifiers.Windows;
-					break;
-				case VirtualKey.Menu:
-					currentModifiers |= VirtualKeyModifiers.Menu;
-					break;
-				case VirtualKey.Control:
-					currentModifiers |= VirtualKeyModifiers.Control;
-					break;
-				case VirtualKey.Shift:
-					currentModifiers |= VirtualKeyModifiers.Shift;
 					break;
 				default:
-					// break for natives hotkeys in textbox (cut/copy/paste/selectAll/cancel)
+					var currentModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
+					HotKey hotKey = new(e.Key, currentModifiers);
+
+					// A textbox takes precedence over certain hotkeys.
 					bool isTextBox = e.OriginalSource is DependencyObject source && source.FindAscendantOrSelf<TextBox>() is not null;
-					if (isTextBox &&
-						currentModifiers is VirtualKeyModifiers.Control &&
-						e.Key is VirtualKey.X or VirtualKey.C or VirtualKey.V or VirtualKey.A or VirtualKey.Z)
+					if (isTextBox)
 					{
-						break;
+						if (hotKey.IsTextBoxHotKey())
+						{
+							break;
+						}
+						if (currentModifiers is VirtualKeyModifiers.None && !e.Key.IsGlobalKey())
+						{
+							break;
+						}
 					}
 
-					// execute command for hotkey
-					var hotKey = new HotKey(e.Key, currentModifiers);
+					// Execute command for hotkey
 					var command = Commands[hotKey];
 					if (command.Code is not CommandCodes.None && keyReleased)
 					{
@@ -263,18 +263,11 @@ namespace Files.App.Views
 
 			switch (e.Key)
 			{
+				case VirtualKey.Menu:
+				case VirtualKey.Control:
+				case VirtualKey.Shift:
 				case VirtualKey.LeftWindows:
 				case VirtualKey.RightWindows:
-					currentModifiers &= ~VirtualKeyModifiers.Windows;
-					break;
-				case VirtualKey.Menu:
-					currentModifiers &= ~VirtualKeyModifiers.Menu;
-					break;
-				case VirtualKey.Control:
-					currentModifiers &= ~VirtualKeyModifiers.Control;
-					break;
-				case VirtualKey.Shift:
-					currentModifiers &= ~VirtualKeyModifiers.Shift;
 					break;
 				default:
 					keyReleased = true;

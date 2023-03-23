@@ -2205,9 +2205,6 @@
   <data name="Pictures" xml:space="preserve">
     <value>图片</value>
   </data>
-  <data name="Videos" xml:space="preserve">
-    <value>视频</value>
-  </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>更新 Files</value>
   </data>
@@ -2589,6 +2586,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>将此操作应用到所有冲突项</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>在终端中打开</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>以管理员身份在终端中打开</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
   </data>
@@ -2627,5 +2630,17 @@
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>切换排序方向</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Invalid name</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>Name must not be empty or start or end with a period.</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>视频</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>Launch QuickLook</value>
   </data>
 </root>
