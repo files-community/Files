@@ -535,9 +535,23 @@ namespace Files.App.Views
 
 		private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			// prevents the arrow key events from navigating the list instead of switching compact overlay
-			//if (EnterCompactOverlayKeyboardAccelerator.CheckIsPressed() || ExitCompactOverlayKeyboardAccelerator.CheckIsPressed())
-			//	Focus(FocusState.Keyboard);
+			switch (e.Key)
+			{
+				case VirtualKey.Menu:
+				case VirtualKey.Control:
+				case VirtualKey.Shift:
+				case VirtualKey.LeftWindows:
+				case VirtualKey.RightWindows:
+					break;
+				default:
+					var currentModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
+					HotKey hotKey = new(e.Key, currentModifiers);
+
+					// Prevents the arrow key events from navigating the list instead of switching compact overlay
+					if (Commands[hotKey].Code is CommandCodes.EnterCompactOverlay or CommandCodes.ExitCompactOverlay)
+						Focus(FocusState.Keyboard);
+					break;
+			}
 		}
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
