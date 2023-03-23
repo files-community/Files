@@ -1,64 +1,21 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
+﻿using Files.App.Commands;
 using Files.App.Extensions;
-using Files.App.Helpers;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 
 namespace Files.App.Actions
 {
-	internal class RotateRightAction : ObservableObject, IAction
+	internal class RotateRightAction : BaseRotateAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		public override string Label { get; } = "RotateRight".GetLocalizedResource();
 
-		public string Label { get; } = "RotateRight".GetLocalizedResource();
+		public override string Description => "TODO: Need to be described.";
 
-		public string Description => "TODO: Need to be described.";
+		public override RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRotateRight");
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRotateRight");
+		protected override BitmapRotation Rotation => BitmapRotation.Clockwise90Degrees;
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
-						&& (context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
-
-		public RotateRightAction()
+		public RotateRightAction() : base()
 		{
-			context.PropertyChanged += Context_PropertyChanged;
-		}
-
-		public async Task ExecuteAsync()
-		{
-			foreach (var image in context.SelectedItems)
-				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise90Degrees);
-
-			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.RefreshItemsThumbnail();
-			App.PreviewPaneViewModel.UpdateSelectedItemPreview();
-		}
-
-		private bool IsContextPageTypeAdaptedToCommand()
-		{
-			return context.PageType is not ContentPageTypes.RecycleBin
-				and not ContentPageTypes.ZipFolder
-				and not ContentPageTypes.None;
-		}
-
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName is nameof(IContentPageContext.SelectedItem))
-			{
-				if (context.ShellPage is not null && context.ShellPage.SlimContentPage is not null)
-				{
-					var viewModel = context.ShellPage.SlimContentPage.SelectedItemsPropertiesViewModel;
-					var extensions = context.SelectedItems.Select(selectedItem => selectedItem.FileExtension).Distinct().ToList();
-
-					viewModel.CheckAllFileExtensions(extensions);
-				}
-
-				OnPropertyChanged(nameof(IsExecutable));
-			}
 		}
 	}
 }
