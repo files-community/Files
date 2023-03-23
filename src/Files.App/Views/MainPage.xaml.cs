@@ -85,11 +85,6 @@ namespace Files.App.Views
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 		}
 
-		private void InitializeJumpList()
-		{
-
-		}
-
 		private async Task PromptForReview()
 		{
 			var promptForReviewDialog = new ContentDialog
