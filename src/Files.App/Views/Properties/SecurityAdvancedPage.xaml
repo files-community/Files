@@ -105,7 +105,7 @@
 							Background="Transparent"
 							BorderBrush="Transparent"
 							Command="{x:Bind ViewModel.ChangeOwnerCommand}">
-							<FontIcon FontSize="16" Glyph="" />
+							<FontIcon FontSize="16" Glyph="&#xE70F;" />
 						</Button>
 					</StackPanel>
 				</Grid>

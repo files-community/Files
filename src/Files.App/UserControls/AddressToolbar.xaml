@@ -178,7 +178,7 @@
 					Grid.Column="1"
 					Margin="12"
 					FontSize="16"
-					Glyph="" />
+					Glyph="&#xE70D;" />
 			</Grid>
 
 			<uc:SearchBox
