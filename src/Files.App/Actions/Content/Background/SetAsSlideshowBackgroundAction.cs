@@ -41,7 +41,17 @@ namespace Files.App.Actions.Content.Background
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.PageType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
 				case nameof(IContentPageContext.SelectedItems):
+					if (context.ShellPage is not null && context.ShellPage.SlimContentPage is not null)
+					{
+						var viewModel = context.ShellPage.SlimContentPage.SelectedItemsPropertiesViewModel;
+						var extensions = context.SelectedItems.Select(selectedItem => selectedItem.FileExtension).Distinct().ToList();
+
+						viewModel.CheckAllFileExtensions(extensions);
+					}
+
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}

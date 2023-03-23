@@ -6,6 +6,7 @@ using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.Shared.Enums;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions.Content.Background
@@ -41,7 +42,17 @@ namespace Files.App.Actions.Content.Background
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.PageType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
 				case nameof(IContentPageContext.SelectedItem):
+					if (context.ShellPage is not null && context.ShellPage.SlimContentPage is not null)
+					{
+						var viewModel = context.ShellPage.SlimContentPage.SelectedItemsPropertiesViewModel;
+						var extensions = context.SelectedItems.Select(selectedItem => selectedItem.FileExtension).Distinct().ToList();
+
+						viewModel.CheckAllFileExtensions(extensions);
+					}
+
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
