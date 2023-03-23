@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Files.App.Actions.Content.Archives
+namespace Files.App.Actions
 {
 	internal class DecompressArchiveToChildFolderAction : ObservableObject, IAction
 	{
