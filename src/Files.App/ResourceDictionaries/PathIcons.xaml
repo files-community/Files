@@ -306,6 +306,10 @@
 										x:Name="Path3"
 										Data="M8.5 5C7.67157 5 7 5.67157 7 6.5V14.5C7 15.3284 7.67157 16 8.5 16H13.5C14.3284 16 15 15.3284 15 14.5V6.5C15 5.67157 14.3284 5 13.5 5H8.5ZM8 6.5C8 6.22386 8.22386 6 8.5 6H13.5C13.7761 6 14 6.22386 14 6.5V14.5C14 14.7761 13.7761 15 13.5 15H8.5C8.22386 15 8 14.7761 8 14.5V6.5Z"
 										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
+									<Path
+										x:Name="Path4"
+										Data="M2.5 2H4.08535C4.29127 2.5826 4.84689 3 5.5 3H8.5C9.15311 3 9.70873 2.5826 9.91465 2H11.5C11.7761 2 12 2.22386 12 2.5V4H8.5C7.11929 4 6 5.11929 6 6.5V15H2.5C2.22386 15 2 14.7761 2 14.5V2.5C2 2.22386 2.22386 2 2.5 2Z"
+										Fill="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -316,6 +320,7 @@
 												<Setter Target="Path1.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
 												<Setter Target="Path2.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
 												<Setter Target="Path3.Fill" Value="{ThemeResource AccentFillColorDisabledBrush}" />
+												<Setter Target="Path4.Fill" Value="Transparent" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
