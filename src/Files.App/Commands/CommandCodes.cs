@@ -7,6 +7,8 @@ namespace Files.App.Commands
 		// Global
 		OpenHelp,
 		ToggleFullScreen,
+		EnterCompactOverlay,
+		ExitCompactOverlay,
 
 		// Show
 		ToggleShowHiddenItems,

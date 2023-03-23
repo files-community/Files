@@ -127,6 +127,7 @@ namespace Files.App
 				.AddSingleton<IPageContext, PageContext>()
 				.AddSingleton<IContentPageContext, ContentPageContext>()
 				.AddSingleton<IDisplayPageContext, DisplayPageContext>()
+				.AddSingleton<IWindowContext, WindowContext>()
 
 				// Other services
 				.AddSingleton(Logger)
