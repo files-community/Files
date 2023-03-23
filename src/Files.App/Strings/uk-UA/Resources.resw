@@ -2205,9 +2205,6 @@
   <data name="Pictures" xml:space="preserve">
     <value>Зображення</value>
   </data>
-  <data name="Videos" xml:space="preserve">
-    <value>Відео</value>
-  </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Оновити Файли</value>
   </data>
@@ -2633,6 +2630,15 @@
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Перемкнути напрямок сортування</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Недопустима назва</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>Назва не повинна бути порожньою або починатись чи закінчуватись крапкою.</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Відео</value>
   </data>
   <data name="LaunchQuickLook" xml:space="preserve">
     <value>Запустити QuickLook</value>
