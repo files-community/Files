@@ -1783,10 +1783,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Maak paneel toe</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Voer kompakte oorleg in</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Verlaat kompakte oorleg</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
