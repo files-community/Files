@@ -50,7 +50,7 @@ namespace Files.App.Commands
 
 		IRichCommand RunAsAdmin { get; }
 		IRichCommand RunAsAnotherUser { get; }
-		
+
 		IRichCommand LaunchQuickLook { get; }
 
 		IRichCommand CompressIntoArchive { get; }
@@ -63,6 +63,7 @@ namespace Files.App.Commands
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
 
+		IRichCommand OpenContextMenu { get; }
 		IRichCommand OpenTerminal { get; }
 		IRichCommand OpenTerminalAsAdmin { get; }
 

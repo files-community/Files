@@ -54,7 +54,7 @@ namespace Files.App.Commands
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
-		
+
 		// QuickLook
 		LaunchQuickLook,
 
@@ -71,6 +71,7 @@ namespace Files.App.Commands
 		RotateRight,
 
 		// Open
+		OpenContextMenu,
 		OpenTerminal,
 		OpenTerminalAsAdmin,
 

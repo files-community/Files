@@ -2658,10 +2658,13 @@
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Toggle compact overlay</value>
   </data>
-	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Enter compact overlay</value>
   </data>
-	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Exit compact overlay</value>
+  </data>
+  <data name="OpenContextMenu" xml:space="preserve">
+    <value>Open context menu</value>
   </data>
 </root>
