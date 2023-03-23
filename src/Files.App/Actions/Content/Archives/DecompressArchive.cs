@@ -8,13 +8,15 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.System;
 
-namespace Files.App.Actions.Content.Archives
+namespace Files.App.Actions
 {
 	internal class DecompressArchive : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label => "ExtractFiles".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public HotKey HotKey { get; } = new(VirtualKey.E, VirtualKeyModifiers.Control);
 

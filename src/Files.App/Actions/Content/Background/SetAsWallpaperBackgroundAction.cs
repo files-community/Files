@@ -9,13 +9,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Files.App.Actions.Content.Background
+namespace Files.App.Actions
 {
 	internal class SetAsWallpaperBackgroundAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "SetAsBackground".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph { get; } = new("\uE91B");
 

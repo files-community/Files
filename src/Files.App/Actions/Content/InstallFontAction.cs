@@ -16,6 +16,8 @@ namespace Files.App.Actions
 
 		public string Label => "Install".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public bool IsExecutable => context.SelectedItems.Any() &&
 			context.SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) &&
 			context.PageType is not ContentPageTypes.RecycleBin;

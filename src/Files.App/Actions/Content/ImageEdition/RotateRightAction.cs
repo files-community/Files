@@ -9,13 +9,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 
-namespace Files.App.Actions.Content.ImageEdition
+namespace Files.App.Actions
 {
 	internal class RotateRightAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "RotateRight".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRotateRight");
 

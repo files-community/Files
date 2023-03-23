@@ -1,9 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Actions;
-using Files.App.Actions.Content.Archives;
-using Files.App.Actions.Content.Background;
-using Files.App.Actions.Content.ImageEdition;
-using Files.App.Actions.Favorites;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -29,6 +25,9 @@ namespace Files.App.Commands
 		public IRichCommand None => commands[CommandCodes.None];
 		public IRichCommand OpenHelp => commands[CommandCodes.OpenHelp];
 		public IRichCommand ToggleFullScreen => commands[CommandCodes.ToggleFullScreen];
+		public IRichCommand EnterCompactOverlay => commands[CommandCodes.EnterCompactOverlay];
+		public IRichCommand ExitCompactOverlay => commands[CommandCodes.ExitCompactOverlay];
+		public IRichCommand ToggleCompactOverlay => commands[CommandCodes.ToggleCompactOverlay];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand TogglePreviewPane => commands[CommandCodes.TogglePreviewPane];
@@ -140,6 +139,9 @@ namespace Files.App.Commands
 		{
 			[CommandCodes.OpenHelp] = new OpenHelpAction(),
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
+			[CommandCodes.EnterCompactOverlay] = new EnterCompactOverlayAction(),
+			[CommandCodes.ExitCompactOverlay] = new ExitCompactOverlayAction(),
+			[CommandCodes.ToggleCompactOverlay] = new ToggleCompactOverlayAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
 			[CommandCodes.TogglePreviewPane] = new TogglePreviewPaneAction(),
@@ -235,6 +237,8 @@ namespace Files.App.Commands
 			public string LabelWithHotKey => string.Empty;
 			public string AutomationName => string.Empty;
 
+			public string Description => string.Empty;
+
 			public RichGlyph Glyph => RichGlyph.None;
 			public object? Icon => null;
 			public FontIcon? FontIcon => null;
@@ -268,6 +272,8 @@ namespace Files.App.Commands
 			public string Label => action.Label;
 			public string LabelWithHotKey { get; }
 			public string AutomationName => Label;
+
+			public string Description => action.Description;
 
 			public RichGlyph Glyph => action.Glyph;
 			public object? Icon { get; }

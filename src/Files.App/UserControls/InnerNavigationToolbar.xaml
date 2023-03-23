@@ -1,15 +1,15 @@
 ﻿<UserControl
 	x:Class="Files.App.UserControls.InnerNavigationToolbar"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
-    xmlns:converters="using:Files.App.Converters"
-    xmlns:helpers="using:Files.App.Helpers"
-    xmlns:local="using:Files.App.UserControls"
-    d:DesignHeight="40"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
+	xmlns:converters="using:Files.App.Converters"
+	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:local="using:Files.App.UserControls"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	d:DesignHeight="40"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
 	<UserControl.Resources>
@@ -284,7 +284,7 @@
 					LabelPosition="Default"
 					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsBackgroundFlyout}">
-					
+
 					<local:OpacityIcon Style="{StaticResource ColorIconSetAsBackground}" />
 					<AppBarButton.Flyout>
 						<MenuFlyout Placement="Bottom">
@@ -770,8 +770,8 @@
 								<ToggleSwitch
 									Grid.Row="0"
 									Grid.Column="1"
-									AccessKey="H"
 									HorizontalAlignment="Right"
+									AccessKey="H"
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowHiddenItems.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}"
@@ -785,8 +785,8 @@
 								<ToggleSwitch
 									Grid.Row="1"
 									Grid.Column="1"
-									AccessKey="E"
 									HorizontalAlignment="Right"
+									AccessKey="E"
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowFileExtensions.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
 									Rotation="1"
@@ -799,9 +799,9 @@
 			</AppBarButton>
 			<AppBarToggleButton
 				x:Name="PreviewPane"
-				AccessKey="P"
 				Width="Auto"
 				MinWidth="40"
+				AccessKey="P"
 				AutomationProperties.Name="{x:Bind Commands.TogglePreviewPane.AutomationName}"
 				IsChecked="{x:Bind Commands.TogglePreviewPane.IsOn, Mode=TwoWay}"
 				Label="{x:Bind Commands.TogglePreviewPane.Label}"
@@ -859,43 +859,19 @@
 				</AppBarButton>
 				<AppBarButton
 					x:Name="NavToolbarEnterCompactOverlay"
-					Command="{x:Bind SetCompactOverlayCommand}"
-					CommandParameter="{StaticResource True}"
-					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=NavigationToolbarEnterCompactOverlay/KeyboardAcceleratorTextOverride}"
-					Label="{helpers:ResourceString Name=NavigationToolbarEnterCompactOverlay/Label}"
-					Visibility="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="Up"
-							IsEnabled="False"
-							Modifiers="Menu,Control" />
-					</AppBarButton.KeyboardAccelerators>
-					<AppBarButton.Icon>
-						<PathIcon
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							Data="{StaticResource EnterCompactOverlay}" />
-					</AppBarButton.Icon>
+					x:Load="{x:Bind Commands.EnterCompactOverlay.IsExecutable, Mode=OneWay}"
+					Command="{x:Bind Commands.EnterCompactOverlay}"
+					Label="{x:Bind Commands.EnterCompactOverlay.Label}">
+
+					<local:OpacityIcon Style="{x:Bind Commands.EnterCompactOverlay.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="NavToolbarExitCompactOverlay"
-					Command="{x:Bind SetCompactOverlayCommand}"
-					CommandParameter="{StaticResource False}"
-					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=NavigationToolbarExitCompactOverlay/KeyboardAcceleratorTextOverride}"
-					Label="{helpers:ResourceString Name=NavigationToolbarExitCompactOverlay/Label}"
-					Visibility="{x:Bind IsCompactOverlay, Mode=OneWay}">
-					<AppBarButton.Icon>
-						<PathIcon
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							Data="{StaticResource ExitCompactOverlay}" />
-					</AppBarButton.Icon>
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="Down"
-							IsEnabled="False"
-							Modifiers="Menu,Control" />
-					</AppBarButton.KeyboardAccelerators>
+					x:Load="{x:Bind Commands.ExitCompactOverlay.IsExecutable, Mode=OneWay}"
+					Command="{x:Bind Commands.ExitCompactOverlay}"
+					Label="{x:Bind Commands.ExitCompactOverlay.Label}">
+
+					<local:OpacityIcon Style="{x:Bind Commands.ExitCompactOverlay.OpacityStyle}" />
 				</AppBarButton>
 			</CommandBar.SecondaryCommands>
 		</CommandBar>
