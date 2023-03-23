@@ -17,6 +17,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "EnterCompactOverlay".GetLocalizedResource();
 
+		public RichGlyph Glyph { get; } = new(opacityStyle: "EnterCompactOverlay");
+
 		public HotKey HotKey { get; } = new(VirtualKey.Up, VirtualKeyModifiers.Menu | VirtualKeyModifiers.Control);
 
 		public bool IsExecutable => !windowContext.IsCompactOverlay;

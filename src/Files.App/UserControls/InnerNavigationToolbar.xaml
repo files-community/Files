@@ -862,24 +862,16 @@
 					x:Load="{x:Bind Commands.EnterCompactOverlay.IsExecutable, Mode=OneWay}"
 					Command="{x:Bind Commands.EnterCompactOverlay}"
 					Label="{x:Bind Commands.EnterCompactOverlay.Label}">
-					<AppBarButton.Icon>
-						<PathIcon
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							Data="{StaticResource EnterCompactOverlay}" />
-					</AppBarButton.Icon>
+
+					<local:OpacityIcon Style="{x:Bind Commands.EnterCompactOverlay.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="NavToolbarExitCompactOverlay"
 					x:Load="{x:Bind Commands.ExitCompactOverlay.IsExecutable, Mode=OneWay}"
 					Command="{x:Bind Commands.ExitCompactOverlay}"
 					Label="{x:Bind Commands.ExitCompactOverlay.Label}">
-					<AppBarButton.Icon>
-						<PathIcon
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							Data="{StaticResource ExitCompactOverlay}" />
-					</AppBarButton.Icon>
+
+					<local:OpacityIcon Style="{x:Bind Commands.ExitCompactOverlay.OpacityStyle}" />
 				</AppBarButton>
 			</CommandBar.SecondaryCommands>
 		</CommandBar>

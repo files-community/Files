@@ -16,6 +16,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "ExitCompactOverlay".GetLocalizedResource();
 
+		public RichGlyph Glyph { get; } = new(opacityStyle: "ExitCompactOverlay");
+
 		public HotKey HotKey { get; } = new(VirtualKey.Down, VirtualKeyModifiers.Menu | VirtualKeyModifiers.Control);
 
 		public bool IsExecutable => windowContext.IsCompactOverlay;
