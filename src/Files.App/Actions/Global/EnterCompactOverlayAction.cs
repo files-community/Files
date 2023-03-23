@@ -21,6 +21,8 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.Up, VirtualKeyModifiers.Menu | VirtualKeyModifiers.Control);
 
+		public string Description => "EnterCompactOverlayDescription".GetLocalizedResource();
+
 		public bool IsExecutable => !windowContext.IsCompactOverlay;
 
 		public EnterCompactOverlayAction()

@@ -19,6 +19,8 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.F12);
 
+		public string Description => "ToggleCompactOverlayDescription".GetLocalizedResource();
+
 		public bool IsOn => windowContext.IsCompactOverlay;
 
 		public ToggleCompactOverlayAction()

@@ -20,6 +20,8 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.Down, VirtualKeyModifiers.Menu | VirtualKeyModifiers.Control);
 
+		public string Description => "ExitCompactOverlayDescription".GetLocalizedResource();
+
 		public bool IsExecutable => windowContext.IsCompactOverlay;
 
 		public ExitCompactOverlayAction()
