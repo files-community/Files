@@ -137,7 +137,7 @@
 						<FontIcon
 							Margin="8,4,10,4"
 							FontSize="12"
-							Glyph="&#xE019;" />
+							Glyph="&#xE70D;" />
 					</StackPanel>
 					<Button.Flyout>
 						<Flyout>
@@ -161,7 +161,7 @@
 			<!--  Compact Spacing  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=UseCompactSpacing}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE14C;" />
+					<FontIcon Glyph="&#xE8FD;" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=UseCompactSpacing}"

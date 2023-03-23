@@ -25,7 +25,7 @@
 			</Setter>
 		</Style>
 
-		<x:String x:Key="SortIconAscending">&#xE018;</x:String>
+		<x:String x:Key="SortIconAscending">&#xE70E;</x:String>
 	</UserControl.Resources>
 
 	<Grid>
