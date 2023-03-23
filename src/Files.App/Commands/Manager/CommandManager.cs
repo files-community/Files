@@ -107,7 +107,11 @@ namespace Files.App.Commands
 		public IRichCommand GroupDescending => commands[CommandCodes.GroupDescending];
 		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
-		public IRichCommand DuplicateTab => commands[CommandCodes.DuplicateTab];
+		public IRichCommand DuplicateCurrentTab => commands[CommandCodes.DuplicateCurrentTab];
+		public IRichCommand DuplicateSelectedTab => commands[CommandCodes.DuplicateSelectedTab];
+		public IRichCommand CloseTabsToTheLeft => commands[CommandCodes.CloseTabsToTheLeft];
+		public IRichCommand CloseTabsToTheRight => commands[CommandCodes.CloseTabsToTheRight];
+		public IRichCommand CloseOtherTabs => commands[CommandCodes.CloseOtherTabs];
 		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
 
 		public CommandManager()
@@ -218,7 +222,11 @@ namespace Files.App.Commands
 			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
 			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
-			[CommandCodes.DuplicateTab] = new DuplicateTabAction(),
+			[CommandCodes.DuplicateCurrentTab] = new DuplicateCurrentTabAction(),
+			[CommandCodes.DuplicateSelectedTab] = new DuplicateSelectedTabAction(),
+			[CommandCodes.CloseTabsToTheLeft] = new CloseTabsToTheLeftAction(),
+			[CommandCodes.CloseTabsToTheRight] = new CloseTabsToTheRightAction(),
+			[CommandCodes.CloseOtherTabs] = new CloseOtherTabsAction(),
 			[CommandCodes.InstallFont] = new InstallFontAction(),
 		};
 

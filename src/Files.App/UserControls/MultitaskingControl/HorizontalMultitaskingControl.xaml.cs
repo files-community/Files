@@ -18,6 +18,8 @@ namespace Files.App.UserControls.MultitaskingControl
 {
 	public sealed partial class HorizontalMultitaskingControl : BaseMultitaskingControl
 	{
+		public static event EventHandler<TabItem?>? SelectedTabItemChanged;
+
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
@@ -197,6 +199,11 @@ namespace Files.App.UserControls.MultitaskingControl
 		{
 			MenuItemMoveTabToNewWindow.IsEnabled = Items.Count > 1;
 			MenuItemReopenClosedTab.IsEnabled = RecentlyClosedTabs.Any();
+			SelectedTabItemChanged?.Invoke(null, ((MenuFlyout)sender).Target.DataContext as TabItem);
+		}
+		private void TabItemContextMenu_Closing(object sender, object e)
+		{
+			SelectedTabItemChanged?.Invoke(null, null);
 		}
 
 		private void MenuItemCloseTabsToTheLeft_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)

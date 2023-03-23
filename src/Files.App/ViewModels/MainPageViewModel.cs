@@ -400,24 +400,6 @@ namespace Files.App.ViewModels
 			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
 		}
 
-		public static async Task DuplicateTabAsync()
-		{
-			var tabItem = AppInstances.FirstOrDefault(instance => instance.Control.TabItemContent.IsCurrentInstance);
-			if (tabItem is null)
-				return;
-
-			var index = AppInstances.IndexOf(tabItem);
-			if (tabItem.TabItemArguments is not null)
-			{
-				var tabArgs = tabItem.TabItemArguments;
-				await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg, index + 1);
-			}
-			else
-			{
-				await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
-			}
-		}
-
 		public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
 		{
 			var tabItem = new TabItem()

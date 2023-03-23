@@ -51,7 +51,7 @@ namespace Files.App.Commands
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
-		
+
 		// QuickLook
 		LaunchQuickLook,
 
@@ -115,7 +115,11 @@ namespace Files.App.Commands
 
 		// Navigation
 		NewTab,
-		DuplicateTab,
+		DuplicateCurrentTab,
+		DuplicateSelectedTab,
+		CloseTabsToTheLeft,
+		CloseTabsToTheRight,
+		CloseOtherTabs,
 
 		// Other
 		InstallFont,

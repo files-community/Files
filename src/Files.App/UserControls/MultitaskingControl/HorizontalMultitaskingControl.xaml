@@ -7,7 +7,6 @@
 	xmlns:local="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:local1="using:Files.App"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.App.ViewModels"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
@@ -18,15 +17,16 @@
 					<MenuFlyout
 						x:Key="TabFlyout"
 						x:Name="TabItemContextMenu"
-						Opening="TabItemContextMenu_Opening">
+						Opening="TabItemContextMenu_Opening"
+						Closing="TabItemContextMenu_Closing">
 						<MenuFlyoutItem
 							Command="{x:Bind Commands.NewTab}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.NewTab.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.NewTab.Label}" />
 						<MenuFlyoutItem
-							Command="{x:Bind Commands.DuplicateTab}"
-							KeyboardAcceleratorTextOverride="{x:Bind Commands.DuplicateTab.HotKeyText, Mode=OneWay}"
-							Text="{x:Bind Commands.DuplicateTab.Label}" />
+							Command="{x:Bind Commands.DuplicateSelectedTab}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.DuplicateSelectedTab.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.DuplicateSelectedTab.Label}" />
 						<MenuFlyoutItem
 							x:Name="MenuItemMoveTabToNewWindow"
 							Click="MoveTabToNewWindow"

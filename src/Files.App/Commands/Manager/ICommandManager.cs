@@ -47,7 +47,7 @@ namespace Files.App.Commands
 
 		IRichCommand RunAsAdmin { get; }
 		IRichCommand RunAsAnotherUser { get; }
-		
+
 		IRichCommand LaunchQuickLook { get; }
 
 		IRichCommand CompressIntoArchive { get; }
@@ -103,7 +103,11 @@ namespace Files.App.Commands
 		IRichCommand ToggleGroupDirection { get; }
 
 		IRichCommand NewTab { get; }
-		IRichCommand DuplicateTab { get; }
+		IRichCommand DuplicateCurrentTab { get; }
+		IRichCommand DuplicateSelectedTab { get; }
+		IRichCommand CloseTabsToTheLeft { get; }
+		IRichCommand CloseTabsToTheRight { get; }
+		IRichCommand CloseOtherTabs { get; }
 
 		IRichCommand InstallFont { get; }
 	}

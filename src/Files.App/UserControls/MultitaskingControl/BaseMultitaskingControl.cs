@@ -13,6 +13,8 @@ namespace Files.App.UserControls.MultitaskingControl
 {
 	public class BaseMultitaskingControl : UserControl, IMultitaskingControl, INotifyPropertyChanged
 	{
+		public static event EventHandler<IMultitaskingControl>? OnLoaded;
+
 		private static bool isRestoringClosedTab = false; // Avoid reopening two tabs
 
 		protected ITabItemContent CurrentSelectedAppInstance;
@@ -88,6 +90,7 @@ namespace Files.App.UserControls.MultitaskingControl
 		public void MultitaskingControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
+			OnLoaded?.Invoke(null, this);
 		}
 
 		public ITabItemContent GetCurrentSelectedTabInstance()
