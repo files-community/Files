@@ -15,6 +15,8 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label => "Install".GetLocalizedResource();
+		
+		public string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph { get; } = new("\uE9F5");
 
