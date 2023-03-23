@@ -358,9 +358,6 @@
 						<Setter Target="SidebarControl.PaneDisplayMode" Value="LeftMinimal" />
 						<Setter Target="SidebarControl.IsPaneToggleButtonVisible" Value="True" />
 						<Setter Target="TabControl.Margin" Value="48,0,0,0" />
-
-						<!--  Update the button size to match the pane toggle button size  -->
-						<Setter Target="HorizontalMultitaskingControlAddButton.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
