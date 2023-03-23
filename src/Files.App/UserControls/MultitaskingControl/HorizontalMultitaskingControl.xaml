@@ -22,11 +22,7 @@
 						<MenuFlyoutItem
 							Command="{x:Bind Commands.NewTab}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.NewTab.HotKeyText, Mode=OneWay}"
-							Text="{x:Bind Commands.NewTab.Label}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon Glyph="{x:Bind Commands.NewTab.Glyph.BaseGlyph}" />
-							</MenuFlyoutItem.Icon>
-						</MenuFlyoutItem>
+							Text="{x:Bind Commands.NewTab.Label}" />
 						<MenuFlyoutItem
 							Command="{x:Bind Commands.DuplicateTab}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.DuplicateTab.HotKeyText, Mode=OneWay}"

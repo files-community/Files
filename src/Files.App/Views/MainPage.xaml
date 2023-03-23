@@ -235,7 +235,7 @@
 									<FontIcon
 										x:Name="HorizontalMultitaskingControlAddButtonIcon"
 										FontSize="12"
-										Glyph="{x:Bind Commands.NewTab.Glyph.BaseGlyph}" />
+										Glyph="&#xE710;" />
 								</Button.Content>
 							</Button>
 						</usercontrols:HorizontalMultitaskingControl.ActionsControl>
