@@ -2637,4 +2637,7 @@
   <data name="LaunchQuickLook" xml:space="preserve">
     <value>Launch QuickLook</value>
   </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Toggle compact overlay</value>
+  </data>
 </root>

@@ -9,6 +9,7 @@ namespace Files.App.Commands
 		ToggleFullScreen,
 		EnterCompactOverlay,
 		ExitCompactOverlay,
+		ToggleCompactOverlay,
 
 		// Show
 		ToggleShowHiddenItems,

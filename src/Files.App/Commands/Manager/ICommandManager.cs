@@ -14,6 +14,7 @@ namespace Files.App.Commands
 		IRichCommand ToggleFullScreen { get; }
 		IRichCommand EnterCompactOverlay { get; }
 		IRichCommand ExitCompactOverlay { get; }
+		IRichCommand ToggleCompactOverlay { get; }
 
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
