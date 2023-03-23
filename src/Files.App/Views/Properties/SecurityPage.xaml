@@ -66,14 +66,14 @@
 						Background="Transparent"
 						BorderBrush="Transparent"
 						Command="{x:Bind SecurityViewModel.AddAccessControlEntryCommand}">
-						<FontIcon FontSize="16" Glyph="&#xE109;" />
+						<FontIcon FontSize="16" Glyph="&#xE710;" />
 					</Button>
 					<Button
 						Padding="8,6"
 						Background="Transparent"
 						BorderBrush="Transparent"
 						Command="{x:Bind SecurityViewModel.RemoveAccessControlEntryCommand}">
-						<FontIcon FontSize="16" Glyph="&#xE108;" />
+						<FontIcon FontSize="16" Glyph="&#xE738;" />
 					</Button>
 				</StackPanel>
 
@@ -167,7 +167,7 @@
 					BorderBrush="Transparent"
 					Command="{x:Bind OpenSecurityAdvancedPageWindowCommand}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=AdvancedPermissions}">
-					<FontIcon FontSize="16" Glyph="&#xE00F;" />
+					<FontIcon FontSize="16" Glyph="&#xE76C;" />
 				</Button>
 
 				<MenuFlyoutSeparator

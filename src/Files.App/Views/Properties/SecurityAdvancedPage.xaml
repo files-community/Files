@@ -105,7 +105,7 @@
 							Background="Transparent"
 							BorderBrush="Transparent"
 							Command="{x:Bind ViewModel.ChangeOwnerCommand}">
-							<FontIcon FontSize="16" Glyph="&#xE104;" />
+							<FontIcon FontSize="16" Glyph="" />
 						</Button>
 					</StackPanel>
 				</Grid>
@@ -146,14 +146,14 @@
 							Background="Transparent"
 							BorderBrush="Transparent"
 							Command="{x:Bind ViewModel.AddAccessControlEntryCommand}">
-							<FontIcon FontSize="16" Glyph="&#xE109;" />
+							<FontIcon FontSize="16" Glyph="&#xE710;" />
 						</Button>
 						<Button
 							Padding="8,6"
 							Background="Transparent"
 							BorderBrush="Transparent"
 							Command="{x:Bind ViewModel.RemoveAccessControlEntryCommand}">
-							<FontIcon FontSize="16" Glyph="&#xE108;" />
+							<FontIcon FontSize="16" Glyph="&#xE738;" />
 						</Button>
 					</StackPanel>
 
