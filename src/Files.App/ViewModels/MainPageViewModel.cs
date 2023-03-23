@@ -42,13 +42,6 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref selectedTabItem, value);
 		}
 
-		private bool isWindowCompactOverlay;
-		public bool IsWindowCompactOverlay
-		{
-			get => isWindowCompactOverlay;
-			set => SetProperty(ref isWindowCompactOverlay, value);
-		}
-
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }

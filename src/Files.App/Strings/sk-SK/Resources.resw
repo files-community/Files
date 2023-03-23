@@ -1784,10 +1784,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Zavrieť panel</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Zadajte kompaktné prekrytie</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Ukončite kompaktné prekrytie</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">

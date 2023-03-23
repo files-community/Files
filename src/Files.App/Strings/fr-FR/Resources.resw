@@ -1782,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Fermer le panneau</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Entrer en mode compact</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Quitter le mode compact</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">

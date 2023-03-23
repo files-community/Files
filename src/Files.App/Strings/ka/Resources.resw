@@ -1782,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>ფანჯრის დახურვა</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>შეერთებული გადაფარვის ჩართვა</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>შეერთებული გადაფარვის გამორთვა</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">

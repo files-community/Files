@@ -1782,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>關閉畫面</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>進入完整檢視</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>返回完整檢視</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">

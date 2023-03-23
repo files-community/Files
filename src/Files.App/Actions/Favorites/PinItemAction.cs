@@ -20,6 +20,8 @@ namespace Files.App.Actions.Favorites
 
 		public string Label { get; } = "PinToFavorites".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconPinToFavorites");
 
 		private bool isExecutable;
