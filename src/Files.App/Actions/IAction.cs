@@ -21,15 +21,15 @@ namespace Files.App.Actions
 		RichGlyph Glyph => RichGlyph.None;
 
 		/// <summary>
-		/// A hotkey to execute actions
+		/// Primary hotkey to execute actions
 		/// </summary>
 		HotKey HotKey => HotKey.None;
 		/// <summary>
-		/// Another hotkey to execute actions
+		/// Secondary hotkey to execute actions
 		/// </summary>
 		HotKey SecondHotKey => HotKey.None;
 		/// <summary>
-		/// Yet another hotkey to execute actions
+		/// Tertiary hotkey to execute actions
 		/// </summary>
 		HotKey ThirdHotKey => HotKey.None;
 		/// <summary>
