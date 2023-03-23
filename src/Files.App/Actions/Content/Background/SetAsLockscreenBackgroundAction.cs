@@ -18,12 +18,13 @@ namespace Files.App.Actions.Content.Background
 
 		public RichGlyph Glyph { get; } = new("\uEE3F");
 
-		private bool isExecutable;
-		public bool IsExecutable => isExecutable;
+		public bool IsExecutable => context.ShellPage is not null &&
+			context.SelectedItem is not null &&
+			context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder &&
+			(context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
 
 		public SetAsLockscreenBackgroundAction()
 		{
-			isExecutable = GetIsExecutable();
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -31,12 +32,9 @@ namespace Files.App.Actions.Content.Background
 		{
 			if (context.SelectedItem is not null)
 				WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, context.SelectedItem.ItemPath);
+
 			return Task.CompletedTask;
 		}
-
-		private bool GetIsExecutable() => context.ShellPage is not null && context.SelectedItem is not null
-			&& context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder
-			&& (context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
@@ -44,7 +42,7 @@ namespace Files.App.Actions.Content.Background
 			{
 				case nameof(IContentPageContext.PageType):
 				case nameof(IContentPageContext.SelectedItem):
-					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
 		}

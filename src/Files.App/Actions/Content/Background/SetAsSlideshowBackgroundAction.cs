@@ -18,12 +18,13 @@ namespace Files.App.Actions.Content.Background
 
 		public RichGlyph Glyph { get; } = new("\uE91B");
 
-		private bool isExecutable;
-		public bool IsExecutable => isExecutable;
+		public bool IsExecutable => context.ShellPage is not null &&
+			context.SelectedItems.Count > 1 &&
+			context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder &&
+			(context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
 
 		public SetAsSlideshowBackgroundAction()
 		{
-			isExecutable = GetIsExecutable();
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -35,17 +36,13 @@ namespace Files.App.Actions.Content.Background
 			return Task.CompletedTask;
 		}
 
-		private bool GetIsExecutable() => context.ShellPage is not null && context.SelectedItems.Count > 1
-			&& context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder
-			&& (context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
-
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.PageType):
 				case nameof(IContentPageContext.SelectedItems):
-					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
 		}
