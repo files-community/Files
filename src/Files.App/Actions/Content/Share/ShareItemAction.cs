@@ -22,7 +22,7 @@ namespace Files.App.Actions.Content.Share
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label => "BaseLayoutItemContextFlyoutShare/Text".GetLocalizedResource();
+		public string Label => "Share".GetLocalizedResource();
 
 		public string Description => "TODO: Need to be described.";
 
