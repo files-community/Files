@@ -16,18 +16,13 @@
 	<Page.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary
-					Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
-			<converters:BoolNegationConverter
-				x:Key="BoolNegationConverter" />
-			<converters1:StringToBrushConverter
-				x:Key="StringToBrushConverter" />
+			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<converters1:StringToBrushConverter x:Key="StringToBrushConverter" />
 
-			<DataTemplate
-				x:Key="AppThemeResourcesItemTemplate"
-				x:DataType="appearance:AppThemeResource">
+			<DataTemplate x:Key="AppThemeResourcesItemTemplate" x:DataType="appearance:AppThemeResource">
 				<Grid
 					Width="120"
 					AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
@@ -36,12 +31,9 @@
 					CornerRadius="6"
 					ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
 					<Grid.RowDefinitions>
-						<RowDefinition
-							Height="16" />
-						<RowDefinition
-							Height="50" />
-						<RowDefinition
-							Height="Auto" />
+						<RowDefinition Height="16" />
+						<RowDefinition Height="50" />
+						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<!--  Background  -->
 					<Border
@@ -51,8 +43,7 @@
 						CornerRadius="4,4,0,0" />
 
 					<!--  Tab Bar  -->
-					<StackPanel
-						Orientation="Horizontal">
+					<StackPanel Orientation="Horizontal">
 						<Border
 							Width="4"
 							Height="1"
