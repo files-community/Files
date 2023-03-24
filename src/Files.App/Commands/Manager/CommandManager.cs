@@ -1,10 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Actions;
-using Files.App.Actions.Content.Archives;
-using Files.App.Actions.Content.Background;
-using Files.App.Actions.Content.ImageEdition;
-using Files.App.Actions.Favorites;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -16,7 +11,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Files.App.Commands
 {
@@ -31,6 +25,9 @@ namespace Files.App.Commands
 		public IRichCommand None => commands[CommandCodes.None];
 		public IRichCommand OpenHelp => commands[CommandCodes.OpenHelp];
 		public IRichCommand ToggleFullScreen => commands[CommandCodes.ToggleFullScreen];
+		public IRichCommand EnterCompactOverlay => commands[CommandCodes.EnterCompactOverlay];
+		public IRichCommand ExitCompactOverlay => commands[CommandCodes.ExitCompactOverlay];
+		public IRichCommand ToggleCompactOverlay => commands[CommandCodes.ToggleCompactOverlay];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand TogglePreviewPane => commands[CommandCodes.TogglePreviewPane];
@@ -51,10 +48,16 @@ namespace Files.App.Commands
 		public IRichCommand SetAsSlideshowBackground => commands[CommandCodes.SetAsSlideshowBackground];
 		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
 		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
+		public IRichCommand CopyPath => commands[CommandCodes.CopyPath];
 		public IRichCommand CutItem => commands[CommandCodes.CutItem];
+		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
+		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
+		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
+		public IRichCommand InstallInfDriver => commands[CommandCodes.InstallInfDriver];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
+		public IRichCommand LaunchQuickLook => commands[CommandCodes.LaunchQuickLook];
 		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
@@ -63,9 +66,58 @@ namespace Files.App.Commands
 		public IRichCommand DecompressArchiveToChildFolder => commands[CommandCodes.DecompressArchiveToChildFolder];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
+		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
+		public IRichCommand OpenItemWithApplicationPicker => commands[CommandCodes.OpenItemWithApplicationPicker];
+		public IRichCommand OpenParentFolder => commands[CommandCodes.OpenParentFolder];
+		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
+		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
+		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
+		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
+		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
+		public IRichCommand LayoutTiles => commands[CommandCodes.LayoutTiles];
+		public IRichCommand LayoutGridSmall => commands[CommandCodes.LayoutGridSmall];
+		public IRichCommand LayoutGridMedium => commands[CommandCodes.LayoutGridMedium];
+		public IRichCommand LayoutGridLarge => commands[CommandCodes.LayoutGridLarge];
+		public IRichCommand LayoutColumns => commands[CommandCodes.LayoutColumns];
+		public IRichCommand LayoutAdaptive => commands[CommandCodes.LayoutAdaptive];
+		public IRichCommand SortByName => commands[CommandCodes.SortByName];
+		public IRichCommand SortByDateModified => commands[CommandCodes.SortByDateModified];
+		public IRichCommand SortByDateCreated => commands[CommandCodes.SortByDateCreated];
+		public IRichCommand SortBySize => commands[CommandCodes.SortBySize];
+		public IRichCommand SortByType => commands[CommandCodes.SortByType];
+		public IRichCommand SortBySyncStatus => commands[CommandCodes.SortBySyncStatus];
+		public IRichCommand SortByTag => commands[CommandCodes.SortByTag];
+		public IRichCommand SortByOriginalFolder => commands[CommandCodes.SortByOriginalFolder];
+		public IRichCommand SortByDateDeleted => commands[CommandCodes.SortByDateDeleted];
+		public IRichCommand SortAscending => commands[CommandCodes.SortAscending];
+		public IRichCommand SortDescending => commands[CommandCodes.SortDescending];
+		public IRichCommand ToggleSortDirection => commands[CommandCodes.ToggleSortDirection];
+		public IRichCommand ToggleSortDirectoriesAlongsideFiles => commands[CommandCodes.ToggleSortDirectoriesAlongsideFiles];
+		public IRichCommand GroupByNone => commands[CommandCodes.GroupByNone];
+		public IRichCommand GroupByName => commands[CommandCodes.GroupByName];
+		public IRichCommand GroupByDateModified => commands[CommandCodes.GroupByDateModified];
+		public IRichCommand GroupByDateCreated => commands[CommandCodes.GroupByDateCreated];
+		public IRichCommand GroupBySize => commands[CommandCodes.GroupBySize];
+		public IRichCommand GroupByType => commands[CommandCodes.GroupByType];
+		public IRichCommand GroupBySyncStatus => commands[CommandCodes.GroupBySyncStatus];
+		public IRichCommand GroupByTag => commands[CommandCodes.GroupByTag];
+		public IRichCommand GroupByOriginalFolder => commands[CommandCodes.GroupByOriginalFolder];
+		public IRichCommand GroupByDateDeleted => commands[CommandCodes.GroupByDateDeleted];
+		public IRichCommand GroupByFolderPath => commands[CommandCodes.GroupByFolderPath];
+		public IRichCommand GroupAscending => commands[CommandCodes.GroupAscending];
+		public IRichCommand GroupDescending => commands[CommandCodes.GroupDescending];
+		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 		public IRichCommand DuplicateTab => commands[CommandCodes.DuplicateTab];
 		public IRichCommand FormatDrive => commands[CommandCodes.FormatDrive];
+		public IRichCommand DuplicateCurrentTab => commands[CommandCodes.DuplicateCurrentTab];
+		public IRichCommand DuplicateSelectedTab => commands[CommandCodes.DuplicateSelectedTab];
+		public IRichCommand CloseTabsToTheLeftCurrent => commands[CommandCodes.CloseTabsToTheLeftCurrent];
+		public IRichCommand CloseTabsToTheLeftSelected => commands[CommandCodes.CloseTabsToTheLeftSelected];
+		public IRichCommand CloseTabsToTheRightCurrent => commands[CommandCodes.CloseTabsToTheRightCurrent];
+		public IRichCommand CloseTabsToTheRightSelected => commands[CommandCodes.CloseTabsToTheRightSelected];
+		public IRichCommand CloseOtherTabsCurrent => commands[CommandCodes.CloseOtherTabsCurrent];
+		public IRichCommand CloseOtherTabsSelected => commands[CommandCodes.CloseOtherTabsSelected];
 
 		public CommandManager()
 		{
@@ -97,6 +149,9 @@ namespace Files.App.Commands
 		{
 			[CommandCodes.OpenHelp] = new OpenHelpAction(),
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
+			[CommandCodes.EnterCompactOverlay] = new EnterCompactOverlayAction(),
+			[CommandCodes.ExitCompactOverlay] = new ExitCompactOverlayAction(),
+			[CommandCodes.ToggleCompactOverlay] = new ToggleCompactOverlayAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
 			[CommandCodes.TogglePreviewPane] = new TogglePreviewPaneAction(),
@@ -117,10 +172,16 @@ namespace Files.App.Commands
 			[CommandCodes.SetAsSlideshowBackground] = new SetAsSlideshowBackgroundAction(),
 			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
 			[CommandCodes.CopyItem] = new CopyItemAction(),
+			[CommandCodes.CopyPath] = new CopyPathAction(),
 			[CommandCodes.CutItem] = new CutItemAction(),
+			[CommandCodes.PasteItem] = new PasteItemAction(),
+			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
+			[CommandCodes.InstallFont] = new InstallFontAction(),
+			[CommandCodes.InstallInfDriver] = new InstallInfDriverAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
+			[CommandCodes.LaunchQuickLook] = new LaunchQuickLookAction(),
 			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
@@ -129,9 +190,58 @@ namespace Files.App.Commands
 			[CommandCodes.DecompressArchiveToChildFolder] = new DecompressArchiveToChildFolderAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction(),
+			[CommandCodes.OpenItem] = new OpenItemAction(),
+			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
+			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
+			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
+			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
+			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
+			[CommandCodes.LayoutIncreaseSize] = new LayoutIncreaseSizeAction(),
+			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),
+			[CommandCodes.LayoutTiles] = new LayoutTilesAction(),
+			[CommandCodes.LayoutGridSmall] = new LayoutGridSmallAction(),
+			[CommandCodes.LayoutGridMedium] = new LayoutGridMediumAction(),
+			[CommandCodes.LayoutGridLarge] = new LayoutGridLargeAction(),
+			[CommandCodes.LayoutColumns] = new LayoutColumnsAction(),
+			[CommandCodes.LayoutAdaptive] = new LayoutAdaptiveAction(),
+			[CommandCodes.SortByName] = new SortByNameAction(),
+			[CommandCodes.SortByDateModified] = new SortByDateModifiedAction(),
+			[CommandCodes.SortByDateCreated] = new SortByDateCreatedAction(),
+			[CommandCodes.SortBySize] = new SortBySizeAction(),
+			[CommandCodes.SortByType] = new SortByTypeAction(),
+			[CommandCodes.SortBySyncStatus] = new SortBySyncStatusAction(),
+			[CommandCodes.SortByTag] = new SortByTagAction(),
+			[CommandCodes.SortByOriginalFolder] = new SortByOriginalFolderAction(),
+			[CommandCodes.SortByDateDeleted] = new SortByDateDeletedAction(),
+			[CommandCodes.SortAscending] = new SortAscendingAction(),
+			[CommandCodes.SortDescending] = new SortDescendingAction(),
+			[CommandCodes.ToggleSortDirection] = new ToggleSortDirectionAction(),
+			[CommandCodes.ToggleSortDirectoriesAlongsideFiles] = new ToggleSortDirectoriesAlongsideFilesAction(),
+			[CommandCodes.GroupByNone] = new GroupByNoneAction(),
+			[CommandCodes.GroupByName] = new GroupByNameAction(),
+			[CommandCodes.GroupByDateModified] = new GroupByDateModifiedAction(),
+			[CommandCodes.GroupByDateCreated] = new GroupByDateCreatedAction(),
+			[CommandCodes.GroupBySize] = new GroupBySizeAction(),
+			[CommandCodes.GroupByType] = new GroupByTypeAction(),
+			[CommandCodes.GroupBySyncStatus] = new GroupBySyncStatusAction(),
+			[CommandCodes.GroupByTag] = new GroupByTagAction(),
+			[CommandCodes.GroupByOriginalFolder] = new GroupByOriginalFolderAction(),
+			[CommandCodes.GroupByDateDeleted] = new GroupByDateDeletedAction(),
+			[CommandCodes.GroupByFolderPath] = new GroupByFolderPathAction(),
+			[CommandCodes.GroupAscending] = new GroupAscendingAction(),
+			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
+			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.DuplicateTab] = new DuplicateTabAction(),
 			[CommandCodes.FormatDrive] = new FormatDriveAction(),
+			[CommandCodes.DuplicateCurrentTab] = new DuplicateCurrentTabAction(),
+			[CommandCodes.DuplicateSelectedTab] = new DuplicateSelectedTabAction(),
+			[CommandCodes.CloseTabsToTheLeftCurrent] = new CloseTabsToTheLeftCurrentAction(),
+			[CommandCodes.CloseTabsToTheLeftSelected] = new CloseTabsToTheLeftSelectedAction(),
+			[CommandCodes.CloseTabsToTheRightCurrent] = new CloseTabsToTheRightCurrentAction(),
+			[CommandCodes.CloseTabsToTheRightSelected] = new CloseTabsToTheRightSelectedAction(),
+			[CommandCodes.CloseOtherTabsCurrent] = new CloseOtherTabsCurrentAction(),
+			[CommandCodes.CloseOtherTabsSelected] = new CloseOtherTabsSelectedAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
@@ -146,6 +256,8 @@ namespace Files.App.Commands
 			public string Label => string.Empty;
 			public string LabelWithHotKey => string.Empty;
 			public string AutomationName => string.Empty;
+
+			public string Description => string.Empty;
 
 			public RichGlyph Glyph => RichGlyph.None;
 			public object? Icon => null;
@@ -174,13 +286,14 @@ namespace Files.App.Commands
 			public event EventHandler? CanExecuteChanged;
 
 			private readonly IAction action;
-			private readonly ICommand command;
 
 			public CommandCodes Code { get; }
 
 			public string Label => action.Label;
 			public string LabelWithHotKey { get; }
 			public string AutomationName => Label;
+
+			public string Description => action.Description;
 
 			public RichGlyph Glyph => action.Glyph;
 			public object? Icon { get; }
@@ -201,7 +314,7 @@ namespace Files.App.Commands
 				set
 				{
 					if (action is IToggleAction toggleAction && toggleAction.IsOn != value)
-						command.Execute(null);
+						Execute(null);
 				}
 			}
 
@@ -216,7 +329,6 @@ namespace Files.App.Commands
 				OpacityStyle = action.Glyph.ToOpacityStyle();
 				HotKeyText = GetHotKeyText();
 				LabelWithHotKey = HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
-				command = new AsyncRelayCommand(ExecuteAsync, () => action.IsExecutable);
 
 				if (action is INotifyPropertyChanging notifyPropertyChanging)
 					notifyPropertyChanging.PropertyChanging += Action_PropertyChanging;
@@ -224,8 +336,8 @@ namespace Files.App.Commands
 					notifyPropertyChanged.PropertyChanged += Action_PropertyChanged;
 			}
 
-			public bool CanExecute(object? parameter) => command.CanExecute(parameter);
-			public void Execute(object? parameter) => command.Execute(parameter);
+			public bool CanExecute(object? parameter) => action.IsExecutable;
+			public async void Execute(object? parameter) => await ExecuteAsync();
 
 			public async Task ExecuteAsync()
 			{
@@ -233,7 +345,7 @@ namespace Files.App.Commands
 					await action.ExecuteAsync();
 			}
 
-			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await action.ExecuteAsync();
+			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
 
 			private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
 			{

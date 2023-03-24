@@ -273,7 +273,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Usuń</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>Przypnij do ulubionych</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -340,7 +340,7 @@
     <value>Element już istnieje</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>Ustaw jako tło blokady ekranu</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nie mogliśmy usunąć tego elementu</value>
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Kopiuj do {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>Utwórz skrót</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -988,13 +988,13 @@
     <value>Wysuń</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>Duplikuj kartę</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Przenieś kartę do nowego okna</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
+    <value>Nowa karta</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Niektóre właściwości mogą zawierać informacje osobiste.</value>
@@ -1419,7 +1419,7 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Data modyfikacji</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+  <data name="OriginalFolder" xml:space="preserve">
     <value>Oryginalny folder</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
@@ -1782,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Zamknij panel</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Otwórz kompaktową nakładkę</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Wyjdź z kompaktowej nakładki</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
@@ -1853,12 +1853,6 @@
   </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
-  </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Strzałka w górę</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Strzałka w dół</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2001,7 +1995,7 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Otwórz elementy jednym kliknięciem</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+  <data name="FolderPath" xml:space="preserve">
     <value>Lokalizacja folderu</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
@@ -2204,9 +2198,6 @@
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>Obrazy</value>
-  </data>
-  <data name="Videos" xml:space="preserve">
-    <value>Wideo</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Zaktualizuj aplikację Files</value>
@@ -2589,6 +2580,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Zastosuj tę akcję do wszystkich sprzecznych elementów</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Open in terminal</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Open in terminal as administrator</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Zapisz</value>
   </data>
@@ -2596,7 +2593,7 @@
     <value>Wielokrotne zaznaczanie</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>Zmień kolejność elementów paska bocznego</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hashe</value>
@@ -2618,5 +2615,53 @@
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Przypięte elementy</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Zmniejsz rozmiar</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Zwiększ rozmiar</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Zmień kolejność sortowania</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Invalid name</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>Name must not be empty or start or end with a period.</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Wideo</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>Launch QuickLook</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Toggle compact overlay</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Copy item(s) to clipboard</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Copy path of item to clipboard</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Cut item(s) to clipboard</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to the current folder</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to the selected folder</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Toggle compact overlay</value>
+  </data>
+	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>Otwórz kompaktową nakładkę</value>
+  </data>
+	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>Wyjdź z kompaktowej nakładki</value>
   </data>
 </root>

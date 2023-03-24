@@ -202,10 +202,6 @@ namespace Files.App.Views
 
 					break;
 
-				case (true, true, false, true, VirtualKey.C):
-					SlimContentPage?.CommandsViewModel.CopyPathOfSelectedItemCommand.Execute(null);
-					break;
-
 				case (false, false, false, _, VirtualKey.F3): //f3
 				case (true, false, false, _, VirtualKey.F): // ctrl + f
 					if (tabInstance || CurrentPageType == typeof(WidgetsPage))
@@ -267,34 +263,6 @@ namespace Files.App.Views
 					if (tabInstance || CurrentPageType == typeof(WidgetsPage))
 						ToolbarViewModel.IsEditModeEnabled = true;
 
-					break;
-
-				case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number7): // ctrl+shift+7, adaptive
-					InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
 					break;
 			}
 		}

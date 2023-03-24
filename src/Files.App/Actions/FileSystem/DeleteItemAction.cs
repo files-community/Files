@@ -21,6 +21,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Delete".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconDelete");
 
 		public HotKey HotKey { get; } = new(VirtualKey.Delete);
@@ -46,7 +48,7 @@ namespace Files.App.Actions
 			await context.ShellPage.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
 		}
 
-		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
 				OnPropertyChanged(nameof(IsExecutable));

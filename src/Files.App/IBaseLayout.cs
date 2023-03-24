@@ -30,5 +30,7 @@ namespace Files.App
 		public BaseLayoutCommandsViewModel? CommandsViewModel { get; }
 
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; }
+
+		public CommandBarFlyout BaseContextMenuFlyout { get; set; }
 	}
 }

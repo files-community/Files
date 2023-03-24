@@ -273,8 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>固定至收藏夹</value>
+  <data name="PinToFavorites" xml:space="preserve">
+    <value>固定到收藏</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>欢迎使用 Files!</value>
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>复制到 {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>创建快捷方式</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -1419,7 +1419,7 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>修改日期</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+  <data name="OriginalFolder" xml:space="preserve">
     <value>原始文件夹</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
@@ -1782,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>关闭面板</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>进入精简模式</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>退出精简模式</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
@@ -1853,12 +1853,6 @@
   </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
-  </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+上方向键</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+下方向键</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2001,7 +1995,7 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>通过单击打开文件</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+  <data name="FolderPath" xml:space="preserve">
     <value>文件夹路径</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
@@ -2204,9 +2198,6 @@
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>图片</value>
-  </data>
-  <data name="Videos" xml:space="preserve">
-    <value>视频</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>更新 Files</value>
@@ -2589,6 +2580,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>将此操作应用到所有冲突项</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>在终端中打开</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>以管理员身份在终端中打开</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
   </data>
@@ -2596,7 +2593,7 @@
     <value>多重选择</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>重新排列侧边栏项目</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>哈希值</value>
@@ -2618,5 +2615,53 @@
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>已固定的项目</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>减小大小</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>增加大小</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>切换排序方向</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>无效名称</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>名称不能为空，也不能以英文句点 (.) 开头或结尾。</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>视频</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>启动 QuickLook</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Toggle compact overlay</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Copy item(s) to clipboard</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Copy path of item to clipboard</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Cut item(s) to clipboard</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to the current folder</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to the selected folder</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Toggle compact overlay</value>
+  </data>
+	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>进入精简模式</value>
+  </data>
+	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>退出精简模式</value>
   </data>
 </root>

@@ -273,7 +273,7 @@
   <data name="Delete" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>お気に入りに固定</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>{0} にコピー</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>ショートカットの作成</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -1419,7 +1419,7 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>変更日</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+  <data name="OriginalFolder" xml:space="preserve">
     <value>元のフォルダー</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
@@ -1782,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>ペインを閉じる</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを開始</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを終了</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
@@ -1853,12 +1853,6 @@
   </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
-  </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Up</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2001,7 +1995,7 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>シングル クリックでファイルを開く</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+  <data name="FolderPath" xml:space="preserve">
     <value>フォルダー パス</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
@@ -2204,9 +2198,6 @@
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>ピクチャ</value>
-  </data>
-  <data name="Videos" xml:space="preserve">
-    <value>ビデオ</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Files をアップデート</value>
@@ -2589,6 +2580,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>すべての競合するアイテムにこれを実行する</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>ターミナルで開く</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>管理者としてターミナルで開く</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
   </data>
@@ -2618,5 +2615,53 @@
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>ピン留めされたアイテム</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>サイズを小さくする</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>サイズを大きくする</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>昇順と降順の切り替え</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>無効な名前です</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>名前を空欄にすることやピリオドで開始または終了することはできません。</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>ビデオ</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>QuickLook を起動</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>コンパクト オーバーレイを切り替える</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>ファイルをクリップボードにコピーする</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>ファイルのパスをクリップボードにコピーする</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>ファイルをクリップボードに切り取る</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>ファイルをクリップボードから現在のフォルダに貼り付ける</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>ファイルをクリップボードから選択したフォルダに貼り付ける</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>コンパクト オーバーレイを切り替える</value>
+  </data>
+	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>コンパクト オーバーレイを開始</value>
+  </data>
+	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>コンパクト オーバーレイを終了</value>
   </data>
 </root>

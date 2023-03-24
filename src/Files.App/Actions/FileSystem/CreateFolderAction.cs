@@ -16,6 +16,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Folder".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public RichGlyph Glyph { get; } = new RichGlyph(baseGlyph: "\uE8B7");
 
 		public bool IsExecutable => context.ShellPage is not null;
@@ -32,7 +34,7 @@ namespace Files.App.Actions
 			return Task.CompletedTask;
 		}
 
-		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
 				OnPropertyChanged(nameof(IsExecutable));

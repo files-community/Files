@@ -8,13 +8,15 @@ using Files.App.Helpers;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace Files.App.Actions.Content.Archives
+namespace Files.App.Actions
 {
 	internal class CompressIntoArchiveAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label => "CreateArchive".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
 									&& ArchiveHelpers.CanCompress(context.SelectedItems);

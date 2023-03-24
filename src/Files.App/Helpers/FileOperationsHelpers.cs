@@ -198,7 +198,7 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, string operationID = "", IProgress<FileSystemProgress>? progress = default)
+		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, IProgress<FileSystemProgress> progress, string operationID = "")
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -347,7 +347,7 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, string operationID = "", IProgress<FileSystemProgress>? progress = default)
+		public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, IProgress<FileSystemProgress> progress, string operationID = "")
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -427,7 +427,7 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, string operationID = "", IProgress<FileSystemProgress>? progress = default)
+		public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, IProgress<FileSystemProgress> progress, string operationID = "")
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 

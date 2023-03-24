@@ -330,7 +330,6 @@ namespace Files.App.ViewModels
 					await lib.CheckDefaultSaveFolderAccess() &&
 					!section.ChildItems.Any(x => x.Path == lib.Path))
 				{
-					lib.Font = App.AppModel.SymbolFontFamily;
 					section.ChildItems.AddSorted(elem);
 					await lib.LoadLibraryIcon();
 				}
@@ -387,7 +386,6 @@ namespace Files.App.ViewModels
 					{
 						section = BuildSection("Home".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
 						section.Path = "Home";
-						section.Font = App.AppModel.SymbolFontFamily;
 						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 						section.IsHeader = true;
 
@@ -402,7 +400,6 @@ namespace Files.App.ViewModels
 						}
 
 						section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						section.Font = App.AppModel.SymbolFontFamily;
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FavoritesIcon));
 						section.IsHeader = true;
 

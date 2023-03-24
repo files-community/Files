@@ -22,6 +22,7 @@
 				x:Key="InvertedBoolVisibilityConverter"
 				FalseValue="Visible"
 				TrueValue="Collapsed" />
+			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
 		</ResourceDictionary>
 	</Page.Resources>
@@ -108,6 +109,41 @@
 								HorizontalAlignment="Right"
 								Orientation="Horizontal"
 								Spacing="12">
+								<!--  Invalid Name Warning  -->
+								<Grid
+									Padding="12,4"
+									VerticalAlignment="Stretch"
+									Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+									BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+									BorderThickness="1"
+									ColumnSpacing="8"
+									CornerRadius="4"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=TagNameRules}"
+									Visibility="{x:Bind ViewModel.NewTag.IsNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+									<TextBlock
+										VerticalAlignment="Center"
+										AutomationProperties.AccessibilityView="Raw"
+										FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										FontSize="{StaticResource InfoBarIconFontSize}"
+										Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
+										Text="{StaticResource InfoBarIconBackgroundGlyph}" />
+									<TextBlock
+										VerticalAlignment="Center"
+										AutomationProperties.AccessibilityView="Raw"
+										FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										FontSize="{StaticResource InfoBarIconFontSize}"
+										Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+										Text="{StaticResource InfoBarErrorIconGlyph}" />
+									<TextBlock
+										Grid.Column="1"
+										VerticalAlignment="Center"
+										Text="{helpers:ResourceString Name=InvalidTagNameWarning}" />
+								</Grid>
+
 								<!--  Cancel  -->
 								<Button Command="{x:Bind ViewModel.CancelNewTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=Cancel}" />
 
@@ -176,6 +212,7 @@
 												Width="200"
 												VerticalAlignment="Center"
 												KeyDown="RenameTextBox_KeyDown"
+												Text="{x:Bind NewName, Mode=TwoWay}"
 												Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
 												<TextBox.Resources>
 													<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
@@ -200,7 +237,7 @@
 												</StackPanel>
 												<Button.Flyout>
 													<Flyout>
-														<controls:ColorPicker Color="{x:Bind NewColor, Mode=TwoWay}" />
+														<controls:ColorPicker ColorChanged="EditColorPicker_ColorChanged" Color="{x:Bind NewColor, Mode=TwoWay}" />
 													</Flyout>
 												</Button.Flyout>
 											</Button>
@@ -255,6 +292,39 @@
 											Orientation="Horizontal"
 											Spacing="12"
 											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+											<Grid
+												Padding="12,4"
+												VerticalAlignment="Stretch"
+												Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+												BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+												BorderThickness="1"
+												ColumnSpacing="8"
+												CornerRadius="4"
+												ToolTipService.ToolTip="{helpers:ResourceString Name=TagNameRules}"
+												Visibility="{x:Bind IsNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition Width="Auto" />
+													<ColumnDefinition Width="Auto" />
+												</Grid.ColumnDefinitions>
+												<TextBlock
+													VerticalAlignment="Center"
+													AutomationProperties.AccessibilityView="Raw"
+													FontFamily="{ThemeResource SymbolThemeFontFamily}"
+													FontSize="{StaticResource InfoBarIconFontSize}"
+													Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
+													Text="{StaticResource InfoBarIconBackgroundGlyph}" />
+												<TextBlock
+													VerticalAlignment="Center"
+													FontFamily="{ThemeResource SymbolThemeFontFamily}"
+													FontSize="{StaticResource InfoBarIconFontSize}"
+													Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+													Text="{StaticResource InfoBarErrorIconGlyph}" />
+												<TextBlock
+													Grid.Column="1"
+													VerticalAlignment="Center"
+													Text="{helpers:ResourceString Name=InvalidTagNameWarning}" />
+											</Grid>
+
 											<Button
 												x:Name="CancelChangesButton"
 												Click="CancelRenameTag_Click"
@@ -264,7 +334,7 @@
 												x:Name="SaveChangesButton"
 												Click="CommitRenameTag_Click"
 												Content="{helpers:ResourceString Name=SaveChanges}"
-												IsEnabled="{x:Bind IsNameValid, Mode=OneWay}"
+												IsEnabled="{x:Bind CanCommit, Mode=OneWay}"
 												Style="{StaticResource AccentButtonStyle}" />
 										</StackPanel>
 									</Grid>

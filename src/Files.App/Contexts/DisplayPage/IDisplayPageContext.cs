@@ -13,5 +13,10 @@ namespace Files.App.Contexts
 
 		GroupOption GroupOption { get; set; }
 		SortDirection GroupDirection { get; set; }
+
+		bool SortDirectoriesAlongsideFiles { get; set; }
+
+		void DecreaseLayoutSize();
+		void IncreaseLayoutSize();
 	}
 }

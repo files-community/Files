@@ -273,7 +273,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Supprimer</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>Ajouter aux favoris</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copier vers {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>Créer un raccourci</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -1419,7 +1419,7 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Date de modification</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+  <data name="OriginalFolder" xml:space="preserve">
     <value>Dossier original</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
@@ -1782,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Fermer le panneau</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Entrer en mode compact</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Quitter le mode compact</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
@@ -1853,12 +1853,6 @@
   </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
-  </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Up</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maj+1</value>
@@ -2001,7 +1995,7 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Ouvrir les éléments d'un seul clic</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+  <data name="FolderPath" xml:space="preserve">
     <value>Chemin du dossier</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
@@ -2204,9 +2198,6 @@
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>Images</value>
-  </data>
-  <data name="Videos" xml:space="preserve">
-    <value>Vidéos</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Mettre-à-jour Files</value>
@@ -2589,6 +2580,12 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Appliquer cette action pour tous les conflits</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Ouvrir dans un terminal</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Ouvrir dans un terminal en tant qu'administrateur</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Sauvegarder</value>
   </data>
@@ -2596,7 +2593,7 @@
     <value>Sélection Multiple</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>Réorganiser la barre latérale des éléments</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hash</value>
@@ -2618,5 +2615,53 @@
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Éléments épinglés</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Diminuer la taille</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Augmenter la taille</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Changer l'ordre de tri</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Nom invalide</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>Le nom ne peut être vide, commencer ou se terminer par un point.</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Vidéos</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>Lancer l'Aperçu Rapide</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Activer/désactiver le mode compact</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Copier le(s) élément(s) vers le presse-papiers</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Copier le chemin de l'élément dans le presse-papiers</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Couper le(s) élément(s) dans le presse-papiers</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Coller le(s) élément(s) du presse-papiers dans le dossier courant</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Coller le(s) élément(s) depuis le presse-papiers dans le dossier sélectionné</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Activer/désactiver le mode compact</value>
+  </data>
+	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>Entrer en mode compact</value>
+  </data>
+	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>Quitter le mode compact</value>
   </data>
 </root>

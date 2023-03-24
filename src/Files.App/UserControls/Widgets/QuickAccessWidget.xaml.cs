@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -123,6 +124,8 @@ namespace Files.App.UserControls.Widgets
 			OpenPropertiesCommand = new RelayCommand<FolderCardItem>(OpenProperties);
 			PinToFavoritesCommand = new RelayCommand<FolderCardItem>(PinToFavorites);
 			UnpinFromFavoritesCommand = new RelayCommand<FolderCardItem>(UnpinFromFavorites);
+
+			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChanged;
 		}
 
 		public delegate void QuickAccessCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
@@ -193,7 +196,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
+					Text = "PinToFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
 						OpacityIconStyle = "ColorIconPinToFavorites",
@@ -270,8 +273,6 @@ namespace Files.App.UserControls.Widgets
 							SelectCommand = QuickAccessCardCommand
 						});
 					}
-					var cardLoadTasks = ItemsAdded.Select(cardItem => cardItem.LoadCardThumbnailAsync());
-					await Task.WhenAll(cardLoadTasks);
 
 					return;
 				}
@@ -287,9 +288,6 @@ namespace Files.App.UserControls.Widgets
 							SelectCommand = QuickAccessCardCommand
 						});
 					}
-
-					var cardLoadTasks = ItemsAdded.Select(cardItem => cardItem.LoadCardThumbnailAsync());
-					await Task.WhenAll(cardLoadTasks);
 				}
 				else
 					foreach (var itemToRemove in ItemsAdded.Where(x => e.Paths.Contains(x.Path)).ToList())
@@ -314,15 +312,21 @@ namespace Files.App.UserControls.Widgets
 			}
 
 			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItem;
-
-			var cardLoadTasks = ItemsAdded.Select(cardItem => cardItem.LoadCardThumbnailAsync());
-			await Task.WhenAll(cardLoadTasks);
 		}
 
 		private void QuickAccessWidget_Unloaded(object sender, RoutedEventArgs e)
 		{
 			Unloaded -= QuickAccessWidget_Unloaded;
 			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItem;
+		}
+
+		private async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (e.Action is NotifyCollectionChangedAction.Add)
+			{
+				foreach (FolderCardItem cardItem in e.NewItems!)
+					await cardItem.LoadCardThumbnailAsync();
+			}
 		}
 
 		private void MenuFlyout_Opening(object sender)
@@ -416,8 +420,8 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		public void Dispose() 
-		{ 
-		
+		{
+			ItemsAdded.CollectionChanged -= ItemsAdded_CollectionChanged;
 		}
 	}
 }
