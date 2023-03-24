@@ -1,7 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Files.App.Commands;
-using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Interacts;
@@ -9,7 +7,6 @@ using Files.App.ViewModels;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;

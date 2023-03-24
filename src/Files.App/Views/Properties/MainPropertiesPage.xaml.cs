@@ -21,7 +21,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
-using Windows.Graphics;
 using Windows.System;
 using Windows.UI;
 
