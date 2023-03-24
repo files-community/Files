@@ -26,7 +26,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |  | RestoreAllRecycleBin | Restore All Items | Restore all items from recycle bin |  |
 |  | OpenItem | Open | Open item(s) |  |
 |  | OpenItemWithApplicationPicker | Open With | Open item(s) with selected application |  |
-|  | OpenParentFolder | Open parent folder | Open parent folder |  |
+|  | OpenParentFolder | Open parent folder | Open parent folder of searched item |  |
 | Selection | SelectAll | Select All | Select all items | Ctrl+A |
 |  | InvertSelection | Invert Selection | Invert item selection |  |
 |  | ClearSelection | Clear Selection | Clear item selection |  |
