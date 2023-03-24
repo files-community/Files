@@ -4,8 +4,6 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
-using Files.App.Shell;
-using Files.Backend.Helpers;
 using System.Threading.Tasks;
 using Windows.System;
 
@@ -22,6 +20,8 @@ namespace Files.App.Actions
 			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
 
 		public string Label => "LaunchQuickLook".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public LaunchQuickLookAction()
 		{

@@ -16,6 +16,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Cut".GetLocalizedResource();
 
+		public string Description => "CutItemDescription".GetLocalizedResource();
+
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCut");
 
 		public HotKey HotKey { get; } = new(VirtualKey.X, VirtualKeyModifiers.Control);

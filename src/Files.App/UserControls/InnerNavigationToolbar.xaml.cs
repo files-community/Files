@@ -11,7 +11,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.IO;
 using System.Linq;
-using System.Windows.Input;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -73,26 +72,6 @@ namespace Files.App.UserControls
 		// Using a DependencyProperty as the backing store for IsMultiPaneActive.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty IsMultiPaneActiveProperty =
 			DependencyProperty.Register("IsMultiPaneActive", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(false));
-
-		public bool IsCompactOverlay
-		{
-			get { return (bool)GetValue(IsCompactOverlayProperty); }
-			set { SetValue(IsCompactOverlayProperty, value); }
-		}
-
-		// Using a DependencyProperty as the backing store for IsCompactOverlay.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty IsCompactOverlayProperty =
-			DependencyProperty.Register("IsCompactOverlay", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
-
-		public ICommand SetCompactOverlayCommand
-		{
-			get { return (ICommand)GetValue(SetCompactOverlayCommandProperty); }
-			set { SetValue(SetCompactOverlayCommandProperty, value); }
-		}
-
-		// Using a DependencyProperty as the backing store for ToggleCompactOverlayCommand.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty SetCompactOverlayCommandProperty =
-			DependencyProperty.Register("ToggleCompactOverlayCommand", typeof(ICommand), typeof(AddressToolbar), new PropertyMetadata(null));
 
 		private void NewEmptySpace_Opening(object sender, object e)
 		{

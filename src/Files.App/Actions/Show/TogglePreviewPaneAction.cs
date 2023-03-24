@@ -15,6 +15,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "TogglePreviewPane".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconRightPane");
 		public HotKey HotKey { get; } = new(VirtualKey.P, VirtualKeyModifiers.Control);
 

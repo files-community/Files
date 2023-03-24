@@ -45,13 +45,6 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref selectedTabItem, value);
 		}
 
-		private bool isWindowCompactOverlay;
-		public bool IsWindowCompactOverlay
-		{
-			get => isWindowCompactOverlay;
-			set => SetProperty(ref isWindowCompactOverlay, value);
-		}
-
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
@@ -407,24 +400,6 @@ namespace Files.App.ViewModels
 		public static Task AddNewTabAsync()
 		{
 			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
-		}
-
-		public static async Task DuplicateTabAsync()
-		{
-			var tabItem = AppInstances.FirstOrDefault(instance => instance.Control.TabItemContent.IsCurrentInstance);
-			if (tabItem is null)
-				return;
-
-			var index = AppInstances.IndexOf(tabItem);
-			if (tabItem.TabItemArguments is not null)
-			{
-				var tabArgs = tabItem.TabItemArguments;
-				await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg, index + 1);
-			}
-			else
-			{
-				await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
-			}
 		}
 
 		public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)

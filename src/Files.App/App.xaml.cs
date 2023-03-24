@@ -200,6 +200,8 @@ namespace Files.App
 						.AddSingleton<IPageContext, PageContext>()
 						.AddSingleton<IContentPageContext, ContentPageContext>()
 						.AddSingleton<IDisplayPageContext, DisplayPageContext>()
+            .AddSingleton<IWindowContext, WindowContext>()
+            .AddSingleton<IMultitaskingContext, MultitaskingContext>()
 						.AddSingleton(Logger)
 						.AddSingleton<IDialogService, DialogService>()
 						.AddSingleton<IImageService, ImagingService>()
