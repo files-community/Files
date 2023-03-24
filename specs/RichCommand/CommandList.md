@@ -20,9 +20,9 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |  | DeleteItem | Delete | Delete item(s) | Delete |
 |  | CreateFolder | Folder | Create new folder |  |
 |  | CreateShortcut | Create shortcut | Create new shortcut(s) to selected item(s) |  |
-|  | CreateShortcutFromDialog | Shortcut | Create new shortcut to any location |  |
+|  | CreateShortcutFromDialog | Shortcut | Create new shortcut to any item |  |
 |  | EmptyRecycleBin | Empty Recycle Bin | Empty recycle bin |  |
-|  | RestoreRecycleBin | Restore | Restore selected item from recycle bin |  |
+|  | RestoreRecycleBin | Restore | Restore selected item(s) from recycle bin |  |
 |  | RestoreAllRecycleBin | Restore All Items | Restore all items from recycle bin |  |
 |  | OpenItem | Open | Open item(s) |  |
 |  | OpenItemWithApplicationPicker | Open With | Open item(s) with selected application |  |
