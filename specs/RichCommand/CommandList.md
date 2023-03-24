@@ -47,7 +47,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |  | CompressIntoZip | Create _ArchiveName_.zip | Create zip archive with selected item(s) |  |
 |  | DecompressArchive | Extract files | Extract items from selected archive(s) | Ctrl+E |
 |  | DecompressArchiveHere | Extract here | Extract items from selected archive(s) to current folder |  |
-|  | DecompressArchiveToChildFolder | Extract to _Location_ | Extract items from selected archive(s) to new folder |  |
+|  | DecompressArchiveToChildFolder | Extract to _NewFolderName_ | Extract items from selected archive(s) to new folder |  |
 | Image Edition | RotateLeft | Rotate left | Rotate selected image(s) to the left |  |
 |  | RotateRight | Rotate right | Rotate selected image(s) to the right |  |
 | Open | OpenTerminal | Open in terminal | Open folder in terminal | Ctrl+\` |
