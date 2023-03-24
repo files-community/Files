@@ -23,7 +23,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |  | CreateShortcutFromDialog | Shortcut | Create new shortcut to any location |  |
 |  | EmptyRecycleBin | Empty Recycle Bin | Empty recycle bin |  |
 |  | RestoreRecycleBin | Restore | Restore selected item from recycle bin |  |
-|  | RestoreAllRecycleBin | Restore all items from recycle bin |  |  |
+|  | RestoreAllRecycleBin | Restore All Items | Restore all items from recycle bin |  |
 |  | OpenItem | Open | Open item(s) |  |
 |  | OpenItemWithApplicationPicker | Open With | Open item(s) with selected application |  |
 |  | OpenParentFolder | Open parent folder | Open parent folder |  |
