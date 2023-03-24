@@ -16,6 +16,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "FormatDriveText".GetLocalizedResource();
 
+		public string Description { get; } = "FormatDriveDescription".GetLocalizedResource();
 		public bool IsExecutable => context.HasItem && (App.DrivesManager.Drives.FirstOrDefault(x => string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
 
 		public FormatDriveAction()
