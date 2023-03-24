@@ -143,33 +143,7 @@
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="F12">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ToggleCompactOverlayCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator
-			Key="Up"
-			x:Name="EnterCompactOverlayKeyboardAccelerator"
-			Modifiers="Menu,Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind SetCompactOverlayCommand}" CommandParameter="{StaticResource True}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator
-			Key="Down"
-			x:Name="ExitCompactOverlayKeyboardAccelerator"
-			Modifiers="Menu,Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind SetCompactOverlayCommand}" CommandParameter="{StaticResource False}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
+
 		<KeyboardAccelerator
 			Key="S"
 			x:Name="ToggleSidebarVisibilityKeyboardAcceleretor"
@@ -252,7 +226,7 @@
 						SettingsButtonCommand="{x:Bind ViewModel.OpenSettingsCommand}"
 						ShowOngoingTasks="True"
 						ShowSearchBox="True"
-						ShowSettingsButton="{x:Bind ViewModel.IsWindowCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+						ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 						TabIndex="1" />
 				</Grid>
 			</controls:SidebarControl.TabContent>
@@ -285,9 +259,7 @@
 					x:Name="InnerNavigationToolbar"
 					Grid.ColumnSpan="3"
 					x:Load="False"
-					IsCompactOverlay="{x:Bind ViewModel.IsWindowCompactOverlay, Mode=OneWay}"
 					Loaded="NavToolbar_Loaded"
-					SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
 					ShowPreviewPaneButton="{x:Bind ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
 					TabIndex="2" />
 
@@ -358,9 +330,6 @@
 						<Setter Target="SidebarControl.PaneDisplayMode" Value="LeftMinimal" />
 						<Setter Target="SidebarControl.IsPaneToggleButtonVisible" Value="True" />
 						<Setter Target="TabControl.Margin" Value="48,0,0,0" />
-
-						<!--  Update the button size to match the pane toggle button size  -->
-						<Setter Target="HorizontalMultitaskingControlAddButton.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

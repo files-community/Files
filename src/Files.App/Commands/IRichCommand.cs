@@ -15,6 +15,8 @@ namespace Files.App.Commands
 		string LabelWithHotKey { get; }
 		string AutomationName { get; }
 
+		string Description { get; }
+
 		RichGlyph Glyph { get; }
 		object? Icon { get; }
 		FontIcon? FontIcon { get; }

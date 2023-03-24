@@ -13,6 +13,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "SettingsListAndSortDirectoriesAlongsideFiles".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public bool IsOn => context.SortDirectoriesAlongsideFiles;
 
 		public ToggleSortDirectoriesAlongsideFilesAction()

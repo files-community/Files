@@ -20,6 +20,8 @@ namespace Files.App.Actions
 
 		public virtual string Label { get; } = "OpenTerminal".GetLocalizedResource();
 
+		public virtual string Description => "TODO: Need to be described.";
+
 		public virtual HotKey HotKey { get; } = new((VirtualKey)192, VirtualKeyModifiers.Control);
 
 		public RichGlyph Glyph { get; } = new("\uE756");

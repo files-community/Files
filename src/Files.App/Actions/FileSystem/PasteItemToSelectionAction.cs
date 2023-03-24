@@ -18,6 +18,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Paste".GetLocalizedResource();
 
+		public string Description => "PasteItemToSelectionDescription".GetLocalizedResource();
+
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconPaste");
 
 		public HotKey HotKey { get; } = new(VirtualKey.V, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
