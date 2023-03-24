@@ -38,6 +38,9 @@ namespace Files.App.Commands
 		InvertSelection,
 		ClearSelection,
 
+		// Share
+		ShareItem,
+
 		// Start
 		PinToStart,
 		UnpinFromStart,

@@ -410,17 +410,10 @@ namespace Files.App.Helpers
 					},
 					ShowItem = itemsSelected
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.ShareItem)
 				{
-					Text = "BaseLayoutItemContextFlyoutShare/Text".GetLocalizedResource(),
-					IsPrimary = true,
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconShare",
-					},
-					Command = commandsViewModel.ShareItemCommand,
-					ShowItem = itemsSelected && DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem || (i.IsShortcut && !i.IsLinkItem) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && !i.IsArchive)),
-				},
+					IsPrimary = true
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.DeleteItem)
 				{
 					IsVisible = itemsSelected,
