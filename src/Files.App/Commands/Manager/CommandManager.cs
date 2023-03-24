@@ -116,6 +116,7 @@ namespace Files.App.Commands
 		public IRichCommand CloseTabsToTheRightSelected => commands[CommandCodes.CloseTabsToTheRightSelected];
 		public IRichCommand CloseOtherTabsCurrent => commands[CommandCodes.CloseOtherTabsCurrent];
 		public IRichCommand CloseOtherTabsSelected => commands[CommandCodes.CloseOtherTabsSelected];
+		public IRichCommand ReopenClosedTab => commands[CommandCodes.ReopenClosedTab];
 
 		public CommandManager()
 		{
@@ -238,6 +239,7 @@ namespace Files.App.Commands
 			[CommandCodes.CloseTabsToTheRightSelected] = new CloseTabsToTheRightSelectedAction(),
 			[CommandCodes.CloseOtherTabsCurrent] = new CloseOtherTabsCurrentAction(),
 			[CommandCodes.CloseOtherTabsSelected] = new CloseOtherTabsSelectedAction(),
+			[CommandCodes.ReopenClosedTab] = new ReopenClosedTabAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

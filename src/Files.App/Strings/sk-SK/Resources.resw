@@ -1478,7 +1478,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>Počet položiek: {0}</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>Znovu otvoriť zatvorenú kartu</value>
   </data>
   <data name="Rename" xml:space="preserve">

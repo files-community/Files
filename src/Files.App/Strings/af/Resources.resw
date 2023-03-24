@@ -1477,7 +1477,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} items</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>Heropen geslote duimgids</value>
   </data>
   <data name="Rename" xml:space="preserve">

@@ -963,7 +963,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} ଆଇଟମ୍‌ଗୁଡିକ</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>ବନ୍ଦ ହୋଇଥିବା ଟାବ୍‍ ପୁନଃ ଖୋଲନ୍ତୁ</value>
   </data>
   <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">

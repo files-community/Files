@@ -1476,7 +1476,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} 个项目</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>重新打开关闭的标签页</value>
   </data>
   <data name="Rename" xml:space="preserve">

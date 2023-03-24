@@ -49,16 +49,10 @@
 							Text="{x:Bind Commands.CloseOtherTabsSelected.Label}" />
 						<MenuFlyoutItem
 							x:Name="MenuItemReopenClosedTab"
-							Click="ReopenClosedTab"
-							KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlReopenClosedTab/KeyboardAcceleratorTextOverride}"
-							Text="{helpers:ResourceString Name=HorizontalMultitaskingControlReopenClosedTab/Text}">
-							<MenuFlyoutItem.KeyboardAccelerators>
-								<KeyboardAccelerator
-									Key="T"
-									IsEnabled="False"
-									Modifiers="Control,Shift" />
-							</MenuFlyoutItem.KeyboardAccelerators>
-						</MenuFlyoutItem>
+							Command="{x:Bind Commands.ReopenClosedTab}"
+							IsEnabled="{x:Bind Commands.ReopenClosedTab.IsExecutable}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.ReopenClosedTab.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.ReopenClosedTab.Label}" />
 					</MenuFlyout>
 
 					<Style x:Key="TabViewCloseButtonStyle" TargetType="Button">
