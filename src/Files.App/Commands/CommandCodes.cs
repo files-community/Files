@@ -119,6 +119,9 @@ namespace Files.App.Commands
 		// Navigation
 		NewTab,
 		DuplicateTab,
+		NavigateBack,
+		NavigateForward,
+		NavigateUp,
 
 		// Other
 		InstallFont,

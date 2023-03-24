@@ -107,6 +107,9 @@ namespace Files.App.Commands
 
 		IRichCommand NewTab { get; }
 		IRichCommand DuplicateTab { get; }
+		IRichCommand NavigateBack { get; }
+		IRichCommand NavigateForward { get; }
+		IRichCommand NavigateUp { get; }
 
 		IRichCommand InstallFont { get; }
 	}

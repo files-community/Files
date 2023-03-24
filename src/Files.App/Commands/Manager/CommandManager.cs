@@ -107,6 +107,9 @@ namespace Files.App.Commands
 		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 		public IRichCommand DuplicateTab => commands[CommandCodes.DuplicateTab];
+		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
+		public IRichCommand NavigateForward => commands[CommandCodes.NavigateForward];
+		public IRichCommand NavigateUp => commands[CommandCodes.NavigateUp];
 		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
 
 		public CommandManager()
@@ -221,6 +224,9 @@ namespace Files.App.Commands
 			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.DuplicateTab] = new DuplicateTabAction(),
+			[CommandCodes.NavigateBack] = new NavigateBackAction(),
+			[CommandCodes.NavigateForward] = new NavigateForwardAction(),
+			[CommandCodes.NavigateUp] = new NavigateUpAction(),
 			[CommandCodes.InstallFont] = new InstallFontAction(),
 		};
 
