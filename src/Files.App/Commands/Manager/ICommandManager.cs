@@ -113,7 +113,6 @@ namespace Files.App.Commands
 		IRichCommand NavigateForward { get; }
 		IRichCommand NavigateUp { get; }
 
-		IRichCommand InstallFont { get; }
 		IRichCommand DuplicateCurrentTab { get; }
 		IRichCommand DuplicateSelectedTab { get; }
 		IRichCommand CloseTabsToTheLeftCurrent { get; }

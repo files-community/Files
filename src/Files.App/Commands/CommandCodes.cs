@@ -127,7 +127,6 @@ namespace Files.App.Commands
 		NavigateUp,
 
 		// Other
-		InstallFont,
 		DuplicateCurrentTab,
 		DuplicateSelectedTab,
 		CloseTabsToTheLeftCurrent,
