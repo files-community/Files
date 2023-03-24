@@ -1854,12 +1854,6 @@
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Su</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Giù</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maiusc+1</value>
   </data>
@@ -2642,5 +2636,32 @@
   </data>
   <data name="LaunchQuickLook" xml:space="preserve">
     <value>Avvia QuickLook</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Attiva/Disattiva modalità primo piano</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Copia gli elementi negli appunti</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Copia il percorso negli appunti</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Taglia gli elementi</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Incolla gli elementi dagli appunti alla cartella di lavoro</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Incolla gli elementi dagli appunti alla cartella selezionata</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Attiva/Disattiva modalità primo piano</value>
+  </data>
+	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>Entra in modalità Compact Overlay</value>
+  </data>
+	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>Esci dalla modalità Compact Overlay</value>
   </data>
 </root>

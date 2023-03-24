@@ -1854,12 +1854,6 @@
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Up</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Vaihto+1</value>
   </data>
@@ -2642,5 +2636,32 @@
   </data>
   <data name="LaunchQuickLook" xml:space="preserve">
     <value>Käynnistä pikakatselu</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Kytke suppea asettelu päälle/pois</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Kopioi kohteet leikepöydälle</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Kopioi kohteen polku leikepöydälle</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Leikkaa kohteet leikepöydälle</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Liitä kohteet leikepöydältä nykyiseen kansioon</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Liitä kohteet leikepöydältä valittuun kansioon</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Kytke suppea asettelu päälle/pois</value>
+  </data>
+	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>Siirry suppeaan asetteluun</value>
+  </data>
+	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>Poistu suppeasta asettelusta</value>
   </data>
 </root>
