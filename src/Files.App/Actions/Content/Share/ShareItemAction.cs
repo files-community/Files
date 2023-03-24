@@ -58,9 +58,6 @@ namespace Files.App.Actions.Content.Share
 				List<IStorageItem> items = new();
 				DataRequest dataRequest = args.Request;
 
-				//dataRequest.Data.Properties.Title = "Data Shared From Files";
-				//dataRequest.Data.Properties.Description = "The items you selected will be shared";
-
 				foreach (ListedItem item in context.SelectedItems)
 				{
 					if (item is ShortcutItem shItem)
