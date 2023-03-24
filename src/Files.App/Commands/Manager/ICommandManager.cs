@@ -29,6 +29,7 @@ namespace Files.App.Commands
 		IRichCommand EmptyRecycleBin { get; }
 		IRichCommand RestoreRecycleBin { get; }
 		IRichCommand RestoreAllRecycleBin { get; }
+		IRichCommand FormatDrive { get; }
 
 		IRichCommand PinToStart { get; }
 		IRichCommand UnpinFromStart { get; }

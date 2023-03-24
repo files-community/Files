@@ -21,6 +21,7 @@
 		CreateShortcut,
 		CreateShortcutFromDialog,
 		EmptyRecycleBin,
+		FormatDrive,
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
 

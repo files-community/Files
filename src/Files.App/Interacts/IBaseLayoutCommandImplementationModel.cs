@@ -58,7 +58,5 @@ namespace Files.App.Interacts
 		Task InstallFont();
 
 		Task PlayAll();
-
-		void FormatDrive(ListedItem? obj);
 	}
 }

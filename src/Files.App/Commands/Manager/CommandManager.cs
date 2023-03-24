@@ -65,6 +65,7 @@ namespace Files.App.Commands
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 		public IRichCommand DuplicateTab => commands[CommandCodes.DuplicateTab];
+		public IRichCommand FormatDrive => commands[CommandCodes.FormatDrive];
 
 		public CommandManager()
 		{
@@ -130,6 +131,7 @@ namespace Files.App.Commands
 			[CommandCodes.RotateRight] = new RotateRightAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.DuplicateTab] = new DuplicateTabAction(),
+			[CommandCodes.FormatDrive] = new FormatDriveAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
