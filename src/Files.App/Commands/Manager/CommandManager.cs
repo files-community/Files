@@ -108,7 +108,14 @@ namespace Files.App.Commands
 		public IRichCommand GroupDescending => commands[CommandCodes.GroupDescending];
 		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
-		public IRichCommand DuplicateTab => commands[CommandCodes.DuplicateTab];
+		public IRichCommand DuplicateCurrentTab => commands[CommandCodes.DuplicateCurrentTab];
+		public IRichCommand DuplicateSelectedTab => commands[CommandCodes.DuplicateSelectedTab];
+		public IRichCommand CloseTabsToTheLeftCurrent => commands[CommandCodes.CloseTabsToTheLeftCurrent];
+		public IRichCommand CloseTabsToTheLeftSelected => commands[CommandCodes.CloseTabsToTheLeftSelected];
+		public IRichCommand CloseTabsToTheRightCurrent => commands[CommandCodes.CloseTabsToTheRightCurrent];
+		public IRichCommand CloseTabsToTheRightSelected => commands[CommandCodes.CloseTabsToTheRightSelected];
+		public IRichCommand CloseOtherTabsCurrent => commands[CommandCodes.CloseOtherTabsCurrent];
+		public IRichCommand CloseOtherTabsSelected => commands[CommandCodes.CloseOtherTabsSelected];
 
 		public CommandManager()
 		{
@@ -223,7 +230,14 @@ namespace Files.App.Commands
 			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
 			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
-			[CommandCodes.DuplicateTab] = new DuplicateTabAction(),
+			[CommandCodes.DuplicateCurrentTab] = new DuplicateCurrentTabAction(),
+			[CommandCodes.DuplicateSelectedTab] = new DuplicateSelectedTabAction(),
+			[CommandCodes.CloseTabsToTheLeftCurrent] = new CloseTabsToTheLeftCurrentAction(),
+			[CommandCodes.CloseTabsToTheLeftSelected] = new CloseTabsToTheLeftSelectedAction(),
+			[CommandCodes.CloseTabsToTheRightCurrent] = new CloseTabsToTheRightCurrentAction(),
+			[CommandCodes.CloseTabsToTheRightSelected] = new CloseTabsToTheRightSelectedAction(),
+			[CommandCodes.CloseOtherTabsCurrent] = new CloseOtherTabsCurrentAction(),
+			[CommandCodes.CloseOtherTabsSelected] = new CloseOtherTabsSelectedAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
