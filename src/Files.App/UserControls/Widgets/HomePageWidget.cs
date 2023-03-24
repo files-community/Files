@@ -12,7 +12,9 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Foundation;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -35,28 +37,33 @@ namespace Files.App.UserControls.Widgets
 
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
-		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		public async void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
-			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			if (sender is not Button widgetCardItem || widgetCardItem.DataContext is not WidgetCardItem item)
+			if (sender is FrameworkElement element)
+			{
+				Point position = e.GetPosition(element);
+				await OpenContextMenuAsync(element, position);
+				e.Handled = true;
+			}
+		}
+
+		public async Task OpenContextMenuAsync(FrameworkElement element, Point position)
+		{
+			if (element.DataContext is not WidgetCardItem item)
 				return;
+
+			var flyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			flyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+			secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+			secondaryElements.ForEach(flyout.SecondaryCommands.Add);
 
-			secondaryElements.OfType<FrameworkElement>()
-							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
-
-			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			ItemContextMenuFlyout = itemContextMenuFlyout;
-			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
-
-			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
-
-			e.Handled = true;
+			ItemContextMenuFlyout = flyout;
+			flyout.ShowAt(element, new FlyoutShowOptions { Position = position });
+			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, flyout);
 		}
-
 
 		public async void OpenInNewTab(WidgetCardItem item)
 		{
