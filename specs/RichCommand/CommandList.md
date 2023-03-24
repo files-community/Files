@@ -43,9 +43,9 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |  | RunAsAnotherUser | Run as another user | Run selected application as another user |  |
 | QuickLook | LaunchQuickLook | Launch QuickLook | Launch QuickLook with selected item | Space |
 | Archives | CompressIntoArchive | Create archive | Create archive with selected item(s) |  |
-|  | CompressIntoSevenZip | Create _ArchiveName_.7z | Create 7z archive with selected item(s) |  |
-|  | CompressIntoZip | Create _ArchiveName_.zip | Create zip archive with selected item(s) |  |
-|  | DecompressArchive | Extract files | Extract items from selected archive(s) | Ctrl+E |
+|  | CompressIntoSevenZip | Create _ArchiveName_.7z | Create 7z archive instantly with selected item(s) |  |
+|  | CompressIntoZip | Create _ArchiveName_.zip | Create zip archive instantly with selected item(s) |  |
+|  | DecompressArchive | Extract files | Extract items from selected archive(s) to any folder | Ctrl+E |
 |  | DecompressArchiveHere | Extract here | Extract items from selected archive(s) to current folder |  |
 |  | DecompressArchiveToChildFolder | Extract to _NewFolderName_ | Extract items from selected archive(s) to new folder |  |
 | Image Edition | RotateLeft | Rotate left | Rotate selected image(s) to the left |  |
