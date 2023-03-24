@@ -14,7 +14,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Storage;
 
-namespace Files.App.Actions.Content.Share
+namespace Files.App.Actions
 {
 	internal class ShareItemAction : ObservableObject, IAction
 	{
@@ -25,7 +25,6 @@ namespace Files.App.Actions.Content.Share
 		public string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShare");
-
 
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() &&
 			DataTransferManager.IsSupported() &&

@@ -159,7 +159,7 @@
 					IsEnabled="{x:Bind Commands.ShareItem.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Label="{x:Bind Commands.ShareItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.ShareItem.Label}">
+					ToolTipService.ToolTip="{x:Bind Commands.ShareItem.LabelWithHotKey}">
 
 					<local:OpacityIcon Style="{x:Bind Commands.ShareItem.OpacityStyle}" />
 				</AppBarButton>
