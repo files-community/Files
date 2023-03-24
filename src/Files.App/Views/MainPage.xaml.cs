@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
@@ -25,7 +24,6 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
@@ -53,7 +51,6 @@ namespace Files.App.Views
 			set => DataContext = value;
 		}
 
-
 		/// <summary>
 		/// True if the user is currently resizing the preview pane
 		/// </summary>
@@ -64,8 +61,6 @@ namespace Files.App.Views
 		public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
 
 		public readonly OngoingTasksViewModel OngoingTasksViewModel;
-
-		private ICommand ToggleSidebarCollapsedStateCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleSidebarCollapsedState(x));
 
 		public MainPage()
 		{
@@ -395,12 +390,6 @@ namespace Files.App.Views
 					UpdatePositioning();
 					break;
 			}
-		}
-
-		private void ToggleSidebarCollapsedState(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			SidebarAdaptiveViewModel.IsSidebarOpen = !SidebarAdaptiveViewModel.IsSidebarOpen;
-			e!.Handled = true;
 		}
 
 		private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
