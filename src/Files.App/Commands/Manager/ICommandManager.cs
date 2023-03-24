@@ -48,6 +48,9 @@ namespace Files.App.Commands
 		IRichCommand SetAsSlideshowBackground { get; }
 		IRichCommand SetAsLockscreenBackground { get; }
 
+		IRichCommand InstallFont { get; }
+		IRichCommand InstallInfDriver { get; }
+
 		IRichCommand RunAsAdmin { get; }
 		IRichCommand RunAsAnotherUser { get; }
 
@@ -114,7 +117,5 @@ namespace Files.App.Commands
 		IRichCommand CloseTabsToTheRightSelected { get; }
 		IRichCommand CloseOtherTabsCurrent { get; }
 		IRichCommand CloseOtherTabsSelected { get; }
-
-		IRichCommand InstallFont { get; }
 	}
 }

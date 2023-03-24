@@ -787,12 +787,12 @@ namespace Files.App.Shell
 			{
 				var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
 
-				using Process process = new Process();
+				using Process process = new();
 				process.StartInfo.FileName = "InfDefaultInstall.exe";
 				process.StartInfo.Verb = "runas";
 				process.StartInfo.UseShellExecute = true;
 				process.StartInfo.CreateNoWindow = true;
-				process.StartInfo.Arguments = $"{filePath}";
+				process.StartInfo.Arguments = $"\"{filePath}\"";
 				process.Start();
 
 				await process.WaitForExitAsync(cts.Token);

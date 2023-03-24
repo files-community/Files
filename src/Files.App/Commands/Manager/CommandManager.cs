@@ -53,6 +53,8 @@ namespace Files.App.Commands
 		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
 		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
+		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
+		public IRichCommand InstallInfDriver => commands[CommandCodes.InstallInfDriver];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
 		public IRichCommand LaunchQuickLook => commands[CommandCodes.LaunchQuickLook];
@@ -114,7 +116,6 @@ namespace Files.App.Commands
 		public IRichCommand CloseTabsToTheRightSelected => commands[CommandCodes.CloseTabsToTheRightSelected];
 		public IRichCommand CloseOtherTabsCurrent => commands[CommandCodes.CloseOtherTabsCurrent];
 		public IRichCommand CloseOtherTabsSelected => commands[CommandCodes.CloseOtherTabsSelected];
-		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
 
 		public CommandManager()
 		{
@@ -174,6 +175,8 @@ namespace Files.App.Commands
 			[CommandCodes.PasteItem] = new PasteItemAction(),
 			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
+			[CommandCodes.InstallFont] = new InstallFontAction(),
+			[CommandCodes.InstallInfDriver] = new InstallInfDriverAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
 			[CommandCodes.LaunchQuickLook] = new LaunchQuickLookAction(),
@@ -235,7 +238,6 @@ namespace Files.App.Commands
 			[CommandCodes.CloseTabsToTheRightSelected] = new CloseTabsToTheRightSelectedAction(),
 			[CommandCodes.CloseOtherTabsCurrent] = new CloseOtherTabsCurrentAction(),
 			[CommandCodes.CloseOtherTabsSelected] = new CloseOtherTabsSelectedAction(),
-			[CommandCodes.InstallFont] = new InstallFontAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
