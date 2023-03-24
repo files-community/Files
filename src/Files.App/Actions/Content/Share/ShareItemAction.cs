@@ -98,7 +98,9 @@ namespace Files.App.Actions.Content.Share
 				}
 				else
 				{
-					dataRequest.Data.Properties.Title = string.Format("ShareDialogTitleMultipleItems".GetLocalizedResource(), items.Count,
+					dataRequest.Data.Properties.Title = string.Format(
+						"ShareDialogTitleMultipleItems".GetLocalizedResource(),
+						items.Count,
 						"ItemsCount.Text".GetLocalizedResource());
 					dataRequest.Data.Properties.Description = "ShareDialogMultipleItemsDescription".GetLocalizedResource();
 				}
