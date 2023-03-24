@@ -22,7 +22,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using static Files.App.Constants.Browser.GridViewBrowser;
