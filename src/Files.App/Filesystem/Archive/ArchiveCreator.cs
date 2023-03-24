@@ -11,6 +11,9 @@ namespace Files.App.Filesystem.Archive
 {
 	public class ArchiveCreator : IArchiveCreator
 	{
+		// Represents the total number of items to be processed.
+		// It is used to calculate a weighted progress with this formula:
+		// Progress = [OldProgress + (ProgressDelta / ItemsAmount)]
 		private int itemsAmount = 1;
 		private int processedItems = 0;
 
