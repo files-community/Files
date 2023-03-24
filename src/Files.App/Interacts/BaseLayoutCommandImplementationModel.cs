@@ -378,12 +378,6 @@ namespace Files.App.Interacts
 			await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
 		}
 
-		public async Task InstallInfDriver()
-		{
-			foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
-				await Win32API.InstallInf(selectedItem.ItemPath);
-		}
-
 		public async Task PlayAll()
 		{
 			await NavigationHelpers.OpenSelectedItems(associatedInstance);
