@@ -37,16 +37,6 @@ namespace Files.App.UserControls.Widgets
 
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
-		public async void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
-		{
-			if (sender is FrameworkElement element)
-			{
-				Point position = e.GetPosition(element);
-				await OpenContextMenuAsync(element, position);
-				e.Handled = true;
-			}
-		}
-
 		public async Task OpenContextMenuAsync(FrameworkElement element, Point position)
 		{
 			if (element.DataContext is not WidgetCardItem item)
@@ -65,12 +55,12 @@ namespace Files.App.UserControls.Widgets
 			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, flyout);
 		}
 
-		public async void OpenInNewTab(WidgetCardItem item)
+		protected async void OpenInNewTab(WidgetCardItem item)
 		{
 			await NavigationHelpers.OpenPathInNewTab(item.Path);
 		}
 
-		public async void OpenInNewWindow(WidgetCardItem item)
+		protected async void OpenInNewWindow(WidgetCardItem item)
 		{
 			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
 		}
@@ -85,5 +75,14 @@ namespace Files.App.UserControls.Widgets
 			_ = QuickAccessService.UnpinFromSidebar(item.Path);
 		}
 
+		protected async void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			if (sender is FrameworkElement element)
+			{
+				Point position = e.GetPosition(element);
+				await OpenContextMenuAsync(element, position);
+				e.Handled = true;
+			}
+		}
 	}
 }

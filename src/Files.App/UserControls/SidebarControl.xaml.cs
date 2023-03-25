@@ -31,9 +31,9 @@ using System.Windows.Input;
 using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
-using static System.Net.Mime.MediaTypeNames;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.UserControls
@@ -171,6 +171,26 @@ namespace Files.App.UserControls
 		}
 
 		public event PropertyChangedEventHandler? PropertyChanged;
+
+		public async Task OpenContextMenuAsync(UIElement element, Point position)
+		{
+			if (element is not NavigationViewItem sidebarItem || sidebarItem.DataContext is not INavigationControlItem item)
+				return;
+
+			var flyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			flyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+
+			rightClickedItem = item;
+
+			var menuItems = GetLocationItemMenuItems(item, flyout);
+			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+			secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+			secondaryElements.ForEach(flyout.SecondaryCommands.Add);
+			flyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = position });
+
+			if (item.MenuOptions.ShowShellItems)
+				await ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, flyout, item.MenuOptions);
+		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
@@ -451,29 +471,14 @@ namespace Files.App.UserControls
 			e.Handled = true;
 		}
 
-		private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private async void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
-			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			if (sender is not NavigationViewItem sidebarItem ||
-				sidebarItem.DataContext is not INavigationControlItem item)
-				return;
-
-			rightClickedItem = item;
-
-			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-
-			secondaryElements.OfType<FrameworkElement>()
-								.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
-
-			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = e.GetPosition(sidebarItem) });
-
-			if (item.MenuOptions.ShowShellItems)
-				_ = ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, itemContextMenuFlyout, item.MenuOptions);
-
-			e.Handled = true;
+			if (sender is UIElement element)
+			{
+				Point position = e.GetPosition(element);
+				await OpenContextMenuAsync(element, position);
+				e.Handled = true;
+			}
 		}
 
 		private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
@@ -621,7 +626,7 @@ namespace Files.App.UserControls
 					}
 					CompleteDragEventArgs(e, captionText, operationType);
 				}
-			}			
+			}
 
 			deferral.Complete();
 		}

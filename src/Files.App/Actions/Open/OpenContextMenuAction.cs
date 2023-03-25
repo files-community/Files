@@ -2,6 +2,8 @@
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
 using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.UserControls;
 using Files.App.UserControls.Widgets;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -36,6 +38,15 @@ namespace Files.App.Actions
 			var point = focused.GetVisualInternal().CenterPoint;
 			var position = new Point(point.X + 16, point.Y + 16);
 
+			if (focused.DataContext is INavigationControlItem)
+			{
+				var sidebar = focused.FindAscendant<SidebarControl>();
+				if (sidebar is not null)
+				{
+					await sidebar.OpenContextMenuAsync(focused, position);
+					return;
+				}
+			}
 			if (focused.DataContext is WidgetCardItem)
 			{
 				var widget = focused.FindAscendant<HomePageWidget>();
@@ -57,7 +68,7 @@ namespace Files.App.Actions
 		{
 			if (e.NewFocusedElement is FrameworkElement newFocused)
 			{
-				if (newFocused.ContextFlyout is not null || newFocused.DataContext is WidgetCardItem)
+				if (newFocused.ContextFlyout is not null || newFocused.DataContext is INavigationControlItem or WidgetCardItem)
 				{
 					focused = newFocused;
 					OnPropertyChanged(nameof(IsExecutable));
