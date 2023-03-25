@@ -1,4 +1,5 @@
 ﻿using Files.App.Filesystem;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -9,6 +10,8 @@ namespace Files.App.Contexts
 		IShellPage? ShellPage { get; }
 
 		ContentPageTypes PageType { get; }
+
+		Type PageLayoutType { get; }
 
 		ListedItem? Folder { get; }
 

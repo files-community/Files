@@ -202,13 +202,6 @@ namespace Files.App.Views
 
 					break;
 
-				case (false, false, false, _, VirtualKey.F3): //f3
-				case (true, false, false, _, VirtualKey.F): // ctrl + f
-					if (tabInstance || CurrentPageType == typeof(WidgetsPage))
-						ToolbarViewModel.SwitchSearchBoxVisibility();
-
-					break;
-
 				case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
 					if (InstanceViewModel.CanCreateFileInPage)
 					{

@@ -80,15 +80,6 @@
 			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="None" />
-		<KeyboardAccelerator
-			Key="F"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-		<KeyboardAccelerator
-			Key="F3"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
 	</local:BaseShellPage.KeyboardAccelerators>
 	<Grid
 		x:Name="RootGrid"

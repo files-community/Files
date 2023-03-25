@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace Files.App
 {
-	public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable
+	public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
 	{
 		ItemViewModel FilesystemViewModel { get; }
 

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Filesystem;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
+using Files.App.Views.LayoutModes;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -20,6 +21,8 @@ namespace Files.App.Contexts
 		private ItemViewModel? filesystemViewModel;
 
 		public IShellPage? ShellPage => context?.PaneOrColumn;
+
+		public Type PageLayoutType => ShellPage?.CurrentPageType ?? typeof(DetailsLayoutBrowser);
 
 		private ContentPageTypes pageType = ContentPageTypes.None;
 		public ContentPageTypes PageType => pageType;
@@ -45,6 +48,7 @@ namespace Files.App.Contexts
 		{
 			if (ShellPage is IShellPage page)
 			{
+				page.PropertyChanged -= Page_PropertyChanged;
 				page.ContentChanged -= Page_ContentChanged;
 				page.InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
 				page.ToolbarViewModel.PropertyChanged -= ToolbarViewModel_PropertyChanged;
@@ -60,6 +64,7 @@ namespace Files.App.Contexts
 		{
 			if (ShellPage is IShellPage page)
 			{
+				page.PropertyChanged += Page_PropertyChanged;
 				page.ContentChanged += Page_ContentChanged;
 				page.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
 				page.ToolbarViewModel.PropertyChanged += ToolbarViewModel_PropertyChanged;
@@ -71,6 +76,16 @@ namespace Files.App.Contexts
 
 			Update();
 			OnPropertyChanged(nameof(ShellPage));
+		}
+
+		private void Page_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(ShellPage.CurrentPageType):
+					OnPropertyChanged(nameof(PageLayoutType));
+					break;
+			}
 		}
 
 		private void Page_ContentChanged(object? sender, TabItemArguments e) => Update();

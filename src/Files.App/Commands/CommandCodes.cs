@@ -10,6 +10,7 @@ namespace Files.App.Commands
 		EnterCompactOverlay,
 		ExitCompactOverlay,
 		ToggleCompactOverlay,
+		Find,
 
 		// Show
 		ToggleShowHiddenItems,

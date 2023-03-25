@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
+using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
@@ -44,7 +45,7 @@ namespace Files.App.ViewModels
 
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
 
-		private static readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -517,8 +518,7 @@ namespace Files.App.ViewModels
 		{
 			if (IsSearchBoxVisible)
 			{
-				SearchBox.Query = string.Empty;
-				IsSearchBoxVisible = false;
+				CloseSearchBox();
 			}
 			else
 			{
@@ -549,6 +549,12 @@ namespace Files.App.ViewModels
 			{
 				SearchBox.Query = string.Empty;
 				IsSearchBoxVisible = false;
+
+				var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
+				if (page is not null)
+					page.ItemManipulationModel.FocusFileList();
+				else
+					AddressToolbar.Focus(FocusState.Programmatic);
 			}
 		}
 

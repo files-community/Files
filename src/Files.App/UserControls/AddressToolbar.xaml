@@ -201,18 +201,13 @@
 				<Button
 					x:Name="SearchButton"
 					AccessKey="I"
-					AutomationProperties.Name="{helpers:ResourceString Name=Search}"
-					Click="SearchButton_Click"
+					AutomationProperties.Name="{x:Bind ViewModel.Commands.Find.Label}"
+					Command="{x:Bind ViewModel.Commands.Find, Mode=OneWay}"
+					IsEnabled="{x:Bind ViewModel.Commands.Find.IsExecutable}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavSearchButton/ToolTipService/ToolTip}"
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.Find.HotKeyText}"
 					Visibility="Collapsed">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
-					<Button.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="F"
-							IsEnabled="False"
-							Modifiers="Control" />
-					</Button.KeyboardAccelerators>
 				</Button>
 
 				<Button
