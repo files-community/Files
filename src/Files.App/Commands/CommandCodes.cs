@@ -51,6 +51,10 @@ namespace Files.App.Commands
 		SetAsSlideshowBackground,
 		SetAsLockscreenBackground,
 
+		// Install
+		InstallFont,
+		InstallInfDriver,
+
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
@@ -119,9 +123,13 @@ namespace Files.App.Commands
 
 		// Navigation
 		NewTab,
-		DuplicateTab,
-
-		// Other
-		InstallFont,
+		DuplicateCurrentTab,
+		DuplicateSelectedTab,
+		CloseTabsToTheLeftCurrent,
+		CloseTabsToTheLeftSelected,
+		CloseTabsToTheRightCurrent,
+		CloseTabsToTheRightSelected,
+		CloseOtherTabsCurrent,
+		CloseOtherTabsSelected,
 	}
 }

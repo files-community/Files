@@ -31,7 +31,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI.Input.Inking.Analysis;
 using Windows.UI.Text;
 using static Files.App.UserControls.IAddressToolbar;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
@@ -588,8 +587,6 @@ namespace Files.App.ViewModels
 		public ICommand PropertiesCommand { get; set; }
 
 		public ICommand? RunWithPowerShellCommand { get; set; }
-
-		public ICommand? InstallInfCommand { get; set; }
 
 		public ICommand? UpdateCommand { get; set; }
 

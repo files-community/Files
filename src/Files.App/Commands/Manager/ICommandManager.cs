@@ -48,6 +48,9 @@ namespace Files.App.Commands
 		IRichCommand SetAsSlideshowBackground { get; }
 		IRichCommand SetAsLockscreenBackground { get; }
 
+		IRichCommand InstallFont { get; }
+		IRichCommand InstallInfDriver { get; }
+
 		IRichCommand RunAsAdmin { get; }
 		IRichCommand RunAsAnotherUser { get; }
 
@@ -107,8 +110,13 @@ namespace Files.App.Commands
 		IRichCommand ToggleGroupDirection { get; }
 
 		IRichCommand NewTab { get; }
-		IRichCommand DuplicateTab { get; }
-
-		IRichCommand InstallFont { get; }
+		IRichCommand DuplicateCurrentTab { get; }
+		IRichCommand DuplicateSelectedTab { get; }
+		IRichCommand CloseTabsToTheLeftCurrent { get; }
+		IRichCommand CloseTabsToTheLeftSelected { get; }
+		IRichCommand CloseTabsToTheRightCurrent { get; }
+		IRichCommand CloseTabsToTheRightSelected { get; }
+		IRichCommand CloseOtherTabsCurrent { get; }
+		IRichCommand CloseOtherTabsSelected { get; }
 	}
 }

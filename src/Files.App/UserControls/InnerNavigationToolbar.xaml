@@ -321,14 +321,13 @@
 					ToolTipService.ToolTip="{x:Bind Commands.SetAsSlideshowBackground.LabelWithHotKey}" />
 				<AppBarButton
 					x:Name="InstallInfButton"
-					x:Load="{x:Bind ViewModel.IsInfFile, Mode=OneWay, FallbackValue=False}"
-					AutomationProperties.Name="InstallInf"
-					Command="{x:Bind ViewModel.InstallInfCommand, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=Install}"
+					x:Load="{x:Bind Commands.InstallInfDriver.IsExecutable, Mode=OneWay, FallbackValue=False}"
+					Command="{x:Bind Commands.InstallInfDriver, Mode=OneWay}"
+					Label="{x:Bind Commands.InstallInfDriver.Label}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
 					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE9F5;" />
+						<FontIcon Glyph="{x:Bind Commands.InstallInfDriver.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
 				</AppBarButton>
 				<AppBarButton
