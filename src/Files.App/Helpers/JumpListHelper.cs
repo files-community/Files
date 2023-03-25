@@ -1,25 +1,33 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.UserControls.Widgets;
 using Files.Shared.Services;
 using System;
 using System.Threading.Tasks;
 
-namespace Files.App.Helpers;
-
-public sealed class JumpListHelper
+namespace Files.App.Helpers
 {
-	public static async Task InitializeUpdatesAsync()
+	public sealed class JumpListHelper
 	{
-		var jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
+		private static IJumpListService jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
 
-		try
+		public static async Task InitializeUpdatesAsync()
 		{
-			App.QuickAccessManager.UpdateQuickAccessWidget += async (sender, args) => await jumpListService.RefreshPinnedFoldersAsync();
+			try
+			{
+				App.QuickAccessManager.UpdateQuickAccessWidget -= UpdateQuickAccessWidget;
+				App.QuickAccessManager.UpdateQuickAccessWidget += UpdateQuickAccessWidget;
 
-			await jumpListService.RefreshPinnedFoldersAsync();
+				await jumpListService.RefreshPinnedFoldersAsync();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.Warn(ex, ex.Message);
+			}
 		}
-		catch (Exception ex)
+
+		private static async void UpdateQuickAccessWidget(object? sender, ModifyQuickAccessEventArgs e)
 		{
-			App.Logger.Warn(ex, ex.Message);
+			await jumpListService.RefreshPinnedFoldersAsync();
 		}
 	}
 }
