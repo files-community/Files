@@ -254,7 +254,7 @@ namespace Files.App.Views
 		{
 			base.OnPreviewKeyDown(e);
 
-			 switch (e.Key)
+			switch (e.Key)
 			{
 				case VirtualKey.Menu:
 				case VirtualKey.Control:
