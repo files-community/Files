@@ -5,7 +5,6 @@ using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Views;
 using Files.App.Views.LayoutModes;
-using System.CodeDom;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.System;

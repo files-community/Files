@@ -554,7 +554,7 @@ namespace Files.App.ViewModels
 				if (page is not null)
 					page.ItemManipulationModel.FocusFileList();
 				else
-					AddressToolbar.Focus(FocusState.Programmatic);
+					AddressToolbar?.Focus(FocusState.Programmatic);
 			}
 		}
 
