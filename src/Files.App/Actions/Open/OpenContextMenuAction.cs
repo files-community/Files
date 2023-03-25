@@ -15,7 +15,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class OpenContextMenuAction : ObservableObject, IAction
+	internal class OpenContextMenuAction : IAction
 	{
 		public string Label { get; } = "OpenContextMenu".GetLocalizedResource();
 		public string Description => "TODO: Need to be described.";
