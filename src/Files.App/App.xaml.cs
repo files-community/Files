@@ -123,6 +123,13 @@ namespace Files.App
 				.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
 				.AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
 
+				// Contexts
+				.AddSingleton<IPageContext, PageContext>()
+				.AddSingleton<IContentPageContext, ContentPageContext>()
+				.AddSingleton<IDisplayPageContext, DisplayPageContext>()
+				.AddSingleton<IWindowContext, WindowContext>()
+				.AddSingleton<IMultitaskingContext, MultitaskingContext>()
+
 				// Other services
 				.AddSingleton(Logger)
 				.AddSingleton<IDialogService, DialogService>()
@@ -132,7 +139,6 @@ namespace Files.App
 				.AddSingleton<ICloudDetector, CloudDetector>()
 				.AddSingleton<IFileTagsService, FileTagsService>()
 				.AddSingleton<ICommandManager, CommandManager>()
-				.AddSingleton<IContentPageContext, ContentPageContext>()
 #if UWP
 				.AddSingleton<IStorageService, WindowsStorageService>()
 #else
@@ -222,6 +228,7 @@ namespace Files.App
 			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
 			await updateService.CheckForUpdates();
 			await updateService.DownloadMandatoryUpdates();
+			await updateService.CheckAndUpdateFilesLauncherAsync();
 			await updateService.CheckLatestReleaseNotesAsync();
 
 			static async Task OptionalTask(Task task, bool condition)

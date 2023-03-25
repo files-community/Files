@@ -17,6 +17,8 @@ namespace Files.App.Views
 {
 	public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent
 	{
+		public static event EventHandler<PaneHolderPage>? CurrentInstanceChanged;
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public bool IsLeftPaneActive => ActivePane == PaneLeft;
@@ -176,6 +178,9 @@ namespace Files.App.Views
 			get => isCurrentInstance;
 			set
 			{
+				if (isCurrentInstance == value)
+					return;
+
 				isCurrentInstance = value;
 				PaneLeft.IsCurrentInstance = false;
 				if (PaneRight is not null)
@@ -186,6 +191,8 @@ namespace Files.App.Views
 				{
 					ActivePane.IsCurrentInstance = value;
 				}
+
+				CurrentInstanceChanged?.Invoke(null, this);
 			}
 		}
 
@@ -323,19 +330,20 @@ namespace Files.App.Views
 			IsRightPaneVisible = false;
 		}
 
-		private void PaneLeft_Loaded(object sender, RoutedEventArgs e)
+		private void Pane_Loaded(object sender, RoutedEventArgs e)
 		{
-			(sender as UIElement).GotFocus += Pane_GotFocus;
-		}
-
-		private void PaneRight_Loaded(object sender, RoutedEventArgs e)
-		{
-			(sender as UIElement).GotFocus += Pane_GotFocus;
+			((UIElement)sender).GotFocus += Pane_GotFocus;
 		}
 
 		private void Pane_GotFocus(object sender, RoutedEventArgs e)
 		{
-			ActivePane = sender == PaneLeft ? PaneLeft : PaneRight;
+			var isLeftPane = sender == PaneLeft;
+			if (isLeftPane && (PaneRight?.SlimContentPage?.IsItemSelected ?? false))
+				PaneRight.SlimContentPage.ItemManipulationModel.ClearSelection();
+			else if (!isLeftPane && (PaneLeft?.SlimContentPage?.IsItemSelected ?? false))
+				PaneLeft.SlimContentPage.ItemManipulationModel.ClearSelection();
+
+			ActivePane = isLeftPane ? PaneLeft : PaneRight;
 		}
 
 		public void Dispose()

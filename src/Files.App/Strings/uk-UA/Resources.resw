@@ -273,8 +273,8 @@
   <data name="Delete" xml:space="preserve">
     <value>Видалити</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>Закріпити в меню уподобань</value>
+  <data name="PinToFavorites" xml:space="preserve">
+    <value>Прикріпити до Вподобань</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Ласкаво просимо до Files!</value>
@@ -339,7 +339,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Елемент вже існує</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>Установити як тло екрану блокування</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
@@ -528,8 +528,8 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Копіювати до {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
-    <value>Створити ярлик</value>
+  <data name="CreateShortcut" xml:space="preserve">
+    <value>Створити комбінацію клавіш</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Відкрити розташування файлу</value>
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Вилучити</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>Створити копію вкладки</value>
+  <data name="DuplicateTab" xml:space="preserve">
+    <value>Дублювати вкладку</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Перемістити вкладку у нове вікно</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>Нова вкладка</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>Нова вкладка (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Деякі об’єкти можуть містити особисту інформацію.</value>
@@ -1184,9 +1181,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Невідомо</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Показати прапорець вибору поруч з іменами файлів</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Якщо ви зміните розширення файлу, файл може стати непридатним для використання. Ви впевнені, що хочете його змінити?</value>
@@ -1425,8 +1419,8 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Дата змінення</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Початкова папка</value>
+  <data name="OriginalFolder" xml:space="preserve">
+    <value>Початкова тека</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Сортувати за</value>
@@ -1788,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Закрити область</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Увійти в компактний оверлей</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Вийти з компактного оверлею</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
@@ -1860,12 +1854,6 @@
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Т</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Up</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
@@ -1883,9 +1871,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl + T</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+Е</value>
@@ -2010,8 +1995,8 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Відкривати елементи одним кліком</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
-    <value>Шлях до папки:</value>
+  <data name="FolderPath" xml:space="preserve">
+    <value>Шлях до теки</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Настройки експорту</value>
@@ -2213,9 +2198,6 @@
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>Зображення</value>
-  </data>
-  <data name="Videos" xml:space="preserve">
-    <value>Відео</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Оновити Файли</value>
@@ -2598,16 +2580,88 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Застосувати цю дію до всіх конфліктуючих елементів</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Відкрити в терміналі</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Відкрити в терміналі як адміністратор</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Зберегти</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Множинний вибір</value>
   </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>Перевпорядкувати елементи бічної панелі</value>
+  </data>
   <data name="Hashes" xml:space="preserve">
     <value>Хеші</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Не вдалося обчислити хеші через системну помилку</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>Під час обрахунку сталась помилка</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Алгоритм</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Значення хешу</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Виберіть хеші для показу</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Обчислення...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Закріплені елементи</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Зменшити розмір</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Збільшити розмір</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Перемкнути напрямок сортування</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Недопустима назва</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>Назва не повинна бути порожньою або починатись чи закінчуватись крапкою.</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Відео</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>Запустити QuickLook</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Увімкнути компактний оверлей</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Копіювати елемент(и) до буфера обміну</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Скопіювати шлях елемента до буфера обміну</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Вирізати елемент(и) до буфера обміну</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Вставити елемент(и) з буфера обміну до поточної теки</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Вставити елемент(и) з буфера обміну до вибраної теки</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Увімкнути компактний оверлей</value>
+  </data>
+	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>Увійти в компактний оверлей</value>
+  </data>
+	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>Вийти з компактного оверлею</value>
   </data>
 </root>

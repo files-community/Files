@@ -190,12 +190,6 @@ namespace Files.App.Views
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
 			{
-				case (true, false, false, true, VirtualKey.E): // ctrl + e, extract
-					if (ToolbarViewModel.CanExtract)
-						ToolbarViewModel.ExtractCommand.Execute(null);
-
-					break;
-
 				case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
 					if (!InstanceViewModel.IsPageTypeSearchResults)
 						await storageHistoryHelpers.TryUndo();
@@ -206,10 +200,6 @@ namespace Files.App.Views
 					if (!InstanceViewModel.IsPageTypeSearchResults)
 						await storageHistoryHelpers.TryRedo();
 
-					break;
-
-				case (true, true, false, true, VirtualKey.C):
-					SlimContentPage?.CommandsViewModel.CopyPathOfSelectedItemCommand.Execute(null);
 					break;
 
 				case (false, false, false, _, VirtualKey.F3): //f3
@@ -274,42 +264,6 @@ namespace Files.App.Views
 						ToolbarViewModel.IsEditModeEnabled = true;
 
 					break;
-
-				case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
-					await NavigationHelpers.OpenPathInNewTab(FilesystemViewModel.WorkingDirectory);
-					break;
-
-				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-					userSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
-					break;
-
-				case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number7): // ctrl+shift+7, adaptive
-					InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
-					break;
 			}
 		}
 
@@ -333,6 +287,9 @@ namespace Files.App.Views
 
 		public override void Up_Click()
 		{
+			if (!ToolbarViewModel.CanNavigateToParent)
+				return;
+
 			ToolbarViewModel.CanNavigateToParent = false;
 			if (string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory))
 				return;

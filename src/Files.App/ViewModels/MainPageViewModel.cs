@@ -12,7 +12,6 @@ using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Extensions;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
@@ -43,17 +42,9 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref selectedTabItem, value);
 		}
 
-		private bool isWindowCompactOverlay;
-		public bool IsWindowCompactOverlay
-		{
-			get => isWindowCompactOverlay;
-			set => SetProperty(ref isWindowCompactOverlay, value);
-		}
-
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
-		public IAsyncRelayCommand AddNewInstanceAcceleratorCommand { get; private set; }
 		public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
 		public ICommand OpenSettingsCommand { get; private set; }
 
@@ -63,7 +54,6 @@ namespace Files.App.ViewModels
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
 			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
 			CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
-			AddNewInstanceAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
 			ReopenClosedTabAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ReopenClosedTabAccelerator);
 			OpenSettingsCommand = new RelayCommand(OpenSettings);
 		}
@@ -152,12 +142,6 @@ namespace Files.App.ViewModels
 
 			var tabItem = AppInstances[index];
 			MultitaskingControl?.CloseTab(tabItem);
-			e!.Handled = true;
-		}
-
-		private async Task AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			await AddNewTabAsync();
 			e!.Handled = true;
 		}
 
@@ -407,32 +391,6 @@ namespace Files.App.ViewModels
 		public static Task AddNewTabAsync()
 		{
 			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
-		}
-
-		public void AddNewTab()
-		{
-			AddNewTabAsync();
-		}
-
-		public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
-		{
-			await AddNewTabAsync();
-		}
-
-		public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
-		{
-			var tabItem = (TabItem)((FrameworkElement)sender).DataContext;
-			var index = AppInstances.IndexOf(tabItem);
-
-			if (AppInstances[index].TabItemArguments is not null)
-			{
-				var tabArgs = AppInstances[index].TabItemArguments;
-				await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg, index + 1);
-			}
-			else
-			{
-				await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
-			}
 		}
 
 		public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)

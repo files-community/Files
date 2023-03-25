@@ -134,11 +134,6 @@ namespace Files.App.Views
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
 			{
-				case (true, false, false, true, VirtualKey.E): // ctrl + e, extract
-					if (ToolbarViewModel.CanExtract)
-						ToolbarViewModel.ExtractCommand.Execute(null);
-					break;
-
 				case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
 					if (!InstanceViewModel.IsPageTypeSearchResults)
 						await storageHistoryHelpers.TryUndo();
@@ -147,10 +142,6 @@ namespace Files.App.Views
 				case (true, false, false, true, VirtualKey.Y): // ctrl + y, redo
 					if (!InstanceViewModel.IsPageTypeSearchResults)
 						await storageHistoryHelpers.TryRedo();
-					break;
-
-				case (true, true, false, true, VirtualKey.C):
-					SlimContentPage?.CommandsViewModel.CopyPathOfSelectedItemCommand.Execute(null);
 					break;
 
 				case (false, false, false, true, VirtualKey.F3): //f3
@@ -207,14 +198,6 @@ namespace Files.App.Views
 				case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
 					ToolbarViewModel.IsEditModeEnabled = true;
 					break;
-
-				case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
-					await NavigationHelpers.OpenPathInNewTab(FilesystemViewModel.WorkingDirectory);
-					break;
-
-				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-					userSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
-					break;
 			}
 		}
 
@@ -238,7 +221,7 @@ namespace Files.App.Views
 
 		public override void Up_Click()
 		{
-			this.FindAscendant<ColumnViewBrowser>().NavigateUp();
+			this.FindAscendant<ColumnViewBrowser>()?.NavigateUp();
 		}
 
 		public override void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)

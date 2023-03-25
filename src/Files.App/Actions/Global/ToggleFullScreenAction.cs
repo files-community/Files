@@ -10,6 +10,8 @@ namespace Files.App.Actions
 	{
 		public string Label { get; } = "FullScreen".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public HotKey HotKey { get; } = new(VirtualKey.F11);
 
 		public bool IsOn

@@ -171,57 +171,49 @@ namespace Files.App.Views.Properties
 			{
 				Name = "General".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemGeneral,
-				OutlinePathIcon = (string)Application.Current.Resources["PageIconRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["PageIconFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconGeneralProperties"],
 			};
 			var securityItem = new SquareNavViewItem()
 			{
 				Name = "Security".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemSecurity,
-				OutlinePathIcon = (string)Application.Current.Resources["ShieldIconRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconSecurityProperties"],
 			};
 			var hashItem = new SquareNavViewItem()
 			{
 				Name = "Hashes".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemHash,
-				OutlinePathIcon = (string)Application.Current.Resources["WindowsAppsRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["WindowsAppsFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconHashesProperties"],
 			};
 			var shortcutItem = new SquareNavViewItem()
 			{
 				Name = "Shortcut".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemShortcut,
-				OutlinePathIcon = (string)Application.Current.Resources["LinkIconRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["LinkIconFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconShortcutProperties"],
 			};
 			var libraryItem = new SquareNavViewItem()
 			{
 				Name = "Library".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemLibrary,
-				OutlinePathIcon = (string)Application.Current.Resources["LibraryIconRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["LibraryIconFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconLibraryProperties"],
 			};
 			var detailsItem = new SquareNavViewItem()
 			{
 				Name = "Details".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemDetails,
-				OutlinePathIcon = (string)Application.Current.Resources["InfoIconRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["InfoIconFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconDetailsProperties"],
 			};
 			var customizationItem = new SquareNavViewItem()
 			{
 				Name = "Customization".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCustomization,
-				OutlinePathIcon = (string)Application.Current.Resources["ColorIconRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["ColorIconFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconCustomizationProperties"],
 			};
 			var compatibilityItem = new SquareNavViewItem()
 			{
 				Name = "Compatibility".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCompatibility,
-				OutlinePathIcon = (string)Application.Current.Resources["WindowsAppsRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["WindowsAppsFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconCompatibilityProperties"],
 			};
 
 			NavViewItems.Add(generalItem);
@@ -258,7 +250,7 @@ namespace Files.App.Views.Properties
 				var isFolder = listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder;
 
 				var securityItemEnabled = !isLibrary && !listedItem.IsRecycleBinItem;
-				var hashItemEnabled = !isFolder && !isLibrary && !listedItem.IsRecycleBinItem;
+				var hashItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
 				var detailsItemEnabled = fileExt is not null && !isShortcut && !isLibrary;
 				var customizationItemEnabled = !isLibrary && ((isFolder && !listedItem.IsArchive) || (isShortcut && !listedItem.IsLinkItem));
 				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : fileExt, true);
@@ -383,9 +375,12 @@ namespace Files.App.Views.Properties
 
 		public PropertyNavigationViewItemEnums ItemType;
 
-		public string? OutlinePathIcon;
-
-		public string? FilledPathIcon;
+		private Style _opacityIconStyle;
+		public Style OpacityIconStyle
+		{
+			get => _opacityIconStyle;
+			set => SetProperty(ref _opacityIconStyle, value);
+		}
 
 		private bool _isSelected;
 		public bool IsSelected

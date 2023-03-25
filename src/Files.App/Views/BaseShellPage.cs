@@ -28,13 +28,10 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Shared.Enums.SortDirection;
@@ -43,8 +40,6 @@ namespace Files.App.Views
 {
 	public abstract class BaseShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
-		public static event EventHandler<BaseShellPage>? CurrentInstanceChanged;
-
 		public static readonly DependencyProperty NavParamsProperty =
 			DependencyProperty.Register("NavParams", typeof(NavigationParams), typeof(ModernShellPage), new PropertyMetadata(null));
 
@@ -155,9 +150,6 @@ namespace Files.App.Views
 					else if (SlimContentPage is not ColumnViewBrowser)
 						ToolbarViewModel.IsEditModeEnabled = false;
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
-
-					if (isCurrentInstance)
-						CurrentInstanceChanged?.Invoke(null, this);
 				}
 			}
 		}
@@ -285,27 +277,6 @@ namespace Files.App.Views
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
-				// Ctrl + ` (accent key), open terminal
-				case (true, _, false, true, (VirtualKey)192):
-
-					// Check if there is a folder selected, if not use the current directory.
-					string path = FilesystemViewModel.WorkingDirectory;
-					if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
-						path = SlimContentPage.SelectedItem.ItemPath;
-
-					var terminalStartInfo = new ProcessStartInfo()
-					{
-						FileName = "wt.exe",
-						Arguments = $"-d \"{path}\"",
-						Verb = shift ? "runas" : "",
-						UseShellExecute = true
-					};
-					DispatcherQueue.TryEnqueue(() => Process.Start(terminalStartInfo));
-
-					args.Handled = true;
-
-					break;
-
 				// Ctrl + space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
 
@@ -468,14 +439,20 @@ namespace Files.App.Views
 			FilesystemViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
 			InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
-			ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
+
+			var args = new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,
 				SearchPathParam = FilesystemViewModel.WorkingDirectory,
 				SearchQuery = query,
 				SearchUnindexedItems = searchUnindexedItems,
-			});
+			};
+
+			if (this is ColumnShellPage)
+				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutBrowser), args);
+			else
+				ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), args);
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
@@ -485,7 +462,10 @@ namespace Files.App.Views
 
 		public void NavigateToPath(string navigationPath, NavigationArguments? navArgs = null)
 		{
-			NavigateToPath(navigationPath, FolderSettings.GetLayoutType(navigationPath), navArgs);
+			var layout = navigationPath.StartsWith("tag:")
+				? typeof(DetailsLayoutBrowser)
+				: FolderSettings.GetLayoutType(navigationPath);
+			NavigateToPath(navigationPath, layout, navArgs);
 		}
 
 		public Task TabItemDragOver(object sender, DragEventArgs e)
@@ -624,10 +604,6 @@ namespace Files.App.Views
 
 		protected void InitToolbarCommands()
 		{
-			ToolbarViewModel.SelectAllContentPageItemsCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.SelectAllItems());
-			ToolbarViewModel.InvertContentPageSelctionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.InvertSelection());
-			ToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
-			ToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
 			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
@@ -636,11 +612,6 @@ namespace Files.App.Views
 			ToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
 			ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
 			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
-			ToolbarViewModel.ExtractCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveCommand.Execute(null));
-			ToolbarViewModel.ExtractHereCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveHereCommand.Execute(null));
-			ToolbarViewModel.ExtractToCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveToChildFolderCommand.Execute(null));
-			ToolbarViewModel.InstallInfCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallInfDriver.Execute(null));;
-			ToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
 			ToolbarViewModel.PlayAllCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.PlayAllCommand.Execute(null));
 		}

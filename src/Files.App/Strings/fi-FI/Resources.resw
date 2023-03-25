@@ -273,7 +273,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Poista</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>Kiinnitä suosikkeihin</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -339,7 +339,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Kohde on jo olemassa</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>Aseta lukitusnäytön taustaksi</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Kopioi kansioon {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>Luo pikakuvake</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Poista levy</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+  <data name="DuplicateTab" xml:space="preserve">
     <value>Monista välilehti</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Siirrä välilehti uuteen ikkunaan</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>Uusi välilehti</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>Uusi välilehti (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Jotkut ominaisuudet voivat sisältää henkilökohtaisia tietoja.</value>
@@ -1184,9 +1181,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Tuntematon</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Näytä valintaruutu tiedostonimien vieressä</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Jos muutat tiedostopäätettä, tiedosto saattaa muuttua käyttökelvottomaksi. Haluatko varmasti vaihtaa sen?</value>
@@ -1425,7 +1419,7 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Muokkauspäivämäärä</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+  <data name="OriginalFolder" xml:space="preserve">
     <value>Alkuperäinen kansio</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
@@ -1788,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Sulje ruutu</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Siirry suppeaan asetteluun</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Poistu suppeasta asettelusta</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
@@ -1860,12 +1854,6 @@
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Up</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Vaihto+1</value>
   </data>
@@ -1883,9 +1871,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Vaihto+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Vaihto+T</value>
@@ -2010,7 +1995,7 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Avaa kohteet yhdellä napsautuksella</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+  <data name="FolderPath" xml:space="preserve">
     <value>Kansion polku</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
@@ -2213,9 +2198,6 @@
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>Kuvat</value>
-  </data>
-  <data name="Videos" xml:space="preserve">
-    <value>Videot</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Päivitä Files</value>
@@ -2598,16 +2580,88 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Käytä tätä toimintoa kaikkiin ristiriitaisiin kohteisiin</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Avaa päätteessä</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Avaa päätteessä järjestelmänvalvojana</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Tallenna</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Monivalinta</value>
   </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>Järjestä sivupalkin kohteet uudelleen</value>
+  </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hajautusarvot</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Hajautusarvoja ei voida laskea järjestelmävirheen vuoksi</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>Laskennassa tapahtui virhe</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algoritmi</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Hajautusarvo</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Valitse näytettävät hajautusarvot</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Lasketaan...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Kiinnitetyt kohteet</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Pienennä kokoa</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Suurenna kokoa</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Vaihda lajittelusuuntaa</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Virheellinen nimi</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>Nimi ei saa olla tyhjä eikä se saa alkaa tai päättyä pisteellä.</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videot</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>Käynnistä pikakatselu</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Kytke suppea asettelu päälle/pois</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Kopioi kohteet leikepöydälle</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Kopioi kohteen polku leikepöydälle</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Leikkaa kohteet leikepöydälle</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Liitä kohteet leikepöydältä nykyiseen kansioon</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Liitä kohteet leikepöydältä valittuun kansioon</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Kytke suppea asettelu päälle/pois</value>
+  </data>
+	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>Siirry suppeaan asetteluun</value>
+  </data>
+	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>Poistu suppeasta asettelusta</value>
   </data>
 </root>

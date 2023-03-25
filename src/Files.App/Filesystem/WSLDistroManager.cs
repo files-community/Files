@@ -1,4 +1,5 @@
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -57,6 +58,14 @@ namespace Files.App.Filesystem
 			{
 				// WSL Not Supported/Enabled
 			}
+		}
+
+		public bool TryGetDistro(string path, out WslDistroItem? distro)
+		{
+			var normalizedPath = PathNormalization.NormalizePath(path);
+			distro = Distros.FirstOrDefault(x => normalizedPath.StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+
+			return distro is not null;
 		}
 
 		private static Uri GetLogoUri(string displayName)

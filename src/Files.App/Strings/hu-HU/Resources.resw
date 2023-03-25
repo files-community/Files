@@ -273,7 +273,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Törlés</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>Kitűzés a kedvencekhez</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -339,7 +339,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Az elem már létezik</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>Beállítás zárolási képernyő háttérként</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Másolás ide: {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>Parancsikon létrehozása</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Kiadás</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+  <data name="DuplicateTab" xml:space="preserve">
     <value>Lap megkettőzése</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Lap áthelyezése új ablakba</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>Új lap</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>Új lap (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Némelyik tulajdonság személyes adatokat tartalmazhat.</value>
@@ -1184,9 +1181,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Ismeretlen</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Jelölőnégyzetek megjelenítése fájlnevek mellett</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Ha módosítja egy fájl kiterjesztését, akkor az használhatatlanná válhat. Végrehajtja a módosítást?</value>
@@ -1425,7 +1419,7 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Módosítás dátuma</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+  <data name="OriginalFolder" xml:space="preserve">
     <value>Eredeti mappa</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
@@ -1788,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Panel bezárása</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Kompakt nézet</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Kilépés a kompakt nézetből</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
@@ -1860,12 +1854,6 @@
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Fel</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Le</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
@@ -1883,9 +1871,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
@@ -2010,7 +1995,7 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Elemek megnyitása egy kattintással</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+  <data name="FolderPath" xml:space="preserve">
     <value>Mappa útvonala</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
@@ -2213,9 +2198,6 @@
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>Képek</value>
-  </data>
-  <data name="Videos" xml:space="preserve">
-    <value>Videók</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Frissítés érhető el</value>
@@ -2476,7 +2458,7 @@
     <value>Adja meg az elem helyét:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Parancsikon létrehozása</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Az előzmények jelenleg le vannak tiltva a Windows Fájlkezelőben.</value>
@@ -2598,16 +2580,88 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Művelet végrehajtása minden ütközés esetén</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Megnyitás terminálban</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Megnyitás terminálban adminisztrátorként</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Mentés</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Több elem kijelölése</value>
   </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>Oldalsáv átrendezése</value>
+  </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hash-ek</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Egy hiba miatt nem sikerült kiszámítani a hash-eket</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>Hiba történt a számolás során</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algoritmus</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Hash érték</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Válassza ki a megjelenítendő hash-eket</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>Számolás...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Rögzített elemek</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Kicsinyítés</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Nagyítás</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Rendezés irányának megfordítása</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Érvénytelen név</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>A név nem lehet üres és nem kezdődhet, vagy fejeződhet be kötőjellel.</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videók</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>QuickLook indítása</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Toggle compact overlay</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Vágólapra másolás</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Útvonal vágólapra másolása</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Vágólapra áthelyezés</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Beillesztés a jelenlegi mappába</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Beillesztés a kiválasztott mappába</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Toggle compact overlay</value>
+  </data>
+	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>Kompakt nézet</value>
+  </data>
+	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>Kilépés a kompakt nézetből</value>
   </data>
 </root>

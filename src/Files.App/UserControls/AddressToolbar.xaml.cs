@@ -52,14 +52,6 @@ namespace Files.App.UserControls
 			set => SetValue(SettingsButtonCommandProperty, value);
 		}
 
-		public static readonly DependencyProperty CanPasteInPageProperty =
-			DependencyProperty.Register("CanPasteInPage", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
-		public bool CanPasteInPage
-		{
-			get => (bool)GetValue(dp: CanPasteInPageProperty);
-			set => SetValue(CanPasteInPageProperty, value);
-		}
-
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(AddressToolbar), new PropertyMetadata(null));
@@ -126,6 +118,7 @@ namespace Files.App.UserControls
 		private void SearchButton_Click(object _, RoutedEventArgs e) => ViewModel.SwitchSearchBoxVisibility();
 		private void SearchRegion_OnGotFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_GotFocus(sender, e);
 		private void SearchRegion_LostFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_LostFocus(sender, e);
+		private void SearchRegion_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args) => sender.Focus(FocusState.Keyboard);
 
 		private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
 			=> ViewModel.VisiblePath_QuerySubmitted(sender, args);

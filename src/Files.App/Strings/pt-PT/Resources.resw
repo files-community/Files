@@ -273,7 +273,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Eliminar</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>Afixar nos favoritos</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -339,7 +339,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>O item já existe</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>Definir como fundo de ecrã de bloqueio</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
@@ -528,7 +528,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copiar para {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>Criar atalho</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -987,17 +987,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Ejetar</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+  <data name="DuplicateTab" xml:space="preserve">
     <value>Duplicar separador</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Mover separador para uma nova janela</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>Novo separador</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>Novo separador (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Algumas propriedades podem conter informações pessoais.</value>
@@ -1184,9 +1181,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Desconhecido</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>Mostrar caixa de seleção ao lado do nome de ficheiro</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Se alterar a extensão, o ficheiro pode tornar-se inutilizável. Tem a certeza de que a pretende alterar?</value>
@@ -1425,7 +1419,7 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Data de modificação</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+  <data name="OriginalFolder" xml:space="preserve">
     <value>Pasta original</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
@@ -1788,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Fechar painel</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Ativar modo de sobreposição compacta</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Desativar modo de sobreposição compacta</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
@@ -1860,12 +1854,6 @@
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Up</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
@@ -1883,9 +1871,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
@@ -2010,7 +1995,7 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Abrir itens com um clique</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+  <data name="FolderPath" xml:space="preserve">
     <value>Caminho da pasta</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
@@ -2213,9 +2198,6 @@
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>Imagens</value>
-  </data>
-  <data name="Videos" xml:space="preserve">
-    <value>Vídeos</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Atualizar Files</value>
@@ -2598,16 +2580,88 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Aplicar esta ação a todos os itens em conflito</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>Abrir no terminal</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>Abrir no terminal como administrador</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Guardar</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Seleção múltipla</value>
   </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>Organizar itens da barra lateral</value>
+  </data>
   <data name="Hashes" xml:space="preserve">
     <value>'Hashes'</value>
   </data>
-  <data name="UnableToCalcHashes" xml:space="preserve">
-    <value>Não foi possível determinar as 'hashes devido a um erro do sistema.</value>
+  <data name="CalculationError" xml:space="preserve">
+    <value>Ocorreu um erro durante o cálculo</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>Algoritmo</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>Valor de 'hash'</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>Selecione as 'hashes' a mostrar</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>A calcular...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>Itens fixados</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>Diminuir tamanho</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>Aumentar tamanho</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>Alternar sentido de ordenação</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Nome inválido</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>O nome não pode ser vazio nem começar ou terminar com um ponto.</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Vídeos</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>Iniciar QuickLook</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Alternar modo de sobreposição compacta</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Copiar itens para a área de transferência</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Copiar caminho do item para a área de transferência</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Cortar itens para a área de transferência</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Colar itens da área de transferência para a pasta atual</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Colar itens da área de transferência para a pasta selecionada</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Alternar modo de sobreposição compacta</value>
+  </data>
+	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>Ativar modo de sobreposição compacta</value>
+  </data>
+	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>Desativar modo de sobreposição compacta</value>
   </data>
 </root>

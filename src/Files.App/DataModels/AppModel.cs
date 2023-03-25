@@ -16,28 +16,10 @@ namespace Files.App.DataModels
 	{
 		private IFoldersSettingsService FoldersSettings;
 
-		public bool ShowSelectionCheckboxes
-		{
-			get => FoldersSettings.ShowSelectionCheckboxes;
-			set => FoldersSettings.ShowSelectionCheckboxes = value;
-		}
-
 		public AppModel()
 		{
 			FoldersSettings = Ioc.Default.GetRequiredService<IUserSettingsService>().FoldersSettingsService;
-			FoldersSettings.PropertyChanged += FoldersSettings_PropertyChanged; ;
 			Clipboard.ContentChanged += Clipboard_ContentChanged;
-
-			// TODO: This doesn't belong here
-			DetectFontName();
-		}
-
-		private void FoldersSettings_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == nameof(FoldersSettingsService.ShowSelectionCheckboxes))
-			{
-				OnPropertyChanged(nameof(ShowSelectionCheckboxes));
-			}
 		}
 
 		// TODO: Refactor this method
@@ -89,31 +71,6 @@ namespace Files.App.DataModels
 		{
 			get => isPasteEnabled;
 			set => SetProperty(ref isPasteEnabled, value);
-		}
-
-		private bool isQuickLookAvailable;
-		public bool IsQuickLookAvailable
-		{
-			get => isQuickLookAvailable;
-			set => SetProperty(ref isQuickLookAvailable, value);
-		}
-
-		private FontFamily symbolFontFamily;
-		public FontFamily SymbolFontFamily
-		{
-			get => symbolFontFamily;
-			set => SetProperty(ref symbolFontFamily, value);
-		}
-
-		// TODO: Refactor this method
-		private void DetectFontName()
-		{
-			var rawVersion = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
-			var currentVersion = new Version((int)((rawVersion & 0xFFFF000000000000) >> 48), (int)((rawVersion & 0x0000FFFF00000000) >> 32), (int)((rawVersion & 0x00000000FFFF0000) >> 16), (int)(rawVersion & 0x000000000000FFFF));
-			var newIconsMinVersion = new Version(10, 0, 21327, 1000);
-			bool isWindows11 = currentVersion >= newIconsMinVersion;
-
-			SymbolFontFamily = (isWindows11) ? new FontFamily("Segoe Fluent Icons") : new FontFamily("Segoe MDL2 Assets");
 		}
 	}
 }

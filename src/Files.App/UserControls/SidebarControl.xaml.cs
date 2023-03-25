@@ -12,6 +12,8 @@ using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
 using Files.App.Shell;
 using Files.App.ViewModels;
+using Files.App.ViewModels.Dialogs;
+using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Microsoft.UI.Input;
@@ -122,6 +124,8 @@ namespace Files.App.UserControls
 
 		private ICommand OpenPropertiesCommand { get; }
 
+		private ICommand ReorderItemsCommand { get; }
+
 		private bool IsInPointerPressed = false;
 
 		private readonly DispatcherQueueTimer dragOverSectionTimer, dragOverItemTimer;
@@ -142,6 +146,7 @@ namespace Files.App.UserControls
 			EjectDeviceCommand = new RelayCommand(EjectDevice);
 			FormatDriveCommand = new RelayCommand(FormatDrive);
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
+			ReorderItemsCommand = new RelayCommand(ReorderItems);
 		}
 
 		public SidebarViewModel ViewModel
@@ -235,7 +240,7 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
+					Text = "PinToFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
 						OpacityIconStyle = "ColorIconPinToFavorites",
@@ -252,6 +257,13 @@ namespace Files.App.UserControls
 					},
 					Command = UnpinItemCommand,
 					ShowItem = options.ShowUnpinItem || isDriveItemPinned
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ReorderSidebarItemsDialogText".GetLocalizedResource(),
+					Glyph = "\uE8D8",
+					Command = ReorderItemsCommand,
+					ShowItem = isFavoriteItem || item.Section is SectionType.Favorites
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -329,6 +341,13 @@ namespace Files.App.UserControls
 					userSettingsService.PreferencesSettingsService.ShowFileTagsSection = false;
 					break;
 			}
+		}
+
+		private async void ReorderItems()
+		{
+			var dialog = new ReorderSidebarItemsDialogViewModel();
+			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			var result = await dialogService.ShowDialogAsync(dialog);
 		}
 
 		private async void OpenInNewPane()
@@ -457,15 +476,6 @@ namespace Files.App.UserControls
 			e.Handled = true;
 		}
 
-		private void NavigationViewItem_DragStarting(UIElement sender, DragStartingEventArgs args)
-		{
-			if (sender is not NavigationViewItem navItem || navItem.DataContext is not LocationItem)
-				return;
-
-			// Adding the original Location item dragged to the DragEvents data view
-			args.Data.Properties.Add("sourceLocationItem", navItem);
-		}
-
 		private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
 		{
 			var navView = sender as NavigationViewItem;
@@ -555,7 +565,7 @@ namespace Files.App.UserControls
 					}
 					else
 					{
-						var captionText = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource();
+						var captionText = "PinToFavorites".GetLocalizedResource();
 						CompleteDragEventArgs(e, captionText, DataPackageOperation.Move);
 					}
 				}
@@ -611,12 +621,7 @@ namespace Files.App.UserControls
 					}
 					CompleteDragEventArgs(e, captionText, operationType);
 				}
-			}
-			else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
-			{
-				// else if the drag over event is called over a location item
-				NavigationViewLocationItem_DragOver_SetCaptions(locationItem, sourceLocationItem, e);
-			}
+			}			
 
 			deferral.Complete();
 		}
@@ -627,20 +632,6 @@ namespace Files.App.UserControls
 			e.DragUIOverride.Caption = captionText;
 			e.AcceptedOperation = operationType;
 			return e;
-		}
-
-		private void NavigationViewLocationItem_DragOver_SetCaptions(LocationItem senderLocationItem, LocationItem sourceLocationItem, DragEventArgs e)
-		{
-			// If the location item is the same as the original dragged item
-			if (sourceLocationItem.Equals(senderLocationItem))
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				e.DragUIOverride.IsCaptionVisible = false;
-			}
-			else
-			{
-				CompleteDragEventArgs(e, "PinToSidebarByDraggingCaptionText".GetLocalizedResource(), DataPackageOperation.Move);
-			}
 		}
 
 		private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)

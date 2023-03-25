@@ -85,7 +85,11 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
-			FileList.ScrollIntoView(FileList.Items.Last());
+			if (SelectedItems.Any())
+			{
+				FileList.ScrollIntoView(SelectedItems.Last());
+				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
+			}
 		}
 
 		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
@@ -285,10 +289,7 @@ namespace Files.App.Views.LayoutModes
 			else if (e.Key == VirtualKey.Space)
 			{
 				if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
-				{
 					e.Handled = true;
-					await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
-				}
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
 			{
@@ -357,7 +358,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-					ParentShellPageInstance.Up_Click();
+				ParentShellPageInstance.Up_Click();
 			}
 
 			ResetRenameDoubleClick();
