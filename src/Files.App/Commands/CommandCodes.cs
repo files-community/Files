@@ -37,6 +37,7 @@ namespace Files.App.Commands
 		SelectAll,
 		InvertSelection,
 		ClearSelection,
+		ToggleSelect,
 
 		// Start
 		PinToStart,
