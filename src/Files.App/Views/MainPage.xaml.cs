@@ -243,7 +243,7 @@ namespace Files.App.Views
 					var command = Commands[hotKey];
 					if (command.Code is not CommandCodes.None && keyReleased)
 					{
-						keyReleased = false;
+						keyReleased = command.Code is CommandCodes.OpenContextMenu;
 						e.Handled = command.IsExecutable;
 						await command.ExecuteAsync();
 					}
@@ -254,7 +254,7 @@ namespace Files.App.Views
 		{
 			base.OnPreviewKeyDown(e);
 
-			switch (e.Key)
+			 switch (e.Key)
 			{
 				case VirtualKey.Menu:
 				case VirtualKey.Control:

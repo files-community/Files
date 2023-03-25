@@ -6,6 +6,7 @@ using Files.App.Filesystem;
 using Files.App.UserControls;
 using Files.App.UserControls.Widgets;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Threading.Tasks;
@@ -16,72 +17,63 @@ namespace Files.App.Actions
 {
 	internal class OpenContextMenuAction : ObservableObject, IAction
 	{
-		private FrameworkElement? focused;
-
 		public string Label { get; } = "OpenContextMenu".GetLocalizedResource();
 		public string Description => "TODO: Need to be described.";
 
 		public HotKey HotKey { get; } = new(VirtualKey.Enter, VirtualKeyModifiers.Control);
 
-		public bool IsExecutable => focused is not null;
-
-		public OpenContextMenuAction()
+		public bool IsExecutable
 		{
-			FocusManager.GotFocus += FocusManager_GotFocus;
-			FocusManager.LosingFocus += FocusManager_LosingFocus;
+			get
+			{
+				if (App.LastOpenedFlyout is CommandBarFlyout { IsOpen: true })
+					return false;
+
+				var element = GetFocusedElement();
+				if (element is null)
+					return false;
+
+				return element.ContextFlyout is FlyoutBase { IsOpen: false }
+					|| element.DataContext is INavigationControlItem or WidgetCardItem;
+			}
 		}
+
 		public async Task ExecuteAsync()
 		{
-			if (focused is null)
+			var element = GetFocusedElement();
+			if (element is null)
 				return;
 
-			var point = focused.GetVisualInternal().CenterPoint;
+			var point = element.GetVisualInternal().CenterPoint;
 			var position = new Point(point.X + 16, point.Y + 16);
 
-			if (focused.DataContext is INavigationControlItem)
+			if (element.DataContext is INavigationControlItem)
 			{
-				var sidebar = focused.FindAscendant<SidebarControl>();
+				var sidebar = element.FindAscendant<SidebarControl>();
 				if (sidebar is not null)
 				{
-					await sidebar.OpenContextMenuAsync(focused, position);
+					await sidebar.OpenContextMenuAsync(element, position);
 					return;
 				}
 			}
-			if (focused.DataContext is WidgetCardItem)
+			else if (element.DataContext is WidgetCardItem)
 			{
-				var widget = focused.FindAscendant<HomePageWidget>();
+				var widget = element.FindAscendant<HomePageWidget>();
 				if (widget is not null)
 				{
-					await widget.OpenContextMenuAsync(focused, position);
-					return;
+					await widget.OpenContextMenuAsync(element, position);
 				}
 			}
-
-			if (focused.ContextFlyout is FlyoutBase menu && !menu.IsOpen)
+			else if (element.ContextFlyout is FlyoutBase{IsOpen: false} flyout)
 			{
 				var options = new FlyoutShowOptions { Position = position };
-				menu.ShowAt(focused, options);
+				flyout.ShowAt(element, options);
 			}
 		}
 
-		private void FocusManager_GotFocus(object? sender, FocusManagerGotFocusEventArgs e)
+		private static FrameworkElement? GetFocusedElement()
 		{
-			if (e.NewFocusedElement is FrameworkElement newFocused)
-			{
-				if (newFocused.ContextFlyout is not null || newFocused.DataContext is INavigationControlItem or WidgetCardItem)
-				{
-					focused = newFocused;
-					OnPropertyChanged(nameof(IsExecutable));
-				}
-			}
-		}
-		private void FocusManager_LosingFocus(object? sender, LosingFocusEventArgs e)
-		{
-			if (focused is not null)
-			{
-				focused = null;
-				OnPropertyChanged(nameof(IsExecutable));
-			}
+			return FocusManager.GetFocusedElement(App.Window.Content.XamlRoot) as FrameworkElement;
 		}
 	}
 }
