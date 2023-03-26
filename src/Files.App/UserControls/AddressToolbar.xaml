@@ -308,10 +308,10 @@
 					x:Name="SettingsButton"
 					AccessKey="I"
 					AutomationProperties.AutomationId="SettingsButton"
-					AutomationProperties.Name="{helpers:ResourceString Name=Settings}"
-					Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind ViewModel.Commands.OpenSettings.Label, Mode=OneWay}"
+					Command="{x:Bind ViewModel.Commands.OpenSettings, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Settings}"
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenSettings.Description, Mode=OneWay}"
 					Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
 					<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
 						<AnimatedIcon.Source>
