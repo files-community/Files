@@ -1446,29 +1446,35 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Muito pequeno</value>
   </data>
+  <data name="Future" xml:space="preserve">
+    <value>Future</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>Hoje</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Ontem</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>No início desta semana</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>Na semana passada</value>
   </data>
-  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
-    <value>Neste mês</value>
+  <data name="EarlierThisMonth" xml:space="preserve">
+    <value>Earlier this month</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>Mês passado</value>
   </data>
-  <data name="ItemTimeText_ThisYear" xml:space="preserve">
-    <value>Neste ano</value>
+  <data name="EarlierThisYear" xml:space="preserve">
+    <value>Earlier this year</value>
   </data>
-  <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>Antigo</value>
+  <data name="LastYear" xml:space="preserve">
+    <value>Last year</value>
+  </data>
+  <data name="YearN" xml:space="preserve">
+    <value>Year {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} item</value>
@@ -2658,10 +2664,10 @@
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Toggle compact overlay</value>
   </data>
-	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Insira a sobreposição compacta</value>
   </data>
-	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Remova a sobreposição compacta</value>
   </data>
 </root>
