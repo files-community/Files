@@ -1854,12 +1854,6 @@
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Up</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
@@ -2642,5 +2636,32 @@
   </data>
   <data name="LaunchQuickLook" xml:space="preserve">
     <value>Launch QuickLook</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Toggle compact overlay</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Copy item(s) to clipboard</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Copy path of item to clipboard</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Cut item(s) to clipboard</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to the current folder</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to the selected folder</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Toggle compact overlay</value>
+  </data>
+	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>Enter compact overlay</value>
+  </data>
+	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>Exit compact overlay</value>
   </data>
 </root>
