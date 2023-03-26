@@ -126,6 +126,7 @@
 						<Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
 						<Setter Property="BorderThickness" Value="{ThemeResource TabViewItemBorderThickness}" />
 						<Setter Property="BorderBrush" Value="{ThemeResource TabViewItemBorderBrush}" />
+						<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 						<Setter Property="Template">
 							<Setter.Value>
 								<ControlTemplate TargetType="TabViewItem">
