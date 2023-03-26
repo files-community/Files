@@ -43,6 +43,8 @@ namespace Files.App.Views
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
 
+		public SidebarViewModel SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
+
 		public AppModel AppModel => App.AppModel;
 
 		public MainPageViewModel ViewModel
@@ -57,8 +59,6 @@ namespace Files.App.Views
 		private bool draggingPreviewPane;
 
 		private bool keyReleased = true;
-
-		public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
 
 		public readonly OngoingTasksViewModel OngoingTasksViewModel;
 

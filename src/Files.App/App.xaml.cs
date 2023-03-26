@@ -230,6 +230,7 @@ namespace Files.App
 						.AddSingleton<IJumpListService, JumpListService>()
 						.AddScoped<MainPageViewModel>()
 						.AddScoped<PreviewPaneViewModel>()
+						.AddScoped<SidebarViewModel>()
 						.AddScoped<SettingsViewModel>()
 						.AddScoped<OngoingTasksViewModel>()
 						.AddScoped<AppearanceViewModel>()

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Extensions;
 using Files.App.ViewModels;
@@ -10,7 +11,7 @@ namespace Files.App.Actions
 {
 	internal class ToggleSidebarAction : ObservableObject, IToggleAction
 	{
-		private readonly SidebarViewModel viewModel = null;
+		private readonly SidebarViewModel viewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
 
 		public string Label { get; } = "TogglePreviewPane".GetLocalizedResource();
 
