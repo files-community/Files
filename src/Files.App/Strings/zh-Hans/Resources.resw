@@ -264,7 +264,7 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>在新窗口中打开</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>共享</value>
   </data>
   <data name="Cut" xml:space="preserve">
@@ -1446,29 +1446,35 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>微小</value>
   </data>
+  <data name="Future" xml:space="preserve">
+    <value>Future</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>今天</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>昨天</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>本周早些时候</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>上周</value>
   </data>
-  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
-    <value>本月</value>
+  <data name="EarlierThisMonth" xml:space="preserve">
+    <value>Earlier this month</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>上月</value>
   </data>
-  <data name="ItemTimeText_ThisYear" xml:space="preserve">
-    <value>今年</value>
+  <data name="EarlierThisYear" xml:space="preserve">
+    <value>Earlier this year</value>
   </data>
-  <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>更早</value>
+  <data name="LastYear" xml:space="preserve">
+    <value>Last year</value>
+  </data>
+  <data name="YearN" xml:space="preserve">
+    <value>Year {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} 个项目</value>
@@ -1853,12 +1859,6 @@
   </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
-  </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+上方向键</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+下方向键</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2494,7 +2494,7 @@
     <value>查看更多</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>但请不要担心，我们创建了一个更可靠且功能更多的替代品。你可以前往“设置” &gt; “偏好” &gt; “要在主页上显示的组件”来启用“文件标签”组件。启用“文件标签”时将自动关闭“包”。</value>
+    <value>但不要担心，我们创建了一个更可靠且功能更多的替代品。你可以前往“设置” &gt; “偏好” &gt; “主页小组件”并启用“标签”组件。启用“标签”时将自动关闭“包”。</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>包（Bundles）将在未来的某个更新中停用 📎</value>
@@ -2632,15 +2632,42 @@
     <value>切换排序方向</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
-    <value>Invalid name</value>
+    <value>无效名称</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>Name must not be empty or start or end with a period.</value>
+    <value>名称不能为空，也不能以英文句点 (.) 开头或结尾。</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>视频</value>
   </data>
   <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Launch QuickLook</value>
+    <value>启动 QuickLook</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>开关精简模式</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>复制项目到剪贴板</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>复制项目路径到剪贴板</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>剪切项目到剪贴板</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>从剪贴板粘贴项目到当前文件夹</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>从剪贴板粘贴项目到已选的文件夹</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>开关精简模式</value>
+  </data>
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>进入精简模式</value>
+  </data>
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>退出精简模式</value>
   </data>
 </root>

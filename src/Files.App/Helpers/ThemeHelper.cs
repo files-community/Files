@@ -1,5 +1,7 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.Extensions;
+using Files.App.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -102,7 +104,7 @@ namespace Files.App.Helpers
 						break;
 				}
 			}
-			App.AppSettings.UpdateThemeElements.Execute(null);
+			Ioc.Default.GetRequiredService<SettingsViewModel>().UpdateThemeElements.Execute(null);
 		}
 	}
 }
