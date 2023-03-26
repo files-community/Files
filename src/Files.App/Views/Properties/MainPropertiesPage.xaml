@@ -7,8 +7,8 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Views.Properties"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:toolkitconvers="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:uc="using:Files.App.UserControls"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyDown="Page_KeyDown"
 	Loaded="Page_Loaded"
@@ -22,14 +22,14 @@
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewItemButtonStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
-			<toolkitconvers:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
-			<toolkitconvers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-
-			<toolkitconvers:BoolToVisibilityConverter
+			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+			<wctconverters:BoolToVisibilityConverter
 				x:Key="BoolToVisibilityInverseConverter"
 				FalseValue="Visible"
 				TrueValue="Collapsed" />
+
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -41,13 +41,11 @@
 
 		<!--  Titlebar  -->
 		<Border x:Name="TitlebarArea" Height="40">
-
 			<TextBlock
 				Padding="16,0"
 				VerticalAlignment="Center"
 				Style="{StaticResource BodyStrongTextBlockStyle}"
 				Text="{helpers:ResourceString Name=Properties}" />
-
 		</Border>
 
 		<!--  Main NavigationView  -->
