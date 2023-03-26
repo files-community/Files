@@ -46,14 +46,6 @@ namespace Files.App.UserControls
 			set { SetValue(ShowSearchBoxProperty, value); }
 		}
 
-		public static readonly DependencyProperty SettingsButtonCommandProperty =
-			DependencyProperty.Register(nameof(SettingsButtonCommand), typeof(ICommand), typeof(AddressToolbar), new(null));
-		public ICommand SettingsButtonCommand
-		{
-			get => (ICommand)GetValue(SettingsButtonCommandProperty);
-			set => SetValue(SettingsButtonCommandProperty, value);
-		}
-
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(AddressToolbar), new PropertyMetadata(null));

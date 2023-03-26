@@ -79,6 +79,7 @@ namespace Files.App.Commands
 		RotateRight,
 
 		// Open
+		OpenSettings,
 		OpenTerminal,
 		OpenTerminalAsAdmin,
 
