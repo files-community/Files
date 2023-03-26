@@ -1446,6 +1446,9 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Bardzo mały</value>
   </data>
+  <data name="Future" xml:space="preserve">
+    <value>Future</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>Dzisiaj</value>
   </data>
@@ -1458,17 +1461,20 @@
   <data name="LastWeek" xml:space="preserve">
     <value>Ostatni tydzień</value>
   </data>
-  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
-    <value>W tym miesiącu</value>
+  <data name="EarlierThisMonth" xml:space="preserve">
+    <value>Earlier this month</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>Ostatni miesiąc</value>
   </data>
-  <data name="ItemTimeText_ThisYear" xml:space="preserve">
-    <value>Ten rok</value>
+  <data name="EarlierThisYear" xml:space="preserve">
+    <value>Earlier this year</value>
   </data>
-  <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>Starsze</value>
+  <data name="LastYear" xml:space="preserve">
+    <value>Last year</value>
+  </data>
+  <data name="YearN" xml:space="preserve">
+    <value>Year {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} element</value>
@@ -2581,10 +2587,10 @@
     <value>Zastosuj tę akcję do wszystkich sprzecznych elementów</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in terminal</value>
+    <value>Otwórz w terminalu</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in terminal as administrator</value>
+    <value>Otwórz w terminalu jako administrator</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Zapisz</value>
@@ -2626,42 +2632,42 @@
     <value>Zmień kolejność sortowania</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
-    <value>Invalid name</value>
+    <value>Nieprawidłowa nazwa</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>Name must not be empty or start or end with a period.</value>
+    <value>Nazwa nie może być pusta ani zaczynać się lub kończyć kropką.</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>Wideo</value>
   </data>
   <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Launch QuickLook</value>
+    <value>Uruchom QuickLook</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>Przełącz kompaktową nakładkę</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy item(s) to clipboard</value>
+    <value>Kopiuj element(y) do schowka</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of item to clipboard</value>
+    <value>Kopiuj ścieżkę elementu do schowka</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut item(s) to clipboard</value>
+    <value>Wytnij element(y) do schowka</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to the current folder</value>
+    <value>Wklej element(y) ze schowka do bieżącego folderu</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to the selected folder</value>
+    <value>Wklej element(y) ze schowka do wybranego folderu</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>Przełącz kompaktową nakładkę</value>
   </data>
-	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Otwórz kompaktową nakładkę</value>
   </data>
-	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Wyjdź z kompaktowej nakładki</value>
   </data>
 </root>
