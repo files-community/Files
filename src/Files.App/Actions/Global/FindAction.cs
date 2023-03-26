@@ -15,7 +15,7 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label => "Share".GetLocalizedResource();
+		public string Label => "Search".GetLocalizedResource();
 
 		public string Description => "TODO: Need to be described.";
 
@@ -25,9 +25,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new();
 
-		public bool IsExecutable =>
-			context.ShellPage is not null &&
-			IsPageTypeValid();
+		public bool IsExecutable => context.ShellPage is not null && IsPageTypeValid();
 
 		public FindAction()
 		{
