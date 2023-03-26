@@ -12,6 +12,7 @@
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyDown="Page_KeyDown"
 	Loaded="Page_Loaded"
+	SizeChanged="MainPropertiesPage_SizeChanged"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -34,22 +35,22 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="44" />
+			<RowDefinition Height="36" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<!--  Titlebar  -->
-		<Border x:Name="TitlebarArea" Height="36">
+		<Border x:Name="TitlebarArea" Height="40">
 
 			<TextBlock
-				Padding="12,0"
+				Padding="16,0"
 				VerticalAlignment="Center"
 				Style="{StaticResource BodyStrongTextBlockStyle}"
 				Text="{helpers:ResourceString Name=Properties}" />
 
 		</Border>
 
-		<!--  Vertical NavigationView whose each items are squared  -->
+		<!--  Main NavigationView  -->
 		<NavigationView
 			x:Name="MainPropertiesWindowNavigationView"
 			Grid.Row="1"
@@ -58,18 +59,15 @@
 			IsSettingsVisible="False"
 			IsTitleBarAutoPaddingEnabled="False"
 			MenuItemsSource="{x:Bind NavViewItems, Mode=TwoWay}"
-			OpenPaneLength="200"
+			OpenPaneLength="180"
 			PaneDisplayMode="Left"
 			SelectionChanged="MainPropertiesWindowNavigationView_SelectionChanged">
 
 			<NavigationView.MenuItemTemplate>
-				<DataTemplate x:DataType="local:SquareNavViewItem">
-					<NavigationViewItem
-						Height="64"
-						IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
-						Tag="{x:Bind ItemType}">
+				<DataTemplate x:DataType="local:NavigationViewItemButtonStyleItem">
+					<NavigationViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Tag="{x:Bind ItemType}">
 						<NavigationViewItem.Content>
-							<Grid ColumnSpacing="8">
+							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="*" />
@@ -77,20 +75,21 @@
 
 								<!--  Icon  -->
 								<Viewbox
-									Width="24"
-									Height="24"
+									Width="16"
+									Height="16"
 									VerticalAlignment="Center">
-									<usercontrols:OpacityIcon IsSelected="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind OpacityIconStyle, Mode=OneWay}" />
+									<usercontrols:OpacityIcon IsSelected="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind OpacityIconStyle}" />
 								</Viewbox>
 
 								<!--  Label  -->
 								<TextBlock
 									x:Name="ItemNameLabelTextBlock"
 									Grid.Column="1"
-									HorizontalAlignment="Center"
-									FontSize="10"
-									Style="{StaticResource CaptionTextBlockStyle}"
-									Text="{x:Bind Name}" />
+									Margin="8,0,0,0"
+									VerticalAlignment="Center"
+									Style="{StaticResource BodyTextBlockStyle}"
+									Text="{x:Bind Name}"
+									Visibility="{x:Bind IsCompacted, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}" />
 
 							</Grid>
 						</NavigationViewItem.Content>

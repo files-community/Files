@@ -43,9 +43,10 @@ namespace Files.App.Views.Properties
 			=> App.AppSettings;
 
 		public Window Window;
+
 		public AppWindow AppWindow;
 
-		public ObservableCollection<SquareNavViewItem> NavViewItems { get; set; }
+		public ObservableCollection<NavigationViewItemButtonStyleItem> NavViewItems { get; set; }
 
 		public MainPropertiesPage()
 		{
@@ -96,6 +97,20 @@ namespace Files.App.Views.Properties
 				_propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
 				_propertiesDialog.Closed += PropertiesDialog_Closed;
 			}
+		}
+
+		private void MainPropertiesPage_SizeChanged(object sender, SizeChangedEventArgs e)
+			=> UpdateDialogLayout();
+
+		private void UpdateDialogLayout()
+		{
+			MainPropertiesWindowNavigationView.PaneDisplayMode =
+				ActualWidth <= 600 ? NavigationViewPaneDisplayMode.LeftCompact : NavigationViewPaneDisplayMode.Left;
+
+			if (ActualWidth <= 600)
+				foreach (var item in NavViewItems) item.IsCompacted = true;
+			else
+				foreach (var item in NavViewItems) item.IsCompacted = false;
 		}
 
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
@@ -167,49 +182,49 @@ namespace Files.App.Views.Properties
 
 		private void AddNavigationViewItemsToControl(object item)
 		{
-			var generalItem = new SquareNavViewItem()
+			var generalItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "General".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemGeneral,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconGeneralProperties"],
 			};
-			var securityItem = new SquareNavViewItem()
+			var securityItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Security".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemSecurity,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconSecurityProperties"],
 			};
-			var hashItem = new SquareNavViewItem()
+			var hashItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Hashes".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemHash,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconHashesProperties"],
 			};
-			var shortcutItem = new SquareNavViewItem()
+			var shortcutItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Shortcut".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemShortcut,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconShortcutProperties"],
 			};
-			var libraryItem = new SquareNavViewItem()
+			var libraryItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Library".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemLibrary,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconLibraryProperties"],
 			};
-			var detailsItem = new SquareNavViewItem()
+			var detailsItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Details".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemDetails,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconDetailsProperties"],
 			};
-			var customizationItem = new SquareNavViewItem()
+			var customizationItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Customization".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCustomization,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconCustomizationProperties"],
 			};
-			var compatibilityItem = new SquareNavViewItem()
+			var compatibilityItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Compatibility".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCompatibility,
@@ -369,7 +384,8 @@ namespace Files.App.Views.Properties
 		}
 	}
 
-	public class SquareNavViewItem : ObservableObject
+	// TODO: Should move to a general place to use in the Settings Dialog as well
+	public class NavigationViewItemButtonStyleItem : ObservableObject
 	{
 		public string Name;
 
@@ -387,6 +403,13 @@ namespace Files.App.Views.Properties
 		{
 			get => _isSelected;
 			set => SetProperty(ref _isSelected, value);
+		}
+
+		private bool _isCompacted;
+		public bool IsCompacted
+		{
+			get => _isCompacted;
+			set => SetProperty(ref _isCompacted, value);
 		}
 	}
 
