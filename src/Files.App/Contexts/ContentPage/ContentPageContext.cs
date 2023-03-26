@@ -40,6 +40,8 @@ namespace Files.App.Contexts
 
 		public bool CanNavigateToParent => ShellPage is not null && ShellPage.ToolbarViewModel.CanNavigateToParent;
 
+    public bool CanRefresh => ShellPage is not null && ShellPage.ToolbarViewModel.CanRefresh;
+
 		public ContentPageContext()
 		{
 			context.Changing += Context_Changing;
@@ -106,6 +108,7 @@ namespace Files.App.Contexts
 				case nameof(ToolbarViewModel.CanGoForward):
 				case nameof(ToolbarViewModel.CanNavigateToParent):
 				case nameof(ToolbarViewModel.HasItem):
+				case nameof(ToolbarViewModel.CanRefresh):
 					OnPropertyChanged(e.PropertyName);
 					break;
 				case nameof(ToolbarViewModel.SelectedItems):
@@ -130,6 +133,7 @@ namespace Files.App.Contexts
 			OnPropertyChanged(nameof(CanGoBack));
 			OnPropertyChanged(nameof(CanGoForward));
 			OnPropertyChanged(nameof(CanNavigateToParent));
+			OnPropertyChanged(nameof(CanRefresh));
 		}
 
 		private void UpdatePageType()

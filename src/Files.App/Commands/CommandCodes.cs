@@ -32,6 +32,7 @@ namespace Files.App.Commands
 		OpenItem,
 		OpenItemWithApplicationPicker,
 		OpenParentFolder,
+		RefreshItems,
 
 		// Selection
 		SelectAll,
@@ -78,6 +79,7 @@ namespace Files.App.Commands
 		RotateRight,
 
 		// Open
+		OpenSettings,
 		OpenTerminal,
 		OpenTerminalAsAdmin,
 
