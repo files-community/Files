@@ -100,7 +100,7 @@
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
-						<RowDefinition Height="Auto" />
+						<RowDefinition Height="52" />
 					</Grid.RowDefinitions>
 
 					<Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
