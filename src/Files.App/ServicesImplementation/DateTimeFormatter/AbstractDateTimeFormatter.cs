@@ -9,7 +9,7 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 	internal abstract class AbstractDateTimeFormatter : IDateTimeFormatter
 	{
 		private static readonly CultureInfo cultureInfo
-			= ApplicationLanguages.PrimaryLanguageOverride == string.Empty ? CultureInfo.CurrentCulture : new (ApplicationLanguages.PrimaryLanguageOverride);
+			= ApplicationLanguages.PrimaryLanguageOverride == string.Empty ? CultureInfo.CurrentCulture : new(ApplicationLanguages.PrimaryLanguageOverride);
 
 		public abstract string Name { get; }
 
