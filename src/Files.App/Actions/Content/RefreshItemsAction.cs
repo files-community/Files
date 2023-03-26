@@ -14,6 +14,7 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "Refresh".GetLocalizedResource();
+		public string Description { get; } = "TODO";
 
 		public RichGlyph Glyph { get; } = new("\uE72C");
 
@@ -21,7 +22,7 @@ namespace Files.App.Actions
 
         public HotKey SecondHotKey { get; } = new(VirtualKey.F5);
         
-		public bool IsExecutable => context.ShellPage?.ToolbarViewModel?.CanRefresh ?? false;
+		public bool IsExecutable => context.CanRefresh;
 
 		public RefreshItemsAction()
 		{
@@ -35,8 +36,12 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.ShellPage.ToolbarViewModel.CanRefresh))
-				OnPropertyChanged(nameof(IsExecutable));
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.CanRefresh):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 	}
 }
