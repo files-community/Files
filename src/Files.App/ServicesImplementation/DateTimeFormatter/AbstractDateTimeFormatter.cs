@@ -8,7 +8,8 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 {
 	internal abstract class AbstractDateTimeFormatter : IDateTimeFormatter
 	{
-		private static readonly CultureInfo cultureInfo = new(ApplicationLanguages.Languages[0]);
+		private static readonly CultureInfo cultureInfo
+			= ApplicationLanguages.PrimaryLanguageOverride == string.Empty ? CultureInfo.CurrentCulture : new (ApplicationLanguages.PrimaryLanguageOverride);
 
 		public abstract string Name { get; }
 
@@ -22,13 +23,15 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 			var now = DateTimeOffset.Now;
 			var time = offset.ToLocalTime();
 
+			var diff = now - offset;
+
 			return 0 switch
 			{
 				_ when now.Date < time.Date => new Label("Future".GetLocalizedResource(), "\uED28", 9),
 				_ when now.Date == time.Date => new Label("Today".GetLocalizedResource(), "\uE8D1", 8),
 				_ when now.AddDays(-1).Date == time.Date => new Label("Yesterday".GetLocalizedResource(), "\uE8BF", 7),
-				_ when now.Year == time.Year && GetWeekOfYear(now) == GetWeekOfYear(time) => new Label("EarlierThisWeek".GetLocalizedResource(), "\uE8C0", 6),
-				_ when now.AddDays(-7).Year == time.Year && GetWeekOfYear(now.AddDays(-7)) == GetWeekOfYear(time) => new Label("LastWeek".GetLocalizedResource(), "\uE8C0", 5),
+				_ when diff.Days < 7 && GetWeekOfYear(now) == GetWeekOfYear(time) => new Label("EarlierThisWeek".GetLocalizedResource(), "\uE8C0", 6),
+				_ when diff.Days < 14 && GetWeekOfYear(now.AddDays(-7)) == GetWeekOfYear(time) => new Label("LastWeek".GetLocalizedResource(), "\uE8C0", 5),
 				_ when now.Year == time.Year && now.Month == time.Month => new Label("EarlierThisMonth".GetLocalizedResource(), "\uE787", 4),
 				_ when now.AddMonths(-1).Year == time.Year && now.AddMonths(-1).Month == time.Month => new Label("LastMonth".GetLocalizedResource(), "\uE787", 3),
 				_ when now.Year == time.Year => new Label("EarlierThisYear".GetLocalizedResource(), "\uEC92", 2),
@@ -42,7 +45,7 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 
 		private static int GetWeekOfYear(DateTimeOffset t)
 		{
-			return cultureInfo.Calendar.GetWeekOfYear(t.DateTime, cultureInfo.DateTimeFormat.CalendarWeekRule, cultureInfo.DateTimeFormat.FirstDayOfWeek);
+			return cultureInfo.Calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstFullWeek, cultureInfo.DateTimeFormat.FirstDayOfWeek);
 		}
 
 		private class Label : ITimeSpanLabel
