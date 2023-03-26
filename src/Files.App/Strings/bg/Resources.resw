@@ -1449,7 +1449,7 @@
   <data name="Today" xml:space="preserve">
     <value>Днес</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Вчера</value>
   </data>
   <data name="ItemTimeText_ThisWeek" xml:space="preserve">
@@ -1461,7 +1461,7 @@
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>Този месец</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>Миналият месец</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">

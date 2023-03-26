@@ -1449,19 +1449,19 @@
   <data name="Today" xml:space="preserve">
     <value>Astăzi</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Ieri</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>La începutul acestei săptămâni</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>Săptămâna trecută</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>Luna aceasta</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>Luna trecută</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">

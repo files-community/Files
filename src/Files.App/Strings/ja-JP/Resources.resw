@@ -1449,19 +1449,19 @@
   <data name="Today" xml:space="preserve">
     <value>今日</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>昨日</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>今週</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>先週</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>今月</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>先月</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">

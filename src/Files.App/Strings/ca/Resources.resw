@@ -1449,10 +1449,10 @@
   <data name="Today" xml:space="preserve">
     <value>Avui</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Ahir</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>Al principi d'aquesta setmana</value>
   </data>
   <data name="ItemTimeText_LastWeek" xml:space="preserve">

@@ -933,19 +933,19 @@
   <data name="Today" xml:space="preserve">
     <value>ଆଜି</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>ଗତକାଲି</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>ଏହି ସପ୍ତାହ ଆଦ୍ୟରେ</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>ଗତ ସପ୍ତାହ</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>ଏହି ମାସ</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>ଗତ ମାସ</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">
