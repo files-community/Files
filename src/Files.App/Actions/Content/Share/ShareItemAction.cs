@@ -32,7 +32,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			ShareItemHelpers.ShareItems(context.SelectedItems.ToArray());
+			ShareItemHelpers.ShareItems(context.SelectedItems);
 
 			return Task.CompletedTask;
 		}
