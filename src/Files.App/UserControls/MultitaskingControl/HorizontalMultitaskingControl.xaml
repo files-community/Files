@@ -48,7 +48,6 @@
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.CloseOtherTabsSelected.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.CloseOtherTabsSelected.Label}" />
 						<MenuFlyoutItem
-							x:Name="MenuItemReopenClosedTab"
 							Command="{x:Bind Commands.ReopenClosedTab}"
 							IsEnabled="{x:Bind Commands.ReopenClosedTab.IsExecutable}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.ReopenClosedTab.HotKeyText, Mode=OneWay}"

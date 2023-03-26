@@ -4,9 +4,7 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.UserControls.MultitaskingControl;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.System;
 
@@ -25,13 +23,12 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			context.Control is not null &&
 			!BaseMultitaskingControl.IsRestoringClosedTab &&
-			BaseMultitaskingControl.RecentlyClosedTabs.Any();
+			BaseMultitaskingControl.RecentlyClosedTabs.Count > 0;
 
 		public ReopenClosedTabAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
-			BaseMultitaskingControl.IsRestoringTabChanged += BaseMultitaskingControl_IsRestoringTabChanged;
-			BaseMultitaskingControl.RecentlyClosedTabs.CollectionChanged += RecentlyClosedTabs_CollectionChanged;
+			BaseMultitaskingControl.StaticPropertyChanged += BaseMultitaskingControl_StaticPropertyChanged;
 		}
 
 		public Task ExecuteAsync()
@@ -46,12 +43,7 @@ namespace Files.App.Actions
 				OnPropertyChanged(nameof(IsExecutable));
 		}
 
-		private void BaseMultitaskingControl_IsRestoringTabChanged(object? _, PropertyChangedEventArgs e)
-		{
-			OnPropertyChanged(nameof(IsExecutable));
-		}
-
-		private void RecentlyClosedTabs_CollectionChanged(object? _, NotifyCollectionChangedEventArgs e)
+		private void BaseMultitaskingControl_StaticPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			OnPropertyChanged(nameof(IsExecutable));
 		}
