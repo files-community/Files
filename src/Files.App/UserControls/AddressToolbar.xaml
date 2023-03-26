@@ -311,7 +311,7 @@
 					AutomationProperties.Name="{x:Bind ViewModel.Commands.OpenSettings.Label, Mode=OneWay}"
 					Command="{x:Bind ViewModel.Commands.OpenSettings, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenSettings.Description, Mode=OneWay}"
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}"
 					Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
 					<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
 						<AnimatedIcon.Source>
