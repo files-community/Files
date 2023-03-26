@@ -1449,19 +1449,19 @@
   <data name="Today" xml:space="preserve">
     <value>Šodien</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Vakar</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>Šonedēļ</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>Pagājušajā nedēļā</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>Šajā mēnesī</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>Pagājušajā mēnesī</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">

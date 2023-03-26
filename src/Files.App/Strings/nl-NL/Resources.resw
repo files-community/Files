@@ -1449,19 +1449,19 @@
   <data name="Today" xml:space="preserve">
     <value>Vandaag</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Gisteren</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>Eerder deze week</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>Vorige week</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>Deze maand</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>Vorige maand</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">

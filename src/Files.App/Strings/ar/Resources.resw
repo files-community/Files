@@ -1449,7 +1449,7 @@
   <data name="Today" xml:space="preserve">
     <value>اليوم</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>أمس</value>
   </data>
   <data name="ItemTimeText_ThisWeek" xml:space="preserve">

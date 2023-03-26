@@ -1449,19 +1449,19 @@
   <data name="Today" xml:space="preserve">
     <value>இன்று</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>நேற்று</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>இந்த வாரம் முதலில்</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>கடந்த வாரம்</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>இந்த மாதம்</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>கடந்த மாதம்</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">

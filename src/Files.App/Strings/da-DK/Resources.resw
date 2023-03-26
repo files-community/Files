@@ -1800,19 +1800,19 @@
   <data name="Today" xml:space="preserve">
     <value>I dag</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>I går</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>Tidligere i denne uge</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>Sidste uge</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>Denne måned</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>Sidste måned</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">
