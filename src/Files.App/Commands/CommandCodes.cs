@@ -38,6 +38,9 @@ namespace Files.App.Commands
 		InvertSelection,
 		ClearSelection,
 
+		// Share
+		ShareItem,
+
 		// Start
 		PinToStart,
 		UnpinFromStart,
@@ -51,10 +54,14 @@ namespace Files.App.Commands
 		SetAsSlideshowBackground,
 		SetAsLockscreenBackground,
 
+		// Install
+		InstallFont,
+		InstallInfDriver,
+
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
-		
+
 		// QuickLook
 		LaunchQuickLook,
 
@@ -118,9 +125,13 @@ namespace Files.App.Commands
 
 		// Navigation
 		NewTab,
-		DuplicateTab,
-
-		// Other
-		InstallFont,
+		DuplicateCurrentTab,
+		DuplicateSelectedTab,
+		CloseTabsToTheLeftCurrent,
+		CloseTabsToTheLeftSelected,
+		CloseTabsToTheRightCurrent,
+		CloseTabsToTheRightSelected,
+		CloseOtherTabsCurrent,
+		CloseOtherTabsSelected,
 	}
 }

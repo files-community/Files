@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Helpers;
+using Files.App.ViewModels;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace Files.App.Actions
 				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), Rotation);
 
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.RefreshItemsThumbnail();
-			App.PreviewPaneViewModel.UpdateSelectedItemPreview();
+			Ioc.Default.GetRequiredService<PreviewPaneViewModel>().UpdateSelectedItemPreview();
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()

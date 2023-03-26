@@ -23,8 +23,6 @@ namespace Files.App.Interacts
 
 		void CreateNewFile(ShellNewEntry e);
 
-		void ShareItem(RoutedEventArgs e);
-
 		void ItemPointerPressed(PointerRoutedEventArgs e);
 
 		void PointerWheelChanged(PointerRoutedEventArgs e);
@@ -38,8 +36,6 @@ namespace Files.App.Interacts
 		void SearchUnindexedItems(RoutedEventArgs e);
 
 		Task CreateFolderWithSelection(RoutedEventArgs e);
-
-		Task InstallInfDriver();
 
 		Task PlayAll();
 

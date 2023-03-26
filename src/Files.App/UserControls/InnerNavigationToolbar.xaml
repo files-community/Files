@@ -155,13 +155,13 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="H"
-					Command="{x:Bind ViewModel.Share, Mode=OneWay}"
-					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanShare, ViewModel.InstanceViewModel.CanShareInPage), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare/Text}"
+					Command="{x:Bind Commands.ShareItem, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.ShareItem.IsExecutable, Mode=OneWay, FallbackValue=False}"
+					Label="{x:Bind Commands.ShareItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare/Text}">
+					ToolTipService.ToolTip="{x:Bind Commands.ShareItem.LabelWithHotKey}">
 
-					<local:OpacityIcon Style="{StaticResource ColorIconShare}" />
+					<local:OpacityIcon Style="{x:Bind Commands.ShareItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="DeleteButton"
@@ -321,14 +321,13 @@
 					ToolTipService.ToolTip="{x:Bind Commands.SetAsSlideshowBackground.LabelWithHotKey}" />
 				<AppBarButton
 					x:Name="InstallInfButton"
-					x:Load="{x:Bind ViewModel.IsInfFile, Mode=OneWay, FallbackValue=False}"
-					AutomationProperties.Name="InstallInf"
-					Command="{x:Bind ViewModel.InstallInfCommand, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=Install}"
+					x:Load="{x:Bind Commands.InstallInfDriver.IsExecutable, Mode=OneWay, FallbackValue=False}"
+					Command="{x:Bind Commands.InstallInfDriver, Mode=OneWay}"
+					Label="{x:Bind Commands.InstallInfDriver.Label}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
 					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE9F5;" />
+						<FontIcon Glyph="{x:Bind Commands.InstallInfDriver.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
 				</AppBarButton>
 				<AppBarButton
