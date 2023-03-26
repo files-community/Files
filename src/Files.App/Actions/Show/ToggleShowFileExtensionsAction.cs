@@ -13,6 +13,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "ShowFileExtensions".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public bool IsOn => settings.ShowFileExtensions;
 
 		public ToggleShowFileExtensionsAction() => settings.PropertyChanged += Settings_PropertyChanged;

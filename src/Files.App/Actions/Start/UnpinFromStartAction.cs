@@ -17,6 +17,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "UnpinItemFromStart/Text".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconUnpinFromFavorites");
 
 		public async Task ExecuteAsync()

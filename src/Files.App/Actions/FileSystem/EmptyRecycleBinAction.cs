@@ -15,6 +15,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "EmptyRecycleBin".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconDelete");
 
 		public bool IsExecutable

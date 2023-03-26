@@ -9,6 +9,7 @@ using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using Files.Shared.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -31,7 +32,7 @@ namespace Files.App.Filesystem
 		#region Private Members
 
 		private IShellPage associatedInstance;
-
+		private readonly IJumpListService jumpListService;
 		private IFilesystemOperations filesystemOperations;
 
 		private ItemManipulationModel itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
@@ -78,6 +79,7 @@ namespace Files.App.Filesystem
 		{
 			this.associatedInstance = associatedInstance;
 			this.cancellationToken = cancellationToken;
+			jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
 			filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
 		}
 
@@ -184,7 +186,7 @@ namespace Files.App.Filesystem
 				App.HistoryWrapper.AddHistory(history);
 			var itemsDeleted = history?.Source.Count ?? 0;
 
-			source.ForEach(x => App.JumpList.RemoveFolder(x.Path)); // Remove items from jump list
+			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path)); // Remove items from jump list
 
 			banner.Remove();
 			sw.Stop();
@@ -481,7 +483,7 @@ namespace Files.App.Filesystem
 			}
 			int itemsMoved = history?.Source.Count ?? 0;
 
-			source.ForEach(x => App.JumpList.RemoveFolder(x.Path)); // Remove items from jump list
+			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path)); // Remove items from jump list
 
 			banner.Remove();
 			sw.Stop();
@@ -586,7 +588,7 @@ namespace Files.App.Filesystem
 				App.HistoryWrapper.AddHistory(history);
 			}
 
-			App.JumpList.RemoveFolder(source.Path); // Remove items from jump list
+			await jumpListService.RemoveFolderAsync(source.Path); // Remove items from jump list
 
 			await Task.Yield();
 			return returnStatus;

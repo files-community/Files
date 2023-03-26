@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.ViewModels;
@@ -10,7 +11,7 @@ namespace Files.App.Helpers
 {
 	public static class PostBannerHelpers
 	{
-		private static OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
+		private static OngoingTasksViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
 		public static PostedStatusBanner PostBanner_Delete(IEnumerable<IStorageItemWithPath> source, ReturnResult returnStatus, bool permanently, bool canceled, int itemsDeleted)
 		{

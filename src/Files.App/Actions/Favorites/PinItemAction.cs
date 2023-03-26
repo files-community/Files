@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.App.Actions.Favorites
+namespace Files.App.Actions
 {
 	internal class PinItemAction : ObservableObject, IAction
 	{
@@ -19,6 +19,8 @@ namespace Files.App.Actions.Favorites
 		private readonly IQuickAccessService service = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public string Label { get; } = "PinToFavorites".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconPinToFavorites");
 

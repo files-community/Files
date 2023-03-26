@@ -12,6 +12,7 @@ using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Extensions;
+using Files.Shared.Services;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
@@ -27,7 +28,9 @@ namespace Files.App.ViewModels
 {
 	public class MainPageViewModel : ObservableObject
 	{
-		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IUserSettingsService userSettingsService;
+		private IAppearanceSettingsService appearanceSettingsService;
+		private IResourcesService resourcesService;
 
 		public IMultitaskingControl? MultitaskingControl { get; set; }
 
@@ -42,21 +45,20 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref selectedTabItem, value);
 		}
 
-		private bool isWindowCompactOverlay;
-		public bool IsWindowCompactOverlay
-		{
-			get => isWindowCompactOverlay;
-			set => SetProperty(ref isWindowCompactOverlay, value);
-		}
-
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
 		public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
 		public ICommand OpenSettingsCommand { get; private set; }
 
-		public MainPageViewModel()
+		public MainPageViewModel(
+			IUserSettingsService userSettings, 
+			IAppearanceSettingsService appearanceSettings,
+			IResourcesService resources)
 		{
+			userSettingsService = userSettings;
+			appearanceSettingsService = appearanceSettings;
+			resourcesService = resources;
 			// Create commands
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
 			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
@@ -392,30 +394,12 @@ namespace Files.App.ViewModels
 			}
 
 			// Load the app theme resources
-			App.AppThemeResourcesHelper.LoadAppResources();
+			resourcesService.LoadAppResources(appearanceSettingsService);
 		}
 
 		public static Task AddNewTabAsync()
 		{
 			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
-		}
-
-		public static async Task DuplicateTabAsync()
-		{
-			var tabItem = AppInstances.FirstOrDefault(instance => instance.Control.TabItemContent.IsCurrentInstance);
-			if (tabItem is null)
-				return;
-
-			var index = AppInstances.IndexOf(tabItem);
-			if (tabItem.TabItemArguments is not null)
-			{
-				var tabArgs = tabItem.TabItemArguments;
-				await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg, index + 1);
-			}
-			else
-			{
-				await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
-			}
 		}
 
 		public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)

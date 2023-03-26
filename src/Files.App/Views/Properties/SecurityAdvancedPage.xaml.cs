@@ -1,9 +1,11 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
 using Files.App.Helpers;
+using Files.App.ViewModels;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -22,13 +24,15 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class SecurityAdvancedPage : Page
 	{
+		private readonly SettingsViewModel AppSettings;
+
 		public SecurityAdvancedPage()
 		{
 			InitializeComponent();
-
+			AppSettings = Ioc.Default.GetRequiredService<SettingsViewModel>();
 			_isWinUI3 = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
 
-			App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
 
 			var flowDirectionSetting = new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
@@ -65,13 +69,13 @@ namespace Files.App.Views.Properties
 				appWindow.Destroying += AppWindow_Destroying;
 
 				// Update theme
-				await App.Window.DispatcherQueue.EnqueueAsync(() => App.AppSettings.UpdateThemeElements.Execute(null));
+				await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
 			}
 		}
 
 		private void AppWindow_Destroying(AppWindow sender, object args)
 		{
-			App.AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
 			sender.Destroying -= AppWindow_Destroying;
 		}
 

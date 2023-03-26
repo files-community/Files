@@ -1,9 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Actions;
-using Files.App.Actions.Content.Archives;
-using Files.App.Actions.Content.Background;
-using Files.App.Actions.Content.ImageEdition;
-using Files.App.Actions.Favorites;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -29,12 +25,16 @@ namespace Files.App.Commands
 		public IRichCommand None => commands[CommandCodes.None];
 		public IRichCommand OpenHelp => commands[CommandCodes.OpenHelp];
 		public IRichCommand ToggleFullScreen => commands[CommandCodes.ToggleFullScreen];
+		public IRichCommand EnterCompactOverlay => commands[CommandCodes.EnterCompactOverlay];
+		public IRichCommand ExitCompactOverlay => commands[CommandCodes.ExitCompactOverlay];
+		public IRichCommand ToggleCompactOverlay => commands[CommandCodes.ToggleCompactOverlay];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand TogglePreviewPane => commands[CommandCodes.TogglePreviewPane];
 		public IRichCommand SelectAll => commands[CommandCodes.SelectAll];
 		public IRichCommand InvertSelection => commands[CommandCodes.InvertSelection];
 		public IRichCommand ClearSelection => commands[CommandCodes.ClearSelection];
+		public IRichCommand ShareItem => commands[CommandCodes.ShareItem];
 		public IRichCommand EmptyRecycleBin => commands[CommandCodes.EmptyRecycleBin];
 		public IRichCommand RestoreRecycleBin => commands[CommandCodes.RestoreRecycleBin];
 		public IRichCommand RestoreAllRecycleBin => commands[CommandCodes.RestoreAllRecycleBin];
@@ -54,6 +54,8 @@ namespace Files.App.Commands
 		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
 		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
+		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
+		public IRichCommand InstallInfDriver => commands[CommandCodes.InstallInfDriver];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
 		public IRichCommand LaunchQuickLook => commands[CommandCodes.LaunchQuickLook];
@@ -107,8 +109,14 @@ namespace Files.App.Commands
 		public IRichCommand GroupDescending => commands[CommandCodes.GroupDescending];
 		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
-		public IRichCommand DuplicateTab => commands[CommandCodes.DuplicateTab];
-		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
+		public IRichCommand DuplicateCurrentTab => commands[CommandCodes.DuplicateCurrentTab];
+		public IRichCommand DuplicateSelectedTab => commands[CommandCodes.DuplicateSelectedTab];
+		public IRichCommand CloseTabsToTheLeftCurrent => commands[CommandCodes.CloseTabsToTheLeftCurrent];
+		public IRichCommand CloseTabsToTheLeftSelected => commands[CommandCodes.CloseTabsToTheLeftSelected];
+		public IRichCommand CloseTabsToTheRightCurrent => commands[CommandCodes.CloseTabsToTheRightCurrent];
+		public IRichCommand CloseTabsToTheRightSelected => commands[CommandCodes.CloseTabsToTheRightSelected];
+		public IRichCommand CloseOtherTabsCurrent => commands[CommandCodes.CloseOtherTabsCurrent];
+		public IRichCommand CloseOtherTabsSelected => commands[CommandCodes.CloseOtherTabsSelected];
 
 		public CommandManager()
 		{
@@ -140,12 +148,16 @@ namespace Files.App.Commands
 		{
 			[CommandCodes.OpenHelp] = new OpenHelpAction(),
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
+			[CommandCodes.EnterCompactOverlay] = new EnterCompactOverlayAction(),
+			[CommandCodes.ExitCompactOverlay] = new ExitCompactOverlayAction(),
+			[CommandCodes.ToggleCompactOverlay] = new ToggleCompactOverlayAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
 			[CommandCodes.TogglePreviewPane] = new TogglePreviewPaneAction(),
 			[CommandCodes.SelectAll] = new SelectAllAction(),
 			[CommandCodes.InvertSelection] = new InvertSelectionAction(),
 			[CommandCodes.ClearSelection] = new ClearSelectionAction(),
+			[CommandCodes.ShareItem] = new ShareItemAction(),
 			[CommandCodes.EmptyRecycleBin] = new EmptyRecycleBinAction(),
 			[CommandCodes.RestoreRecycleBin] = new RestoreRecycleBinAction(),
 			[CommandCodes.RestoreAllRecycleBin] = new RestoreAllRecycleBinAction(),
@@ -165,6 +177,8 @@ namespace Files.App.Commands
 			[CommandCodes.PasteItem] = new PasteItemAction(),
 			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
+			[CommandCodes.InstallFont] = new InstallFontAction(),
+			[CommandCodes.InstallInfDriver] = new InstallInfDriverAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
 			[CommandCodes.LaunchQuickLook] = new LaunchQuickLookAction(),
@@ -218,8 +232,14 @@ namespace Files.App.Commands
 			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
 			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
-			[CommandCodes.DuplicateTab] = new DuplicateTabAction(),
-			[CommandCodes.InstallFont] = new InstallFontAction(),
+			[CommandCodes.DuplicateCurrentTab] = new DuplicateCurrentTabAction(),
+			[CommandCodes.DuplicateSelectedTab] = new DuplicateSelectedTabAction(),
+			[CommandCodes.CloseTabsToTheLeftCurrent] = new CloseTabsToTheLeftCurrentAction(),
+			[CommandCodes.CloseTabsToTheLeftSelected] = new CloseTabsToTheLeftSelectedAction(),
+			[CommandCodes.CloseTabsToTheRightCurrent] = new CloseTabsToTheRightCurrentAction(),
+			[CommandCodes.CloseTabsToTheRightSelected] = new CloseTabsToTheRightSelectedAction(),
+			[CommandCodes.CloseOtherTabsCurrent] = new CloseOtherTabsCurrentAction(),
+			[CommandCodes.CloseOtherTabsSelected] = new CloseOtherTabsSelectedAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
@@ -234,6 +254,8 @@ namespace Files.App.Commands
 			public string Label => string.Empty;
 			public string LabelWithHotKey => string.Empty;
 			public string AutomationName => string.Empty;
+
+			public string Description => string.Empty;
 
 			public RichGlyph Glyph => RichGlyph.None;
 			public object? Icon => null;
@@ -268,6 +290,8 @@ namespace Files.App.Commands
 			public string Label => action.Label;
 			public string LabelWithHotKey { get; }
 			public string AutomationName => Label;
+
+			public string Description => action.Description;
 
 			public RichGlyph Glyph => action.Glyph;
 			public object? Icon { get; }

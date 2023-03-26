@@ -84,10 +84,6 @@
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<Page.DataContext>
-		<vm:AppearanceViewModel x:Name="ViewModel" />
-	</Page.DataContext>
-
 	<Grid>
 		<StackPanel
 			HorizontalAlignment="Stretch"
