@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -39,8 +40,7 @@ namespace Files.App.Views.Properties
 
 		private bool _usingWinUI;
 
-		public SettingsViewModel AppSettings
-			=> App.AppSettings;
+		public readonly SettingsViewModel AppSettings;
 
 		public Window Window;
 		public AppWindow AppWindow;
@@ -50,7 +50,7 @@ namespace Files.App.Views.Properties
 		public MainPropertiesPage()
 		{
 			InitializeComponent();
-
+			AppSettings = Ioc.Default.GetRequiredService<SettingsViewModel>();
 			_tokenSource = new();
 
 			NavViewItems = new();

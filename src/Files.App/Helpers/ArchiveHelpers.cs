@@ -1,4 +1,5 @@
-﻿using Files.App.Dialogs;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Archive;
@@ -22,6 +23,8 @@ namespace Files.App.Helpers
 {
 	public static class ArchiveHelpers
 	{
+		private static OngoingTasksViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+
 		public static bool CanDecompress(IReadOnlyList<ListedItem> selectedItems)
 		{
 			return selectedItems.Any() && selectedItems.All(x => x.IsArchive)
@@ -70,7 +73,7 @@ namespace Files.App.Helpers
 			var archivePath = creator.ArchivePath;
 
 			CancellationTokenSource compressionToken = new();
-			PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner
+			PostedStatusBanner banner = OngoingTasksViewModel.PostOperationBanner
 			(
 				"CompressionInProgress".GetLocalizedResource(),
 				archivePath,
@@ -87,7 +90,7 @@ namespace Files.App.Helpers
 
 			if (isSuccess)
 			{
-				App.OngoingTasksViewModel.PostBanner
+				OngoingTasksViewModel.PostBanner
 				(
 					"CompressionCompleted".GetLocalizedResource(),
 					string.Format("CompressionSucceded".GetLocalizedResource(), archivePath),
@@ -100,7 +103,7 @@ namespace Files.App.Helpers
 			{
 				NativeFileOperationsHelper.DeleteFileFromApp(archivePath);
 
-				App.OngoingTasksViewModel.PostBanner
+				OngoingTasksViewModel.PostBanner
 				(
 					"CompressionCompleted".GetLocalizedResource(),
 					string.Format("CompressionFailed".GetLocalizedResource(), archivePath),
@@ -118,7 +121,7 @@ namespace Files.App.Helpers
 
 			CancellationTokenSource extractCancellation = new();
 
-			PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
+			PostedStatusBanner banner = OngoingTasksViewModel.PostOperationBanner(
 				archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
 				"ExtractingArchiveText".GetLocalizedResource(),
 				0,
@@ -136,7 +139,7 @@ namespace Files.App.Helpers
 
 			if (sw.Elapsed.TotalSeconds >= 6)
 			{
-				App.OngoingTasksViewModel.PostBanner(
+				OngoingTasksViewModel.PostBanner(
 					"ExtractingCompleteText".GetLocalizedResource(),
 					"ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
 					0,
