@@ -76,7 +76,7 @@
 									Width="16"
 									Height="16"
 									VerticalAlignment="Center">
-									<uc:OpacityIcon IsSelected="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind OpacityIconStyle}" />
+									<uc:OpacityIcon IsSelected="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind OpacityIconStyle, Mode=OneWay}" />
 								</Viewbox>
 
 								<!--  Label  -->
