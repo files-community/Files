@@ -34,13 +34,13 @@ namespace Files.App.Contexts
 		private IReadOnlyList<ListedItem> selectedItems = emptyItems;
 		public IReadOnlyList<ListedItem> SelectedItems => selectedItems;
 
+   		public bool CanRefresh => ShellPage is not null && ShellPage.ToolbarViewModel.CanRefresh;
+
 		public bool CanGoBack => ShellPage is not null && ShellPage.ToolbarViewModel.CanGoBack;
 		
 		public bool CanGoForward => ShellPage is not null && ShellPage.ToolbarViewModel.CanGoForward;
 
 		public bool CanNavigateToParent => ShellPage is not null && ShellPage.ToolbarViewModel.CanNavigateToParent;
-
-    public bool CanRefresh => ShellPage is not null && ShellPage.ToolbarViewModel.CanRefresh;
 
 		public ContentPageContext()
 		{
