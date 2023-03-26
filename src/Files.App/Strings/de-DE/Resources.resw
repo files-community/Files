@@ -264,7 +264,7 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>In neuem Fenster öffnen</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>Teilen</value>
   </data>
   <data name="Cut" xml:space="preserve">
@@ -1449,19 +1449,19 @@
   <data name="Today" xml:space="preserve">
     <value>Heute</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Gestern</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>Anfang dieser Woche</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>Letzte Woche</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>Diesen Monat</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>Letzten Monat</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">
@@ -1786,7 +1786,7 @@
     <value>Zum kompakten Overlay wechseln</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
-    <value>Das kompakte Overlay verlassen</value>
+    <value>Kompaktes Overlay verlassen</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>Dateibeschreibung</value>
@@ -1853,12 +1853,6 @@
   </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Strg+N</value>
-  </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Strg+Alt+Hoch</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Strg+Alt+Runter</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Strg+Umschalt+1</value>
@@ -2642,5 +2636,32 @@
   </data>
   <data name="LaunchQuickLook" xml:space="preserve">
     <value>Schnellansicht öffnen</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Kompakte Ansicht umschalten</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Element(e) in Zwischenablage kopieren</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Pfad des Elements in die Zwischenablage kopieren</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Element(e) in die Zwischenablage ausschneiden</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Element(e) aus der Zwischenablage in aktuellen Ordner einfügen</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Element(e) aus der Zwischenablage in ausgewählten Ordner einfügen</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Kompakte Ansicht umschalten</value>
+  </data>
+	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>Zum kompakten Overlay wechseln</value>
+  </data>
+	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>Kompaktes Overlay verlassen</value>
   </data>
 </root>

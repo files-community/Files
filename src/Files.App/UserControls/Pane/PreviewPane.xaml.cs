@@ -20,13 +20,18 @@ namespace Files.App.UserControls
 	{
 		public PreviewPanePositions Position { get; private set; } = PreviewPanePositions.None;
 
-		private IPreviewPaneSettingsService PaneSettingsService { get; } = Ioc.Default.GetService<IPreviewPaneSettingsService>();
+		private readonly IPreviewPaneSettingsService PaneSettingsService;
 
-		private PreviewPaneViewModel ViewModel => App.PreviewPaneViewModel;
+		private readonly PreviewPaneViewModel ViewModel;
 
 		private ObservableContext Context { get; } = new();
 
-		public PreviewPane() => InitializeComponent();
+		public PreviewPane() 
+		{
+			InitializeComponent();
+			PaneSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
+			ViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
+		}
 
 		public void UpdatePosition(double panelWidth, double panelHeight)
 		{

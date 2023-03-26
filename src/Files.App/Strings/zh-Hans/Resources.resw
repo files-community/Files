@@ -264,7 +264,7 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>在新窗口中打开</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>共享</value>
   </data>
   <data name="Cut" xml:space="preserve">
@@ -1449,19 +1449,19 @@
   <data name="Today" xml:space="preserve">
     <value>今天</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>昨天</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>本周早些时候</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>上周</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>本月</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>上月</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">
@@ -1853,12 +1853,6 @@
   </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
-  </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+上方向键</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+下方向键</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2632,15 +2626,42 @@
     <value>切换排序方向</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
-    <value>Invalid name</value>
+    <value>无效名称</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>Name must not be empty or start or end with a period.</value>
+    <value>名称不能为空，也不能以英文句点 (.) 开头或结尾。</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>视频</value>
   </data>
   <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Launch QuickLook</value>
+    <value>启动 QuickLook</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Toggle compact overlay</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Copy item(s) to clipboard</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Copy path of item to clipboard</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Cut item(s) to clipboard</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to the current folder</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to the selected folder</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Toggle compact overlay</value>
+  </data>
+	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>进入精简模式</value>
+  </data>
+	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>退出精简模式</value>
   </data>
 </root>

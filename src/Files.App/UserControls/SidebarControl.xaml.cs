@@ -33,7 +33,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
 using Windows.UI.Core;
-using static System.Net.Mime.MediaTypeNames;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.UserControls
@@ -978,14 +977,14 @@ namespace Files.App.UserControls
 		{
 			await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
 			if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
-				App.AppSettings.Set(isCollapsed, $"section:{loc.Text.Replace('\\', '_')}");
+				Ioc.Default.GetRequiredService<SettingsViewModel>().Set(isCollapsed, $"section:{loc.Text.Replace('\\', '_')}");
 		}
 
 		private void NavigationView_PaneOpened(NavigationView sender, object args)
 		{
 			// Restore expanded state when pane is opened
 			foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems is not null))
-				loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{loc.Text.Replace('\\', '_')}");
+				loc.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(loc.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{loc.Text.Replace('\\', '_')}");
 		}
 
 		private void NavigationView_PaneClosed(NavigationView sender, object args)
