@@ -53,6 +53,11 @@ namespace Files.App
 
 		void RemoveLastPageFromBackStack();
 
+		/// <summary>
+		/// Replaces any outdated entries with those of the correct page type
+		/// </summary>
+		void ResetNavigationStackLayoutMode();
+
 		void SubmitSearch(string query, bool searchUnindexedItems);
 
 		/// <summary>
