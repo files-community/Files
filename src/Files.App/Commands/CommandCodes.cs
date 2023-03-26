@@ -32,6 +32,7 @@ namespace Files.App.Commands
 		OpenItem,
 		OpenItemWithApplicationPicker,
 		OpenParentFolder,
+		RefreshItems,
 
 		// Selection
 		SelectAll,
