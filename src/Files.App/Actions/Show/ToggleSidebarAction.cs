@@ -17,7 +17,7 @@ namespace Files.App.Actions
 
 		public string Description => "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(VirtualKey.S, VirtualKeyModifiers.Control | VirtualKeyModifiers.Menu);
+		public HotKey HotKey { get; } = new(VirtualKey.B, VirtualKeyModifiers.Control);
 
 		public bool IsOn => viewModel.IsSidebarOpen;
 
