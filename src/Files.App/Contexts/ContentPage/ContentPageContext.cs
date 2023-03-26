@@ -34,6 +34,8 @@ namespace Files.App.Contexts
 		private IReadOnlyList<ListedItem> selectedItems = emptyItems;
 		public IReadOnlyList<ListedItem> SelectedItems => selectedItems;
 
+		public bool CanRefresh => ShellPage is not null && ShellPage.ToolbarViewModel.CanRefresh;
+
 		public ContentPageContext()
 		{
 			context.Changing += Context_Changing;
@@ -97,6 +99,7 @@ namespace Files.App.Contexts
 			switch (e.PropertyName)
 			{
 				case nameof(ToolbarViewModel.HasItem):
+				case nameof(ToolbarViewModel.CanRefresh):
 					OnPropertyChanged(e.PropertyName);
 					break;
 				case nameof(ToolbarViewModel.SelectedItems):
@@ -118,6 +121,7 @@ namespace Files.App.Contexts
 
 			OnPropertyChanged(nameof(Folder));
 			OnPropertyChanged(nameof(HasItem));
+			OnPropertyChanged(nameof(CanRefresh));
 		}
 
 		private void UpdatePageType()
