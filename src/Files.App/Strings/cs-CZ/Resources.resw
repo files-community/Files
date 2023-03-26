@@ -1446,29 +1446,35 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Drobný</value>
   </data>
+  <data name="Future" xml:space="preserve">
+    <value>Future</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>Dnes</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Včera</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>Dříve tento týden</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
-    <value>Minulý týden</value>
+  <data name="LastWeek" xml:space="preserve">
+    <value>Last week</value>
   </data>
-  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
-    <value>Tento měsíc</value>
+  <data name="EarlierThisMonth" xml:space="preserve">
+    <value>Earlier this month</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
-    <value>Minulý měsíc</value>
+  <data name="LastMonth" xml:space="preserve">
+    <value>Last month</value>
   </data>
-  <data name="ItemTimeText_ThisYear" xml:space="preserve">
-    <value>Tento rok</value>
+  <data name="EarlierThisYear" xml:space="preserve">
+    <value>Earlier this year</value>
   </data>
-  <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>Starší</value>
+  <data name="LastYear" xml:space="preserve">
+    <value>Last year</value>
+  </data>
+  <data name="YearN" xml:space="preserve">
+    <value>Year {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} položka</value>
@@ -2658,10 +2664,10 @@
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Toggle compact overlay</value>
   </data>
-	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Vstupte do kompaktního překrytí</value>
   </data>
-	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Opustit kompaktní překrytí</value>
   </data>
 </root>
