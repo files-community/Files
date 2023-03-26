@@ -117,7 +117,7 @@
 					Command="{x:Bind Commands.RefreshItems, Mode=OneWay}"
 					IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.Label}">
+					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey}">
 					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
 				</Button>
 			</StackPanel>
