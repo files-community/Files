@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Commands;
 using Files.App.Extensions;
 using Files.Backend.Extensions;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
 using System.Threading.Tasks;
+using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -16,6 +18,8 @@ namespace Files.App.Actions
 		public string Label => "Settings".GetLocalizedResource();
 
 		public string Description => "Settings".GetLocalizedResource();
+
+		public HotKey HotKey { get; } = new((VirtualKey)188, VirtualKeyModifiers.Control);
 
 		public async Task ExecuteAsync()
 		{
