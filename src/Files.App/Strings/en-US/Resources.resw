@@ -1446,10 +1446,10 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Tiny</value>
   </data>
-	<data name="Future" xml:space="preserve">
+    <data name="Future" xml:space="preserve">
     <value>Future</value>
   </data>
-	<data name="Today" xml:space="preserve">
+    <data name="Today" xml:space="preserve">
     <value>Today</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
@@ -1473,10 +1473,10 @@
   <data name="LastYear" xml:space="preserve">
     <value>Last year</value>
   </data>
-	<data name="YearN" xml:space="preserve">
+    <data name="YearN" xml:space="preserve">
     <value>Year {0}</value>
   </data>
-	<data name="GroupItemsCount_Singular" xml:space="preserve">
+    <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} item</value>
   </data>
   <data name="GroupItemsCount_Plural" xml:space="preserve">
@@ -2664,10 +2664,10 @@
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Toggle compact overlay</value>
   </data>
-	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Enter compact overlay</value>
   </data>
-	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Exit compact overlay</value>
   </data>
 </root>
