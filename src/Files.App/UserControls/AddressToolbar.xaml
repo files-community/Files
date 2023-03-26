@@ -83,7 +83,7 @@
 					Command="{x:Bind ViewModel.Commands.NavigateForward, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.Description, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
