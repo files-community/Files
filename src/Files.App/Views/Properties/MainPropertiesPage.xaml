@@ -8,7 +8,7 @@
 	xmlns:local="using:Files.App.Views.Properties"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitconvers="using:CommunityToolkit.WinUI.UI.Converters"
-	xmlns:usercontrols="using:Files.App.UserControls"
+	xmlns:uc="using:Files.App.UserControls"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyDown="Page_KeyDown"
 	Loaded="Page_Loaded"
@@ -78,7 +78,7 @@
 									Width="16"
 									Height="16"
 									VerticalAlignment="Center">
-									<usercontrols:OpacityIcon IsSelected="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind OpacityIconStyle}" />
+									<uc:OpacityIcon IsSelected="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind OpacityIconStyle}" />
 								</Viewbox>
 
 								<!--  Label  -->
@@ -97,8 +97,6 @@
 				</DataTemplate>
 			</NavigationView.MenuItemTemplate>
 
-
-
 			<!--  NavigationView Content, Save/Cancel buttons  -->
 			<NavigationView.Content>
 				<Grid>
@@ -110,8 +108,7 @@
 					<Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
 
 					<Grid
-						Grid.Row="2"
-						Height="58"
+						Grid.Row="1"
 						Background="{ThemeResource CardBackgroundFillColorSecondary}"
 						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 						BorderThickness="0,1,0,0">
