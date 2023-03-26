@@ -30,7 +30,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 | Selection     | SelectAll                           | Select All                                | Select all items                                         | Ctrl+A         |
 |               | InvertSelection                     | Invert Selection                          | Invert item selection                                    |                |
 |               | ClearSelection                      | Clear Selection                           | Clear item selection                                     |                |
-| Share         | ShareItem                           | Share                                     | Share file(s) with others                                |                |
+| Share         | ShareItem                           | Share                                     | Share selected file(s) with others                       |                |
 | Start         | PinToStart                          | Pin to the Start Menu                     | Pin item(s) to the Start Menu                            |                |
 |               | UnpinFromStart                      | Unpin from the Start Menu                 | Unpin item(s) from the Start Menu                        |                |
 | Favorites     | PinItemToFavorites                  | Pin to Favorites                          | Pin folder(s) to Favorites                               |                |
