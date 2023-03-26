@@ -27,6 +27,10 @@ namespace Files.App
 
 		void Refresh_Click();
 
+		void Back_Click();
+
+		void Forward_Click();
+
 		void Up_Click();
 
 		void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);

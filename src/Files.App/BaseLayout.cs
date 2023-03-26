@@ -65,8 +65,7 @@ namespace Files.App
 		public CurrentInstanceViewModel? InstanceViewModel
 			=> ParentShellPageInstance?.InstanceViewModel;
 
-		public PreviewPaneViewModel PreviewPaneViewModel
-			=> App.PreviewPaneViewModel;
+		public PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
 
 		public AppModel AppModel
 			=> App.AppModel;
@@ -221,15 +220,15 @@ namespace Files.App
 					if (value?.FirstOrDefault() != selectedItems?.FirstOrDefault())
 					{
 						// Update preview pane properties
-						App.PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
-						App.PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
+						PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
+						PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
 
 						// Check if the preview pane is open before updating the model
 						if (PreviewPaneViewModel.IsEnabled)
 						{
 							var isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
 							if (isPaneEnabled)
-								App.PreviewPaneViewModel.UpdateSelectedItemPreview();
+								PreviewPaneViewModel.UpdateSelectedItemPreview();
 						}
 					}
 
@@ -288,6 +287,7 @@ namespace Files.App
 
 		public BaseLayout()
 		{
+			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 			ItemManipulationModel = new ItemManipulationModel();
 
 			HookBaseEvents();
@@ -877,8 +877,6 @@ namespace Files.App
 
 		protected void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
-			SelectedItems!.AddRange(e.Items.OfType<ListedItem>());
-
 			try
 			{
 				var shellItemList = e.Items.OfType<ListedItem>().Select(x => new VA.ShellItem(x.ItemPath)).ToArray();

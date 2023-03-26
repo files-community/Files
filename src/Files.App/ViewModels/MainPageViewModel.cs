@@ -7,10 +7,8 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views;
-using Files.Backend.Extensions;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
@@ -27,7 +25,9 @@ namespace Files.App.ViewModels
 {
 	public class MainPageViewModel : ObservableObject
 	{
-		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IUserSettingsService userSettingsService;
+		private IAppearanceSettingsService appearanceSettingsService;
+		private IResourcesService resourcesService;
 
 		public IMultitaskingControl? MultitaskingControl { get; set; }
 
@@ -45,15 +45,19 @@ namespace Files.App.ViewModels
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
-		public ICommand OpenSettingsCommand { get; private set; }
 
-		public MainPageViewModel()
+		public MainPageViewModel(
+			IUserSettingsService userSettings, 
+			IAppearanceSettingsService appearanceSettings,
+			IResourcesService resources)
 		{
+			userSettingsService = userSettings;
+			appearanceSettingsService = appearanceSettings;
+			resourcesService = resources;
 			// Create commands
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
 			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
 			CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
-			OpenSettingsCommand = new RelayCommand(OpenSettings);
 		}
 
 		private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
@@ -141,13 +145,6 @@ namespace Files.App.ViewModels
 			var tabItem = AppInstances[index];
 			MultitaskingControl?.CloseTab(tabItem);
 			e!.Handled = true;
-		}
-
-		private async void OpenSettings()
-		{
-			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-			var dialog = dialogService.GetDialog(new SettingsDialogViewModel());
-			await dialog.TryShowAsync();
 		}
 
 		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
@@ -377,7 +374,7 @@ namespace Files.App.ViewModels
 			}
 
 			// Load the app theme resources
-			App.AppThemeResourcesHelper.LoadAppResources();
+			resourcesService.LoadAppResources(appearanceSettingsService);
 		}
 
 		public static Task AddNewTabAsync()
