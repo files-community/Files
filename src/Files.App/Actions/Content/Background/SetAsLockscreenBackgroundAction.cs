@@ -8,13 +8,15 @@ using Files.Shared.Enums;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace Files.App.Actions.Content.Background
+namespace Files.App.Actions
 {
 	internal class SetAsLockscreenBackgroundAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "SetAsLockscreen".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph { get; } = new("\uEE3F");
 

@@ -4,18 +4,21 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
+using Files.App.ViewModels;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 
-namespace Files.App.Actions.Content.ImageEdition
+namespace Files.App.Actions
 {
 	internal class RotateRightAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "RotateRight".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRotateRight");
 
@@ -33,7 +36,7 @@ namespace Files.App.Actions.Content.ImageEdition
 				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise90Degrees);
 
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.RefreshItemsThumbnail();
-			App.PreviewPaneViewModel.UpdateSelectedItemPreview();
+			Ioc.Default.GetRequiredService<PreviewPaneViewModel>().UpdateSelectedItemPreview();
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()

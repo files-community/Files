@@ -264,7 +264,7 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>Megnyitás új ablakban</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>Megosztás</value>
   </data>
   <data name="Cut" xml:space="preserve">
@@ -1446,29 +1446,35 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Apró</value>
   </data>
+  <data name="Future" xml:space="preserve">
+    <value>Future</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>Ma</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Tegnap</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>Ezen a héten</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>Előző héten</value>
   </data>
-  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
-    <value>Ebben a hónapban</value>
+  <data name="EarlierThisMonth" xml:space="preserve">
+    <value>Earlier this month</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>Előző hónapban</value>
   </data>
-  <data name="ItemTimeText_ThisYear" xml:space="preserve">
-    <value>Idén</value>
+  <data name="EarlierThisYear" xml:space="preserve">
+    <value>Earlier this year</value>
   </data>
-  <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>Régebben</value>
+  <data name="LastYear" xml:space="preserve">
+    <value>Last year</value>
+  </data>
+  <data name="YearN" xml:space="preserve">
+    <value>Year {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} elem</value>
@@ -1782,10 +1788,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Panel bezárása</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Kompakt nézet</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Kilépés a kompakt nézetből</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
@@ -1853,12 +1859,6 @@
   </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
-  </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Fel</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Le</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2205,9 +2205,6 @@
   <data name="Pictures" xml:space="preserve">
     <value>Képek</value>
   </data>
-  <data name="Videos" xml:space="preserve">
-    <value>Videók</value>
-  </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Frissítés érhető el</value>
   </data>
@@ -2467,7 +2464,7 @@
     <value>Adja meg az elem helyét:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Parancsikon létrehozása</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Az előzmények jelenleg le vannak tiltva a Windows Fájlkezelőben.</value>
@@ -2590,10 +2587,10 @@
     <value>Művelet végrehajtása minden ütközés esetén</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in terminal</value>
+    <value>Megnyitás terminálban</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in terminal as administrator</value>
+    <value>Megnyitás terminálban adminisztrátorként</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Mentés</value>
@@ -2602,7 +2599,7 @@
     <value>Több elem kijelölése</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>Oldalsáv átrendezése</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hash-ek</value>
@@ -2626,15 +2623,51 @@
     <value>Rögzített elemek</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>Kicsinyítés</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>Nagyítás</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Rendezés irányának megfordítása</value>
   </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>Érvénytelen név</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>A név nem lehet üres és nem kezdődhet, vagy fejeződhet be kötőjellel.</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videók</value>
+  </data>
   <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Launch QuickLook</value>
+    <value>QuickLook indítása</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>Toggle compact overlay</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>Vágólapra másolás</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>Útvonal vágólapra másolása</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>Vágólapra áthelyezés</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>Beillesztés a jelenlegi mappába</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>Beillesztés a kiválasztott mappába</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Toggle compact overlay</value>
+  </data>
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>Kompakt nézet</value>
+  </data>
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>Kilépés a kompakt nézetből</value>
   </data>
 </root>

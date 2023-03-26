@@ -16,6 +16,8 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Restore".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRestoreItem");
 
 		public bool IsExecutable => context.PageType is ContentPageTypes.RecycleBin && context.SelectedItems.Any();

@@ -34,14 +34,12 @@ namespace Files.App.Interacts
 			OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewPane);
 			OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenInNewWindowItem);
 			CreateNewFileCommand = new RelayCommand<ShellNewEntry>(CommandsModel.CreateNewFile);
-			ShareItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShareItem);
 			ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.ItemPointerPressed);
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.PointerWheelChanged);
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.DragOver);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.Drop);
 			SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
 			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
-			InstallInfDriver = new AsyncRelayCommand(CommandsModel.InstallInfDriver);
 			PlayAllCommand = new AsyncRelayCommand(CommandsModel.PlayAll);
 			FormatDriveCommand = new RelayCommand<ListedItem>(CommandsModel.FormatDrive);
 		}
@@ -64,8 +62,6 @@ namespace Files.App.Interacts
 
 		public ICommand CreateNewFileCommand { get; private set; }
 
-		public ICommand ShareItemCommand { get; private set; }
-
 		public ICommand ItemPointerPressedCommand { get; private set; }
 
 		public ICommand PointerWheelChangedCommand { get; private set; }
@@ -77,8 +73,6 @@ namespace Files.App.Interacts
 		public ICommand SearchUnindexedItems { get; private set; }
 
 		public ICommand CreateFolderWithSelection { get; private set; }
-
-		public ICommand InstallInfDriver { get; set; }
 
 		public ICommand PlayAllCommand { get; private set; }
 
