@@ -11,7 +11,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.Storage.Pickers;
 
 namespace Files.App.ViewModels.Properties
