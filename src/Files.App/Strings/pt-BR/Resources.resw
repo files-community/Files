@@ -264,7 +264,7 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>Abrir em uma nova janela</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>Compartilhar</value>
   </data>
   <data name="Cut" xml:space="preserve">
@@ -1449,19 +1449,19 @@
   <data name="Today" xml:space="preserve">
     <value>Hoje</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Ontem</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>No início desta semana</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>Na semana passada</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>Neste mês</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>Mês passado</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">

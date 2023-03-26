@@ -359,7 +359,7 @@ namespace Files.App.ViewModels
 			if (IsSidebarOpen)
 			{
 				// Restore expanded state when section has items
-				section.IsExpanded = App.AppSettings.Get(section.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
+				section.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(section.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
 			}
 		}
 

@@ -264,7 +264,7 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>Open in new window</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>공유</value>
   </data>
   <data name="Cut" xml:space="preserve">
@@ -1449,19 +1449,19 @@
   <data name="Today" xml:space="preserve">
     <value>오늘</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>어제</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>이번 주 초</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>지난 주</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>이번 달</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>지난 달</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">

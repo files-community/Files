@@ -264,7 +264,7 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>Otvoriť v novom okne</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>Zdielať</value>
   </data>
   <data name="Cut" xml:space="preserve">
@@ -1451,19 +1451,19 @@
   <data name="Today" xml:space="preserve">
     <value>Dnes</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Včera</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>Začiatkom tohto týždňa</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>Minulý týždeň</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>Tento mesiac</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>Minulý mesiac</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">

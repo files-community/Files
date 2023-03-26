@@ -75,5 +75,15 @@ namespace Files.App.Helpers
 
 			return color.ToHex();
 		}
+
+		public static Windows.UI.Color ToWindowsColor(this System.Drawing.Color color)
+		{
+			return Windows.UI.Color.FromArgb(color.A, color.R, color.G, color.B);
+		}
+
+		public static System.Drawing.Color FromWindowsColor(this Windows.UI.Color color)
+		{
+			return System.Drawing.Color.FromArgb(color.ToInt());
+		}
 	}
 }
