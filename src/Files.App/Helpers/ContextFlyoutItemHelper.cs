@@ -1,7 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Files.App.Commands;
-using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Interacts;
@@ -9,7 +7,6 @@ using Files.App.ViewModels;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
@@ -18,7 +15,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 
@@ -410,17 +406,10 @@ namespace Files.App.Helpers
 					},
 					ShowItem = itemsSelected
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.ShareItem)
 				{
-					Text = "BaseLayoutItemContextFlyoutShare/Text".GetLocalizedResource(),
-					IsPrimary = true,
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconShare",
-					},
-					Command = commandsViewModel.ShareItemCommand,
-					ShowItem = itemsSelected && DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem || (i.IsShortcut && !i.IsLinkItem) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && !i.IsArchive)),
-				},
+					IsPrimary = true
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.DeleteItem)
 				{
 					IsVisible = itemsSelected,

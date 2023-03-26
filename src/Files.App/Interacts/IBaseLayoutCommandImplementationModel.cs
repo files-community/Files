@@ -23,8 +23,6 @@ namespace Files.App.Interacts
 
 		void CreateNewFile(ShellNewEntry e);
 
-		void ShareItem(RoutedEventArgs e);
-
 		void ItemPointerPressed(PointerRoutedEventArgs e);
 
 		void PointerWheelChanged(PointerRoutedEventArgs e);

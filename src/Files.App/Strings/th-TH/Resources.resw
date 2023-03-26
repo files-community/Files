@@ -264,7 +264,7 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>เปิดในหน้าต่างใหม่</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>ใช้ร่วมกัน</value>
   </data>
   <data name="Cut" xml:space="preserve">
