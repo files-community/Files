@@ -197,10 +197,7 @@ namespace Files.App.Views
 			ToolbarViewModel.AddressBarTextEntered += ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped += ShellPage_PathBoxItemDropped;
 
-			ToolbarViewModel.BackRequested += ShellPage_BackNavRequested;
-			ToolbarViewModel.UpRequested += ShellPage_UpNavRequested;
 			ToolbarViewModel.RefreshRequested += ShellPage_RefreshRequested;
-			ToolbarViewModel.ForwardRequested += ShellPage_ForwardNavRequested;
 			ToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem += ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
@@ -322,21 +319,6 @@ namespace Files.App.Views
 		protected void ShellPage_RefreshRequested(object sender, EventArgs e)
 		{
 			Refresh_Click();
-		}
-
-		protected void ShellPage_UpNavRequested(object sender, EventArgs e)
-		{
-			Up_Click();
-		}
-
-		protected void ShellPage_ForwardNavRequested(object sender, EventArgs e)
-		{
-			Forward_Click();
-		}
-
-		protected void ShellPage_BackNavRequested(object sender, EventArgs e)
-		{
-			Back_Click();
 		}
 
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -692,10 +674,7 @@ namespace Files.App.Views
 			ToolbarViewModel.ToolbarPathItemLoaded -= ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered -= ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;
-			ToolbarViewModel.BackRequested -= ShellPage_BackNavRequested;
-			ToolbarViewModel.UpRequested -= ShellPage_UpNavRequested;
 			ToolbarViewModel.RefreshRequested -= ShellPage_RefreshRequested;
-			ToolbarViewModel.ForwardRequested -= ShellPage_ForwardNavRequested;
 			ToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;

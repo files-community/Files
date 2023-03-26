@@ -112,6 +112,10 @@ namespace Files.App.Commands
 		IRichCommand ToggleGroupDirection { get; }
 
 		IRichCommand NewTab { get; }
+		IRichCommand NavigateBack { get; }
+		IRichCommand NavigateForward { get; }
+		IRichCommand NavigateUp { get; }
+
 		IRichCommand DuplicateCurrentTab { get; }
 		IRichCommand DuplicateSelectedTab { get; }
 		IRichCommand CloseTabsToTheLeftCurrent { get; }

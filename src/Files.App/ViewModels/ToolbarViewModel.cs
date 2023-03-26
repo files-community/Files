@@ -71,12 +71,6 @@ namespace Files.App.ViewModels
 
 		public event PathBoxItemDroppedEventHandler? PathBoxItemDropped;
 
-		public event EventHandler? BackRequested;
-
-		public event EventHandler? ForwardRequested;
-
-		public event EventHandler? UpRequested;
-
 		public event EventHandler? RefreshRequested;
 
 		public event EventHandler? RefreshWidgetsRequested;
@@ -203,9 +197,6 @@ namespace Files.App.ViewModels
 
 		public ToolbarViewModel()
 		{
-			BackClickCommand = new RelayCommand<RoutedEventArgs>(e => BackRequested?.Invoke(this, EventArgs.Empty));
-			ForwardClickCommand = new RelayCommand<RoutedEventArgs>(e => ForwardRequested?.Invoke(this, EventArgs.Empty));
-			UpClickCommand = new RelayCommand<RoutedEventArgs>(e => UpRequested?.Invoke(this, EventArgs.Empty));
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
 			ViewReleaseNotesCommand = new RelayCommand(DoViewReleaseNotes);
 
@@ -444,9 +435,6 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref pathControlDisplayText, value);
 		}
 
-		public ICommand BackClickCommand { get; }
-		public ICommand ForwardClickCommand { get; }
-		public ICommand UpClickCommand { get; }
 		public ICommand RefreshClickCommand { get; }
 		public ICommand ViewReleaseNotesCommand { get; }
 

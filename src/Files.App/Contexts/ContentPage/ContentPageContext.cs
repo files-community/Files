@@ -34,7 +34,13 @@ namespace Files.App.Contexts
 		private IReadOnlyList<ListedItem> selectedItems = emptyItems;
 		public IReadOnlyList<ListedItem> SelectedItems => selectedItems;
 
-		public bool CanRefresh => ShellPage is not null && ShellPage.ToolbarViewModel.CanRefresh;
+   		public bool CanRefresh => ShellPage is not null && ShellPage.ToolbarViewModel.CanRefresh;
+
+		public bool CanGoBack => ShellPage is not null && ShellPage.ToolbarViewModel.CanGoBack;
+		
+		public bool CanGoForward => ShellPage is not null && ShellPage.ToolbarViewModel.CanGoForward;
+
+		public bool CanNavigateToParent => ShellPage is not null && ShellPage.ToolbarViewModel.CanNavigateToParent;
 
 		public ContentPageContext()
 		{
@@ -98,6 +104,9 @@ namespace Files.App.Contexts
 		{
 			switch (e.PropertyName)
 			{
+				case nameof(ToolbarViewModel.CanGoBack):
+				case nameof(ToolbarViewModel.CanGoForward):
+				case nameof(ToolbarViewModel.CanNavigateToParent):
 				case nameof(ToolbarViewModel.HasItem):
 				case nameof(ToolbarViewModel.CanRefresh):
 					OnPropertyChanged(e.PropertyName);
@@ -121,6 +130,9 @@ namespace Files.App.Contexts
 
 			OnPropertyChanged(nameof(Folder));
 			OnPropertyChanged(nameof(HasItem));
+			OnPropertyChanged(nameof(CanGoBack));
+			OnPropertyChanged(nameof(CanGoForward));
+			OnPropertyChanged(nameof(CanNavigateToParent));
 			OnPropertyChanged(nameof(CanRefresh));
 		}
 

@@ -127,6 +127,11 @@ namespace Files.App.Commands
 
 		// Navigation
 		NewTab,
+		NavigateBack,
+		NavigateForward,
+		NavigateUp,
+
+		// Other
 		DuplicateCurrentTab,
 		DuplicateSelectedTab,
 		CloseTabsToTheLeftCurrent,
