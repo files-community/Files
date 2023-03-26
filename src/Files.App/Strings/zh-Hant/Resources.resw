@@ -1446,29 +1446,35 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>微小</value>
   </data>
+  <data name="Future" xml:space="preserve">
+    <value>Future</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>今天</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>昨天</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>本週初</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>上週</value>
   </data>
-  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
-    <value>本月</value>
+  <data name="EarlierThisMonth" xml:space="preserve">
+    <value>Earlier this month</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>上個月</value>
   </data>
-  <data name="ItemTimeText_ThisYear" xml:space="preserve">
-    <value>今年</value>
+  <data name="EarlierThisYear" xml:space="preserve">
+    <value>Earlier this year</value>
   </data>
-  <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>更早</value>
+  <data name="LastYear" xml:space="preserve">
+    <value>Last year</value>
+  </data>
+  <data name="YearN" xml:space="preserve">
+    <value>Year {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} 個項目</value>
@@ -2658,10 +2664,10 @@
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Toggle compact overlay</value>
   </data>
-	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>進入完整檢視</value>
   </data>
-	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>返回完整檢視</value>
   </data>
 </root>
