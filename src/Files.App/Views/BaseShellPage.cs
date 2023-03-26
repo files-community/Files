@@ -280,7 +280,7 @@ namespace Files.App.Views
 				// Ctrl + space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
 
-					if (App.PreviewPaneViewModel.PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
+					if (Ioc.Default.GetRequiredService<PreviewPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
 					{
 						mediaPreviewContent.ViewModel.TogglePlayback();
 						args.Handled = true;
