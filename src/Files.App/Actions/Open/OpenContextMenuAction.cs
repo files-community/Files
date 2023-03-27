@@ -34,7 +34,7 @@ namespace Files.App.Actions
 					return false;
 
 				return element.ContextFlyout is FlyoutBase { IsOpen: false }
-					|| element.DataContext is INavigationControlItem or WidgetCardItem;
+				|| element.DataContext is INavigationControlItem or WidgetCardItem;
 			}
 		}
 
@@ -53,7 +53,6 @@ namespace Files.App.Actions
 				if (sidebar is not null)
 				{
 					await sidebar.OpenContextMenuAsync(element, position);
-					return;
 				}
 			}
 			else if (element.DataContext is WidgetCardItem)
