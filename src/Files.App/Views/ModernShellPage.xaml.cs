@@ -175,15 +175,6 @@ namespace Files.App.Views
 			var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
 							  CurrentPageType == typeof(GridViewBrowser);
 
-			// F2, rename
-			if (args.KeyboardAccelerator.Key is VirtualKey.F2
-				&& tabInstance
-				&& ContentPage.IsItemSelected)
-			{
-				ContentPage.ItemManipulationModel.StartRenameItem();
-				return;
-			}
-
 			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
 			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
 			var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
