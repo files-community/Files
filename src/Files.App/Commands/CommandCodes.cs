@@ -38,6 +38,7 @@ namespace Files.App.Commands
 		SelectAll,
 		InvertSelection,
 		ClearSelection,
+		ToggleSelect,
 
 		// Share
 		ShareItem,
