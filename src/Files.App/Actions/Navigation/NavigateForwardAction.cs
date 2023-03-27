@@ -19,6 +19,7 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.Right, VirtualKeyModifiers.Menu);
 		public HotKey SecondHotKey { get; } = new(VirtualKey.XButton2);
+		public HotKey MediaHotKey { get; } = new((VirtualKey)167); // VK_BROWSER_FORWARD
 
 		public RichGlyph Glyph { get; } = new("\uE72A");
 
