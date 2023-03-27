@@ -45,7 +45,6 @@ namespace Files.App.ViewModels
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
-		public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
 
 		public MainPageViewModel(
 			IUserSettingsService userSettings, 
@@ -59,7 +58,6 @@ namespace Files.App.ViewModels
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
 			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
 			CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
-			ReopenClosedTabAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ReopenClosedTabAccelerator);
 		}
 
 		private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
@@ -146,12 +144,6 @@ namespace Files.App.ViewModels
 
 			var tabItem = AppInstances[index];
 			MultitaskingControl?.CloseTab(tabItem);
-			e!.Handled = true;
-		}
-
-		private void ReopenClosedTabAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			(MultitaskingControl as BaseMultitaskingControl)?.ReopenClosedTab(null, null);
 			e!.Handled = true;
 		}
 
@@ -324,7 +316,7 @@ namespace Files.App.ViewModels
 						for (int i = 0; i < items.Length; i++)
 							items[i] = TabItemArguments.Deserialize(userSettingsService.PreferencesSettingsService.LastSessionTabList[i]);
 
-						BaseMultitaskingControl.RecentlyClosedTabs.Add(items);
+						BaseMultitaskingControl.PushRecentTab(items);
 					}
 
 					if (userSettingsService.AppSettingsService.RestoreTabsOnStartup)

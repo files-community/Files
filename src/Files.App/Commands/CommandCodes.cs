@@ -142,5 +142,6 @@ namespace Files.App.Commands
 		CloseTabsToTheRightSelected,
 		CloseOtherTabsCurrent,
 		CloseOtherTabsSelected,
+		ReopenClosedTab,
 	}
 }

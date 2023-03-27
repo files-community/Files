@@ -1482,7 +1482,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} Dateien</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>Tab wiederherstellen</value>
   </data>
   <data name="Rename" xml:space="preserve">

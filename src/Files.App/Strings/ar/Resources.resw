@@ -1482,7 +1482,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} من العناصر</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>إعادة فتح علامة التبويب المغلقة</value>
   </data>
   <data name="Rename" xml:space="preserve">

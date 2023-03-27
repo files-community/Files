@@ -1482,7 +1482,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} פריטים</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>פתח מחדש כרטיסיה שנסגרה</value>
   </data>
   <data name="Rename" xml:space="preserve">
