@@ -264,7 +264,7 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>Open in new window</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>Ibahagi</value>
   </data>
   <data name="Cut" xml:space="preserve">
@@ -315,13 +315,13 @@
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Walang laman ang folder na ito.</value>
   </data>
-  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Back" xml:space="preserve">
     <value>Pabalik (Alt+Left Arrow)</value>
   </data>
-  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Forward" xml:space="preserve">
     <value>Pasulong (Alt+Right Arrow)</value>
   </data>
-  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Up" xml:space="preserve">
     <value>Up (Alt+Up Arrow)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
@@ -660,16 +660,16 @@
   <data name="LayoutMode" xml:space="preserve">
     <value>Anyo ng pagkaka-ayos</value>
   </data>
-  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateBack" xml:space="preserve">
     <value>Mag-navigate pabalik</value>
   </data>
-  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateForward" xml:space="preserve">
     <value>Mag-navigate pasulong</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>I-refresh ang direktoryo</value>
   </data>
-  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateUp" xml:space="preserve">
     <value>Umakyat sa isang direktoryo</value>
   </data>
   <data name="Language" xml:space="preserve">
@@ -1446,29 +1446,35 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Napakaliit</value>
   </data>
+  <data name="Future" xml:space="preserve">
+    <value>Future</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>Ngayon</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Kahapon</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>Kamakailan nitong linggo</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>Nakaraang linggo</value>
   </data>
-  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
-    <value>Ngayong buwan</value>
+  <data name="EarlierThisMonth" xml:space="preserve">
+    <value>Earlier this month</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>Noong nakaraang buwan</value>
   </data>
-  <data name="ItemTimeText_ThisYear" xml:space="preserve">
-    <value>Ngayong taon</value>
+  <data name="EarlierThisYear" xml:space="preserve">
+    <value>Earlier this year</value>
   </data>
-  <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>Mas luma</value>
+  <data name="LastYear" xml:space="preserve">
+    <value>Last year</value>
+  </data>
+  <data name="YearN" xml:space="preserve">
+    <value>Year {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} na item</value>
@@ -2658,10 +2664,10 @@
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Toggle compact overlay</value>
   </data>
-	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Enter compact overlay</value>
   </data>
-	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Exit compact overlay</value>
   </data>
 </root>

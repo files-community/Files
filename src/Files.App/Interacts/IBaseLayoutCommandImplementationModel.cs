@@ -23,8 +23,6 @@ namespace Files.App.Interacts
 
 		void CreateNewFile(ShellNewEntry e);
 
-		void ShareItem(RoutedEventArgs e);
-
 		void ItemPointerPressed(PointerRoutedEventArgs e);
 
 		void PointerWheelChanged(PointerRoutedEventArgs e);
@@ -32,8 +30,6 @@ namespace Files.App.Interacts
 		Task DragOver(DragEventArgs e);
 
 		Task Drop(DragEventArgs e);
-
-		void RefreshItems(RoutedEventArgs e);
 
 		void SearchUnindexedItems(RoutedEventArgs e);
 

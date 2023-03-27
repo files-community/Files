@@ -20,10 +20,6 @@
 	SizeChanged="Page_SizeChanged"
 	mc:Ignorable="d">
 
-	<Page.DataContext>
-		<viewmodels:MainPageViewModel />
-	</Page.DataContext>
-
 	<Page.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -223,7 +219,6 @@
 						x:Load="False"
 						Loaded="NavToolbar_Loaded"
 						OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
-						SettingsButtonCommand="{x:Bind ViewModel.OpenSettingsCommand}"
 						ShowOngoingTasks="True"
 						ShowSearchBox="True"
 						ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
