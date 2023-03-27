@@ -382,6 +382,7 @@ namespace Files.App
 
 					// Remove old layout from back stack
 					ParentShellPageInstance.RemoveLastPageFromBackStack();
+					ParentShellPageInstance.ResetNavigationStackLayoutMode();
 				}
 
 				ParentShellPageInstance.FilesystemViewModel.UpdateEmptyTextType();

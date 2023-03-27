@@ -499,6 +499,39 @@ namespace Files.App.Views
 			ItemDisplay.GoForward();
 		}
 
+		public void ResetNavigationStackLayoutMode()
+		{
+			foreach (PageStackEntry entry in ItemDisplay.BackStack.ToList())
+			{
+				if (entry.Parameter is NavigationArguments args)
+				{
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam);
+					if (!entry.SourcePageType.Equals(correctPageType))
+					{
+						int index = ItemDisplay.BackStack.IndexOf(entry);
+						var newEntry = new PageStackEntry(correctPageType, entry.Parameter, entry.NavigationTransitionInfo);
+						ItemDisplay.BackStack.RemoveAt(index);
+						ItemDisplay.BackStack.Insert(index, newEntry);
+					}
+				}
+			}
+
+			foreach (PageStackEntry entry in ItemDisplay.ForwardStack.ToList())
+			{
+				if (entry.Parameter is NavigationArguments args)
+				{
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam);
+					if (!entry.SourcePageType.Equals(correctPageType))
+					{
+						int index = ItemDisplay.ForwardStack.IndexOf(entry);
+						var newEntry = new PageStackEntry(correctPageType, entry.Parameter, entry.NavigationTransitionInfo);
+						ItemDisplay.ForwardStack.RemoveAt(index);
+						ItemDisplay.ForwardStack.Insert(index, newEntry);
+					}
+				}
+			}
+		}
+
 		public void RemoveLastPageFromBackStack()
 		{
 			ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.Last());
