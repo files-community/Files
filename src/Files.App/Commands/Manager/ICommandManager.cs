@@ -14,7 +14,7 @@ namespace Files.App.Commands
 		IRichCommand EnterCompactOverlay { get; }
 		IRichCommand ExitCompactOverlay { get; }
 		IRichCommand ToggleCompactOverlay { get; }
-		IRichCommand Find { get; }
+		IRichCommand Search { get; }
 
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }

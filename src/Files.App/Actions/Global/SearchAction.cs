@@ -11,7 +11,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class FindAction : ObservableObject, IAction
+	internal class SearchAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -25,9 +25,9 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new();
 
-		public bool IsExecutable => context.ShellPage is not null && IsPageTypeValid();
+		//public bool IsExecutable => context.ShellPage is not null && IsPageTypeValid();
 
-		public FindAction()
+		public SearchAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -44,7 +44,7 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.ShellPage):
 				case nameof(IContentPageContext.PageLayoutType):
-					OnPropertyChanged(nameof(IsExecutable));
+					//OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
 		}
