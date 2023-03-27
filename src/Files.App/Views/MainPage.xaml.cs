@@ -63,14 +63,15 @@ namespace Files.App.Views
 
 		public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
 
-		public OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
+		public readonly OngoingTasksViewModel OngoingTasksViewModel;
 
 		private ICommand ToggleSidebarCollapsedStateCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleSidebarCollapsedState(x));
 
 		public MainPage()
 		{
 			InitializeComponent();
-
+			DataContext = Ioc.Default.GetRequiredService<MainPageViewModel>();
+			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;

@@ -197,10 +197,7 @@ namespace Files.App.Views
 			ToolbarViewModel.AddressBarTextEntered += ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped += ShellPage_PathBoxItemDropped;
 
-			ToolbarViewModel.BackRequested += ShellPage_BackNavRequested;
-			ToolbarViewModel.UpRequested += ShellPage_UpNavRequested;
 			ToolbarViewModel.RefreshRequested += ShellPage_RefreshRequested;
-			ToolbarViewModel.ForwardRequested += ShellPage_ForwardNavRequested;
 			ToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem += ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
@@ -280,7 +277,7 @@ namespace Files.App.Views
 				// Ctrl + space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
 
-					if (App.PreviewPaneViewModel.PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
+					if (Ioc.Default.GetRequiredService<PreviewPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
 					{
 						mediaPreviewContent.ViewModel.TogglePlayback();
 						args.Handled = true;
@@ -322,21 +319,6 @@ namespace Files.App.Views
 		protected void ShellPage_RefreshRequested(object sender, EventArgs e)
 		{
 			Refresh_Click();
-		}
-
-		protected void ShellPage_UpNavRequested(object sender, EventArgs e)
-		{
-			Up_Click();
-		}
-
-		protected void ShellPage_ForwardNavRequested(object sender, EventArgs e)
-		{
-			Forward_Click();
-		}
-
-		protected void ShellPage_BackNavRequested(object sender, EventArgs e)
-		{
-			Back_Click();
 		}
 
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -517,6 +499,39 @@ namespace Files.App.Views
 			ItemDisplay.GoForward();
 		}
 
+		public void ResetNavigationStackLayoutMode()
+		{
+			foreach (PageStackEntry entry in ItemDisplay.BackStack.ToList())
+			{
+				if (entry.Parameter is NavigationArguments args)
+				{
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam);
+					if (!entry.SourcePageType.Equals(correctPageType))
+					{
+						int index = ItemDisplay.BackStack.IndexOf(entry);
+						var newEntry = new PageStackEntry(correctPageType, entry.Parameter, entry.NavigationTransitionInfo);
+						ItemDisplay.BackStack.RemoveAt(index);
+						ItemDisplay.BackStack.Insert(index, newEntry);
+					}
+				}
+			}
+
+			foreach (PageStackEntry entry in ItemDisplay.ForwardStack.ToList())
+			{
+				if (entry.Parameter is NavigationArguments args)
+				{
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam);
+					if (!entry.SourcePageType.Equals(correctPageType))
+					{
+						int index = ItemDisplay.ForwardStack.IndexOf(entry);
+						var newEntry = new PageStackEntry(correctPageType, entry.Parameter, entry.NavigationTransitionInfo);
+						ItemDisplay.ForwardStack.RemoveAt(index);
+						ItemDisplay.ForwardStack.Insert(index, newEntry);
+					}
+				}
+			}
+		}
+
 		public void RemoveLastPageFromBackStack()
 		{
 			ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.Last());
@@ -609,7 +624,6 @@ namespace Files.App.Views
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.Rename = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RenameItemCommand.Execute(null));
-			ToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
 			ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
 			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
@@ -693,10 +707,7 @@ namespace Files.App.Views
 			ToolbarViewModel.ToolbarPathItemLoaded -= ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered -= ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;
-			ToolbarViewModel.BackRequested -= ShellPage_BackNavRequested;
-			ToolbarViewModel.UpRequested -= ShellPage_UpNavRequested;
 			ToolbarViewModel.RefreshRequested -= ShellPage_RefreshRequested;
-			ToolbarViewModel.ForwardRequested -= ShellPage_ForwardNavRequested;
 			ToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
