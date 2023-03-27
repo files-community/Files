@@ -75,7 +75,6 @@
 			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="Menu" />
-		<KeyboardAccelerator
 	</local:BaseShellPage.KeyboardAccelerators>
 	<Grid
 		x:Name="RootGrid"
