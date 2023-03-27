@@ -99,7 +99,9 @@ namespace Files.App.Views.Properties
 		}
 
 		private void MainPropertiesPage_SizeChanged(object sender, SizeChangedEventArgs e)
-			=> UpdateDialogLayout();
+		{
+			UpdateDialogLayout();
+		}
 
 		private void UpdateDialogLayout()
 		{
@@ -107,9 +109,9 @@ namespace Files.App.Views.Properties
 				ActualWidth <= 600 ? NavigationViewPaneDisplayMode.LeftCompact : NavigationViewPaneDisplayMode.Left;
 
 			if (ActualWidth <= 600)
-				foreach (var item in NavViewItems) item.IsCompacted = true;
+				foreach (var item in NavViewItems) item.IsCompact = true;
 			else
-				foreach (var item in NavViewItems) item.IsCompacted = false;
+				foreach (var item in NavViewItems) item.IsCompact = false;
 		}
 
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
@@ -255,7 +257,7 @@ namespace Files.App.Views.Properties
 				NavViewItems.Remove(securityItem);
 				NavViewItems.Remove(customizationItem);
 				NavViewItems.Remove(hashItem);
-			} 
+			}
 			else if (item is ListedItem listedItem)
 			{
 				var isShortcut = listedItem.IsShortcut;
@@ -404,11 +406,11 @@ namespace Files.App.Views.Properties
 			set => SetProperty(ref _isSelected, value);
 		}
 
-		private bool _isCompacted;
-		public bool IsCompacted
+		private bool _isCompact;
+		public bool IsCompact
 		{
-			get => _isCompacted;
-			set => SetProperty(ref _isCompacted, value);
+			get => _isCompact;
+			set => SetProperty(ref _isCompact, value);
 		}
 	}
 

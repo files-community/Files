@@ -87,7 +87,7 @@
 									VerticalAlignment="Center"
 									Style="{StaticResource BodyTextBlockStyle}"
 									Text="{x:Bind Name}"
-									Visibility="{x:Bind IsCompacted, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}" />
+									Visibility="{x:Bind IsCompact, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}" />
 
 							</Grid>
 						</NavigationViewItem.Content>
