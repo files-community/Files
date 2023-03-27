@@ -14,9 +14,9 @@ namespace Files.App.Actions
 	{
 		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 
-		public string Label => "ReopenClosedTab".GetLocalizedResource();
+		public string Label { get; } = "ReopenClosedTab".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described";
+		public string Description { get; } = "TODO: Need to be described";
 
 		public HotKey HotKey { get; } = new(VirtualKey.T, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
