@@ -73,11 +73,6 @@ namespace Files.App.Interacts
 
 		#region Command Implementation
 
-		public virtual void RenameItem(RoutedEventArgs e)
-		{
-			itemManipulationModel.StartRenameItem();
-		}
-
 		public virtual void ShowProperties(RoutedEventArgs e)
 		{
 			if (SlimContentPage.ItemContextMenuFlyout.IsOpen)
