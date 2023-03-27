@@ -1608,7 +1608,7 @@
   <data name="Allow" xml:space="preserve">
     <value>Allow</value>
   </data>
-  <data name="SecurityDenyLabel.Text" xml:space="preserve">
+  <data name="Deny" xml:space="preserve">
     <value>Deny</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
@@ -1680,10 +1680,10 @@
   <data name="Access" xml:space="preserve">
     <value>Access</value>
   </data>
-  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
+  <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
     <value>Applies to</value>
   </data>
-  <data name="SecurityAdvancedPrincipal" xml:space="preserve">
+  <data name="Principal" xml:space="preserve">
     <value>Principal</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
@@ -1695,10 +1695,10 @@
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>subfolders</value>
   </data>
-  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
+  <data name="Inherited" xml:space="preserve">
     <value>Inherited</value>
   </data>
-  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
+  <data name="Permissions" xml:space="preserve">
     <value>Permissions</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
@@ -2669,5 +2669,8 @@
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Exit compact overlay</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
   </data>
 </root>

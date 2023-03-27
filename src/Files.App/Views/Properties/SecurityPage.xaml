@@ -228,7 +228,7 @@
 						Margin="0,0,0,4"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=SecurityDenyLabel/Text}" />
+						Text="{helpers:ResourceString Name=Deny}" />
 
 					<TextBlock
 						Grid.Row="1"

@@ -24,24 +24,16 @@
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
 
 				<ResourceDictionary>
+
 					<Style
 						x:Name="HeaderGridSplitterStyle"
 						BasedOn="{StaticResource DefaultGridSplitterStyle}"
 						TargetType="toolkit:GridSplitter">
 						<Setter Property="Background" Value="Transparent" />
 						<Setter Property="Width" Value="12" />
-						<Setter Property="Margin" Value="0,4,0,4" />
+						<Setter Property="Margin" Value="0,4" />
 						<Setter Property="Opacity" Value="0.8" />
 						<Setter Property="Canvas.ZIndex" Value="1" />
-					</Style>
-
-					<Style
-						x:Key="TransparentDropDownButtonStyle"
-						BasedOn="{StaticResource DefaultDropDownButtonStyle}"
-						TargetType="DropDownButton">
-						<Setter Property="Padding" Value="0" />
-						<Setter Property="Background" Value="Transparent" />
-						<Setter Property="BorderThickness" Value="0,0,0,0" />
 					</Style>
 
 				</ResourceDictionary>
@@ -61,7 +53,7 @@
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<Grid RowSpacing="4">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="36" />
 			<RowDefinition Height="*" />
@@ -73,33 +65,102 @@
 			x:Name="TitlebarArea"
 			Height="36"
 			Background="Transparent">
-			<StackPanel
-				Padding="12,0"
-				Orientation="Horizontal"
-				Spacing="8">
 
-				<TextBlock
-					VerticalAlignment="Center"
-					Style="{StaticResource BodyStrongTextBlockStyle}"
-					Text="{x:Bind WindowTitle, Mode=OneWay}" />
+			<TextBlock
+				Margin="12,0"
+				VerticalAlignment="Center"
+				Style="{StaticResource BodyStrongTextBlockStyle}"
+				Text="{x:Bind WindowTitle, Mode=OneWay}" />
 
-			</StackPanel>
 		</Border>
 
 		<!--  Main Contents  -->
-		<ScrollViewer Grid.Row="1">
-			<StackPanel Padding="12,0,12,12" Spacing="4">
+		<Grid
+			Grid.Row="1"
+			Padding="12,0,12,12"
+			RowSpacing="8">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
 
-				<!--  Owner  -->
-				<Grid
-					Padding="12"
-					Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-					BorderThickness="1"
-					ColumnSpacing="8"
-					CornerRadius="4">
+			<!--  Owner  -->
+			<Grid
+				Padding="12"
+				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="1"
+				ColumnSpacing="8"
+				CornerRadius="4">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="108" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<TextBlock
+					Grid.Column="0"
+					Margin="4"
+					VerticalAlignment="Center"
+					Text="{helpers:ResourceString Name=SecurityOwnerLabel/Text}" />
+
+				<StackPanel
+					Grid.Column="1"
+					Orientation="Horizontal"
+					Spacing="8">
+
+					<FontIcon
+						x:Name="FontIcon"
+						VerticalAlignment="Center"
+						FontFamily="{StaticResource SymbolThemeFontFamily}"
+						FontSize="16"
+						Glyph="{x:Bind ViewModel.AccessControlList.Owner.Glyph, Mode=OneWay}" />
+
+					<TextBlock
+						x:Name="OwnerText"
+						VerticalAlignment="Center"
+						x:Load="{x:Bind ViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
+						IsTextSelectionEnabled="True"
+						Style="{StaticResource BodyTextBlockStyle}"
+						ToolTipService.ToolTip="{x:Bind ViewModel.AccessControlList.Owner.FullNameOrSid, Mode=OneWay}">
+						<Run Text="{x:Bind ViewModel.AccessControlList.Owner.DisplayName, Mode=OneWay}" />
+						<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind ViewModel.AccessControlList.Owner.FullNameHumanized, Mode=OneWay}" />
+					</TextBlock>
+
+					<TextBlock
+						x:Name="UnknownOwnerText"
+						VerticalAlignment="Center"
+						x:Load="{x:Bind ViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+						Text="{helpers:ResourceString Name=SecurityUnknownOwnerText/Text}" />
+
+					<HyperlinkButton VerticalAlignment="Center" Command="{x:Bind ViewModel.ChangeOwnerCommand}">
+						<StackPanel Orientation="Horizontal" Spacing="6">
+							<FontIcon FontSize="14" Glyph="&#xE104;" />
+							<TextBlock Text="{helpers:ResourceString Name=Change}" />
+						</StackPanel>
+					</HyperlinkButton>
+
+				</StackPanel>
+
+			</Grid>
+
+			<!--  Access Control List  -->
+			<Grid
+				Grid.Row="1"
+				Padding="12,8,12,12"
+				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="1"
+				CornerRadius="4">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+
+				<Grid Grid.Row="0">
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
@@ -108,501 +169,510 @@
 						Grid.Column="0"
 						Margin="4"
 						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=SecurityOwnerLabel/Text}" />
+						Text="{helpers:ResourceString Name=Permissions}" />
 
 					<StackPanel
-						Grid.Column="2"
+						Grid.Column="1"
 						Orientation="Horizontal"
 						Spacing="8">
 
-						<FontIcon
-							x:Name="FontIcon"
-							Margin="0,0,4,0"
-							VerticalAlignment="Center"
-							FontFamily="{StaticResource SymbolThemeFontFamily}"
-							FontSize="16"
-							Glyph="{x:Bind ViewModel.AccessControlList.Owner.Glyph, Mode=OneWay}" />
-
-						<TextBlock
-							x:Name="OwnerText"
-							VerticalAlignment="Center"
-							x:Load="{x:Bind ViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
-							IsTextSelectionEnabled="True"
-							Style="{StaticResource BodyTextBlockStyle}"
-							ToolTipService.ToolTip="{x:Bind ViewModel.AccessControlList.Owner.FullNameOrSid, Mode=OneWay}">
-							<Run Text="{x:Bind ViewModel.AccessControlList.Owner.DisplayName, Mode=OneWay}" />
-							<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind ViewModel.AccessControlList.Owner.FullNameHumanized, Mode=OneWay}" />
-						</TextBlock>
-
-
-						<TextBlock
-							x:Name="UnknownOwnerText"
-							VerticalAlignment="Center"
-							x:Load="{x:Bind ViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-							Text="{helpers:ResourceString Name=SecurityUnknownOwnerText/Text}" />
+						<Button
+							Padding="8"
+							Background="Transparent"
+							BorderBrush="Transparent"
+							Command="{x:Bind ViewModel.AddAccessControlEntryCommand, Mode=OneWay}">
+							<FontIcon FontSize="16" Glyph="&#xE109;" />
+						</Button>
 
 						<Button
-							Padding="6,4"
-							VerticalAlignment="Center"
-							Command="{x:Bind ViewModel.ChangeOwnerCommand}">
-							<StackPanel Orientation="Horizontal" Spacing="6">
-								<FontIcon FontSize="14" Glyph="&#xE104;" />
-								<TextBlock Text="{helpers:ResourceString Name=Edit}" />
-							</StackPanel>
+							Padding="8"
+							Background="Transparent"
+							BorderBrush="Transparent"
+							Command="{x:Bind ViewModel.RemoveAccessControlEntryCommand, Mode=OneWay}">
+							<FontIcon FontSize="16" Glyph="&#xE108;" />
 						</Button>
 
 					</StackPanel>
+
 				</Grid>
 
-				<!--  Access Control List  -->
-				<Grid
-					Padding="12,8"
-					Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-					BorderThickness="1"
-					CornerRadius="4"
-					RowSpacing="4">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="*" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
+				<Border
+					Grid.Row="1"
+					Height="1"
+					Margin="-12,8,-12,4"
+					Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
-					<Grid Grid.Row="0">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="Auto" />
-						</Grid.ColumnDefinitions>
+				<ListView
+					x:Name="AdvancedPermissionListView"
+					Grid.Row="2"
+					Margin="-12,0"
+					Padding="0,0,0,8"
+					HorizontalAlignment="Stretch"
+					x:Load="{x:Bind ViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
+					DataContext="{x:Bind ViewModel, Mode=OneWay}"
+					ItemsSource="{x:Bind ViewModel.AccessControlList.AccessControlEntries, Mode=OneWay}"
+					ScrollViewer.HorizontalScrollBarVisibility="Auto"
+					ScrollViewer.HorizontalScrollMode="Enabled"
+					ScrollViewer.VerticalScrollBarVisibility="Auto"
+					ScrollViewer.VerticalScrollMode="Enabled"
+					SelectedItem="{x:Bind ViewModel.SelectedAccessControlEntry, Mode=TwoWay}">
 
-						<TextBlock
-							Grid.Column="0"
-							Margin="4"
-							VerticalAlignment="Center"
-							Text="{helpers:ResourceString Name=SecurityAdvancedPermissionsLabel/Text}" />
+					<i:Interaction.Behaviors>
+						<behaviors:StickyHeaderBehavior />
+					</i:Interaction.Behaviors>
 
-						<StackPanel
-							Grid.Column="1"
-							Orientation="Horizontal"
-							Spacing="4">
+					<ListView.ItemContainerStyle>
+						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+							<Setter Property="MinHeight" Value="1" />
+							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
+						</Style>
+					</ListView.ItemContainerStyle>
 
-							<Button
-								Padding="8"
-								Background="Transparent"
-								BorderBrush="Transparent"
-								Command="{x:Bind ViewModel.AddAccessControlEntryCommand}">
-								<FontIcon FontSize="16" Glyph="&#xE109;" />
-							</Button>
+					<ListView.Header>
+						<Grid
+							x:Name="HeaderGrid"
+							Height="32"
+							Margin="0,4"
+							Padding="32,0,0,4"
+							BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+							BorderThickness="0,0,0,1">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="16" />
+								<ColumnDefinition
+									x:Name="ColumnType"
+									Width="{x:Bind ViewModel.ColumnType, Mode=TwoWay}"
+									MinWidth="36" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition
+									x:Name="ColumnPrincipal"
+									Width="{x:Bind ViewModel.ColumnPrincipal, Mode=TwoWay}"
+									MinWidth="36" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition
+									x:Name="ColumnAccess"
+									Width="{x:Bind ViewModel.ColumnAccess, Mode=TwoWay}"
+									MinWidth="36" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition
+									x:Name="ColumnInherited"
+									Width="{x:Bind ViewModel.ColumnInherited, Mode=TwoWay}"
+									MinWidth="36" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
+							</Grid.ColumnDefinitions>
 
-							<Button
-								Padding="8"
-								Background="Transparent"
-								BorderBrush="Transparent"
-								Command="{x:Bind ViewModel.RemoveAccessControlEntryCommand}">
-								<FontIcon FontSize="16" Glyph="&#xE108;" />
-							</Button>
-						</StackPanel>
+							<TextBlock
+								Grid.Column="1"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								Foreground="{ThemeResource TextFillColorSecondary}"
+								Style="{StaticResource CaptionTextBlockStyle}"
+								Text="{helpers:ResourceString Name=Type}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap" />
 
-					</Grid>
+							<toolkit:GridSplitter
+								Grid.Column="2"
+								Margin="0,0,0,-4"
+								Style="{StaticResource HeaderGridSplitterStyle}" />
 
-					<Border
-						Grid.Row="1"
-						Height="1"
-						Margin="-12,0"
-						Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+							<TextBlock
+								Grid.Column="3"
+								Margin="4,0"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								Foreground="{ThemeResource TextFillColorSecondary}"
+								Style="{StaticResource CaptionTextBlockStyle}"
+								Text="{helpers:ResourceString Name=Principal}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap" />
 
-					<ListView
-						x:Name="AdvancedPermissionListView"
-						Grid.Row="2"
-						Margin="-12,0"
-						HorizontalAlignment="Stretch"
-						x:Load="{x:Bind ViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
-						ItemsSource="{x:Bind ViewModel.AccessControlList.AccessControlEntries, Mode=OneWay}"
-						ScrollViewer.HorizontalScrollBarVisibility="Auto"
-						ScrollViewer.HorizontalScrollMode="Auto"
-						SelectedItem="{x:Bind ViewModel.SelectedAccessControlEntry, Mode=TwoWay}"
-						SelectionMode="Single">
+							<toolkit:GridSplitter
+								Grid.Column="4"
+								Margin="0,0,0,-4"
+								Style="{StaticResource HeaderGridSplitterStyle}" />
 
-						<i:Interaction.Behaviors>
-							<behaviors:StickyHeaderBehavior />
-						</i:Interaction.Behaviors>
+							<TextBlock
+								Grid.Column="5"
+								Margin="4,0"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								Foreground="{ThemeResource TextFillColorSecondary}"
+								Style="{StaticResource CaptionTextBlockStyle}"
+								Text="{helpers:ResourceString Name=Access}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap" />
 
-						<ListView.ItemContainerStyle>
-							<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-								<Setter Property="MinHeight" Value="1" />
-								<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
-							</Style>
-						</ListView.ItemContainerStyle>
+							<toolkit:GridSplitter
+								Grid.Column="6"
+								Margin="0,0,0,-4"
+								Style="{StaticResource HeaderGridSplitterStyle}" />
 
-						<ListView.Header>
-							<Grid
-								x:Name="HeaderGrid"
-								Height="32"
-								Margin="0,4"
-								Padding="32,0,0,4"
-								BorderBrush="{ThemeResource ControlStrokeColorDefault}"
-								BorderThickness="0,0,0,1">
+							<TextBlock
+								Grid.Column="7"
+								Margin="4,0"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								Foreground="{ThemeResource TextFillColorSecondary}"
+								Style="{StaticResource CaptionTextBlockStyle}"
+								Text="{helpers:ResourceString Name=Inherited}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap" />
+
+							<toolkit:GridSplitter
+								Grid.Column="8"
+								Margin="0,0,0,-4"
+								Style="{StaticResource HeaderGridSplitterStyle}" />
+
+							<TextBlock
+								Grid.Column="9"
+								Margin="4,0"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								Foreground="{ThemeResource TextFillColorSecondary}"
+								Style="{StaticResource CaptionTextBlockStyle}"
+								Text="{helpers:ResourceString Name=SecurityAdvancedAppliesTo}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap" />
+
+						</Grid>
+					</ListView.Header>
+
+					<ListView.ItemTemplate>
+						<DataTemplate x:DataType="security:AccessControlEntry">
+							<Grid ColumnSpacing="13">
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="16" />
-									<ColumnDefinition
-										x:Name="ColumnType"
-										Width="{x:Bind ViewModel.ColumnType, Mode=TwoWay}"
-										MinWidth="36" />
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition
-										x:Name="ColumnPrincipal"
-										Width="{x:Bind ViewModel.ColumnPrincipal, Mode=TwoWay}"
-										MinWidth="36" />
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition
-										x:Name="ColumnAccess"
-										Width="{x:Bind ViewModel.ColumnAccess, Mode=TwoWay}"
-										MinWidth="36" />
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition
-										x:Name="ColumnInherited"
-										Width="{x:Bind ViewModel.ColumnInherited, Mode=TwoWay}"
-										MinWidth="36" />
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
+									<ColumnDefinition Width="20" />
+									<ColumnDefinition x:Name="ColumnType" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnType, Mode=OneWay}" />
+									<ColumnDefinition x:Name="ColumnPrincipal" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnPrincipal, Mode=OneWay}" />
+									<ColumnDefinition x:Name="ColumnAccess" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnAccess, Mode=OneWay}" />
+									<ColumnDefinition x:Name="ColumnInherited" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnInherited, Mode=OneWay}" />
+									<ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
 								</Grid.ColumnDefinitions>
 
+								<FontIcon
+									x:Name="FontIcon"
+									VerticalAlignment="Center"
+									FontFamily="{StaticResource SymbolThemeFontFamily}"
+									FontSize="16"
+									Glyph="{x:Bind Principal.Glyph}" />
+
 								<TextBlock
+									x:Name="AccessControlTypeHumanizedTextBlock"
 									Grid.Column="1"
 									HorizontalAlignment="Left"
 									VerticalAlignment="Center"
-									Foreground="{ThemeResource TextFillColorSecondary}"
-									Style="{StaticResource CaptionTextBlockStyle}"
-									Text="Type"
+									x:Load="{x:Bind IsEditEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+									Text="{x:Bind AccessControlTypeHumanized, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap" />
-								<toolkit:GridSplitter
-									Grid.Column="2"
-									Margin="0,0,0,-4"
-									Style="{StaticResource HeaderGridSplitterStyle}" />
-								<TextBlock
-									Grid.Column="3"
-									HorizontalAlignment="Left"
+
+								<DropDownButton
+									x:Name="TypeDropdown"
+									Grid.Column="1"
+									Padding="0,6"
 									VerticalAlignment="Center"
-									Foreground="{ThemeResource TextFillColorSecondary}"
-									Style="{StaticResource CaptionTextBlockStyle}"
-									Text="Principal"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap" />
-								<toolkit:GridSplitter
-									Grid.Column="4"
-									Margin="0,0,0,-4"
-									Style="{StaticResource HeaderGridSplitterStyle}" />
-								<TextBlock
-									Grid.Column="5"
-									HorizontalAlignment="Left"
-									VerticalAlignment="Center"
-									Foreground="{ThemeResource TextFillColorSecondary}"
-									Style="{StaticResource CaptionTextBlockStyle}"
-									Text="Access"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap" />
-								<toolkit:GridSplitter
-									Grid.Column="6"
-									Margin="0,0,0,-4"
-									Style="{StaticResource HeaderGridSplitterStyle}" />
-								<TextBlock
-									Grid.Column="7"
-									HorizontalAlignment="Left"
-									VerticalAlignment="Center"
-									Foreground="{ThemeResource TextFillColorSecondary}"
-									Style="{StaticResource CaptionTextBlockStyle}"
-									Text="Inherited"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap" />
-								<toolkit:GridSplitter
-									Grid.Column="8"
-									Margin="0,0,0,-4"
-									Style="{StaticResource HeaderGridSplitterStyle}" />
-								<TextBlock
-									Grid.Column="9"
-									HorizontalAlignment="Left"
-									VerticalAlignment="Center"
-									Foreground="{ThemeResource TextFillColorSecondary}"
-									Style="{StaticResource CaptionTextBlockStyle}"
-									Text="Applies to"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap" />
-							</Grid>
-						</ListView.Header>
+									x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
+									Background="Transparent"
+									BorderThickness="0">
 
-						<ListView.ItemTemplate>
-							<DataTemplate x:DataType="security:AccessControlEntry">
-								<ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
-									<Grid ColumnSpacing="12">
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="20" />
-											<ColumnDefinition x:Name="ColumnType" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnType}" />
-											<ColumnDefinition x:Name="ColumnPrincipal" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnPrincipal}" />
-											<ColumnDefinition x:Name="ColumnAccess" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnAccess}" />
-											<ColumnDefinition x:Name="ColumnInherited" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnInherited}" />
-											<ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
-										</Grid.ColumnDefinitions>
-
-										<FontIcon
-											x:Name="FontIcon"
-											VerticalAlignment="Center"
-											FontFamily="{StaticResource SymbolThemeFontFamily}"
-											FontSize="16"
-											Glyph="{x:Bind Principal.Glyph}" />
-
-										<FontIcon
-											x:Name="TypeIcon"
-											Grid.Column="1"
-											HorizontalAlignment="Left"
-											VerticalAlignment="Center"
-											x:Load="{x:Bind IsEditEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-											FontFamily="{StaticResource SymbolThemeFontFamily}"
-											FontSize="16"
-											Glyph="{x:Bind AccessControlTypeGlyph, Mode=OneWay}" />
-
-										<DropDownButton
-											x:Name="TypeDropdown"
-											Grid.Column="1"
-											Padding="0"
-											VerticalAlignment="Center"
-											x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
-											Style="{StaticResource TransparentDropDownButtonStyle}">
-
-											<DropDownButton.Content>
-												<FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{x:Bind AccessControlTypeGlyph, Mode=OneWay}" />
-											</DropDownButton.Content>
-
-											<DropDownButton.Flyout>
-												<MenuFlyout Placement="Bottom">
-
-													<MenuFlyoutItem
-														Command="{x:Bind ChangeAccessControlTypeCommand}"
-														CommandParameter="Allow"
-														Text="{helpers:ResourceString Name=Allow}">
-														<MenuFlyoutItem.Icon>
-															<FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE73E;" />
-														</MenuFlyoutItem.Icon>
-													</MenuFlyoutItem>
-
-													<MenuFlyoutItem
-														Command="{x:Bind ChangeAccessControlTypeCommand}"
-														CommandParameter="Deny"
-														Text="{helpers:ResourceString Name=SecurityDenyLabel/Text}">
-														<MenuFlyoutItem.Icon>
-															<FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF140;" />
-														</MenuFlyoutItem.Icon>
-													</MenuFlyoutItem>
-
-												</MenuFlyout>
-											</DropDownButton.Flyout>
-
-										</DropDownButton>
-
+									<DropDownButton.Content>
 										<TextBlock
-											Grid.Column="2"
-											VerticalAlignment="Center"
-											TextTrimming="CharacterEllipsis">
-											<Run Text="{x:Bind Principal.DisplayName, Mode=OneWay}" />
-											<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanized, Mode=OneWay}" />
-										</TextBlock>
-
-										<TextBlock
-											x:Name="AccessFlagsHumanizedTextBlock"
-											Grid.Column="3"
-											VerticalAlignment="Center"
-											x:Load="{x:Bind IsEditEnabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-											Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}"
-											TextTrimming="CharacterEllipsis" />
-
-										<DropDownButton
-											x:Name="AccessFlagsEditDropDownButton"
-											Grid.Column="3"
-											HorizontalAlignment="Stretch"
-											VerticalAlignment="Center"
-											x:Load="{x:Bind IsEditEnabled, Mode=OneWay}">
-
-											<DropDownButton.Content>
-												<TextBlock Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
-											</DropDownButton.Content>
-
-											<DropDownButton.Flyout>
-												<Flyout Placement="Bottom">
-													<Grid Margin="-8" HorizontalAlignment="Center">
-														<Grid.RowDefinitions>
-															<RowDefinition Height="*" />
-															<RowDefinition Height="Auto" />
-														</Grid.RowDefinitions>
-
-														<GridView
-															MaxHeight="350"
-															ItemsSource="{x:Bind AccessMaskItemList, Mode=OneWay}"
-															SelectionMode="None">
-
-															<GridView.ItemsPanel>
-																<ItemsPanelTemplate>
-																	<ItemsWrapGrid ItemWidth="184" Orientation="Vertical" />
-																</ItemsPanelTemplate>
-															</GridView.ItemsPanel>
-
-															<GridView.ItemContainerStyle>
-																<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-																	<Setter Property="HorizontalContentAlignment" Value="Left" />
-																</Style>
-															</GridView.ItemContainerStyle>
-
-															<GridView.ItemTemplate>
-																<DataTemplate x:DataType="security:AccessMaskItem">
-																	<CheckBox IsChecked="{x:Bind IsEnabled, Mode=TwoWay}" IsEnabled="{x:Bind IsEditable}">
-																		<TextBlock
-																			Text="{x:Bind AccessMaskName}"
-																			TextTrimming="CharacterEllipsis"
-																			TextWrapping="NoWrap" />
-																	</CheckBox>
-																</DataTemplate>
-															</GridView.ItemTemplate>
-
-														</GridView>
-
-														<ToggleButton
-															Grid.Row="1"
-															HorizontalAlignment="Center"
-															Content="Show advanced permissions"
-															IsChecked="{x:Bind AreAdvancedPermissionsShown, Mode=TwoWay}" />
-
-													</Grid>
-												</Flyout>
-											</DropDownButton.Flyout>
-
-										</DropDownButton>
-
-										<TextBlock
-											x:Name="IsInheritedHumanizedTextBlock"
-											Grid.Column="4"
-											VerticalAlignment="Center"
-											Text="{x:Bind IsInheritedHumanized}" />
-
-										<TextBlock
-											x:Name="InheritanceFlagsHumanizedTextBlock"
-											Grid.Column="5"
-											VerticalAlignment="Center"
-											x:Load="{x:Bind IsEditEnabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-											Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}"
+											Text="{x:Bind AccessControlTypeHumanized, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis"
-											Visibility="{x:Bind IsFolder, Mode=OneWay}" />
+											TextWrapping="NoWrap" />
+									</DropDownButton.Content>
 
-										<DropDownButton
-											x:Name="InheritanceFlagsEditDropDownButton"
-											Grid.Column="5"
-											HorizontalAlignment="Stretch"
-											VerticalAlignment="Center"
-											HorizontalContentAlignment="Left"
-											x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
-											Visibility="{x:Bind IsFolder, Mode=OneWay}">
+									<DropDownButton.Resources>
+										<ResourceDictionary>
+											<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SystemControlTransparentBrush" />
+											<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SystemControlTransparentBrush" />
+											<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
+										</ResourceDictionary>
+									</DropDownButton.Resources>
 
-											<DropDownButton.Content>
-												<TextBlock Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
-											</DropDownButton.Content>
+									<DropDownButton.Flyout>
+										<MenuFlyout Placement="Bottom">
 
-											<DropDownButton.Flyout>
-												<MenuFlyout Placement="Bottom">
-													<MenuFlyoutItem
-														Command="{x:Bind ChangeInheritanceFlagsCommand}"
-														CommandParameter="None,None"
-														Text="{helpers:ResourceString Name=SecurityAdvancedOnlyThisFolder/Text}" />
-													<MenuFlyoutItem
-														Command="{x:Bind ChangeInheritanceFlagsCommand}"
-														CommandParameter="3,None"
-														Text="{helpers:ResourceString Name=SecurityAdvancedFolderSubfoldersFiles/Text}" />
-													<MenuFlyoutItem
-														Command="{x:Bind ChangeInheritanceFlagsCommand}"
-														CommandParameter="1,None"
-														Text="{helpers:ResourceString Name=SecurityAdvancedFolderSubfolders/Text}" />
-													<MenuFlyoutItem
-														Command="{x:Bind ChangeInheritanceFlagsCommand}"
-														CommandParameter="2,None"
-														Text="{helpers:ResourceString Name=SecurityAdvancedFolderFiles/Text}" />
-													<MenuFlyoutItem
-														Command="{x:Bind ChangeInheritanceFlagsCommand}"
-														CommandParameter="3,InheritOnly"
-														Text="{helpers:ResourceString Name=SecurityAdvancedOnlySubfoldersFiles/Text}" />
-													<MenuFlyoutItem
-														Command="{x:Bind ChangeInheritanceFlagsCommand}"
-														CommandParameter="1,InheritOnly"
-														Text="{helpers:ResourceString Name=SecurityAdvancedOnlySubfolders/Text}" />
-													<MenuFlyoutItem
-														Command="{x:Bind ChangeInheritanceFlagsCommand}"
-														CommandParameter="2,InheritOnly"
-														Text="{helpers:ResourceString Name=SecurityAdvancedOnlyFiles/Text}" />
-												</MenuFlyout>
-											</DropDownButton.Flyout>
+											<MenuFlyoutItem
+												Command="{x:Bind ChangeAccessControlTypeCommand}"
+												CommandParameter="Allow"
+												Text="{helpers:ResourceString Name=Allow}">
+												<MenuFlyoutItem.Icon>
+													<FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE73E;" />
+												</MenuFlyoutItem.Icon>
+											</MenuFlyoutItem>
 
-										</DropDownButton>
+											<MenuFlyoutItem
+												Command="{x:Bind ChangeAccessControlTypeCommand}"
+												CommandParameter="Deny"
+												Text="{helpers:ResourceString Name=Deny}">
+												<MenuFlyoutItem.Icon>
+													<FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF140;" />
+												</MenuFlyoutItem.Icon>
+											</MenuFlyoutItem>
 
-									</Grid>
-								</ListViewItem>
-							</DataTemplate>
-						</ListView.ItemTemplate>
+										</MenuFlyout>
+									</DropDownButton.Flyout>
 
-					</ListView>
+								</DropDownButton>
 
-					<TextBlock
-						x:Name="CannotReadPropsText"
-						Grid.Row="2"
-						Padding="8"
-						HorizontalAlignment="Left"
-						x:Load="{x:Bind ViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-						Text="{helpers:ResourceString Name=SecurityAdvancedCannotReadProperties/Text}"
-						TextWrapping="WrapWholeWords" />
+								<TextBlock
+									Grid.Column="2"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap">
+									<Run Text="{x:Bind Principal.DisplayName, Mode=OneWay}" />
+									<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanized, Mode=OneWay}" />
+								</TextBlock>
 
-					<Grid
-						Grid.Row="3"
-						Margin="0,12,0,0"
-						ColumnSpacing="12">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<SplitButton
-							x:Name="SplitButton"
-							MaxWidth="200"
-							Command="{x:Bind ViewModel.DisableInheritanceCommand}">
-							<TextBlock Text="{x:Bind ViewModel.DisableInheritanceOption, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
-							<SplitButton.Flyout>
-								<MenuFlyout Placement="Top">
-									<MenuFlyoutItem
-										Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand}"
-										CommandParameter="False,False"
-										IsEnabled="{x:Bind ViewModel.AccessControlList.IsAccessControlListProtected, Mode=OneWay}"
-										Text="{helpers:ResourceString Name=SecurityAdvancedInheritedEnable/Text}" />
-									<MenuFlyoutItem
-										Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand}"
-										CommandParameter="True,True"
-										IsEnabled="{x:Bind ViewModel.AccessControlList.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-										Text="{helpers:ResourceString Name=SecurityAdvancedInheritedConvert/Text}" />
-									<MenuFlyoutItem
-										Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand}"
-										CommandParameter="True,False"
-										IsEnabled="{x:Bind ViewModel.AccessControlList.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-										Text="{helpers:ResourceString Name=SecurityAdvancedInheritedRemove/Text}" />
-								</MenuFlyout>
-							</SplitButton.Flyout>
-						</SplitButton>
-						<Button
-							x:Name="ReplaceChildPermissionsButton"
-							Grid.Column="1"
-							x:Load="{x:Bind ViewModel.IsFolder, Mode=OneWay}"
-							Command="{x:Bind ViewModel.ReplaceChildPermissionsCommand}"
-							ToolTipService.ToolTip="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions2/ToolTipService/ToolTip}"
-							Visibility="Collapsed">
-							<TextBlock Text="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions/Text}" TextTrimming="CharacterEllipsis" />
-						</Button>
-					</Grid>
+								<TextBlock
+									x:Name="AccessFlagsHumanizedTextBlock"
+									Grid.Column="3"
+									VerticalAlignment="Center"
+									x:Load="{x:Bind IsEditEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+									Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap" />
+
+								<DropDownButton
+									x:Name="AccessFlagsEditDropDownButton"
+									Grid.Column="3"
+									Padding="0,6"
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Center"
+									HorizontalContentAlignment="Left"
+									x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
+									Background="Transparent"
+									BorderThickness="0">
+
+									<DropDownButton.Resources>
+										<ResourceDictionary>
+											<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SystemControlTransparentBrush" />
+											<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SystemControlTransparentBrush" />
+											<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
+										</ResourceDictionary>
+									</DropDownButton.Resources>
+
+									<DropDownButton.Content>
+										<TextBlock
+											Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}"
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
+									</DropDownButton.Content>
+
+									<DropDownButton.Flyout>
+										<Flyout Placement="RightEdgeAlignedTop">
+
+											<Flyout.FlyoutPresenterStyle>
+												<Style TargetType="FlyoutPresenter">
+													<Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
+													<Setter Property="Padding" Value="0" />
+												</Style>
+											</Flyout.FlyoutPresenterStyle>
+
+											<Grid Margin="12">
+												<Grid.RowDefinitions>
+													<RowDefinition Height="*" />
+													<RowDefinition Height="Auto" />
+												</Grid.RowDefinitions>
+
+												<GridView ItemsSource="{x:Bind AccessMaskItemList, Mode=OneWay}" SelectionMode="None">
+
+													<GridView.ItemContainerStyle>
+														<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+															<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+														</Style>
+													</GridView.ItemContainerStyle>
+
+													<GridView.ItemsPanel>
+														<ItemsPanelTemplate>
+															<ItemsWrapGrid Orientation="Vertical" />
+														</ItemsPanelTemplate>
+													</GridView.ItemsPanel>
+
+													<GridView.ItemTemplate>
+														<DataTemplate x:DataType="security:AccessMaskItem">
+															<CheckBox IsChecked="{x:Bind IsEnabled, Mode=TwoWay}" IsEnabled="{x:Bind IsEditable}">
+																<TextBlock
+																	Text="{x:Bind AccessMaskName}"
+																	TextTrimming="CharacterEllipsis"
+																	TextWrapping="NoWrap" />
+															</CheckBox>
+														</DataTemplate>
+													</GridView.ItemTemplate>
+
+												</GridView>
+
+												<ToggleSwitch
+													Grid.Row="1"
+													HorizontalAlignment="Center"
+													IsOn="{x:Bind AreAdvancedPermissionsShown, Mode=TwoWay}"
+													OffContent="Show advanced permissions"
+													OnContent="Show advanced permissions" />
+
+											</Grid>
+
+										</Flyout>
+									</DropDownButton.Flyout>
+
+								</DropDownButton>
+
+								<TextBlock
+									x:Name="IsInheritedHumanizedTextBlock"
+									Grid.Column="4"
+									VerticalAlignment="Center"
+									Text="{x:Bind IsInheritedHumanized}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap" />
+
+								<TextBlock
+									x:Name="InheritanceFlagsHumanizedTextBlock"
+									Grid.Column="5"
+									VerticalAlignment="Center"
+									x:Load="{x:Bind IsEditEnabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+									Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap"
+									Visibility="{x:Bind IsFolder, Mode=OneWay}" />
+
+								<DropDownButton
+									x:Name="InheritanceFlagsEditDropDownButton"
+									Grid.Column="5"
+									Padding="0,6"
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Center"
+									HorizontalContentAlignment="Left"
+									x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
+									Background="Transparent"
+									BorderThickness="0"
+									Visibility="{x:Bind IsFolder, Mode=OneWay}">
+
+									<DropDownButton.Resources>
+										<ResourceDictionary>
+											<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SystemControlTransparentBrush" />
+											<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SystemControlTransparentBrush" />
+											<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
+										</ResourceDictionary>
+									</DropDownButton.Resources>
+
+									<DropDownButton.Content>
+										<TextBlock Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
+									</DropDownButton.Content>
+
+									<DropDownButton.Flyout>
+										<MenuFlyout Placement="Bottom">
+											<MenuFlyoutItem
+												Command="{x:Bind ChangeInheritanceFlagsCommand}"
+												CommandParameter="None,None"
+												Text="{helpers:ResourceString Name=SecurityAdvancedOnlyThisFolder/Text}" />
+											<MenuFlyoutItem
+												Command="{x:Bind ChangeInheritanceFlagsCommand}"
+												CommandParameter="3,None"
+												Text="{helpers:ResourceString Name=SecurityAdvancedFolderSubfoldersFiles/Text}" />
+											<MenuFlyoutItem
+												Command="{x:Bind ChangeInheritanceFlagsCommand}"
+												CommandParameter="1,None"
+												Text="{helpers:ResourceString Name=SecurityAdvancedFolderSubfolders/Text}" />
+											<MenuFlyoutItem
+												Command="{x:Bind ChangeInheritanceFlagsCommand}"
+												CommandParameter="2,None"
+												Text="{helpers:ResourceString Name=SecurityAdvancedFolderFiles/Text}" />
+											<MenuFlyoutItem
+												Command="{x:Bind ChangeInheritanceFlagsCommand}"
+												CommandParameter="3,InheritOnly"
+												Text="{helpers:ResourceString Name=SecurityAdvancedOnlySubfoldersFiles/Text}" />
+											<MenuFlyoutItem
+												Command="{x:Bind ChangeInheritanceFlagsCommand}"
+												CommandParameter="1,InheritOnly"
+												Text="{helpers:ResourceString Name=SecurityAdvancedOnlySubfolders/Text}" />
+											<MenuFlyoutItem
+												Command="{x:Bind ChangeInheritanceFlagsCommand}"
+												CommandParameter="2,InheritOnly"
+												Text="{helpers:ResourceString Name=SecurityAdvancedOnlyFiles/Text}" />
+										</MenuFlyout>
+									</DropDownButton.Flyout>
+
+								</DropDownButton>
+
+							</Grid>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+
+				</ListView>
+
+				<TextBlock
+					x:Name="CannotReadPropsText"
+					Grid.Row="2"
+					Padding="8"
+					HorizontalAlignment="Left"
+					x:Load="{x:Bind ViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+					Text="{helpers:ResourceString Name=SecurityAdvancedCannotReadProperties}"
+					TextWrapping="WrapWholeWords" />
+
+				<Border
+					Grid.Row="3"
+					Height="1"
+					Margin="-12,0,-12,8"
+					Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+				<Grid
+					Grid.Row="4"
+					Margin="0,4,0,0"
+					ColumnSpacing="12">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<SplitButton
+						x:Name="SplitButton"
+						MaxWidth="196"
+						Command="{x:Bind ViewModel.DisableInheritanceCommand, Mode=OneWay}"
+						Content="{x:Bind ViewModel.DisableInheritanceOption, Mode=OneWay}">
+
+						<SplitButton.Flyout>
+							<MenuFlyout Placement="Top">
+
+								<MenuFlyoutItem
+									Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
+									CommandParameter="False,False"
+									IsEnabled="{x:Bind ViewModel.AccessControlList.IsAccessControlListProtected, Mode=OneWay}"
+									Text="{helpers:ResourceString Name=SecurityAdvancedInheritedEnable/Text}" />
+
+								<MenuFlyoutItem
+									Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
+									CommandParameter="True,True"
+									IsEnabled="{x:Bind ViewModel.AccessControlList.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+									Text="{helpers:ResourceString Name=SecurityAdvancedInheritedConvert/Text}" />
+
+								<MenuFlyoutItem
+									Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
+									CommandParameter="True,False"
+									IsEnabled="{x:Bind ViewModel.AccessControlList.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+									Text="{helpers:ResourceString Name=SecurityAdvancedInheritedRemove/Text}" />
+
+							</MenuFlyout>
+						</SplitButton.Flyout>
+
+					</SplitButton>
+
+					<Button
+						x:Name="ReplaceChildPermissionsButton"
+						Grid.Column="1"
+						x:Load="{x:Bind ViewModel.IsFolder, Mode=OneWay}"
+						Command="{x:Bind ViewModel.ReplaceChildPermissionsCommand, Mode=OneWay}"
+						ToolTipService.ToolTip="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions2/ToolTipService/ToolTip}"
+						Visibility="Collapsed">
+						<TextBlock Text="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions/Text}" TextTrimming="CharacterEllipsis" />
+					</Button>
 
 				</Grid>
 
-			</StackPanel>
-		</ScrollViewer>
+			</Grid>
+
+		</Grid>
 
 		<!--  Save/Cancel buttons  -->
 		<Grid

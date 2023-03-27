@@ -30,6 +30,13 @@ namespace Files.App.Filesystem.Security
 			}
 		}
 
+		public string AccessControlTypeHumanized
+			=> AccessControlType switch
+			{
+				AccessControlType.Allow => "Allow",
+				_ => "Deny" // AccessControlType.Deny
+			};
+
 		public string AccessControlTypeGlyph
 			=> AccessControlType switch
 			{
