@@ -538,7 +538,7 @@ namespace Files.App.ViewModels
 				IsSearchBoxVisible = false;
 
 				var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
-				if (page is not null)
+				if (page is StandardViewBase svb && svb.IsLoaded)
 					page.ItemManipulationModel.FocusFileList();
 				else
 					AddressToolbar?.Focus(FocusState.Programmatic);

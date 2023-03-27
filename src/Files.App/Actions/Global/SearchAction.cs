@@ -3,8 +3,6 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
-using Files.App.Views;
-using Files.App.Views.LayoutModes;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.System;
@@ -15,9 +13,9 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label => "Search".GetLocalizedResource();
+		public string Label { get; } = "Search".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description { get; } = "TODO: Need to be described.";
 
 		public HotKey HotKey { get; } = new(VirtualKey.F, VirtualKeyModifiers.Control);
 
@@ -25,7 +23,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new();
 
-		//public bool IsExecutable => context.ShellPage is not null && IsPageTypeValid();
+		public bool IsExecutable => context.ShellPage is not null;
 
 		public SearchAction()
 		{
@@ -43,28 +41,9 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.ShellPage):
-				case nameof(IContentPageContext.PageLayoutType):
-					//OnPropertyChanged(nameof(IsExecutable));
+					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
-		}
-
-		private bool IsPageTypeValid()
-		{
-			return
-			(context.ShellPage is ModernShellPage &&
-			(
-				context.PageLayoutType == typeof(DetailsLayoutBrowser) ||
-				context.PageLayoutType == typeof(GridViewBrowser) ||
-				context.PageLayoutType == typeof(WidgetsPage)
-			)) ||
-			(context.ShellPage is ColumnShellPage &&
-			(
-				context.PageLayoutType == typeof(DetailsLayoutBrowser) ||
-				context.PageLayoutType == typeof(GridViewBrowser) ||
-				context.PageLayoutType == typeof(ColumnViewBase) ||
-				context.PageLayoutType == typeof(ColumnViewBrowser
-			)));
 		}
 	}
 }
