@@ -2671,7 +2671,7 @@
     <value>Menu</value>
   </data>
   <data name="Key.Control" xml:space="preserve">
-    <value>Control</value>
+    <value>Ctrl</value>
   </data>
   <data name="Key.Shift" xml:space="preserve">
     <value>Shift</value>
