@@ -39,12 +39,6 @@ namespace Files.App.UserControls
 
 		public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
 
-		public event EventHandler BackRequested;
-
-		public event EventHandler ForwardRequested;
-
-		public event EventHandler UpRequested;
-
 		public event EventHandler RefreshRequested;
 
 		public event EventHandler RefreshWidgetsRequested;

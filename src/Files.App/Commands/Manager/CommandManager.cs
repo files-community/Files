@@ -35,10 +35,13 @@ namespace Files.App.Commands
 		public IRichCommand SelectAll => commands[CommandCodes.SelectAll];
 		public IRichCommand InvertSelection => commands[CommandCodes.InvertSelection];
 		public IRichCommand ClearSelection => commands[CommandCodes.ClearSelection];
+		public IRichCommand ToggleSelect => commands[CommandCodes.ToggleSelect];
 		public IRichCommand ShareItem => commands[CommandCodes.ShareItem];
 		public IRichCommand EmptyRecycleBin => commands[CommandCodes.EmptyRecycleBin];
 		public IRichCommand RestoreRecycleBin => commands[CommandCodes.RestoreRecycleBin];
 		public IRichCommand RestoreAllRecycleBin => commands[CommandCodes.RestoreAllRecycleBin];
+		public IRichCommand RefreshItems => commands[CommandCodes.RefreshItems];
+		public IRichCommand Rename => commands[CommandCodes.Rename];
 		public IRichCommand CreateShortcut => commands[CommandCodes.CreateShortcut];
 		public IRichCommand CreateShortcutFromDialog => commands[CommandCodes.CreateShortcutFromDialog];
 		public IRichCommand CreateFolder => commands[CommandCodes.CreateFolder];
@@ -71,6 +74,7 @@ namespace Files.App.Commands
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
 		public IRichCommand OpenItemWithApplicationPicker => commands[CommandCodes.OpenItemWithApplicationPicker];
 		public IRichCommand OpenParentFolder => commands[CommandCodes.OpenParentFolder];
+		public IRichCommand OpenSettings => commands[CommandCodes.OpenSettings];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
 		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
@@ -110,6 +114,9 @@ namespace Files.App.Commands
 		public IRichCommand GroupDescending => commands[CommandCodes.GroupDescending];
 		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
+		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
+		public IRichCommand NavigateForward => commands[CommandCodes.NavigateForward];
+		public IRichCommand NavigateUp => commands[CommandCodes.NavigateUp];
 		public IRichCommand DuplicateCurrentTab => commands[CommandCodes.DuplicateCurrentTab];
 		public IRichCommand DuplicateSelectedTab => commands[CommandCodes.DuplicateSelectedTab];
 		public IRichCommand CloseTabsToTheLeftCurrent => commands[CommandCodes.CloseTabsToTheLeftCurrent];
@@ -159,10 +166,13 @@ namespace Files.App.Commands
 			[CommandCodes.SelectAll] = new SelectAllAction(),
 			[CommandCodes.InvertSelection] = new InvertSelectionAction(),
 			[CommandCodes.ClearSelection] = new ClearSelectionAction(),
+			[CommandCodes.ToggleSelect] = new ToggleSelectAction(),
 			[CommandCodes.ShareItem] = new ShareItemAction(),
 			[CommandCodes.EmptyRecycleBin] = new EmptyRecycleBinAction(),
 			[CommandCodes.RestoreRecycleBin] = new RestoreRecycleBinAction(),
 			[CommandCodes.RestoreAllRecycleBin] = new RestoreAllRecycleBinAction(),
+			[CommandCodes.RefreshItems] = new RefreshItemsAction(),
+			[CommandCodes.Rename] = new RenameAction(),
 			[CommandCodes.CreateShortcut] = new CreateShortcutAction(),
 			[CommandCodes.CreateShortcutFromDialog] = new CreateShortcutFromDialogAction(),
 			[CommandCodes.CreateFolder] = new CreateFolderAction(),
@@ -195,6 +205,7 @@ namespace Files.App.Commands
 			[CommandCodes.OpenItem] = new OpenItemAction(),
 			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
 			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
+			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
 			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
@@ -234,6 +245,9 @@ namespace Files.App.Commands
 			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
 			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
+			[CommandCodes.NavigateBack] = new NavigateBackAction(),
+			[CommandCodes.NavigateForward] = new NavigateForwardAction(),
+			[CommandCodes.NavigateUp] = new NavigateUpAction(),
 			[CommandCodes.DuplicateCurrentTab] = new DuplicateCurrentTabAction(),
 			[CommandCodes.DuplicateSelectedTab] = new DuplicateSelectedTabAction(),
 			[CommandCodes.CloseTabsToTheLeftCurrent] = new CloseTabsToTheLeftCurrentAction(),

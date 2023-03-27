@@ -33,11 +33,14 @@ namespace Files.App.Commands
 		OpenItem,
 		OpenItemWithApplicationPicker,
 		OpenParentFolder,
+		RefreshItems,
+		Rename,
 
 		// Selection
 		SelectAll,
 		InvertSelection,
 		ClearSelection,
+		ToggleSelect,
 
 		// Share
 		ShareItem,
@@ -79,6 +82,7 @@ namespace Files.App.Commands
 		RotateRight,
 
 		// Open
+		OpenSettings,
 		OpenTerminal,
 		OpenTerminalAsAdmin,
 
@@ -126,6 +130,11 @@ namespace Files.App.Commands
 
 		// Navigation
 		NewTab,
+		NavigateBack,
+		NavigateForward,
+		NavigateUp,
+
+		// Other
 		DuplicateCurrentTab,
 		DuplicateSelectedTab,
 		CloseTabsToTheLeftCurrent,

@@ -27,7 +27,6 @@ namespace Files.App.Interacts
 
 		private void InitializeCommands()
 		{
-			RenameItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RenameItem);
 			ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowProperties);
 			OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenFileLocation);
 			OpenDirectoryInNewTabCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewTab);
@@ -38,7 +37,6 @@ namespace Files.App.Interacts
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.PointerWheelChanged);
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.DragOver);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.Drop);
-			RefreshCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RefreshItems);
 			SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
 			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
 			PlayAllCommand = new AsyncRelayCommand(CommandsModel.PlayAll);
@@ -48,8 +46,6 @@ namespace Files.App.Interacts
 		#endregion Command Initialization
 
 		#region Commands
-
-		public ICommand RenameItemCommand { get; private set; }
 
 		public ICommand ShowPropertiesCommand { get; private set; }
 
@@ -70,8 +66,6 @@ namespace Files.App.Interacts
 		public ICommand DragOverCommand { get; private set; }
 
 		public ICommand DropCommand { get; private set; }
-
-		public ICommand RefreshCommand { get; private set; }
 
 		public ICommand SearchUnindexedItems { get; private set; }
 
