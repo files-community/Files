@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Extensions;
 using Files.App.ViewModels;
@@ -10,7 +11,7 @@ namespace Files.App.Actions
 {
 	internal class TogglePreviewPaneAction : ObservableObject, IToggleAction
 	{
-		private readonly PreviewPaneViewModel viewModel = App.PreviewPaneViewModel;
+		private readonly PreviewPaneViewModel viewModel;
 
 		public string Label { get; } = "TogglePreviewPane".GetLocalizedResource();
 
@@ -23,6 +24,7 @@ namespace Files.App.Actions
 
 		public TogglePreviewPaneAction()
 		{
+			viewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 			viewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 

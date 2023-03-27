@@ -31,7 +31,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
 using Windows.UI.Text;
 using static Files.App.UserControls.IAddressToolbar;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
@@ -72,12 +71,6 @@ namespace Files.App.ViewModels
 		public event AddressBarTextEnteredEventHandler? AddressBarTextEntered;
 
 		public event PathBoxItemDroppedEventHandler? PathBoxItemDropped;
-
-		public event EventHandler? BackRequested;
-
-		public event EventHandler? ForwardRequested;
-
-		public event EventHandler? UpRequested;
 
 		public event EventHandler? RefreshRequested;
 
@@ -205,9 +198,6 @@ namespace Files.App.ViewModels
 
 		public ToolbarViewModel()
 		{
-			BackClickCommand = new RelayCommand<RoutedEventArgs>(e => BackRequested?.Invoke(this, EventArgs.Empty));
-			ForwardClickCommand = new RelayCommand<RoutedEventArgs>(e => ForwardRequested?.Invoke(this, EventArgs.Empty));
-			UpClickCommand = new RelayCommand<RoutedEventArgs>(e => UpRequested?.Invoke(this, EventArgs.Empty));
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
 			ViewReleaseNotesCommand = new RelayCommand(DoViewReleaseNotes);
 
@@ -446,9 +436,6 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref pathControlDisplayText, value);
 		}
 
-		public ICommand BackClickCommand { get; }
-		public ICommand ForwardClickCommand { get; }
-		public ICommand UpClickCommand { get; }
 		public ICommand RefreshClickCommand { get; }
 		public ICommand ViewReleaseNotesCommand { get; }
 
@@ -868,7 +855,6 @@ namespace Files.App.ViewModels
 				if (SetProperty(ref selectedItems, value))
 				{
 					OnPropertyChanged(nameof(CanCopy));
-					OnPropertyChanged(nameof(CanShare));
 					OnPropertyChanged(nameof(CanRename));
 					OnPropertyChanged(nameof(CanViewProperties));
 					OnPropertyChanged(nameof(CanExtract));
@@ -889,7 +875,6 @@ namespace Files.App.ViewModels
 
 		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-		public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcut && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive));
 		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1 && InstanceViewModel.IsPageTypeRecycleBin == false;
 		public bool CanViewProperties => true;
 		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;

@@ -17,7 +17,12 @@ namespace Files.App.Contexts
 
 		bool HasItem { get; }
 		bool HasSelection { get; }
+		bool CanRefresh { get; }
 		ListedItem? SelectedItem { get; }
 		IReadOnlyList<ListedItem> SelectedItems { get; }
+
+		bool CanGoBack { get; }
+		bool CanGoForward { get; }
+		bool CanNavigateToParent { get; }
 	}
 }

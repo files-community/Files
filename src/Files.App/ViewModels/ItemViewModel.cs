@@ -21,6 +21,7 @@ using Files.Shared.Cloud;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
+using Files.Shared.Services;
 using FluentFTP;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
@@ -66,7 +67,7 @@ namespace Files.App.ViewModels
 
 		// Files and folders list for manipulating
 		private List<ListedItem> filesAndFolders;
-
+		private readonly IJumpListService jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
@@ -138,7 +139,7 @@ namespace Files.App.ViewModels
 			if (value == "Home")
 				currentStorageFolder = null;
 			else
-				App.JumpList.AddFolderToJumpList(value);
+				_ = Task.Run(() => jumpListService.AddFolderAsync(value));
 
 			WorkingDirectory = value;
 			OnPropertyChanged(nameof(WorkingDirectory));
@@ -1281,7 +1282,7 @@ namespace Files.App.ViewModels
 
 				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(folderSettings, WorkingDirectory, filesAndFolders);
 
-				if (App.PreviewPaneViewModel.IsEnabled)
+				if (Ioc.Default.GetRequiredService<PreviewPaneViewModel>().IsEnabled)
 				{
 					// Find and select README file
 					foreach (var item in filesAndFolders)

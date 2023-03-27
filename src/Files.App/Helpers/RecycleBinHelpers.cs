@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Shell;
+using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Enums;
@@ -19,6 +20,8 @@ namespace Files.App.Helpers
 	public static class RecycleBinHelpers
 	{
 		#region Private Members
+
+		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
 		private static readonly Regex recycleBinPathRegex = new(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
@@ -68,7 +71,7 @@ namespace Files.App.Helpers
 				|| await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync() == ContentDialogResult.Primary)
 			{
 				string bannerTitle = "EmptyRecycleBin".GetLocalizedResource();
-				var banner = App.OngoingTasksViewModel.PostBanner(
+				var banner = ongoingTasksViewModel.PostBanner(
 					bannerTitle,
 					"EmptyingRecycleBin".GetLocalizedResource(),
 					0,
@@ -78,14 +81,14 @@ namespace Files.App.Helpers
 				bool opSucceded = Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded;
 				banner.Remove();
 				if (opSucceded)
-					App.OngoingTasksViewModel.PostBanner(
+					ongoingTasksViewModel.PostBanner(
 						bannerTitle,
 						"BinEmptyingSucceded".GetLocalizedResource(),
 						100,
 						ReturnResult.Success,
 						FileOperationType.Delete);
 				else
-					App.OngoingTasksViewModel.PostBanner(
+					ongoingTasksViewModel.PostBanner(
 						bannerTitle,
 						"BinEmptyingFailed".GetLocalizedResource(),
 						100,

@@ -245,12 +245,6 @@ namespace Files.App.Views
 
 					break;
 
-				case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
-					if (ToolbarViewModel.CanRefresh)
-						Refresh_Click();
-
-					break;
-
 				case (false, false, true, _, VirtualKey.D): // alt + d, select address bar (english)
 				case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
 					if (tabInstance || CurrentPageType == typeof(WidgetsPage))

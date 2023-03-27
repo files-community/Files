@@ -184,11 +184,6 @@ namespace Files.App.Views
 					}
 					break;
 
-				case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
-					if (ToolbarViewModel.CanRefresh)
-						Refresh_Click();
-					break;
-
 				case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
 				case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
 					ToolbarViewModel.IsEditModeEnabled = true;
