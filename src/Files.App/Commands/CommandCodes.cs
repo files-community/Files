@@ -33,11 +33,13 @@ namespace Files.App.Commands
 		OpenItemWithApplicationPicker,
 		OpenParentFolder,
 		RefreshItems,
+		Rename,
 
 		// Selection
 		SelectAll,
 		InvertSelection,
 		ClearSelection,
+		ToggleSelect,
 
 		// Share
 		ShareItem,

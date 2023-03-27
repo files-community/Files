@@ -20,6 +20,7 @@ namespace Files.App.Actions
 		public HotKey HotKey { get; } = new(VirtualKey.Left, VirtualKeyModifiers.Menu);
 		public HotKey SecondHotKey { get; } = new(VirtualKey.Back);
 		public HotKey ThirdHotKey { get; } = new(VirtualKey.XButton1);
+		public HotKey MediaHotKey { get; } = new(VirtualKey.GoBack);
 
 		public RichGlyph Glyph { get; } = new("\uE72B");
 

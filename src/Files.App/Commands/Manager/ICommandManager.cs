@@ -29,6 +29,7 @@ namespace Files.App.Commands
 		IRichCommand SelectAll { get; }
 		IRichCommand InvertSelection { get; }
 		IRichCommand ClearSelection { get; }
+		IRichCommand ToggleSelect { get; }
 		IRichCommand ShareItem { get; }
 		IRichCommand CreateFolder { get; }
 		IRichCommand CreateShortcut { get; }
@@ -40,6 +41,7 @@ namespace Files.App.Commands
 		IRichCommand OpenItemWithApplicationPicker { get; }
 		IRichCommand OpenParentFolder { get; }
 		IRichCommand RefreshItems { get; }
+		IRichCommand Rename { get; }
 
 		IRichCommand PinToStart { get; }
 		IRichCommand UnpinFromStart { get; }

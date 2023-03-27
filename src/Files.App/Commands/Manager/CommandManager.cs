@@ -34,11 +34,13 @@ namespace Files.App.Commands
 		public IRichCommand SelectAll => commands[CommandCodes.SelectAll];
 		public IRichCommand InvertSelection => commands[CommandCodes.InvertSelection];
 		public IRichCommand ClearSelection => commands[CommandCodes.ClearSelection];
+		public IRichCommand ToggleSelect => commands[CommandCodes.ToggleSelect];
 		public IRichCommand ShareItem => commands[CommandCodes.ShareItem];
 		public IRichCommand EmptyRecycleBin => commands[CommandCodes.EmptyRecycleBin];
 		public IRichCommand RestoreRecycleBin => commands[CommandCodes.RestoreRecycleBin];
 		public IRichCommand RestoreAllRecycleBin => commands[CommandCodes.RestoreAllRecycleBin];
 		public IRichCommand RefreshItems => commands[CommandCodes.RefreshItems];
+		public IRichCommand Rename => commands[CommandCodes.Rename];
 		public IRichCommand CreateShortcut => commands[CommandCodes.CreateShortcut];
 		public IRichCommand CreateShortcutFromDialog => commands[CommandCodes.CreateShortcutFromDialog];
 		public IRichCommand CreateFolder => commands[CommandCodes.CreateFolder];
@@ -163,11 +165,13 @@ namespace Files.App.Commands
 			[CommandCodes.SelectAll] = new SelectAllAction(),
 			[CommandCodes.InvertSelection] = new InvertSelectionAction(),
 			[CommandCodes.ClearSelection] = new ClearSelectionAction(),
+			[CommandCodes.ToggleSelect] = new ToggleSelectAction(),
 			[CommandCodes.ShareItem] = new ShareItemAction(),
 			[CommandCodes.EmptyRecycleBin] = new EmptyRecycleBinAction(),
 			[CommandCodes.RestoreRecycleBin] = new RestoreRecycleBinAction(),
 			[CommandCodes.RestoreAllRecycleBin] = new RestoreAllRecycleBinAction(),
 			[CommandCodes.RefreshItems] = new RefreshItemsAction(),
+			[CommandCodes.Rename] = new RenameAction(),
 			[CommandCodes.CreateShortcut] = new CreateShortcutAction(),
 			[CommandCodes.CreateShortcutFromDialog] = new CreateShortcutFromDialogAction(),
 			[CommandCodes.CreateFolder] = new CreateFolderAction(),
