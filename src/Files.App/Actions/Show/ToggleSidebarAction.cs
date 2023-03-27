@@ -13,9 +13,9 @@ namespace Files.App.Actions
 	{
 		private readonly SidebarViewModel viewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
 
-		public string Label { get; } = "TogglePreviewPane".GetLocalizedResource();
+		public string Label { get; } = "ToggleSidebar".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description { get; } = "TODO: Need to be described.";
 
 		public HotKey HotKey { get; } = new(VirtualKey.B, VirtualKeyModifiers.Control);
 
