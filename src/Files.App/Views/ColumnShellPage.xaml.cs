@@ -119,15 +119,6 @@ namespace Files.App.Views
 							  CurrentPageType == typeof(ColumnViewBrowser) ||
 							  CurrentPageType == typeof(ColumnViewBase);
 
-			// F2, rename
-			if (args.KeyboardAccelerator.Key is VirtualKey.F2
-				&& tabInstance
-				&& ContentPage.IsItemSelected)
-			{
-				ContentPage.ItemManipulationModel.StartRenameItem();
-				return;
-			}
-
 			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
 			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
 			var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
