@@ -259,7 +259,7 @@ namespace Files.App.Views
 		}
 
 		/**
-		 * Some keys are overriden by control built-in defaults (e.g. 'Space').
+		 * Some keys are overridden by control built-in defaults (e.g. 'Space').
 		 * They must be handled here since they're not propagated to KeyboardAccelerator.
 		 */
 		protected void ShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
