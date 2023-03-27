@@ -5,8 +5,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
 using Files.App.Helpers;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.UI.Xaml;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -90,6 +89,18 @@ namespace Files.App.ViewModels.Properties
 		private bool _isProtected;
 
 		private bool _preserveInheritance;
+
+		private GridLength _columnType = new(64d);
+		public GridLength ColumnType { get => _columnType; set => SetProperty(ref _columnType, value); }
+
+		private GridLength _columnPrincipal = new(200d);
+		public GridLength ColumnPrincipal { get => _columnPrincipal; set => SetProperty(ref _columnPrincipal, value); }
+
+		private GridLength _columnAccess = new(160d);
+		public GridLength ColumnAccess { get => _columnAccess; set => SetProperty(ref _columnAccess, value); }
+
+		private GridLength _columnInherited = new(70d);
+		public GridLength ColumnInherited { get => _columnInherited; set => SetProperty(ref _columnInherited, value); }
 
 		public RelayCommand ChangeOwnerCommand { get; set; }
 		public RelayCommand AddAccessControlEntryCommand { get; set; }

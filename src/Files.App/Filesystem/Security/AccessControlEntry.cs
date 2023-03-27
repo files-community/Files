@@ -33,7 +33,7 @@ namespace Files.App.Filesystem.Security
 		public string AccessControlTypeGlyph
 			=> AccessControlType switch
 			{
-				AccessControlType.Allow => "\xF13E",
+				AccessControlType.Allow => "\xE73E",
 				_ => "\xF140" // AccessControlType.Deny
 			};
 
