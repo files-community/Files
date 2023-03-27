@@ -183,7 +183,6 @@ namespace Files.App
 
 			// Initialize MainWindow here
 			EnsureWindowIsInitialized();
-
 			host = Host.CreateDefaultBuilder()
 				.ConfigureServices(services => 
 					services
@@ -228,15 +227,14 @@ namespace Files.App
 						.AddSingleton<IQuickAccessService, QuickAccessService>()
 						.AddSingleton<IResourcesService, ResourcesService>()
 						.AddSingleton<IJumpListService, JumpListService>()
-						.AddScoped<MainPageViewModel>()
-						.AddScoped<PreviewPaneViewModel>()
-						.AddScoped<SettingsViewModel>()
-						.AddScoped<OngoingTasksViewModel>()
-						.AddScoped<AppearanceViewModel>()
+						.AddSingleton<MainPageViewModel>()
+						.AddSingleton<PreviewPaneViewModel>()
+						.AddSingleton<SettingsViewModel>()
+						.AddSingleton<OngoingTasksViewModel>()
+						.AddSingleton<AppearanceViewModel>()
 				)
 				.Build();
 			Ioc.Default.ConfigureServices(host.Services);
-
 			EnsureSettingsAndConfigurationAreBootstrapped();
 
 			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);

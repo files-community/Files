@@ -7,12 +7,9 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views;
-using Files.Backend.Extensions;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Extensions;
-using Files.Shared.Services;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
@@ -49,7 +46,6 @@ namespace Files.App.ViewModels
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
 		public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
-		public ICommand OpenSettingsCommand { get; private set; }
 
 		public MainPageViewModel(
 			IUserSettingsService userSettings, 
@@ -64,7 +60,6 @@ namespace Files.App.ViewModels
 			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
 			CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
 			ReopenClosedTabAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ReopenClosedTabAccelerator);
-			OpenSettingsCommand = new RelayCommand(OpenSettings);
 		}
 
 		private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
@@ -158,13 +153,6 @@ namespace Files.App.ViewModels
 		{
 			(MultitaskingControl as BaseMultitaskingControl)?.ReopenClosedTab(null, null);
 			e!.Handled = true;
-		}
-
-		private async void OpenSettings()
-		{
-			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-			var dialog = dialogService.GetDialog(new SettingsDialogViewModel());
-			await dialog.TryShowAsync();
 		}
 
 		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)

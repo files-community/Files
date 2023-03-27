@@ -190,22 +190,10 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupDescending){IsVisible = true}.Build(),
 					},
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RefreshItems)
 				{
-					Text = "BaseLayoutContextFlyoutRefresh/Text".GetLocalizedResource(),
-					Glyph = "\uE72C",
-					ShowInRecycleBin = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-					Command = commandsViewModel.RefreshCommand,
-					KeyboardAccelerator = new KeyboardAccelerator
-					{
-						Key = VirtualKey.F5,
-						IsEnabled = false,
-					},
-					ShowItem = !itemsSelected
-				},
+					IsVisible = !itemsSelected,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ItemType.Separator,

@@ -39,6 +39,7 @@ namespace Files.App.Commands
 		IRichCommand OpenItem { get; }
 		IRichCommand OpenItemWithApplicationPicker { get; }
 		IRichCommand OpenParentFolder { get; }
+		IRichCommand RefreshItems { get; }
 
 		IRichCommand PinToStart { get; }
 		IRichCommand UnpinFromStart { get; }
@@ -67,6 +68,7 @@ namespace Files.App.Commands
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
 
+		IRichCommand OpenSettings { get; }
 		IRichCommand OpenTerminal { get; }
 		IRichCommand OpenTerminalAsAdmin { get; }
 
@@ -110,6 +112,10 @@ namespace Files.App.Commands
 		IRichCommand ToggleGroupDirection { get; }
 
 		IRichCommand NewTab { get; }
+		IRichCommand NavigateBack { get; }
+		IRichCommand NavigateForward { get; }
+		IRichCommand NavigateUp { get; }
+
 		IRichCommand DuplicateCurrentTab { get; }
 		IRichCommand DuplicateSelectedTab { get; }
 		IRichCommand CloseTabsToTheLeftCurrent { get; }

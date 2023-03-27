@@ -382,6 +382,7 @@ namespace Files.App
 
 					// Remove old layout from back stack
 					ParentShellPageInstance.RemoveLastPageFromBackStack();
+					ParentShellPageInstance.ResetNavigationStackLayoutMode();
 				}
 
 				ParentShellPageInstance.FilesystemViewModel.UpdateEmptyTextType();
@@ -877,8 +878,6 @@ namespace Files.App
 
 		protected void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
-			SelectedItems!.AddRange(e.Items.OfType<ListedItem>());
-
 			try
 			{
 				var shellItemList = e.Items.OfType<ListedItem>().Select(x => new VA.ShellItem(x.ItemPath)).ToArray();

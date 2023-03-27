@@ -27,6 +27,10 @@ namespace Files.App
 
 		void Refresh_Click();
 
+		void Back_Click();
+
+		void Forward_Click();
+
 		void Up_Click();
 
 		void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
@@ -48,6 +52,11 @@ namespace Files.App
 		void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
 
 		void RemoveLastPageFromBackStack();
+
+		/// <summary>
+		/// Replaces any outdated entries with those of the correct page type
+		/// </summary>
+		void ResetNavigationStackLayoutMode();
 
 		void SubmitSearch(string query, bool searchUnindexedItems);
 
