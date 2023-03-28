@@ -1133,7 +1133,8 @@ namespace Files.App
 							ItemManipulationModel.AddSelectedItem((ListedItem)ItemsControl.Items[i]);
 					}
 				}
-				else if (SelectedItems is null || !SelectedItems.Contains(hoveredItem))
+				else if (SelectedItems is null ||
+					!SelectedItems.Contains(hoveredItem))
 				{
 					ItemManipulationModel.SetSelectedItem(hoveredItem);
 				}
