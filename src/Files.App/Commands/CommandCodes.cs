@@ -10,6 +10,7 @@ namespace Files.App.Commands
 		EnterCompactOverlay,
 		ExitCompactOverlay,
 		ToggleCompactOverlay,
+		Search,
 
 		// Show
 		ToggleShowHiddenItems,
@@ -143,5 +144,6 @@ namespace Files.App.Commands
 		CloseTabsToTheRightSelected,
 		CloseOtherTabsCurrent,
 		CloseOtherTabsSelected,
+		ReopenClosedTab,
 	}
 }

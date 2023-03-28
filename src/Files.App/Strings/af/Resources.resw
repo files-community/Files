@@ -243,9 +243,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>Stygende</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>Verfris</value>
-  </data>
   <data name="Paste" xml:space="preserve">
     <value>Paste</value>
   </data>
@@ -324,8 +321,8 @@
   <data name="Up" xml:space="preserve">
     <value>Op (Alt+Oppyltjie)</value>
   </data>
-  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Verfris (F5)</value>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Soek (Ctrl+F)</value>
@@ -1483,7 +1480,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} items</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>Heropen geslote duimgids</value>
   </data>
   <data name="Rename" xml:space="preserve">
@@ -1609,8 +1606,8 @@
   <data name="Allow" xml:space="preserve">
     <value>Laat toe</value>
   </data>
-  <data name="SecurityDenyLabel.Text" xml:space="preserve">
-    <value>Weier</value>
+  <data name="Deny" xml:space="preserve">
+    <value>Deny</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Volle beheer</value>
@@ -1643,7 +1640,7 @@
     <value>Jy het nie toestemmings om die sekuriteitseienskappe van hierdie voorwerp te bekyk nie. Klik op "Gevorderde toestemmings" om voort te gaan.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Eienaar</value>
+    <value>Owner:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Onbekende eienaar</value>
@@ -1681,11 +1678,11 @@
   <data name="Access" xml:space="preserve">
     <value>Toegang</value>
   </data>
-  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
-    <value>Van toepassing op</value>
+  <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
+    <value>Applies to</value>
   </data>
-  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>Entiteit</value>
+  <data name="Principal" xml:space="preserve">
+    <value>Principal</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>lêers</value>
@@ -1696,11 +1693,11 @@
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>subomslae</value>
   </data>
-  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
-    <value>Oorgeneem</value>
+  <data name="Inherited" xml:space="preserve">
+    <value>Inherited</value>
   </data>
-  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
-    <value>Toestemmings</value>
+  <data name="Permissions" xml:space="preserve">
+    <value>Permissions</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Jy het nie toestemmings om die sekuriteitseienskappe van hierdie voorwerp te bekyk nie. Jy kan probeer om eienaarskap van hierdie voorwerp te neem.</value>
@@ -1878,9 +1875,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Die argiefontginning is suksesvol voltooi.</value>
@@ -2670,5 +2664,11 @@
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Verlaat kompakte oorleg</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="ToggleSelect" xml:space="preserve">
+    <value>Toggle Selection</value>
   </data>
 </root>

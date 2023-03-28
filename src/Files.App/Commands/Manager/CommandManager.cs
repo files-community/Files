@@ -28,6 +28,7 @@ namespace Files.App.Commands
 		public IRichCommand EnterCompactOverlay => commands[CommandCodes.EnterCompactOverlay];
 		public IRichCommand ExitCompactOverlay => commands[CommandCodes.ExitCompactOverlay];
 		public IRichCommand ToggleCompactOverlay => commands[CommandCodes.ToggleCompactOverlay];
+		public IRichCommand Search => commands[CommandCodes.Search];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand TogglePreviewPane => commands[CommandCodes.TogglePreviewPane];
@@ -125,6 +126,7 @@ namespace Files.App.Commands
 		public IRichCommand CloseTabsToTheRightSelected => commands[CommandCodes.CloseTabsToTheRightSelected];
 		public IRichCommand CloseOtherTabsCurrent => commands[CommandCodes.CloseOtherTabsCurrent];
 		public IRichCommand CloseOtherTabsSelected => commands[CommandCodes.CloseOtherTabsSelected];
+		public IRichCommand ReopenClosedTab => commands[CommandCodes.ReopenClosedTab];
 
 		public CommandManager()
 		{
@@ -159,6 +161,7 @@ namespace Files.App.Commands
 			[CommandCodes.EnterCompactOverlay] = new EnterCompactOverlayAction(),
 			[CommandCodes.ExitCompactOverlay] = new ExitCompactOverlayAction(),
 			[CommandCodes.ToggleCompactOverlay] = new ToggleCompactOverlayAction(),
+			[CommandCodes.Search] = new SearchAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
 			[CommandCodes.TogglePreviewPane] = new TogglePreviewPaneAction(),
@@ -256,6 +259,7 @@ namespace Files.App.Commands
 			[CommandCodes.CloseTabsToTheRightSelected] = new CloseTabsToTheRightSelectedAction(),
 			[CommandCodes.CloseOtherTabsCurrent] = new CloseOtherTabsCurrentAction(),
 			[CommandCodes.CloseOtherTabsSelected] = new CloseOtherTabsSelectedAction(),
+			[CommandCodes.ReopenClosedTab] = new ReopenClosedTabAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

@@ -135,11 +135,6 @@ namespace Files.App.Views
 						await storageHistoryHelpers.TryRedo();
 					break;
 
-				case (false, false, false, true, VirtualKey.F3): //f3
-				case (true, false, false, true, VirtualKey.F): // ctrl + f
-					ToolbarViewModel.SwitchSearchBoxVisibility();
-					break;
-
 				case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
 					if (InstanceViewModel.CanCreateFileInPage)
 					{

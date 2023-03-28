@@ -6,7 +6,6 @@
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:custom="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -129,13 +128,6 @@
 			<i:Interaction.Behaviors>
 				<icore:EventTriggerBehavior EventName="Invoked">
 					<icore:InvokeCommandAction Command="{x:Bind ViewModel.CloseSelectedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="T" Modifiers="Control,Shift">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.ReopenClosedTabAcceleratorCommand}" />
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>

@@ -243,9 +243,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>Uzlazno</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>Osvježi</value>
-  </data>
   <data name="Paste" xml:space="preserve">
     <value>Paste</value>
   </data>
@@ -324,8 +321,8 @@
   <data name="Up" xml:space="preserve">
     <value>Gore (Alt+strelica gore)</value>
   </data>
-  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Osvježi (F5)</value>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Pretraga (Ctrl+F)</value>
@@ -1482,7 +1479,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} stavki</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>Ponovno otvori zatvorenu karticu</value>
   </data>
   <data name="Rename" xml:space="preserve">
@@ -1608,8 +1605,8 @@
   <data name="Allow" xml:space="preserve">
     <value>Dopusti</value>
   </data>
-  <data name="SecurityDenyLabel.Text" xml:space="preserve">
-    <value>Odbij</value>
+  <data name="Deny" xml:space="preserve">
+    <value>Deny</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Potpuna kontrola</value>
@@ -1642,7 +1639,7 @@
     <value>Nemate dopuštenja za pregled sigurnosnih svojstava ovog objekta. Kliknite "Napredna dopuštenja" za nastavak.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Vlasnik</value>
+    <value>Owner:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Nepoznati vlasnik</value>
@@ -1680,11 +1677,11 @@
   <data name="Access" xml:space="preserve">
     <value>Pristup</value>
   </data>
-  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
-    <value>Primjenjuje se na</value>
+  <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
+    <value>Applies to</value>
   </data>
-  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>Entitet</value>
+  <data name="Principal" xml:space="preserve">
+    <value>Principal</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>datoteke</value>
@@ -1695,11 +1692,11 @@
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>podmape</value>
   </data>
-  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
-    <value>Naslijeđeno</value>
+  <data name="Inherited" xml:space="preserve">
+    <value>Inherited</value>
   </data>
-  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
-    <value>Dozvole</value>
+  <data name="Permissions" xml:space="preserve">
+    <value>Permissions</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Nemate dopuštenja za pregled sigurnosnih svojstava ovog objekta. Možete pokušati preuzeti vlasništvo nad ovim objektom.</value>
@@ -1877,9 +1874,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>(Ctrl+Shift+T)</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Raspakiranje arhive je uspješno završeno.</value>
@@ -2669,5 +2663,11 @@
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Izađi iz kompaktnog sloja</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="ToggleSelect" xml:space="preserve">
+    <value>Toggle Selection</value>
   </data>
 </root>

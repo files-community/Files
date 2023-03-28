@@ -75,10 +75,9 @@ namespace Files.App
 						// WINUI3 bug: when launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
 						if (ppm.IsEmpty())
-						{
-							ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Args = new() { "." } } };
-						}
-						await InitializeFromCmdLineArgs(rootFrame, ppm);
+							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+						else
+							await InitializeFromCmdLineArgs(rootFrame, ppm);
 					}
 					else if (rootFrame.Content is null)
 					{
@@ -123,10 +122,9 @@ namespace Files.App
 							case "cmd":
 								var ppm = CommandLineParser.ParseUntrustedCommands(unescapedValue);
 								if (ppm.IsEmpty())
-								{
-									ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Args = new() { "." } } };
-								}
-								await InitializeFromCmdLineArgs(rootFrame, ppm);
+									rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+								else
+									await InitializeFromCmdLineArgs(rootFrame, ppm);
 								break;
 						}
 					}
