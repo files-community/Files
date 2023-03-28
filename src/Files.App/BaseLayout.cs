@@ -1101,11 +1101,8 @@ namespace Files.App
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
 
-			var hovered = GetItemFromElement(sender);
-			if (hovered == hoveredItem)
-				return;
+			hoveredItem = GetItemFromElement(sender);
 
-			hoveredItem = hovered;
 			hoverTimer.Stop();
 			hoverTimer.Debounce(() =>
 			{
@@ -1142,8 +1139,6 @@ namespace Files.App
 				{
 					ItemManipulationModel.SetSelectedItem(hoveredItem);
 				}
-
-				hoveredItem = null;
 			},
 			TimeSpan.FromMilliseconds(600), false);
 		}
