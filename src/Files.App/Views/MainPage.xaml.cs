@@ -253,7 +253,7 @@ namespace Files.App.Views
 		}
 		protected override void OnPreviewKeyUp(KeyRoutedEventArgs e)
 		{
-			base.OnPreviewKeyDown(e);
+			base.OnPreviewKeyUp(e);
 
 			switch (e.Key)
 			{
@@ -267,6 +267,12 @@ namespace Files.App.Views
 					keyReleased = true;
 					break;
 			}
+		}
+		protected override void OnLostFocus(RoutedEventArgs e)
+		{
+			base.OnLostFocus(e);
+
+			keyReleased = true;
 		}
 
 		private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
