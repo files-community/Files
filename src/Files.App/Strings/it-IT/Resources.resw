@@ -243,9 +243,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>Crescente</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>Aggiorna</value>
-  </data>
   <data name="Paste" xml:space="preserve">
     <value>Incolla</value>
   </data>
@@ -316,16 +313,16 @@
     <value>Questa cartella è vuota</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Indietro (Alt + Freccia Sx)</value>
+    <value>Indietro</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Avanti (Alt + Freccia Dx)</value>
+    <value>Avanti</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Livello superiore (Alt + Freccia Sù)</value>
+    <value>Su</value>
   </data>
-  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Aggiorna (F5)</value>
+  <data name="Refresh" xml:space="preserve">
+    <value>Aggiorna</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Cerca (Ctrl + F)</value>
@@ -661,10 +658,10 @@
     <value>Modalità di visualizzazione</value>
   </data>
   <data name="NavigateBack" xml:space="preserve">
-    <value>Posizione precedente</value>
+    <value>Vai indietro</value>
   </data>
   <data name="NavigateForward" xml:space="preserve">
-    <value>Posizione successiva</value>
+    <value>Vai avanti</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Aggiorna la cartella</value>
@@ -1447,7 +1444,7 @@
     <value>Molto piccolo</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>Futuro</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>Oggi</value>
@@ -1462,19 +1459,19 @@
     <value>La settimana scorsa</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>Questo mese</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>Il mese scorso</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>Quest'anno</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>Ultimo anno</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>Anno {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} elemento</value>
@@ -1608,7 +1605,7 @@
   <data name="Allow" xml:space="preserve">
     <value>Consenti</value>
   </data>
-  <data name="SecurityDenyLabel.Text" xml:space="preserve">
+  <data name="Deny" xml:space="preserve">
     <value>Nega</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
@@ -1642,7 +1639,7 @@
     <value>Non hai i permessi necessari per vedere le proprietà di questo oggetto. Clicca "Impostazioni avanzate" per continuare.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Proprietario</value>
+    <value>Proprietario:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Sconosciuto</value>
@@ -1680,11 +1677,11 @@
   <data name="Access" xml:space="preserve">
     <value>Accesso</value>
   </data>
-  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
+  <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
     <value>Si applica a</value>
   </data>
-  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>Entità</value>
+  <data name="Principal" xml:space="preserve">
+    <value>Principale</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>i file</value>
@@ -1695,11 +1692,11 @@
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>le sottocartelle</value>
   </data>
-  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
-    <value>Ereditata</value>
+  <data name="Inherited" xml:space="preserve">
+    <value>Ereditato</value>
   </data>
-  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
-    <value>Autorizzazioni</value>
+  <data name="Permissions" xml:space="preserve">
+    <value>Permessi</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Non hai i permessi necessari per vedere le proprietà di questo oggetto. Puoi provare a diventare proprietario di questo oggetto.</value>
@@ -1877,9 +1874,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maiusc+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maiusc+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Estrazione archivio completata con successo.</value>
@@ -2669,5 +2663,11 @@
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Esci dalla modalità Compact Overlay</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Cambia</value>
+  </data>
+  <data name="ToggleSelect" xml:space="preserve">
+    <value>Alterna Selezione</value>
   </data>
 </root>
