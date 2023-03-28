@@ -3,7 +3,6 @@ using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using Files.App.Filesystem.Security;
 using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Properties;
@@ -15,7 +14,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
-using System.Linq;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
@@ -45,7 +43,7 @@ namespace Files.App.Views.Properties
 		public SecurityViewModel? ViewModel { get; set; }
 
 		public Window window;
-    
+
 		public AppWindow? appWindow;
 
 		private readonly bool _isWinUI3;

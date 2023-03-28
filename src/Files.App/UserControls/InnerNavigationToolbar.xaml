@@ -142,13 +142,13 @@
 					MinWidth="40"
 					AccessKey="M"
 					AutomationProperties.AutomationId="InnerNavigationToolbarRenameButton"
-					Command="{x:Bind ViewModel.Rename, Mode=OneWay}"
-					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=Rename}"
+					Command="{x:Bind Commands.Rename, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.Rename.IsExecutable, Mode=OneWay}"
+					Label="{x:Bind Commands.Rename.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Rename}">
+					ToolTipService.ToolTip="{x:Bind Commands.Rename.LabelWithHotKey}">
 
-					<local:OpacityIcon Style="{StaticResource ColorIconRename}" />
+					<local:OpacityIcon Style="{x:Bind Commands.Rename.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="ShareButton"
