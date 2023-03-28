@@ -2667,4 +2667,7 @@
   <data name="ToggleSelect" xml:space="preserve">
     <value>Toggle Selection</value>
   </data>
+  <data name="ShowFileExtensionWarning" xml:space="preserve">
+    <value>Show warning when changing file extensions</value>
+  </data>
 </root>
