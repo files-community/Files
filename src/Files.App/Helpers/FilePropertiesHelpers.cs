@@ -70,7 +70,7 @@ namespace Files.App.Helpers
 					IsMaximizable = false,
 					MinWidth = 460,
 					MinHeight = 550,
-					Width = 600,
+					Width = 800,
 					Height = 550,
 					Content = frame,
 					Backdrop = new WinUIEx.MicaSystemBackdrop(),
@@ -103,6 +103,7 @@ namespace Files.App.Helpers
 						Y = displayArea.WorkArea.Y
 							+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
 					};
+
 					appWindow.Move(appWindowPos);
 				}
 			}
@@ -111,6 +112,7 @@ namespace Files.App.Helpers
 				var dialog = new PropertiesDialog();
 				dialog.propertiesFrame.Tag = dialog;
 				Navigate(dialog.propertiesFrame);
+
 				await dialog.ShowAsync(ContentDialogPlacement.Popup);
 			}
 
