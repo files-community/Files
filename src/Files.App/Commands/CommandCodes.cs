@@ -33,11 +33,13 @@ namespace Files.App.Commands
 		OpenItemWithApplicationPicker,
 		OpenParentFolder,
 		RefreshItems,
+		Rename,
 
 		// Selection
 		SelectAll,
 		InvertSelection,
 		ClearSelection,
+		ToggleSelect,
 
 		// Share
 		ShareItem,
@@ -141,5 +143,6 @@ namespace Files.App.Commands
 		CloseTabsToTheRightSelected,
 		CloseOtherTabsCurrent,
 		CloseOtherTabsSelected,
+		ReopenClosedTab,
 	}
 }
