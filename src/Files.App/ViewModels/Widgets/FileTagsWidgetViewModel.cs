@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
-using Files.Backend.ViewModels.Widgets.FileTagsWidget;
 using Files.Shared.Utils;
 using System;
 using System.Collections.ObjectModel;

@@ -139,7 +139,7 @@ namespace Files.App.ViewModels
 			if (value == "Home")
 				currentStorageFolder = null;
 			else
-				await jumpListService.AddFolderAsync(value);
+				_ = Task.Run(() => jumpListService.AddFolderAsync(value));
 
 			WorkingDirectory = value;
 			OnPropertyChanged(nameof(WorkingDirectory));

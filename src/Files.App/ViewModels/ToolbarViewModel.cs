@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
+using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
@@ -43,7 +44,7 @@ namespace Files.App.ViewModels
 
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
 
-		private static readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -70,12 +71,6 @@ namespace Files.App.ViewModels
 		public event AddressBarTextEnteredEventHandler? AddressBarTextEntered;
 
 		public event PathBoxItemDroppedEventHandler? PathBoxItemDropped;
-
-		public event EventHandler? BackRequested;
-
-		public event EventHandler? ForwardRequested;
-
-		public event EventHandler? UpRequested;
 
 		public event EventHandler? RefreshRequested;
 
@@ -203,9 +198,6 @@ namespace Files.App.ViewModels
 
 		public ToolbarViewModel()
 		{
-			BackClickCommand = new RelayCommand<RoutedEventArgs>(e => BackRequested?.Invoke(this, EventArgs.Empty));
-			ForwardClickCommand = new RelayCommand<RoutedEventArgs>(e => ForwardRequested?.Invoke(this, EventArgs.Empty));
-			UpClickCommand = new RelayCommand<RoutedEventArgs>(e => UpRequested?.Invoke(this, EventArgs.Empty));
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
 			ViewReleaseNotesCommand = new RelayCommand(DoViewReleaseNotes);
 
@@ -444,9 +436,6 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref pathControlDisplayText, value);
 		}
 
-		public ICommand BackClickCommand { get; }
-		public ICommand ForwardClickCommand { get; }
-		public ICommand UpClickCommand { get; }
 		public ICommand RefreshClickCommand { get; }
 		public ICommand ViewReleaseNotesCommand { get; }
 
@@ -516,8 +505,7 @@ namespace Files.App.ViewModels
 		{
 			if (IsSearchBoxVisible)
 			{
-				SearchBox.Query = string.Empty;
-				IsSearchBoxVisible = false;
+				CloseSearchBox();
 			}
 			else
 			{
@@ -548,6 +536,12 @@ namespace Files.App.ViewModels
 			{
 				SearchBox.Query = string.Empty;
 				IsSearchBoxVisible = false;
+
+				var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
+				if (page is StandardViewBase svb && svb.IsLoaded)
+					page.ItemManipulationModel.FocusFileList();
+				else
+					AddressToolbar?.Focus(FocusState.Programmatic);
 			}
 		}
 
@@ -578,8 +572,6 @@ namespace Files.App.ViewModels
 		public ICommand? ClosePaneCommand { get; set; }
 
 		public ICommand? CreateNewFileCommand { get; set; }
-
-		public ICommand? Rename { get; set; }
 
 		public ICommand? Share { get; set; }
 
@@ -861,7 +853,6 @@ namespace Files.App.ViewModels
 				if (SetProperty(ref selectedItems, value))
 				{
 					OnPropertyChanged(nameof(CanCopy));
-					OnPropertyChanged(nameof(CanRename));
 					OnPropertyChanged(nameof(CanViewProperties));
 					OnPropertyChanged(nameof(CanExtract));
 					OnPropertyChanged(nameof(ExtractToText));
@@ -881,7 +872,6 @@ namespace Files.App.ViewModels
 
 		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1 && InstanceViewModel.IsPageTypeRecycleBin == false;
 		public bool CanViewProperties => true;
 		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
 		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));

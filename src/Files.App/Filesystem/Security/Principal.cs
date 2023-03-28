@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.Extensions;
 using System.Collections.Generic;
 using System.Text;
 using static Vanara.PInvoke.AdvApi32;
@@ -25,11 +24,14 @@ namespace Files.App.Filesystem.Security
 
 		public string? Name { get; set; }
 
-		public string DisplayName
-			=> string.IsNullOrEmpty(Name) ? "SecurityUnknownAccount".GetLocalizedResource() : Name;
+		public string? DisplayName
+			=> string.IsNullOrEmpty(Name) ? Sid : Name;
 
-		public string FullNameOrSid
-			=> string.IsNullOrEmpty(Name) ? Sid : string.IsNullOrEmpty(Domain) ? Name : $"{Domain}\\{Name}";
+		public string? FullNameOrSid
+			=> string.IsNullOrEmpty(Domain) ? Sid : $"{Domain}\\{Name}";
+
+		public string? FullNameHumanized
+			=> string.IsNullOrEmpty(Domain) ? string.Empty : $"({Domain}\\{Name})";
 
 		public List<string> Groups { get; set; }
 

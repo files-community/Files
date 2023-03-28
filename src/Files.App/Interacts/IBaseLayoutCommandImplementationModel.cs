@@ -9,8 +9,6 @@ namespace Files.App.Interacts
 {
 	public interface IBaseLayoutCommandImplementationModel : IDisposable
 	{
-		void RenameItem(RoutedEventArgs e);
-
 		void ShowProperties(RoutedEventArgs e);
 
 		void OpenFileLocation(RoutedEventArgs e);
@@ -30,8 +28,6 @@ namespace Files.App.Interacts
 		Task DragOver(DragEventArgs e);
 
 		Task Drop(DragEventArgs e);
-
-		void RefreshItems(RoutedEventArgs e);
 
 		void SearchUnindexedItems(RoutedEventArgs e);
 

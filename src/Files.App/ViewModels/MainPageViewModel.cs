@@ -7,12 +7,9 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views;
-using Files.Backend.Extensions;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Extensions;
-using Files.Shared.Services;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
@@ -48,8 +45,6 @@ namespace Files.App.ViewModels
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
-		public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
-		public ICommand OpenSettingsCommand { get; private set; }
 
 		public MainPageViewModel(
 			IUserSettingsService userSettings, 
@@ -63,8 +58,6 @@ namespace Files.App.ViewModels
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
 			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
 			CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
-			ReopenClosedTabAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ReopenClosedTabAccelerator);
-			OpenSettingsCommand = new RelayCommand(OpenSettings);
 		}
 
 		private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
@@ -152,19 +145,6 @@ namespace Files.App.ViewModels
 			var tabItem = AppInstances[index];
 			MultitaskingControl?.CloseTab(tabItem);
 			e!.Handled = true;
-		}
-
-		private void ReopenClosedTabAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			(MultitaskingControl as BaseMultitaskingControl)?.ReopenClosedTab(null, null);
-			e!.Handled = true;
-		}
-
-		private async void OpenSettings()
-		{
-			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-			var dialog = dialogService.GetDialog(new SettingsDialogViewModel());
-			await dialog.TryShowAsync();
 		}
 
 		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
@@ -336,7 +316,7 @@ namespace Files.App.ViewModels
 						for (int i = 0; i < items.Length; i++)
 							items[i] = TabItemArguments.Deserialize(userSettingsService.PreferencesSettingsService.LastSessionTabList[i]);
 
-						BaseMultitaskingControl.RecentlyClosedTabs.Add(items);
+						BaseMultitaskingControl.PushRecentTab(items);
 					}
 
 					if (userSettingsService.AppSettingsService.RestoreTabsOnStartup)
