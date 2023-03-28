@@ -28,9 +28,11 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |               | OpenItemWithApplicationPicker       | Open With                                 | Open item(s) with selected application                   |                      |
 |               | OpenParentFolder                    | Open parent folder                        | Open parent folder of searched item                      |                      |
 |               | RefreshItems                        | Refresh                                   | Refresh page contents                                    | Ctrl+R, F5           |
+|               | Rename                              | Rename                                    | Rename selected item                                     | F2                   |
 | Selection     | SelectAll                           | Select All                                | Select all items                                         | Ctrl+A               |
 |               | InvertSelection                     | Invert Selection                          | Invert item selection                                    |                      |
 |               | ClearSelection                      | Clear Selection                           | Clear item selection                                     |                      |
+|               | ToggleSelect                        | Toggle Selection                          | Toggle item selection                                    | Ctrl+Space           |
 | Share         | ShareItem                           | Share                                     | Share selected file(s) with others                       |                      |
 | Start         | PinToStart                          | Pin to the Start Menu                     | Pin item(s) to the Start Menu                            |                      |
 |               | UnpinFromStart                      | Unpin from the Start Menu                 | Unpin item(s) from the Start Menu                        |                      |
@@ -103,3 +105,4 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |               | CloseTabsToTheRightSelected         | Close tabs to the right                   | Close tabs to the right of selected tab                  |                      |
 |               | CloseOtherTabsCurrent               | Close other tabs                          | Close tabs other than current tab                        |                      |
 |               | CloseOtherTabsSelected              | Close other tabs                          | Close tabs other than selected tab                       |                      |
+|               | ReopenClosedTab                     | Reopen closed tab                         | Reopen last closed tab                                   | Ctrl+Shift+T         |
