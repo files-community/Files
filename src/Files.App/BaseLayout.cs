@@ -1135,7 +1135,8 @@ namespace Files.App
 				}
 				else
 				{
-					ItemManipulationModel.SetSelectedItem(hoveredItem);
+					if (SelectedItems is null || !SelectedItems.Contains(hoveredItem))
+						ItemManipulationModel.SetSelectedItem(hoveredItem);
 				}
 
 				hoveredItem = null;
