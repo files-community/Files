@@ -243,9 +243,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>Ascendente</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>Actualizar</value>
-  </data>
   <data name="Paste" xml:space="preserve">
     <value>Pegar</value>
   </data>
@@ -324,8 +321,8 @@
   <data name="Up" xml:space="preserve">
     <value>Arriba (Alt+Flecha Arriba)</value>
   </data>
-  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Refrescar (F5)</value>
+  <data name="Refresh" xml:space="preserve">
+    <value>Actualizar</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Buscar (Ctrl+F)</value>
@@ -1447,7 +1444,7 @@
     <value>Muy pequeño</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>Futuro</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>Hoy</value>
@@ -1462,19 +1459,19 @@
     <value>La semana pasada</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>A principios de este mes</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>El mes pasado</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>A principios de este año</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>El año pasado</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>Año {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} elemento</value>
@@ -1608,7 +1605,7 @@
   <data name="Allow" xml:space="preserve">
     <value>Permitir</value>
   </data>
-  <data name="SecurityDenyLabel.Text" xml:space="preserve">
+  <data name="Deny" xml:space="preserve">
     <value>Denegar</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
@@ -1642,7 +1639,7 @@
     <value>No tiene permisos para ver las propiedades de seguridad de este objeto. Haga clic en "Permisos avanzados" para continuar.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Propietario</value>
+    <value>Propietario:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Propietario desconocido</value>
@@ -1680,11 +1677,11 @@
   <data name="Access" xml:space="preserve">
     <value>Acceso</value>
   </data>
-  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
+  <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
     <value>Se aplica a</value>
   </data>
-  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>Entidad</value>
+  <data name="Principal" xml:space="preserve">
+    <value>Principal</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>archivos</value>
@@ -1695,10 +1692,10 @@
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>subcarpetas</value>
   </data>
-  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
+  <data name="Inherited" xml:space="preserve">
     <value>Heredado</value>
   </data>
-  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
+  <data name="Permissions" xml:space="preserve">
     <value>Permisos</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
@@ -1877,9 +1874,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Mayús+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>La extracción se completó correctamente.</value>
@@ -2669,5 +2663,11 @@
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Salir de superposición compacta</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Cambiar</value>
+  </data>
+  <data name="ToggleSelect" xml:space="preserve">
+    <value>Cambiar selección</value>
   </data>
 </root>
