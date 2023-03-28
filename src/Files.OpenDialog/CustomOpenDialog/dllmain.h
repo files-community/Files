@@ -1,8 +1,8 @@
-// Copyright (c) 2023 Files
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 // Abstract:
-//  declaration of module class
+//  declaration of module class.
 
 class CCustomOpenDialogModule :
 	public ATL::CAtlDllModuleT<CCustomOpenDialogModule>
