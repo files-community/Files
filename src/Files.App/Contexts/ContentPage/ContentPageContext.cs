@@ -45,6 +45,8 @@ namespace Files.App.Contexts
 
 		public bool CanNavigateToParent => ShellPage is not null && ShellPage.ToolbarViewModel.CanNavigateToParent;
 
+		public bool IsSearchBoxVisible => ShellPage is not null && ShellPage.ToolbarViewModel.IsSearchBoxVisible;
+
 		public ContentPageContext()
 		{
 			context.Changing += Context_Changing;
@@ -124,6 +126,7 @@ namespace Files.App.Contexts
 				case nameof(ToolbarViewModel.CanNavigateToParent):
 				case nameof(ToolbarViewModel.HasItem):
 				case nameof(ToolbarViewModel.CanRefresh):
+				case nameof(ToolbarViewModel.IsSearchBoxVisible):
 					OnPropertyChanged(e.PropertyName);
 					break;
 				case nameof(ToolbarViewModel.SelectedItems):

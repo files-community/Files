@@ -24,5 +24,7 @@ namespace Files.App.Contexts
 		bool CanGoBack { get; }
 		bool CanGoForward { get; }
 		bool CanNavigateToParent { get; }
+
+		bool IsSearchBoxVisible { get; }
 	}
 }
