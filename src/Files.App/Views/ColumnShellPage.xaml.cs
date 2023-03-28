@@ -119,15 +119,6 @@ namespace Files.App.Views
 							  CurrentPageType == typeof(ColumnViewBrowser) ||
 							  CurrentPageType == typeof(ColumnViewBase);
 
-			// F2, rename
-			if (args.KeyboardAccelerator.Key is VirtualKey.F2
-				&& tabInstance
-				&& ContentPage.IsItemSelected)
-			{
-				ContentPage.ItemManipulationModel.StartRenameItem();
-				return;
-			}
-
 			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
 			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
 			var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
@@ -187,11 +178,6 @@ namespace Files.App.Views
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
 						await FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
 					}
-					break;
-
-				case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
-					if (ToolbarViewModel.CanRefresh)
-						Refresh_Click();
 					break;
 
 				case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
