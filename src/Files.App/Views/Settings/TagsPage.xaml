@@ -48,7 +48,7 @@
 				HorizontalAlignment="Stretch"
 				IsExpanded="True">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE1CB;" />
+					<FontIcon Glyph="&#xE8EC;" />
 				</local:SettingsBlockControl.Icon>
 
 				<Button Command="{x:Bind ViewModel.AddTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=NewTag}" />
@@ -94,7 +94,7 @@
 										<FontIcon
 											Margin="8,4,10,4"
 											FontSize="12"
-											Glyph="&#xE019;" />
+											Glyph="&#xE70D;" />
 									</StackPanel>
 									<Button.Flyout>
 										<Flyout>
@@ -191,7 +191,7 @@
 											<FontIcon
 												FontSize="12"
 												Foreground="{x:Bind NewColor, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-												Glyph="&#xE1CB;" />
+												Glyph="&#xE8EC;" />
 											<TextBlock
 												x:Name="TagName"
 												Padding="8,0,0,0"
@@ -233,7 +233,7 @@
 													<FontIcon
 														Margin="8,4,10,4"
 														FontSize="12"
-														Glyph="&#xE019;" />
+														Glyph="&#xE70D;" />
 												</StackPanel>
 												<Button.Flyout>
 													<Flyout>
