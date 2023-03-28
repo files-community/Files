@@ -1134,7 +1134,7 @@ namespace Files.App
 					}
 				}
 				else if (SelectedItems is null ||
-					!SelectedItems.Contains(hoveredItem))
+					SelectedItems.Count <= 1)
 				{
 					ItemManipulationModel.SetSelectedItem(hoveredItem);
 				}
