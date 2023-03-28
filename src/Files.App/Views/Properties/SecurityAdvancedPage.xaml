@@ -134,7 +134,7 @@
 
 					<HyperlinkButton VerticalAlignment="Center" Command="{x:Bind ViewModel.ChangeOwnerCommand}">
 						<StackPanel Orientation="Horizontal" Spacing="6">
-							<FontIcon FontSize="14" Glyph="&#xE104;" />
+							<FontIcon FontSize="14" Glyph="&#xE70F;" />
 							<TextBlock Text="{helpers:ResourceString Name=Change}" />
 						</StackPanel>
 					</HyperlinkButton>
@@ -181,7 +181,7 @@
 							Background="Transparent"
 							BorderBrush="Transparent"
 							Command="{x:Bind ViewModel.AddAccessControlEntryCommand, Mode=OneWay}">
-							<FontIcon FontSize="16" Glyph="&#xE109;" />
+							<FontIcon FontSize="16" Glyph="&#xE710;" />
 						</Button>
 
 						<Button
@@ -189,7 +189,7 @@
 							Background="Transparent"
 							BorderBrush="Transparent"
 							Command="{x:Bind ViewModel.RemoveAccessControlEntryCommand, Mode=OneWay}">
-							<FontIcon FontSize="16" Glyph="&#xE108;" />
+							<FontIcon FontSize="16" Glyph="&#xE738;" />
 						</Button>
 
 					</StackPanel>

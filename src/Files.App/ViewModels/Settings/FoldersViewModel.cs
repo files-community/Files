@@ -407,6 +407,20 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowFileExtensionWarning
+		{
+			get => UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning)
+				{
+					UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public void ResetLayoutPreferences()
 		{
 			// Is this proper practice?
