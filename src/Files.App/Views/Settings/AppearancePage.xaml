@@ -157,7 +157,7 @@
 			<!--  Compact Spacing  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=UseCompactSpacing}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE8FD;" />
+					<FontIcon Glyph="&#xE62B;" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=UseCompactSpacing}"
