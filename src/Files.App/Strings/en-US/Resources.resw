@@ -2666,6 +2666,7 @@
   </data>
   <data name="Change" xml:space="preserve">
     <value>Change</value>
+  </data>
   <data name="ToggleSelect" xml:space="preserve">
     <value>Toggle Selection</value>
   </data>
