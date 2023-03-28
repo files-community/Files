@@ -1,14 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.ServicesImplementation.Settings;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using System;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.System.Profile;
 
 namespace Files.App.DataModels
 {

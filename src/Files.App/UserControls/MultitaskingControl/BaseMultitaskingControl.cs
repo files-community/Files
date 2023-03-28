@@ -7,15 +7,26 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
-	public class BaseMultitaskingControl : UserControl, IMultitaskingControl, INotifyPropertyChanged
+	public class BaseMultitaskingControl : UserControl, IMultitaskingControl
 	{
 		public static event EventHandler<IMultitaskingControl>? OnLoaded;
 
-		private static bool isRestoringClosedTab = false; // Avoid reopening two tabs
+		public static event PropertyChangedEventHandler? StaticPropertyChanged;
+
+		private static bool isRestoringClosedTab;
+		// Avoid reopening two tabs
+		public static bool IsRestoringClosedTab
+		{
+			get => isRestoringClosedTab;
+			private set
+			{
+				isRestoringClosedTab = value;
+				StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(IsRestoringClosedTab)));
+			}
+		}
 
 		protected ITabItemContent CurrentSelectedAppInstance;
 
@@ -24,8 +35,6 @@ namespace Files.App.UserControls.MultitaskingControl
 		public const string TabPathIdentifier = "FilesTabViewItemPath";
 
 		public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
-
-		public event PropertyChangedEventHandler PropertyChanged;
 
 		public virtual DependencyObject ContainerFromItem(ITabItem item)
 		{
@@ -42,7 +51,13 @@ namespace Files.App.UserControls.MultitaskingControl
 		public ObservableCollection<TabItem> Items => MainPageViewModel.AppInstances;
 
 		// RecentlyClosedTabs is shared between all multitasking controls
-		public static List<TabItemArguments[]> RecentlyClosedTabs { get; private set; } = new List<TabItemArguments[]>();
+		public static Stack<TabItemArguments[]> RecentlyClosedTabs { get; private set; } = new();
+
+		public static void PushRecentTab(TabItemArguments[] tab)
+		{
+			RecentlyClosedTabs.Push(tab);
+			StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(RecentlyClosedTabs)));
+		}
 
 		private void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
 		{
@@ -103,18 +118,16 @@ namespace Files.App.UserControls.MultitaskingControl
 			return MainPageViewModel.AppInstances.Select(x => x.Control?.TabItemContent).ToList();
 		}
 
-		public async void ReopenClosedTab(object sender, RoutedEventArgs e)
+		public async void ReopenClosedTab()
 		{
-			if (!isRestoringClosedTab && RecentlyClosedTabs.Any())
+			if (!IsRestoringClosedTab && RecentlyClosedTabs.Count > 0)
 			{
-				isRestoringClosedTab = true;
-				var lastTab = RecentlyClosedTabs.Last();
-				RecentlyClosedTabs.Remove(lastTab);
+				IsRestoringClosedTab = true;
+				var lastTab = RecentlyClosedTabs.Pop();
 				foreach (var item in lastTab)
-				{
 					await MainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationArg);
-				}
-				isRestoringClosedTab = false;
+
+				IsRestoringClosedTab = false;
 			}
 		}
 
@@ -133,15 +146,10 @@ namespace Files.App.UserControls.MultitaskingControl
 			{
 				Items.Remove(tabItem);
 				tabItem?.Unload(); // Dispose and save tab arguments
-				RecentlyClosedTabs.Add(new TabItemArguments[] {
+				RecentlyClosedTabs.Push(new TabItemArguments[] {
 					tabItem.TabItemArguments
 				});
 			}
-		}
-
-		protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		public void SetLoadingIndicatorStatus(ITabItem item, bool loading)

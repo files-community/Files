@@ -243,9 +243,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>จากน้อยไปหามาก</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>รีเฟรช</value>
-  </data>
   <data name="Paste" xml:space="preserve">
     <value>วาง</value>
   </data>
@@ -324,8 +321,8 @@
   <data name="Up" xml:space="preserve">
     <value>ขึ้นไป (Alt+Up Arrow)</value>
   </data>
-  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>รีเฟรช (F5)</value>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ค้นหา (Ctrl+F)</value>
@@ -1482,7 +1479,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} รายการ</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>เปิดแท็บที่ปิดขึ้นใหม่</value>
   </data>
   <data name="Rename" xml:space="preserve">
@@ -1608,8 +1605,8 @@
   <data name="Allow" xml:space="preserve">
     <value>อนุญาต</value>
   </data>
-  <data name="SecurityDenyLabel.Text" xml:space="preserve">
-    <value>ปฏิเสธ</value>
+  <data name="Deny" xml:space="preserve">
+    <value>Deny</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>ควบคุมทั้งหมด</value>
@@ -1642,7 +1639,7 @@
     <value>คุณต้องมีสิทธิ์ในการอ่านเพื่อดูคุณสมบัติของไฟล์นี้ คลิก "ขั้นสูง" เพื่อดำเนินการต่อ</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>เจ้าของ</value>
+    <value>Owner:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>เจ้าของไม่ทราบชื่อ</value>
@@ -1680,11 +1677,11 @@
   <data name="Access" xml:space="preserve">
     <value>การเข้าถึง</value>
   </data>
-  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
-    <value>มีผลบังคับกับ</value>
+  <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
+    <value>Applies to</value>
   </data>
-  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>กลุ่ม</value>
+  <data name="Principal" xml:space="preserve">
+    <value>Principal</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>ไฟล์</value>
@@ -1695,11 +1692,11 @@
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>โฟลเดอร์ย่อย</value>
   </data>
-  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
-    <value>สืบทอดสิทธิ์</value>
+  <data name="Inherited" xml:space="preserve">
+    <value>Inherited</value>
   </data>
-  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
-    <value>สิทธิ์</value>
+  <data name="Permissions" xml:space="preserve">
+    <value>Permissions</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>คุณไม่มีสิทธิ์เข้าถึงที่จะสามารถดูข้อมูลเกี่ยวกับเจ้าของและสิทธิ์ของไฟล์นี้. คุณสามารถเปลี่ยนเจ้าของเพื่อดูสิทธิ์ได้.</value>
@@ -1877,9 +1874,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>แยกไฟล์เสร็จสมบูรณ์</value>
@@ -2669,5 +2663,11 @@
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>ออกจากหน้าต่างย่อ</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="ToggleSelect" xml:space="preserve">
+    <value>Toggle Selection</value>
   </data>
 </root>

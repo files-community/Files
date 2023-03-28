@@ -1,4 +1,3 @@
-using Files.App.Commands;
 using Files.App.UserControls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
