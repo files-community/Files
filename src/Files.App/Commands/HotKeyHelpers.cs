@@ -2,9 +2,11 @@
 using Microsoft.UI.Input;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 using System.Text;
 using Windows.System;
 using Windows.UI.Core;
+using Forms = System.Windows.Forms;
 
 namespace Files.App.Commands
 {
@@ -117,9 +119,20 @@ namespace Files.App.Commands
 			[VirtualKey.Subtract] = "-",
 			[VirtualKey.Multiply] = "*",
 			[VirtualKey.Divide] = "/",
-			[(VirtualKey)188] = ",",
-			[(VirtualKey)190] = ".",
-			[(VirtualKey)192] = "`",
+			[(VirtualKey)186] = GetCharacter(Forms.Keys.Oem1),
+			[(VirtualKey)187] = GetCharacter(Forms.Keys.Oemplus),
+			[(VirtualKey)188] = GetCharacter(Forms.Keys.Oemcomma),
+			[(VirtualKey)189] = GetCharacter(Forms.Keys.OemMinus),
+			[(VirtualKey)190] = GetCharacter(Forms.Keys.OemPeriod),
+			[(VirtualKey)191] = GetCharacter(Forms.Keys.Oem2),
+			[(VirtualKey)192] = GetCharacter(Forms.Keys.Oem3),
+			[(VirtualKey)219] = GetCharacter(Forms.Keys.Oem4),
+			[(VirtualKey)220] = GetCharacter(Forms.Keys.Oem5),
+			[(VirtualKey)221] = GetCharacter(Forms.Keys.Oem6),
+			[(VirtualKey)222] = GetCharacter(Forms.Keys.Oem7),
+			[(VirtualKey)223] = GetCharacter(Forms.Keys.Oem8),
+			[(VirtualKey)226] = GetCharacter(Forms.Keys.Oem102),
+			[(VirtualKey)254] = GetCharacter(Forms.Keys.OemClear),
 			[VirtualKey.Application] = "Application".GetString(),
 			[(VirtualKey)182] = "Application1".GetString(),
 			[(VirtualKey)183] = "Application2".GetString(),
@@ -248,5 +261,26 @@ namespace Files.App.Commands
 		}
 
 		private static string GetString(this string key) => $"Key/{key}".GetLocalizedResource();
+
+		private static string GetCharacter(Forms.Keys key)
+		{
+			var buffer = new StringBuilder(256);
+			var state = new byte[256];
+			_ = ToUnicode((uint)key, 0, state, buffer, 256, 0);
+			return buffer.ToString();
+		}
+
+		[DllImport("user32.dll")]
+		private static extern int ToUnicode
+		(
+			uint virtualKeyCode,
+			uint scanCode,
+			byte[] keyboardState,
+			[Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)] StringBuilder receivingBuffer,
+			int bufferSize,
+			uint flags
+		);
+
+
 	}
 }
