@@ -43,7 +43,7 @@ namespace Files.App.Views.Properties
 		public SecurityViewModel? ViewModel { get; set; }
 
 		public Window window;
-    
+
 		public AppWindow? appWindow;
 
 		private readonly bool _isWinUI3;
