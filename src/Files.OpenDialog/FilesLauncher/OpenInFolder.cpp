@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Files
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 #include "OpenInFolder.h"
@@ -70,7 +70,6 @@ LRESULT CALLBACK OpenInFolder::WindowProcedure(HWND hwnd, UINT Msg, WPARAM wPara
 	return DefWindowProc(hwnd, Msg, wParam, lParam);
 }
 
-
 HRESULT OpenInFolder::NotifyShellOfNavigation(PCIDLIST_ABSOLUTE pidl)
 {
 	wil::unique_variant pidlVariant;
@@ -79,26 +78,11 @@ HRESULT OpenInFolder::NotifyShellOfNavigation(PCIDLIST_ABSOLUTE pidl)
 	wil::unique_variant empty;
 	RETURN_IF_FAILED(m_shellWindows->RegisterPending(GetCurrentThreadId(), &pidlVariant, &empty, SWC_BROWSER, &m_shellWindowCookie));
 
-//	auto document = winrt::make_self<DocumentServiceProvider>();
-//	auto shellView = winrt::make_self<ShellView>(this, pidl);
-//	document->RegisterService(IID_IFolderView, shellView.get());
-//	auto browserApp = winrt::make_self<WebBrowserApp>(m_hwnd, document.get());
-//	long registeredCookie;
-//
-//// Supress:
-////  - 'reinterpret_cast': pointer truncation from 'HWND' to 'long',
-////  - 'reinterpret_cast': truncation from 'HWND' to 'long'
-//#pragma warning(push)
-//#pragma warning(disable : 4311 4302)
-//	RETURN_IF_FAILED(m_shellWindows->Register(browserApp.get(), reinterpret_cast<long>(m_hwnd), SWC_BROWSER, &registeredCookie));
-//#pragma warning(pop)
-
 	m_shellWindows->OnNavigate(m_shellWindowCookie, &pidlVariant);
 	//m_shellWindows->OnActivated(m_shellWindowCookie, VARIANT_TRUE);
 
 	return S_OK;
 }
-
 
 void OpenInFolder::OnItemSelected(PIDLIST_ABSOLUTE pidl)
 {
