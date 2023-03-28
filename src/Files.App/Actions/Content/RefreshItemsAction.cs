@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -9,7 +10,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class RefreshItemsAction : ObservableObject, IAction
+	internal class RefreshItemsAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -22,7 +23,7 @@ namespace Files.App.Actions
 
         public HotKey SecondHotKey { get; } = new(VirtualKey.F5);
         
-		public bool IsExecutable => context.CanRefresh;
+		public bool CanExecute => context.CanRefresh;
 
 		public RefreshItemsAction()
 		{
@@ -39,7 +40,7 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.CanRefresh):
-					OnPropertyChanged(nameof(IsExecutable));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -9,7 +10,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class NavigateBackAction : ObservableObject, IAction
+	internal class NavigateBackAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -24,7 +25,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new("\uE72B");
 
-		public bool IsExecutable => context.CanGoBack;
+		public bool CanExecute => context.CanGoBack;
 
 		public NavigateBackAction()
 		{
@@ -42,7 +43,7 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.CanGoBack):
-					OnPropertyChanged(nameof(IsExecutable));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}

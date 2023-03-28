@@ -262,7 +262,7 @@ namespace Files.App.Views.LayoutModes
 				var commands = Ioc.Default.GetRequiredService<ICommandManager>();
 				var hotKey = new HotKey(VirtualKey.A, VirtualKeyModifiers.Control);
 
-				await commands[hotKey].ExecuteAsync();
+				commands[hotKey].Execute(null);
 
 				return;
 			}

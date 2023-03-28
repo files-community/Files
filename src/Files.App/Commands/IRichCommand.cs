@@ -17,9 +17,7 @@ namespace Files.App.Commands
 
 		string Description { get; }
 
-		RichGlyph Glyph { get; }
-		object? Icon { get; }
-		FontIcon? FontIcon { get; }
+		IconSource Glyph { get; }
 		Style? OpacityStyle { get; }
 
 		string? HotKeyText { get; }
@@ -30,9 +28,9 @@ namespace Files.App.Commands
 
 		bool IsToggle { get; }
 		bool IsOn { get; set; }
-		bool IsExecutable { get; }
+		bool CanExecute(object? obj);
 
-		Task ExecuteAsync();
+		void Execute(object? obj);
 		void ExecuteTapped(object sender, TappedRoutedEventArgs e);
 	}
 }

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class UnpinItemAction : ObservableObject, IAction
+	internal class UnpinItemAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly IQuickAccessService service = Ioc.Default.GetRequiredService<IQuickAccessService>();
@@ -23,13 +24,11 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconUnpinFromFavorites");
 
-		private bool isExecutable;
-		public bool IsExecutable => isExecutable;
+
+		public bool CanExecute => GetIsExecutable();
 
 		public UnpinItemAction()
 		{
-			isExecutable = GetIsExecutable();
-
 			context.PropertyChanged += Context_PropertyChanged;
 			App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
 		}
@@ -62,7 +61,7 @@ namespace Files.App.Actions
 		}
 		private void UpdateIsExecutable()
 		{
-			SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+			NotifyCanExecuteChanged();
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

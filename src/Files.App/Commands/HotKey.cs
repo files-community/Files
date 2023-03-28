@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -36,6 +37,11 @@ namespace Files.App.Commands
 			[VirtualKey.Delete] = "Del",
 			[(VirtualKey)192] = "`",
 		}.ToImmutableDictionary();
+
+		public static HotKey FromKeyboardAccelerator(KeyboardAccelerator accelerator)
+		{
+			return new HotKey(accelerator.Key, accelerator.Modifiers);
+		}
 
 		public static HotKey None { get; } = new(VirtualKey.None, VirtualKeyModifiers.None);
 

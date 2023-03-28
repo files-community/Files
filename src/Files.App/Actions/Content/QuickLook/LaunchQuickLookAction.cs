@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -9,13 +10,13 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class LaunchQuickLookAction : ObservableObject, IAction
+	internal class LaunchQuickLookAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public HotKey HotKey { get; } = new(VirtualKey.Space);
 
-		public bool IsExecutable => context.SelectedItems.Count == 1 &&
+		public bool CanExecute => context.SelectedItems.Count == 1 &&
 			(!context.ShellPage?.ToolbarViewModel?.IsEditModeEnabled ?? false) &&
 			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
 
@@ -38,7 +39,7 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.SelectedItems):
-					OnPropertyChanged(nameof(IsExecutable));
+					NotifyCanExecuteChanged();
 					var _ = SwitchQuickLookPreview();
 					break;
 			}
@@ -46,7 +47,7 @@ namespace Files.App.Actions
 
 		private async Task SwitchQuickLookPreview()
 		{
-			if (IsExecutable)
+			if (CanExecute)
 				await QuickLookHelpers.ToggleQuickLook(context.SelectedItem!.ItemPath, true);
 		}
 	}

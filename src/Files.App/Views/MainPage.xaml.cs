@@ -245,8 +245,8 @@ namespace Files.App.Views
 					if (command.Code is not CommandCodes.None && keyReleased)
 					{
 						keyReleased = false;
-						e.Handled = command.IsExecutable;
-						await command.ExecuteAsync();
+						e.Handled = command.CanExecute(null);
+						command.Execute(null);
 					}
 					break;
 			}

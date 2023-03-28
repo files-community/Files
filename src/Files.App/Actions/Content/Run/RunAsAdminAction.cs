@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -9,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class RunAsAdminAction : ObservableObject, IAction
+	internal class RunAsAdminAction : XamlUICommand
 	{
 		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
-		public bool IsExecutable => context.SelectedItem is not null &&
+		public bool CanExecute => context.SelectedItem is not null &&
 			FileExtensionHelpers.IsExecutableFile(context.SelectedItem.FileExtension);
 		public string Label => "RunAsAdministrator".GetLocalizedResource();
 		public string Description => "TODO: Need to be described.";
@@ -34,7 +35,7 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.SelectedItems):
 				case nameof(IContentPageContext.Folder):
-					OnPropertyChanged(nameof(IsExecutable));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}

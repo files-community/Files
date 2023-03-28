@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -9,7 +10,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class NavigateForwardAction : ObservableObject, IAction
+	internal class NavigateForwardAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -23,7 +24,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new("\uE72A");
 
-		public bool IsExecutable => context.CanGoForward;
+		public bool CanExecute => context.CanGoForward;
 
 		public NavigateForwardAction()
 		{
@@ -41,7 +42,7 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.CanGoForward):
-					OnPropertyChanged(nameof(IsExecutable));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -11,7 +12,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class ToggleCompactOverlayAction : ObservableObject, IToggleAction
+	internal class ToggleCompactOverlayAction : ToggleAction
 	{
 		private readonly IWindowContext windowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 
@@ -50,7 +51,7 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IWindowContext.IsCompactOverlay):
-					OnPropertyChanged(nameof(IsOn));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}

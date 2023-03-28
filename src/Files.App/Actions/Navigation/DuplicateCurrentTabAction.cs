@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Views;
@@ -7,7 +8,7 @@ using static Files.App.ViewModels.MainPageViewModel;
 
 namespace Files.App.Actions
 {
-	internal class DuplicateCurrentTabAction : IAction
+	internal class DuplicateCurrentTabAction : XamlUICommand
 	{
 		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 

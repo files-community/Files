@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Extensions;
 using Files.Backend.Extensions;
@@ -9,7 +10,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class OpenSettingsAction : IAction
+	internal class OpenSettingsAction : XamlUICommand
 	{
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 

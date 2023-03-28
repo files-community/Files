@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class SetAsSlideshowBackgroundAction : ObservableObject, IAction
+	internal class SetAsSlideshowBackgroundAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -20,12 +21,10 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new("\uE91B");
 
-		private bool isExecutable;
-		public bool IsExecutable => isExecutable;
+		public bool CanExecute => GetIsExecutable();
 
 		public SetAsSlideshowBackgroundAction()
 		{
-			isExecutable = GetIsExecutable();
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -47,7 +46,7 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.PageType):
 				case nameof(IContentPageContext.SelectedItems):
-					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}

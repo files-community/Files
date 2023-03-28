@@ -1,4 +1,5 @@
-﻿using Files.App.Commands;
+﻿using Microsoft.UI.Xaml.Input;
+using Files.App.Commands;
 using Files.App.Extensions;
 using System;
 using System.Threading.Tasks;
@@ -6,7 +7,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class OpenHelpAction : IAction
+	internal class OpenHelpAction : XamlUICommand
 	{
 		public string Label { get; } = "Help".GetLocalizedResource();
 

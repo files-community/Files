@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -12,7 +13,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class PasteItemToSelectionAction : ObservableObject, IAction
+	internal class PasteItemToSelectionAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -24,12 +25,12 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.V, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
-		private bool isExecutable;
-		public bool IsExecutable => isExecutable;
+
+		public bool CanExecute => GetIsExecutable();
 
 		public PasteItemToSelectionAction()
 		{
-			isExecutable = GetIsExecutable();
+
 
 			context.PropertyChanged += Context_PropertyChanged;
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
@@ -64,14 +65,14 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.PageType):
 				case nameof(IContentPageContext.SelectedItem):
-					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}
 		private void AppModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(AppModel.IsPasteEnabled))
-				SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+				NotifyCanExecuteChanged();
 		}
 	}
 }

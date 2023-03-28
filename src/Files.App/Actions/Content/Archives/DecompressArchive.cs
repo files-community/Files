@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -10,7 +11,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class DecompressArchive : ObservableObject, IAction
+	internal class DecompressArchive : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -20,7 +21,7 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.E, VirtualKeyModifiers.Control);
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
+		public bool CanExecute => IsContextPageTypeAdaptedToCommand()
 										&& ArchiveHelpers.CanDecompress(context.SelectedItems);
 
 		public DecompressArchive()
@@ -46,7 +47,7 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.SelectedItems):
 					if (IsContextPageTypeAdaptedToCommand())
-						OnPropertyChanged(nameof(IsExecutable));
+						NotifyCanExecuteChanged();
 					break;
 			}
 		}

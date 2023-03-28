@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -8,19 +9,19 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CloseOtherTabsSelectedAction : ObservableObject, IAction
+	internal class CloseOtherTabsSelectedAction : XamlUICommand
 	{
 		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 
 		public string Label { get; } = "CloseOtherTabs".GetLocalizedResource();
 		public string Description => "TODO: Need to be described.";
 
-		private bool isExecutable;
-		public bool IsExecutable => isExecutable;
+
+		public bool CanExecute => GetIsExecutable();
 
 		public CloseOtherTabsSelectedAction()
 		{
-			isExecutable = GetIsExecutable();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -44,7 +45,7 @@ namespace Files.App.Actions
 			{
 				case nameof(IMultitaskingContext.Control):
 				case nameof(IMultitaskingContext.TabCount):
-					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}

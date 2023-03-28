@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class InstallInfDriverAction : ObservableObject, IAction
+	internal class InstallInfDriverAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -20,7 +21,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new("\uE9F5");
 
-		public bool IsExecutable => context.SelectedItems.Count == 1 &&
+		public bool CanExecute => context.SelectedItems.Count == 1 &&
 			FileExtensionHelpers.IsInfFile(context.SelectedItems[0].FileExtension) &&
 			context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder;
 
@@ -41,7 +42,7 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.SelectedItems):
 				case nameof(IContentPageContext.PageType):
-					OnPropertyChanged(nameof(IsExecutable));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}

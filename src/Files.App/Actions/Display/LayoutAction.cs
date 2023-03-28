@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -75,7 +76,7 @@ namespace Files.App.Actions
 
 		public override string Label { get; } = "Adaptive".GetLocalizedResource();
 
-		public override bool IsExecutable => Context.IsLayoutAdaptiveEnabled;
+		public override bool CanExecute => Context.IsLayoutAdaptiveEnabled;
 
 		public override RichGlyph Glyph { get; } = new("\uF576");
 		public override HotKey HotKey { get; } = new(VirtualKey.Number7, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
@@ -83,11 +84,11 @@ namespace Files.App.Actions
 		protected override void OnContextChanged(string propertyName)
 		{
 			if (propertyName is nameof(IDisplayPageContext.IsLayoutAdaptiveEnabled))
-				OnPropertyChanged(nameof(IsExecutable));
+				NotifyCanExecuteChanged();
 		}
 	}
 
-	internal abstract class ToggleLayoutAction : ObservableObject, IToggleAction
+	internal abstract class ToggleLayoutAction : ToggleAction
 	{
 		protected IDisplayPageContext Context { get; } = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
@@ -100,14 +101,12 @@ namespace Files.App.Actions
 		public abstract RichGlyph Glyph { get; }
 		public abstract HotKey HotKey { get; }
 
-		private bool isOn;
-		public bool IsOn => isOn;
+		public bool IsOn => Context.LayoutType == LayoutType;
 
-		public virtual bool IsExecutable => true;
+		public virtual bool CanExecute => true;
 
 		public ToggleLayoutAction()
 		{
-			isOn = Context.LayoutType == LayoutType;
 			Context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -120,7 +119,7 @@ namespace Files.App.Actions
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IDisplayPageContext.LayoutType))
-				SetProperty(ref isOn, Context.LayoutType == LayoutType, nameof(IsOn));
+				NotifyCanExecuteChanged();
 
 			if (e.PropertyName is not null)
 				OnContextChanged(e.PropertyName);
@@ -129,7 +128,7 @@ namespace Files.App.Actions
 		protected virtual void OnContextChanged(string propertyName) { }
 	}
 
-	internal class LayoutDecreaseSizeAction : IAction
+	internal class LayoutDecreaseSizeAction : XamlUICommand
 	{
 		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
@@ -147,7 +146,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal class LayoutIncreaseSizeAction : IAction
+	internal class LayoutIncreaseSizeAction : XamlUICommand
 	{
 		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 

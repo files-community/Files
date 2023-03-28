@@ -1,4 +1,5 @@
-﻿using Files.App.Commands;
+﻿using Microsoft.UI.Xaml.Input;
+using Files.App.Commands;
 using Files.App.Extensions;
 using Microsoft.UI.Windowing;
 using System.Threading.Tasks;
@@ -6,7 +7,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class ToggleFullScreenAction : IToggleAction
+	internal class ToggleFullScreenAction : ToggleAction
 	{
 		public string Label { get; } = "FullScreen".GetLocalizedResource();
 

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -10,7 +11,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class ReopenClosedTabAction : ObservableObject, IAction
+	internal class ReopenClosedTabAction : XamlUICommand
 	{
 		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 
@@ -20,7 +21,7 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.T, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
-		public bool IsExecutable =>
+		public bool CanExecute =>
 			context.Control is not null &&
 			!BaseMultitaskingControl.IsRestoringClosedTab &&
 			BaseMultitaskingControl.RecentlyClosedTabs.Count > 0;
@@ -40,12 +41,12 @@ namespace Files.App.Actions
 		private void Context_PropertyChanged(object? _, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IMultitaskingContext.Control))
-				OnPropertyChanged(nameof(IsExecutable));
+				NotifyCanExecuteChanged();
 		}
 
 		private void BaseMultitaskingControl_StaticPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			OnPropertyChanged(nameof(IsExecutable));
+			NotifyCanExecuteChanged();
 		}
 	}
 }

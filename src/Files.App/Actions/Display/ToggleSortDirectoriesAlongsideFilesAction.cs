@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class ToggleSortDirectoriesAlongsideFilesAction : ObservableObject, IToggleAction
+	internal class ToggleSortDirectoriesAlongsideFilesAction : ToggleAction
 	{
 		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
@@ -31,7 +32,7 @@ namespace Files.App.Actions
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IDisplayPageContext.SortDirectoriesAlongsideFiles))
-				OnPropertyChanged(nameof(IsOn));
+				NotifyCanExecuteChanged();
 		}
 	}
 }

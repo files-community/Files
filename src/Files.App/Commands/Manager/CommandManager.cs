@@ -152,7 +152,7 @@ namespace Files.App.Commands
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 		public IEnumerator<IRichCommand> GetEnumerator() => commands.Values.GetEnumerator();
 
-		private static IDictionary<CommandCodes, IAction> CreateActions() => new Dictionary<CommandCodes, IAction>
+		private static IDictionary<CommandCodes, XamlUICommand> CreateActions() => new Dictionary<CommandCodes, XamlUICommand>
 		{
 			[CommandCodes.OpenHelp] = new OpenHelpAction(),
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
@@ -273,7 +273,7 @@ namespace Files.App.Commands
 
 			public string Description => string.Empty;
 
-			public RichGlyph Glyph => RichGlyph.None;
+			public IconSource Glyph => null;
 			public object? Icon => null;
 			public FontIcon? FontIcon => null;
 			public Style? OpacityStyle => null;
@@ -286,11 +286,9 @@ namespace Files.App.Commands
 
 			public bool IsToggle => false;
 			public bool IsOn { get => false; set {} }
-			public bool IsExecutable => false;
+			public bool CanExecute(object? obj) => false;
 
-			public bool CanExecute(object? parameter) => false;
 			public void Execute(object? parameter) {}
-			public Task ExecuteAsync() => Task.CompletedTask;
 			public void ExecuteTapped(object sender, TappedRoutedEventArgs e) {}
 		}
 
@@ -299,7 +297,7 @@ namespace Files.App.Commands
 		{
 			public event EventHandler? CanExecuteChanged;
 
-			private readonly IAction action;
+			private readonly XamlUICommand action;
 
 			public CommandCodes Code { get; }
 
@@ -309,38 +307,34 @@ namespace Files.App.Commands
 
 			public string Description => action.Description;
 
-			public RichGlyph Glyph => action.Glyph;
-			public object? Icon { get; }
-			public FontIcon? FontIcon { get; }
+			public IconSource Glyph => action.IconSource;
 			public Style? OpacityStyle { get; }
 
 			public string? HotKeyText { get; }
-			public HotKey HotKey => action.HotKey;
-			public HotKey SecondHotKey => action.SecondHotKey;
-			public HotKey ThirdHotKey => action.ThirdHotKey;
-			public HotKey MediaHotKey => action.MediaHotKey;
+			public HotKey HotKey => HotKey.FromKeyboardAccelerator(action.KeyboardAccelerators[0]);
+			public HotKey SecondHotKey => HotKey.FromKeyboardAccelerator(action.KeyboardAccelerators[1]);
+			public HotKey ThirdHotKey => HotKey.FromKeyboardAccelerator(action.KeyboardAccelerators[2]);
+			public HotKey MediaHotKey => HotKey.FromKeyboardAccelerator(action.KeyboardAccelerators[3]);
 
-			public bool IsToggle => action is IToggleAction;
+			public bool IsToggle => action is ToggleAction;
 
 			public bool IsOn
 			{
-				get => action is IToggleAction toggleAction && toggleAction.IsOn;
+				get => action is ToggleAction toggleAction && toggleAction.IsOn();
 				set
 				{
-					if (action is IToggleAction toggleAction && toggleAction.IsOn != value)
+					if (action is ToggleAction toggleAction && toggleAction.IsOn() != value)
 						Execute(null);
 				}
 			}
 
-			public bool IsExecutable => action.IsExecutable;
+			public bool CanExecute(object? obj) => action.CanExecute(obj);
 
-			public ActionCommand(CommandCodes code, IAction action)
+			public ActionCommand(CommandCodes code, XamlUICommand action)
 			{
 				Code = code;
 				this.action = action;
-				Icon = action.Glyph.ToIcon();
-				FontIcon = action.Glyph.ToFontIcon();
-				OpacityStyle = action.Glyph.ToOpacityStyle();
+				//OpacityStyle = action.Glyph.ToOpacityStyle();
 				HotKeyText = GetHotKeyText();
 				LabelWithHotKey = HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
 
@@ -350,31 +344,28 @@ namespace Files.App.Commands
 					notifyPropertyChanged.PropertyChanged += Action_PropertyChanged;
 			}
 
-			public bool CanExecute(object? parameter) => action.IsExecutable;
-			public async void Execute(object? parameter) => await ExecuteAsync();
-
-			public async Task ExecuteAsync()
+			public void Execute(object? parameter)
 			{
-				if (IsExecutable)
-					await action.ExecuteAsync();
+				if (CanExecute(parameter))
+					action.Execute(parameter);
 			}
 
-			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
+			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => Execute(null);
 
 			private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
 			{
 				switch (e.PropertyName)
 				{
-					case nameof(IAction.Label):
+					case nameof(XamlUICommand.Label):
 						OnPropertyChanging(nameof(Label));
 						OnPropertyChanging(nameof(LabelWithHotKey));
 						OnPropertyChanging(nameof(AutomationName));
 						break;
-					case nameof(IToggleAction.IsOn) when IsToggle:
+					case nameof(ToggleAction.IsOn) when IsToggle:
 						OnPropertyChanging(nameof(IsOn));
 						break;
-					case nameof(IAction.IsExecutable):
-						OnPropertyChanging(nameof(IsExecutable));
+					case nameof(XamlUICommand.CanExecute):
+						OnPropertyChanging(nameof(CanExecute));
 						break;
 				}
 			}
@@ -382,16 +373,16 @@ namespace Files.App.Commands
 			{
 				switch (e.PropertyName)
 				{
-					case nameof(IAction.Label):
+					case nameof(XamlUICommand.Label):
 						OnPropertyChanged(nameof(Label));
 						OnPropertyChanged(nameof(LabelWithHotKey));
 						OnPropertyChanged(nameof(AutomationName));
 						break;
-					case nameof(IToggleAction.IsOn) when IsToggle:
+					case nameof(ToggleAction.IsOn) when IsToggle:
 						OnPropertyChanged(nameof(IsOn));
 						break;
-					case nameof(IAction.IsExecutable):
-						OnPropertyChanged(nameof(IsExecutable));
+					case nameof(XamlUICommand.CanExecute):
+						OnPropertyChanged(nameof(CanExecute));
 						CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 						break;
 				}

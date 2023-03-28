@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -8,7 +9,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class RenameAction : ObservableObject, IAction
+	internal class RenameAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -20,7 +21,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconRename");
 
-		public bool IsExecutable => 
+		public bool CanExecute => 
 			context.ShellPage is not null && 
 			IsPageTypeValid() &&
 			context.ShellPage.SlimContentPage is not null && 
@@ -45,7 +46,7 @@ namespace Files.App.Actions
 				case nameof(IContentPageContext.PageType):
 				case nameof(IContentPageContext.HasSelection):
 				case nameof(IContentPageContext.SelectedItems):
-					OnPropertyChanged(nameof(IsExecutable));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}

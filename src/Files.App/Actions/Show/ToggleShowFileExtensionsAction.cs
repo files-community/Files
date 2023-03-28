@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.Backend.Services.Settings;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class ToggleShowFileExtensionsAction : ObservableObject, IToggleAction
+	internal class ToggleShowFileExtensionsAction : ToggleAction
 	{
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
@@ -28,7 +29,7 @@ namespace Files.App.Actions
 		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IFoldersSettingsService.ShowFileExtensions))
-				OnPropertyChanged(nameof(IsOn));
+				NotifyCanExecuteChanged();
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Files.App.Commands;
+﻿using Microsoft.UI.Xaml.Input;
+using Files.App.Commands;
 using Files.App.Extensions;
 using System.Diagnostics;
 using Windows.System;

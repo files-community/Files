@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -14,7 +15,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class DeleteItemAction : ObservableObject, IAction
+	internal class DeleteItemAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
@@ -27,7 +28,7 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.Delete);
 
-		public bool IsExecutable =>
+		public bool CanExecute =>
 			context.HasSelection &&
 			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
 
@@ -38,7 +39,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			if (context.ShellPage is null || !IsExecutable)
+			if (context.ShellPage is null || !CanExecute)
 				return;
 
 			var items = context.SelectedItems.Select(item => StorageHelpers.FromPathAndType(item.ItemPath,
@@ -51,7 +52,7 @@ namespace Files.App.Actions
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
-				OnPropertyChanged(nameof(IsExecutable));
+				NotifyCanExecuteChanged();
 		}
 	}
 }

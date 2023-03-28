@@ -3,11 +3,12 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Filesystem;
+using Microsoft.UI.Xaml.Input;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class UnpinFromStartAction : IAction
+	internal class UnpinFromStartAction : XamlUICommand
 	{
 		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 

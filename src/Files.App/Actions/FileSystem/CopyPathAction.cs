@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -10,7 +11,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class CopyPathAction : IAction
+	internal class CopyPathAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 

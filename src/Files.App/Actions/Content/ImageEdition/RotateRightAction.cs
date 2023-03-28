@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -12,7 +13,7 @@ using Windows.Graphics.Imaging;
 
 namespace Files.App.Actions
 {
-	internal class RotateRightAction : ObservableObject, IAction
+	internal class RotateRightAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -22,7 +23,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRotateRight");
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
+		public bool CanExecute => IsContextPageTypeAdaptedToCommand()
 						&& (context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
 
 		public RotateRightAction()
@@ -58,7 +59,7 @@ namespace Files.App.Actions
 					viewModel.CheckAllFileExtensions(extensions);
 				}
 
-				OnPropertyChanged(nameof(IsExecutable));
+				NotifyCanExecuteChanged();
 			}
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -77,7 +78,7 @@ namespace Files.App.Actions
 		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.RecycleBin;
 	}
 
-	internal abstract class SortByAction : ObservableObject, IToggleAction
+	internal abstract class SortByAction : ToggleAction
 	{
 		private IContentPageContext contentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private IDisplayPageContext displayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
@@ -88,17 +89,12 @@ namespace Files.App.Actions
 
 		public string Description => "TODO: Need to be described.";
 
-		private bool isOn;
-		public bool IsOn => isOn;
+		public bool IsOn => displayContext.SortOption == SortOption;
 
-		private bool isExecutable = false;
-		public bool IsExecutable => isExecutable;
+		public bool CanExecute => GetIsExecutable(contentContext.PageType);
 
 		public SortByAction()
 		{
-			isOn = displayContext.SortOption == SortOption;
-			isExecutable = GetIsExecutable(contentContext.PageType);
-
 			contentContext.PropertyChanged += ContentContext_PropertyChanged;
 			displayContext.PropertyChanged += DisplayContext_PropertyChanged;
 		}
@@ -114,17 +110,17 @@ namespace Files.App.Actions
 		private void ContentContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.PageType))
-				SetProperty(ref isExecutable, GetIsExecutable(contentContext.PageType), nameof(IsExecutable));
+				NotifyCanExecuteChanged();		
 		}
 
 		private void DisplayContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IDisplayPageContext.SortOption))
-				SetProperty(ref isOn, displayContext.SortOption == SortOption, nameof(IsOn));
+				NotifyCanExecuteChanged();
 		}
 	}
 
-	internal class SortAscendingAction : ObservableObject, IToggleAction
+	internal class SortAscendingAction : ToggleAction
 	{
 		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
@@ -148,11 +144,11 @@ namespace Files.App.Actions
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IDisplayPageContext.SortDirection))
-				OnPropertyChanged(nameof(IsOn));
+				NotifyCanExecuteChanged();
 		}
 	}
 
-	internal class SortDescendingAction : ObservableObject, IToggleAction
+	internal class SortDescendingAction : ToggleAction
 	{
 		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
@@ -176,11 +172,11 @@ namespace Files.App.Actions
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IDisplayPageContext.SortDirection))
-				OnPropertyChanged(nameof(IsOn));
+				NotifyCanExecuteChanged();
 		}
 	}
 
-	internal class ToggleSortDirectionAction : IAction
+	internal class ToggleSortDirectionAction : XamlUICommand
 	{
 		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 

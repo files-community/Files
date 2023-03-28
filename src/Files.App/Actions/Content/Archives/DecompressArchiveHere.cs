@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class DecompressArchiveHere : ObservableObject, IAction
+	internal class DecompressArchiveHere : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -16,7 +17,7 @@ namespace Files.App.Actions
 
 		public string Description => "TODO: Need to be described.";
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
+		public bool CanExecute => IsContextPageTypeAdaptedToCommand()
 									&& ArchiveHelpers.CanDecompress(context.SelectedItems);
 
 		public DecompressArchiveHere()
@@ -42,7 +43,7 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.SelectedItems):
 					if (IsContextPageTypeAdaptedToCommand())
-						OnPropertyChanged(nameof(IsExecutable));
+						NotifyCanExecuteChanged();
 					break;
 			}
 		}

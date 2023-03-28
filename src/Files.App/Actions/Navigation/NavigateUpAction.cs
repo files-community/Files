@@ -1,4 +1,4 @@
-﻿
+﻿using Microsoft.UI.Xaml.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
@@ -10,7 +10,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class NavigateUpAction : ObservableObject, IAction
+	internal class NavigateUpAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -22,7 +22,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new("\uE74A");
 
-		public bool IsExecutable => context.CanNavigateToParent;
+		public bool CanExecute => context.CanNavigateToParent;
 
 		public NavigateUpAction()
 		{
@@ -40,7 +40,7 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.CanNavigateToParent):
-					OnPropertyChanged(nameof(IsExecutable));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}

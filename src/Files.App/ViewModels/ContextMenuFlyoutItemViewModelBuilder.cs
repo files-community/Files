@@ -15,7 +15,7 @@ namespace Files.App.ViewModels
 		private bool? isVisible = null;
 		public bool IsVisible
 		{
-			get => isVisible ?? command.IsExecutable;
+			get => isVisible ?? command.CanExecute(null);
 			init => isVisible = value;
 		}
 
@@ -36,7 +36,7 @@ namespace Files.App.ViewModels
 			if (isVisible is false)
 				return none;
 
-			bool isExecutable = command.IsExecutable;
+			bool isExecutable = command.CanExecute(null);
 
 			if (isVisible is null && !isExecutable)
 				return none;
@@ -61,18 +61,18 @@ namespace Files.App.ViewModels
 			};
 
 			var glyph = command.Glyph;
-			if (!string.IsNullOrEmpty(glyph.OpacityStyle))
-			{
-				viewModel.OpacityIcon = new OpacityIconModel
-				{
-					OpacityIconStyle = glyph.OpacityStyle,
-				};
-			}
-			else
-			{
-				viewModel.Glyph = glyph.BaseGlyph;
-				viewModel.GlyphFontFamilyName = glyph.FontFamily;
-			}
+			//if (!string.IsNullOrEmpty(glyph.OpacityStyle))
+			//{
+			//	viewModel.OpacityIcon = new OpacityIconModel
+			//	{
+			//		OpacityIconStyle = glyph.OpacityStyle,
+			//	};
+			//}
+			//else
+			//{
+			//	viewModel.Glyph = glyph.BaseGlyph;
+			//	viewModel.GlyphFontFamilyName = glyph.FontFamily;
+			//}
 
 			if (command.HotKeyText is not null)
 				viewModel.KeyboardAcceleratorTextOverride = command.HotKeyText;

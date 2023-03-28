@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -14,7 +15,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class OpenItemAction : ObservableObject, IAction
+	internal class OpenItemAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -28,7 +29,7 @@ namespace Files.App.Actions
 
 		private const int MaxOpenCount = 10;
 
-		public bool IsExecutable => context.HasSelection && context.SelectedItems.Count <= MaxOpenCount &&
+		public bool CanExecute => context.HasSelection && context.SelectedItems.Count <= MaxOpenCount &&
 			!(context.ShellPage is ColumnShellPage && context.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder);
 
 		public OpenItemAction()
@@ -44,11 +45,11 @@ namespace Files.App.Actions
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
-				OnPropertyChanged(nameof(IsExecutable));
+				NotifyCanExecuteChanged();
 		}
 	}
 
-	internal class OpenItemWithApplicationPickerAction : ObservableObject, IAction
+	internal class OpenItemWithApplicationPickerAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -58,7 +59,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph => new(opacityStyle: "ColorIconOpenWith");
 
-		public bool IsExecutable => context.HasSelection && context.SelectedItems.All(
+		public bool CanExecute => context.HasSelection && context.SelectedItems.All(
 				i => (i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
 
 		public OpenItemWithApplicationPickerAction()
@@ -74,11 +75,11 @@ namespace Files.App.Actions
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
-				OnPropertyChanged(nameof(IsExecutable));
+				NotifyCanExecuteChanged();
 		}
 	}
 
-	internal class OpenParentFolderAction : ObservableObject, IAction
+	internal class OpenParentFolderAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -88,7 +89,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph => new(baseGlyph: "\uE197");
 
-		public bool IsExecutable => context.HasSelection && context.ShellPage.InstanceViewModel.IsPageTypeSearchResults;
+		public bool CanExecute => context.HasSelection && context.ShellPage.InstanceViewModel.IsPageTypeSearchResults;
 
 		public OpenParentFolderAction()
 		{
@@ -111,7 +112,7 @@ namespace Files.App.Actions
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
-				OnPropertyChanged(nameof(IsExecutable));
+				NotifyCanExecuteChanged();
 		}
 	}
 }

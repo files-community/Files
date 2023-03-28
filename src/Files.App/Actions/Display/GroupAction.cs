@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -93,7 +94,7 @@ namespace Files.App.Actions
 		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.Library;
 	}
 
-	internal abstract class GroupByAction : ObservableObject, IToggleAction
+	internal abstract class GroupByAction : ToggleAction
 	{
 		protected IContentPageContext ContentContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		protected IDisplayPageContext DisplayContext { get; } = Ioc.Default.GetRequiredService<IDisplayPageContext>();
@@ -104,17 +105,13 @@ namespace Files.App.Actions
 
 		public string Description => "TODO: Need to be described.";
 
-		private bool isOn;
-		public bool IsOn => isOn;
+		public bool IsOn => DisplayContext.GroupOption == GroupOption;
 
 		private bool isExecutable = false;
-		public bool IsExecutable => isExecutable;
+		public bool CanExecute => GetIsExecutable(ContentContext.PageType);
 
 		public GroupByAction()
 		{
-			isOn = DisplayContext.GroupOption == GroupOption;
-			isExecutable = GetIsExecutable(ContentContext.PageType);
-
 			ContentContext.PropertyChanged += ContentContext_PropertyChanged;
 			DisplayContext.PropertyChanged += DisplayContext_PropertyChanged;
 		}
@@ -130,17 +127,17 @@ namespace Files.App.Actions
 		private void ContentContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.PageType))
-				SetProperty(ref isExecutable, GetIsExecutable(ContentContext.PageType), nameof(IsExecutable));
+				NotifyCanExecuteChanged();
 		}
 
 		private void DisplayContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IDisplayPageContext.GroupOption))
-				SetProperty(ref isOn, DisplayContext.GroupOption == GroupOption, nameof(IsOn));
+				NotifyCanExecuteChanged();
 		}
 	}
 
-	internal class GroupAscendingAction : ObservableObject, IToggleAction
+	internal class GroupAscendingAction : ToggleAction
 	{
 		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
@@ -149,7 +146,7 @@ namespace Files.App.Actions
 		public string Description => "TODO: Need to be described.";
 
 		public bool IsOn => context.GroupDirection is SortDirection.Ascending;
-		public bool IsExecutable => context.GroupOption is not GroupOption.None;
+		public bool CanExecute => context.GroupOption is not GroupOption.None;
 
 		public GroupAscendingAction()
 		{
@@ -167,16 +164,14 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IDisplayPageContext.GroupOption):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
 				case nameof(IDisplayPageContext.GroupDirection):
-					OnPropertyChanged(nameof(IsOn));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}
 	}
 
-	internal class GroupDescendingAction : ObservableObject, IToggleAction
+	internal class GroupDescendingAction : ToggleAction
 	{
 		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
@@ -185,7 +180,7 @@ namespace Files.App.Actions
 		public string Description => "TODO: Need to be described.";
 
 		public bool IsOn => context.GroupDirection is SortDirection.Descending;
-		public bool IsExecutable => context.GroupOption is not GroupOption.None;
+		public bool CanExecute => context.GroupOption is not GroupOption.None;
 
 		public GroupDescendingAction()
 		{
@@ -203,16 +198,14 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IDisplayPageContext.GroupOption):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
 				case nameof(IDisplayPageContext.GroupDirection):
-					OnPropertyChanged(nameof(IsOn));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}
 	}
 
-	internal class ToggleGroupDirectionAction : IAction
+	internal class ToggleGroupDirectionAction : XamlUICommand
 	{
 		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -10,7 +11,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
-	internal class ShareItemAction : ObservableObject, IAction
+	internal class ShareItemAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -20,7 +21,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShare");
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() &&
+		public bool CanExecute => IsContextPageTypeAdaptedToCommand() &&
 			DataTransferManager.IsSupported() &&
 			context.SelectedItems.Any() &&
 			context.SelectedItems.All(ShareItemHelpers.IsItemShareable);
@@ -52,7 +53,7 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.SelectedItems):
 				case nameof(IContentPageContext.PageType):
-					OnPropertyChanged(nameof(IsExecutable));
+					NotifyCanExecuteChanged();
 					break;
 			}
 		}

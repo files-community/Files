@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -9,7 +10,7 @@ using static Files.App.ViewModels.MainPageViewModel;
 
 namespace Files.App.Actions
 {
-	internal class DuplicateSelectedTabAction : IAction
+	internal class DuplicateSelectedTabAction : XamlUICommand
 	{
 		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 

@@ -5,12 +5,13 @@ using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem.Archive;
 using Files.App.Helpers;
+using Microsoft.UI.Xaml.Input;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CompressIntoArchiveAction : ObservableObject, IAction
+	internal class CompressIntoArchiveAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -18,12 +19,11 @@ namespace Files.App.Actions
 
 		public string Description => "TODO: Need to be described.";
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
+		public bool CanExecute => IsContextPageTypeAdaptedToCommand()
 									&& ArchiveHelpers.CanCompress(context.SelectedItems);
 
 		public CompressIntoArchiveAction()
 		{
-			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
@@ -58,17 +58,6 @@ namespace Files.App.Actions
 			return context.PageType is not ContentPageTypes.RecycleBin
 				and not ContentPageTypes.ZipFolder
 				and not ContentPageTypes.None;
-		}
-
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.SelectedItems):
-					if (IsContextPageTypeAdaptedToCommand())
-						OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
 		}
 	}
 }

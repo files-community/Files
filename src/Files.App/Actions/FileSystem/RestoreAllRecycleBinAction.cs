@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class RestoreAllRecycleBinAction : ObservableObject, IAction
+	internal class RestoreAllRecycleBinAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -47,7 +48,7 @@ namespace Files.App.Actions
 				case nameof(IContentPageContext.PageType):
 				case nameof(IContentPageContext.HasItem):
 					if (context.PageType is ContentPageTypes.RecycleBin)
-						OnPropertyChanged(nameof(IsExecutable));
+						NotifyCanExecuteChanged();
 					break;
 			}
 		}

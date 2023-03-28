@@ -4,12 +4,13 @@ using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Filesystem.Archive;
 using Files.App.Helpers;
+using Microsoft.UI.Xaml.Input;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CompressIntoSevenZipAction : ObservableObject, IAction
+	internal class CompressIntoSevenZipAction : XamlUICommand
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -17,7 +18,7 @@ namespace Files.App.Actions
 
 		public string Description => "TODO: Need to be described.";
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
+		public bool CanExecute => IsContextPageTypeAdaptedToCommand()
 									&& ArchiveHelpers.CanCompress(context.SelectedItems);
 
 		public CompressIntoSevenZipAction()
@@ -53,7 +54,7 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.SelectedItems):
 					if (IsContextPageTypeAdaptedToCommand())
-						OnPropertyChanged(nameof(IsExecutable));
+						NotifyCanExecuteChanged();
 					break;
 			}
 		}
