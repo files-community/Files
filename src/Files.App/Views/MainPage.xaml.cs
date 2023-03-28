@@ -251,6 +251,7 @@ namespace Files.App.Views
 					break;
 			}
 		}
+
 		protected override void OnPreviewKeyUp(KeyRoutedEventArgs e)
 		{
 			base.OnPreviewKeyUp(e);
@@ -268,7 +269,8 @@ namespace Files.App.Views
 					break;
 			}
 		}
-		
+
+		// A workaround for issue with OnPreviewKeyUp not being called when the hotkey displays a dialog
 		protected override void OnLostFocus(RoutedEventArgs e)
 		{
 			base.OnLostFocus(e);
