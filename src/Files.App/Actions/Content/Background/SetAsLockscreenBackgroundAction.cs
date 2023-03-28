@@ -17,10 +17,6 @@ namespace Files.App.Actions
 		public override bool IsExecutable => base.IsExecutable &&
 			context.SelectedItem is not null;
 
-		public SetAsLockscreenBackgroundAction() : base()
-		{
-		}
-
 		public override Task ExecuteAsync()
 		{
 			if (context.SelectedItem is not null)

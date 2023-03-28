@@ -17,10 +17,6 @@ namespace Files.App.Actions
 		public override bool IsExecutable => base.IsExecutable &&
 			context.SelectedItems.Count > 1;
 
-		public SetAsSlideshowBackgroundAction() : base()
-		{
-		}
-
 		public override Task ExecuteAsync()
 		{
 			var paths = context.SelectedItems.Select(item => item.ItemPath).ToArray();

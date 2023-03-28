@@ -13,9 +13,5 @@ namespace Files.App.Actions
 		public override RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRotateRight");
 
 		protected override BitmapRotation Rotation => BitmapRotation.Clockwise90Degrees;
-
-		public RotateRightAction() : base()
-		{
-		}
 	}
 }
