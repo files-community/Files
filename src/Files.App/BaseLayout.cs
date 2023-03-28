@@ -1113,11 +1113,14 @@ namespace Files.App
 					return;
 
 				hoverTimer.Stop();
+
+				// selection of multiple individual items with control
 				if (e.KeyModifiers == VirtualKeyModifiers.Control &&
 					selectedItems is not null)
 				{
 					ItemManipulationModel.AddSelectedItem(hoveredItem);
 				}
+				// selection of a range of items with shift
 				else if (e.KeyModifiers == VirtualKeyModifiers.Shift &&
 					selectedItems is not null &&
 					selectedItems.Any())
@@ -1133,6 +1136,7 @@ namespace Files.App
 							ItemManipulationModel.AddSelectedItem((ListedItem)ItemsControl.Items[i]);
 					}
 				}
+				// avoid resetting the selection if multiple items are selected
 				else if (SelectedItems is null ||
 					SelectedItems.Count <= 1)
 				{
