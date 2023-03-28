@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.WinUI.UI;
+﻿using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
 using Files.App.Extensions;
 using Files.App.Filesystem;
