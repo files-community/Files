@@ -315,13 +315,13 @@
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Ez a mappa üres.</value>
   </data>
-  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Back" xml:space="preserve">
     <value>Vissza (Alt + Bal nyíl)</value>
   </data>
-  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Forward" xml:space="preserve">
     <value>Előre (Alt + Jobb nyíl)</value>
   </data>
-  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Up" xml:space="preserve">
     <value>Szülőmappába (Alt + Felfelé nyíl)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
@@ -660,16 +660,16 @@
   <data name="LayoutMode" xml:space="preserve">
     <value>Elrendezés</value>
   </data>
-  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateBack" xml:space="preserve">
     <value>Vissza navigálás</value>
   </data>
-  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateForward" xml:space="preserve">
     <value>Előre navigálás</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Könyvtár frissítése</value>
   </data>
-  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateUp" xml:space="preserve">
     <value>Egy szinttel feljebb</value>
   </data>
   <data name="Language" xml:space="preserve">
@@ -1482,7 +1482,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} elem</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>Bezárt lap újranyitása</value>
   </data>
   <data name="Rename" xml:space="preserve">

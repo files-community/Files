@@ -315,13 +315,13 @@
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>該資料夾是空的。</value>
   </data>
-  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Back" xml:space="preserve">
     <value>返回（Alt + 向左键）</value>
   </data>
-  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Forward" xml:space="preserve">
     <value>下一頁（Alt + 向右鍵）</value>
   </data>
-  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Up" xml:space="preserve">
     <value>上移（Alt + 向上鍵）</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
@@ -660,16 +660,16 @@
   <data name="LayoutMode" xml:space="preserve">
     <value>檢視模式</value>
   </data>
-  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateBack" xml:space="preserve">
     <value>向後導覽</value>
   </data>
-  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateForward" xml:space="preserve">
     <value>向前導覽</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>重新整理資料夾</value>
   </data>
-  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateUp" xml:space="preserve">
     <value>到上一層資料夾</value>
   </data>
   <data name="Language" xml:space="preserve">
@@ -1482,7 +1482,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} 個項目</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>重新開啟已關閉的索引標籤</value>
   </data>
   <data name="Rename" xml:space="preserve">

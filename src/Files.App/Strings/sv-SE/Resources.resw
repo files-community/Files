@@ -315,13 +315,13 @@
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Denna mapp är tom.</value>
   </data>
-  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Back" xml:space="preserve">
     <value>Tillbaka (Alt + Vänsterpil)</value>
   </data>
-  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Forward" xml:space="preserve">
     <value>Framåt (Alt + Högerpil)</value>
   </data>
-  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Up" xml:space="preserve">
     <value>Upp en nivå (Alt + Uppåtpil)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
@@ -660,16 +660,16 @@
   <data name="LayoutMode" xml:space="preserve">
     <value>Layoutläge</value>
   </data>
-  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateBack" xml:space="preserve">
     <value>Navigera bakåt</value>
   </data>
-  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateForward" xml:space="preserve">
     <value>Navigera framåt</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Uppdatera mappen</value>
   </data>
-  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateUp" xml:space="preserve">
     <value>Upp en nivå</value>
   </data>
   <data name="Language" xml:space="preserve">
@@ -1482,7 +1482,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} objekt</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>Öppna stängd flik igen</value>
   </data>
   <data name="Rename" xml:space="preserve">
