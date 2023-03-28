@@ -58,7 +58,10 @@ namespace Files.App.Helpers
 
 			if (isUniversal)
 			{
-				var frame = new Frame { RequestedTheme = ThemeHelper.RootTheme };
+				var frame = new Frame
+				{
+					RequestedTheme = ThemeHelper.RootTheme
+				};
 				Navigate(frame);
 
 				var propertiesWindow = new WinUIEx.WindowEx
