@@ -24,7 +24,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |               | EmptyRecycleBin                     | Empty Recycle Bin                         | Empty recycle bin                                        |                      |
 |               | RestoreRecycleBin                   | Restore                                   | Restore selected item(s) from recycle bin                |                      |
 |               | RestoreAllRecycleBin                | Restore All Items                         | Restore all items from recycle bin                       |                      |
-|               | OpenItem                            | Open                                      | Open item(s)                                             |                      |
+|               | OpenItem                            | Open                                      | Open item(s)                                             | Enter                |
 |               | OpenItemWithApplicationPicker       | Open With                                 | Open item(s) with selected application                   |                      |
 |               | OpenParentFolder                    | Open parent folder                        | Open parent folder of searched item                      |                      |
 |               | RefreshItems                        | Refresh                                   | Refresh page contents                                    | Ctrl+R, F5           |
