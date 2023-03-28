@@ -5,8 +5,6 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
 using Files.App.Helpers;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 

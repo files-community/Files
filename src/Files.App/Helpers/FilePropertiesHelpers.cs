@@ -1,6 +1,5 @@
 using Files.App.Dialogs;
 using Files.App.Extensions;
-using Files.App.Views;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
