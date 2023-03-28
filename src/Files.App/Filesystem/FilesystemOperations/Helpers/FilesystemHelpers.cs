@@ -561,9 +561,14 @@ namespace Files.App.Filesystem
 					history = await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
 					break;
 
+				// Prompt user when extension has changed, not when file name has changed
 				case FilesystemItemType.File:
-					if (showExtensionDialog &&
-						Path.GetExtension(source.Path) != Path.GetExtension(newName)) // Only prompt user when extension has changed, not when file name has changed
+					if
+					(
+						showExtensionDialog &&
+						Path.GetExtension(source.Path) != Path.GetExtension(newName) &&
+						UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning
+					)
 					{
 						var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
 						if (yesSelected)
