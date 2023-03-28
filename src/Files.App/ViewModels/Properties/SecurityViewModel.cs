@@ -5,6 +5,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
 using Files.App.Helpers;
+using Microsoft.UI.Xaml;
 using System.Threading.Tasks;
 using Windows.Storage;
 
