@@ -475,9 +475,9 @@ namespace Files.App.UserControls
 		{
 			if (sender is UIElement element)
 			{
+				e.Handled = true;
 				Point position = e.GetPosition(element);
 				await OpenContextMenuAsync(element, position);
-				e.Handled = true;
 			}
 		}
 

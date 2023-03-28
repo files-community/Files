@@ -79,9 +79,9 @@ namespace Files.App.UserControls.Widgets
 		{
 			if (sender is FrameworkElement element)
 			{
+				e.Handled = true;
 				Point position = e.GetPosition(element);
 				await OpenContextMenuAsync(element, position);
-				e.Handled = true;
 			}
 		}
 	}

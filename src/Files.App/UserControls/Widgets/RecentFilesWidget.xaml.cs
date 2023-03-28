@@ -21,6 +21,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.System;
 
 namespace Files.App.UserControls.Widgets
@@ -100,25 +101,18 @@ namespace Files.App.UserControls.Widgets
 			OpenFileLocationCommand = new RelayCommand<RecentItem>(OpenFileLocation);
 		}
 
-		private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		public async Task OpenContextMenuAsync(FrameworkElement element, RecentItem item, Point position)
 		{
-			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
-			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			if (sender is not Grid recentItemsGrid || recentItemsGrid.DataContext is not RecentItem item)
-				return;
+			var flyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			flyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 
 			var menuItems = GetItemMenuItems(item, false);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+			secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+			secondaryElements.ForEach(flyout.SecondaryCommands.Add);
+			flyout.ShowAt(element, new FlyoutShowOptions { Position = position });
 
-			secondaryElements.OfType<FrameworkElement>()
-							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
-
-			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
-
-			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
-
-			e.Handled = true;
+			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, flyout, showOpenWithMenu: true, showSendToMenu: true);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -334,6 +328,16 @@ namespace Files.App.UserControls.Widgets
 			finally
 			{
 				refreshRecentsSemaphore.Release();
+			}
+		}
+
+		private async void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			if (sender is FrameworkElement element && element.DataContext is RecentItem recentItem)
+			{
+				e.Handled = true;
+				var position = e.GetPosition(element);
+				await OpenContextMenuAsync(element, recentItem, position);
 			}
 		}
 

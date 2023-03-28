@@ -33,7 +33,8 @@ namespace Files.App.Actions
 					return false;
 
 				return element.ContextFlyout is FlyoutBase { IsOpen: false }
-				|| element.DataContext is INavigationControlItem or WidgetCardItem;
+				|| element.DataContext is INavigationControlItem or WidgetCardItem
+				|| (element is ListViewItem item && item.Content is RecentItem);
 			}
 		}
 
@@ -60,6 +61,14 @@ namespace Files.App.Actions
 				if (widget is not null)
 				{
 					await widget.OpenContextMenuAsync(element, position);
+				}
+			}
+			else if (element is ListViewItem listViewItem && listViewItem.Content is RecentItem recentItem)
+			{
+				var widget = listViewItem.FindAscendant<RecentFilesWidget>();
+				if (widget is not null)
+				{
+					await widget.OpenContextMenuAsync(listViewItem, recentItem, position);
 				}
 			}
 			else if (element.ContextFlyout is FlyoutBase{IsOpen: false} flyout)
