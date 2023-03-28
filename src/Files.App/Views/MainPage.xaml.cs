@@ -244,7 +244,7 @@ namespace Files.App.Views
 					var command = Commands[hotKey];
 					if (command.Code is not CommandCodes.None && keyReleased)
 					{
-						keyReleased = command.Code is CommandCodes.OpenContextMenu;
+						keyReleased = false;
 						e.Handled = command.IsExecutable;
 						await command.ExecuteAsync();
 					}
