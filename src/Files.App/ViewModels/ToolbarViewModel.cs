@@ -567,8 +567,6 @@ namespace Files.App.ViewModels
 
 		public ICommand? CreateNewFileCommand { get; set; }
 
-		public ICommand? Rename { get; set; }
-
 		public ICommand? Share { get; set; }
 
 		public ICommand PropertiesCommand { get; set; }
@@ -849,7 +847,6 @@ namespace Files.App.ViewModels
 				if (SetProperty(ref selectedItems, value))
 				{
 					OnPropertyChanged(nameof(CanCopy));
-					OnPropertyChanged(nameof(CanRename));
 					OnPropertyChanged(nameof(CanViewProperties));
 					OnPropertyChanged(nameof(CanExtract));
 					OnPropertyChanged(nameof(ExtractToText));
@@ -869,7 +866,6 @@ namespace Files.App.ViewModels
 
 		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1 && InstanceViewModel.IsPageTypeRecycleBin == false;
 		public bool CanViewProperties => true;
 		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
 		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));

@@ -27,7 +27,6 @@ namespace Files.App.Interacts
 
 		private void InitializeCommands()
 		{
-			RenameItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RenameItem);
 			ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowProperties);
 			OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenFileLocation);
 			OpenDirectoryInNewTabCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewTab);
@@ -47,8 +46,6 @@ namespace Files.App.Interacts
 		#endregion Command Initialization
 
 		#region Commands
-
-		public ICommand RenameItemCommand { get; private set; }
 
 		public ICommand ShowPropertiesCommand { get; private set; }
 

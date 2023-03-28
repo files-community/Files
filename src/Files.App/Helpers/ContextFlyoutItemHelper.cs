@@ -373,27 +373,11 @@ namespace Files.App.Helpers
 					IsVisible = itemsSelected && (!selectedItems.FirstOrDefault()?.IsShortcut ?? false)
 						&& !currentInstanceViewModel.IsPageTypeRecycleBin,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.Rename)
 				{
-					Text = "Rename".GetLocalizedResource(),
 					IsPrimary = true,
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconRename",
-					},
-					Command = commandsViewModel.RenameItemCommand,
-					SingleItemOnly = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-					ShowInRecycleBin = false,
-					KeyboardAccelerator = new KeyboardAccelerator
-					{
-						Key = VirtualKey.F2,
-						IsEnabled = false,
-					},
-					ShowItem = itemsSelected
-				},
+					IsVisible = itemsSelected
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.ShareItem)
 				{
 					IsPrimary = true
