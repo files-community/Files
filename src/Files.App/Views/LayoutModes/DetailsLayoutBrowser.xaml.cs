@@ -353,7 +353,6 @@ namespace Files.App.Views.LayoutModes
 				else
 				{
 					await NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-					FileList.SelectedIndex = 0;
 				}
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
