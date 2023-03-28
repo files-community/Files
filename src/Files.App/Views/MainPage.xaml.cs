@@ -268,6 +268,7 @@ namespace Files.App.Views
 					break;
 			}
 		}
+		
 		protected override void OnLostFocus(RoutedEventArgs e)
 		{
 			base.OnLostFocus(e);
