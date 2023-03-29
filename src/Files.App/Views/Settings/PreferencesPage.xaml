@@ -199,7 +199,7 @@
 
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE126;" />
+					<FontIcon Glyph="&#xE89F;" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}"
@@ -305,7 +305,7 @@
 			<!--  Overflow Options  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsContextMenuOverflow}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE10C;" />
+					<FontIcon Glyph="&#xE712;" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuOverflow}"

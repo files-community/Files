@@ -157,7 +157,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</settingsuc:SettingsBlockControl>
 
 		</StackPanel>

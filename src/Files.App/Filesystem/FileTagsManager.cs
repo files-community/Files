@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Files.App.DataModels.NavigationControlItems;
 using Files.Backend.Services.Settings;
 using Files.Shared;

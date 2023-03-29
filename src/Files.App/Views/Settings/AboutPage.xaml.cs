@@ -1,5 +1,4 @@
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using Windows.System;

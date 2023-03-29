@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Files.App.Commands
@@ -15,6 +14,7 @@ namespace Files.App.Commands
 		IRichCommand EnterCompactOverlay { get; }
 		IRichCommand ExitCompactOverlay { get; }
 		IRichCommand ToggleCompactOverlay { get; }
+		IRichCommand Search { get; }
 
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
