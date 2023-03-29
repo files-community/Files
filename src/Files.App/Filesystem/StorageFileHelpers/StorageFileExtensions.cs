@@ -399,8 +399,10 @@ namespace Files.App.Filesystem
 		{
 			if (shPath.StartsWith(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 				return CommonPaths.RecycleBinPath;
+
 			if (shPath.StartsWith(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 				return CommonPaths.MyComputerPath;
+
 			if (shPath.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 				return CommonPaths.NetworkFolderPath;
 
