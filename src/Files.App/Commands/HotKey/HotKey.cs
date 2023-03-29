@@ -12,7 +12,10 @@ namespace Files.App.Commands
 		public VirtualKey Key { get; } = VirtualKey.None;
 		public VirtualKeyModifiers Modifiers { get; } = VirtualKeyModifiers.None;
 
-		public HotKey(VirtualKey key) : this(key, VirtualKeyModifiers.None) { }
+		public Keys CommandKey => (Keys)Key;
+		public KeyModifiers CommandKeyModifiers => (KeyModifiers)Modifiers;
+
+		public HotKey(VirtualKey key) : this(key, VirtualKeyModifiers.None) {}
 		public HotKey(VirtualKey key, VirtualKeyModifiers modifiers)
 		{
 			if (!key.IsValid())
@@ -30,6 +33,8 @@ namespace Files.App.Commands
 				or VirtualKey.Shift or VirtualKey.LeftShift or VirtualKey.RightShift
 				or VirtualKey.LeftWindows or VirtualKey.RightWindows;
 		}
+		public HotKey(Keys key) : this((VirtualKey)key) {}
+		public HotKey(Keys key, KeyModifiers modifier) : this((VirtualKey)key, (VirtualKeyModifiers)modifier) {}
 
 		public void Deconstruct(out VirtualKey key, out VirtualKeyModifiers modifiers)
 			=> (key, modifiers) = (Key, Modifiers);
