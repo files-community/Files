@@ -332,18 +332,18 @@ namespace Files.App.Views.Properties
 
 			var pageTag = ((Page)MainContentFrame.Content).Tag.ToString();
 
-			var defaultItem =
-				MainPropertiesWindowNavigationView
-				.MenuItemsSource
-				.OfType<NavigationViewItemButtonStyleItem>()
-				.FirstOrDefault();
+			//var defaultItem =
+			//	MainPropertiesWindowNavigationView
+			//	.MenuItemsSource
+			//	.OfType<NavigationViewItemButtonStyleItem>()
+			//	.FirstOrDefault();
 
-			MainPropertiesWindowNavigationView.SelectedItem =
-				MainPropertiesWindowNavigationView
-				.MenuItemsSource
-				.OfType<NavigationViewItemButtonStyleItem>()
-				.FirstOrDefault(x => string.Compare(x.Tag.ToString(), pageTag, true) == 0)
-				?? defaultItem;
+			//MainPropertiesWindowNavigationView.SelectedItem =
+			//	MainPropertiesWindowNavigationView
+			//	.MenuItemsSource
+			//	.OfType<NavigationViewItemButtonStyleItem>()
+			//	.FirstOrDefault(x => string.Compare(x.Tag.ToString(), pageTag, true) == 0)
+			//	?? defaultItem;
 
 			SelectionChangedAutomatically = true;
 		}
