@@ -77,7 +77,7 @@ namespace Files.App.Commands
 		DecompressArchiveHere,
 		DecompressArchiveToChildFolder,
 
-		// Image Edition
+		// Image Manipulation
 		RotateLeft,
 		RotateRight,
 
