@@ -24,23 +24,16 @@
 	</Page.Resources>
 
 	<ScrollViewer>
-		<Grid Padding="12,8,12,12" RowSpacing="8">
+		<Grid Padding="12" RowSpacing="8">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<!--  Header  -->
-			<TextBlock
-				Margin="4,0"
-				Style="{StaticResource SubtitleTextBlockStyle}"
-				Text="Security" />
-
 			<!--  Principal List  -->
 			<Grid
 				x:Name="PrincipalListGrid"
-				Grid.Row="1"
+				Grid.Row="0"
 				x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
 				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -148,7 +141,7 @@
 
 			<!--  Permissions of Selected Principal  -->
 			<Grid
-				Grid.Row="2"
+				Grid.Row="1"
 				Padding="12"
 				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"

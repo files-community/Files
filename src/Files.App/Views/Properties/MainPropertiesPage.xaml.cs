@@ -109,8 +109,7 @@ namespace Files.App.Views.Properties
 
 		private void UpdateDialogLayout()
 		{
-			MainPropertiesWindowNavigationView.IsPaneOpen =
-				ActualWidth <= 600 ? false : true;
+			MainPropertiesWindowNavigationView.IsPaneOpen = ActualWidth >= 600;
 
 			if (ActualWidth <= 600)
 				foreach (var item in NavViewItems) item.IsCompact = true;
@@ -332,20 +331,14 @@ namespace Files.App.Views.Properties
 
 			var pageTag = ((Page)MainContentFrame.Content).Tag.ToString();
 
-			//var defaultItem =
-			//	MainPropertiesWindowNavigationView
-			//	.MenuItemsSource
-			//	.OfType<NavigationViewItemButtonStyleItem>()
-			//	.FirstOrDefault();
-
-			//MainPropertiesWindowNavigationView.SelectedItem =
-			//	MainPropertiesWindowNavigationView
-			//	.MenuItemsSource
-			//	.OfType<NavigationViewItemButtonStyleItem>()
-			//	.FirstOrDefault(x => string.Compare(x.Tag.ToString(), pageTag, true) == 0)
-			//	?? defaultItem;
+			var defaultItem = NavViewItems.FirstOrDefault();
 
 			SelectionChangedAutomatically = true;
+
+			MainPropertiesWindowNavigationView.SelectedItem =
+				NavViewItems
+				.FirstOrDefault(x => string.Compare(x.ItemType.ToString(), pageTag, true) == 0)
+				?? defaultItem;
 		}
 
 		private void CancelChangesButton_Click(object sender, RoutedEventArgs e)
