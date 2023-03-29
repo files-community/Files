@@ -73,6 +73,10 @@ namespace Files.App.Views.LayoutModes
 				navigationArguments.NavPathParam = column.NavPathParam;
 				ParentShellPageInstance.TabItemArguments.NavigationArg = column.NavPathParam;
 			}
+			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+			{
+				CloseUnnecessaryColumns(column);
+			}
 		}
 
 		private void ContentChanged(IShellPage p)
