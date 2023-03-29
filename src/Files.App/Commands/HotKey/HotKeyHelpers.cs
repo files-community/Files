@@ -238,17 +238,18 @@ namespace Files.App.Commands
 			if (hotKey.Modifiers is KeyModifiers.None)
 				return keys[hotKey.Key];
 
-			StringBuilder modifierBuilder = new();
+			StringBuilder builder = new();
 			if (hotKey.Modifiers.HasFlag(KeyModifiers.Menu))
-				modifierBuilder.Append($"{modifiers[KeyModifiers.Menu]}+");
+				builder.Append($"{modifiers[KeyModifiers.Menu]}+");
 			if (hotKey.Modifiers.HasFlag(KeyModifiers.Ctrl))
-				modifierBuilder.Append($"{modifiers[KeyModifiers.Ctrl]}+");
+				builder.Append($"{modifiers[KeyModifiers.Ctrl]}+");
 			if (hotKey.Modifiers.HasFlag(KeyModifiers.Shift))
-				modifierBuilder.Append($"{modifiers[KeyModifiers.Shift]}+");
+				builder.Append($"{modifiers[KeyModifiers.Shift]}+");
 			if (hotKey.Modifiers.HasFlag(KeyModifiers.Win))
-				modifierBuilder.Append($"{modifiers[KeyModifiers.Win]}+");
+				builder.Append($"{modifiers[KeyModifiers.Win]}+");
+			builder.Append(keys[hotKey.Key]);
 
-			return $"{modifierBuilder}{keys[hotKey.Key]}";
+			return builder.ToString();
 		}
 
 		private static string GetString(this string key) => $"Key/{key}".GetLocalizedResource();
