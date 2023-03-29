@@ -5,7 +5,6 @@ using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
 using System;
 using System.Collections.Generic;
@@ -600,22 +599,7 @@ namespace Files.App.ViewModels.Settings
 	{
 		public string Text
 		{
-			get
-			{
-				if (Path == "Home")
-					return "Home".GetLocalizedResource();
-
-				if (Path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-					return "RecycleBin".GetLocalizedResource();
-
-				if (Path.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
-					return "ThisPC".GetLocalizedResource();
-
-				if (Path.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
-					return "SidebarNetworkDrives".GetLocalizedResource();
-
-				return Path;
-			}
+			get => ShellHelpers.GetShellNameFromPath(Path);
 		}
 
 		public string Path { get; }

@@ -1,4 +1,7 @@
-﻿namespace Files.App.Helpers
+﻿using Files.App.Extensions;
+using System;
+
+namespace Files.App.Helpers
 {
 	public static class ShellHelpers
 	{
@@ -14,6 +17,18 @@
 				return CommonPaths.NetworkFolderPath;
 
 			return shPath;
+		}
+
+		public static string GetShellNameFromPath(string shPath)
+		{
+			return shPath switch
+			{
+				"Home" => "Home".GetLocalizedResource(),
+				CommonPaths.RecycleBinPath => "RecycleBin".GetLocalizedResource(),
+				CommonPaths.NetworkFolderPath => "SidebarNetworkDrives".GetLocalizedResource(),
+				CommonPaths.MyComputerPath => "ThisPC".GetLocalizedResource(),
+				_ => shPath
+			};
 		}
 	}
 }
