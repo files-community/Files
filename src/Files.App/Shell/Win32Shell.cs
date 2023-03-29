@@ -45,9 +45,9 @@ namespace Files.App.Shell
 						controlPanelCategoryView.PIDL.IsParentOf(shellFolder.PIDL, false)) &&
 						!shellFolder.Any())
 					{
-							// Return null to force open unsupported items in explorer
-							// only if inside control panel and folder appears empty
-							return (null, flc);
+						// Return null to force open unsupported items in explorer
+						// only if inside control panel and folder appears empty
+						return (null, flc);
 					}
 
 					folder = ShellFolderExtensions.GetShellFileItem(shellFolder);
