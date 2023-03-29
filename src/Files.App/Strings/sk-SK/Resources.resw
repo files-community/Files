@@ -324,9 +324,6 @@
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
   </data>
-  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Hľadať</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Položka s týmto názvom už existuje.</value>
   </data>
@@ -2671,5 +2668,8 @@
   </data>
   <data name="ToggleSelect" xml:space="preserve">
     <value>Toggle Selection</value>
+  </data>
+  <data name="ShowFileExtensionWarning" xml:space="preserve">
+    <value>Show warning when changing file extensions</value>
   </data>
 </root>

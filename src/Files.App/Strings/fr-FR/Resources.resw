@@ -324,9 +324,6 @@
   <data name="Refresh" xml:space="preserve">
     <value>Actualiser</value>
   </data>
-  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Rechercher (Ctrl+F)</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Un élément avec ce nom existe déjà dans ce dossier.</value>
   </data>
@@ -1606,7 +1603,7 @@
     <value>Autoriser</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Deny</value>
+    <value>Refuser</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Contrôle total</value>
@@ -1639,7 +1636,7 @@
     <value>Vous n'êtes pas autorisé à afficher les propriétés de sécurité de cet objet. Cliquez sur « Autorisations avancées » pour continuer.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Propriétaire:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Propriétaire inconnu</value>
@@ -1678,7 +1675,7 @@
     <value>Accéder</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>S'applique à</value>
   </data>
   <data name="Principal" xml:space="preserve">
     <value>Principal</value>
@@ -1693,10 +1690,10 @@
     <value>sous-dossiers</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Inherited</value>
+    <value>Hérité</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>Autorisations</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Vous n'êtes pas autorisé à afficher les propriétés de sécurité de cet objet. Vous pouvez essayer de vous approprier cet objet.</value>
@@ -2665,9 +2662,12 @@
     <value>Quitter le mode compact</value>
   </data>
   <data name="Change" xml:space="preserve">
-    <value>Change</value>
+    <value>Modifier</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle Selection</value>
+    <value>Activer/Désactiver la sélection</value>
+  </data>
+  <data name="ShowFileExtensionWarning" xml:space="preserve">
+    <value>Show warning when changing file extensions</value>
   </data>
 </root>

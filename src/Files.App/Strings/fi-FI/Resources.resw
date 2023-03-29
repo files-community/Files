@@ -324,9 +324,6 @@
   <data name="Refresh" xml:space="preserve">
     <value>Päivitä</value>
   </data>
-  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Hae (Ctrl+F)</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Tämänniminen kohde on jo tässä hakemistossa.</value>
   </data>
@@ -1606,7 +1603,7 @@
     <value>Salli</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Deny</value>
+    <value>Estä</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Täysi hallinta</value>
@@ -1639,7 +1636,7 @@
     <value>Sinulla ei ole oikeuksia tarkastella tämän objektin suojausominaisuuksia. Napsauta "Lisäkäyttöoikeudet" jatkaaksesi.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Omistaja:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Tuntematon omistaja</value>
@@ -1678,10 +1675,10 @@
     <value>Käyttöoikeus</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>Käytetään kohteeseen</value>
   </data>
   <data name="Principal" xml:space="preserve">
-    <value>Principal</value>
+    <value>Pääasiallinen</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>tiedostot</value>
@@ -1693,10 +1690,10 @@
     <value>alikansiot</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Inherited</value>
+    <value>Peritty</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>Käyttöoikeudet</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Sinulla ei ole oikeuksia tarkastella tämän objektin suojausominaisuuksia. Voit yrittää ottaa tämän kohteen omistukseen.</value>
@@ -2665,9 +2662,12 @@
     <value>Poistu suppeasta asettelusta</value>
   </data>
   <data name="Change" xml:space="preserve">
-    <value>Change</value>
+    <value>Muuta</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle Selection</value>
+    <value>Vaihda valinta</value>
+  </data>
+  <data name="ShowFileExtensionWarning" xml:space="preserve">
+    <value>Show warning when changing file extensions</value>
   </data>
 </root>
