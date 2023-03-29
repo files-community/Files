@@ -10,6 +10,7 @@ namespace Files.App.Commands
 		EnterCompactOverlay,
 		ExitCompactOverlay,
 		ToggleCompactOverlay,
+		Search,
 
 		// Show
 		ToggleShowHiddenItems,
@@ -76,7 +77,7 @@ namespace Files.App.Commands
 		DecompressArchiveHere,
 		DecompressArchiveToChildFolder,
 
-		// Image Edition
+		// Image Manipulation
 		RotateLeft,
 		RotateRight,
 

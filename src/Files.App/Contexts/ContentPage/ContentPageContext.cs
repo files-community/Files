@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Filesystem;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
+using Files.App.Views.LayoutModes;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -20,6 +21,8 @@ namespace Files.App.Contexts
 		private ItemViewModel? filesystemViewModel;
 
 		public IShellPage? ShellPage => context?.PaneOrColumn;
+
+		public Type PageLayoutType => ShellPage?.CurrentPageType ?? typeof(DetailsLayoutBrowser);
 
 		private ContentPageTypes pageType = ContentPageTypes.None;
 		public ContentPageTypes PageType => pageType;
@@ -42,6 +45,8 @@ namespace Files.App.Contexts
 
 		public bool CanNavigateToParent => ShellPage is not null && ShellPage.ToolbarViewModel.CanNavigateToParent;
 
+		public bool IsSearchBoxVisible => ShellPage is not null && ShellPage.ToolbarViewModel.IsSearchBoxVisible;
+
 		public ContentPageContext()
 		{
 			context.Changing += Context_Changing;
@@ -53,6 +58,7 @@ namespace Files.App.Contexts
 		{
 			if (ShellPage is IShellPage page)
 			{
+				page.PropertyChanged -= Page_PropertyChanged;
 				page.ContentChanged -= Page_ContentChanged;
 				page.InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
 				page.ToolbarViewModel.PropertyChanged -= ToolbarViewModel_PropertyChanged;
@@ -68,6 +74,7 @@ namespace Files.App.Contexts
 		{
 			if (ShellPage is IShellPage page)
 			{
+				page.PropertyChanged += Page_PropertyChanged;
 				page.ContentChanged += Page_ContentChanged;
 				page.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
 				page.ToolbarViewModel.PropertyChanged += ToolbarViewModel_PropertyChanged;
@@ -79,6 +86,16 @@ namespace Files.App.Contexts
 
 			Update();
 			OnPropertyChanged(nameof(ShellPage));
+		}
+
+		private void Page_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(ShellPage.CurrentPageType):
+					OnPropertyChanged(nameof(PageLayoutType));
+					break;
+			}
 		}
 
 		private void Page_ContentChanged(object? sender, TabItemArguments e) => Update();
@@ -109,6 +126,7 @@ namespace Files.App.Contexts
 				case nameof(ToolbarViewModel.CanNavigateToParent):
 				case nameof(ToolbarViewModel.HasItem):
 				case nameof(ToolbarViewModel.CanRefresh):
+				case nameof(ToolbarViewModel.IsSearchBoxVisible):
 					OnPropertyChanged(e.PropertyName);
 					break;
 				case nameof(ToolbarViewModel.SelectedItems):

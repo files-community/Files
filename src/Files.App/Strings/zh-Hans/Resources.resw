@@ -243,9 +243,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>递增</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>刷新</value>
-  </data>
   <data name="Paste" xml:space="preserve">
     <value>粘贴</value>
   </data>
@@ -324,11 +321,8 @@
   <data name="Up" xml:space="preserve">
     <value>上移 (Alt+上方向键)</value>
   </data>
-  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>刷新 (F5)</value>
-  </data>
-  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>搜索 (Ctrl+F)</value>
+  <data name="Refresh" xml:space="preserve">
+    <value>刷新</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>此文件夹中已有同名项目。</value>
@@ -1447,7 +1441,7 @@
     <value>微小</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>未来</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>今天</value>
@@ -1462,19 +1456,19 @@
     <value>上周</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>本月早些时候</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>上月</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>今年早些时候</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>去年</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>{0} 年</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} 个项目</value>
@@ -1608,7 +1602,7 @@
   <data name="Allow" xml:space="preserve">
     <value>允许</value>
   </data>
-  <data name="SecurityDenyLabel.Text" xml:space="preserve">
+  <data name="Deny" xml:space="preserve">
     <value>拒绝</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
@@ -1642,7 +1636,7 @@
     <value>你无权查看此对象的安全属性。 单击“高级权限”继续。</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>所有者</value>
+    <value>所有者:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>未知所有者</value>
@@ -1680,11 +1674,11 @@
   <data name="Access" xml:space="preserve">
     <value>访问</value>
   </data>
-  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
-    <value>应用于</value>
+  <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
+    <value>应用到</value>
   </data>
-  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>实体</value>
+  <data name="Principal" xml:space="preserve">
+    <value>主体</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>文件</value>
@@ -1695,10 +1689,10 @@
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>子文件夹</value>
   </data>
-  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
-    <value>继承</value>
+  <data name="Inherited" xml:space="preserve">
+    <value>继承而来</value>
   </data>
-  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
+  <data name="Permissions" xml:space="preserve">
     <value>权限</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
@@ -1877,9 +1871,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>压缩文件解压完成。</value>
@@ -2669,5 +2660,14 @@
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>退出精简模式</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>更改</value>
+  </data>
+  <data name="ToggleSelect" xml:space="preserve">
+    <value>切换选择</value>
+  </data>
+  <data name="ShowFileExtensionWarning" xml:space="preserve">
+    <value>Show warning when changing file extensions</value>
   </data>
 </root>

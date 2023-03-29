@@ -682,7 +682,7 @@
 																x:Name="TagIcon"
 																FontSize="12"
 																Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-																Glyph="&#xE1CB;"
+																Glyph="&#xE8EC;"
 																Tapped="TagIcon_Tapped"
 																ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
 															<TextBlock
