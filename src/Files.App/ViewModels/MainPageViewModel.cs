@@ -245,8 +245,11 @@ namespace Files.App.ViewModels
 			}
 			else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
-				var localSettings = ApplicationData.Current.LocalSettings;
-				tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+				tabLocationHeader = "RecycleBin".GetLocalizedResource();
+			}
+			else if (currentPath.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+			{
+				tabLocationHeader = "ThisPC".GetLocalizedResource();
 			}
 			else if (currentPath.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 			{

@@ -60,6 +60,7 @@ namespace Files.App.Shell
 					"::{645FF040-5081-101B-9F08-00AA002F954E}" => "Shell:RecycleBinFolder",
 					"::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" => "Shell:NetworkPlacesFolder",
 					"::{208D2C60-3AEA-1069-A2D7-08002B30309D}" => "Shell:NetworkPlacesFolder",
+					"::{20D04FE0-3AEA-1069-A2D8-08002B30309D}" => "Shell:MyComputerFolder",
 					// Use PIDL as path
 					// Replace "/" with "_" to avoid confusion with path separator
 					_ => $@"\\SHELL\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length).Replace("/", "_")))}"

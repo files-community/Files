@@ -605,9 +605,16 @@ namespace Files.App.ViewModels.Settings
 				if (Path == "Home")
 					return "Home".GetLocalizedResource();
 
-				return (Path == CommonPaths.RecycleBinPath)
-					   ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin")
-					   : Path;
+				if (Path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+					return "RecycleBin".GetLocalizedResource();
+
+				if (Path.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+					return "ThisPC".GetLocalizedResource();
+
+				if (Path.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+					return "SidebarNetworkDrives".GetLocalizedResource();
+
+				return Path;
 			}
 		}
 
