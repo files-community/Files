@@ -324,9 +324,6 @@
   <data name="Refresh" xml:space="preserve">
     <value>最新の情報に更新</value>
   </data>
-  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>検索 (Ctrl+F)</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>同じ名前のファイルがこのフォルダーに既に存在します。</value>
   </data>
@@ -2669,5 +2666,8 @@
   </data>
   <data name="ToggleSelect" xml:space="preserve">
     <value>選択を切り替える</value>
+  </data>
+  <data name="ShowFileExtensionWarning" xml:space="preserve">
+    <value>ファイル拡張子の変更時に警告を表示する</value>
   </data>
 </root>
