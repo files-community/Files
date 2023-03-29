@@ -324,9 +324,6 @@
   <data name="Refresh" xml:space="preserve">
     <value>Aggiorna</value>
   </data>
-  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Cerca (Ctrl + F)</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Un elemento con lo stesso nome esiste già in questa cartella.</value>
   </data>
@@ -2669,5 +2666,8 @@
   </data>
   <data name="ToggleSelect" xml:space="preserve">
     <value>Alterna Selezione</value>
+  </data>
+  <data name="ShowFileExtensionWarning" xml:space="preserve">
+    <value>Chiedi conferma prima di cambiare l'estensione di un file</value>
   </data>
 </root>
