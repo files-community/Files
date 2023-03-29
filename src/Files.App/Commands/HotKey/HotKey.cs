@@ -5,7 +5,7 @@ namespace Files.App.Commands
 {
 	public readonly struct HotKey : IEquatable<HotKey>
 	{
-		public static HotKey None { get; } = new(VirtualKey.None, VirtualKeyModifiers.None);
+		public static HotKey None { get; } = new(Keys.None, KeyModifiers.None);
 
 		public bool IsNone => Key is VirtualKey.None;
 
@@ -14,6 +14,16 @@ namespace Files.App.Commands
 
 		public Keys CommandKey => (Keys)Key;
 		public KeyModifiers CommandKeyModifiers => (KeyModifiers)Modifiers;
+
+		public HotKey(Keys key) : this(key, KeyModifiers.None) {}
+		public HotKey(Keys key, KeyModifiers modifier)
+		{
+			if (key is Keys.None)
+				return;
+
+			Key = (VirtualKey)key;
+			Modifiers = (VirtualKeyModifiers)modifier;
+		}
 
 		public HotKey(VirtualKey key) : this(key, VirtualKeyModifiers.None) {}
 		public HotKey(VirtualKey key, VirtualKeyModifiers modifiers)
@@ -33,8 +43,6 @@ namespace Files.App.Commands
 				or VirtualKey.Shift or VirtualKey.LeftShift or VirtualKey.RightShift
 				or VirtualKey.LeftWindows or VirtualKey.RightWindows;
 		}
-		public HotKey(Keys key) : this((VirtualKey)key) {}
-		public HotKey(Keys key, KeyModifiers modifier) : this((VirtualKey)key, (VirtualKeyModifiers)modifier) {}
 
 		public void Deconstruct(out VirtualKey key, out VirtualKeyModifiers modifiers)
 			=> (key, modifiers) = (Key, Modifiers);

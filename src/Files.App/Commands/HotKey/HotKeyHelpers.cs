@@ -194,11 +194,11 @@ namespace Files.App.Commands
 
 		private static readonly ImmutableArray<HotKey> textBoxHotKeys = new List<HotKey>
 		{
-			new HotKey(VirtualKey.X, VirtualKeyModifiers.Control), // Cut
-			new HotKey(VirtualKey.C, VirtualKeyModifiers.Control), // Copy
-			new HotKey(VirtualKey.V, VirtualKeyModifiers.Control), // Paste
-			new HotKey(VirtualKey.A, VirtualKeyModifiers.Control), // Select all
-			new HotKey(VirtualKey.Z, VirtualKeyModifiers.Control), // Cancel
+			new HotKey(Keys.X, KeyModifiers.Ctrl), // Cut
+			new HotKey(Keys.C, KeyModifiers.Ctrl), // Copy
+			new HotKey(Keys.V, KeyModifiers.Ctrl), // Paste
+			new HotKey(Keys.A, KeyModifiers.Ctrl), // Select all
+			new HotKey(Keys.Z, KeyModifiers.Ctrl), // Cancel
 		}.ToImmutableArray();
 
 		public static bool IsValid(this VirtualKeyModifiers modifier) => modifiers.ContainsKey(modifier);
