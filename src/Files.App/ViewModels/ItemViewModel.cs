@@ -1478,6 +1478,7 @@ namespace Files.App.ViewModels
 			bool isWslDistro = App.WSLDistroManager.TryGetDistro(path, out _);
 			bool isNetwork = path.StartsWith(@"\\", StringComparison.Ordinal) &&
 				!path.StartsWith(@"\\?\", StringComparison.Ordinal) &&
+				!path.StartsWith(@"\\SHELL\", StringComparison.Ordinal) &&
 				!isWslDistro;
 			bool enumFromStorageFolder = isBoxFolder;
 
