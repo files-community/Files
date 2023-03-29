@@ -91,8 +91,9 @@ namespace Files.App.Filesystem
 					return new StorageFolderWithPath(matchingDrive, rootPath);
 				}
 			}
+			// Network share
 			else if (devicePath.StartsWith(@"\\", StringComparison.Ordinal) &&
-				!devicePath.StartsWith(@"\\SHELL\", StringComparison.Ordinal)) // Network share
+				!devicePath.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
 			{
 				int lastSepIndex = rootPath.LastIndexOf(@"\", StringComparison.Ordinal);
 				rootPath = lastSepIndex > 1 ? rootPath.Substring(0, lastSepIndex) : rootPath; // Remove share name
