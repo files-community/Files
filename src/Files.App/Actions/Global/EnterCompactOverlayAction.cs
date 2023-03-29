@@ -18,7 +18,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "EnterCompactOverlay");
 
-		public HotKey HotKey { get; } = new(Keys.Up, KeyModifiers.CtrlMenu);
+		public HotKey HotKey { get; } = new(Keys.Up, KeyModifiers.MenuCtrl);
 
 		public string Description => "EnterCompactOverlayDescription".GetLocalizedResource();
 

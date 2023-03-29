@@ -1,5 +1,4 @@
 ﻿using System;
-using Windows.System;
 
 namespace Files.App.Commands
 {
@@ -7,44 +6,22 @@ namespace Files.App.Commands
 	{
 		public static HotKey None { get; } = new(Keys.None, KeyModifiers.None);
 
-		public bool IsNone => Key is VirtualKey.None;
+		public bool IsNone => Key is Keys.None;
 
-		public VirtualKey Key { get; } = VirtualKey.None;
-		public VirtualKeyModifiers Modifiers { get; } = VirtualKeyModifiers.None;
-
-		public Keys CommandKey => (Keys)Key;
-		public KeyModifiers CommandKeyModifiers => (KeyModifiers)Modifiers;
+		public Keys Key { get; }
+		public KeyModifiers Modifiers { get; }
 
 		public HotKey(Keys key) : this(key, KeyModifiers.None) {}
-		public HotKey(Keys key, KeyModifiers modifier)
+		public HotKey(Keys key, KeyModifiers modifiers)
 		{
-			if (key is Keys.None)
+			if (key is Keys.None || !Enum.IsDefined(key))
 				return;
-
-			Key = (VirtualKey)key;
-			Modifiers = (VirtualKeyModifiers)modifier;
-		}
-
-		public HotKey(VirtualKey key) : this(key, VirtualKeyModifiers.None) {}
-		public HotKey(VirtualKey key, VirtualKeyModifiers modifiers)
-		{
-			if (!key.IsValid())
-				return;
-
-			if (IsModifier(key))
-				throw new ArgumentException("The key cannot be a modifier.", nameof(key));
 
 			Key = key;
 			Modifiers = modifiers;
-
-			static bool IsModifier(VirtualKey key)
-				=> key is VirtualKey.Menu or VirtualKey.LeftMenu or VirtualKey.RightMenu
-				or VirtualKey.Control or VirtualKey.LeftControl or VirtualKey.RightControl
-				or VirtualKey.Shift or VirtualKey.LeftShift or VirtualKey.RightShift
-				or VirtualKey.LeftWindows or VirtualKey.RightWindows;
 		}
 
-		public void Deconstruct(out VirtualKey key, out VirtualKeyModifiers modifiers)
+		public void Deconstruct(out Keys key, out KeyModifiers modifiers)
 			=> (key, modifiers) = (Key, Modifiers);
 
 		public static implicit operator string(HotKey hotKey) => hotKey.ToString();
