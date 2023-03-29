@@ -16,8 +16,8 @@ namespace Files.App.Helpers
 {
 	public static class FilePropertiesHelpers
 	{
-		private static readonly bool isUniversal =
-			ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", majorVersion: 8);
+		public static readonly bool IsWinUI3 =
+			ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
 
 		private static readonly Lazy<string> logoPath = new(GetFilesLogoPath);
 		public static string LogoPath => logoPath.Value;
@@ -55,12 +55,13 @@ namespace Files.App.Helpers
 			if (item is null)
 				return;
 
-			if (isUniversal)
+			if (IsWinUI3)
 			{
 				var frame = new Frame
 				{
 					RequestedTheme = ThemeHelper.RootTheme
 				};
+
 				Navigate(frame);
 
 				var propertiesWindow = new WinUIEx.WindowEx
@@ -91,7 +92,8 @@ namespace Files.App.Helpers
 
 				appWindow.Show();
 
-				if (true) // WINUI3: move window to cursor position
+				// WINUI3: move window to cursor position
+				if (true)
 				{
 					UWPToWinAppSDKUpgradeHelpers.InteropHelpers.GetCursorPos(out var pointerPosition);
 					var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
@@ -122,6 +124,7 @@ namespace Files.App.Helpers
 					Item = item,
 					AppInstanceArgument = associatedInstance,
 				};
+
 				frame.Navigate(typeof(Views.Properties.MainPropertiesPage), argument, new SuppressNavigationTransitionInfo());
 			}
 		}

@@ -9,6 +9,7 @@
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Loaded="Properties_Loaded"
+	Tag="General"
 	mc:Ignorable="d">
 
 	<vm:BasePropertiesPage.Resources>
@@ -32,23 +33,30 @@
 
 			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
+			<Thickness x:Key="FlyoutContentPadding">8,6</Thickness>
+
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
 
 	<ScrollViewer>
 		<StackPanel
-			Padding="12"
-			Spacing="4"
+			Padding="12,8,12,12"
+			Spacing="8"
 			Style="{StaticResource PropertiesTab}">
 
-			<!--  Item overview  -->
+			<TextBlock
+				Margin="4,0"
+				Style="{StaticResource SubtitleTextBlockStyle}"
+				Text="General" />
+
+			<!--  Item Overview  -->
 			<Grid
 				Padding="12"
 				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
 				ColumnSpacing="8"
-				CornerRadius="4"
+				CornerRadius="8"
 				RowSpacing="8">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition
@@ -62,6 +70,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
+
 				<uc:FileIcon
 					x:Name="Icon"
 					Grid.Row="0"
@@ -104,6 +113,7 @@
 					FontWeight="SemiBold"
 					Style="{StaticResource PropertyName}"
 					Text="{helpers:ResourceString Name=Type}" />
+
 				<TextBlock
 					x:Name="itemTypeValue"
 					Grid.Row="1"
@@ -121,6 +131,7 @@
 					FontWeight="SemiBold"
 					Style="{StaticResource PropertyName}"
 					Text="{helpers:ResourceString Name=PropertiesDriveFileSystem/Text}" />
+
 				<TextBlock
 					x:Name="DriveFileSystemValue"
 					Grid.Row="2"
@@ -128,14 +139,16 @@
 					x:Load="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}"
 					Style="{StaticResource PropertyValueTextBlock}"
 					Text="{x:Bind ViewModel.DriveFileSystem, Mode=OneWay}" />
+
 			</Grid>
 
-			<!--  Item details  -->
+			<!--  Item Details  -->
 			<Expander
 				x:Name="ItemDetails"
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				x:Load="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}"
+				CornerRadius="8"
 				Header="{helpers:ResourceString Name=MoreDetails}"
 				IsExpanded="True">
 				<Expander.Content>
@@ -279,7 +292,7 @@
 				</Expander.Content>
 			</Expander>
 
-			<!--  Disk details  -->
+			<!--  Disk Details  -->
 			<Grid
 				x:Name="DiskDetailsGrid"
 				Padding="12"
@@ -289,7 +302,7 @@
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
 				ColumnSpacing="8"
-				CornerRadius="4"
+				CornerRadius="8"
 				RowSpacing="8">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="72" />
@@ -321,17 +334,16 @@
 					Background="{ThemeResource ProgressRingBackgroundThemeBrush}"
 					IsIndeterminate="False"
 					Value="{x:Bind ViewModel.DrivePercentageValue, Mode=OneWay}">
-
 					<ProgressRing.Template>
 						<ControlTemplate TargetType="ProgressRing">
 							<Grid x:Name="LayoutRoot" Background="Transparent">
 								<Grid.Resources>
 									<toolkitconverters:StringFormatConverter x:Key="StringFormatConverter" />
 								</Grid.Resources>
+
 								<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 									<TextBlock
-										Margin="0"
-										FontWeight="SemiBold"
+										Style="{StaticResource BodyStrongTextBlockStyle}"
 										Text="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0}%', Mode=OneWay}"
 										TextAlignment="Center" />
 								</StackPanel>
@@ -359,7 +371,7 @@
 					</ProgressRing.Template>
 				</ProgressRing>
 
-				<!--  Disk used space  -->
+				<!--  Disk Used Space  -->
 				<StackPanel
 					x:Name="DriveUsedSpaceStackPanel"
 					Grid.Row="0"
@@ -379,6 +391,7 @@
 						FontWeight="SemiBold"
 						Text="{helpers:ResourceString Name=PropertiesDriveUsedSpace/Text}" />
 				</StackPanel>
+
 				<TextBlock
 					x:Name="driveUsedSpaceValue"
 					Grid.Row="0"
@@ -386,10 +399,11 @@
 					x:Load="{x:Bind ViewModel.DriveUsedSpaceVisibility, Mode=OneWay}"
 					Style="{StaticResource PropertyValueTextBlock}"
 					Text="{x:Bind ViewModel.DriveUsedSpace, Mode=OneWay}" />
+
 				<Button
 					Grid.Row="0"
 					Grid.Column="3"
-					Padding="8,6"
+					Padding="6"
 					AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
 					Background="Transparent"
 					BorderBrush="Transparent"
@@ -402,7 +416,7 @@
 					</Button.Flyout>
 				</Button>
 
-				<!--  Disk free space  -->
+				<!--  Disk Free Space  -->
 				<StackPanel
 					x:Name="DiskSpaceStackPanel"
 					Grid.Row="1"
@@ -422,6 +436,7 @@
 						FontWeight="SemiBold"
 						Text="{helpers:ResourceString Name=PropertiesDriveFreeSpace/Text}" />
 				</StackPanel>
+
 				<TextBlock
 					x:Name="driveFreeSpaceValue"
 					Grid.Row="1"
@@ -429,10 +444,11 @@
 					x:Load="{x:Bind ViewModel.DriveFreeSpaceVisibility, Mode=OneWay}"
 					Style="{StaticResource PropertyValueTextBlock}"
 					Text="{x:Bind ViewModel.DriveFreeSpace, Mode=OneWay}" />
+
 				<Button
 					Grid.Row="1"
 					Grid.Column="3"
-					Padding="8,6"
+					Padding="6"
 					AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
 					Background="Transparent"
 					BorderBrush="Transparent"
@@ -445,7 +461,7 @@
 					</Button.Flyout>
 				</Button>
 
-				<!--  Drive capacity  -->
+				<!--  Drive Capacity  -->
 				<TextBlock
 					x:Name="PropertiesDriveCapacity"
 					Grid.Row="2"
@@ -455,6 +471,7 @@
 					x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
 					FontWeight="SemiBold"
 					Text="{helpers:ResourceString Name=PropertiesDriveCapacity/Text}" />
+
 				<TextBlock
 					x:Name="DriveCapacityValue"
 					Grid.Row="2"
@@ -462,10 +479,11 @@
 					x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
 					Style="{StaticResource PropertyValueTextBlock}"
 					Text="{x:Bind ViewModel.DriveCapacity, Mode=OneWay}" />
+
 				<Button
 					Grid.Row="2"
 					Grid.Column="3"
-					Padding="8,6"
+					Padding="6"
 					AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
 					Background="Transparent"
 					BorderBrush="Transparent"
@@ -478,20 +496,23 @@
 					</Button.Flyout>
 				</Button>
 
-				<MenuFlyoutSeparator
+				<!--  Divider  -->
+				<Border
 					Grid.Row="3"
 					Grid.Column="0"
 					Grid.ColumnSpan="4"
+					Height="1"
 					Margin="-12,0"
-					Background="{ThemeResource CardStrokeColorDefaultBrush}" />
+					Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
-				<!--  Disk cleanup  -->
+				<!--  Disk Cleanup  -->
 				<TextBlock
 					Grid.Row="4"
 					Grid.Column="0"
 					Grid.ColumnSpan="2"
 					Style="{StaticResource PropertyValueTextBlock}"
 					Text="{helpers:ResourceString Name=CleanupDrive}" />
+
 				<Button
 					x:Name="DiskCleanupButton"
 					Grid.Row="4"
@@ -502,12 +523,13 @@
 					Content="{helpers:ResourceString Name=DiskCleanup}" />
 			</Grid>
 
-			<!--  Item attributes  -->
+			<!--  Item Attributes  -->
 			<Expander
 				x:Name="ItemAttributes"
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				x:Load="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}"
+				CornerRadius="8"
 				Header="{helpers:ResourceString Name=Attributes}"
 				IsExpanded="False">
 				<Expander.Content>

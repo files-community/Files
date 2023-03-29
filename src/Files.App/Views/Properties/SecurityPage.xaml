@@ -3,11 +3,13 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:fssecurity="using:Files.App.Filesystem.Security"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:security="using:Files.App.Filesystem.Security"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	DataContext="{x:Bind SecurityViewModel, Mode=OneWay}"
+	Tag="Security"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -22,21 +24,28 @@
 	</Page.Resources>
 
 	<ScrollViewer>
-		<Grid Padding="12" RowSpacing="8">
+		<Grid Padding="12,8,12,12" RowSpacing="8">
 			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
+			<!--  Header  -->
+			<TextBlock
+				Margin="4,0"
+				Style="{StaticResource SubtitleTextBlockStyle}"
+				Text="Security" />
+
 			<!--  Principal List  -->
 			<Grid
 				x:Name="PrincipalListGrid"
-				Grid.Row="0"
+				Grid.Row="1"
 				x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
 				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
-				CornerRadius="4">
+				CornerRadius="8">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
@@ -105,7 +114,7 @@
 						</ListView.ItemContainerStyle>
 
 						<ListView.ItemTemplate>
-							<DataTemplate x:DataType="fssecurity:AccessControlEntry">
+							<DataTemplate x:DataType="security:AccessControlEntry">
 								<Grid ColumnSpacing="4">
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="Auto" />
@@ -139,12 +148,12 @@
 
 			<!--  Permissions of Selected Principal  -->
 			<Grid
-				Grid.Row="1"
+				Grid.Row="2"
 				Padding="12"
 				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
-				CornerRadius="4"
+				CornerRadius="8"
 				RowSpacing="8">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
@@ -174,7 +183,7 @@
 						Padding="8,6,4,6"
 						VerticalAlignment="Center"
 						AutomationProperties.Name="{helpers:ResourceString Name=AdvancedPermissions}"
-						Command="{x:Bind OpenSecurityAdvancedPageWindowCommand}"
+						Command="{x:Bind OpenSecurityAdvancedPageCommand, Mode=OneWay}"
 						ToolTipService.ToolTip="{helpers:ResourceString Name=AdvancedPermissions}">
 						<StackPanel Orientation="Horizontal" Spacing="4">
 							<TextBlock Text="{helpers:ResourceString Name=AdvancedPermissions}" />

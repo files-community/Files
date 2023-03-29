@@ -9,6 +9,7 @@
 	xmlns:settingsuc="using:Files.App.UserControls.Settings"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Loaded="Properties_Loaded"
+	Tag="Compatibility"
 	mc:Ignorable="d">
 
 	<vm:BasePropertiesPage.Resources>

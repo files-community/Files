@@ -9,6 +9,7 @@
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Loaded="Properties_Loaded"
+	Tag="Library"
 	mc:Ignorable="d">
 
 	<Page.Resources>

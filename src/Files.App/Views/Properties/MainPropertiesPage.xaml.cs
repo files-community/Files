@@ -29,16 +29,6 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class MainPropertiesPage : Page
 	{
-		private CancellationTokenSource? _tokenSource;
-
-		private ContentDialog _propertiesDialog;
-
-		private object _navParamItem;
-
-		private IShellPage _appInstance;
-
-		private bool _usingWinUI;
-
 		public readonly SettingsViewModel AppSettings;
 
 		public Window Window;
@@ -50,12 +40,11 @@ namespace Files.App.Views.Properties
 		public MainPropertiesPage()
 		{
 			InitializeComponent();
+
 			AppSettings = Ioc.Default.GetRequiredService<SettingsViewModel>();
 			_tokenSource = new();
 
 			NavViewItems = new();
-
-			_usingWinUI = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
 
 			// TODO:
 			//  ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
@@ -66,6 +55,19 @@ namespace Files.App.Views.Properties
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
 		}
+
+		private CancellationTokenSource? _tokenSource;
+
+		private ContentDialog _propertiesDialog;
+
+		private object _navParamItem;
+
+		private IShellPage _appInstance;
+
+		private static bool IsWinUI3
+			=> FilePropertiesHelpers.IsWinUI3;
+
+		private bool SelectionChangedAutomatically { get; set; }
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
@@ -82,11 +84,9 @@ namespace Files.App.Views.Properties
 		{
 			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
 
-			if (_usingWinUI)
+			if (IsWinUI3)
 			{
-				// WinUI3: Set rectangle for the Titlebar
-				TitlebarArea.SizeChanged += (_, _) => DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight);
-				DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight);
+				DragZoneHelper.SetDragZones(Window, (int)TitlebarAreaGrid.ActualHeight, (int)TitlebarAreaTitle.ActualOffset.X);
 				AppWindow.Destroying += AppWindow_Destroying;
 
 				await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
@@ -100,13 +100,17 @@ namespace Files.App.Views.Properties
 
 		private void MainPropertiesPage_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
+			// Update NavigationView pane mode
 			UpdateDialogLayout();
+
+			// Update drag region
+			DragZoneHelper.SetDragZones(Window, (int)TitlebarAreaGrid.ActualHeight, (int)TitlebarAreaTitle.ActualOffset.X);
 		}
 
 		private void UpdateDialogLayout()
 		{
-			MainPropertiesWindowNavigationView.PaneDisplayMode =
-				ActualWidth <= 600 ? NavigationViewPaneDisplayMode.LeftCompact : NavigationViewPaneDisplayMode.Left;
+			MainPropertiesWindowNavigationView.IsPaneOpen =
+				ActualWidth <= 600 ? false : true;
 
 			if (ActualWidth <= 600)
 				foreach (var item in NavViewItems) item.IsCompact = true;
@@ -120,7 +124,7 @@ namespace Files.App.Views.Properties
 			{
 				((Frame)Parent).RequestedTheme = ThemeHelper.RootTheme;
 
-				if (!_usingWinUI)
+				if (!IsWinUI3)
 					return;
 
 				switch (ThemeHelper.RootTheme)
@@ -145,6 +149,12 @@ namespace Files.App.Views.Properties
 
 		private void MainPropertiesWindowNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
+			if (SelectionChangedAutomatically)
+			{
+				SelectionChangedAutomatically = false;
+				return;
+			}
+
 			var navParam = new PropertyNavParam()
 			{
 				tokenSource = _tokenSource,
@@ -154,29 +164,29 @@ namespace Files.App.Views.Properties
 
 			switch ((PropertyNavigationViewItemEnums)args.SelectedItemContainer.Tag)
 			{
-				case PropertyNavigationViewItemEnums.ItemGeneral:
-					contentFrame.Navigate(typeof(GeneralPage), navParam, args.RecommendedNavigationTransitionInfo);
+				case PropertyNavigationViewItemEnums.General:
+					MainContentFrame.Navigate(typeof(GeneralPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
-				case PropertyNavigationViewItemEnums.ItemShortcut:
-					contentFrame.Navigate(typeof(ShortcutPage), navParam, args.RecommendedNavigationTransitionInfo);
+				case PropertyNavigationViewItemEnums.Shortcut:
+					MainContentFrame.Navigate(typeof(ShortcutPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
-				case PropertyNavigationViewItemEnums.ItemLibrary:
-					contentFrame.Navigate(typeof(LibraryPage), navParam, args.RecommendedNavigationTransitionInfo);
+				case PropertyNavigationViewItemEnums.Library:
+					MainContentFrame.Navigate(typeof(LibraryPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
-				case PropertyNavigationViewItemEnums.ItemDetails:
-					contentFrame.Navigate(typeof(DetailsPage), navParam, args.RecommendedNavigationTransitionInfo);
+				case PropertyNavigationViewItemEnums.Details:
+					MainContentFrame.Navigate(typeof(DetailsPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
-				case PropertyNavigationViewItemEnums.ItemSecurity:
-					contentFrame.Navigate(typeof(SecurityPage), navParam, args.RecommendedNavigationTransitionInfo);
+				case PropertyNavigationViewItemEnums.Security:
+					MainContentFrame.Navigate(typeof(SecurityPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
-				case PropertyNavigationViewItemEnums.ItemCustomization:
-					contentFrame.Navigate(typeof(CustomizationPage), navParam, args.RecommendedNavigationTransitionInfo);
+				case PropertyNavigationViewItemEnums.Customization:
+					MainContentFrame.Navigate(typeof(CustomizationPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
-				case PropertyNavigationViewItemEnums.ItemCompatibility:
-					contentFrame.Navigate(typeof(CompatibilityPage), navParam, args.RecommendedNavigationTransitionInfo);
+				case PropertyNavigationViewItemEnums.Compatibility:
+					MainContentFrame.Navigate(typeof(CompatibilityPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
-				case PropertyNavigationViewItemEnums.ItemHash:
-					contentFrame.Navigate(typeof(HashesPage), navParam, args.RecommendedNavigationTransitionInfo);
+				case PropertyNavigationViewItemEnums.Hashes:
+					MainContentFrame.Navigate(typeof(HashesPage), navParam, args.RecommendedNavigationTransitionInfo);
 					break;
 			}
 		}
@@ -186,49 +196,49 @@ namespace Files.App.Views.Properties
 			var generalItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "General".GetLocalizedResource(),
-				ItemType = PropertyNavigationViewItemEnums.ItemGeneral,
+				ItemType = PropertyNavigationViewItemEnums.General,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconGeneralProperties"],
 			};
 			var securityItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Security".GetLocalizedResource(),
-				ItemType = PropertyNavigationViewItemEnums.ItemSecurity,
+				ItemType = PropertyNavigationViewItemEnums.Security,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconSecurityProperties"],
 			};
 			var hashItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Hashes".GetLocalizedResource(),
-				ItemType = PropertyNavigationViewItemEnums.ItemHash,
+				ItemType = PropertyNavigationViewItemEnums.Hashes,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconHashesProperties"],
 			};
 			var shortcutItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Shortcut".GetLocalizedResource(),
-				ItemType = PropertyNavigationViewItemEnums.ItemShortcut,
+				ItemType = PropertyNavigationViewItemEnums.Shortcut,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconShortcutProperties"],
 			};
 			var libraryItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Library".GetLocalizedResource(),
-				ItemType = PropertyNavigationViewItemEnums.ItemLibrary,
+				ItemType = PropertyNavigationViewItemEnums.Library,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconLibraryProperties"],
 			};
 			var detailsItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Details".GetLocalizedResource(),
-				ItemType = PropertyNavigationViewItemEnums.ItemDetails,
+				ItemType = PropertyNavigationViewItemEnums.Details,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconDetailsProperties"],
 			};
 			var customizationItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Customization".GetLocalizedResource(),
-				ItemType = PropertyNavigationViewItemEnums.ItemCustomization,
+				ItemType = PropertyNavigationViewItemEnums.Customization,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconCustomizationProperties"],
 			};
 			var compatibilityItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Compatibility".GetLocalizedResource(),
-				ItemType = PropertyNavigationViewItemEnums.ItemCompatibility,
+				ItemType = PropertyNavigationViewItemEnums.Compatibility,
 				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconCompatibilityProperties"],
 			};
 
@@ -303,6 +313,41 @@ namespace Files.App.Views.Properties
 			}
 		}
 
+		private void MainPropertiesWindowNavigationView_PaneClosing(NavigationView sender, NavigationViewPaneClosingEventArgs args)
+		{
+			foreach (var item in NavViewItems)
+				item.IsCompact = true;
+		}
+
+		private void MainPropertiesWindowNavigationView_PaneOpening(NavigationView sender, object args)
+		{
+			foreach (var item in NavViewItems)
+				item.IsCompact = false;
+		}
+
+		private void TitlebarAreaBackButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (MainContentFrame.CanGoBack)
+				MainContentFrame.GoBack();
+
+			var pageTag = ((Page)MainContentFrame.Content).Tag.ToString();
+
+			var defaultItem =
+				MainPropertiesWindowNavigationView
+				.MenuItemsSource
+				.OfType<NavigationViewItemButtonStyleItem>()
+				.FirstOrDefault();
+
+			MainPropertiesWindowNavigationView.SelectedItem =
+				MainPropertiesWindowNavigationView
+				.MenuItemsSource
+				.OfType<NavigationViewItemButtonStyleItem>()
+				.FirstOrDefault(x => string.Compare(x.Tag.ToString(), pageTag, true) == 0)
+				?? defaultItem;
+
+			SelectionChangedAutomatically = true;
+		}
+
 		private void CancelChangesButton_Click(object sender, RoutedEventArgs e)
 		{
 			ClosePage();
@@ -317,15 +362,15 @@ namespace Files.App.Views.Properties
 
 		private async Task ApplyChanges()
 		{
-			if (contentFrame.Content is not null)
+			if (MainContentFrame.Content is not null)
 			{
-				if (contentFrame.Content is GeneralPage propertiesGeneral)
+				if (MainContentFrame.Content is GeneralPage propertiesGeneral)
 				{
 					await propertiesGeneral.SaveChangesAsync();
 				}
 				else
 				{
-					await ((BasePropertiesPage)contentFrame.Content).SaveChangesAsync();
+					await ((BasePropertiesPage)MainContentFrame.Content).SaveChangesAsync();
 				}
 			}
 		}
@@ -338,7 +383,7 @@ namespace Files.App.Views.Properties
 
 		private void ClosePage()
 		{
-			if (_usingWinUI)
+			if (IsWinUI3)
 				// AppWindow.Destroy() doesn't seem to work well. (#11461)
 				Window.Close();
 			else
@@ -388,41 +433,51 @@ namespace Files.App.Views.Properties
 	// TODO: Should move to a general place to use in the Settings Dialog as well
 	public class NavigationViewItemButtonStyleItem : ObservableObject
 	{
-		public string Name;
+		public string? _Name;
+		public string? Name
+		{
+			get => _Name;
+			set => SetProperty(ref _Name, value);
+		}
 
-		public PropertyNavigationViewItemEnums ItemType;
+		private PropertyNavigationViewItemEnums _ItemType;
+		public PropertyNavigationViewItemEnums ItemType
+		{
+			get => _ItemType;
+			set => SetProperty(ref _ItemType, value);
+		}
 
-		private Style _opacityIconStyle;
+		private Style _OpacityIconStyle = (Style)Application.Current.Resources["ColorIconGeneralProperties"];
 		public Style OpacityIconStyle
 		{
-			get => _opacityIconStyle;
-			set => SetProperty(ref _opacityIconStyle, value);
+			get => _OpacityIconStyle;
+			set => SetProperty(ref _OpacityIconStyle, value);
 		}
 
-		private bool _isSelected;
+		private bool _IsSelected;
 		public bool IsSelected
 		{
-			get => _isSelected;
-			set => SetProperty(ref _isSelected, value);
+			get => _IsSelected;
+			set => SetProperty(ref _IsSelected, value);
 		}
 
-		private bool _isCompact;
+		private bool _IsCompact;
 		public bool IsCompact
 		{
-			get => _isCompact;
-			set => SetProperty(ref _isCompact, value);
+			get => _IsCompact;
+			set => SetProperty(ref _IsCompact, value);
 		}
 	}
 
 	public enum PropertyNavigationViewItemEnums
 	{
-		ItemGeneral = 1,
-		ItemShortcut,
-		ItemLibrary,
-		ItemDetails,
-		ItemSecurity,
-		ItemCustomization,
-		ItemCompatibility,
-		ItemHash,
+		General = 1,
+		Shortcut,
+		Library,
+		Details,
+		Security,
+		Customization,
+		Compatibility,
+		Hashes,
 	}
 }
