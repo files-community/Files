@@ -6,6 +6,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	Loaded="Properties_Loaded"
 	Tag="Details"
 	mc:Ignorable="d">
@@ -16,17 +17,38 @@
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
+
+		<Style
+			x:Key="EnhancedButtonStyle"
+			BasedOn="{StaticResource DefaultButtonStyle}"
+			TargetType="Button">
+			<Setter Property="Background" Value="{ThemeResource ExpanderHeaderBackground}" />
+			<Setter Property="BorderBrush" Value="{ThemeResource ExpanderHeaderBorderBrush}" />
+			<Setter Property="BorderThickness" Value="{ThemeResource ExpanderHeaderBorderThickness}" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="Padding" Value="{StaticResource ExpanderContentPadding}" />
+			<Setter Property="MinHeight" Value="{StaticResource ExpanderMinHeight}" />
+			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+		</Style>
+
 	</Page.Resources>
 
 	<ScrollViewer>
-		<Grid Padding="12">
+		<Grid Padding="12" RowSpacing="8">
 
-			<ListView
-				x:Name="MainList"
-				HorizontalAlignment="Stretch"
-				ItemsSource="{x:Bind ViewModel.PropertySections, Mode=OneWay}"
-				SelectionMode="None">
+			<!--  Property Section List  -->
+			<ListView ItemsSource="{x:Bind ViewModel.PropertySections, Mode=OneWay}" SelectionMode="None">
 
+				<!--  Style  -->
+				<ListView.ItemContainerStyle>
+					<Style TargetType="ListViewItem">
+						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+						<Setter Property="Padding" Value="0,2,0,2" />
+					</Style>
+				</ListView.ItemContainerStyle>
+
+				<!--  Template  -->
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="vm:FilePropertySection">
 						<Expander
@@ -34,12 +56,15 @@
 							HorizontalContentAlignment="Stretch"
 							Header="{x:Bind Title}"
 							IsExpanded="True">
+
+							<!--  Inner Property List  -->
 							<ListView
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Stretch"
 								ItemsSource="{x:Bind}"
 								ScrollViewer.VerticalScrollMode="Disabled"
 								SelectionMode="None">
+
 								<ListView.ItemTemplate>
 									<DataTemplate x:DataType="vm:FileProperty">
 										<Grid HorizontalAlignment="Stretch" ColumnSpacing="8">
@@ -52,7 +77,7 @@
 											</Grid.ColumnDefinitions>
 
 											<TextBlock
-												Grid.Row="0"
+												x:Name="PropertyValueTextBlock"
 												Grid.Column="0"
 												HorizontalAlignment="Stretch"
 												Style="{StaticResource PropertyName}"
@@ -60,13 +85,13 @@
 												TextWrapping="Wrap" />
 
 											<TextBox
-												x:Name="PropertyValueTemplateTextBox"
-												Grid.Row="0"
+												x:Name="PropertyValueTextBox"
 												Grid.Column="1"
 												HorizontalAlignment="Stretch"
 												IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
 												Style="{StaticResource PropertyValueTextBox}"
 												Text="{x:Bind ValueText, Mode=TwoWay}" />
+
 										</Grid>
 									</DataTemplate>
 								</ListView.ItemTemplate>
@@ -77,32 +102,31 @@
 										<Setter Property="Padding" Value="0" />
 									</Style>
 								</ListView.ItemContainerStyle>
+
 							</ListView>
+
 						</Expander>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 
-				<ListView.ItemContainerStyle>
-					<Style TargetType="ListViewItem">
-						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-						<Setter Property="Padding" Value="0,2,0,2" />
-					</Style>
-				</ListView.ItemContainerStyle>
-
+				<!--  Footer  -->
 				<ListView.Footer>
 					<Button
 						x:Name="ClearPropertiesButton"
-						Margin="0,4,0,0"
+						Margin="0,8,0,0"
 						HorizontalAlignment="Stretch"
-						Content="{helpers:ResourceString Name=ClearPropertiesButton/Content}">
+						Content="{helpers:ResourceString Name=ClearPropertiesButton/Content}"
+						Style="{StaticResource EnhancedButtonStyle}">
+
 						<Button.Flyout>
-							<Flyout x:Name="ClearPropertiesFlyout">
+							<Flyout>
 								<StackPanel Orientation="Vertical" Spacing="4">
 									<TextBlock Text="{helpers:ResourceString Name=ClearPropertiesFlyoutText/Text}" />
 									<Button Click="ClearPropertiesConfirmation_Click" Content="{helpers:ResourceString Name=Clear}" />
 								</StackPanel>
 							</Flyout>
 						</Button.Flyout>
+
 					</Button>
 				</ListView.Footer>
 

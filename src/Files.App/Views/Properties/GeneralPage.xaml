@@ -8,6 +8,7 @@
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	Loaded="Properties_Loaded"
 	Tag="General"
 	mc:Ignorable="d">
@@ -39,15 +40,7 @@
 	</vm:BasePropertiesPage.Resources>
 
 	<ScrollViewer>
-		<StackPanel
-			Padding="12,8,12,12"
-			Spacing="8"
-			Style="{StaticResource PropertiesTab}">
-
-			<TextBlock
-				Margin="4,0"
-				Style="{StaticResource SubtitleTextBlockStyle}"
-				Text="General" />
+		<StackPanel Padding="12" Spacing="8">
 
 			<!--  Item Overview  -->
 			<Grid
@@ -72,7 +65,7 @@
 				</Grid.RowDefinitions>
 
 				<uc:FileIcon
-					x:Name="Icon"
+					x:Name="ItemIcon"
 					Grid.Row="0"
 					Grid.Column="0"
 					Width="40"
@@ -83,14 +76,16 @@
 					AutomationProperties.AccessibilityView="Raw"
 					FileIconImageData="{x:Bind ViewModel.IconData, Mode=OneWay}"
 					ItemSize="40"
-					ViewModel="{x:Bind ViewModel}" />
+					ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
 
 				<StackPanel
+					x:Name="ItemNameAndCountStackPanel"
 					Grid.Row="0"
 					Grid.Column="1"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Center"
 					Spacing="8">
+
 					<TextBox
 						x:Name="ItemFileName"
 						x:Load="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}"
@@ -98,14 +93,16 @@
 						LosingFocus="ItemFileName_LosingFocus"
 						PlaceholderText="{helpers:ResourceString Name=PropertyItemName}"
 						Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}" />
+
 					<TextBlock
 						x:Name="itemFilesAndFoldersCountValueTop"
 						x:Load="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}"
 						Text="{x:Bind ViewModel.FilesAndFoldersCountString, Mode=OneWay}" />
+
 				</StackPanel>
 
 				<TextBlock
-					x:Name="ItemType"
+					x:Name="ItemTypeTextBlock"
 					Grid.Row="1"
 					Grid.Column="0"
 					Padding="4,0,0,0"
@@ -115,7 +112,7 @@
 					Text="{helpers:ResourceString Name=Type}" />
 
 				<TextBlock
-					x:Name="itemTypeValue"
+					x:Name="itemTypeValueTextBlock"
 					Grid.Row="1"
 					Grid.Column="1"
 					x:Load="{x:Bind ViewModel.ItemTypeVisibility, Mode=OneWay}"
@@ -123,7 +120,7 @@
 					Text="{x:Bind ViewModel.ItemType, Mode=OneWay}" />
 
 				<TextBlock
-					x:Name="FileSystem"
+					x:Name="FileSystemTextBlock"
 					Grid.Row="2"
 					Grid.Column="0"
 					Padding="4,0,0,0"
@@ -133,7 +130,7 @@
 					Text="{helpers:ResourceString Name=PropertiesDriveFileSystem/Text}" />
 
 				<TextBlock
-					x:Name="DriveFileSystemValue"
+					x:Name="DriveFileSystemValueTextBlock"
 					Grid.Row="2"
 					Grid.Column="1"
 					x:Load="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}"
@@ -144,7 +141,7 @@
 
 			<!--  Item Details  -->
 			<Expander
-				x:Name="ItemDetails"
+				x:Name="ItemDetailsExpander"
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				x:Load="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}"
@@ -525,7 +522,7 @@
 
 			<!--  Item Attributes  -->
 			<Expander
-				x:Name="ItemAttributes"
+				x:Name="ItemAttributesExpander"
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				x:Load="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}"

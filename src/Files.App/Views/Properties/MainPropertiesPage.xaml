@@ -34,7 +34,7 @@
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<Grid>
+	<Grid x:Name="RootGrid">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="36" />
 			<RowDefinition Height="*" />

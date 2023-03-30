@@ -10,12 +10,12 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class HashesPage : BasePropertiesPage
 	{
+		private HashesViewModel HashesViewModel { get; set; }
+
 		public HashesPage()
 		{
 			InitializeComponent();
 		}
-
-		private HashesViewModel HashesViewModel { get; set; }
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{

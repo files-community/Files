@@ -15,22 +15,23 @@ namespace Files.App.Views.Properties
 
 		public override async Task<bool> SaveChangesAsync()
 		{
-			var shortcutItem = BaseProperties switch
+			ShortcutItem? shortcutItem = BaseProperties switch
 			{
-				FileProperties properties => properties.Item,
-				FolderProperties properties => properties.Item,
+				FileProperties properties => properties.Item as ShortcutItem,
+				FolderProperties properties => properties.Item as ShortcutItem,
 				_ => null
-			} as ShortcutItem;
+			};
 
 			if (shortcutItem is null)
 				return true;
 
 			await App.Window.DispatcherQueue.EnqueueAsync(() =>
-				UIFilesystemHelpers.UpdateShortcutItemProperties(shortcutItem,
-				ViewModel.ShortcutItemPath,
-				ViewModel.ShortcutItemArguments,
-				ViewModel.ShortcutItemWorkingDir,
-				ViewModel.RunAsAdmin)
+				UIFilesystemHelpers.UpdateShortcutItemProperties(
+					shortcutItem,
+					ViewModel.ShortcutItemPath,
+					ViewModel.ShortcutItemArguments,
+					ViewModel.ShortcutItemWorkingDir,
+					ViewModel.RunAsAdmin)
 			);
 
 			return true;

@@ -19,154 +19,156 @@
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
 
-	<Grid x:Name="RootGrid">
+	<Grid
+		x:Name="HashesListGrid"
+		Margin="12"
+		VerticalAlignment="Top"
+		Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+		BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+		BorderThickness="1"
+		CornerRadius="8">
 
-		<Grid
-			x:Name="HashesListGrid"
-			Margin="12"
-			VerticalAlignment="Top"
-			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-			BorderThickness="1"
-			CornerRadius="4">
+		<!--  Hashes ListView  -->
+		<ListView
+			x:Name="HashesListView"
+			ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=TwoWay}"
+			SelectedItem="{x:Bind HashesViewModel.SelectedItem, Mode=TwoWay}">
 
-			<!--  Hashes ListView  -->
-			<ListView
-				x:Name="HashesListView"
-				ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=TwoWay}"
-				SelectedItem="{x:Bind HashesViewModel.SelectedItem, Mode=TwoWay}">
+			<!--  Header  -->
+			<ListView.Header>
+				<Grid
+					Height="44"
+					Padding="16,8,12,0"
+					BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+					BorderThickness="0,0,0,1"
+					ColumnSpacing="12">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="64" />
+						<ColumnDefinition Width="1" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
 
-				<!--  Header  -->
-				<ListView.Header>
-					<Grid
-						Height="44"
-						Padding="16,8,12,0"
-						BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-						BorderThickness="0,0,0,1"
-						ColumnSpacing="12">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="64" />
-							<ColumnDefinition Width="1" />
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="Auto" />
-						</Grid.ColumnDefinitions>
-						<TextBlock
-							VerticalAlignment="Center"
-							Style="{StaticResource BodyTextBlockStyle}"
-							Text="{helpers:ResourceString Name=Algorithm}" />
-						<Border
-							Grid.Column="1"
-							Width="1"
-							Height="36"
-							VerticalAlignment="Bottom"
-							Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
-						<TextBlock
-							Grid.Column="2"
-							VerticalAlignment="Center"
-							Style="{StaticResource BodyTextBlockStyle}"
-							Text="{helpers:ResourceString Name=HashValue}" />
-						<Button
-							x:Name="SelectAlgorithmsButton"
-							Grid.Column="3"
-							Padding="6"
-							AutomationProperties.Name="{helpers:ResourceString Name=SelectHashesToShow}"
-							Background="Transparent"
-							BorderBrush="Transparent"
-							ToolTipService.ToolTip="{helpers:ResourceString Name=SelectHashesToShow}">
-							<FontIcon FontSize="14" Glyph="&#xE7B3;" />
-							<Button.Flyout>
-								<MenuFlyout x:Name="SelectAlgorithmsMenuFlyout" Closing="MenuFlyout_Closing">
-									<ToggleMenuFlyoutItem
-										Click="ToggleMenuFlyoutItem_Click"
-										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
-										CommandParameter="CRC32"
-										IsChecked="{x:Bind HashesViewModel.ShowHashes['CRC32']}"
-										Text="CRC32" />
-									<ToggleMenuFlyoutItem
-										Click="ToggleMenuFlyoutItem_Click"
-										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
-										CommandParameter="MD5"
-										IsChecked="{x:Bind HashesViewModel.ShowHashes['MD5']}"
-										Text="MD5" />
-									<ToggleMenuFlyoutItem
-										Click="ToggleMenuFlyoutItem_Click"
-										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
-										CommandParameter="SHA1"
-										IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA1']}"
-										Text="SHA1" />
-									<ToggleMenuFlyoutItem
-										Click="ToggleMenuFlyoutItem_Click"
-										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
-										CommandParameter="SHA256"
-										IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA256']}"
-										Text="SHA256" />
-									<ToggleMenuFlyoutItem
-										Click="ToggleMenuFlyoutItem_Click"
-										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
-										CommandParameter="SHA384"
-										IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA384']}"
-										Text="SHA384" />
-									<ToggleMenuFlyoutItem
-										Click="ToggleMenuFlyoutItem_Click"
-										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
-										CommandParameter="SHA512"
-										IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA512']}"
-										Text="SHA512" />
-								</MenuFlyout>
-							</Button.Flyout>
-						</Button>
-					</Grid>
-				</ListView.Header>
+					<TextBlock
+						VerticalAlignment="Center"
+						Style="{StaticResource BodyTextBlockStyle}"
+						Text="{helpers:ResourceString Name=Algorithm}" />
 
-				<!--  Template  -->
-				<ListView.ItemTemplate>
-					<DataTemplate x:DataType="models:HashInfoItem">
-						<ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Visibility="{x:Bind IsEnabled, Mode=OneWay}">
-							<Grid ColumnSpacing="12">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="64" />
-									<ColumnDefinition Width="1" />
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
+					<Border
+						Grid.Column="1"
+						Width="1"
+						Height="36"
+						VerticalAlignment="Bottom"
+						Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
-								<!--  Algorithm Name  -->
-								<TextBlock
-									VerticalAlignment="Center"
-									Style="{StaticResource BodyTextBlockStyle}"
-									Text="{x:Bind Algorithm}" />
+					<TextBlock
+						Grid.Column="2"
+						VerticalAlignment="Center"
+						Style="{StaticResource BodyTextBlockStyle}"
+						Text="{helpers:ResourceString Name=HashValue}" />
 
-								<!--  Hash Value  -->
-								<TextBlock
-									Grid.Column="2"
-									VerticalAlignment="Center"
-									Style="{StaticResource BodyTextBlockStyle}"
-									Text="{x:Bind HashValue, Mode=OneWay}"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap"
-									ToolTipService.ToolTip="{x:Bind HashValue, Mode=OneWay}" />
+					<Button
+						x:Name="SelectAlgorithmsButton"
+						Grid.Column="3"
+						Padding="6"
+						AutomationProperties.Name="{helpers:ResourceString Name=SelectHashesToShow}"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						ToolTipService.ToolTip="{helpers:ResourceString Name=SelectHashesToShow}">
+						<FontIcon FontSize="14" Glyph="&#xE7B3;" />
+						<Button.Flyout>
+							<MenuFlyout x:Name="SelectAlgorithmsMenuFlyout" Closing="MenuFlyout_Closing">
+								<ToggleMenuFlyoutItem
+									Click="ToggleMenuFlyoutItem_Click"
+									Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+									CommandParameter="CRC32"
+									IsChecked="{x:Bind HashesViewModel.ShowHashes['CRC32']}"
+									Text="CRC32" />
+								<ToggleMenuFlyoutItem
+									Click="ToggleMenuFlyoutItem_Click"
+									Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+									CommandParameter="MD5"
+									IsChecked="{x:Bind HashesViewModel.ShowHashes['MD5']}"
+									Text="MD5" />
+								<ToggleMenuFlyoutItem
+									Click="ToggleMenuFlyoutItem_Click"
+									Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+									CommandParameter="SHA1"
+									IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA1']}"
+									Text="SHA1" />
+								<ToggleMenuFlyoutItem
+									Click="ToggleMenuFlyoutItem_Click"
+									Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+									CommandParameter="SHA256"
+									IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA256']}"
+									Text="SHA256" />
+								<ToggleMenuFlyoutItem
+									Click="ToggleMenuFlyoutItem_Click"
+									Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+									CommandParameter="SHA384"
+									IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA384']}"
+									Text="SHA384" />
+								<ToggleMenuFlyoutItem
+									Click="ToggleMenuFlyoutItem_Click"
+									Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+									CommandParameter="SHA512"
+									IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA512']}"
+									Text="SHA512" />
+							</MenuFlyout>
+						</Button.Flyout>
+					</Button>
 
-								<!--  Copy button  -->
-								<Button
-									x:Name="CopyHashButton"
-									Grid.Column="3"
-									Padding="6"
-									x:Load="{x:Bind IsCalculated, Mode=OneWay}"
-									AutomationProperties.Name="{helpers:ResourceString Name=Copy}"
-									Background="Transparent"
-									BorderBrush="Transparent"
-									Click="CopyHashButton_Click"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=Copy}">
-									<FontIcon FontSize="14" Glyph="&#xE8C8;" />
-								</Button>
+				</Grid>
+			</ListView.Header>
 
-							</Grid>
-						</ListViewItem>
-					</DataTemplate>
-				</ListView.ItemTemplate>
+			<!--  Template  -->
+			<ListView.ItemTemplate>
+				<DataTemplate x:DataType="models:HashInfoItem">
+					<ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Visibility="{x:Bind IsEnabled, Mode=OneWay}">
+						<Grid ColumnSpacing="12">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="64" />
+								<ColumnDefinition Width="1" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
 
-			</ListView>
-		</Grid>
+							<!--  Algorithm Name  -->
+							<TextBlock
+								VerticalAlignment="Center"
+								Style="{StaticResource BodyTextBlockStyle}"
+								Text="{x:Bind Algorithm}" />
+
+							<!--  Hash Value  -->
+							<TextBlock
+								Grid.Column="2"
+								VerticalAlignment="Center"
+								Style="{StaticResource BodyTextBlockStyle}"
+								Text="{x:Bind HashValue, Mode=OneWay}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap"
+								ToolTipService.ToolTip="{x:Bind HashValue, Mode=OneWay}" />
+
+							<!--  Copy button  -->
+							<Button
+								x:Name="CopyHashButton"
+								Grid.Column="3"
+								Padding="6"
+								x:Load="{x:Bind IsCalculated, Mode=OneWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=Copy}"
+								Background="Transparent"
+								BorderBrush="Transparent"
+								Click="CopyHashButton_Click"
+								ToolTipService.ToolTip="{helpers:ResourceString Name=Copy}">
+								<FontIcon FontSize="14" Glyph="&#xE8C8;" />
+							</Button>
+
+						</Grid>
+					</ListViewItem>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+
+		</ListView>
 
 	</Grid>
 </vm:BasePropertiesPage>

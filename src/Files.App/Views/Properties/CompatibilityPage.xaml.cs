@@ -8,7 +8,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class CompatibilityPage : BasePropertiesPage
 	{
-		public CompatibilityViewModel CompatibilityProperties { get; set; }
+		public CompatibilityViewModel CompatibilityViewModel { get; set; }
 
 		public CompatibilityPage()
 		{
@@ -17,12 +17,9 @@ namespace Files.App.Views.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = e.Parameter as Views.Properties.MainPropertiesPage.PropertyNavParam;
-
+			var np = e.Parameter as MainPropertiesPage.PropertyNavParam;
 			if (np.navParameter is ListedItem listedItem)
-			{
-				CompatibilityProperties = new CompatibilityViewModel(listedItem);
-			}
+				CompatibilityViewModel = new(listedItem);
 
 			base.OnNavigatedTo(e);
 		}
@@ -31,16 +28,13 @@ namespace Files.App.Views.Properties
 		{
 			base.Properties_Loaded(sender, e);
 
-			if (CompatibilityProperties is not null)
-			{
-				CompatibilityProperties.GetCompatibilityOptions();
-			}
+			CompatibilityViewModel?.GetCompatibilityOptions();
 		}
 
 		public override Task<bool> SaveChangesAsync()
 		{
-			if (CompatibilityProperties is not null)
-				return Task.FromResult(CompatibilityProperties.SetCompatibilityOptions());
+			if (CompatibilityViewModel is not null)
+				return Task.FromResult(CompatibilityViewModel.SetCompatibilityOptions());
 
 			return Task.FromResult(false);
 		}

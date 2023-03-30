@@ -4,10 +4,10 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.Views.Properties"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
+	DataContext="{x:Bind LibraryViewModel, Mode=OneWay}"
 	Loaded="Properties_Loaded"
 	Tag="Library"
 	mc:Ignorable="d">
@@ -25,15 +25,14 @@
 	</Page.Resources>
 
 	<ScrollViewer>
-		<StackPanel Padding="12">
+		<StackPanel Padding="12" Spacing="8">
 
 			<Grid
 				Padding="12,4,12,12"
 				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
-				CornerRadius="4"
-				RowSpacing="4">
+				CornerRadius="8">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
@@ -45,15 +44,17 @@
 					<RowDefinition />
 				</Grid.RowDefinitions>
 
+				<!--  Header  -->
 				<TextBlock
 					Grid.Row="0"
 					Grid.Column="0"
-					Padding="8,0,0,0"
+					Padding="8,0"
 					HorizontalAlignment="Left"
 					VerticalAlignment="Center"
 					Text="{helpers:ResourceString Name=LibraryLocations/Text}"
 					TextTrimming="CharacterEllipsis" />
 
+				<!--  Command Buttons  -->
 				<CommandBar
 					Grid.Row="0"
 					Grid.Column="1"
@@ -62,48 +63,53 @@
 					DefaultLabelPosition="Right"
 					IsOpen="False">
 					<AppBarButton
-						Command="{x:Bind AddLocationCommand}"
+						Command="{x:Bind LibraryViewModel.AddLocationCommand, Mode=OneWay}"
 						Icon="Add"
 						Label="{helpers:ResourceString Name=Add}" />
 					<AppBarButton
-						Command="{x:Bind SetDefaultLocationCommand}"
+						Command="{x:Bind LibraryViewModel.SetDefaultLocationCommand, Mode=OneWay}"
 						Icon="Accept"
-						IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
+						IsEnabled="{x:Bind LibraryViewModel.IsNotDefaultFolderSelected, Mode=OneWay}"
 						Label="{helpers:ResourceString Name=Default}"
 						ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsDefaultSavePath}" />
 					<AppBarButton
-						Command="{x:Bind RemoveLocationCommand}"
+						Command="{x:Bind LibraryViewModel.RemoveLocationCommand}"
 						Icon="Delete"
-						IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
+						IsEnabled="{x:Bind LibraryViewModel.IsNotDefaultFolderSelected, Mode=OneWay}"
 						Label="{helpers:ResourceString Name=Remove}" />
 				</CommandBar>
 
-				<MenuFlyoutSeparator
+				<!--  Divider  -->
+				<Border
 					Grid.Row="1"
 					Grid.Column="0"
 					Grid.ColumnSpan="2"
-					Margin="-8,0"
-					Background="{ThemeResource CardStrokeColorDefaultBrush}" />
+					Height="1"
+					Margin="-12,0"
+					Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
+				<!--  Library Folder List  -->
 				<ListView
-					x:Name="PathsList"
+					x:Name="LibraryFoldersListView"
 					Grid.Row="2"
 					Grid.Column="0"
 					Grid.ColumnSpan="2"
-					Margin="-8,0,-8,0"
+					Margin="-8,0"
 					CanReorderItems="False"
-					ItemsSource="{x:Bind Folders, Mode=OneWay}"
-					SelectedIndex="{x:Bind SelectedFolderIndex, Mode=TwoWay}"
+					ItemsSource="{x:Bind LibraryViewModel.LibraryFolders, Mode=OneWay}"
+					SelectedIndex="{x:Bind LibraryViewModel.SelectedFolderIndex, Mode=TwoWay}"
 					SelectionMode="Single">
 
 					<ListView.ItemTemplate>
-						<DataTemplate x:DataType="local:LibraryFolder">
+						<DataTemplate x:DataType="vm:LibraryFolder">
 							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="36" />
-									<ColumnDefinition />
+									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
+
 								<FontIcon Glyph="&#xE008;" Visibility="{x:Bind IsDefault, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+
 								<TextBlock
 									Grid.Column="2"
 									Margin="0,0,0,2"
@@ -111,6 +117,7 @@
 									Text="{x:Bind Path}"
 									TextTrimming="CharacterEllipsis"
 									ToolTipService.ToolTip="{x:Bind Path}" />
+
 							</Grid>
 						</DataTemplate>
 					</ListView.ItemTemplate>
@@ -119,18 +126,10 @@
 						<TextBlock
 							Text="{helpers:ResourceString Name=LibraryNoLocations/Text}"
 							TextWrapping="WrapWholeWords"
-							Visibility="{x:Bind IsLibraryEmpty, Mode=OneWay}" />
+							Visibility="{x:Bind LibraryViewModel.IsLibraryEmpty, Mode=OneWay}" />
 					</ListView.Footer>
 
 				</ListView>
-
-				<!--<MenuFlyoutSeparator
-						Grid.ColumnSpan="2"
-						Grid.Row="3"
-						Margin="-12,12"
-						HorizontalAlignment="Stretch" />-->
-
-				<!--  TODO: add more controls?  -->
 
 			</Grid>
 

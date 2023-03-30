@@ -21,7 +21,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
 
@@ -36,6 +35,19 @@ namespace Files.App.Views.Properties
 		public AppWindow AppWindow;
 
 		public ObservableCollection<NavigationViewItemButtonStyleItem> NavViewItems { get; set; }
+
+		private CancellationTokenSource? _tokenSource;
+
+		private ContentDialog _propertiesDialog;
+
+		private object _navParamItem;
+
+		private IShellPage _appInstance;
+
+		private static bool IsWinUI3
+			=> FilePropertiesHelpers.IsWinUI3;
+
+		private bool SelectionChangedAutomatically { get; set; }
 
 		public MainPropertiesPage()
 		{
@@ -55,19 +67,6 @@ namespace Files.App.Views.Properties
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
 		}
-
-		private CancellationTokenSource? _tokenSource;
-
-		private ContentDialog _propertiesDialog;
-
-		private object _navParamItem;
-
-		private IShellPage _appInstance;
-
-		private static bool IsWinUI3
-			=> FilePropertiesHelpers.IsWinUI3;
-
-		private bool SelectionChangedAutomatically { get; set; }
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{

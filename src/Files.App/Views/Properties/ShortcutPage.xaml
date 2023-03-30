@@ -7,6 +7,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:settingsuc="using:Files.App.UserControls.Settings"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	Loaded="Properties_Loaded"
 	Tag="Shortcut"
 	mc:Ignorable="d">
@@ -21,7 +22,7 @@
 	</vm:BasePropertiesPage.Resources>
 
 	<ScrollViewer>
-		<StackPanel Padding="12" Spacing="4">
+		<StackPanel Padding="12" Spacing="8">
 
 			<Grid
 				Padding="12"
@@ -30,7 +31,7 @@
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
 				ColumnSpacing="8"
-				CornerRadius="4"
+				CornerRadius="8"
 				RowSpacing="8">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition
@@ -76,6 +77,7 @@
 					IsReadOnly="{x:Bind ViewModel.IsShortcutItemPathReadOnly, Mode=OneWay}"
 					Text="{x:Bind ViewModel.ShortcutItemPath, Mode=TwoWay}"
 					Visibility="Visible" />
+
 			</Grid>
 
 			<Grid
