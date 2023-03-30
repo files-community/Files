@@ -13,6 +13,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 | Show               | ToggleShowHiddenItems               | Show hidden items                         | Toggle whether to show hidden items                      | Ctrl+H               |
 |                    | ToggleShowFileExtensions            | Show file extensions                      | Toggle whether to show file extensions                   |                      |
 |                    | TogglePreviewPane                   | Toggle the preview pane                   | Toggle whether to show preview pane                      | Ctrl+P               |
+|                    | ToggleSidebar                       | Toggle the sidebar                        | Toggle whether to show sidebar                           | Ctrl+B               |
 | File System        | CopyItem                            | Copy                                      | Copy item(s) to clipboard                                | Ctrl+C               |
 |                    | CopyPath                            | Copy location                             | Copy path of item to clipboard                           | Ctrl+Shift+C         |
 |                    | CutItem                             | Cut                                       | Cut item(s) to clipboard                                 | Ctrl+X               |
