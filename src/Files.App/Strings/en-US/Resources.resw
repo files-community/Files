@@ -2661,6 +2661,9 @@
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Exit compact overlay</value>
   </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>Toggle the sidebar</value>
+  </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Menu</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>

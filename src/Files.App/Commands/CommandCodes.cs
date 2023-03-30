@@ -16,6 +16,7 @@ namespace Files.App.Commands
 		ToggleShowHiddenItems,
 		ToggleShowFileExtensions,
 		TogglePreviewPane,
+		ToggleSidebar,
 
 		// File System
 		CopyItem,
