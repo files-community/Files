@@ -12,11 +12,14 @@ namespace Files.App.Commands
 		ToggleCompactOverlay,
 		Search,
 
-		// Show
+		// Toggle
 		ToggleShowHiddenItems,
 		ToggleShowFileExtensions,
 		TogglePreviewPane,
 		ToggleSidebar,
+
+		// Show
+		ShowProperties,
 
 		// File System
 		CopyItem,

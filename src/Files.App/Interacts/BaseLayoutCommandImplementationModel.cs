@@ -73,28 +73,6 @@ namespace Files.App.Interacts
 
 		#region Command Implementation
 
-		public virtual void ShowProperties(RoutedEventArgs e)
-		{
-			if (SlimContentPage.ItemContextMenuFlyout.IsOpen)
-				SlimContentPage.ItemContextMenuFlyout.Closed += OpenPropertiesFromItemContextMenuFlyout;
-			else if (SlimContentPage.BaseContextMenuFlyout.IsOpen)
-				SlimContentPage.BaseContextMenuFlyout.Closed += OpenPropertiesFromBaseContextMenuFlyout;
-			else
-				FilePropertiesHelpers.ShowProperties(associatedInstance);
-		}
-
-		private void OpenPropertiesFromItemContextMenuFlyout(object sender, object e)
-		{
-			SlimContentPage.ItemContextMenuFlyout.Closed -= OpenPropertiesFromItemContextMenuFlyout;
-			FilePropertiesHelpers.ShowProperties(associatedInstance);
-		}
-
-		private void OpenPropertiesFromBaseContextMenuFlyout(object sender, object e)
-		{
-			SlimContentPage.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
-			FilePropertiesHelpers.ShowProperties(associatedInstance);
-		}
-
 		public virtual async void OpenFileLocation(RoutedEventArgs e)
 		{
 			ShortcutItem item = SlimContentPage.SelectedItem as ShortcutItem;

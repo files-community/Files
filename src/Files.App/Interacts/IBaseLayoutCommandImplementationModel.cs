@@ -9,8 +9,6 @@ namespace Files.App.Interacts
 {
 	public interface IBaseLayoutCommandImplementationModel : IDisposable
 	{
-		void ShowProperties(RoutedEventArgs e);
-
 		void OpenFileLocation(RoutedEventArgs e);
 
 		void OpenDirectoryInNewTab(RoutedEventArgs e);

@@ -575,8 +575,6 @@ namespace Files.App.ViewModels
 
 		public ICommand? Share { get; set; }
 
-		public ICommand PropertiesCommand { get; set; }
-
 		public ICommand? RunWithPowerShellCommand { get; set; }
 
 		public ICommand? UpdateCommand { get; set; }
