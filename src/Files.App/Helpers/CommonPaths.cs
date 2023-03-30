@@ -13,6 +13,12 @@ namespace Files.App.Helpers
 
 		public static readonly string LocalAppDataPath = UserDataPaths.GetDefault().LocalAppData;
 
+		public static readonly string PicturesPath = UserDataPaths.GetDefault().Pictures;
+
+		public static readonly string MusicPath = UserDataPaths.GetDefault().Music;
+
+		public static readonly string VideosPath = UserDataPaths.GetDefault().Videos;
+
 		// Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
 		public const string RecycleBinPath = @"Shell:RecycleBinFolder";
 

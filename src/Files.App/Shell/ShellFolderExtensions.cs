@@ -62,6 +62,10 @@ namespace Files.App.Shell
 					"::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" => CommonPaths.NetworkFolderPath,
 					"::{208D2C60-3AEA-1069-A2D7-08002B30309D}" => CommonPaths.NetworkFolderPath,
 					"::{20D04FE0-3AEA-1069-A2D8-08002B30309D}" => CommonPaths.MyComputerPath,
+					"::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\Documents.library-ms" => CommonPaths.DesktopPath,
+					"::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\Pictures.library-ms" => CommonPaths.PicturesPath,
+					"::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\Music.library-ms" => CommonPaths.MusicPath,
+					"::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\Videos.library-ms" => CommonPaths.VideosPath,
 					// Use PIDL as path
 					// Replace "/" with "_" to avoid confusion with path separator
 					_ => $@"\\SHELL\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length).Replace("/", "_")))}"
