@@ -1101,46 +1101,46 @@ namespace Files.App
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
 
-			var hovered = GetItemFromElement(sender);
-			if (hovered != hoveredItem)
+			hoveredItem = GetItemFromElement(sender);
+
+			hoverTimer.Stop();
+			hoverTimer.Debounce(() =>
 			{
-				hoveredItem = hovered;
+				if (hoveredItem is null)
+					return;
+
 				hoverTimer.Stop();
-				hoverTimer.Debounce(() =>
+
+				// selection of multiple individual items with control
+				if (e.KeyModifiers == VirtualKeyModifiers.Control &&
+					selectedItems is not null)
 				{
-					if (hoveredItem is not null)
+					ItemManipulationModel.AddSelectedItem(hoveredItem);
+				}
+				// selection of a range of items with shift
+				else if (e.KeyModifiers == VirtualKeyModifiers.Shift &&
+					selectedItems is not null &&
+					selectedItems.Any())
+				{
+					var last = selectedItems.Last();
+					byte found = 0;
+					for (int i = 0; i < ItemsControl.Items.Count && found != 2; i++)
 					{
-						hoverTimer.Stop();
-						if (e.KeyModifiers == VirtualKeyModifiers.Control &&
-							selectedItems is not null)
-						{
-							ItemManipulationModel.AddSelectedItem(hoveredItem);
-						}
-						else if (e.KeyModifiers == VirtualKeyModifiers.Shift &&
-							selectedItems is not null &&
-							selectedItems.Any())
-						{
-							var last = selectedItems.Last();
-							byte found = 0;
-							for (int i = 0; i < ItemsControl.Items.Count && found != 2; i++)
-							{
-								if (ItemsControl.Items[i] == last || ItemsControl.Items[i] == hoveredItem)
-									found++;
+						if (ItemsControl.Items[i] == last || ItemsControl.Items[i] == hoveredItem)
+							found++;
 
-								if (found != 0 && !selectedItems.Contains(ItemsControl.Items[i]))
-									ItemManipulationModel.AddSelectedItem((ListedItem)ItemsControl.Items[i]);
-							}
-						}
-						else
-						{
-							ItemManipulationModel.SetSelectedItem(hoveredItem);
-						}
-
-						hoveredItem = null;
+						if (found != 0 && !selectedItems.Contains(ItemsControl.Items[i]))
+							ItemManipulationModel.AddSelectedItem((ListedItem)ItemsControl.Items[i]);
 					}
-				},
-				TimeSpan.FromMilliseconds(600), false);
-			}
+				}
+				// avoid resetting the selection if multiple items are selected
+				else if (SelectedItems is null ||
+					SelectedItems.Count <= 1)
+				{
+					ItemManipulationModel.SetSelectedItem(hoveredItem);
+				}
+			},
+			TimeSpan.FromMilliseconds(600), false);
 		}
 
 		protected internal void FileListItem_PointerExited(object sender, PointerRoutedEventArgs e)

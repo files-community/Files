@@ -13,7 +13,7 @@ namespace Files.App.Filesystem.Security
 		public string Glyph
 			=> PrincipalType switch
 			{
-				PrincipalType.User => "\xE2AF",
+				PrincipalType.User => "\xE77B",
 				PrincipalType.Group => "\xE902",
 				_ => "\xE716",
 			};

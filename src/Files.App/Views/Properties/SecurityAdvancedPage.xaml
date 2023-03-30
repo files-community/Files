@@ -116,7 +116,7 @@
 				VerticalAlignment="Center"
 				Command="{x:Bind SecurityViewModel.ChangeOwnerCommand}">
 				<StackPanel Orientation="Horizontal" Spacing="6">
-					<FontIcon FontSize="14" Glyph="&#xE104;" />
+					<FontIcon FontSize="14" Glyph="&#xE70F;" />
 					<TextBlock Text="{helpers:ResourceString Name=Change}" />
 				</StackPanel>
 			</HyperlinkButton>

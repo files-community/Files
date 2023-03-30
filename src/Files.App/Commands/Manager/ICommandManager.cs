@@ -14,10 +14,12 @@ namespace Files.App.Commands
 		IRichCommand EnterCompactOverlay { get; }
 		IRichCommand ExitCompactOverlay { get; }
 		IRichCommand ToggleCompactOverlay { get; }
+		IRichCommand Search { get; }
 
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
 		IRichCommand TogglePreviewPane { get; }
+		IRichCommand ToggleSidebar { get; }
 
 		IRichCommand CopyItem { get; }
 		IRichCommand CopyPath { get; }
