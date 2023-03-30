@@ -229,6 +229,7 @@ namespace Files.App
 						.AddSingleton<IJumpListService, JumpListService>()
 						.AddSingleton<MainPageViewModel>()
 						.AddSingleton<PreviewPaneViewModel>()
+						.AddSingleton<SidebarViewModel>()
 						.AddSingleton<SettingsViewModel>()
 						.AddSingleton<OngoingTasksViewModel>()
 						.AddSingleton<AppearanceViewModel>()
