@@ -58,6 +58,7 @@ namespace Files.App.Commands
 
 		IRichCommand RunAsAdmin { get; }
 		IRichCommand RunAsAnotherUser { get; }
+		IRichCommand RunWithPowershell { get; }
 
 		IRichCommand LaunchQuickLook { get; }
 
