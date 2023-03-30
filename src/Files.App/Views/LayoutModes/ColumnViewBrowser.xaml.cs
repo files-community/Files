@@ -429,7 +429,10 @@ namespace Files.App.Views.LayoutModes
 			var destComponents = StorageFileExtensions.GetDirectoryPathComponents(column.NavPathParam);
 			var (_, relativeIndex) = GetLastCommonAndRelativeIndex(destComponents, columnPath, columnFirstPath);
 			if (relativeIndex >= 0)
+			{
+				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnViewBase>()?.ClearOpenedFolderSelectionIndicator();
 				DismissOtherBlades(relativeIndex);
+			}
 		}
 
 		private (int, int) GetLastCommonAndRelativeIndex(List<PathBoxItem> destComponents, string columnPath, string columnFirstPath)
