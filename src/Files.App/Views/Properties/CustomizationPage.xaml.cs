@@ -6,7 +6,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class CustomizationPage : BasePropertiesPage
 	{
-		private CustomizationViewModel CustomizationViewModel { get; set; }
+		private CustomizationViewModel? CustomizationViewModel { get; set; }
 
 		public CustomizationPage()
 		{
@@ -16,6 +16,7 @@ namespace Files.App.Views.Properties
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			base.OnNavigatedTo(e);
+
 			CustomizationViewModel = new(AppInstance, BaseProperties);
 		}
 

@@ -119,10 +119,21 @@
 						Style="{StaticResource EnhancedButtonStyle}">
 
 						<Button.Flyout>
-							<Flyout>
-								<StackPanel Orientation="Vertical" Spacing="4">
-									<TextBlock Text="{helpers:ResourceString Name=ClearPropertiesFlyoutText/Text}" />
-									<Button Click="ClearPropertiesConfirmation_Click" Content="{helpers:ResourceString Name=Clear}" />
+							<Flyout x:Name="ClearPropertiesButtonFlyout">
+								<StackPanel Spacing="4">
+
+									<TextBlock
+										x:Name="ClearPropertiesConfirmationTextBlock"
+										Style="{StaticResource BodyTextBlockStyle}"
+										Text="{helpers:ResourceString Name=ClearPropertiesFlyoutText/Text}" />
+
+									<Button
+										x:Name="ClearPropertiesConfirmationButton"
+										Click="ClearPropertiesConfirmation_Click"
+										Command="{x:Bind DetailsViewModel.ClearPropertiesConfirmationCommand, Mode=OneWay}"
+										CommandParameter="{x:Bind BaseProperties, Mode=OneWay}"
+										Content="{helpers:ResourceString Name=Clear}" />
+
 								</StackPanel>
 							</Flyout>
 						</Button.Flyout>

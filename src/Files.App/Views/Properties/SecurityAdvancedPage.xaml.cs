@@ -18,7 +18,6 @@ namespace Files.App.Views.Properties
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			var args = (MainPropertiesPage.PropertyNavParam)e.Parameter;
-
 			if (args.navParameter is ListedItem listedItem)
 				SecurityViewModel = new SecurityViewModel(listedItem);
 			else if (args.navParameter is DriveItem driveitem)
@@ -28,9 +27,7 @@ namespace Files.App.Views.Properties
 		}
 
 		public async override Task<bool> SaveChangesAsync()
-		{
-			return SecurityViewModel is null || SecurityViewModel.SaveChangedAccessControlList();
-		}
+			=> await Task.FromResult(SecurityViewModel is null || SecurityViewModel.SaveChangedAccessControlList());
 
 		public override void Dispose()
 		{

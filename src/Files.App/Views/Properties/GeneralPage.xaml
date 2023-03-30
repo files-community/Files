@@ -517,7 +517,10 @@
 					Grid.ColumnSpan="2"
 					HorizontalAlignment="Right"
 					Click="DiskCleanupButton_Click"
+					Command="{x:Bind GeneralViewModel.OpenDiskCleanupButtonCommand, Mode=OneWay}"
+					CommandParameter="{x:Bind BaseProperties, Mode=OneWay}"
 					Content="{helpers:ResourceString Name=DiskCleanup}" />
+
 			</Grid>
 
 			<!--  Item Attributes  -->

@@ -1,4 +1,3 @@
-using CommunityToolkit.Mvvm.Input;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
@@ -11,13 +10,9 @@ namespace Files.App.Views.Properties
 	{
 		public SecurityViewModel? SecurityViewModel { get; set; }
 
-		public IRelayCommand OpenSecurityAdvancedPageCommand { get; set; }
-
 		public SecurityPage()
 		{
 			InitializeComponent();
-
-			OpenSecurityAdvancedPageCommand = new RelayCommand(OpenSecurityAdvancedPage);
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -32,20 +27,8 @@ namespace Files.App.Views.Properties
 			base.OnNavigatedTo(e);
 		}
 
-		private void OpenSecurityAdvancedPage()
-		{
-			Frame.Navigate(
-				typeof(SecurityAdvancedPage),
-				new MainPropertiesPage.PropertyNavParam()
-				{
-					navParameter = SecurityViewModel.Item
-				});
-		}
-
 		public async override Task<bool> SaveChangesAsync()
-		{
-			return SecurityViewModel is null || SecurityViewModel.SaveChangedAccessControlList();
-		}
+			=> await Task.FromResult(SecurityViewModel is null || SecurityViewModel.SaveChangedAccessControlList());
 
 		public override void Dispose()
 		{

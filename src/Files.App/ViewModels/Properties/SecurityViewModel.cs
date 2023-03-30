@@ -5,7 +5,9 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
 using Files.App.Helpers;
+using Files.App.Views.Properties;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -124,12 +126,13 @@ namespace Files.App.ViewModels.Properties
 			set => SetProperty(ref _columnInherited, value);
 		}
 
-		public RelayCommand ChangeOwnerCommand { get; set; }
-		public RelayCommand AddAccessControlEntryCommand { get; set; }
-		public RelayCommand RemoveAccessControlEntryCommand { get; set; }
-		public RelayCommand DisableInheritanceCommand { get; set; }
-		public RelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
-		public RelayCommand ReplaceChildPermissionsCommand { get; set; }
+		public IRelayCommand ChangeOwnerCommand { get; set; }
+		public IRelayCommand AddAccessControlEntryCommand { get; set; }
+		public IRelayCommand RemoveAccessControlEntryCommand { get; set; }
+		public IRelayCommand DisableInheritanceCommand { get; set; }
+		public IRelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
+		public IRelayCommand ReplaceChildPermissionsCommand { get; set; }
+		public IRelayCommand OpenSecurityAdvancedPageCommand { get; set; }
 
 		private void InitializeCommands()
 		{
@@ -139,6 +142,7 @@ namespace Files.App.ViewModels.Properties
 			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && (AccessControlList.IsAccessControlListProtected != _isProtected));
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
 			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
+			OpenSecurityAdvancedPageCommand = new RelayCommand<Frame>(ExecuteOpenSecurityAdvancedPage);
 		}
 
 		private async void ChangeOwner()
@@ -225,6 +229,16 @@ namespace Files.App.ViewModels.Properties
 		public Task<string?> OpenObjectPicker()
 		{
 			return FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
+		}
+
+		private void ExecuteOpenSecurityAdvancedPage(Frame? frame)
+		{
+			frame.Navigate(
+				typeof(SecurityAdvancedPage),
+				new MainPropertiesPage.PropertyNavParam()
+				{
+					navParameter = Item
+				});
 		}
 	}
 }

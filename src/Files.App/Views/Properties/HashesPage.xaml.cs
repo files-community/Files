@@ -52,9 +52,7 @@ namespace Files.App.Views.Properties
 			=> Dispose();
 
 		public async override Task<bool> SaveChangesAsync()
-		{
-			return true;
-		}
+			=> await Task.FromResult(true);
 
 		public override void Dispose()
 		{

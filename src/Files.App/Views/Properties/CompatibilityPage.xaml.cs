@@ -8,7 +8,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class CompatibilityPage : BasePropertiesPage
 	{
-		public CompatibilityViewModel CompatibilityViewModel { get; set; }
+		public CompatibilityViewModel? CompatibilityViewModel { get; set; }
 
 		public CompatibilityPage()
 		{
@@ -17,7 +17,7 @@ namespace Files.App.Views.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = e.Parameter as MainPropertiesPage.PropertyNavParam;
+			var np = (MainPropertiesPage.PropertyNavParam)e.Parameter;
 			if (np.navParameter is ListedItem listedItem)
 				CompatibilityViewModel = new(listedItem);
 
