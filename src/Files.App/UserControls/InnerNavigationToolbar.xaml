@@ -491,9 +491,9 @@
 								IsEnabled="{x:Bind Commands.GroupByOriginalFolder.IsExecutable, Mode=OneWay}"
 								Text="{x:Bind Commands.GroupByOriginalFolder.Label}" />
 							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.GroupByDateModified.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupByDateModified.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupByDateModified.Label}" />
+								IsChecked="{x:Bind Commands.GroupByDateDeleted.IsOn, Mode=TwoWay}"
+								IsEnabled="{x:Bind Commands.GroupByDateDeleted.IsExecutable, Mode=OneWay}"
+								Text="{x:Bind Commands.GroupByDateDeleted.Label}" />
 							<ToggleMenuFlyoutItem
 								IsChecked="{x:Bind Commands.GroupByFolderPath.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupByFolderPath.IsExecutable, Mode=OneWay}"
