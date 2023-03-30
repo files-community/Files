@@ -1,5 +1,7 @@
 ﻿using Files.App.Extensions;
+using Files.Shared;
 using System;
+using System.IO;
 
 namespace Files.App.Helpers
 {
@@ -29,6 +31,12 @@ namespace Files.App.Helpers
 				CommonPaths.MyComputerPath => "ThisPC".GetLocalizedResource(),
 				_ => shPath
 			};
+		}
+
+		public static string GetLibraryFullPathFromShell(string shPath)
+		{
+			var partialPath = shPath.Substring(shPath.IndexOf('\\') + 1);
+			return Path.Combine(ShellLibraryItem.LibrariesPath, partialPath);
 		}
 	}
 }
