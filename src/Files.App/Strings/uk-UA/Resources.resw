@@ -2661,8 +2661,11 @@
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Вийти з компактного оверлею</value>
   </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>Перемкнути бічну панель</value>
+  </data>
   <data name="Key.Menu" xml:space="preserve">
-    <value>Menu</value>
+    <value>Меню</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Control" xml:space="preserve">
@@ -2682,7 +2685,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
-    <value>Space</value>
+    <value>Пробіл</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Escape" xml:space="preserve">
@@ -2754,7 +2757,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Print" xml:space="preserve">
-    <value>Print</value>
+    <value>Друкувати</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Help" xml:space="preserve">
@@ -2770,39 +2773,39 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application" xml:space="preserve">
-    <value>App</value>
+    <value>Застосунок</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application1" xml:space="preserve">
-    <value>App1</value>
+    <value>Застосунок1</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application2" xml:space="preserve">
-    <value>App2</value>
+    <value>Застосунок2</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mail" xml:space="preserve">
-    <value>Mail</value>
+    <value>Пошта</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
-    <value>GoHome</value>
+    <value>На головну</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
-    <value>GoBack</value>
+    <value>Назад</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoForward" xml:space="preserve">
-    <value>GoForward</value>
+    <value>Вперед</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>BrowserRefresh</value>
+    <value>Оновити браузер</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
-    <value>BrowserStop</value>
+    <value>Зупинити браузер</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
@@ -2814,35 +2817,35 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
-    <value>PlayPause</value>
+    <value>Відтворити/Зупинити</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaStop" xml:space="preserve">
-    <value>MediaStop</value>
+    <value>Зупинити медіа</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPreviousTrack" xml:space="preserve">
-    <value>PrevTrack</value>
+    <value>Попередній трек</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaNextTrack" xml:space="preserve">
-    <value>NextTrack</value>
+    <value>Наступний трек</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaSelect" xml:space="preserve">
-    <value>MediaSelect</value>
+    <value>Обрати медіа</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
-    <value>Mute</value>
+    <value>Вимкнути звук</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeDown" xml:space="preserve">
-    <value>VolDown</value>
+    <value>Зменшити гучність</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeUp" xml:space="preserve">
-    <value>VolUp</value>
+    <value>Збільшити гучність</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Change" xml:space="preserve">
@@ -2853,5 +2856,8 @@
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Відображати попередження при зміні розширень файлів</value>
+  </data>
+  <data name="Untagged" xml:space="preserve">
+    <value>Без міток</value>
   </data>
 </root>
