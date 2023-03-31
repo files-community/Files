@@ -16,7 +16,10 @@ namespace Files.App.Dialogs
 		public FileSystemDialogViewModel ViewModel
 		{
 			get;
-			set => value?.PrimaryButtonEnabled = true;
+			set
+			{
+				value?.PrimaryButtonEnabled = true;
+			}
 		}
 
 		public FilesystemOperationDialog()
