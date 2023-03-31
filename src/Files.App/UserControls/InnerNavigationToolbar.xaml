@@ -184,7 +184,7 @@
 					IsEnabled="{x:Bind Commands.ShowProperties.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Label="{x:Bind Commands.ShowProperties.Label, Mode=OneWay}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.ShowProperties.Label, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind Commands.ShowProperties.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.ShowProperties.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionalAction, Mode=OneWay}" />
