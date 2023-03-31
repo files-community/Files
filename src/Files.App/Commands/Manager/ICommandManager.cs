@@ -130,5 +130,8 @@ namespace Files.App.Commands
 		IRichCommand CloseOtherTabsCurrent { get; }
 		IRichCommand CloseOtherTabsSelected { get; }
 		IRichCommand ReopenClosedTab { get; }
+		IRichCommand PreviousTab { get; }
+		IRichCommand NextTab { get; }
+		IRichCommand CloseSelectedTab { get; }
 	}
 }
