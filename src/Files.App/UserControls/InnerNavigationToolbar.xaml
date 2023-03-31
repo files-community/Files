@@ -267,10 +267,10 @@
 					MinWidth="40"
 					x:Load="{x:Bind Commands.RunWithPowershell.IsExecutable, Mode=OneWay}"
 					AutomationProperties.Name="RunWithPowerShell"
-					Command="{x:Bind Commands.RunWithPowershell, Mode=OneWay}"
-					Label="{x:Bind Commands.RunWithPowershell.Label, Mode=OneWay}"
+					Command="{x:Bind Commands.RunWithPowershell}"
+					Label="{x:Bind Commands.RunWithPowershell.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{x:Bind Commands.RunWithPowershell.LabelWithHotKey, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind Commands.RunWithPowershell.Label}">
 					<AppBarButton.Icon>
 						<FontIcon Glyph="{x:Bind Commands.RunWithPowershell.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>

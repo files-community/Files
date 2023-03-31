@@ -12,7 +12,7 @@ namespace Files.App.Actions
 {
 	internal class RunWithPowershellAction : ObservableObject, IAction
 	{
-		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public bool IsExecutable => context.SelectedItem is not null &&
 			FileExtensionHelpers.IsPowerShellFile(context.SelectedItem.FileExtension);
@@ -30,10 +30,10 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			Win32API.RunPowershellCommand(context.ShellPage?.SlimContentPage?.SelectedItem.ItemPath, false);
+			Win32API.RunPowershellCommand($"{context.ShellPage?.SlimContentPage?.SelectedItem.ItemPath}", false);
 		}
 
-		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
