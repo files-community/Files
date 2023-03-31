@@ -1,8 +1,5 @@
-trigger:
-- main
-
-pool:
-  vmImage: 'windows-latest'
+# FILES-CI: This CI is trigger when updated HEAD branch
+name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
 
 variables:
   solution: '**/*.sln'
@@ -10,113 +7,22 @@ variables:
   buildConfiguration: 'Release'
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
-steps:
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      [xml]$xmlDoc = Get-Content '$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest'
-      $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
-      $xmlDoc.Package.Identity.Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7"
-      $xmlDoc.Package.Properties.DisplayName="Files"
-      $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
-      $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest')
-    failOnStderr: true
-
-- task: PowerShell@2
-  displayName: 'Use Release Logo'
-  inputs:
-    targetType: 'inline'
-    script: |
-      gci $(Build.SourcesDirectory)\src -Include *.csproj, *.appxmanifest, *.wapproj -recurse | ForEach -Process {
-      (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTilesDev", "Assets\AppTiles"}) | Set-Content $_ -NoNewline
-      }
-    failOnStderr: true
-
-- task: DownloadSecureFile@1
-  name: mapsDevKey
-  displayName: 'Download Bing Maps Dev Key'
-  inputs:
-    secureFile: 'BingMapsKey.txt'
-
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    Contents: '$(mapsDevKey.secureFilePath)'
-    TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
-    overWrite: true
-
-- task: UseDotNet@2
-  inputs:
-    packageType: sdk
-    version: 7.0.x
-    includePreviewVersions: true
-
-- task: CmdLine@2
-  inputs:
-    script: |
-      for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
-
-- task: MSBuild@1
-  inputs:
-    platform: 'x64'
-    solution: '**/*.sln'
-    configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:restore /p:Configuration=Debug;Platform="$(buildPlatform)";PublishReadyToRun=true'
-    maximumCpuCount: true
-
-- task: MSBuild@1
-  inputs:
-    platform: 'x64'
-    solution: '**/*.wapproj'
-    configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Debug;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";AppxPackageDir="$(appxPackageDir)";AppxPackageSigningEnabled=true;UapAppxPackageBuildMode=SideloadOnly;PackageCertificateKeyFile="$(Build.SourcesDirectory)\builds\Files_SelfSigned.pfx";PackageCertificatePassword="";PackageCertificateThumbprint=""'
-    maximumCpuCount: true
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    arguments: './tests/Files.InteractionTests/Files.InteractionTests.csproj --configuration $(buildConfiguration)'
-
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Find correct folder and run app install script.
-      cd $(appxPackageDir)
-
-      $AppBundle = Get-ChildItem -Filter Files*Test -Name
-      echo $AppBundle
-      cd $AppBundle
-      ./Install.ps1 -Force
-      Get-AppxPackage
-    errorActionPreference: 'continue'
-    failOnStderr: true
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
-
-
-- task: Windows Application Driver@0
-  inputs:
-    OperationType: 'Start'
-    AgentResolution: '1080p'
-
-- task: VSTest@2
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*Files.InteractionTests.dll
-      !**\*TestAdapter.dll
-      !**\obj\**
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-
-- task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**\bin\$(BuildConfiguration)\**'
-    TargetFolder: '$(build.artifactstagingdirectory)'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
+jobs:
+  pool:
+    vmImage: 'windows-latest'
+  timeoutInMinutes: 120
+  strategy:
+    maxParallel: 4
+    matrix:
+      Debug_x64:
+        buildPlatform: 'x64'
+        buildConfiguration: 'Debug'
+      Release_x64:
+        buildPlatform: 'x64'
+        buildConfiguration: 'Release'
+      Debug_Arm64:
+        buildPlatform: 'arm64'
+        buildConfiguration: 'Debug'
+      Release_Arm64:
+        buildPlatform: 'arm64'
+        buildConfiguration: 'Release'
