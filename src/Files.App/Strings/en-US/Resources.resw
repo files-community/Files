@@ -2860,4 +2860,10 @@
   <data name="Untagged" xml:space="preserve">
     <value>Untagged</value>
   </data>
+  <data name="SwapTabRight" xml:space="preserve">
+    <value>Swap tab on the right</value>
+  </data>
+  <data name="SwapTabLeft" xml:space="preserve">
+    <value>Swap tab on the left</value>
+  </data>
 </root>

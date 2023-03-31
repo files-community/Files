@@ -239,7 +239,7 @@ namespace Files.App.Views
 					var command = Commands[hotKey];
 					if (command.Code is not CommandCodes.None && keyReleased)
 					{
-						keyReleased = false;
+						keyReleased = command.Code is CommandCodes.SwapTabLeft or CommandCodes.SwapTabRight;
 						e.Handled = command.IsExecutable;
 						await command.ExecuteAsync();
 					}
