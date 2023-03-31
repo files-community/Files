@@ -12,7 +12,7 @@ namespace Files.App.Actions
 {
 	internal class ShowPropertiesAction : ObservableObject, IAction
 	{
-		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "Properties".GetLocalizedResource();
 
