@@ -162,7 +162,7 @@
 	<Grid x:Name="RootGrid">
 		<StackPanel Spacing="16">
 
-			<Grid x:Load="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist, Mode=OneWay}">
+			<Grid x:Name="ConflictHeaderGrid" x:Load="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist, Mode=OneWay}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="Auto" />
