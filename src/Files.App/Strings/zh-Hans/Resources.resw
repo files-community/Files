@@ -2661,6 +2661,9 @@
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>退出精简模式</value>
   </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>Toggle the sidebar</value>
+  </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>菜单</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
@@ -2853,5 +2856,8 @@
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>更改文件扩展名时显示警告</value>
+  </data>
+  <data name="Untagged" xml:space="preserve">
+    <value>Untagged</value>
   </data>
 </root>

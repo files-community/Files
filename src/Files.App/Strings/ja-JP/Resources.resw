@@ -2661,6 +2661,9 @@
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>コンパクト オーバーレイを終了</value>
   </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>サイドバーの表示を切り替える</value>
+  </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>メニュー</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
@@ -2853,5 +2856,8 @@
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>ファイル拡張子の変更時に警告を表示する</value>
+  </data>
+  <data name="Untagged" xml:space="preserve">
+    <value>タグなし</value>
   </data>
 </root>
