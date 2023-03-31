@@ -32,6 +32,7 @@ namespace Files.App.Commands
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand TogglePreviewPane => commands[CommandCodes.TogglePreviewPane];
+		public IRichCommand ToggleSidebar => commands[CommandCodes.ToggleSidebar];
 		public IRichCommand SelectAll => commands[CommandCodes.SelectAll];
 		public IRichCommand InvertSelection => commands[CommandCodes.InvertSelection];
 		public IRichCommand ClearSelection => commands[CommandCodes.ClearSelection];
@@ -126,6 +127,9 @@ namespace Files.App.Commands
 		public IRichCommand CloseOtherTabsCurrent => commands[CommandCodes.CloseOtherTabsCurrent];
 		public IRichCommand CloseOtherTabsSelected => commands[CommandCodes.CloseOtherTabsSelected];
 		public IRichCommand ReopenClosedTab => commands[CommandCodes.ReopenClosedTab];
+		public IRichCommand PreviousTab => commands[CommandCodes.PreviousTab];
+		public IRichCommand NextTab => commands[CommandCodes.NextTab];
+		public IRichCommand CloseSelectedTab => commands[CommandCodes.CloseSelectedTab];
 
 		public CommandManager()
 		{
@@ -164,6 +168,7 @@ namespace Files.App.Commands
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
 			[CommandCodes.TogglePreviewPane] = new TogglePreviewPaneAction(),
+			[CommandCodes.ToggleSidebar] = new ToggleSidebarAction(),
 			[CommandCodes.SelectAll] = new SelectAllAction(),
 			[CommandCodes.InvertSelection] = new InvertSelectionAction(),
 			[CommandCodes.ClearSelection] = new ClearSelectionAction(),
@@ -258,6 +263,9 @@ namespace Files.App.Commands
 			[CommandCodes.CloseOtherTabsCurrent] = new CloseOtherTabsCurrentAction(),
 			[CommandCodes.CloseOtherTabsSelected] = new CloseOtherTabsSelectedAction(),
 			[CommandCodes.ReopenClosedTab] = new ReopenClosedTabAction(),
+			[CommandCodes.PreviousTab] = new PreviousTabAction(),
+			[CommandCodes.NextTab] = new NextTabAction(),
+			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

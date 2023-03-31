@@ -19,6 +19,7 @@ namespace Files.App.Commands
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
 		IRichCommand TogglePreviewPane { get; }
+		IRichCommand ToggleSidebar { get; }
 
 		IRichCommand CopyItem { get; }
 		IRichCommand CopyPath { get; }
@@ -127,5 +128,8 @@ namespace Files.App.Commands
 		IRichCommand CloseOtherTabsCurrent { get; }
 		IRichCommand CloseOtherTabsSelected { get; }
 		IRichCommand ReopenClosedTab { get; }
+		IRichCommand PreviousTab { get; }
+		IRichCommand NextTab { get; }
+		IRichCommand CloseSelectedTab { get; }
 	}
 }

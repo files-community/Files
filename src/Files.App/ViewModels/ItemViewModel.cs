@@ -1947,7 +1947,6 @@ namespace Files.App.ViewModels
 
 			var anyEdits = false;
 			ListedItem? lastItemAdded = null;
-			ListedItem? nextOfLastItemRemoved = null;
 			var rand = Guid.NewGuid();
 
 			// Call when any edits have occurred
@@ -1960,12 +1959,6 @@ namespace Files.App.ViewModels
 				{
 					await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
 					lastItemAdded = null;
-				}
-
-				if (nextOfLastItemRemoved is not null)
-				{
-					await RequestSelectionAsync(new List<ListedItem>() { nextOfLastItemRemoved });
-					nextOfLastItemRemoved = null;
 				}
 
 				anyEdits = false;
@@ -2001,10 +1994,6 @@ namespace Files.App.ViewModels
 										break;
 
 									case FILE_ACTION_REMOVED:
-										// Get the item that immediately follows matching item to be removed
-										// If the matching item is the last item, try to get the previous item; otherwise, null
-										var itemRemovedIndex = filesAndFolders.FindIndex(x => x.ItemPath.Equals(operation.FileName));
-										nextOfLastItemRemoved = filesAndFolders.ElementAtOrDefault(itemRemovedIndex + 1 < filesAndFolders.Count ? itemRemovedIndex + 1 : itemRemovedIndex - 1);
 										var itemRemoved = await RemoveFileOrFolderAsync(operation.FileName);
 										if (itemRemoved is not null)
 											anyEdits = true;
