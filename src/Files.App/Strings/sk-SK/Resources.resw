@@ -2663,6 +2663,9 @@
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Ukončite kompaktné prekrytie</value>
   </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>Toggle the sidebar</value>
+  </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Menu</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
@@ -2855,5 +2858,8 @@
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Show warning when changing file extensions</value>
+  </data>
+  <data name="Untagged" xml:space="preserve">
+    <value>Untagged</value>
   </data>
 </root>
