@@ -15,47 +15,50 @@
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
-	<Border Width="400">
-		<Grid
-			x:Name="DestinationPathGrid"
-			ColumnSpacing="8"
-			RowSpacing="8">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
+	<Grid
+		x:Name="RootGrid"
+		Width="512"
+		ColumnSpacing="8"
+		RowSpacing="8">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 
-			<!--  Header  -->
-			<TextBlock
-				Grid.ColumnSpan="2"
-				Margin="0,0,0,20"
-				Text="{helpers:ResourceString Name=NewShortcutDialogDescription}"
-				TextWrapping="Wrap" />
+		<!--  Header  -->
+		<TextBlock
+			Grid.ColumnSpan="2"
+			Margin="0,0,0,20"
+			Text="{helpers:ResourceString Name=NewShortcutDialogDescription}"
+			TextWrapping="Wrap" />
 
-			<TextBlock
-				Grid.Row="1"
-				Grid.ColumnSpan="2"
-				Text="{helpers:ResourceString Name=NewShortcutDialogPrompt}" />
+		<!--  Propmt  -->
+		<TextBlock
+			Grid.Row="1"
+			Grid.ColumnSpan="2"
+			Text="{helpers:ResourceString Name=NewShortcutDialogPrompt}" />
 
-			<!--  Path Box  -->
-			<TextBox
-				x:Name="DestinationItemPath"
-				Grid.Row="2"
-				Grid.Column="0"
-				HorizontalAlignment="Stretch"
-				PlaceholderText="C:\Users\"
-				Text="{x:Bind ViewModel.DestinationItemPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-			<Button
-				x:Name="SelectDestination"
-				Grid.Row="2"
-				Grid.Column="1"
-				Command="{x:Bind ViewModel.SelectDestinationCommand}"
-				Content="{helpers:ResourceString Name=Browse}" />
-		</Grid>
-	</Border>
+		<!--  Path TextBox  -->
+		<TextBox
+			x:Name="DestinationItemPath"
+			Grid.Row="2"
+			Grid.Column="0"
+			HorizontalAlignment="Stretch"
+			PlaceholderText="C:\Users\"
+			Text="{x:Bind ViewModel.DestinationItemPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+		<!--  Browse  -->
+		<Button
+			x:Name="SelectDestination"
+			Grid.Row="2"
+			Grid.Column="1"
+			Command="{x:Bind ViewModel.SelectDestinationCommand}"
+			Content="{helpers:ResourceString Name=Browse}" />
+
+	</Grid>
 </ContentDialog>

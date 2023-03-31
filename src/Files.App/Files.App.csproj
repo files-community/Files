@@ -68,6 +68,7 @@
         <Content Remove="Assets\FilesHome.png" />
     </ItemGroup>
     <ItemGroup>
+      <None Remove="Dialogs\FilesystemOperationDialog.xaml~RF70b64a3.TMP" />
       <None Remove="UserControls\OpacityIcon.xaml" />
     </ItemGroup>
     <ItemGroup>

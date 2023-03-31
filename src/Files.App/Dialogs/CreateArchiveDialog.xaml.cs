@@ -16,40 +16,39 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class CreateArchiveDialog : ContentDialog
 	{
-		private bool canCreate = false;
-		public bool CanCreate => canCreate;
+		private bool CanCreate => false;
 
-		public string FileName
+		private string FileName
 		{
 			get => ViewModel.FileName;
 			set => ViewModel.FileName = value;
 		}
 
-		public bool UseEncryption
+		private bool UseEncryption
 		{
 			get => ViewModel.UseEncryption;
 			set => ViewModel.UseEncryption = value;
 		}
 
-		public string Password
+		private string Password
 		{
 			get => ViewModel.Password;
 			set => ViewModel.Password = value;
 		}
 
-		public ArchiveFormats FileFormat
+		private ArchiveFormats FileFormat
 		{
 			get => ViewModel.FileFormat.Key;
 			set => ViewModel.FileFormat = ViewModel.FileFormats.First(format => format.Key == value);
 		}
 
-		public ArchiveCompressionLevels CompressionLevel
+		private ArchiveCompressionLevels CompressionLevel
 		{
 			get => ViewModel.CompressionLevel.Key;
 			set => ViewModel.CompressionLevel = ViewModel.CompressionLevels.First(level => level.Key == value);
 		}
 
-		public ArchiveSplittingSizes SplittingSize
+		private ArchiveSplittingSizes SplittingSize
 		{
 			get => ViewModel.SplittingSize.Key;
 			set => ViewModel.SplittingSize = ViewModel.SplittingSizes.First(size => size.Key == value);
@@ -60,15 +59,19 @@ namespace Files.App.Dialogs
 		public CreateArchiveDialog()
 		{
 			InitializeComponent();
+
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 
-		public new Task<ContentDialogResult> ShowAsync() => SetContentDialogRoot(this).ShowAsync().AsTask();
+		public new Task<ContentDialogResult> ShowAsync()
+			=> SetContentDialogRoot(this).ShowAsync().AsTask();
 
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
+			// WINUI3
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot; // WinUi3
+				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+
 			return contentDialog;
 		}
 
@@ -79,13 +82,14 @@ namespace Files.App.Dialogs
 			FileNameBox.SelectionStart = FileNameBox.Text.Length;
 			FileNameBox.Focus(FocusState.Programmatic);
 		}
+
 		private void ContentDialog_Closing(ContentDialog _, ContentDialogClosingEventArgs e)
 		{
 			Closing -= ContentDialog_Closing;
 			ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
 
 			if (e.Result is ContentDialogResult.Primary)
-				canCreate = true;
+				CanCreate = true;
 		}
 
 		private void PasswordBox_Loading(FrameworkElement _, object e)

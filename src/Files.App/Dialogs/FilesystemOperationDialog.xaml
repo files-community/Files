@@ -11,10 +11,9 @@
 	xmlns:vc2="using:Files.App.ValueConverters.EnumConverters"
 	xmlns:vc3="using:Files.App.Converters"
 	xmlns:vm="using:Files.Backend.ViewModels.Dialogs.FileSystemDialog"
-	x:Name="RootDialog"
 	Title="{x:Bind ViewModel.Title, Mode=OneWay}"
 	Closing="RootDialog_Closing"
-	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	DefaultButton="Primary"
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.PrimaryButtonEnabled, Mode=OneWay}"
 	Opened="FilesystemOperationDialog_Opened"
@@ -26,6 +25,7 @@
 	mc:Ignorable="d">
 
 	<ContentDialog.Resources>
+
 		<x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
 
 		<vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
@@ -37,11 +37,8 @@
 		<DataTemplate x:Key="ConflictItemDataTemplate" x:DataType="vm:FileSystemDialogConflictItemViewModel">
 			<Grid ColumnSpacing="12">
 				<Grid.ColumnDefinitions>
-					<!--  Icon  -->
 					<ColumnDefinition Width="48" />
-					<!--  Content  -->
 					<ColumnDefinition Width="*" />
-					<!--  Options  -->
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 
@@ -51,33 +48,37 @@
 					Width="48"
 					Height="48"
 					VerticalAlignment="Center"
-					Source="{x:Bind ItemIcon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
+					Source="{x:Bind ItemIcon, Converter={StaticResource ImageModelToImageConverter}}" />
 
 				<!--  Content  -->
 				<Grid Grid.Column="1">
+
 					<!--  Names  -->
 					<StackPanel
 						VerticalAlignment="Center"
-						Background="Transparent"
 						Spacing="4"
 						Tapped="NameStackPanel_Tapped"
-						Visibility="{x:Bind IsTextBoxVisible, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}">
+						Visibility="{x:Bind IsTextBoxVisible, Converter={StaticResource VisibilityInvertConverter}}">
+
+						<!--  Before/After Name  -->
 						<StackPanel Orientation="Horizontal" Spacing="8">
 							<TextBlock
-								FontSize="14"
-								Text="{x:Bind DisplayName, Mode=OneWay}"
-								ToolTipService.ToolTip="{x:Bind DisplayName, Mode=OneWay}" />
+								Style="{StaticResource BodyTextBlockStyle}"
+								Text="{x:Bind DisplayName}"
+								ToolTipService.ToolTip="{x:Bind DisplayName}" />
 							<FontIcon FontSize="10" Glyph="&#xE72A;" />
 							<TextBlock
-								FontSize="14"
-								Text="{x:Bind DestinationDisplayName, Mode=OneWay}"
+								Style="{StaticResource BodyTextBlockStyle}"
+								Text="{x:Bind DestinationDisplayName}"
 								TextTrimming="CharacterEllipsis"
-								ToolTipService.ToolTip="{x:Bind DestinationDisplayName, Mode=OneWay}" />
+								ToolTipService.ToolTip="{x:Bind DestinationDisplayName}" />
 						</StackPanel>
+
+						<!--  Before/After Folder  -->
 						<StackPanel Orientation="Horizontal" Spacing="8">
 							<TextBlock
-								FontSize="13"
 								Foreground="{ThemeResource SystemAccentColor}"
+								Style="{StaticResource BodyTextBlockStyle}"
 								Text="{x:Bind SourceDirectoryDisplayName}"
 								ToolTipService.ToolTip="{x:Bind SourcePath}" />
 							<FontIcon
@@ -85,32 +86,34 @@
 								Foreground="{ThemeResource SystemAccentColor}"
 								Glyph="&#xE72A;" />
 							<TextBlock
-								FontSize="13"
 								Foreground="{ThemeResource SystemAccentColor}"
+								Style="{StaticResource BodyTextBlockStyle}"
 								Text="{x:Bind DestinationDirectoryDisplayName}"
-								ToolTipService.ToolTip="{x:Bind DestinationPath, Mode=OneWay}" />
+								ToolTipService.ToolTip="{x:Bind DestinationPath}" />
 						</StackPanel>
+
 					</StackPanel>
 
-					<!--  Name edit box  -->
+					<!--  Edit Name TextBox  -->
 					<TextBox
 						x:Name="NameEdit"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Center"
-						x:Load="{x:Bind IsTextBoxVisible, Mode=OneWay}"
+						x:Load="{x:Bind IsTextBoxVisible}"
 						Loaded="NameEdit_Loaded"
 						LostFocus="NameEdit_LostFocus"
 						Text="{x:Bind CustomName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
 				</Grid>
 
-				<!--  Options  -->
+				<!--  Conflict Resolve Options  -->
 				<ComboBox
 					x:Name="ConflictOptions"
 					Grid.Column="2"
 					Width="200"
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
-					x:Load="{x:Bind IsConflict, Mode=OneWay}"
+					x:Load="{x:Bind IsConflict}"
 					Loaded="ConflictOptions_Loaded"
 					SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ConflictResolveOptionToIndexConverter}}">
 					<ComboBox.Items>
@@ -119,16 +122,15 @@
 						<ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
 					</ComboBox.Items>
 				</ComboBox>
+
 			</Grid>
 		</DataTemplate>
 
 		<DataTemplate x:Key="DefaultItemDataTemplate" x:DataType="vm:FileSystemDialogDefaultItemViewModel">
 			<Grid ColumnSpacing="12">
 				<Grid.ColumnDefinitions>
-					<!--  Icon  -->
 					<ColumnDefinition Width="Auto" />
-					<!--  Content  -->
-					<ColumnDefinition />
+					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 
 				<!--  Icon  -->
@@ -138,7 +140,7 @@
 					Height="48"
 					HorizontalAlignment="Left"
 					VerticalAlignment="Center"
-					Source="{x:Bind ItemIcon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
+					Source="{x:Bind ItemIcon, Converter={StaticResource ImageModelToImageConverter}}" />
 
 				<!--  Content  -->
 				<StackPanel
@@ -151,18 +153,22 @@
 						Text="{x:Bind SourcePath}"
 						ToolTipService.ToolTip="{x:Bind SourcePath}" />
 				</StackPanel>
+
 			</Grid>
 		</DataTemplate>
+
 	</ContentDialog.Resources>
 
-	<Grid x:Name="ContainerGrid">
+	<Grid x:Name="RootGrid">
 		<StackPanel Spacing="16">
-			<Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}">
+
+			<Grid x:Load="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist, Mode=OneWay}">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition />
+					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 
+				<!--  Apply To All  -->
 				<TextBlock
 					Grid.Column="0"
 					HorizontalAlignment="Left"
@@ -170,6 +176,7 @@
 					Text="{helpers:ResourceString Name=ApplyToAllConflictingItems}"
 					TextWrapping="Wrap" />
 
+				<!--  Conflict Resolve Option  -->
 				<ComboBox
 					Grid.Column="1"
 					Width="200"
@@ -183,34 +190,36 @@
 						<ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
 					</ComboBox.Items>
 				</ComboBox>
+
 			</Grid>
 
+			<!--  Description  -->
 			<TextBlock
-				x:Name="DescriptionText"
+				x:Name="DescriptionTextBlock"
 				Foreground="{ThemeResource SystemFillColorCautionBrush}"
 				Text="{x:Bind ViewModel.Description, Mode=OneWay}"
 				TextWrapping="WrapWholeWords" />
 
+			<!--  (Divider)  -->
 			<Border
-				x:Name="SeparatorLine"
 				Height="1"
 				HorizontalAlignment="Stretch"
-				Background="{ThemeResource SystemBaseLowColor}"
-				Opacity="0.8"
-				Visibility="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}" />
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}"
+				Visibility="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist, Mode=OneWay}" />
 
+			<!--  Permanently Delete  -->
 			<CheckBox
-				x:Name="chkPermanentlyDelete"
+				x:Name="PermanentlyDeleteCheckBox"
 				x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Mode=OneWay}"
 				Content="{helpers:ResourceString Name=DeleteItemsDialogPermanentlyDeleteCheckBox/Content}"
 				IsChecked="{x:Bind ViewModel.DeletePermanently, Mode=TwoWay}"
 				IsEnabled="{x:Bind ViewModel.IsDeletePermanentlyEnabled, Mode=OneWay}" />
 
+			<!--  Conflicting File List  -->
 			<ListView
-				x:Name="DetailsGrid"
 				MaxHeight="200"
 				IsItemClickEnabled="False"
-				ItemsSource="{x:Bind ViewModel.Items}"
+				ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
 				SelectionMode="None">
 
 				<ListView.ItemTemplateSelector>
@@ -230,7 +239,10 @@
 						<Setter Property="IsTabStop" Value="False" />
 					</Style>
 				</ListView.ItemContainerStyle>
+
 			</ListView>
+
 		</StackPanel>
+
 	</Grid>
 </ContentDialog>

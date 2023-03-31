@@ -4,8 +4,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:items="using:Files.App.DataModels.NavigationControlItems"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:navigationcontrolitems="using:Files.App.DataModels.NavigationControlItems"
 	Title="{helpers:ResourceString Name=ReorderSidebarItemsDialogText}"
 	DefaultButton="Primary"
 	IsPrimaryButtonEnabled="True"
@@ -17,23 +17,20 @@
 	mc:Ignorable="d">
 
 	<Grid
-		x:Name="DestinationPathGrid"
+		x:Name="RootGrid"
 		ColumnSpacing="8"
 		RowSpacing="8">
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition />
+			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<ListView
-			x:Name="SidebarNavView"
-			Grid.Row="1"
-			ItemsSource="{x:Bind ViewModel.SidebarFavoriteItems, Mode=OneWay}">
+		<ListView Grid.Row="1" ItemsSource="{x:Bind ViewModel.SidebarFavoriteItems, Mode=OneWay}">
 			<ListView.ItemTemplate>
-				<DataTemplate x:DataType="navigationcontrolitems:LocationItem">
+				<DataTemplate x:DataType="items:LocationItem">
 					<Grid
 						AllowDrop="True"
 						AutomationProperties.AutomationId="{x:Bind Text}"
@@ -42,7 +39,7 @@
 						DragStarting="ListViewItem_DragStarting"
 						Drop="ListViewItem_Drop"
 						Tag="{x:Bind Path}"
-						ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}">
+						ToolTipService.ToolTip="{x:Bind ToolTipText}">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
@@ -52,7 +49,11 @@
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
+
+						<!--  Reordering Item Name  -->
 						<TextBlock Grid.RowSpan="2" Text="{x:Bind Text}" />
+
+						<!--  Icon  -->
 						<FontIcon
 							Grid.Row="1"
 							HorizontalAlignment="Right"
@@ -60,9 +61,11 @@
 							Glyph="&#xE76F;"
 							PointerPressed="MoveItem"
 							Visibility="{x:Bind IsPinned}" />
+
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
+
 	</Grid>
 </ContentDialog>

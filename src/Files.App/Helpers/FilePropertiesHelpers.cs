@@ -109,8 +109,8 @@ namespace Files.App.Helpers
 			else
 			{
 				var dialog = new PropertiesDialog();
-				dialog.propertiesFrame.Tag = dialog;
-				Navigate(dialog.propertiesFrame);
+				dialog.MainFrame.Tag = dialog;
+				Navigate(dialog.MainFrame);
 
 				await dialog.ShowAsync(ContentDialogPlacement.Popup);
 			}

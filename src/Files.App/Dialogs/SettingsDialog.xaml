@@ -19,20 +19,22 @@
 
 			<x:Double x:Key="ContentDialogMaxWidth">1100</x:Double>
 			<Thickness x:Key="ContentDialogPadding">0</Thickness>
+
 		</ResourceDictionary>
 	</ContentDialog.Resources>
 
 	<Grid
-		x:Name="ContainerGrid"
-		MaxHeight="790"
+		x:Name="RootGrid"
+		MaxHeight="800"
 		Background="{ThemeResource SolidBackgroundFillColorBase}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="44" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<!--  Titlebar  -->
+		<!--  Titlebar Area  -->
 		<Grid Grid.Row="0" Padding="8,0">
+
 			<TextBlock
 				Padding="8,0,0,0"
 				HorizontalAlignment="Left"
@@ -53,6 +55,7 @@
 				ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
 				<FontIcon FontSize="12" Glyph="&#xE8BB;" />
 			</Button>
+
 		</Grid>
 
 		<!--  Settings Navigation View  -->
@@ -136,5 +139,6 @@
 			</ScrollViewer>
 
 		</NavigationView>
+
 	</Grid>
 </ContentDialog>

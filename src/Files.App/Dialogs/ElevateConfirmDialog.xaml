@@ -9,7 +9,7 @@
 	Title="{helpers:ResourceString Name=ElevateConfirmDialog/Title}"
 	CloseButtonText="{helpers:ResourceString Name=No}"
 	Content="{helpers:ResourceString Name=ElevateConfirmDialog/Content}"
-	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	DefaultButton="None"
 	PrimaryButtonText="{helpers:ResourceString Name=Yes}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
@@ -21,7 +21,7 @@
 			<Setter Property="ContentTemplate">
 				<Setter.Value>
 					<DataTemplate x:DataType="ContentDialog">
-						<StackPanel Orientation="Horizontal" Spacing="5">
+						<StackPanel Orientation="Horizontal" Spacing="4">
 							<FontIcon FontSize="14" Glyph="&#xEA18;" />
 							<TextBlock Text="{x:Bind PrimaryButtonText, Mode=OneWay}" />
 						</StackPanel>

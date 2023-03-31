@@ -11,7 +11,7 @@
 	Title="{helpers:ResourceString Name=AddDialog/Title}"
 	Grid.RowSpan="4"
 	BorderThickness="0"
-	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	Loaded="AddItemDialog_Loaded"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
@@ -22,14 +22,20 @@
 		<vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
 	</ContentDialog.Resources>
 
-	<Grid RowSpacing="25">
+	<Grid x:Name="RootGrid" RowSpacing="24">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Grid x:Name="SubtitleArea">
-			<TextBlock x:Name="Description" Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
-		</Grid>
+
+		<!--  Header  -->
+		<TextBlock
+			x:Name="DialogDescriptionTextBlock"
+			Grid.Row="0"
+			Style="{StaticResource BodyTextBlockStyle}"
+			Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
+
+		<!--  Selection List  -->
 		<Grid
 			x:Name="SelectionListContent"
 			Grid.Row="1"
@@ -42,35 +48,43 @@
 				ItemsSource="{x:Bind ViewModel.AddItemsList}">
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="vm:AddItemDialogListItemViewModel">
-						<Grid Height="50">
+						<Grid Height="48">
 							<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+
 								<Grid Margin="0,0,10,0" VerticalAlignment="Center">
+
+									<!--  Icon  -->
 									<Viewbox
-										x:Name="IconRoot"
 										Width="24"
 										Height="24"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center">
 										<FontIcon Glyph="{x:Bind Glyph, Mode=OneWay}" />
 									</Viewbox>
+
+									<!--  Image  -->
 									<Image
 										Width="24"
 										Height="24"
-										Margin="0"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center"
 										Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}"
 										Stretch="Uniform" />
+
 								</Grid>
+
+								<!--  Header & Sub Header  -->
 								<StackPanel>
 									<TextBlock Text="{x:Bind Header, Mode=OneWay}" />
 									<TextBlock Foreground="Gray" Text="{x:Bind SubHeader, Mode=OneWay}" />
 								</StackPanel>
+
 							</StackPanel>
 						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 			</ListView>
 		</Grid>
+
 	</Grid>
 </ContentDialog>
