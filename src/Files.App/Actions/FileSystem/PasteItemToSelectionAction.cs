@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.DataModels;
@@ -12,7 +11,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class PasteItemToSelectionAction : ObservableObject, IAction
+	internal class PasteItemToSelectionAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -25,7 +24,7 @@ namespace Files.App.Actions
 		public HotKey HotKey { get; } = new(VirtualKey.V, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
 		private bool isExecutable;
-		public bool IsExecutable => isExecutable;
+		public override bool IsExecutable => isExecutable;
 
 		public PasteItemToSelectionAction()
 		{
@@ -55,7 +54,7 @@ namespace Files.App.Actions
 				return false;
 			if (!context.HasSelection)
 				return true;
-			return context.SelectedItem?.PrimaryItemAttribute is Windows.Storage.StorageItemTypes.Folder;
+			return context.SelectedItem?.PrimaryItemAttribute is Windows.Storage.StorageItemTypes.Folder && UIHelpers.CanShowDialog;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -14,7 +14,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class DeleteItemAction : ObservableObject, IAction
+	internal class DeleteItemAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
@@ -27,9 +27,10 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.Delete);
 
-		public bool IsExecutable =>
+		public override bool IsExecutable =>
 			context.HasSelection &&
-			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
+			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false) &&
+			UIHelpers.CanShowDialog;
 
 		public DeleteItemAction()
 		{
