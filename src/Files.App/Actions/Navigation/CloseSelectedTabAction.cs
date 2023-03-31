@@ -36,6 +36,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			context.Control!.CloseTab(context.CurrentTabItem);
+
 			return Task.CompletedTask;
 		}
 
