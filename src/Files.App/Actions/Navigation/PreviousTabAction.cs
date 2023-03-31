@@ -32,6 +32,7 @@ namespace Files.App.Actions
 				App.AppModel.TabStripSelectedIndex = multitaskingContext.TabCount - 1;
 			else
 				App.AppModel.TabStripSelectedIndex--;
+
 			return Task.CompletedTask;
 		}
 
