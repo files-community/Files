@@ -104,7 +104,7 @@
 					Content="{helpers:ResourceString Name=FileTags}"
 					Tag="3">
 					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE1CB;" />
+						<FontIcon Glyph="&#xE8EC;" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem

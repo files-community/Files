@@ -131,16 +131,6 @@
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
-		<KeyboardAccelerator
-			Key="S"
-			x:Name="ToggleSidebarVisibilityKeyboardAcceleretor"
-			Modifiers="Control,Menu">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ToggleSidebarCollapsedStateCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
 	</Page.KeyboardAccelerators>
 
 	<Border>

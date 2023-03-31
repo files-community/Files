@@ -166,7 +166,7 @@
 					Grid.Column="1"
 					Margin="12"
 					FontSize="16"
-					Glyph="&#xE09D;" />
+					Glyph="&#xE70D;" />
 			</Grid>
 
 			<uc:SearchBox
@@ -189,18 +189,13 @@
 				<Button
 					x:Name="SearchButton"
 					AccessKey="I"
-					AutomationProperties.Name="{helpers:ResourceString Name=Search}"
-					Click="SearchButton_Click"
+					AutomationProperties.Name="{x:Bind ViewModel.Commands.Search.Label}"
+					Command="{x:Bind ViewModel.Commands.Search, Mode=OneWay}"
+					IsEnabled="{x:Bind ViewModel.Commands.Search.IsExecutable}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavSearchButton/ToolTipService/ToolTip}"
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.Search.LabelWithHotKey}"
 					Visibility="Collapsed">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
-					<Button.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="F"
-							IsEnabled="False"
-							Modifiers="Control" />
-					</Button.KeyboardAccelerators>
 				</Button>
 
 				<Button
