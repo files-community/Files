@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Foundation;
 using Windows.Storage;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -73,6 +74,24 @@ namespace Files.App.UserControls.Widgets
 			OpenPropertiesCommand = new RelayCommand<WidgetCardItem>(OpenProperties);
 		}
 
+		public async Task OpenContextMenuAsync(FrameworkElement element, FileTagsItemViewModel item, Point position)
+		{
+			var flyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			flyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+
+			App.Logger.Warn($"Item path: {item.Path} widgetcarditem.path = {item.Path}");
+			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
+			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+
+			if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+			secondaryElements.ForEach(flyout.SecondaryCommands.Add);
+			ItemContextMenuFlyout = flyout;
+			flyout.ShowAt(element, new FlyoutShowOptions { Position = position });
+
+			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, flyout, showOpenWithMenu: true, showSendToMenu: true);
+		}
+
 		private void OpenProperties(WidgetCardItem? item)
 		{
 			EventHandler<object> flyoutClosed = null!;
@@ -108,25 +127,14 @@ namespace Files.App.UserControls.Widgets
 		private async void Item_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			App.Logger.Warn("rightTapped");
-			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
-			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			if (sender is not StackPanel tagsItemsStackPanel || tagsItemsStackPanel.DataContext is not FileTagsItemViewModel item)
+			if (sender is not StackPanel panel || panel.DataContext is not FileTagsItemViewModel item)
 				return;
 
-			App.Logger.Warn("Item path: " + item.Path + " widgetcarditem.path = " + (item as WidgetCardItem)?.Path);
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-
-			if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
-				secondaryElements.OfType<FrameworkElement>()
-								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
-
-			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			ItemContextMenuFlyout = itemContextMenuFlyout;
-			itemContextMenuFlyout.ShowAt(tagsItemsStackPanel, new FlyoutShowOptions { Position = e.GetPosition(tagsItemsStackPanel) });
-
-			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 			e.Handled = true;
+			Point position = e.GetPosition(panel);
+
+			App.Logger.Warn($"Item path: {item.Path} widgetcarditem.path = {item.Path}");
+			await OpenContextMenuAsync(panel, item, position);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)

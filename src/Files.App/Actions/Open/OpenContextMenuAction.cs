@@ -4,6 +4,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.UserControls;
 using Files.App.UserControls.Widgets;
+using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -19,7 +20,7 @@ namespace Files.App.Actions
 		public string Label { get; } = "OpenContextMenu".GetLocalizedResource();
 		public string Description => "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(VirtualKey.Enter, VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(VirtualKey.Enter, VirtualKeyModifiers.Shift);
 
 		public bool IsExecutable
 		{
@@ -34,7 +35,8 @@ namespace Files.App.Actions
 
 				return element.ContextFlyout is FlyoutBase { IsOpen: false }
 				|| element.DataContext is INavigationControlItem or WidgetCardItem
-				|| (element is ListViewItem item && item.Content is RecentItem);
+				|| (element is ListViewItem listViewItem && listViewItem.Content is RecentItem)
+				|| (element is GridViewItem gridViewItem && gridViewItem.Content is FileTagsItemViewModel);
 			}
 		}
 
@@ -69,6 +71,14 @@ namespace Files.App.Actions
 				if (widget is not null)
 				{
 					await widget.OpenContextMenuAsync(listViewItem, recentItem, position);
+				}
+			}
+			else if (element is GridViewItem gridViewItem && gridViewItem.Content is FileTagsItemViewModel tagsItem)
+			{
+				var widget = gridViewItem.FindAscendant<FileTagsWidget>();
+				if (widget is not null)
+				{
+					await widget.OpenContextMenuAsync(gridViewItem, tagsItem, position);
 				}
 			}
 			else if (element.ContextFlyout is FlyoutBase{IsOpen: false} flyout)
