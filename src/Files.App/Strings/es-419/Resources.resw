@@ -2661,6 +2661,9 @@
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Salir del modo superposición compacta</value>
   </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>Ocultar/mostrar barra lateral</value>
+  </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Menú</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
@@ -2853,5 +2856,8 @@
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Mostrar aviso al cambiar las extensiones de archivo</value>
+  </data>
+  <data name="Untagged" xml:space="preserve">
+    <value>Sin etiquetar</value>
   </data>
 </root>
