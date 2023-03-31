@@ -9,11 +9,11 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class SwapTabLeftAction : ObservableObject, IAction
+	internal class PreviousTabAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext multitaskingContext = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 
-		public string Label { get; } = "SwapTabLeft".GetLocalizedResource();
+		public string Label { get; } = "PreviousTab".GetLocalizedResource();
 
 		public string Description { get; } = "TODO: Need to be described.";
 
@@ -21,7 +21,7 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(VirtualKey.Tab, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
-		public SwapTabLeftAction()
+		public PreviousTabAction()
 		{
 			multitaskingContext.PropertyChanged += MultitaskingContext_PropertyChanged;
 		}
