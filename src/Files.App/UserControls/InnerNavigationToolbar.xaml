@@ -266,6 +266,7 @@
 					Width="Auto"
 					MinWidth="40"
 					x:Load="{x:Bind Commands.RunWithPowershell.IsExecutable, Mode=OneWay}"
+					AutomationProperties.Name="RunWithPowerShell"
 					Command="{x:Bind Commands.RunWithPowershell, Mode=OneWay}"
 					Label="{x:Bind Commands.RunWithPowershell.Label, Mode=OneWay}"
 					LabelPosition="Default"
