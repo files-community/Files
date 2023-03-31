@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
@@ -16,7 +17,7 @@ namespace Files.App.Actions
 
 		public string Description => "TODO: Need to be described.";
 
-		public bool IsExecutable => true;
+		public bool IsExecutable => context.ShellPage.InstanceViewModel.IsPageTypeNotHome;
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconProperties");
 
@@ -34,8 +35,7 @@ namespace Files.App.Actions
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IContentPageContext.SelectedItems):
-				case nameof(IContentPageContext.Folder):
+				case nameof(IContentPageContext.ShellPage.InstanceViewModel.IsPageTypeNotHome):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
