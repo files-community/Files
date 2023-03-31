@@ -18,11 +18,11 @@ namespace Files.App.UserControls
 	{
 		public AppModel AppModel => App.AppModel;
 
-		private readonly IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private readonly ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+		private readonly IAddItemService AddItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
 		private readonly PreviewPaneViewModel PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 
@@ -75,7 +75,7 @@ namespace Files.App.UserControls
 				shell.ForEach(x => NewEmptySpace.Items.Remove(x));
 				return;
 			}
-			var cachedNewContextMenuEntries = addItemService.GetNewEntriesAsync().Result;
+			var cachedNewContextMenuEntries = AddItemService.GetNewEntriesAsync().Result;
 			if (cachedNewContextMenuEntries is null)
 				return;
 			if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
