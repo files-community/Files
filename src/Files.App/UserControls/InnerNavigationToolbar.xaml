@@ -52,7 +52,7 @@
 
 			<CommandBar.PrimaryCommands>
 
-				<!--  New Item Command  -->
+				<!--  New Item  -->
 				<AppBarButton
 					x:Name="NewEmptySpaceAppBarButton"
 					AccessKey="W"
@@ -114,7 +114,7 @@
 				<!--  (Divider)  -->
 				<AppBarSeparator />
 
-				<!--  Cut Command  -->
+				<!--  Cut  -->
 				<AppBarButton
 					x:Name="CutButton"
 					Width="Auto"
@@ -128,7 +128,7 @@
 					<local:OpacityIcon Style="{x:Bind Commands.CutItem.OpacityStyle}" />
 				</AppBarButton>
 
-				<!--  Copy Command  -->
+				<!--  Copy  -->
 				<AppBarButton
 					x:Name="CopyButton"
 					Width="Auto"
@@ -142,7 +142,7 @@
 					<local:OpacityIcon Style="{x:Bind Commands.CopyItem.OpacityStyle}" />
 				</AppBarButton>
 
-				<!--  Paste Command  -->
+				<!--  Paste  -->
 				<AppBarButton
 					x:Name="PasteButton"
 					Width="Auto"
@@ -156,7 +156,7 @@
 					<local:OpacityIcon Style="{x:Bind Commands.PasteItem.OpacityStyle}" />
 				</AppBarButton>
 
-				<!--  Rename Command  -->
+				<!--  Rename  -->
 				<AppBarButton
 					x:Name="RenameButton"
 					Width="Auto"
@@ -171,7 +171,7 @@
 					<local:OpacityIcon Style="{x:Bind Commands.Rename.OpacityStyle}" />
 				</AppBarButton>
 
-				<!--  Share Command  -->
+				<!--  Share  -->
 				<AppBarButton
 					x:Name="ShareButton"
 					Width="Auto"
@@ -185,7 +185,7 @@
 					<local:OpacityIcon Style="{x:Bind Commands.ShareItem.OpacityStyle}" />
 				</AppBarButton>
 
-				<!--  Delete Command  -->
+				<!--  Delete  -->
 				<AppBarButton
 					x:Name="DeleteButton"
 					Width="Auto"
@@ -198,7 +198,7 @@
 					<local:OpacityIcon Style="{x:Bind Commands.DeleteItem.OpacityStyle}" />
 				</AppBarButton>
 
-				<!--  Properties Command  -->
+				<!--  Properties  -->
 				<AppBarButton
 					x:Name="PropertiesButton"
 					Width="Auto"
@@ -215,7 +215,7 @@
 				<!--  (Divider)  -->
 				<AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionalAction, Mode=OneWay}" />
 
-				<!--  Expty Recycle Bin Command  -->
+				<!--  Expty Recycle Bin  -->
 				<AppBarButton
 					x:Name="EmptyRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
@@ -226,7 +226,7 @@
 					<local:OpacityIcon Style="{x:Bind Commands.EmptyRecycleBin.OpacityStyle}" />
 				</AppBarButton>
 
-				<!--  Restore All Recycle Bin Command  -->
+				<!--  Restore All Recycle Bin  -->
 				<AppBarButton
 					x:Name="RestoreAllRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
@@ -238,7 +238,7 @@
 					<local:OpacityIcon Style="{x:Bind Commands.RestoreAllRecycleBin.OpacityStyle}" />
 				</AppBarButton>
 
-				<!--  Restore Recycle Bin Command  -->
+				<!--  Restore Recycle Bin  -->
 				<AppBarButton
 					x:Name="RestoreRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
@@ -250,7 +250,7 @@
 					<local:OpacityIcon Style="{x:Bind Commands.RestoreRecycleBin.OpacityStyle}" />
 				</AppBarButton>
 
-				<!--  Extract Command  -->
+				<!--  Extract  -->
 				<AppBarButton
 					x:Name="ExtractButton"
 					Width="Auto"
@@ -297,7 +297,7 @@
 
 				</AppBarButton>
 
-				<!--  Run With PowerShell Command  -->
+				<!--  Run With PowerShell  -->
 				<AppBarButton
 					x:Name="RunWithPowerShellButton"
 					Width="Auto"
@@ -313,7 +313,7 @@
 					</AppBarButton.Icon>
 				</AppBarButton>
 
-				<!--  Set As Background Command  -->
+				<!--  Set As Background  -->
 				<AppBarButton
 					x:Name="SetAsBackgroundButton"
 					Width="Auto"
@@ -351,7 +351,7 @@
 
 				</AppBarButton>
 
-				<!--  Set As Slideshow Command  -->
+				<!--  Set As Slideshow  -->
 				<AppBarButton
 					x:Name="SetAsSlideshowButton"
 					Width="Auto"
@@ -363,7 +363,7 @@
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{x:Bind Commands.SetAsSlideshowBackground.LabelWithHotKey}" />
 
-				<!--  Install Inf Command  -->
+				<!--  Install Inf  -->
 				<AppBarButton
 					x:Name="InstallInfButton"
 					x:Load="{x:Bind Commands.InstallInfDriver.IsExecutable, Mode=OneWay, FallbackValue=False}"
@@ -376,7 +376,7 @@
 					</AppBarButton.Icon>
 				</AppBarButton>
 
-				<!--  Rotate Image Left Command  -->
+				<!--  Rotate Image Left  -->
 				<AppBarButton
 					x:Name="RotateImageLeftButton"
 					x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
@@ -387,7 +387,7 @@
 					<local:OpacityIcon Style="{StaticResource ColorIconRotateLeft}" />
 				</AppBarButton>
 
-				<!--  Rotate Image Right Command  -->
+				<!--  Rotate Image Right  -->
 				<AppBarButton
 					x:Name="RotateImageRightButton"
 					x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
@@ -398,7 +398,7 @@
 					<local:OpacityIcon Style="{StaticResource ColorIconRotateRight}" />
 				</AppBarButton>
 
-				<!--  Install Font Command  -->
+				<!--  Install Font  -->
 				<AppBarButton
 					x:Name="InstallFontButton"
 					x:Load="{x:Bind Commands.InstallFont.IsExecutable, Mode=OneWay, FallbackValue=False}"
@@ -409,7 +409,7 @@
 					<!--  TODO: Add Icon  -->
 				</AppBarButton>
 
-				<!--  Play All Media Command  -->
+				<!--  Play All Media  -->
 				<AppBarButton
 					x:Name="PlayAllMediaButton"
 					x:Load="{x:Bind ViewModel.IsMultipleMediaFilesSelected, Mode=OneWay, FallbackValue=False}"
@@ -451,6 +451,9 @@
 				LabelPosition="Collapsed"
 				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=SelectionOptions}">
+
+				<local:OpacityIcon Style="{StaticResource ColorIconSelection}" />
+
 				<AppBarButton.Flyout>
 					<MenuFlyout Placement="Bottom">
 						<MenuFlyoutItem
@@ -477,7 +480,6 @@
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 
-				<local:OpacityIcon Style="{StaticResource ColorIconSelection}" />
 			</AppBarButton>
 
 			<!--  Sort Commands  -->
@@ -492,7 +494,9 @@
 				LabelPosition="Collapsed"
 				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=Sort}">
+
 				<local:OpacityIcon Style="{StaticResource ColorIconSort}" />
+
 				<AppBarButton.Flyout>
 					<MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
 						<MenuFlyoutSubItem
@@ -573,6 +577,7 @@
 							Text="{x:Bind Commands.ToggleSortDirectoriesAlongsideFiles.Label}" />
 					</MenuFlyout>
 				</AppBarButton.Flyout>
+
 			</AppBarButton>
 
 			<!--  Layout Commands  -->
@@ -587,12 +592,16 @@
 				LabelPosition="Collapsed"
 				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=Layout}">
+
 				<AppBarButton.Icon>
 					<FontIcon FontSize="10" Glyph="&#xE152;" />
 				</AppBarButton.Icon>
+
 				<AppBarButton.Flyout>
 					<Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
 						<StackPanel Spacing="12">
+
+							<!--  Header  -->
 							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=Layout}" />
 
 							<Grid ColumnSpacing="8" RowSpacing="8">
@@ -802,8 +811,10 @@
 									VerticalAlignment="Center"
 									Tapped="{x:Bind Commands.LayoutAdaptive.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutAdaptive.Label}" />
+
 							</Grid>
 
+							<!--  (Divider)  -->
 							<Border
 								Margin="-20,0"
 								HorizontalAlignment="Stretch"
@@ -819,11 +830,13 @@
 									<RowDefinition MinHeight="30" />
 									<RowDefinition MinHeight="30" />
 								</Grid.RowDefinitions>
+
 								<TextBlock
 									Grid.Row="0"
 									Grid.Column="0"
 									VerticalAlignment="Center"
 									Text="{x:Bind Commands.ToggleShowHiddenItems.Label}" />
+
 								<ToggleSwitch
 									Grid.Row="0"
 									Grid.Column="1"
@@ -839,6 +852,7 @@
 									Grid.Column="0"
 									VerticalAlignment="Center"
 									Text="{x:Bind Commands.ToggleShowFileExtensions.Label}" />
+
 								<ToggleSwitch
 									Grid.Row="1"
 									Grid.Column="1"
@@ -849,13 +863,16 @@
 									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowFileExtensions.HotKeyText, Mode=OneWay}" />
+
 							</Grid>
+
 						</StackPanel>
 					</Flyout>
 				</AppBarButton.Flyout>
+
 			</AppBarButton>
 
-			<!--  Preview Pane Toggling Command  -->
+			<!--  Toggle Preview Pane  -->
 			<AppBarToggleButton
 				x:Name="PreviewPane"
 				Width="Auto"
@@ -873,7 +890,7 @@
 			<!--  3 Dots Commands  -->
 			<CommandBar.SecondaryCommands>
 
-				<!--  Open Pane Command  -->
+				<!--  Open Pane  -->
 				<AppBarButton
 					x:Name="NavToolbarNewPane"
 					x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(ShowMultiPaneControls, IsMultiPaneActive), Mode=OneWay}"
@@ -889,7 +906,7 @@
 					</AppBarButton.KeyboardAccelerators>
 				</AppBarButton>
 
-				<!--  Close Pane Command  -->
+				<!--  Close Pane  -->
 				<AppBarButton
 					x:Name="NavToolbarClosePane"
 					x:Load="{x:Bind IsMultiPaneActive, Mode=OneWay}"
@@ -907,7 +924,7 @@
 					</AppBarButton.KeyboardAccelerators>
 				</AppBarButton>
 
-				<!--  New Window Command  -->
+				<!--  New Window  -->
 				<AppBarButton
 					x:Name="NavToolbarNewWindow"
 					Command="{x:Bind ViewModel.OpenNewWindowCommand, Mode=OneWay}"
@@ -924,7 +941,7 @@
 					</AppBarButton.KeyboardAccelerators>
 				</AppBarButton>
 
-				<!--  Exter Compact Overlay Command  -->
+				<!--  Exter Compact Overlay  -->
 				<AppBarButton
 					x:Name="NavToolbarEnterCompactOverlay"
 					x:Load="{x:Bind Commands.EnterCompactOverlay.IsExecutable, Mode=OneWay}"
@@ -933,7 +950,7 @@
 					<local:OpacityIcon Style="{x:Bind Commands.EnterCompactOverlay.OpacityStyle}" />
 				</AppBarButton>
 
-				<!--  Exit Compact Overlay Command  -->
+				<!--  Exit Compact Overlay  -->
 				<AppBarButton
 					x:Name="NavToolbarExitCompactOverlay"
 					x:Load="{x:Bind Commands.ExitCompactOverlay.IsExecutable, Mode=OneWay}"
