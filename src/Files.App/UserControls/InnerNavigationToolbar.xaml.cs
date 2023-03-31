@@ -12,26 +12,19 @@ using System;
 using System.IO;
 using System.Linq;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls
 {
 	public sealed partial class InnerNavigationToolbar : UserControl
 	{
-		public InnerNavigationToolbar()
-		{
-			InitializeComponent();
-			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
-		}
-
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
-
-		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
-
 		public AppModel AppModel => App.AppModel;
 
-		public readonly PreviewPaneViewModel PreviewPaneViewModel;
+		private readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+
+		private readonly IAddItemService AddItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+
+		private readonly PreviewPaneViewModel PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 
 		public ToolbarViewModel ViewModel
 		{
@@ -39,7 +32,6 @@ namespace Files.App.UserControls
 			set => SetValue(ViewModelProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
 
@@ -49,9 +41,8 @@ namespace Files.App.UserControls
 			set { SetValue(ShowPreviewPaneButtonProperty, value); }
 		}
 
-		// Using a DependencyProperty as the backing store for ShowPreviewPaneButton.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowPreviewPaneButtonProperty =
-			DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(ShowPreviewPaneButton), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
 		public bool ShowMultiPaneControls
 		{
@@ -59,7 +50,6 @@ namespace Files.App.UserControls
 			set => SetValue(ShowMultiPaneControlsProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for ShowMultiPaneControls.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowMultiPaneControlsProperty =
 			DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
@@ -69,9 +59,13 @@ namespace Files.App.UserControls
 			set { SetValue(IsMultiPaneActiveProperty, value); }
 		}
 
-		// Using a DependencyProperty as the backing store for IsMultiPaneActive.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty IsMultiPaneActiveProperty =
-			DependencyProperty.Register("IsMultiPaneActive", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(false));
+			DependencyProperty.Register(nameof(IsMultiPaneActive), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(false));
+
+		public InnerNavigationToolbar()
+		{
+			InitializeComponent();
+		}
 
 		private void NewEmptySpace_Opening(object sender, object e)
 		{
@@ -81,7 +75,7 @@ namespace Files.App.UserControls
 				shell.ForEach(x => NewEmptySpace.Items.Remove(x));
 				return;
 			}
-			var cachedNewContextMenuEntries = addItemService.GetNewEntriesAsync().Result;
+			var cachedNewContextMenuEntries = AddItemService.GetNewEntriesAsync().Result;
 			if (cachedNewContextMenuEntries is null)
 				return;
 			if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
