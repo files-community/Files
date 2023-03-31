@@ -75,6 +75,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 			Items = new(items);
 
 			SecondaryButtonClickCommand = new RelayCommand(SecondaryButtonClick);
+			PrimaryButtonEnabled = true;
 		}
 
 		public bool IsNameAvailableForItem(BaseFileSystemDialogItemViewModel item, string name)

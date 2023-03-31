@@ -217,6 +217,7 @@
 
 			<!--  Conflicting File List  -->
 			<ListView
+				x:Name="ConflictingFilesListView"
 				MaxHeight="200"
 				IsItemClickEnabled="False"
 				ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"

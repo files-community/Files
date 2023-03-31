@@ -13,14 +13,7 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class FilesystemOperationDialog : ContentDialog, IDialog<FileSystemDialogViewModel>
 	{
-		public FileSystemDialogViewModel ViewModel
-		{
-			get;
-			set
-			{
-				value?.PrimaryButtonEnabled = true;
-			}
-		}
+		public FileSystemDialogViewModel ViewModel { get; set; }
 
 		public FilesystemOperationDialog()
 		{
@@ -49,7 +42,7 @@ namespace Files.App.Dialogs
 		private void UpdateDialogLayout()
 		{
 			if (ViewModel.FileSystemDialogMode.ConflictsExist)
-				ContainerGrid.Width = App.Window.Bounds.Width <= 700 ? App.Window.Bounds.Width - 50 : 650;
+				RootGrid.Width = App.Window.Bounds.Width <= 700 ? App.Window.Bounds.Width - 50 : 650;
 		}
 
 		protected override void OnApplyTemplate()
@@ -65,10 +58,10 @@ namespace Files.App.Dialogs
 		{
 			(sender as Button).GotFocus -= PrimaryButton_GotFocus;
 
-			if (chkPermanentlyDelete is not null)
-				chkPermanentlyDelete.IsEnabled = ViewModel.IsDeletePermanentlyEnabled;
+			if (PermanentlyDeleteCheckBox is not null)
+				PermanentlyDeleteCheckBox.IsEnabled = ViewModel.IsDeletePermanentlyEnabled;
 
-			DetailsGrid.IsEnabled = true;
+			ConflictingFilesListView.IsEnabled = true;
 		}
 
 		private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
@@ -134,7 +127,7 @@ namespace Files.App.Dialogs
 		private void FilesystemOperationDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
 		{
 			if (ViewModel.FileSystemDialogMode.IsInDeleteMode)
-				DescriptionText.Foreground = App.Current.Resources["TextControlForeground"] as SolidColorBrush;
+				DescriptionTextBlock.Foreground = App.Current.Resources["TextControlForeground"] as SolidColorBrush;
 
 			UpdateDialogLayout();
 		}
