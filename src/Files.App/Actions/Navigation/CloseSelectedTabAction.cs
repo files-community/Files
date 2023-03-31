@@ -23,9 +23,10 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new();
 
-		public bool IsExecutable => context.Control is not null && 
-									context.TabCount > 0 && 
-									context.CurrentTabItem is not null;
+		public bool IsExecutable =>
+			context.Control is not null && 
+			context.TabCount > 0 && 
+			context.CurrentTabItem is not null;
 
 		public CloseSelectedTabAction()
 		{
