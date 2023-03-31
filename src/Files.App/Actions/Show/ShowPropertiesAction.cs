@@ -6,6 +6,7 @@ using Files.App.Extensions;
 using Files.App.Helpers;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -17,9 +18,11 @@ namespace Files.App.Actions
 
 		public string Description => "TODO: Need to be described.";
 
+		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconProperties");
+
 		public bool IsExecutable => context.ShellPage.InstanceViewModel.IsPageTypeNotHome;
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconProperties");
+		public HotKey HotKey { get; } = new(VirtualKey.P, VirtualKeyModifiers.Control);
 
 		public ShowPropertiesAction()
 		{
