@@ -32,26 +32,21 @@ using Windows.System;
 
 namespace Files.App.Views
 {
-	/// <summary>
-	/// The root page of Files
-	/// </summary>
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
 		private VirtualKeyModifiers currentModifiers = VirtualKeyModifiers.None;
 
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		public IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
 
 		public SidebarViewModel SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
 
 		public AppModel AppModel => App.AppModel;
 
-		public MainPageViewModel ViewModel
-		{
-			get => (MainPageViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public MainPageViewModel ViewModel { get; set;  }
 
 		/// <summary>
 		/// True if the user is currently resizing the preview pane
@@ -67,6 +62,7 @@ namespace Files.App.Views
 			InitializeComponent();
 			DataContext = Ioc.Default.GetRequiredService<MainPageViewModel>();
 			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
@@ -85,7 +81,6 @@ namespace Files.App.Views
 			};
 
 			var result = await SetContentDialogRoot(promptForReviewDialog).ShowAsync();
-
 			if (result == ContentDialogResult.Primary)
 			{
 				try
@@ -104,6 +99,7 @@ namespace Files.App.Views
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+
 			return contentDialog;
 		}
 
@@ -131,7 +127,8 @@ namespace Files.App.Views
 
 		private void SetRectDragRegion()
 		{
-			DragZoneHelper.SetDragZones(App.Window,
+			DragZoneHelper.SetDragZones(
+				App.Window,
 				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
 		}
 
@@ -143,6 +140,7 @@ namespace Files.App.Views
 			var paneArgs = e.NavigationArg as PaneNavigationArguments;
 			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
 				paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
+
 			UpdateStatusBarProperties();
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
@@ -158,10 +156,12 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments).LeftPaneNavPathParam);
+
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
 			ViewModel.UpdateInstanceProperties(navArgs);
+
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
 		}
@@ -199,6 +199,7 @@ namespace Files.App.Views
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			ViewModel.OnNavigatedTo(e);
+
 			SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
 			SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
 			SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
@@ -226,13 +227,10 @@ namespace Files.App.Views
 					if (isTextBox)
 					{
 						if (hotKey.IsTextBoxHotKey())
-						{
 							break;
-						}
+
 						if (currentModifiers is VirtualKeyModifiers.None && !e.Key.IsGlobalKey())
-						{
 							break;
-						}
 					}
 
 					// Execute command for hotkey
@@ -282,13 +280,9 @@ namespace Files.App.Views
 		private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
 		{
 			if (e.InvokedItemDataContext is DriveItem)
-			{
 				await FilePropertiesHelpers.OpenPropertiesWindowAsync(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
-			}
 			else if (e.InvokedItemDataContext is LibraryLocationItem library)
-			{
 				await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
-			}
 			else if (e.InvokedItemDataContext is LocationItem locationItem)
 			{
 				ListedItem listedItem = new ListedItem(null!)
@@ -298,6 +292,7 @@ namespace Files.App.Views
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = "Folder".GetLocalizedResource(),
 				};
+
 				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			}
 		}
@@ -312,20 +307,26 @@ namespace Files.App.Views
 		{
 			var invokedItemContainer = e.InvokedItemContainer;
 
-			string? navigationPath; // path to navigate
-			Type? sourcePageType = null; // type of page to navigate
+			// Path to navigate
+			string? navigationPath;
+
+			// Type of page to navigate
+			Type? sourcePageType = null;
 
 			switch ((invokedItemContainer.DataContext as INavigationControlItem)?.ItemType)
 			{
 				case NavigationControlItemType.Location:
 					{
-						var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path; // Get the path of the invoked item
+						// Get the path of the invoked item
+						var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path;
 
-						if (string.IsNullOrEmpty(ItemPath)) // Section item
+						// Section item
+						if (string.IsNullOrEmpty(ItemPath))
 						{
 							navigationPath = invokedItemContainer.Tag?.ToString();
 						}
-						else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
+						// Home item
+						else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase))
 						{
 							if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
 								return; // return if already selected
@@ -333,11 +334,11 @@ namespace Files.App.Views
 							navigationPath = "Home";
 							sourcePageType = typeof(WidgetsPage);
 						}
-						else // Any other item
+						// Any other item
+						else
 						{
 							navigationPath = invokedItemContainer.Tag?.ToString();
 						}
-
 						break;
 					}
 
@@ -403,7 +404,8 @@ namespace Files.App.Views
 
 		private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			SidebarAdaptiveViewModel.UpdateTabControlMargin(); // Set the correct tab margin on startup
+			// Set the correct tab margin on startup
+			SidebarAdaptiveViewModel.UpdateTabControlMargin();
 		}
 
 		private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e) => LoadPaneChanged();

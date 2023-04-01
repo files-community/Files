@@ -7,7 +7,9 @@
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:widgets="using:Files.App.UserControls.Widgets"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
+
 	<i:Interaction.Behaviors>
 		<icore:EventTriggerBehavior EventName="Loaded">
 			<icore:InvokeCommandAction Command="{x:Bind ViewModel.YourHomeLoadedCommand, Mode=OneWay}" />
@@ -20,4 +22,5 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch" />
 	</ScrollViewer>
+
 </Page>
