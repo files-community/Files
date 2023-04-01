@@ -46,14 +46,8 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace Files.App
 {
-	/// <summary>
-	/// Provides application-specific behavior to supplement the default Application class.
-	/// </summary>
 	public partial class App : Application
 	{
 		private static bool ShowErrorNotification = false;
@@ -144,10 +138,12 @@ namespace Files.App
 					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), preferencesSettingsService.ShowFileTagsSection),
 					QuickAccessManager.InitializeAsync()
 				);
+
 				await Task.WhenAll(
 					JumpListHelper.InitializeUpdatesAsync(),
 					addItemService.GetNewEntriesAsync()
 				);
+
 				FileTagsHelper.UpdateTagsDb();
 			});
 
@@ -235,7 +231,9 @@ namespace Files.App
 						.AddSingleton<AppearanceViewModel>()
 				)
 				.Build();
+
 			Ioc.Default.ConfigureServices(host.Services);
+
 			EnsureSettingsAndConfigurationAreBootstrapped();
 
 			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
@@ -265,6 +263,7 @@ namespace Files.App
 		{
 			Logger.Info($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
 			var data = activatedEventArgs.Data;
+
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(data));
 		}
@@ -287,7 +286,8 @@ namespace Files.App
 				return;
 			}
 
-			await Task.Yield(); // Method can take a long time, make sure the window is hidden
+			// Method can take a long time, make sure the window is hidden
+			await Task.Yield();
 
 			SaveSessionTabs();
 
@@ -298,11 +298,14 @@ namespace Files.App
 					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
 					if (instance is null)
 						return;
+
 					var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
 					if (items is null)
 						return;
+
 					await FileIO.WriteLinesAsync(await StorageFile.GetFileFromPathAsync(OutputPath), items.Select(x => x.ItemPath));
-				}, Logger);
+				},
+				Logger);
 			}
 
 			DrivesManager?.Dispose();
@@ -316,13 +319,17 @@ namespace Files.App
 					if (dataPackage.Contains(StandardDataFormats.StorageItems))
 						Clipboard.Flush();
 				}
-			}, Logger);
+			},
+			Logger);
 
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();
 		}
 
-		public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
+		/// <summary>
+		/// Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages.
+		/// </summary>
+		public static void SaveSessionTabs() 
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
@@ -340,21 +347,33 @@ namespace Files.App
 					var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
 					return defaultArg.Serialize();
 				}
-			}).ToList();
+			})
+			.ToList();
 		}
 
-		// Occurs when an exception is not handled on the UI thread.
-		private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception, true);
+		/// <summary>
+		/// Occurs when an exception is not handled on the UI thread.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+			=> AppUnhandledException(e.Exception, true);
 
-		// Occurs when an exception is not handled on a background thread.
-		// ie. A task is fired and forgotten Task.Run(() => {...})
-		private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception, false);
+		/// <summary>
+		/// Occurs when an exception is not handled on a background thread.
+		/// i.e. A task is fired and forgotten Task.Run(() => {...})
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
+			=> AppUnhandledException(e.Exception, false);
 
 		private static void AppUnhandledException(Exception ex, bool shouldShowNotification)
 		{
 			StringBuilder formattedException = new StringBuilder() { Capacity = 200 };
 
 			formattedException.Append("--------- UNHANDLED EXCEPTION ---------");
+
 			if (ex is not null)
 			{
 				formattedException.Append($"\n>>>> HRESULT: {ex.HResult}\n");
@@ -388,7 +407,8 @@ namespace Files.App
 
 			Debug.WriteLine(formattedException.ToString());
 
-			Debugger.Break(); // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
+			 // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
+			Debugger.Break();
 
 			SaveSessionTabs();
 			Logger.UnhandledError(ex, ex.Message);
@@ -398,7 +418,7 @@ namespace Files.App
 
 			var toastContent = new ToastContent()
 			{
-				Visual = new ToastVisual()
+				Visual = new()
 				{
 					BindingGeneric = new ToastBindingGeneric()
 					{
@@ -413,7 +433,7 @@ namespace Files.App
 								Text = "ExceptionNotificationBody".GetLocalizedResource()
 							}
 						},
-						AppLogoOverride = new ToastGenericAppLogo()
+						AppLogoOverride = new()
 						{
 							Source = "ms-appx:///Assets/error.png"
 						}
@@ -439,9 +459,7 @@ namespace Files.App
 		}
 
 		public static void CloseApp()
-		{
-			Window.Close();
-		}
+			=> Window.Close();
 
 		public static AppWindow GetAppWindow(Window w)
 		{
