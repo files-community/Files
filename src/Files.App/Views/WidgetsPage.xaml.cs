@@ -169,7 +169,7 @@ namespace Files.App.Views
 				DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
 				await SetContentDialogRoot(dialog).ShowAsync();
 			}
-			catch (COMException { }
+			catch (COMException) { }
 			catch (ArgumentException) { }
 		}
 
