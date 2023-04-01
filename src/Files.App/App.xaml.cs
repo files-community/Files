@@ -32,12 +32,14 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,8 +48,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Files.App
 {
@@ -72,7 +72,6 @@ namespace Files.App
 		public static FileTagsManager FileTagsManager { get; private set; }
 
 		public static ILogger Logger { get; private set; }
-		private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
 		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
 
 		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
@@ -86,9 +85,6 @@ namespace Files.App
 		/// </summary>
 		public App()
 		{
-			// Initialize logger
-			Logger = new Logger(logWriter);
-
 			UnhandledException += OnUnhandledException;
 			TaskScheduler.UnobservedTaskException += OnUnobservedException;
 			InitializeComponent();
@@ -119,7 +115,7 @@ namespace Files.App
 			}
 			catch (Exception ex)
 			{
-				Logger.Warn(ex, "AppCenter could not be started.");
+				App.Logger.LogWarning(ex, "AppCenter could not be started.");
 			}
 
 			return Task.CompletedTask;
@@ -174,9 +170,7 @@ namespace Files.App
 		{
 			var activatedEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 
-			Task.Run(async () => await logWriter.InitializeAsync("debug.log"));
-			Logger.Info($"App launched. Launch args type: {activatedEventArgs.Data.GetType().Name}");
-
+			var logPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log");
 			//start tracking app usage
 			if (activatedEventArgs.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs iaea)
 				SystemInformation.Instance.TrackAppUse(iaea);
@@ -184,6 +178,11 @@ namespace Files.App
 			// Initialize MainWindow here
 			EnsureWindowIsInitialized();
 			host = Host.CreateDefaultBuilder()
+				.ConfigureLogging(builder => 
+					builder
+					.AddProvider(new FileLoggerProvider(logPath))
+					.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Information)
+				)
 				.ConfigureServices(services => 
 					services
 						.AddSingleton<IUserSettingsService, UserSettingsService>()
@@ -201,7 +200,6 @@ namespace Files.App
 						.AddSingleton<IDisplayPageContext, DisplayPageContext>()
 						.AddSingleton<IWindowContext, WindowContext>()
 						.AddSingleton<IMultitaskingContext, MultitaskingContext>()
-						.AddSingleton(Logger)
 						.AddSingleton<IDialogService, DialogService>()
 						.AddSingleton<IImageService, ImagingService>()
 						.AddSingleton<IThreadingService, ThreadingService>()
@@ -235,10 +233,13 @@ namespace Files.App
 						.AddSingleton<AppearanceViewModel>()
 				)
 				.Build();
+			Logger = host.Services.GetRequiredService<ILogger<App>>();
+			App.Logger.LogInformation($"App launched. Launch args type: {activatedEventArgs.Data.GetType().Name}");
+
 			Ioc.Default.ConfigureServices(host.Services);
 			EnsureSettingsAndConfigurationAreBootstrapped();
 
-			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
+			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
 			_ = Window.InitializeApplication(activatedEventArgs.Data);
 		}
@@ -263,7 +264,7 @@ namespace Files.App
 
 		public void OnActivated(AppActivationArguments activatedEventArgs)
 		{
-			Logger.Info($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
+			App.Logger.LogInformation($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
 			var data = activatedEventArgs.Data;
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(data));
@@ -391,7 +392,7 @@ namespace Files.App
 			Debugger.Break(); // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 
 			SaveSessionTabs();
-			Logger.UnhandledError(ex, ex.Message);
+			App.Logger.LogError(ex, ex.Message);
 
 			if (!ShowErrorNotification || !shouldShowNotification)
 				return;
