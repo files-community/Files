@@ -108,3 +108,6 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | CloseOtherTabsCurrent               | Close other tabs                          | Close tabs other than current tab                        |                      |
 |                    | CloseOtherTabsSelected              | Close other tabs                          | Close tabs other than selected tab                       |                      |
 |                    | ReopenClosedTab                     | Reopen closed tab                         | Reopen last closed tab                                   | Ctrl+Shift+T         |
+|                    | PreviousTab                         | Moves to the previous tab                 | Move to the previous tab                                 | Ctrl+Shift+Tab       |
+|                    | NextTab                             | Moves to the next tab                     | Move to the next tab                                     | Ctrl+Tab             |
+|                    | CloseSelectedTab                    | Closes current tab                        | Close current tab                                        | Ctrl+W, Ctrl+F4      |
