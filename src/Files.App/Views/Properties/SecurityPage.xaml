@@ -8,6 +8,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	Tag="Compatibility"
 	mc:Ignorable="d">
 
 	<Page.Resources>

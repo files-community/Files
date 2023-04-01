@@ -50,68 +50,6 @@ namespace Files.App.Views.Properties
 
 		private void OpenSecurityAdvancedPageWindow()
 		{
-			if (SecurityViewModel is null)
-				return;
-
-			if (_isWinUI3)
-			{
-				if (propsView is null)
-				{
-					var frame = new Frame()
-					{
-						RequestedTheme = ThemeHelper.RootTheme
-					};
-
-					frame.Navigate(
-						typeof(SecurityAdvancedPage),
-						new PropertiesPageNavigationArguments() { Item = SecurityViewModel.Item },
-						new SuppressNavigationTransitionInfo());
-
-					// Initialize window
-					var newWindow = new WinUIEx.WindowEx()
-					{
-						IsMinimizable = false,
-						IsMaximizable = false,
-						Content = frame,
-
-						// Set min width/height
-						MinWidth = 850,
-						MinHeight = 550,
-
-						// Set backdrop
-						Backdrop = new WinUIEx.MicaSystemBackdrop(),
-					};
-
-					frame.SizeChanged += (_, _) => DragZoneHelper.SetDragZones(newWindow);
-
-					var appWindow = newWindow.AppWindow;
-
-					// Set icon
-					appWindow.SetIcon(FilePropertiesHelpers.LogoPath);
-
-					if (frame.Content is SecurityAdvancedPage properties)
-					{
-						properties.window = newWindow;
-						properties.appWindow = appWindow;
-					}
-
-					// Customize titlebar
-					appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-					appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-					appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-					appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityViewModel.Item.Name);
-
-					appWindow.Resize(new SizeInt32(850, 550));
-					appWindow.Destroying += SecurityAdvancedPageWindow_Destroying;
-					appWindow.Show();
-
-					propsView = appWindow;
-				}
-				else
-				{
-					propsView.Show(true);
-				}
-			}
 		}
 
 		public async override Task<bool> SaveChangesAsync()

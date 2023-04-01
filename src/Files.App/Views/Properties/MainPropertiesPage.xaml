@@ -13,6 +13,7 @@
 	KeyDown="Page_KeyDown"
 	Loaded="Page_Loaded"
 	SizeChanged="MainPropertiesPage_SizeChanged"
+	Tag="Compatibility"
 	mc:Ignorable="d">
 
 	<Page.Resources>
