@@ -130,6 +130,7 @@ namespace Files.App.ViewModels.Properties
 		public RelayCommand DisableInheritanceCommand { get; set; }
 		public RelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
 		public RelayCommand ReplaceChildPermissionsCommand { get; set; }
+		public IRelayCommand OpenSecurityAdvancedPageCommand { get; set; }
 
 		private void InitializeCommands()
 		{
@@ -139,6 +140,11 @@ namespace Files.App.ViewModels.Properties
 			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && (AccessControlList.IsAccessControlListProtected != _isProtected));
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
 			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
+			OpenSecurityAdvancedPageCommand = new RelayCommand(OpenSecurityAdvancedPage);
+		}
+
+		private void OpenSecurityAdvancedPage()
+		{
 		}
 
 		private async void ChangeOwner()

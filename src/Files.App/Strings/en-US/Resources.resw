@@ -1665,9 +1665,6 @@
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Owner</value>
   </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Advanced permissions for {0}</value>
-  </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Special</value>
   </data>

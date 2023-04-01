@@ -37,7 +37,7 @@
 				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
-				CornerRadius="4">
+				CornerRadius="8">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
@@ -145,7 +145,7 @@
 				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
-				CornerRadius="4"
+				CornerRadius="8"
 				RowSpacing="8">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
@@ -175,7 +175,7 @@
 						Padding="8,6,4,6"
 						VerticalAlignment="Center"
 						AutomationProperties.Name="{helpers:ResourceString Name=AdvancedPermissions}"
-						Command="{x:Bind OpenSecurityAdvancedPageWindowCommand}"
+						Command="{x:Bind OpenSecurityAdvancedPageCommand}"
 						ToolTipService.ToolTip="{helpers:ResourceString Name=AdvancedPermissions}">
 						<StackPanel Orientation="Horizontal" Spacing="4">
 							<TextBlock Text="{helpers:ResourceString Name=AdvancedPermissions}" />
