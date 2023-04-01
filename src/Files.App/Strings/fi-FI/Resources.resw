@@ -2860,4 +2860,13 @@
   <data name="Untagged" xml:space="preserve">
     <value>Merkitsemätön</value>
   </data>
+  <data name="PreviousTab" xml:space="preserve">
+    <value>Siirtyy edelliseen välilehteen</value>
+  </data>
+  <data name="NextTab" xml:space="preserve">
+    <value>Siirtyy seuraavaan välilehteen</value>
+  </data>
+  <data name="CloseTab" xml:space="preserve">
+    <value>Sulkee nykyisen välilehden</value>
+  </data>
 </root>
