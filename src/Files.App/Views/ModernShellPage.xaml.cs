@@ -216,7 +216,7 @@ namespace Files.App.Views
 								this);
 					}
 					break;
-				// shift + Del, Permanent delete
+				// Shift + Del, Permanent delete
 				case (false, true, false, true, VirtualKey.Delete):
 					if (ContentPage.IsItemSelected && !ToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
 					{

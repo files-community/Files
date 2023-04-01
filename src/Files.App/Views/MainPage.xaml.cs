@@ -46,7 +46,7 @@ namespace Files.App.Views
 
 		public AppModel AppModel => App.AppModel;
 
-		public MainPageViewModel ViewModel { get; set;  }
+		public MainPageViewModel ViewModel { get; set; }
 
 		/// <summary>
 		/// True if the user is currently resizing the preview pane
