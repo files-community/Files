@@ -24,7 +24,10 @@
 			Foreground="Transparent"
 			Source="{x:Bind ViewModel.Source, Mode=OneWay}">
 			<MediaPlayerElement.TransportControls>
-				<MediaTransportControls IsPlaybackRateButtonVisible="False" IsZoomButtonVisible="False" />
+				<MediaTransportControls
+					IsCompact="True"
+					IsPlaybackRateButtonVisible="False"
+					IsZoomButtonVisible="False" />
 			</MediaPlayerElement.TransportControls>
 		</MediaPlayerElement>
 	</Border>

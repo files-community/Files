@@ -1,8 +1,5 @@
-using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
-using Files.App.Helpers;
 using Files.Backend.ViewModels.FileTags;
-using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;

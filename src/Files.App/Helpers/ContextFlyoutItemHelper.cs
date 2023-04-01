@@ -1,7 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Files.App.Commands;
-using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Interacts;
@@ -9,7 +7,6 @@ using Files.App.ViewModels;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
@@ -18,7 +15,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 
@@ -194,22 +190,10 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupDescending){IsVisible = true}.Build(),
 					},
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RefreshItems)
 				{
-					Text = "BaseLayoutContextFlyoutRefresh/Text".GetLocalizedResource(),
-					Glyph = "\uE72C",
-					ShowInRecycleBin = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-					Command = commandsViewModel.RefreshCommand,
-					KeyboardAccelerator = new KeyboardAccelerator
-					{
-						Key = VirtualKey.F5,
-						IsEnabled = false,
-					},
-					ShowItem = !itemsSelected
-				},
+					IsVisible = !itemsSelected,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ItemType.Separator,
@@ -383,38 +367,15 @@ namespace Files.App.Helpers
 					IsVisible = itemsSelected && (!selectedItems.FirstOrDefault()?.IsShortcut ?? false)
 						&& !currentInstanceViewModel.IsPageTypeRecycleBin,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.Rename)
 				{
-					Text = "Rename".GetLocalizedResource(),
 					IsPrimary = true,
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconRename",
-					},
-					Command = commandsViewModel.RenameItemCommand,
-					SingleItemOnly = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-					ShowInRecycleBin = false,
-					KeyboardAccelerator = new KeyboardAccelerator
-					{
-						Key = VirtualKey.F2,
-						IsEnabled = false,
-					},
-					ShowItem = itemsSelected
-				},
-				new ContextMenuFlyoutItemViewModel()
+					IsVisible = itemsSelected
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.ShareItem)
 				{
-					Text = "BaseLayoutItemContextFlyoutShare/Text".GetLocalizedResource(),
-					IsPrimary = true,
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconShare",
-					},
-					Command = commandsViewModel.ShareItemCommand,
-					ShowItem = itemsSelected && DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem || (i.IsShortcut && !i.IsLinkItem) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && !i.IsArchive)),
-				},
+					IsPrimary = true
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.DeleteItem)
 				{
 					IsVisible = itemsSelected,

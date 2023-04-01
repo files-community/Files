@@ -33,7 +33,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -74,7 +73,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -90,7 +88,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -106,7 +103,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -122,7 +118,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -138,7 +133,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -154,7 +148,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -170,7 +163,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -188,11 +180,6 @@ namespace Files.App.ViewModels
 		public bool CanCreateFileInPage
 		{
 			get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp && !isPageTypeZipFolder;
-		}
-
-		public bool CanShareInPage
-		{
-			get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeFtp && !isPageTypeZipFolder;
 		}
 
 		public bool CanTagFilesInPage

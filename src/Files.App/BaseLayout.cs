@@ -65,8 +65,7 @@ namespace Files.App
 		public CurrentInstanceViewModel? InstanceViewModel
 			=> ParentShellPageInstance?.InstanceViewModel;
 
-		public PreviewPaneViewModel PreviewPaneViewModel
-			=> App.PreviewPaneViewModel;
+		public PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
 
 		public AppModel AppModel
 			=> App.AppModel;
@@ -221,15 +220,15 @@ namespace Files.App
 					if (value?.FirstOrDefault() != selectedItems?.FirstOrDefault())
 					{
 						// Update preview pane properties
-						App.PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
-						App.PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
+						PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
+						PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
 
 						// Check if the preview pane is open before updating the model
 						if (PreviewPaneViewModel.IsEnabled)
 						{
 							var isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
 							if (isPaneEnabled)
-								App.PreviewPaneViewModel.UpdateSelectedItemPreview();
+								PreviewPaneViewModel.UpdateSelectedItemPreview();
 						}
 					}
 
@@ -288,6 +287,7 @@ namespace Files.App
 
 		public BaseLayout()
 		{
+			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 			ItemManipulationModel = new ItemManipulationModel();
 
 			HookBaseEvents();
@@ -382,6 +382,7 @@ namespace Files.App
 
 					// Remove old layout from back stack
 					ParentShellPageInstance.RemoveLastPageFromBackStack();
+					ParentShellPageInstance.ResetNavigationStackLayoutMode();
 				}
 
 				ParentShellPageInstance.FilesystemViewModel.UpdateEmptyTextType();
@@ -877,8 +878,6 @@ namespace Files.App
 
 		protected void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
-			SelectedItems!.AddRange(e.Items.OfType<ListedItem>());
-
 			try
 			{
 				var shellItemList = e.Items.OfType<ListedItem>().Select(x => new VA.ShellItem(x.ItemPath)).ToArray();
@@ -1102,46 +1101,46 @@ namespace Files.App
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
 
-			var hovered = GetItemFromElement(sender);
-			if (hovered != hoveredItem)
+			hoveredItem = GetItemFromElement(sender);
+
+			hoverTimer.Stop();
+			hoverTimer.Debounce(() =>
 			{
-				hoveredItem = hovered;
+				if (hoveredItem is null)
+					return;
+
 				hoverTimer.Stop();
-				hoverTimer.Debounce(() =>
+
+				// selection of multiple individual items with control
+				if (e.KeyModifiers == VirtualKeyModifiers.Control &&
+					selectedItems is not null)
 				{
-					if (hoveredItem is not null)
+					ItemManipulationModel.AddSelectedItem(hoveredItem);
+				}
+				// selection of a range of items with shift
+				else if (e.KeyModifiers == VirtualKeyModifiers.Shift &&
+					selectedItems is not null &&
+					selectedItems.Any())
+				{
+					var last = selectedItems.Last();
+					byte found = 0;
+					for (int i = 0; i < ItemsControl.Items.Count && found != 2; i++)
 					{
-						hoverTimer.Stop();
-						if (e.KeyModifiers == VirtualKeyModifiers.Control &&
-							selectedItems is not null)
-						{
-							ItemManipulationModel.AddSelectedItem(hoveredItem);
-						}
-						else if (e.KeyModifiers == VirtualKeyModifiers.Shift &&
-							selectedItems is not null &&
-							selectedItems.Any())
-						{
-							var last = selectedItems.Last();
-							byte found = 0;
-							for (int i = 0; i < ItemsControl.Items.Count && found != 2; i++)
-							{
-								if (ItemsControl.Items[i] == last || ItemsControl.Items[i] == hoveredItem)
-									found++;
+						if (ItemsControl.Items[i] == last || ItemsControl.Items[i] == hoveredItem)
+							found++;
 
-								if (found != 0 && !selectedItems.Contains(ItemsControl.Items[i]))
-									ItemManipulationModel.AddSelectedItem((ListedItem)ItemsControl.Items[i]);
-							}
-						}
-						else
-						{
-							ItemManipulationModel.SetSelectedItem(hoveredItem);
-						}
-
-						hoveredItem = null;
+						if (found != 0 && !selectedItems.Contains(ItemsControl.Items[i]))
+							ItemManipulationModel.AddSelectedItem((ListedItem)ItemsControl.Items[i]);
 					}
-				},
-				TimeSpan.FromMilliseconds(600), false);
-			}
+				}
+				// avoid resetting the selection if multiple items are selected
+				else if (SelectedItems is null ||
+					SelectedItems.Count <= 1)
+				{
+					ItemManipulationModel.SetSelectedItem(hoveredItem);
+				}
+			},
+			TimeSpan.FromMilliseconds(600), false);
 		}
 
 		protected internal void FileListItem_PointerExited(object sender, PointerRoutedEventArgs e)
