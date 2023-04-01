@@ -16,39 +16,39 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class CreateArchiveDialog : ContentDialog
 	{
-		private bool CanCreate => false;
+		public bool CanCreate { get; set; }
 
-		private string FileName
+		public string FileName
 		{
 			get => ViewModel.FileName;
 			set => ViewModel.FileName = value;
 		}
 
-		private bool UseEncryption
+		public bool UseEncryption
 		{
 			get => ViewModel.UseEncryption;
 			set => ViewModel.UseEncryption = value;
 		}
 
-		private string Password
+		public string Password
 		{
 			get => ViewModel.Password;
 			set => ViewModel.Password = value;
 		}
 
-		private ArchiveFormats FileFormat
+		public ArchiveFormats FileFormat
 		{
 			get => ViewModel.FileFormat.Key;
 			set => ViewModel.FileFormat = ViewModel.FileFormats.First(format => format.Key == value);
 		}
 
-		private ArchiveCompressionLevels CompressionLevel
+		public ArchiveCompressionLevels CompressionLevel
 		{
 			get => ViewModel.CompressionLevel.Key;
 			set => ViewModel.CompressionLevel = ViewModel.CompressionLevels.First(level => level.Key == value);
 		}
 
-		private ArchiveSplittingSizes SplittingSize
+		public ArchiveSplittingSizes SplittingSize
 		{
 			get => ViewModel.SplittingSize.Key;
 			set => ViewModel.SplittingSize = ViewModel.SplittingSizes.First(size => size.Key == value);
