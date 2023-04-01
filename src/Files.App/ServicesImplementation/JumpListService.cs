@@ -1,4 +1,5 @@
-﻿using Files.App.Filesystem;
+﻿using Files.App.Extensions;
+using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.Shared.Extensions;
 using Files.Shared.Services;
@@ -122,15 +123,17 @@ namespace Files.App.ServicesImplementation
 
 				if (displayName is null)
 				{
+					var localSettings = ApplicationData.Current.LocalSettings;
 					if (path.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "ms-resource:///Resources/Desktop";
 					else if (path.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "ms-resource:///Resources/Downloads";
 					else if (path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-					{
-						var localSettings = ApplicationData.Current.LocalSettings;
-						displayName = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-					}
+						displayName = "RecycleBin".GetLocalizedResource();
+					else if (path.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+						displayName = "ThisPC".GetLocalizedResource();
+					else if (path.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+						displayName = "SidebarNetworkDrives".GetLocalizedResource();
 					else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
 					{
 						var libName = Path.GetFileNameWithoutExtension(library.Path);

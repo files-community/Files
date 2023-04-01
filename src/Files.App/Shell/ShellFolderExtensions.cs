@@ -1,4 +1,5 @@
-﻿using Files.Shared;
+﻿using Files.App.Helpers;
+using Files.Shared;
 using Files.Shared.Extensions;
 using System;
 using System.IO;
@@ -57,9 +58,14 @@ namespace Files.App.Shell
 			{
 				parsingPath = parsingPath switch
 				{
-					"::{645FF040-5081-101B-9F08-00AA002F954E}" => "Shell:RecycleBinFolder",
-					"::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" => "Shell:NetworkPlacesFolder",
-					"::{208D2C60-3AEA-1069-A2D7-08002B30309D}" => "Shell:NetworkPlacesFolder",
+					"::{645FF040-5081-101B-9F08-00AA002F954E}" => CommonPaths.RecycleBinPath,
+					"::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" => CommonPaths.NetworkFolderPath,
+					"::{208D2C60-3AEA-1069-A2D7-08002B30309D}" => CommonPaths.NetworkFolderPath,
+					"::{20D04FE0-3AEA-1069-A2D8-08002B30309D}" => CommonPaths.MyComputerPath,
+					"::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\Documents.library-ms" => ShellHelpers.GetLibraryFullPathFromShell(parsingPath),
+					"::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\Pictures.library-ms" => ShellHelpers.GetLibraryFullPathFromShell(parsingPath),
+					"::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\Music.library-ms" => ShellHelpers.GetLibraryFullPathFromShell(parsingPath),
+					"::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\Videos.library-ms" => ShellHelpers.GetLibraryFullPathFromShell(parsingPath),
 					// Use PIDL as path
 					// Replace "/" with "_" to avoid confusion with path separator
 					_ => $@"\\SHELL\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length).Replace("/", "_")))}"
