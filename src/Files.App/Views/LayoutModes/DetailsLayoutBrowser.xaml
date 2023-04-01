@@ -52,7 +52,7 @@
 			<Style
 				x:Name="HeaderGridSplitterStyle"
 				BasedOn="{StaticResource DefaultGridSplitterStyle}"
-				TargetType="controls:GridSplitter">
+				TargetType="toolkit:GridSplitter">
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="Width" Value="12" />
 				<Setter Property="Margin" Value="0,4,0,4" />
