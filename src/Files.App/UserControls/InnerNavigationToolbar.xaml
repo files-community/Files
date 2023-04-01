@@ -2,35 +2,43 @@
 	x:Class="Files.App.UserControls.InnerNavigationToolbar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
 	xmlns:converters="using:Files.App.Converters"
-	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	d:DesignHeight="40"
 	d:DesignWidth="400"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
 		<ResourceDictionary>
-			<Style x:Key="AccentColorFontIconStyle" TargetType="FontIcon" />
-			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
-			<converters1:BoolToVisibilityConverter
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/ToolbarButtonStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
+			<SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
+
+			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolToVisibilityConverter
 				x:Key="NegatedBoolToVisibilityConverter"
 				FalseValue="Visible"
 				TrueValue="Collapsed" />
+
 			<x:Boolean x:Key="True">True</x:Boolean>
 			<x:Boolean x:Key="False">False</x:Boolean>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
-				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
-			</ResourceDictionary.MergedDictionaries>
+
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid BorderBrush="{ThemeResource ControlStrokeColorDefault}" BorderThickness="0,0,0,1">
+	<Grid
+		x:Name="RootGrid"
+		BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+		BorderThickness="0,0,0,1">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="Auto" />
@@ -41,15 +49,7 @@
 			x:Name="ContextCommandBar"
 			Grid.Column="0"
 			HorizontalAlignment="Left"
-			VerticalAlignment="Stretch"
 			DefaultLabelPosition="Right">
-			<CommandBar.Resources>
-				<ResourceDictionary>
-					<SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
-					<SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
-				</ResourceDictionary>
-			</CommandBar.Resources>
-
 			<CommandBar.PrimaryCommands>
 
 				<!--  New Item  -->
@@ -210,6 +210,7 @@
 					Label="{helpers:ResourceString Name=Properties}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Properties}">
+					<local:OpacityIcon Style="{StaticResource ColorIconProperties}" />
 				</AppBarButton>
 
 				<!--  (Divider)  -->
@@ -429,15 +430,7 @@
 		<CommandBar
 			x:Name="BaseCommandBar"
 			Grid.Column="1"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Center"
 			DefaultLabelPosition="Right">
-			<CommandBar.Resources>
-				<ResourceDictionary>
-					<SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
-					<SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
-				</ResourceDictionary>
-			</CommandBar.Resources>
 
 			<!--  Selection Commands  -->
 			<AppBarButton
@@ -498,7 +491,7 @@
 				<local:OpacityIcon Style="{StaticResource ColorIconSort}" />
 
 				<AppBarButton.Flyout>
-					<MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
+					<MenuFlyout Placement="Bottom">
 						<MenuFlyoutSubItem
 							AccessKey="S"
 							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
@@ -594,31 +587,33 @@
 				ToolTipService.ToolTip="{helpers:ResourceString Name=Layout}">
 
 				<AppBarButton.Icon>
-					<FontIcon FontSize="10" Glyph="&#xE152;" />
+					<FontIcon Glyph="&#xE152;" />
 				</AppBarButton.Icon>
 
 				<AppBarButton.Flyout>
-					<Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
-						<StackPanel Spacing="12">
+					<Flyout Placement="Bottom">
+						<StackPanel Width="256" Spacing="12">
 
 							<!--  Header  -->
-							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=Layout}" />
+							<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{helpers:ResourceString Name=Layout}" />
 
-							<Grid ColumnSpacing="8" RowSpacing="8">
+							<!--  Layout Options  -->
+							<Grid ColumnSpacing="12" RowSpacing="8">
 								<Grid.RowDefinitions>
-									<RowDefinition MinHeight="30" />
-									<RowDefinition MinHeight="30" />
-									<RowDefinition MinHeight="30" />
-									<RowDefinition MinHeight="30" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="40" />
-									<ColumnDefinition MaxWidth="100" />
-									<ColumnDefinition Width="40" />
-									<ColumnDefinition Width="40" />
-									<ColumnDefinition MaxWidth="100" />
+									<ColumnDefinition Width="36" />
+									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 
+								<!--  Detailsl Layout  -->
 								<RadioButton
 									Grid.Row="0"
 									Grid.Column="0"
@@ -645,6 +640,7 @@
 									Tapped="{x:Bind Commands.LayoutDetails.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutDetails.Label}" />
 
+								<!--  Tiles Layout  -->
 								<RadioButton
 									Grid.Row="1"
 									Grid.Column="0"
@@ -671,6 +667,7 @@
 									Tapped="{x:Bind Commands.LayoutTiles.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutTiles.Label}" />
 
+								<!--  Grid Small Layout  -->
 								<RadioButton
 									Grid.Row="2"
 									Grid.Column="0"
@@ -697,6 +694,7 @@
 									Tapped="{x:Bind Commands.LayoutGridSmall.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutGridSmall.Label}" />
 
+								<!--  Grid Medium Layout  -->
 								<RadioButton
 									Grid.Row="3"
 									Grid.Column="0"
@@ -723,18 +721,10 @@
 									Tapped="{x:Bind Commands.LayoutGridMedium.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutGridMedium.Label}" />
 
-								<Border
-									Grid.RowSpan="4"
-									Grid.Column="2"
-									Height="120"
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center"
-									BorderBrush="{ThemeResource ControlStrokeColorDefault}"
-									BorderThickness="1" />
-
+								<!--  Grid Large Layout  -->
 								<RadioButton
-									Grid.Row="0"
-									Grid.Column="3"
+									Grid.Row="4"
+									Grid.Column="0"
 									Width="36"
 									Height="32"
 									MinWidth="0"
@@ -752,15 +742,16 @@
 
 								<TextBlock
 									x:Name="NavToolbarLargeIconsHeader"
-									Grid.Row="0"
-									Grid.Column="4"
+									Grid.Row="4"
+									Grid.Column="1"
 									VerticalAlignment="Center"
 									Tapped="{x:Bind Commands.LayoutGridLarge.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutGridLarge.Label}" />
 
+								<!--  Columns Layout  -->
 								<RadioButton
-									Grid.Row="1"
-									Grid.Column="3"
+									Grid.Row="5"
+									Grid.Column="0"
 									Width="36"
 									Height="32"
 									MinWidth="0"
@@ -780,15 +771,16 @@
 
 								<TextBlock
 									x:Name="NavToolbarColumnsHeader"
-									Grid.Row="1"
-									Grid.Column="4"
+									Grid.Row="5"
+									Grid.Column="1"
 									VerticalAlignment="Center"
 									Tapped="{x:Bind Commands.LayoutColumns.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutColumns.Label}" />
 
+								<!--  Adaptive Layout  -->
 								<RadioButton
-									Grid.Row="2"
-									Grid.Column="3"
+									Grid.Row="6"
+									Grid.Column="0"
 									Width="36"
 									Height="32"
 									MinWidth="0"
@@ -806,8 +798,8 @@
 
 								<TextBlock
 									x:Name="NavToolbarAdaptiveHeader"
-									Grid.Row="2"
-									Grid.Column="4"
+									Grid.Row="6"
+									Grid.Column="1"
 									VerticalAlignment="Center"
 									Tapped="{x:Bind Commands.LayoutAdaptive.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutAdaptive.Label}" />
@@ -818,17 +810,18 @@
 							<Border
 								Margin="-20,0"
 								HorizontalAlignment="Stretch"
-								BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+								BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 								BorderThickness="1" />
 
-							<Grid RowSpacing="4">
+							<!--  Toggle Options  -->
+							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
-									<RowDefinition MinHeight="30" />
-									<RowDefinition MinHeight="30" />
+									<RowDefinition MinHeight="32" />
+									<RowDefinition MinHeight="32" />
 								</Grid.RowDefinitions>
 
 								<TextBlock
@@ -840,7 +833,6 @@
 								<ToggleSwitch
 									Grid.Row="0"
 									Grid.Column="1"
-									HorizontalAlignment="Right"
 									AccessKey="H"
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowHiddenItems.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
@@ -856,11 +848,9 @@
 								<ToggleSwitch
 									Grid.Row="1"
 									Grid.Column="1"
-									HorizontalAlignment="Right"
 									AccessKey="E"
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowFileExtensions.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
-									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowFileExtensions.HotKeyText, Mode=OneWay}" />
 
