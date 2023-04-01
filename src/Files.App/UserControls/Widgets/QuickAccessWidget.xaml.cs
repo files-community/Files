@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;

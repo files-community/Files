@@ -1,54 +1,28 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
+﻿using Files.App.Commands;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.Shared.Enums;
-using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class SetAsLockscreenBackgroundAction : ObservableObject, IAction
+	internal class SetAsLockscreenBackgroundAction : BaseSetAsAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		public override string Label { get; } = "SetAsLockscreen".GetLocalizedResource();
 
-		public string Label { get; } = "SetAsLockscreen".GetLocalizedResource();
+		public override string Description => "TODO: Need to be described.";
 
-		public string Description => "TODO: Need to be described.";
+		public override RichGlyph Glyph { get; } = new("\uEE3F");
 
-		public RichGlyph Glyph { get; } = new("\uEE3F");
+		public override bool IsExecutable => base.IsExecutable &&
+			context.SelectedItem is not null;
 
-		private bool isExecutable;
-		public bool IsExecutable => isExecutable;
-
-		public SetAsLockscreenBackgroundAction()
-		{
-			isExecutable = GetIsExecutable();
-			context.PropertyChanged += Context_PropertyChanged;
-		}
-
-		public Task ExecuteAsync()
+		public override Task ExecuteAsync()
 		{
 			if (context.SelectedItem is not null)
 				WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, context.SelectedItem.ItemPath);
+
 			return Task.CompletedTask;
-		}
-
-		private bool GetIsExecutable() => context.ShellPage is not null && context.SelectedItem is not null
-			&& context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder
-			&& (context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
-
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.PageType):
-				case nameof(IContentPageContext.SelectedItem):
-					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
-					break;
-			}
 		}
 	}
 }

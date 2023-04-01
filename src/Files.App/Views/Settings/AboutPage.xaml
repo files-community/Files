@@ -55,13 +55,13 @@
 				ButtonCommand="{x:Bind ViewModel.SupportUsCommand}"
 				IsClickable="True">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE006;" />
+					<FontIcon Glyph="&#xEB51;" />
 				</local:SettingsBlockControl.Icon>
 
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 
@@ -85,7 +85,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 			<!--  Feedback  -->
@@ -104,7 +104,7 @@
 							<FontIcon
 								FontSize="14"
 								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-								Glyph="&#xE2B4;" />
+								Glyph="&#xE8A7;" />
 						</local:SettingsBlockControl>
 
 						<!--  Submit bug report  -->
@@ -116,7 +116,7 @@
 							<FontIcon
 								FontSize="14"
 								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-								Glyph="&#xE2B4;" />
+								Glyph="&#xE8A7;" />
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
@@ -135,7 +135,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 
@@ -178,7 +178,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 			<!--  Privacy  -->
@@ -194,7 +194,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>

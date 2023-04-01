@@ -48,7 +48,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 			<!--  Import  -->
@@ -62,7 +62,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 			<!--  Edit Settings File  -->
@@ -76,7 +76,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 
