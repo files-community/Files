@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Files.Shared.Extensions
@@ -15,7 +16,7 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				logger?.Info(ex, ex.Message);
+				logger?.LogInformation(ex, ex.Message);
 				return false;
 			}
 		}
@@ -29,7 +30,7 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				logger?.Info(ex, ex.Message);
+				logger?.LogInformation(ex, ex.Message);
 				return false;
 			}
 		}
@@ -42,7 +43,7 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				logger?.Info(ex, ex.Message);
+				logger?.LogInformation(ex, ex.Message);
 				return default;
 			}
 		}
@@ -55,7 +56,7 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				logger?.Info(ex, ex.Message);
+				logger?.LogInformation(ex, ex.Message);
 				return default;
 			}
 		}
