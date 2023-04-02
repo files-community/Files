@@ -99,6 +99,26 @@ namespace Files.App.ViewModels
 					// Select the last tab
 					indexToSelect = AppInstances.Count - 1;
 					break;
+
+				case VirtualKey.Tab:
+					bool shift = e.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
+
+					if (!shift) // ctrl + tab, select next tab
+					{
+						if ((App.AppModel.TabStripSelectedIndex + 1) < AppInstances.Count)
+							indexToSelect = App.AppModel.TabStripSelectedIndex + 1;
+						else
+							indexToSelect = 0;
+					}
+					else // ctrl + shift + tab, select previous tab
+					{
+						if ((App.AppModel.TabStripSelectedIndex - 1) >= 0)
+							indexToSelect = App.AppModel.TabStripSelectedIndex - 1;
+						else
+							indexToSelect = AppInstances.Count - 1;
+					}
+
+					break;
 			}
 
 			// Only select the tab if it is in the list
@@ -111,6 +131,17 @@ namespace Files.App.ViewModels
 		{
 			var filesUWPUri = new Uri("files-uwp:");
 			await Launcher.LaunchUriAsync(filesUWPUri);
+			e!.Handled = true;
+		}
+
+		private void CloseSelectedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
+		{
+			var index = App.AppModel.TabStripSelectedIndex >= AppInstances.Count
+				? AppInstances.Count - 1
+				: App.AppModel.TabStripSelectedIndex;
+
+			var tabItem = AppInstances[index];
+			MultitaskingControl?.CloseTab(tabItem);
 			e!.Handled = true;
 		}
 
