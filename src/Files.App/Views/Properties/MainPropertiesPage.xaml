@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:datamodels="using:Files.App.DataModels"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Views.Properties"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -85,15 +86,15 @@
 			IsPaneToggleButtonVisible="False"
 			IsSettingsVisible="False"
 			IsTitleBarAutoPaddingEnabled="False"
-			MenuItemsSource="{x:Bind NavViewItems, Mode=OneWay}"
+			MenuItemsSource="{x:Bind NavigationViewItems, Mode=OneWay}"
 			OpenPaneLength="180"
 			PaneDisplayMode="Left"
 			SelectionChanged="MainPropertiesWindowNavigationView_SelectionChanged">
 
 			<!--  Template  -->
 			<NavigationView.MenuItemTemplate>
-				<DataTemplate x:DataType="local:NavigationViewItemButtonStyleItem">
-					<NavigationViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Tag="{x:Bind ItemType}">
+				<DataTemplate x:DataType="datamodels:NavigationViewItemButtonStyleItem">
+					<NavigationViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Tag="{x:Bind ItemType, Mode=OneWay}">
 						<NavigationViewItem.Content>
 							<Grid>
 								<Grid.ColumnDefinitions>
