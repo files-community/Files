@@ -45,7 +45,7 @@ namespace Files.App.Views
 
 		public MainPageViewModel ViewModel { get; }
 
-		public readonly OngoingTasksViewModel OngoingTasksViewModel { get; }
+		public OngoingTasksViewModel OngoingTasksViewModel { get; }
 
 		public static AppModel AppModel
 			=> App.AppModel;
