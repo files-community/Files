@@ -1,5 +1,6 @@
 name: Check XAML Formatting
 on:
+  workflow_dispatch:
   push:
     branches:
       - 'main'
