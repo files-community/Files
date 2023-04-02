@@ -25,5 +25,6 @@ jobs:
         shell: pwsh
         run: |
           $changedFiles = (git diff --name-only) -split "\n" | Where-Object {$_ -like "*.xaml"}
+          echo $changedFiles
           dotnet tool install --global XamlStyler.Console
           xstyler -p -f $changedFiles
