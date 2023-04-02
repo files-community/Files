@@ -20,12 +20,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ShowSelectionCheckboxes
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
 		public FolderLayoutModes DefaultLayoutMode
 		{
 			get => (FolderLayoutModes)Get((long)FolderLayoutModes.Adaptive);
@@ -274,6 +268,12 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		public bool ShowFileExtensionWarning
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -303,8 +303,8 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowThumbnails):
 				case nameof(DeleteConfirmationPolicy):
 				case nameof(SelectFilesOnHover):
-				case nameof(ShowSelectionCheckboxes):
 				case nameof(DoubleClickToGoUp):
+				case nameof(ShowFileExtensionWarning):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

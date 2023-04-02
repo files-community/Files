@@ -28,30 +28,6 @@
 	<ContentDialog.Resources>
 		<x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
 
-		<MenuFlyout
-			x:Name="ItemContextFlyout"
-			Opening="MenuFlyout_Opening"
-			Placement="Bottom">
-			<MenuFlyoutItem
-				Click="MenuFlyoutItem_Click"
-				Tag="0"
-				Text="{helpers:ResourceString Name=GenerateNewName}" />
-			<MenuFlyoutItem
-				Click="MenuFlyoutItem_Click"
-				Tag="1"
-				Text="{helpers:ResourceString Name=ConflictingItemsDialogOptionReplaceExisting/Text}" />
-			<MenuFlyoutItem
-				Click="MenuFlyoutItem_Click"
-				Tag="2"
-				Text="{helpers:ResourceString Name=Skip}" />
-			<MenuFlyoutSeparator x:Name="ApplyToAllSeparator" />
-			<MenuFlyoutItem
-				x:Name="ApplyToAllOption"
-				Click="MenuFlyoutItem_Click"
-				Tag="All"
-				Text="{helpers:ResourceString Name=ConfictingItemsDialogOptionApplyToAll/Text}" />
-		</MenuFlyout>
-
 		<vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
 		<vc:GenericEnumConverter x:Key="GenericEnumConverter" />
 		<vc2:ConflictResolveOptionToIndexConverter x:Key="ConflictResolveOptionToIndexConverter" />
@@ -135,10 +111,11 @@
 					HorizontalAlignment="Right"
 					VerticalAlignment="Center"
 					x:Load="{x:Bind IsConflict, Mode=OneWay}"
+					Loaded="ConflictOptions_Loaded"
 					SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ConflictResolveOptionToIndexConverter}}">
 					<ComboBox.Items>
 						<ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
-						<ComboBoxItem Content="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting/Text}" />
+						<ComboBoxItem Content="{helpers:ResourceString Name=ReplaceExisting}" />
 						<ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
 					</ComboBox.Items>
 				</ComboBox>
@@ -190,7 +167,7 @@
 					Grid.Column="0"
 					HorizontalAlignment="Left"
 					VerticalAlignment="Center"
-					Text="Apply this action to all conflicting items"
+					Text="{helpers:ResourceString Name=ApplyToAllConflictingItems}"
 					TextWrapping="Wrap" />
 
 				<ComboBox
@@ -202,7 +179,7 @@
 					<ComboBox.Items>
 						<ComboBoxItem Content="{helpers:ResourceString Name=Custom}" />
 						<ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
-						<ComboBoxItem Content="{helpers:ResourceString Name=ConflictingItemsDialogOptionReplaceExisting/Text}" />
+						<ComboBoxItem Content="{helpers:ResourceString Name=ReplaceExisting}" />
 						<ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
 					</ComboBox.Items>
 				</ComboBox>
@@ -250,6 +227,7 @@
 					<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 						<Setter Property="Padding" Value="0,12" />
+						<Setter Property="IsTabStop" Value="False" />
 					</Style>
 				</ListView.ItemContainerStyle>
 			</ListView>

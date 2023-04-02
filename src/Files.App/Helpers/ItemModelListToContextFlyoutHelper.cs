@@ -11,6 +11,11 @@ using System.Linq;
 
 namespace Files.App.Helpers.ContextFlyouts
 {
+	/// <summary>
+	/// This helper class is used to convert ContextMenuFlyoutItemViewModels into a control that can be displayed to the user.
+	/// This is for use in scenarios where XAML templates and data binding will not suffice.
+	/// <see cref="Files.App.ViewModels.ContextMenuFlyoutItemViewModel"/>
+	/// </summary>
 	public static class ItemModelListToContextFlyoutHelper
 	{
 		public static List<MenuFlyoutItemBase>? GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItemViewModel>? items)
@@ -21,7 +26,21 @@ namespace Files.App.Helpers.ContextFlyouts
 			var flyout = new List<MenuFlyoutItemBase>();
 			items.ForEach(i =>
 			{
-				flyout.Add(GetMenuItem(i));
+				var menuItem = GetMenuItem(i);
+				flyout.Add(menuItem);
+				if (menuItem is MenuFlyoutSubItem menuFlyoutSubItem && menuFlyoutSubItem.Items.Count == 0)
+				{
+					// Add a placeholder
+					menuItem.Visibility = Visibility.Collapsed;
+
+					var placeolder = new MenuFlyoutItem()
+					{
+						Text = menuFlyoutSubItem.Text,
+						Tag = menuFlyoutSubItem.Tag,
+						Icon = menuFlyoutSubItem.Icon,
+					};
+					flyout.Add(placeolder);
+				}
 			});
 			return flyout;
 		}
@@ -54,7 +73,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			return elements;
 		}
 
-		private static MenuFlyoutItemBase GetMenuItem(ContextMenuFlyoutItemViewModel item)
+		public static MenuFlyoutItemBase GetMenuItem(ContextMenuFlyoutItemViewModel item)
 		{
 			return item.ItemType switch
 			{
@@ -65,14 +84,14 @@ namespace Files.App.Helpers.ContextFlyouts
 
 		private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextMenuFlyoutItemViewModel item)
 		{
-			if (item.Items?.Count > 0)
+			if (item.Items is not null)
 			{
 				var flyoutSubItem = new MenuFlyoutSubItem()
 				{
 					Text = item.Text,
 					Tag = item.Tag,
 				};
-				item.Items?.ForEach(i =>
+				item.Items.ForEach(i =>
 				{
 					flyoutSubItem.Items.Add(GetMenuItem(i));
 				});
@@ -114,6 +133,10 @@ namespace Files.App.Helpers.ContextFlyouts
 					CommandParameter = i.CommandParameter,
 					IsChecked = i.IsChecked,
 				};
+				if (!string.IsNullOrEmpty(i.Glyph))
+				{
+					flyoutItem.Icon = new FontIcon{ Glyph = i.Glyph };
+				}
 			}
 			else
 			{
@@ -192,8 +215,8 @@ namespace Files.App.Helpers.ContextFlyouts
 				{
 					Source = item.BitmapIcon,
 				};
-			else if (item.ColoredIcon.IsValid)
-				content = item.ColoredIcon.ToColoredIcon();
+			else if (item.OpacityIcon.IsValid)
+				content = item.OpacityIcon.ToOpacityIcon();
 			else if (item.ShowLoadingIndicator)
 				content = new ProgressRing()
 				{

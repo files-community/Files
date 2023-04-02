@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using Files.App.Commands;
 using Files.App.DataModels;
 using Files.App.EventArguments;
 using Files.App.Extensions;
@@ -27,12 +28,10 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Shared.Enums.SortDirection;
@@ -53,6 +52,8 @@ namespace Files.App.Views
 		protected readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		protected readonly IUpdateService updateSettingsService = Ioc.Default.GetRequiredService<IUpdateService>();
+
+		protected readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		public ToolbarViewModel ToolbarViewModel { get; } = new ToolbarViewModel();
 
@@ -183,7 +184,7 @@ namespace Files.App.Views
 			/*TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
 			  Use your ResourceManager instance to create a ResourceContext as below.If you already have a ResourceManager instance,
 			  replace the new instance created below with correct instance.
-			  Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+			  Read: https://learn.microsoft.com/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
 			*/
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
@@ -196,10 +197,7 @@ namespace Files.App.Views
 			ToolbarViewModel.AddressBarTextEntered += ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped += ShellPage_PathBoxItemDropped;
 
-			ToolbarViewModel.BackRequested += ShellPage_BackNavRequested;
-			ToolbarViewModel.UpRequested += ShellPage_UpNavRequested;
 			ToolbarViewModel.RefreshRequested += ShellPage_RefreshRequested;
-			ToolbarViewModel.ForwardRequested += ShellPage_ForwardNavRequested;
 			ToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem += ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
@@ -216,7 +214,7 @@ namespace Files.App.Views
 			TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
 			The tool has generated a custom back button in the MainWindow.xaml.cs file.
 			Feel free to edit its position, behavior and use the custom back button instead.
-			Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
+			Read: https://learn.microsoft.com/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
 			*/
 
 			App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
@@ -261,7 +259,7 @@ namespace Files.App.Views
 		}
 
 		/**
-		 * Some keys are overriden by control built-in defaults (e.g. 'Space').
+		 * Some keys are overridden by control built-in defaults (e.g. 'Space').
 		 * They must be handled here since they're not propagated to KeyboardAccelerator.
 		 */
 		protected void ShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
@@ -276,31 +274,10 @@ namespace Files.App.Views
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
-				// Ctrl + ` (accent key), open terminal
-				case (true, false, false, true, (VirtualKey)192):
-
-					// Check if there is a folder selected, if not use the current directory.
-					string path = FilesystemViewModel.WorkingDirectory;
-					if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
-						path = SlimContentPage.SelectedItem.ItemPath;
-
-					var terminalStartInfo = new ProcessStartInfo()
-					{
-						FileName = "wt.exe",
-						Arguments = $"-d {path}",
-						Verb = shift ? "runas" : "",
-						UseShellExecute = true
-					};
-					DispatcherQueue.TryEnqueue(() => Process.Start(terminalStartInfo));
-
-					args.Handled = true;
-
-					break;
-
 				// Ctrl + space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
 
-					if (App.PreviewPaneViewModel.PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
+					if (Ioc.Default.GetRequiredService<PreviewPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
 					{
 						mediaPreviewContent.ViewModel.TogglePlayback();
 						args.Handled = true;
@@ -342,21 +319,6 @@ namespace Files.App.Views
 		protected void ShellPage_RefreshRequested(object sender, EventArgs e)
 		{
 			Refresh_Click();
-		}
-
-		protected void ShellPage_UpNavRequested(object sender, EventArgs e)
-		{
-			Up_Click();
-		}
-
-		protected void ShellPage_ForwardNavRequested(object sender, EventArgs e)
-		{
-			Forward_Click();
-		}
-
-		protected void ShellPage_BackNavRequested(object sender, EventArgs e)
-		{
-			Back_Click();
 		}
 
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -459,14 +421,20 @@ namespace Files.App.Views
 			FilesystemViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
 			InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
-			ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
+
+			var args = new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,
 				SearchPathParam = FilesystemViewModel.WorkingDirectory,
 				SearchQuery = query,
 				SearchUnindexedItems = searchUnindexedItems,
-			});
+			};
+
+			if (this is ColumnShellPage)
+				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutBrowser), args);
+			else
+				ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), args);
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
@@ -476,7 +444,10 @@ namespace Files.App.Views
 
 		public void NavigateToPath(string navigationPath, NavigationArguments? navArgs = null)
 		{
-			NavigateToPath(navigationPath, FolderSettings.GetLayoutType(navigationPath), navArgs);
+			var layout = navigationPath.StartsWith("tag:")
+				? typeof(DetailsLayoutBrowser)
+				: FolderSettings.GetLayoutType(navigationPath);
+			NavigateToPath(navigationPath, layout, navArgs);
 		}
 
 		public Task TabItemDragOver(object sender, DragEventArgs e)
@@ -526,6 +497,39 @@ namespace Files.App.Views
 			var incomingPageContent = ItemDisplay.ForwardStack[ItemDisplay.ForwardStack.Count - 1];
 			HandleBackForwardRequest(incomingPageContent);
 			ItemDisplay.GoForward();
+		}
+
+		public void ResetNavigationStackLayoutMode()
+		{
+			foreach (PageStackEntry entry in ItemDisplay.BackStack.ToList())
+			{
+				if (entry.Parameter is NavigationArguments args)
+				{
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam);
+					if (!entry.SourcePageType.Equals(correctPageType))
+					{
+						int index = ItemDisplay.BackStack.IndexOf(entry);
+						var newEntry = new PageStackEntry(correctPageType, entry.Parameter, entry.NavigationTransitionInfo);
+						ItemDisplay.BackStack.RemoveAt(index);
+						ItemDisplay.BackStack.Insert(index, newEntry);
+					}
+				}
+			}
+
+			foreach (PageStackEntry entry in ItemDisplay.ForwardStack.ToList())
+			{
+				if (entry.Parameter is NavigationArguments args)
+				{
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam);
+					if (!entry.SourcePageType.Equals(correctPageType))
+					{
+						int index = ItemDisplay.ForwardStack.IndexOf(entry);
+						var newEntry = new PageStackEntry(correctPageType, entry.Parameter, entry.NavigationTransitionInfo);
+						ItemDisplay.ForwardStack.RemoveAt(index);
+						ItemDisplay.ForwardStack.Insert(index, newEntry);
+					}
+				}
+			}
 		}
 
 		public void RemoveLastPageFromBackStack()
@@ -615,36 +619,12 @@ namespace Files.App.Views
 
 		protected void InitToolbarCommands()
 		{
-			ToolbarViewModel.SelectAllContentPageItemsCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.SelectAllItems());
-			ToolbarViewModel.InvertContentPageSelctionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.InvertSelection());
-			ToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
-			ToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
 			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
-			ToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, this));
-			ToolbarViewModel.CreateNewShortcutCommand = new RelayCommand(() => CreateNewShortcutFromDialog());
-			ToolbarViewModel.CopyCommand = new RelayCommand(async () => await UIFilesystemHelpers.CopyItem(this));
-			ToolbarViewModel.Rename = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RenameItemCommand.Execute(null));
-			ToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
-			ToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
-			ToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
-			ToolbarViewModel.EmptyRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyRecycleBinCommand.Execute(null));
-			ToolbarViewModel.RestoreRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreRecycleBinCommand.Execute(null));
-			ToolbarViewModel.RestoreSelectionRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreSelectionRecycleBinCommand.Execute(null));
 			ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
 			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
-			ToolbarViewModel.SetAsBackgroundCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsDesktopBackgroundItemCommand.Execute(null));
-			ToolbarViewModel.SetAsLockscreenBackgroundCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsLockscreenBackgroundItemCommand.Execute(null));
-			ToolbarViewModel.SetAsSlideshowCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsSlideshowItemCommand.Execute(null));
-			ToolbarViewModel.ExtractCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveCommand.Execute(null));
-			ToolbarViewModel.ExtractHereCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveHereCommand.Execute(null));
-			ToolbarViewModel.ExtractToCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveToChildFolderCommand.Execute(null));
-			ToolbarViewModel.InstallInfCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallInfDriver.Execute(null));
-			ToolbarViewModel.RotateImageLeftCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.CanExecute(null) == true);
-			ToolbarViewModel.RotateImageRightCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.CanExecute(null) == true);
-			ToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
 			ToolbarViewModel.PlayAllCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.PlayAllCommand.Execute(null));
 		}
@@ -726,10 +706,7 @@ namespace Files.App.Views
 			ToolbarViewModel.ToolbarPathItemLoaded -= ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered -= ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;
-			ToolbarViewModel.BackRequested -= ShellPage_BackNavRequested;
-			ToolbarViewModel.UpRequested -= ShellPage_UpNavRequested;
 			ToolbarViewModel.RefreshRequested -= ShellPage_RefreshRequested;
-			ToolbarViewModel.ForwardRequested -= ShellPage_ForwardNavRequested;
 			ToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;

@@ -5,7 +5,6 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Shared;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.IO;
@@ -46,8 +45,6 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public virtual string ToolTipText { get; set; }
 
-		public FontFamily Font { get; set; }
-
 		public NavigationControlItemType ItemType
 			=> NavigationControlItemType.Location;
 
@@ -71,6 +68,8 @@ namespace Files.App.DataModels.NavigationControlItems
 		public SectionType Section { get; set; }
 
 		public ContextMenuOptions MenuOptions { get; set; }
+
+		public bool IsHeader { get; set; }
 
 		public int CompareTo(INavigationControlItem other)
 			=> Text.CompareTo(other.Text);

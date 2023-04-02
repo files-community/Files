@@ -1,0 +1,141 @@
+﻿<Page
+	x:Class="Files.App.Views.Properties.MainPropertiesPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:convers="using:Files.App.Converters"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:local="using:Files.App.Views.Properties"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	Background="{ThemeResource App.Theme.BackgroundBrush}"
+	KeyDown="Page_KeyDown"
+	Loaded="Page_Loaded"
+	SizeChanged="MainPropertiesPage_SizeChanged"
+	mc:Ignorable="d">
+
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewItemButtonStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+
+			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+			<wctconverters:BoolToVisibilityConverter
+				x:Key="BoolToVisibilityInverseConverter"
+				FalseValue="Visible"
+				TrueValue="Collapsed" />
+
+		</ResourceDictionary>
+	</Page.Resources>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="36" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<!--  Titlebar  -->
+		<Border x:Name="TitlebarArea" Height="40">
+			<TextBlock
+				Padding="16,0"
+				VerticalAlignment="Center"
+				Style="{StaticResource BodyStrongTextBlockStyle}"
+				Text="{helpers:ResourceString Name=Properties}" />
+		</Border>
+
+		<!--  Main NavigationView  -->
+		<NavigationView
+			x:Name="MainPropertiesWindowNavigationView"
+			Grid.Row="1"
+			IsBackButtonVisible="Collapsed"
+			IsPaneToggleButtonVisible="False"
+			IsSettingsVisible="False"
+			IsTitleBarAutoPaddingEnabled="False"
+			MenuItemsSource="{x:Bind NavViewItems, Mode=TwoWay}"
+			OpenPaneLength="180"
+			PaneDisplayMode="Left"
+			SelectionChanged="MainPropertiesWindowNavigationView_SelectionChanged">
+
+			<NavigationView.MenuItemTemplate>
+				<DataTemplate x:DataType="local:NavigationViewItemButtonStyleItem">
+					<NavigationViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Tag="{x:Bind ItemType}">
+						<NavigationViewItem.Content>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+
+								<!--  Icon  -->
+								<Viewbox
+									Width="16"
+									Height="16"
+									VerticalAlignment="Center">
+									<uc:OpacityIcon IsSelected="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind OpacityIconStyle, Mode=OneWay}" />
+								</Viewbox>
+
+								<!--  Label  -->
+								<TextBlock
+									x:Name="ItemNameLabelTextBlock"
+									Grid.Column="1"
+									Margin="8,0,0,0"
+									VerticalAlignment="Center"
+									Style="{StaticResource BodyTextBlockStyle}"
+									Text="{x:Bind Name}"
+									Visibility="{x:Bind IsCompact, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}" />
+
+							</Grid>
+						</NavigationViewItem.Content>
+					</NavigationViewItem>
+				</DataTemplate>
+			</NavigationView.MenuItemTemplate>
+
+			<!--  NavigationView Content, Save/Cancel buttons  -->
+			<NavigationView.Content>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="52" />
+					</Grid.RowDefinitions>
+
+					<Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
+
+					<Grid
+						Grid.Row="1"
+						Background="{ThemeResource CardBackgroundFillColorSecondary}"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderThickness="0,1,0,0">
+						<StackPanel
+							Margin="12,0"
+							HorizontalAlignment="Right"
+							Orientation="Horizontal"
+							Spacing="12">
+
+							<Button
+								x:Name="SaveChangesButton"
+								Width="96"
+								Click="SaveChangesButton_Click"
+								Content="{helpers:ResourceString Name=Save}"
+								Style="{StaticResource AccentButtonStyle}" />
+
+							<Button
+								x:Name="CancelChangesButton"
+								Width="96"
+								Click="CancelChangesButton_Click"
+								Content="{helpers:ResourceString Name=Cancel}" />
+
+						</StackPanel>
+					</Grid>
+
+				</Grid>
+			</NavigationView.Content>
+
+		</NavigationView>
+
+	</Grid>
+</Page>

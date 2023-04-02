@@ -24,8 +24,6 @@
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
-
 				<ResourceDictionary>
 					<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
 					<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
@@ -67,63 +65,51 @@
 					x:Name="Back"
 					x:FieldModifier="public"
 					AccessKey="B"
-					AutomationProperties.Name="{helpers:ResourceString Name=NavBackButton/AutomationProperties/Name}"
-					Command="{x:Bind ViewModel.BackClickCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
+					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateBack.Description, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateBack.Label, Mode=OneWay}"
+					Command="{x:Bind ViewModel.Commands.NavigateBack, Mode=OneWay}"
+					IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavBackButton/ToolTipService/ToolTip}">
-					<FontIcon FontSize="14" Glyph="&#xE72B;" />
-					<Button.KeyboardAccelerators>
-						<KeyboardAccelerator Key="XButton1" />
-						<KeyboardAccelerator Key="Back" />
-						<KeyboardAccelerator Key="Left" Modifiers="Menu" />
-					</Button.KeyboardAccelerators>
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
+					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
 					x:Name="Forward"
 					x:FieldModifier="public"
 					AccessKey="F"
-					AutomationProperties.Name="{helpers:ResourceString Name=NavForwardButton/AutomationProperties/Name}"
-					Command="{x:Bind ViewModel.ForwardClickCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.CanGoForward, Mode=OneWay}"
+					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateForward.Description, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateForward.Label, Mode=OneWay}"
+					Command="{x:Bind ViewModel.Commands.NavigateForward, Mode=OneWay}"
+					IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavForwardButton/ToolTipService/ToolTip}">
-					<FontIcon FontSize="14" Glyph="&#xE72A;" />
-					<Button.KeyboardAccelerators>
-						<KeyboardAccelerator Key="XButton2" />
-						<KeyboardAccelerator Key="Right" Modifiers="Menu" />
-					</Button.KeyboardAccelerators>
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
+					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
 					x:Name="Up"
 					x:FieldModifier="public"
 					AccessKey="U"
-					AutomationProperties.Name="{helpers:ResourceString Name=NavUpButton/AutomationProperties/Name}"
-					Command="{x:Bind ViewModel.UpClickCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.CanNavigateToParent, Mode=OneWay}"
+					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateUp.Description, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateUp.Label, Mode=OneWay}"
+					Command="{x:Bind ViewModel.Commands.NavigateUp, Mode=OneWay}"
+					IsEnabled="{x:Bind ViewModel.Commands.NavigateUp.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavUpButton/ToolTipService/ToolTip}">
-					<FontIcon FontSize="14" Glyph="&#xE74A;" />
-					<Button.KeyboardAccelerators>
-						<KeyboardAccelerator Key="Up" Modifiers="Menu" />
-					</Button.KeyboardAccelerators>
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
+					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
 					x:Name="Refresh"
 					x:FieldModifier="public"
 					AccessKey="R"
-					AutomationProperties.Name="{helpers:ResourceString Name=NavResfreshButton/AutomationProperties/Name}"
-					Command="{x:Bind ViewModel.RefreshClickCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.CanRefresh, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Commands.RefreshItems.Label}"
+					Command="{x:Bind Commands.RefreshItems, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavRefreshButton/ToolTipService/ToolTip}">
-					<FontIcon FontSize="14" Glyph="&#xE72C;" />
-					<Button.KeyboardAccelerators>
-						<KeyboardAccelerator Key="F5" />
-					</Button.KeyboardAccelerators>
+					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey}">
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
 				</Button>
 			</StackPanel>
 
@@ -180,7 +166,7 @@
 					Grid.Column="1"
 					Margin="12"
 					FontSize="16"
-					Glyph="&#xE09D;" />
+					Glyph="&#xE70D;" />
 			</Grid>
 
 			<uc:SearchBox
@@ -190,6 +176,8 @@
 				Height="34"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Center"
+				AccessKey="K"
+				AccessKeyInvoked="SearchRegion_AccessKeyInvoked"
 				Canvas.ZIndex="100"
 				CornerRadius="{StaticResource ControlCornerRadius}"
 				GotFocus="SearchRegion_OnGotFocus"
@@ -201,18 +189,13 @@
 				<Button
 					x:Name="SearchButton"
 					AccessKey="I"
-					AutomationProperties.Name="{helpers:ResourceString Name=NavSearchButton/AutomationProperties/Name}"
-					Click="SearchButton_Click"
+					AutomationProperties.Name="{x:Bind ViewModel.Commands.Search.Label}"
+					Command="{x:Bind ViewModel.Commands.Search, Mode=OneWay}"
+					IsEnabled="{x:Bind ViewModel.Commands.Search.IsExecutable}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavSearchButton/ToolTipService/ToolTip}"
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.Search.LabelWithHotKey}"
 					Visibility="Collapsed">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
-					<Button.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="F"
-							IsEnabled="False"
-							Modifiers="Control" />
-					</Button.KeyboardAccelerators>
 				</Button>
 
 				<Button
@@ -308,10 +291,10 @@
 					x:Name="SettingsButton"
 					AccessKey="I"
 					AutomationProperties.AutomationId="SettingsButton"
-					AutomationProperties.Name="{helpers:ResourceString Name=NavSettingsButton}"
-					Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind ViewModel.Commands.OpenSettings.Label, Mode=OneWay}"
+					Command="{x:Bind ViewModel.Commands.OpenSettings, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=NavSettingsButton}"
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}"
 					Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
 					<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
 						<AnimatedIcon.Source>

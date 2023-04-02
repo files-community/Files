@@ -1,3 +1,5 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
@@ -5,8 +7,10 @@ using Files.App.Views;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
@@ -15,12 +19,17 @@ namespace Files.App.Filesystem
 {
 	public static class StorageFileExtensions
 	{
-		public static BaseStorageFile AsBaseStorageFile(this IStorageItem item)
+		private const int SINGLE_DOT_DIRECTORY_LENGTH = 2;
+		private const int DOUBLE_DOT_DIRECTORY_LENGTH = 3;
+
+		public static readonly ImmutableHashSet<string> _ftpPaths =
+			new HashSet<string>() { "ftp:/", "ftps:/", "ftpes:/" }.ToImmutableHashSet();
+
+		public static BaseStorageFile? AsBaseStorageFile(this IStorageItem item)
 		{
 			if (item is null || !item.IsOfType(StorageItemTypes.File))
-			{
 				return null;
-			}
+
 			return item is StorageFile file ? (BaseStorageFile)file : item as BaseStorageFile;
 		}
 
@@ -55,7 +64,8 @@ namespace Files.App.Filesystem
 		{
 			try
 			{
-				return itemsPath.Any(itemPath => Path.GetPathRoot(itemPath).Equals(Path.GetPathRoot(destinationPath), StringComparison.OrdinalIgnoreCase));
+				var destinationRoot = Path.GetPathRoot(destinationPath);
+				return itemsPath.Any(itemPath => Path.GetPathRoot(itemPath).Equals(destinationRoot, StringComparison.OrdinalIgnoreCase));
 			}
 			catch
 			{
@@ -71,7 +81,8 @@ namespace Files.App.Filesystem
 		{
 			try
 			{
-				return itemsPath.All(itemPath => Path.GetDirectoryName(itemPath).Equals(destinationPath.TrimPath(), StringComparison.OrdinalIgnoreCase));
+				var trimmedPath = destinationPath.TrimPath();
+				return itemsPath.All(itemPath => Path.GetDirectoryName(itemPath).Equals(trimmedPath, StringComparison.OrdinalIgnoreCase));
 			}
 			catch
 			{
@@ -83,23 +94,11 @@ namespace Files.App.Filesystem
 		public static bool AreItemsAlreadyInFolder(this IEnumerable<IStorageItemWithPath> storageItems, string destinationPath)
 			=> storageItems.Select(x => x.Path).AreItemsAlreadyInFolder(destinationPath);
 
-		public static BaseStorageFolder AsBaseStorageFolder(this IStorageItem item)
+		public static BaseStorageFolder? AsBaseStorageFolder(this IStorageItem item)
 		{
-			if (item is null)
-			{
-				return null;
-			}
-			else if (item.IsOfType(StorageItemTypes.Folder))
-			{
-				if (item is StorageFolder folder)
-				{
-					return (BaseStorageFolder)folder;
-				}
-				else
-				{
-					return item as BaseStorageFolder;
-				}
-			}
+			if (item is not null && item.IsOfType(StorageItemTypes.Folder))
+				return item is StorageFolder folder ? (BaseStorageFolder)folder : item as BaseStorageFolder;
+
 			return null;
 		}
 
@@ -110,9 +109,7 @@ namespace Files.App.Filesystem
 			if (value.Contains('/', StringComparison.Ordinal))
 			{
 				if (!value.EndsWith('/'))
-				{
 					value += "/";
-				}
 			}
 			else if (!value.EndsWith('\\'))
 			{
@@ -133,10 +130,8 @@ namespace Files.App.Filesystem
 
 					var component = value.Substring(lastIndex, i - lastIndex);
 					var path = value.Substring(0, i + 1);
-					if (!new[] { "ftp:/", "ftps:/", "ftpes:/" }.Contains(path, StringComparer.OrdinalIgnoreCase))
-					{
+					if (!_ftpPaths.Contains(path, StringComparer.OrdinalIgnoreCase))
 						pathBoxItems.Add(GetPathItem(component, path));
-					}
 
 					lastIndex = i + 1;
 				}
@@ -145,29 +140,10 @@ namespace Files.App.Filesystem
 			return pathBoxItems;
 		}
 
-		public static string GetPathWithoutEnvironmentVariable(string path)
+		public static string GetResolvedPath(string path, bool isFtp)
 		{
-			if (path.StartsWith("~\\", StringComparison.Ordinal))
-			{
-				path = $"{CommonPaths.HomePath}{path.Remove(0, 1)}";
-			}
-			if (path.Contains("%temp%", StringComparison.OrdinalIgnoreCase))
-			{
-				path = path.Replace("%temp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
-			}
-			if (path.Contains("%tmp%", StringComparison.OrdinalIgnoreCase))
-			{
-				path = path.Replace("%tmp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
-			}
-			if (path.Contains("%localappdata%", StringComparison.OrdinalIgnoreCase))
-			{
-				path = path.Replace("%localappdata%", CommonPaths.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
-			}
-			if (path.Contains("%homepath%", StringComparison.OrdinalIgnoreCase))
-			{
-				path = path.Replace("%homepath%", CommonPaths.HomePath, StringComparison.OrdinalIgnoreCase);
-			}
-			return Environment.ExpandEnvironmentVariables(path);
+			var withoutEnvirnment = GetPathWithoutEnvironmentVariable(path);
+			return ResolvePath(withoutEnvirnment, isFtp);
 		}
 
 		public async static Task<BaseStorageFile> DangerousGetFileFromPathAsync
@@ -280,9 +256,7 @@ namespace Files.App.Filesystem
 			(this StorageFolderWithPath parentFolder, string nameFilter, uint maxNumberOfItems = uint.MaxValue)
 		{
 			if (parentFolder is null)
-			{
 				return null;
-			}
 
 			var queryOptions = new QueryOptions
 			{
@@ -296,33 +270,141 @@ namespace Files.App.Filesystem
 
 		private static PathBoxItem GetPathItem(string component, string path)
 		{
+			var title = string.Empty;
 			if (component.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 			{
 				// Handle the recycle bin: use the localized folder name
-				return new PathBoxItem()
-				{
-					Title = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-					Path = path,
-				};
+				title = "RecycleBin".GetLocalizedResource();
+			}
+			else if (component.StartsWith(CommonPaths.MyComputerPath, StringComparison.Ordinal))
+			{
+				title = "ThisPC".GetLocalizedResource();
+			}
+			else if (component.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal))
+			{
+				title = "SidebarNetworkDrives".GetLocalizedResource();
 			}
 			else if (component.Contains(':', StringComparison.Ordinal))
 			{
 				var drives = App.DrivesManager.Drives.Concat(App.NetworkDrivesManager.Drives).Concat(App.CloudDrivesManager.Drives);
 				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));
-				return new PathBoxItem()
-				{
-					Title = drive is not null ? drive.Text : $@"Drive ({component})",
-					Path = path,
-				};
+				title = drive is not null ? drive.Text : $@"Drive ({component})";
 			}
 			else
 			{
-				return new PathBoxItem
-				{
-					Title = component,
-					Path = path
-				};
+				if (path.EndsWith('\\') || path.EndsWith('/'))
+					path = path.Remove(path.Length - 1);
+
+				title = component;
 			}
+
+			return new PathBoxItem()
+			{
+				Title = title,
+				Path = path
+			};
+		}
+
+		private static string GetPathWithoutEnvironmentVariable(string path)
+		{
+			if (path.StartsWith("~\\", StringComparison.Ordinal))
+				path = $"{CommonPaths.HomePath}{path.Remove(0, 1)}";
+
+			path = path.Replace("%temp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
+
+			path = path.Replace("%tmp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
+
+			path = path.Replace("%localappdata%", CommonPaths.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
+
+			path = path.Replace("%homepath%", CommonPaths.HomePath, StringComparison.OrdinalIgnoreCase);
+
+			return Environment.ExpandEnvironmentVariables(path);
+		}
+
+		private static string ResolvePath(string path, bool isFtp)
+		{
+			if (path.StartsWith("Home"))
+				return "Home";
+
+			if (ShellStorageFolder.IsShellPath(path))
+				return ShellHelpers.ResolveShellPath(path);
+
+			var pathBuilder = new StringBuilder(path);
+			var lastPathIndex = path.Length - 1;
+			var separatorChar = isFtp || path.Contains('/', StringComparison.Ordinal) ? '/' : '\\';
+			var rootIndex = isFtp ? FtpHelpers.GetRootIndex(path) + 1 : path.IndexOf($":{separatorChar}", StringComparison.Ordinal) + 2;
+
+			for (int i = 0, lastIndex = 0; i < pathBuilder.Length; i++)
+			{
+				if (pathBuilder[i] is not '?' &&
+					pathBuilder[i] != Path.DirectorySeparatorChar &&
+					pathBuilder[i] != Path.AltDirectorySeparatorChar &&
+					i != lastPathIndex)
+					continue;
+
+				if (lastIndex == i)
+				{
+					++lastIndex;
+					continue;
+				}
+
+				var component = pathBuilder.ToString().Substring(lastIndex, i - lastIndex);
+				if (component is "..")
+				{
+					if (lastIndex is 0)
+					{
+						SetCurrentWorkingDirectory(pathBuilder, separatorChar, lastIndex, ref i);
+					}
+					else if (lastIndex == rootIndex)
+					{
+						pathBuilder.Remove(lastIndex, DOUBLE_DOT_DIRECTORY_LENGTH);
+						i = lastIndex - 1;
+					}
+					else
+					{
+						var directoryIndex = pathBuilder.ToString().LastIndexOf(
+							separatorChar,
+							lastIndex - DOUBLE_DOT_DIRECTORY_LENGTH);
+
+						if (directoryIndex is not -1)
+						{
+							pathBuilder.Remove(directoryIndex, i - directoryIndex);
+							i = directoryIndex;
+						}
+					}
+
+					lastPathIndex = pathBuilder.Length - 1;
+				}
+				else if (component is ".")
+				{
+					if (lastIndex is 0)
+					{
+						SetCurrentWorkingDirectory(pathBuilder, separatorChar, lastIndex, ref i);
+					}
+					else
+					{
+						pathBuilder.Remove(lastIndex, SINGLE_DOT_DIRECTORY_LENGTH);
+						i -= 3;
+					}
+					lastPathIndex = pathBuilder.Length - 1;
+				}
+
+				lastIndex = i + 1;
+			}
+
+			return pathBuilder.ToString();
+		}
+
+		private static void SetCurrentWorkingDirectory(StringBuilder path, char separator, int substringIndex, ref int i)
+		{
+			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			var subPath = path.ToString().Substring(substringIndex);
+
+			path.Clear();
+			path.Append(context.ShellPage?.FilesystemViewModel.WorkingDirectory);
+			path.Append(separator);
+			path.Append(subPath);
+			i = -1;
 		}
 	}
 }

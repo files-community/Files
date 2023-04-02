@@ -132,7 +132,7 @@
 		<TeachingTip
 			x:Name="FileNameTeachingTip"
 			Grid.RowSpan="2"
-			CloseButtonContent="{helpers:ResourceString Name=FileNameTeachingTip/CloseButtonContent}"
+			CloseButtonContent="{helpers:ResourceString Name=OK}"
 			PreferredPlacement="Auto"
 			Subtitle="{helpers:ResourceString Name=FileNameTeachingTip/Subtitle}"
 			Visibility="Collapsed" />
@@ -183,7 +183,7 @@
 								Margin="0"
 								Padding="12,0,12,0"
 								HorizontalAlignment="Stretch"
-								VerticalAlignment="Stretch"
+								VerticalAlignment="Center"
 								CornerRadius="{StaticResource ControlCornerRadius}"
 								IsRightTapEnabled="True"
 								Loaded="Grid_Loaded"
@@ -235,6 +235,7 @@
 										x:Name="IconOverlay"
 										Width="16"
 										Height="16"
+										Margin="2"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Bottom"
 										x:Load="True"
@@ -253,14 +254,8 @@
 										x:Name="ShortcutGlyphElement"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Bottom"
-										Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-										BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
-										BorderThickness="1"
 										Visibility="{x:Bind IsShortcut}">
-										<FontIcon
-											FontFamily="{StaticResource CustomGlyph}"
-											FontSize="8"
-											Glyph="&#xF10A;" />
+										<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
 									</Border>
 								</Grid>
 

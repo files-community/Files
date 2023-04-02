@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -20,15 +19,12 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Files.App.ViewModels
 {
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		public ICommand EmptyRecycleBinCommand { get; private set; }
 
 		private IPaneHolder paneHolder;
 		public IPaneHolder PaneHolder
@@ -220,7 +216,6 @@ namespace Files.App.ViewModels
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
-			EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHome();
 
@@ -333,7 +328,6 @@ namespace Files.App.ViewModels
 					await lib.CheckDefaultSaveFolderAccess() &&
 					!section.ChildItems.Any(x => x.Path == lib.Path))
 				{
-					lib.Font = App.AppModel.SymbolFontFamily;
 					section.ChildItems.AddSorted(elem);
 					await lib.LoadLibraryIcon();
 				}
@@ -363,7 +357,7 @@ namespace Files.App.ViewModels
 			if (IsSidebarOpen)
 			{
 				// Restore expanded state when section has items
-				section.IsExpanded = App.AppSettings.Get(section.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
+				section.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(section.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
 			}
 		}
 
@@ -390,8 +384,8 @@ namespace Files.App.ViewModels
 					{
 						section = BuildSection("Home".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
 						section.Path = "Home";
-						section.Font = App.AppModel.SymbolFontFamily;
 						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -404,8 +398,8 @@ namespace Files.App.ViewModels
 						}
 
 						section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						section.Font = App.AppModel.SymbolFontFamily;
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FavoritesIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -418,6 +412,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.Libraries;
+						section.IsHeader = true;
 
 						break;
 					}
@@ -430,6 +425,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("Drives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.ThisPC;
+						section.IsHeader = true;
 
 						break;
 					}
@@ -442,6 +438,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -454,6 +451,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("SidebarNetworkDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.NetworkDrives;
+						section.IsHeader = true;
 
 						break;
 					}
@@ -466,6 +464,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -478,6 +477,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -545,11 +545,6 @@ namespace Files.App.ViewModels
 			{
 				SideBarItems.Remove(SideBarItems.FirstOrDefault(x => x.Section == sectionType));
 			}
-		}
-
-		public async void EmptyRecycleBin(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.EmptyRecycleBin();
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)

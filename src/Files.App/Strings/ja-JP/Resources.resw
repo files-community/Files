@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,49 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
-    <value>新しいタブで開く</value>
-  </data>
-  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>新しいウィンドウで開く</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>新しいウィンドウ</value>
-  </data>
-  <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>ビットマップ画像</value>
-  </data>
-  <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
-    <value>テキスト ドキュメント</value>
   </data>
   <data name="CopyLocation" xml:space="preserve">
     <value>場所のコピー</value>
   </data>
-  <data name="NavigationToolbarPaste.Label" xml:space="preserve">
-    <value>貼り付け</value>
-  </data>
   <data name="Browse" xml:space="preserve">
     <value>ブラウズ</value>
-  </data>
-  <data name="nameColumn.Header" xml:space="preserve">
-    <value>名前</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>サイズ</value>
   </data>
-  <data name="OpenIn" xml:space="preserve">
-    <value>開く:</value>
-  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>作成日時:</value>
-  </data>
-  <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>名前</value>
   </data>
   <data name="Path" xml:space="preserve">
     <value>パス:</value>
   </data>
-  <data name="PropertiesItemSize.Text" xml:space="preserve">
+  <data name="SizeLabel" xml:space="preserve">
     <value>サイズ:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
@@ -177,13 +153,13 @@
   <data name="Skip" xml:space="preserve">
     <value>スキップ</value>
   </data>
-  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
+  <data name="SelectAll" xml:space="preserve">
     <value>すべて選択</value>
   </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
+  <data name="InvertSelection" xml:space="preserve">
     <value>選択を反転</value>
   </data>
-  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
+  <data name="ClearSelection" xml:space="preserve">
     <value>選択をクリア</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -198,14 +174,11 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>パスを入力</value>
   </data>
-  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
+  <data name="Search" xml:space="preserve">
     <value>検索</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>最近アクセスしたファイルがここに表示されます</value>
-  </data>
-  <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
-    <value>ファイルの場所を開く</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>一覧から削除</value>
@@ -217,7 +190,7 @@
     <value>Files について</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>オープンソース</value>
+    <value>オープン ソース</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>日付の形式</value>
@@ -255,9 +228,6 @@
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>特定のページを開く</value>
   </data>
-  <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>個人用設定</value>
-  </data>
   <data name="Desktop" xml:space="preserve">
     <value>デスクトップ</value>
   </data>
@@ -267,71 +237,41 @@
   <data name="Downloads" xml:space="preserve">
     <value>ダウンロード</value>
   </data>
-  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
-    <value>お気に入りから固定解除</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
-    <value>並べ替え</value>
-  </data>
   <data name="Name" xml:space="preserve">
     <value>名前</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>種類</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>昇順</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>最新の情報に更新</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
+  <data name="Paste" xml:space="preserve">
     <value>貼り付け</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>新規作成</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>ファイル</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
+  <data name="Properties" xml:space="preserve">
     <value>プロパティ</value>
-  </data>
-  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>プロパティ</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
-    <value>展開</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>開く</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
+  <data name="OpenInNewTab" xml:space="preserve">
     <value>新しいタブで開く</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
+  <data name="OpenInNewWindow" xml:space="preserve">
     <value>新しいウィンドウで開く</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>デスクトップの背景として設定</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>共有</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+  <data name="Cut" xml:space="preserve">
     <value>切り取り</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
-    <value>名前の変更</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>お気に入りに固定</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>プロパティ</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Files へようこそ!</value>
@@ -342,16 +282,10 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>使用を開始する前に、ファイル システムへのアクセスを許可してください。Windows の設定が開き、アクセス許可の付与を選択できます。設定が完了したら、アプリケーションを再起動する必要があります。</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>ファイル</value>
-  </data>
   <data name="Display" xml:space="preserve">
     <value>表示</value>
   </data>
-  <data name="RenameDialog.Title" xml:space="preserve">
-    <value>名前を入力</value>
-  </data>
-  <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
+  <data name="EnterAnItemName" xml:space="preserve">
     <value>名前を入力</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
@@ -378,26 +312,17 @@
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>このフォルダーは空です。</value>
   </data>
-  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Back" xml:space="preserve">
     <value>戻る (Alt+左矢印)</value>
   </data>
-  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Forward" xml:space="preserve">
     <value>進む (Alt+右矢印)</value>
   </data>
-  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Up" xml:space="preserve">
     <value>上の階層へ (Alt+上矢印)</value>
   </data>
-  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>最新の情報に更新 (F5)</value>
-  </data>
-  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>検索 (Ctrl+F)</value>
-  </data>
-  <data name="PropertiesTitle" xml:space="preserve">
-    <value>プロパティ</value>
-  </data>
-  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
-    <value>プロパティ</value>
+  <data name="Refresh" xml:space="preserve">
+    <value>最新の情報に更新</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>同じ名前のファイルがこのフォルダーに既に存在します。</value>
@@ -408,20 +333,8 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>ファイルが既に存在します</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>ロック画面の背景として設定</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
-    <value>大アイコン</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
-    <value>中アイコン</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
-    <value>小アイコン</value>
-  </data>
-  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>ファイルを削除できませんでした</value>
@@ -438,9 +351,6 @@
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>ファイルが存在しません</value>
   </data>
-  <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
-    <value>プレビューしようとしているファイルは移動または削除された可能性があります。</value>
-  </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
     <value>アクセスしようとしているフォルダーは移動または削除された可能性があります。</value>
   </data>
@@ -456,23 +366,11 @@
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>使用中のファイルです</value>
   </data>
-  <data name="NavToolbarLayout.Text" xml:space="preserve">
+  <data name="Layout" xml:space="preserve">
     <value>レイアウト</value>
-  </data>
-  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>選択オプション</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>読み取り専用</value>
-  </data>
-  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
-    <value>非表示</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>ごみ箱を空にする</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
-    <value>元に戻す</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0} 日前</value>
@@ -501,9 +399,6 @@
   <data name="Now" xml:space="preserve">
     <value>今</value>
   </data>
-  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
-    <value>新しいタブ</value>
-  </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>この操作はサポートされていません</value>
   </data>
@@ -513,11 +408,11 @@
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>プログラムから開く</value>
   </data>
+  <data name="SendTo" xml:space="preserve">
+    <value>送る</value>
+  </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>ファイル名に次の文字を含めることはできません: \ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>指定された項目名は無効です</value>
@@ -536,9 +431,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>ファイルを削除中</value>
-  </data>
-  <data name="PasteInProgress.Title" xml:space="preserve">
-    <value>ファイルを貼り付け中</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>ごみ箱に移動中</value>
@@ -572,12 +464,6 @@
   </data>
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
-    <value>管理者として実行</value>
-  </data>
-  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>内容:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} ファイル, {1:#,##0} フォルダー</value>
@@ -618,9 +504,6 @@
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>状態</value>
   </data>
-  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
-    <value>新しいページを追加</value>
-  </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>ページ:</value>
   </data>
@@ -636,16 +519,10 @@
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>{0} に移動</value>
   </data>
-  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
-    <value>送り側と受け側のファイル名が同じです。</value>
-  </data>
-  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
-    <value>送り側と受け側のフォルダーが同じです。</value>
-  </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>{0} にコピー</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>ショートカットの作成</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -660,12 +537,6 @@
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
     <value>ショートカットの種類:</value>
   </data>
-  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>作業フォルダー:</value>
-  </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>ファイル</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Web リンク</value>
   </data>
@@ -675,20 +546,11 @@
   <data name="Shortcut" xml:space="preserve">
     <value>ショートカット</value>
   </data>
-  <data name="ShortcutFileType" xml:space="preserve">
-    <value>ショートカット</value>
-  </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
     <value>インターネット ショートカット</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - ショートカット</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>ファイルの場所を開く</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>不明</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files は、開発者がまだ想定していない問題に遭遇しました。</value>
@@ -765,18 +627,6 @@
   <data name="AccessDenied" xml:space="preserve">
     <value>アクセスが拒否されました</value>
   </data>
-  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
-    <value>タブの追加</value>
-  </data>
-  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
-    <value>タブを開く</value>
-  </data>
-  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>マルチタスク</value>
-  </data>
-  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>マルチタスク</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>背景に設定</value>
   </data>
@@ -801,25 +651,22 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>空のフォルダーを作成</value>
   </data>
-  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>レイアウト モード</value>
-  </data>
   <data name="LayoutMode" xml:space="preserve">
     <value>レイアウト モード</value>
   </data>
-  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateBack" xml:space="preserve">
     <value>前に戻る</value>
   </data>
-  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateForward" xml:space="preserve">
     <value>次に進む</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>フォルダーを更新</value>
   </data>
-  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateUp" xml:space="preserve">
     <value>1 つ上の階層へ移動</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
+  <data name="Language" xml:space="preserve">
     <value>言語</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
@@ -893,18 +740,6 @@
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
     <value>緯度 (10 進数)</value>
-  </data>
-  <data name="PropertyLatitude" xml:space="preserve">
-    <value>緯度</value>
-  </data>
-  <data name="PropertyLongitude" xml:space="preserve">
-    <value>経度</value>
-  </data>
-  <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>緯度参照</value>
-  </data>
-  <data name="PropertyLongitudeRef" xml:space="preserve">
-    <value>経度参照</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>高度</value>
@@ -1041,12 +876,6 @@
   <data name="PropertyDateCreated" xml:space="preserve">
     <value>作成日</value>
   </data>
-  <data name="PropertyDateSaved" xml:space="preserve">
-    <value>保存日</value>
-  </data>
-  <data name="PropertyDatePrinted" xml:space="preserve">
-    <value>印刷日</value>
-  </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
     <value>編集時間</value>
   </data>
@@ -1119,14 +948,11 @@
   <data name="Address" xml:space="preserve">
     <value>住所</value>
   </data>
-  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="SelectionOptions" xml:space="preserve">
     <value>選択オプション</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>選択</value>
-  </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>ファイル</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>ごみ箱のファイル</value>
@@ -1153,31 +979,19 @@
     <value>このデバイスは現在使用中です。デバイスを使用している可能性のあるすべてのプログラム、ウィンドウやタブを閉じてから再度試してください。</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
-    <value>取り出す</value>
+    <value>取り出し</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+  <data name="DuplicateTab" xml:space="preserve">
     <value>タブを複製</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>新しいウィンドウにタブを移動</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>新しいタブ</value>
-  </data>
-  <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>新しいタブ (Ctrl+T)</value>
-  </data>
-  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>新しいタブ (Ctrl+T)</value>
-  </data>
-  <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>タブを閉じる (Ctrl+W)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>いくつかのプロパティは個人情報を含んでいる可能性があります。</value>
-  </data>
-  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
-    <value>クリア</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>すべてのプロパティを削除</value>
@@ -1188,17 +1002,8 @@
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>ステータス センター</value>
   </data>
-  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>検索</value>
-  </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>{0} の {1} からの検索結果を表示:</value>
-  </data>
-  <data name="SearchTabHeaderText" xml:space="preserve">
-    <value>検索結果</value>
-  </data>
-  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>GitHub で支援</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>ファイルとフォルダーを分けずに並べ替える</value>
@@ -1209,12 +1014,6 @@
   <data name="No" xml:space="preserve">
     <value>いいえ</value>
   </data>
-  <data name="UpdateConsentDialogContent" xml:space="preserve">
-    <value>Files の最新版をダウンロードし、インストールしますか?</value>
-  </data>
-  <data name="UpdateConsentDialogTitle" xml:space="preserve">
-    <value>更新あり</value>
-  </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>保護されたシステム ファイルを表示する</value>
   </data>
@@ -1222,15 +1021,12 @@
     <value>インデックスされていないファイルを検索結果に含める</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>ディレクトリ間でレイアウトと並べ替えの設定を同期する</value>
+    <value>フォルダー間でレイアウトと並べ替えの設定を同期する</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリック メニューをカスタマイズ</value>
   </data>
-  <data name="originalPathColumn.Header" xml:space="preserve">
-    <value>元のパス:</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+  <data name="OriginalPath" xml:space="preserve">
     <value>元のパス:</value>
   </data>
   <data name="Add" xml:space="preserve">
@@ -1245,17 +1041,14 @@
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>デュアル ペイン モードでタブを開く</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
-    <value>デュアル ペイン ビューを有効にする</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
-    <value>セカンダリ ペインで開く</value>
+  <data name="ShowOpenInNewPane" xml:space="preserve">
+    <value>"新しいペインでフォルダーを開く" オプションを表示する</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>新しいペイン</value>
   </data>
-  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>セカンダリ ペインで開く</value>
+  <data name="OpenInNewPane" xml:space="preserve">
+    <value>新しいペインで開く</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>フォルダー</value>
@@ -1263,32 +1056,11 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>詳細ビュー (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>レイアウト</value>
-  </data>
-  <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>レイアウト</value>
-  </data>
-  <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
-    <value>レイアウト</value>
-  </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>プレビュー</value>
-  </data>
-  <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>大アイコン</value>
-  </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>グリッドビュー (大)  (Ctrl+Shift+5)</value>
   </data>
-  <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>中アイコン</value>
-  </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>グリッドビュー (中)  (Ctrl+Shift+4)</value>
-  </data>
-  <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>小アイコン</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>グリッドビュー (小) (Ctrl+Shift+3)</value>
@@ -1296,20 +1068,11 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>タイルビュー (Ctrl+Shift+2)</value>
   </data>
-  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>ファイル拡張子を表示する</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>隠しファイルを表示する</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>削除した日時</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>クラウド ドライブ</value>
-  </data>
-  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>詳細設定...</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
     <value>バンドルをエクスポート</value>
@@ -1319,12 +1082,6 @@
   </data>
   <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
     <value>同じ名前のバンドルが既に存在しています!</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
-    <value>入力フィールドが空欄です!</value>
-  </data>
-  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>新しいタブで開く</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>ファイルの場所を開く</value>
@@ -1365,19 +1122,16 @@
   <data name="DesiredName" xml:space="preserve">
     <value>新しい名前</value>
   </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>プレビューペインの表示/非表示切替 (Ctrl+P)</value>
+  <data name="TogglePreviewPane" xml:space="preserve">
+    <value>プレビュー ペインの表示を切り替える</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>プレビューを利用できません</value>
   </data>
-  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>詳細情報を利用できません</value>
-  </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>名前</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
+  <data name="UnpinFromFavorites" xml:space="preserve">
     <value>お気に入りから固定解除</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
@@ -1397,9 +1151,6 @@
   </data>
   <data name="Feedback" xml:space="preserve">
     <value>フィードバック</value>
-  </data>
-  <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>進行中のタスクのフライアウト</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>オンラインで利用可能</value>
@@ -1424,9 +1175,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>不明</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>ファイル名の横にチェックボックスを表示する</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>拡張子を変更すると、ファイルが使えなくなる可能性があります。変更しますか?</value>
@@ -1470,9 +1218,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>ネットワーク ドライブを割り当てる</value>
   </data>
-  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
-    <value>切断</value>
-  </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>その他のバンドル オプション</value>
   </data>
@@ -1503,17 +1248,11 @@
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>削除失敗</value>
   </data>
-  <data name="StatusUnknownError" xml:space="preserve">
-    <value>不明なエラーが発生しました。</value>
-  </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
     <value>削除完了</value>
   </data>
   <data name="StatusDeletionCancelled" xml:space="preserve">
     <value>削除がキャンセルされました</value>
-  </data>
-  <data name="StatusOperationCompleted" xml:space="preserve">
-    <value>操作を完了しました。</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
     <value>リサイクル完了</value>
@@ -1539,12 +1278,6 @@
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>スタート メニューから固定解除</value>
   </data>
-  <data name="ItemTypeLibrary" xml:space="preserve">
-    <value>ライブラリ</value>
-  </data>
-  <data name="LibraryItemAutomation" xml:space="preserve">
-    <value>ライブラリ</value>
-  </data>
   <data name="Library" xml:space="preserve">
     <value>ライブラリ</value>
   </data>
@@ -1553,9 +1286,6 @@
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>デフォルトの保存場所に設定</value>
-  </data>
-  <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>削除</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>場所なし</value>
@@ -1572,16 +1302,7 @@
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
     <value>同じ名前のライブラリが既に存在しています!</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
-    <value>ライブラリを削除</value>
-  </data>
-  <data name="DialogCreateLibraryButtonText" xml:space="preserve">
-    <value>作成</value>
-  </data>
-  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ストレージ センサーを開く</value>
-  </data>
-  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="OpenStorageSense" xml:space="preserve">
     <value>ストレージ センサーを開く</value>
   </data>
   <data name="Copy" xml:space="preserve">
@@ -1635,32 +1356,17 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO 感度</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>新しいタブでフォルダーを開く</value>
-  </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>お探しのファイルが見つかりませんでしたか?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>インデックスされていないファイルを検索する</value>
   </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>テーマ フォルダーを開く</value>
-  </data>
-  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
-    <value>既存のファイルを置換</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
-    <value>既存のファイルを置換</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
+  <data name="ReplaceExisting" xml:space="preserve">
     <value>既存のファイルを置換</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>名前の変更</value>
-  </data>
-  <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
-    <value>元に戻す</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
     <value>{0} 個の競合するファイル名があります</value>
@@ -1698,38 +1404,20 @@
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
     <value>削除日時</value>
   </data>
-  <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
-    <value>サイドバーをリサイズ</value>
-  </data>
-  <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>並べ替え</value>
-  </data>
-  <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>並べ替え</value>
-  </data>
-  <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
+  <data name="Sort" xml:space="preserve">
     <value>並べ替え</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>グループで表示</value>
   </data>
-  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>名前</value>
-  </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>変更日</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+  <data name="OriginalFolder" xml:space="preserve">
     <value>元のフォルダー</value>
   </data>
-  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>種類</value>
-  </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>並べ替えて表示</value>
-  </data>
-  <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
-    <value>並べ替え方向</value>
+    <value>並べ替え</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>降順</value>
@@ -1752,32 +1440,35 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>極小</value>
   </data>
+  <data name="Future" xml:space="preserve">
+    <value>未来</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>今日</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>昨日</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>今週</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>先週</value>
   </data>
-  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
+  <data name="EarlierThisMonth" xml:space="preserve">
     <value>今月</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>先月</value>
   </data>
-  <data name="ItemTimeText_ThisYear" xml:space="preserve">
+  <data name="EarlierThisYear" xml:space="preserve">
     <value>今年</value>
   </data>
-  <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>古い</value>
+  <data name="LastYear" xml:space="preserve">
+    <value>昨年</value>
   </data>
-  <data name="ItemTimeText_Before" xml:space="preserve">
-    <value>{0} の前</value>
+  <data name="YearN" xml:space="preserve">
+    <value>{0} 年</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} ファイル</value>
@@ -1785,14 +1476,14 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} ファイル</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>閉じたタブを再度開く</value>
   </data>
-  <data name="RenameFileDialogTitle" xml:space="preserve">
-    <value>名前の変更</value>
+  <data name="Rename" xml:space="preserve">
+    <value>名前を変更</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>プライバシーポリシー</value>
+    <value>プライバシー ポリシー</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>移動がキャンセルされました</value>
@@ -1911,7 +1602,7 @@
   <data name="Allow" xml:space="preserve">
     <value>許可</value>
   </data>
-  <data name="SecurityDenyLabel.Text" xml:space="preserve">
+  <data name="Deny" xml:space="preserve">
     <value>拒否</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
@@ -1945,7 +1636,7 @@
     <value>このオブジェクトのセキュリティ プロパティを表示する権限がありません。[詳細設定] をクリックして続行します。</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>所有者</value>
+    <value>所有者:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>不明な所有者</value>
@@ -1956,15 +1647,6 @@
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>完了したら展開されたファイルを表示する</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
-    <value>ファイルを展開</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
-    <value>ここに展開</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
-    <value>展開...</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>{0} へ展開</value>
   </data>
@@ -1973,9 +1655,6 @@
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
     <value>既定のライブラリを復元</value>
-  </data>
-  <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
-    <value>元に戻す</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>デフォルトのライブラリを復元しますか? すべてのファイルはストレージに残ります。</value>
@@ -1995,11 +1674,11 @@
   <data name="Access" xml:space="preserve">
     <value>アクセス</value>
   </data>
-  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
+  <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
     <value>適用先</value>
   </data>
-  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>エンティティ</value>
+  <data name="Principal" xml:space="preserve">
+    <value>プリンシパル</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>ファイル</value>
@@ -2010,20 +1689,14 @@
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>サブフォルダー</value>
   </data>
-  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
+  <data name="Inherited" xml:space="preserve">
     <value>継承済み</value>
   </data>
-  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
+  <data name="Permissions" xml:space="preserve">
     <value>アクセス許可</value>
-  </data>
-  <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>種類</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>このオブジェクトのセキュリティ プロパティを表示する権限がありません。このオブジェクトの所有権を取得できる可能性があります。</value>
-  </data>
-  <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
-    <value>特別</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>このフォルダーとファイル</value>
@@ -2109,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>ペインを閉じる</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを開始</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを終了</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
@@ -2148,9 +1821,6 @@
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>{0} セクションを非表示</value>
   </data>
-  <data name="NavSettingsButton" xml:space="preserve">
-    <value>設定</value>
-  </data>
   <data name="AddFile" xml:space="preserve">
     <value>ファイルの追加</value>
   </data>
@@ -2175,12 +1845,6 @@
   <data name="Home" xml:space="preserve">
     <value>ホーム</value>
   </data>
-  <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
-    <value>新しいタブ</value>
-  </data>
-  <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+A</value>
-  </data>
   <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Alt+Shift++</value>
   </data>
@@ -2189,12 +1853,6 @@
   </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
-  </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Up</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2214,12 +1872,6 @@
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
-  </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+T</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>アーカイブの展開が正常に完了しました。</value>
   </data>
@@ -2235,17 +1887,11 @@
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>親フォルダーを開く</value>
   </data>
-  <data name="FileTagUnknown" xml:space="preserve">
+  <data name="Unknown" xml:space="preserve">
     <value>不明</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>ファイル タグ</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>ファイル タグを編集</value>
-  </data>
-  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
-    <value>すべてに適用</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>セットのパート</value>
@@ -2259,7 +1905,7 @@
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>ディスクを挿入してください</value>
   </data>
-  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
@@ -2270,9 +1916,6 @@
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>資格情報を提供します:</value>
-  </data>
-  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
-    <value>パスワード</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>ユーザー名</value>
@@ -2313,32 +1956,11 @@
   <data name="Tiles" xml:space="preserve">
     <value>タイル</value>
   </data>
-  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>ファイル拡張子を表示する</value>
-  </data>
-  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>隠しファイルを表示する</value>
-  </data>
-  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+  <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>新しいタブでフォルダーを開く</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>言語</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>進行中のタスク</value>
-  </data>
-  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
-    <value>1 つ下に移動</value>
-  </data>
-  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
-    <value>1 つ上に移動</value>
-  </data>
-  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
-    <value>一番下へ移動</value>
-  </data>
-  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
-    <value>一番上へ移動</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>作成日時</value>
@@ -2356,7 +1978,7 @@
     <value>機能のリクエストを送信</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>バグレポートを送信</value>
+    <value>バグ レポートを送信</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Files を既定のファイルマネージャーに設定する</value>
@@ -2370,7 +1992,7 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>シングル クリックでファイルを開く</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+  <data name="FolderPath" xml:space="preserve">
     <value>フォルダー パス</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
@@ -2427,10 +2049,10 @@
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>システム (拡張)</value>
   </data>
-  <data name="Windows7" xml:space="preserve">
+  <data name="OSCompatibility_Windows7" xml:space="preserve">
     <value>Windows 7</value>
   </data>
-  <data name="Windows8" xml:space="preserve">
+  <data name="OSCompatibility_Windows8" xml:space="preserve">
     <value>Windows 8</value>
   </data>
   <data name="OSCompatibility_WindowsVista" xml:space="preserve">
@@ -2456,9 +2078,6 @@
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
     <value>640 x 480 の解像度で実行する</value>
-  </data>
-  <data name="Options" xml:space="preserve">
-    <value>オプション</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
     <value>高い DPI スケールの動作を上書きします。</value>
@@ -2577,9 +2196,6 @@
   <data name="Pictures" xml:space="preserve">
     <value>ピクチャ</value>
   </data>
-  <data name="Videos" xml:space="preserve">
-    <value>ビデオ</value>
-  </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Files をアップデート</value>
   </data>
@@ -2658,9 +2274,6 @@
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>背景に設定</value>
   </data>
-  <data name="SetAsLockscreen" xml:space="preserve">
-    <value>ロック画面に設定</value>
-  </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>デスクトップの背景として設定</value>
   </data>
@@ -2685,9 +2298,6 @@
   <data name="DetailsLayoutColumns" xml:space="preserve">
     <value>詳細レイアウト</value>
   </data>
-  <data name="Reset" xml:space="preserve">
-    <value>リセット</value>
-  </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>ロック画面</value>
   </data>
@@ -2696,12 +2306,6 @@
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>ファイルを開くとき</value>
-  </data>
-  <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>{0}.zip に追加</value>
-  </data>
-  <data name="AddToArchive" xml:space="preserve">
-    <value>アーカイブに追加</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
     <value>圧縮が完了しました</value>
@@ -2728,13 +2332,13 @@
     <value>選択した {0} アイテムを復元しますか?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>選択範囲を復元</value>
+    <value>選択したファイルを復元</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
     <value>すべてのアイテムを復元</value>
   </data>
-  <data name="RestoreSelection" xml:space="preserve">
-    <value>元に戻す</value>
+  <data name="Restore" xml:space="preserve">
+    <value>復元</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>ショートカットを開くことができません</value>
@@ -2744,9 +2348,6 @@
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>このフォルダーにアクセスする権限がありません。</value>
-  </data>
-  <data name="LoadingThemes" xml:space="preserve">
-    <value>テーマを読み込んでいます</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
     <value>ゴミ箱を空にしています</value>
@@ -2802,9 +2403,6 @@
   <data name="CompressionLevelNone" xml:space="preserve">
     <value>なし</value>
   </data>
-  <data name="SplitArchive" xml:space="preserve">
-    <value>アーカイブを分割</value>
-  </data>
   <data name="SplittingSize" xml:space="preserve">
     <value>分割サイズ</value>
   </data>
@@ -2851,7 +2449,7 @@
     <value>新しいショートカットを作成</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>ローカルまたはネットワーク上のプログラム、ファイル、フォルダ、コンピューター、またはインターネットアドレスへのショートカットを作成します。</value>
+    <value>ローカルまたはネットワーク上のプログラム、ファイル、フォルダー、コンピューター、またはインターネット アドレスへのショートカットを作成します。</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
     <value>項目の場所を入力:</value>
@@ -2872,7 +2470,7 @@
     <value>この場所にショートカットを作成するには管理者権限が必要です</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>代わりにデスクトップにショートカットを作成しますか？</value>
+    <value>代わりにデスクトップにショートカットを作成しますか?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
     <value>指定された項目名は無効です</value>
@@ -2881,25 +2479,28 @@
     <value>設定</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>項目のない領域をダブルクリックして1つ上のディレクトリに移動する</value>
+    <value>項目のない領域をダブル クリックして1つ上のフォルダーに移動する</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>さらに表示する</value>
   </data>
-  <data name="ToolTipDescriptionSize" xml:space="preserve">
-    <value>サイズ:</value>
-  </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>しかし心配しないでください。私たちはより信頼性があり、より多くの機能を備えたすばらしい代替手段を用意しました。 設定 &gt; 個人用設定 &gt; ウィジェットからタグ ウィジェットを有効にできます。 タグ ウィジェットを有効にすると、自動的にバンドル ウィジェットが無効になります。</value>
+    <value>しかし、心配は無用です。より信頼性と機能性に優れた、タグ ウィジェットという代替機能を作成しました。設定 &gt; 個人用設定 &gt; ウィジェットから有効にできます。タグ ウィジェットを有効にすると、バンドル ウィジェットは自動的に無効になります。</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>バンドルは今後のアップデートで削除されます 📎</value>
+    <value>バンドル ウィジェットは今後のアップデートで削除されます 📎</value>
   </data>
-  <data name="DisplayEditTagsMenu" xml:space="preserve">
-    <value>タグ編集メニューを表示する</value>
+  <data name="ShowEditTagsMenu" xml:space="preserve">
+    <value>"ファイル タグを編集" オプションを表示する</value>
+  </data>
+  <data name="ShowOpenInNewTab" xml:space="preserve">
+    <value>"新しいタブでフォルダーを開く" オプションを表示する</value>
+  </data>
+  <data name="ShowOpenInNewWindow" xml:space="preserve">
+    <value>"新しいウインドウでフォルダーを開く" オプションを表示する</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>クイックアクセス</value>
+    <value>クイック アクセス</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
     <value>{0} に接続するためのログイン情報を入力してください</value>
@@ -2923,9 +2524,340 @@
     <value>常に</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>完全削除のみ</value>
+    <value>完全に削除するときのみ</value>
   </data>
   <data name="Never" xml:space="preserve">
     <value>なし</value>
+  </data>
+  <data name="TagColor" xml:space="preserve">
+    <value>タグの色</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>変更を保存</value>
+  </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>新しいタグ</value>
+  </data>
+  <data name="CreateNewTag" xml:space="preserve">
+    <value>新しいタグを作成</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>読み込み中…</value>
+  </data>
+  <data name="ContextMenuOptions" xml:space="preserve">
+    <value>コンテキスト メニューの設定</value>
+  </data>
+  <data name="ShowFileExtensions" xml:space="preserve">
+    <value>ファイル名拡張子を表示する</value>
+  </data>
+  <data name="ShowHiddenItems" xml:space="preserve">
+    <value>隠しファイルを表示する</value>
+  </data>
+  <data name="FormatDriveText" xml:space="preserve">
+    <value>フォーマット…</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>ヘルプ</value>
+  </data>
+  <data name="FullScreen" xml:space="preserve">
+    <value>全画面表示に切り替える</value>
+  </data>
+  <data name="ConfirmDeleteTag" xml:space="preserve">
+    <value>このタグを削除してもよろしいですか?</value>
+  </data>
+  <data name="PlayAll" xml:space="preserve">
+    <value>すべて再生</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>高さ</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>幅</value>
+  </data>
+  <data name="ApplyToAllConflictingItems" xml:space="preserve">
+    <value>すべての競合するアイテムにこれを実行する</value>
+  </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>ターミナルで開く</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>管理者としてターミナルで開く</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="MultiSelect" xml:space="preserve">
+    <value>複数選択</value>
+  </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>サイドバーの項目を並べ替え</value>
+  </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>ハッシュ</value>
+  </data>
+  <data name="CalculationError" xml:space="preserve">
+    <value>計算中にエラーが発生しました</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>アルゴリズム</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>ハッシュ値</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>表示するハッシュを選択</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>計算中...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>ピン留めされたアイテム</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>サイズを小さくする</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>サイズを大きくする</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>昇順と降順の切り替え</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>無効な名前です</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>名前を空欄にすることやピリオドで開始または終了することはできません。</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>ビデオ</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>QuickLook を起動</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>コンパクト オーバーレイを切り替える</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>ファイルをクリップボードにコピーする</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>ファイルのパスをクリップボードにコピーする</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>ファイルをクリップボードに切り取る</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>ファイルをクリップボードから現在のフォルダに貼り付ける</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>ファイルをクリップボードから選択したフォルダに貼り付ける</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>コンパクト オーバーレイを切り替える</value>
+  </data>
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>コンパクト オーバーレイを開始</value>
+  </data>
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>コンパクト オーバーレイを終了</value>
+  </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>サイドバーの表示を切り替える</value>
+  </data>
+  <data name="Key.Menu" xml:space="preserve">
+    <value>メニュー</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Control" xml:space="preserve">
+    <value>Ctrl</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Shift" xml:space="preserve">
+    <value>Shift</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Windows" xml:space="preserve">
+    <value>Win</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Enter" xml:space="preserve">
+    <value>Enter</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Space" xml:space="preserve">
+    <value>スペース</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Escape" xml:space="preserve">
+    <value>Escape</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Back" xml:space="preserve">
+    <value>Back</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Tab" xml:space="preserve">
+    <value>Tab</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Insert" xml:space="preserve">
+    <value>Ins</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Delete" xml:space="preserve">
+    <value>Del</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Left" xml:space="preserve">
+    <value>左矢印</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Right" xml:space="preserve">
+    <value>右矢印</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Down" xml:space="preserve">
+    <value>下矢印</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Up" xml:space="preserve">
+    <value>上矢印</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Home" xml:space="preserve">
+    <value>Home</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.End" xml:space="preserve">
+    <value>End</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.PageDown" xml:space="preserve">
+    <value>PageDown</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.PageUp" xml:space="preserve">
+    <value>PageUp</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Separator" xml:space="preserve">
+    <value>Sep</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Pause" xml:space="preserve">
+    <value>Pause</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Sleep" xml:space="preserve">
+    <value>スリープ</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Clear" xml:space="preserve">
+    <value>Clear</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Print" xml:space="preserve">
+    <value>Print</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Help" xml:space="preserve">
+    <value>Help</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mouse4" xml:space="preserve">
+    <value>マウス4</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mouse5" xml:space="preserve">
+    <value>マウス5</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application" xml:space="preserve">
+    <value>アプリ</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application1" xml:space="preserve">
+    <value>アプリ1</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application2" xml:space="preserve">
+    <value>アプリ2</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mail" xml:space="preserve">
+    <value>メール</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoHome" xml:space="preserve">
+    <value>GoHome</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoBack" xml:space="preserve">
+    <value>戻る</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoForward" xml:space="preserve">
+    <value>進む</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserRefresh" xml:space="preserve">
+    <value>再読み込み</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserStop" xml:space="preserve">
+    <value>中止</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserSearch" xml:space="preserve">
+    <value>検索</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserFavorites" xml:space="preserve">
+    <value>お気に入り</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaPlayPause" xml:space="preserve">
+    <value>再生・一時停止</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaStop" xml:space="preserve">
+    <value>停止</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaPreviousTrack" xml:space="preserve">
+    <value>前トラック</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaNextTrack" xml:space="preserve">
+    <value>次トラック</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaSelect" xml:space="preserve">
+    <value>メディア選択</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaMute" xml:space="preserve">
+    <value>ミュート</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaVolumeDown" xml:space="preserve">
+    <value>音量小</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaVolumeUp" xml:space="preserve">
+    <value>音量大</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>変更</value>
+  </data>
+  <data name="ToggleSelect" xml:space="preserve">
+    <value>選択を切り替える</value>
+  </data>
+  <data name="ShowFileExtensionWarning" xml:space="preserve">
+    <value>ファイル拡張子の変更時に警告を表示する</value>
+  </data>
+  <data name="Untagged" xml:space="preserve">
+    <value>タグなし</value>
   </data>
 </root>

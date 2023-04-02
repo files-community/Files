@@ -1,6 +1,5 @@
 using Files.App.Dialogs;
 using Files.App.Extensions;
-using Files.App.Views;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
-using static Files.App.Views.Properties;
+using static Files.App.Views.Properties.MainPropertiesPage;
 
 namespace Files.App.Helpers
 {
@@ -70,22 +69,25 @@ namespace Files.App.Helpers
 					IsMaximizable = false,
 					MinWidth = 460,
 					MinHeight = 550,
-					Width = 550,
+					Width = 800,
 					Height = 550,
 					Content = frame,
 					Backdrop = new WinUIEx.MicaSystemBackdrop(),
 				};
 
 				var appWindow = propertiesWindow.AppWindow;
-				appWindow.Title = "PropertiesTitle".GetLocalizedResource();
+				appWindow.Title = "Properties".GetLocalizedResource();
 				appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 				appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 				appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
 				appWindow.SetIcon(LogoPath);
 
-				if (frame.Content is Properties properties)
-					properties.appWindow = appWindow;
+				if (frame.Content is Views.Properties.MainPropertiesPage properties)
+				{
+					properties.Window = propertiesWindow;
+					properties.AppWindow = appWindow;
+				}
 
 				appWindow.Show();
 
@@ -100,6 +102,7 @@ namespace Files.App.Helpers
 						Y = displayArea.WorkArea.Y
 							+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
 					};
+
 					appWindow.Move(appWindowPos);
 				}
 			}
@@ -108,6 +111,7 @@ namespace Files.App.Helpers
 				var dialog = new PropertiesDialog();
 				dialog.propertiesFrame.Tag = dialog;
 				Navigate(dialog.propertiesFrame);
+
 				await dialog.ShowAsync(ContentDialogPlacement.Popup);
 			}
 
@@ -118,7 +122,7 @@ namespace Files.App.Helpers
 					Item = item,
 					AppInstanceArgument = associatedInstance,
 				};
-				frame.Navigate(typeof(Properties), argument, new SuppressNavigationTransitionInfo());
+				frame.Navigate(typeof(Views.Properties.MainPropertiesPage), argument, new SuppressNavigationTransitionInfo());
 			}
 		}
 

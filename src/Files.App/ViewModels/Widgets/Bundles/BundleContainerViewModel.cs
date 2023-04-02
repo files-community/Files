@@ -538,7 +538,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		{
 			if (string.IsNullOrWhiteSpace(name))
 			{
-				return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalizedResource());
+				return (false, "ErrorInputEmpty".GetLocalizedResource());
 			}
 
 			if (!BundlesSettingsService.SavedBundles.Any((item) => item.Key == name))

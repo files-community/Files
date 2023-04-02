@@ -1,8 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Files.App.DataModels.NavigationControlItems;
 using Files.Backend.Services.Settings;
-using Files.Shared;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -13,7 +12,7 @@ namespace Files.App.Filesystem
 {
 	public class FileTagsManager
 	{
-		private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
+		private readonly ILogger logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetService<IFileTagsSettingsService>();
 
 		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
@@ -71,7 +70,7 @@ namespace Files.App.Filesystem
 			}
 			catch (Exception ex)
 			{
-				logger.Warn(ex, "Error loading tags section.");
+				logger.LogWarning(ex, "Error loading tags section.");
 			}
 
 			return Task.CompletedTask;

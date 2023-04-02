@@ -13,8 +13,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using Windows.Storage;
 using Windows.System;
@@ -82,6 +80,7 @@ namespace Files.App.Views
 			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			base.Page_Loaded(sender, e);
+			NotifyPropertyChanged(nameof(FilesystemViewModel));
 		}
 
 		protected override void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
@@ -120,26 +119,12 @@ namespace Files.App.Views
 							  CurrentPageType == typeof(ColumnViewBrowser) ||
 							  CurrentPageType == typeof(ColumnViewBase);
 
-			// F2, rename
-			if (args.KeyboardAccelerator.Key is VirtualKey.F2
-				&& tabInstance
-				&& ContentPage.IsItemSelected)
-			{
-				ContentPage.ItemManipulationModel.StartRenameItem();
-				return;
-			}
-			
 			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
 			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
 			var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
 			{
-				case (true, false, false, true, VirtualKey.E): // ctrl + e, extract
-					if (ToolbarViewModel.CanExtract)
-						ToolbarViewModel.ExtractCommand.Execute(null);
-					break;
-
 				case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
 					if (!InstanceViewModel.IsPageTypeSearchResults)
 						await storageHistoryHelpers.TryUndo();
@@ -148,15 +133,6 @@ namespace Files.App.Views
 				case (true, false, false, true, VirtualKey.Y): // ctrl + y, redo
 					if (!InstanceViewModel.IsPageTypeSearchResults)
 						await storageHistoryHelpers.TryRedo();
-					break;
-
-				case (true, true, false, true, VirtualKey.C):
-					SlimContentPage?.CommandsViewModel.CopyPathOfSelectedItemCommand.Execute(null);
-					break;
-
-				case (false, false, false, true, VirtualKey.F3): //f3
-				case (true, false, false, true, VirtualKey.F): // ctrl + f
-					ToolbarViewModel.SwitchSearchBoxVisibility();
 					break;
 
 				case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
@@ -184,29 +160,12 @@ namespace Files.App.Views
 					}
 					break;
 
-				case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
-					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-						await UIFilesystemHelpers.CopyItem(this);
-
-					break;
-
 				case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
 						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
 					break;
 
-				case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
-					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-						UIFilesystemHelpers.CutItem(this);
-					break;
-
-				case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
-					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-						SlimContentPage.ItemManipulationModel.SelectAllItems();
-					break;
-
 				case (true, false, false, true, VirtualKey.D): // ctrl + d, delete item
-				case (false, false, false, true, VirtualKey.Delete): // delete, delete item
 					if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
 					{
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
@@ -216,30 +175,9 @@ namespace Files.App.Views
 					}
 					break;
 
-				case (true, false, false, true, VirtualKey.P): // ctrl + p, toggle preview pane
-					App.PreviewPaneViewModel.IsEnabled = !App.PreviewPaneViewModel.IsEnabled;
-					break;
-
-				case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
-					if (ToolbarViewModel.CanRefresh)
-						Refresh_Click();
-					break;
-
 				case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
 				case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
 					ToolbarViewModel.IsEditModeEnabled = true;
-					break;
-
-				case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
-					await NavigationHelpers.OpenPathInNewTab(FilesystemViewModel.WorkingDirectory);
-					break;
-
-				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-					userSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
-					break;
-
-				case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
-					await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl));
 					break;
 			}
 		}
@@ -264,7 +202,7 @@ namespace Files.App.Views
 
 		public override void Up_Click()
 		{
-			this.FindAscendant<ColumnViewBrowser>().NavigateUp();
+			this.FindAscendant<ColumnViewBrowser>()?.NavigateUp();
 		}
 
 		public override void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)

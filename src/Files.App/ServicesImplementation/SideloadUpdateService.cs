@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.Helpers;
 using Files.Backend.Services;
 using Files.Shared;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -36,7 +37,7 @@ namespace Files.App.ServicesImplementation
 
 		private const string TEMPORARY_UPDATE_PACKAGE_NAME = "UpdatePackage.msix";
 
-		private ILogger? Logger { get; } = Ioc.Default.GetService<ILogger>();
+		private ILogger? Logger { get; } = Ioc.Default.GetRequiredService<ILogger<App>>();
 
 		private string PackageName { get; } = Package.Current.Id.Name;
 
@@ -115,7 +116,7 @@ namespace Files.App.ServicesImplementation
 		{
 			try
 			{
-				Logger?.Info($"SIDELOAD: Checking for updates...");
+				Logger?.LogInformation($"SIDELOAD: Checking for updates...");
 
 				await using var stream = await _client.GetStreamAsync(_sideloadVersion[PackageName]);
 
@@ -128,28 +129,71 @@ namespace Files.App.ServicesImplementation
 
 				var remoteVersion = new Version(appInstaller.Version);
 
-				Logger?.Info($"SIDELOAD: Current Package Name: {PackageName}");
-				Logger?.Info($"SIDELOAD: Remote Package Name: {appInstaller.MainBundle.Name}");
-				Logger?.Info($"SIDELOAD: Current Version: {PackageVersion}");
-				Logger?.Info($"SIDELOAD: Remote Version: {remoteVersion}");
+				Logger?.LogInformation($"SIDELOAD: Current Package Name: {PackageName}");
+				Logger?.LogInformation($"SIDELOAD: Remote Package Name: {appInstaller.MainBundle.Name}");
+				Logger?.LogInformation($"SIDELOAD: Current Version: {PackageVersion}");
+				Logger?.LogInformation($"SIDELOAD: Remote Version: {remoteVersion}");
 
 				// Check details and version number
 				if (appInstaller.MainBundle.Name.Equals(PackageName) && remoteVersion.CompareTo(PackageVersion) > 0)
 				{
-					Logger?.Info("SIDELOAD: Update found.");
-					Logger?.Info("SIDELOAD: Starting background download.");
+					Logger?.LogInformation("SIDELOAD: Update found.");
+					Logger?.LogInformation("SIDELOAD: Starting background download.");
 					DownloadUri = new Uri(appInstaller.MainBundle.Uri);
 					await StartBackgroundDownload();
 				}
 				else
 				{
-					Logger?.Warn("SIDELOAD: Update not found.");
+					Logger?.LogWarning("SIDELOAD: Update not found.");
 					IsUpdateAvailable = false;
 				}
 			}
 			catch (Exception e)
 			{
-				Logger?.Error(e, e.Message);
+				Logger?.LogError(e, e.Message);
+			}
+		}
+
+		public async Task CheckAndUpdateFilesLauncherAsync()
+		{
+			var destFolderPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, "Files");
+			var destExeFilePath = Path.Combine(destFolderPath, "FilesLauncher.exe");
+
+			if (Path.Exists(destExeFilePath))
+			{
+				var hashEqual = false;
+				var srcHashFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/FilesLauncher.exe.sha256"));
+				var destHashFilePath = Path.Combine(destFolderPath, "FilesLauncher.exe.sha256");
+
+				if (Path.Exists(destHashFilePath))
+				{
+					using var srcStream = (await srcHashFile.OpenReadAsync()).AsStream();
+					using var destStream = File.OpenRead(destHashFilePath);
+
+					hashEqual = HashEqual(srcStream, destStream);
+				}
+
+				if (!hashEqual)
+				{
+					var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/FilesLauncher.exe"));
+					var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
+
+					await srcExeFile.CopyAsync(destFolder, "FilesLauncher.exe", NameCollisionOption.ReplaceExisting);
+					await srcHashFile.CopyAsync(destFolder, "FilesLauncher.exe.sha256", NameCollisionOption.ReplaceExisting);
+
+					App.Logger.LogInformation("FilesLauncher updated.");
+				}
+			}
+
+			bool HashEqual(Stream a, Stream b)
+			{
+				Span<byte> bufferA = stackalloc byte[64];
+				Span<byte> bufferB = stackalloc byte[64];
+
+				a.Read(bufferA);
+				b.Read(bufferB);
+
+				return bufferA.SequenceEqual(bufferB);
 			}
 		}
 
@@ -162,19 +206,19 @@ namespace Files.App.ServicesImplementation
 				Stopwatch timer = Stopwatch.StartNew();
 
 				await using (var stream = await _client.GetStreamAsync(DownloadUri))
-				await using (var fileStream = new FileStream(tempDownloadPath, FileMode.OpenOrCreate))
+				await using (var fileStream = new FileStream(tempDownloadPath, FileMode.Create))
 					await stream.CopyToAsync(fileStream);
 
 				timer.Stop();
 				var timespan = timer.Elapsed;
 
-				Logger?.Info($"Download time taken: {timespan.Hours:00}:{timespan.Minutes:00}:{timespan.Seconds:00}");
+				Logger?.LogInformation($"Download time taken: {timespan.Hours:00}:{timespan.Minutes:00}:{timespan.Seconds:00}");
 
 				IsUpdateAvailable = true;
 			}
 			catch (Exception e)
 			{
-				Logger?.Error(e, e.Message);
+				Logger?.LogError(e, e.Message);
 			}
 		}
 
@@ -192,7 +236,7 @@ namespace Files.App.ServicesImplementation
 			{
 				var restartStatus = RegisterApplicationRestart(null, 0);
 
-				Logger?.Info($"Register for restart: {restartStatus}");
+				Logger?.LogInformation($"Register for restart: {restartStatus}");
 
 				await Task.Run(async () =>
 				{
@@ -212,9 +256,9 @@ namespace Files.App.ServicesImplementation
 			catch (Exception e)
 			{
 				if (result?.ExtendedErrorCode is not null)
-					Logger?.Info(result.ErrorText);
+					Logger?.LogInformation(result.ErrorText);
 
-				Logger?.Error(e, e.Message);
+				Logger?.LogError(e, e.Message);
 			}
 			finally
 			{
