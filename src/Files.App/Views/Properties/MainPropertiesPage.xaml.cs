@@ -1,24 +1,18 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels;
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Properties;
 using Files.Backend.Enums;
-using Files.Backend.Helpers;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.Windows.ApplicationModel.Resources;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -130,8 +124,6 @@ namespace Files.App.Views.Properties
 
 		private void MainPropertiesWindowNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
-			Type page = typeof(GeneralPage);
-
 			var parameter = new PropertiesPageArguments()
 			{
 				AppInstance = _appInstance,
@@ -139,33 +131,18 @@ namespace Files.App.Views.Properties
 				Parameter = _parameter
 			};
 
-			switch ((PropertiesNavigationViewItemType)args.SelectedItemContainer.Tag)
+			var page = (PropertiesNavigationViewItemType)args.SelectedItemContainer.Tag switch
 			{
-				case PropertiesNavigationViewItemType.General:
-					page = typeof(GeneralPage);
-					break;
-				case PropertiesNavigationViewItemType.Shortcut:
-					page = typeof(ShortcutPage);
-					break;
-				case PropertiesNavigationViewItemType.Library:
-					page = typeof(LibraryPage);
-					break;
-				case PropertiesNavigationViewItemType.Details:
-					page = typeof(DetailsPage);
-					break;
-				case PropertiesNavigationViewItemType.Security:
-					page = typeof(SecurityPage);
-					break;
-				case PropertiesNavigationViewItemType.Customization:
-					page = typeof(CustomizationPage);
-					break;
-				case PropertiesNavigationViewItemType.Compatibility:
-					page = typeof(CompatibilityPage);
-					break;
-				case PropertiesNavigationViewItemType.Hashes:
-					page = typeof(HashesPage);
-					break;
-			}
+				PropertiesNavigationViewItemType.General =>       typeof(GeneralPage),
+				PropertiesNavigationViewItemType.Shortcut =>      typeof(ShortcutPage),
+				PropertiesNavigationViewItemType.Library =>       typeof(LibraryPage),
+				PropertiesNavigationViewItemType.Details =>       typeof(DetailsPage),
+				PropertiesNavigationViewItemType.Security =>      typeof(SecurityPage),
+				PropertiesNavigationViewItemType.Customization => typeof(CustomizationPage),
+				PropertiesNavigationViewItemType.Compatibility => typeof(CompatibilityPage),
+				PropertiesNavigationViewItemType.Hashes =>        typeof(HashesPage),
+				_ => typeof(GeneralPage),
+			};
 
 			contentFrame.Navigate(page, parameter, args.RecommendedNavigationTransitionInfo);
 		}
