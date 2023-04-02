@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Shared;
+using Microsoft.Extensions.Logging;
 using SevenZip;
 using System;
 using System.Collections.Generic;
@@ -144,8 +145,8 @@ namespace Files.App.Filesystem.Archive
 			}
 			catch (Exception ex)
 			{
-				var logger = Ioc.Default.GetService<ILogger>();
-				logger?.Warn(ex, $"Error compressing folder: {archivePath}");
+				var logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+				logger?.LogWarning(ex, $"Error compressing folder: {archivePath}");
 
 				return false;
 			}

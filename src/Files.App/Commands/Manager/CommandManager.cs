@@ -115,6 +115,7 @@ namespace Files.App.Commands
 		public IRichCommand GroupDescending => commands[CommandCodes.GroupDescending];
 		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
+		public IRichCommand FormatDrive => commands[CommandCodes.FormatDrive];
 		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
 		public IRichCommand NavigateForward => commands[CommandCodes.NavigateForward];
 		public IRichCommand NavigateUp => commands[CommandCodes.NavigateUp];
@@ -251,6 +252,7 @@ namespace Files.App.Commands
 			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
 			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
+			[CommandCodes.FormatDrive] = new FormatDriveAction(),
 			[CommandCodes.NavigateBack] = new NavigateBackAction(),
 			[CommandCodes.NavigateForward] = new NavigateForwardAction(),
 			[CommandCodes.NavigateUp] = new NavigateUpAction(),

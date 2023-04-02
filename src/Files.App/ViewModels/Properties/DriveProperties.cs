@@ -3,6 +3,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Microsoft.Extensions.Logging;
 using System;
 using Windows.Storage.FileProperties;
 
@@ -84,7 +85,7 @@ namespace Files.App.ViewModels.Properties
 			catch (Exception e)
 			{
 				ViewModel.LastSeparatorVisibility = false;
-				App.Logger.Warn(e, e.Message);
+				App.Logger.LogWarning(e, e.Message);
 			}
 		}
 	}
