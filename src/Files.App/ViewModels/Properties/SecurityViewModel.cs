@@ -78,7 +78,6 @@ namespace Files.App.ViewModels.Properties
 
 		public RelayCommand AddAccessControlEntryCommand { get; set; }
 		public RelayCommand RemoveAccessControlEntryCommand { get; set; }
-		public IRelayCommand OpenSecurityAdvancedPageCommand { get; set; }
 
 		private void InitializeCommands()
 		{
@@ -125,11 +124,6 @@ namespace Files.App.ViewModels.Properties
 			SaveChangedAccessControlList();
 		}
 
-		private void OpenSecurityAdvancedPage(Frame? frame)
-		{
-			frame?.Navigate(typeof(SecurityAdvancedPage), Item);
-		}
-
 		public void GetAccessControlList()
 		{
 			AccessControlList = FileOperationsHelpers.GetFilePermissions(Item.ItemPath, IsFolder);
@@ -140,7 +134,7 @@ namespace Files.App.ViewModels.Properties
 			return AccessControlList.SetAccessControl();
 		}
 
-		public Task<string?> OpenObjectPicker()
+		private static Task<string?> OpenObjectPicker()
 		{
 			return FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
 		}

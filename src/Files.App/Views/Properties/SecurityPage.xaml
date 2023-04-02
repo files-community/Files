@@ -176,12 +176,12 @@
 					</TextBlock>
 
 					<Button
+						x:Name="OpenSecurityAdvancedPageButton"
 						Grid.Column="1"
 						Padding="8,6,4,6"
 						VerticalAlignment="Center"
 						AutomationProperties.Name="{helpers:ResourceString Name=AdvancedPermissions}"
-						Command="{x:Bind SecurityViewModel.OpenSecurityAdvancedPageCommand, Mode=OneWay}"
-						CommandParameter="{x:Bind Frame, Mode=OneWay}"
+						Click="OpenSecurityAdvancedPageButton_Click"
 						ToolTipService.ToolTip="{helpers:ResourceString Name=AdvancedPermissions}">
 						<StackPanel Orientation="Horizontal" Spacing="4">
 							<TextBlock Text="{helpers:ResourceString Name=AdvancedPermissions}" />

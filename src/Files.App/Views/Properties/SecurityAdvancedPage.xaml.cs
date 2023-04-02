@@ -9,7 +9,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class SecurityAdvancedPage : BasePropertiesPage
 	{
-		public SecurityAdvancedViewModel SecurityAdvancedViewModel { get; set; }
+		private SecurityAdvancedViewModel SecurityAdvancedViewModel { get; set; }
 
 		public SecurityAdvancedPage()
 		{

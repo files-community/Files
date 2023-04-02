@@ -9,7 +9,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class CompatibilityPage : BasePropertiesPage
 	{
-		public CompatibilityViewModel CompatibilityProperties { get; set; }
+		private CompatibilityViewModel CompatibilityProperties { get; set; }
 
 		public CompatibilityPage()
 		{
