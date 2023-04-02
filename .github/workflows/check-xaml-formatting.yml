@@ -18,15 +18,29 @@ on:
 jobs:
   check_formatting:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: pwsh
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 2
 
       - name: Install Xaml Styler
-        shell: pwsh
+        run: |
+          dotnet tool install --global XamlStyler.Console
+
+      - name: Check Formatting
         run: |
           $changedFiles = (git diff --name-only HEAD~1) -split "\n" | Where-Object {$_ -like "*.xaml"}
-          echo $changedFiles
-          dotnet tool install --global XamlStyler.Console
-          xstyler -p -f $changedFiles
+          $hasError = $false
+          foreach ($file in $changedFiles)
+          {
+            xstyler -p -l None -f $file
+            if ($LASTEXITCODE -ne 0)
+            {
+              echo "::error file=$file::Format check failed"
+            }
+          }
+        continue-on-error: true
+
