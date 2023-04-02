@@ -83,7 +83,6 @@ namespace Files.App.ViewModels.Properties
 		{
 			AddAccessControlEntryCommand = new RelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
 			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && SelectedAccessControlEntry is not null);
-			OpenSecurityAdvancedPageCommand = new RelayCommand<Frame>(OpenSecurityAdvancedPage);
 		}
 
 		private async void AddAccessControlEntry()

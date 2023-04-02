@@ -1,3 +1,4 @@
+using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Microsoft.UI.Xaml;
@@ -28,31 +29,31 @@ namespace Files.App.ViewModels.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = e.Parameter as Views.Properties.MainPropertiesPage.PropertyNavParam;
+			var np = (PropertiesPageArguments)e.Parameter;
 
-			AppInstance = np.AppInstanceArgument;
+			AppInstance = np.AppInstance;
 			ViewModel = new SelectedItemsPropertiesViewModel();
 
-			if (np.navParameter is LibraryItem library)
+			if (np.Parameter is LibraryItem library)
 			{
-				BaseProperties = new LibraryProperties(ViewModel, np.tokenSource, DispatcherQueue, library, AppInstance);
+				BaseProperties = new LibraryProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, library, AppInstance);
 			}
-			else if (np.navParameter is ListedItem item)
+			else if (np.Parameter is ListedItem item)
 			{
 				if (item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 				{
-					BaseProperties = new FileProperties(ViewModel, np.tokenSource, DispatcherQueue, item, AppInstance);
+					BaseProperties = new FileProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, item, AppInstance);
 				}
 				else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
 				{
-					BaseProperties = new FolderProperties(ViewModel, np.tokenSource, DispatcherQueue, item, AppInstance);
+					BaseProperties = new FolderProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, item, AppInstance);
 				}
 			}
-			else if (np.navParameter is List<ListedItem> items)
+			else if (np.Parameter is List<ListedItem> items)
 			{
-				BaseProperties = new CombinedProperties(ViewModel, np.tokenSource, DispatcherQueue, items, AppInstance);
+				BaseProperties = new CombinedProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, AppInstance);
 			}
-			else if (np.navParameter is DriveItem drive)
+			else if (np.Parameter is DriveItem drive)
 			{
 				BaseProperties = new DriveProperties(ViewModel, drive, AppInstance);
 			}
