@@ -131,7 +131,4 @@
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="ViewModels\Pages\" />
-    </ItemGroup>
 </Project>

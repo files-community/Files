@@ -50,7 +50,7 @@ namespace Files.App
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-			// Set minimum size
+			// Set minimum sizes
 			base.MinHeight = 328;
 			base.MinWidth = 516;
 		}

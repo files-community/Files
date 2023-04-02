@@ -92,7 +92,6 @@
 				MaxHeight="400" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="3*" />
 			<ColumnDefinition Width="Auto" />

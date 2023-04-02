@@ -2,14 +2,14 @@
 	x:Class="Files.App.Views.PaneHolderPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:mconv="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -32,7 +32,7 @@
 
 			<SolidColorBrush x:Key="PaneSelectedBorderBrush" Color="{ThemeResource SystemAccentColorLight1}" />
 
-			<mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 		</ResourceDictionary>
 	</Page.Resources>
@@ -72,6 +72,7 @@
 				MinWidth="0" />
 		</Grid.ColumnDefinitions>
 
+		<!--  Pane Left  -->
 		<local:ModernShellPage
 			x:Name="PaneLeft"
 			ContentChanged="Pane_ContentChanged"
@@ -80,6 +81,7 @@
 			NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
 			PaneHolder="{x:Bind}" />
 
+		<!--  Pane Right  -->
 		<Border
 			x:Name="PaneRightBorder"
 			Grid.Column="1"
@@ -93,6 +95,7 @@
 				PaneHolder="{x:Bind}" />
 		</Border>
 
+		<!--  Pane Resizing Splitter  -->
 		<toolkit:GridSplitter
 			x:Name="PaneResizer"
 			Grid.Column="1"
@@ -116,7 +119,7 @@
 			</toolkit:GridSplitter.RenderTransform>
 		</toolkit:GridSplitter>
 
-		<Interactivity:Interaction.Behaviors>
+		<i:Interaction.Behaviors>
 			<icore:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsLeftPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="True">
 				<icore:ChangePropertyAction
 					PropertyName="CurrentInstanceBorderBrush"
@@ -185,7 +188,7 @@
 					TargetObject="{Binding ElementName=LeftColumn}"
 					Value="1.0*" />
 			</icore:DataTriggerBehavior>
-		</Interactivity:Interaction.Behaviors>
+		</i:Interaction.Behaviors>
 
 	</Grid>
 </Page>
