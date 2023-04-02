@@ -29,7 +29,7 @@ Lastly, the current *lazy loading* pattern was introduced at a time before all l
 ## Description
 <!-- Use this section to provide a brief description of the feature.
 For an example, see the introduction to the PasswordBox control 
-(http://docs.microsoft.com/windows/uwp/design/controls-and-patterns/password-box). -->
+(http://learn.microsoft.com/windows/uwp/design/controls-and-patterns/password-box). -->
 
 
 ## Examples
@@ -44,7 +44,7 @@ example code with each description. The general format is:
 <!-- Code samples should be in C# and/or C++/WinRT -->
 
 <!-- As an example of this section, see the Examples section for the PasswordBox control 
-(https://docs.microsoft.com/windows/uwp/design/controls-and-patterns/password-box#examples). -->
+(https://learn.microsoft.com/windows/uwp/design/controls-and-patterns/password-box#examples). -->
 
 
 ## Remarks
@@ -66,7 +66,7 @@ isn't the type's default (for example an int-typed property that doesn't default
 with a "///" comment above the member or type. -->
 
 ## API Details
-<!-- The exact API, in MIDL3 format (https://docs.microsoft.com/en-us/uwp/midl-3/) -->
+<!-- The exact API, in MIDL3 format (https://learn.microsoft.com/uwp/midl-3/) -->
 
 ## Appendix
 <!-- Anything else that you want to write down for posterity, but 

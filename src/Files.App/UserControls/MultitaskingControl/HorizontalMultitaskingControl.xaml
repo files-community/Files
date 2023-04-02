@@ -48,17 +48,10 @@
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.CloseOtherTabsSelected.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.CloseOtherTabsSelected.Label}" />
 						<MenuFlyoutItem
-							x:Name="MenuItemReopenClosedTab"
-							Click="ReopenClosedTab"
-							KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlReopenClosedTab/KeyboardAcceleratorTextOverride}"
-							Text="{helpers:ResourceString Name=HorizontalMultitaskingControlReopenClosedTab/Text}">
-							<MenuFlyoutItem.KeyboardAccelerators>
-								<KeyboardAccelerator
-									Key="T"
-									IsEnabled="False"
-									Modifiers="Control,Shift" />
-							</MenuFlyoutItem.KeyboardAccelerators>
-						</MenuFlyoutItem>
+							Command="{x:Bind Commands.ReopenClosedTab}"
+							IsEnabled="{x:Bind Commands.ReopenClosedTab.IsExecutable}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.ReopenClosedTab.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.ReopenClosedTab.Label}" />
 					</MenuFlyout>
 
 					<Style x:Key="TabViewCloseButtonStyle" TargetType="Button">
@@ -126,6 +119,7 @@
 						<Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
 						<Setter Property="BorderThickness" Value="{ThemeResource TabViewItemBorderThickness}" />
 						<Setter Property="BorderBrush" Value="{ThemeResource TabViewItemBorderBrush}" />
+						<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 						<Setter Property="Template">
 							<Setter.Value>
 								<ControlTemplate TargetType="TabViewItem">

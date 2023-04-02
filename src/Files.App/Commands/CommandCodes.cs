@@ -10,11 +10,13 @@ namespace Files.App.Commands
 		EnterCompactOverlay,
 		ExitCompactOverlay,
 		ToggleCompactOverlay,
+		Search,
 
 		// Show
 		ToggleShowHiddenItems,
 		ToggleShowFileExtensions,
 		TogglePreviewPane,
+		ToggleSidebar,
 
 		// File System
 		CopyItem,
@@ -27,16 +29,23 @@ namespace Files.App.Commands
 		CreateShortcut,
 		CreateShortcutFromDialog,
 		EmptyRecycleBin,
+		FormatDrive,
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
 		OpenItem,
 		OpenItemWithApplicationPicker,
 		OpenParentFolder,
+		RefreshItems,
+		Rename,
 
 		// Selection
 		SelectAll,
 		InvertSelection,
 		ClearSelection,
+		ToggleSelect,
+
+		// Share
+		ShareItem,
 
 		// Start
 		PinToStart,
@@ -70,11 +79,12 @@ namespace Files.App.Commands
 		DecompressArchiveHere,
 		DecompressArchiveToChildFolder,
 
-		// Image Edition
+		// Image Manipulation
 		RotateLeft,
 		RotateRight,
 
 		// Open
+		OpenSettings,
 		OpenTerminal,
 		OpenTerminalAsAdmin,
 
@@ -122,6 +132,11 @@ namespace Files.App.Commands
 
 		// Navigation
 		NewTab,
+		NavigateBack,
+		NavigateForward,
+		NavigateUp,
+
+		// Other
 		DuplicateCurrentTab,
 		DuplicateSelectedTab,
 		CloseTabsToTheLeftCurrent,
@@ -130,5 +145,9 @@ namespace Files.App.Commands
 		CloseTabsToTheRightSelected,
 		CloseOtherTabsCurrent,
 		CloseOtherTabsSelected,
+		ReopenClosedTab,
+		PreviousTab,
+		NextTab,
+		CloseSelectedTab,
 	}
 }

@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -23,9 +24,12 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph => new(opacityStyle: "ColorIconOpenFile");
 
+		public HotKey HotKey => new(VirtualKey.Enter);
+
 		private const int MaxOpenCount = 10;
 
-		public bool IsExecutable => context.HasSelection && context.SelectedItems.Count <= MaxOpenCount;
+		public bool IsExecutable => context.HasSelection && context.SelectedItems.Count <= MaxOpenCount &&
+			!(context.ShellPage is ColumnShellPage && context.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder);
 
 		public OpenItemAction()
 		{

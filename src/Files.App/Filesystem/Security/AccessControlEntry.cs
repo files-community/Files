@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using Files.App.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Files.App.Filesystem.Security
@@ -30,10 +29,17 @@ namespace Files.App.Filesystem.Security
 			}
 		}
 
+		public string AccessControlTypeHumanized
+			=> AccessControlType switch
+			{
+				AccessControlType.Allow => "Allow",
+				_ => "Deny" // AccessControlType.Deny
+			};
+
 		public string AccessControlTypeGlyph
 			=> AccessControlType switch
 			{
-				AccessControlType.Allow => "\xF13E",
+				AccessControlType.Allow => "\xE73E",
 				_ => "\xF140" // AccessControlType.Deny
 			};
 

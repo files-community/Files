@@ -350,11 +350,6 @@ namespace Files.App.Views.LayoutModes
 				{
 					NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
 				}
-				else
-				{
-					await NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-					FileList.SelectedIndex = 0;
-				}
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{

@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
@@ -25,7 +24,6 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
@@ -45,6 +43,8 @@ namespace Files.App.Views
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
 
+		public SidebarViewModel SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
+
 		public AppModel AppModel => App.AppModel;
 
 		public MainPageViewModel ViewModel
@@ -53,7 +53,6 @@ namespace Files.App.Views
 			set => DataContext = value;
 		}
 
-
 		/// <summary>
 		/// True if the user is currently resizing the preview pane
 		/// </summary>
@@ -61,16 +60,13 @@ namespace Files.App.Views
 
 		private bool keyReleased = true;
 
-		public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
-
-		public OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
-
-		private ICommand ToggleSidebarCollapsedStateCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleSidebarCollapsedState(x));
+		public readonly OngoingTasksViewModel OngoingTasksViewModel;
 
 		public MainPage()
 		{
 			InitializeComponent();
-
+			DataContext = Ioc.Default.GetRequiredService<MainPageViewModel>();
+			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
@@ -250,9 +246,10 @@ namespace Files.App.Views
 					break;
 			}
 		}
+
 		protected override void OnPreviewKeyUp(KeyRoutedEventArgs e)
 		{
-			base.OnPreviewKeyDown(e);
+			base.OnPreviewKeyUp(e);
 
 			switch (e.Key)
 			{
@@ -266,6 +263,14 @@ namespace Files.App.Views
 					keyReleased = true;
 					break;
 			}
+		}
+
+		// A workaround for issue with OnPreviewKeyUp not being called when the hotkey displays a dialog
+		protected override void OnLostFocus(RoutedEventArgs e)
+		{
+			base.OnLostFocus(e);
+
+			keyReleased = true;
 		}
 
 		private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
@@ -394,12 +399,6 @@ namespace Files.App.Views
 					UpdatePositioning();
 					break;
 			}
-		}
-
-		private void ToggleSidebarCollapsedState(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			SidebarAdaptiveViewModel.IsSidebarOpen = !SidebarAdaptiveViewModel.IsSidebarOpen;
-			e!.Handled = true;
 		}
 
 		private void SidebarControl_Loaded(object sender, RoutedEventArgs e)

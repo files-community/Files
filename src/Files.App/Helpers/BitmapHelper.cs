@@ -36,8 +36,8 @@ namespace Files.App.Helpers
 		/// <param name="filePath">The file path to the image.</param>
 		/// <param name="rotation">The rotation direction.</param>
 		/// <remarks>
-		/// https://docs.microsoft.com/en-us/uwp/api/windows.graphics.imaging.bitmapdecoder?view=winrt-22000
-		/// https://docs.microsoft.com/en-us/uwp/api/windows.graphics.imaging.bitmapencoder?view=winrt-22000
+		/// https://learn.microsoft.com/uwp/api/windows.graphics.imaging.bitmapdecoder?view=winrt-22000
+		/// https://learn.microsoft.com/uwp/api/windows.graphics.imaging.bitmapencoder?view=winrt-22000
 		/// </remarks>
 		public static async Task Rotate(string filePath, BitmapRotation rotation)
 		{

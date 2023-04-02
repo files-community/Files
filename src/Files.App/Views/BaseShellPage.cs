@@ -184,7 +184,7 @@ namespace Files.App.Views
 			/*TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
 			  Use your ResourceManager instance to create a ResourceContext as below.If you already have a ResourceManager instance,
 			  replace the new instance created below with correct instance.
-			  Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+			  Read: https://learn.microsoft.com/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
 			*/
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
@@ -197,10 +197,7 @@ namespace Files.App.Views
 			ToolbarViewModel.AddressBarTextEntered += ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped += ShellPage_PathBoxItemDropped;
 
-			ToolbarViewModel.BackRequested += ShellPage_BackNavRequested;
-			ToolbarViewModel.UpRequested += ShellPage_UpNavRequested;
 			ToolbarViewModel.RefreshRequested += ShellPage_RefreshRequested;
-			ToolbarViewModel.ForwardRequested += ShellPage_ForwardNavRequested;
 			ToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem += ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
@@ -217,7 +214,7 @@ namespace Files.App.Views
 			TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
 			The tool has generated a custom back button in the MainWindow.xaml.cs file.
 			Feel free to edit its position, behavior and use the custom back button instead.
-			Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
+			Read: https://learn.microsoft.com/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
 			*/
 
 			App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
@@ -262,7 +259,7 @@ namespace Files.App.Views
 		}
 
 		/**
-		 * Some keys are overriden by control built-in defaults (e.g. 'Space').
+		 * Some keys are overridden by control built-in defaults (e.g. 'Space').
 		 * They must be handled here since they're not propagated to KeyboardAccelerator.
 		 */
 		protected void ShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
@@ -280,7 +277,7 @@ namespace Files.App.Views
 				// Ctrl + space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
 
-					if (App.PreviewPaneViewModel.PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
+					if (Ioc.Default.GetRequiredService<PreviewPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
 					{
 						mediaPreviewContent.ViewModel.TogglePlayback();
 						args.Handled = true;
@@ -322,21 +319,6 @@ namespace Files.App.Views
 		protected void ShellPage_RefreshRequested(object sender, EventArgs e)
 		{
 			Refresh_Click();
-		}
-
-		protected void ShellPage_UpNavRequested(object sender, EventArgs e)
-		{
-			Up_Click();
-		}
-
-		protected void ShellPage_ForwardNavRequested(object sender, EventArgs e)
-		{
-			Forward_Click();
-		}
-
-		protected void ShellPage_BackNavRequested(object sender, EventArgs e)
-		{
-			Back_Click();
 		}
 
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -517,6 +499,39 @@ namespace Files.App.Views
 			ItemDisplay.GoForward();
 		}
 
+		public void ResetNavigationStackLayoutMode()
+		{
+			foreach (PageStackEntry entry in ItemDisplay.BackStack.ToList())
+			{
+				if (entry.Parameter is NavigationArguments args)
+				{
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam);
+					if (!entry.SourcePageType.Equals(correctPageType))
+					{
+						int index = ItemDisplay.BackStack.IndexOf(entry);
+						var newEntry = new PageStackEntry(correctPageType, entry.Parameter, entry.NavigationTransitionInfo);
+						ItemDisplay.BackStack.RemoveAt(index);
+						ItemDisplay.BackStack.Insert(index, newEntry);
+					}
+				}
+			}
+
+			foreach (PageStackEntry entry in ItemDisplay.ForwardStack.ToList())
+			{
+				if (entry.Parameter is NavigationArguments args)
+				{
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam);
+					if (!entry.SourcePageType.Equals(correctPageType))
+					{
+						int index = ItemDisplay.ForwardStack.IndexOf(entry);
+						var newEntry = new PageStackEntry(correctPageType, entry.Parameter, entry.NavigationTransitionInfo);
+						ItemDisplay.ForwardStack.RemoveAt(index);
+						ItemDisplay.ForwardStack.Insert(index, newEntry);
+					}
+				}
+			}
+		}
+
 		public void RemoveLastPageFromBackStack()
 		{
 			ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.Last());
@@ -608,8 +623,6 @@ namespace Files.App.Views
 			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
-			ToolbarViewModel.Rename = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RenameItemCommand.Execute(null));
-			ToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
 			ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
 			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
@@ -693,10 +706,7 @@ namespace Files.App.Views
 			ToolbarViewModel.ToolbarPathItemLoaded -= ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered -= ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;
-			ToolbarViewModel.BackRequested -= ShellPage_BackNavRequested;
-			ToolbarViewModel.UpRequested -= ShellPage_UpNavRequested;
 			ToolbarViewModel.RefreshRequested -= ShellPage_RefreshRequested;
-			ToolbarViewModel.ForwardRequested -= ShellPage_ForwardNavRequested;
 			ToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;

@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Shapes;
 using System;
-using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
@@ -198,7 +197,6 @@ namespace Files.App.UserControls.MultitaskingControl
 		private void TabItemContextMenu_Opening(object sender, object e)
 		{
 			MenuItemMoveTabToNewWindow.IsEnabled = Items.Count > 1;
-			MenuItemReopenClosedTab.IsEnabled = RecentlyClosedTabs.Any();
 			SelectedTabItemChanged?.Invoke(null, ((MenuFlyout)sender).Target.DataContext as TabItem);
 		}
 		private void TabItemContextMenu_Closing(object sender, object e)
