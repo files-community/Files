@@ -18,7 +18,10 @@ public static class QuickLookHelpers
 		bool isQuickLookAvailable = await DetectQuickLookAvailability();
 
 		if (isQuickLookAvailable == false)
+		{
+			App.Logger.Info($"QuickLook not detected!");
 			return;
+		}
 
 		string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
 		string message = switchPreview ? pipeMessageSwitch : pipeMessageToggle;
