@@ -17,6 +17,7 @@ on:
 jobs:
   check-formatting:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && !github.event.pull_request.draft
     defaults:
       run:
         shell: pwsh
