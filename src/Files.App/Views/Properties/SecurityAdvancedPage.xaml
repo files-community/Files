@@ -12,7 +12,7 @@
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
-	DataContext="{x:Bind SecurityViewModel, Mode=OneWay}"
+	DataContext="{x:Bind SecurityAdvancedViewModel, Mode=OneWay}"
 	Tag="Compatibility"
 	mc:Ignorable="d">
 
@@ -88,26 +88,26 @@
 					VerticalAlignment="Center"
 					FontFamily="{StaticResource SymbolThemeFontFamily}"
 					FontSize="16"
-					Glyph="{x:Bind SecurityViewModel.AccessControlList.Owner.Glyph, Mode=OneWay}" />
+					Glyph="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.Glyph, Mode=OneWay}" />
 
 				<TextBlock
 					x:Name="OwnerText"
 					VerticalAlignment="Center"
-					x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
+					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
 					IsTextSelectionEnabled="True"
 					Style="{StaticResource BodyTextBlockStyle}"
-					ToolTipService.ToolTip="{x:Bind SecurityViewModel.AccessControlList.Owner.FullNameOrSid, Mode=OneWay}">
-					<Run Text="{x:Bind SecurityViewModel.AccessControlList.Owner.DisplayName, Mode=OneWay}" />
-					<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind SecurityViewModel.AccessControlList.Owner.FullNameHumanized, Mode=OneWay}" />
+					ToolTipService.ToolTip="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameOrSid, Mode=OneWay}">
+					<Run Text="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.DisplayName, Mode=OneWay}" />
+					<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameHumanized, Mode=OneWay}" />
 				</TextBlock>
 
 				<TextBlock
 					x:Name="UnknownOwnerText"
 					VerticalAlignment="Center"
-					x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					Text="{helpers:ResourceString Name=SecurityUnknownOwnerText/Text}" />
 
-				<HyperlinkButton VerticalAlignment="Center" Command="{x:Bind SecurityViewModel.ChangeOwnerCommand}">
+				<HyperlinkButton VerticalAlignment="Center" Command="{x:Bind SecurityAdvancedViewModel.ChangeOwnerCommand}">
 					<StackPanel Orientation="Horizontal" Spacing="6">
 						<FontIcon FontSize="14" Glyph="&#xE70F;" />
 						<TextBlock Text="{helpers:ResourceString Name=Change}" />
@@ -155,7 +155,7 @@
 						Padding="8"
 						Background="Transparent"
 						BorderBrush="Transparent"
-						Command="{x:Bind SecurityViewModel.AddAccessControlEntryCommand, Mode=OneWay}">
+						Command="{x:Bind SecurityAdvancedViewModel.AddAccessControlEntryCommand, Mode=OneWay}">
 						<FontIcon FontSize="16" Glyph="&#xE710;" />
 					</Button>
 
@@ -163,7 +163,7 @@
 						Padding="8"
 						Background="Transparent"
 						BorderBrush="Transparent"
-						Command="{x:Bind SecurityViewModel.RemoveAccessControlEntryCommand, Mode=OneWay}">
+						Command="{x:Bind SecurityAdvancedViewModel.RemoveAccessControlEntryCommand, Mode=OneWay}">
 						<FontIcon FontSize="16" Glyph="&#xE738;" />
 					</Button>
 
@@ -183,14 +183,14 @@
 				Margin="-12,0"
 				Padding="0,0,0,8"
 				HorizontalAlignment="Stretch"
-				x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
-				DataContext="{x:Bind SecurityViewModel, Mode=OneWay}"
-				ItemsSource="{x:Bind SecurityViewModel.AccessControlList.AccessControlEntries, Mode=OneWay}"
+				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
+				DataContext="{x:Bind SecurityAdvancedViewModel, Mode=OneWay}"
+				ItemsSource="{x:Bind SecurityAdvancedViewModel.AccessControlList.AccessControlEntries, Mode=OneWay}"
 				ScrollViewer.HorizontalScrollBarVisibility="Auto"
 				ScrollViewer.HorizontalScrollMode="Enabled"
 				ScrollViewer.VerticalScrollBarVisibility="Auto"
 				ScrollViewer.VerticalScrollMode="Enabled"
-				SelectedItem="{x:Bind SecurityViewModel.SelectedAccessControlEntry, Mode=TwoWay}">
+				SelectedItem="{x:Bind SecurityAdvancedViewModel.SelectedAccessControlEntry, Mode=TwoWay}">
 
 				<i:Interaction.Behaviors>
 					<behaviors:StickyHeaderBehavior />
@@ -215,25 +215,25 @@
 							<ColumnDefinition Width="16" />
 							<ColumnDefinition
 								x:Name="ColumnType"
-								Width="{x:Bind SecurityViewModel.ColumnType, Mode=TwoWay}"
+								Width="{x:Bind SecurityAdvancedViewModel.ColumnType, Mode=TwoWay}"
 								MinWidth="36" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition
 								x:Name="ColumnPrincipal"
-								Width="{x:Bind SecurityViewModel.ColumnPrincipal, Mode=TwoWay}"
+								Width="{x:Bind SecurityAdvancedViewModel.ColumnPrincipal, Mode=TwoWay}"
 								MinWidth="36" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition
 								x:Name="ColumnAccess"
-								Width="{x:Bind SecurityViewModel.ColumnAccess, Mode=TwoWay}"
+								Width="{x:Bind SecurityAdvancedViewModel.ColumnAccess, Mode=TwoWay}"
 								MinWidth="36" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition
 								x:Name="ColumnInherited"
-								Width="{x:Bind SecurityViewModel.ColumnInherited, Mode=TwoWay}"
+								Width="{x:Bind SecurityAdvancedViewModel.ColumnInherited, Mode=TwoWay}"
 								MinWidth="36" />
 							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="{x:Bind SecurityViewModel.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind SecurityViewModel.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
+							<ColumnDefinition Width="{x:Bind SecurityAdvancedViewModel.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind SecurityAdvancedViewModel.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
 						</Grid.ColumnDefinitions>
 
 						<TextBlock
@@ -582,7 +582,7 @@
 				Grid.Row="2"
 				Padding="8"
 				HorizontalAlignment="Left"
-				x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 				Text="{helpers:ResourceString Name=SecurityAdvancedCannotReadProperties}"
 				TextWrapping="WrapWholeWords" />
 
@@ -604,28 +604,28 @@
 				<SplitButton
 					x:Name="SplitButton"
 					MaxWidth="196"
-					Command="{x:Bind SecurityViewModel.DisableInheritanceCommand, Mode=OneWay}"
-					Content="{x:Bind SecurityViewModel.DisableInheritanceOption, Mode=OneWay}">
+					Command="{x:Bind SecurityAdvancedViewModel.DisableInheritanceCommand, Mode=OneWay}"
+					Content="{x:Bind SecurityAdvancedViewModel.DisableInheritanceOption, Mode=OneWay}">
 
 					<SplitButton.Flyout>
 						<MenuFlyout Placement="Top">
 
 							<MenuFlyoutItem
-								Command="{x:Bind SecurityViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
+								Command="{x:Bind SecurityAdvancedViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
 								CommandParameter="False,False"
-								IsEnabled="{x:Bind SecurityViewModel.AccessControlList.IsAccessControlListProtected, Mode=OneWay}"
+								IsEnabled="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsAccessControlListProtected, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=SecurityAdvancedInheritedEnable/Text}" />
 
 							<MenuFlyoutItem
-								Command="{x:Bind SecurityViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
+								Command="{x:Bind SecurityAdvancedViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
 								CommandParameter="True,True"
-								IsEnabled="{x:Bind SecurityViewModel.AccessControlList.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+								IsEnabled="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=SecurityAdvancedInheritedConvert/Text}" />
 
 							<MenuFlyoutItem
-								Command="{x:Bind SecurityViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
+								Command="{x:Bind SecurityAdvancedViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
 								CommandParameter="True,False"
-								IsEnabled="{x:Bind SecurityViewModel.AccessControlList.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+								IsEnabled="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=SecurityAdvancedInheritedRemove/Text}" />
 
 						</MenuFlyout>
@@ -636,8 +636,8 @@
 				<Button
 					x:Name="ReplaceChildPermissionsButton"
 					Grid.Column="1"
-					x:Load="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}"
-					Command="{x:Bind SecurityViewModel.ReplaceChildPermissionsCommand, Mode=OneWay}"
+					x:Load="{x:Bind SecurityAdvancedViewModel.IsFolder, Mode=OneWay}"
+					Command="{x:Bind SecurityAdvancedViewModel.ReplaceChildPermissionsCommand, Mode=OneWay}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions2/ToolTipService/ToolTip}"
 					Visibility="Collapsed">
 					<TextBlock Text="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions/Text}" TextTrimming="CharacterEllipsis" />

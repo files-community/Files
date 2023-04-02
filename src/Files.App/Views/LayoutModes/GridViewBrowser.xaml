@@ -266,7 +266,7 @@
 							Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
 							Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
-					
+
 					<CheckBox
 						x:Name="SelectionCheckbox"
 						Grid.ColumnSpan="2"
@@ -281,7 +281,7 @@
 						DoubleTapped="SelectionCheckbox_DoubleTapped"
 						Unchecked="ItemSelected_Unchecked"
 						Visibility="Collapsed" />
-					
+
 					<Grid
 						Grid.Column="1"
 						Height="60"

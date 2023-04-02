@@ -1,4 +1,5 @@
-﻿using Files.App.Filesystem;
+﻿using Files.App.DataModels;
+using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -10,17 +11,19 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class HashesPage : BasePropertiesPage
 	{
+		private HashesViewModel HashesViewModel { get; set; }
+
+		private bool _cancel;
+
 		public HashesPage()
 		{
 			InitializeComponent();
 		}
 
-		private HashesViewModel HashesViewModel { get; set; }
-
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = (MainPropertiesPage.PropertyNavParam)e.Parameter;
-			if (np.navParameter is ListedItem listedItem)
+			var np = (PropertiesPageArguments)e.Parameter;
+			if (np.Parameter is ListedItem listedItem)
 				HashesViewModel = new(listedItem);
 
 			base.OnNavigatedTo(e);
@@ -34,8 +37,6 @@ namespace Files.App.Views.Properties
 			dp.SetText(item.HashValue);
 			Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dp);
 		}
-
-		private bool _cancel;
 
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{

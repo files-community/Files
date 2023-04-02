@@ -16,6 +16,7 @@ namespace Files.App.Views.Properties
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			base.OnNavigatedTo(e);
+
 			CustomizationViewModel = new(AppInstance, BaseProperties);
 		}
 

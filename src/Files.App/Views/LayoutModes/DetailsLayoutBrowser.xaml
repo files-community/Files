@@ -553,8 +553,8 @@
 											MinWidth="0"
 											HorizontalAlignment="Center"
 											AutomationProperties.AccessibilityView="Raw"
-											DoubleTapped="SelectionCheckbox_DoubleTapped"
 											Checked="ItemSelected_Checked"
+											DoubleTapped="SelectionCheckbox_DoubleTapped"
 											Unchecked="ItemSelected_Unchecked"
 											Visibility="Collapsed" />
 										<Grid

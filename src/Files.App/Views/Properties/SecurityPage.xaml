@@ -3,11 +3,12 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:fssecurity="using:Files.App.Filesystem.Security"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:security="using:Files.App.Filesystem.Security"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	DataContext="{x:Bind SecurityViewModel, Mode=OneWay}"
 	Tag="Compatibility"
 	mc:Ignorable="d">
 
@@ -29,7 +30,7 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<!--  Principal List  -->
+			<!--  Principal List Card  -->
 			<Grid
 				x:Name="PrincipalListGrid"
 				Grid.Row="0"
@@ -44,6 +45,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
+				<!--  Header  -->
 				<Grid Grid.Row="0" Margin="12,8,12,8">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
@@ -81,11 +83,13 @@
 
 				</Grid>
 
+				<!--  (Divider)  -->
 				<Border
 					Grid.Row="1"
 					Height="1"
 					Background="{ThemeResource DividerStrokeColorDefault}" />
 
+				<!--  Principal List  -->
 				<ScrollViewer Grid.Row="2" MaxHeight="160">
 					<ListView
 						x:Name="AccessControlListListView"
@@ -106,7 +110,7 @@
 						</ListView.ItemContainerStyle>
 
 						<ListView.ItemTemplate>
-							<DataTemplate x:DataType="fssecurity:AccessControlEntry">
+							<DataTemplate x:DataType="security:AccessControlEntry">
 								<Grid ColumnSpacing="4">
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="Auto" />
@@ -138,7 +142,7 @@
 
 			</Grid>
 
-			<!--  Permissions of Selected Principal  -->
+			<!--  Permissions of Selected Principal Card  -->
 			<Grid
 				Grid.Row="1"
 				Padding="12"
@@ -153,6 +157,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
+				<!--  Header  -->
 				<Grid Grid.Row="0" ColumnSpacing="8">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
@@ -175,7 +180,8 @@
 						Padding="8,6,4,6"
 						VerticalAlignment="Center"
 						AutomationProperties.Name="{helpers:ResourceString Name=AdvancedPermissions}"
-						Command="{x:Bind OpenSecurityAdvancedPageCommand}"
+						Command="{x:Bind SecurityViewModel.OpenSecurityAdvancedPageCommand, Mode=OneWay}"
+						CommandParameter="{x:Bind Frame, Mode=OneWay}"
 						ToolTipService.ToolTip="{helpers:ResourceString Name=AdvancedPermissions}">
 						<StackPanel Orientation="Horizontal" Spacing="4">
 							<TextBlock Text="{helpers:ResourceString Name=AdvancedPermissions}" />
@@ -185,12 +191,14 @@
 
 				</Grid>
 
+				<!--  (Divider)  -->
 				<Border
 					Grid.Row="1"
 					Height="1"
 					Margin="-12,0"
 					Background="{ThemeResource DividerStrokeColorDefault}" />
 
+				<!--  Permission Allow/Deny CheckBoxes  -->
 				<Grid
 					x:Name="CheckBoxGrid"
 					Grid.Row="2"
@@ -397,10 +405,11 @@
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedWriteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 				</Grid>
 
+				<!--  Cannot Read Message  -->
 				<TextBlock
-					x:Name="CannotReadPropsText"
+					x:Name="CannotReadPermissionsTextBlock"
 					Grid.Row="2"
-					Padding="4"
+					Margin="4"
 					HorizontalAlignment="Left"
 					x:Load="{x:Bind SecurityViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					Text="{helpers:ResourceString Name=SecurityCannotReadProperties/Text}"

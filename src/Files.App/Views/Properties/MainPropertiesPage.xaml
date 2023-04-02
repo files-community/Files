@@ -2,7 +2,7 @@
 	x:Class="Files.App.Views.Properties.MainPropertiesPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:convers="using:Files.App.Converters"
+	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Views.Properties"
@@ -13,7 +13,6 @@
 	KeyDown="Page_KeyDown"
 	Loaded="Page_Loaded"
 	SizeChanged="MainPropertiesPage_SizeChanged"
-	Tag="Compatibility"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -24,7 +23,6 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
-
 			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 			<wctconverters:BoolToVisibilityConverter
 				x:Key="BoolToVisibilityInverseConverter"
@@ -34,20 +32,50 @@
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<Grid>
+	<Grid x:Name="RootGrid">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="36" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<!--  Titlebar  -->
-		<Border x:Name="TitlebarArea" Height="40">
-			<TextBlock
-				Padding="16,0"
-				VerticalAlignment="Center"
-				Style="{StaticResource BodyStrongTextBlockStyle}"
-				Text="{helpers:ResourceString Name=Properties}" />
-		</Border>
+		<Grid x:Name="TitlebarArea">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<!--  Backward Navigation Button  -->
+			<Button
+				Width="36"
+				Height="32"
+				Margin="4,4,0,0"
+				Background="Transparent"
+				BorderThickness="0">
+				<AnimatedIcon x:Name="BackAnimatedIcon">
+					<AnimatedIcon.Source>
+						<animatedvisuals:AnimatedBackVisualSource />
+					</AnimatedIcon.Source>
+					<AnimatedIcon.FallbackIconSource>
+						<SymbolIconSource Symbol="Back" />
+					</AnimatedIcon.FallbackIconSource>
+				</AnimatedIcon>
+			</Button>
+
+			<!--  Title  -->
+			<Border
+				x:Name="TitleDragArea"
+				Grid.Column="1"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch">
+				<TextBlock
+					Margin="4,0,0,-2"
+					VerticalAlignment="Center"
+					Style="{StaticResource BodyStrongTextBlockStyle}"
+					Text="{helpers:ResourceString Name=Properties}" />
+			</Border>
+
+		</Grid>
 
 		<!--  Main NavigationView  -->
 		<NavigationView
@@ -57,11 +85,12 @@
 			IsPaneToggleButtonVisible="False"
 			IsSettingsVisible="False"
 			IsTitleBarAutoPaddingEnabled="False"
-			MenuItemsSource="{x:Bind NavViewItems, Mode=TwoWay}"
+			MenuItemsSource="{x:Bind NavViewItems, Mode=OneWay}"
 			OpenPaneLength="180"
 			PaneDisplayMode="Left"
 			SelectionChanged="MainPropertiesWindowNavigationView_SelectionChanged">
 
+			<!--  Template  -->
 			<NavigationView.MenuItemTemplate>
 				<DataTemplate x:DataType="local:NavigationViewItemButtonStyleItem">
 					<NavigationViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Tag="{x:Bind ItemType}">
@@ -86,6 +115,7 @@
 									Grid.Column="1"
 									Margin="8,0,0,0"
 									VerticalAlignment="Center"
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 									Style="{StaticResource BodyTextBlockStyle}"
 									Text="{x:Bind Name}"
 									Visibility="{x:Bind IsCompact, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}" />
@@ -104,8 +134,10 @@
 						<RowDefinition Height="52" />
 					</Grid.RowDefinitions>
 
+					<!--  Frame  -->
 					<Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
 
+					<!--  Save/Cancel buttons  -->
 					<Grid
 						Grid.Row="1"
 						Background="{ThemeResource CardBackgroundFillColorSecondary}"

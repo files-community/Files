@@ -1,3 +1,4 @@
+using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
@@ -8,7 +9,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class SecurityPage : BasePropertiesPage
 	{
-		public SecurityViewModel? SecurityViewModel { get; set; }
+		public SecurityViewModel SecurityViewModel { get; set; }
 
 		public SecurityPage()
 		{
@@ -17,19 +18,17 @@ namespace Files.App.Views.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = (MainPropertiesPage.PropertyNavParam)e.Parameter;
-			if (np.navParameter is ListedItem listedItem)
+			var np = (PropertiesPageArguments)e.Parameter;
+			if (np.Parameter is ListedItem listedItem)
 				SecurityViewModel = new(listedItem);
-			else if (np.navParameter is DriveItem driveitem)
+			else if (np.Parameter is DriveItem driveitem)
 				SecurityViewModel = new(driveitem);
 
 			base.OnNavigatedTo(e);
 		}
 
 		public async override Task<bool> SaveChangesAsync()
-		{
-			return SecurityViewModel is null || SecurityViewModel.SaveChangedAccessControlList();
-		}
+			=> Task.FromResult(SecurityViewModel is null || SecurityViewModel.SaveChangedAccessControlList());
 
 		public override void Dispose()
 		{
