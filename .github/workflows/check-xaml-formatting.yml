@@ -4,14 +4,12 @@ on:
   push:
     branches:
       - 'main'
-      - 'pipelines'
       - '**-servicing'
     paths:
       - '**.xaml'
   pull_request:
     branches:
       - 'main'
-      - 'pipelines'
       - '**-servicing'
     paths:
       - '**.xaml'
