@@ -1,6 +1,7 @@
 ﻿using Files.App.Helpers;
 using Files.Shared;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace Files.App.Shell
 				catch (Exception ex)
 				{
 					taskCompletionSource.SetResult();
-					App.Logger.Warn(ex, ex.Message);
+					App.Logger.LogWarning(ex, ex.Message);
 				}
 				finally
 				{
@@ -73,7 +74,7 @@ namespace Files.App.Shell
 				catch (Exception ex)
 				{
 					taskCompletionSource.SetResult();
-					App.Logger.Warn(ex, ex.Message);
+					App.Logger.LogWarning(ex, ex.Message);
 				}
 				finally
 				{
@@ -107,7 +108,7 @@ namespace Files.App.Shell
 				catch (Exception ex)
 				{
 					taskCompletionSource.SetResult(default);
-					App.Logger.Warn(ex, ex.Message);
+					App.Logger.LogWarning(ex, ex.Message);
 					//tcs.SetException(e);
 				}
 				finally
@@ -141,7 +142,7 @@ namespace Files.App.Shell
 				catch (Exception ex)
 				{
 					taskCompletionSource.SetResult(default);
-					App.Logger.Info(ex, ex.Message);
+					App.Logger.LogInformation(ex, ex.Message);
 					//tcs.SetException(e);
 				}
 				finally

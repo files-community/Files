@@ -80,6 +80,7 @@
         <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.4" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
         <PackageReference Include="SevenZipSharp" Version="1.0.0" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />

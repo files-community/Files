@@ -6,8 +6,6 @@ namespace Files.App.Shell
 {
 	public class ContextMenuItem : Win32ContextMenuItem, IDisposable
 	{
-		public ContextMenuItem() => SubItems = new List<Win32ContextMenuItem>();
-
 		public void Dispose()
 		{
 			Dispose(true);
