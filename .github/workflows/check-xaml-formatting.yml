@@ -18,9 +18,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
       - name: Install Xaml Styler
         shell: pwsh
         run: |
           cd $env:GITHUB_WORKSPACE
-          git rev-parse HEAD
+          git diff --name-only HEAD~1
