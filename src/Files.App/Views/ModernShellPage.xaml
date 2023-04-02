@@ -19,8 +19,7 @@
 	</local:BaseShellPage.Resources>
 
 	<local:BaseShellPage.KeyboardAccelerators>
-		<KeyboardAccelerator
-			Key="E"
+		<KeyboardAccelerator Key="E"
 			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="Control" />
