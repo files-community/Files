@@ -12,6 +12,7 @@ using Files.Backend.Services;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Concurrent;
@@ -27,6 +28,8 @@ namespace Files.App.Helpers
 {
 	public static class UIFilesystemHelpers
 	{
+		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+
 		public static async void CutItem(IShellPage associatedInstance)
 		{
 			DataPackage dataPackage = new DataPackage()
@@ -41,7 +44,7 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
-				PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
+				PostedStatusBanner banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 					0,
@@ -147,7 +150,7 @@ namespace Files.App.Helpers
 			if (associatedInstance.SlimContentPage.IsItemSelected)
 			{
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
-				PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
+				PostedStatusBanner banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 					0,
@@ -365,7 +368,7 @@ namespace Files.App.Helpers
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Warn(ex);
+				App.Logger.LogWarning(ex, null);
 			}
 		}
 

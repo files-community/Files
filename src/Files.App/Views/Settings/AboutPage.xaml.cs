@@ -1,24 +1,15 @@
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using Windows.System;
 
-namespace Files.App.Settings
+namespace Files.App.Views.Settings
 {
 	public sealed partial class AboutPage : Page
 	{
-		public AboutViewModel ViewModel
-		{
-			get => (AboutViewModel)DataContext;
-			set => DataContext = value;
-		}
-
 		public AboutPage()
 		{
 			InitializeComponent();
-
-			ViewModel = new AboutViewModel();
 		}
 
 		private void ThirdPartyLicenses_Click(object sender, bool e)

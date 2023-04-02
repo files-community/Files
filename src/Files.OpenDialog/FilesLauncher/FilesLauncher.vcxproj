@@ -185,7 +185,8 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"
+certutil -hashfile "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName)" SHA256|findstr /R /V "^SHA256 ^CertUtil"&gt;"$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName).sha256"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -207,7 +208,8 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"
+certutil -hashfile "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName)" SHA256|findstr /R /V "^SHA256 ^CertUtil"&gt;"$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName).sha256"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|Win32'">
@@ -229,7 +231,8 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"
+certutil -hashfile "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName)" SHA256|findstr /R /V "^SHA256 ^CertUtil"&gt;"$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName).sha256"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -247,7 +250,8 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"
+certutil -hashfile "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName)" SHA256|findstr /R /V "^SHA256 ^CertUtil"&gt;"$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName).sha256"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
@@ -265,7 +269,8 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"
+certutil -hashfile "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName)" SHA256|findstr /R /V "^SHA256 ^CertUtil"&gt;"$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName).sha256"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -287,7 +292,8 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"
+certutil -hashfile "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName)" SHA256|findstr /R /V "^SHA256 ^CertUtil"&gt;"$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName).sha256"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'">
@@ -309,7 +315,8 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"
+certutil -hashfile "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName)" SHA256|findstr /R /V "^SHA256 ^CertUtil"&gt;"$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName).sha256"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
@@ -331,7 +338,8 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"
+certutil -hashfile "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName)" SHA256|findstr /R /V "^SHA256 ^CertUtil"&gt;"$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName).sha256"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|arm64'">
@@ -353,7 +361,8 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"
+certutil -hashfile "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName)" SHA256|findstr /R /V "^SHA256 ^CertUtil"&gt;"$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName).sha256"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

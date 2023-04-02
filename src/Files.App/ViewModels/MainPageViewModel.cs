@@ -7,12 +7,9 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views;
-using Files.Backend.Extensions;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Extensions;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
@@ -28,7 +25,9 @@ namespace Files.App.ViewModels
 {
 	public class MainPageViewModel : ObservableObject
 	{
-		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IUserSettingsService userSettingsService;
+		private IAppearanceSettingsService appearanceSettingsService;
+		private IResourcesService resourcesService;
 
 		public IMultitaskingControl? MultitaskingControl { get; set; }
 
@@ -43,29 +42,20 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref selectedTabItem, value);
 		}
 
-		private bool isWindowCompactOverlay;
-		public bool IsWindowCompactOverlay
-		{
-			get => isWindowCompactOverlay;
-			set => SetProperty(ref isWindowCompactOverlay, value);
-		}
-
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
-		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
-		public IAsyncRelayCommand AddNewInstanceAcceleratorCommand { get; private set; }
-		public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
-		public ICommand OpenSettingsCommand { get; private set; }
 
-		public MainPageViewModel()
+		public MainPageViewModel(
+			IUserSettingsService userSettings, 
+			IAppearanceSettingsService appearanceSettings,
+			IResourcesService resources)
 		{
+			userSettingsService = userSettings;
+			appearanceSettingsService = appearanceSettings;
+			resourcesService = resources;
 			// Create commands
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
 			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
-			CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
-			AddNewInstanceAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
-			ReopenClosedTabAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ReopenClosedTabAccelerator);
-			OpenSettingsCommand = new RelayCommand(OpenSettings);
 		}
 
 		private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
@@ -109,26 +99,6 @@ namespace Files.App.ViewModels
 					// Select the last tab
 					indexToSelect = AppInstances.Count - 1;
 					break;
-
-				case VirtualKey.Tab:
-					bool shift = e.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-
-					if (!shift) // ctrl + tab, select next tab
-					{
-						if ((App.AppModel.TabStripSelectedIndex + 1) < AppInstances.Count)
-							indexToSelect = App.AppModel.TabStripSelectedIndex + 1;
-						else
-							indexToSelect = 0;
-					}
-					else // ctrl + shift + tab, select previous tab
-					{
-						if ((App.AppModel.TabStripSelectedIndex - 1) >= 0)
-							indexToSelect = App.AppModel.TabStripSelectedIndex - 1;
-						else
-							indexToSelect = AppInstances.Count - 1;
-					}
-
-					break;
 			}
 
 			// Only select the tab if it is in the list
@@ -142,36 +112,6 @@ namespace Files.App.ViewModels
 			var filesUWPUri = new Uri("files-uwp:");
 			await Launcher.LaunchUriAsync(filesUWPUri);
 			e!.Handled = true;
-		}
-
-		private void CloseSelectedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			var index = App.AppModel.TabStripSelectedIndex >= AppInstances.Count
-				? AppInstances.Count - 1
-				: App.AppModel.TabStripSelectedIndex;
-
-			var tabItem = AppInstances[index];
-			MultitaskingControl?.CloseTab(tabItem);
-			e!.Handled = true;
-		}
-
-		private async Task AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			await AddNewTabAsync();
-			e!.Handled = true;
-		}
-
-		private void ReopenClosedTabAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			(MultitaskingControl as BaseMultitaskingControl)?.ReopenClosedTab(null, null);
-			e!.Handled = true;
-		}
-
-		private async void OpenSettings()
-		{
-			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-			var dialog = dialogService.GetDialog(new SettingsDialogViewModel());
-			await dialog.TryShowAsync();
 		}
 
 		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
@@ -272,8 +212,11 @@ namespace Files.App.ViewModels
 			}
 			else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
-				var localSettings = ApplicationData.Current.LocalSettings;
-				tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+				tabLocationHeader = "RecycleBin".GetLocalizedResource();
+			}
+			else if (currentPath.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+			{
+				tabLocationHeader = "ThisPC".GetLocalizedResource();
 			}
 			else if (currentPath.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 			{
@@ -343,7 +286,7 @@ namespace Files.App.ViewModels
 						for (int i = 0; i < items.Length; i++)
 							items[i] = TabItemArguments.Deserialize(userSettingsService.PreferencesSettingsService.LastSessionTabList[i]);
 
-						BaseMultitaskingControl.RecentlyClosedTabs.Add(items);
+						BaseMultitaskingControl.PushRecentTab(items);
 					}
 
 					if (userSettingsService.AppSettingsService.RestoreTabsOnStartup)
@@ -401,38 +344,12 @@ namespace Files.App.ViewModels
 			}
 
 			// Load the app theme resources
-			App.AppThemeResourcesHelper.LoadAppResources();
+			resourcesService.LoadAppResources(appearanceSettingsService);
 		}
 
 		public static Task AddNewTabAsync()
 		{
 			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
-		}
-
-		public void AddNewTab()
-		{
-			AddNewTabAsync();
-		}
-
-		public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
-		{
-			await AddNewTabAsync();
-		}
-
-		public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
-		{
-			var tabItem = (TabItem)((FrameworkElement)sender).DataContext;
-			var index = AppInstances.IndexOf(tabItem);
-
-			if (AppInstances[index].TabItemArguments is not null)
-			{
-				var tabArgs = AppInstances[index].TabItemArguments;
-				await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg, index + 1);
-			}
-			else
-			{
-				await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
-			}
 		}
 
 		public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)

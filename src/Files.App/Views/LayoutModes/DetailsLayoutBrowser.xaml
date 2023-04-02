@@ -11,6 +11,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+	xmlns:layoutmode="Files.App.Views.LayoutModes"
 	xmlns:local="using:Files.App"
 	xmlns:local2="using:Files.App.Filesystem"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -173,22 +174,6 @@
 		VerticalAlignment="Stretch"
 		ContextFlyout="{x:Bind BaseContextMenuFlyout}"
 		SizeChanged="RootGrid_SizeChanged">
-		<Grid.KeyboardAccelerators>
-			<KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
-				<i:Interaction.Behaviors>
-					<icore:EventTriggerBehavior EventName="Invoked">
-						<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
-					</icore:EventTriggerBehavior>
-				</i:Interaction.Behaviors>
-			</KeyboardAccelerator>
-			<KeyboardAccelerator Key="Add" Modifiers="Control">
-				<i:Interaction.Behaviors>
-					<icore:EventTriggerBehavior EventName="Invoked">
-						<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
-					</icore:EventTriggerBehavior>
-				</i:Interaction.Behaviors>
-			</KeyboardAccelerator>
-		</Grid.KeyboardAccelerators>
 
 		<uc:FolderEmptyIndicator
 			Grid.Row="3"
@@ -262,6 +247,7 @@
 						<Grid
 							x:Name="HeaderGrid"
 							Height="40"
+							Margin="0"
 							Padding="16,0,0,0"
 							BorderBrush="{ThemeResource ControlStrokeColorDefault}"
 							BorderThickness="0,0,0,1"
@@ -315,7 +301,6 @@
 								</MenuFlyout>
 							</Grid.ContextFlyout>
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition x:Name="SelectAllColumn" Width="0" />
 								<ColumnDefinition
 									x:Name="Column2"
 									Width="{x:Bind ColumnsViewModel.IconColumn.Length, Mode=OneWay}"
@@ -366,27 +351,16 @@
 								<ColumnDefinition Width="0" />
 							</Grid.ColumnDefinitions>
 
-							<CheckBox
-								x:Name="SelectAllItemsCheckbox"
-								Grid.Column="0"
-								Width="32"
-								Margin="0,8,0,0"
-								Checked="SelectAllCheckbox_Checked"
-								IsChecked="{x:Bind AreAllItemsSelected, Mode=OneWay}"
-								Unchecked="SelectAllCheckbox_Unchecked"
-								Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-
-							<Grid Grid.Column="1" />
-
 							<uc:DataGridHeader
 								x:Name="NameHeader"
-								Grid.Column="3"
+								Grid.Column="2"
+								Margin="4,0,-4,0"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Name"
 								Header="{helpers:ResourceString Name=Name}" />
 
 							<controls:GridSplitter
-								Grid.Column="4"
+								Grid.Column="3"
 								AutomationProperties.Name="NameColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -398,14 +372,14 @@
 
 							<uc:DataGridHeader
 								x:Name="TagHeader"
-								Grid.Column="5"
+								Grid.Column="4"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileTag"
 								Header="{helpers:ResourceString Name=Tag}"
 								Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="6"
+								Grid.Column="5"
 								AutomationProperties.Name="TagColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -418,14 +392,14 @@
 
 							<uc:DataGridHeader
 								x:Name="OriginalPathHeader"
-								Grid.Column="7"
+								Grid.Column="6"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="OriginalPath"
 								Header="{helpers:ResourceString Name=OriginalPath}"
 								Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="8"
+								Grid.Column="7"
 								AutomationProperties.Name="OriginalPathColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -438,14 +412,14 @@
 
 							<uc:DataGridHeader
 								x:Name="DateDeletedHeader"
-								Grid.Column="9"
+								Grid.Column="8"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateDeleted"
 								Header="{helpers:ResourceString Name=DateDeleted}"
 								Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="10"
+								Grid.Column="9"
 								AutomationProperties.Name="DateDeletedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -458,14 +432,14 @@
 
 							<uc:DataGridHeader
 								x:Name="DateModifiedHeader"
-								Grid.Column="11"
+								Grid.Column="10"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateModified"
 								Header="{helpers:ResourceString Name=DateModifiedLowerCase}"
 								Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="12"
+								Grid.Column="11"
 								AutomationProperties.Name="DateModifiedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -478,14 +452,14 @@
 
 							<uc:DataGridHeader
 								x:Name="DateCreatedHeader"
-								Grid.Column="13"
+								Grid.Column="12"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateCreated"
 								Header="{helpers:ResourceString Name=DateCreated}"
 								Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="14"
+								Grid.Column="13"
 								AutomationProperties.Name="DateCreatedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -498,14 +472,14 @@
 
 							<uc:DataGridHeader
 								x:Name="FileTypeHeader"
-								Grid.Column="15"
+								Grid.Column="14"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileType"
 								Header="{helpers:ResourceString Name=Type}"
 								Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="16"
+								Grid.Column="15"
 								AutomationProperties.Name="ItemTypeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -518,14 +492,14 @@
 
 							<uc:DataGridHeader
 								x:Name="ItemSizeHeader"
-								Grid.Column="17"
+								Grid.Column="16"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Size"
 								Header="{helpers:ResourceString Name=Size}"
 								Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="18"
+								Grid.Column="17"
 								AutomationProperties.Name="SizeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -538,7 +512,7 @@
 
 							<uc:DataGridHeader
 								x:Name="SyncStatusHeader"
-								Grid.Column="19"
+								Grid.Column="18"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Left"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
@@ -547,7 +521,7 @@
 								Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
 							<controls:GridSplitter
-								Grid.Column="20"
+								Grid.Column="19"
 								AutomationProperties.Name="StatusColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -561,247 +535,269 @@
 					</ListView.Header>
 					<ListView.ItemTemplate>
 						<DataTemplate x:DataType="local2:ListedItem">
-							<StackPanel
-								HorizontalAlignment="Stretch"
-								AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
-								IsRightTapEnabled="True"
-								Loaded="StackPanel_Loaded"
-								Orientation="Horizontal"
-								ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
+							<UserControl>
+								<StackPanel
+									HorizontalAlignment="Stretch"
+									AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
+									IsRightTapEnabled="True"
+									Loaded="StackPanel_Loaded"
+									Orientation="Horizontal"
+									ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
+									<Grid
+										Width="24"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Stretch">
+										<CheckBox
+											x:Name="SelectionCheckbox"
+											Width="20"
+											MinWidth="0"
+											HorizontalAlignment="Center"
+											AutomationProperties.AccessibilityView="Raw"
+											DoubleTapped="SelectionCheckbox_DoubleTapped"
+											Checked="ItemSelected_Checked"
+											Unchecked="ItemSelected_Unchecked"
+											Visibility="Collapsed" />
+										<Grid
+											x:Name="IconBox"
+											Width="20"
+											Height="Auto"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
+											Opacity="{x:Bind Opacity, Mode=OneWay}"
+											TabFocusNavigation="Local"
+											Tag="ItemImage">
+											<ContentPresenter
+												x:Name="PicturePresenter"
+												Width="20"
+												Height="20"
+												HorizontalAlignment="Center"
+												VerticalAlignment="Center"
+												x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+												CornerRadius="{StaticResource DetailsLayoutThumbnailCornerRadius}">
+												<Image
+													x:Name="Picture"
+													Source="{x:Bind FileImage, Mode=OneWay}"
+													Stretch="Uniform" />
+											</ContentPresenter>
+											<Image
+												x:Name="FolderGlyphIcon"
+												Width="20"
+												Height="20"
+												HorizontalAlignment="Stretch"
+												VerticalAlignment="Stretch"
+												x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
+												Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
+											<Border
+												x:Name="TypeUnknownGlyph"
+												Width="20"
+												Height="20"
+												HorizontalAlignment="Stretch"
+												VerticalAlignment="Stretch"
+												x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
+												Background="{ThemeResource SystemChromeHighColor}"
+												CornerRadius="4" />
+											<FontIcon
+												x:Name="WebShortcutGlyph"
+												x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
+												Glyph="&#xE71B;" />
+											<Image
+												x:Name="IconOverlay"
+												Width="16"
+												Height="16"
+												Margin="2"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Bottom"
+												x:Load="True"
+												Source="{x:Bind IconOverlay, Mode=OneWay}"
+												Stretch="Uniform" />
+											<Border
+												x:Name="ShortcutGlyphElement"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Bottom"
+												x:Load="{x:Bind IsShortcut}">
+												<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
+											</Border>
+										</Grid>
+									</Grid>
 
-								<CheckBox
-									x:Name="SelectionCheckbox"
-									MinWidth="0"
-									Checked="ItemSelected_Checked"
-									Unchecked="ItemSelected_Unchecked"
-									Visibility="{Binding ElementName=PageRoot, Path=AppModel.ShowSelectionCheckboxes, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-
-								<Grid
-									Width="24"
-									Height="Auto"
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center"
-									AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
-									Opacity="{x:Bind Opacity, Mode=OneWay}"
-									TabFocusNavigation="Local"
-									Tag="ItemImage">
-									<ContentPresenter
-										x:Name="PicturePresenter"
-										Width="20"
-										Height="20"
-										HorizontalAlignment="Center"
+									<Grid
+										Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,0,0"
+										HorizontalAlignment="Left"
 										VerticalAlignment="Center"
-										x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
-										CornerRadius="{StaticResource DetailsLayoutThumbnailCornerRadius}">
-										<Image
-											x:Name="Picture"
-											Source="{x:Bind FileImage, Mode=OneWay}"
-											Stretch="Uniform" />
-									</ContentPresenter>
-									<Image
-										x:Name="FolderGlyphIcon"
-										Width="20"
-										Height="20"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Stretch"
-										x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
-										Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
-									<Border
-										x:Name="TypeUnknownGlyph"
-										Width="20"
-										Height="20"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Stretch"
-										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-										Background="{ThemeResource SystemChromeHighColor}"
-										CornerRadius="4" />
-									<FontIcon
-										x:Name="WebShortcutGlyph"
-										x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
-										Glyph="&#xE71B;" />
-									<Image
-										x:Name="IconOverlay"
-										Width="16"
-										Height="16"
-										Margin="2"
-										HorizontalAlignment="Left"
-										VerticalAlignment="Bottom"
-										x:Load="True"
-										Source="{x:Bind IconOverlay, Mode=OneWay}"
-										Stretch="Uniform" />
-									<Border
-										x:Name="ShortcutGlyphElement"
-										HorizontalAlignment="Left"
-										VerticalAlignment="Bottom"
-										x:Load="{x:Bind IsShortcut}">
-										<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
-									</Border>
-								</Grid>
+										Canvas.ZIndex="6">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+										<TextBlock
+											x:Name="ItemName"
+											VerticalAlignment="Center"
+											Text="{x:Bind Name, Mode=OneWay}"
+											TextTrimming="CharacterEllipsis" />
+										<TextBox
+											x:Name="ItemNameTextBox"
+											MaxWidth="{Binding MaxWidthForRenameTextbox, ElementName=PageRoot, Mode=OneWay}"
+											HorizontalAlignment="Left"
+											VerticalAlignment="Center"
+											BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
+											Visibility="Collapsed">
+											<TextBox.Resources>
+												<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
+											</TextBox.Resources>
+										</TextBox>
+									</Grid>
 
-								<Grid
-									Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-									Padding="12,0,0,0"
-									HorizontalAlignment="Left"
-									VerticalAlignment="Center"
-									Canvas.ZIndex="6">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
+									<Grid
+										x:Name="ItemTagGrid"
+										Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,12,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+										<ItemsRepeater
+											x:Name="TagsRepeater"
+											x:Load="{x:Bind HasTags, Mode=OneWay}"
+											ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}"
+											Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
+											<ItemsRepeater.Layout>
+												<StackLayout Orientation="Horizontal" Spacing="4" />
+											</ItemsRepeater.Layout>
+											<ItemsRepeater.ItemTemplate>
+												<DataTemplate x:DataType="filetags:TagViewModel">
+													<UserControl PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
+														<StackPanel
+															Height="24"
+															Padding="8,0"
+															HorizontalAlignment="Left"
+															x:Phase="2"
+															BorderBrush="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+															BorderThickness="1"
+															CornerRadius="12"
+															Orientation="Horizontal"
+															Tapped="TagItem_Tapped"
+															ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
+															<FontIcon
+																x:Name="TagIcon"
+																FontSize="12"
+																Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+																Glyph="&#xE8EC;"
+																Tapped="TagIcon_Tapped"
+																ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
+															<TextBlock
+																Padding="8,0,0,0"
+																VerticalAlignment="Center"
+																FontSize="12"
+																LineHeight="18"
+																Style="{StaticResource ColumnContentTextBlock}"
+																Text="{x:Bind Name, Mode=OneWay}"
+																TextTrimming="CharacterEllipsis" />
+
+															<VisualStateManager.VisualStateGroups>
+																<VisualStateGroup x:Name="CommonStates">
+																	<VisualState x:Name="Normal" />
+
+																	<VisualState x:Name="PointerOver">
+																		<VisualState.Setters>
+																			<Setter Target="TagIcon.Glyph" Value="&#xE711;" />
+																		</VisualState.Setters>
+																	</VisualState>
+																</VisualStateGroup>
+															</VisualStateManager.VisualStateGroups>
+														</StackPanel>
+													</UserControl>
+												</DataTemplate>
+											</ItemsRepeater.ItemTemplate>
+										</ItemsRepeater>
+									</Grid>
+
 									<TextBlock
-										x:Name="ItemName"
+										x:Name="ItemOriginalPath"
+										Width="{Binding ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,0,0"
+										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
-										Text="{x:Bind Name, Mode=OneWay}"
-										TextTrimming="CharacterEllipsis" />
-									<TextBox
-										x:Name="ItemNameTextBox"
-										MaxWidth="{Binding MaxWidthForRenameTextbox, ElementName=PageRoot, Mode=OneWay}"
-										HorizontalAlignment="Left"
+										x:Load="{x:Bind IsRecycleBinItem}"
+										Style="{StaticResource ColumnContentTextBlock}"
+										Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.OriginalPathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+
+									<TextBlock
+										x:Name="ItemDateDeleted"
+										Width="{Binding ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,0,0"
+										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
-										BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
-										Visibility="Collapsed">
-										<TextBox.Resources>
-											<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
-										</TextBox.Resources>
-									</TextBox>
-								</Grid>
+										x:Load="{x:Bind IsRecycleBinItem}"
+										Style="{StaticResource ColumnContentTextBlock}"
+										Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.DateDeletedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
-								<Grid
-									x:Name="ItemTagGrid"
-									Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-									Padding="12,0,12,0"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center"
-									Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-									<ItemsRepeater
-										x:Name="TagsRepeater"
-										x:Load="{x:Bind HasTags, Mode=OneWay}"
-										ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}"
-										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
-										<ItemsRepeater.Layout>
-											<StackLayout Orientation="Horizontal" Spacing="4" />
-										</ItemsRepeater.Layout>
-										<ItemsRepeater.ItemTemplate>
-											<DataTemplate x:DataType="filetags:TagViewModel">
-												<UserControl PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
-													<StackPanel
-														Height="24"
-														Padding="8,0"
-														HorizontalAlignment="Left"
-														x:Phase="2"
-														BorderBrush="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-														BorderThickness="1"
-														CornerRadius="12"
-														Orientation="Horizontal"
-														Tapped="TagItem_Tapped"
-														ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
-														<FontIcon
-															x:Name="TagIcon"
-															FontSize="12"
-															Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-															Glyph="&#xE1CB;"
-															Tapped="TagIcon_Tapped"
-															ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
-														<TextBlock
-															Padding="8,0,0,0"
-															VerticalAlignment="Center"
-															FontSize="12"
-															LineHeight="18"
-															Style="{StaticResource ColumnContentTextBlock}"
-															Text="{x:Bind Name, Mode=OneWay}"
-															TextTrimming="CharacterEllipsis" />
+									<TextBlock
+										x:Name="ItemDateModified"
+										Width="{Binding ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,0,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										Style="{StaticResource ColumnContentTextBlock}"
+										Text="{x:Bind ItemDateModified, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
-														<VisualStateManager.VisualStateGroups>
-															<VisualStateGroup x:Name="CommonStates">
-																<VisualState x:Name="Normal" />
+									<TextBlock
+										x:Name="ItemDateCreated"
+										Width="{Binding ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,0,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										Style="{StaticResource ColumnContentTextBlock}"
+										Text="{x:Bind ItemDateCreated, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
-																<VisualState x:Name="PointerOver">
-																	<VisualState.Setters>
-																		<Setter Target="TagIcon.Glyph" Value="&#xE711;" />
-																	</VisualState.Setters>
-																</VisualState>
-															</VisualStateGroup>
-														</VisualStateManager.VisualStateGroups>
-													</StackPanel>
-												</UserControl>
-											</DataTemplate>
-										</ItemsRepeater.ItemTemplate>
-									</ItemsRepeater>
-								</Grid>
+									<TextBlock
+										x:Name="ItemType"
+										Width="{Binding ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,0,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										Style="{StaticResource ColumnContentTextBlock}"
+										Text="{x:Bind ItemType, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
-								<TextBlock
-									x:Name="ItemOriginalPath"
-									Width="{Binding ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-									Padding="12,0,0,0"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center"
-									x:Load="{x:Bind IsRecycleBinItem}"
-									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
-									Visibility="{Binding ColumnsViewModel.OriginalPathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+									<TextBlock
+										x:Name="ItemSize"
+										Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,0,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										Style="{StaticResource ColumnContentTextBlock}"
+										Text="{x:Bind FileSize, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
-								<TextBlock
-									x:Name="ItemDateDeleted"
-									Width="{Binding ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-									Padding="12,0,0,0"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center"
-									x:Load="{x:Bind IsRecycleBinItem}"
-									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
-									Visibility="{Binding ColumnsViewModel.DateDeletedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+									<FontIcon
+										x:Name="ItemStatus"
+										Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Margin="12,0,0,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
+										FontSize="12"
+										Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
-								<TextBlock
-									x:Name="ItemDateModified"
-									Width="{Binding ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-									Padding="12,0,0,0"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center"
-									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind ItemDateModified, Mode=OneWay}"
-									Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
-
-								<TextBlock
-									x:Name="ItemDateCreated"
-									Width="{Binding ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-									Padding="12,0,0,0"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center"
-									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind ItemDateCreated, Mode=OneWay}"
-									Visibility="{Binding ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
-
-								<TextBlock
-									x:Name="ItemType"
-									Width="{Binding ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-									Padding="12,0,0,0"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center"
-									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind ItemType, Mode=OneWay}"
-									Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
-
-								<TextBlock
-									x:Name="ItemSize"
-									Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-									Padding="12,0,0,0"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center"
-									Style="{StaticResource ColumnContentTextBlock}"
-									Text="{x:Bind FileSize, Mode=OneWay}"
-									Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
-
-								<FontIcon
-									x:Name="ItemStatus"
-									Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-									Margin="12,0,0,0"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center"
-									AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
-									FontSize="12"
-									Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}"
-									Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
-							</StackPanel>
+									<VisualStateManager.VisualStateGroups>
+										<VisualStateGroup x:Name="CheckboxVisibilityStates">
+											<VisualState x:Name="HideCheckbox" />
+											<VisualState x:Name="ShowCheckbox">
+												<VisualState.Setters>
+													<Setter Target="SelectionCheckbox.Visibility" Value="Visible" />
+													<Setter Target="IconBox.Visibility" Value="Collapsed" />
+												</VisualState.Setters>
+											</VisualState>
+										</VisualStateGroup>
+									</VisualStateManager.VisualStateGroups>
+								</StackPanel>
+							</UserControl>
 						</DataTemplate>
 					</ListView.ItemTemplate>
 					<i:Interaction.Behaviors>
@@ -1028,20 +1024,5 @@
 				Stroke="{ThemeResource SystemAccentColorLight1}"
 				StrokeThickness="1" />
 		</Canvas>
-
-		<VisualStateManager.VisualStateGroups>
-			<VisualStateGroup>
-				<VisualState x:Name="MultiselectDisabled" />
-				<VisualState x:Name="MultiselectEnabled">
-					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind AppModel.ShowSelectionCheckboxes, Mode=OneWay}" To="True" />
-					</VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="HeaderGrid.Margin" Value="0,0,0,0" />
-						<Setter Target="SelectAllColumn.Width" Value="32" />
-					</VisualState.Setters>
-				</VisualState>
-			</VisualStateGroup>
-		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </local:StandardViewBase>

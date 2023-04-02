@@ -243,9 +243,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>递增</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>刷新</value>
-  </data>
   <data name="Paste" xml:space="preserve">
     <value>粘贴</value>
   </data>
@@ -264,17 +261,17 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>在新窗口中打开</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>共享</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+  <data name="Cut" xml:space="preserve">
     <value>剪切</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>固定至收藏夹</value>
+  <data name="PinToFavorites" xml:space="preserve">
+    <value>固定到收藏</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>欢迎使用 Files!</value>
@@ -315,20 +312,17 @@
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>该文件夹为空。</value>
   </data>
-  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Back" xml:space="preserve">
     <value>后退 (Alt+左方向键)</value>
   </data>
-  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Forward" xml:space="preserve">
     <value>前进 (Alt+右方向键)</value>
   </data>
-  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Up" xml:space="preserve">
     <value>上移 (Alt+上方向键)</value>
   </data>
-  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>刷新 (F5)</value>
-  </data>
-  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>搜索 (Ctrl+F)</value>
+  <data name="Refresh" xml:space="preserve">
+    <value>刷新</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>此文件夹中已有同名项目。</value>
@@ -339,7 +333,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>项目已存在</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>设为锁屏背景</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
@@ -528,7 +522,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>复制到 {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>创建快捷方式</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -660,16 +654,16 @@
   <data name="LayoutMode" xml:space="preserve">
     <value>布局模式</value>
   </data>
-  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateBack" xml:space="preserve">
     <value>向后导航</value>
   </data>
-  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateForward" xml:space="preserve">
     <value>向前导航</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>刷新目录</value>
   </data>
-  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateUp" xml:space="preserve">
     <value>跳转到上级目录</value>
   </data>
   <data name="Language" xml:space="preserve">
@@ -987,17 +981,14 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>弹出</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+  <data name="DuplicateTab" xml:space="preserve">
     <value>复制标签页</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>将标签页移动到新窗口</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>新建标签页</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>新建标签页 (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>某些属性可能包含个人信息。</value>
@@ -1132,7 +1123,7 @@
     <value>期望名称</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Toggle the preview pane</value>
+    <value>显示/隐藏预览面板</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>没有预览</value>
@@ -1184,9 +1175,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>未知</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>在文件名旁边显示复选框</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>如果改变文件扩展名，可能会导致文件不可用。确实要更改吗？</value>
@@ -1425,7 +1413,7 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>修改日期</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+  <data name="OriginalFolder" xml:space="preserve">
     <value>原始文件夹</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
@@ -1452,29 +1440,35 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>微小</value>
   </data>
+  <data name="Future" xml:space="preserve">
+    <value>未来</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>今天</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>昨天</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>本周早些时候</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>上周</value>
   </data>
-  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
-    <value>本月</value>
+  <data name="EarlierThisMonth" xml:space="preserve">
+    <value>本月早些时候</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>上月</value>
   </data>
-  <data name="ItemTimeText_ThisYear" xml:space="preserve">
-    <value>今年</value>
+  <data name="EarlierThisYear" xml:space="preserve">
+    <value>今年早些时候</value>
   </data>
-  <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>更早</value>
+  <data name="LastYear" xml:space="preserve">
+    <value>去年</value>
+  </data>
+  <data name="YearN" xml:space="preserve">
+    <value>{0} 年</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} 个项目</value>
@@ -1482,7 +1476,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} 个项目</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>重新打开关闭的标签页</value>
   </data>
   <data name="Rename" xml:space="preserve">
@@ -1608,7 +1602,7 @@
   <data name="Allow" xml:space="preserve">
     <value>允许</value>
   </data>
-  <data name="SecurityDenyLabel.Text" xml:space="preserve">
+  <data name="Deny" xml:space="preserve">
     <value>拒绝</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
@@ -1642,7 +1636,7 @@
     <value>你无权查看此对象的安全属性。 单击“高级权限”继续。</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>所有者</value>
+    <value>所有者:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>未知所有者</value>
@@ -1680,11 +1674,11 @@
   <data name="Access" xml:space="preserve">
     <value>访问</value>
   </data>
-  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
-    <value>应用于</value>
+  <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
+    <value>应用到</value>
   </data>
-  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>实体</value>
+  <data name="Principal" xml:space="preserve">
+    <value>主体</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>文件</value>
@@ -1695,10 +1689,10 @@
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>子文件夹</value>
   </data>
-  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
-    <value>继承</value>
+  <data name="Inherited" xml:space="preserve">
+    <value>继承而来</value>
   </data>
-  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
+  <data name="Permissions" xml:space="preserve">
     <value>权限</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
@@ -1788,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>关闭面板</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>进入精简模式</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>退出精简模式</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
@@ -1860,12 +1854,6 @@
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+上方向键</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+下方向键</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
@@ -1883,12 +1871,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
-  </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>压缩文件解压完成。</value>
@@ -2010,7 +1992,7 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>通过单击打开文件</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+  <data name="FolderPath" xml:space="preserve">
     <value>文件夹路径</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
@@ -2213,9 +2195,6 @@
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>图片</value>
-  </data>
-  <data name="Videos" xml:space="preserve">
-    <value>视频</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>更新 Files</value>
@@ -2506,7 +2485,7 @@
     <value>查看更多</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>但请不要担心，我们创建了一个更可靠且功能更多的替代品。你可以前往“设置” &gt; “偏好” &gt; “要在主页上显示的组件”来启用“文件标签”组件。启用“文件标签”时将自动关闭“包”。</value>
+    <value>但不要担心，我们创建了一个更可靠且功能更多的替代品。你可以前往“设置” &gt; “偏好” &gt; “主页小组件”并启用“标签”组件。启用“标签”时将自动关闭“包”。</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>包（Bundles）将在未来的某个更新中停用 📎</value>
@@ -2598,10 +2577,287 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>将此操作应用到所有冲突项</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>在终端中打开</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>以管理员身份在终端中打开</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>多重选择</value>
+  </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>重新排列侧边栏项目</value>
+  </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>哈希值</value>
+  </data>
+  <data name="CalculationError" xml:space="preserve">
+    <value>计算时发生错误</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>算法</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>哈希值</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>选择要显示的哈希值</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>正在计算...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>已固定的项目</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>减小大小</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>增加大小</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>切换排序方向</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>无效名称</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>名称不能为空，也不能以英文句点 (.) 开头或结尾。</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>视频</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>启动 QuickLook</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>开关精简模式</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>复制项目到剪贴板</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>复制项目路径到剪贴板</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>剪切项目到剪贴板</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>从剪贴板粘贴项目到当前文件夹</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>从剪贴板粘贴项目到已选的文件夹</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>开关精简模式</value>
+  </data>
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>进入精简模式</value>
+  </data>
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>退出精简模式</value>
+  </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>Toggle the sidebar</value>
+  </data>
+  <data name="Key.Menu" xml:space="preserve">
+    <value>菜单</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Control" xml:space="preserve">
+    <value>Ctrl</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Shift" xml:space="preserve">
+    <value>Shift</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Windows" xml:space="preserve">
+    <value>Win</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Enter" xml:space="preserve">
+    <value>Enter</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Space" xml:space="preserve">
+    <value>空格</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Escape" xml:space="preserve">
+    <value>Esc</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Back" xml:space="preserve">
+    <value>后退 (Alt+左方向键)</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Tab" xml:space="preserve">
+    <value>Tab</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Insert" xml:space="preserve">
+    <value>Ins</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Delete" xml:space="preserve">
+    <value>Del</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Left" xml:space="preserve">
+    <value>左方向键</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Right" xml:space="preserve">
+    <value>右方向键</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Down" xml:space="preserve">
+    <value>下方向键</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Up" xml:space="preserve">
+    <value>上移 (Alt+上方向键)</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Home" xml:space="preserve">
+    <value>主页</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.End" xml:space="preserve">
+    <value>End</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.PageDown" xml:space="preserve">
+    <value>PageDown</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.PageUp" xml:space="preserve">
+    <value>PageUp</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Separator" xml:space="preserve">
+    <value>竖分隔符 (|)</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Pause" xml:space="preserve">
+    <value>Pause</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Sleep" xml:space="preserve">
+    <value>睡眠键</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Clear" xml:space="preserve">
+    <value>清除</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Print" xml:space="preserve">
+    <value>打印键</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Help" xml:space="preserve">
+    <value>帮助</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mouse4" xml:space="preserve">
+    <value>鼠标按键4</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mouse5" xml:space="preserve">
+    <value>鼠标按键5</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application" xml:space="preserve">
+    <value>应用程序</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application1" xml:space="preserve">
+    <value>应用程序 1</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application2" xml:space="preserve">
+    <value>应用程序 2</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mail" xml:space="preserve">
+    <value>邮件键</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoHome" xml:space="preserve">
+    <value>主页</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoBack" xml:space="preserve">
+    <value>后退</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoForward" xml:space="preserve">
+    <value>前进</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserRefresh" xml:space="preserve">
+    <value>刷新</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserStop" xml:space="preserve">
+    <value>停止加载</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserSearch" xml:space="preserve">
+    <value>搜索</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserFavorites" xml:space="preserve">
+    <value>收藏夹</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaPlayPause" xml:space="preserve">
+    <value>播放/暂停</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaStop" xml:space="preserve">
+    <value>停止播放</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaPreviousTrack" xml:space="preserve">
+    <value>上一曲目</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaNextTrack" xml:space="preserve">
+    <value>下一曲目</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaSelect" xml:space="preserve">
+    <value>媒体选择</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaMute" xml:space="preserve">
+    <value>静音</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaVolumeDown" xml:space="preserve">
+    <value>音量减小</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaVolumeUp" xml:space="preserve">
+    <value>音量增大</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>更改</value>
+  </data>
+  <data name="ToggleSelect" xml:space="preserve">
+    <value>切换选择</value>
+  </data>
+  <data name="ShowFileExtensionWarning" xml:space="preserve">
+    <value>更改文件扩展名时显示警告</value>
+  </data>
+  <data name="Untagged" xml:space="preserve">
+    <value>Untagged</value>
   </data>
 </root>

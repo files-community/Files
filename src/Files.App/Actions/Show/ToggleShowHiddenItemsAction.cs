@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Commands;
 using Files.App.Extensions;
 using Files.Backend.Services.Settings;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -12,6 +14,10 @@ namespace Files.App.Actions
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
 		public string Label { get; } = "ShowHiddenItems".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
+
+		public HotKey HotKey { get; } = new(VirtualKey.H, VirtualKeyModifiers.Control);
 
 		public bool IsOn => settings.ShowHiddenItems;
 

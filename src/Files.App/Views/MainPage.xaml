@@ -6,7 +6,6 @@
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:custom="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,10 +18,6 @@
 	NavigationCacheMode="Required"
 	SizeChanged="Page_SizeChanged"
 	mc:Ignorable="d">
-
-	<Page.DataContext>
-		<viewmodels:MainPageViewModel />
-	</Page.DataContext>
 
 	<Page.Resources>
 		<ResourceDictionary>
@@ -101,96 +96,10 @@
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="Tab" Modifiers="Control,Shift">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="Tab" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="N" Modifiers="Control">
 			<i:Interaction.Behaviors>
 				<icore:EventTriggerBehavior EventName="Invoked">
 					<icore:InvokeCommandAction Command="{x:Bind ViewModel.OpenNewWindowAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="F4" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.CloseSelectedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="W" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.CloseSelectedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="T" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.AddNewInstanceAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="T" Modifiers="Control,Shift">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.ReopenClosedTabAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="K" Modifiers="Control,Shift">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.AddNewInstanceAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="F12">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ToggleCompactOverlayCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator
-			Key="Up"
-			x:Name="EnterCompactOverlayKeyboardAccelerator"
-			Modifiers="Menu,Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind SetCompactOverlayCommand}" CommandParameter="{StaticResource True}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator
-			Key="Down"
-			x:Name="ExitCompactOverlayKeyboardAccelerator"
-			Modifiers="Menu,Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind SetCompactOverlayCommand}" CommandParameter="{StaticResource False}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator
-			Key="S"
-			x:Name="ToggleSidebarVisibilityKeyboardAcceleretor"
-			Modifiers="Control,Menu">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ToggleSidebarCollapsedStateCommand}" />
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
@@ -239,12 +148,12 @@
 								Padding="8"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Bottom"
-								AutomationProperties.Name="{helpers:ResourceString Name=NewTabCtrlT}"
+								AutomationProperties.Name="{x:Bind Commands.NewTab.AutomationName}"
 								Background="Transparent"
 								BorderBrush="Transparent"
 								BorderThickness="0"
-								Click="{x:Bind ViewModel.AddNewTab, Mode=OneWay}"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=NewTabCtrlT}">
+								Command="{x:Bind Commands.NewTab}"
+								ToolTipService.ToolTip="{x:Bind Commands.NewTab.LabelWithHotKey, Mode=OneWay}">
 								<Button.Content>
 									<FontIcon
 										x:Name="HorizontalMultitaskingControlAddButtonIcon"
@@ -263,10 +172,9 @@
 						x:Load="False"
 						Loaded="NavToolbar_Loaded"
 						OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
-						SettingsButtonCommand="{x:Bind ViewModel.OpenSettingsCommand}"
 						ShowOngoingTasks="True"
 						ShowSearchBox="True"
-						ShowSettingsButton="{x:Bind ViewModel.IsWindowCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+						ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 						TabIndex="1" />
 				</Grid>
 			</controls:SidebarControl.TabContent>
@@ -299,9 +207,7 @@
 					x:Name="InnerNavigationToolbar"
 					Grid.ColumnSpan="3"
 					x:Load="False"
-					IsCompactOverlay="{x:Bind ViewModel.IsWindowCompactOverlay, Mode=OneWay}"
 					Loaded="NavToolbar_Loaded"
-					SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
 					ShowPreviewPaneButton="{x:Bind ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
 					TabIndex="2" />
 
@@ -372,9 +278,6 @@
 						<Setter Target="SidebarControl.PaneDisplayMode" Value="LeftMinimal" />
 						<Setter Target="SidebarControl.IsPaneToggleButtonVisible" Value="True" />
 						<Setter Target="TabControl.Margin" Value="48,0,0,0" />
-
-						<!--  Update the button size to match the pane toggle button size  -->
-						<Setter Target="HorizontalMultitaskingControlAddButton.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
 {
-    public class TagsViewModel : ObservableObject
+	public class TagsViewModel : ObservableObject
     {
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
@@ -138,6 +138,7 @@ namespace Files.App.ViewModels.Settings
 		public void Reset()
 		{
 			Name = string.Empty;
+			IsNameValid = false;
 			Color = ColorHelpers.RandomColor();
 		}
 	}

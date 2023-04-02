@@ -5,21 +5,18 @@ using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem.Archive;
 using Files.App.Helpers;
-using Files.App.ViewModels;
-using Files.Shared.Enums;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Actions.Content.Archives
+namespace Files.App.Actions
 {
 	internal class CompressIntoArchiveAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label => "CreateArchive".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
 									&& ArchiveHelpers.CanCompress(context.SelectedItems);

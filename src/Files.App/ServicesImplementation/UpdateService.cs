@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.Backend.Services;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Services.Store;
+using Windows.Storage;
 using WinRT.Interop;
 
 namespace Files.App.ServicesImplementation
@@ -87,7 +89,7 @@ namespace Files.App.ServicesImplementation
 			{
 				if (await ShowDialogAsync())
 				{
-					App.Logger.Info("STORE: Downloading updates...");
+					App.Logger.LogInformation("STORE: Downloading updates...");
 					OnUpdateInProgress();
 					await DownloadAndInstall();
 					OnUpdateCompleted();
@@ -97,13 +99,13 @@ namespace Files.App.ServicesImplementation
 
 		public async Task CheckForUpdates()
 		{
-			App.Logger.Info("STORE: Checking for updates...");
+			App.Logger.LogInformation("STORE: Checking for updates...");
 
 			await GetUpdatePackages();
 
 			if (_updatePackages is not null && _updatePackages.Count > 0)
 			{
-				App.Logger.Info("STORE: Update found.");
+				App.Logger.LogInformation("STORE: Update found.");
 				IsUpdateAvailable = true;
 			}
 		}
@@ -175,6 +177,49 @@ namespace Files.App.ServicesImplementation
 			catch
 			{
 				return null;
+			}
+		}
+
+		public async Task CheckAndUpdateFilesLauncherAsync()
+		{
+			var destFolderPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, "Files");
+			var destExeFilePath = Path.Combine(destFolderPath, "FilesLauncher.exe");
+
+			if (Path.Exists(destExeFilePath))
+			{
+				var hashEqual = false;
+				var srcHashFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/FilesLauncher.exe.sha256"));
+				var destHashFilePath = Path.Combine(destFolderPath, "FilesLauncher.exe.sha256");
+
+				if (Path.Exists(destHashFilePath))
+				{
+					using var srcStream = (await srcHashFile.OpenReadAsync()).AsStream();
+					using var destStream = File.OpenRead(destHashFilePath);
+
+					hashEqual = HashEqual(srcStream, destStream);
+				}
+
+				if (!hashEqual)
+				{
+					var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/FilesLauncher.exe"));
+					var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
+
+					await srcExeFile.CopyAsync(destFolder, "FilesLauncher.exe", NameCollisionOption.ReplaceExisting);
+					await srcHashFile.CopyAsync(destFolder, "FilesLauncher.exe.sha256", NameCollisionOption.ReplaceExisting);
+
+					App.Logger.LogInformation("FilesLauncher updated.");
+				}
+			}
+
+			bool HashEqual(Stream a, Stream b)
+			{
+				Span<byte> bufferA = stackalloc byte[64];
+				Span<byte> bufferB = stackalloc byte[64];
+
+				a.Read(bufferA);
+				b.Read(bufferB);
+
+				return bufferA.SequenceEqual(bufferB);
 			}
 		}
 

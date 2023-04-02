@@ -7,27 +7,29 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Views.Properties"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:toolkitconvers="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:uc="using:Files.App.UserControls"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyDown="Page_KeyDown"
 	Loaded="Page_Loaded"
+	SizeChanged="MainPropertiesPage_SizeChanged"
 	mc:Ignorable="d">
 
 	<Page.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewStoreStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewItemButtonStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
-			<toolkitconvers:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
-			<toolkitconvers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-
-			<toolkitconvers:BoolToVisibilityConverter
+			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+			<wctconverters:BoolToVisibilityConverter
 				x:Key="BoolToVisibilityInverseConverter"
 				FalseValue="Visible"
 				TrueValue="Collapsed" />
+
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -36,146 +38,104 @@
 			<RowDefinition Height="36" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
 
 		<!--  Titlebar  -->
-		<Border
-			x:Name="TitlebarArea"
-			Grid.ColumnSpan="2"
-			Height="36"
-			Background="Transparent">
-			<StackPanel
-				Padding="12,0"
-				Orientation="Horizontal"
-				Spacing="8">
-
-				<Image
-					Width="20"
-					Height="20"
-					Source="ms-appx:///Assets/AppTiles/Dev/Square44x44Logo.png" />
-
-				<TextBlock
-					VerticalAlignment="Center"
-					Style="{StaticResource CaptionTextBlockStyle}"
-					Text="{helpers:ResourceString Name=Properties}" />
-
-			</StackPanel>
+		<Border x:Name="TitlebarArea" Height="40">
+			<TextBlock
+				Padding="16,0"
+				VerticalAlignment="Center"
+				Style="{StaticResource BodyStrongTextBlockStyle}"
+				Text="{helpers:ResourceString Name=Properties}" />
 		</Border>
 
-		<!--  Vertical NavigationView whose each items are squared  -->
+		<!--  Main NavigationView  -->
 		<NavigationView
 			x:Name="MainPropertiesWindowNavigationView"
 			Grid.Row="1"
-			Width="80"
 			IsBackButtonVisible="Collapsed"
 			IsPaneToggleButtonVisible="False"
 			IsSettingsVisible="False"
 			IsTitleBarAutoPaddingEnabled="False"
 			MenuItemsSource="{x:Bind NavViewItems, Mode=TwoWay}"
-			OpenPaneLength="88"
+			OpenPaneLength="180"
 			PaneDisplayMode="Left"
 			SelectionChanged="MainPropertiesWindowNavigationView_SelectionChanged">
 
 			<NavigationView.MenuItemTemplate>
-				<DataTemplate x:DataType="local:SquareNavViewItem">
-					<NavigationViewItem
-						Height="64"
-						IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
-						Tag="{x:Bind ItemType}">
+				<DataTemplate x:DataType="local:NavigationViewItemButtonStyleItem">
+					<NavigationViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Tag="{x:Bind ItemType}">
 						<NavigationViewItem.Content>
-							<StackPanel Spacing="4">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
 
-								<Grid x:Name="ItemPathIconGrid">
-									<!--  Outline Path Icon  -->
-									<Viewbox
-										Width="24"
-										Height="24"
-										Margin="0,0,4,0"
-										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}">
-										<PathIcon
-											x:Name="NavigationViewItemOutlinePathIcon"
-											HorizontalAlignment="Center"
-											Data="{x:Bind OutlinePathIcon}" />
-									</Viewbox>
-									<!--  Filled Path Icon  -->
-									<Viewbox
-										Width="24"
-										Height="24"
-										Margin="0,0,4,0"
-										Visibility="{x:Bind IsSelected, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-										<PathIcon
-											x:Name="NavigationViewItemFilledPathIcon"
-											HorizontalAlignment="Center"
-											Data="{x:Bind FilledPathIcon}"
-											Foreground="{ThemeResource AccentFillColorDefaultBrush}" />
-									</Viewbox>
-								</Grid>
+								<!--  Icon  -->
+								<Viewbox
+									Width="16"
+									Height="16"
+									VerticalAlignment="Center">
+									<uc:OpacityIcon IsSelected="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind OpacityIconStyle, Mode=OneWay}" />
+								</Viewbox>
 
 								<!--  Label  -->
 								<TextBlock
 									x:Name="ItemNameLabelTextBlock"
-									Grid.Row="1"
-									HorizontalAlignment="Center"
-									x:Load="{x:Bind IsSelected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-									FontSize="10"
-									Style="{StaticResource CaptionTextBlockStyle}"
-									Text="{x:Bind Name}" />
+									Grid.Column="1"
+									Margin="8,0,0,0"
+									VerticalAlignment="Center"
+									Style="{StaticResource BodyTextBlockStyle}"
+									Text="{x:Bind Name}"
+									Visibility="{x:Bind IsCompact, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}" />
 
-							</StackPanel>
+							</Grid>
 						</NavigationViewItem.Content>
 					</NavigationViewItem>
 				</DataTemplate>
 			</NavigationView.MenuItemTemplate>
 
+			<!--  NavigationView Content, Save/Cancel buttons  -->
+			<NavigationView.Content>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="52" />
+					</Grid.RowDefinitions>
+
+					<Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
+
+					<Grid
+						Grid.Row="1"
+						Background="{ThemeResource CardBackgroundFillColorSecondary}"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderThickness="0,1,0,0">
+						<StackPanel
+							Margin="12,0"
+							HorizontalAlignment="Right"
+							Orientation="Horizontal"
+							Spacing="12">
+
+							<Button
+								x:Name="SaveChangesButton"
+								Width="96"
+								Click="SaveChangesButton_Click"
+								Content="{helpers:ResourceString Name=Save}"
+								Style="{StaticResource AccentButtonStyle}" />
+
+							<Button
+								x:Name="CancelChangesButton"
+								Width="96"
+								Click="CancelChangesButton_Click"
+								Content="{helpers:ResourceString Name=Cancel}" />
+
+						</StackPanel>
+					</Grid>
+
+				</Grid>
+			</NavigationView.Content>
+
 		</NavigationView>
-
-		<!--  NavigationView Content, Save/Cancel buttons  -->
-		<Grid
-			Grid.Row="1"
-			Grid.Column="1"
-			Background="{ThemeResource LayerFillColorDefaultBrush}"
-			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-			BorderThickness="1,1,0,0"
-			CornerRadius="8,0,0,0">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
-
-			<Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
-
-			<Grid
-				Grid.Row="2"
-				Height="58"
-				Background="{ThemeResource CardBackgroundFillColorSecondary}"
-				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-				BorderThickness="0,1,0,0">
-				<StackPanel
-					Margin="12,0"
-					HorizontalAlignment="Right"
-					Orientation="Horizontal"
-					Spacing="12">
-
-					<Button
-						x:Name="SaveChangesButton"
-						Width="96"
-						Click="SaveChangesButton_Click"
-						Content="{helpers:ResourceString Name=Save}"
-						Style="{StaticResource AccentButtonStyle}" />
-
-					<Button
-						x:Name="CancelChangesButton"
-						Width="96"
-						Click="CancelChangesButton_Click"
-						Content="{helpers:ResourceString Name=Cancel}" />
-
-				</StackPanel>
-			</Grid>
-
-		</Grid>
 
 	</Grid>
 </Page>

@@ -55,7 +55,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	LPWSTR* szArglist = CommandLineToArgvW(GetCommandLine(), &numArgs);
 	WCHAR openDirectory[MAX_PATH];
 
-	if (numArgs > 1)
+	if (numArgs > 1 && wcsnlen(szArglist[1], 1))
 	{
 		swprintf(openDirectory, _countof(openDirectory) - 1, L"%s", szArglist[1]);
 		std::wcout << openDirectory << std::endl;
@@ -202,8 +202,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		SHELLEXECUTEINFO ShExecInfo = { 0 };
 		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
 		ShExecInfo.fMask = SEE_MASK_NOASYNC | SEE_MASK_FLAG_NO_UI;
-		ShExecInfo.lpFile = L"files-uwp:?cmd=";
-		ShExecInfo.lpDirectory = openDirectory;
+		ShExecInfo.lpFile = L"files-uwp:";
 		ShExecInfo.nShow = SW_SHOW;
 
 		if (!ShellExecuteEx(&ShExecInfo))

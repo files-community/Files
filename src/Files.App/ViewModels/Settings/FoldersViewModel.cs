@@ -136,20 +136,6 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool ShowSelectionCheckboxes
-		{
-			get => UserSettingsService.FoldersSettingsService.ShowSelectionCheckboxes;
-			set
-			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowSelectionCheckboxes)
-				{
-					UserSettingsService.FoldersSettingsService.ShowSelectionCheckboxes = value;
-
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public FolderLayoutModes DefaultLayoutMode
 		{
 			get => UserSettingsService.FoldersSettingsService.DefaultLayoutMode;
@@ -415,6 +401,20 @@ namespace Files.App.ViewModels.Settings
 				if (value != UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				{
 					UserSettingsService.FoldersSettingsService.DoubleClickToGoUp = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowFileExtensionWarning
+		{
+			get => UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning)
+				{
+					UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning = value;
 
 					OnPropertyChanged();
 				}

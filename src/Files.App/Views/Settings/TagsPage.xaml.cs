@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Input;
 using System.Linq;
 using Windows.System;
 
-namespace Files.App.Settings
+namespace Files.App.Views.Settings
 {
 	public sealed partial class TagsPage : Page
 	{
@@ -29,6 +29,9 @@ namespace Files.App.Settings
 			switch (e.Key)
 			{
 				case VirtualKey.Enter:
+					if (!editingTag!.CanCommit)
+						return;
+
 					CommitChanges(textBox);
 					e.Handled = true;
 					break;
@@ -40,11 +43,13 @@ namespace Files.App.Settings
 			if (editingTag is not null)
 			{
 				editingTag.IsEditing = false;
+				editingTag.NewName = editingTag.Tag.Name;
 				editingTag.NewColor = editingTag.Tag.Color;
 			}
 
 			editingTag = (ListedTagViewModel)((Button)sender).DataContext;
 			editingTag.NewColor = editingTag.Tag.Color;
+			editingTag.NewName = editingTag.Tag.Name;
 			editingTag.IsEditing = true;
 
 			var item = (ListViewItem)TagsList.ContainerFromItem(editingTag);
@@ -87,14 +92,29 @@ namespace Files.App.Settings
 		private void RenameTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var text = ((TextBox)sender).Text;
-			editingTag!.IsNameValid = IsNameValid(text);
+			editingTag!.IsNameValid = IsNameValid(text) && !ViewModel.Tags.Any(tag => tag.Tag.Name == text && editingTag!.Tag.Name != text);
+			editingTag!.CanCommit = editingTag!.IsNameValid && (
+				text != editingTag!.Tag.Name ||
+				editingTag!.NewColor != editingTag!.Tag.Color
+			);
+		}
+
+		private void EditColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+		{
+			if (editingTag is null)
+				return;
+
+			editingTag!.CanCommit = editingTag!.IsNameValid && (
+				editingTag!.NewName != editingTag!.Tag.Name ||
+				CommunityToolkit.WinUI.Helpers.ColorHelper.ToHex(sender.Color) != editingTag!.Tag.Color
+			);
 		}
 
 		private void NewTagTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var text = ((TextBox)sender).Text;
 			ViewModel.NewTag.Name = text;
-			ViewModel.NewTag.IsNameValid = IsNameValid(text);
+			ViewModel.NewTag.IsNameValid = IsNameValid(text) && !ViewModel.Tags.Any(tag => text == tag.Tag.Name);
 		}
 
 		private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -124,6 +144,8 @@ namespace Files.App.Settings
 		{
 			var item = (ListViewItem)TagsList.ContainerFromItem(editingTag);
 			editingTag!.NewColor = editingTag.Tag.Color;
+			editingTag!.IsNameValid = true;
+			editingTag!.CanCommit = false;
 
 			EndEditing(item.FindDescendant("TagNameTextBox") as TextBox);
 		}
@@ -133,8 +155,7 @@ namespace Files.App.Settings
 			return !(
 				string.IsNullOrWhiteSpace(name) ||
 				name.StartsWith('.') ||
-				name.EndsWith('.') ||
-				(name != editingTag?.Tag.Name && ViewModel.Tags.Any(tag => name == tag.Tag.Name))
+				name.EndsWith('.')
 			);
 		}
 	}

@@ -1,50 +1,28 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Contexts;
+﻿using Files.App.Commands;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.Shared.Enums;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace Files.App.Actions.Content.Background
+namespace Files.App.Actions
 {
-	internal class SetAsLockscreenBackgroundAction : ObservableObject, IAction
+	internal class SetAsLockscreenBackgroundAction : BaseSetAsAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		public override string Label { get; } = "SetAsLockscreen".GetLocalizedResource();
 
-		public string Label { get; } = "BaseLayoutItemContextFlyoutSetAsLockscreenBackground/Text".GetLocalizedResource();
+		public override string Description => "TODO: Need to be described.";
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() && context.SelectedItems.Count == 1;
+		public override RichGlyph Glyph { get; } = new("\uEE3F");
 
-		public SetAsLockscreenBackgroundAction()
+		public override bool IsExecutable => base.IsExecutable &&
+			context.SelectedItem is not null;
+
+		public override Task ExecuteAsync()
 		{
-			context.PropertyChanged += Context_PropertyChanged;
-		}
+			if (context.SelectedItem is not null)
+				WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, context.SelectedItem.ItemPath);
 
-		public async Task ExecuteAsync()
-		{
-			if (context.ShellPage is not null)
-				WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, context.SelectedItems.FirstOrDefault().ItemPath);
-		}
-
-		private bool IsContextPageTypeAdaptedToCommand()
-		{
-			return context.PageType is not ContentPageTypes.RecycleBin
-				and not ContentPageTypes.ZipFolder
-				and not ContentPageTypes.None;
-		}
-
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.SelectedItems):
-					if (IsContextPageTypeAdaptedToCommand())
-						OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
+			return Task.CompletedTask;
 		}
 	}
 }

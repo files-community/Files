@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -21,7 +22,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
-using Windows.Graphics;
 using Windows.System;
 using Windows.UI;
 
@@ -39,18 +39,18 @@ namespace Files.App.Views.Properties
 
 		private bool _usingWinUI;
 
-		public SettingsViewModel AppSettings
-			=> App.AppSettings;
+		public readonly SettingsViewModel AppSettings;
 
 		public Window Window;
+
 		public AppWindow AppWindow;
 
-		public ObservableCollection<SquareNavViewItem> NavViewItems { get; set; }
+		public ObservableCollection<NavigationViewItemButtonStyleItem> NavViewItems { get; set; }
 
 		public MainPropertiesPage()
 		{
 			InitializeComponent();
-
+			AppSettings = Ioc.Default.GetRequiredService<SettingsViewModel>();
 			_tokenSource = new();
 
 			NavViewItems = new();
@@ -61,7 +61,7 @@ namespace Files.App.Views.Properties
 			//  ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
 			//  Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
 			//  replace the new instance created below with correct instance.
-			//  Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+			//  Read: https://learn.microsoft.com/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
@@ -84,8 +84,9 @@ namespace Files.App.Views.Properties
 
 			if (_usingWinUI)
 			{
-				// WINUI3: Set rectangle for the Titlebar
-				TitlebarArea.SizeChanged += TitlebarArea_SizeChanged;
+				// WinUI3: Set rectangle for the Titlebar
+				TitlebarArea.SizeChanged += (_, _) => DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight);
+				DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight);
 				AppWindow.Destroying += AppWindow_Destroying;
 
 				await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
@@ -97,14 +98,20 @@ namespace Files.App.Views.Properties
 			}
 		}
 
-		private void TitlebarArea_SizeChanged(object? sender, SizeChangedEventArgs? e)
+		private void MainPropertiesPage_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			var scaleAdjustment = XamlRoot.RasterizationScale;
-			var width = (int)(TitlebarArea.ActualWidth * scaleAdjustment);
-			var height = (int)(TitlebarArea.ActualHeight * scaleAdjustment);
+			UpdateDialogLayout();
+		}
 
-			// Sets properties window drag region.
-			AppWindow.TitleBar.SetDragRectangles(new RectInt32[] { new RectInt32(0, 0, width, height) });
+		private void UpdateDialogLayout()
+		{
+			MainPropertiesWindowNavigationView.PaneDisplayMode =
+				ActualWidth <= 600 ? NavigationViewPaneDisplayMode.LeftCompact : NavigationViewPaneDisplayMode.Left;
+
+			if (ActualWidth <= 600)
+				foreach (var item in NavViewItems) item.IsCompact = true;
+			else
+				foreach (var item in NavViewItems) item.IsCompact = false;
 		}
 
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
@@ -176,61 +183,53 @@ namespace Files.App.Views.Properties
 
 		private void AddNavigationViewItemsToControl(object item)
 		{
-			var generalItem = new SquareNavViewItem()
+			var generalItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "General".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemGeneral,
-				OutlinePathIcon = (string)Application.Current.Resources["PageIconRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["PageIconFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconGeneralProperties"],
 			};
-			var securityItem = new SquareNavViewItem()
+			var securityItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Security".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemSecurity,
-				OutlinePathIcon = (string)Application.Current.Resources["ShieldIconRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["ShieldIconFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconSecurityProperties"],
 			};
-			var hashItem = new SquareNavViewItem()
+			var hashItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Hashes".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemHash,
-				OutlinePathIcon = (string)Application.Current.Resources["WindowsAppsRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["WindowsAppsFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconHashesProperties"],
 			};
-			var shortcutItem = new SquareNavViewItem()
+			var shortcutItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Shortcut".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemShortcut,
-				OutlinePathIcon = (string)Application.Current.Resources["LinkIconRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["LinkIconFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconShortcutProperties"],
 			};
-			var libraryItem = new SquareNavViewItem()
+			var libraryItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Library".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemLibrary,
-				OutlinePathIcon = (string)Application.Current.Resources["LibraryIconRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["LibraryIconFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconLibraryProperties"],
 			};
-			var detailsItem = new SquareNavViewItem()
+			var detailsItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Details".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemDetails,
-				OutlinePathIcon = (string)Application.Current.Resources["InfoIconRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["InfoIconFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconDetailsProperties"],
 			};
-			var customizationItem = new SquareNavViewItem()
+			var customizationItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Customization".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCustomization,
-				OutlinePathIcon = (string)Application.Current.Resources["ColorIconRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["ColorIconFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconCustomizationProperties"],
 			};
-			var compatibilityItem = new SquareNavViewItem()
+			var compatibilityItem = new NavigationViewItemButtonStyleItem()
 			{
 				Name = "Compatibility".GetLocalizedResource(),
 				ItemType = PropertyNavigationViewItemEnums.ItemCompatibility,
-				OutlinePathIcon = (string)Application.Current.Resources["WindowsAppsRegular"],
-				FilledPathIcon = (string)Application.Current.Resources["WindowsAppsFilled"],
+				OpacityIconStyle = (Style)Application.Current.Resources["ColorIconCompatibilityProperties"],
 			};
 
 			NavViewItems.Add(generalItem);
@@ -257,7 +256,8 @@ namespace Files.App.Views.Properties
 				NavViewItems.Remove(detailsItem);
 				NavViewItems.Remove(securityItem);
 				NavViewItems.Remove(customizationItem);
-			} 
+				NavViewItems.Remove(hashItem);
+			}
 			else if (item is ListedItem listedItem)
 			{
 				var isShortcut = listedItem.IsShortcut;
@@ -266,7 +266,7 @@ namespace Files.App.Views.Properties
 				var isFolder = listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder;
 
 				var securityItemEnabled = !isLibrary && !listedItem.IsRecycleBinItem;
-				var hashItemEnabled = !isFolder && !isLibrary && !listedItem.IsRecycleBinItem;
+				var hashItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
 				var detailsItemEnabled = fileExt is not null && !isShortcut && !isLibrary;
 				var customizationItemEnabled = !isLibrary && ((isFolder && !listedItem.IsArchive) || (isShortcut && !listedItem.IsLinkItem));
 				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : fileExt, true);
@@ -385,21 +385,32 @@ namespace Files.App.Views.Properties
 		}
 	}
 
-	public class SquareNavViewItem : ObservableObject
+	// TODO: Should move to a general place to use in the Settings Dialog as well
+	public class NavigationViewItemButtonStyleItem : ObservableObject
 	{
 		public string Name;
 
 		public PropertyNavigationViewItemEnums ItemType;
 
-		public string? OutlinePathIcon;
-
-		public string? FilledPathIcon;
+		private Style _opacityIconStyle;
+		public Style OpacityIconStyle
+		{
+			get => _opacityIconStyle;
+			set => SetProperty(ref _opacityIconStyle, value);
+		}
 
 		private bool _isSelected;
 		public bool IsSelected
 		{
 			get => _isSelected;
 			set => SetProperty(ref _isSelected, value);
+		}
+
+		private bool _isCompact;
+		public bool IsCompact
+		{
+			get => _isCompact;
+			set => SetProperty(ref _isCompact, value);
 		}
 	}
 

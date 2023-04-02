@@ -10,33 +10,18 @@ namespace Files.App.Actions
 {
 	internal class CreateShortcutFromDialogAction : ObservableObject, IAction
 	{
-		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "Shortcut".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
-		
-		public bool IsExecutable => context.ShellPage is not null && context.SelectedItems.Count > 0;
+		public string Description => "TODO: Need to be described.";
 
-		public CreateShortcutFromDialogAction()
-		{
-			context.PropertyChanged += Context_PropertyChanged;
-		}
-		
+		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
+
 		public async Task ExecuteAsync()
 		{
-			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage);
-		}
-
-		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.SelectedItems):
-				case nameof(IContentPageContext.Folder):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
+			if (context.ShellPage is not null)
+				await UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage);
 		}
 	}
 }

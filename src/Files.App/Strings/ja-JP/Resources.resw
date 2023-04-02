@@ -243,9 +243,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>昇順</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>最新の情報に更新</value>
-  </data>
   <data name="Paste" xml:space="preserve">
     <value>貼り付け</value>
   </data>
@@ -264,16 +261,16 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>新しいウィンドウで開く</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>共有</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+  <data name="Cut" xml:space="preserve">
     <value>切り取り</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+  <data name="PinToFavorites" xml:space="preserve">
     <value>お気に入りに固定</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -315,20 +312,17 @@
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>このフォルダーは空です。</value>
   </data>
-  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Back" xml:space="preserve">
     <value>戻る (Alt+左矢印)</value>
   </data>
-  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Forward" xml:space="preserve">
     <value>進む (Alt+右矢印)</value>
   </data>
-  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Up" xml:space="preserve">
     <value>上の階層へ (Alt+上矢印)</value>
   </data>
-  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>最新の情報に更新 (F5)</value>
-  </data>
-  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>検索 (Ctrl+F)</value>
+  <data name="Refresh" xml:space="preserve">
+    <value>最新の情報に更新</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>同じ名前のファイルがこのフォルダーに既に存在します。</value>
@@ -339,7 +333,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>ファイルが既に存在します</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="SetAsLockscreen" xml:space="preserve">
     <value>ロック画面の背景として設定</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
@@ -528,7 +522,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>{0} にコピー</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="CreateShortcut" xml:space="preserve">
     <value>ショートカットの作成</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
@@ -660,16 +654,16 @@
   <data name="LayoutMode" xml:space="preserve">
     <value>レイアウト モード</value>
   </data>
-  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateBack" xml:space="preserve">
     <value>前に戻る</value>
   </data>
-  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateForward" xml:space="preserve">
     <value>次に進む</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>フォルダーを更新</value>
   </data>
-  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateUp" xml:space="preserve">
     <value>1 つ上の階層へ移動</value>
   </data>
   <data name="Language" xml:space="preserve">
@@ -985,19 +979,16 @@
     <value>このデバイスは現在使用中です。デバイスを使用している可能性のあるすべてのプログラム、ウィンドウやタブを閉じてから再度試してください。</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
-    <value>取り出す</value>
+    <value>取り出し</value>
   </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+  <data name="DuplicateTab" xml:space="preserve">
     <value>タブを複製</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>新しいウィンドウにタブを移動</value>
   </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+  <data name="NewTab" xml:space="preserve">
     <value>新しいタブ</value>
-  </data>
-  <data name="NewTabCtrlT" xml:space="preserve">
-    <value>新しいタブ (Ctrl+T)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>いくつかのプロパティは個人情報を含んでいる可能性があります。</value>
@@ -1184,9 +1175,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>不明</value>
-  </data>
-  <data name="SettingsCheckboxesToSelectItems" xml:space="preserve">
-    <value>ファイル名の横にチェック ボックスを表示する</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>拡張子を変更すると、ファイルが使えなくなる可能性があります。変更しますか?</value>
@@ -1425,7 +1413,7 @@
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>変更日</value>
   </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+  <data name="OriginalFolder" xml:space="preserve">
     <value>元のフォルダー</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
@@ -1452,29 +1440,35 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>極小</value>
   </data>
+  <data name="Future" xml:space="preserve">
+    <value>未来</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>今日</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>昨日</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>今週</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>先週</value>
   </data>
-  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
+  <data name="EarlierThisMonth" xml:space="preserve">
     <value>今月</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>先月</value>
   </data>
-  <data name="ItemTimeText_ThisYear" xml:space="preserve">
+  <data name="EarlierThisYear" xml:space="preserve">
     <value>今年</value>
   </data>
-  <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>古い</value>
+  <data name="LastYear" xml:space="preserve">
+    <value>昨年</value>
+  </data>
+  <data name="YearN" xml:space="preserve">
+    <value>{0} 年</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} ファイル</value>
@@ -1482,7 +1476,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} ファイル</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>閉じたタブを再度開く</value>
   </data>
   <data name="Rename" xml:space="preserve">
@@ -1608,7 +1602,7 @@
   <data name="Allow" xml:space="preserve">
     <value>許可</value>
   </data>
-  <data name="SecurityDenyLabel.Text" xml:space="preserve">
+  <data name="Deny" xml:space="preserve">
     <value>拒否</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
@@ -1642,7 +1636,7 @@
     <value>このオブジェクトのセキュリティ プロパティを表示する権限がありません。[詳細設定] をクリックして続行します。</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>所有者</value>
+    <value>所有者:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>不明な所有者</value>
@@ -1680,11 +1674,11 @@
   <data name="Access" xml:space="preserve">
     <value>アクセス</value>
   </data>
-  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
+  <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
     <value>適用先</value>
   </data>
-  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>エンティティ</value>
+  <data name="Principal" xml:space="preserve">
+    <value>プリンシパル</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>ファイル</value>
@@ -1695,10 +1689,10 @@
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>サブフォルダー</value>
   </data>
-  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
+  <data name="Inherited" xml:space="preserve">
     <value>継承済み</value>
   </data>
-  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
+  <data name="Permissions" xml:space="preserve">
     <value>アクセス許可</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
@@ -1788,10 +1782,10 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>ペインを閉じる</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+  <data name="EnterCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを開始</value>
   </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+  <data name="ExitCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを終了</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
@@ -1860,12 +1854,6 @@
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
   </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Up</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
-  </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
@@ -1883,12 +1871,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
-  </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>アーカイブの展開が正常に完了しました。</value>
@@ -2010,7 +1992,7 @@
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>シングル クリックでファイルを開く</value>
   </data>
-  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+  <data name="FolderPath" xml:space="preserve">
     <value>フォルダー パス</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
@@ -2214,9 +2196,6 @@
   <data name="Pictures" xml:space="preserve">
     <value>ピクチャ</value>
   </data>
-  <data name="Videos" xml:space="preserve">
-    <value>ビデオ</value>
-  </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Files をアップデート</value>
   </data>
@@ -2353,7 +2332,7 @@
     <value>選択した {0} アイテムを復元しますか?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>選択範囲を復元</value>
+    <value>選択したファイルを復元</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
     <value>すべてのアイテムを復元</value>
@@ -2598,10 +2577,287 @@
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>すべての競合するアイテムにこれを実行する</value>
   </data>
+  <data name="OpenTerminal" xml:space="preserve">
+    <value>ターミナルで開く</value>
+  </data>
+  <data name="OpenTerminalAsAdmin" xml:space="preserve">
+    <value>管理者としてターミナルで開く</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>複数選択</value>
+  </data>
+  <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
+    <value>サイドバーの項目を並べ替え</value>
+  </data>
+  <data name="Hashes" xml:space="preserve">
+    <value>ハッシュ</value>
+  </data>
+  <data name="CalculationError" xml:space="preserve">
+    <value>計算中にエラーが発生しました</value>
+  </data>
+  <data name="Algorithm" xml:space="preserve">
+    <value>アルゴリズム</value>
+  </data>
+  <data name="HashValue" xml:space="preserve">
+    <value>ハッシュ値</value>
+  </data>
+  <data name="SelectHashesToShow" xml:space="preserve">
+    <value>表示するハッシュを選択</value>
+  </data>
+  <data name="Calculating" xml:space="preserve">
+    <value>計算中...</value>
+  </data>
+  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
+    <value>ピン留めされたアイテム</value>
+  </data>
+  <data name="DecreaseSize" xml:space="preserve">
+    <value>サイズを小さくする</value>
+  </data>
+  <data name="IncreaseSize" xml:space="preserve">
+    <value>サイズを大きくする</value>
+  </data>
+  <data name="ToggleSortDirection" xml:space="preserve">
+    <value>昇順と降順の切り替え</value>
+  </data>
+  <data name="InvalidTagNameWarning" xml:space="preserve">
+    <value>無効な名前です</value>
+  </data>
+  <data name="TagNameRules" xml:space="preserve">
+    <value>名前を空欄にすることやピリオドで開始または終了することはできません。</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>ビデオ</value>
+  </data>
+  <data name="LaunchQuickLook" xml:space="preserve">
+    <value>QuickLook を起動</value>
+  </data>
+  <data name="ToggleCompactOverlay" xml:space="preserve">
+    <value>コンパクト オーバーレイを切り替える</value>
+  </data>
+  <data name="CopyItemDescription" xml:space="preserve">
+    <value>ファイルをクリップボードにコピーする</value>
+  </data>
+  <data name="CopyPathDescription" xml:space="preserve">
+    <value>ファイルのパスをクリップボードにコピーする</value>
+  </data>
+  <data name="CutItemDescription" xml:space="preserve">
+    <value>ファイルをクリップボードに切り取る</value>
+  </data>
+  <data name="PasteItemDescription" xml:space="preserve">
+    <value>ファイルをクリップボードから現在のフォルダに貼り付ける</value>
+  </data>
+  <data name="PasteItemToSelectionDescription" xml:space="preserve">
+    <value>ファイルをクリップボードから選択したフォルダに貼り付ける</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>コンパクト オーバーレイを切り替える</value>
+  </data>
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>コンパクト オーバーレイを開始</value>
+  </data>
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>コンパクト オーバーレイを終了</value>
+  </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>サイドバーの表示を切り替える</value>
+  </data>
+  <data name="Key.Menu" xml:space="preserve">
+    <value>メニュー</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Control" xml:space="preserve">
+    <value>Ctrl</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Shift" xml:space="preserve">
+    <value>Shift</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Windows" xml:space="preserve">
+    <value>Win</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Enter" xml:space="preserve">
+    <value>Enter</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Space" xml:space="preserve">
+    <value>スペース</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Escape" xml:space="preserve">
+    <value>Escape</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Back" xml:space="preserve">
+    <value>Back</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Tab" xml:space="preserve">
+    <value>Tab</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Insert" xml:space="preserve">
+    <value>Ins</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Delete" xml:space="preserve">
+    <value>Del</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Left" xml:space="preserve">
+    <value>左矢印</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Right" xml:space="preserve">
+    <value>右矢印</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Down" xml:space="preserve">
+    <value>下矢印</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Up" xml:space="preserve">
+    <value>上矢印</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Home" xml:space="preserve">
+    <value>Home</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.End" xml:space="preserve">
+    <value>End</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.PageDown" xml:space="preserve">
+    <value>PageDown</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.PageUp" xml:space="preserve">
+    <value>PageUp</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Separator" xml:space="preserve">
+    <value>Sep</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Pause" xml:space="preserve">
+    <value>Pause</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Sleep" xml:space="preserve">
+    <value>スリープ</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Clear" xml:space="preserve">
+    <value>Clear</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Print" xml:space="preserve">
+    <value>Print</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Help" xml:space="preserve">
+    <value>Help</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mouse4" xml:space="preserve">
+    <value>マウス4</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mouse5" xml:space="preserve">
+    <value>マウス5</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application" xml:space="preserve">
+    <value>アプリ</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application1" xml:space="preserve">
+    <value>アプリ1</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application2" xml:space="preserve">
+    <value>アプリ2</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mail" xml:space="preserve">
+    <value>メール</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoHome" xml:space="preserve">
+    <value>GoHome</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoBack" xml:space="preserve">
+    <value>戻る</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoForward" xml:space="preserve">
+    <value>進む</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserRefresh" xml:space="preserve">
+    <value>再読み込み</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserStop" xml:space="preserve">
+    <value>中止</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserSearch" xml:space="preserve">
+    <value>検索</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserFavorites" xml:space="preserve">
+    <value>お気に入り</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaPlayPause" xml:space="preserve">
+    <value>再生・一時停止</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaStop" xml:space="preserve">
+    <value>停止</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaPreviousTrack" xml:space="preserve">
+    <value>前トラック</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaNextTrack" xml:space="preserve">
+    <value>次トラック</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaSelect" xml:space="preserve">
+    <value>メディア選択</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaMute" xml:space="preserve">
+    <value>ミュート</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaVolumeDown" xml:space="preserve">
+    <value>音量小</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaVolumeUp" xml:space="preserve">
+    <value>音量大</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>変更</value>
+  </data>
+  <data name="ToggleSelect" xml:space="preserve">
+    <value>選択を切り替える</value>
+  </data>
+  <data name="ShowFileExtensionWarning" xml:space="preserve">
+    <value>ファイル拡張子の変更時に警告を表示する</value>
+  </data>
+  <data name="Untagged" xml:space="preserve">
+    <value>タグなし</value>
   </data>
 </root>

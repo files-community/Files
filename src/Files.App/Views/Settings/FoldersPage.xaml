@@ -1,25 +1,20 @@
 ﻿<Page
-	x:Class="Files.App.Settings.FoldersPage"
+	x:Class="Files.App.Views.Settings.FoldersPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:UserControls="using:Files.App.UserControls"
-	xmlns:contract13NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,13)"
-	xmlns:contract13Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,13)"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:datamodels="using:Files.App.DataModels"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-	xmlns:settingsviewmodels="using:Files.App.ViewModels.Settings"
+	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
+
 	<Page.Resources>
 		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 	</Page.Resources>
+
 	<Page.DataContext>
-		<settingsviewmodels:FoldersViewModel x:Name="ViewModel" />
+		<vm:FoldersViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
 	<Grid>
@@ -243,18 +238,6 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
-			<!--  Show checkboxes next to file names  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsCheckboxesToSelectItems}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE762;" />
-				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsCheckboxesToSelectItems}"
-					IsOn="{x:Bind ViewModel.ShowSelectionCheckboxes, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</local:SettingsBlockControl>
-
-
 			<!--  Behaviors  -->
 			<TextBlock
 				Padding="0,12,0,4"
@@ -297,7 +280,7 @@
 			<!--  Confirm Delete  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE107;" />
+					<FontIcon Glyph="&#xE74D;" />
 				</local:SettingsBlockControl.Icon>
 
 				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}" SelectedIndex="{x:Bind ViewModel.SelectedDeleteConfirmationPolicyIndex, Mode=TwoWay}">
@@ -306,11 +289,23 @@
 					<ComboBoxItem Content="{helpers:ResourceString Name=Never}" />
 				</ComboBox>
 			</local:SettingsBlockControl>
+			
+			<!--  File Extension Warning  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFileExtensionWarning}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE8AC;" />
+				</local:SettingsBlockControl.Icon>
+
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowFileExtensionWarning}"
+					IsOn="{x:Bind ViewModel.ShowFileExtensionWarning, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
 
 			<!--  Select On Hover  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE14E;" />
+					<FontIcon Glyph="&#xE8B3;" />
 				</local:SettingsBlockControl.Icon>
 
 				<ToggleSwitch

@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Filesystem;
 using Files.App.UserControls.FilePreviews;
@@ -22,10 +21,8 @@ namespace Files.App.ViewModels
 {
 	public class PreviewPaneViewModel : ObservableObject, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		private readonly IPreviewPaneSettingsService previewSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
-
+		private readonly IUserSettingsService userSettingsService;
+		private readonly IPreviewPaneSettingsService previewSettingsService;
 		private CancellationTokenSource loadCancellationTokenSource;
 
 		private bool isEnabled;
@@ -74,12 +71,15 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref previewPaneContent, value);
 		}
 
-		public PreviewPaneViewModel()
+		public PreviewPaneViewModel(IUserSettingsService userSettings, IPreviewPaneSettingsService previewSettings)
 		{
+			userSettingsService = userSettings;
+			previewSettingsService = previewSettings;
+
 			ShowPreviewOnlyInvoked = new RelayCommand(() => UpdateSelectedItemPreview());
 
 			IsEnabled = previewSettingsService.IsEnabled;
-			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 		}
 
@@ -344,7 +344,7 @@ namespace Files.App.ViewModels
 
 		public void Dispose()
 		{
-			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			userSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			previewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 		}
 	}

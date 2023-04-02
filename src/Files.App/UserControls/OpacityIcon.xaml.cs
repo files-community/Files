@@ -2,8 +2,6 @@ using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls
 {
 	public sealed partial class OpacityIcon : Control
@@ -13,27 +11,41 @@ namespace Files.App.UserControls
 			InitializeComponent();
 		}
 
-		private void IsEnabledChange(DependencyObject sender, DependencyProperty dp)
+
+		public bool IsSelected
 		{
-			var v = sender.GetValue(dp) as bool?;
-			if (v is not null && v == false)
-			{
-				VisualStateManager.GoToState(this, "Disabled", true);
-			}
-			else
-			{
-				VisualStateManager.GoToState(this, "Normal", true);
-			}
+			get => (bool)GetValue(IsSelectedProperty);
+			set => SetValue(IsSelectedProperty, value);
 		}
 
-		private void OpacityIcon_Loading(FrameworkElement sender, object args)
+		public static readonly DependencyProperty IsSelectedProperty =
+			DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(OpacityIcon), new PropertyMetadata(null));
+
+		private void IsEnabledChange(DependencyObject sender, DependencyProperty dp)
 		{
-			// register a property change callback for the parent content presenter's foreground to allow reacting to button state changes, eg disabled
-			var p = this.FindAscendant<Control>();
-			if (p is not null)
-			{
-				p.RegisterPropertyChangedCallback(Control.IsEnabledProperty, IsEnabledChange);
-			}
+			if (sender.GetValue(dp) is false)
+				VisualStateManager.GoToState(this, "Disabled", true);
+			else if (IsSelected)
+				VisualStateManager.GoToState(this, "Selected", true);
+			else
+				VisualStateManager.GoToState(this, "Normal", true);
+		}
+
+		private void OpacityIcon_Loading(FrameworkElement sender, object e)
+		{
+			var control = this.FindAscendant<Control>();
+			control?.RegisterPropertyChangedCallback(IsEnabledProperty, IsEnabledChange);
+			RegisterPropertyChangedCallback(IsSelectedProperty, IsEnabledChange);
+		}
+
+		private void OpacityIcon_Loaded(object sender, RoutedEventArgs e)
+		{
+			var control = this.FindAscendant<Control>();
+			if (control is not null && !control.IsEnabled)
+				VisualStateManager.GoToState(this, "Disabled", false);
+
+			if (control is not null && control.IsEnabled && IsSelected)
+				VisualStateManager.GoToState(this, "Selected", true);
 		}
 	}
 }

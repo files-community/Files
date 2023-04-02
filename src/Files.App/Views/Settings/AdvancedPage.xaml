@@ -1,5 +1,5 @@
 ﻿<Page
-	x:Class="Files.App.Settings.AdvancedPage"
+	x:Class="Files.App.Views.Settings.AdvancedPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,13 +8,15 @@
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:settingsviewmodels="using:Files.App.ViewModels.Settings"
+	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
+
 	<Page.Resources>
 		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 	</Page.Resources>
+
 	<Page.DataContext>
-		<settingsviewmodels:AdvancedViewModel x:Name="ViewModel" />
+		<vm:AdvancedViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
 	<Grid>
@@ -46,7 +48,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 			<!--  Import  -->
@@ -60,7 +62,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 			<!--  Edit Settings File  -->
@@ -74,7 +76,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 

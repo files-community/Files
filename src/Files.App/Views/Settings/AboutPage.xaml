@@ -1,15 +1,18 @@
 <Page
-	x:Class="Files.App.Settings.AboutPage"
+	x:Class="Files.App.Views.Settings.AboutPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
+
+	<Page.DataContext>
+		<vm:AboutViewModel x:Name="ViewModel" />
+	</Page.DataContext>
 
 	<Grid>
 		<StackPanel
@@ -21,7 +24,6 @@
 					<EntranceThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
-
 			<!--  Version  -->
 			<TextBlock
 				Padding="0,0,0,4"
@@ -53,13 +55,13 @@
 				ButtonCommand="{x:Bind ViewModel.SupportUsCommand}"
 				IsClickable="True">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE006;" />
+					<FontIcon Glyph="&#xEB51;" />
 				</local:SettingsBlockControl.Icon>
 
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 
@@ -83,7 +85,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 			<!--  Feedback  -->
@@ -102,7 +104,7 @@
 							<FontIcon
 								FontSize="14"
 								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-								Glyph="&#xE2B4;" />
+								Glyph="&#xE8A7;" />
 						</local:SettingsBlockControl>
 
 						<!--  Submit bug report  -->
@@ -114,7 +116,7 @@
 							<FontIcon
 								FontSize="14"
 								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-								Glyph="&#xE2B4;" />
+								Glyph="&#xE8A7;" />
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
@@ -133,7 +135,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 
@@ -145,19 +147,20 @@
 				Text="{helpers:ResourceString Name=OpenSource}" />
 
 			<!--  Third Party Licenses  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ThirdPartyLicenses}"
-										HorizontalAlignment="Stretch"
-										Click="ThirdPartyLicenses_Click">
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=ThirdPartyLicenses}"
+				HorizontalAlignment="Stretch"
+				Click="ThirdPartyLicenses_Click">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE15E;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
 					<ScrollViewer Height="400">
 						<controls:MarkdownTextBlock
-							Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 							Margin="10"
 							Background="Transparent"
-							LinkClicked="MarkdownTextBlock_LinkClicked" />
+							LinkClicked="MarkdownTextBlock_LinkClicked"
+							Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 					</ScrollViewer>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
@@ -175,7 +178,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
 			<!--  Privacy  -->
@@ -191,7 +194,7 @@
 				<FontIcon
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE2B4;" />
+					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>
