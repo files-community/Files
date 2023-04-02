@@ -9,6 +9,7 @@ using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Enums;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,7 +110,7 @@ namespace Files.App.Helpers
 				catch (Exception e)
 				{
 					// This is to try and figure out the root cause of AppCenter error #985932119u
-					App.Logger.Warn(e, e.Message);
+					App.Logger.LogWarning(e, e.Message);
 				}
 			}
 		}

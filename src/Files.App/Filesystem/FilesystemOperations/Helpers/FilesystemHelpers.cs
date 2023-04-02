@@ -10,6 +10,7 @@ using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Files.Shared.Services;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -668,7 +669,7 @@ namespace Files.App.Filesystem
 				if (collisions.ContainsKey(incomingItems.ElementAt(item.index).SourcePath))
 				{
 					// Something strange happened, log
-					App.Logger.Warn($"Duplicate key when resolving conflicts: {incomingItems.ElementAt(item.index).SourcePath}, {item.src.Name}\n" +
+					App.Logger.LogWarning($"Duplicate key when resolving conflicts: {incomingItems.ElementAt(item.index).SourcePath}, {item.src.Name}\n" +
 						$"Source: {string.Join(", ", source.Select(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path))}");
 				}
 				collisions.AddIfNotPresent(incomingItems.ElementAt(item.index).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
@@ -753,7 +754,7 @@ namespace Files.App.Filesystem
 				}
 				catch (Exception ex)
 				{
-					App.Logger.Warn(ex, ex.Message);
+					App.Logger.LogWarning(ex, ex.Message);
 					return itemsList;
 				}
 			}

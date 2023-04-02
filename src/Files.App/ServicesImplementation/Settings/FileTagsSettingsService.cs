@@ -5,6 +5,7 @@ using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -59,7 +60,7 @@ namespace Files.App.ServicesImplementation.Settings
 		{
 			if (FileTagList.Any(x => x.Uid is null))
 			{
-				App.Logger.Warn("Tags file is invalid, regenerate");
+				App.Logger.LogWarning("Tags file is invalid, regenerate");
 				FileTagList = DefaultFileTags;
 			}
 

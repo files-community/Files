@@ -7,6 +7,7 @@ using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -270,7 +271,7 @@ namespace Files.App.UserControls.Widgets
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Info(ex, "Could not populate recent files");
+				App.Logger.LogInformation(ex, "Could not populate recent files");
 			}
 			finally
 			{
@@ -288,7 +289,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				recentItemsCollection.Insert(index < 0 ? recentItemsCollection.Count : Math.Min(index, recentItemsCollection.Count), recentItem);
 				_ = recentItem.LoadRecentItemIcon()
-					.ContinueWith(t => App.Logger.Warn(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+					.ContinueWith(t => App.Logger.LogWarning(t.Exception, null), TaskContinuationOptions.OnlyOnFaulted);
 				return true;
 			}
 			return false;
