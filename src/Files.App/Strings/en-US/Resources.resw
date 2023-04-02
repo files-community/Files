@@ -2860,6 +2860,12 @@
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Show warning when changing file extensions</value>
   </data>
+  <data name="ThisPC" xml:space="preserve">
+    <value>This PC</value>
+  </data>
+  <data name="RecycleBin" xml:space="preserve">
+    <value>Recycle Bin</value>
+  </data>
   <data name="Untagged" xml:space="preserve">
     <value>Untagged</value>
   </data>
