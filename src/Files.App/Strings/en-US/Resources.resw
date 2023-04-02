@@ -2658,6 +2658,9 @@
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Exit compact overlay</value>
   </data>
+  <data name="FormatDriveDescription" xml:space="preserve">
+    <value>Opens the "Format Drive" menu for the selected item</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Toggle the sidebar</value>
   </data>
@@ -2853,6 +2856,12 @@
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Show warning when changing file extensions</value>
+  </data>
+  <data name="ThisPC" xml:space="preserve">
+    <value>This PC</value>
+  </data>
+  <data name="RecycleBin" xml:space="preserve">
+    <value>Recycle Bin</value>
   </data>
   <data name="Untagged" xml:space="preserve">
     <value>Untagged</value>

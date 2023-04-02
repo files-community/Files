@@ -427,7 +427,7 @@ namespace Files.App.ViewModels
 				return;
 
 			using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
-			if (folderItem is null) 
+			if (folderItem is null)
 				return;
 
 			var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
@@ -1389,8 +1389,11 @@ namespace Files.App.ViewModels
 			{
 				PrimaryItemAttribute = StorageItemTypes.Folder,
 				ItemPropertiesInitialized = true,
-				ItemNameRaw = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal) ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin") :
-						   path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal) ? "Network".GetLocalizedResource() : isFtp ? "FTP" : "Unknown",
+				ItemNameRaw =
+							path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ? "RecycleBin".GetLocalizedResource() :
+							path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ? "Network".GetLocalizedResource() :
+							path.StartsWith(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase) ? "ThisPC".GetLocalizedResource() :
+							isFtp ? "FTP" : "Unknown",
 				ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
 				ItemDateCreatedReal = DateTimeOffset.Now,  // Fake for now
 				ItemType = "Folder".GetLocalizedResource(),
