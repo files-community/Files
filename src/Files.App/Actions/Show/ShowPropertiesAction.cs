@@ -20,7 +20,9 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconProperties");
 
-		public bool IsExecutable => context.ShellPage.InstanceViewModel.IsPageTypeNotHome;
+		public bool IsExecutable =>
+			context.ShellPage.InstanceViewModel.IsPageTypeNotHome &&
+			context.HasSelection;
 
 		public HotKey HotKey { get; } = new(VirtualKey.P, VirtualKeyModifiers.Control);
 

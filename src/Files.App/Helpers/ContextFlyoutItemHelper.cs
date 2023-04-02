@@ -390,7 +390,7 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModelBuilder(commands.ShowProperties)
 				{
 					IsPrimary = true,
-					IsVisible = commands.ShowProperties.IsExecutable && itemsSelected,
+					IsVisible = commands.ShowProperties.IsExecutable,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenParentFolder).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.PinItemToFavorites)
