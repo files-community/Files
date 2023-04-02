@@ -6,8 +6,6 @@ on:
       - 'main'
       - 'pipelines'
       - '**-servicing'
-    paths:
-      - '**.xaml'
   pull_request:
     branches:
       - 'main'
@@ -25,8 +23,4 @@ jobs:
         shell: pwsh
         run: |
           cd $env:GITHUB_WORKSPACE
-          git diff --name-only HEAD~1
-          $changedFiles = (git diff --name-only HEAD~1) -split "\n" | Where-Object {$_ -like "*.xaml"}
-          echo $changedFiles
-          dotnet tool install --global XamlStyler.Console
-          xstyler -p -f $changedFiles
+          git status
