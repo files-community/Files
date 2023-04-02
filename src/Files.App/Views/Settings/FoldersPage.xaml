@@ -280,7 +280,7 @@
 			<!--  Confirm Delete  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE107;" />
+					<FontIcon Glyph="&#xE74D;" />
 				</local:SettingsBlockControl.Icon>
 
 				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}" SelectedIndex="{x:Bind ViewModel.SelectedDeleteConfirmationPolicyIndex, Mode=TwoWay}">
@@ -289,11 +289,23 @@
 					<ComboBoxItem Content="{helpers:ResourceString Name=Never}" />
 				</ComboBox>
 			</local:SettingsBlockControl>
+			
+			<!--  File Extension Warning  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFileExtensionWarning}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE8AC;" />
+				</local:SettingsBlockControl.Icon>
+
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowFileExtensionWarning}"
+					IsOn="{x:Bind ViewModel.ShowFileExtensionWarning, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
 
 			<!--  Select On Hover  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE14E;" />
+					<FontIcon Glyph="&#xE8B3;" />
 				</local:SettingsBlockControl.Icon>
 
 				<ToggleSwitch

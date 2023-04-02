@@ -142,26 +142,26 @@
 					MinWidth="40"
 					AccessKey="M"
 					AutomationProperties.AutomationId="InnerNavigationToolbarRenameButton"
-					Command="{x:Bind ViewModel.Rename, Mode=OneWay}"
-					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=Rename}"
+					Command="{x:Bind Commands.Rename, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.Rename.IsExecutable, Mode=OneWay}"
+					Label="{x:Bind Commands.Rename.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Rename}">
+					ToolTipService.ToolTip="{x:Bind Commands.Rename.LabelWithHotKey}">
 
-					<local:OpacityIcon Style="{StaticResource ColorIconRename}" />
+					<local:OpacityIcon Style="{x:Bind Commands.Rename.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="ShareButton"
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="H"
-					Command="{x:Bind ViewModel.Share, Mode=OneWay}"
-					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanShare, ViewModel.InstanceViewModel.CanShareInPage), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare/Text}"
+					Command="{x:Bind Commands.ShareItem, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.ShareItem.IsExecutable, Mode=OneWay, FallbackValue=False}"
+					Label="{x:Bind Commands.ShareItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare/Text}">
+					ToolTipService.ToolTip="{x:Bind Commands.ShareItem.LabelWithHotKey}">
 
-					<local:OpacityIcon Style="{StaticResource ColorIconShare}" />
+					<local:OpacityIcon Style="{x:Bind Commands.ShareItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="DeleteButton"
@@ -491,9 +491,9 @@
 								IsEnabled="{x:Bind Commands.GroupByOriginalFolder.IsExecutable, Mode=OneWay}"
 								Text="{x:Bind Commands.GroupByOriginalFolder.Label}" />
 							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.GroupByDateModified.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupByDateModified.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupByDateModified.Label}" />
+								IsChecked="{x:Bind Commands.GroupByDateDeleted.IsOn, Mode=TwoWay}"
+								IsEnabled="{x:Bind Commands.GroupByDateDeleted.IsExecutable, Mode=OneWay}"
+								Text="{x:Bind Commands.GroupByDateDeleted.Label}" />
 							<ToggleMenuFlyoutItem
 								IsChecked="{x:Bind Commands.GroupByFolderPath.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupByFolderPath.IsExecutable, Mode=OneWay}"

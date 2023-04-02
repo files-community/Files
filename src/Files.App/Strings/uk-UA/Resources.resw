@@ -243,9 +243,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>За зростанням</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>Оновити</value>
-  </data>
   <data name="Paste" xml:space="preserve">
     <value>Вставити</value>
   </data>
@@ -264,7 +261,7 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>Відкрити в новому вікні</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>Поділитися</value>
   </data>
   <data name="Cut" xml:space="preserve">
@@ -315,20 +312,17 @@
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Ця папка порожня.</value>
   </data>
-  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Back" xml:space="preserve">
     <value>Назад (Alt + Стрілка вліво)</value>
   </data>
-  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Forward" xml:space="preserve">
     <value>Вперед (Alt + Стрілка вправо)</value>
   </data>
-  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Up" xml:space="preserve">
     <value>Вгору (Alt + Стрілка вгору)</value>
   </data>
-  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Оновити (F5)</value>
-  </data>
-  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Пошук</value>
+  <data name="Refresh" xml:space="preserve">
+    <value>Оновити</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Елемент з цим іменем вже існує в цій папці.</value>
@@ -660,17 +654,17 @@
   <data name="LayoutMode" xml:space="preserve">
     <value>Вид макетом</value>
   </data>
-  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Навігація назад</value>
+  <data name="NavigateBack" xml:space="preserve">
+    <value>Перейти назад</value>
   </data>
-  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Перехід уперед</value>
+  <data name="NavigateForward" xml:space="preserve">
+    <value>Перейти вперед</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Оновлення каталогу</value>
   </data>
-  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Піднятися вгору на один каталог</value>
+  <data name="NavigateUp" xml:space="preserve">
+    <value>Піднятися на один каталог</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Мова</value>
@@ -1446,29 +1440,35 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Крихітна</value>
   </data>
+  <data name="Future" xml:space="preserve">
+    <value>Майбутній</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>Сьогодні</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Учора</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>Раніше цього тижня</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>Минулого тижня</value>
   </data>
-  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
-    <value>ЦЬОГО МІСЯЦЯ</value>
+  <data name="EarlierThisMonth" xml:space="preserve">
+    <value>Раніше цього місяця</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>Минулого місяця</value>
   </data>
-  <data name="ItemTimeText_ThisYear" xml:space="preserve">
-    <value>Цього року</value>
+  <data name="EarlierThisYear" xml:space="preserve">
+    <value>Раніше цього року</value>
   </data>
-  <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>СТАРІШІ</value>
+  <data name="LastYear" xml:space="preserve">
+    <value>Минулого року</value>
+  </data>
+  <data name="YearN" xml:space="preserve">
+    <value>Рік {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} елемент</value>
@@ -1476,8 +1476,8 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>Елементів: {0}</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
-    <value>Відкрити закриту вкладку</value>
+  <data name="ReopenClosedTab" xml:space="preserve">
+    <value>Повторно відкрити закриту вкладку</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Перейменувати</value>
@@ -1602,8 +1602,8 @@
   <data name="Allow" xml:space="preserve">
     <value>Дозволити</value>
   </data>
-  <data name="SecurityDenyLabel.Text" xml:space="preserve">
-    <value>Відмовити</value>
+  <data name="Deny" xml:space="preserve">
+    <value>Відхилити</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Повний доступ</value>
@@ -1636,7 +1636,7 @@
     <value>Ви не маєте прав на перегляд властивостей безпеки цього об’єкта. Натисніть «Додаткові дозволи», щоб продовжити.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Власник</value>
+    <value>Власник:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Невідомий власник</value>
@@ -1674,11 +1674,11 @@
   <data name="Access" xml:space="preserve">
     <value>Доступ</value>
   </data>
-  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
-    <value>Застосовно до</value>
+  <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
+    <value>Застосовується до</value>
   </data>
-  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>Об'єкт</value>
+  <data name="Principal" xml:space="preserve">
+    <value>Головний</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>файли</value>
@@ -1689,11 +1689,11 @@
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>вкладені папки</value>
   </data>
-  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
+  <data name="Inherited" xml:space="preserve">
     <value>Успадковано</value>
   </data>
-  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
-    <value>Дозволи</value>
+  <data name="Permissions" xml:space="preserve">
+    <value>Повноваження</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Ви не маєте прав на перегляд властивостей безпеки цього об’єкта. Ви можете спробувати отримати цей об'єкт у власність.</value>
@@ -1871,9 +1871,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+Е</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Видобування архіву завершено успішно.</value>
@@ -2658,10 +2655,209 @@
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Увімкнути компактний оверлей</value>
   </data>
-	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Увійти в компактний оверлей</value>
   </data>
-	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Вийти з компактного оверлею</value>
+  </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>Перемкнути бічну панель</value>
+  </data>
+  <data name="Key.Menu" xml:space="preserve">
+    <value>Меню</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Control" xml:space="preserve">
+    <value>Ctrl</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Shift" xml:space="preserve">
+    <value>Shift</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Windows" xml:space="preserve">
+    <value>Win</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Enter" xml:space="preserve">
+    <value>Return</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Space" xml:space="preserve">
+    <value>Пробіл</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Escape" xml:space="preserve">
+    <value>Escape</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Back" xml:space="preserve">
+    <value>Назад (Alt + Стрілка вліво)</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Tab" xml:space="preserve">
+    <value>Tab</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Insert" xml:space="preserve">
+    <value>Ins</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Delete" xml:space="preserve">
+    <value>Del</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Left" xml:space="preserve">
+    <value>Left</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Right" xml:space="preserve">
+    <value>Right</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Down" xml:space="preserve">
+    <value>Down</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Up" xml:space="preserve">
+    <value>Вгору (Alt + Стрілка вгору)</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Home" xml:space="preserve">
+    <value>Основне</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.End" xml:space="preserve">
+    <value>End</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.PageDown" xml:space="preserve">
+    <value>PageDown</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.PageUp" xml:space="preserve">
+    <value>PageUp</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Separator" xml:space="preserve">
+    <value>Sep</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Pause" xml:space="preserve">
+    <value>Pause</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Sleep" xml:space="preserve">
+    <value>Sleep</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Clear" xml:space="preserve">
+    <value>Очистити</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Print" xml:space="preserve">
+    <value>Друкувати</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Help" xml:space="preserve">
+    <value>Довідка</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mouse4" xml:space="preserve">
+    <value>Mouse4</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mouse5" xml:space="preserve">
+    <value>Mouse5</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application" xml:space="preserve">
+    <value>Застосунок</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application1" xml:space="preserve">
+    <value>Застосунок1</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application2" xml:space="preserve">
+    <value>Застосунок2</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mail" xml:space="preserve">
+    <value>Пошта</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoHome" xml:space="preserve">
+    <value>На головну</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoBack" xml:space="preserve">
+    <value>Назад</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoForward" xml:space="preserve">
+    <value>Вперед</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserRefresh" xml:space="preserve">
+    <value>Оновити браузер</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserStop" xml:space="preserve">
+    <value>Зупинити браузер</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserSearch" xml:space="preserve">
+    <value>Пошук</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserFavorites" xml:space="preserve">
+    <value>Вибране</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaPlayPause" xml:space="preserve">
+    <value>Відтворити/Зупинити</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaStop" xml:space="preserve">
+    <value>Зупинити медіа</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaPreviousTrack" xml:space="preserve">
+    <value>Попередній трек</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaNextTrack" xml:space="preserve">
+    <value>Наступний трек</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaSelect" xml:space="preserve">
+    <value>Обрати медіа</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaMute" xml:space="preserve">
+    <value>Вимкнути звук</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaVolumeDown" xml:space="preserve">
+    <value>Зменшити гучність</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaVolumeUp" xml:space="preserve">
+    <value>Збільшити гучність</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Змінити</value>
+  </data>
+  <data name="ToggleSelect" xml:space="preserve">
+    <value>Перемкнути виділення</value>
+  </data>
+  <data name="ShowFileExtensionWarning" xml:space="preserve">
+    <value>Відображати попередження при зміні розширень файлів</value>
+  </data>
+  <data name="Untagged" xml:space="preserve">
+    <value>Без міток</value>
   </data>
 </root>

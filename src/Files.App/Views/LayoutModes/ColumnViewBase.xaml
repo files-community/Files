@@ -183,7 +183,7 @@
 								Margin="0"
 								Padding="12,0,12,0"
 								HorizontalAlignment="Stretch"
-								VerticalAlignment="Stretch"
+								VerticalAlignment="Center"
 								CornerRadius="{StaticResource ControlCornerRadius}"
 								IsRightTapEnabled="True"
 								Loaded="Grid_Loaded"
