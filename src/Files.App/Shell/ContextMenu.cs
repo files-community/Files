@@ -278,7 +278,6 @@ namespace Files.App.Shell
 
 		public async Task<bool> LoadSubMenu(List<Win32ContextMenuItem> subItems)
 		{
-			var owningThread = new ThreadWithMessageQueue();
 			return await owningThread.PostMethod<bool>(() =>
 			{
 				var result = loadSubMenuActions.Remove(subItems, out var loadSubMenuAction);
