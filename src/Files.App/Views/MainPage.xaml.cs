@@ -35,17 +35,20 @@ namespace Files.App.Views
 {
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		public IUserSettingsService UserSettingsService { get; }
 
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		public ICommandManager Commands { get; }
 
-		public IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
+		public IWindowContext WindowContext { get; }
 
-		public SidebarViewModel SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
+		public SidebarViewModel SidebarAdaptiveViewModel { get; }
 
-		public static AppModel AppModel => App.AppModel;
+		public MainPageViewModel ViewModel { get; }
 
-		public MainPageViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
+		public readonly OngoingTasksViewModel OngoingTasksViewModel { get; }
+
+		public static AppModel AppModel
+			=> App.AppModel;
 
 		/// <summary>
 		/// True if the user is currently resizing the preview pane
@@ -54,11 +57,17 @@ namespace Files.App.Views
 
 		private bool keyReleased = true;
 
-		public readonly OngoingTasksViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
-
 		public MainPage()
 		{
 			InitializeComponent();
+
+			// Dependency Injection
+			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
+			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
+			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
 			var flowDirectionSetting = new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")

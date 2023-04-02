@@ -21,15 +21,18 @@ namespace Files.App.Views
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		public bool IsLeftPaneActive => ActivePane == PaneLeft;
+		public bool IsLeftPaneActive
+			=> ActivePane == PaneLeft;
 
-		public bool IsRightPaneActive => ActivePane == PaneRight;
+		public bool IsRightPaneActive
+			=> ActivePane == PaneRight;
 
 		public event EventHandler<TabItemArguments> ContentChanged;
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
+		public IFilesystemHelpers FilesystemHelpers
+			=> ActivePane?.FilesystemHelpers;
 
 		private TabItemArguments tabItemArguments;
 		public TabItemArguments TabItemArguments
@@ -74,9 +77,11 @@ namespace Files.App.Views
 
 		private bool wasRightPaneVisible;
 
-		public bool IsMultiPaneActive => IsRightPaneVisible;
+		public bool IsMultiPaneActive
+			=> IsRightPaneVisible;
 
-		public bool IsMultiPaneEnabled => !(App.Window.Bounds.Width <= 750);
+		public bool IsMultiPaneEnabled
+			=> !(App.Window.Bounds.Width <= 750);
 
 		private NavigationParams navParamsLeft;
 		public NavigationParams NavParamsLeft

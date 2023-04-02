@@ -7,7 +7,7 @@
 	xmlns:winuiex="using:WinUIEx"
 	mc:Ignorable="d">
 
-	<!--  Mica Alt (winui3gallery://item/SystemBackdrops)  -->
+	<!--  Mica Alt  -->
 	<winuiex:WindowEx.Backdrop>
 		<winuiex:MicaSystemBackdrop Kind="BaseAlt" />
 	</winuiex:WindowEx.Backdrop>
