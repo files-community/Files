@@ -23,4 +23,4 @@ jobs:
         shell: pwsh
         run: |
           cd $env:GITHUB_WORKSPACE
-          git status
+          git diff --name-only HEAD~1
