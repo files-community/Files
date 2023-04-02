@@ -12,8 +12,18 @@ namespace Files.App.Filesystem.Archive
 {
 	public class ArchiveCreator : IArchiveCreator
 	{
+		// Represents the total number of items to be processed.
+		// It is used to calculate a weighted progress with this formula:
+		// Progress = [OldProgress + (ProgressDelta / ItemsAmount)]
+		private int itemsAmount = 1;
+		private int processedItems = 0;
+
 		private string archivePath = string.Empty;
-		public string ArchivePath => archivePath;
+		public string ArchivePath
+		{
+			get => archivePath;
+			set => archivePath = value;
+		}
 
 		public string Directory { get; init; } = string.Empty;
 		public string FileName { get; init; } = string.Empty;
@@ -25,13 +35,24 @@ namespace Files.App.Filesystem.Archive
 		public ArchiveCompressionLevels CompressionLevel { get; init; } = ArchiveCompressionLevels.Normal;
 		public ArchiveSplittingSizes SplittingSize { get; init; } = ArchiveSplittingSizes.None;
 
-		public IProgress<FileSystemProgress> Progress { get; set; } = new Progress<FileSystemProgress>();
-		private readonly FileSystemProgress fsProgress;
+		private IProgress<FileSystemProgress> progress = new Progress<FileSystemProgress>();
+		public IProgress<FileSystemProgress> Progress
+		{
+			get => progress;
+			set
+			{
+				progress = value;
+				fsProgress = new(Progress, true, Shared.Enums.FileSystemStatusCode.InProgress);
+				fsProgress.Report(0);
+			}
+		}
+
+		private FileSystemProgress fsProgress;
 
 		public ArchiveCreator()
 		{
 			fsProgress = new(Progress, true, Shared.Enums.FileSystemStatusCode.InProgress);
-			fsProgress.Report();
+			fsProgress.Report(0);
 		}
 
 		private string ArchiveExtension => FileFormat switch
@@ -76,15 +97,14 @@ namespace Files.App.Filesystem.Archive
 			_ => throw new ArgumentOutOfRangeException(nameof(SplittingSize)),
 		};
 
+		public string GetArchivePath(string suffix = "")
+		{
+			return Path.Combine(Directory, $"{FileName}{suffix}{ArchiveExtension}");
+		}
+
 		public async Task<bool> RunCreationAsync()
 		{
-			var path = Path.Combine(Directory, FileName + ArchiveExtension);
 			string[] sources = Sources.ToArray();
-
-			int index = 1;
-			while (File.Exists(path) || System.IO.Directory.Exists(path))
-				path = Path.Combine(Directory, $"{FileName} ({++index}){ArchiveExtension}");
-			archivePath = path;
 
 			var compressor = new SevenZipCompressor
 			{
@@ -105,18 +125,20 @@ namespace Files.App.Filesystem.Archive
 				var files = sources.Where(source => File.Exists(source)).ToArray();
 				var directories = sources.Where(source => System.IO.Directory.Exists(source));
 
+				itemsAmount = files.Length + directories.Count();
+
 				foreach (string directory in directories)
 				{
-					await compressor.CompressDirectoryAsync(directory, path, Password);
+					await compressor.CompressDirectoryAsync(directory, archivePath, Password);
 					compressor.CompressionMode = CompressionMode.Append;
 				}
 
 				if (files.Any())
 				{
 					if (string.IsNullOrEmpty(Password))
-						await compressor.CompressFilesAsync(path, files);
+						await compressor.CompressFilesAsync(archivePath, files);
 					else
-						await compressor.CompressFilesEncryptedAsync(path, Password, files);
+						await compressor.CompressFilesEncryptedAsync(archivePath, Password, files);
 				}
 
 				return true;
@@ -124,7 +146,7 @@ namespace Files.App.Filesystem.Archive
 			catch (Exception ex)
 			{
 				var logger = Ioc.Default.GetRequiredService<ILogger<App>>();
-				logger?.LogWarning(ex, $"Error compressing folder: {path}");
+				logger?.LogWarning(ex, $"Error compressing folder: {archivePath}");
 
 				return false;
 			}
@@ -132,14 +154,22 @@ namespace Files.App.Filesystem.Archive
 
 		private void Compressor_CompressionFinished(object? sender, EventArgs e)
 		{
-			fsProgress.Percentage = null;
-			fsProgress.ReportStatus(Shared.Enums.FileSystemStatusCode.Success);
+			if (++processedItems == itemsAmount)
+			{
+				fsProgress.Percentage = null;
+				fsProgress.ReportStatus(Shared.Enums.FileSystemStatusCode.Success);
+			}
+			else
+			{
+				fsProgress.Percentage = processedItems * 100 / itemsAmount;
+				fsProgress.Report(fsProgress.Percentage);
+			}
 		}
 
 		private void Compressor_Compressing(object? _, ProgressEventArgs e)
 		{
-			fsProgress.Percentage = e.PercentDone;
-			fsProgress.Report();
+			fsProgress.Percentage += e.PercentDelta / itemsAmount;
+			fsProgress.Report(fsProgress.Percentage);
 		}
 	}
 }
