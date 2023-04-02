@@ -49,12 +49,18 @@
 			<!--  Backward Navigation Button  -->
 			<Button
 				x:Name="BackwardNavigationButton"
-				Width="36"
+				Width="40"
 				Height="32"
 				Margin="4,4,0,0"
 				Background="Transparent"
 				BorderThickness="0"
-				Click="BackwardNavigationButton_Click">
+				Click="BackwardNavigationButton_Click"
+				IsEnabled="{x:Bind Frame.CanGoBack, Mode=OneWay}">
+				<Button.Resources>
+					<ResourceDictionary>
+						<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
+					</ResourceDictionary>
+				</Button.Resources>
 				<AnimatedIcon x:Name="BackAnimatedIcon">
 					<AnimatedIcon.Source>
 						<animatedvisuals:AnimatedBackVisualSource />
@@ -65,14 +71,14 @@
 				</AnimatedIcon>
 			</Button>
 
-			<!--  Title  -->
+			<!--  Title Text Area  -->
 			<Border
 				x:Name="TitleDragArea"
 				Grid.Column="1"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch">
 				<TextBlock
-					Margin="4,0,0,-2"
+					Margin="8,0,0,-2"
 					VerticalAlignment="Center"
 					Style="{StaticResource BodyStrongTextBlockStyle}"
 					Text="{helpers:ResourceString Name=Properties}" />
@@ -106,8 +112,8 @@
 
 								<!--  Icon  -->
 								<Viewbox
-									Width="16"
-									Height="16"
+									Width="18"
+									Height="18"
 									VerticalAlignment="Center">
 									<uc:OpacityIcon IsSelected="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind OpacityIconStyle, Mode=OneWay}" />
 								</Viewbox>
