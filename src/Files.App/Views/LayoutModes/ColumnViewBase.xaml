@@ -133,7 +133,7 @@
 			Canvas.ZIndex="0"
 			EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
-		<!--  Unable To Use For Item Name Tip  -->
+		<!--  Invalid Item Name Tip  -->
 		<TeachingTip
 			x:Name="FileNameTeachingTip"
 			Grid.RowSpan="2"
@@ -400,7 +400,7 @@
 					<ListView.ItemTemplate>
 						<DataTemplate x:DataType="ICollectionViewGroup">
 							<StackPanel
-								Margin="0,4"
+								Margin="0,4,0,4"
 								VerticalAlignment="Center"
 								Orientation="Horizontal"
 								Spacing="4">

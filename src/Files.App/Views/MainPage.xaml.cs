@@ -20,6 +20,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.Windows.ApplicationModel.Resources;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -34,8 +35,6 @@ namespace Files.App.Views
 {
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
-		private VirtualKeyModifiers currentModifiers = VirtualKeyModifiers.None;
-
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
@@ -44,9 +43,9 @@ namespace Files.App.Views
 
 		public SidebarViewModel SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
 
-		public AppModel AppModel => App.AppModel;
+		public static AppModel AppModel => App.AppModel;
 
-		public MainPageViewModel ViewModel { get; set; }
+		public MainPageViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 		/// <summary>
 		/// True if the user is currently resizing the preview pane
@@ -55,15 +54,13 @@ namespace Files.App.Views
 
 		private bool keyReleased = true;
 
-		public readonly OngoingTasksViewModel OngoingTasksViewModel;
+		public readonly OngoingTasksViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
 		public MainPage()
 		{
 			InitializeComponent();
-			DataContext = Ioc.Default.GetRequiredService<MainPageViewModel>();
-			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
-			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
+			var flowDirectionSetting = new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
 
@@ -332,7 +329,7 @@ namespace Files.App.Views
 								return; // return if already selected
 
 							navigationPath = "Home";
-							sourcePageType = typeof(WidgetsPage);
+							sourcePageType = typeof(HomePage);
 						}
 						// Any other item
 						else

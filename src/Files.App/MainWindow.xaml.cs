@@ -60,13 +60,12 @@ namespace Files.App
 			var rootFrame = EnsureWindowIsInitialized();
 			Activate();
 
-			// WINUI3: Port activation args from App.xaml.cs.old: OnActivated, OnFileActivated
 			switch (activatedEventArgs)
 			{
 				case ILaunchActivatedEventArgs launchArgs:
 					if (launchArgs.Arguments is not null && launchArgs.Arguments.Contains($"files.exe", StringComparison.OrdinalIgnoreCase))
 					{
-						// WINUI3 bug: when launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
+						// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
 						if (ppm.IsEmpty())
 							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
@@ -100,7 +99,8 @@ namespace Files.App
 						var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
 						if (folder is not null && !string.IsNullOrEmpty(folder.Path))
 						{
-							unescapedValue = folder.Path; // Convert short name to long name (#6190)
+							// Convert short name to long name (#6190)
+							unescapedValue = folder.Path;
 						}
 						switch (parsedArgs[0])
 						{
@@ -162,9 +162,7 @@ namespace Files.App
 			}
 
 			if (rootFrame.Content is null)
-			{
 				rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
-			}
 		}
 
 		private Frame EnsureWindowIsInitialized()

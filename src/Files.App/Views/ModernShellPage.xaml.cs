@@ -58,7 +58,7 @@ namespace Files.App.Views
 
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
 		{
-			if (ItemDisplayFrame?.Content is WidgetsPage currentPage)
+			if (ItemDisplayFrame?.Content is HomePage currentPage)
 				currentPage.RefreshWidgetList();
 		}
 
@@ -112,7 +112,7 @@ namespace Files.App.Views
 			if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home")
 			{
 				ItemDisplayFrame.Navigate(
-					typeof(WidgetsPage),
+					typeof(HomePage),
 					new NavigationArguments()
 					{
 						NavPathParam = NavParams?.NavPath,
@@ -247,7 +247,7 @@ namespace Files.App.Views
 				case (false, false, true, _, VirtualKey.D):
 				// Ctrl + L, Select address bar
 				case (true, false, false, _, VirtualKey.L):
-					if (tabInstance || CurrentPageType == typeof(WidgetsPage))
+					if (tabInstance || CurrentPageType == typeof(HomePage))
 						ToolbarViewModel.IsEditModeEnabled = true;
 					break;
 			}
@@ -284,7 +284,7 @@ namespace Files.App.Views
 			if (isPathRooted)
 			{
 				ItemDisplayFrame.Navigate(
-					typeof(WidgetsPage),
+					typeof(HomePage),
 					new NavigationArguments()
 					{
 						NavPathParam = "Home",
@@ -324,7 +324,7 @@ namespace Files.App.Views
 		public override void NavigateHome()
 		{
 			ItemDisplayFrame.Navigate(
-				typeof(WidgetsPage),
+				typeof(HomePage),
 				new NavigationArguments()
 				{
 					NavPathParam = "Home",
@@ -366,8 +366,8 @@ namespace Files.App.Views
 
 				NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
 
-				if (sourcePageType == typeof(WidgetsPage) ||
-					ItemDisplayFrame.Content.GetType() == typeof(WidgetsPage) &&
+				if (sourcePageType == typeof(HomePage) ||
+					ItemDisplayFrame.Content.GetType() == typeof(HomePage) &&
 					(sourcePageType == typeof(DetailsLayoutBrowser) || sourcePageType == typeof(GridViewBrowser)))
 				{
 					transition = new SuppressNavigationTransitionInfo();

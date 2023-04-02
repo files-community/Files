@@ -212,13 +212,7 @@ namespace Files.App.Views
 			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
-			this.PointerPressed += CoreWindow_PointerPressed;
-
-			// TODO:
-			//  UA307 Default back button in the title bar does not exist in WinUI3 apps.
-			//  The tool has generated a custom back button in the MainWindow.xaml.cs file.
-			//  Feel free to edit its position, behavior and use the custom back button instead.
-			//  Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
+			PointerPressed += CoreWindow_PointerPressed;
 
 			App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
 
@@ -477,7 +471,7 @@ namespace Files.App.Views
 
 				await FilesystemViewModel.SearchAsync(searchInstance);
 			}
-			else if (CurrentPageType != typeof(WidgetsPage))
+			else if (CurrentPageType != typeof(HomePage))
 			{
 				ToolbarViewModel.CanRefresh = false;
 				FilesystemViewModel?.RefreshItems(null);
@@ -489,7 +483,7 @@ namespace Files.App.Views
 			var previousPageContent = ItemDisplay.BackStack[ItemDisplay.BackStack.Count - 1];
 			HandleBackForwardRequest(previousPageContent);
 
-			if (previousPageContent.SourcePageType == typeof(WidgetsPage))
+			if (previousPageContent.SourcePageType == typeof(HomePage))
 				ItemDisplay.GoBack(new EntranceNavigationTransitionInfo());
 			else
 				ItemDisplay.GoBack();
@@ -659,7 +653,7 @@ namespace Files.App.Views
 
 		protected void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
 		{
-			if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType is not null)
+			if (incomingSourcePageType == typeof(HomePage) && incomingSourcePageType is not null)
 				ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
 		}
 
@@ -690,7 +684,7 @@ namespace Files.App.Views
 			incomingPageNavPath.IsLayoutSwitch = false;
 
 			// Update layout type
-			if (pageContent.SourcePageType != typeof(WidgetsPage))
+			if (pageContent.SourcePageType != typeof(HomePage))
 				InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
 
 			SelectSidebarItemFromPath(pageContent.SourcePageType);

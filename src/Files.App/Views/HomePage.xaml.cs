@@ -5,7 +5,6 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.UserControls.Widgets;
 using Files.App.ViewModels;
-using Files.App.ViewModels.Pages;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -18,7 +17,7 @@ using Windows.Storage;
 
 namespace Files.App.Views
 {
-	public sealed partial class WidgetsPage : Page, IDisposable
+	public sealed partial class HomePage : Page, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -32,13 +31,14 @@ namespace Files.App.Views
 		private FileTagsWidget fileTagsWidget;
 		private RecentFilesWidget recentFilesWidget;
 
-		public YourHomeViewModel ViewModel { get; set; }
+		public HomeViewModel ViewModel { get; set; }
 
-		public WidgetsPage()
+		public HomePage()
 		{
 			InitializeComponent();
 
-			ViewModel = new YourHomeViewModel(Widgets.ViewModel, AppInstance);
+			ViewModel = new(Widgets.ViewModel, AppInstance);
+
 			ViewModel.YourHomeLoadedInvoked += ViewModel_YourHomeLoadedInvoked;
 			Widgets.ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
 		}

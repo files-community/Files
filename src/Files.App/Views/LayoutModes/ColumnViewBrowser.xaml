@@ -8,6 +8,7 @@
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	x:Name="PageRoot"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
