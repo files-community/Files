@@ -141,14 +141,12 @@ namespace Files.App.UserControls.Widgets
 						OpacityIconStyle = "ColorIconOpenWith",
 					},
 					Tag = "OpenWithPlaceholder",
-					IsEnabled = false,
 					ShowItem = !isFolder
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
-					IsEnabled = false,
 					ShowItem = !isFolder
 				},
 				new ContextMenuFlyoutItemViewModel()

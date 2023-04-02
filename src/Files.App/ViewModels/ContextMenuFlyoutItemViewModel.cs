@@ -2,7 +2,9 @@ using Files.App.UserControls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels
@@ -41,7 +43,7 @@ namespace Files.App.ViewModels
 
 		public ItemType ItemType { get; set; }
 
-		public bool IsSubItem { get; set; }
+		public Func<Task> LoadSubMenuAction { get; set; }
 
 		public List<ContextMenuFlyoutItemViewModel> Items { get; set; }
 
