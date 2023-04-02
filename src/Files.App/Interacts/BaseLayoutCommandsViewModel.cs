@@ -39,7 +39,6 @@ namespace Files.App.Interacts
 			SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
 			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
 			PlayAllCommand = new AsyncRelayCommand(CommandsModel.PlayAll);
-			FormatDriveCommand = new RelayCommand<ListedItem>(CommandsModel.FormatDrive);
 		}
 
 		#endregion Command Initialization
@@ -69,8 +68,6 @@ namespace Files.App.Interacts
 		public ICommand CreateFolderWithSelection { get; private set; }
 
 		public ICommand PlayAllCommand { get; private set; }
-
-		public ICommand FormatDriveCommand { get; private set; }
 
 		#endregion Commands
 

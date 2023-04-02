@@ -270,36 +270,39 @@ namespace Files.App.Filesystem
 
 		private static PathBoxItem GetPathItem(string component, string path)
 		{
+			var title = string.Empty;
 			if (component.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 			{
 				// Handle the recycle bin: use the localized folder name
-				return new PathBoxItem()
-				{
-					Title = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-					Path = path,
-				};
+				title = "RecycleBin".GetLocalizedResource();
+			}
+			else if (component.StartsWith(CommonPaths.MyComputerPath, StringComparison.Ordinal))
+			{
+				title = "ThisPC".GetLocalizedResource();
+			}
+			else if (component.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal))
+			{
+				title = "SidebarNetworkDrives".GetLocalizedResource();
 			}
 			else if (component.Contains(':', StringComparison.Ordinal))
 			{
 				var drives = App.DrivesManager.Drives.Concat(App.NetworkDrivesManager.Drives).Concat(App.CloudDrivesManager.Drives);
 				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));
-				return new PathBoxItem()
-				{
-					Title = drive is not null ? drive.Text : $@"Drive ({component})",
-					Path = path,
-				};
+				title = drive is not null ? drive.Text : $@"Drive ({component})";
 			}
 			else
 			{
 				if (path.EndsWith('\\') || path.EndsWith('/'))
 					path = path.Remove(path.Length - 1);
 
-				return new PathBoxItem
-				{
-					Title = component,
-					Path = path
-				};
+				title = component;
 			}
+
+			return new PathBoxItem()
+			{
+				Title = title,
+				Path = path
+			};
 		}
 
 		private static string GetPathWithoutEnvironmentVariable(string path)
@@ -323,6 +326,9 @@ namespace Files.App.Filesystem
 			if (path.StartsWith("Home"))
 				return "Home";
 
+			if (ShellStorageFolder.IsShellPath(path))
+				return ShellHelpers.ResolveShellPath(path);
+
 			var pathBuilder = new StringBuilder(path);
 			var lastPathIndex = path.Length - 1;
 			var separatorChar = isFtp || path.Contains('/', StringComparison.Ordinal) ? '/' : '\\';
@@ -333,7 +339,7 @@ namespace Files.App.Filesystem
 				if (pathBuilder[i] is not '?' &&
 					pathBuilder[i] != Path.DirectorySeparatorChar &&
 					pathBuilder[i] != Path.AltDirectorySeparatorChar &&
-					i != lastIndex)
+					i != lastPathIndex)
 					continue;
 
 				if (lastIndex == i)

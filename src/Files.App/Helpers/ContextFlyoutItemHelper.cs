@@ -219,13 +219,7 @@ namespace Files.App.Helpers
 					ShowInZipPage = true,
 					ShowItem = !itemsSelected
 				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "FormatDriveText".GetLocalizedResource(),
-					Command = commandsViewModel.FormatDriveCommand,
-					CommandParameter = itemViewModel?.CurrentFolder,
-					ShowItem = itemViewModel?.CurrentFolder is not null && (App.DrivesManager.Drives.FirstOrDefault(x => string.Equals(x.Path, itemViewModel?.CurrentFolder.ItemPath))?.MenuOptions.ShowFormatDrive ?? false),
-				},
+				new ContextMenuFlyoutItemViewModelBuilder(commands.FormatDrive).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.EmptyRecycleBin)
 				{
 					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && !itemsSelected,

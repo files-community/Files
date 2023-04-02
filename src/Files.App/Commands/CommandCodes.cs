@@ -32,6 +32,7 @@ namespace Files.App.Commands
 		CreateShortcut,
 		CreateShortcutFromDialog,
 		EmptyRecycleBin,
+		FormatDrive,
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
 		OpenItem,

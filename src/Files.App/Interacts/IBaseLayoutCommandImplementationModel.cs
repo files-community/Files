@@ -32,7 +32,5 @@ namespace Files.App.Interacts
 		Task CreateFolderWithSelection(RoutedEventArgs e);
 
 		Task PlayAll();
-
-		void FormatDrive(ListedItem? obj);
 	}
 }

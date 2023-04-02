@@ -184,7 +184,7 @@ namespace Files.App.Views
 			/*TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
 			  Use your ResourceManager instance to create a ResourceContext as below.If you already have a ResourceManager instance,
 			  replace the new instance created below with correct instance.
-			  Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+			  Read: https://learn.microsoft.com/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
 			*/
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
@@ -214,7 +214,7 @@ namespace Files.App.Views
 			TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
 			The tool has generated a custom back button in the MainWindow.xaml.cs file.
 			Feel free to edit its position, behavior and use the custom back button instead.
-			Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
+			Read: https://learn.microsoft.com/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
 			*/
 
 			App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;

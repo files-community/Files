@@ -5,6 +5,7 @@ using Files.Backend.Helpers;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System;
 using System.Collections.Concurrent;
@@ -564,7 +565,7 @@ namespace Files.App.Helpers
 			}
 			catch (FileNotFoundException ex) // Could not parse shortcut
 			{
-				App.Logger?.Warn(ex, ex.Message);
+				App.Logger?.LogWarning(ex, ex.Message);
 				// Return a item containing the invalid target path
 				return new ShellLinkItem
 				{
@@ -575,7 +576,7 @@ namespace Files.App.Helpers
 			catch (Exception ex)
 			{
 				// Could not parse shortcut
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 				return null;
 			}
 		}
@@ -605,7 +606,7 @@ namespace Files.App.Helpers
 			catch (Exception ex)
 			{
 				// Could not create shortcut
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 
 			return Task.FromResult(false);
@@ -623,7 +624,7 @@ namespace Files.App.Helpers
 			catch (Exception ex)
 			{
 				// Could not create shortcut
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 
 			return false;

@@ -8,6 +8,7 @@ using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using SevenZip;
 using System;
@@ -197,7 +198,7 @@ namespace Files.App.ViewModels.Settings
 				}
 				catch (Exception ex)
 				{
-					App.Logger.Warn(ex, "Error importing settings");
+					App.Logger.LogWarning(ex, "Error importing settings");
 					UIHelpers.CloseAllDialogs();
 					await DialogDisplayHelper.ShowDialogAsync("SettingsImportErrorTitle".GetLocalizedResource(), "SettingsImportErrorDescription".GetLocalizedResource());
 				}
@@ -245,7 +246,7 @@ namespace Files.App.ViewModels.Settings
 				}
 				catch (Exception ex)
 				{
-					App.Logger.Warn(ex, "Error exporting settings");
+					App.Logger.LogWarning(ex, "Error exporting settings");
 				}
 			}
 		}
