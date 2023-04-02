@@ -31,9 +31,6 @@ namespace Files.App.Shell
 		private void Initialize()
 		{
 			// Create shell COM object and get recycle bin folder
-			using var recycler = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
-			ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"] = recycler.Name;
-
 			StartRecycleBinWatcher();
 		}
 
