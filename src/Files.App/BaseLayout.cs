@@ -671,7 +671,7 @@ namespace Files.App
 			{
 				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 				if (shellMenuItems.Any())
-					await AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
+					await AddShellMenuItemsAsync(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
 				else
 					RemoveOverflow(ItemContextMenuFlyout);
 			}
