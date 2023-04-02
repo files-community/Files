@@ -19,6 +19,8 @@ jobs:
   check_formatting:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
       - name: Install Xaml Styler
         shell: pwsh
         run: |
