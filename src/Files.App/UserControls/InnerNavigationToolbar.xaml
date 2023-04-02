@@ -270,7 +270,7 @@
 					Command="{x:Bind Commands.RunWithPowershell}"
 					Label="{x:Bind Commands.RunWithPowershell.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{x:Bind Commands.RunWithPowershell.Label}">
+					ToolTipService.ToolTip="{x:Bind Commands.RunWithPowershell.LabelWithHotKey}">
 					<AppBarButton.Icon>
 						<FontIcon Glyph="{x:Bind Commands.RunWithPowershell.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
