@@ -515,9 +515,7 @@ namespace Files.App
 					ItemManipulationModel.FocusFileList();
 				}
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 		}
 
 		private CancellationTokenSource? groupingCancellationToken;
@@ -565,7 +563,8 @@ namespace Files.App
 
 			try
 			{
-				if (!IsItemSelected && ((sender as CommandBarFlyout)?.Target as ListViewItem)?.Content is ListedItem li) // Workaround for item sometimes not getting selected
+				// Workaround for item sometimes not getting selected
+				if (!IsItemSelected && (sender as CommandBarFlyout)?.Target is ListViewItem { Content: ListedItem li })
 					ItemManipulationModel.SetSelectedItem(li);
 
 				if (IsItemSelected)
@@ -654,10 +653,13 @@ namespace Files.App
 			shellContextMenuItemCancellationToken?.Cancel();
 			shellContextMenuItemCancellationToken = new CancellationTokenSource();
 			SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
+
 			var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
 			var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
+
 			ItemContextMenuFlyout.PrimaryCommands.Clear();
 			ItemContextMenuFlyout.SecondaryCommands.Clear();
+
 			var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
 			AddCloseHandler(ItemContextMenuFlyout, primaryElements, secondaryElements);
 			primaryElements.ForEach(ItemContextMenuFlyout.PrimaryCommands.Add);
@@ -747,7 +749,7 @@ namespace Files.App
 				var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * Constants.UI.ContextMenuSecondaryItemsHeight;
 				var availableHeight = App.Window.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
 
-				// Set menu max height to current height (avoids menu repositioning)
+				// Set menu max height to current height (Avoid menu repositioning)
 				if (requiredHeight > availableHeight)
 					itemsControl.MaxHeight = Math.Min(Constants.UI.ContextMenuMaxHeight, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight)));
 
@@ -854,34 +856,31 @@ namespace Files.App
 				ShellContextmenuHelper.AddItemsToOverflowMenu(overflowItem, x);
 			});
 
-			if (itemsControl is not null)
+			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
 			{
-				itemsControl.Items.OfType<FrameworkElement>().ForEach(item =>
+				// Enable CharacterEllipsis text trimming for menu items
+				if (item.FindDescendant("OverflowTextLabel") is TextBlock label)
+					label.TextTrimming = TextTrimming.CharacterEllipsis;
+
+				// Close main menu when clicking on subitems (#5508)
+				if ((item as AppBarButton)?.Flyout as MenuFlyout is MenuFlyout flyout)
 				{
-					// Enable CharacterEllipsis text trimming for menu items
-					if (item.FindDescendant("OverflowTextLabel") is TextBlock label)
-						label.TextTrimming = TextTrimming.CharacterEllipsis;
-
-					// Close main menu when clicking on subitems (#5508)
-					if ((item as AppBarButton)?.Flyout as MenuFlyout is MenuFlyout flyout)
+					Action<IList<MenuFlyoutItemBase>> clickAction = null!;
+					clickAction = (items) =>
 					{
-						Action<IList<MenuFlyoutItemBase>> clickAction = null!;
-						clickAction = (items) =>
+						items.OfType<MenuFlyoutItem>().ForEach(i =>
 						{
-							items.OfType<MenuFlyoutItem>().ForEach(i =>
-							{
-								i.Click += new RoutedEventHandler((s, e) => contextMenuFlyout.Hide());
-							});
-							items.OfType<MenuFlyoutSubItem>().ForEach(i =>
-							{
-								clickAction(i.Items);
-							});
-						};
+							i.Click += new RoutedEventHandler((s, e) => contextMenuFlyout.Hide());
+						});
+						items.OfType<MenuFlyoutSubItem>().ForEach(i =>
+						{
+							clickAction(i.Items);
+						});
+					};
 
-						clickAction(flyout.Items);
-					}
-				});
-			}
+					clickAction(flyout.Items);
+				}
+			});
 		}
 
 		private void RemoveOverflow(CommandBarFlyout contextMenuFlyout)
@@ -913,6 +912,7 @@ namespace Files.App
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
 					shellItemList.ForEach(x => x.Dispose());
+
 					var format = System.Windows.Forms.DataFormats.GetFormat("Shell IDList Array");
 					if (iddo.TryGetData<byte[]>((uint)format.Id, out var data))
 					{
@@ -951,6 +951,7 @@ namespace Files.App
 				return;
 
 			DragOperationDeferral? deferral = null;
+
 			try
 			{
 				deferral = e.GetDeferral();
@@ -1048,6 +1049,7 @@ namespace Files.App
 			var item = GetItemFromElement(sender);
 			if (item is not null)
 				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable);
+
 			deferral.Complete();
 		}
 
@@ -1139,13 +1141,13 @@ namespace Files.App
 
 				hoverTimer.Stop();
 
-				// selection of multiple individual items with control
+				// Selection of multiple individual items with control
 				if (e.KeyModifiers == VirtualKeyModifiers.Control &&
 					selectedItems is not null)
 				{
 					ItemManipulationModel.AddSelectedItem(hoveredItem);
 				}
-				// selection of a range of items with shift
+				// Selection of a range of items with shift
 				else if (e.KeyModifiers == VirtualKeyModifiers.Shift &&
 					selectedItems is not null &&
 					selectedItems.Any())
@@ -1161,9 +1163,8 @@ namespace Files.App
 							ItemManipulationModel.AddSelectedItem((ListedItem)ItemsControl.Items[i]);
 					}
 				}
-				// avoid resetting the selection if multiple items are selected
-				else if (SelectedItems is null ||
-					SelectedItems.Count <= 1)
+				// Avoid resetting the selection if multiple items are selected
+				else if (SelectedItems is null || SelectedItems.Count <= 1)
 				{
 					ItemManipulationModel.SetSelectedItem(hoveredItem);
 				}
@@ -1211,7 +1212,7 @@ namespace Files.App
 			element.Drop -= Item_Drop;
 		}
 
-		// VirtualKey doesn't support / accept plus and minus by default.
+		// VirtualKey doesn't support or accept plus and minus by default.
 		public readonly VirtualKey PlusKey = (VirtualKey)187;
 
 		public readonly VirtualKey MinusKey = (VirtualKey)189;
@@ -1239,7 +1240,7 @@ namespace Files.App
 
 			if (ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.IsGrouped)
 			{
-				CollectionViewSource = new CollectionViewSource()
+				CollectionViewSource = new()
 				{
 					IsSourceGrouped = true,
 					Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GroupedCollection
@@ -1247,7 +1248,7 @@ namespace Files.App
 			}
 			else
 			{
-				CollectionViewSource = new CollectionViewSource()
+				CollectionViewSource = new()
 				{
 					IsSourceGrouped = false,
 					Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders
