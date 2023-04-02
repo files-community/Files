@@ -1,4 +1,5 @@
 using Files.App.Shell;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -214,7 +215,7 @@ namespace Files.App.Helpers
 				out ushort nativeMachine);
 
 		// https://stackoverflow.com/questions/54456140/how-to-detect-were-running-under-the-arm64-version-of-windows-10-in-net
-		// https://docs.microsoft.com/en-us/windows/win32/sysinfo/image-file-machine-constants
+		// https://learn.microsoft.com/windows/win32/sysinfo/image-file-machine-constants
 		private static bool? isRunningOnArm = null;
 
 		public static bool IsRunningOnArm
@@ -224,7 +225,7 @@ namespace Files.App.Helpers
 				if (isRunningOnArm is null)
 				{
 					isRunningOnArm = IsArmProcessor();
-					App.Logger.Info("Running on ARM: {0}", isRunningOnArm);
+					App.Logger.LogInformation("Running on ARM: {0}", isRunningOnArm);
 				}
 				return isRunningOnArm ?? false;
 			}
