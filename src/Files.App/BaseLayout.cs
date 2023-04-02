@@ -856,7 +856,7 @@ namespace Files.App
 				ShellContextmenuHelper.AddItemsToOverflowMenu(overflowItem, x);
 			});
 
-			if (itemsControl is not null)
+			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
 			{
 				// Enable CharacterEllipsis text trimming for menu items
 				if (item.FindDescendant("OverflowTextLabel") is TextBlock label)
