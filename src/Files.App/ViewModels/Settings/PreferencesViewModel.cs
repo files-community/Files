@@ -5,7 +5,6 @@ using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
 using System;
 using System.Collections.Generic;
@@ -600,15 +599,7 @@ namespace Files.App.ViewModels.Settings
 	{
 		public string Text
 		{
-			get
-			{
-				if (Path == "Home")
-					return "Home".GetLocalizedResource();
-
-				return (Path == CommonPaths.RecycleBinPath)
-					   ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin")
-					   : Path;
-			}
+			get => ShellHelpers.GetShellNameFromPath(Path);
 		}
 
 		public string Path { get; }

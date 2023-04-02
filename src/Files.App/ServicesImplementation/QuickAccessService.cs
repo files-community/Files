@@ -1,4 +1,5 @@
-﻿using Files.App.Shell;
+﻿using Files.App.Helpers;
+using Files.App.Shell;
 using Files.App.UserControls.Widgets;
 using Files.Shared;
 using Files.Shared.Extensions;
@@ -53,7 +54,7 @@ namespace Files.App.ServicesImplementation
 			foreach (dynamic? fi in f2.Items())
 			{
 				if (folderPaths.Contains((string)fi.Path)
-					|| (string.Equals(fi.Path, "::{645FF040-5081-101B-9F08-00AA002F954E}") && folderPaths.Contains(Constants.CommonPaths.RecycleBinPath)))
+					|| (string.Equals(fi.Path, "::{645FF040-5081-101B-9F08-00AA002F954E}") && folderPaths.Contains(CommonPaths.RecycleBinPath)))
 				{
 					await SafetyExtensions.IgnoreExceptions(async () =>
 					{
