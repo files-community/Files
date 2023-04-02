@@ -14,6 +14,7 @@ using Files.App.UserControls.Menus;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.Backend.Services.Settings;
+using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
@@ -611,7 +612,7 @@ namespace Files.App
 				{
 					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: new List<ListedItem>(), shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 					if (shellMenuItems.Any())
-						AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
+						await AddShellMenuItemsAsync(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
 					else
 						RemoveOverflow(BaseContextMenuFlyout);
 				}
@@ -670,7 +671,7 @@ namespace Files.App
 			{
 				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 				if (shellMenuItems.Any())
-					AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
+					await AddShellMenuItemsAsync(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
 				else
 					RemoveOverflow(ItemContextMenuFlyout);
 			}
@@ -717,12 +718,13 @@ namespace Files.App
 			});
 		}
 
-		private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
+		private async Task AddShellMenuItemsAsync(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
 		{
-			var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
-			var sendToSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetSendToItems(shellMenuItems));
-			var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
-			var overflowShellMenuItemsUnfiltered = shellMenuItems.Except(mainShellMenuItems).ToList();
+			var openWithMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
+			var sendToMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
+			var shellMenuItemsFiltered = shellMenuItems.Where(x => x != openWithMenuItem && x != sendToMenuItem).ToList();
+			var mainShellMenuItems = shellMenuItemsFiltered.RemoveFrom(!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
+			var overflowShellMenuItemsUnfiltered = shellMenuItemsFiltered.Except(mainShellMenuItems).ToList();
 			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
 				(x, i) => (x.ItemType == ItemType.Separator &&
 				overflowShellMenuItemsUnfiltered[i + 1 < overflowShellMenuItemsUnfiltered.Count ? i + 1 : i].ItemType != ItemType.Separator)
@@ -794,37 +796,63 @@ namespace Files.App
 			var openWithOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWithOverflow") as AppBarButton;
 
 			var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
-			if (openWithSubItems is not null && openWithOverflow is not null && openWith is not null)
+			if (openWithMenuItem?.LoadSubMenuAction is not null && openWithOverflow is not null && openWith is not null)
 			{
-				var flyout = (MenuFlyout)openWithOverflow.Flyout;
+				await openWithMenuItem.LoadSubMenuAction.Invoke();
+				var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
 
-				flyout.Items.Clear();
+				if (openWithSubItems is not null)
+				{
+					var flyout = (MenuFlyout)openWithOverflow.Flyout;
 
-				foreach (var item in openWithSubItems)
-					flyout.Items.Add(item);
+					flyout.Items.Clear();
 
-				openWithOverflow.Flyout = flyout;
-				openWith.Visibility = Visibility.Collapsed;
-				openWithOverflow.Visibility = Visibility.Visible;
+					foreach (var item in openWithSubItems)
+						flyout.Items.Add(item);
+
+					openWithOverflow.Flyout = flyout;
+					openWith.Visibility = Visibility.Collapsed;
+					openWithOverflow.Visibility = Visibility.Visible;
+				}
 			}
 
 			// Add items to sendto dropdown
 			var sendToOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendToOverflow") as AppBarButton;
 
 			var sendTo = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendTo") as AppBarButton;
-			if (sendToSubItems is not null && sendToOverflow is not null)
+			if (sendToMenuItem?.LoadSubMenuAction is not null && sendToOverflow is not null && sendTo is not null)
 			{
-				var flyout = (MenuFlyout)sendToOverflow.Flyout;
+				await sendToMenuItem.LoadSubMenuAction.Invoke();
+				var sendToSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetSendToItems(shellMenuItems));
 
-				flyout.Items.Clear();
+				if (sendToSubItems is not null)
+				{
+					var flyout = (MenuFlyout)sendToOverflow.Flyout;
 
-				foreach (var item in sendToSubItems)
-					flyout.Items.Add(item);
+					flyout.Items.Clear();
 
-				sendToOverflow.Flyout = flyout;
-				sendTo.Visibility = Visibility.Collapsed;
-				sendToOverflow.Visibility = Visibility.Visible;
+					foreach (var item in sendToSubItems)
+						flyout.Items.Add(item);
+
+					sendToOverflow.Flyout = flyout;
+					sendTo.Visibility = Visibility.Collapsed;
+					sendToOverflow.Visibility = Visibility.Visible;
+				}
 			}
+
+			// Add items to main shell submenu
+			mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
+				await x.LoadSubMenuAction.Invoke();
+
+				ShellContextmenuHelper.AddItemsToMainMenu(mainItems, x);
+			});
+
+			// Add items to overflow shell submenu
+			overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
+				await x.LoadSubMenuAction.Invoke();
+
+				ShellContextmenuHelper.AddItemsToOverflowMenu(overflowItem, x);
+			});
 
 			if (itemsControl is not null)
 			{

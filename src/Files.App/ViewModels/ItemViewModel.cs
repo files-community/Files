@@ -23,6 +23,7 @@ using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
 using Files.Shared.Services;
 using FluentFTP;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -682,7 +683,7 @@ namespace Files.App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 		}
 
@@ -801,7 +802,7 @@ namespace Files.App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 			finally
 			{
@@ -2008,7 +2009,7 @@ namespace Files.App.ViewModels
 							}
 							catch (Exception ex)
 							{
-								App.Logger.Warn(ex, ex.Message);
+								App.Logger.LogWarning(ex, ex.Message);
 							}
 
 							if (anyEdits && sampler.CheckNow())
