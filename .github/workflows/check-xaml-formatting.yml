@@ -13,12 +13,7 @@ on:
       - '**-servicing'
     paths:
       - '**.xaml'
-    types:
-      - opened
-      - synchronize
-      - reopened
-      - ready_for_review
-
+      
 jobs:
   check-formatting:
     runs-on: ubuntu-latest
