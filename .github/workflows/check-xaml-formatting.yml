@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Xaml Styler
-        shell: powershell
+        shell: pwsh
         run: |
           $changedFiles = (git diff --name-only) -split "\n" | Where-Object {$_ -like "*.xaml"}
           dotnet tool install --global XamlStyler.Console
