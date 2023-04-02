@@ -33,13 +33,11 @@ jobs:
         id: check-step
         run: |
           $changedFiles = (git diff --name-only HEAD~1) -split "\n" | Where-Object {$_ -like "*.xaml"}
-          $hasError = $false
           foreach ($file in $changedFiles)
           {
             xstyler -p -l None -f $file
             if ($LASTEXITCODE -ne 0)
             {
-              $hasError = $true
               echo "::error file=$file::Format check failed"
             }
           }
