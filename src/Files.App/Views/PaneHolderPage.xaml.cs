@@ -200,7 +200,7 @@ namespace Files.App.Views
 			ActivePane = PaneLeft;
 			IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;
 
-			// TODO?: Fallback or occur an error when failed to get NavigationViewCompactPaneLength value
+			// TODO?: Fallback or an error can occur when failing to get NavigationViewCompactPaneLength value
 		}
 
 		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
