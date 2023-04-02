@@ -6,6 +6,7 @@ using Files.App.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.Services.DateTimeFormatter;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -193,7 +194,7 @@ namespace Files.App.ViewModels.Settings
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Info(ex, "Could not fetch recent items");
+				App.Logger.LogInformation(ex, "Could not fetch recent items");
 			}
 
 			// Update items source

@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.UserControls.Widgets;
 using Files.Shared.Services;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace Files.App.Helpers
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 		}
 
