@@ -24,6 +24,7 @@ jobs:
       - name: Install Xaml Styler
         shell: pwsh
         run: |
+          cd $env:GITHUB_WORKSPACE
           git diff --name-only HEAD~1
           $changedFiles = (git diff --name-only HEAD~1) -split "\n" | Where-Object {$_ -like "*.xaml"}
           echo $changedFiles
