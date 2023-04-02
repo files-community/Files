@@ -2661,6 +2661,9 @@
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Desativar modo de sobreposição compacta</value>
   </data>
+  <data name="FormatDriveDescription" xml:space="preserve">
+    <value>Opens the "Format Drive" menu for the selected item</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Mostrar/ocultar barra lateral</value>
   </data>
@@ -2856,6 +2859,12 @@
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Mostrar aviso ao alterar as extensões de ficheiros</value>
+  </data>
+  <data name="ThisPC" xml:space="preserve">
+    <value>Este PC</value>
+  </data>
+  <data name="RecycleBin" xml:space="preserve">
+    <value>Reciclagem</value>
   </data>
   <data name="Untagged" xml:space="preserve">
     <value>Sem etiqueta</value>
