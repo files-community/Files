@@ -48,11 +48,13 @@
 
 			<!--  Backward Navigation Button  -->
 			<Button
+				x:Name="BackwardNavigationButton"
 				Width="36"
 				Height="32"
 				Margin="4,4,0,0"
 				Background="Transparent"
-				BorderThickness="0">
+				BorderThickness="0"
+				Click="BackwardNavigationButton_Click">
 				<AnimatedIcon x:Name="BackAnimatedIcon">
 					<AnimatedIcon.Source>
 						<animatedvisuals:AnimatedBackVisualSource />
@@ -136,7 +138,7 @@
 					</Grid.RowDefinitions>
 
 					<!--  Frame  -->
-					<Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
+					<Frame x:Name="MainContentFrame" IsNavigationStackEnabled="False" />
 
 					<!--  Save/Cancel buttons  -->
 					<Grid

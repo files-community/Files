@@ -9,7 +9,7 @@
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	DataContext="{x:Bind SecurityViewModel, Mode=OneWay}"
-	Tag="Compatibility"
+	Tag="Security"
 	mc:Ignorable="d">
 
 	<Page.Resources>

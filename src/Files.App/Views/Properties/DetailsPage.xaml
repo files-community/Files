@@ -7,7 +7,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Loaded="Properties_Loaded"
-	Tag="Compatibility"
+	Tag="Details"
 	mc:Ignorable="d">
 
 	<Page.Resources>

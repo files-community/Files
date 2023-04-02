@@ -11,9 +11,8 @@
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
-	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	DataContext="{x:Bind SecurityAdvancedViewModel, Mode=OneWay}"
-	Tag="Compatibility"
+	Tag="Security"
 	mc:Ignorable="d">
 
 	<vm:BasePropertiesPage.Resources>

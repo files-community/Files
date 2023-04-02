@@ -10,7 +10,7 @@
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	DataContext="{x:Bind CustomizationViewModel, Mode=OneWay}"
-	Tag="Compatibility"
+	Tag="Customization"
 	mc:Ignorable="d">
 
 	<vm:BasePropertiesPage.Resources>

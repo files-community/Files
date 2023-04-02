@@ -40,6 +40,8 @@ namespace Files.App.Views.Properties
 
 		private IShellPage _appInstance;
 
+		private bool SelectionChangedAutomatically { get; set; }
+
 		public MainPropertiesPage()
 		{
 			InitializeComponent();
@@ -124,6 +126,12 @@ namespace Files.App.Views.Properties
 
 		private void MainPropertiesWindowNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
+			if (SelectionChangedAutomatically)
+			{
+				SelectionChangedAutomatically = false;
+				return;
+			}
+
 			var parameter = new PropertiesPageArguments()
 			{
 				AppInstance = _appInstance,
@@ -144,10 +152,25 @@ namespace Files.App.Views.Properties
 				_ => typeof(GeneralPage),
 			};
 
-			contentFrame.Navigate(page, parameter, args.RecommendedNavigationTransitionInfo);
+			MainContentFrame.Navigate(page, parameter, args.RecommendedNavigationTransitionInfo);
 		}
 
-		#region Save/Cancel/Close
+		private void BackwardNavigationButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (MainContentFrame.CanGoBack)
+				MainContentFrame.GoBack();
+
+			var pageTag = ((Page)MainContentFrame.Content).Tag.ToString();
+
+			SelectionChangedAutomatically = true;
+
+			// Move selection indicator
+			MainPropertiesWindowNavigationView.SelectedItem =
+				NavigationViewItems
+				.FirstOrDefault(x => string.Compare(x.ItemType.ToString(), pageTag, true) == 0)
+				?? NavigationViewItems.FirstOrDefault();
+		}
+
 		private void CancelChangesButton_Click(object sender, RoutedEventArgs e)
 		{
 			ClosePage();
@@ -161,12 +184,12 @@ namespace Files.App.Views.Properties
 
 		private async Task ApplyChanges()
 		{
-			if (contentFrame.Content is not null)
+			if (MainContentFrame.Content is not null)
 			{
-				if (contentFrame.Content is GeneralPage propertiesGeneral)
+				if (MainContentFrame.Content is GeneralPage propertiesGeneral)
 					await propertiesGeneral.SaveChangesAsync();
 				else
-					await ((BasePropertiesPage)contentFrame.Content).SaveChangesAsync();
+					await ((BasePropertiesPage)MainContentFrame.Content).SaveChangesAsync();
 			}
 		}
 
@@ -207,6 +230,5 @@ namespace Files.App.Views.Properties
 
 			_dialog.Hide();
 		}
-		#endregion
 	}
 }

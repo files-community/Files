@@ -9,12 +9,11 @@
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Loaded="Properties_Loaded"
-	Tag="Compatibility"
+	Tag="Library"
 	mc:Ignorable="d">
 
 	<Page.Resources>
 		<ResourceDictionary>
-
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
