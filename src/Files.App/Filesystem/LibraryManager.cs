@@ -97,7 +97,7 @@ namespace Files.App.Filesystem
 				try
 				{
 					var libraryItems = new List<ShellLibraryItem>();
-					// https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
+					// https://learn.microsoft.com/windows/win32/search/-search-win7-development-scenarios#library-descriptions
 					var libFiles = Directory.EnumerateFiles(ShellLibraryItem.LibrariesPath, "*" + ShellLibraryItem.EXTENSION);
 					foreach (var libFile in libFiles)
 					{

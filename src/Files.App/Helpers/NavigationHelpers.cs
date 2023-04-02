@@ -381,7 +381,7 @@ namespace Files.App.Helpers
 										queryOptions.SortOrder.Add(sortEntry);
 										break;
 
-									//Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+									//Unfortunately this is unsupported | Remarks: https://learn.microsoft.com/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
 									//case Enums.SortOption.Size:
 
 									//sortEntry.PropertyName = "System.TotalFileSize";
@@ -389,7 +389,7 @@ namespace Files.App.Helpers
 									//queryOptions.SortOrder.Add(sortEntry);
 									//break;
 
-									//Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+									//Unfortunately this is unsupported | Remarks: https://learn.microsoft.com/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
 									//case Enums.SortOption.FileType:
 
 									//sortEntry.PropertyName = "System.FileExtension";

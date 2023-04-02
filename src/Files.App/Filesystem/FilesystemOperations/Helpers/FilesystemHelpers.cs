@@ -760,7 +760,7 @@ namespace Files.App.Filesystem
 			}
 
 			// workaround for GetStorageItemsAsync() bug that only yields 16 items at most
-			// https://learn.microsoft.com/en-us/windows/win32/shell/clipboard#cf_hdrop
+			// https://learn.microsoft.com/windows/win32/shell/clipboard#cf_hdrop
 			if (packageView.Contains("FileDrop"))
 			{
 				var fileDropData = await packageView.GetDataAsync("FileDrop");
