@@ -11,12 +11,13 @@ on:
   pull_request:
     branches:
       - 'main'
+      - 'pipelines'
       - '**-servicing'
     paths:
       - '**.xaml'
 
 jobs:
-  check_formatting:
+  check-formatting:
     runs-on: ubuntu-latest
     defaults:
       run:
