@@ -1,0 +1,41 @@
+# Copyright (c) 2023 Files Community
+# Licensed under the MIT License. See the LICENSE.
+
+# Files-CI: Represents a CI that will be triggered when HEAD branch is updated
+name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
+
+# Run all jobs
+jobs:
+  pool:
+    vmImage: 'windows-latest'
+  timeoutInMinutes: 120
+  strategy:
+    maxParallel: 6
+    matrix:
+      # x64
+      Debug_x64:
+        buildPlatform: 'x64'
+        buildConfiguration: 'Debug'
+      # Sideload_x64:
+      #   buildPlatform: 'x64'
+      #   buildConfiguration: 'Sideload'
+      # Release_x64:
+      #   buildPlatform: 'x64'
+      #   buildConfiguration: 'Release'
+      # # ARM64
+      # Debug_ARM64:
+      #   buildPlatform: 'ARM64'
+      #   buildConfiguration: 'Debug'
+      # Sideload_ARM64:
+      #   buildPlatform: 'ARM64'
+      #   buildConfiguration: 'Sideload'
+      # Release_ARM64:
+      #   buildPlatform: 'ARM64'
+      #   buildConfiguration: 'Release'
+  variables:
+    appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+    buildOutputDir : $(Build.SourcesDirectory)\BuildOutput
+    publishDir : $(Build.ArtifactStagingDirectory)
+  steps:
+  - template: Templates\Files-BuildDevProject-Steps.yml
+  - template: Templates\Files-PublishProjectOutput-Steps.yml

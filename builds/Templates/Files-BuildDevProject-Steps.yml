@@ -1,13 +1,10 @@
 steps:
 
-  # Update appxpackage.manifest
-  - template: Files--Steps.yml
-
-  # Update Logo
-  - template: Files--Steps.yml
+  # Update appxpackage.manifest and logo
+  - template: Files-UpdateAppIdentity-Steps.yml
 
   # Download secure files
-  - template: Files--Steps.yml
+  - template: Files-DownloadSecureFiles-Steps.yml
 
   # Install .NET
   - template: Files-InstallDotNetSDK-Steps.yml
@@ -16,22 +13,22 @@ steps:
   - template: Files-SwitchToVSPreview-Steps.yml
 
   # Nuget restore
-  - template: Files--Steps.yml
+  - template: Files-NuGetRestore-Steps.yml
 
   # Build solution
   - template: Files-BuildProject-Steps.yml
 
   # Run tests
-  - template: Files--Steps.yml
+  - template: Files-RunTests-Steps.yml
 
   # Install app
-  - template: Files--Steps.yml
+  - template: Files-InstallApp-Steps.yml
 
   # Windows application driver
-  - template: Files--Steps.yml
+  - template: Files-WinAppDriver-Steps.yml
 
   # Test assemblies
-  - template: Files--Steps.yml
+  - template: Files-TestAssemblies-Steps.yml
 
   # Publish artifacts
   - template: Files-PublishProjectOutput-Steps.yml
