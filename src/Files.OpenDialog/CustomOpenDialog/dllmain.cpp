@@ -1,8 +1,8 @@
-// Copyright (c) 2023 Files
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 // Abstract:
-//  Implementation of DllMain.
+//  Implementation of module class.
 
 #include "pch.h"
 #include "framework.h"

@@ -1,10 +1,11 @@
-// Copyright (c) 2023 Files
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 // Abstract:
-//  pch.h is the precompiled header file named pch.h. Do not change the file name.
+//  pch.h is the precompiled header file named pch.h.
 
 // Note:
+//  Do not Rename.
 //  The files listed below are compiled only once, which improves performance for subsequent compilations.
 //  This setting also affects the performance of IntelliSense, including code completion and many other code browsing features.
 //  However, the files listed here are ALL recompiled if one of them is updated from one build to another.

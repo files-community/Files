@@ -1,8 +1,8 @@
-// Copyright (c) 2023 Files
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 // Abstract:
-//  Declaration of Undocumented interfaces and helpers
+//  Declaration of Undocumented interfaces and helpers.
 
 #pragma once
 
