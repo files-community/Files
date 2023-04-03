@@ -14,7 +14,6 @@
 
 	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
-
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
@@ -37,10 +36,7 @@
 	</vm:BasePropertiesPage.Resources>
 
 	<ScrollViewer>
-		<StackPanel
-			Padding="12"
-			Spacing="4"
-			Style="{StaticResource PropertiesTab}">
+		<StackPanel Padding="12" Spacing="8">
 
 			<!--  Item overview  -->
 			<Grid
@@ -49,7 +45,7 @@
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
 				ColumnSpacing="8"
-				CornerRadius="4"
+				CornerRadius="8"
 				RowSpacing="8">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition
@@ -137,6 +133,7 @@
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				x:Load="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}"
+				CornerRadius="8"
 				Header="{helpers:ResourceString Name=MoreDetails}"
 				IsExpanded="True">
 				<Expander.Content>
@@ -290,7 +287,7 @@
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
 				ColumnSpacing="8"
-				CornerRadius="4"
+				CornerRadius="8"
 				RowSpacing="8">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="72" />
@@ -509,6 +506,7 @@
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				x:Load="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}"
+				CornerRadius="8"
 				Header="{helpers:ResourceString Name=Attributes}"
 				IsExpanded="False">
 				<Expander.Content>

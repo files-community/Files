@@ -32,14 +32,17 @@
 						<Expander
 							HorizontalAlignment="Stretch"
 							HorizontalContentAlignment="Stretch"
+							CornerRadius="8"
 							Header="{x:Bind Title}"
 							IsExpanded="True">
+
 							<ListView
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Stretch"
 								ItemsSource="{x:Bind}"
 								ScrollViewer.VerticalScrollMode="Disabled"
 								SelectionMode="None">
+
 								<ListView.ItemTemplate>
 									<DataTemplate x:DataType="vm:FileProperty">
 										<Grid HorizontalAlignment="Stretch" ColumnSpacing="8">
@@ -67,6 +70,7 @@
 												IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
 												Style="{StaticResource PropertyValueTextBox}"
 												Text="{x:Bind ValueText, Mode=TwoWay}" />
+
 										</Grid>
 									</DataTemplate>
 								</ListView.ItemTemplate>
@@ -77,7 +81,9 @@
 										<Setter Property="Padding" Value="0" />
 									</Style>
 								</ListView.ItemContainerStyle>
+
 							</ListView>
+
 						</Expander>
 					</DataTemplate>
 				</ListView.ItemTemplate>
@@ -92,7 +98,7 @@
 				<ListView.Footer>
 					<Button
 						x:Name="ClearPropertiesButton"
-						Margin="0,4,0,0"
+						Margin="0,8,0,0"
 						HorizontalAlignment="Stretch"
 						Content="{helpers:ResourceString Name=ClearPropertiesButton/Content}">
 						<Button.Flyout>

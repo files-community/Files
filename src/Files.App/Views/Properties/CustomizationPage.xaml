@@ -32,7 +32,7 @@
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
 			ColumnSpacing="8"
-			CornerRadius="4"
+			CornerRadius="8"
 			RowSpacing="8">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
@@ -41,6 +41,7 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
+			<!--  Header  -->
 			<Grid Grid.Row="0" Margin="12,12,12,0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
@@ -63,12 +64,14 @@
 
 			</Grid>
 
+			<!--  (Divider)  -->
 			<Border
 				Grid.Row="1"
 				Height="1"
 				Margin="-12,0"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
+			<!--  Titlebar  -->
 			<Grid
 				Grid.Row="2"
 				Margin="12,0"
@@ -92,6 +95,7 @@
 
 			</Grid>
 
+			<!--  Titlebar  -->
 			<GridView
 				x:Name="IconSelectionGrid"
 				Grid.Row="3"

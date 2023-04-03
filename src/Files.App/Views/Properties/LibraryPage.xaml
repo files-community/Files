@@ -31,7 +31,7 @@
 				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
-				CornerRadius="4"
+				CornerRadius="8"
 				RowSpacing="4">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -122,14 +122,6 @@
 					</ListView.Footer>
 
 				</ListView>
-
-				<!--<MenuFlyoutSeparator
-						Grid.ColumnSpan="2"
-						Grid.Row="3"
-						Margin="-12,12"
-						HorizontalAlignment="Stretch" />-->
-
-				<!--  TODO: add more controls?  -->
 
 			</Grid>
 

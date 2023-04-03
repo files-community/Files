@@ -55,7 +55,7 @@
 				Background="Transparent"
 				BorderThickness="0"
 				Click="BackwardNavigationButton_Click"
-				IsEnabled="{x:Bind Frame.CanGoBack, Mode=OneWay}">
+				IsEnabled="{x:Bind MainContentFrame.CanGoBack, Mode=OneWay}">
 				<Button.Resources>
 					<ResourceDictionary>
 						<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
