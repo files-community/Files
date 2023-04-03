@@ -6,6 +6,7 @@ using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Shared.Enums;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -65,7 +66,7 @@ namespace Files.App.ServicesImplementation
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Warn(ex, "Failed to show dialog");
+				App.Logger.LogWarning(ex, "Failed to show dialog");
 
 				Debugger.Break();
 			}

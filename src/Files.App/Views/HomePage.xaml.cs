@@ -5,7 +5,6 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.UserControls.Widgets;
 using Files.App.ViewModels;
-using Files.App.ViewModels.Pages;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -18,11 +17,12 @@ using Windows.Storage;
 
 namespace Files.App.Views
 {
-	public sealed partial class WidgetsPage : Page, IDisposable
+	public sealed partial class HomePage : Page, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private IShellPage AppInstance = null;
+
 		public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
 
 		private QuickAccessWidget quickAccessWidget;
@@ -31,17 +31,14 @@ namespace Files.App.Views
 		private FileTagsWidget fileTagsWidget;
 		private RecentFilesWidget recentFilesWidget;
 
-		public YourHomeViewModel ViewModel
-		{
-			get => (YourHomeViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public HomeViewModel ViewModel { get; set; }
 
-		public WidgetsPage()
+		public HomePage()
 		{
 			InitializeComponent();
 
-			ViewModel = new YourHomeViewModel(Widgets.ViewModel, AppInstance);
+			ViewModel = new(Widgets.ViewModel, AppInstance);
+
 			ViewModel.YourHomeLoadedInvoked += ViewModel_YourHomeLoadedInvoked;
 			Widgets.ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
 		}
@@ -49,6 +46,7 @@ namespace Files.App.Views
 		protected override void OnNavigatedFrom(NavigationEventArgs e)
 		{
 			Dispose();
+
 			base.OnNavigatedFrom(e);
 		}
 
@@ -61,15 +59,21 @@ namespace Files.App.Views
 
 		public void ReloadWidgets()
 		{
-			quickAccessWidget = WidgetsHelpers.TryGetWidget<QuickAccessWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadQuickAccessWidget, quickAccessWidget);
-			drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
-			bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
-			fileTagsWidget = WidgetsHelpers.TryGetWidget<FileTagsWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadFileTags, fileTagsWidget);
-			recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
+			quickAccessWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadQuickAccessWidget, quickAccessWidget);
+			drivesWidget =      WidgetsHelpers.TryGetWidget(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
+			bundlesWidget =     WidgetsHelpers.TryGetWidget(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
+			fileTagsWidget =    WidgetsHelpers.TryGetWidget(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadFileTags, fileTagsWidget);
+			recentFilesWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
+			// Reload QuickAccessWidget
 			if (shouldReloadQuickAccessWidget && quickAccessWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(quickAccessWidget, (value) => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded), 0);
+				Widgets.ViewModel.InsertWidget(
+					new(
+						quickAccessWidget,
+						(value) => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded = value,
+						() => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded),
+					0);
 
 				quickAccessWidget.CardInvoked -= QuickAccessWidget_CardInvoked;
 				quickAccessWidget.CardNewPaneInvoked -= WidgetCardNewPaneInvoked;
@@ -78,6 +82,8 @@ namespace Files.App.Views
 				quickAccessWidget.CardNewPaneInvoked += WidgetCardNewPaneInvoked;
 				quickAccessWidget.CardPropertiesInvoked += QuickAccessWidget_CardPropertiesInvoked;
 			}
+
+			// Reload DrivesWidget
 			if (shouldReloadDrivesWidget && drivesWidget is not null)
 			{
 				Widgets.ViewModel.InsertWidget(new(drivesWidget, (value) => UserSettingsService.PreferencesSettingsService.DrivesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.DrivesWidgetExpanded), 1);
@@ -88,6 +94,8 @@ namespace Files.App.Views
 				drivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
 				drivesWidget.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
 			}
+
+			// Reload FileTags
 			if (shouldReloadFileTags && fileTagsWidget is not null)
 			{
 				Widgets.ViewModel.InsertWidget(new(fileTagsWidget, (value) => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded), 2);
@@ -100,11 +108,15 @@ namespace Files.App.Views
 				fileTagsWidget.FileTagsNewPaneInvoked += WidgetCardNewPaneInvoked;
 				_ = fileTagsWidget.ViewModel.InitAsync();
 			}
+
+			// Reload BundlesWidget
 			if (shouldReloadBundles && bundlesWidget is not null)
 			{
 				Widgets.ViewModel.InsertWidget(new(bundlesWidget, (value) => UserSettingsService.PreferencesSettingsService.BundlesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.BundlesWidgetExpanded), 3);
 				ViewModel.LoadBundlesCommand.Execute(bundlesWidget.ViewModel);
 			}
+
+			// Reload RecentFilesWidget
 			if (shouldReloadRecentFiles && recentFilesWidget is not null)
 			{
 				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded), 4);
@@ -118,8 +130,9 @@ namespace Files.App.Views
 
 		private void ViewModel_YourHomeLoadedInvoked(object? sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
-			// We must change the associatedInstance because only now it has loaded and not null
+			// NOTE: We must change the associatedInstance because only now it has loaded and not null
 			ViewModel.ChangeAppInstance(AppInstance);
+
 			ReloadWidgets();
 		}
 
@@ -134,10 +147,12 @@ namespace Files.App.Views
 				}
 				else
 				{
-					AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
-					{
-						NavPathParam = e.ItemPath
-					});
+					AppInstance.NavigateWithArguments(
+						FolderSettings.GetLayoutType(e.ItemPath),
+						new()
+						{
+							NavPathParam = e.ItemPath
+						});
 				}
 			}
 			catch (UnauthorizedAccessException)
@@ -145,12 +160,8 @@ namespace Files.App.Views
 				DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
 				await dialog.TryShowAsync();
 			}
-			catch (COMException)
-			{
-			}
-			catch (ArgumentException)
-			{
-			}
+			catch (COMException) { }
+			catch (ArgumentException) { }
 		}
 
 		private void WidgetOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
@@ -169,7 +180,9 @@ namespace Files.App.Views
 			{
 				NavPathParam = e.Path
 			});
-			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
+
+			// Show controls that were hidden on the home page
+			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 		}
 
 		private void WidgetCardNewPaneInvoked(object sender, QuickAccessCardInvokedEventArgs e)
@@ -186,6 +199,7 @@ namespace Files.App.Views
 				PrimaryItemAttribute = StorageItemTypes.Folder,
 				ItemType = "Folder".GetLocalizedResource(),
 			};
+
 			await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, AppInstance);
 		}
 
@@ -200,12 +214,15 @@ namespace Files.App.Views
 			{
 				NavPathParam = e.Path
 			});
-			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
+
+			// Show controls that were hidden on the home page
+			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 		}
 
 		protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			var parameters = eventArgs.Parameter as NavigationArguments;
+
 			AppInstance = parameters.AssociatedTabInstance;
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
 			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
@@ -230,11 +247,12 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.PathComponents.Clear();
 			string componentLabel = parameters.NavPathParam == "Home" ? "Home".GetLocalizedResource() : parameters.NavPathParam;
 			string tag = parameters.NavPathParam;
-			PathBoxItem item = new PathBoxItem()
+			var item = new PathBoxItem()
 			{
 				Title = componentLabel,
 				Path = tag,
 			};
+
 			AppInstance.ToolbarViewModel.PathComponents.Add(item);
 			base.OnNavigatedTo(eventArgs);
 		}
@@ -242,6 +260,7 @@ namespace Files.App.Views
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
+
 			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
 		}
 

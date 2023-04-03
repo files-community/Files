@@ -3,6 +3,7 @@ using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.Backend.Services;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -89,7 +90,7 @@ namespace Files.App.ServicesImplementation
 			{
 				if (await ShowDialogAsync())
 				{
-					App.Logger.Info("STORE: Downloading updates...");
+					App.Logger.LogInformation("STORE: Downloading updates...");
 					OnUpdateInProgress();
 					await DownloadAndInstall();
 					OnUpdateCompleted();
@@ -99,13 +100,13 @@ namespace Files.App.ServicesImplementation
 
 		public async Task CheckForUpdates()
 		{
-			App.Logger.Info("STORE: Checking for updates...");
+			App.Logger.LogInformation("STORE: Checking for updates...");
 
 			await GetUpdatePackages();
 
 			if (_updatePackages is not null && _updatePackages.Count > 0)
 			{
-				App.Logger.Info("STORE: Update found.");
+				App.Logger.LogInformation("STORE: Update found.");
 				IsUpdateAvailable = true;
 			}
 		}
@@ -207,7 +208,7 @@ namespace Files.App.ServicesImplementation
 					await srcExeFile.CopyAsync(destFolder, "FilesLauncher.exe", NameCollisionOption.ReplaceExisting);
 					await srcHashFile.CopyAsync(destFolder, "FilesLauncher.exe.sha256", NameCollisionOption.ReplaceExisting);
 
-					App.Logger.Info("FilesLauncher updated.");
+					App.Logger.LogInformation("FilesLauncher updated.");
 				}
 			}
 

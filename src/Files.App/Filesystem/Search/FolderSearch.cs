@@ -5,6 +5,7 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -95,7 +96,7 @@ namespace Files.App.Filesystem.Search
 			}
 			catch (Exception e)
 			{
-				App.Logger.Warn(e, "Search failure");
+				App.Logger.LogWarning(e, "Search failure");
 			}
 
 			return Task.CompletedTask;
@@ -130,7 +131,7 @@ namespace Files.App.Filesystem.Search
 			}
 			catch (Exception e)
 			{
-				App.Logger.Warn(e, "Search failure");
+				App.Logger.LogWarning(e, "Search failure");
 			}
 
 			return results;
@@ -162,7 +163,7 @@ namespace Files.App.Filesystem.Search
 					}
 					catch (Exception ex)
 					{
-						App.Logger.Warn(ex, "Error creating ListedItem from StorageItem");
+						App.Logger.LogWarning(ex, "Error creating ListedItem from StorageItem");
 					}
 
 					if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
@@ -242,7 +243,7 @@ namespace Files.App.Filesystem.Search
 					}
 					catch (Exception ex)
 					{
-						App.Logger.Warn(ex, "Error creating ListedItem from StorageItem");
+						App.Logger.LogWarning(ex, "Error creating ListedItem from StorageItem");
 					}
 				}
 
