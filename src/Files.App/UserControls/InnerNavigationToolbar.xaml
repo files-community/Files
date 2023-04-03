@@ -303,14 +303,14 @@
 					x:Name="RunWithPowerShellButton"
 					Width="Auto"
 					MinWidth="40"
-					x:Load="{x:Bind ViewModel.IsPowerShellScript, Mode=OneWay, FallbackValue=False}"
+					x:Load="{x:Bind Commands.RunWithPowershell.IsExecutable, Mode=OneWay}"
 					AutomationProperties.Name="RunWithPowerShell"
-					Command="{x:Bind ViewModel.RunWithPowerShellCommand, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=RunScript}"
+					Command="{x:Bind Commands.RunWithPowershell}"
+					Label="{x:Bind Commands.RunWithPowershell.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=RunWithPowerShell}">
+					ToolTipService.ToolTip="{x:Bind Commands.RunWithPowershell.LabelWithHotKey}">
 					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE756;" />
+						<FontIcon Glyph="{x:Bind Commands.RunWithPowershell.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
 				</AppBarButton>
 

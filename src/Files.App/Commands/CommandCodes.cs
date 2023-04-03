@@ -29,6 +29,7 @@ namespace Files.App.Commands
 		CreateShortcut,
 		CreateShortcutFromDialog,
 		EmptyRecycleBin,
+		FormatDrive,
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
 		OpenItem,
@@ -66,6 +67,7 @@ namespace Files.App.Commands
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
+		RunWithPowershell,
 
 		// QuickLook
 		LaunchQuickLook,
