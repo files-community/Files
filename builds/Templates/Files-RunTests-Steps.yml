@@ -1,4 +1,5 @@
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    arguments: './tests/Files.InteractionTests/Files.InteractionTests.csproj --configuration $(buildConfiguration)'
+steps:
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'build'
+      arguments: './tests/Files.InteractionTests/Files.InteractionTests.csproj --configuration $(buildConfiguration)'

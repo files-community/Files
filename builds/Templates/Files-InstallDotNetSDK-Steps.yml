@@ -1,10 +1,7 @@
-parameters:
-  dotNetVersion: 7.0.x
-
 steps:
   - task: UseDotNet@2
-    displayName: 'Use .NET SDK v${{ parameters.dotNetVersion }}'
+    displayName: 'Use .NET SDK 7.0.x'
     inputs:
       packageType: sdk
-      version: ${{ parameters.dotNetVersion }}
+      version: 7.0.x
       includePreviewVersions: true

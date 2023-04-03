@@ -1,0 +1,13 @@
+steps:
+- task: DownloadSecureFile@1
+  displayName: 'Download Bing Maps Dev Key'
+  name: mapsDevKey
+  inputs:
+    secureFile: 'BingMapsKey.txt'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: '$(mapsDevKey.secureFilePath)'
+    TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
+    overWrite: true

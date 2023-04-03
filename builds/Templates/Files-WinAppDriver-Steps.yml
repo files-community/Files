@@ -1,0 +1,5 @@
+steps:
+  - task: Windows Application Driver@0
+    inputs:
+      OperationType: 'Start'
+      AgentResolution: '1080p'

@@ -1,6 +1,3 @@
-parameters:
-  dotNetVersion: 7.0.x
-
 steps:
   - task: CmdLine@2
     displayName: 'Switch to Visual Studio Preview'

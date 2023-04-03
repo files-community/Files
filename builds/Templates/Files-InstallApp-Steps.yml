@@ -1,0 +1,15 @@
+steps:
+  - task: PowerShell@2
+    displayName: 'Install Files app from appxpackage'
+    inputs:
+      targetType: 'inline'
+      script: |
+        cd $(appxPackageDir)
+        $AppBundle = Get-ChildItem -Filter Files*Test -Name
+        echo $AppBundle
+        cd $AppBundle
+        ./Install.ps1 -Force
+        Get-AppxPackage
+      errorActionPreference: 'continue'
+      failOnStderr: true
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
