@@ -1,0 +1,27 @@
+steps:
+  - task: MSBuild@1
+    displayName: 'Build solution'
+    inputs:
+      solution: '**/*.wapproj'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
+      msbuildArguments: |
+        /t:build;_GenerateAppxPackage
+        /p:Configuration=$(buildConfiguration);
+        Platform="$(buildPlatform)";
+        AppxBundle=Always;
+        AppxBundlePlatforms="$(buildPlatform)";
+        AppxPackageDir="$(appxPackageDir)";
+        AppxPackageSigningEnabled=true;
+        UapAppxPackageBuildMode=SideloadOnly;
+        PackageCertificateKeyFile="$(Build.SourcesDirectory)\builds\Files_SelfSigned.pfx";
+        PackageCertificatePassword="";
+        PackageCertificateThumbprint=""
+      maximumCpuCount: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Files appx package'
+    condition: succeededOrFailed()
+    inputs:
+      PathtoPublish: '$(build.artifactstagingdirectory)'
+      artifactName: '$(buildConfiguration)'

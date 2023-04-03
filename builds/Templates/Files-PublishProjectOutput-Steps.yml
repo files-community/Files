@@ -1,0 +1,16 @@
+parameters:
+  artifactName: 'drop'
+
+steps:
+  - task: CopyFiles@2
+    displayName: 'Copy Files to the staging folder'
+    inputs:
+      SourceFolder: '$(system.defaultworkingdirectory)'
+      Contents: '**\bin\$(BuildConfiguration)\**'
+      TargetFolder: '$(build.artifactstagingdirectory)'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish artifact: ${{ parameters.artifactName }}'
+    inputs:
+      PathtoPublish: '$(build.artifactstagingdirectory)'
+      artifactName: '$(buildConfiguration)'

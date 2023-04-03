@@ -1,0 +1,13 @@
+steps:
+  - task: MSBuild@1
+    displayName: 'Restore nuget'
+    inputs:
+      solution: '**/*.sln'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
+      msbuildArguments: |
+        /t:restore
+        /p:Configuration="$(buildConfiguration)";
+        Platform="$(buildPlatform)";
+        PublishReadyToRun=true
+      maximumCpuCount: true

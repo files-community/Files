@@ -1,0 +1,9 @@
+parameters:
+  dotNetVersion: 7.0.x
+
+steps:
+  - task: CmdLine@2
+    displayName: 'Switch to Visual Studio Preview'
+    inputs:
+      script: |
+        for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
