@@ -1,4 +1,5 @@
 ﻿using Files.Backend.Helpers;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -213,7 +214,7 @@ namespace Files.App.Shell
 			catch (Exception ex)
 			{
 				// Generic error, log
-				App.Logger.Warn(ex, $"Error launching: {application}");
+				App.Logger.LogWarning(ex, $"Error launching: {application}");
 				return false;
 			}
 		}
