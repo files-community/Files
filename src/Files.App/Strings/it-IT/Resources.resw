@@ -2662,7 +2662,7 @@
     <value>Esci dalla modalità Compact Overlay</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Opens the "Format Drive" menu for the selected item</value>
+    <value>Apre il menu "Formatta unità" per l'elemento selezionato</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Attiva/Disattiva barra laterale</value>
