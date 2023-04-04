@@ -52,8 +52,10 @@ namespace Files.App.ServicesImplementation
 
 			foreach (dynamic? fi in f2.Items())
 			{
+				App.Logger.Info(fi.Path);
 				if (folderPaths.Contains((string)fi.Path)
-					|| (string.Equals(fi.Path, "::{645FF040-5081-101B-9F08-00AA002F954E}") && folderPaths.Contains(Constants.CommonPaths.RecycleBinPath)))
+					|| (string.Equals(fi.Path, "::{645FF040-5081-101B-9F08-00AA002F954E}") && folderPaths.Contains(Constants.CommonPaths.RecycleBinPath))
+					|| (string.Equals(fi.Path, "::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}") && folderPaths.Contains(Constants.CommonPaths.NetworkFolderPath)))
 				{
 					await SafetyExtensions.IgnoreExceptions(async () =>
 					{

@@ -190,6 +190,7 @@ namespace Files.App.UserControls
 
 			var isDriveItem = item is DriveItem;
 			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
+			var isShellFolder = item is LocationItem shellItem && shellItem.Path.StartsWith("\\\\SHELL\\");
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -255,7 +256,7 @@ namespace Files.App.UserControls
 						OpacityIconStyle = "ColorIconUnpinFromFavorites",
 					},
 					Command = UnpinItemCommand,
-					ShowItem = options.ShowUnpinItem || isDriveItemPinned
+					ShowItem = (options.ShowUnpinItem || isDriveItemPinned) && !isShellFolder
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

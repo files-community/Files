@@ -196,7 +196,7 @@ namespace Files.App.DataModels
 		{
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 			await LoadAsync();
-			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(null, new ModifyQuickAccessEventArgs((await QuickAccessService.GetPinnedFoldersAsync()).Select(x => x.FilePath).ToArray(), true)
+			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(null, new ModifyQuickAccessEventArgs((await QuickAccessService.GetPinnedFoldersAsync()).ToArray(), true)
 			{
 				Reset = true
 			});
