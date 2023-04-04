@@ -819,7 +819,7 @@ namespace Files.App.Views.LayoutModes
 				if (isPointerOver.HasValue)
 					control.SetValue(IsPointerOverProperty, isPointerOver);
 				// Handle visual states
-				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false)
+				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false && SelectedItems?.Count >= 1)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
