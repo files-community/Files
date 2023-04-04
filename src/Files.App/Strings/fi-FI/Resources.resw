@@ -2662,7 +2662,7 @@
     <value>Poistu suppeasta asettelusta</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Opens the "Format Drive" menu for the selected item</value>
+    <value>Avaa valitun kohteen "Alusta asema" -valikon</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Vaihda sivupalkkia</value>
