@@ -21,7 +21,7 @@ public static class QuickLookHelpers
 		if (!isQuickLookAvailable)
 		{
 			if (!switchPreview)
-				App.Logger.LogInformation($"QuickLook not detected!");
+				App.Logger.LogInformation("QuickLook not detected");
 			
 			return;
 		}
