@@ -142,7 +142,7 @@ namespace Files.App.Actions
 
 	internal class GroupAscendingAction : ObservableObject, IToggleAction
 	{
-		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private	readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "Ascending".GetLocalizedResource();
 
@@ -178,7 +178,7 @@ namespace Files.App.Actions
 
 	internal class GroupDescendingAction : ObservableObject, IToggleAction
 	{
-		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "Descending".GetLocalizedResource();
 
@@ -214,7 +214,7 @@ namespace Files.App.Actions
 
 	internal class ToggleGroupDirectionAction : IAction
 	{
-		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "ToggleSortDirection".GetLocalizedResource();
 

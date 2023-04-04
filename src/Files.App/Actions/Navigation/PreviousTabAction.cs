@@ -5,7 +5,6 @@ using Files.App.Contexts;
 using Files.App.Extensions;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -19,7 +18,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable => multitaskingContext.TabCount > 1;
 
-		public HotKey HotKey { get; } = new(VirtualKey.Tab, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public HotKey HotKey { get; } = new(Keys.Tab, KeyModifiers.CtrlShift);
 
 		public PreviousTabAction()
 		{
