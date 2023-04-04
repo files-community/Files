@@ -1,6 +1,9 @@
-﻿using Files.App.Extensions;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
+using Files.App.ViewModels;
 using Files.Shared.Extensions;
 using Files.Shared.Services;
 using System;
@@ -109,15 +112,17 @@ namespace Files.App.ServicesImplementation
 		{
 			if (instance is not null)
 			{
-				string displayName = null;
+				string? displayName = null;
 				if (path.EndsWith("\\"))
 				{
+					var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
 					// Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
-					var drive = App.DrivesManager.Drives.Where(drive => drive.Path == path).FirstOrDefault();
+					var drive = drivesViewModel.Drives.Where(drive => drive.Path == path).FirstOrDefault();
 					if (drive is null)
 						return;
 
-					displayName = drive.Text;
+					displayName = (drive as DriveItem)?.Text;
 					path += '?';
 				}
 

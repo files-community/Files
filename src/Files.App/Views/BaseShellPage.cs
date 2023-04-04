@@ -47,6 +47,8 @@ namespace Files.App.Views
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
 
+		protected readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
 		protected readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		protected readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -199,7 +201,7 @@ namespace Files.App.Views
 
 			PointerPressed += CoreWindow_PointerPressed;
 
-			App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+			drivesViewModel.PropertyChanged += DrivesManager_PropertyChanged;
 
 			PreviewKeyDown += ShellPage_PreviewKeyDown;
 		}
@@ -624,9 +626,9 @@ namespace Files.App.Views
 
 		protected async void DisplayFilesystemConsentDialog()
 		{
-			if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
+			if (drivesViewModel?.ShowUserConsentOnInit ?? false)
 			{
-				App.DrivesManager.ShowUserConsentOnInit = false;
+				drivesViewModel.ShowUserConsentOnInit = false;
 				await DispatcherQueue.EnqueueAsync(async () =>
 				{
 					var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
@@ -684,7 +686,7 @@ namespace Files.App.Views
 		{
 			PreviewKeyDown -= ShellPage_PreviewKeyDown;
 			PointerPressed -= CoreWindow_PointerPressed;
-			App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
+			drivesViewModel.PropertyChanged -= DrivesManager_PropertyChanged;
 
 			ToolbarViewModel.ToolbarPathItemInvoked -= ShellPage_NavigationRequested;
 			ToolbarViewModel.ToolbarFlyoutOpened -= ShellPage_ToolbarFlyoutOpened;

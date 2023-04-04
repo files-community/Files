@@ -7,6 +7,7 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.UserControls;
 using Files.Backend.Services.Settings;
+using Files.Sdk.Storage.LocatableStorage;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
 using Microsoft.UI.Dispatching;
@@ -25,6 +26,7 @@ namespace Files.App.ViewModels
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		private IPaneHolder paneHolder;
 		public IPaneHolder PaneHolder
@@ -229,7 +231,7 @@ namespace Files.App.ViewModels
 
 			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
 			App.LibraryManager.DataChanged += Manager_DataChanged;
-			App.DrivesManager.DataChanged += Manager_DataChanged;
+			drivesViewModel.Drives.CollectionChanged += Manager_DataChanged;
 			App.CloudDrivesManager.DataChanged += Manager_DataChanged;
 			App.NetworkDrivesManager.DataChanged += Manager_DataChanged;
 			App.WSLDistroManager.DataChanged += Manager_DataChanged;
@@ -245,12 +247,13 @@ namespace Files.App.ViewModels
 		{
 			await dispatcherQueue.EnqueueAsync(async () =>
 			{
-				var section = await GetOrCreateSection((SectionType)sender);
-				Func<IReadOnlyList<INavigationControlItem>> getElements = () => (SectionType)sender switch
+				var sectionType = (sender is SectionType s) ? s : SectionType.Drives;
+				var section = await GetOrCreateSection(sectionType);
+				Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
 				{
 					SectionType.Favorites => App.QuickAccessManager.Model.Favorites,
 					SectionType.CloudDrives => App.CloudDrivesManager.Drives,
-					SectionType.Drives => App.DrivesManager.Drives,
+					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.Network => App.NetworkDrivesManager.Drives,
 					SectionType.WSL => App.WSLDistroManager.Distros,
 					SectionType.Library => App.LibraryManager.Libraries,
@@ -528,7 +531,7 @@ namespace Files.App.ViewModels
 				Func<Task> action = sectionType switch
 				{
 					SectionType.CloudDrives when preferencesSettingsService.ShowCloudDrivesSection => App.CloudDrivesManager.UpdateDrivesAsync,
-					SectionType.Drives => App.DrivesManager.UpdateDrivesAsync,
+					SectionType.Drives => drivesViewModel.UpdateDrivesAsync,
 					SectionType.Network when preferencesSettingsService.ShowNetworkDrivesSection => App.NetworkDrivesManager.UpdateDrivesAsync,
 					SectionType.WSL when preferencesSettingsService.ShowWslSection => App.WSLDistroManager.UpdateDrivesAsync,
 					SectionType.FileTag when preferencesSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
@@ -594,7 +597,7 @@ namespace Files.App.ViewModels
 
 			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
-			App.DrivesManager.DataChanged -= Manager_DataChanged;
+			drivesViewModel.Drives.CollectionChanged -= Manager_DataChanged;
 			App.CloudDrivesManager.DataChanged -= Manager_DataChanged;
 			App.NetworkDrivesManager.DataChanged -= Manager_DataChanged;
 			App.WSLDistroManager.DataChanged -= Manager_DataChanged;
