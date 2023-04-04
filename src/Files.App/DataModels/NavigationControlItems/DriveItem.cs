@@ -4,17 +4,23 @@ using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
+using Files.App.Storage.WindowsStorage;
+using Files.Sdk.Storage;
+using Files.Sdk.Storage.Enums;
+using Files.Sdk.Storage.LocatableStorage;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace Files.App.DataModels.NavigationControlItems
 {
-	public class DriveItem : ObservableObject, INavigationControlItem
+	public class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
 	{
 		private BitmapImage icon;
 		public BitmapImage Icon
@@ -150,6 +156,10 @@ namespace Files.App.DataModels.NavigationControlItems
 			set => SetProperty(ref showStorageSense, value);
 		}
 
+		public string Id => DeviceID;
+
+		public string Name => Root.DisplayName;
+
 		public DriveItem()
 		{
 			ItemType = NavigationControlItemType.CloudDrive;
@@ -254,6 +264,30 @@ namespace Files.App.DataModels.NavigationControlItems
 				"DriveFreeSpaceAndCapacity".GetLocalizedResource(),
 				FreeSpace.ToSizeString(),
 				MaxSpace.ToSizeString());
+		}
+
+		public Task<IFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
+		{
+			var folder = new WindowsStorageFolder(Root);
+			return folder.GetFileAsync(fileName, cancellationToken);
+		}
+
+		public Task<IFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
+		{
+			var folder = new WindowsStorageFolder(Root);
+			return folder.GetFolderAsync(folderName, cancellationToken);
+		}
+
+		public IAsyncEnumerable<IStorable> GetItemsAsync(StorableKind kind = StorableKind.All, CancellationToken cancellationToken = default)
+		{
+			var folder = new WindowsStorageFolder(Root);
+			return folder.GetItemsAsync(kind, cancellationToken);
+		}
+
+		public Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		{
+			var folder = new WindowsStorageFolder(Root);
+			return folder.GetParentAsync(cancellationToken);
 		}
 	}
 
