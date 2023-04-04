@@ -231,13 +231,9 @@ namespace Files.App.Views
 					if (isTextBox)
 					{
 						if (hotKey.IsTextBoxHotKey())
-						{
 							break;
-						}
 						if (currentModifiers is KeyModifiers.None && !hotKey.Key.IsGlobalKey())
-						{
 							break;
-						}
 					}
 
 					// Execute command for hotkey
