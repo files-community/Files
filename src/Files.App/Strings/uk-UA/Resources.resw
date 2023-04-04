@@ -2661,6 +2661,9 @@
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Вийти з компактного оверлею</value>
   </data>
+  <data name="FormatDriveDescription" xml:space="preserve">
+    <value>Відкриває меню "Відформатувати диск" для вибраного елемента</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Перемкнути бічну панель</value>
   </data>
@@ -2725,7 +2728,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
-    <value>Основне</value>
+    <value>Головна</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.End" xml:space="preserve">
@@ -2813,7 +2816,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
-    <value>Вибране</value>
+    <value>Улюблені</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
@@ -2857,7 +2860,22 @@
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Відображати попередження при зміні розширень файлів</value>
   </data>
+  <data name="ThisPC" xml:space="preserve">
+    <value>Цей ПК</value>
+  </data>
+  <data name="RecycleBin" xml:space="preserve">
+    <value>Смітник</value>
+  </data>
   <data name="Untagged" xml:space="preserve">
     <value>Без міток</value>
+  </data>
+  <data name="PreviousTab" xml:space="preserve">
+    <value>Переходить до попередньої вкладки</value>
+  </data>
+  <data name="NextTab" xml:space="preserve">
+    <value>Переходить до наступної вкладки</value>
+  </data>
+  <data name="CloseTab" xml:space="preserve">
+    <value>Закриває поточну вкладку</value>
   </data>
 </root>

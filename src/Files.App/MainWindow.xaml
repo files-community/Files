@@ -7,9 +7,9 @@
 	xmlns:winuiex="using:WinUIEx"
 	mc:Ignorable="d">
 
+	<!--  Mica Alt  -->
 	<winuiex:WindowEx.Backdrop>
 		<winuiex:MicaSystemBackdrop Kind="BaseAlt" />
 	</winuiex:WindowEx.Backdrop>
 
-	<Grid />
 </winuiex:WindowEx>

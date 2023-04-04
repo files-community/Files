@@ -5,7 +5,6 @@ using Files.App.Extensions;
 using Files.App.ViewModels;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -18,7 +17,7 @@ namespace Files.App.Actions
 		public string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconRightPane");
-		public HotKey HotKey { get; } = new(VirtualKey.P, VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(Keys.P, KeyModifiers.Ctrl);
 
 		public bool IsOn => viewModel.IsEnabled;
 

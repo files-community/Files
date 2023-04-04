@@ -15,15 +15,6 @@ namespace Files.App
 			public const float ExtraSmallThreshold = 15.0f;
 		}
 
-		public static class CommonPaths
-		{
-			public const string RecycleBinPath = @"Shell:RecycleBinFolder";
-
-			public const string NetworkFolderPath = @"Shell:NetworkPlacesFolder";
-
-			public const string MyComputerPath = @"Shell:MyComputerFolder";
-		}
-
 		public static class KnownImageFormats
 		{
 			public const string BITMAP_IMAGE_FORMAT = "bitmapimage";

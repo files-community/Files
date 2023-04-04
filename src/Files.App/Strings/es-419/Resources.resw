@@ -2661,6 +2661,9 @@
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Salir del modo superposición compacta</value>
   </data>
+  <data name="FormatDriveDescription" xml:space="preserve">
+    <value>Abre el menú "Formatear unidad" para el elemento seleccionado</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Ocultar/mostrar barra lateral</value>
   </data>
@@ -2857,7 +2860,22 @@
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Mostrar aviso al cambiar las extensiones de archivo</value>
   </data>
+  <data name="ThisPC" xml:space="preserve">
+    <value>Este equipo</value>
+  </data>
+  <data name="RecycleBin" xml:space="preserve">
+    <value>Papelera de reciclaje</value>
+  </data>
   <data name="Untagged" xml:space="preserve">
     <value>Sin etiquetar</value>
+  </data>
+  <data name="PreviousTab" xml:space="preserve">
+    <value>Mueve a la pestaña anterior</value>
+  </data>
+  <data name="NextTab" xml:space="preserve">
+    <value>Mueve a la siguiente pestaña</value>
+  </data>
+  <data name="CloseTab" xml:space="preserve">
+    <value>Cierra la pestaña actual</value>
   </data>
 </root>

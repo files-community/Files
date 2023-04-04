@@ -68,13 +68,15 @@ namespace Files.App.Filesystem
 		public void Report(int? percentage = null)
 		{
 			Percentage = percentage;
-			if (EnumerationCompleted &&
+			if ((
+				(EnumerationCompleted &&
 				ProcessedItemsCount == ItemsCount &&
 				ProcessedSize == TotalSize &&
+				TotalSize is not 0) ||
+				percentage is 100) &&
 				status is FileSystemStatusCode.InProgress or null)
 			{
 				status = FileSystemStatusCode.Success;
-				CompletedTime = DateTimeOffset.Now;
 			}
 
 			if (status is FileSystemStatusCode.Success)
