@@ -20,6 +20,7 @@
 
 	<local:BaseShellPage.KeyboardAccelerators>
 		<KeyboardAccelerator
+							 
 			Key="E"
 			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
