@@ -9,13 +9,13 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class DecompressArchive : BaseUIAction, IAction
+	internal class DecompressArchive : BaseUIAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label => "ExtractFiles".GetLocalizedResource();
+		public override string Label => "ExtractFiles".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public override string Description => "TODO: Need to be described.";
 
 		public HotKey HotKey { get; } = new(VirtualKey.E, VirtualKeyModifiers.Control);
 
@@ -29,7 +29,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public override async Task ExecuteAsync()
 		{
 			await ArchiveHelpers.DecompressArchive(context.ShellPage);
 		}

@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -14,14 +13,14 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class DeleteItemAction : BaseUIAction, IAction
+	internal class DeleteItemAction : BaseUIAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
-		public string Label { get; } = "Delete".GetLocalizedResource();
+		public override string Label { get; } = "Delete".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public override string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconDelete");
 
@@ -37,7 +36,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public override async Task ExecuteAsync()
 		{
 			if (context.ShellPage is null || !IsExecutable)
 				return;

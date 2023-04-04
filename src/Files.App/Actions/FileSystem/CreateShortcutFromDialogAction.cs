@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CreateShortcutFromDialogAction : BaseUIAction, IAction
+	internal class CreateShortcutFromDialogAction : BaseUIAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "Shortcut".GetLocalizedResource();
+		public override string Label { get; } = "Shortcut".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public override string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
 
@@ -25,7 +25,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public override async Task ExecuteAsync()
 		{
 			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage);
 		}

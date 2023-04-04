@@ -11,13 +11,13 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class PasteItemToSelectionAction : BaseUIAction, IAction
+	internal class PasteItemToSelectionAction : BaseUIAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "Paste".GetLocalizedResource();
+		public override string Label { get; } = "Paste".GetLocalizedResource();
 
-		public string Description => "PasteItemToSelectionDescription".GetLocalizedResource();
+		public override string Description => "PasteItemToSelectionDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconPaste");
 
@@ -34,7 +34,7 @@ namespace Files.App.Actions
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public override async Task ExecuteAsync()
 		{
 			if (context.ShellPage is null)
 				return;

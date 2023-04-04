@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class EmptyRecycleBinAction : BaseUIAction, IAction
+	internal class EmptyRecycleBinAction : BaseUIAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "EmptyRecycleBin".GetLocalizedResource();
+		public override string Label { get; } = "EmptyRecycleBin".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public override string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconDelete");
 
@@ -28,7 +28,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public override async Task ExecuteAsync()
 		{
 			await RecycleBinHelpers.EmptyRecycleBin();
 		}

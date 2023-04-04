@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class DecompressArchiveToChildFolderAction : BaseUIAction, IAction
+	internal class DecompressArchiveToChildFolderAction : BaseUIAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label => ComputeLabel();
+		public override string Label => ComputeLabel();
 
-		public string Description => "TODO: Need to be described.";
+		public override string Description => "TODO: Need to be described.";
 
 		public override bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
@@ -27,7 +27,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public override async Task ExecuteAsync()
 		{
 			await ArchiveHelpers.DecompressArchiveToChildFolder(context.ShellPage);
 		}

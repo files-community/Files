@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CompressIntoArchiveAction : BaseUIAction, IAction
+	internal class CompressIntoArchiveAction : BaseUIAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label => "CreateArchive".GetLocalizedResource();
+		public override string Label => "CreateArchive".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public override string Description => "TODO: Need to be described.";
 
 		public override bool IsExecutable => 
 			IsContextPageTypeAdaptedToCommand() &&
@@ -28,7 +28,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public override async Task ExecuteAsync()
 		{
 			var (sources, directory, fileName) = ArchiveHelpers.GetCompressDestination(context.ShellPage);
 

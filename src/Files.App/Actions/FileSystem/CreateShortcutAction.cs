@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CreateShortcutAction : BaseUIAction, IAction
+	internal class CreateShortcutAction : BaseUIAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "CreateShortcut".GetLocalizedResource();
+		public override string Label { get; } = "CreateShortcut".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public override string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
 
@@ -27,7 +27,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public override async Task ExecuteAsync()
 		{
 			var currentPath = context.ShellPage?.FilesystemViewModel.WorkingDirectory;
 
