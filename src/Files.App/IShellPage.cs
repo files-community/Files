@@ -94,9 +94,6 @@ namespace Files.App
 
 	public interface IMultiPaneInfo
 	{
-		// The instance is the left or only pane
-		public bool IsPageMainPane { get; }
-
 		public IPaneHolder PaneHolder { get; }
 	}
 }

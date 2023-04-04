@@ -95,21 +95,6 @@ namespace Files.App.Views
 			}
 		}
 
-		protected bool isPageMainPane;
-		public bool IsPageMainPane
-		{
-			get => isPageMainPane;
-			set
-			{
-				if (value != isPageMainPane)
-				{
-					isPageMainPane = value;
-
-					NotifyPropertyChanged(nameof(IsPageMainPane));
-				}
-			}
-		}
-
 		protected IPaneHolder paneHolder;
 		public IPaneHolder PaneHolder
 		{
