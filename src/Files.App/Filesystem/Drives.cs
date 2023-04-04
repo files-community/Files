@@ -6,6 +6,7 @@ using Files.App.Helpers.MMI;
 using Files.Backend.Services.SizeProvider;
 using Files.Shared;
 using Files.Shared.Enums;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -24,7 +25,7 @@ namespace Files.App.Filesystem
 {
 	public class DrivesManager : ObservableObject
 	{
-		private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
+		private readonly ILogger logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
 
 		private bool isDriveEnumInProgress;
@@ -204,7 +205,7 @@ namespace Files.App.Filesystem
 			var rootAdded = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(e.DeviceId).AsTask());
 			if (!rootAdded)
 			{
-				logger.Warn($"{rootAdded.ErrorCode}: Attempting to add the device, {e.DeviceId},"
+				logger.LogWarning($"{rootAdded.ErrorCode}: Attempting to add the device, {e.DeviceId},"
 					+ " failed at the StorageFolder initialization step. This device will be ignored.");
 				return;
 			}
@@ -230,7 +231,7 @@ namespace Files.App.Filesystem
 					matchingDrive.DeviceID = e.DeviceId;
 					return;
 				}
-				logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
+				logger.LogInformation($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
 				drives.Add(driveItem);
 			}
 
@@ -260,7 +261,7 @@ namespace Files.App.Filesystem
 			}
 			catch (Exception ex) when (ex is ArgumentException or UnauthorizedAccessException)
 			{
-				logger.Warn($"{ex.GetType()}: Attempting to add the device, {info.Name},"
+				logger.LogWarning($"{ex.GetType()}: Attempting to add the device, {info.Name},"
 					+ $" failed at the StorageFolder initialization step. This device will be ignored. Device ID: {deviceId}");
 				return;
 			}
@@ -289,7 +290,7 @@ namespace Files.App.Filesystem
 					return;
 				}
 
-				logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
+				logger.LogInformation($"Drive added: {driveItem.Path}, {driveItem.Type}");
 				drives.Add(driveItem);
 			}
 
@@ -301,7 +302,7 @@ namespace Files.App.Filesystem
 
 		private void Watcher_Removed(DeviceWatcher sender, DeviceInformationUpdate args)
 		{
-			logger.Info($"Drive removed: {args.Id}");
+			logger.LogInformation($"Drive removed: {args.Id}");
 			lock (drives)
 			{
 				drives.RemoveAll(x => x.DeviceID == args.Id);
@@ -332,13 +333,13 @@ namespace Files.App.Filesystem
 				if (res.ErrorCode is FileSystemStatusCode.Unauthorized)
 				{
 					unauthorizedAccessDetected = true;
-					logger.Warn($"{res.ErrorCode}: Attempting to add the device, {drive.Name},"
+					logger.LogWarning($"{res.ErrorCode}: Attempting to add the device, {drive.Name},"
 						+ " failed at the StorageFolder initialization step. This device will be ignored.");
 					continue;
 				}
 				else if (!res)
 				{
-					logger.Warn($"{res.ErrorCode}: Attempting to add the device, {drive.Name},"
+					logger.LogWarning($"{res.ErrorCode}: Attempting to add the device, {drive.Name},"
 						+ " failed at the StorageFolder initialization step. This device will be ignored.");
 					continue;
 				}
@@ -355,7 +356,7 @@ namespace Files.App.Filesystem
 						continue;
 					}
 
-					logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
+					logger.LogInformation($"Drive added: {driveItem.Path}, {driveItem.Type}");
 					drives.Add(driveItem);
 				}
 
