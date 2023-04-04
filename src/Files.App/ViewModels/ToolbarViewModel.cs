@@ -577,8 +577,6 @@ namespace Files.App.ViewModels
 
 		public ICommand PropertiesCommand { get; set; }
 
-		public ICommand? RunWithPowerShellCommand { get; set; }
-
 		public ICommand? UpdateCommand { get; set; }
 
 		public ICommand? PlayAllCommand { get; set; }
