@@ -5,7 +5,6 @@ using Files.App.Contexts;
 using Files.App.Extensions;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -17,10 +16,10 @@ namespace Files.App.Actions
 
 		public string Description { get; } = "NavigateBack".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(VirtualKey.Left, VirtualKeyModifiers.Menu);
-		public HotKey SecondHotKey { get; } = new(VirtualKey.Back);
-		public HotKey ThirdHotKey { get; } = new(VirtualKey.XButton1);
-		public HotKey MediaHotKey { get; } = new(VirtualKey.GoBack);
+		public HotKey HotKey { get; } = new(Keys.Left, KeyModifiers.Menu);
+		public HotKey SecondHotKey { get; } = new(Keys.Back);
+		public HotKey ThirdHotKey { get; } = new(Keys.Mouse4);
+		public HotKey MediaHotKey { get; } = new(Keys.GoBack);
 
 		public RichGlyph Glyph { get; } = new("\uE72B");
 

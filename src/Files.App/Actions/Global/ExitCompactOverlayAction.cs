@@ -6,7 +6,6 @@ using Files.App.Extensions;
 using Microsoft.UI.Windowing;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -18,7 +17,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ExitCompactOverlay");
 
-		public HotKey HotKey { get; } = new(VirtualKey.Down, VirtualKeyModifiers.Menu | VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(Keys.Down, KeyModifiers.MenuCtrl);
 
 		public string Description => "ExitCompactOverlayDescription".GetLocalizedResource();
 

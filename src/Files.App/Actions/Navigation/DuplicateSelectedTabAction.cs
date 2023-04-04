@@ -4,7 +4,6 @@ using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Views;
 using System.Threading.Tasks;
-using Windows.System;
 using static Files.App.ViewModels.MainPageViewModel;
 
 namespace Files.App.Actions
@@ -16,7 +15,7 @@ namespace Files.App.Actions
 		public string Label { get; } = "DuplicateTab".GetLocalizedResource();
 		public string Description => "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(VirtualKey.K, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public HotKey HotKey { get; } = new(Keys.K, KeyModifiers.CtrlShift);
 
 		public async Task ExecuteAsync()
 		{
