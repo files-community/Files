@@ -6,7 +6,6 @@ using Files.App.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -20,7 +19,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCopyLocation");
 
-		public HotKey HotKey { get; } = new(VirtualKey.C, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public HotKey HotKey { get; } = new(Keys.C, KeyModifiers.CtrlShift);
 
 		public async Task ExecuteAsync()
 		{

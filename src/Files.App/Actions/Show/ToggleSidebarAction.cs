@@ -5,7 +5,6 @@ using Files.App.Extensions;
 using Files.App.ViewModels;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -17,7 +16,7 @@ namespace Files.App.Actions
 
 		public string Description { get; } = "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(VirtualKey.B, VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(Keys.B, KeyModifiers.Ctrl);
 
 		public bool IsOn => viewModel.IsSidebarOpen;
 

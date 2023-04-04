@@ -2,7 +2,6 @@
 using Files.App.Extensions;
 using Microsoft.UI.Windowing;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -12,7 +11,7 @@ namespace Files.App.Actions
 
 		public string Description => "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(VirtualKey.F11);
+		public HotKey HotKey { get; } = new(Keys.F11);
 
 		public bool IsOn
 		{
