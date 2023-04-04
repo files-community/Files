@@ -548,8 +548,7 @@
 									AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
 									IsRightTapEnabled="True"
 									Loaded="StackPanel_Loaded"
-									Orientation="Horizontal"
-									ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
+									Orientation="Horizontal">
 									<Grid
 										Width="24"
 										HorizontalAlignment="Left"
