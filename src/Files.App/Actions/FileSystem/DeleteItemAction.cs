@@ -9,7 +9,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -24,7 +23,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconDelete");
 
-		public HotKey HotKey { get; } = new(VirtualKey.Delete);
+		public HotKey HotKey { get; } = new(Keys.Delete);
 
 		public override bool IsExecutable =>
 			context.HasSelection &&

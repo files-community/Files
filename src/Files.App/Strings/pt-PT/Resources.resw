@@ -2662,7 +2662,7 @@
     <value>Desativar modo de sobreposição compacta</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Opens the "Format Drive" menu for the selected item</value>
+    <value>Abre o menu "Formatar unidade" para o item selecionado</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Mostrar/ocultar barra lateral</value>

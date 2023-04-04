@@ -7,7 +7,6 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -21,7 +20,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconPaste");
 
-		public HotKey HotKey { get; } = new(VirtualKey.V, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public HotKey HotKey { get; } = new(Keys.V, KeyModifiers.CtrlShift);
 
 		private bool isExecutable;
 		public override bool IsExecutable => isExecutable;

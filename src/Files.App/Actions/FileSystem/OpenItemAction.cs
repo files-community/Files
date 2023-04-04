@@ -10,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -24,7 +23,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph => new(opacityStyle: "ColorIconOpenFile");
 
-		public HotKey HotKey => new(VirtualKey.Enter);
+		public HotKey HotKey => new(Keys.Enter);
 
 		private const int MaxOpenCount = 10;
 

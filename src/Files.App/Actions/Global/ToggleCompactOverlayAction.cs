@@ -7,7 +7,6 @@ using Microsoft.UI.Windowing;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.Graphics;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -17,7 +16,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "ToggleCompactOverlay".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(VirtualKey.F12);
+		public HotKey HotKey { get; } = new(Keys.F12);
 
 		public string Description => "ToggleCompactOverlayDescription".GetLocalizedResource();
 

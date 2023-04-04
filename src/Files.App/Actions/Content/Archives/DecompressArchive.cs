@@ -5,7 +5,6 @@ using Files.App.Extensions;
 using Files.App.Helpers;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -17,7 +16,7 @@ namespace Files.App.Actions
 
 		public override string Description => "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(VirtualKey.E, VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(Keys.E, KeyModifiers.Ctrl);
 
 		public override bool IsExecutable => 
 			IsContextPageTypeAdaptedToCommand() &&

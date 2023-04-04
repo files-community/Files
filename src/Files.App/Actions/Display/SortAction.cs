@@ -79,8 +79,8 @@ namespace Files.App.Actions
 
 	internal abstract class SortByAction : ObservableObject, IToggleAction
 	{
-		private IContentPageContext contentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private IDisplayPageContext displayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IContentPageContext contentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IDisplayPageContext displayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		protected abstract SortOption SortOption { get; }
 
@@ -126,7 +126,7 @@ namespace Files.App.Actions
 
 	internal class SortAscendingAction : ObservableObject, IToggleAction
 	{
-		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "Ascending".GetLocalizedResource();
 
@@ -154,7 +154,7 @@ namespace Files.App.Actions
 
 	internal class SortDescendingAction : ObservableObject, IToggleAction
 	{
-		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "Descending".GetLocalizedResource();
 
@@ -182,7 +182,7 @@ namespace Files.App.Actions
 
 	internal class ToggleSortDirectionAction : IAction
 	{
-		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "ToggleSortDirection".GetLocalizedResource();
 
