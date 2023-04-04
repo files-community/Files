@@ -503,9 +503,9 @@ namespace Files.App.Views
 		{
 			foreach (PageStackEntry entry in ItemDisplay.BackStack.ToList())
 			{
-				if (entry.Parameter is NavigationArguments args)
+				if (entry.Parameter is NavigationArguments args && args.NavPathParam != "Home")
 				{
-					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam);
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
 					if (!entry.SourcePageType.Equals(correctPageType))
 					{
 						int index = ItemDisplay.BackStack.IndexOf(entry);
@@ -518,9 +518,9 @@ namespace Files.App.Views
 
 			foreach (PageStackEntry entry in ItemDisplay.ForwardStack.ToList())
 			{
-				if (entry.Parameter is NavigationArguments args)
+				if (entry.Parameter is NavigationArguments args && args.NavPathParam != "Home")
 				{
-					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam);
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
 					if (!entry.SourcePageType.Equals(correctPageType))
 					{
 						int index = ItemDisplay.ForwardStack.IndexOf(entry);
