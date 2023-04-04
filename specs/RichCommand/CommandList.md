@@ -48,6 +48,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | InstallInfDriver                    | Install                                   | Install driver(s) using selected inf file(s)             |                      |
 | Run                | RunAsAdmin                          | Run as administrator                      | Run selected application as administrator                |                      |
 |                    | RunAsAnotherUser                    | Run as another user                       | Run selected application as another user                 |                      |
+|                    | RunWithPowershell                   | Run with PowerShell                       | Run selected PowerShell script                           |                      |
 | QuickLook          | LaunchQuickLook                     | Launch QuickLook                          | Launch QuickLook with selected item                      | Space                |
 | Archives           | CompressIntoArchive                 | Create archive                            | Create archive with selected item(s)                     |                      |
 |                    | CompressIntoSevenZip                | Create _ArchiveName_.7z                   | Create 7z archive instantly with selected item(s)        |                      |
