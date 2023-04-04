@@ -163,6 +163,17 @@ namespace Files.App.Shell
 			}
 		}
 
+		public static async Task WarmUpQueryContextMenuAsync()
+		{
+			await new ThreadWithMessageQueue().PostMethod(() =>
+			{
+				// Create a dummy context menu for warming up
+				var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl("C:\\");
+				Shell32.IContextMenu menu = shellItem.Parent.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItem);
+				menu.QueryContextMenu(User32.CreatePopupMenu(), 0, 1, 0x7FFF, Shell32.CMF.CMF_NORMAL);
+			});
+		}
+
 		#endregion FactoryMethods
 
 		private void EnumMenuItems(
