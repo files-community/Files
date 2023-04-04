@@ -76,7 +76,6 @@
 		<local:ModernShellPage
 			x:Name="PaneLeft"
 			ContentChanged="Pane_ContentChanged"
-			IsPageMainPane="True"
 			Loaded="Pane_Loaded"
 			NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
 			PaneHolder="{x:Bind}" />
@@ -89,7 +88,6 @@
 			<local:ModernShellPage
 				x:Name="PaneRight"
 				ContentChanged="Pane_ContentChanged"
-				IsPageMainPane="False"
 				Loaded="Pane_Loaded"
 				NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
 				PaneHolder="{x:Bind}" />
