@@ -1,4 +1,5 @@
-﻿using Files.App.Shell;
+﻿using Files.App.Helpers;
+using Files.App.Shell;
 using Files.App.UserControls.Widgets;
 using Files.Shared;
 using Files.Shared.Extensions;

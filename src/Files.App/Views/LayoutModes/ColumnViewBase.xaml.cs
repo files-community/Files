@@ -33,6 +33,7 @@ namespace Files.App.Views.LayoutModes
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
 		private ColumnViewBrowser? columnsOwner;
+
 		private ListViewItem? openedFolderPresenter;
 
 		public ColumnViewBase() : base()

@@ -301,11 +301,6 @@ namespace Files.App.Interacts
 			await NavigationHelpers.OpenSelectedItems(associatedInstance);
 		}
 
-		public void FormatDrive(ListedItem? e)
-		{
-			Win32API.OpenFormatDriveDialog(e?.ItemPath ?? string.Empty);
-		}
-
 		#endregion Command Implementation
 	}
 }

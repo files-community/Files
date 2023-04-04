@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ServicesImplementation;
@@ -85,7 +86,14 @@ namespace Files.App.DataModels
 			if (string.Equals(path, CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 				locationItem = LocationItem.Create<RecycleBinLocationItem>();
 			else
+			{
 				locationItem = LocationItem.Create<LocationItem>();
+
+				if (path.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+					locationItem.Text = "ThisPC".GetLocalizedResource();
+				else if (path.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+					locationItem.Text = "Network".GetLocalizedResource();
+			}
 
 			locationItem.Path = path;
 			locationItem.Section = SectionType.Favorites;
@@ -136,7 +144,7 @@ namespace Files.App.DataModels
 		public async Task AddItemToSidebarAsync(string path)
 		{
 			var locationItem = await CreateLocationItemFromPathAsync(path);
-			
+
 			AddLocationItemToSidebar(locationItem);
 		}
 

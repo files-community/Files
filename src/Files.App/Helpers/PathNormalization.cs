@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 
@@ -46,7 +47,7 @@ namespace Files.App.Helpers
 			}
 			catch (UriFormatException ex)
 			{
-				App.Logger.Warn(ex, path);
+				App.Logger.LogWarning(ex, path);
 				return path;
 			}
 		}

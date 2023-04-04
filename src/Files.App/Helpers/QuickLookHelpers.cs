@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.IO.Pipes;
@@ -18,7 +19,10 @@ public static class QuickLookHelpers
 		bool isQuickLookAvailable = await DetectQuickLookAvailability();
 
 		if (isQuickLookAvailable == false)
+		{
+			App.Logger.LogInformation("QuickLook not detected");
 			return;
+		}
 
 		string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
 		string message = switchPreview ? pipeMessageSwitch : pipeMessageToggle;
@@ -64,12 +68,11 @@ public static class QuickLookHelpers
 		try
 		{
 			var result = await QuickLookServerAvailable();
-			App.Logger.Info($"QuickLook detected: {result != 0}");
 			return result != 0;
 		}
 		catch (Exception ex)
 		{
-			App.Logger.Info(ex, ex.Message);
+			App.Logger.LogInformation(ex, ex.Message);
 			return false;
 		}
 	}
