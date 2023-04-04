@@ -133,7 +133,7 @@
     <value>Creado:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Ruta:</value>
+    <value>Ubicación:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Tamaño:</value>
@@ -2284,7 +2284,7 @@
     <value>Columna de fecha</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Columna de fecha de creación</value>
+    <value>Fecha de creación</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>Columna de tamaño</value>
@@ -2662,7 +2662,7 @@
     <value>Salir de superposición compacta</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Opens the "Format Drive" menu for the selected item</value>
+    <value>Abre el menú "Formatear unidad" para el elemento seleccionado</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Ocultar/mostrar barra lateral</value>
@@ -2861,10 +2861,10 @@
     <value>Mostrar aviso al cambiar las extensiones de archivo</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
-    <value>This PC</value>
+    <value>Este equipo</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>Recycle Bin</value>
+    <value>Papelera de reciclaje</value>
   </data>
   <data name="Untagged" xml:space="preserve">
     <value>Sin etiquetar</value>

@@ -2662,7 +2662,7 @@
     <value>Kompaktes Overlay verlassen</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Opens the "Format Drive" menu for the selected item</value>
+    <value>Öffnet das Menü "Laufwerk formatieren" für das ausgewählte Element</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Seitenleiste umschalten</value>
