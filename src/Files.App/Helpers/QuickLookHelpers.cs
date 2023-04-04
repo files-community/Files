@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.IO.Pipes;
@@ -20,7 +21,7 @@ public static class QuickLookHelpers
 		if (!isQuickLookAvailable)
 		{
 			if (!switchPreview)
-				App.Logger.Info($"QuickLook not detected!");
+				App.Logger.LogInformation($"QuickLook not detected!");
 			
 			return;
 		}
@@ -73,7 +74,7 @@ public static class QuickLookHelpers
 		}
 		catch (Exception ex)
 		{
-			App.Logger.Info(ex, ex.Message);
+			App.Logger.LogInformation(ex, ex.Message);
 			return false;
 		}
 	}
