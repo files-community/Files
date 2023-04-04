@@ -577,8 +577,6 @@ namespace Files.App.ViewModels
 
 		public ICommand PropertiesCommand { get; set; }
 
-		public ICommand? RunWithPowerShellCommand { get; set; }
-
 		public ICommand? UpdateCommand { get; set; }
 
 		public ICommand? PlayAllCommand { get; set; }
@@ -660,7 +658,7 @@ namespace Files.App.ViewModels
 			if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
 				return;
 
-			if (currentInput != shellPage.FilesystemViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(WidgetsPage))
+			if (currentInput != shellPage.FilesystemViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(HomePage))
 			{
 				if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
@@ -707,7 +705,7 @@ namespace Files.App.ViewModels
 						{
 							var workingDir =
 								string.IsNullOrEmpty(shellPage.FilesystemViewModel.WorkingDirectory) ||
-								shellPage.CurrentPageType == typeof(WidgetsPage) ?
+								shellPage.CurrentPageType == typeof(HomePage) ?
 									CommonPaths.HomePath :
 									shellPage.FilesystemViewModel.WorkingDirectory;
 

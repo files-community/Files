@@ -5,7 +5,6 @@ using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -13,7 +12,7 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public HotKey HotKey { get; } = new(VirtualKey.Space);
+		public HotKey HotKey { get; } = new(Keys.Space);
 
 		public bool IsExecutable => context.SelectedItems.Count == 1 &&
 			(!context.ShellPage?.ToolbarViewModel?.IsEditModeEnabled ?? false) &&

@@ -5,7 +5,6 @@ using Files.Backend.Extensions;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -19,7 +18,7 @@ namespace Files.App.Actions
 
 		public string Description => "Settings".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new((VirtualKey)188, VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(Keys.OemComma, KeyModifiers.Ctrl);
 
 		public async Task ExecuteAsync()
 		{

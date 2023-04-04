@@ -2661,6 +2661,9 @@
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Esci dalla modalità Compact Overlay</value>
   </data>
+  <data name="FormatDriveDescription" xml:space="preserve">
+    <value>Apre il menu "Formatta unità" per l'elemento selezionato</value>
+  </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Attiva/Disattiva barra laterale</value>
   </data>
@@ -2857,7 +2860,22 @@
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Chiedi conferma prima di cambiare l'estensione di un file</value>
   </data>
+  <data name="ThisPC" xml:space="preserve">
+    <value>Questo PC</value>
+  </data>
+  <data name="RecycleBin" xml:space="preserve">
+    <value>Cestino</value>
+  </data>
   <data name="Untagged" xml:space="preserve">
     <value>Senza etichetta</value>
+  </data>
+  <data name="PreviousTab" xml:space="preserve">
+    <value>Passa alla scheda precedente</value>
+  </data>
+  <data name="NextTab" xml:space="preserve">
+    <value>Passa alla scheda successiva</value>
+  </data>
+  <data name="CloseTab" xml:space="preserve">
+    <value>Chiudi scheda corrente</value>
   </data>
 </root>
