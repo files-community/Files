@@ -67,6 +67,7 @@ namespace Files.App.Commands
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
+		RunWithPowershell,
 
 		// QuickLook
 		LaunchQuickLook,

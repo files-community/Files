@@ -5,7 +5,6 @@ using Files.App.Contexts;
 using Files.App.Extensions;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -17,9 +16,8 @@ namespace Files.App.Actions
 
 		public string Description { get; } = "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(VirtualKey.F, VirtualKeyModifiers.Control);
-
-		public HotKey SecondHotKey { get; } = new(VirtualKey.F3);
+		public HotKey HotKey { get; } = new(Keys.F, KeyModifiers.Ctrl);
+		public HotKey SecondHotKey { get; } = new(Keys.F3);
 
 		public RichGlyph Glyph { get; } = new();
 

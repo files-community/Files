@@ -4,7 +4,6 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -13,17 +12,17 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "Rename".GetLocalizedResource();
-		
+
 		public string Description { get; } = "TODO";
 
-		public HotKey HotKey { get; } = new(VirtualKey.F2);
+		public HotKey HotKey { get; } = new(Keys.F2);
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconRename");
 
-		public bool IsExecutable => 
-			context.ShellPage is not null && 
+		public bool IsExecutable =>
+			context.ShellPage is not null &&
 			IsPageTypeValid() &&
-			context.ShellPage.SlimContentPage is not null && 
+			context.ShellPage.SlimContentPage is not null &&
 			IsSelectionValid();
 
 		public RenameAction()

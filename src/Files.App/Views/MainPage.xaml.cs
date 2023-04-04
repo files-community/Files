@@ -226,7 +226,7 @@ namespace Files.App.Views
 					break;
 				default:
 					var currentModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
-					HotKey hotKey = new(e.Key, currentModifiers);
+					HotKey hotKey = new((Keys)e.Key, currentModifiers);
 
 					// A textbox takes precedence over certain hotkeys.
 					bool isTextBox = e.OriginalSource is DependencyObject source && source.FindAscendantOrSelf<TextBox>() is not null;
@@ -234,8 +234,7 @@ namespace Files.App.Views
 					{
 						if (hotKey.IsTextBoxHotKey())
 							break;
-
-						if (currentModifiers is VirtualKeyModifiers.None && !e.Key.IsGlobalKey())
+						if (currentModifiers is KeyModifiers.None && !hotKey.Key.IsGlobalKey())
 							break;
 					}
 
@@ -552,7 +551,7 @@ namespace Files.App.Views
 					break;
 				default:
 					var currentModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
-					HotKey hotKey = new(e.Key, currentModifiers);
+					HotKey hotKey = new((Keys)e.Key, currentModifiers);
 
 					// Prevents the arrow key events from navigating the list instead of switching compact overlay
 					if (Commands[hotKey].Code is CommandCodes.EnterCompactOverlay or CommandCodes.ExitCompactOverlay)

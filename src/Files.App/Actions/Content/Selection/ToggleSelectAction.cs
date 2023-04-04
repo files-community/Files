@@ -3,7 +3,6 @@ using Files.App.Extensions;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -12,7 +11,7 @@ namespace Files.App.Actions
 		public string Label { get; } = "ToggleSelect".GetLocalizedResource();
 		public string Description => "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(VirtualKey.Space, VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(Keys.Space, KeyModifiers.Ctrl);
 
 		public bool IsExecutable => GetFocusedElement() is not null;
 
