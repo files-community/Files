@@ -23,6 +23,7 @@ using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
 using Files.Shared.Services;
 using FluentFTP;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -427,7 +428,7 @@ namespace Files.App.ViewModels
 				return;
 
 			using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
-			if (folderItem is null) 
+			if (folderItem is null)
 				return;
 
 			var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
@@ -682,7 +683,7 @@ namespace Files.App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 		}
 
@@ -801,7 +802,7 @@ namespace Files.App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 			finally
 			{
@@ -1389,8 +1390,11 @@ namespace Files.App.ViewModels
 			{
 				PrimaryItemAttribute = StorageItemTypes.Folder,
 				ItemPropertiesInitialized = true,
-				ItemNameRaw = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal) ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin") :
-						   path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal) ? "Network".GetLocalizedResource() : isFtp ? "FTP" : "Unknown",
+				ItemNameRaw =
+							path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ? "RecycleBin".GetLocalizedResource() :
+							path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ? "Network".GetLocalizedResource() :
+							path.StartsWith(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase) ? "ThisPC".GetLocalizedResource() :
+							isFtp ? "FTP" : "Unknown",
 				ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
 				ItemDateCreatedReal = DateTimeOffset.Now,  // Fake for now
 				ItemType = "Folder".GetLocalizedResource(),
@@ -1944,7 +1948,6 @@ namespace Files.App.ViewModels
 
 			var anyEdits = false;
 			ListedItem? lastItemAdded = null;
-			ListedItem? nextOfLastItemRemoved = null;
 			var rand = Guid.NewGuid();
 
 			// Call when any edits have occurred
@@ -1957,12 +1960,6 @@ namespace Files.App.ViewModels
 				{
 					await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
 					lastItemAdded = null;
-				}
-
-				if (nextOfLastItemRemoved is not null)
-				{
-					await RequestSelectionAsync(new List<ListedItem>() { nextOfLastItemRemoved });
-					nextOfLastItemRemoved = null;
 				}
 
 				anyEdits = false;
@@ -1998,10 +1995,6 @@ namespace Files.App.ViewModels
 										break;
 
 									case FILE_ACTION_REMOVED:
-										// Get the item that immediately follows matching item to be removed
-										// If the matching item is the last item, try to get the previous item; otherwise, null
-										var itemRemovedIndex = filesAndFolders.FindIndex(x => x.ItemPath.Equals(operation.FileName));
-										nextOfLastItemRemoved = filesAndFolders.ElementAtOrDefault(itemRemovedIndex + 1 < filesAndFolders.Count ? itemRemovedIndex + 1 : itemRemovedIndex - 1);
 										var itemRemoved = await RemoveFileOrFolderAsync(operation.FileName);
 										if (itemRemoved is not null)
 											anyEdits = true;
@@ -2016,7 +2009,7 @@ namespace Files.App.ViewModels
 							}
 							catch (Exception ex)
 							{
-								App.Logger.Warn(ex, ex.Message);
+								App.Logger.LogWarning(ex, ex.Message);
 							}
 
 							if (anyEdits && sampler.CheckNow())

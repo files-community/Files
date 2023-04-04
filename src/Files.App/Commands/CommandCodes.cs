@@ -16,6 +16,7 @@ namespace Files.App.Commands
 		ToggleShowHiddenItems,
 		ToggleShowFileExtensions,
 		TogglePreviewPane,
+		ToggleSidebar,
 
 		// File System
 		CopyItem,
@@ -28,6 +29,7 @@ namespace Files.App.Commands
 		CreateShortcut,
 		CreateShortcutFromDialog,
 		EmptyRecycleBin,
+		FormatDrive,
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
 		OpenItem,
@@ -65,6 +67,7 @@ namespace Files.App.Commands
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
+		RunWithPowershell,
 
 		// QuickLook
 		LaunchQuickLook,
@@ -144,5 +147,8 @@ namespace Files.App.Commands
 		CloseOtherTabsCurrent,
 		CloseOtherTabsSelected,
 		ReopenClosedTab,
+		PreviousTab,
+		NextTab,
+		CloseSelectedTab,
 	}
 }

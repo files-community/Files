@@ -41,11 +41,11 @@ namespace Files.App.Views.LayoutModes
 			get { return (bool)GetValue(IsPointerOverProperty); }
 			set { SetValue(IsPointerOverProperty, value); }
 		}
+
 		public static readonly DependencyProperty IsPointerOverProperty =
 			DependencyProperty.Register("IsPointerOver", typeof(bool), typeof(GridViewBrowser), new PropertyMetadata(false));
 
-		public GridViewBrowser()
-			: base()
+		public GridViewBrowser() : base()
 		{
 			InitializeComponent();
 			DataContext = this;
@@ -94,8 +94,11 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-			SetItemTemplate(); // Set ItemTemplate
+
+			// Set ItemTemplate
+			SetItemTemplate();
 			FileList.ItemsSource ??= ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
+
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
 				ReloadItemIcons();
@@ -104,6 +107,7 @@ namespace Files.App.Views.LayoutModes
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
+
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
 		}
@@ -112,7 +116,9 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
-				SetItemTemplate(); // Set ItemTemplate
+				// Set ItemTemplate
+				SetItemTemplate();
+
 				var requestedIconSize = FolderSettings.GetIconSize();
 				if (requestedIconSize != currentIconSize)
 				{
@@ -147,6 +153,7 @@ namespace Files.App.Views.LayoutModes
 		protected override async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			base.FileList_SelectionChanged(sender, e);
+
 			if (e != null)
 			{
 				foreach (var item in e.AddedItems)
@@ -167,9 +174,7 @@ namespace Files.App.Views.LayoutModes
 
 			GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
 			if (gridViewItem is null)
-			{
 				return;
-			}
 
 			TextBox textBox = null;
 
@@ -200,6 +205,7 @@ namespace Files.App.Views.LayoutModes
 			int selectedTextLength = SelectedItem.Name.Length;
 			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
 				selectedTextLength -= extensionLength;
+
 			textBox.Select(0, selectedTextLength);
 			IsRenamingItem = true;
 		}
@@ -222,7 +228,7 @@ namespace Files.App.Views.LayoutModes
 
 			if (textBox is null || gridViewItem is null)
 			{
-				// Navigating away, do nothing
+				// NOTE: Navigating away, do nothing
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
@@ -325,12 +331,15 @@ namespace Files.App.Views.LayoutModes
 		private void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
 			SetItemMinWidth();
-			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
+
+			// Get new icon size
+			var requestedIconSize = FolderSettings.GetIconSize();
 
 			// Prevents reloading icons when the icon size hasn't changed
 			if (requestedIconSize != currentIconSize)
 			{
-				currentIconSize = requestedIconSize; // Update icon size before refreshing
+				// Update icon size before refreshing
+				currentIconSize = requestedIconSize;
 				ReloadItemIcons();
 			}
 		}
@@ -359,12 +368,9 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
-			if
-			(
-				ctrlPressed ||
+			if (ctrlPressed ||
 				shiftPressed ||
-				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle
-			)
+				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle)
 			{
 				e.Handled = true;
 				return;
@@ -390,11 +396,13 @@ namespace Files.App.Views.LayoutModes
 						{
 							Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 							var textBox = popup.Child as TextBox;
+
 							await CommitRename(textBox);
 						}
 						else
 						{
 							var textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
+
 							await CommitRename(textBox);
 						}
 					}
@@ -405,27 +413,28 @@ namespace Files.App.Views.LayoutModes
 		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-			{
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
+				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-			{
 				ParentShellPageInstance.Up_Click();
-			}
+
 			ResetRenameDoubleClick();
 		}
 
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
+			if (sender is CheckBox checkBox &&
+				checkBox.DataContext is ListedItem item &&
+				!FileList.SelectedItems.Contains(item))
 				FileList.SelectedItems.Add(item);
 		}
 
 		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
 		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
+			if (sender is CheckBox checkBox &&
+				checkBox.DataContext is ListedItem item &&
+				FileList.SelectedItems.Contains(item))
 				FileList.SelectedItems.Remove(item);
 		}
 
@@ -460,6 +469,7 @@ namespace Files.App.Views.LayoutModes
 					checkbox.Checked += ItemSelected_Checked;
 					checkbox.Unchecked += ItemSelected_Unchecked;
 				}
+
 				UpdateCheckboxVisibility(container);
 			}
 		}
@@ -469,8 +479,10 @@ namespace Files.App.Views.LayoutModes
 			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
 			// because you can't use bindings in the setters
 			DependencyObject item = VisualTreeHelper.GetParent(sender as Grid);
+
 			while (item is not GridViewItem)
 				item = VisualTreeHelper.GetParent(item);
+
 			if (item is GridViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
 		}
@@ -498,7 +510,7 @@ namespace Files.App.Views.LayoutModes
 				if (isPointerOver.HasValue)
 					control.SetValue(IsPointerOverProperty, isPointerOver);
 				// Handle visual states
-				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false)
+				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false && SelectedItems?.Count >= 1)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);

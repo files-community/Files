@@ -6,12 +6,11 @@ using Files.App.ViewModels.Widgets;
 using Files.App.ViewModels.Widgets.Bundles;
 using Microsoft.UI.Xaml;
 using System;
-using System.Text.Json;
 using System.Windows.Input;
 
-namespace Files.App.ViewModels.Pages
+namespace Files.App.ViewModels
 {
-	public class YourHomeViewModel : ObservableObject, IDisposable
+	public class HomeViewModel : ObservableObject, IDisposable
 	{
 		private BundlesViewModel bundlesViewModel;
 
@@ -19,15 +18,13 @@ namespace Files.App.ViewModels.Pages
 
 		private IShellPage associatedInstance;
 
-		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-
 		public event EventHandler<RoutedEventArgs> YourHomeLoadedInvoked;
 
 		public ICommand YourHomeLoadedCommand { get; private set; }
 
 		public ICommand LoadBundlesCommand { get; private set; }
 
-		public YourHomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
+		public HomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
 		{
 			this.widgetsViewModel = widgetsViewModel;
 			this.associatedInstance = associatedInstance;
@@ -69,8 +66,6 @@ namespace Files.App.ViewModels.Pages
 			await NavigationHelpers.OpenPath(e.path, associatedInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
 		}
 
-		#region IDisposable
-
 		public void Dispose()
 		{
 			if (bundlesViewModel is not null)
@@ -81,7 +76,5 @@ namespace Files.App.ViewModels.Pages
 
 			widgetsViewModel?.Dispose();
 		}
-
-		#endregion IDisposable
 	}
 }

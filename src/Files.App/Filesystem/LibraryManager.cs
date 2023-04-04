@@ -5,6 +5,7 @@ using Files.App.ViewModels.Dialogs;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -96,7 +97,7 @@ namespace Files.App.Filesystem
 				try
 				{
 					var libraryItems = new List<ShellLibraryItem>();
-					// https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
+					// https://learn.microsoft.com/windows/win32/search/-search-win7-development-scenarios#library-descriptions
 					var libFiles = Directory.EnumerateFiles(ShellLibraryItem.LibrariesPath, "*" + ShellLibraryItem.EXTENSION);
 					foreach (var libFile in libFiles)
 					{
@@ -110,7 +111,7 @@ namespace Files.App.Filesystem
 				}
 				catch (Exception e)
 				{
-					App.Logger.Warn(e);
+					App.Logger.LogWarning(e, null);
 				}
 
 				return new();
@@ -170,7 +171,7 @@ namespace Files.App.Filesystem
 				}
 				catch (Exception e)
 				{
-					App.Logger.Warn(e);
+					App.Logger.LogWarning(e, null);
 				}
 
 				return Task.FromResult<ShellLibraryItem>(null);
@@ -251,7 +252,7 @@ namespace Files.App.Filesystem
 				}
 				catch (Exception e)
 				{
-					App.Logger.Warn(e);
+					App.Logger.LogWarning(e, null);
 				}
 
 				return Task.FromResult<ShellLibraryItem>(null);
@@ -402,7 +403,7 @@ namespace Files.App.Filesystem
 				var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(newPath), true));
 				if (library is null)
 				{
-					App.Logger.Warn($"Failed to open library after {changeType}: {newPath}");
+					App.Logger.LogWarning($"Failed to open library after {changeType}: {newPath}");
 					return;
 				}
 

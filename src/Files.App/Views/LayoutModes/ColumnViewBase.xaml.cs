@@ -33,6 +33,7 @@ namespace Files.App.Views.LayoutModes
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
 		private ColumnViewBrowser? columnsOwner;
+
 		private ListViewItem? openedFolderPresenter;
 
 		public ColumnViewBase() : base()
@@ -60,7 +61,7 @@ namespace Files.App.Views.LayoutModes
 			openedFolderPresenter = FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem;
 		}
 
-		private void ClearOpenedFolderSelectionIndicator()
+		internal void ClearOpenedFolderSelectionIndicator()
 		{
 			if (openedFolderPresenter is null)
 				return;
