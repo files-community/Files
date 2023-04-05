@@ -94,11 +94,14 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref isLayoutModeChanging, value);
 		}
 
-		public Type GetLayoutType(string folderPath)
+		public Type GetLayoutType(string folderPath, bool changeLayoutMode = true)
 		{
 			var prefsForPath = GetLayoutPreferencesForPath(folderPath);
-			IsLayoutModeChanging = LayoutPreference.LayoutMode != prefsForPath.LayoutMode;
-			LayoutPreference = prefsForPath;
+			if (changeLayoutMode)
+			{
+				IsLayoutModeChanging = LayoutPreference.LayoutMode != prefsForPath.LayoutMode;
+				LayoutPreference = prefsForPath;
+			}
 
 			return (prefsForPath.LayoutMode) switch
 			{
