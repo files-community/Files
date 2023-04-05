@@ -20,7 +20,6 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using static Files.App.Constants;
-using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.Views.LayoutModes
 {
@@ -41,7 +40,6 @@ namespace Files.App.Views.LayoutModes
 			InitializeComponent();
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
-			tapDebounceTimer = DispatcherQueue.CreateTimer();
 			ItemInvoked += ColumnViewBase_ItemInvoked;
 			GotFocus += ColumnViewBase_GotFocus;
 		}
@@ -232,22 +230,11 @@ namespace Files.App.Views.LayoutModes
 			HandleRightClick(e.OriginalSource);
 		}
 
-		private readonly DispatcherQueueTimer tapDebounceTimer;
-
 		private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
 		{
 			// Open selected directory
-			tapDebounceTimer.Stop();
-			if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-			{
-				var currItem = SelectedItem;
-				tapDebounceTimer.Debounce(() =>
-				{
-					if (currItem == SelectedItem)
-						ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-					tapDebounceTimer.Stop();
-				}, TimeSpan.FromMilliseconds(200));
-			}
+			if (IsItemSelected && SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
+				ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 		}
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
