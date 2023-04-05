@@ -121,6 +121,7 @@ namespace Files.App.Views
 			{
 				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded), 4);
 
+				recentFilesWidget.AppInstance = AppInstance;
 				recentFilesWidget.RecentFilesOpenLocationInvoked -= WidgetOpenLocationInvoked;
 				recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
 				recentFilesWidget.RecentFilesOpenLocationInvoked += WidgetOpenLocationInvoked;
