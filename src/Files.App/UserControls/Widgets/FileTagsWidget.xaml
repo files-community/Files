@@ -47,27 +47,43 @@
 						<RowDefinition Height="Auto" />
 						<!--  Contents  -->
 						<RowDefinition Height="*" />
-						<!--  View More  -->
-						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
 					<!--  Title  -->
-					<StackPanel
-						Grid.Row="0"
-						Padding="12,8"
-						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-						BorderThickness="0,0,0,1"
-						Orientation="Horizontal"
-						Spacing="8">
-						<Ellipse
-							Width="12"
-							Height="12"
-							Fill="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
-						<TextBlock
-							Margin="0,-2,0,0"
-							FontWeight="SemiBold"
-							Text="{x:Bind Name, Mode=OneWay}" />
-					</StackPanel>
+					<Grid BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,0,0,1">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+
+						<StackPanel
+							Padding="12,8"
+							Orientation="Horizontal"
+							Spacing="8">
+							<Ellipse
+								Width="12"
+								Height="12"
+								Fill="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+							<TextBlock
+								Margin="0,-2,0,0"
+								FontWeight="SemiBold"
+								Text="{x:Bind Name, Mode=OneWay}" />
+						</StackPanel>
+
+						<!--  View More  -->
+						<HyperlinkButton
+							Grid.Column="2"
+							Margin="4"
+							Command="{x:Bind ViewMoreCommand}">
+							<HyperlinkButton.Content>
+								<FontIcon
+									FontSize="12"
+									FontWeight="SemiBold"
+									Glyph="&#xE76C;" />
+							</HyperlinkButton.Content>
+						</HyperlinkButton>
+					</Grid>
 
 					<!--  Contents  -->
 					<controls:AdaptiveGridView
@@ -110,14 +126,6 @@
 							</DataTemplate>
 						</controls:AdaptiveGridView.ItemTemplate>
 					</controls:AdaptiveGridView>
-
-					<!--  View More  -->
-					<HyperlinkButton
-						Grid.Row="2"
-						Margin="8"
-						HorizontalAlignment="Center"
-						Command="{x:Bind ViewMoreCommand}"
-						Content="{helpers:ResourceString Name=ViewMore}" />
 				</Grid>
 			</DataTemplate>
 		</ItemsRepeater.ItemTemplate>
