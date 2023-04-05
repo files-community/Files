@@ -1,7 +1,6 @@
 ﻿using Files.App.Commands;
 using Files.App.Extensions;
 using System.Diagnostics;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -11,7 +10,7 @@ namespace Files.App.Actions
 
 		public override string Description => "TODO: Need to be described.";
 
-		public override HotKey HotKey { get; } = new((VirtualKey)192, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public override HotKey HotKey { get; } = new(Keys.Oem3, KeyModifiers.CtrlShift);
 
 		protected override ProcessStartInfo? GetProcessStartInfo()
 		{

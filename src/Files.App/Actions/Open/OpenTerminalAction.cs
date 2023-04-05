@@ -10,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -22,7 +21,7 @@ namespace Files.App.Actions
 
 		public virtual string Description => "TODO: Need to be described.";
 
-		public virtual HotKey HotKey { get; } = new((VirtualKey)192, VirtualKeyModifiers.Control);
+		public virtual HotKey HotKey { get; } = new(Keys.Oem3, KeyModifiers.Ctrl);
 
 		public RichGlyph Glyph { get; } = new("\uE756");
 
