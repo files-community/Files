@@ -2661,6 +2661,12 @@
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Quitter le mode compact</value>
   </data>
+  <data name="FormatDriveDescription" xml:space="preserve">
+    <value>Ouvre le menu "Formatage de disque dur" pour l'élément sélectionné</value>
+  </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>Afficher la barre latérale</value>
+  </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Menu</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
@@ -2786,7 +2792,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
-    <value>GoHome</value>
+    <value>RetourAccueil</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
@@ -2798,11 +2804,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>BrowserRefresh</value>
+    <value>RafraîchirNavigateur</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
-    <value>BrowserStop</value>
+    <value>StopperNavigateur</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
@@ -2814,35 +2820,35 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
-    <value>PlayPause</value>
+    <value>PauseLecture</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaStop" xml:space="preserve">
-    <value>MediaStop</value>
+    <value>ArrêtMédia</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPreviousTrack" xml:space="preserve">
-    <value>PrevTrack</value>
+    <value>PistePréc</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaNextTrack" xml:space="preserve">
-    <value>NextTrack</value>
+    <value>PisteSuiv</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaSelect" xml:space="preserve">
-    <value>MediaSelect</value>
+    <value>SelectionMédia</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
-    <value>Mute</value>
+    <value>ModeMuet</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeDown" xml:space="preserve">
-    <value>VolDown</value>
+    <value>BaisserVol</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeUp" xml:space="preserve">
-    <value>VolUp</value>
+    <value>MonterVol</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Change" xml:space="preserve">
@@ -2852,6 +2858,24 @@
     <value>Activer/Désactiver la sélection</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>Show warning when changing file extensions</value>
+    <value>Afficher un avertissement lors du changement d'extensions de fichier</value>
+  </data>
+  <data name="ThisPC" xml:space="preserve">
+    <value>Ce PC</value>
+  </data>
+  <data name="RecycleBin" xml:space="preserve">
+    <value>Corbeille</value>
+  </data>
+  <data name="Untagged" xml:space="preserve">
+    <value>Non taggé</value>
+  </data>
+  <data name="PreviousTab" xml:space="preserve">
+    <value>Revient à l'onglet précédent</value>
+  </data>
+  <data name="NextTab" xml:space="preserve">
+    <value>Passe à l'onglet suivant</value>
+  </data>
+  <data name="CloseTab" xml:space="preserve">
+    <value>Ferme l'onglet actuel</value>
   </data>
 </root>

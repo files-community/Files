@@ -1609,7 +1609,7 @@
     <value>Teljes hozzáférés</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>Könyvtár elemeinek kilistázása</value>
+    <value>Mappa tartalmának listázása</value>
   </data>
   <data name="SecurityModifyLabel.Text" xml:space="preserve">
     <value>Módosítás</value>
@@ -1627,7 +1627,7 @@
     <value>Csoport vagy felhasználó neve</value>
   </data>
   <data name="Write" xml:space="preserve">
-    <value>Irás</value>
+    <value>Írás</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
     <value>Ismeretlen fiók</value>
@@ -1666,7 +1666,7 @@
     <value>Tulajdonos</value>
   </data>
   <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Haladó engedélybeállítások: {0}</value>
+    <value>Speciális engedélyek: {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Speciális</value>
@@ -1678,7 +1678,7 @@
     <value>Erre érvényes</value>
   </data>
   <data name="Principal" xml:space="preserve">
-    <value>Principal</value>
+    <value>Rendszerbiztonsági tag</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>fájlok</value>
@@ -1960,7 +1960,7 @@
     <value>Mappák megnyitása új lapon</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
-    <value>Folyamatban lévő műveletek</value>
+    <value>Műveletek</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Létrehozás dátuma</value>
@@ -2661,6 +2661,12 @@
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Kilépés a kompakt nézetből</value>
   </data>
+  <data name="FormatDriveDescription" xml:space="preserve">
+    <value>Opens the "Format Drive" menu for the selected item</value>
+  </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>Toggle the sidebar</value>
+  </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Menü</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
@@ -2853,5 +2859,23 @@
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Figyelmeztetés fájl kiterjesztés módosításakor</value>
+  </data>
+  <data name="ThisPC" xml:space="preserve">
+    <value>This PC</value>
+  </data>
+  <data name="RecycleBin" xml:space="preserve">
+    <value>Recycle Bin</value>
+  </data>
+  <data name="Untagged" xml:space="preserve">
+    <value>Untagged</value>
+  </data>
+  <data name="PreviousTab" xml:space="preserve">
+    <value>Moves to the previous tab</value>
+  </data>
+  <data name="NextTab" xml:space="preserve">
+    <value>Moves to the next tab</value>
+  </data>
+  <data name="CloseTab" xml:space="preserve">
+    <value>Closes current tab</value>
   </data>
 </root>

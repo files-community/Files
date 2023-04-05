@@ -76,7 +76,7 @@ namespace Files.App.Helpers
 		/// <param name="path">Path of the file.</param>
 		/// <returns>Processes locking the file</returns>
 		/// <remarks>See also:
-		/// http://msdn.microsoft.com/en-us/library/windows/desktop/aa373661(v=vs.85).aspx
+		/// http://msdn.microsoft.com/library/windows/desktop/aa373661(v=vs.85).aspx
 		/// http://wyupdate.googlecode.com/svn-history/r401/trunk/frmFilesInUse.cs (no copyright in code at time of viewing)
 		///
 		/// </remarks>

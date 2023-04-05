@@ -63,6 +63,7 @@ namespace Files.App.Commands
 		public IRichCommand InstallInfDriver => commands[CommandCodes.InstallInfDriver];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
+		public IRichCommand RunWithPowershell => commands[CommandCodes.RunWithPowershell];
 		public IRichCommand LaunchQuickLook => commands[CommandCodes.LaunchQuickLook];
 		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
@@ -116,6 +117,7 @@ namespace Files.App.Commands
 		public IRichCommand GroupDescending => commands[CommandCodes.GroupDescending];
 		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
+		public IRichCommand FormatDrive => commands[CommandCodes.FormatDrive];
 		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
 		public IRichCommand NavigateForward => commands[CommandCodes.NavigateForward];
 		public IRichCommand NavigateUp => commands[CommandCodes.NavigateUp];
@@ -128,6 +130,9 @@ namespace Files.App.Commands
 		public IRichCommand CloseOtherTabsCurrent => commands[CommandCodes.CloseOtherTabsCurrent];
 		public IRichCommand CloseOtherTabsSelected => commands[CommandCodes.CloseOtherTabsSelected];
 		public IRichCommand ReopenClosedTab => commands[CommandCodes.ReopenClosedTab];
+		public IRichCommand PreviousTab => commands[CommandCodes.PreviousTab];
+		public IRichCommand NextTab => commands[CommandCodes.NextTab];
+		public IRichCommand CloseSelectedTab => commands[CommandCodes.CloseSelectedTab];
 
 		public CommandManager()
 		{
@@ -197,6 +202,7 @@ namespace Files.App.Commands
 			[CommandCodes.InstallInfDriver] = new InstallInfDriverAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
+			[CommandCodes.RunWithPowershell] = new RunWithPowershellAction(),
 			[CommandCodes.LaunchQuickLook] = new LaunchQuickLookAction(),
 			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
@@ -250,6 +256,7 @@ namespace Files.App.Commands
 			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
 			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
+			[CommandCodes.FormatDrive] = new FormatDriveAction(),
 			[CommandCodes.NavigateBack] = new NavigateBackAction(),
 			[CommandCodes.NavigateForward] = new NavigateForwardAction(),
 			[CommandCodes.NavigateUp] = new NavigateUpAction(),
@@ -262,6 +269,9 @@ namespace Files.App.Commands
 			[CommandCodes.CloseOtherTabsCurrent] = new CloseOtherTabsCurrentAction(),
 			[CommandCodes.CloseOtherTabsSelected] = new CloseOtherTabsSelectedAction(),
 			[CommandCodes.ReopenClosedTab] = new ReopenClosedTabAction(),
+			[CommandCodes.PreviousTab] = new PreviousTabAction(),
+			[CommandCodes.NextTab] = new NextTabAction(),
+			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

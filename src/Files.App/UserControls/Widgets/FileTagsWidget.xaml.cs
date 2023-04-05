@@ -8,6 +8,7 @@ using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -126,14 +127,14 @@ namespace Files.App.UserControls.Widgets
 
 		private async void Item_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			App.Logger.Warn("rightTapped");
+			App.Logger.LogWarning("rightTapped");
 			if (sender is not StackPanel panel || panel.DataContext is not FileTagsItemViewModel item)
 				return;
 
 			e.Handled = true;
 			Point position = e.GetPosition(panel);
 
-			App.Logger.Warn($"Item path: {item.Path} widgetcarditem.path = {item.Path}");
+			App.Logger.LogWarning($"Item path: {item.Path} widgetcarditem.path = {item.Path}");
 			await OpenContextMenuAsync(panel, item, position);
 		}
 
@@ -149,14 +150,12 @@ namespace Files.App.UserControls.Widgets
 						OpacityIconStyle = "ColorIconOpenWith",
 					},
 					Tag = "OpenWithPlaceholder",
-					IsEnabled = false,
 					ShowItem = !isFolder
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
-					IsEnabled = false,
 					ShowItem = !isFolder
 				},
 				new ContextMenuFlyoutItemViewModel()

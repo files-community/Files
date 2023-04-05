@@ -1,6 +1,7 @@
 using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -141,7 +142,7 @@ namespace Files.App.Filesystem
 					}
 					catch (Exception ex)
 					{
-						App.Logger.Warn(ex, ex.Message);
+						App.Logger.LogWarning(ex, ex.Message);
 					}
 
 					return null;
@@ -169,7 +170,7 @@ namespace Files.App.Filesystem
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 				return false;
 			}
 		}
@@ -188,7 +189,7 @@ namespace Files.App.Filesystem
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 				return false;
 			}
 		}
