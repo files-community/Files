@@ -116,10 +116,22 @@ namespace Files.App.Helpers
 						return; // TODO: handle error
 					}
 				}
+				
+				CopyProperties(filePath, entry);
 
 				entriesFinished++;
 				fsProgress.ProcessedItemsCount = entriesFinished;
 				fsProgress.Report();
+			}
+
+			static void CopyProperties(string filePath, ArchiveFileInfo archiveFileInfo)
+			{
+				var newFileInfo = new FileInfo(filePath)
+				{
+					CreationTime = archiveFileInfo.CreationTime,
+					LastWriteTime = archiveFileInfo.LastWriteTime,
+					LastAccessTime = archiveFileInfo.LastAccessTime,
+				};
 			}
 		}
 	}
