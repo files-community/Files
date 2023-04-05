@@ -63,8 +63,7 @@ namespace Files.App.Views.LayoutModes
 			var nextBlade = ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex);
 			var arePathsDifferent = ((nextBlade?.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam;
 
-			if (nextBlade is null ||
-				arePathsDifferent)
+			if (nextBlade is null || arePathsDifferent)
 			{
 				DismissOtherBlades(column.ListView);
 
@@ -78,7 +77,8 @@ namespace Files.App.Views.LayoutModes
 				navigationArguments.NavPathParam = column.NavPathParam;
 				ParentShellPageInstance.TabItemArguments.NavigationArg = column.NavPathParam;
 			}
-			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && arePathsDifferent)
+			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && 
+				arePathsDifferent)
 			{
 				CloseUnnecessaryColumns(column);
 			}
