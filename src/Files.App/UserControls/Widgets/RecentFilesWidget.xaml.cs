@@ -101,11 +101,11 @@ namespace Files.App.UserControls.Widgets
 			OpenFileLocationCommand = new RelayCommand<RecentItem>(OpenFileLocation);
 		}
 
-		private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private void ListViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			if (sender is not Grid recentItemsGrid || recentItemsGrid.DataContext is not RecentItem item)
+			if (sender is not ListViewItem listViewItem || listViewItem.DataContext is not RecentItem item)
 				return;
 
 			var menuItems = GetItemMenuItems(item, false);
@@ -115,7 +115,7 @@ namespace Files.App.UserControls.Widgets
 							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
+			itemContextMenuFlyout.ShowAt(listViewItem, new FlyoutShowOptions { Position = e.GetPosition(listViewItem) });
 
 			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 
