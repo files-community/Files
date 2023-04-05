@@ -465,11 +465,11 @@ namespace Files.App.Views.LayoutModes
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
 				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
-				_ = NavigationHelpers.OpenPath(item.ItemPath, ParentShellPageInstance);
+				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-				ParentShellPageInstance.Up_Click();
+				ParentShellPageInstance?.Up_Click();
 			}
 			ResetRenameDoubleClick();
 		}
