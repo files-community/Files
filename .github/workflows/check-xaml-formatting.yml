@@ -4,13 +4,13 @@ on:
   push:
     branches:
       - 'main'
-      - 'servicing/**'
+      - 'service/**'
     paths:
       - '**.xaml'
   pull_request:
     branches:
       - 'main'
-      - 'servicing/**'
+      - 'service/**'
     paths:
       - '**.xaml'
       
