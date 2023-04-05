@@ -80,7 +80,7 @@ namespace Files.App.UserControls.Widgets
 			var flyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			flyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 
-			App.Logger.Warn($"Item path: {item.Path} widgetcarditem.path = {item.Path}");
+			App.Logger.LogWarning($"Item path: {item.Path} widgetcarditem.path = {item.Path}");
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 

@@ -20,7 +20,8 @@ namespace Files.App.Actions
 		public string Label { get; } = "OpenContextMenu".GetLocalizedResource();
 		public string Description => "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(VirtualKey.Enter, VirtualKeyModifiers.Menu);
+		public HotKey HotKey { get; } = new(Keys.Enter, KeyModifiers.Ctrl);
+		public HotKey MediaHotKey { get; } = new(Keys.Application);
 
 		public bool IsExecutable
 		{
