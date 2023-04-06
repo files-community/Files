@@ -18,9 +18,11 @@ public static class QuickLookHelpers
 	{
 		bool isQuickLookAvailable = await DetectQuickLookAvailability();
 
-		if (isQuickLookAvailable == false)
+		if (!isQuickLookAvailable)
 		{
-			App.Logger.LogInformation("QuickLook not detected");
+			if (!switchPreview)
+				App.Logger.LogInformation("QuickLook not detected");
+			
 			return;
 		}
 
