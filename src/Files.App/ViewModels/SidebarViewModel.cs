@@ -346,7 +346,7 @@ namespace Files.App.ViewModels
 					int position = paths.IndexOf(drivePath);
 
 					section.ChildItems.Insert(position, drive);
-					await drive.LoadDriveIcon();
+					await drive.LoadThumbnailAsync(true);
 				}
 			}
 			else

@@ -7,6 +7,7 @@ using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -56,7 +57,7 @@ namespace Files.App.ViewModels
 
 		private async void Watcher_DeviceModified(object? sender, string e)
 		{
-			var matchingDriveEjected = Drives.FirstOrDefault(x => x.Id == e);
+			var matchingDriveEjected = Drives.FirstOrDefault(x => Path.GetFullPath(x.Path) == Path.GetFullPath(e));
 			if (matchingDriveEjected != null)
 			{
 				await removableDrivesService.UpdateDrivePropertiesAsync(matchingDriveEjected);
@@ -87,7 +88,7 @@ namespace Files.App.ViewModels
 				var matchingDrive = Drives.FirstOrDefault(x => x.Id == e.Id ||
 					string.IsNullOrEmpty(e.Path)
 						? x.Path.Contains(e.Name, StringComparison.OrdinalIgnoreCase)
-						: x.Path == e.Path
+						: Path.GetFullPath(x.Path) == Path.GetFullPath(e.Path)
 				);
 
 				if (matchingDrive is not null)
@@ -105,11 +106,14 @@ namespace Files.App.ViewModels
 		public async Task UpdateDrivesAsync()
 		{
 			Drives.Clear();
-			Drives.EnumeratedAdd(await removableDrivesService.GetDrivesAsync());
+			await foreach (ILocatableFolder item in removableDrivesService.GetDrivesAsync())
+			{
+				Drives.AddIfNotPresent(item);
+			}
 
-			var osDrive = await removableDrivesService.GetPrimaryDrivePathAsync();
+			var osDrive = await removableDrivesService.GetPrimaryDriveAsync();
 
-			if (!Drives.Any(x => x.Path == osDrive))
+			if (!Drives.Any(x => Path.GetFullPath(x.Path) == Path.GetFullPath(osDrive.Path)))
 			{
 				// Show consent dialog if the OS drive
 				// could not be accessed

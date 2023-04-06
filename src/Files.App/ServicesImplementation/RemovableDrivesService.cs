@@ -25,10 +25,9 @@ namespace Files.App.ServicesImplementation
 			return new WindowsStorageDeviceWatcher() as IStorageDeviceWatcher;
 		}
 
-		public async Task<IReadOnlyList<ILocatableFolder>> GetDrivesAsync()
+		public async IAsyncEnumerable<ILocatableFolder> GetDrivesAsync()
 		{
 			var list = DriveInfo.GetDrives();
-			List<ILocatableFolder> drives = new List<ILocatableFolder>();
 
 			foreach (var drive in list)
 			{
@@ -50,31 +49,21 @@ namespace Files.App.ServicesImplementation
 				var type = DriveHelpers.GetDriveType(drive);
 				var driveItem = await DriveItem.CreateFromPropertiesAsync(res.Result, drive.Name.TrimEnd('\\'), type, thumbnail);
 
-				lock (drives)
-				{
-					// If drive already in list, skip.
-					if (drives.Any(x => x.Path == drive.Name))
-					{
-						continue;
-					}
+				App.Logger.LogInformation($"Drive added: {driveItem.Path}, {driveItem.Type}");
 
-					App.Logger.LogInformation($"Drive added: {driveItem.Path}, {driveItem.Type}");
-					drives.Add(driveItem);
-				}
+				yield return driveItem;
 			}
-
-			return drives.AsReadOnly();
 		}
 
-		public async Task<string> GetPrimaryDrivePathAsync()
+		public async Task<ILocatableFolder> GetPrimaryDriveAsync()
 		{
 			string cDrivePath = @"C:\";
-			return new WindowsStorageFolder(await StorageFolder.GetFolderFromPathAsync(cDrivePath)).Path;
+			return new WindowsStorageFolder(await StorageFolder.GetFolderFromPathAsync(cDrivePath));
 		}
 
 		public async Task UpdateDrivePropertiesAsync(ILocatableFolder drive)
 		{
-			var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Id).AsTask());
+			var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Path).AsTask());
 			if (rootModified && drive is DriveItem matchingDriveEjected)
 			{
 				_ = App.Window.DispatcherQueue.EnqueueAsync(() =>

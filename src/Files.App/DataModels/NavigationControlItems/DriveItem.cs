@@ -29,8 +29,6 @@ namespace Files.App.DataModels.NavigationControlItems
 			set => SetProperty(ref icon, value);
 		}
 
-		//public Uri IconSource { get; set; }
-
 		public byte[] IconData { get; set; }
 
 		private string path;
@@ -245,17 +243,22 @@ namespace Files.App.DataModels.NavigationControlItems
 			return result == 0 ? Text.CompareTo(other.Text) : result;
 		}
 
-		public async Task LoadDriveIcon()
+		public async Task LoadThumbnailAsync(bool isSidebar = false)
 		{
-			if (IconData is null)
+			if (!isSidebar)
+			{
+				using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
+				IconData ??= await thumbnail.ToByteArrayAsync();
+			}
+			else
 			{
 				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
-					IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
+					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
 
 				IconData ??= UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			}
 
-			Icon = await IconData.ToBitmapAsync();
+			Icon ??= await IconData.ToBitmapAsync();
 		}
 
 		private string GetSizeString()

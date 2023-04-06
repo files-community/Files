@@ -61,13 +61,9 @@ namespace Files.App.Filesystem
 					+ " failed at the StorageFolder initialization step. This device will be ignored.");
 				return;
 			}
-
-			DriveItem driveItem;
-			using (var thumbnail = await DriveHelpers.GetThumbnailAsync(rootAdded.Result))
-			{
-				var type = DriveHelpers.GetDriveType(driveAdded);
-				driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, e.DeviceId, type, thumbnail);
-			}
+			
+			var type = DriveHelpers.GetDriveType(driveAdded);
+			DriveItem driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, e.DeviceId, type);
 
 			DeviceAdded?.Invoke(this, driveItem);
 		}
@@ -109,8 +105,7 @@ namespace Files.App.Filesystem
 				type = DataModels.NavigationControlItems.DriveType.Removable;
 			}
 
-			using var thumbnail = await DriveHelpers.GetThumbnailAsync(root);
-			var driveItem = await DriveItem.CreateFromPropertiesAsync(root, deviceId, type, thumbnail);
+			var driveItem = await DriveItem.CreateFromPropertiesAsync(root, deviceId, type);
 
 			DeviceAdded?.Invoke(this, driveItem);
 		}

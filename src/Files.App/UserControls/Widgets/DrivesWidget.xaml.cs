@@ -54,7 +54,10 @@ namespace Files.App.UserControls.Widgets
 
 			// Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
 			if (thumbnailData is null || thumbnailData.Length == 0)
+			{
+				await Item.LoadThumbnailAsync();
 				thumbnailData = Item.IconData;
+			}
 
 			// Thumbnail data is valid, set the item icon
 			if (thumbnailData is not null && thumbnailData.Length > 0)
