@@ -154,7 +154,7 @@ namespace Files.App.ServicesImplementation
 				}
 
 				var jumplistItem = JumpListItem.CreateWithArguments(path, displayName);
-				jumplistItem.Description = jumplistItem.Arguments ?? "";
+				jumplistItem.Description = jumplistItem.Arguments ?? string.Empty;
 				jumplistItem.GroupName = group;
 				jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
 
