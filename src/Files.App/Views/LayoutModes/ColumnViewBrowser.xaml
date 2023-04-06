@@ -28,9 +28,9 @@
 	</local:BaseLayout.Resources>
 
 	<controls:BladeView x:Name="ColumnHost" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
-		<controls:BladeView.ItemContainerTransitions>
+		<controls:BladeView.ItemsRepeater>
 			<TransitionCollection />
-		</controls:BladeView.ItemContainerTransitions>
+		</controls:BladeView.ItemsRepeater>
 
 		<controls:BladeItem>
 			<Frame x:Name="MainPageFrame" />
