@@ -33,6 +33,7 @@ namespace Files.App.Views.LayoutModes
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
 		private ColumnViewBrowser? columnsOwner;
+
 		private ListViewItem? openedFolderPresenter;
 
 		public ColumnViewBase() : base()
@@ -60,7 +61,7 @@ namespace Files.App.Views.LayoutModes
 			openedFolderPresenter = FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem;
 		}
 
-		private void ClearOpenedFolderSelectionIndicator()
+		internal void ClearOpenedFolderSelectionIndicator()
 		{
 			if (openedFolderPresenter is null)
 				return;
@@ -278,8 +279,6 @@ namespace Files.App.Views.LayoutModes
 
 				if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
 					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-				else
-					await NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{

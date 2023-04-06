@@ -7,10 +7,8 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views;
-using Files.Backend.Extensions;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Extensions;
 using Files.Shared.Services;
 using Microsoft.UI.Xaml.Input;
@@ -47,9 +45,6 @@ namespace Files.App.ViewModels
 
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
-		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
-		public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
-		public ICommand OpenSettingsCommand { get; private set; }
 
 		public MainPageViewModel(
 			IUserSettingsService userSettings, 
@@ -62,9 +57,6 @@ namespace Files.App.ViewModels
 			// Create commands
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
 			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
-			CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
-			ReopenClosedTabAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ReopenClosedTabAccelerator);
-			OpenSettingsCommand = new RelayCommand(OpenSettings);
 		}
 
 		private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
@@ -108,26 +100,6 @@ namespace Files.App.ViewModels
 					// Select the last tab
 					indexToSelect = AppInstances.Count - 1;
 					break;
-
-				case VirtualKey.Tab:
-					bool shift = e.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-
-					if (!shift) // ctrl + tab, select next tab
-					{
-						if ((App.AppModel.TabStripSelectedIndex + 1) < AppInstances.Count)
-							indexToSelect = App.AppModel.TabStripSelectedIndex + 1;
-						else
-							indexToSelect = 0;
-					}
-					else // ctrl + shift + tab, select previous tab
-					{
-						if ((App.AppModel.TabStripSelectedIndex - 1) >= 0)
-							indexToSelect = App.AppModel.TabStripSelectedIndex - 1;
-						else
-							indexToSelect = AppInstances.Count - 1;
-					}
-
-					break;
 			}
 
 			// Only select the tab if it is in the list
@@ -141,30 +113,6 @@ namespace Files.App.ViewModels
 			var filesUWPUri = new Uri("files-uwp:");
 			await Launcher.LaunchUriAsync(filesUWPUri);
 			e!.Handled = true;
-		}
-
-		private void CloseSelectedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			var index = App.AppModel.TabStripSelectedIndex >= AppInstances.Count
-				? AppInstances.Count - 1
-				: App.AppModel.TabStripSelectedIndex;
-
-			var tabItem = AppInstances[index];
-			MultitaskingControl?.CloseTab(tabItem);
-			e!.Handled = true;
-		}
-
-		private void ReopenClosedTabAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			(MultitaskingControl as BaseMultitaskingControl)?.ReopenClosedTab(null, null);
-			e!.Handled = true;
-		}
-
-		private async void OpenSettings()
-		{
-			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-			var dialog = dialogService.GetDialog(new SettingsDialogViewModel());
-			await dialog.TryShowAsync();
 		}
 
 		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
@@ -265,8 +213,11 @@ namespace Files.App.ViewModels
 			}
 			else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
-				var localSettings = ApplicationData.Current.LocalSettings;
-				tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+				tabLocationHeader = "RecycleBin".GetLocalizedResource();
+			}
+			else if (currentPath.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+			{
+				tabLocationHeader = "ThisPC".GetLocalizedResource();
 			}
 			else if (currentPath.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 			{
@@ -336,7 +287,7 @@ namespace Files.App.ViewModels
 						for (int i = 0; i < items.Length; i++)
 							items[i] = TabItemArguments.Deserialize(userSettingsService.PreferencesSettingsService.LastSessionTabList[i]);
 
-						BaseMultitaskingControl.RecentlyClosedTabs.Add(items);
+						BaseMultitaskingControl.PushRecentTab(items);
 					}
 
 					if (userSettingsService.AppSettingsService.RestoreTabsOnStartup)

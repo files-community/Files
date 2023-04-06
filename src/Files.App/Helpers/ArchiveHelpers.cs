@@ -70,7 +70,12 @@ namespace Files.App.Helpers
 
 		public static async Task CompressArchiveAsync(IArchiveCreator creator)
 		{
-			var archivePath = creator.ArchivePath;
+			var archivePath = creator.GetArchivePath();
+
+			int index = 1;
+			while (File.Exists(archivePath) || System.IO.Directory.Exists(archivePath))
+				archivePath = creator.GetArchivePath($" ({++index})");
+			creator.ArchivePath = archivePath;
 
 			CancellationTokenSource compressionToken = new();
 			PostedStatusBanner banner = OngoingTasksViewModel.PostOperationBanner

@@ -1,16 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.UI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
-using Files.App.Views;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
-using Microsoft.UI.Input;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -22,8 +20,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
-using Windows.System;
-using Windows.UI.Core;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -112,13 +108,13 @@ namespace Files.App.UserControls.Widgets
 
 		private async void Item_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			App.Logger.Warn("rightTapped");
+			App.Logger.LogWarning("rightTapped");
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			if (sender is not StackPanel tagsItemsStackPanel || tagsItemsStackPanel.DataContext is not FileTagsItemViewModel item)
 				return;
 
-			App.Logger.Warn("Item path: " + item.Path + " widgetcarditem.path = " + (item as WidgetCardItem)?.Path);
+			App.Logger.LogWarning("Item path: " + item.Path + " widgetcarditem.path = " + (item as WidgetCardItem)?.Path);
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
@@ -146,14 +142,12 @@ namespace Files.App.UserControls.Widgets
 						OpacityIconStyle = "ColorIconOpenWith",
 					},
 					Tag = "OpenWithPlaceholder",
-					IsEnabled = false,
 					ShowItem = !isFolder
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
-					IsEnabled = false,
 					ShowItem = !isFolder
 				},
 				new ContextMenuFlyoutItemViewModel()

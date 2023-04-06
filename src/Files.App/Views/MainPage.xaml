@@ -2,18 +2,18 @@
 	x:Class="Files.App.Views.MainPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:Files.App.UserControls"
-	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
-	xmlns:custom="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:viewmodels="using:Files.App.ViewModels"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	AllowDrop="True"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
 	NavigationCacheMode="Required"
@@ -29,7 +29,8 @@
 			<x:Boolean x:Key="True">True</x:Boolean>
 			<x:Boolean x:Key="False">False</x:Boolean>
 
-			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -97,20 +98,6 @@
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="Tab" Modifiers="Control,Shift">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="Tab" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="N" Modifiers="Control">
 			<i:Interaction.Behaviors>
 				<icore:EventTriggerBehavior EventName="Invoked">
@@ -118,42 +105,11 @@
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="F4" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.CloseSelectedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="W" Modifiers="Control">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.CloseSelectedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-		<KeyboardAccelerator Key="T" Modifiers="Control,Shift">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.ReopenClosedTabAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
-
-		<KeyboardAccelerator
-			Key="S"
-			x:Name="ToggleSidebarVisibilityKeyboardAcceleretor"
-			Modifiers="Control,Menu">
-			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ToggleSidebarCollapsedStateCommand}" />
-				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-		</KeyboardAccelerator>
 	</Page.KeyboardAccelerators>
 
 	<Border>
-		<controls:SidebarControl
+		<!--  Root  -->
+		<uc:SidebarControl
 			x:Name="SidebarControl"
 			HorizontalAlignment="Stretch"
 			HorizontalContentAlignment="Stretch"
@@ -165,7 +121,9 @@
 			PaneDisplayMode="Left"
 			SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
-			<controls:SidebarControl.TabContent>
+
+			<!--  Head Contents  -->
+			<uc:SidebarControl.TabContent>
 				<Grid
 					x:Name="RightMarginGrid"
 					VerticalAlignment="Top"
@@ -176,6 +134,7 @@
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
+					<!--  Tab Control  -->
 					<usercontrols:HorizontalMultitaskingControl
 						x:Name="TabControl"
 						HorizontalAlignment="Stretch"
@@ -197,7 +156,6 @@
 								VerticalAlignment="Bottom"
 								AutomationProperties.Name="{x:Bind Commands.NewTab.AutomationName}"
 								Background="Transparent"
-								BorderBrush="Transparent"
 								BorderThickness="0"
 								Command="{x:Bind Commands.NewTab}"
 								ToolTipService.ToolTip="{x:Bind Commands.NewTab.LabelWithHotKey, Mode=OneWay}">
@@ -211,7 +169,8 @@
 						</usercontrols:HorizontalMultitaskingControl.ActionsControl>
 					</usercontrols:HorizontalMultitaskingControl>
 
-					<controls:AddressToolbar
+					<!--  Address Bar  -->
+					<uc:AddressToolbar
 						x:Name="NavToolbar"
 						Grid.Row="1"
 						HorizontalAlignment="Stretch"
@@ -219,19 +178,19 @@
 						x:Load="False"
 						Loaded="NavToolbar_Loaded"
 						OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
-						SettingsButtonCommand="{x:Bind ViewModel.OpenSettingsCommand}"
 						ShowOngoingTasks="True"
 						ShowSearchBox="True"
 						ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 						TabIndex="1" />
-				</Grid>
-			</controls:SidebarControl.TabContent>
 
+				</Grid>
+			</uc:SidebarControl.TabContent>
+
+			<!--  Main Contents  -->
 			<Grid
 				x:Name="RootGrid"
 				PreviewKeyDown="RootGrid_PreviewKeyDown"
 				SizeChanged="RootGrid_SizeChanged">
-
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition
@@ -251,7 +210,8 @@
 					<ColumnDefinition x:Name="PaneColumn" Width="Auto" />
 				</Grid.ColumnDefinitions>
 
-				<controls:InnerNavigationToolbar
+				<!--  File Navigation Toolbar  -->
+				<uc:InnerNavigationToolbar
 					x:Name="InnerNavigationToolbar"
 					Grid.ColumnSpan="3"
 					x:Load="False"
@@ -259,6 +219,7 @@
 					ShowPreviewPaneButton="{x:Bind ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
 					TabIndex="2" />
 
+				<!--  Page Content  -->
 				<ContentPresenter
 					Grid.Row="1"
 					Grid.Column="0"
@@ -266,7 +227,8 @@
 					HorizontalContentAlignment="Stretch"
 					Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
 
-				<custom:GridSplitter
+				<!--  Preview Pane Splitter  -->
+				<toolkit:GridSplitter
 					x:Name="PaneSplitter"
 					Grid.Row="1"
 					Grid.Column="1"
@@ -279,21 +241,25 @@
 					ResizeBehavior="BasedOnAlignment"
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 
-				<controls:PreviewPane
+				<!--  Preview Pane  -->
+				<uc:PreviewPane
 					x:Name="PreviewPane"
 					Grid.Row="1"
 					Grid.Column="2"
 					HorizontalContentAlignment="Stretch"
 					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}" />
 
-				<controls:StatusBarControl
+				<!--  Status Bar  -->
+				<uc:StatusBarControl
 					x:Name="StatusBarControl"
 					Grid.Row="4"
 					Grid.ColumnSpan="3"
 					x:Load="False"
 					ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+
 			</Grid>
-		</controls:SidebarControl>
+
+		</uc:SidebarControl>
 
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup>
@@ -311,7 +277,6 @@
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
-
 			<VisualStateGroup>
 				<VisualState>
 					<VisualState.StateTriggers>

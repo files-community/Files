@@ -3,6 +3,7 @@ using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.App.Views.Settings.Appearance;
+using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared.Services;
 using Microsoft.UI.Xaml;

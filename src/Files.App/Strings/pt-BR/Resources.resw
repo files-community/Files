@@ -243,9 +243,6 @@
   <data name="Ascending" xml:space="preserve">
     <value>Crescente</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>Atualizar</value>
-  </data>
   <data name="Paste" xml:space="preserve">
     <value>Colar</value>
   </data>
@@ -264,7 +261,7 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>Abrir em uma nova janela</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="Share" xml:space="preserve">
     <value>Compartilhar</value>
   </data>
   <data name="Cut" xml:space="preserve">
@@ -315,20 +312,17 @@
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Esta pasta está vazia.</value>
   </data>
-  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Back" xml:space="preserve">
     <value>Voltar (Alt + Seta para a esquerda)</value>
   </data>
-  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Forward" xml:space="preserve">
     <value>Avançar (Alt + Seta para a direita)</value>
   </data>
-  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="Up" xml:space="preserve">
     <value>Em cima (Alt + Seta para cima)</value>
   </data>
-  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Atualizar (F5)</value>
-  </data>
-  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Pesquisar (Ctrl + F)</value>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Um item com esse nome já existe neste diretório.</value>
@@ -660,16 +654,16 @@
   <data name="LayoutMode" xml:space="preserve">
     <value>Modo de layout</value>
   </data>
-  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateBack" xml:space="preserve">
     <value>Navegar para trás</value>
   </data>
-  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateForward" xml:space="preserve">
     <value>Navegar para a frente</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Atualize o diretório</value>
   </data>
-  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavigateUp" xml:space="preserve">
     <value>Suba um diretório</value>
   </data>
   <data name="Language" xml:space="preserve">
@@ -1446,29 +1440,35 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Muito pequeno</value>
   </data>
+  <data name="Future" xml:space="preserve">
+    <value>Future</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>Hoje</value>
   </data>
-  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+  <data name="Yesterday" xml:space="preserve">
     <value>Ontem</value>
   </data>
-  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+  <data name="EarlierThisWeek" xml:space="preserve">
     <value>No início desta semana</value>
   </data>
-  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+  <data name="LastWeek" xml:space="preserve">
     <value>Na semana passada</value>
   </data>
-  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
-    <value>Neste mês</value>
+  <data name="EarlierThisMonth" xml:space="preserve">
+    <value>Earlier this month</value>
   </data>
-  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+  <data name="LastMonth" xml:space="preserve">
     <value>Mês passado</value>
   </data>
-  <data name="ItemTimeText_ThisYear" xml:space="preserve">
-    <value>Neste ano</value>
+  <data name="EarlierThisYear" xml:space="preserve">
+    <value>Earlier this year</value>
   </data>
-  <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>Antigo</value>
+  <data name="LastYear" xml:space="preserve">
+    <value>Last year</value>
+  </data>
+  <data name="YearN" xml:space="preserve">
+    <value>Year {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} item</value>
@@ -1476,7 +1476,7 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} itens</value>
   </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="ReopenClosedTab" xml:space="preserve">
     <value>Reabrir a guia fechada</value>
   </data>
   <data name="Rename" xml:space="preserve">
@@ -1602,8 +1602,8 @@
   <data name="Allow" xml:space="preserve">
     <value>Permitir</value>
   </data>
-  <data name="SecurityDenyLabel.Text" xml:space="preserve">
-    <value>Negar</value>
+  <data name="Deny" xml:space="preserve">
+    <value>Deny</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Controle total</value>
@@ -1636,7 +1636,7 @@
     <value>Você não tem permissão para visualizar as propriedades de segurança deste objeto. Clique em "Permissões avançadas" para prosseguir.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Proprietário</value>
+    <value>Owner:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Proprietário desconhecido</value>
@@ -1674,11 +1674,11 @@
   <data name="Access" xml:space="preserve">
     <value>Acesso</value>
   </data>
-  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
-    <value>Aplica-se a</value>
+  <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
+    <value>Applies to</value>
   </data>
-  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>Entidade</value>
+  <data name="Principal" xml:space="preserve">
+    <value>Principal</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>arquivos</value>
@@ -1689,11 +1689,11 @@
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>subpastas</value>
   </data>
-  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
-    <value>Herdado</value>
+  <data name="Inherited" xml:space="preserve">
+    <value>Inherited</value>
   </data>
-  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
-    <value>Permissões</value>
+  <data name="Permissions" xml:space="preserve">
+    <value>Permissions</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Você não tem permissão para visualizar as propriedades de segurança deste objeto. Você pode tentar tomar posse deste objeto.</value>
@@ -1871,9 +1871,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>A extração do arquivo foi concluída com sucesso.</value>
@@ -2658,10 +2655,227 @@
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Toggle compact overlay</value>
   </data>
-	<data name="EnterCompactOverlayDescription" xml:space="preserve">
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Insira a sobreposição compacta</value>
   </data>
-	<data name="ExitCompactOverlayDescription" xml:space="preserve">
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Remova a sobreposição compacta</value>
+  </data>
+  <data name="FormatDriveDescription" xml:space="preserve">
+    <value>Opens the "Format Drive" menu for the selected item</value>
+  </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>Toggle the sidebar</value>
+  </data>
+  <data name="Key.Menu" xml:space="preserve">
+    <value>Menu</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Control" xml:space="preserve">
+    <value>Ctrl</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Shift" xml:space="preserve">
+    <value>Shift</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Windows" xml:space="preserve">
+    <value>Win</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Enter" xml:space="preserve">
+    <value>Return</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Space" xml:space="preserve">
+    <value>Space</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Escape" xml:space="preserve">
+    <value>Escape</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Back" xml:space="preserve">
+    <value>Voltar (Alt + Seta para a esquerda)</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Tab" xml:space="preserve">
+    <value>Tab</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Insert" xml:space="preserve">
+    <value>Ins</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Delete" xml:space="preserve">
+    <value>Del</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Left" xml:space="preserve">
+    <value>Left</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Right" xml:space="preserve">
+    <value>Right</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Down" xml:space="preserve">
+    <value>Down</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Up" xml:space="preserve">
+    <value>Em cima (Alt + Seta para cima)</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Home" xml:space="preserve">
+    <value>Início</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.End" xml:space="preserve">
+    <value>End</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.PageDown" xml:space="preserve">
+    <value>PageDown</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.PageUp" xml:space="preserve">
+    <value>PageUp</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Separator" xml:space="preserve">
+    <value>Sep</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Pause" xml:space="preserve">
+    <value>Pause</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Sleep" xml:space="preserve">
+    <value>Sleep</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Clear" xml:space="preserve">
+    <value>Limpar</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Print" xml:space="preserve">
+    <value>Print</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Help" xml:space="preserve">
+    <value>Help</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mouse4" xml:space="preserve">
+    <value>Mouse4</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mouse5" xml:space="preserve">
+    <value>Mouse5</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application" xml:space="preserve">
+    <value>App</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application1" xml:space="preserve">
+    <value>App1</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Application2" xml:space="preserve">
+    <value>App2</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.Mail" xml:space="preserve">
+    <value>Mail</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoHome" xml:space="preserve">
+    <value>GoHome</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoBack" xml:space="preserve">
+    <value>GoBack</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserGoForward" xml:space="preserve">
+    <value>GoForward</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserRefresh" xml:space="preserve">
+    <value>BrowserRefresh</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserStop" xml:space="preserve">
+    <value>BrowserStop</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserSearch" xml:space="preserve">
+    <value>Procurar</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.BrowserFavorites" xml:space="preserve">
+    <value>Favoritos</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaPlayPause" xml:space="preserve">
+    <value>PlayPause</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaStop" xml:space="preserve">
+    <value>MediaStop</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaPreviousTrack" xml:space="preserve">
+    <value>PrevTrack</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaNextTrack" xml:space="preserve">
+    <value>NextTrack</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaSelect" xml:space="preserve">
+    <value>MediaSelect</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaMute" xml:space="preserve">
+    <value>Mute</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaVolumeDown" xml:space="preserve">
+    <value>VolDown</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Key.MediaVolumeUp" xml:space="preserve">
+    <value>VolUp</value>
+    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="ToggleSelect" xml:space="preserve">
+    <value>Toggle Selection</value>
+  </data>
+  <data name="ShowFileExtensionWarning" xml:space="preserve">
+    <value>Show warning when changing file extensions</value>
+  </data>
+  <data name="ThisPC" xml:space="preserve">
+    <value>This PC</value>
+  </data>
+  <data name="RecycleBin" xml:space="preserve">
+    <value>Recycle Bin</value>
+  </data>
+  <data name="Untagged" xml:space="preserve">
+    <value>Untagged</value>
+  </data>
+  <data name="PreviousTab" xml:space="preserve">
+    <value>Moves to the previous tab</value>
+  </data>
+  <data name="NextTab" xml:space="preserve">
+    <value>Moves to the next tab</value>
+  </data>
+  <data name="CloseTab" xml:space="preserve">
+    <value>Closes current tab</value>
   </data>
 </root>

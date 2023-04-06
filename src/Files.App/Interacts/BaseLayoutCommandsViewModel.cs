@@ -27,30 +27,24 @@ namespace Files.App.Interacts
 
 		private void InitializeCommands()
 		{
-			RenameItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RenameItem);
 			ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowProperties);
 			OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenFileLocation);
 			OpenDirectoryInNewTabCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewTab);
 			OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewPane);
 			OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenInNewWindowItem);
 			CreateNewFileCommand = new RelayCommand<ShellNewEntry>(CommandsModel.CreateNewFile);
-			ShareItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShareItem);
 			ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.ItemPointerPressed);
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.PointerWheelChanged);
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.DragOver);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.Drop);
-			RefreshCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RefreshItems);
 			SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
 			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
 			PlayAllCommand = new AsyncRelayCommand(CommandsModel.PlayAll);
-			FormatDriveCommand = new RelayCommand<ListedItem>(CommandsModel.FormatDrive);
 		}
 
 		#endregion Command Initialization
 
 		#region Commands
-
-		public ICommand RenameItemCommand { get; private set; }
 
 		public ICommand ShowPropertiesCommand { get; private set; }
 
@@ -64,8 +58,6 @@ namespace Files.App.Interacts
 
 		public ICommand CreateNewFileCommand { get; private set; }
 
-		public ICommand ShareItemCommand { get; private set; }
-
 		public ICommand ItemPointerPressedCommand { get; private set; }
 
 		public ICommand PointerWheelChangedCommand { get; private set; }
@@ -74,15 +66,11 @@ namespace Files.App.Interacts
 
 		public ICommand DropCommand { get; private set; }
 
-		public ICommand RefreshCommand { get; private set; }
-
 		public ICommand SearchUnindexedItems { get; private set; }
 
 		public ICommand CreateFolderWithSelection { get; private set; }
 
 		public ICommand PlayAllCommand { get; private set; }
-
-		public ICommand FormatDriveCommand { get; private set; }
 
 		#endregion Commands
 

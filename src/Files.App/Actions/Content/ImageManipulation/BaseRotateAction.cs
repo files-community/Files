@@ -2,10 +2,8 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.App.ViewModels;
-using Files.Backend.Services.Settings;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,20 +11,22 @@ using Windows.Graphics.Imaging;
 
 namespace Files.App.Actions
 {
-	internal class RotateLeftAction : ObservableObject, IAction
+	internal abstract class BaseRotateAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "RotateLeft".GetLocalizedResource();
+		public abstract string Label { get; }
 
-		public string Description => "TODO: Need to be described.";
+		public abstract string Description { get; }
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRotateLeft");
+		public abstract RichGlyph Glyph { get; }
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
-						&& (context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
+		protected abstract BitmapRotation Rotation { get; }
 
-		public RotateLeftAction()
+		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() &&
+			(context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
+
+		public BaseRotateAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -34,7 +34,7 @@ namespace Files.App.Actions
 		public async Task ExecuteAsync()
 		{
 			foreach (var image in context.SelectedItems)
-				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise270Degrees);
+				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), Rotation);
 
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.RefreshItemsThumbnail();
 			Ioc.Default.GetRequiredService<PreviewPaneViewModel>().UpdateSelectedItemPreview();
@@ -49,7 +49,7 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
+			if (e.PropertyName is nameof(IContentPageContext.SelectedItem))
 			{
 				if (context.ShellPage is not null && context.ShellPage.SlimContentPage is not null)
 				{

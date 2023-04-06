@@ -14,7 +14,6 @@
 
 	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
-
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
@@ -24,11 +23,10 @@
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
 
-	<Grid Padding="12">
+	<Grid x:Name="RootGrid">
 
 		<Grid
-			Grid.Row="0"
-			Padding="12"
+			Margin="12"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
@@ -39,41 +37,40 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
 
-			<TextBlock
-				Grid.Row="0"
-				Grid.Column="0"
-				Padding="4"
-				MaxLines="2"
-				Text="{helpers:ResourceString Name=ChooseCustomIcon}"
-				TextWrapping="WrapWholeWords" />
-			<Button
-				x:Name="RestoreDefaultButton"
-				Grid.Row="0"
-				Grid.Column="1"
-				HorizontalAlignment="Right"
-				x:Load="{x:Bind CustomizationViewModel.IsShortcut, Converter={StaticResource BoolNegationConverter}}"
-				Command="{x:Bind CustomizationViewModel.RestoreDefaultIconCommand}"
-				Content="{helpers:ResourceString Name=RestoreDefault}"
-				IsEnabled="{x:Bind CustomizationViewModel.RestoreButtonIsEnabled, Mode=OneWay}" />
+			<Grid Grid.Row="0" Margin="12,12,12,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
 
-			<MenuFlyoutSeparator
+				<TextBlock
+					Padding="4"
+					Text="{helpers:ResourceString Name=ChooseCustomIcon}"
+					TextTrimming="CharacterEllipsis"
+					TextWrapping="NoWrap" />
+
+				<Button
+					x:Name="RestoreDefaultButton"
+					Grid.Column="1"
+					x:Load="{x:Bind CustomizationViewModel.IsShortcut, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+					Command="{x:Bind CustomizationViewModel.RestoreDefaultIconCommand, Mode=OneWay}"
+					Content="{helpers:ResourceString Name=RestoreDefault}"
+					IsEnabled="{x:Bind CustomizationViewModel.RestoreButtonIsEnabled, Mode=OneWay}" />
+
+			</Grid>
+
+			<Border
 				Grid.Row="1"
-				Grid.Column="0"
-				Grid.ColumnSpan="2"
+				Height="1"
 				Margin="-12,0"
-				Background="{ThemeResource CardStrokeColorDefaultBrush}" />
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 			<Grid
 				Grid.Row="2"
-				Grid.Column="0"
-				Grid.ColumnSpan="2"
+				Margin="12,0"
 				ColumnSpacing="8">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
@@ -81,47 +78,37 @@
 				</Grid.ColumnDefinitions>
 
 				<TextBox
-					x:Name="ItemDisplayedPath"
-					Grid.Column="0"
+					x:Name="PickedDllFilePathTextBox"
 					IsReadOnly="True"
 					Text="{x:Bind CustomizationViewModel.IconResourceItemPath, Mode=OneWay}" />
 
 				<Button
-					x:Name="PickDllButton"
+					x:Name="PickDllFileButton"
 					Grid.Column="1"
-					HorizontalAlignment="Right"
-					Click="PickDllButton_Click"
+					Command="{x:Bind CustomizationViewModel.PickDllFileCommand, Mode=OneWay}"
+					CommandParameter="{x:Bind XamlRoot, Mode=OneWay}"
 					Content="{helpers:ResourceString Name=Browse}" />
+
 			</Grid>
 
 			<GridView
 				x:Name="IconSelectionGrid"
 				Grid.Row="3"
-				Grid.Column="0"
-				Grid.ColumnSpan="3"
-				MaxHeight="252"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Stretch"
+				Padding="12"
 				ItemsSource="{x:Bind CustomizationViewModel.DllIcons, Mode=OneWay}"
-				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-				ScrollViewer.HorizontalScrollMode="Disabled"
-				ScrollViewer.VerticalScrollBarVisibility="Auto"
-				ScrollViewer.VerticalScrollMode="Auto"
-				SelectionChanged="IconSelectionGrid_SelectionChanged"
-				SelectionMode="Single">
-				<GridView.ItemsPanel>
-					<ItemsPanelTemplate>
-						<ItemsWrapGrid Orientation="Horizontal" />
-					</ItemsPanelTemplate>
-				</GridView.ItemsPanel>
+				SelectedItem="{x:Bind CustomizationViewModel.SelectedDllIcon, Mode=TwoWay}">
 				<GridView.ItemTemplate>
 					<DataTemplate x:DataType="shared:IconFileInfo">
-						<Grid Width="32" Height="32">
-							<Image uc:ImageFromBytes.SourceBytes="{x:Bind IconData}" />
-						</Grid>
+
+						<Image
+							Width="32"
+							Height="32"
+							uc:ImageFromBytes.SourceBytes="{x:Bind IconData}" />
+
 					</DataTemplate>
 				</GridView.ItemTemplate>
 			</GridView>
+
 		</Grid>
 
 	</Grid>
