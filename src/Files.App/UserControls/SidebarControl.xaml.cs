@@ -190,7 +190,7 @@ namespace Files.App.UserControls
 
 			var isDriveItem = item is DriveItem;
 			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
-			var isShellFolder = item is LocationItem shellItem && ShellStorageFolder.IsShellPath(shellItem.Path);
+			var isShellFolder = false ;
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
