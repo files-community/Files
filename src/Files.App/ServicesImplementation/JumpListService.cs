@@ -114,7 +114,7 @@ namespace Files.App.ServicesImplementation
 				if (path.StartsWith("\\\\SHELL", StringComparison.OrdinalIgnoreCase))
 					displayName = "ThisPC".GetLocalizedResource();
 				
-				if (path.EndsWith("\\"))
+				if (path.EndsWith('\\'))
 				{
 					// Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
 					var drive = App.DrivesManager.Drives.Where(drive => drive.Path == path).FirstOrDefault();
