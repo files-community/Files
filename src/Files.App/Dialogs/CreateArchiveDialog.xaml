@@ -2,11 +2,11 @@
 	x:Class="Files.App.Dialogs.CreateArchiveDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.UserControls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Dialogs"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	Title="{helpers:ResourceString Name=CreateArchive}"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
@@ -20,13 +20,6 @@
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
-
-	<ContentDialog.Resources>
-		<wctconverters:BoolToVisibilityConverter
-			x:Key="NegatedBoolToVisibilityConverter"
-			FalseValue="Visible"
-			TrueValue="Collapsed" />
-	</ContentDialog.Resources>
 
 	<StackPanel Width="440" Spacing="4">
 
@@ -57,41 +50,13 @@
 				Width="260"
 				PlaceholderText="{helpers:ResourceString Name=EnterName}"
 				Text="{x:Bind ViewModel.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-			<Grid
+			<controls:InvalidWarning
 				Grid.Row="1"
 				Grid.Column="1"
 				Margin="0,4"
-				Padding="12,4"
-				VerticalAlignment="Stretch"
-				Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-				BorderThickness="1"
-				ColumnSpacing="8"
-				CornerRadius="4"
-				Visibility="{x:Bind ViewModel.IsNameValid, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
-				<TextBlock
-					VerticalAlignment="Center"
-					AutomationProperties.AccessibilityView="Raw"
-					FontFamily="{ThemeResource SymbolThemeFontFamily}"
-					FontSize="{StaticResource InfoBarIconFontSize}"
-					Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
-					Text="{StaticResource InfoBarIconBackgroundGlyph}" />
-				<TextBlock
-					VerticalAlignment="Center"
-					AutomationProperties.AccessibilityView="Raw"
-					FontFamily="{ThemeResource SymbolThemeFontFamily}"
-					FontSize="{StaticResource InfoBarIconFontSize}"
-					Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
-					Text="{StaticResource InfoBarErrorIconGlyph}" />
-				<TextBlock
-					Grid.Column="1"
-					Text="{helpers:ResourceString Name=InvalidFilename/Text}"
-					TextWrapping="Wrap" />
-			</Grid>
+				ShowWarning="{x:Bind ViewModel.IsNameValid, Mode=OneWay}"
+				TooltipText="{helpers:ResourceString Name=InvalidFilename/Text}"
+				WarningMessage="{helpers:ResourceString Name=InvalidFilename/Text}" />
 		</Grid>
 
 		<!--  Archive Options  -->
