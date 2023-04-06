@@ -2878,7 +2878,4 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
   </data>
-  <data name="ThisPC" xml:space="preserve">
-    <value>This PC</value>
-  </data>
 </root>

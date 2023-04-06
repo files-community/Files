@@ -61,8 +61,6 @@ namespace Files.App.ServicesImplementation
 					var folder = await ShellStorageFolder.FromPathAsync((string)fi.Path);
 					var path = folder.Path;
 
-					App.Logger.LogInformation(path);
-
 					if (folderPaths.Contains(path) || (path.StartsWith(@"\\SHELL\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\")))) // Fix for the Linux header
 					{
 						await SafetyExtensions.IgnoreExceptions(async () =>
