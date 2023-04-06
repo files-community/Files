@@ -6,6 +6,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Dialogs"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	Title="{helpers:ResourceString Name=CreateArchive}"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
@@ -13,12 +14,20 @@
 	Closing="ContentDialog_Closing"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
-	IsPrimaryButtonEnabled="True"
+	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsNameValid, Mode=OneWay}"
 	Loaded="ContentDialog_Loaded"
 	PrimaryButtonText="{helpers:ResourceString Name=Create}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
+
+	<ContentDialog.Resources>
+		<wctconverters:BoolToVisibilityConverter
+			x:Key="NegatedBoolToVisibilityConverter"
+			FalseValue="Visible"
+			TrueValue="Collapsed" />
+	</ContentDialog.Resources>
+
 	<StackPanel Width="440" Spacing="4">
 
 		<!--  Archive Name  -->
@@ -29,11 +38,16 @@
 			BorderThickness="1"
 			ColumnSpacing="8"
 			CornerRadius="4">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<TextBlock
+				Grid.RowSpan="2"
 				Grid.Column="0"
 				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=Name}" />
@@ -42,7 +56,43 @@
 				Grid.Column="1"
 				Width="260"
 				PlaceholderText="{helpers:ResourceString Name=EnterName}"
-				Text="{x:Bind ViewModel.FileName, Mode=TwoWay}" />
+				Text="{x:Bind ViewModel.FileName, Mode=TwoWay}"
+				TextChanged="FileNameBox_TextChanged" />
+			<Grid
+				Grid.Row="1"
+				Grid.Column="1"
+				Margin="0,4"
+				Padding="12,4"
+				VerticalAlignment="Stretch"
+				Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="1"
+				ColumnSpacing="8"
+				CornerRadius="4"
+				Visibility="{x:Bind ViewModel.IsNameValid, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<TextBlock
+					VerticalAlignment="Center"
+					AutomationProperties.AccessibilityView="Raw"
+					FontFamily="{ThemeResource SymbolThemeFontFamily}"
+					FontSize="{StaticResource InfoBarIconFontSize}"
+					Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
+					Text="{StaticResource InfoBarIconBackgroundGlyph}" />
+				<TextBlock
+					VerticalAlignment="Center"
+					AutomationProperties.AccessibilityView="Raw"
+					FontFamily="{ThemeResource SymbolThemeFontFamily}"
+					FontSize="{StaticResource InfoBarIconFontSize}"
+					Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+					Text="{StaticResource InfoBarErrorIconGlyph}" />
+				<TextBlock
+					Grid.Column="1"
+					Text="{helpers:ResourceString Name=InvalidFilename/Text}"
+					TextWrapping="Wrap" />
+			</Grid>
 		</Grid>
 
 		<!--  Archive Options  -->

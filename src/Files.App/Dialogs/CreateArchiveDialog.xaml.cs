@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Extensions;
+using Files.App.Filesystem;
 using Files.App.Filesystem.Archive;
 using Files.Backend.Models;
 using Microsoft.UI.Xaml;
@@ -97,8 +98,21 @@ namespace Files.App.Dialogs
 				PasswordBox.Focus(FocusState.Programmatic);
 		}
 
+		private void FileNameBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			var textBox = (TextBox)sender;
+			ViewModel.IsNameValid = FilesystemHelpers.IsValidForFilename(textBox.Text);
+		}
+
 		private class DialogViewModel : ObservableObject
 		{
+			private bool isNameValid = true;
+			public bool IsNameValid
+			{
+				get => isNameValid;
+				set => SetProperty(ref isNameValid, value);
+			}
+
 			private string fileName = string.Empty;
 			public string FileName
 			{
