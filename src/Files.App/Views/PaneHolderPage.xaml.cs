@@ -191,8 +191,6 @@ namespace Files.App.Views
 			}
 		}
 
-		public const VirtualKey PlusKey = (VirtualKey)187;
-
 		public PaneHolderPage()
 		{
 			InitializeComponent();
@@ -296,19 +294,6 @@ namespace Files.App.Views
 					}
 					IsRightPaneVisible = true;
 					ActivePane = PaneRight;
-					break;
-
-				case (true, true, false, VirtualKey.W): // ctrl + shift + "W" close right pane
-					IsRightPaneVisible = false;
-					break;
-
-				case (false, true, true, VirtualKey.Add): // alt + shift + "+" open pane
-				case (false, true, true, PlusKey):
-					if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
-					{
-						NavParamsRight = new NavigationParams { NavPath = "Home" };
-					}
-					IsRightPaneVisible = true;
 					break;
 			}
 		}
