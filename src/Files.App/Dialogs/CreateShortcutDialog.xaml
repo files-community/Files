@@ -5,6 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	Title="{helpers:ResourceString Name=NewShortcutDialogTitle}"
 	DefaultButton="Primary"
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsLocationValid, Mode=OneWay}"
@@ -14,6 +15,13 @@
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
+
+	<ContentDialog.Resources>
+		<wctconverters:BoolToVisibilityConverter
+			x:Key="NegatedBoolToVisibilityConverter"
+			FalseValue="Visible"
+			TrueValue="Collapsed" />
+	</ContentDialog.Resources>
 
 	<Border Width="400">
 		<Grid
@@ -25,6 +33,7 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
@@ -56,6 +65,41 @@
 				Grid.Column="1"
 				Command="{x:Bind ViewModel.SelectDestinationCommand}"
 				Content="{helpers:ResourceString Name=Browse}" />
+
+			<Grid
+				Grid.Row="3"
+				Margin="0,-4,0,0"
+				Padding="12,4"
+				VerticalAlignment="Stretch"
+				Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="1"
+				ColumnSpacing="8"
+				CornerRadius="4"
+				Visibility="{x:Bind ViewModel.IsLocationValid, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<TextBlock
+					VerticalAlignment="Center"
+					AutomationProperties.AccessibilityView="Raw"
+					FontFamily="{ThemeResource SymbolThemeFontFamily}"
+					FontSize="{StaticResource InfoBarIconFontSize}"
+					Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
+					Text="{StaticResource InfoBarIconBackgroundGlyph}" />
+				<TextBlock
+					VerticalAlignment="Center"
+					AutomationProperties.AccessibilityView="Raw"
+					FontFamily="{ThemeResource SymbolThemeFontFamily}"
+					FontSize="{StaticResource InfoBarIconFontSize}"
+					Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+					Text="{StaticResource InfoBarErrorIconGlyph}" />
+				<TextBlock
+					Grid.Column="1"
+					Text="{helpers:ResourceString Name=InvalidLocation}"
+					TextWrapping="Wrap" />
+			</Grid>
 		</Grid>
 	</Border>
 </ContentDialog>
