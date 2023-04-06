@@ -15,7 +15,7 @@
 		<!--  Message when recent files are disabled in File Explorer  -->
 		<muxc:InfoBar
 			x:Name="RecentFilesDisabledOnWindowsWarning"
-			x:Load="{x:Bind IsRecentFilesDisabledInWindows, Mode=OneWay}"
+			x:Load="{x:Bind IsDisabledInWindows, Mode=OneWay}"
 			IsClosable="False"
 			IsIconVisible="True"
 			IsOpen="True"
@@ -26,7 +26,7 @@
 		<TextBlock
 			x:Name="RecentItemDescription"
 			HorizontalAlignment="Stretch"
-			x:Load="{x:Bind IsEmptyRecentsTextVisible, Mode=OneWay}"
+			x:Load="{x:Bind IsEmptyTextVisible, Mode=OneWay}"
 			FontSize="14"
 			Text="{helpers:ResourceString Name=RecentItemDescription/Text}"
 			TextAlignment="Center"
@@ -41,7 +41,7 @@
 			IsRightTapEnabled="True"
 			ItemClick="RecentsView_ItemClick"
 			ItemContainerTransitions="{x:Null}"
-			ItemsSource="{x:Bind recentItemsCollection}"
+			ItemsSource="{x:Bind Items, Mode=OneWay}"
 			SelectionMode="None">
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">

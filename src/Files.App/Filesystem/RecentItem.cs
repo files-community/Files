@@ -1,16 +1,19 @@
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.App.Storage.NativeStorage;
 using Files.App.UserControls.Widgets;
+using Files.Sdk.Storage.LocatableStorage;
 using Files.Shared;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.Filesystem
 {
-	public class RecentItem : WidgetCardItem, IEquatable<RecentItem>
+	public class RecentItem : WidgetCardItem, IEquatable<RecentItem>, ILocatableStorable
 	{
 		private BitmapImage _fileImg;
 		public BitmapImage FileImg
@@ -18,6 +21,7 @@ namespace Files.App.Filesystem
 			get => _fileImg;
 			set => SetProperty(ref _fileImg, value);
 		}
+		public string Id => LinkPath;
 		public string LinkPath { get; set; }    // path of shortcut item (this is unique)
 		public string RecentPath { get; set; }  // path to target item
 		public string Name { get; set; }
@@ -120,6 +124,13 @@ namespace Files.App.Filesystem
 		{
 			string strippedExtension = System.IO.Path.GetFileNameWithoutExtension(nameOrPath);
 			return string.IsNullOrEmpty(strippedExtension) ? System.IO.Path.GetFileName(nameOrPath) : strippedExtension;
+		}
+
+		private const string QuickAccessGuid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
+
+		public async Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		{
+			return await Task.FromResult(new NativeFolder(QuickAccessGuid));
 		}
 	}
 }

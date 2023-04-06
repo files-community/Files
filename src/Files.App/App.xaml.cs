@@ -22,7 +22,6 @@ using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
 using Files.Sdk.Storage;
-using Files.Shared;
 using Files.Shared.Cloud;
 using Files.Shared.Extensions;
 using Files.Shared.Services;
@@ -32,6 +31,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -58,11 +58,11 @@ namespace Files.App
 	{
 		private static bool ShowErrorNotification = false;
 		private IHost host { get; set; }
+		public static ILogger Logger { get; private set; }
 		public static string OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
 		public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
 		public static AppModel AppModel { get; private set; }
-		public static RecentItems RecentItemsManager { get; private set; }
 		public static QuickAccessManager QuickAccessManager { get; private set; }
 		public static CloudDrivesManager CloudDrivesManager { get; private set; }
 		public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
@@ -70,9 +70,6 @@ namespace Files.App
 		public static WSLDistroManager WSLDistroManager { get; private set; }
 		public static LibraryManager LibraryManager { get; private set; }
 		public static FileTagsManager FileTagsManager { get; private set; }
-
-		public static ILogger Logger { get; private set; }
-		private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
 		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
 
 		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
@@ -86,9 +83,6 @@ namespace Files.App
 		/// </summary>
 		public App()
 		{
-			// Initialize logger
-			Logger = new Logger(logWriter);
-
 			UnhandledException += OnUnhandledException;
 			TaskScheduler.UnobservedTaskException += OnUnobservedException;
 			InitializeComponent();
@@ -98,7 +92,6 @@ namespace Files.App
 
 		private static void EnsureSettingsAndConfigurationAreBootstrapped()
 		{
-			RecentItemsManager ??= new RecentItems();
 			AppModel ??= new AppModel();
 			LibraryManager ??= new LibraryManager();
 			DrivesManager ??= new DrivesManager();
@@ -109,7 +102,7 @@ namespace Files.App
 			QuickAccessManager ??= new QuickAccessManager();
 		}
 
-		private static Task StartAppCenter()
+		private Task StartAppCenter()
 		{
 			try
 			{
@@ -119,13 +112,13 @@ namespace Files.App
 			}
 			catch (Exception ex)
 			{
-				Logger.Warn(ex, "AppCenter could not be started.");
+				Logger.LogWarning(ex, "AppCenter could not be started.");
 			}
 
 			return Task.CompletedTask;
 		}
 
-		private static async Task InitializeAppComponentsAsync()
+		private async Task InitializeAppComponentsAsync()
 		{
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
@@ -174,9 +167,6 @@ namespace Files.App
 		{
 			var activatedEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 
-			Task.Run(async () => await logWriter.InitializeAsync("debug.log"));
-			Logger.Info($"App launched. Launch args type: {activatedEventArgs.Data.GetType().Name}");
-
 			//start tracking app usage
 			if (activatedEventArgs.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs iaea)
 				SystemInformation.Instance.TrackAppUse(iaea);
@@ -185,7 +175,11 @@ namespace Files.App
 			EnsureWindowIsInitialized();
 
 			host = Host.CreateDefaultBuilder()
-				.ConfigureServices(services => 
+				.ConfigureLogging(x => x.AddEventLog(new Microsoft.Extensions.Logging.EventLog.EventLogSettings()
+				{
+					SourceName = Package.Current.DisplayName
+				}))
+				.ConfigureServices(services =>
 					services
 						.AddSingleton<IUserSettingsService, UserSettingsService>()
 						.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
@@ -200,9 +194,8 @@ namespace Files.App
 						.AddSingleton<IPageContext, PageContext>()
 						.AddSingleton<IContentPageContext, ContentPageContext>()
 						.AddSingleton<IDisplayPageContext, DisplayPageContext>()
-            .AddSingleton<IWindowContext, WindowContext>()
-            .AddSingleton<IMultitaskingContext, MultitaskingContext>()
-						.AddSingleton(Logger)
+						.AddSingleton<IWindowContext, WindowContext>()
+						.AddSingleton<IMultitaskingContext, MultitaskingContext>()
 						.AddSingleton<IDialogService, DialogService>()
 						.AddSingleton<IImageService, ImagingService>()
 						.AddSingleton<IThreadingService, ThreadingService>()
@@ -228,6 +221,7 @@ namespace Files.App
 						.AddSingleton<IQuickAccessService, QuickAccessService>()
 						.AddSingleton<IResourcesService, ResourcesService>()
 						.AddSingleton<IJumpListService, JumpListService>()
+						.AddSingleton<IRecentItemsService, RecentItemsService>()
 						.AddScoped<MainPageViewModel>()
 						.AddScoped<PreviewPaneViewModel>()
 						.AddScoped<SettingsViewModel>()
@@ -236,10 +230,12 @@ namespace Files.App
 				)
 				.Build();
 			Ioc.Default.ConfigureServices(host.Services);
-
+			Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+			Logger.LogInformation($"App launched. Launch args type: {activatedEventArgs.Data.GetType().Name}");
+			
 			EnsureSettingsAndConfigurationAreBootstrapped();
 
-			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
+			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
 			_ = Window.InitializeApplication(activatedEventArgs.Data);
 		}
@@ -264,7 +260,8 @@ namespace Files.App
 
 		public void OnActivated(AppActivationArguments activatedEventArgs)
 		{
-			Logger.Info($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
+			
+			Logger.LogInformation($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
 			var data = activatedEventArgs.Data;
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(data));
@@ -345,13 +342,13 @@ namespace Files.App
 		}
 
 		// Occurs when an exception is not handled on the UI thread.
-		private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception, true);
+		private void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception, true);
 
 		// Occurs when an exception is not handled on a background thread.
 		// ie. A task is fired and forgotten Task.Run(() => {...})
-		private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception, false);
+		private void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception, false);
 
-		private static void AppUnhandledException(Exception ex, bool shouldShowNotification)
+		private void AppUnhandledException(Exception ex, bool shouldShowNotification)
 		{
 			StringBuilder formattedException = new StringBuilder() { Capacity = 200 };
 
@@ -392,7 +389,7 @@ namespace Files.App
 			Debugger.Break(); // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 
 			SaveSessionTabs();
-			Logger.UnhandledError(ex, ex.Message);
+			Logger.LogError(ex, ex.Message);
 
 			if (!ShowErrorNotification || !shouldShowNotification)
 				return;

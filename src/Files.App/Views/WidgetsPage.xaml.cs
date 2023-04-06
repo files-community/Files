@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -31,9 +32,9 @@ namespace Files.App.Views
 		private FileTagsWidget fileTagsWidget;
 		private RecentFilesWidget recentFilesWidget;
 
-		public YourHomeViewModel ViewModel
+		public WidgetsPageViewModel ViewModel
 		{
-			get => (YourHomeViewModel)DataContext;
+			get => (WidgetsPageViewModel)DataContext;
 			set => DataContext = value;
 		}
 
@@ -41,7 +42,7 @@ namespace Files.App.Views
 		{
 			InitializeComponent();
 
-			ViewModel = new YourHomeViewModel(Widgets.ViewModel, AppInstance);
+			ViewModel = new WidgetsPageViewModel(Widgets.ViewModel, AppInstance);
 			ViewModel.YourHomeLoadedInvoked += ViewModel_YourHomeLoadedInvoked;
 			Widgets.ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
 		}
@@ -107,12 +108,26 @@ namespace Files.App.Views
 			}
 			if (shouldReloadRecentFiles && recentFilesWidget is not null)
 			{
+				recentFilesWidget.RefreshCommand = new RelayCommand(async () => 
+				{
+					await ViewModel.OnRecentItemsChangedAsync();
+					recentFilesWidget.Items = ViewModel.RecentItemsCollection;
+					recentFilesWidget.IsEmptyTextVisible = ViewModel.IsEmptyRecentsTextVisible;
+					recentFilesWidget.IsDisabledInWindows = ViewModel.IsRecentFilesDisabledInWindows;
+				});
+
+				recentFilesWidget.RemoveRecentItemCommand = new RelayCommand<RecentItem>(ViewModel.RemoveRecentItem);
+				recentFilesWidget.ClearAllItemsCommand = new RelayCommand(ViewModel.ClearRecentItems);
+
 				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded), 4);
 
 				recentFilesWidget.RecentFilesOpenLocationInvoked -= WidgetOpenLocationInvoked;
 				recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
 				recentFilesWidget.RecentFilesOpenLocationInvoked += WidgetOpenLocationInvoked;
 				recentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
+
+				recentFilesWidget.IsEmptyTextVisible = ViewModel.IsEmptyRecentsTextVisible;
+				recentFilesWidget.IsDisabledInWindows = ViewModel.IsRecentFilesDisabledInWindows;
 			}
 		}
 
