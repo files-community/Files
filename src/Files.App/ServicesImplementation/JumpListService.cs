@@ -109,7 +109,7 @@ namespace Files.App.ServicesImplementation
 		{
 			if (instance is not null)
 			{
-				string displayName = null;
+				string? displayName = null;
 				
 				if (path.StartsWith("\\\\SHELL", StringComparison.OrdinalIgnoreCase))
 					displayName = "ThisPC".GetLocalizedResource();
