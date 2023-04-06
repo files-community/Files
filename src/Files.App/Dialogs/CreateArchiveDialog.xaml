@@ -56,8 +56,7 @@
 				Grid.Column="1"
 				Width="260"
 				PlaceholderText="{helpers:ResourceString Name=EnterName}"
-				Text="{x:Bind ViewModel.FileName, Mode=TwoWay}"
-				TextChanged="FileNameBox_TextChanged" />
+				Text="{x:Bind ViewModel.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 			<Grid
 				Grid.Row="1"
 				Grid.Column="1"

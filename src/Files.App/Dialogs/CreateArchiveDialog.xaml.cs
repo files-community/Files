@@ -98,26 +98,15 @@ namespace Files.App.Dialogs
 				PasswordBox.Focus(FocusState.Programmatic);
 		}
 
-		private void FileNameBox_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			var textBox = (TextBox)sender;
-			ViewModel.IsNameValid = FilesystemHelpers.IsValidForFilename(textBox.Text);
-		}
-
 		private class DialogViewModel : ObservableObject
 		{
-			private bool isNameValid = true;
-			public bool IsNameValid
-			{
-				get => isNameValid;
-				set => SetProperty(ref isNameValid, value);
-			}
+			public bool IsNameValid => FilesystemHelpers.IsValidForFilename(fileName);
 
 			private string fileName = string.Empty;
 			public string FileName
 			{
 				get => fileName;
-				set => SetProperty(ref fileName, value);
+				set => SetProperty(ref fileName, value, nameof(IsNameValid));
 			}
 
 			private FileFormatItem fileFormat;
