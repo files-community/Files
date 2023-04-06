@@ -2,6 +2,7 @@ using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
+using Files.App.UserControls;
 using Files.App.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
@@ -63,18 +64,18 @@ namespace Files.App.Helpers
 				PlaceholderText = "EnterAnItemName".GetLocalizedResource()
 			};
 
-			TextBlock tipText = new()
+			var invalidText = "InvalidFilename/Text".GetLocalizedResource();
+			InvalidWarning warning = new()
 			{
-				Text = "InvalidFilename/Text".GetLocalizedResource(),
-				Margin = new Microsoft.UI.Xaml.Thickness(0, 0, 4, 0),
-				TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
-				Opacity = 0.0d
+				TooltipText = invalidText,
+				WarningMessage = invalidText,
+				ShowWarning = false
 			};
 
 			inputText.TextChanged += (textBox, args) =>
 			{
 				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
-				tipText.Opacity = isInputValid ? 0.0d : 1.0d;
+				warning.ShowWarning = isInputValid;
 				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
 														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 														: DynamicDialogButtons.Cancel;
@@ -103,7 +104,7 @@ namespace Files.App.Helpers
 							Children =
 							{
 								inputText,
-								tipText
+								warning
 							}
 						}
 					}
