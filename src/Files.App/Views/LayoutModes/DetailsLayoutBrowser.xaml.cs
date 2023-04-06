@@ -719,20 +719,23 @@ namespace Files.App.Views.LayoutModes
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			args.ItemContainer.FindDescendant("IconBox")!.PointerEntered -= IconBox_PointerEntered;
-			args.ItemContainer.FindDescendant("IconBox")!.PointerExited -= IconBox_PointerExited;
-			args.ItemContainer.FindDescendant("IconBox")!.PointerCanceled -= IconBox_PointerCanceled;
-			args.ItemContainer.FindDescendant("SelectionCheckbox")!.PointerExited -= SelectionCheckbox_PointerExited;
-			args.ItemContainer.FindDescendant("SelectionCheckbox")!.PointerCanceled -= SelectionCheckbox_PointerCanceled;
+			var iconBox = args.ItemContainer.FindDescendant("IconBox")!;
+			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
+
+			iconBox.PointerEntered -= IconBox_PointerEntered;
+			iconBox.PointerExited -= IconBox_PointerExited;
+			iconBox.PointerCanceled -= IconBox_PointerCanceled;
+			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
+			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
 
 			base.FileList_ContainerContentChanging(sender, args);
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
 
-			args.ItemContainer.FindDescendant("IconBox")!.PointerEntered += IconBox_PointerEntered;
-			args.ItemContainer.FindDescendant("IconBox")!.PointerExited += IconBox_PointerExited;
-			args.ItemContainer.FindDescendant("IconBox")!.PointerCanceled += IconBox_PointerCanceled;
-			args.ItemContainer.FindDescendant("SelectionCheckbox")!.PointerExited += SelectionCheckbox_PointerExited;
-			args.ItemContainer.FindDescendant("SelectionCheckbox")!.PointerCanceled += SelectionCheckbox_PointerCanceled;
+			iconBox.PointerEntered += IconBox_PointerEntered;
+			iconBox.PointerExited += IconBox_PointerExited;
+			iconBox.PointerCanceled += IconBox_PointerCanceled;
+			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
+			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
 		}
 
 		private void SetCheckboxSelectionState(object item, ListViewItem? lviContainer = null)
