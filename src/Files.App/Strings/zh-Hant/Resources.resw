@@ -259,7 +259,7 @@
     <value>在新索引標籤中開啟</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>在新視窗中開啟</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>分享</value>
@@ -988,7 +988,7 @@
     <value>將索引標籤移到新視窗</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
+    <value>新索引標籤</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>部分屬性可能會包含個資。</value>
