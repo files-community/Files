@@ -200,22 +200,6 @@ namespace Files.App.Views
 					if (!InstanceViewModel.IsPageTypeSearchResults)
 						await storageHistoryHelpers.TryRedo();
 					break;
-				// Ctrl + Shift + N, New item
-				case (true, true, false, true, VirtualKey.N):
-					if (InstanceViewModel.CanCreateFileInPage)
-					{
-						var addItemDialogViewModel = new AddItemDialogViewModel();
-						await dialogService.ShowDialogAsync(addItemDialogViewModel);
-
-						if (addItemDialogViewModel.ResultType.ItemType == AddItemDialogItemType.Shortcut)
-							CreateNewShortcutFromDialog();
-						else if (addItemDialogViewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
-							UIFilesystemHelpers.CreateFileFromDialogResultType(
-								addItemDialogViewModel.ResultType.ItemType,
-								addItemDialogViewModel.ResultType.ItemInfo,
-								this);
-					}
-					break;
 				// Shift + Del, Permanent delete
 				case (false, true, false, true, VirtualKey.Delete):
 					if (ContentPage.IsItemSelected && !ToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)

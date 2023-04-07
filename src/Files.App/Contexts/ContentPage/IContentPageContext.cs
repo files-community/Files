@@ -26,5 +26,7 @@ namespace Files.App.Contexts
 		bool CanNavigateToParent { get; }
 
 		bool IsSearchBoxVisible { get; }
+
+		bool CanCreateItem { get; }
 	}
 }

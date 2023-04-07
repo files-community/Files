@@ -50,16 +50,10 @@
 					x:Name="NewEmptySpaceAppBarButton"
 					AccessKey="W"
 					AutomationProperties.AutomationId="InnerNavigationToolbarNewButton"
-					IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay, FallbackValue=False}"
-					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=BaseLayoutContextFlyoutNew/KeyboardAcceleratorTextOverride}"
-					Label="{helpers:ResourceString Name=BaseLayoutContextFlyoutNew/Label}"
+					IsEnabled="{x:Bind Commands.AddItem.IsExecutable, Mode=OneWay, FallbackValue=False}"
+					KeyboardAcceleratorTextOverride="{x:Bind Commands.AddItem.LabelWithHotKey}"
+					Label="{x:Bind Commands.AddItem.Label}"
 					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}">
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="N"
-							IsEnabled="False"
-							Modifiers="Control,Shift" />
-					</AppBarButton.KeyboardAccelerators>
 					<AppBarButton.Flyout>
 						<MenuFlyout x:Name="NewEmptySpace" Opening="NewEmptySpace_Opening">
 							<MenuFlyoutItem
@@ -98,7 +92,7 @@
 						</MenuFlyout>
 					</AppBarButton.Flyout>
 
-					<local:OpacityIcon Style="{StaticResource ColorIconNew}" />
+					<local:OpacityIcon Style="{x:Bind Commands.AddItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarSeparator />
 				<AppBarButton

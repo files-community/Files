@@ -1881,9 +1881,6 @@
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Extracting complete!</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+N</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Open parent folder</value>
   </data>

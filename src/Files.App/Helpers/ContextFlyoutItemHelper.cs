@@ -201,24 +201,11 @@ namespace Files.App.Helpers
 					ShowInZipPage = true,
 					ShowItem = !itemsSelected
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.AddItem)
 				{
-					Text = "BaseLayoutContextFlyoutNew/Label".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconNew",
-					},
-					KeyboardAccelerator = new KeyboardAccelerator
-					{
-						Key = VirtualKey.N,
-						Modifiers = VirtualKeyModifiers.Control,
-						IsEnabled = false,
-					},
 					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-					ShowItem = !itemsSelected
-				},
+					IsVisible = !itemsSelected
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.FormatDrive).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.EmptyRecycleBin)
 				{

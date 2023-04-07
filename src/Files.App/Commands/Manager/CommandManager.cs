@@ -46,6 +46,7 @@ namespace Files.App.Commands
 		public IRichCommand CreateShortcut => commands[CommandCodes.CreateShortcut];
 		public IRichCommand CreateShortcutFromDialog => commands[CommandCodes.CreateShortcutFromDialog];
 		public IRichCommand CreateFolder => commands[CommandCodes.CreateFolder];
+		public IRichCommand AddItem => commands[CommandCodes.AddItem];
 		public IRichCommand PinToStart => commands[CommandCodes.PinToStart];
 		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
 		public IRichCommand PinItemToFavorites => commands[CommandCodes.PinItemToFavorites];
@@ -184,6 +185,7 @@ namespace Files.App.Commands
 			[CommandCodes.CreateShortcut] = new CreateShortcutAction(),
 			[CommandCodes.CreateShortcutFromDialog] = new CreateShortcutFromDialogAction(),
 			[CommandCodes.CreateFolder] = new CreateFolderAction(),
+			[CommandCodes.AddItem] = new AddItemAction(),
 			[CommandCodes.PinToStart] = new PinToStartAction(),
 			[CommandCodes.UnpinFromStart] = new UnpinFromStartAction(),
 			[CommandCodes.PinItemToFavorites] = new PinItemAction(),
