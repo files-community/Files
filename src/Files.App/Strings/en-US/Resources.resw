@@ -2875,4 +2875,7 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Edit éath</value>
+  </data>
 </root>

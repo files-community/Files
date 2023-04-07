@@ -29,6 +29,7 @@ namespace Files.App.Commands
 		public IRichCommand ExitCompactOverlay => commands[CommandCodes.ExitCompactOverlay];
 		public IRichCommand ToggleCompactOverlay => commands[CommandCodes.ToggleCompactOverlay];
 		public IRichCommand Search => commands[CommandCodes.Search];
+		public IRichCommand EditPath => commands[CommandCodes.EditPath];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand TogglePreviewPane => commands[CommandCodes.TogglePreviewPane];
@@ -168,6 +169,7 @@ namespace Files.App.Commands
 			[CommandCodes.ExitCompactOverlay] = new ExitCompactOverlayAction(),
 			[CommandCodes.ToggleCompactOverlay] = new ToggleCompactOverlayAction(),
 			[CommandCodes.Search] = new SearchAction(),
+			[CommandCodes.EditPath] = new EditPathAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
 			[CommandCodes.TogglePreviewPane] = new TogglePreviewPaneAction(),

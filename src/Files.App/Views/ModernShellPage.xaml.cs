@@ -227,13 +227,6 @@ namespace Files.App.Views
 						await FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
 					}
 					break;
-				// Alt + D, Select address bar (English)
-				case (false, false, true, _, VirtualKey.D):
-				// Ctrl + L, Select address bar
-				case (true, false, false, _, VirtualKey.L):
-					if (tabInstance || CurrentPageType == typeof(HomePage))
-						ToolbarViewModel.IsEditModeEnabled = true;
-					break;
 			}
 		}
 

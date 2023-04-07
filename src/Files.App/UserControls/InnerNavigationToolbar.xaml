@@ -51,7 +51,7 @@
 					AccessKey="W"
 					AutomationProperties.AutomationId="InnerNavigationToolbarNewButton"
 					IsEnabled="{x:Bind Commands.AddItem.IsExecutable, Mode=OneWay, FallbackValue=False}"
-					KeyboardAcceleratorTextOverride="{x:Bind Commands.AddItem.LabelWithHotKey}"
+					KeyboardAcceleratorTextOverride="{x:Bind Commands.AddItem.HotKeyText}"
 					Label="{x:Bind Commands.AddItem.Label}"
 					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}">
 					<AppBarButton.Flyout>
@@ -61,6 +61,7 @@
 								AccessKey="D"
 								AutomationProperties.AutomationId="InnerNavigationToolbarNewFolderButton"
 								Command="{x:Bind Commands.CreateFolder, Mode=OneWay}"
+								KeyboardAcceleratorTextOverride="{x:Bind Commands.CreateFolder.HotKeyText}"
 								Text="{x:Bind Commands.CreateFolder.Label}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE8B7;" />
@@ -83,6 +84,7 @@
 								AccessKey="S"
 								AutomationProperties.AutomationId="InnerNavigationToolbarNewShortcutButton"
 								Command="{x:Bind Commands.CreateShortcutFromDialog, Mode=OneWay}"
+								KeyboardAcceleratorTextOverride="{x:Bind Commands.CreateShortcutFromDialog.HotKeyText}"
 								Text="{x:Bind Commands.CreateShortcutFromDialog.Label}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE71B;" />

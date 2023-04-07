@@ -171,12 +171,6 @@ namespace Files.App.Views
 						await FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
 					}
 					break;
-				// Alt + D, Select address bar (English)
-				case (false, false, true, true, VirtualKey.D):
-				// Ctrl + L, Select address bar
-				case (true, false, false, true, VirtualKey.L):
-					ToolbarViewModel.IsEditModeEnabled = true;
-					break;
 			}
 		}
 
