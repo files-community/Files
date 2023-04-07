@@ -135,12 +135,6 @@ namespace Files.App
 					}
 					break;
 
-				case IToastNotificationActivatedEventArgs eventArgsForNotification:
-					break;
-
-				case IStartupTaskActivatedEventArgs:
-					break;
-
 				case IFileActivatedEventArgs fileArgs:
 					var index = 0;
 					if (rootFrame.Content is null)
