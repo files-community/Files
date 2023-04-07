@@ -136,10 +136,6 @@ namespace Files.App
 					break;
 
 				case IToastNotificationActivatedEventArgs eventArgsForNotification:
-					if (eventArgsForNotification.Argument == "report")
-					{
-						await Windows.System.Launcher.LaunchUriAsync(new Uri(Constants.GitHub.BugReportUrl));
-					}
 					break;
 
 				case IStartupTaskActivatedEventArgs:
