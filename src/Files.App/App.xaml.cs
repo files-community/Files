@@ -461,6 +461,12 @@ namespace Files.App
 
 			// And send the notification
 			ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+
+			// Kill the app
+			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
+			SaveSessionTabs();
+			Process.GetCurrentProcess().Kill();
 		}
 
 		public static void CloseApp()
