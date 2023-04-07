@@ -35,16 +35,16 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
 			if (context.ShellPage is null || !IsExecutable)
-				return;
+				return Task.CompletedTask;
 
 			var items = context.SelectedItems.Select(item => StorageHelpers.FromPathAndType(item.ItemPath,
 					item.PrimaryItemAttribute is StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
 
-			await context.ShellPage.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, false, true);
-			await context.ShellPage.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
+			return context.ShellPage.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, false, true)
+				.ContinueWith(async _ => await context.ShellPage.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync());
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

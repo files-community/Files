@@ -18,10 +18,12 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
-				await UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage);
+				return UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage);
+
+			return Task.CompletedTask;
 		}
 	}
 }

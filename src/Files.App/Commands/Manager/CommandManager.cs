@@ -367,10 +367,12 @@ namespace Files.App.Commands
 			public bool CanExecute(object? parameter) => action.IsExecutable;
 			public async void Execute(object? parameter) => await ExecuteAsync();
 
-			public async Task ExecuteAsync()
+			public Task ExecuteAsync()
 			{
 				if (IsExecutable)
-					await action.ExecuteAsync();
+					return action.ExecuteAsync();
+
+				return Task.CompletedTask;
 			}
 
 			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();

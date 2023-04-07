@@ -40,47 +40,47 @@ namespace Files.App.ViewModels.Settings
 		{
 			CopyAppVersionCommand = new RelayCommand(CopyAppVersion);
 			CopyWindowsVersionCommand = new RelayCommand(CopyWindowsVersion);
-			SupportUsCommand = new RelayCommand(SupportUs);
+			SupportUsCommand = new AsyncRelayCommand(SupportUs);
 
-			OpenDocumentationCommand = new RelayCommand(DoOpenDocumentation);
-			SubmitFeatureRequestCommand = new RelayCommand(DoSubmitFeatureRequest);
-			SubmitBugReportCommand = new RelayCommand(DoSubmitBugReport);
+			OpenDocumentationCommand = new AsyncRelayCommand(DoOpenDocumentation);
+			SubmitFeatureRequestCommand = new AsyncRelayCommand(DoSubmitFeatureRequest);
+			SubmitBugReportCommand = new AsyncRelayCommand(DoSubmitBugReport);
 
-			OpenGitHubRepoCommand = new RelayCommand(DoOpenGitHubRepo);
+			OpenGitHubRepoCommand = new AsyncRelayCommand(DoOpenGitHubRepo);
 
-			OpenPrivacyPolicyCommand = new RelayCommand(DoOpenPrivacyPolicy);
+			OpenPrivacyPolicyCommand = new AsyncRelayCommand(DoOpenPrivacyPolicy);
 
 			OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
 		}
 
-		private async Task OpenLogLocation()
+		private Task OpenLogLocation()
 		{
-			await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
+			return Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
 		}
 
-		public async void DoOpenDocumentation()
+		public Task DoOpenDocumentation()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl));
+			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl)).AsTask();
 		}
 
-		public async void DoSubmitFeatureRequest()
+		public Task DoSubmitFeatureRequest()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeatureRequestUrl));
+			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeatureRequestUrl)).AsTask();
 		}
 
-		public async void DoSubmitBugReport()
+		public Task DoSubmitBugReport()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.BugReportUrl));
+			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.BugReportUrl)).AsTask();
 		}
 
-		public async void DoOpenGitHubRepo()
+		public Task DoOpenGitHubRepo()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.GitHubRepoUrl));
+			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.GitHubRepoUrl)).AsTask();
 		}
 
-		public async void DoOpenPrivacyPolicy()
+		public Task DoOpenPrivacyPolicy()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.PrivacyPolicyUrl));
+			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.PrivacyPolicyUrl)).AsTask();
 		}
 
 		public void CopyAppVersion()
@@ -105,10 +105,10 @@ namespace Files.App.ViewModels.Settings
 			});
 		}
 
-		public async void SupportUs()
-		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
-		}
+		public Task SupportUs()
+        {
+            return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl)).AsTask();
+        }
 
 		public async void LoadThirdPartyNotices()
 		{

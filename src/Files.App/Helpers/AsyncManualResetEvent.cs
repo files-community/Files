@@ -19,10 +19,9 @@ namespace Files.App.Helpers
 			await await Task.WhenAny(tcs.Task, cancelTcs.Task);
 		}
 
-		private async Task<bool> Delay(int milliseconds)
+		private Task<bool> Delay(int milliseconds)
 		{
-			await Task.Delay(milliseconds);
-			return false;
+			return Task.Delay(milliseconds).ContinueWith(_ => false);
 		}
 
 		public async Task<bool> WaitAsync(int milliseconds, CancellationToken cancellationToken = default)

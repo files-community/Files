@@ -12,11 +12,11 @@ namespace Files.App.Helpers
 {
 	internal static class BitmapHelper
 	{
-		public static async Task<BitmapImage> ToBitmapAsync(this byte[]? data, int decodeSize = -1)
+		public static Task<BitmapImage> ToBitmapAsync(this byte[]? data, int decodeSize = -1)
 		{
 			if (data is null)
 			{
-				return null;
+				return Task.FromResult<BitmapImage>(null);
 			}
 
 			using var ms = new MemoryStream(data);
@@ -26,8 +26,8 @@ namespace Files.App.Helpers
 				image.DecodePixelWidth = decodeSize;
 				image.DecodePixelHeight = decodeSize;
 			}
-			await image.SetSourceAsync(ms.AsRandomAccessStream());
-			return image;
+			
+			return image.SetSourceAsync(ms.AsRandomAccessStream()).AsTask().ContinueWith(_ => image);
 		}
 
 		/// <summary>

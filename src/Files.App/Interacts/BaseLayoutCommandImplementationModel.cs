@@ -291,14 +291,14 @@ namespace Files.App.Interacts
 			associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
 		}
 
-		public async Task CreateFolderWithSelection(RoutedEventArgs e)
+		public Task CreateFolderWithSelection(RoutedEventArgs e)
 		{
-			await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
+			return UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
 		}
 
-		public async Task PlayAll()
+		public Task PlayAll()
 		{
-			await NavigationHelpers.OpenSelectedItems(associatedInstance);
+			return NavigationHelpers.OpenSelectedItems(associatedInstance);
 		}
 
 		#endregion Command Implementation

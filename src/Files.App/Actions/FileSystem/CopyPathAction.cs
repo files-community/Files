@@ -21,7 +21,7 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(Keys.C, KeyModifiers.CtrlShift);
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
 			if (context.ShellPage?.SlimContentPage is not null)
 			{
@@ -38,6 +38,8 @@ namespace Files.App.Actions
 				Clipboard.SetContent(data);
 				Clipboard.Flush();
 			}
+
+			return Task.CompletedTask;
 		}
 	}
 }

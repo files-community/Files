@@ -97,7 +97,7 @@ namespace Files.App.ViewModels.Properties
 		public IAsyncRelayCommand RestoreDefaultIconCommand { get; private set; }
 		public IAsyncRelayCommand<XamlRoot> PickDllFileCommand { get; private set; }
 
-		private async Task ExecuteRestoreDefaultIconAsync()
+		private Task ExecuteRestoreDefaultIconAsync()
 		{
 			RestoreButtonIsEnabled = false;
 
@@ -107,15 +107,16 @@ namespace Files.App.ViewModels.Properties
 
 			if (setIconResult)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(() =>
+				return App.Window.DispatcherQueue.EnqueueAsync(() =>
 				{
 					AppInstance?.FilesystemViewModel?.RefreshItems(null, async () =>
 					{
 						await App.Window.DispatcherQueue.EnqueueAsync(() => RestoreButtonIsEnabled = true);
-						
 					});
 				});
 			}
+
+			return Task.CompletedTask;
 		}
 
 		private async Task ExecuteOpenFilePickerAsync(XamlRoot? xamlRoot)
@@ -147,7 +148,7 @@ namespace Files.App.ViewModels.Properties
 			LoadIconsForPath(file.Path);
 		}
 
-		private async Task ChangeIcon(IconFileInfo selectedIconInfo)
+		private Task ChangeIcon(IconFileInfo selectedIconInfo)
 		{
 			var setIconResult = IsShortcut
 				? Win32API.SetCustomFileIcon(SelectedItemPath, IconResourceItemPath, selectedIconInfo.Index)
@@ -155,11 +156,10 @@ namespace Files.App.ViewModels.Properties
 
 			if (setIconResult)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(() =>
-				{
-					AppInstance?.FilesystemViewModel?.RefreshItems(null);
-				});
+				return App.Window.DispatcherQueue.EnqueueAsync(() => AppInstance?.FilesystemViewModel?.RefreshItems(null));
 			}
+
+			return Task.CompletedTask;
 		}
 
 		private void LoadIconsForPath(string path)

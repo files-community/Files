@@ -28,10 +28,12 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
-				await UIFilesystemHelpers.CopyItem(context.ShellPage);
+				return UIFilesystemHelpers.CopyItem(context.ShellPage);
+
+			return Task.CompletedTask;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

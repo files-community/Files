@@ -11,12 +11,12 @@ namespace Files.App.ServicesImplementation
 	{
 		private List<ShellNewEntry> _cached;
 
-		public async Task<List<ShellNewEntry>> GetNewEntriesAsync()
+		public Task<List<ShellNewEntry>> GetNewEntriesAsync()
 		{
 			if (_cached is null || _cached.Count == 0)
-				_cached = await ShellNewEntryExtensions.GetNewContextMenuEntries();
+				return ShellNewEntryExtensions.GetNewContextMenuEntries().ContinueWith(t => _cached = t.Result);
 
-			return _cached;
+			return Task.FromResult(_cached);
 		}
 	}
 }

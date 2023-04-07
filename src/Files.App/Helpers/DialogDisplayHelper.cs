@@ -28,9 +28,9 @@ namespace Files.App.Helpers
 		/// The (optional) secondary button text.
 		/// If not set, it won't be presented to the user at all.
 		/// </param>
-		public static async Task<bool> ShowDialogAsync(string title, string message, string primaryText = "OK", string secondaryText = null)
+		public static Task<bool> ShowDialogAsync(string title, string message, string primaryText = "OK", string secondaryText = null)
 		{
-			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+			var dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
 				TitleText = title,
 				SubtitleText = message, // We can use subtitle here as our actual message and skip DisplayControl
@@ -39,24 +39,23 @@ namespace Files.App.Helpers
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
 			});
 
-			return await ShowDialogAsync(dialog) == DynamicDialogResult.Primary;
+			return ShowDialogAsync(dialog).ContinueWith(t => t.Result == DynamicDialogResult.Primary);
 		}
 
-		public static async Task<DynamicDialogResult> ShowDialogAsync(DynamicDialog dialog)
+		public static Task<DynamicDialogResult> ShowDialogAsync(DynamicDialog dialog)
 		{
 			try
 			{
 				if (App.Window.Content is Frame rootFrame)
 				{
-					await dialog.ShowAsync();
-					return dialog.DynamicResult;
+					return dialog.ShowAsync().ContinueWith(_ => dialog.DynamicResult);
 				}
 			}
 			catch (Exception)
 			{
 			}
 
-			return DynamicDialogResult.Cancel;
+			return Task.FromResult(DynamicDialogResult.Cancel);
 		}
 	}
 }

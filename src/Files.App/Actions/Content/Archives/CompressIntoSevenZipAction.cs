@@ -25,7 +25,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
 			var (sources, directory, fileName) = ArchiveHelpers.GetCompressDestination(context.ShellPage);
 
@@ -37,7 +37,7 @@ namespace Files.App.Actions
 				FileFormat = ArchiveFormats.SevenZip,
 			};
 
-			await ArchiveHelpers.CompressArchiveAsync(creator);
+			return ArchiveHelpers.CompressArchiveAsync(creator);
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()

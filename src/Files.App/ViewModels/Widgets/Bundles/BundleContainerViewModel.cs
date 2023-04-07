@@ -183,7 +183,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			}
 		}
 
-		private async Task RenameBundle()
+		private Task RenameBundle()
 		{
 			TextBox inputText = new TextBox()
 			{
@@ -252,7 +252,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
 
-			await dialog.ShowAsync();
+			return dialog.ShowAsync();
 
 			bool CanAddBundleSetErrorMessage()
 			{
@@ -494,7 +494,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		#region Public Helpers
 
-		public async Task<bool> AddBundleItem(BundleItemViewModel bundleItem)
+		public Task<bool> AddBundleItem(BundleItemViewModel bundleItem)
 		{
 			// Make sure we don't exceed maximum amount && make sure we don't make duplicates
 			if (bundleItem is not null && Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle && !Contents.Any((item) => item.Path == bundleItem.Path))
@@ -504,34 +504,28 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				itemAddedInternally = false;
 				NoBundleContentsTextLoad = false;
 				IsAddItemOptionEnabled = Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle;
-				await bundleItem.UpdateIcon();
-				return true;
+				return bundleItem.UpdateIcon().ContinueWith(_ => true);
 			}
 
-			return false;
+			return Task.FromResult(false);
 		}
 
-		public async Task<bool> AddBundleItems(IEnumerable<BundleItemViewModel> bundleItems)
+		public Task<bool> AddBundleItems(IEnumerable<BundleItemViewModel> bundleItems)
 		{
-			List<Task<bool>> taskDelegates = new List<Task<bool>>();
+			var taskDelegates = new List<Task<bool>>();
 
 			foreach (var item in bundleItems)
 			{
 				taskDelegates.Add(AddBundleItem(item));
 			}
 
-			IEnumerable<bool> result = await Task.WhenAll(taskDelegates);
-
-			return result.Any((item) => item);
+			return Task.WhenAll(taskDelegates).ContinueWith(t => t.Result.Any(item => item));
 		}
 
-		public async Task<BundleContainerViewModel> SetBundleItems(IEnumerable<BundleItemViewModel> items)
+		public Task<BundleContainerViewModel> SetBundleItems(IEnumerable<BundleItemViewModel> items)
 		{
 			Contents.Clear();
-
-			await AddBundleItems(items);
-
-			return this;
+			return AddBundleItems(items).ContinueWith(_ => this);
 		}
 
 		public (bool result, string reason) CanRenameBundle(string name)

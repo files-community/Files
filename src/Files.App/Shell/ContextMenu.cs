@@ -47,14 +47,15 @@ namespace Files.App.Shell
 			return cMenu is not null && await cMenu.InvokeVerb(verb);
 		}
 
-		public async Task<bool> InvokeVerb(string? verb)
+		public Task<bool> InvokeVerb(string? verb)
 		{
 			if (string.IsNullOrEmpty(verb))
-				return false;
+				return Task.FromResult(false);
 
 			try
 			{
 				var currentWindows = Win32API.GetDesktopWindows();
+
 				var pici = new Shell32.CMINVOKECOMMANDINFOEX
 				{
 					lpVerb = new SafeResourceId(verb, CharSet.Ansi),
@@ -63,23 +64,24 @@ namespace Files.App.Shell
 
 				pici.cbSize = (uint)Marshal.SizeOf(pici);
 
-				await owningThread.PostMethod(() => cMenu.InvokeCommand(pici));
-				Win32API.BringToForeground(currentWindows);
-
-				return true;
+				return owningThread.PostMethod(() => cMenu.InvokeCommand(pici)).ContinueWith(_ =>
+				{
+					Win32API.BringToForeground(currentWindows);
+					return true;
+				});
 			}
 			catch (Exception ex) when (ex is COMException or UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
 			}
 
-			return false;
+			return Task.FromResult(false);
 		}
 
-		public async Task InvokeItem(int itemID)
+		public Task InvokeItem(int itemID)
 		{
 			if (itemID < 0)
-				return;
+				return Task.CompletedTask;
 
 			try
 			{
@@ -92,14 +94,14 @@ namespace Files.App.Shell
 
 				pici.cbSize = (uint)Marshal.SizeOf(pici);
 
-				await owningThread.PostMethod(() => cMenu.InvokeCommand(pici));
-
-				Win32API.BringToForeground(currentWindows);
+				return owningThread.PostMethod(() => cMenu.InvokeCommand(pici)).ContinueWith(_ => Win32API.BringToForeground(currentWindows));
 			}
 			catch (Exception ex) when (ex is COMException or UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
 			}
+
+			return Task.CompletedTask;
 		}
 
 		#region FactoryMethods
@@ -163,17 +165,16 @@ namespace Files.App.Shell
 			}
 		}
 
-		public static async Task WarmUpQueryContextMenuAsync()
+		public static Task WarmUpQueryContextMenuAsync()
 		{
-			var thread = new ThreadWithMessageQueue();
-			await thread.PostMethod(() =>
+			using var thread = new ThreadWithMessageQueue();
+			return thread.PostMethod(() =>
 			{
 				// Create a dummy context menu for warming up
 				var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl("C:\\");
 				Shell32.IContextMenu menu = shellItem.Parent.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItem);
 				menu.QueryContextMenu(User32.CreatePopupMenu(), 0, 1, 0x7FFF, Shell32.CMF.CMF_NORMAL);
 			});
-			thread.Dispose();
 		}
 
 		#endregion FactoryMethods
@@ -289,9 +290,9 @@ namespace Files.App.Shell
 			}
 		}
 
-		public async Task<bool> LoadSubMenu(List<Win32ContextMenuItem> subItems)
+		public Task<bool> LoadSubMenu(List<Win32ContextMenuItem> subItems)
 		{
-			return await owningThread.PostMethod<bool>(() =>
+			return owningThread.PostMethod<bool>(() =>
 			{
 				var result = loadSubMenuActions.Remove(subItems, out var loadSubMenuAction);
 

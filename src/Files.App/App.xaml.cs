@@ -118,14 +118,14 @@ namespace Files.App
 			return Task.CompletedTask;
 		}
 
-		private static async Task InitializeAppComponentsAsync()
+		private static Task InitializeAppComponentsAsync()
 		{
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 			var preferencesSettingsService = userSettingsService.PreferencesSettingsService;
 
 			// Start off a list of tasks we need to run before we can continue startup
-			await Task.Run(async () =>
+			return Task.Run(async () =>
 			{
 				await Task.WhenAll(
 					StartAppCenter(),
@@ -145,14 +145,15 @@ namespace Files.App
 				);
 
 				FileTagsHelper.UpdateTagsDb();
+			}).ContinueWith(async _ =>
+			{
+				// Check for required updates
+				var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
+				await updateService.CheckForUpdates();
+				await updateService.DownloadMandatoryUpdates();
+				await updateService.CheckAndUpdateFilesLauncherAsync();
+				await updateService.CheckLatestReleaseNotesAsync();
 			});
-
-			// Check for required updates
-			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
-			await updateService.CheckForUpdates();
-			await updateService.DownloadMandatoryUpdates();
-			await updateService.CheckAndUpdateFilesLauncherAsync();
-			await updateService.CheckLatestReleaseNotesAsync();
 
 			static async Task OptionalTask(Task task, bool condition)
 			{
