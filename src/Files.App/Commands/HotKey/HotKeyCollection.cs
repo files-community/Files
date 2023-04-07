@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Files.App.Commands
 {
+	[DebuggerDisplay("{Code}")]
 	public struct HotKeyCollection : IEnumerable<HotKey>, IEquatable<HotKeyCollection>
 	{
 		private static readonly char[] parseSeparators = new char[] { ',', ';', ' ', '\t' };
@@ -29,6 +31,7 @@ namespace Files.App.Commands
 		public static HotKeyCollection Parse(string code)
 		{
 			var hotKeys = code
+				.Replace("!", " !")
 				.Split(parseSeparators)
 				.Select(part => part.Trim())
 				.Select(HotKey.Parse);

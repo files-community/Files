@@ -340,26 +340,27 @@ namespace Files.App.Commands
 				get => customHotKeys;
 				set
 				{
-					if (SetProperty(ref customHotKeys, value))
+					if (customHotKeys == value)
+						return;
+
+					foreach (var hotKey in customHotKeys)
 					{
-
-						foreach (var hotKey in customHotKeys)
-						{
-							manager.hotKeys.Remove(hotKey);
-						}
-						foreach (var hotKey in value)
-						{
-							var oldCommand = manager[hotKey];
-							if (oldCommand.Code is not CommandCodes.None)
-							{
-								oldCommand.CustomHotKeys = new(oldCommand.CustomHotKeys.Where(customHotKey => customHotKey != hotKey));
-							}
-							manager.hotKeys.Add(hotKey, this);
-						}
-
-						OnPropertyChanged(nameof(HotKeyText));
-						OnPropertyChanged(nameof(LabelWithHotKey));
+						manager.hotKeys.Remove(hotKey);
 					}
+					foreach (var hotKey in value)
+					{
+						var oldCommand = manager[hotKey];
+						if (oldCommand.Code is not CommandCodes.None)
+						{
+							oldCommand.CustomHotKeys = new(oldCommand.CustomHotKeys.Where(customHotKey => customHotKey != hotKey));
+						}
+						manager.hotKeys.Add(hotKey, this);
+					}
+
+					customHotKeys = value;
+
+					OnPropertyChanged(nameof(HotKeyText));
+					OnPropertyChanged(nameof(LabelWithHotKey));
 				}
 			}
 

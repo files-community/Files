@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -9,6 +10,7 @@ using Forms = System.Windows.Forms;
 
 namespace Files.App.Commands
 {
+	[DebuggerDisplay("{Code}")]
 	public readonly struct HotKey : IEquatable<HotKey>
 	{
 		private static readonly IImmutableDictionary<KeyModifiers, string> modifiers = new Dictionary<KeyModifiers, string>()
@@ -197,9 +199,6 @@ namespace Files.App.Commands
 		{
 			get
 			{
-				if (IsVisible)
-					return string.Empty;
-
 				return (Key, Modifier) switch
 				{
 					(Keys.None, KeyModifiers.None) => string.Empty,
@@ -245,6 +244,14 @@ namespace Files.App.Commands
 		{
 			var key = Keys.None;
 			var modifier = KeyModifiers.None;
+			bool isVisible = true;
+
+			code = code.Trim();
+			if (code.StartsWith('!'))
+			{
+				isVisible = false;
+				code = code.Remove(0, 1);
+			}
 
 			var parts = code.Split('+').Select(part => part.Trim());
 			foreach (var part in parts)
@@ -254,7 +261,7 @@ namespace Files.App.Commands
 				if (Enum.TryParse(part, out KeyModifiers partModifier))
 					modifier |= partModifier;
 			}
-			return new(key, modifier);
+			return new(key, modifier, isVisible);
 		}
 
 		public HotKeyCollection AsCollection() => new(this);
