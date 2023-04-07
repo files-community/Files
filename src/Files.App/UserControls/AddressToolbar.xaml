@@ -108,7 +108,7 @@
 					Command="{x:Bind Commands.RefreshItems, Mode=OneWay}"
 					IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey}">
+					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
 				</Button>
 			</StackPanel>
@@ -193,7 +193,7 @@
 					Command="{x:Bind ViewModel.Commands.Search, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.Commands.Search.IsExecutable}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.Search.LabelWithHotKey}"
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.Search.LabelWithHotKey, Mode=OneWay}"
 					Visibility="Collapsed">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
 				</Button>

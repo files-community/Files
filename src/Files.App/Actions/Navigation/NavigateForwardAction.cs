@@ -18,7 +18,7 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(Keys.Right, KeyModifiers.Menu);
 		public HotKey SecondHotKey { get; } = new(Keys.Mouse5);
-		public HotKey MediaHotKey { get; } = new(Keys.GoForward);
+		public HotKey MediaHotKey { get; } = new(Keys.GoForward, false);
 
 		public RichGlyph Glyph { get; } = new("\uE72A");
 

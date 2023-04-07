@@ -17,7 +17,7 @@ namespace Files.App.Commands
 	internal class CommandManager : ICommandManager
 	{
 		private readonly IImmutableDictionary<CommandCodes, IRichCommand> commands;
-		private readonly IImmutableDictionary<HotKey, IRichCommand> hotKeys;
+		private readonly IDictionary<HotKey, IRichCommand> hotKeys;
 
 		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
 		public IRichCommand this[HotKey hotKey] => hotKeys.TryGetValue(hotKey, out var command) ? command : None;
@@ -136,24 +136,14 @@ namespace Files.App.Commands
 		public CommandManager()
 		{
 			commands = CreateActions()
-				.Select(action => new ActionCommand(action.Key, action.Value))
+				.Select(action => new ActionCommand(this, action.Key, action.Value))
 				.Cast<IRichCommand>()
 				.Append(new NoneCommand())
 				.ToImmutableDictionary(command => command.Code);
 
-			var hotKeys = new Dictionary<HotKey, IRichCommand>();
-			foreach (var command in commands.Values)
-			{
-				if (!command.HotKey.IsNone)
-					hotKeys.Add(command.HotKey, command);
-				if (!command.SecondHotKey.IsNone)
-					hotKeys.Add(command.SecondHotKey, command);
-				if (!command.ThirdHotKey.IsNone)
-					hotKeys.Add(command.ThirdHotKey, command);
-				if (!command.MediaHotKey.IsNone)
-					hotKeys.Add(command.MediaHotKey, command);
-			}
-			this.hotKeys = hotKeys.ToImmutableDictionary();
+			hotKeys = commands.Values
+				.SelectMany(command => command.CustomHotKeys, (command, hotkey) => (Command: command, HotKey: hotkey))
+				.ToDictionary(item => item.HotKey, item => item.Command);
 		}
 
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -293,10 +283,12 @@ namespace Files.App.Commands
 			public Style? OpacityStyle => null;
 
 			public string? HotKeyText => null;
-			public HotKey HotKey => HotKey.None;
-			public HotKey SecondHotKey => HotKey.None;
-			public HotKey ThirdHotKey => HotKey.None;
-			public HotKey MediaHotKey => HotKey.None;
+			public HotKeyCollection DefaultHotKeys => HotKeyCollection.Empty;
+			public HotKeyCollection CustomHotKeys
+			{
+				get => HotKeyCollection.Empty;
+				set => throw new InvalidOperationException("This command is readonly.");
+			}
 
 			public bool IsToggle => false;
 			public bool IsOn { get => false; set {} }
@@ -313,12 +305,13 @@ namespace Files.App.Commands
 		{
 			public event EventHandler? CanExecuteChanged;
 
+			private readonly CommandManager manager;
 			private readonly IAction action;
 
 			public CommandCodes Code { get; }
 
 			public string Label => action.Label;
-			public string LabelWithHotKey { get; }
+			public string LabelWithHotKey => HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
 			public string AutomationName => Label;
 
 			public string Description => action.Description;
@@ -328,11 +321,47 @@ namespace Files.App.Commands
 			public FontIcon? FontIcon { get; }
 			public Style? OpacityStyle { get; }
 
-			public string? HotKeyText { get; }
-			public HotKey HotKey => action.HotKey;
-			public HotKey SecondHotKey => action.SecondHotKey;
-			public HotKey ThirdHotKey => action.ThirdHotKey;
-			public HotKey MediaHotKey => action.MediaHotKey;
+			public string? HotKeyText
+			{
+				get
+				{
+					string text = CustomHotKeys.Label;
+					if (string.IsNullOrEmpty(text))
+						return null;
+					return text;
+				}
+			}
+
+			public HotKeyCollection DefaultHotKeys { get; }
+
+			private HotKeyCollection customHotKeys;
+			public HotKeyCollection CustomHotKeys
+			{
+				get => customHotKeys;
+				set
+				{
+					if (SetProperty(ref customHotKeys, value))
+					{
+
+						foreach (var hotKey in customHotKeys)
+						{
+							manager.hotKeys.Remove(hotKey);
+						}
+						foreach (var hotKey in value)
+						{
+							var oldCommand = manager[hotKey];
+							if (oldCommand.Code is not CommandCodes.None)
+							{
+								oldCommand.CustomHotKeys = new(oldCommand.CustomHotKeys.Where(customHotKey => customHotKey != hotKey));
+							}
+							manager.hotKeys.Add(hotKey, this);
+						}
+
+						OnPropertyChanged(nameof(HotKeyText));
+						OnPropertyChanged(nameof(LabelWithHotKey));
+					}
+				}
+			}
 
 			public bool IsToggle => action is IToggleAction;
 
@@ -348,15 +377,16 @@ namespace Files.App.Commands
 
 			public bool IsExecutable => action.IsExecutable;
 
-			public ActionCommand(CommandCodes code, IAction action)
+			public ActionCommand(CommandManager manager, CommandCodes code, IAction action)
 			{
+				this.manager = manager;
 				Code = code;
 				this.action = action;
 				Icon = action.Glyph.ToIcon();
 				FontIcon = action.Glyph.ToFontIcon();
 				OpacityStyle = action.Glyph.ToOpacityStyle();
-				HotKeyText = GetHotKeyText();
-				LabelWithHotKey = HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
+				DefaultHotKeys = new HotKeyCollection(action.HotKey, action.SecondHotKey, action.ThirdHotKey, action.MediaHotKey);
+				customHotKeys = DefaultHotKeys;
 
 				if (action is INotifyPropertyChanging notifyPropertyChanging)
 					notifyPropertyChanging.PropertyChanging += Action_PropertyChanging;
@@ -409,16 +439,6 @@ namespace Files.App.Commands
 						CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 						break;
 				}
-			}
-
-			private string? GetHotKeyText()
-			{
-				string text = string.Join(',',
-					new List<HotKey> { HotKey, SecondHotKey, ThirdHotKey }
-					.Where(hotKey => !hotKey.IsNone)
-					.Select(HotKey => HotKey.ToString())
-				);
-				return text.Length > 0 ? text : null;
 			}
 		}
 	}

@@ -146,7 +146,7 @@
 					IsEnabled="{x:Bind Commands.Rename.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.Rename.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.Rename.LabelWithHotKey}">
+					ToolTipService.ToolTip="{x:Bind Commands.Rename.LabelWithHotKey, Mode=OneWay}">
 
 					<local:OpacityIcon Style="{x:Bind Commands.Rename.OpacityStyle}" />
 				</AppBarButton>
@@ -159,7 +159,7 @@
 					IsEnabled="{x:Bind Commands.ShareItem.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Label="{x:Bind Commands.ShareItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.ShareItem.LabelWithHotKey}">
+					ToolTipService.ToolTip="{x:Bind Commands.ShareItem.LabelWithHotKey, Mode=OneWay}">
 
 					<local:OpacityIcon Style="{x:Bind Commands.ShareItem.OpacityStyle}" />
 				</AppBarButton>
@@ -270,7 +270,7 @@
 					Command="{x:Bind Commands.RunWithPowershell}"
 					Label="{x:Bind Commands.RunWithPowershell.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{x:Bind Commands.RunWithPowershell.LabelWithHotKey}">
+					ToolTipService.ToolTip="{x:Bind Commands.RunWithPowershell.LabelWithHotKey, Mode=OneWay}">
 					<AppBarButton.Icon>
 						<FontIcon Glyph="{x:Bind Commands.RunWithPowershell.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
@@ -318,7 +318,7 @@
 					Icon="{x:Bind Commands.SetAsSlideshowBackground.FontIcon}"
 					Label="{x:Bind Commands.SetAsSlideshowBackground.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{x:Bind Commands.SetAsSlideshowBackground.LabelWithHotKey}" />
+					ToolTipService.ToolTip="{x:Bind Commands.SetAsSlideshowBackground.LabelWithHotKey, Mode=OneWay}" />
 				<AppBarButton
 					x:Name="InstallInfButton"
 					x:Load="{x:Bind Commands.InstallInfDriver.IsExecutable, Mode=OneWay, FallbackValue=False}"
@@ -403,21 +403,21 @@
 							AccessKey="A"
 							Command="{x:Bind Commands.SelectAll}"
 							Icon="{x:Bind Commands.SelectAll.FontIcon}"
-							KeyboardAcceleratorTextOverride="{x:Bind Commands.SelectAll.HotKeyText}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.SelectAll.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.SelectAll.Label}" />
 						<MenuFlyoutItem
 							x:Name="InvertSelectionMFI"
 							AccessKey="I"
 							Command="{x:Bind Commands.InvertSelection}"
 							Icon="{x:Bind Commands.InvertSelection.FontIcon}"
-							KeyboardAcceleratorTextOverride="{x:Bind Commands.InvertSelection.HotKeyText}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.InvertSelection.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.InvertSelection.Label}" />
 						<MenuFlyoutItem
 							x:Name="ClearSelectionMFI"
 							AccessKey="C"
 							Command="{x:Bind Commands.ClearSelection}"
 							Icon="{x:Bind Commands.ClearSelection.FontIcon}"
-							KeyboardAcceleratorTextOverride="{x:Bind Commands.ClearSelection.HotKeyText}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.ClearSelection.HotKeyText, Mode=OneWay}"
 							Text="{x:Bind Commands.ClearSelection.Label}" />
 					</MenuFlyout>
 				</AppBarButton.Flyout>
@@ -566,7 +566,7 @@
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind Commands.LayoutDetails.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutDetails.LabelWithHotKey}">
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutDetails.LabelWithHotKey, Mode=OneWay}">
 									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutDetails.Glyph.BaseGlyph}" />
 								</RadioButton>
 
@@ -592,7 +592,7 @@
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind Commands.LayoutTiles.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutTiles.LabelWithHotKey}">
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutTiles.LabelWithHotKey, Mode=OneWay}">
 									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutTiles.Glyph.BaseGlyph}" />
 								</RadioButton>
 
@@ -618,7 +618,7 @@
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind Commands.LayoutGridSmall.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridSmall.LabelWithHotKey}">
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridSmall.LabelWithHotKey, Mode=OneWay}">
 									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutGridSmall.Glyph.BaseGlyph}" />
 								</RadioButton>
 
@@ -644,7 +644,7 @@
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind Commands.LayoutGridMedium.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridMedium.LabelWithHotKey}">
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridMedium.LabelWithHotKey, Mode=OneWay}">
 									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutGridMedium.Glyph.BaseGlyph}" />
 								</RadioButton>
 
@@ -679,7 +679,7 @@
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind Commands.LayoutGridLarge.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridLarge.LabelWithHotKey}">
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridLarge.LabelWithHotKey, Mode=OneWay}">
 									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutGridLarge.Glyph.BaseGlyph}" />
 								</RadioButton>
 
@@ -705,7 +705,7 @@
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind Commands.LayoutColumns.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutColumns.LabelWithHotKey}">
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutColumns.LabelWithHotKey, Mode=OneWay}">
 									<Viewbox Width="20">
 										<local:OpacityIcon Style="{x:Bind Commands.LayoutColumns.OpacityStyle}" />
 									</Viewbox>
@@ -733,7 +733,7 @@
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind Commands.LayoutAdaptive.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey}">
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}">
 									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutAdaptive.Glyph.BaseGlyph}" />
 								</RadioButton>
 

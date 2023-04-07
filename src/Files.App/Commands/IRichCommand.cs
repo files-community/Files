@@ -23,10 +23,8 @@ namespace Files.App.Commands
 		Style? OpacityStyle { get; }
 
 		string? HotKeyText { get; }
-		HotKey HotKey { get; }
-		HotKey SecondHotKey { get; }
-		HotKey ThirdHotKey { get; }
-		HotKey MediaHotKey { get; }
+		HotKeyCollection DefaultHotKeys { get; }
+		HotKeyCollection CustomHotKeys { get; set; }
 
 		bool IsToggle { get; }
 		bool IsOn { get; set; }
