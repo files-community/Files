@@ -47,6 +47,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Notifications;
 
 namespace Files.App
@@ -448,12 +449,13 @@ namespace Files.App
 				{
 					Buttons =
 					{
-						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), "report")
+						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), Constants.GitHub.BugReportUrl)
 						{
-							ActivationType = ToastActivationType.Foreground
+							ActivationType = ToastActivationType.Protocol
 						}
 					}
-				}
+				},
+				ActivationType = ToastActivationType.Protocol
 			};
 
 			// Create the toast notification
@@ -462,10 +464,14 @@ namespace Files.App
 			// And send the notification
 			ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
 
-			// Kill the app
+			// Restart the app
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
 			SaveSessionTabs();
+			Window.DispatcherQueue.EnqueueAsync(async () =>
+			{
+				await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+			}).Wait(1000);
 			Process.GetCurrentProcess().Kill();
 		}
 
