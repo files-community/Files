@@ -815,7 +815,7 @@
 					x:Load="{x:Bind Commands.OpenNewPane.IsExecutable, Mode=OneWay}"
 					Command="{x:Bind Commands.OpenNewPane, Mode=OneWay}"
 					Label="{x:Bind Commands.OpenNewPane.Label}"
-					ToolTipService.ToolTip="{x:Bind Commands.OpenNewPane.LabelWithHotKey}">
+					ToolTipService.ToolTip="{x:Bind Commands.OpenNewPane.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.OpenNewPane.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
@@ -823,7 +823,7 @@
 					x:Load="{x:Bind Commands.ClosePane.IsExecutable, Mode=OneWay}"
 					Command="{x:Bind Commands.ClosePane, Mode=OneWay}"
 					Label="{x:Bind Commands.ClosePane.Label}"
-					ToolTipService.ToolTip="{x:Bind Commands.ClosePane.LabelWithHotKey}">
+					ToolTipService.ToolTip="{x:Bind Commands.ClosePane.LabelWithHotKey, Mode=OneWay}">
 					<AppBarButton.Icon>
 						<FontIcon Glyph="{x:Bind Commands.ClosePane.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
