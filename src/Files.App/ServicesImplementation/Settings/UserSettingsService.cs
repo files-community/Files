@@ -69,6 +69,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 			// Remove session settings
 			export.Remove(nameof(PreferencesSettingsService.LastSessionTabList));
+			export.Remove(nameof(PreferencesSettingsService.LastCrashedTabList));
 
 			return JsonSettingsSerializer.SerializeToJson(export);
 		}

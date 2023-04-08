@@ -47,6 +47,11 @@ namespace Files.Backend.Services.Settings
 		List<string> LastSessionTabList { get; set; }
 
 		/// <summary>
+		/// A list containing all paths to tabs last crashed.
+		/// </summary>
+		List<string> LastCrashedTabList { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating which date and time format to use.
 		/// </summary>
 		DateTimeFormats DateTimeFormat { get; set; }

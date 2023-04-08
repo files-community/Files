@@ -466,8 +466,19 @@ namespace Files.App
 
 			// Restart the app
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
-			SaveSessionTabs();
+			var lastSessionTabList = userSettingsService.PreferencesSettingsService.LastSessionTabList;
+
+			if (userSettingsService.PreferencesSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) ?? false)
+			{
+				// Avoid infinite restart loop
+				userSettingsService.PreferencesSettingsService.LastSessionTabList = null;
+			}
+			else
+			{
+				userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
+				userSettingsService.PreferencesSettingsService.LastCrashedTabList = lastSessionTabList;
+			}
+
 			Window.DispatcherQueue.EnqueueAsync(async () =>
 			{
 				await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
