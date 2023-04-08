@@ -63,6 +63,7 @@ namespace Files.App.Commands
 		public IRichCommand InstallInfDriver => commands[CommandCodes.InstallInfDriver];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
+		public IRichCommand RunWithPowershell => commands[CommandCodes.RunWithPowershell];
 		public IRichCommand LaunchQuickLook => commands[CommandCodes.LaunchQuickLook];
 		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
@@ -200,6 +201,7 @@ namespace Files.App.Commands
 			[CommandCodes.InstallInfDriver] = new InstallInfDriverAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
+			[CommandCodes.RunWithPowershell] = new RunWithPowershellAction(),
 			[CommandCodes.LaunchQuickLook] = new LaunchQuickLookAction(),
 			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),

@@ -20,10 +20,11 @@ namespace Files.App
 {
 	internal class Program
 	{
-		// Note: We can't declare Main to be async because in a WinUI app
-		// This prevents Narrator from reading XAML elements
-		// https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs
-		// STAThread has no effect if main is async, needed for Clipboard
+		// Note:
+		//  We can't declare Main to be async because in a WinUI app
+		//  This prevents Narrator from reading XAML elements
+		//  https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs
+		//  STAThread has no effect if main is async, needed for Clipboard
 		[STAThread]
 		private static void Main()
 		{
@@ -76,8 +77,7 @@ namespace Files.App
 					}
 				}
 			}
-
-			if (activatedArgs.Data is ILaunchActivatedEventArgs tileArgs)
+			else if (activatedArgs.Data is ILaunchActivatedEventArgs tileArgs)
 			{
 				if (tileArgs.Arguments is not null &&
 					!tileArgs.Arguments.Contains($"files.exe", StringComparison.OrdinalIgnoreCase) &&
@@ -134,6 +134,7 @@ namespace Files.App
 			{
 				currentInstance.Activated += OnActivated;
 			}
+
 			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -proc.Id;
 
 			Application.Start((p) =>
