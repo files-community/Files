@@ -367,7 +367,7 @@
 					KeyboardAcceleratorTextOverride="{x:Bind Commands.PlayAll.HotKeyText}"
 					Label="{x:Bind Commands.PlayAll.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{x:Bind Commands.PlayAll.LabelWithHotKey}">
+					ToolTipService.ToolTip="{x:Bind Commands.PlayAll.LabelWithHotKey, Mode=OneWay}">
 					<AppBarButton.Icon>
 						<FontIcon Glyph="{x:Bind Commands.PlayAll.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
