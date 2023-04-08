@@ -25,16 +25,6 @@
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="Control" />
 		<KeyboardAccelerator
-			Key="Z"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-		<KeyboardAccelerator
-			Key="Y"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-		<KeyboardAccelerator
 			Key="C"
 			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"

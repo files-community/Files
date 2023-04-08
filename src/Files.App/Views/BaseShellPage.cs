@@ -43,7 +43,7 @@ namespace Files.App.Views
 		public static readonly DependencyProperty NavParamsProperty =
 			DependencyProperty.Register("NavParams", typeof(NavigationParams), typeof(ModernShellPage), new PropertyMetadata(null));
 
-		protected readonly StorageHistoryHelpers storageHistoryHelpers;
+		public StorageHistoryHelpers StorageHistoryHelpers { get; }
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
 
@@ -163,7 +163,7 @@ namespace Files.App.Views
 			InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
 			cancellationTokenSource = new CancellationTokenSource();
 			FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
-			storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
+			StorageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
 			ToolbarViewModel.InstanceViewModel = InstanceViewModel;
 
