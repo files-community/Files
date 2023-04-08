@@ -230,6 +230,16 @@ namespace Files.App.Views
 				? "ItemCount/Text".GetLocalizedResource()
 				: "ItemsCount/Text".GetLocalizedResource();
 
+			if (string.IsNullOrWhiteSpace(InstanceViewModel.GitRepositoryPath) || 
+				!FilesystemViewModel.WorkingDirectory.StartsWith(InstanceViewModel.GitRepositoryPath, StringComparison.OrdinalIgnoreCase))
+			{
+				InstanceViewModel.GitRepositoryPath = GitHelpers.GetGitRepositoryPath(FilesystemViewModel.WorkingDirectory);
+			}
+
+			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository 
+					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
+					: null;
+
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();
 		}

@@ -133,5 +133,11 @@ namespace Files.App.Commands
 		IRichCommand PreviousTab { get; }
 		IRichCommand NextTab { get; }
 		IRichCommand CloseSelectedTab { get; }
+
+		IRichCommand AddBranch { get; }
+		IRichCommand Checkout { get; }
+		IRichCommand Pull { get; }
+		IRichCommand Push { get; }
+		IRichCommand Sync { get; }
 	}
 }

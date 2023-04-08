@@ -8,32 +8,84 @@
 	d:DesignWidth="400"
 	mc:Ignorable="d">
 
-	<StackPanel
-		Height="32"
-		Padding="8,0"
-		HorizontalAlignment="Stretch"
-		VerticalAlignment="Stretch"
-		Orientation="Horizontal"
-		Spacing="8">
+	<Grid Padding="8,0" ColumnSpacing="8">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<StackPanel
+			Height="32"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Orientation="Horizontal"
+			Spacing="8">
 
-		<TextBlock
-			x:Name="DirectoryItemCount"
-			VerticalAlignment="Center"
-			x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
-			Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
+			<TextBlock
+				x:Name="DirectoryItemCount"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
 
-		<TextBlock
-			x:Name="SelectedItemsCountString"
-			VerticalAlignment="Center"
-			x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
-			Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}"
-			Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+			<TextBlock
+				x:Name="SelectedItemsCountString"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}"
+				Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
 
-		<TextBlock
-			x:Name="ItemSize"
-			VerticalAlignment="Center"
-			x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
-			Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}"
-			Visibility="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}" />
-	</StackPanel>
+			<TextBlock
+				x:Name="ItemSize"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}"
+				Visibility="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}" />
+		</StackPanel>
+
+		<StackPanel
+			Grid.Column="1"
+			Orientation="Horizontal"
+			Spacing="8">
+			<Button
+				x:Name="GitPullButton"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind Commands.Pull.IsExecutable, Mode=OneWay}"
+				Background="Transparent"
+				BorderThickness="0"
+				Command="{x:Bind Commands.Pull}"
+				ToolTipService.ToolTip="{x:Bind Commands.Pull.LabelWithHotKey, Mode=OneWay}">
+				<FontIcon FontSize="12" Glyph="{x:Bind Commands.Pull.Glyph.BaseGlyph}" />
+			</Button>
+
+			<Button
+				x:Name="GitPushButton"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind Commands.Push.IsExecutable, Mode=OneWay}"
+				Background="Transparent"
+				BorderThickness="0"
+				Command="{x:Bind Commands.Push}"
+				ToolTipService.ToolTip="{x:Bind Commands.Push.LabelWithHotKey, Mode=OneWay}">
+				<FontIcon FontSize="12" Glyph="{x:Bind Commands.Push.Glyph.BaseGlyph}" />
+			</Button>
+
+			<Button
+				x:Name="GitSyncButton"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind Commands.Sync.IsExecutable, Mode=OneWay}"
+				Background="Transparent"
+				BorderThickness="0"
+				Command="{x:Bind Commands.Sync}"
+				ToolTipService.ToolTip="{x:Bind Commands.Sync.LabelWithHotKey, Mode=OneWay}">
+				<FontIcon FontSize="12" Glyph="{x:Bind Commands.Sync.Glyph.BaseGlyph}" />
+			</Button>
+
+			<Button
+				x:Name="GitBranch"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind Commands.Checkout.IsExecutable, Mode=OneWay}"
+				Background="Transparent"
+				BorderThickness="0">
+				<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />
+			</Button>
+		</StackPanel>
+	</Grid>
 </UserControl>

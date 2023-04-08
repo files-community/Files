@@ -1,13 +1,15 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Commands;
 using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace Files.App.UserControls
 {
-	public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
+	public sealed partial class StatusBarControl : UserControl
 	{
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
 		{
 			get => (DirectoryPropertiesViewModel)GetValue(DirectoryPropertiesViewModelProperty);
@@ -40,13 +42,6 @@ namespace Files.App.UserControls
 		public StatusBarControl()
 		{
 			InitializeComponent();
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }

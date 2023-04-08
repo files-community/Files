@@ -2878,4 +2878,22 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
   </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Branch: {0}</value>
+  </data>
+  <data name="Sync" xml:space="preserve">
+    <value>Sync changes</value>
+  </data>
+  <data name="Pull" xml:space="preserve">
+    <value>Pull changes</value>
+  </data>
+  <data name="Push" xml:space="preserve">
+    <value>Push changes</value>
+  </data>
+  <data name="Checkout" xml:space="preserve">
+    <value>Checkout</value>
+  </data>
+  <data name="AddBranch" xml:space="preserve">
+    <value>Add a branch</value>
+  </data>
 </root>
