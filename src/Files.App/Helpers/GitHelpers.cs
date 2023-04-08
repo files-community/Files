@@ -1,7 +1,6 @@
 ﻿using LibGit2Sharp;
 using Files.Shared.Enums;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace Files.App.Helpers
