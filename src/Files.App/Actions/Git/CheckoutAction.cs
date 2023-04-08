@@ -17,7 +17,7 @@ namespace Files.App.Actions
 
 		public string Description { get; } = "TODO: Need to be described.";
 
-		public RichGlyph Glyph = new();
+		public RichGlyph Glyph { get; } = new();
 
 		public bool IsExecutable => context.IsGitRepository;
 

@@ -2896,4 +2896,10 @@
   <data name="AddBranch" xml:space="preserve">
     <value>Add a branch</value>
   </data>
+  <data name="BranchNamePrompt" xml:space="preserve">
+    <value>Enter a branch name:</value>
+  </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Invalid branch name</value>
+  </data>
 </root>

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.System;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Files.App.Helpers
 {
@@ -57,68 +58,12 @@ namespace Files.App.Helpers
 
 		public static DynamicDialog GetFor_RenameDialog()
 		{
-			DynamicDialog? dialog = null;
-			TextBox inputText = new()
-			{
-				PlaceholderText = "EnterAnItemName".GetLocalizedResource()
-			};
-
-			TextBlock tipText = new()
-			{
-				Text = "InvalidFilename/Text".GetLocalizedResource(),
-				Margin = new Microsoft.UI.Xaml.Thickness(0, 0, 4, 0),
-				TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
-				Opacity = 0.0d
-			};
-
-			inputText.TextChanged += (textBox, args) =>
-			{
-				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
-				tipText.Opacity = isInputValid ? 0.0d : 1.0d;
-				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
-														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
-														: DynamicDialogButtons.Cancel;
-				if (isInputValid)
-					dialog.ViewModel.AdditionalData = inputText.Text;
-			};
-
-			inputText.Loaded += (s, e) =>
-			{
-				// dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
-				_ = inputText.DispatcherQueue.EnqueueAsync(() => inputText.Focus(Microsoft.UI.Xaml.FocusState.Programmatic));
-			};
-
-			dialog = new DynamicDialog(new DynamicDialogViewModel()
-			{
-				TitleText = "EnterAnItemName".GetLocalizedResource(),
-				SubtitleText = null,
-				DisplayControl = new Grid()
-				{
-					MinWidth = 300d,
-					Children =
-					{
-						new StackPanel()
-						{
-							Spacing = 4d,
-							Children =
-							{
-								inputText,
-								tipText
-							}
-						}
-					}
-				},
-				PrimaryButtonAction = (vm, e) =>
-				{
-					vm.HideDialog(); // Rename successful
-				},
-				PrimaryButtonText = "RenameDialog/PrimaryButtonText".GetLocalizedResource(),
-				CloseButtonText = "Cancel".GetLocalizedResource(),
-				DynamicButtonsEnabled = DynamicDialogButtons.Cancel,
-				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
-			});
-
-			return dialog;
+			return GetFor_GenericName(
+				"EnterAnItemName".GetLocalizedResource(),
+				"EnterAnItemName".GetLocalizedResource(),
+				"InvalidFilename/Text".GetLocalizedResource(),
+				"RenameDialog/PrimaryButtonText".GetLocalizedResource(),
+				FilesystemHelpers.IsValidForFilename);
 		}
 
 		public static DynamicDialog GetFor_FileInUseDialog(List<Shared.Win32Process> lockingProcess = null)
@@ -207,6 +152,87 @@ namespace Files.App.Helpers
 					vm.HideDialog();
 				}
 
+			});
+
+			return dialog;
+		}
+
+		public static DynamicDialog GetFor_AddBranchDialog()
+		{
+			return GetFor_GenericName(
+				"BranchNamePrompt".GetLocalizedResource(),
+				"master",
+				"InvalidBranchName".GetLocalizedResource(),
+				"Create".GetLocalizedResource(),
+				GitHelpers.IsBranchNameValid);
+		}
+
+		private static DynamicDialog GetFor_GenericName(
+			string title,
+			string placeholder, 
+			string errorMessage, 
+			string primaryButtonText, 
+			Func<string, bool> validator)
+		{
+			DynamicDialog ? dialog = null;
+			TextBox inputText = new()
+			{
+				PlaceholderText = placeholder
+			};
+
+			TextBlock tipText = new()
+			{
+				Text = errorMessage,
+				Margin = new Microsoft.UI.Xaml.Thickness(0, 0, 4, 0),
+				TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
+				Opacity = 0.0d
+			};
+
+			inputText.TextChanged += (textBox, args) =>
+			{
+				var isInputValid = validator(inputText.Text);
+				tipText.Opacity = isInputValid ? 0.0d : 1.0d;
+				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
+														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+														: DynamicDialogButtons.Cancel;
+				if (isInputValid)
+					dialog.ViewModel.AdditionalData = inputText.Text;
+			};
+
+			inputText.Loaded += (s, e) =>
+			{
+				// dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
+				_ = inputText.DispatcherQueue.EnqueueAsync(() => inputText.Focus(Microsoft.UI.Xaml.FocusState.Programmatic));
+			};
+
+			dialog = new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = title,
+				SubtitleText = null,
+				DisplayControl = new Grid()
+				{
+					MinWidth = 300d,
+					Children =
+					{
+						new StackPanel()
+						{
+							Spacing = 4d,
+							Children =
+							{
+								inputText,
+								tipText
+							}
+						}
+					}
+				},
+				PrimaryButtonAction = (vm, e) =>
+				{
+					vm.HideDialog();
+				},
+				PrimaryButtonText = primaryButtonText,
+				CloseButtonText = "Cancel".GetLocalizedResource(),
+				DynamicButtonsEnabled = DynamicDialogButtons.Cancel,
+				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
 
 			return dialog;
