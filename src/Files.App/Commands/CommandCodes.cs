@@ -152,5 +152,8 @@ namespace Files.App.Commands
 		PreviousTab,
 		NextTab,
 		CloseSelectedTab,
+
+		// Play
+		PlayAll,
 	}
 }

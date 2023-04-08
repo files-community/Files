@@ -134,6 +134,7 @@ namespace Files.App.Commands
 		public IRichCommand PreviousTab => commands[CommandCodes.PreviousTab];
 		public IRichCommand NextTab => commands[CommandCodes.NextTab];
 		public IRichCommand CloseSelectedTab => commands[CommandCodes.CloseSelectedTab];
+		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
 
 		public CommandManager()
 		{
@@ -274,6 +275,7 @@ namespace Files.App.Commands
 			[CommandCodes.PreviousTab] = new PreviousTabAction(),
 			[CommandCodes.NextTab] = new NextTabAction(),
 			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
+			[CommandCodes.PlayAll] = new PlayAllAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

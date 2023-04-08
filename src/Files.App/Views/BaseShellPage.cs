@@ -609,7 +609,6 @@ namespace Files.App.Views
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
-			ToolbarViewModel.PlayAllCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.PlayAllCommand.Execute(null));
 		}
 
 		protected async Task<BaseLayout> GetContentOrNullAsync()
