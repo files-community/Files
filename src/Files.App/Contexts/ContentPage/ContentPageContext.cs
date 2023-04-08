@@ -198,7 +198,8 @@ namespace Files.App.Contexts
 				and not ContentPageTypes.Home
 				and not ContentPageTypes.RecycleBin
 				and not ContentPageTypes.ZipFolder
-				and not ContentPageTypes.SearchResults;
+				and not ContentPageTypes.SearchResults
+				and not ContentPageTypes.MtpDevice;
 		}
 	}
 }
