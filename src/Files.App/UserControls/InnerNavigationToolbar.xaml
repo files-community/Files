@@ -364,7 +364,7 @@
 					x:Name="PlayAllMediaButton"
 					x:Load="{x:Bind Commands.PlayAll.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Command="{x:Bind Commands.PlayAll, Mode=OneWay}"
-					KeyboardAcceleratorTextOverride="{x:Bind Commands.PlayAll.HotKeyText}"
+					KeyboardAcceleratorTextOverride="{x:Bind Commands.PlayAll.HotKeyText, Mode=OneWay}"
 					Label="{x:Bind Commands.PlayAll.Label}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{x:Bind Commands.PlayAll.LabelWithHotKey, Mode=OneWay}">
