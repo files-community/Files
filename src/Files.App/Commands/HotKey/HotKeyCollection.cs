@@ -16,7 +16,10 @@ namespace Files.App.Commands
 
 		public static HotKeyCollection Empty { get; } = new(ImmutableArray<HotKey>.Empty);
 
+		public HotKey this[int index] => index >= 0 && index < hotKeys.Length ? hotKeys[index] : HotKey.None;
+
 		public bool IsEmpty => hotKeys.IsDefaultOrEmpty;
+		public int Length => hotKeys.Length;
 
 		public string Code => string.Join(',', hotKeys.Select(hotKey => hotKey.Code));
 		public string Label => string.Join(',', hotKeys.Where(hotKey => hotKey.IsVisible).Select(hotKey => hotKey.Code));
@@ -46,7 +49,7 @@ namespace Files.App.Commands
 		public override string ToString() => Label;
 		public override int GetHashCode() => hotKeys.GetHashCode();
 		public override bool Equals(object? other) => other is HotKeyCollection hotKeys && Equals(hotKeys);
-		public bool Equals(HotKeyCollection other) => hotKeys.Equals(other.hotKeys);
+		public bool Equals(HotKeyCollection other) => hotKeys.SequenceEqual(other.hotKeys);
 
 		private static ImmutableArray<HotKey> Clean(IEnumerable<HotKey> hotKeys)
 			=> hotKeys.Distinct().Where(HotKey => !HotKey.IsNone).ToImmutableArray();

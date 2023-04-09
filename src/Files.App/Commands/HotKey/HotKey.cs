@@ -256,9 +256,9 @@ namespace Files.App.Commands
 			var parts = code.Split('+').Select(part => part.Trim());
 			foreach (var part in parts)
 			{
-				if (Enum.TryParse(part, out Keys partKey))
+				if (Enum.TryParse(part, true, out Keys partKey))
 					key = partKey;
-				if (Enum.TryParse(part, out KeyModifiers partModifier))
+				if (Enum.TryParse(part, true, out KeyModifiers partModifier))
 					modifier |= partModifier;
 			}
 			return new(key, modifier, isVisible);
@@ -273,9 +273,9 @@ namespace Files.App.Commands
 
 		public override string ToString() => Label;
 
-		public override int GetHashCode() => (Key, Modifier).GetHashCode();
+		public override int GetHashCode() => (Key, Modifier, IsVisible).GetHashCode();
 		public override bool Equals(object? other) => other is HotKey hotKey && Equals(hotKey);
-		public bool Equals(HotKey other) => (other.Key, other.Modifier).Equals((Key, Modifier));
+		public bool Equals(HotKey other) => (other.Key, other.Modifier, other.IsVisible).Equals((Key, Modifier, IsVisible));
 
 		private static string GetKeyString(string key) => $"Key/{key}".GetLocalizedResource();
 
