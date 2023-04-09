@@ -16,7 +16,7 @@ namespace Files.App.Actions
 
 		public override string Description => "TODO: Need to be described.";
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconDelete");
+		public override RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconDelete");
 
 		public override bool IsExecutable =>
 			UIHelpers.CanShowDialog &&

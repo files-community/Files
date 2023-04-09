@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Files.App.Commands;
 using Files.App.Helpers;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace Files.App.Actions
 		public abstract string Label { get; }
 
 		public abstract string Description { get; }
+
+		public virtual RichGlyph Glyph { get; } = RichGlyph.None;
 
 		public virtual bool IsExecutable => UIHelpers.CanShowDialog;
 

@@ -18,7 +18,7 @@ namespace Files.App.Actions
 
 		public override string Description => "PasteItemToSelectionDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconPaste");
+		public override RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconPaste");
 
 		public HotKey HotKey { get; } = new(Keys.V, KeyModifiers.CtrlShift);
 

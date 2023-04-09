@@ -16,7 +16,7 @@ namespace Files.App.Actions
 
 		public override string Description => "TODO: Need to be described.";
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRestoreItem");
+		public override RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRestoreItem");
 
 		public override bool IsExecutable =>
 			context.ShellPage is not null &&
