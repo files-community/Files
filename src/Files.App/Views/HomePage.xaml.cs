@@ -164,15 +164,6 @@ namespace Files.App.Views
 			ReloadWidgets();
 		}
 
-		// WINUI3
-		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-
-			return contentDialog;
-		}
-
 		private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
 		{
 			try
@@ -195,7 +186,7 @@ namespace Files.App.Views
 			catch (UnauthorizedAccessException)
 			{
 				DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-				await SetContentDialogRoot(dialog).ShowAsync();
+				await dialog.TryShowAsync();
 			}
 			catch (COMException) { }
 			catch (ArgumentException) { }

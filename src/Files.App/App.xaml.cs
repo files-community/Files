@@ -13,6 +13,7 @@ using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.ServicesImplementation.DateTimeFormatter;
 using Files.App.ServicesImplementation.Settings;
+using Files.App.Shell;
 using Files.App.Storage.NativeStorage;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
@@ -137,7 +138,8 @@ namespace Files.App
 
 				await Task.WhenAll(
 					JumpListHelper.InitializeUpdatesAsync(),
-					addItemService.GetNewEntriesAsync()
+					addItemService.GetNewEntriesAsync(),
+					ContextMenu.WarmUpQueryContextMenuAsync()
 				);
 
 				FileTagsHelper.UpdateTagsDb();

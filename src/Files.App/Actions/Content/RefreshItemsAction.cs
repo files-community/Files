@@ -6,7 +6,6 @@ using Files.App.Extensions;
 using Files.App.Views;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -19,10 +18,9 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new("\uE72C");
 
-		public HotKey HotKey { get; } = new(VirtualKey.R, VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(Keys.R, KeyModifiers.Ctrl);
+		public HotKey SecondHotKey { get; } = new(Keys.F5);
 
-        public HotKey SecondHotKey { get; } = new(VirtualKey.F5);
-        
 		public bool IsExecutable => context.CanRefresh;
 
 		public RefreshItemsAction()

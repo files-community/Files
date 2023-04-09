@@ -2662,7 +2662,7 @@
     <value>コンパクト オーバーレイを終了</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Opens the "Format Drive" menu for the selected item</value>
+    <value>選択した項目の「ドライブのフォーマット」メニューを開く</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>サイドバーの表示を切り替える</value>
