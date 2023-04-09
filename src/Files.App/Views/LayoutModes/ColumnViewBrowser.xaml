@@ -32,9 +32,9 @@
 			<TransitionCollection />
 		</controls:ItemsRepeater.ItemContainerTransitions>
 
-			<controls:BladeItem>
-				<Frame x:Name="MainPageFrame" />
-			</controls:BladeItem>
+		<controls:BladeItem>
+			<Frame x:Name="MainPageFrame" />
+		</controls:BladeItem>
 	</controls:ItemsRepeater>
 
 </local:BaseLayout>
