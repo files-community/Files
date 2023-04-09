@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
+using Files.App.AppModels;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.DataModels;
@@ -73,6 +74,7 @@ namespace Files.App
 
 		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
 		public static string LogoPath;
+		public static AppEnvironment AppEnv;
 
 		public IServiceProvider Services { get; private set; }
 
@@ -85,8 +87,25 @@ namespace Files.App
 			UnhandledException += OnUnhandledException;
 			TaskScheduler.UnobservedTaskException += OnUnobservedException;
 			InitializeComponent();
-			LogoPath = Package.Current.DisplayName == "Files - Dev" ? Constants.AssetPaths.DevLogo
-					: (Package.Current.DisplayName == "Files (Preview)" ? Constants.AssetPaths.PreviewLogo : Constants.AssetPaths.StableLogo);
+
+			AppEnv = Package.Current.DisplayName switch
+			{
+				"Files - Dev" => AppEnv = AppEnvironment.WindowsDev,
+				"Files (Preview)" => AppEnv = AppEnvironment.WindowsSideloadPreview,
+				_ =>
+#if SIDELOAD
+					AppEnv = AppEnvironment.WindowsSideload,
+#else
+					AppEnv = AppEnvironment.WindowsStore,
+#endif
+			};
+
+			LogoPath = AppEnv switch
+			{
+				AppEnvironment.WindowsDev => Constants.AssetPaths.DevLogo,
+				AppEnvironment.WindowsSideloadPreview => Constants.AssetPaths.PreviewLogo,
+				_ => Constants.AssetPaths.StableLogo,
+			};
 		}
 
 		private static void EnsureSettingsAndConfigurationAreBootstrapped()
