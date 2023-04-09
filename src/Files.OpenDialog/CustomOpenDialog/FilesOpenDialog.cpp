@@ -1,8 +1,8 @@
-// Copyright (c) 2023 Files
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 // Abstract:
-//  Implementation of CFilesOpenDialog
+//  Implementation of CFilesOpenDialog.
 
 #include <shlobj.h>
 #include <iostream>

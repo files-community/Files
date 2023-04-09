@@ -5,6 +5,7 @@
 
 	<Application.Resources>
 		<ResourceDictionary>
+
 			<!--  Default list view item height  -->
 			<x:Double x:Key="ListItemHeight">36</x:Double>
 
@@ -75,6 +76,7 @@
 					</ResourceDictionary.ThemeDictionaries>
 				</ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
+
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>
