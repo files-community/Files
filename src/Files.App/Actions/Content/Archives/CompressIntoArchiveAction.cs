@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Dialogs;
 using Files.App.Extensions;
