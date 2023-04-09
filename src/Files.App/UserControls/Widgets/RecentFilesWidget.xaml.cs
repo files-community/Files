@@ -6,7 +6,6 @@ using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Shared.Extensions;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -72,7 +71,6 @@ namespace Files.App.UserControls.Widgets
 				}
 			}
 		}
-
 
 		public RecentFilesWidget()
 		{

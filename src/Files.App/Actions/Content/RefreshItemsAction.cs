@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
+using Files.App.Views;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.System;
@@ -31,7 +32,14 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			context.ShellPage?.Refresh_Click();
+			if (context.ShellPage is BaseShellPage bsp)
+			{
+				bsp.ToolbarViewModel.RefreshClickCommand.Execute(null);
+			}
+			else
+			{
+				context.ShellPage?.Refresh_Click();
+			}
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

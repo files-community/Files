@@ -22,6 +22,7 @@ using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
 using Files.Sdk.Storage;
+using Files.Shared;
 using Files.Shared.Cloud;
 using Files.Shared.Extensions;
 using Files.Shared.Services;
@@ -220,6 +221,7 @@ namespace Files.App
 						.AddSingleton<IQuickAccessService, QuickAccessService>()
 						.AddSingleton<IResourcesService, ResourcesService>()
 						.AddSingleton<IJumpListService, JumpListService>()
+						.AddSingleton<IRecentItemsService, RecentItemsService>()
 						.AddSingleton<MainPageViewModel>()
 						.AddSingleton<PreviewPaneViewModel>()
 						.AddSingleton<SidebarViewModel>()
@@ -229,70 +231,11 @@ namespace Files.App
 				)
 				.Build();
 
+			Ioc.Default.ConfigureServices(host.Services);
+
 			Logger = host.Services.GetRequiredService<ILogger<App>>();
 			App.Logger.LogInformation($"App launched. Launch args type: {activatedEventArgs.Data.GetType().Name}");
 
-			Ioc.Default.ConfigureServices(host.Services);
-
-			host = Host.CreateDefaultBuilder()
-				.ConfigureLogging(x => x.AddEventLog(new Microsoft.Extensions.Logging.EventLog.EventLogSettings()
-				{
-					SourceName = Package.Current.DisplayName
-				}))
-				.ConfigureServices(services =>
-					services
-						.AddSingleton<IUserSettingsService, UserSettingsService>()
-						.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IFoldersSettingsService, FoldersSettingsService>((sp) => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>((sp) => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>((sp) => new PreviewPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IAppSettingsService, AppSettingsService>((sp) => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
-						.AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
-						.AddSingleton<IPageContext, PageContext>()
-						.AddSingleton<IContentPageContext, ContentPageContext>()
-						.AddSingleton<IDisplayPageContext, DisplayPageContext>()
-						.AddSingleton<IWindowContext, WindowContext>()
-						.AddSingleton<IMultitaskingContext, MultitaskingContext>()
-						.AddSingleton<IDialogService, DialogService>()
-						.AddSingleton<IImageService, ImagingService>()
-						.AddSingleton<IThreadingService, ThreadingService>()
-						.AddSingleton<ILocalizationService, LocalizationService>()
-						.AddSingleton<ICloudDetector, CloudDetector>()
-						.AddSingleton<IFileTagsService, FileTagsService>()
-						.AddSingleton<ICommandManager, CommandManager>()
-#if UWP
-						.AddSingleton<IStorageService, WindowsStorageService>()
-#else
-						.AddSingleton<IStorageService, NativeStorageService>()
-#endif
-						.AddSingleton<IAddItemService, AddItemService>()
-#if SIDELOAD
-						.AddSingleton<IUpdateService, SideloadUpdateService>()
-#else
-						.AddSingleton<IUpdateService, UpdateService>()
-#endif
-						.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
-						.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
-						.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
-						.AddSingleton<ISizeProvider, UserSizeProvider>()
-						.AddSingleton<IQuickAccessService, QuickAccessService>()
-						.AddSingleton<IResourcesService, ResourcesService>()
-						.AddSingleton<IJumpListService, JumpListService>()
-						.AddSingleton<IRecentItemsService, RecentItemsService>()
-						.AddScoped<MainPageViewModel>()
-						.AddScoped<PreviewPaneViewModel>()
-						.AddScoped<SettingsViewModel>()
-						.AddScoped<OngoingTasksViewModel>()
-						.AddScoped<AppearanceViewModel>()
-				)
-				.Build();
-			Ioc.Default.ConfigureServices(host.Services);
-			Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
-			Logger.LogInformation($"App launched. Launch args type: {activatedEventArgs.Data.GetType().Name}");
-			
 			EnsureSettingsAndConfigurationAreBootstrapped();
 
 			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
@@ -415,7 +358,7 @@ namespace Files.App
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+		private void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
 			=> AppUnhandledException(e.Exception, true);
 
 		/// <summary>
@@ -424,7 +367,7 @@ namespace Files.App
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
+		private void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
 			=> AppUnhandledException(e.Exception, false);
 
 		private void AppUnhandledException(Exception ex, bool shouldShowNotification)

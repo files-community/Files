@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Extensions;
 using Files.App.Helpers;
+using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.Services.DateTimeFormatter;
@@ -26,6 +27,7 @@ namespace Files.App.ViewModels.Settings
 	public class PreferencesViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IRecentItemsService recentItemsService = Ioc.Default.GetRequiredService<IRecentItemsService>();
 
 		private bool disposed;
 
@@ -156,19 +158,14 @@ namespace Files.App.ViewModels.Settings
 				CommandParameter = "Home",
 				Tooltip = "Home".GetLocalizedResource()
 			});
-			await PopulateRecentItems(recentsItem);
-
-			// Ensure recent folders aren't stale since we don't update them with a watcher
-			// Then update the items source again to actually include those items
-			await App.RecentItemsManager.UpdateRecentFoldersAsync();
-			await PopulateRecentItems(recentsItem);
+			await PopulateRecentItemsAsync(recentsItem);
 		}
 
-		private Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
+		private async Task PopulateRecentItemsAsync(MenuFlyoutSubItemViewModel menu)
 		{
 			try
 			{
-				var recentFolders = App.RecentItemsManager.RecentFolders;
+				var recentFolders = await recentItemsService.ListRecentFoldersAsync();
 				var currentFolderMenus = menu.Items
 					.OfType<MenuFlyoutItemViewModel>()
 					.Where(m => m.Text != "Home".GetLocalizedResource())
@@ -187,8 +184,8 @@ namespace Files.App.ViewModels.Settings
 					menu.Items.Add(new MenuFlyoutItemViewModel(folder.Name)
 					{
 						Command = AddPageCommand,
-						CommandParameter = folder.RecentPath,
-						Tooltip = folder.RecentPath
+						CommandParameter = folder.Path,
+						Tooltip = folder.Path
 					});
 				}
 			}
@@ -204,8 +201,6 @@ namespace Files.App.ViewModels.Settings
 				menu,
 			}
 			.AsReadOnly();
-
-			return Task.CompletedTask;
 		}
 
 		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

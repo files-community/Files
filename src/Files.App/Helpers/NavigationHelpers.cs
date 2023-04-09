@@ -6,6 +6,7 @@ using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.Backend.Helpers;
+using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Enums;
@@ -23,6 +24,7 @@ namespace Files.App.Helpers
 	public static class NavigationHelpers
 	{
 		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private static readonly IRecentItemsService recentItemsService = Ioc.Default.GetRequiredService<IRecentItemsService>();
 
 		public static Task OpenPathInNewTab(string? path)
 			=> MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
@@ -278,7 +280,7 @@ namespace Files.App.Helpers
 					{
 						// Add location to Recent Items List
 						if (childFolder.Item is SystemStorageFolder)
-							App.RecentItemsManager.AddToRecentItems(childFolder.Path);
+							recentItemsService.AddToRecentItems(childFolder.Path);
 					});
 				if (!opened)
 					opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
@@ -310,7 +312,7 @@ namespace Files.App.Helpers
 						StorageFileWithPath childFile = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
 						// Add location to Recent Items List
 						if (childFile?.Item is SystemStorageFile)
-							App.RecentItemsManager.AddToRecentItems(childFile.Path);
+							recentItemsService.AddToRecentItems(childFile.Path);
 					}
 					await Win32Helpers.InvokeWin32ComponentAsync(shortcutInfo.TargetPath, associatedInstance, $"{args} {shortcutInfo.Arguments}", shortcutInfo.RunAsAdmin, shortcutInfo.WorkingDirectory);
 				}
@@ -327,7 +329,7 @@ namespace Files.App.Helpers
 					{
 						// Add location to Recent Items List
 						if (childFile.Item is SystemStorageFile)
-							App.RecentItemsManager.AddToRecentItems(childFile.Path);
+							recentItemsService.AddToRecentItems(childFile.Path);
 
 						if (openViaApplicationPicker)
 						{

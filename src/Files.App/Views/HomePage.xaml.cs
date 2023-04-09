@@ -6,6 +6,7 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.UserControls.Widgets;
 using Files.App.ViewModels;
+using Files.App.ViewModels.Pages;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -132,8 +133,16 @@ namespace Files.App.Views
 					recentFilesWidget.IsDisabledInWindows = ViewModel.IsRecentFilesDisabledInWindows;
 				});
 
-				recentFilesWidget.RemoveRecentItemCommand = new RelayCommand<RecentItem>(ViewModel.RemoveRecentItem);
-				recentFilesWidget.ClearAllItemsCommand = new RelayCommand(ViewModel.ClearRecentItems);
+				recentFilesWidget.RemoveRecentItemCommand = new RelayCommand<RecentItem>((x) => 
+				{
+					ViewModel.RemoveRecentItem(x);
+					recentFilesWidget.RefreshCommand.Execute(null);
+				});
+				recentFilesWidget.ClearAllItemsCommand = new RelayCommand(() => 
+				{
+					ViewModel.ClearRecentItems();
+					recentFilesWidget.RefreshCommand.Execute(null);
+				});
 
 				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded), 4);
 
