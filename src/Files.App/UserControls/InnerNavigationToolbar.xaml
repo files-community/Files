@@ -592,25 +592,25 @@
 
 				<AppBarButton.Flyout>
 					<Flyout Placement="Bottom">
-						<StackPanel Width="256" Spacing="12">
+						<StackPanel Spacing="12">
 
 							<!--  Header  -->
-							<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{helpers:ResourceString Name=Layout}" />
+							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=Layout}" />
 
 							<!--  Layout Options  -->
-							<Grid ColumnSpacing="12" RowSpacing="8">
+							<Grid ColumnSpacing="8" RowSpacing="8">
 								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
+									<RowDefinition MinHeight="30" />
+									<RowDefinition MinHeight="30" />
+									<RowDefinition MinHeight="30" />
+									<RowDefinition MinHeight="30" />
 								</Grid.RowDefinitions>
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="36" />
-									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="40" />
+									<ColumnDefinition MaxWidth="100" />
+									<ColumnDefinition Width="40" />
+									<ColumnDefinition Width="40" />
+									<ColumnDefinition MaxWidth="100" />
 								</Grid.ColumnDefinitions>
 
 								<!--  Detailsl Layout  -->
@@ -721,10 +721,20 @@
 									Tapped="{x:Bind Commands.LayoutGridMedium.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutGridMedium.Label}" />
 
+								<!--  (Divider)  -->
+								<Border
+									Grid.RowSpan="4"
+									Grid.Column="2"
+									Height="120"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+									BorderThickness="1" />
+
 								<!--  Grid Large Layout  -->
 								<RadioButton
-									Grid.Row="4"
-									Grid.Column="0"
+									Grid.Row="0"
+									Grid.Column="3"
 									Width="36"
 									Height="32"
 									MinWidth="0"
@@ -742,16 +752,16 @@
 
 								<TextBlock
 									x:Name="NavToolbarLargeIconsHeader"
-									Grid.Row="4"
-									Grid.Column="1"
+									Grid.Row="0"
+									Grid.Column="4"
 									VerticalAlignment="Center"
 									Tapped="{x:Bind Commands.LayoutGridLarge.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutGridLarge.Label}" />
 
 								<!--  Columns Layout  -->
 								<RadioButton
-									Grid.Row="5"
-									Grid.Column="0"
+									Grid.Row="1"
+									Grid.Column="3"
 									Width="36"
 									Height="32"
 									MinWidth="0"
@@ -771,16 +781,16 @@
 
 								<TextBlock
 									x:Name="NavToolbarColumnsHeader"
-									Grid.Row="5"
-									Grid.Column="1"
+									Grid.Row="1"
+									Grid.Column="4"
 									VerticalAlignment="Center"
 									Tapped="{x:Bind Commands.LayoutColumns.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutColumns.Label}" />
 
 								<!--  Adaptive Layout  -->
 								<RadioButton
-									Grid.Row="6"
-									Grid.Column="0"
+									Grid.Row="2"
+									Grid.Column="3"
 									Width="36"
 									Height="32"
 									MinWidth="0"
@@ -798,8 +808,8 @@
 
 								<TextBlock
 									x:Name="NavToolbarAdaptiveHeader"
-									Grid.Row="6"
-									Grid.Column="1"
+									Grid.Row="2"
+									Grid.Column="4"
 									VerticalAlignment="Center"
 									Tapped="{x:Bind Commands.LayoutAdaptive.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutAdaptive.Label}" />
@@ -810,20 +820,21 @@
 							<Border
 								Margin="-20,0"
 								HorizontalAlignment="Stretch"
-								BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+								BorderBrush="{ThemeResource ControlStrokeColorDefault}"
 								BorderThickness="1" />
 
 							<!--  Toggle Options  -->
-							<Grid>
+							<Grid RowSpacing="4">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
-									<RowDefinition MinHeight="32" />
-									<RowDefinition MinHeight="32" />
+									<RowDefinition MinHeight="30" />
+									<RowDefinition MinHeight="30" />
 								</Grid.RowDefinitions>
 
+								<!--  Show Hidden Files  -->
 								<TextBlock
 									Grid.Row="0"
 									Grid.Column="0"
@@ -833,12 +844,14 @@
 								<ToggleSwitch
 									Grid.Row="0"
 									Grid.Column="1"
+									HorizontalAlignment="Right"
 									AccessKey="H"
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowHiddenItems.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowHiddenItems.HotKeyText, Mode=OneWay}" />
 
+								<!--  Show File Extensions  -->
 								<TextBlock
 									Grid.Row="1"
 									Grid.Column="0"
@@ -848,9 +861,11 @@
 								<ToggleSwitch
 									Grid.Row="1"
 									Grid.Column="1"
+									HorizontalAlignment="Right"
 									AccessKey="E"
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowFileExtensions.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
+									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowFileExtensions.HotKeyText, Mode=OneWay}" />
 

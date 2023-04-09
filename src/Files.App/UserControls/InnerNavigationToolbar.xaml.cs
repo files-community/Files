@@ -16,15 +16,8 @@ namespace Files.App.UserControls
 {
 	public sealed partial class InnerNavigationToolbar : UserControl
 	{
-		public AppModel AppModel => App.AppModel;
-
-		private readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
-
-		private readonly IAddItemService AddItemService = Ioc.Default.GetRequiredService<IAddItemService>();
-
-		private readonly PreviewPaneViewModel PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
+		public AppModel AppModel
+			=> App.AppModel;
 
 		public ToolbarViewModel ViewModel
 		{
@@ -33,16 +26,24 @@ namespace Files.App.UserControls
 		}
 
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(ViewModel),
+				typeof(ToolbarViewModel),
+				typeof(InnerNavigationToolbar),
+				new PropertyMetadata(null));
 
 		public bool ShowPreviewPaneButton
 		{
-			get { return (bool)GetValue(ShowPreviewPaneButtonProperty); }
-			set { SetValue(ShowPreviewPaneButtonProperty, value); }
+			get => (bool)GetValue(ShowPreviewPaneButtonProperty);
+			set => SetValue(ShowPreviewPaneButtonProperty, value);
 		}
 
 		public static readonly DependencyProperty ShowPreviewPaneButtonProperty =
-			DependencyProperty.Register(nameof(ShowPreviewPaneButton), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(ShowPreviewPaneButton),
+				typeof(bool),
+				typeof(AddressToolbar),
+				new PropertyMetadata(null));
 
 		public bool ShowMultiPaneControls
 		{
@@ -51,21 +52,43 @@ namespace Files.App.UserControls
 		}
 
 		public static readonly DependencyProperty ShowMultiPaneControlsProperty =
-			DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(ShowMultiPaneControls),
+				typeof(bool),
+				typeof(AddressToolbar),
+				new PropertyMetadata(null));
 
 		public bool IsMultiPaneActive
 		{
-			get { return (bool)GetValue(IsMultiPaneActiveProperty); }
-			set { SetValue(IsMultiPaneActiveProperty, value); }
+			get => (bool)GetValue(IsMultiPaneActiveProperty);
+			set => SetValue(IsMultiPaneActiveProperty, value);
 		}
 
 		public static readonly DependencyProperty IsMultiPaneActiveProperty =
-			DependencyProperty.Register(nameof(IsMultiPaneActive), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(false));
+			DependencyProperty.Register(
+				nameof(IsMultiPaneActive),
+				typeof(bool),
+				typeof(AddressToolbar),
+				new PropertyMetadata(false));
+
+		private IUserSettingsService UserSettingsService { get; }
+
+		private ICommandManager Commands { get; }
+
+		private IAddItemService AddItemService { get; }
+
+		private PreviewPaneViewModel PreviewPaneViewModel { get; }
 
 		public InnerNavigationToolbar()
 		{
 			InitializeComponent();
-		}
+
+			// Dependency Injection
+			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+			AddItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
+	}
 
 		private void NewEmptySpace_Opening(object sender, object e)
 		{
@@ -73,14 +96,17 @@ namespace Files.App.UserControls
 			{
 				var shell = NewEmptySpace.Items.Where(x => (x.Tag as string) == "CreateNewFile").Reverse().ToList();
 				shell.ForEach(x => NewEmptySpace.Items.Remove(x));
+
 				return;
 			}
+
 			var cachedNewContextMenuEntries = AddItemService.GetNewEntriesAsync().Result;
 			if (cachedNewContextMenuEntries is null)
 				return;
+
 			if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
 			{
-				var separatorIndex = NewEmptySpace.Items.IndexOf(NewEmptySpace.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
+				var separatorIndex = NewEmptySpace.Items.IndexOf(NewEmptySpace.Items.Single(x => x.Name == nameof(NewMenuFileFolderSeparator)));
 
 				ushort key = 0;
 				string keyFormat = $"D{cachedNewContextMenuEntries.Count.ToString().Length}";
@@ -88,12 +114,15 @@ namespace Files.App.UserControls
 				foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
 				{
 					MenuFlyoutItem menuLayoutItem;
+
 					if (!string.IsNullOrEmpty(newEntry.IconBase64))
 					{
 						byte[] bitmapData = Convert.FromBase64String(newEntry.IconBase64);
 						using var ms = new MemoryStream(bitmapData);
+
 						var image = new BitmapImage();
 						_ = image.SetSourceAsync(ms.AsRandomAccessStream());
+
 						menuLayoutItem = new MenuFlyoutItemWithImage()
 						{
 							Text = newEntry.Name,
@@ -103,7 +132,7 @@ namespace Files.App.UserControls
 					}
 					else
 					{
-						menuLayoutItem = new MenuFlyoutItem()
+						menuLayoutItem = new()
 						{
 							Text = newEntry.Name,
 							Icon = new FontIcon
@@ -113,6 +142,7 @@ namespace Files.App.UserControls
 							Tag = "CreateNewFile"
 						};
 					}
+
 					menuLayoutItem.AccessKey = (cachedNewContextMenuEntries.Count + 1 - (++key)).ToString(keyFormat);
 					menuLayoutItem.Command = ViewModel.CreateNewFileCommand;
 					menuLayoutItem.CommandParameter = newEntry;
@@ -133,11 +163,8 @@ namespace Files.App.UserControls
 				string format = $"D{items.Count.ToString().Length}";
 
 				for (ushort index = 0; index < items.Count; ++index)
-				{
 					items[index].AccessKey = (index+1).ToString(format);
-				}
 			}
-
 		}
 	}
 }
