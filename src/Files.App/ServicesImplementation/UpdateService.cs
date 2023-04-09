@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
+using Files.App.Helpers;
 using Files.Backend.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
@@ -146,7 +147,7 @@ namespace Files.App.ServicesImplementation
 				PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalizedResource()
 			};
 
-			ContentDialogResult result = await SetContentDialogRoot(dialog).ShowAsync();
+			ContentDialogResult result = await dialog.TryShowAsync();
 
 			return result == ContentDialogResult.Primary;
 		}
@@ -221,16 +222,6 @@ namespace Files.App.ServicesImplementation
 
 				return bufferA.SequenceEqual(bufferB);
 			}
-		}
-
-		// WINUI3
-		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
-			return contentDialog;
 		}
 
 		private bool HasUpdates()

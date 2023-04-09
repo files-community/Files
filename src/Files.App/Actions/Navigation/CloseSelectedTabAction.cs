@@ -5,7 +5,6 @@ using Files.App.Contexts;
 using Files.App.Extensions;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -17,15 +16,15 @@ namespace Files.App.Actions
 
 		public string Description { get; } = "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(VirtualKey.W, VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(Keys.W, KeyModifiers.Ctrl);
 
-		public HotKey SecondHotKey { get; } = new(VirtualKey.F4, VirtualKeyModifiers.Control);
+		public HotKey SecondHotKey { get; } = new(Keys.F4, KeyModifiers.Ctrl);
 
 		public RichGlyph Glyph { get; } = new();
 
 		public bool IsExecutable =>
-			context.Control is not null && 
-			context.TabCount > 0 && 
+			context.Control is not null &&
+			context.TabCount > 0 &&
 			context.CurrentTabItem is not null;
 
 		public CloseSelectedTabAction()

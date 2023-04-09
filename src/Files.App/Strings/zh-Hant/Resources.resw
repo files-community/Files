@@ -2668,7 +2668,7 @@
     <value>Toggle the sidebar</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
-    <value>Menu</value>
+    <value>選單</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Control" xml:space="preserve">
@@ -2864,7 +2864,7 @@
     <value>This PC</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>Recycle Bin</value>
+    <value>資源回收筒</value>
   </data>
   <data name="Untagged" xml:space="preserve">
     <value>Untagged</value>
