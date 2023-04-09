@@ -2,11 +2,18 @@
 using Files.Shared.Enums;
 using System;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Contexts;
+using System.Linq;
 
 namespace Files.App.Helpers
 {
 	public static class GitHelpers
 	{
+		private const string BRANCH_NAME_PATTERN = @"^(?!/)(?!.*//)[^\000-\037\177 ~^:?*[]+(?!.*\.\.)(?!.*@\{)(?!.*\\)(?<!/\.)(?<!\.)(?<!/)(?<!\.lock)$";
+		private readonly static Regex branchValidator = new(BRANCH_NAME_PATTERN);
+
 		public static string? GetGitRepositoryPath(string? path, string root)
 		{
 			if (
@@ -34,8 +41,16 @@ namespace Files.App.Helpers
 
 		public static bool IsBranchNameValid(string name)
 		{
-			// TODO: Validate branch name
-			return true;
+			if (string.IsNullOrEmpty(name) || !branchValidator.IsMatch(name))
+				return false;
+
+			var repositoryPath = Ioc.Default.GetRequiredService<IContentPageContext>().GitRepositoryPath;
+			if (string.IsNullOrEmpty(repositoryPath))
+				return false;
+
+			using var repository = new Repository(repositoryPath);
+			return !repository.Branches.Any(branch => 
+				branch.FriendlyName.Equals(name, StringComparison.OrdinalIgnoreCase));
 		}
 	}
 }
