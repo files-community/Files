@@ -92,7 +92,7 @@
 				<TextBlock
 					x:Name="OwnerText"
 					VerticalAlignment="Center"
-					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
+					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsValid, Mode=OneWay}"
 					IsTextSelectionEnabled="True"
 					Style="{StaticResource BodyTextBlockStyle}"
 					ToolTipService.ToolTip="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameOrSid, Mode=OneWay}">
@@ -103,7 +103,7 @@
 				<TextBlock
 					x:Name="UnknownOwnerText"
 					VerticalAlignment="Center"
-					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					Text="{helpers:ResourceString Name=SecurityUnknownOwnerText/Text}" />
 
 				<HyperlinkButton VerticalAlignment="Center" Command="{x:Bind SecurityAdvancedViewModel.ChangeOwnerCommand}">
@@ -182,7 +182,7 @@
 				Margin="-12,0"
 				Padding="0,0,0,8"
 				HorizontalAlignment="Stretch"
-				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.CanReadAccessControl, Mode=OneWay}"
+				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsValid, Mode=OneWay}"
 				DataContext="{x:Bind SecurityAdvancedViewModel, Mode=OneWay}"
 				ItemsSource="{x:Bind SecurityAdvancedViewModel.AccessControlList.AccessControlEntries, Mode=OneWay}"
 				ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -581,7 +581,7 @@
 				Grid.Row="2"
 				Padding="8"
 				HorizontalAlignment="Left"
-				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.CanReadAccessControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 				Text="{helpers:ResourceString Name=SecurityAdvancedCannotReadProperties}"
 				TextWrapping="WrapWholeWords" />
 
@@ -612,19 +612,19 @@
 							<MenuFlyoutItem
 								Command="{x:Bind SecurityAdvancedViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
 								CommandParameter="False,False"
-								IsEnabled="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsAccessControlListProtected, Mode=OneWay}"
+								IsEnabled="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsProtected, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=SecurityAdvancedInheritedEnable/Text}" />
 
 							<MenuFlyoutItem
 								Command="{x:Bind SecurityAdvancedViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
 								CommandParameter="True,True"
-								IsEnabled="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+								IsEnabled="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=SecurityAdvancedInheritedConvert/Text}" />
 
 							<MenuFlyoutItem
 								Command="{x:Bind SecurityAdvancedViewModel.SetDisableInheritanceOptionCommand, Mode=OneWay}"
 								CommandParameter="True,False"
-								IsEnabled="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsAccessControlListProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+								IsEnabled="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=SecurityAdvancedInheritedRemove/Text}" />
 
 						</MenuFlyout>
