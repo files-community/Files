@@ -27,14 +27,14 @@
 		</Style>
 	</local:BaseLayout.Resources>
 
-	<controls:BladeView x:Name="ColumnHost" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
-		<controls:BladeView.ItemContainerTransitions>
+	<controls:ItemsRepeater x:Name="ColumnHost" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+		<controls:ItemsRepeater.ItemContainerTransitions>
 			<TransitionCollection />
-		</controls:BladeView.ItemContainerTransitions>
+		</controls:ItemsRepeater.ItemContainerTransitions>
 
-		<controls:BladeItem>
-			<Frame x:Name="MainPageFrame" />
-		</controls:BladeItem>
-	</controls:BladeView>
+			<controls:BladeItem>
+				<Frame x:Name="MainPageFrame" />
+			</controls:BladeItem>
+	</controls:ItemsRepeater>
 
 </local:BaseLayout>
