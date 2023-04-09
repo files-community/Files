@@ -1973,6 +1973,11 @@ namespace Files.App.ViewModels
 					{
 						operationEvent.Reset();
 
+						// Keep track of renaming information available
+						int RenameIndex = -1;
+						string OldName = "";
+						string NewName = "";
+
 						while (operationQueue.TryDequeue(out var operation))
 						{
 							if (cancellationToken.IsCancellationRequested)
@@ -1983,10 +1988,13 @@ namespace Files.App.ViewModels
 								switch (operation.Action)
 								{
 									case FILE_ACTION_ADDED:
-									case FILE_ACTION_RENAMED_NEW_NAME:
 										lastItemAdded = await AddFileOrFolderAsync(operation.FileName);
 										if (lastItemAdded is not null)
 											anyEdits = true;
+										break;
+
+									case FILE_ACTION_RENAMED_NEW_NAME:
+										NewName = operation.FileName;
 										break;
 
 									case FILE_ACTION_MODIFIED:
@@ -2001,15 +2009,24 @@ namespace Files.App.ViewModels
 										break;
 
 									case FILE_ACTION_RENAMED_OLD_NAME:
-										var itemRenamedOld = await RemoveFileOrFolderAsync(operation.FileName);
-										if (itemRenamedOld is not null)
-											anyEdits = true;
+										RenameIndex = filesAndFolders.FindIndex(x => x.ItemPath.Equals(operation.FileName));
+										OldName = operation.FileName;
 										break;
 								}
 							}
 							catch (Exception ex)
 							{
 								App.Logger.LogWarning(ex, ex.Message);
+							}
+
+							if (RenameIndex != -1 && OldName != "" && NewName != "")
+							{
+								var itemRemoved = await RemoveFileOrFolderAsync(OldName);
+								var itemAdded = await AddFileOrFolderAsync(NewName, RenameIndex);
+								RenameIndex = -1;
+								OldName = "";
+								NewName = "";
+								anyEdits = true;
 							}
 
 							if (anyEdits && sampler.CheckNow())
