@@ -7,7 +7,6 @@ using Microsoft.UI.Windowing;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.Graphics;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -19,7 +18,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "EnterCompactOverlay");
 
-		public HotKey HotKey { get; } = new(VirtualKey.Up, VirtualKeyModifiers.Menu | VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(Keys.Up, KeyModifiers.MenuCtrl);
 
 		public string Description => "EnterCompactOverlayDescription".GetLocalizedResource();
 

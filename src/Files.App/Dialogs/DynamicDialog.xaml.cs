@@ -1,3 +1,4 @@
+using Files.App.Helpers;
 using Files.App.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
@@ -14,7 +15,7 @@ namespace Files.App.Dialogs
 			=> ViewModel.DynamicResult;
 
 		public new Task<ContentDialogResult> ShowAsync()
-			=> SetContentDialogRoot(this).ShowAsync().AsTask();
+    	=> this.TryShowAsync();
 
 		public DynamicDialog(DynamicDialogViewModel dynamicDialogViewModel)
 		{

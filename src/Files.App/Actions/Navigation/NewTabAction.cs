@@ -2,7 +2,6 @@
 using Files.App.Extensions;
 using Files.App.ViewModels;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -12,7 +11,7 @@ namespace Files.App.Actions
 
 		public string Description => "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(VirtualKey.T, VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(Keys.T, KeyModifiers.Ctrl);
 
 		public Task ExecuteAsync() => MainPageViewModel.AddNewTabAsync();
 	}

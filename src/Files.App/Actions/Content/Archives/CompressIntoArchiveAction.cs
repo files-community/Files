@@ -1,32 +1,34 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem.Archive;
 using Files.App.Helpers;
+using Microsoft.UI.Xaml.Controls;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CompressIntoArchiveAction : ObservableObject, IAction
+	internal class CompressIntoArchiveAction : BaseUIAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label => "CreateArchive".GetLocalizedResource();
+		public override string Label => "CreateArchive".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public override string Description => "TODO: Need to be described.";
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
-									&& ArchiveHelpers.CanCompress(context.SelectedItems);
+		public override bool IsExecutable => 
+			IsContextPageTypeAdaptedToCommand() &&
+			ArchiveHelpers.CanCompress(context.SelectedItems) &&
+			UIHelpers.CanShowDialog;
 
 		public CompressIntoArchiveAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public override async Task ExecuteAsync()
 		{
 			var (sources, directory, fileName) = ArchiveHelpers.GetCompressDestination(context.ShellPage);
 
@@ -34,9 +36,9 @@ namespace Files.App.Actions
 			{
 				FileName = fileName,
 			};
-			await dialog.ShowAsync();
+			var result = await dialog.TryShowAsync();
 
-			if (!dialog.CanCreate)
+			if (!dialog.CanCreate || result != ContentDialogResult.Primary)
 				return;
 
 			IArchiveCreator creator = new ArchiveCreator

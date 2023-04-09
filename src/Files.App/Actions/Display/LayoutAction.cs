@@ -5,7 +5,6 @@ using Files.App.Contexts;
 using Files.App.Extensions;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -16,7 +15,7 @@ namespace Files.App.Actions
 		public override string Label { get; } = "Details".GetLocalizedResource();
 
 		public override RichGlyph Glyph { get; } = new("\uE179");
-		public override HotKey HotKey { get; } = new(VirtualKey.Number1, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public override HotKey HotKey { get; } = new(Keys.Number1, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutTilesAction : ToggleLayoutAction
@@ -26,7 +25,7 @@ namespace Files.App.Actions
 		public override string Label { get; } = "Tiles".GetLocalizedResource();
 
 		public override RichGlyph Glyph { get; } = new("\uE15C");
-		public override HotKey HotKey { get; } = new(VirtualKey.Number2, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public override HotKey HotKey { get; } = new(Keys.Number2, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutGridSmallAction : ToggleLayoutAction
@@ -36,7 +35,7 @@ namespace Files.App.Actions
 		public override string Label { get; } = "SmallIcons".GetLocalizedResource();
 
 		public override RichGlyph Glyph { get; } = new("\uE80A");
-		public override HotKey HotKey { get; } = new(VirtualKey.Number3, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public override HotKey HotKey { get; } = new(Keys.Number3, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutGridMediumAction : ToggleLayoutAction
@@ -46,7 +45,7 @@ namespace Files.App.Actions
 		public override string Label { get; } = "MediumIcons".GetLocalizedResource();
 
 		public override RichGlyph Glyph { get; } = new("\uF0E2");
-		public override HotKey HotKey { get; } = new(VirtualKey.Number4, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public override HotKey HotKey { get; } = new(Keys.Number4, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutGridLargeAction : ToggleLayoutAction
@@ -56,7 +55,7 @@ namespace Files.App.Actions
 		public override string Label { get; } = "LargeIcons".GetLocalizedResource();
 
 		public override RichGlyph Glyph { get; } = new("\uE739");
-		public override HotKey HotKey { get; } = new(VirtualKey.Number5, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public override HotKey HotKey { get; } = new(Keys.Number5, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutColumnsAction : ToggleLayoutAction
@@ -66,7 +65,7 @@ namespace Files.App.Actions
 		public override string Label { get; } = "Columns".GetLocalizedResource();
 
 		public override RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconColumnsLayout");
-		public override HotKey HotKey { get; } = new(VirtualKey.Number6, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public override HotKey HotKey { get; } = new(Keys.Number6, KeyModifiers.CtrlShift);
 	}
 
 	internal class LayoutAdaptiveAction : ToggleLayoutAction
@@ -78,7 +77,7 @@ namespace Files.App.Actions
 		public override bool IsExecutable => Context.IsLayoutAdaptiveEnabled;
 
 		public override RichGlyph Glyph { get; } = new("\uF576");
-		public override HotKey HotKey { get; } = new(VirtualKey.Number7, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public override HotKey HotKey { get; } = new(Keys.Number7, KeyModifiers.CtrlShift);
 
 		protected override void OnContextChanged(string propertyName)
 		{
@@ -137,8 +136,8 @@ namespace Files.App.Actions
 
 		public string Description => "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(VirtualKey.Subtract, VirtualKeyModifiers.Control);
-		public HotKey MediaHotKey { get; } = new((VirtualKey)189, VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(Keys.Subtract, KeyModifiers.Ctrl);
+		public HotKey MediaHotKey { get; } = new(Keys.OemMinus, KeyModifiers.Ctrl);
 
 		public Task ExecuteAsync()
 		{
@@ -155,8 +154,8 @@ namespace Files.App.Actions
 
 		public string Description => "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(VirtualKey.Add, VirtualKeyModifiers.Control);
-		public HotKey MediaHotKey { get; } = new((VirtualKey)187, VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(Keys.Add, KeyModifiers.Ctrl);
+		public HotKey MediaHotKey { get; } = new(Keys.OemPlus, KeyModifiers.Ctrl);
 
 		public Task ExecuteAsync()
 		{
