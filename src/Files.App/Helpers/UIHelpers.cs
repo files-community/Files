@@ -1,12 +1,15 @@
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Extensions;
 using Files.App.Shell;
+using Files.Backend.ViewModels.Dialogs;
 using Files.Shared;
+using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -17,6 +20,21 @@ namespace Files.App.Helpers
 {
 	public static class UIHelpers
 	{
+		public static event PropertyChangedEventHandler? PropertyChanged;
+
+		private static bool canShowDialog = true;
+		public static bool CanShowDialog
+		{
+			get => canShowDialog;
+			private set
+			{
+				if (value == canShowDialog)
+					return;
+				canShowDialog = value;
+				PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(CanShowDialog)));
+			}
+		}
+
 		/// <summary>
 		/// Displays a toast or dialog to indicate the result of
 		/// a device ejection operation.
@@ -73,14 +91,28 @@ namespace Files.App.Helpers
 
 		public static async Task<ContentDialogResult> TryShowAsync(this ContentDialog dialog)
 		{
+			if (!canShowDialog)
+				return ContentDialogResult.None;
+
 			try
 			{
+				CanShowDialog = false;
 				return await SetContentDialogRoot(dialog).ShowAsync();
 			}
 			catch // A content dialog is already open
 			{
 				return ContentDialogResult.None;
 			}
+			finally
+			{
+				CanShowDialog = true;
+			}
+		}
+
+		public static async Task<DialogResult> TryShowAsync<TViewModel>(this IDialog<TViewModel> dialog)
+			where TViewModel : class, INotifyPropertyChanged
+		{
+			return (DialogResult)await ((ContentDialog)dialog).TryShowAsync();
 		}
 
 		// WINUI3
