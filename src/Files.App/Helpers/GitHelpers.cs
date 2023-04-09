@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using System.Linq;
+using Files.App.Filesystem.StorageItems;
 
 namespace Files.App.Helpers
 {
@@ -16,9 +17,13 @@ namespace Files.App.Helpers
 
 		public static string? GetGitRepositoryPath(string? path, string root)
 		{
+			if (root.EndsWith('\\'))
+				root = root.Substring(0, root.Length - 1);
+
 			if (
 				string.IsNullOrWhiteSpace(path) || 
-				path.Equals(root, StringComparison.OrdinalIgnoreCase)
+				path.Equals(root, StringComparison.OrdinalIgnoreCase) ||
+				ShellStorageFolder.IsShellPath(path)
 				) 
 				return null;
 

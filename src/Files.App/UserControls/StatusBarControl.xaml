@@ -49,6 +49,7 @@
 				x:Name="GitPullButton"
 				VerticalAlignment="Center"
 				x:Load="{x:Bind Commands.Pull.IsExecutable, Mode=OneWay}"
+				AutomationProperties.AccessibilityView="Raw"
 				Background="Transparent"
 				BorderThickness="0"
 				Command="{x:Bind Commands.Pull}"
@@ -60,6 +61,7 @@
 				x:Name="GitPushButton"
 				VerticalAlignment="Center"
 				x:Load="{x:Bind Commands.Push.IsExecutable, Mode=OneWay}"
+				AutomationProperties.AccessibilityView="Raw"
 				Background="Transparent"
 				BorderThickness="0"
 				Command="{x:Bind Commands.Push}"
@@ -71,6 +73,7 @@
 				x:Name="GitSyncButton"
 				VerticalAlignment="Center"
 				x:Load="{x:Bind Commands.Sync.IsExecutable, Mode=OneWay}"
+				AutomationProperties.AccessibilityView="Raw"
 				Background="Transparent"
 				BorderThickness="0"
 				Command="{x:Bind Commands.Sync}"
@@ -82,6 +85,7 @@
 				x:Name="GitBranch"
 				VerticalAlignment="Center"
 				x:Load="{x:Bind Commands.Checkout.IsExecutable, Mode=OneWay}"
+				AutomationProperties.AccessibilityView="Raw"
 				Background="Transparent"
 				BorderThickness="0">
 				<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />
