@@ -3,6 +3,7 @@ using Files.App.Dialogs;
 using Files.App.Extensions;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.ApplicationModel.Resources;
@@ -24,6 +25,13 @@ namespace Files.App.Helpers
 		private static readonly Lazy<string> logoPath = new(GetFilesLogoPath);
 
 		public static string LogoPath => logoPath.Value;
+
+		public static nint GetWindowHandle(Window w)
+		{
+			var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(w);
+
+			return hWnd;
+		}
 
 		public static async void ShowProperties(IShellPage associatedInstance)
 		{

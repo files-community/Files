@@ -134,11 +134,11 @@ namespace Files.App.ViewModels.Properties
 		private void InitializeCommands()
 		{
 			ChangeOwnerCommand = new RelayCommand(ChangeOwner, () => AccessControlList is not null);
-			AddAccessControlEntryCommand = new RelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
-			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && SelectedAccessControlEntry is not null);
-			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && (AccessControlList.IsAccessControlListProtected != _isProtected));
+			AddAccessControlEntryCommand = new RelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid);
+			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
+			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => AccessControlList is not null && AccessControlList.IsValid && (AccessControlList.IsProtected != _isProtected));
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
-			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
+			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.IsValid);
 		}
 
 		private async void ChangeOwner()
@@ -149,7 +149,7 @@ namespace Files.App.ViewModels.Properties
 				bool isFolder = Item.PrimaryItemAttribute == StorageItemTypes.Folder && !Item.IsShortcut;
 
 				// Set owner and refresh file permissions
-				if (FileOperationsHelpers.SetFileOwner(Item.ItemPath, isFolder, pickedObject))
+				if (FileOperationsHelpers.SetFileOwner(Item.ItemPath, pickedObject))
 					GetAccessControlList();
 			}
 		}
@@ -185,7 +185,7 @@ namespace Files.App.ViewModels.Properties
 				x.FileSystemRights == (System.Security.AccessControl.FileSystemRights)SelectedAccessControlEntry.AccessMaskFlags &&
 				x.InheritanceFlags == (System.Security.AccessControl.InheritanceFlags)SelectedAccessControlEntry.InheritanceFlags &&
 				x.IsInherited == SelectedAccessControlEntry.IsInherited &&
-				x.PrincipalSid == SelectedAccessControlEntry.PrincipalSid &&
+				x.PrincipalSid == SelectedAccessControlEntry.Principal.Sid &&
 				x.PropagationFlags == (System.Security.AccessControl.PropagationFlags)SelectedAccessControlEntry.PropagationFlags);
 			AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
 
@@ -219,7 +219,7 @@ namespace Files.App.ViewModels.Properties
 
 		public bool SaveChangedAccessControlList()
 		{
-			return AccessControlList.SetAccessControl();
+			return FileSecurityHelpers.SetAccessControlList();
 		}
 
 		public Task<string?> OpenObjectPicker()

@@ -4,8 +4,6 @@ using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
 using Files.App.Helpers;
-using Files.App.Views.Properties;
-using Microsoft.UI.Xaml.Controls;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -13,45 +11,22 @@ namespace Files.App.ViewModels.Properties
 {
 	public class SecurityViewModel : ObservableObject
 	{
-		public SecurityViewModel(ListedItem item)
-		{
-			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
-			Item = item;
+		public string Path { get; set; }
 
-			InitializeCommands();
-			GetAccessControlList();
-		}
-
-		public SecurityViewModel(DriveItem item)
-		{
-			IsFolder = true;
-			Item = new ListedItem()
-			{
-				ItemNameRaw = item.Text,
-				ItemPath = item.Path,
-				PrimaryItemAttribute = StorageItemTypes.Folder
-			};
-
-			InitializeCommands();
-			GetAccessControlList();
-		}
-
-		public ListedItem Item { get; }
-
-		private bool _isFolder;
+		private bool _IsFolder;
 		public bool IsFolder
 		{
-			get => _isFolder;
-			set => SetProperty(ref _isFolder, value);
+			get => _IsFolder;
+			set => SetProperty(ref _IsFolder, value);
 		}
 
-		private AccessControlList _accessControlList;
+		private AccessControlList _AccessControlList;
 		public AccessControlList AccessControlList
 		{
-			get => _accessControlList;
+			get => _AccessControlList;
 			set
 			{
-				if (SetProperty(ref _accessControlList, value))
+				if (SetProperty(ref _AccessControlList, value))
 				{
 					AddAccessControlEntryCommand.NotifyCanExecuteChanged();
 					RemoveAccessControlEntryCommand.NotifyCanExecuteChanged();
@@ -59,16 +34,16 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private AccessControlEntry _selectedAccessControlEntry;
+		private AccessControlEntry _SelectedAccessControlEntry;
 		public AccessControlEntry SelectedAccessControlEntry
 		{
-			get => _selectedAccessControlEntry;
+			get => _SelectedAccessControlEntry;
 			set
 			{
-				if (_selectedAccessControlEntry is not null)
-					_selectedAccessControlEntry.IsSelected = false;
+				if (_SelectedAccessControlEntry is not null)
+					_SelectedAccessControlEntry.IsSelected = false;
 
-				if (SetProperty(ref _selectedAccessControlEntry, value))
+				if (SetProperty(ref _SelectedAccessControlEntry, value))
 				{
 					value.IsSelected = true;
 					RemoveAccessControlEntryCommand.NotifyCanExecuteChanged();
@@ -76,66 +51,59 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public RelayCommand AddAccessControlEntryCommand { get; set; }
-		public RelayCommand RemoveAccessControlEntryCommand { get; set; }
+		public IRelayCommand AddAccessControlEntryCommand { get; set; }
+		public IRelayCommand RemoveAccessControlEntryCommand { get; set; }
+
+		public SecurityViewModel(ListedItem item)
+		{
+			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
+			Path = item.ItemPath;
+			AccessControlList = FileSecurityHelpers.GetAccessControlList(Path, IsFolder);
+
+			InitializeCommands();
+		}
+
+		public SecurityViewModel(DriveItem item)
+		{
+			IsFolder = true;
+			Path = item.Path;
+			AccessControlList = FileSecurityHelpers.GetAccessControlList(Path, IsFolder);
+
+			InitializeCommands();
+		}
 
 		private void InitializeCommands()
 		{
-			AddAccessControlEntryCommand = new RelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
-			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && SelectedAccessControlEntry is not null);
+			AddAccessControlEntryCommand = new RelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid);
+			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
 		}
 
 		private async void AddAccessControlEntry()
 		{
 			var pickedSid = await OpenObjectPicker();
-			if (pickedSid is not null)
-			{
-				var mapping = new AccessControlEntryPrimitiveMapping()
-				{
-					AccessControlType = System.Security.AccessControl.AccessControlType.Allow,
-					FileSystemRights = System.Security.AccessControl.FileSystemRights.ReadAndExecute,
-					InheritanceFlags = IsFolder
-						? System.Security.AccessControl.InheritanceFlags.ContainerInherit | System.Security.AccessControl.InheritanceFlags.ObjectInherit
-						: System.Security.AccessControl.InheritanceFlags.None,
-					IsInherited = false,
-					PrincipalSid = pickedSid,
-					PropagationFlags = System.Security.AccessControl.PropagationFlags.None,
-				};
+			if (string.IsNullOrEmpty(pickedSid))
+				return;
 
-				AccessControlList.AccessControlEntryPrimitiveMappings.Add(mapping);
-				AccessControlList.AccessControlEntries.Add(new(mapping, IsFolder));
-
-				SaveChangedAccessControlList();
-			}
-		}
-
-		private void RemoveAccessControlEntry()
-		{
-			AccessControlList.AccessControlEntryPrimitiveMappings.RemoveAll(x =>
-				x.AccessControlType == (System.Security.AccessControl.AccessControlType)SelectedAccessControlEntry.AccessControlType &&
-				x.FileSystemRights == (System.Security.AccessControl.FileSystemRights)SelectedAccessControlEntry.AccessMaskFlags &&
-				x.InheritanceFlags == (System.Security.AccessControl.InheritanceFlags)SelectedAccessControlEntry.InheritanceFlags &&
-				x.IsInherited == SelectedAccessControlEntry.IsInherited &&
-				x.PrincipalSid == SelectedAccessControlEntry.PrincipalSid &&
-				x.PropagationFlags == (System.Security.AccessControl.PropagationFlags)SelectedAccessControlEntry.PropagationFlags);
-			AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
+			// TODO: Add ACE here
 
 			SaveChangedAccessControlList();
 		}
 
-		public void GetAccessControlList()
+		private void RemoveAccessControlEntry()
 		{
-			AccessControlList = FileOperationsHelpers.GetFilePermissions(Item.ItemPath, IsFolder);
+			// TODO: Remove ACE here
+
+			SaveChangedAccessControlList();
 		}
 
 		public bool SaveChangedAccessControlList()
 		{
-			return AccessControlList.SetAccessControl();
+			// TODO: Add saving codes here
+
+			return false;
 		}
 
 		private static Task<string?> OpenObjectPicker()
-		{
-			return FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
-		}
+			=> FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
 	}
 }
