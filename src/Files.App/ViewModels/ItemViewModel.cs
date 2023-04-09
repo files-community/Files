@@ -1953,7 +1953,6 @@ namespace Files.App.ViewModels
 			// Call when any edits have occurred
 			async Task HandleChangesOccurredAsync()
 			{
-				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
 
 				if (lastItemAdded is not null)
@@ -2101,7 +2100,45 @@ namespace Files.App.ViewModels
 			enumFolderSemaphore.Release();
 		}
 
-		private async Task<ListedItem?> AddFileOrFolderAsync(string fileOrFolderPath)
+		private async Task AddFileOrFolderAsync(ListedItem? item, int index = -1)
+		{
+			if (item is null)
+				return;
+
+			try
+			{
+				await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
+			}
+			catch (OperationCanceledException)
+			{
+				return;
+			}
+
+			if (!filesAndFolders.Any(x => x.ItemPath.Equals(item.ItemPath, StringComparison.OrdinalIgnoreCase))) // Avoid adding duplicate items
+			{
+				if (index == -1)
+				{
+					filesAndFolders.Add(item);
+				}
+				else
+				{
+					filesAndFolders.Insert(index, item);
+				}
+				if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
+				{
+					// New file added, enumerate ADS
+					foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(item.ItemPath))
+					{
+						var adsItem = Win32StorageEnumerator.GetAlternateStream(ads, item);
+						filesAndFolders.Add(adsItem);
+					}
+				}
+			}
+
+			enumFolderSemaphore.Release();
+		}
+
+		private async Task<ListedItem?> AddFileOrFolderAsync(string fileOrFolderPath, int index = -1)
 		{
 			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
 			var additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
@@ -2136,7 +2173,14 @@ namespace Files.App.ViewModels
 			else
 				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, addFilesCTS.Token);
 
-			await AddFileOrFolderAsync(listedItem);
+			if (index == -1)
+			{
+				await AddFileOrFolderAsync(listedItem);
+			}
+			else
+			{
+				await AddFileOrFolderAsync(listedItem, index);
+			}
 
 			return listedItem;
 		}
