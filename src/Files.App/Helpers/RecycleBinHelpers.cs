@@ -68,7 +68,7 @@ namespace Files.App.Helpers
 			};
 
 			if (userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy is DeleteConfirmationPolicies.Never
-				|| await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync() == ContentDialogResult.Primary)
+				|| await ConfirmEmptyBinDialog.TryShowAsync() == ContentDialogResult.Primary)
 			{
 				string bannerTitle = "EmptyRecycleBin".GetLocalizedResource();
 				var banner = ongoingTasksViewModel.PostBanner(
@@ -108,7 +108,7 @@ namespace Files.App.Helpers
 				DefaultButton = ContentDialogButton.Primary
 			};
 
-			ContentDialogResult result = await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
+			ContentDialogResult result = await ConfirmEmptyBinDialog.TryShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 			{
@@ -128,20 +128,10 @@ namespace Files.App.Helpers
 				DefaultButton = ContentDialogButton.Primary
 			};
 
-			ContentDialogResult result = await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
+			ContentDialogResult result = await ConfirmEmptyBinDialog.TryShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 				await RestoreItem(associatedInstance);
-		}
-
-		//WINUI3
-		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
-			return contentDialog;
 		}
 
 		public static async Task<bool> HasRecycleBin(string? path)
