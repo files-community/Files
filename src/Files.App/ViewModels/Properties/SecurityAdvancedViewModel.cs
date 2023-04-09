@@ -156,40 +156,10 @@ namespace Files.App.ViewModels.Properties
 
 		private async void AddAccessControlEntry()
 		{
-			var pickedSid = await OpenObjectPicker();
-			if (pickedSid is not null)
-			{
-				var mapping = new AccessControlEntryPrimitiveMapping()
-				{
-					AccessControlType = System.Security.AccessControl.AccessControlType.Allow,
-					FileSystemRights = System.Security.AccessControl.FileSystemRights.ReadAndExecute,
-					InheritanceFlags = IsFolder
-						? System.Security.AccessControl.InheritanceFlags.ContainerInherit | System.Security.AccessControl.InheritanceFlags.ObjectInherit
-						: System.Security.AccessControl.InheritanceFlags.None,
-					IsInherited = false,
-					PrincipalSid = pickedSid,
-					PropagationFlags = System.Security.AccessControl.PropagationFlags.None,
-				};
-
-				AccessControlList.AccessControlEntryPrimitiveMappings.Add(mapping);
-				AccessControlList.AccessControlEntries.Add(new(mapping, IsFolder));
-
-				SaveChangedAccessControlList();
-			}
 		}
 
 		private void RemoveAccessControlEntry()
 		{
-			AccessControlList.AccessControlEntryPrimitiveMappings.RemoveAll(x =>
-				x.AccessControlType == (System.Security.AccessControl.AccessControlType)SelectedAccessControlEntry.AccessControlType &&
-				x.FileSystemRights == (System.Security.AccessControl.FileSystemRights)SelectedAccessControlEntry.AccessMaskFlags &&
-				x.InheritanceFlags == (System.Security.AccessControl.InheritanceFlags)SelectedAccessControlEntry.InheritanceFlags &&
-				x.IsInherited == SelectedAccessControlEntry.IsInherited &&
-				x.PrincipalSid == SelectedAccessControlEntry.Principal.Sid &&
-				x.PropagationFlags == (System.Security.AccessControl.PropagationFlags)SelectedAccessControlEntry.PropagationFlags);
-			AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
-
-			SaveChangedAccessControlList();
 		}
 
 		private void DisableInheritance()
@@ -219,7 +189,7 @@ namespace Files.App.ViewModels.Properties
 
 		public bool SaveChangedAccessControlList()
 		{
-			return FileSecurityHelpers.SetAccessControlList();
+			return false;
 		}
 
 		public Task<string?> OpenObjectPicker()

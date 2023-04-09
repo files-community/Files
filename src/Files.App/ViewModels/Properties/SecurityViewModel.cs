@@ -24,14 +24,7 @@ namespace Files.App.ViewModels.Properties
 		public AccessControlList AccessControlList
 		{
 			get => _AccessControlList;
-			set
-			{
-				if (SetProperty(ref _AccessControlList, value))
-				{
-					AddAccessControlEntryCommand.NotifyCanExecuteChanged();
-					RemoveAccessControlEntryCommand.NotifyCanExecuteChanged();
-				}
-			}
+			set => SetProperty(ref _AccessControlList, value);
 		}
 
 		private AccessControlEntry _SelectedAccessControlEntry;

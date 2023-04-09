@@ -127,24 +127,15 @@ namespace Files.App.Helpers
 				Owner = Principal.FromSid(szOwnerSid),
 				IsProtected = GetAccessControlProtection(path, isFolder),
 				IsValid = true,
+				AccessControlEntries = new(),
 			};
-
-			var lpName = new StringBuilder();
-			var lpDomain = new StringBuilder();
-			int cchName = 0;
-			int cchDomainName = 0;
 
 			// Get ACEs
 			for (uint i = 0; i < aclSize.AceCount; i++)
 			{
 				GetAce(pDacl, i, out var pAce);
 
-				LookupAccountSid(null, pAce.GetSid(), lpName, ref cchName, lpDomain, ref cchDomainName, out _);
-
-				lpName.EnsureCapacity(cchName);
-				lpDomain.EnsureCapacity(cchDomainName);
-
-				LookupAccountSid(null, pAce.GetSid(), lpName, ref cchName, lpDomain, ref cchDomainName, out var snu);
+				var szSid = ConvertSidToStringSid(pAce.GetSid());
 
 				var header = pAce.GetHeader();
 
@@ -171,7 +162,7 @@ namespace Files.App.Helpers
 					propagationFlags |= FilesSecurity.PropagationFlags.InheritOnly;
 
 				// Initialize an ACE
-				acl.AccessControlEntries.Add(new(isFolder, szOwnerSid, type, accessMaskFlags, isInherited, inheritanceFlags, propagationFlags));
+				acl.AccessControlEntries.Add(new(isFolder, szSid, type, accessMaskFlags, isInherited, inheritanceFlags, propagationFlags));
 			}
 
 			return acl;

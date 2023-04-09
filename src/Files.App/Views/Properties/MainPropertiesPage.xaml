@@ -49,6 +49,7 @@
 			<!--  Backward Navigation Button  -->
 			<Button
 				x:Name="BackwardNavigationButton"
+				Grid.Column="0"
 				Width="40"
 				Height="32"
 				Margin="4,4,0,0"

@@ -34,8 +34,6 @@ namespace Files.App.Views.Properties
 
 		private CancellationTokenSource _tokenSource = new();
 
-		private ContentDialog _dialog;
-
 		private object _parameter;
 
 		private IShellPage _appInstance;
@@ -68,20 +66,12 @@ namespace Files.App.Views.Properties
 		{
 			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
 
-			if (FilePropertiesHelpers.IsWinUI3)
-			{
-				// Set rectangle for the Titlebar
-				TitlebarArea.SizeChanged += (_, _) => DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight);
-				DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight, 40);
-				Window.Closed += Window_Closed;
+			// Set rectangle for the Titlebar
+			TitlebarArea.SizeChanged += (_, _) => DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight);
+			DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight, 40);
+			Window.Closed += Window_Closed;
 
-				await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
-			}
-			else
-			{
-				_dialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
-				_dialog.Closed += PropertiesDialog_Closed;
-			}
+			await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
 		}
 
 		private void MainPropertiesPage_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -101,9 +91,6 @@ namespace Files.App.Views.Properties
 		{
 			await DispatcherQueue.EnqueueAsync(() =>
 			{
-				if (!FilePropertiesHelpers.IsWinUI3)
-					return;
-
 				((Frame)Parent).RequestedTheme = ThemeHelper.RootTheme;
 
 				switch (ThemeHelper.RootTheme)
@@ -173,13 +160,13 @@ namespace Files.App.Views.Properties
 
 		private void CancelChangesButton_Click(object sender, RoutedEventArgs e)
 		{
-			ClosePage();
+			Window.Close();
 		}
 
 		private async void SaveChangesButton_Click(object sender, RoutedEventArgs e)
 		{
 			await ApplyChanges();
-			ClosePage();
+			Window.Close();
 		}
 
 		private async Task ApplyChanges()
@@ -196,15 +183,7 @@ namespace Files.App.Views.Properties
 		private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key.Equals(VirtualKey.Escape))
-				ClosePage();
-		}
-
-		private void ClosePage()
-		{
-			if (FilePropertiesHelpers.IsWinUI3)
 				Window.Close();
-			else
-				_dialog?.Hide();
 		}
 
 		private void Window_Closed(object sender, WindowEventArgs args)
@@ -213,22 +192,7 @@ namespace Files.App.Views.Properties
 			Window.Closed -= Window_Closed;
 
 			if (_tokenSource is not null && !_tokenSource.IsCancellationRequested)
-			{
 				_tokenSource.Cancel();
-			}
-		}
-
-		private void PropertiesDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
-		{
-			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
-			sender.Closed -= PropertiesDialog_Closed;
-
-			if (_tokenSource is not null && !_tokenSource.IsCancellationRequested)
-			{
-				_tokenSource.Cancel();
-			}
-
-			_dialog.Hide();
 		}
 	}
 }

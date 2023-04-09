@@ -61,72 +61,58 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task OpenPropertiesWindowAsync(object item, IShellPage associatedInstance)
+		public static void OpenPropertiesWindowAsync(object item, IShellPage associatedInstance)
 		{
 			if (item is null)
 				return;
 
-			if (IsWinUI3)
+			var frame = new Frame
 			{
-				var frame = new Frame
-				{
-					RequestedTheme = ThemeHelper.RootTheme
-				};
+				RequestedTheme = ThemeHelper.RootTheme
+			};
 
-				Navigate(frame);
+			Navigate(frame);
 
-				var propertiesWindow = new WinUIEx.WindowEx
-				{
-					IsMinimizable = false,
-					IsMaximizable = false,
-					MinWidth = 460,
-					MinHeight = 550,
-					Width = 800,
-					Height = 550,
-					Content = frame,
-					Backdrop = new WinUIEx.MicaSystemBackdrop(),
-				};
-
-				var appWindow = propertiesWindow.AppWindow;
-				appWindow.Title = "Properties".GetLocalizedResource();
-				appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-				appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-				appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
-				appWindow.SetIcon(LogoPath);
-
-				if (frame.Content is Views.Properties.MainPropertiesPage properties)
-				{
-					properties.Window = propertiesWindow;
-					properties.AppWindow = appWindow;
-				}
-
-				appWindow.Show();
-
-				// WINUI3: Move window to cursor position
-				if (true)
-				{
-					UWPToWinAppSDKUpgradeHelpers.InteropHelpers.GetCursorPos(out var pointerPosition);
-					var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
-					var appWindowPos = new PointInt32
-					{
-						X = displayArea.WorkArea.X
-							+ Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width, pointerPosition.X - displayArea.WorkArea.X)),
-						Y = displayArea.WorkArea.Y
-							+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
-					};
-
-					appWindow.Move(appWindowPos);
-				}
-			}
-			else
+			var propertiesWindow = new WinUIEx.WindowEx
 			{
-				var dialog = new PropertiesDialog();
-				dialog.propertiesFrame.Tag = dialog;
-				Navigate(dialog.propertiesFrame);
+				IsMinimizable = false,
+				IsMaximizable = false,
+				MinWidth = 460,
+				MinHeight = 550,
+				Width = 800,
+				Height = 550,
+				Content = frame,
+				Backdrop = new WinUIEx.MicaSystemBackdrop(),
+			};
 
-				await dialog.ShowAsync(ContentDialogPlacement.Popup);
+			var appWindow = propertiesWindow.AppWindow;
+			appWindow.Title = "Properties".GetLocalizedResource();
+			appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+			appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+			appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+			appWindow.SetIcon(LogoPath);
+
+			if (frame.Content is Views.Properties.MainPropertiesPage properties)
+			{
+				properties.Window = propertiesWindow;
+				properties.AppWindow = appWindow;
 			}
+
+			appWindow.Show();
+
+			// WINUI3: Move window to cursor position
+			UWPToWinAppSDKUpgradeHelpers.InteropHelpers.GetCursorPos(out var pointerPosition);
+			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
+			var appWindowPos = new PointInt32
+			{
+				X = displayArea.WorkArea.X
+					+ Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width, pointerPosition.X - displayArea.WorkArea.X)),
+				Y = displayArea.WorkArea.Y
+					+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
+			};
+
+			appWindow.Move(appWindowPos);
 
 			void Navigate(Frame frame)
 			{
