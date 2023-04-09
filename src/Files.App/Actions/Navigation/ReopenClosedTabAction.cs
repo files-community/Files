@@ -6,7 +6,6 @@ using Files.App.Extensions;
 using Files.App.UserControls.MultitaskingControl;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -18,7 +17,7 @@ namespace Files.App.Actions
 
 		public string Description { get; } = "TODO: Need to be described";
 
-		public HotKey HotKey { get; } = new(VirtualKey.T, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public HotKey HotKey { get; } = new(Keys.T, KeyModifiers.CtrlShift);
 
 		public bool IsExecutable =>
 			context.Control is not null &&

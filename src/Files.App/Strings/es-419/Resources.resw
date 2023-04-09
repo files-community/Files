@@ -2861,10 +2861,10 @@
     <value>Mostrar aviso al cambiar las extensiones de archivo</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
-    <value>This PC</value>
+    <value>Este equipo</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>Recycle Bin</value>
+    <value>Papelera de reciclaje</value>
   </data>
   <data name="Untagged" xml:space="preserve">
     <value>Sin etiquetar</value>
