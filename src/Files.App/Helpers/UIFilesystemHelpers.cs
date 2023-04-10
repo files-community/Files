@@ -285,15 +285,6 @@ namespace Files.App.Helpers
 			await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
 		}
 
-		// WINUI3
-		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-
-			return contentDialog;
-		}
-
 		public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
 		{
 			string currentPath = null;
@@ -314,7 +305,7 @@ namespace Files.App.Helpers
 			if (itemType != AddItemDialogItemType.File || itemInfo?.Command is null)
 			{
 				DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
-				await SetContentDialogRoot(dialog).ShowAsync(); // Show rename dialog
+				await dialog.TryShowAsync(); // Show rename dialog
 
 				if (dialog.DynamicResult != DynamicDialogResult.Primary)
 					return null;
