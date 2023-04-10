@@ -15,6 +15,7 @@ using Files.App.ViewModels;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -30,6 +31,7 @@ using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.Storage;
 using Windows.System;
+using WinRT.Interop;
 
 namespace Files.App.Views
 {
@@ -92,7 +94,10 @@ namespace Files.App.Views
 				try
 				{
 					var storeContext = StoreContext.GetDefault();
-					await storeContext.RequestRateAndReviewAppAsync();
+					InitializeWithWindow.Initialize(storeContext, App.WindowHandle);
+					var storeRateAndReviewResult = await storeContext.RequestRateAndReviewAppAsync();
+
+					App.Logger.LogInformation($"STORE: review request status: {storeRateAndReviewResult.Status}");
 
 					UserSettingsService.ApplicationSettingsService.ClickedToReviewApp = true;
 				}
