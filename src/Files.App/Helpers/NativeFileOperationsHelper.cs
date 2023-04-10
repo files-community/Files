@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;

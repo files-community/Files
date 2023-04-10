@@ -1,3 +1,8 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Shell;

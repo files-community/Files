@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.Extensions.Logging;
 
 namespace Files.Shared.Extensions
 {
