@@ -3,7 +3,6 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -13,8 +12,11 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "SelectAll".GetLocalizedResource();
 
+		public string Description => "TODO: Need to be described.";
+
 		public RichGlyph Glyph { get; } = new("\uE8B3");
-		public HotKey HotKey { get; } = new(VirtualKey.A, VirtualKeyModifiers.Control);
+
+		public HotKey HotKey { get; } = new(Keys.A, KeyModifiers.Ctrl);
 
 		public bool IsExecutable
 		{

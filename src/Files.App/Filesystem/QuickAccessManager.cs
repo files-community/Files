@@ -1,17 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.Helpers;
 using Files.App.DataModels;
+using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.UserControls.Widgets;
-using Files.Shared.Extensions;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Windows.Storage;
-using static Files.App.Constants;
 
 namespace Files.App.Filesystem
 {

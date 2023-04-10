@@ -323,7 +323,7 @@ namespace Files.App.Views.LayoutModes
 				e.Handled = true;
 
 				var commands = Ioc.Default.GetRequiredService<ICommandManager>();
-				var hotKey = new HotKey(VirtualKey.A, VirtualKeyModifiers.Control);
+				var hotKey = new HotKey(Keys.A, KeyModifiers.Ctrl);
 
 				await commands[hotKey].ExecuteAsync();
 
@@ -349,11 +349,6 @@ namespace Files.App.Views.LayoutModes
 				else if (ctrlPressed && shiftPressed)
 				{
 					NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
-				}
-				else
-				{
-					await NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-					FileList.SelectedIndex = 0;
 				}
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
@@ -824,7 +819,7 @@ namespace Files.App.Views.LayoutModes
 				if (isPointerOver.HasValue)
 					control.SetValue(IsPointerOverProperty, isPointerOver);
 				// Handle visual states
-				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false)
+				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false && SelectedItems?.Count >= 1)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);

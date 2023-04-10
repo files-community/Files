@@ -4,6 +4,7 @@ using Files.App.DataModels.NavigationControlItems;
 using Files.App.Helpers;
 using Files.Shared;
 using Files.Shared.Cloud;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -15,7 +16,7 @@ namespace Files.App.Filesystem.Cloud
 {
 	public class CloudDrivesManager
 	{
-		private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
+		private readonly ILogger logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 		private readonly ICloudDetector detector = Ioc.Default.GetService<ICloudDetector>();
 
 		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
@@ -42,7 +43,7 @@ namespace Files.App.Filesystem.Cloud
 
 			foreach (var provider in providers)
 			{
-				logger?.Info($"Adding cloud provider \"{provider.Name}\" mapped to {provider.SyncFolder}");
+				logger?.LogInformation($"Adding cloud provider \"{provider.Name}\" mapped to {provider.SyncFolder}");
 				var cloudProviderItem = new DriveItem
 				{
 					Text = provider.Name,
@@ -56,7 +57,7 @@ namespace Files.App.Filesystem.Cloud
 				}
 				catch (Exception ex)
 				{
-					logger?.Warn(ex, "Cloud provider local folder couldn't be found");
+					logger?.LogWarning(ex, "Cloud provider local folder couldn't be found");
 				}
 
 				cloudProviderItem.MenuOptions = new ContextMenuOptions

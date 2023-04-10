@@ -1,9 +1,9 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Commands;
+using Files.App.Contexts;
 using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -16,43 +16,39 @@ using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Microsoft.UI.Input;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.Windows.ApplicationModel.Resources;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel;
-using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
 using Windows.System;
 
 namespace Files.App.Views
 {
-	/// <summary>
-	/// The root page of Files
-	/// </summary>
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
-		private VirtualKeyModifiers currentModifiers = VirtualKeyModifiers.None;
+		public IUserSettingsService UserSettingsService { get; }
 
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		public ICommandManager Commands { get; }
 
-		public AppModel AppModel => App.AppModel;
+		public IWindowContext WindowContext { get; }
 
-		public MainPageViewModel ViewModel
-		{
-			get => (MainPageViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public SidebarViewModel SidebarAdaptiveViewModel { get; }
 
+		public MainPageViewModel ViewModel { get; }
+
+		public OngoingTasksViewModel OngoingTasksViewModel { get; }
+
+		public static AppModel AppModel
+			=> App.AppModel;
 
 		/// <summary>
 		/// True if the user is currently resizing the preview pane
@@ -61,25 +57,21 @@ namespace Files.App.Views
 
 		private bool keyReleased = true;
 
-		public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
-
-		public OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
-
-		private ICommand ToggleCompactOverlayCommand { get; }
-		private ICommand SetCompactOverlayCommand { get; }
-
-		private ICommand ToggleSidebarCollapsedStateCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleSidebarCollapsedState(x));
-
 		public MainPage()
 		{
 			InitializeComponent();
 
-			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
+			// Dependency Injection
+			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
+			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
+			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+
+			var flowDirectionSetting = new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
-
-			ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
-			SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 		}
@@ -94,7 +86,7 @@ namespace Files.App.Views
 				SecondaryButtonText = "No".ToLocalized()
 			};
 
-			var result = await SetContentDialogRoot(promptForReviewDialog).ShowAsync();
+			var result = await promptForReviewDialog.TryShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 			{
@@ -114,6 +106,7 @@ namespace Files.App.Views
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+
 			return contentDialog;
 		}
 
@@ -141,8 +134,9 @@ namespace Files.App.Views
 
 		private void SetRectDragRegion()
 		{
-			DragZoneHelper.SetDragZones(App.Window,
-				dragZoneLeftIndent: (int)(TabControl.ActualWidth - TabControl.DragArea.ActualWidth));
+			DragZoneHelper.SetDragZones(
+				App.Window,
+				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
 		}
 
 		public void TabItemContent_ContentChanged(object? sender, TabItemArguments e)
@@ -153,6 +147,7 @@ namespace Files.App.Views
 			var paneArgs = e.NavigationArg as PaneNavigationArguments;
 			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
 				paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
+
 			UpdateStatusBarProperties();
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
@@ -168,10 +163,12 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments).LeftPaneNavPathParam);
+
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
 			ViewModel.UpdateInstanceProperties(navArgs);
+
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
 		}
@@ -209,6 +206,7 @@ namespace Files.App.Views
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			ViewModel.OnNavigatedTo(e);
+
 			SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
 			SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
 			SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
@@ -221,34 +219,24 @@ namespace Files.App.Views
 
 			switch (e.Key)
 			{
+				case VirtualKey.Menu:
+				case VirtualKey.Control:
+				case VirtualKey.Shift:
 				case VirtualKey.LeftWindows:
 				case VirtualKey.RightWindows:
-					currentModifiers |= VirtualKeyModifiers.Windows;
-					break;
-				case VirtualKey.Menu:
-					currentModifiers |= VirtualKeyModifiers.Menu;
-					break;
-				case VirtualKey.Control:
-					currentModifiers |= VirtualKeyModifiers.Control;
-					break;
-				case VirtualKey.Shift:
-					currentModifiers |= VirtualKeyModifiers.Shift;
 					break;
 				default:
-					HotKey hotKey = new(e.Key, currentModifiers);
+					var currentModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
+					HotKey hotKey = new((Keys)e.Key, currentModifiers);
 
 					// A textbox takes precedence over certain hotkeys.
 					bool isTextBox = e.OriginalSource is DependencyObject source && source.FindAscendantOrSelf<TextBox>() is not null;
 					if (isTextBox)
 					{
 						if (hotKey.IsTextBoxHotKey())
-						{
 							break;
-						}
-						if (currentModifiers is VirtualKeyModifiers.None && !e.Key.IsGlobalKey())
-						{
+						if (currentModifiers is KeyModifiers.None && !hotKey.Key.IsGlobalKey())
 							break;
-						}
 					}
 
 					// Execute command for hotkey
@@ -262,29 +250,31 @@ namespace Files.App.Views
 					break;
 			}
 		}
+
 		protected override void OnPreviewKeyUp(KeyRoutedEventArgs e)
 		{
-			base.OnPreviewKeyDown(e);
+			base.OnPreviewKeyUp(e);
 
 			switch (e.Key)
 			{
+				case VirtualKey.Menu:
+				case VirtualKey.Control:
+				case VirtualKey.Shift:
 				case VirtualKey.LeftWindows:
 				case VirtualKey.RightWindows:
-					currentModifiers &= ~VirtualKeyModifiers.Windows;
-					break;
-				case VirtualKey.Menu:
-					currentModifiers &= ~VirtualKeyModifiers.Menu;
-					break;
-				case VirtualKey.Control:
-					currentModifiers &= ~VirtualKeyModifiers.Control;
-					break;
-				case VirtualKey.Shift:
-					currentModifiers &= ~VirtualKeyModifiers.Shift;
 					break;
 				default:
 					keyReleased = true;
 					break;
 			}
+		}
+
+		// A workaround for issue with OnPreviewKeyUp not being called when the hotkey displays a dialog
+		protected override void OnLostFocus(RoutedEventArgs e)
+		{
+			base.OnLostFocus(e);
+
+			keyReleased = true;
 		}
 
 		private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
@@ -296,13 +286,9 @@ namespace Files.App.Views
 		private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
 		{
 			if (e.InvokedItemDataContext is DriveItem)
-			{
 				await FilePropertiesHelpers.OpenPropertiesWindowAsync(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
-			}
 			else if (e.InvokedItemDataContext is LibraryLocationItem library)
-			{
 				await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
-			}
 			else if (e.InvokedItemDataContext is LocationItem locationItem)
 			{
 				ListedItem listedItem = new ListedItem(null!)
@@ -312,6 +298,7 @@ namespace Files.App.Views
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = "Folder".GetLocalizedResource(),
 				};
+
 				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			}
 		}
@@ -326,32 +313,38 @@ namespace Files.App.Views
 		{
 			var invokedItemContainer = e.InvokedItemContainer;
 
-			string? navigationPath; // path to navigate
-			Type? sourcePageType = null; // type of page to navigate
+			// Path to navigate
+			string? navigationPath;
+
+			// Type of page to navigate
+			Type? sourcePageType = null;
 
 			switch ((invokedItemContainer.DataContext as INavigationControlItem)?.ItemType)
 			{
 				case NavigationControlItemType.Location:
 					{
-						var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path; // Get the path of the invoked item
+						// Get the path of the invoked item
+						var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path;
 
-						if (string.IsNullOrEmpty(ItemPath)) // Section item
+						// Section item
+						if (string.IsNullOrEmpty(ItemPath))
 						{
 							navigationPath = invokedItemContainer.Tag?.ToString();
 						}
-						else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
+						// Home item
+						else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase))
 						{
 							if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
 								return; // return if already selected
 
 							navigationPath = "Home";
-							sourcePageType = typeof(WidgetsPage);
+							sourcePageType = typeof(HomePage);
 						}
-						else // Any other item
+						// Any other item
+						else
 						{
 							navigationPath = invokedItemContainer.Tag?.ToString();
 						}
-
 						break;
 					}
 
@@ -415,15 +408,10 @@ namespace Files.App.Views
 			}
 		}
 
-		private void ToggleSidebarCollapsedState(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			SidebarAdaptiveViewModel.IsSidebarOpen = !SidebarAdaptiveViewModel.IsSidebarOpen;
-			e!.Handled = true;
-		}
-
 		private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			SidebarAdaptiveViewModel.UpdateTabControlMargin(); // Set the correct tab margin on startup
+			// Set the correct tab margin on startup
+			SidebarAdaptiveViewModel.UpdateTabControlMargin();
 		}
 
 		private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e) => LoadPaneChanged();
@@ -552,28 +540,25 @@ namespace Files.App.Views
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		private void ToggleCompactOverlay() => SetCompactOverlay(App.GetAppWindow(App.Window).Presenter.Kind != AppWindowPresenterKind.CompactOverlay);
-
-		private void SetCompactOverlay(bool isCompact)
-		{
-			var view = App.GetAppWindow(App.Window);
-			ViewModel.IsWindowCompactOverlay = isCompact;
-			if (!isCompact)
-			{
-				view.SetPresenter(AppWindowPresenterKind.Overlapped);
-			}
-			else
-			{
-				view.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-				view.Resize(new SizeInt32(400, 350));
-			}
-		}
-
 		private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			// prevents the arrow key events from navigating the list instead of switching compact overlay
-			if (EnterCompactOverlayKeyboardAccelerator.CheckIsPressed() || ExitCompactOverlayKeyboardAccelerator.CheckIsPressed())
-				Focus(FocusState.Keyboard);
+			switch (e.Key)
+			{
+				case VirtualKey.Menu:
+				case VirtualKey.Control:
+				case VirtualKey.Shift:
+				case VirtualKey.LeftWindows:
+				case VirtualKey.RightWindows:
+					break;
+				default:
+					var currentModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
+					HotKey hotKey = new((Keys)e.Key, currentModifiers);
+
+					// Prevents the arrow key events from navigating the list instead of switching compact overlay
+					if (Commands[hotKey].Code is CommandCodes.EnterCompactOverlay or CommandCodes.ExitCompactOverlay)
+						Focus(FocusState.Keyboard);
+					break;
+			}
 		}
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();

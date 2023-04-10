@@ -14,6 +14,8 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		public List<ITabItemContent> GetAllTabInstances();
 
+		public void ReopenClosedTab();
+
 		public void CloseTab(TabItem tabItem);
 
 		public void SetLoadingIndicatorStatus(ITabItem item, bool loading);

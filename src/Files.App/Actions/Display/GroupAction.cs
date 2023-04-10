@@ -102,6 +102,8 @@ namespace Files.App.Actions
 
 		public abstract string Label { get; }
 
+		public string Description => "TODO: Need to be described.";
+
 		private bool isOn;
 		public bool IsOn => isOn;
 
@@ -140,9 +142,11 @@ namespace Files.App.Actions
 
 	internal class GroupAscendingAction : ObservableObject, IToggleAction
 	{
-		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private	readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "Ascending".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public bool IsOn => context.GroupDirection is SortDirection.Ascending;
 		public bool IsExecutable => context.GroupOption is not GroupOption.None;
@@ -174,9 +178,11 @@ namespace Files.App.Actions
 
 	internal class GroupDescendingAction : ObservableObject, IToggleAction
 	{
-		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "Descending".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public bool IsOn => context.GroupDirection is SortDirection.Descending;
 		public bool IsExecutable => context.GroupOption is not GroupOption.None;
@@ -208,9 +214,11 @@ namespace Files.App.Actions
 
 	internal class ToggleGroupDirectionAction : IAction
 	{
-		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "ToggleSortDirection".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public Task ExecuteAsync()
 		{

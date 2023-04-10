@@ -79,12 +79,14 @@ namespace Files.App.Actions
 
 	internal abstract class SortByAction : ObservableObject, IToggleAction
 	{
-		private IContentPageContext contentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private IDisplayPageContext displayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IContentPageContext contentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IDisplayPageContext displayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		protected abstract SortOption SortOption { get; }
 
 		public abstract string Label { get; }
+
+		public string Description => "TODO: Need to be described.";
 
 		private bool isOn;
 		public bool IsOn => isOn;
@@ -124,9 +126,11 @@ namespace Files.App.Actions
 
 	internal class SortAscendingAction : ObservableObject, IToggleAction
 	{
-		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "Ascending".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public bool IsOn => context.SortDirection is SortDirection.Ascending;
 
@@ -150,9 +154,11 @@ namespace Files.App.Actions
 
 	internal class SortDescendingAction : ObservableObject, IToggleAction
 	{
-		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "Descending".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public bool IsOn => context.SortDirection is SortDirection.Descending;
 
@@ -176,9 +182,11 @@ namespace Files.App.Actions
 
 	internal class ToggleSortDirectionAction : IAction
 	{
-		private IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 		public string Label { get; } = "ToggleSortDirection".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public Task ExecuteAsync()
 		{

@@ -12,6 +12,7 @@ using Files.Backend.Services;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Concurrent;
@@ -27,6 +28,8 @@ namespace Files.App.Helpers
 {
 	public static class UIFilesystemHelpers
 	{
+		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+
 		public static async void CutItem(IShellPage associatedInstance)
 		{
 			DataPackage dataPackage = new DataPackage()
@@ -41,7 +44,7 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
-				PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
+				PostedStatusBanner banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 					0,
@@ -147,7 +150,7 @@ namespace Files.App.Helpers
 			if (associatedInstance.SlimContentPage.IsItemSelected)
 			{
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
-				PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
+				PostedStatusBanner banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 					0,
@@ -282,15 +285,6 @@ namespace Files.App.Helpers
 			await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
 		}
 
-		// WINUI3
-		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-
-			return contentDialog;
-		}
-
 		public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
 		{
 			string currentPath = null;
@@ -311,7 +305,7 @@ namespace Files.App.Helpers
 			if (itemType != AddItemDialogItemType.File || itemInfo?.Command is null)
 			{
 				DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
-				await SetContentDialogRoot(dialog).ShowAsync(); // Show rename dialog
+				await dialog.TryShowAsync(); // Show rename dialog
 
 				if (dialog.DynamicResult != DynamicDialogResult.Primary)
 					return null;
@@ -365,7 +359,7 @@ namespace Files.App.Helpers
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Warn(ex);
+				App.Logger.LogWarning(ex, null);
 			}
 		}
 

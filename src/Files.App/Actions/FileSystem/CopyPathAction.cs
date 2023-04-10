@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -7,7 +6,6 @@ using Files.App.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -17,9 +15,11 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "CopyLocation".GetLocalizedResource();
 
+		public string Description => "CopyPathDescription".GetLocalizedResource();
+
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCopyLocation");
 
-		public HotKey HotKey { get; } = new(VirtualKey.C, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public HotKey HotKey { get; } = new(Keys.C, KeyModifiers.CtrlShift);
 
 		public async Task ExecuteAsync()
 		{

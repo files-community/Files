@@ -8,7 +8,6 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls"
-	xmlns:local1="using:Files.App"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DesignHeight="40"
 	d:DesignWidth="400"
@@ -65,6 +64,7 @@
 						<MenuFlyout x:Name="NewEmptySpace" Opening="NewEmptySpace_Opening">
 							<MenuFlyoutItem
 								x:Name="ToolbarNewFolderItem"
+								AccessKey="D"
 								AutomationProperties.AutomationId="InnerNavigationToolbarNewFolderButton"
 								Command="{x:Bind Commands.CreateFolder, Mode=OneWay}"
 								Text="{x:Bind Commands.CreateFolder.Label}">
@@ -74,6 +74,7 @@
 							</MenuFlyoutItem>
 							<MenuFlyoutItem
 								x:Name="NewFile"
+								AccessKey="F"
 								AutomationProperties.AutomationId="File"
 								Command="{x:Bind ViewModel.CreateNewFileCommand, Mode=OneWay}"
 								CommandParameter="{x:Null}"
@@ -85,6 +86,7 @@
 							</MenuFlyoutItem>
 							<MenuFlyoutItem
 								x:Name="NewShortcut"
+								AccessKey="S"
 								AutomationProperties.AutomationId="InnerNavigationToolbarNewShortcutButton"
 								Command="{x:Bind Commands.CreateShortcutFromDialog, Mode=OneWay}"
 								Text="{x:Bind Commands.CreateShortcutFromDialog.Label}">
@@ -140,26 +142,26 @@
 					MinWidth="40"
 					AccessKey="M"
 					AutomationProperties.AutomationId="InnerNavigationToolbarRenameButton"
-					Command="{x:Bind ViewModel.Rename, Mode=OneWay}"
-					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=Rename}"
+					Command="{x:Bind Commands.Rename, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.Rename.IsExecutable, Mode=OneWay}"
+					Label="{x:Bind Commands.Rename.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Rename}">
+					ToolTipService.ToolTip="{x:Bind Commands.Rename.LabelWithHotKey}">
 
-					<local:OpacityIcon Style="{StaticResource ColorIconRename}" />
+					<local:OpacityIcon Style="{x:Bind Commands.Rename.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="ShareButton"
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="H"
-					Command="{x:Bind ViewModel.Share, Mode=OneWay}"
-					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanShare, ViewModel.InstanceViewModel.CanShareInPage), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare/Text}"
+					Command="{x:Bind Commands.ShareItem, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.ShareItem.IsExecutable, Mode=OneWay, FallbackValue=False}"
+					Label="{x:Bind Commands.ShareItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare/Text}">
+					ToolTipService.ToolTip="{x:Bind Commands.ShareItem.LabelWithHotKey}">
 
-					<local:OpacityIcon Style="{StaticResource ColorIconShare}" />
+					<local:OpacityIcon Style="{x:Bind Commands.ShareItem.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="DeleteButton"
@@ -263,14 +265,14 @@
 					x:Name="RunWithPowerShellButton"
 					Width="Auto"
 					MinWidth="40"
-					x:Load="{x:Bind ViewModel.IsPowerShellScript, Mode=OneWay, FallbackValue=False}"
+					x:Load="{x:Bind Commands.RunWithPowershell.IsExecutable, Mode=OneWay}"
 					AutomationProperties.Name="RunWithPowerShell"
-					Command="{x:Bind ViewModel.RunWithPowerShellCommand, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=RunScript}"
+					Command="{x:Bind Commands.RunWithPowershell}"
+					Label="{x:Bind Commands.RunWithPowershell.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=RunWithPowerShell}">
+					ToolTipService.ToolTip="{x:Bind Commands.RunWithPowershell.LabelWithHotKey}">
 					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE756;" />
+						<FontIcon Glyph="{x:Bind Commands.RunWithPowershell.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
 				</AppBarButton>
 				<AppBarButton
@@ -282,9 +284,8 @@
 					LabelPosition="Default"
 					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsBackgroundFlyout}">
-					<AppBarButton.Icon>
-						<FontIcon Glyph="{x:Bind Commands.SetAsWallpaperBackground.Glyph.BaseGlyph}" />
-					</AppBarButton.Icon>
+
+					<local:OpacityIcon Style="{StaticResource ColorIconSetAsBackground}" />
 					<AppBarButton.Flyout>
 						<MenuFlyout Placement="Bottom">
 							<MenuFlyoutItem
@@ -320,14 +321,13 @@
 					ToolTipService.ToolTip="{x:Bind Commands.SetAsSlideshowBackground.LabelWithHotKey}" />
 				<AppBarButton
 					x:Name="InstallInfButton"
-					x:Load="{x:Bind ViewModel.IsInfFile, Mode=OneWay, FallbackValue=False}"
-					AutomationProperties.Name="InstallInf"
-					Command="{x:Bind ViewModel.InstallInfCommand, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=Install}"
+					x:Load="{x:Bind Commands.InstallInfDriver.IsExecutable, Mode=OneWay, FallbackValue=False}"
+					Command="{x:Bind Commands.InstallInfDriver, Mode=OneWay}"
+					Label="{x:Bind Commands.InstallInfDriver.Label}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
 					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE9F5;" />
+						<FontIcon Glyph="{x:Bind Commands.InstallInfDriver.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
 				</AppBarButton>
 				<AppBarButton
@@ -352,9 +352,9 @@
 				</AppBarButton>
 				<AppBarButton
 					x:Name="InstallFontButton"
-					x:Load="{x:Bind ViewModel.IsFont, Mode=OneWay, FallbackValue=False}"
-					Command="{x:Bind ViewModel.InstallFontCommand, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=Install}"
+					x:Load="{x:Bind Commands.InstallFont.IsExecutable, Mode=OneWay, FallbackValue=False}"
+					Command="{x:Bind Commands.InstallFont, Mode=OneWay}"
+					Label="{x:Bind Commands.InstallFont.Label}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
 
@@ -400,18 +400,21 @@
 					<MenuFlyout Placement="Bottom">
 						<MenuFlyoutItem
 							x:Name="SelectAllMFI"
+							AccessKey="A"
 							Command="{x:Bind Commands.SelectAll}"
 							Icon="{x:Bind Commands.SelectAll.FontIcon}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.SelectAll.HotKeyText}"
 							Text="{x:Bind Commands.SelectAll.Label}" />
 						<MenuFlyoutItem
 							x:Name="InvertSelectionMFI"
+							AccessKey="I"
 							Command="{x:Bind Commands.InvertSelection}"
 							Icon="{x:Bind Commands.InvertSelection.FontIcon}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.InvertSelection.HotKeyText}"
 							Text="{x:Bind Commands.InvertSelection.Label}" />
 						<MenuFlyoutItem
 							x:Name="ClearSelectionMFI"
+							AccessKey="C"
 							Command="{x:Bind Commands.ClearSelection}"
 							Icon="{x:Bind Commands.ClearSelection.FontIcon}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.ClearSelection.HotKeyText}"
@@ -436,7 +439,10 @@
 				<local:OpacityIcon Style="{StaticResource ColorIconSort}" />
 				<AppBarButton.Flyout>
 					<MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
-						<MenuFlyoutSubItem Text="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}">
+						<MenuFlyoutSubItem
+							AccessKey="S"
+							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
+							Text="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}">
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByName.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByName.Label}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByDateModified.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByDateModified.Label}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByDateCreated.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByDateCreated.Label}" />
@@ -456,10 +462,19 @@
 								IsEnabled="{x:Bind Commands.SortByDateDeleted.IsExecutable, Mode=OneWay}"
 								Text="{x:Bind Commands.SortByDateDeleted.Label}" />
 							<MenuFlyoutSeparator />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortAscending.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortAscending.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortDescending.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortDescending.Label}" />
+							<ToggleMenuFlyoutItem
+								AccessKey="A"
+								IsChecked="{x:Bind Commands.SortAscending.IsOn, Mode=TwoWay}"
+								Text="{x:Bind Commands.SortAscending.Label}" />
+							<ToggleMenuFlyoutItem
+								AccessKey="D"
+								IsChecked="{x:Bind Commands.SortDescending.IsOn, Mode=TwoWay}"
+								Text="{x:Bind Commands.SortDescending.Label}" />
 						</MenuFlyoutSubItem>
-						<MenuFlyoutSubItem Text="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}">
+						<MenuFlyoutSubItem
+							AccessKey="G"
+							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
+							Text="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}">
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByNone.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByNone.Label}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByName.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByName.Label}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateModified.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateModified.Label}" />
@@ -476,25 +491,30 @@
 								IsEnabled="{x:Bind Commands.GroupByOriginalFolder.IsExecutable, Mode=OneWay}"
 								Text="{x:Bind Commands.GroupByOriginalFolder.Label}" />
 							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.GroupByDateModified.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupByDateModified.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupByDateModified.Label}" />
+								IsChecked="{x:Bind Commands.GroupByDateDeleted.IsOn, Mode=TwoWay}"
+								IsEnabled="{x:Bind Commands.GroupByDateDeleted.IsExecutable, Mode=OneWay}"
+								Text="{x:Bind Commands.GroupByDateDeleted.Label}" />
 							<ToggleMenuFlyoutItem
 								IsChecked="{x:Bind Commands.GroupByFolderPath.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupByFolderPath.IsExecutable, Mode=OneWay}"
 								Text="{x:Bind Commands.GroupByFolderPath.Label}" />
 							<MenuFlyoutSeparator />
 							<ToggleMenuFlyoutItem
+								AccessKey="A"
 								IsChecked="{x:Bind Commands.GroupAscending.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupAscending.IsExecutable, Mode=OneWay}"
 								Text="{x:Bind Commands.GroupAscending.Label}" />
 							<ToggleMenuFlyoutItem
+								AccessKey="D"
 								IsChecked="{x:Bind Commands.GroupDescending.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupDescending.IsExecutable, Mode=OneWay}"
 								Text="{x:Bind Commands.GroupDescending.Label}" />
 						</MenuFlyoutSubItem>
 						<MenuFlyoutSeparator />
-						<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.ToggleSortDirectoriesAlongsideFiles.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.ToggleSortDirectoriesAlongsideFiles.Label}" />
+						<ToggleMenuFlyoutItem
+							AccessKey="A"
+							IsChecked="{x:Bind Commands.ToggleSortDirectoriesAlongsideFiles.IsOn, Mode=TwoWay}"
+							Text="{x:Bind Commands.ToggleSortDirectoriesAlongsideFiles.Label}" />
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 			</AppBarButton>
@@ -750,6 +770,7 @@
 									Grid.Row="0"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
+									AccessKey="H"
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowHiddenItems.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}"
@@ -764,6 +785,7 @@
 									Grid.Row="1"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
+									AccessKey="E"
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowFileExtensions.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
 									Rotation="1"
@@ -778,6 +800,7 @@
 				x:Name="PreviewPane"
 				Width="Auto"
 				MinWidth="40"
+				AccessKey="P"
 				AutomationProperties.Name="{x:Bind Commands.TogglePreviewPane.AutomationName}"
 				IsChecked="{x:Bind Commands.TogglePreviewPane.IsOn, Mode=TwoWay}"
 				Label="{x:Bind Commands.TogglePreviewPane.Label}"
@@ -835,43 +858,19 @@
 				</AppBarButton>
 				<AppBarButton
 					x:Name="NavToolbarEnterCompactOverlay"
-					Command="{x:Bind SetCompactOverlayCommand}"
-					CommandParameter="{StaticResource True}"
-					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=NavigationToolbarEnterCompactOverlay/KeyboardAcceleratorTextOverride}"
-					Label="{helpers:ResourceString Name=NavigationToolbarEnterCompactOverlay/Label}"
-					Visibility="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="Up"
-							IsEnabled="False"
-							Modifiers="Menu,Control" />
-					</AppBarButton.KeyboardAccelerators>
-					<AppBarButton.Icon>
-						<PathIcon
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							Data="{StaticResource EnterCompactOverlay}" />
-					</AppBarButton.Icon>
+					x:Load="{x:Bind Commands.EnterCompactOverlay.IsExecutable, Mode=OneWay}"
+					Command="{x:Bind Commands.EnterCompactOverlay}"
+					Label="{x:Bind Commands.EnterCompactOverlay.Label}">
+
+					<local:OpacityIcon Style="{x:Bind Commands.EnterCompactOverlay.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="NavToolbarExitCompactOverlay"
-					Command="{x:Bind SetCompactOverlayCommand}"
-					CommandParameter="{StaticResource False}"
-					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=NavigationToolbarExitCompactOverlay/KeyboardAcceleratorTextOverride}"
-					Label="{helpers:ResourceString Name=NavigationToolbarExitCompactOverlay/Label}"
-					Visibility="{x:Bind IsCompactOverlay, Mode=OneWay}">
-					<AppBarButton.Icon>
-						<PathIcon
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							Data="{StaticResource ExitCompactOverlay}" />
-					</AppBarButton.Icon>
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="Down"
-							IsEnabled="False"
-							Modifiers="Menu,Control" />
-					</AppBarButton.KeyboardAccelerators>
+					x:Load="{x:Bind Commands.ExitCompactOverlay.IsExecutable, Mode=OneWay}"
+					Command="{x:Bind Commands.ExitCompactOverlay}"
+					Label="{x:Bind Commands.ExitCompactOverlay.Label}">
+
+					<local:OpacityIcon Style="{x:Bind Commands.ExitCompactOverlay.OpacityStyle}" />
 				</AppBarButton>
 			</CommandBar.SecondaryCommands>
 		</CommandBar>

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Files.App.Commands
@@ -12,10 +11,15 @@ namespace Files.App.Commands
 
 		IRichCommand OpenHelp { get; }
 		IRichCommand ToggleFullScreen { get; }
+		IRichCommand EnterCompactOverlay { get; }
+		IRichCommand ExitCompactOverlay { get; }
+		IRichCommand ToggleCompactOverlay { get; }
+		IRichCommand Search { get; }
 
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
 		IRichCommand TogglePreviewPane { get; }
+		IRichCommand ToggleSidebar { get; }
 
 		IRichCommand CopyItem { get; }
 		IRichCommand CopyPath { get; }
@@ -26,12 +30,20 @@ namespace Files.App.Commands
 		IRichCommand SelectAll { get; }
 		IRichCommand InvertSelection { get; }
 		IRichCommand ClearSelection { get; }
+		IRichCommand ToggleSelect { get; }
+		IRichCommand ShareItem { get; }
 		IRichCommand CreateFolder { get; }
 		IRichCommand CreateShortcut { get; }
 		IRichCommand CreateShortcutFromDialog { get; }
 		IRichCommand EmptyRecycleBin { get; }
 		IRichCommand RestoreRecycleBin { get; }
 		IRichCommand RestoreAllRecycleBin { get; }
+		IRichCommand FormatDrive { get; }
+		IRichCommand OpenItem { get; }
+		IRichCommand OpenItemWithApplicationPicker { get; }
+		IRichCommand OpenParentFolder { get; }
+		IRichCommand RefreshItems { get; }
+		IRichCommand Rename { get; }
 
 		IRichCommand PinToStart { get; }
 		IRichCommand UnpinFromStart { get; }
@@ -42,9 +54,13 @@ namespace Files.App.Commands
 		IRichCommand SetAsSlideshowBackground { get; }
 		IRichCommand SetAsLockscreenBackground { get; }
 
+		IRichCommand InstallFont { get; }
+		IRichCommand InstallInfDriver { get; }
+
 		IRichCommand RunAsAdmin { get; }
 		IRichCommand RunAsAnotherUser { get; }
-		
+		IRichCommand RunWithPowershell { get; }
+
 		IRichCommand LaunchQuickLook { get; }
 
 		IRichCommand CompressIntoArchive { get; }
@@ -57,6 +73,7 @@ namespace Files.App.Commands
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
 
+		IRichCommand OpenSettings { get; }
 		IRichCommand OpenTerminal { get; }
 		IRichCommand OpenTerminalAsAdmin { get; }
 
@@ -100,6 +117,21 @@ namespace Files.App.Commands
 		IRichCommand ToggleGroupDirection { get; }
 
 		IRichCommand NewTab { get; }
-		IRichCommand DuplicateTab { get; }
+		IRichCommand NavigateBack { get; }
+		IRichCommand NavigateForward { get; }
+		IRichCommand NavigateUp { get; }
+
+		IRichCommand DuplicateCurrentTab { get; }
+		IRichCommand DuplicateSelectedTab { get; }
+		IRichCommand CloseTabsToTheLeftCurrent { get; }
+		IRichCommand CloseTabsToTheLeftSelected { get; }
+		IRichCommand CloseTabsToTheRightCurrent { get; }
+		IRichCommand CloseTabsToTheRightSelected { get; }
+		IRichCommand CloseOtherTabsCurrent { get; }
+		IRichCommand CloseOtherTabsSelected { get; }
+		IRichCommand ReopenClosedTab { get; }
+		IRichCommand PreviousTab { get; }
+		IRichCommand NextTab { get; }
+		IRichCommand CloseSelectedTab { get; }
 	}
 }

@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Shapes;
 using System;
-using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
@@ -18,6 +17,8 @@ namespace Files.App.UserControls.MultitaskingControl
 {
 	public sealed partial class HorizontalMultitaskingControl : BaseMultitaskingControl
 	{
+		public static event EventHandler<TabItem?>? SelectedTabItemChanged;
+
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
@@ -196,25 +197,11 @@ namespace Files.App.UserControls.MultitaskingControl
 		private void TabItemContextMenu_Opening(object sender, object e)
 		{
 			MenuItemMoveTabToNewWindow.IsEnabled = Items.Count > 1;
-			MenuItemReopenClosedTab.IsEnabled = RecentlyClosedTabs.Any();
+			SelectedTabItemChanged?.Invoke(null, ((MenuFlyout)sender).Target.DataContext as TabItem);
 		}
-
-		private void MenuItemCloseTabsToTheLeft_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+		private void TabItemContextMenu_Closing(object sender, object e)
 		{
-			TabItem tabItem = (TabItem)args.NewValue;
-			MenuItemCloseTabsToTheLeft.IsEnabled = MainPageViewModel.AppInstances.IndexOf(tabItem) > 0;
-		}
-
-		private void MenuItemCloseTabsToTheRight_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-		{
-			TabItem tabItem = (TabItem)args.NewValue;
-			MenuItemCloseTabsToTheRight.IsEnabled = MainPageViewModel.AppInstances.IndexOf(tabItem) < MainPageViewModel.AppInstances.Count - 1;
-		}
-
-		private void MenuItemCloseOtherTabs_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-		{
-			TabItem tabItem = (TabItem)args.NewValue;
-			MenuItemCloseOtherTabs.IsEnabled = MainPageViewModel.AppInstances.Count > 1;
+			SelectedTabItemChanged?.Invoke(null, null);
 		}
 
 		public override DependencyObject ContainerFromItem(ITabItem item) => HorizontalTabView.ContainerFromItem(item);

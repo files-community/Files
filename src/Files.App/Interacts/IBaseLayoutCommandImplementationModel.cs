@@ -9,17 +9,9 @@ namespace Files.App.Interacts
 {
 	public interface IBaseLayoutCommandImplementationModel : IDisposable
 	{
-		void RenameItem(RoutedEventArgs e);
-
-		void OpenItem(RoutedEventArgs e);
-
 		void ShowProperties(RoutedEventArgs e);
 
 		void OpenFileLocation(RoutedEventArgs e);
-
-		void OpenParentFolder(RoutedEventArgs e);
-
-		void OpenItemWithApplicationPicker(RoutedEventArgs e);
 
 		void OpenDirectoryInNewTab(RoutedEventArgs e);
 
@@ -29,8 +21,6 @@ namespace Files.App.Interacts
 
 		void CreateNewFile(ShellNewEntry e);
 
-		void ShareItem(RoutedEventArgs e);
-
 		void ItemPointerPressed(PointerRoutedEventArgs e);
 
 		void PointerWheelChanged(PointerRoutedEventArgs e);
@@ -39,18 +29,10 @@ namespace Files.App.Interacts
 
 		Task Drop(DragEventArgs e);
 
-		void RefreshItems(RoutedEventArgs e);
-
 		void SearchUnindexedItems(RoutedEventArgs e);
 
 		Task CreateFolderWithSelection(RoutedEventArgs e);
 
-		Task InstallInfDriver();
-
-		Task InstallFont();
-
 		Task PlayAll();
-
-		void FormatDrive(ListedItem? obj);
 	}
 }

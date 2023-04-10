@@ -6,7 +6,6 @@ using Files.App.Extensions;
 using Files.App.Helpers;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -16,9 +15,11 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Cut".GetLocalizedResource();
 
+		public string Description => "CutItemDescription".GetLocalizedResource();
+
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCut");
 
-		public HotKey HotKey { get; } = new(VirtualKey.X, VirtualKeyModifiers.Control);
+		public HotKey HotKey { get; } = new(Keys.X, KeyModifiers.Ctrl);
 
 		public bool IsExecutable => context.HasSelection;
 

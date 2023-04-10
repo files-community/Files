@@ -5,7 +5,6 @@ using Files.App.Extensions;
 using Files.Backend.Services.Settings;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -15,7 +14,9 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "ShowHiddenItems".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(VirtualKey.H, VirtualKeyModifiers.Control);
+		public string Description => "TODO: Need to be described.";
+
+		public HotKey HotKey { get; } = new(Keys.H, KeyModifiers.Ctrl);
 
 		public bool IsOn => settings.ShowHiddenItems;
 

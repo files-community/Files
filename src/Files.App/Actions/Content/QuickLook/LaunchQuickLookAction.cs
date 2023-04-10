@@ -4,10 +4,7 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
-using Files.App.Shell;
-using Files.Backend.Helpers;
 using System.Threading.Tasks;
-using Windows.System;
 
 namespace Files.App.Actions
 {
@@ -15,13 +12,15 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public HotKey HotKey { get; } = new(VirtualKey.Space);
+		public HotKey HotKey { get; } = new(Keys.Space);
 
 		public bool IsExecutable => context.SelectedItems.Count == 1 &&
 			(!context.ShellPage?.ToolbarViewModel?.IsEditModeEnabled ?? false) &&
 			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
 
 		public string Label => "LaunchQuickLook".GetLocalizedResource();
+
+		public string Description => "TODO: Need to be described.";
 
 		public LaunchQuickLookAction()
 		{

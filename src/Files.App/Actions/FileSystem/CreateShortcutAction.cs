@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -11,22 +10,24 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CreateShortcutAction : ObservableObject, IAction
+	internal class CreateShortcutAction : BaseUIAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "CreateShortcut".GetLocalizedResource();
+		public override string Label { get; } = "CreateShortcut".GetLocalizedResource();
+
+		public override string Description => "TODO: Need to be described.";
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
 
-		public bool IsExecutable => context.HasSelection;
+		public override bool IsExecutable => context.HasSelection && UIHelpers.CanShowDialog;
 
 		public CreateShortcutAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public override async Task ExecuteAsync()
 		{
 			var currentPath = context.ShellPage?.FilesystemViewModel.WorkingDirectory;
 

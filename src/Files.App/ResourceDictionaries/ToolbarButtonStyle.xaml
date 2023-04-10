@@ -98,7 +98,7 @@
 								FontFamily="{ThemeResource SymbolThemeFontFamily}"
 								FontSize="{ThemeResource AppBarButtonSecondarySubItemChevronFontSize}"
 								Foreground="{ThemeResource AppBarButtonSubItemChevronForeground}"
-								Glyph="&#xE019;" />
+								Glyph="&#xE70D;" />
 							<Grid
 								x:Name="SubItemChevronPanel"
 								Grid.Column="2"

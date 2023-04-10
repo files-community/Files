@@ -1,0 +1,49 @@
+name: Check XAML Formatting
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+      - 'service/**'
+    paths:
+      - '**.xaml'
+  pull_request:
+    branches:
+      - 'main'
+      - 'service/**'
+    paths:
+      - '**.xaml'
+      
+jobs:
+  check-formatting:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Install Xaml Styler
+        run: |
+          dotnet tool install --global XamlStyler.Console
+
+      - name: Check Formatting
+        id: check-step
+        run: |
+          $changedFiles = (git diff --name-only HEAD~1) -split "\n" | Where-Object {$_ -like "*.xaml"}
+          foreach ($file in $changedFiles)
+          {
+            xstyler -p -l None -f $file
+            if ($LASTEXITCODE -ne 0)
+            {
+              echo "::error file=$file::Format check failed"
+            }
+          }
+        continue-on-error: true
+      
+      - name: Fail job if necessary
+        if: steps.check-step.outcome == 'failure'
+        run: exit 1
+

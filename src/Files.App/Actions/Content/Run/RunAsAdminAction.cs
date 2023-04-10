@@ -5,10 +5,6 @@ using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Shell;
 using Files.Backend.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions
@@ -19,6 +15,7 @@ namespace Files.App.Actions
 		public bool IsExecutable => context.SelectedItem is not null &&
 			FileExtensionHelpers.IsExecutableFile(context.SelectedItem.FileExtension);
 		public string Label => "RunAsAdministrator".GetLocalizedResource();
+		public string Description => "TODO: Need to be described.";
 		public RichGlyph Glyph => new("\uE7EF");
 
 		public RunAsAdminAction()
