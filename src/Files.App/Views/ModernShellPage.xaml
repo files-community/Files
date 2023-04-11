@@ -5,6 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:wct="using:CommunityToolkit.WinUI.UI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="RootPage"
 	KeyboardAcceleratorPlacementMode="Hidden"
@@ -76,12 +77,48 @@
 			Modifiers="Menu" />
 	</local:BaseShellPage.KeyboardAccelerators>
 
-	<Frame
-		x:Name="ItemDisplayFrame"
-		HorizontalAlignment="Stretch"
-		x:FieldModifier="public"
-		BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
-		BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
-		Navigated="ItemDisplayFrame_Navigated" />
+	<Grid HorizontalAlignment="Stretch" wct:UIElementExtensions.ClipToBounds="True">
+		<Grid
+			x:Name="BackIcon"
+			Margin="-1,0,0,0"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Center"
+			Canvas.ZIndex="64">
+			<Ellipse
+				Width="48"
+				Height="48"
+				Fill="White"
+				Stroke="{ThemeResource SystemAccentColor}" />
+			<SymbolIcon
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Foreground="Black"
+				Symbol="Back" />
+		</Grid>
+		<Grid
+			x:Name="ForwardIcon"
+			Margin="1,0,0,0"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Center"
+			Canvas.ZIndex="64">
+			<Ellipse
+				Width="48"
+				Height="48"
+				Fill="White"
+				Stroke="{ThemeResource SystemAccentColor}" />
+			<SymbolIcon
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Foreground="Black"
+				Symbol="Forward" />
+		</Grid>
+		<Frame
+			x:Name="ItemDisplayFrame"
+			HorizontalAlignment="Stretch"
+			x:FieldModifier="public"
+			BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
+			BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
+			Navigated="ItemDisplayFrame_Navigated" />
+	</Grid>
 
 </local:BaseShellPage>

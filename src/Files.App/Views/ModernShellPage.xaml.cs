@@ -30,6 +30,8 @@ namespace Files.App.Views
 
 		protected override Frame ItemDisplay => ItemDisplayFrame;
 
+		private NavigationInteractionTracker _navigationInteractionTracker;
+
 		public Thickness CurrentInstanceBorderThickness
 		{
 			get => (Thickness)GetValue(CurrentInstanceBorderThicknessProperty);
@@ -54,6 +56,8 @@ namespace Files.App.Views
 			ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
 
 			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
+			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
+			_navigationInteractionTracker.NavigationRequested += SwipeNavigationRequested;
 		}
 
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -175,6 +179,9 @@ namespace Files.App.Views
 
 			if (parameters.IsLayoutSwitch)
 				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
+
+			_navigationInteractionTracker.CanGoBack = CanNavigateBackward;
+			_navigationInteractionTracker.CanGoForward = CanNavigateForward;
 		}
 
 		private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -249,6 +256,20 @@ namespace Files.App.Views
 				case (true, false, false, _, VirtualKey.L):
 					if (tabInstance || CurrentPageType == typeof(HomePage))
 						ToolbarViewModel.IsEditModeEnabled = true;
+					break;
+			}
+		}
+
+		private void SwipeNavigationRequested(object? sender, SwipeNavigationEventArgs e)
+		{
+			switch (e)
+			{
+				case SwipeNavigationEventArgs.Forward:
+					Forward_Click();
+					break;
+
+				case SwipeNavigationEventArgs.Back:
+					Back_Click();
 					break;
 			}
 		}
