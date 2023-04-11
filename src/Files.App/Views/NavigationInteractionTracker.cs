@@ -120,12 +120,12 @@ namespace Files.App.Views
 			List<CompositionConditionalValue> conditionalValues = new() { backResistance, forwardResistance };
 			_source.ConfigureDeltaPositionXModifiers(conditionalValues);
 
-			var backAnim = compositor.CreateExpressionAnimation("props.CanGoBack ? (-clamp(tracker.Position.X, -96, 0) * 2) - 48 : -48");
+			var backAnim = compositor.CreateExpressionAnimation("props.CanGoBack ? (-clamp(tracker.Position.X, -96, 0) * 2) - 48 : this.CurrentValue - 48");
 			backAnim.SetReferenceParameter("tracker", _tracker);
 			backAnim.SetReferenceParameter("props", _props);
 			_backVisual.StartAnimation("Translation.X", backAnim);
 
-			var forwardAnim = compositor.CreateExpressionAnimation("props.CanGoForward ? (-clamp(tracker.Position.X, 0, 96) * 2) + 48 : 48");
+			var forwardAnim = compositor.CreateExpressionAnimation("props.CanGoForward ? (-clamp(tracker.Position.X, 0, 96) * 2) + 48 : this.CurrentValue + 48");
 			forwardAnim.SetReferenceParameter("tracker", _tracker);
 			forwardAnim.SetReferenceParameter("props", _props);
 			_forwardVisual.StartAnimation("Translation.X", forwardAnim);
