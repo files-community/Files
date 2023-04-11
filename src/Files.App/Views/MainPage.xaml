@@ -235,7 +235,6 @@
 					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}"
 					ManipulationCompleted="PaneSplitter_ManipulationCompleted"
 					ManipulationStarted="PaneSplitter_ManipulationStarted"
-					Loaded="PaneSplitter_Loaded"
 					ResizeBehavior="BasedOnAlignment"
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 

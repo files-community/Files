@@ -445,6 +445,7 @@ namespace Files.App.Views
 						PaneSplitter.Width = 2;
 						PaneSplitter.Height = RootGrid.ActualHeight;
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
+						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 						PaneColumn.MinWidth = PreviewPane.MinWidth;
 						PaneColumn.MaxWidth = PreviewPane.MaxWidth;
 						PaneColumn.Width = new GridLength(UserSettingsService.PreviewPaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
@@ -460,6 +461,7 @@ namespace Files.App.Views
 						PaneSplitter.Height = 2;
 						PaneSplitter.Width = RootGrid.ActualWidth;
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeNorthSouth;
+						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth));
 						PaneColumn.MinWidth = 0;
 						PaneColumn.MaxWidth = double.MaxValue;
 						PaneColumn.Width = new GridLength(0);
@@ -538,14 +540,10 @@ namespace Files.App.Views
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
 
-		private void PaneSplitter_Loaded(object sender, RoutedEventArgs e)
-		{
-			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-		}
-
 		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ? 
+				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
 		}
 	}
 }

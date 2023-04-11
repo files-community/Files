@@ -104,7 +104,6 @@
 			Canvas.ZIndex="150"
 			DoubleTapped="PaneResizer_OnDoubleTapped"
 			Foreground="Transparent"
-			GripperCursor="Default"
 			GripperForeground="Transparent"
 			IsTabStop="False"
 			ManipulationCompleted="PaneResizer_ManipulationCompleted"
