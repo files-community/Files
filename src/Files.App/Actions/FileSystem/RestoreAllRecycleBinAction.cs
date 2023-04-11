@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class RestoreAllRecycleBinAction : BaseUIAction
+	internal class RestoreAllRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public override string Label { get; } = "RestoreAllItems".GetLocalizedResource();
+		public string Label { get; } = "RestoreAllItems".GetLocalizedResource();
 
-		public override string Description => "TODO: Need to be described.";
+		public string Description => "TODO: Need to be described.";
 
-		public override RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRestoreItem");
+		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRestoreItem");
 
 		public override bool IsExecutable =>
 			context.ShellPage is not null &&
@@ -29,7 +29,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public override async Task ExecuteAsync()
+		public async Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
 				await RecycleBinHelpers.RestoreRecycleBin(context.ShellPage);

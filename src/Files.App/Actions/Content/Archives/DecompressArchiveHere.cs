@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class DecompressArchiveHere : BaseUIAction
+	internal class DecompressArchiveHere : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public override string Label => "ExtractHere".GetLocalizedResource();
+		public string Label => "ExtractHere".GetLocalizedResource();
 
-		public override string Description => "TODO: Need to be described.";
+		public string Description => "TODO: Need to be described.";
 
 		public override bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
@@ -25,7 +25,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public override async Task ExecuteAsync()
+		public async Task ExecuteAsync()
 		{
 			await ArchiveHelpers.DecompressArchiveHere(context.ShellPage);
 		}

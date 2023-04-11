@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class PasteItemToSelectionAction : BaseUIAction
+	internal class PasteItemToSelectionAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public override string Label { get; } = "Paste".GetLocalizedResource();
+		public string Label { get; } = "Paste".GetLocalizedResource();
 
-		public override string Description => "PasteItemToSelectionDescription".GetLocalizedResource();
+		public string Description => "PasteItemToSelectionDescription".GetLocalizedResource();
 
-		public override RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconPaste");
+		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconPaste");
 
 		public HotKey HotKey { get; } = new(Keys.V, KeyModifiers.CtrlShift);
 
@@ -33,7 +33,7 @@ namespace Files.App.Actions
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 		}
 
-		public override async Task ExecuteAsync()
+		public async Task ExecuteAsync()
 		{
 			if (context.ShellPage is null)
 				return;

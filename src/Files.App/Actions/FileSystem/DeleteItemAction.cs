@@ -12,16 +12,17 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal class DeleteItemAction : BaseUIAction
+	internal class DeleteItemAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
-		public override string Label { get; } = "Delete".GetLocalizedResource();
+		public string Label { get; } = "Delete".GetLocalizedResource();
 
-		public override string Description => "TODO: Need to be described.";
+		public string Description => "TODO: Need to be described.";
 
-		public override RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconDelete");
+		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconDelete");
 
 		public HotKey HotKey { get; } = new(Keys.Delete);
 
@@ -35,7 +36,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public override async Task ExecuteAsync()
+		public async Task ExecuteAsync()
 		{
 			if (context.ShellPage is null || !IsExecutable)
 				return;

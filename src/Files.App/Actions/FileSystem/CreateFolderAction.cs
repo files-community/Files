@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CreateFolderAction : BaseUIAction
+	internal class CreateFolderAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public override string Label { get; } = "Folder".GetLocalizedResource();
+		public string Label { get; } = "Folder".GetLocalizedResource();
 
-		public override string Description => "TODO: Need to be described.";
+		public string Description => "TODO: Need to be described.";
 
-		public override RichGlyph Glyph { get; } = new RichGlyph(baseGlyph: "\uE8B7");
+		public RichGlyph Glyph { get; } = new RichGlyph(baseGlyph: "\uE8B7");
 
 		public override bool IsExecutable => context.ShellPage is not null && UIHelpers.CanShowDialog;
 
@@ -26,7 +26,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public override Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
 				UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null!, context.ShellPage);
