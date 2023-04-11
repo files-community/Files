@@ -320,6 +320,9 @@ namespace Files.App.Views.LayoutModes
 
 			if (ctrlPressed && e.Key is VirtualKey.A)
 			{
+				if (IsRenamingItem)
+					return;
+
 				e.Handled = true;
 
 				var commands = Ioc.Default.GetRequiredService<ICommandManager>();
