@@ -42,10 +42,6 @@ namespace Files.App.Views.LayoutModes
 
 		private uint currentIconSize;
 
-		private InputCursor arrowCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
-
-		private InputCursor resizeCursor = InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast);
-
 		private ListedItem? _nextItemToSelect;
 
 		protected override uint IconSize => currentIconSize;
@@ -527,18 +523,18 @@ namespace Files.App.Views.LayoutModes
 
 		private void GridSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			this.ChangeCursor(resizeCursor);
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
 		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
-			this.ChangeCursor(arrowCursor);
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
 		private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
 		{
-			(sender as UIElement).ChangeCursor(resizeCursor);
+			(sender as UIElement).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
