@@ -3,6 +3,7 @@ using Files.App.Filesystem;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views.LayoutModes;
 using Files.Backend.Services.Settings;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -11,6 +12,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using UWPToWinAppSDKUpgradeHelpers;
 using Windows.System;
 
 namespace Files.App.Views
@@ -250,6 +252,8 @@ namespace Files.App.Views
 		{
 			if (PaneRight is not null && PaneRight.ActualWidth <= 300)
 				IsRightPaneVisible = false;
+
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
 		private void Pane_ContentChanged(object sender, TabItemArguments e)
@@ -352,6 +356,16 @@ namespace Files.App.Views
 		{
 			LeftColumn.Width = new GridLength(1, GridUnitType.Star);
 			RightColumn.Width = new GridLength(1, GridUnitType.Star);
+		}
+
+		private void PaneResizer_Loaded(object sender, RoutedEventArgs e)
+		{
+			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+		}
+
+		private void PaneResizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+		{
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 	}
 

@@ -42,9 +42,9 @@ namespace Files.App.Views.LayoutModes
 
 		private uint currentIconSize;
 
-		private InputCursor arrowCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Arrow, 0));
+		private InputCursor arrowCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
 
-		private InputCursor resizeCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.SizeWestEast, 1));
+		private InputCursor resizeCursor = InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast);
 
 		private ListedItem? _nextItemToSelect;
 
@@ -525,7 +525,7 @@ namespace Files.App.Views.LayoutModes
 			MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
 		}
 
-		private void GridSplitter_ManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
+		private void GridSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
 			this.ChangeCursor(resizeCursor);
 		}
@@ -551,7 +551,6 @@ namespace Files.App.Views.LayoutModes
 			var columnToResize = Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) / 2 + 1;
 			ResizeColumnToFit(columnToResize);
 
-			this.ChangeCursor(arrowCursor);
 			e.Handled = true;
 		}
 

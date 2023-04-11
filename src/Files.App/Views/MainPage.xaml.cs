@@ -50,11 +50,6 @@ namespace Files.App.Views
 		public static AppModel AppModel
 			=> App.AppModel;
 
-		/// <summary>
-		/// True if the user is currently resizing the preview pane
-		/// </summary>
-		private bool draggingPreviewPane;
-
 		private bool keyReleased = true;
 
 		public MainPage()
@@ -476,11 +471,6 @@ namespace Files.App.Views
 			}
 		}
 
-		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-		{
-			draggingPreviewPane = true;
-		}
-
 		private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			switch (PreviewPane?.Position)
@@ -493,22 +483,7 @@ namespace Files.App.Views
 					break;
 			}
 
-			draggingPreviewPane = false;
-		}
-
-		private void PaneSplitter_PointerExited(object sender, PointerRoutedEventArgs e)
-		{
-			if (draggingPreviewPane)
-				return;
-
-			var paneSplitter = (GridSplitter)sender;
-			paneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-		}
-
-		private void PaneSplitter_PointerEntered(object sender, PointerRoutedEventArgs e)
-		{
-			var paneSplitter = (GridSplitter)sender;
-			paneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
 		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
@@ -562,5 +537,15 @@ namespace Files.App.Views
 		}
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
+
+		private void PaneSplitter_Loaded(object sender, RoutedEventArgs e)
+		{
+			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+		}
+
+		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+		{
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+		}
 	}
 }
