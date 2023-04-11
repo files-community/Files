@@ -360,7 +360,7 @@ namespace Files.App.Views
 
 		private void PaneResizer_Loaded(object sender, RoutedEventArgs e)
 		{
-			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			PaneResizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
 		private void PaneResizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)

@@ -534,7 +534,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
 		{
-			(sender as UIElement).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
