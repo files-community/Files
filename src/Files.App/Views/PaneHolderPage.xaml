@@ -106,9 +106,9 @@
 			Foreground="Transparent"
 			GripperForeground="Transparent"
 			IsTabStop="False"
+			Loaded="PaneResizer_Loaded"
 			ManipulationCompleted="PaneResizer_ManipulationCompleted"
 			ManipulationStarted="PaneResizer_ManipulationStarted"
-			Loaded="PaneResizer_Loaded"
 			ResizeBehavior="BasedOnAlignment"
 			ResizeDirection="Auto"
 			Style="{StaticResource DefaultGridSplitterStyle}">
