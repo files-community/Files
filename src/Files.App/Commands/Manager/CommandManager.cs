@@ -271,7 +271,7 @@ namespace Files.App.Commands
 			ISet<HotKey> useds = new HashSet<HotKey>();
 
 			var customs = new Dictionary<CommandCodes, HotKeyCollection>();
-			foreach (var custom in settings.CustomHotKeys)
+			foreach (var custom in settings.Actions)
 			{
 				if (Enum.TryParse(custom.Key, true, out CommandCodes code))
 				{
@@ -310,7 +310,7 @@ namespace Files.App.Commands
 
 		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IPreferencesSettingsService.CustomHotKeys))
+			if (e.PropertyName is nameof(IPreferencesSettingsService.Actions))
 				UpdateHotKeys();
 		}
 
@@ -399,16 +399,16 @@ namespace Files.App.Commands
 						return;
 
 					string code = Code.ToString();
-					var settingHotKeys = new Dictionary<string, string>(manager.settings.CustomHotKeys);
+					var customs = new Dictionary<string, string>(manager.settings.Actions);
 
-					if (!settingHotKeys.ContainsKey(code))
-						settingHotKeys.Add(code, value.Code);
+					if (!customs.ContainsKey(code))
+						customs.Add(code, value.Code);
 					else if (value != GetHotKeys(Action))
-						settingHotKeys[code] = value.Code;
+						customs[code] = value.Code;
 					else
-						settingHotKeys.Remove(code);
+						customs.Remove(code);
 
-					manager.settings.CustomHotKeys = settingHotKeys;
+					manager.settings.Actions = customs;
 				}
 			}
 
@@ -458,9 +458,9 @@ namespace Files.App.Commands
 				if (!IsCustomHotKeys)
 					return;
 
-				var customs = new Dictionary<string, string>(manager.settings.CustomHotKeys);
+				var customs = new Dictionary<string, string>(manager.settings.Actions);
 				customs.Remove(Code.ToString());
-				manager.settings.CustomHotKeys = customs;
+				manager.settings.Actions = customs;
 			}
 
 			internal void UpdateHotKeys(bool isCustom, HotKeyCollection hotKeys)
