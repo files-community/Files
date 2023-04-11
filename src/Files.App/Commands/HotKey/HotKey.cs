@@ -159,7 +159,7 @@ namespace Files.App.Commands
 
 		public bool IsNone => Key is Keys.None && Modifier is KeyModifiers.None;
 
-		public bool IsVisible { get; }
+		public bool IsVisible { get; init; }
 
 		public Keys Key { get; }
 		public KeyModifiers Modifier { get; }
@@ -224,7 +224,7 @@ namespace Files.App.Commands
 			}
 		}
 
-		public HotKey(Keys key, bool isVisible = true) : this(key, KeyModifiers.None, isVisible) { }
+		public HotKey(Keys key, bool isVisible = true) : this(key, KeyModifiers.None, isVisible) {}
 		public HotKey(Keys key, KeyModifiers modifier, bool isVisible = true)
 		{
 			if (!Enum.IsDefined(key) || !Enum.IsDefined(modifier))

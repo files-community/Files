@@ -1,5 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Actions;
+using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -11,13 +13,16 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Web.Http.Headers;
 
 namespace Files.App.Commands
 {
 	internal class CommandManager : ICommandManager
 	{
+		private readonly IPreferencesSettingsService settings = Ioc.Default.GetRequiredService<IPreferencesSettingsService>();
+
 		private readonly IImmutableDictionary<CommandCodes, IRichCommand> commands;
-		private readonly IDictionary<HotKey, IRichCommand> hotKeys;
+		private IImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
 
 		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
 		public IRichCommand this[HotKey hotKey] => hotKeys.TryGetValue(hotKey, out var command) ? command : None;
@@ -141,9 +146,8 @@ namespace Files.App.Commands
 				.Append(new NoneCommand())
 				.ToImmutableDictionary(command => command.Code);
 
-			hotKeys = commands.Values
-				.SelectMany(command => command.CustomHotKeys, (command, hotkey) => (Command: command, HotKey: hotkey))
-				.ToDictionary(item => item.HotKey, item => item.Command);
+			settings.PropertyChanged += Settings_PropertyChanged;
+			UpdateHotKeys();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -262,6 +266,54 @@ namespace Files.App.Commands
 			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
 		};
 
+		private void UpdateHotKeys()
+		{
+			ISet<HotKey> useds = new HashSet<HotKey>();
+
+			var customs = new Dictionary<CommandCodes, HotKeyCollection>();
+			foreach (var custom in settings.CustomHotKeys)
+			{
+				if (Enum.TryParse(custom.Key, true, out CommandCodes code))
+				{
+					if (code is CommandCodes.None)
+						continue;
+
+					var hotKeys = new HotKeyCollection(HotKeyCollection.Parse(custom.Value).Except(useds));
+					customs.Add(code, new(hotKeys));
+
+					foreach (var hotKey in hotKeys)
+					{
+						useds.Add(hotKey with { IsVisible = true });
+						useds.Add(hotKey with { IsVisible = false });
+					}
+				}
+			}
+
+			foreach (var command in commands.Values.OfType<ActionCommand>())
+			{
+				bool isCustom = customs.ContainsKey(command.Code);
+
+				var hotkeys = isCustom
+					? customs[command.Code]
+					: new HotKeyCollection(GetHotKeys(command.Action).Except(useds));
+
+				command.UpdateHotKeys(isCustom, hotkeys);
+			}
+
+			hotKeys = commands.Values
+				.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
+				.ToImmutableDictionary(item => item.HotKey, item => item.Command);
+		}
+
+		private static HotKeyCollection GetHotKeys(IAction action)
+			=> new(action.HotKey, action.SecondHotKey, action.ThirdHotKey, action.MediaHotKey);
+
+		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(IPreferencesSettingsService.CustomHotKeys))
+				UpdateHotKeys();
+		}
+
 		[DebuggerDisplay("Command None")]
 		private class NoneCommand : IRichCommand
 		{
@@ -282,9 +334,9 @@ namespace Files.App.Commands
 			public FontIcon? FontIcon => null;
 			public Style? OpacityStyle => null;
 
+			public bool IsCustomHotKeys => false;
 			public string? HotKeyText => null;
-			public HotKeyCollection DefaultHotKeys => HotKeyCollection.Empty;
-			public HotKeyCollection CustomHotKeys
+			public HotKeyCollection HotKeys
 			{
 				get => HotKeyCollection.Empty;
 				set => throw new InvalidOperationException("This command is readonly.");
@@ -298,6 +350,8 @@ namespace Files.App.Commands
 			public void Execute(object? parameter) {}
 			public Task ExecuteAsync() => Task.CompletedTask;
 			public void ExecuteTapped(object sender, TappedRoutedEventArgs e) {}
+
+			public void ResetHotKeys() {}
 		}
 
 		[DebuggerDisplay("Command {Code}")]
@@ -306,88 +360,81 @@ namespace Files.App.Commands
 			public event EventHandler? CanExecuteChanged;
 
 			private readonly CommandManager manager;
-			private readonly IAction action;
 
+			public IAction Action { get; }
 			public CommandCodes Code { get; }
 
-			public string Label => action.Label;
+			public string Label => Action.Label;
 			public string LabelWithHotKey => HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
 			public string AutomationName => Label;
 
-			public string Description => action.Description;
+			public string Description => Action.Description;
 
-			public RichGlyph Glyph => action.Glyph;
+			public RichGlyph Glyph => Action.Glyph;
 			public object? Icon { get; }
 			public FontIcon? FontIcon { get; }
 			public Style? OpacityStyle { get; }
+
+			private bool isCustomHotKeys = false;
+			public bool IsCustomHotKeys => isCustomHotKeys;
 
 			public string? HotKeyText
 			{
 				get
 				{
-					string text = CustomHotKeys.Label;
+					string text = HotKeys.Label;
 					if (string.IsNullOrEmpty(text))
 						return null;
 					return text;
 				}
 			}
 
-			public HotKeyCollection DefaultHotKeys { get; }
-
-			private HotKeyCollection customHotKeys;
-			public HotKeyCollection CustomHotKeys
+			private HotKeyCollection hotKeys;
+			public HotKeyCollection HotKeys
 			{
-				get => customHotKeys;
+				get => hotKeys;
 				set
 				{
-					if (customHotKeys == value)
+					if (hotKeys == value)
 						return;
 
-					foreach (var hotKey in customHotKeys)
-					{
-						manager.hotKeys.Remove(hotKey);
-					}
-					foreach (var hotKey in value)
-					{
-						var oldCommand = manager[hotKey];
-						if (oldCommand.Code is not CommandCodes.None)
-						{
-							oldCommand.CustomHotKeys = new(oldCommand.CustomHotKeys.Where(customHotKey => customHotKey != hotKey));
-						}
-						manager.hotKeys.Add(hotKey, this);
-					}
+					string code = Code.ToString();
+					var settingHotKeys = new Dictionary<string, string>(manager.settings.CustomHotKeys);
 
-					customHotKeys = value;
+					if (!settingHotKeys.ContainsKey(code))
+						settingHotKeys.Add(code, value.Code);
+					else if (value != GetHotKeys(Action))
+						settingHotKeys[code] = value.Code;
+					else
+						settingHotKeys.Remove(code);
 
-					OnPropertyChanged(nameof(HotKeyText));
-					OnPropertyChanged(nameof(LabelWithHotKey));
+					manager.settings.CustomHotKeys = settingHotKeys;
 				}
 			}
 
-			public bool IsToggle => action is IToggleAction;
+			public bool IsToggle => Action is IToggleAction;
 
 			public bool IsOn
 			{
-				get => action is IToggleAction toggleAction && toggleAction.IsOn;
+				get => Action is IToggleAction toggleAction && toggleAction.IsOn;
 				set
 				{
-					if (action is IToggleAction toggleAction && toggleAction.IsOn != value)
+					if (Action is IToggleAction toggleAction && toggleAction.IsOn != value)
 						Execute(null);
 				}
 			}
 
-			public bool IsExecutable => action.IsExecutable;
+			public bool IsExecutable => Action.IsExecutable;
 
 			public ActionCommand(CommandManager manager, CommandCodes code, IAction action)
 			{
 				this.manager = manager;
 				Code = code;
-				this.action = action;
+				Action = action;
 				Icon = action.Glyph.ToIcon();
 				FontIcon = action.Glyph.ToFontIcon();
 				OpacityStyle = action.Glyph.ToOpacityStyle();
-				DefaultHotKeys = new HotKeyCollection(action.HotKey, action.SecondHotKey, action.ThirdHotKey, action.MediaHotKey);
-				customHotKeys = DefaultHotKeys;
+				hotKeys = GetHotKeys(action);
 
 				if (action is INotifyPropertyChanging notifyPropertyChanging)
 					notifyPropertyChanging.PropertyChanging += Action_PropertyChanging;
@@ -395,16 +442,42 @@ namespace Files.App.Commands
 					notifyPropertyChanged.PropertyChanged += Action_PropertyChanged;
 			}
 
-			public bool CanExecute(object? parameter) => action.IsExecutable;
+			public bool CanExecute(object? parameter) => Action.IsExecutable;
 			public async void Execute(object? parameter) => await ExecuteAsync();
 
 			public async Task ExecuteAsync()
 			{
 				if (IsExecutable)
-					await action.ExecuteAsync();
+					await Action.ExecuteAsync();
 			}
 
 			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
+
+			public void ResetHotKeys()
+			{
+				if (!IsCustomHotKeys)
+					return;
+
+				var customs = new Dictionary<string, string>(manager.settings.CustomHotKeys);
+				customs.Remove(Code.ToString());
+				manager.settings.CustomHotKeys = customs;
+			}
+
+			internal void UpdateHotKeys(bool isCustom, HotKeyCollection hotKeys)
+			{
+				if (Code is CommandCodes.SelectAll or CommandCodes.ClearSelection)
+				{
+
+				}
+
+				SetProperty(ref isCustomHotKeys, isCustom, nameof(IsCustomHotKeys));
+
+				if (SetProperty(ref this.hotKeys, hotKeys, nameof(HotKeys)))
+				{
+					OnPropertyChanged(nameof(HotKeyText));
+					OnPropertyChanged(nameof(LabelWithHotKey));
+				}
+			}
 
 			private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
 			{

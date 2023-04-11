@@ -22,9 +22,9 @@ namespace Files.App.Commands
 		FontIcon? FontIcon { get; }
 		Style? OpacityStyle { get; }
 
+		bool IsCustomHotKeys { get; }
 		string? HotKeyText { get; }
-		HotKeyCollection DefaultHotKeys { get; }
-		HotKeyCollection CustomHotKeys { get; set; }
+		HotKeyCollection HotKeys { get; set; }
 
 		bool IsToggle { get; }
 		bool IsOn { get; set; }
@@ -32,5 +32,7 @@ namespace Files.App.Commands
 
 		Task ExecuteAsync();
 		void ExecuteTapped(object sender, TappedRoutedEventArgs e);
+
+		void ResetHotKeys();
 	}
 }
