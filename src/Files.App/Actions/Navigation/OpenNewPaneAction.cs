@@ -18,7 +18,7 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(Keys.OemPlus, KeyModifiers.MenuShift);
 
-		public HotKey SecondHotKey { get; } = new(Keys.Add, KeyModifiers.CtrlShift);
+		public HotKey SecondHotKey { get; } = new(Keys.Add, KeyModifiers.MenuShift);
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconRightPane");
 
