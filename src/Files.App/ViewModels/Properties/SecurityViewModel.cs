@@ -1,9 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
 using Files.App.Helpers;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -39,10 +41,14 @@ namespace Files.App.ViewModels.Properties
 				if (SetProperty(ref _SelectedAccessControlEntry, value))
 				{
 					value.IsSelected = true;
-					RemoveAccessControlEntryCommand.NotifyCanExecuteChanged();
+					RemoveAccessControlEntryCommand?.NotifyCanExecuteChanged();
+					OnPropertyChanged(nameof(SelectedItemHeaderText));
 				}
 			}
 		}
+
+		public string SelectedItemHeaderText
+			=> string.Format("SecurityPermissionsHeaderText".GetLocalizedResource(), SelectedAccessControlEntry.Principal.DisplayName);
 
 		public IRelayCommand AddAccessControlEntryCommand { get; set; }
 		public IRelayCommand RemoveAccessControlEntryCommand { get; set; }
@@ -52,6 +58,7 @@ namespace Files.App.ViewModels.Properties
 			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
 			Path = item.ItemPath;
 			AccessControlList = FileSecurityHelpers.GetAccessControlList(Path, IsFolder);
+			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
 			InitializeCommands();
 		}
@@ -61,6 +68,7 @@ namespace Files.App.ViewModels.Properties
 			IsFolder = true;
 			Path = item.Path;
 			AccessControlList = FileSecurityHelpers.GetAccessControlList(Path, IsFolder);
+			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
 			InitializeCommands();
 		}

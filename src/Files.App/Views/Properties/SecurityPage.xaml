@@ -19,6 +19,10 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:EmptyCollectionToObjectConverter
+				x:Key="EmptyCollectionToBoolConverter"
+				EmptyValue="True"
+				NotEmptyValue="False" />
 
 		</ResourceDictionary>
 	</Page.Resources>
@@ -140,6 +144,12 @@
 					</ListView>
 				</ScrollViewer>
 
+				<TextBlock
+					x:Name="NoAcesTextBlock"
+					Margin="12,8"
+					x:Load="{x:Bind SecurityViewModel.AccessControlList.AccessControlEntries, Converter={StaticResource EmptyCollectionToBoolConverter}, Mode=OneWay}"
+					Text="No groups or users have permission to access this object. However, the owner of this object can assign permissions." />
+
 			</Grid>
 
 			<!--  Permissions of Selected Principal Card  -->
@@ -168,12 +178,10 @@
 						Grid.Column="0"
 						Margin="4"
 						VerticalAlignment="Center"
+						Text="{x:Bind SecurityViewModel.SelectedItemHeaderText, Mode=OneWay}"
 						TextTrimming="CharacterEllipsis"
 						TextWrapping="NoWrap"
-						ToolTipService.ToolTip="{x:Bind SecurityViewModel.SelectedAccessControlEntry.Principal.DisplayName, Mode=OneWay}">
-						<Run Text="{helpers:ResourceString Name=SecurityPermissionsLabel/Text}" />
-						<Run Text="{x:Bind SecurityViewModel.SelectedAccessControlEntry.Principal.DisplayName, Mode=OneWay}" />
-					</TextBlock>
+						ToolTipService.ToolTip="{x:Bind SecurityViewModel.SelectedItemHeaderText, Mode=OneWay}" />
 
 					<Button
 						x:Name="OpenSecurityAdvancedPageButton"
@@ -239,6 +247,7 @@
 						VerticalAlignment="Center"
 						Text="{helpers:ResourceString Name=Deny}" />
 
+					<!--  Full Control  -->
 					<TextBlock
 						Grid.Row="1"
 						Grid.Column="0"
@@ -266,12 +275,13 @@
 						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedFullControlAccess, Mode=TwoWay}"
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedFullControlAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
+					<!--  Modify  -->
 					<TextBlock
 						Grid.Row="2"
 						Grid.Column="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=SecurityModifyLabel/Text}" />
+						Text="{helpers:ResourceString Name=Modify}" />
 
 					<CheckBox
 						Grid.Row="2"
@@ -293,6 +303,16 @@
 						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedModifyAccess, Mode=TwoWay}"
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedModifyAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
+					<!--  (Alternal Color)  -->
+					<Border
+						Grid.Row="2"
+						Grid.ColumnSpan="4"
+						Height="32"
+						Margin="-8,0"
+						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+						CornerRadius="4" />
+
+					<!--  Read & Execute  -->
 					<TextBlock
 						Grid.Row="3"
 						Grid.Column="0"
@@ -320,6 +340,18 @@
 						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedReadAndExecuteAccess, Mode=TwoWay}"
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedReadAndExecuteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
+					<!--  (Alternal Color)  -->
+					<Border
+						x:Name="AlternalColorBorderSecondIfFolder"
+						Grid.Row="4"
+						Grid.ColumnSpan="4"
+						Height="32"
+						Margin="-8,0"
+						x:Load="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}"
+						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+						CornerRadius="4" />
+
+					<!--  List Directory Contents  -->
 					<TextBlock
 						Grid.Row="4"
 						Grid.Column="0"
@@ -350,6 +382,18 @@
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedListDirectoryAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 						Visibility="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}" />
 
+					<!--  (Alternal Color)  -->
+					<Border
+						x:Name="AlternalColorBorderSecondIfFile"
+						Grid.Row="5"
+						Grid.ColumnSpan="4"
+						Height="32"
+						Margin="-8,0"
+						x:Load="{x:Bind SecurityViewModel.IsFolder, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+						CornerRadius="4" />
+
+					<!--  Read  -->
 					<TextBlock
 						Grid.Row="5"
 						Grid.Column="0"
@@ -377,6 +421,18 @@
 						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedReadAccess, Mode=TwoWay}"
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedReadAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
+					<!--  (Alternal Color)  -->
+					<Border
+						x:Name="AlternalColorBorderSecondIfFolder2"
+						Grid.Row="6"
+						Grid.ColumnSpan="4"
+						Height="32"
+						Margin="-8,0"
+						x:Load="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}"
+						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+						CornerRadius="4" />
+
+					<!--  Write  -->
 					<TextBlock
 						Grid.Row="6"
 						Grid.Column="0"

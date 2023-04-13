@@ -123,7 +123,8 @@ namespace Files.App.Views.Properties
 			{
 				AppInstance = _appInstance,
 				CancellationTokenSource = _tokenSource,
-				Parameter = _parameter
+				Parameter = _parameter,
+				Window = Window,
 			};
 
 			var page = (PropertiesNavigationViewItemType)args.SelectedItemContainer.Tag switch

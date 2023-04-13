@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using Microsoft.UI.Xaml;
+using System.Threading;
 
 namespace Files.App.DataModels
 {
@@ -9,5 +10,7 @@ namespace Files.App.DataModels
 		public object Parameter;
 
 		public IShellPage AppInstance;
+
+		public Window Window;
 	}
 }

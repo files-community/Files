@@ -33,10 +33,10 @@ namespace Files.App.Helpers
 			return hWnd;
 		}
 
-		public static async void ShowProperties(IShellPage associatedInstance)
+		public static void ShowProperties(IShellPage associatedInstance)
 		{
 			var item = GetItem(associatedInstance);
-			await OpenPropertiesWindowAsync(item, associatedInstance);
+			OpenPropertiesWindowAsync(item, associatedInstance);
 
 			static object GetItem(IShellPage instance)
 			{
@@ -52,10 +52,8 @@ namespace Files.App.Helpers
 
 				var drives = App.DrivesManager.Drives;
 				foreach (var drive in drives)
-				{
 					if (drive.Path.Equals(folder.ItemPath))
 						return drive;
-				}
 
 				return folder;
 			}

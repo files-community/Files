@@ -56,7 +56,8 @@
 				Background="Transparent"
 				BorderThickness="0"
 				Click="BackwardNavigationButton_Click"
-				IsEnabled="{x:Bind MainContentFrame.CanGoBack, Mode=OneWay}">
+				IsEnabled="{x:Bind MainContentFrame.CanGoBack, Mode=OneWay}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=Back}">
 				<Button.Resources>
 					<ResourceDictionary>
 						<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
@@ -145,7 +146,7 @@
 					</Grid.RowDefinitions>
 
 					<!--  Frame  -->
-					<Frame x:Name="MainContentFrame" IsNavigationStackEnabled="False" />
+					<Frame x:Name="MainContentFrame" />
 
 					<!--  Save/Cancel buttons  -->
 					<Grid
