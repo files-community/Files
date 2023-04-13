@@ -1635,7 +1635,7 @@
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
     <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
   </data>
-  <data name="SecurityOwnerLabel" xml:space="preserve">
+  <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Owner:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">

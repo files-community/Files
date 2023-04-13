@@ -75,7 +75,7 @@
 				Grid.Column="0"
 				Margin="4"
 				VerticalAlignment="Center"
-				Text="{helpers:ResourceString Name=SecurityOwnerLabel}" />
+				Text="{helpers:ResourceString Name=SecurityOwnerLabel/Text}" />
 
 			<StackPanel
 				Grid.Column="1"
