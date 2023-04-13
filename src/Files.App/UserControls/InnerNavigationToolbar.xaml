@@ -216,7 +216,7 @@
 				<!--  (Divider)  -->
 				<AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionalAction, Mode=OneWay}" />
 
-				<!--  Expty Recycle Bin  -->
+				<!--  Empty Recycle Bin  -->
 				<AppBarButton
 					x:Name="EmptyRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
