@@ -175,7 +175,15 @@ namespace Files.App.Views
 				if (navEvent is null)
 					return;
 
-				navEvent(_parent, sender.Position.X > 0 ? SwipeNavigationEventArgs.Forward : SwipeNavigationEventArgs.Back);
+				if (sender.Position.X > 0 && _parent.CanGoForward)
+				{
+					navEvent(_parent, SwipeNavigationEventArgs.Forward);
+				}
+				else if (sender.Position.X < 0 && _parent.CanGoBack)
+				{
+					navEvent(_parent, SwipeNavigationEventArgs.Back);
+				}
+				
 			}
 
 
