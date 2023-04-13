@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -19,12 +20,12 @@ namespace Files.App.Views
 		{
 			get
 			{
-				_props.TryGetBoolean("CanGoForward", out bool val);
+				_props.TryGetBoolean(nameof(CanGoForward), out bool val);
 				return val;
 			}
 			set
 			{
-				_props.InsertBoolean("CanGoForward", value);
+				_props.InsertBoolean(nameof(CanGoForward), value);
 			}
 		}
 
@@ -32,12 +33,12 @@ namespace Files.App.Views
 		{
 			get
 			{
-				_props.TryGetBoolean("CanGoBack", out bool val);
+				_props.TryGetBoolean(nameof(CanGoBack), out bool val);
 				return val;
 			}
 			set
 			{
-				_props.InsertBoolean("CanGoBack", value);
+				_props.InsertBoolean(nameof(CanGoBack), value);
 			}
 		}
 
@@ -49,10 +50,10 @@ namespace Files.App.Views
 		private Visual _backVisual;
 		private Visual _forwardVisual;
 
-		private InteractionTracker _tracker = null!;
-		private VisualInteractionSource _source = null!;
-		private InteractionTrackerOwner _trackerOwner = null!;
-		private CompositionPropertySet _props = null!;
+		private InteractionTracker _tracker;
+		private VisualInteractionSource _source;
+		private InteractionTrackerOwner _trackerOwner;
+		private CompositionPropertySet _props;
 
 		public event EventHandler<SwipeNavigationEventArgs>? NavigationRequested;
 
@@ -69,8 +70,8 @@ namespace Files.App.Views
 			_forwardVisual = ElementCompositionPreview.GetElementVisual(_forwardIcon);
 
 			_props = _rootVisual.Compositor.CreatePropertySet();
-			_props.InsertBoolean("CanGoForward", false);
-			_props.InsertBoolean("CanGoBack", false);
+			CanGoBack = false;
+			CanGoForward = false;
 
 			rootElement.AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(PointerPressed), true);
 
@@ -78,6 +79,7 @@ namespace Files.App.Views
 			SetupAnimations();
 		}
 
+		[MemberNotNull(nameof(_tracker), nameof(_source), nameof(_trackerOwner))]
 		private void SetupInteractionTracker()
 		{
 			var compositor = _rootVisual.Compositor;
@@ -99,24 +101,8 @@ namespace Files.App.Views
 		{
 			var compositor = _rootVisual.Compositor;
 
-			var backResistance = CompositionConditionalValue.Create(compositor);
-			var backResistanceCondition = compositor.CreateExpressionAnimation("tracker.Position.X < 0 && tracker.Position.X > -96");
-			backResistanceCondition.SetReferenceParameter("tracker", _tracker);
-			var backResistanceValue = compositor.CreateExpressionAnimation("source.DeltaPosition.X * (1 - sqrt(1 - square((tracker.Position.X / -96) - 1)))");
-			backResistanceValue.SetReferenceParameter("source", _source);
-			backResistanceValue.SetReferenceParameter("tracker", _tracker);
-			backResistance.Condition = backResistanceCondition;
-			backResistance.Value = backResistanceValue;
-
-			var forwardResistance = CompositionConditionalValue.Create(compositor);
-			var forwardResistanceCondition = compositor.CreateExpressionAnimation("tracker.Position.X > 0 && tracker.Position.X < 96");
-			forwardResistanceCondition.SetReferenceParameter("tracker", _tracker);
-			var forwardResistanceValue = compositor.CreateExpressionAnimation("source.DeltaPosition.X * (1 - sqrt(1 - square((tracker.Position.X / 96) - 1)))");
-			forwardResistanceValue.SetReferenceParameter("source", _source);
-			forwardResistanceValue.SetReferenceParameter("tracker", _tracker);
-			forwardResistance.Condition = forwardResistanceCondition;
-			forwardResistance.Value = forwardResistanceValue;
-
+			var backResistance = CreateResistanceCondition(-96f, 0f);
+			var forwardResistance = CreateResistanceCondition(0f, 96f);
 			List<CompositionConditionalValue> conditionalValues = new() { backResistance, forwardResistance };
 			_source.ConfigureDeltaPositionXModifiers(conditionalValues);
 
@@ -139,6 +125,22 @@ namespace Files.App.Views
 			}
 		}
 
+		private CompositionConditionalValue CreateResistanceCondition(float minValue, float maxValue)
+		{
+			var compositor = _rootVisual.Compositor;
+
+			var resistance = CompositionConditionalValue.Create(compositor);
+			var resistanceCondition = compositor.CreateExpressionAnimation($"tracker.Position.X > {minValue} && tracker.Position.X < {maxValue}");
+			resistanceCondition.SetReferenceParameter("tracker", _tracker);
+			var resistanceValue = compositor.CreateExpressionAnimation($"source.DeltaPosition.X * (1 - sqrt(1 - square((tracker.Position.X / {minValue + maxValue}) - 1)))");
+			resistanceValue.SetReferenceParameter("source", _source);
+			resistanceValue.SetReferenceParameter("tracker", _tracker);
+			resistance.Condition = resistanceCondition;
+			resistance.Value = resistanceValue;
+
+			return resistance;
+		}
+
 		private class InteractionTrackerOwner : IInteractionTrackerOwner
 		{
 			private NavigationInteractionTracker _parent;
@@ -156,7 +158,8 @@ namespace Files.App.Views
 
 			public void IdleStateEntered(InteractionTracker sender, InteractionTrackerIdleStateEnteredArgs args)
 			{
-				if (!_shouldBounceBack) return;
+				if (!_shouldBounceBack)
+					return;
 
 				var compositor = _parent._rootVisual.Compositor;
 				var springAnim = compositor.CreateSpringVector3Animation();
@@ -175,25 +178,16 @@ namespace Files.App.Views
 				navEvent(_parent, sender.Position.X > 0 ? SwipeNavigationEventArgs.Forward : SwipeNavigationEventArgs.Back);
 			}
 
-			public void InertiaStateEntered(InteractionTracker sender, InteractionTrackerInertiaStateEnteredArgs args)
-			{
-
-			}
 
 			public void InteractingStateEntered(InteractionTracker sender, InteractionTrackerInteractingStateEnteredArgs args)
 			{
 				_shouldBounceBack = true;
 			}
 
-			public void RequestIgnored(InteractionTracker sender, InteractionTrackerRequestIgnoredArgs args)
-			{
-
-			}
-
-			public void ValuesChanged(InteractionTracker sender, InteractionTrackerValuesChangedArgs args)
-			{
-
-			}
+			// required to implement IInteractionTrackerOwner
+			public void InertiaStateEntered(InteractionTracker sender, InteractionTrackerInertiaStateEnteredArgs args) { }
+			public void RequestIgnored(InteractionTracker sender, InteractionTrackerRequestIgnoredArgs args) { }
+			public void ValuesChanged(InteractionTracker sender, InteractionTrackerValuesChangedArgs args) { }
 		}
 	}
 
