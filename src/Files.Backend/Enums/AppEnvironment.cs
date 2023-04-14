@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Files.App.AppModels
+namespace Files.Backend.Enums
 {
 	public enum AppEnvironment
 	{
