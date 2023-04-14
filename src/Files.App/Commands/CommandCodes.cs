@@ -150,12 +150,5 @@ namespace Files.App.Commands
 		PreviousTab,
 		NextTab,
 		CloseSelectedTab,
-
-		// Git
-		AddBranch,
-		Checkout,
-		Pull,
-		Push,
-		Sync,
 	}
 }

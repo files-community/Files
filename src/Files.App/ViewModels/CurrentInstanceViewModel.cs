@@ -201,7 +201,6 @@ namespace Files.App.ViewModels
 				if (SetProperty(ref gitRepositoryPath, value))
 				{
 					OnPropertyChanged(nameof(IsGitRepository));
-					OnPropertyChanged(nameof(Branches));
 					OnPropertyChanged(nameof(GitBranchName));
 				}
 			}
@@ -219,20 +218,6 @@ namespace Files.App.ViewModels
 				}
 
 				return string.Empty;
-			}
-		}
-
-		private BranchCollection? Branches
-		{
-			get
-			{
-				if (IsGitRepository)
-				{
-					using var repository = new Repository(gitRepositoryPath);
-					return repository.Branches;
-				}
-
-				return null;
 			}
 		}
 	}

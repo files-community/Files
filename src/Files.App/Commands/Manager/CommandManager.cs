@@ -132,11 +132,6 @@ namespace Files.App.Commands
 		public IRichCommand PreviousTab => commands[CommandCodes.PreviousTab];
 		public IRichCommand NextTab => commands[CommandCodes.NextTab];
 		public IRichCommand CloseSelectedTab => commands[CommandCodes.CloseSelectedTab];
-		public IRichCommand AddBranch => commands[CommandCodes.AddBranch];
-		public IRichCommand Checkout => commands[CommandCodes.Checkout];
-		public IRichCommand Pull => commands[CommandCodes.Pull];
-		public IRichCommand Push => commands[CommandCodes.Push];
-		public IRichCommand Sync => commands[CommandCodes.Sync];
 
 		public CommandManager()
 		{
@@ -275,11 +270,6 @@ namespace Files.App.Commands
 			[CommandCodes.PreviousTab] = new PreviousTabAction(),
 			[CommandCodes.NextTab] = new NextTabAction(),
 			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
-			[CommandCodes.AddBranch] = new AddBranchAction(),
-			[CommandCodes.Checkout] = new CheckoutAction(),
-			[CommandCodes.Pull] = new PullAction(),
-			[CommandCodes.Push] = new PushAction(),
-			[CommandCodes.Sync] = new SyncAction(),
 		};
 
 		[DebuggerDisplay("Command None")]
