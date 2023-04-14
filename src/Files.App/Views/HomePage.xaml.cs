@@ -121,6 +121,7 @@ namespace Files.App.Views
 			{
 				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded), 4);
 
+				recentFilesWidget.AppInstance = AppInstance;
 				recentFilesWidget.RecentFilesOpenLocationInvoked -= WidgetOpenLocationInvoked;
 				recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
 				recentFilesWidget.RecentFilesOpenLocationInvoked += WidgetOpenLocationInvoked;
@@ -134,15 +135,6 @@ namespace Files.App.Views
 			ViewModel.ChangeAppInstance(AppInstance);
 
 			ReloadWidgets();
-		}
-
-		// WINUI3
-		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-
-			return contentDialog;
 		}
 
 		private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
@@ -167,7 +159,7 @@ namespace Files.App.Views
 			catch (UnauthorizedAccessException)
 			{
 				DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-				await SetContentDialogRoot(dialog).ShowAsync();
+				await dialog.TryShowAsync();
 			}
 			catch (COMException) { }
 			catch (ArgumentException) { }

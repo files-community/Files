@@ -253,7 +253,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (ParentShellPageInstance is null)
+			if (ParentShellPageInstance is null || IsRenamingItem)
 				return;
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -269,15 +269,9 @@ namespace Files.App.Views.LayoutModes
 				var hotKey = new HotKey(Keys.A, KeyModifiers.Ctrl);
 
 				await commands[hotKey].ExecuteAsync();
-
-				return;
 			}
-
-			if (e.Key == VirtualKey.Enter && !isFooterFocused && !e.KeyStatus.IsMenuKeyDown)
+			else if (e.Key == VirtualKey.Enter && !isFooterFocused && !e.KeyStatus.IsMenuKeyDown)
 			{
-				if (IsRenamingItem)
-					return;
-
 				e.Handled = true;
 
 				if (ctrlPressed && !shiftPressed)
@@ -301,7 +295,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Space)
 			{
-				if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
+				if (!ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 					e.Handled = true;
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -510,7 +504,7 @@ namespace Files.App.Views.LayoutModes
 				if (isPointerOver.HasValue)
 					control.SetValue(IsPointerOverProperty, isPointerOver);
 				// Handle visual states
-				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false && SelectedItems?.Count >= 1)
+				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
