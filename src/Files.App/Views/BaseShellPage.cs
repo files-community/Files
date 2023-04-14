@@ -18,6 +18,7 @@ using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Enums;
+using LibGit2Sharp;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -234,9 +235,7 @@ namespace Files.App.Views
 			if (string.IsNullOrWhiteSpace(InstanceViewModel.GitRepositoryPath) || 
 				!FilesystemViewModel.WorkingDirectory.StartsWith(InstanceViewModel.GitRepositoryPath, StringComparison.OrdinalIgnoreCase))
 			{
-				InstanceViewModel.GitRepositoryPath = GitHelpers.GetGitRepositoryPath(
-					FilesystemViewModel.WorkingDirectory,
-					Path.GetPathRoot(FilesystemViewModel.WorkingDirectory));
+				InstanceViewModel.GitRepositoryPath = Repository.Discover(FilesystemViewModel.WorkingDirectory);
 			}
 
 			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository 
