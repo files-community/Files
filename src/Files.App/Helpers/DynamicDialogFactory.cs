@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.System;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Files.App.Helpers
 {

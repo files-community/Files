@@ -47,12 +47,6 @@ namespace Files.App.Contexts
 
 		public bool IsSearchBoxVisible => ShellPage is not null && ShellPage.ToolbarViewModel.IsSearchBoxVisible;
 
-		public bool IsGitRepository => ShellPage is not null && ShellPage.InstanceViewModel.IsGitRepository;
-
-		public string? GitRepositoryPath => ShellPage?.InstanceViewModel.GitRepositoryPath;
-
-		public string GitBranchName => ShellPage?.InstanceViewModel.GitBranchName ?? string.Empty;
-
 		public ContentPageContext()
 		{
 			context.Changing += Context_Changing;
@@ -120,15 +114,6 @@ namespace Files.App.Contexts
 				case nameof(CurrentInstanceViewModel.IsPageTypeSearchResults):
 					UpdatePageType();
 					break;
-				case nameof(CurrentInstanceViewModel.IsGitRepository):
-					OnPropertyChanged(nameof(IsGitRepository));
-					break;
-				case nameof(CurrentInstanceViewModel.GitRepositoryPath):
-					OnPropertyChanged(nameof(GitRepositoryPath));
-					break;
-				case nameof(CurrentInstanceViewModel.GitBranchName):
-					OnPropertyChanged(nameof(GitBranchName));
-					break;
 			}
 		}
 
@@ -167,9 +152,6 @@ namespace Files.App.Contexts
 			OnPropertyChanged(nameof(CanGoForward));
 			OnPropertyChanged(nameof(CanNavigateToParent));
 			OnPropertyChanged(nameof(CanRefresh));
-			OnPropertyChanged(nameof(IsGitRepository));
-			OnPropertyChanged(nameof(GitRepositoryPath));
-			OnPropertyChanged(nameof(GitBranchName));
 		}
 
 		private void UpdatePageType()

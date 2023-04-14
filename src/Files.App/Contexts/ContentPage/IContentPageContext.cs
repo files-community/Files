@@ -26,9 +26,5 @@ namespace Files.App.Contexts
 		bool CanNavigateToParent { get; }
 
 		bool IsSearchBoxVisible { get; }
-
-		bool IsGitRepository { get; }
-		string? GitRepositoryPath { get; }
-		string GitBranchName { get; }
 	}
 }
