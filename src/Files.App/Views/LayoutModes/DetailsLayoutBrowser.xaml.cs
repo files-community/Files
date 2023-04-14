@@ -30,14 +30,6 @@ namespace Files.App.Views.LayoutModes
 {
 	public sealed partial class DetailsLayoutBrowser : StandardViewBase
 	{
-		public bool IsPointerOver
-		{
-			get { return (bool)GetValue(IsPointerOverProperty); }
-			set { SetValue(IsPointerOverProperty, value); }
-		}
-		public static readonly DependencyProperty IsPointerOverProperty =
-			DependencyProperty.Register("IsPointerOver", typeof(bool), typeof(DetailsLayoutBrowser), new PropertyMetadata(false));
-
 		private const int TAG_TEXT_BLOCK = 1;
 
 		private uint currentIconSize;
@@ -721,16 +713,23 @@ namespace Files.App.Views.LayoutModes
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			args.ItemContainer.PointerEntered -= ItemRow_PointerEntered;
-			args.ItemContainer.PointerExited -= ItemRow_PointerExited;
-			args.ItemContainer.PointerCanceled -= ItemRow_PointerCanceled;
+			var iconBox = args.ItemContainer.FindDescendant("IconBox")!;
+			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
+
+			iconBox.PointerEntered -= IconBox_PointerEntered;
+			iconBox.PointerExited -= IconBox_PointerExited;
+			iconBox.PointerCanceled -= IconBox_PointerCanceled;
+			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
+			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
 
 			base.FileList_ContainerContentChanging(sender, args);
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
 
-			args.ItemContainer.PointerEntered += ItemRow_PointerEntered;
-			args.ItemContainer.PointerExited += ItemRow_PointerExited;
-			args.ItemContainer.PointerCanceled += ItemRow_PointerCanceled;
+			iconBox.PointerEntered += IconBox_PointerEntered;
+			iconBox.PointerExited += IconBox_PointerExited;
+			iconBox.PointerCanceled += IconBox_PointerCanceled;
+			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
+			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
 		}
 
 		private void SetCheckboxSelectionState(object item, ListViewItem? lviContainer = null)
@@ -750,7 +749,7 @@ namespace Files.App.Views.LayoutModes
 					checkbox.Checked += ItemSelected_Checked;
 					checkbox.Unchecked += ItemSelected_Unchecked;
 				}
-				UpdateCheckboxVisibility(container);
+				UpdateCheckboxVisibility(container, false);
 			}
 		}
 
@@ -790,30 +789,37 @@ namespace Files.App.Views.LayoutModes
 			e.Handled = true;
 		}
 
-		private void ItemRow_PointerEntered(object sender, PointerRoutedEventArgs e)
+		private void IconBox_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			UpdateCheckboxVisibility(sender, true);
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, true);
 		}
 
-		private void ItemRow_PointerExited(object sender, PointerRoutedEventArgs e)
+		private void IconBox_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
-			UpdateCheckboxVisibility(sender, false);
+			e.Handled = true;
 		}
 
-		private void ItemRow_PointerCanceled(object sender, PointerRoutedEventArgs e)
+		private void IconBox_PointerCanceled(object sender, PointerRoutedEventArgs e)
 		{
-			UpdateCheckboxVisibility(sender, false);
+			e.Handled = true;
 		}
 
-		private void UpdateCheckboxVisibility(object sender, bool? isPointerOver = null)
+		private void SelectionCheckbox_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
+		}
+
+		private void SelectionCheckbox_PointerCanceled(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
+		}
+
+		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
 		{
 			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
 			{
-				// Save pointer over state accordingly
-				if (isPointerOver.HasValue)
-					control.SetValue(IsPointerOverProperty, isPointerOver);
 				// Handle visual states
-				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false && SelectedItems?.Count >= 1)
+				if (control.IsSelected || isPointerOver || (control.FindDescendant("SelectionCheckbox") as CheckBox)!.IsPointerOver)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
