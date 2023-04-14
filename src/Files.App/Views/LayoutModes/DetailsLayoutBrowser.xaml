@@ -626,9 +626,8 @@
 											</Border>
 											<Image
 												x:Name="ShieldOverlay"
-												Width="16"
-												Height="16"
-												Margin="2"
+												Width="8"
+												Height="8"
 												HorizontalAlignment="Right"
 												VerticalAlignment="Bottom"
 												x:Load="{x:Bind IsElevated}"
