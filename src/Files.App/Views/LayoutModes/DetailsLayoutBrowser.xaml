@@ -617,6 +617,13 @@
 												x:Load="True"
 												Source="{x:Bind IconOverlay, Mode=OneWay}"
 												Stretch="Uniform" />
+											<Border
+												x:Name="ShortcutGlyphElement"
+												HorizontalAlignment="Left"
+												VerticalAlignment="Bottom"
+												x:Load="{x:Bind IsShortcut}">
+												<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
+											</Border>
 											<Image
 												x:Name="ShieldOverlay"
 												Width="16"
