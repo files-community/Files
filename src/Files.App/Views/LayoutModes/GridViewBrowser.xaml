@@ -151,9 +151,9 @@
 
 						<Image
 							x:Name="ShieldOverlay"
-							Width="32"
-							Height="32"
-							Margin="16"
+							Width="16"
+							Height="16"
+							Margin="14"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Bottom"
 							x:Load="{x:Bind IsElevated}"
