@@ -34,10 +34,6 @@ namespace Files.App.Views.LayoutModes
 
 		private uint currentIconSize;
 
-		private InputCursor arrowCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Arrow, 0));
-
-		private InputCursor resizeCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.SizeWestEast, 1));
-
 		private ListedItem? _nextItemToSelect;
 
 		protected override uint IconSize => currentIconSize;
@@ -511,20 +507,20 @@ namespace Files.App.Views.LayoutModes
 			MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
 		}
 
-		private void GridSplitter_ManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
+		private void GridSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			this.ChangeCursor(resizeCursor);
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
 		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
-			this.ChangeCursor(arrowCursor);
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
 		private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
 		{
-			(sender as UIElement).ChangeCursor(resizeCursor);
+			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -537,7 +533,6 @@ namespace Files.App.Views.LayoutModes
 			var columnToResize = Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) / 2 + 1;
 			ResizeColumnToFit(columnToResize);
 
-			this.ChangeCursor(arrowCursor);
 			e.Handled = true;
 		}
 
