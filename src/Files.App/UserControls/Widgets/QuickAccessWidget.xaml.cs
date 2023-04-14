@@ -264,7 +264,7 @@ namespace Files.App.UserControls.Widgets
 					{
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
-						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault().Properties["System.Home.IsPinned"] ?? false;
+						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault()?.Properties["System.Home.IsPinned"] ?? false;
 
 						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
 						{
