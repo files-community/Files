@@ -120,8 +120,8 @@ namespace Files.App.UserControls.Widgets
 
 		private void ListViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
-			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			ItemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			ItemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			if (sender is not ListViewItem listViewItem || listViewItem.DataContext is not RecentItem item)
 				return;
 
@@ -131,8 +131,8 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.OfType<FrameworkElement>()
 							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
-			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			itemContextMenuFlyout.ShowAt(listViewItem, new FlyoutShowOptions { Position = e.GetPosition(listViewItem) });
+			secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
+			ItemContextMenuFlyout.ShowAt(listViewItem, new FlyoutShowOptions { Position = e.GetPosition(listViewItem) });
 
 			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 
