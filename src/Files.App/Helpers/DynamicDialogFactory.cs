@@ -5,6 +5,7 @@ using Files.App.Filesystem;
 using Files.App.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using System;
@@ -64,19 +65,21 @@ namespace Files.App.Helpers
 				PlaceholderText = "EnterAnItemName".GetLocalizedResource()
 			};
 
-			RenameDialogViewModel viewModel = new();
-
 			TeachingTip warning = new()
 			{
 				Title = "InvalidFilename/Text".GetLocalizedResource(),
-				DataContext = viewModel,
-				PreferredPlacement = TeachingTipPlacementMode.Bottom
+				PreferredPlacement = TeachingTipPlacementMode.Bottom,
+				DataContext = new RenameDialogViewModel(),
 			};
 
+			warning.SetBinding(TeachingTip.TargetProperty, new Binding()
+			{
+				Source = inputText
+			});
 			warning.SetBinding(TeachingTip.IsOpenProperty, new Binding()
 			{
-				Source = viewModel.IsNameInvalid,
-				Mode = BindingMode.OneWay
+				Mode = BindingMode.OneWay,
+				Path = new PropertyPath("IsNameInvalid")
 			});
 
 			inputText.Resources.Add("InvalidNameWarningTip", warning);
@@ -84,7 +87,7 @@ namespace Files.App.Helpers
 			inputText.TextChanged += (textBox, args) =>
 			{
 				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
-				viewModel.IsNameInvalid = !isInputValid;
+				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = !isInputValid;
 				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
 														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 														: DynamicDialogButtons.Cancel;
@@ -95,7 +98,8 @@ namespace Files.App.Helpers
 			inputText.Loaded += (s, e) =>
 			{
 				// dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
-				_ = inputText.DispatcherQueue.EnqueueAsync(() => inputText.Focus(Microsoft.UI.Xaml.FocusState.Programmatic));
+				_ = inputText.DispatcherQueue.EnqueueAsync(() => inputText.Focus(FocusState.Programmatic));
+				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = true;
 			};
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
@@ -119,6 +123,11 @@ namespace Files.App.Helpers
 				DynamicButtonsEnabled = DynamicDialogButtons.Cancel,
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
+
+			dialog.Closing += (s, e) =>
+			{
+				warning.IsOpen = false;
+			};
 
 			return dialog;
 		}
