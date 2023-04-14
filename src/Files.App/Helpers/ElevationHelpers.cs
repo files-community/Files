@@ -16,10 +16,5 @@ namespace Files.App.Helpers
 
 			return _IsElevationRequired(filePath);
 		}
-
-		public static async Task<BitmapImage> GetElevationShieldIcon()
-		{
-			return await UIHelpers.GetIconResource(Constants.ImageRes.ShieldIcon);
-		}
 	}
 }
