@@ -88,7 +88,8 @@ namespace Files.App.Views
 				SecondaryButtonText = "No".ToLocalized()
 			};
 
-			var result = await SetContentDialogRoot(promptForReviewDialog).ShowAsync();
+			var result = await promptForReviewDialog.TryShowAsync();
+
 			if (result == ContentDialogResult.Primary)
 			{
 				try
@@ -200,11 +201,7 @@ namespace Files.App.Views
 				NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
 
 			if (InnerNavigationToolbar is not null)
-			{
 				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
-				InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
-				InnerNavigationToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-			}
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)

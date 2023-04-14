@@ -283,7 +283,7 @@
     <value>Για να ξεκινήσετε, θα πρέπει να μας δώσετε την άδεια να προβάλλουμε τα αρχεία σας. Αυτό θα ανοίξει μια σελίδα ρυθμίσεων όπου μπορείτε να μας δώσετε αυτή την άδεια. Μόλις ολοκληρώσετε αυτό το βήμα, θα πρέπει να ανοίξετε ξανά την εφαρμογή. </value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>Προβολή</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Εισάγετε ένα όνομα στοιχείου</value>
@@ -1303,7 +1303,7 @@
     <value>Βιβλιοθήκη με το ίδιο όνομα υπάρχει ήδη!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>Άνοιγμα Storage Sense</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Αντιγραφή</value>
