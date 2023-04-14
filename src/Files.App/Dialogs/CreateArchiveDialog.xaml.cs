@@ -82,6 +82,7 @@ namespace Files.App.Dialogs
 		}
 		private void ContentDialog_Closing(ContentDialog _, ContentDialogClosingEventArgs e)
 		{
+			InvalidNameWarning.IsOpen = false;
 			Closing -= ContentDialog_Closing;
 			ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
 

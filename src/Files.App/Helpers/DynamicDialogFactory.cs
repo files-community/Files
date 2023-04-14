@@ -2,11 +2,11 @@ using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using Files.App.UserControls;
 using Files.App.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,18 +64,27 @@ namespace Files.App.Helpers
 				PlaceholderText = "EnterAnItemName".GetLocalizedResource()
 			};
 
-			var invalidText = "InvalidFilename/Text".GetLocalizedResource();
-			InvalidWarning warning = new()
+			RenameDialogViewModel viewModel = new();
+
+			TeachingTip warning = new()
 			{
-				TooltipText = invalidText,
-				WarningMessage = invalidText,
-				ShowWarning = false
+				Title = "InvalidFilename/Text".GetLocalizedResource(),
+				DataContext = viewModel,
+				PreferredPlacement = TeachingTipPlacementMode.Bottom
 			};
+
+			warning.SetBinding(TeachingTip.IsOpenProperty, new Binding()
+			{
+				Source = viewModel.IsNameInvalid,
+				Mode = BindingMode.OneWay
+			});
+
+			inputText.Resources.Add("InvalidNameWarningTip", warning);
 
 			inputText.TextChanged += (textBox, args) =>
 			{
 				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
-				warning.ShowWarning = isInputValid;
+				viewModel.IsNameInvalid = !isInputValid;
 				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
 														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 														: DynamicDialogButtons.Cancel;
@@ -98,15 +107,7 @@ namespace Files.App.Helpers
 					MinWidth = 300d,
 					Children =
 					{
-						new StackPanel()
-						{
-							Spacing = 4d,
-							Children =
-							{
-								inputText,
-								warning
-							}
-						}
+						inputText
 					}
 				},
 				PrimaryButtonAction = (vm, e) =>

@@ -8,7 +8,6 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:usercontrols="using:Files.App.UserControls"
 	xmlns:vc="using:Files.App.ValueConverters"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
@@ -110,10 +109,40 @@
 								HorizontalAlignment="Right"
 								Orientation="Horizontal"
 								Spacing="12">
-								<usercontrols:InvalidWarning
-									ShowWarning="{x:Bind ViewModel.NewTag.IsNameValid, Mode=OneWay}"
-									TooltipText="{helpers:ResourceString Name=TagNameRules}"
-									WarningMessage="{helpers:ResourceString Name=InvalidTagNameWarning}" />
+								<!--  Invalid Name Warning  -->
+								<Grid
+									Padding="12,4"
+									VerticalAlignment="Stretch"
+									Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+									BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+									BorderThickness="1"
+									ColumnSpacing="8"
+									CornerRadius="4"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=TagNameRules}"
+									Visibility="{x:Bind ViewModel.NewTag.IsNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+									<TextBlock
+										VerticalAlignment="Center"
+										AutomationProperties.AccessibilityView="Raw"
+										FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										FontSize="{StaticResource InfoBarIconFontSize}"
+										Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
+										Text="{StaticResource InfoBarIconBackgroundGlyph}" />
+									<TextBlock
+										VerticalAlignment="Center"
+										AutomationProperties.AccessibilityView="Raw"
+										FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										FontSize="{StaticResource InfoBarIconFontSize}"
+										Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+										Text="{StaticResource InfoBarErrorIconGlyph}" />
+									<TextBlock
+										Grid.Column="1"
+										VerticalAlignment="Center"
+										Text="{helpers:ResourceString Name=InvalidTagNameWarning}" />
+								</Grid>
 
 								<!--  Cancel  -->
 								<Button Command="{x:Bind ViewModel.CancelNewTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=Cancel}" />
@@ -263,10 +292,38 @@
 											Orientation="Horizontal"
 											Spacing="12"
 											Visibility="{x:Bind IsEditing, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
-											<usercontrols:InvalidWarning
-												ShowWarning="{x:Bind IsNameValid, Mode=OneWay}"
-												TooltipText="{helpers:ResourceString Name=TagNameRules}"
-												WarningMessage="{helpers:ResourceString Name=InvalidTagNameWarning}" />
+											<Grid
+												Padding="12,4"
+												VerticalAlignment="Stretch"
+												Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+												BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+												BorderThickness="1"
+												ColumnSpacing="8"
+												CornerRadius="4"
+												ToolTipService.ToolTip="{helpers:ResourceString Name=TagNameRules}"
+												Visibility="{x:Bind IsNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition Width="Auto" />
+													<ColumnDefinition Width="Auto" />
+												</Grid.ColumnDefinitions>
+												<TextBlock
+													VerticalAlignment="Center"
+													AutomationProperties.AccessibilityView="Raw"
+													FontFamily="{ThemeResource SymbolThemeFontFamily}"
+													FontSize="{StaticResource InfoBarIconFontSize}"
+													Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
+													Text="{StaticResource InfoBarIconBackgroundGlyph}" />
+												<TextBlock
+													VerticalAlignment="Center"
+													FontFamily="{ThemeResource SymbolThemeFontFamily}"
+													FontSize="{StaticResource InfoBarIconFontSize}"
+													Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+													Text="{StaticResource InfoBarErrorIconGlyph}" />
+												<TextBlock
+													Grid.Column="1"
+													VerticalAlignment="Center"
+													Text="{helpers:ResourceString Name=InvalidTagNameWarning}" />
+											</Grid>
 
 											<Button
 												x:Name="CancelChangesButton"

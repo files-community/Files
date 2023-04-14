@@ -2,7 +2,7 @@
 	x:Class="Files.App.Dialogs.CreateShortcutDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:Files.App.UserControls"
+	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -15,6 +15,10 @@
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
+
+	<ContentDialog.Resources>
+		<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+	</ContentDialog.Resources>
 
 	<Border Width="400">
 		<Grid
@@ -51,20 +55,21 @@
 				Grid.Column="0"
 				HorizontalAlignment="Stretch"
 				PlaceholderText="C:\Users\"
-				Text="{x:Bind ViewModel.DestinationItemPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+				Text="{x:Bind ViewModel.DestinationItemPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+				<TextBox.Resources>
+					<TeachingTip
+						x:Name="InvalidPathWarning"
+						Title="{helpers:ResourceString Name=InvalidLocation}"
+						IsOpen="{x:Bind ViewModel.IsLocationValid, Mode=OneWay, Converter={StaticResource BoolNegationConverter}, FallbackValue=False}"
+						PreferredPlacement="Bottom" />
+				</TextBox.Resources>
+			</TextBox>
 			<Button
 				x:Name="SelectDestination"
 				Grid.Row="2"
 				Grid.Column="1"
 				Command="{x:Bind ViewModel.SelectDestinationCommand}"
 				Content="{helpers:ResourceString Name=Browse}" />
-
-			<controls:InvalidWarning
-				Grid.Row="3"
-				Margin="0,-4,0,0"
-				ShowWarning="{x:Bind ViewModel.IsLocationValid, Mode=OneWay}"
-				TooltipText="{helpers:ResourceString Name=InvalidLocation}"
-				WarningMessage="{helpers:ResourceString Name=InvalidLocation}" />
 		</Grid>
 	</Border>
 </ContentDialog>
