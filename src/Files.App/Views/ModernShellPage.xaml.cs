@@ -338,6 +338,8 @@ namespace Files.App.Views
 		public override void Dispose()
 		{
 			ToolbarViewModel.RefreshWidgetsRequested -= ModernShellPage_RefreshWidgetsRequested;
+			_navigationInteractionTracker.NavigationRequested -= SwipeNavigationRequested;
+			_navigationInteractionTracker.Dispose();
 
 			base.Dispose();
 		}

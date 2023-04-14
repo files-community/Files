@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Views
 {
-	internal class NavigationInteractionTracker
+	internal class NavigationInteractionTracker : IDisposable
 	{
 		public bool CanGoForward
 		{
@@ -46,6 +46,8 @@ namespace Files.App.Views
 		private UIElement _backIcon;
 		private UIElement _forwardIcon;
 
+		private PointerEventHandler _pointerPressedHandler;
+
 		private Visual _rootVisual;
 		private Visual _backVisual;
 		private Visual _forwardVisual;
@@ -56,6 +58,8 @@ namespace Files.App.Views
 		private CompositionPropertySet _props;
 
 		public event EventHandler<SwipeNavigationEventArgs>? NavigationRequested;
+
+		private bool _disposed;
 
 		public NavigationInteractionTracker(UIElement rootElement, UIElement backIcon, UIElement forwardIcon)
 		{
@@ -73,7 +77,8 @@ namespace Files.App.Views
 			CanGoBack = false;
 			CanGoForward = false;
 
-			rootElement.AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(PointerPressed), true);
+			_pointerPressedHandler = new(PointerPressed);
+			_rootElement.AddHandler(UIElement.PointerPressedEvent, _pointerPressedHandler, true);
 
 			SetupInteractionTracker();
 			SetupAnimations();
@@ -141,6 +146,25 @@ namespace Files.App.Views
 			return resistance;
 		}
 
+		~NavigationInteractionTracker()
+		{
+			Dispose();
+		}
+
+		public void Dispose()
+		{
+			if (_disposed)
+				return;
+
+			_rootElement.RemoveHandler(UIElement.PointerPressedEvent, _pointerPressedHandler);
+			_tracker.Dispose();
+			_source.Dispose();
+			_props.Dispose();
+
+			_disposed = true;
+			GC.SuppressFinalize(this);
+		}
+
 		private class InteractionTrackerOwner : IInteractionTrackerOwner
 		{
 			private NavigationInteractionTracker _parent;
@@ -149,11 +173,6 @@ namespace Files.App.Views
 			public InteractionTrackerOwner(NavigationInteractionTracker parent)
 			{
 				_parent = parent;
-			}
-
-			public void CustomAnimationStateEntered(InteractionTracker sender, InteractionTrackerCustomAnimationStateEnteredArgs args)
-			{
-
 			}
 
 			public void IdleStateEntered(InteractionTracker sender, InteractionTrackerIdleStateEnteredArgs args)
@@ -186,13 +205,13 @@ namespace Files.App.Views
 				
 			}
 
-
 			public void InteractingStateEntered(InteractionTracker sender, InteractionTrackerInteractingStateEnteredArgs args)
 			{
 				_shouldBounceBack = true;
 			}
 
 			// required to implement IInteractionTrackerOwner
+			public void CustomAnimationStateEntered(InteractionTracker sender, InteractionTrackerCustomAnimationStateEnteredArgs args) { }
 			public void InertiaStateEntered(InteractionTracker sender, InteractionTrackerInertiaStateEnteredArgs args) { }
 			public void RequestIgnored(InteractionTracker sender, InteractionTrackerRequestIgnoredArgs args) { }
 			public void ValuesChanged(InteractionTracker sender, InteractionTrackerValuesChangedArgs args) { }
