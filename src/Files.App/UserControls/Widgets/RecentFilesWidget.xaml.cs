@@ -2,6 +2,8 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
+using Files.App.Filesystem.StorageEnumerators;
+using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
@@ -84,6 +86,20 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
+		private IShellPage associatedInstance;
+		public IShellPage AppInstance
+		{
+			get => associatedInstance;
+			set
+			{
+				if (value != associatedInstance)
+				{
+					associatedInstance = value;
+					NotifyPropertyChanged(nameof(AppInstance));
+				}
+			}
+		}
+
 		public RecentFilesWidget()
 		{
 			InitializeComponent();
@@ -99,12 +115,13 @@ namespace Files.App.UserControls.Widgets
 			RemoveRecentItemCommand = new RelayCommand<RecentItem>(RemoveRecentItem);
 			ClearAllItemsCommand = new RelayCommand(ClearRecentItems);
 			OpenFileLocationCommand = new RelayCommand<RecentItem>(OpenFileLocation);
+			OpenPropertiesCommand = new RelayCommand<RecentItem>(OpenProperties);
 		}
 
 		private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
-			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			ItemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			ItemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			if (sender is not Grid recentItemsGrid || recentItemsGrid.DataContext is not RecentItem item)
 				return;
 
@@ -114,10 +131,10 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.OfType<FrameworkElement>()
 							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
-			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
+			secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
+			ItemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
 
-			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
+			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 
 			e.Handled = true;
 		}
@@ -162,6 +179,16 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
+					Text = "Properties".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconProperties",
+					},
+					Command = OpenPropertiesCommand,
+					CommandParameter = item
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					ItemType = ItemType.Separator,
 					Tag = "OverflowSeparator",
 				},
@@ -199,6 +226,18 @@ namespace Files.App.UserControls.Widgets
 				ItemPath = Directory.GetParent(item.RecentPath).FullName,    // parent directory
 				ItemName = Path.GetFileName(item.RecentPath),                // file name w extension
 			});
+		}
+
+		private void OpenProperties(RecentItem item)
+		{
+			EventHandler<object> flyoutClosed = null!;
+			flyoutClosed = async (s, e) =>
+			{
+				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				var listedItem = await UniversalStorageEnumerator.AddFileAsync(await BaseStorageFile.GetFileFromPathAsync(item.Path), null, default);
+				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, associatedInstance);
+			};
+			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
 		private async Task UpdateRecentsList(NotifyCollectionChangedEventArgs e)
