@@ -264,8 +264,8 @@
 									</Border>
 									<Image
                                         x:Name="ShieldOverlay"
-                                        Width="16"
-                                        Height="16"
+                                        Width="8"
+                                        Height="8"
                                         Margin="2"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Bottom"
