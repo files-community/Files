@@ -232,13 +232,9 @@ namespace Files.App.Views
 				? "ItemCount/Text".GetLocalizedResource()
 				: "ItemsCount/Text".GetLocalizedResource();
 
-			if (string.IsNullOrWhiteSpace(InstanceViewModel.GitRepositoryPath) || 
-				!FilesystemViewModel.WorkingDirectory.StartsWith(InstanceViewModel.GitRepositoryPath, StringComparison.OrdinalIgnoreCase))
-			{
-				InstanceViewModel.GitRepositoryPath = Repository.Discover(FilesystemViewModel.WorkingDirectory);
-			}
+			InstanceViewModel.GitRepositoryPath = Repository.Discover(FilesystemViewModel.WorkingDirectory);
 
-			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository 
+			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
 					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
 					: null;
 
@@ -498,7 +494,7 @@ namespace Files.App.Views
 		{
 			foreach (PageStackEntry entry in ItemDisplay.BackStack.ToList())
 			{
-				if (entry.Parameter is NavigationArguments args && 
+				if (entry.Parameter is NavigationArguments args &&
 					args.NavPathParam is not null and not "Home")
 				{
 					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
