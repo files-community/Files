@@ -29,16 +29,6 @@ namespace Files.App.Views.Properties
 			}
 		}
 
-		// WINUI3
-		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
-			return contentDialog;
-		}
-
 		public override async Task<bool> SaveChangesAsync()
 		{
 			while (true)
@@ -54,7 +44,7 @@ namespace Files.App.Views.Properties
 				}
 				catch
 				{
-					await SetContentDialogRoot(dialog).TryShowAsync();
+					await dialog.TryShowAsync();
 					switch (dialog.DynamicResult)
 					{
 						case DynamicDialogResult.Primary:

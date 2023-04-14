@@ -86,7 +86,8 @@ namespace Files.App.Views
 				SecondaryButtonText = "No".ToLocalized()
 			};
 
-			var result = await SetContentDialogRoot(promptForReviewDialog).ShowAsync();
+			var result = await promptForReviewDialog.TryShowAsync();
+
 			if (result == ContentDialogResult.Primary)
 			{
 				try
