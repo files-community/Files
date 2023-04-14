@@ -569,10 +569,6 @@ namespace Files.App.ViewModels
 
 		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
 
-		public ICommand? OpenNewPaneCommand { get; set; }
-
-		public ICommand? ClosePaneCommand { get; set; }
-
 		public ICommand? CreateNewFileCommand { get; set; }
 
 		public ICommand? Share { get; set; }

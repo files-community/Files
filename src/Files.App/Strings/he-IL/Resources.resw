@@ -136,7 +136,7 @@
     <value>נתיב:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>גודל:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>נפח אחרי חילוץ:</value>
@@ -154,13 +154,13 @@
     <value>דלג</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>בחר הכל</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>הפוך בחירה</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>נקה בחירה</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>השתנה</value>
@@ -175,7 +175,7 @@
     <value>הזן נתיב</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>חיפוש</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>הקבצים שניגשת אליהם בעבר יופיעו כאן</value>
@@ -190,7 +190,7 @@
     <value>אודות</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>קוד פתוח</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>תבנית תאריך.</value>
@@ -214,7 +214,7 @@
     <value>רקע</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>הגדרות מתקדמות</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>העדפות</value>
@@ -244,34 +244,34 @@
     <value>סדר עולה</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>הדבק</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>חדשות</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>מאפיינים</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>פתח</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>פתח בכרטיסיה חדשה</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>פתח בחלון חדש</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>שתף</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>גזור</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>מחק</value>
   </data>
   <data name="PinToFavorites" xml:space="preserve">
-    <value>Pin to Favorites</value>
+    <value>הצמד למועדפים</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>ברוכים הבאים לFiles!</value>
@@ -283,10 +283,10 @@
     <value>על מנת להתחיל, תצטרכו לתת לנו הרשאה להציג את הקבצים שלכם. זה יפתח עמוד הגדרות שבו תוכלו לתת לנו את ההרשאה. לאחר השלמת שלב זה, תצטרכו לפתוח מחדש את האפליקציה. </value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>הצג</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>הזן שם פריט</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>שם ערכה:</value>
@@ -322,7 +322,7 @@
     <value>מעלה (Alt+חץ למעלה)</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>רענן</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>פריט עם שם זהה כבר קיים בתיקיה זו</value>
@@ -334,7 +334,7 @@
     <value>הפריט כבר קיים.</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>השתמש בתור רקע מסך הנעילה</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>לא יכולנו למחוק את הפריט הזה</value>
@@ -367,7 +367,7 @@
     <value>קובץ בשימוש</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>פריסה</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>לקריאה בלבד</value>
@@ -409,7 +409,7 @@
     <value>פתיחה באמצעות</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>שלח אל</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>שם הפריט לא יכול להכיל את האותיות הבאות: / \ : * ? " &lt; &gt; |</value>
@@ -523,7 +523,7 @@
     <value>העתק אל {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Create shortcut</value>
+    <value>צור קיצור דרך</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>פתח מיקום קובץ</value>
@@ -619,7 +619,7 @@
     <value>התאמה אישית</value>
   </data>
   <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Layout and sorting</value>
+    <value>פריסה ומיון</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>לא הצלחנו לייצר פריט זה</value>
@@ -667,13 +667,13 @@
     <value>עלה תיקיה אחת למעלה</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>שפה</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Move shell extensions into a sub menu</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>הצג חלון אישור בעת מחיקת עצמים</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>היתה בעיה בשמירת תכונות.</value>
@@ -949,7 +949,7 @@
     <value>כתובת</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>אפשרויות בחירה</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>בחר</value>
@@ -982,13 +982,13 @@
     <value>הוצא</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>שכפל כרטיסיה</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>הזז כרטיסיה לחלון חדש</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
+    <value>כרטיסיה חדשה</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>חלק מהמאפיינים עשויים להכיל מידע פרטי</value>
@@ -1021,13 +1021,13 @@
     <value>כלול פריטים לא ממופים בתוצאות החיפוש</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
+    <value>סנכרן הגדרות פריסה ומיון לכל התיקיות</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>התאם אישית את התפריט תלוי-ההקשר המופעל בלחיצה ימנית</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>מיקום מקורי</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>הוסף</value>
@@ -1039,16 +1039,16 @@
     <value>הסר</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Open tabs in dual pane mode</value>
+    <value>פתח כרטיסיות במצב חלון כפול</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>הראה אפשרות לפתוח תיקיות בחלון חדש</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>חלון חדש</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>Open in new pane</value>
+    <value>פתחו בחלון חדש</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>תיקיות</value>
@@ -1123,7 +1123,7 @@
     <value>שם רצוי</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Toggle the preview pane</value>
+    <value>מתג את חלון התצוגה המקדימה</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>אין תצוגה מקדימה זמינה</value>
@@ -1132,7 +1132,7 @@
     <value>שם פריט</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>הסר מהמועדפים</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>כונני רשת</value>
@@ -1150,13 +1150,13 @@
     <value>חלון תצוגה מקדימה של הקובץ הנבחר</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Feedback</value>
+    <value>משוב</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>זמין במצב מקוון</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>תיעוד</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>זמין במצב לא מקוון</value>
@@ -1303,7 +1303,7 @@
     <value>ספריה עם אותו שם כבר קיימת!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>פתח את Storage Sense</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>העתק</value>
@@ -1360,10 +1360,10 @@
     <value>לא מצאת את מה שחיפשת?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Search unindexed items</value>
+    <value>חיפוש פריטים שלא נסרקו</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>החלף קבצים קיימים</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>צור שם חדש</value>
@@ -1375,7 +1375,7 @@
     <value>יש שם קובץ זהה אחד.</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>יצירת תיקייה עם הנבחר</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>שם</value>
@@ -1405,7 +1405,7 @@
     <value>Date deleted column</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>מיין</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>קבץ לפי</value>
@@ -1414,7 +1414,7 @@
     <value>תאריך שינוי</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Original folder</value>
+    <value>תיקייה מקורית</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>מיין לפי</value>
@@ -1441,7 +1441,7 @@
     <value>&amp;זעיר</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>עתיד</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>היום</value>
@@ -1456,16 +1456,16 @@
     <value>בשבוע שעבר</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>מוקדם יותר החודש</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>בחודש שעבר</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>‏‏מוקדם יותר השנה</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>שנה שעברה</value>
   </data>
   <data name="YearN" xml:space="preserve">
     <value>Year {0}</value>
@@ -2812,7 +2812,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>Search</value>
+    <value>חיפוש</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">

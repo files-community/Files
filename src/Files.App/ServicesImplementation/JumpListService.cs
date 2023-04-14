@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -113,7 +113,11 @@ namespace Files.App.ServicesImplementation
 			if (instance is not null)
 			{
 				string? displayName = null;
-				if (path.EndsWith("\\"))
+
+				if (path.StartsWith("\\\\SHELL", StringComparison.OrdinalIgnoreCase))
+					displayName = "ThisPC".GetLocalizedResource();
+				
+				if (path.EndsWith('\\'))
 				{
 					var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
@@ -133,6 +137,8 @@ namespace Files.App.ServicesImplementation
 						displayName = "ms-resource:///Resources/Desktop";
 					else if (path.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "ms-resource:///Resources/Downloads";
+					else if (path.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+						displayName = "Network".GetLocalizedResource();
 					else if (path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "RecycleBin".GetLocalizedResource();
 					else if (path.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
@@ -142,28 +148,18 @@ namespace Files.App.ServicesImplementation
 					else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
 					{
 						var libName = Path.GetFileNameWithoutExtension(library.Path);
-						switch (libName)
+						displayName = libName switch
 						{
-							case "Documents":
-							case "Pictures":
-							case "Music":
-							case "Videos":
-								// Use localized name
-								displayName = $"ms-resource:///Resources/{libName}";
-								break;
-
-							default:
-								// Use original name
-								displayName = library.Text;
-								break;
-						}
+							"Documents" or "Pictures" or "Music" or "Videos" => $"ms-resource:///Resources/{libName}",// Use localized name
+							_ => library.Text,// Use original name
+						};
 					}
 					else
 						displayName = Path.GetFileName(path);
 				}
 
 				var jumplistItem = JumpListItem.CreateWithArguments(path, displayName);
-				jumplistItem.Description = jumplistItem.Arguments;
+				jumplistItem.Description = jumplistItem.Arguments ?? string.Empty;
 				jumplistItem.GroupName = group;
 				jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
 
