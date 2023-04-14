@@ -51,9 +51,7 @@
 			</ListView.ItemContainerStyle>
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="fs:RecentItem">
-					<ListViewItem 
-						RightTapped="ListViewItem_RightTapped"
-						ToolTipService.ToolTip="{x:Bind RecentPath}">
+					<ListViewItem RightTapped="ListViewItem_RightTapped" ToolTipService.ToolTip="{x:Bind RecentPath}">
 						<Grid
 							Padding="2.5"
 							HorizontalAlignment="Stretch"
