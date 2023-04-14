@@ -262,7 +262,17 @@
                                         Visibility="{x:Bind IsShortcut}">
                                         <uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
                                     </Border>
-                                </Grid>
+									<Image
+                                        x:Name="ShieldOverlay"
+                                        Width="16"
+                                        Height="16"
+                                        Margin="2"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+										x:Load="{x:Bind IsElevated}"
+                                        Source="{x:Bind ShieldIcon, Mode=OneWay}"
+                                        Stretch="Uniform" />
+								</Grid>
 
                                 <!--  Item Name  -->
                                 <TextBlock

@@ -905,11 +905,13 @@ namespace Files.App.ViewModels
 						}
 
 						var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
+						var shieldIcon = await UIHelpers.GetIconResource(Constants.ImageRes.ShieldIcon);
 						if (overlayInfo is not null)
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>
 							{
 								item.IconOverlay = await overlayInfo.ToBitmapAsync();
+								item.ShieldIcon = shieldIcon;
 							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						}
 					}
@@ -937,6 +939,7 @@ namespace Files.App.ViewModels
 						await dispatcherQueue.EnqueueAsync(async () =>
 						{
 							item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
+							item.ShieldIcon = await UIHelpers.GetIconResource(Constants.ImageRes.ShieldIcon);
 						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					}
 				}
@@ -967,11 +970,13 @@ namespace Files.App.ViewModels
 						}
 
 						var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
+						var shieldIcon = await UIHelpers.GetIconResource(Constants.ImageRes.ShieldIcon);
 						if (overlayInfo is not null)
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>
 							{
 								item.IconOverlay = await overlayInfo.ToBitmapAsync();
+								item.ShieldIcon = shieldIcon;
 							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						}
 					}
@@ -993,6 +998,7 @@ namespace Files.App.ViewModels
 						await dispatcherQueue.EnqueueAsync(async () =>
 						{
 							item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
+							item.ShieldIcon = await UIHelpers.GetIconResource(Constants.ImageRes.ShieldIcon);
 						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					}
 				}
