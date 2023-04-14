@@ -494,7 +494,7 @@ namespace Files.App.ViewModels
 
 				if (iconIdex != -1)
 				{
-					section.Icon = await UIHelpers.GetIconResource(iconIdex);
+					section.Icon = await UIHelpers.GetSidebarIconResource(iconIdex);
 				}
 			}
 

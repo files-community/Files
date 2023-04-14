@@ -871,7 +871,7 @@ namespace Files.App.ViewModels
 
 		private async Task<BitmapImage> GetShieldIcon()
 		{
-			shieldIcon ??= await UIHelpers.GetIconResource(Constants.ImageRes.ShieldIcon);
+			shieldIcon ??= await UIHelpers.GetShieldIconResource();
 
 			return shieldIcon;
 		}
