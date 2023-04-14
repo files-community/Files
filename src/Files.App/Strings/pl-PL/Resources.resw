@@ -322,7 +322,7 @@
     <value>W górę (Alt+Strzałka w górę)</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Odśwież</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Element z tą nazwą już istnieje w tym katalogu.</value>
@@ -1441,7 +1441,7 @@
     <value>Bardzo mały</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>Przyszłość</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>Dzisiaj</value>
@@ -1456,19 +1456,19 @@
     <value>Ostatni tydzień</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>Wcześniej w tym miesiącu</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>Ostatni miesiąc</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>Wcześniej w tym roku</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>Zeszły rok</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>Rok {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} element</value>
@@ -1603,7 +1603,7 @@
     <value>Zezwalaj</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Deny</value>
+    <value>Odrzuć</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Pełna kontrola</value>
@@ -1636,7 +1636,7 @@
     <value>Nie masz uprawnień do przeglądania zabezpieczeń tego objektu. Kliknij "Uprawnienia zaawansowane" aby kontynuować.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Właściciel:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Nieznany właściciel</value>
@@ -1675,10 +1675,10 @@
     <value>Dostęp</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>Dotyczy</value>
   </data>
   <data name="Principal" xml:space="preserve">
-    <value>Principal</value>
+    <value>Główne</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>pliki</value>
@@ -1690,10 +1690,10 @@
     <value>podfoldery</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Inherited</value>
+    <value>Dziedziczone</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>Uprawnienia</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Nie masz uprawnień do przeglądania właściwości zabezpieczeń tego obiektu. Możesz spróbować przejąć własność nad tym objektem.</value>
@@ -2662,10 +2662,10 @@
     <value>Wyjdź z kompaktowej nakładki</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Opens the "Format Drive" menu for the selected item</value>
+    <value>Otwiera menu "Formatuj dysk" dla wybranego elementu</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Toggle the sidebar</value>
+    <value>Przełącz boczny pasek</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Menu</value>
@@ -2684,11 +2684,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Return</value>
+    <value>Powrót</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
-    <value>Space</value>
+    <value>Spacja</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Escape" xml:space="preserve">

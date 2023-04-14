@@ -2536,10 +2536,10 @@
     <value>Enregistrer les changements</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>Nouveau tag</value>
+    <value>Nouvelle étiquette</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
-    <value>Créer un nouveau tag</value>
+    <value>Créer une nouvelle étiquette</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Chargement ...</value>

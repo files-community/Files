@@ -15,6 +15,7 @@ using Files.App.ViewModels;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -30,6 +31,7 @@ using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.Storage;
 using Windows.System;
+using WinRT.Interop;
 
 namespace Files.App.Views
 {
@@ -49,11 +51,6 @@ namespace Files.App.Views
 
 		public static AppModel AppModel
 			=> App.AppModel;
-
-		/// <summary>
-		/// True if the user is currently resizing the preview pane
-		/// </summary>
-		private bool draggingPreviewPane;
 
 		private bool keyReleased = true;
 
@@ -93,7 +90,10 @@ namespace Files.App.Views
 				try
 				{
 					var storeContext = StoreContext.GetDefault();
-					await storeContext.RequestRateAndReviewAppAsync();
+					InitializeWithWindow.Initialize(storeContext, App.WindowHandle);
+					var storeRateAndReviewResult = await storeContext.RequestRateAndReviewAppAsync();
+
+					App.Logger.LogInformation($"STORE: review request status: {storeRateAndReviewResult.Status}");
 
 					UserSettingsService.ApplicationSettingsService.ClickedToReviewApp = true;
 				}
@@ -196,11 +196,7 @@ namespace Files.App.Views
 				NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
 
 			if (InnerNavigationToolbar is not null)
-			{
 				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
-				InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
-				InnerNavigationToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-			}
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -450,6 +446,7 @@ namespace Files.App.Views
 						PaneSplitter.Width = 2;
 						PaneSplitter.Height = RootGrid.ActualHeight;
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
+						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 						PaneColumn.MinWidth = PreviewPane.MinWidth;
 						PaneColumn.MaxWidth = PreviewPane.MaxWidth;
 						PaneColumn.Width = new GridLength(UserSettingsService.PreviewPaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
@@ -465,6 +462,7 @@ namespace Files.App.Views
 						PaneSplitter.Height = 2;
 						PaneSplitter.Width = RootGrid.ActualWidth;
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeNorthSouth;
+						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth));
 						PaneColumn.MinWidth = 0;
 						PaneColumn.MaxWidth = double.MaxValue;
 						PaneColumn.Width = new GridLength(0);
@@ -474,11 +472,6 @@ namespace Files.App.Views
 						break;
 				}
 			}
-		}
-
-		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-		{
-			draggingPreviewPane = true;
 		}
 
 		private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
@@ -493,22 +486,7 @@ namespace Files.App.Views
 					break;
 			}
 
-			draggingPreviewPane = false;
-		}
-
-		private void PaneSplitter_PointerExited(object sender, PointerRoutedEventArgs e)
-		{
-			if (draggingPreviewPane)
-				return;
-
-			var paneSplitter = (GridSplitter)sender;
-			paneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-		}
-
-		private void PaneSplitter_PointerEntered(object sender, PointerRoutedEventArgs e)
-		{
-			var paneSplitter = (GridSplitter)sender;
-			paneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
 		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
@@ -562,5 +540,11 @@ namespace Files.App.Views
 		}
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
+
+		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+		{
+			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ? 
+				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
+		}
 	}
 }
