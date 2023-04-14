@@ -322,7 +322,7 @@
     <value>Naik (Alt+Panah Atas)</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Segarkan</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Item dengan nama ini sudah ada di direktori ini.</value>

@@ -371,7 +371,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}" />
 
@@ -390,7 +390,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
@@ -410,7 +410,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
@@ -430,7 +430,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
@@ -450,7 +450,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
@@ -470,7 +470,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
@@ -490,7 +490,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
@@ -510,7 +510,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
@@ -532,7 +532,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />

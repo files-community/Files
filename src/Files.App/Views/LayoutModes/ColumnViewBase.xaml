@@ -1,267 +1,267 @@
 ﻿<local:StandardViewBase
-    x:Class="Files.App.Views.LayoutModes.ColumnViewBase"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:cloud="using:Files.App.Filesystem.Cloud"
-    xmlns:converters="using:Files.App.Converters"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:filesystem="using:Files.App.Filesystem"
-    xmlns:helpers="using:Files.App.Helpers"
-    xmlns:local="using:Files.App"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:uc="using:Files.App.UserControls"
-    xmlns:valueconverters="using:Files.App.ValueConverters"
-    xmlns:wct="using:CommunityToolkit.WinUI.UI"
-    xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
-    x:Name="PageRoot"
-    mc:Ignorable="d">
+	x:Class="Files.App.Views.LayoutModes.ColumnViewBase"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:cloud="using:Files.App.Filesystem.Cloud"
+	xmlns:converters="using:Files.App.Converters"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:filesystem="using:Files.App.Filesystem"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:local="using:Files.App"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
+	xmlns:valueconverters="using:Files.App.ValueConverters"
+	xmlns:wct="using:CommunityToolkit.WinUI.UI"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	x:Name="PageRoot"
+	mc:Ignorable="d">
 
-    <local:StandardViewBase.Resources>
+	<local:StandardViewBase.Resources>
 
-        <valueconverters:StringToBrushConverter x:Key="StringToBrushConverter" />
-        <wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
-        <wctconverters:BoolToVisibilityConverter
-            x:Key="NegatedBoolToVisibilityConverter"
-            FalseValue="Visible"
-            TrueValue="Collapsed" />
-        <wctconverters:BoolToVisibilityConverter
-            x:Key="BoolToVisibilityConverter"
-            FalseValue="Collapsed"
-            TrueValue="Visible" />
-        <wctconverters:EmptyObjectToObjectConverter
-            x:Key="EmptyObjectToObjectConverter"
-            EmptyValue="Collapsed"
-            NotEmptyValue="Visible" />
-        <converters:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+		<valueconverters:StringToBrushConverter x:Key="StringToBrushConverter" />
+		<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+		<wctconverters:BoolToVisibilityConverter
+			x:Key="NegatedBoolToVisibilityConverter"
+			FalseValue="Visible"
+			TrueValue="Collapsed" />
+		<wctconverters:BoolToVisibilityConverter
+			x:Key="BoolToVisibilityConverter"
+			FalseValue="Collapsed"
+			TrueValue="Visible" />
+		<wctconverters:EmptyObjectToObjectConverter
+			x:Key="EmptyObjectToObjectConverter"
+			EmptyValue="Collapsed"
+			NotEmptyValue="Visible" />
+		<converters:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 
-        <Style TargetType="ListViewHeaderItem">
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-            <Setter Property="FontSize" Value="{ThemeResource GridViewHeaderItemThemeFontSize}" />
-            <Setter Property="Background" Value="{ThemeResource GridViewHeaderItemBackground}" />
-            <Setter Property="Margin" Value="0,0,0,4" />
-            <Setter Property="Padding" Value="12,8,12,0" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-            <Setter Property="MinHeight" Value="{ThemeResource GridViewHeaderItemMinHeight}" />
-            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListViewHeaderItem">
-                        <Grid
-                            x:Name="HeaderItemRootGrid"
-                            Margin="0,0,4,0"
-                            HorizontalAlignment="Stretch"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            PointerCanceled="StackPanel_PointerCanceled"
-                            PointerEntered="StackPanel_PointerEntered"
-                            PointerExited="StackPanel_PointerCanceled"
-                            PointerPressed="RootPanel_PointerPressed"
-                            PointerReleased="StackPanel_PointerCanceled">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+		<Style TargetType="ListViewHeaderItem">
+			<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+			<Setter Property="FontSize" Value="{ThemeResource GridViewHeaderItemThemeFontSize}" />
+			<Setter Property="Background" Value="{ThemeResource GridViewHeaderItemBackground}" />
+			<Setter Property="Margin" Value="0,0,0,4" />
+			<Setter Property="Padding" Value="12,8,12,0" />
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+			<Setter Property="VerticalContentAlignment" Value="Stretch" />
+			<Setter Property="MinHeight" Value="{ThemeResource GridViewHeaderItemMinHeight}" />
+			<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="ListViewHeaderItem">
+						<Grid
+							x:Name="HeaderItemRootGrid"
+							Margin="0,0,4,0"
+							HorizontalAlignment="Stretch"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{TemplateBinding CornerRadius}"
+							PointerCanceled="StackPanel_PointerCanceled"
+							PointerEntered="StackPanel_PointerEntered"
+							PointerExited="StackPanel_PointerCanceled"
+							PointerPressed="RootPanel_PointerPressed"
+							PointerReleased="StackPanel_PointerCanceled">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
 
-                            <ContentPresenter
-                                x:Name="ContentPresenter"
-                                Grid.Column="0"
-                                Margin="{TemplateBinding Padding}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                ContentTransitions="{TemplateBinding ContentTransitions}" />
+							<ContentPresenter
+								x:Name="ContentPresenter"
+								Grid.Column="0"
+								Margin="{TemplateBinding Padding}"
+								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+								VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+								Content="{TemplateBinding Content}"
+								ContentTemplate="{TemplateBinding ContentTemplate}"
+								ContentTransitions="{TemplateBinding ContentTransitions}" />
 
-                            <Rectangle
-                                Grid.Column="1"
-                                Height="1"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center"
-                                Stroke="{ThemeResource GridViewHeaderItemDividerStroke}"
-                                StrokeThickness="0.5" />
+							<Rectangle
+								Grid.Column="1"
+								Height="1"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Center"
+								Stroke="{ThemeResource GridViewHeaderItemDividerStroke}"
+								StrokeThickness="0.5" />
 
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                        <VisualState.Setters>
-                                            <!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="PointerOver" />-->
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                        <VisualState.Setters>
-                                            <!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="Pressed" />-->
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal" />
+									<VisualState x:Name="PointerOver">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+										<VisualState.Setters>
+											<!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="PointerOver" />-->
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Pressed">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+										<VisualState.Setters>
+											<!--<Setter Target="ContentPresenter.(local:AnimatedIcon.State)" Value="Pressed" />-->
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
 
-    </local:StandardViewBase.Resources>
+	</local:StandardViewBase.Resources>
 
-    <Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+	<Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
 
-        <!--  Empty Indicator  -->
-        <uc:FolderEmptyIndicator
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Canvas.ZIndex="0"
-            EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
+		<!--  Empty Indicator  -->
+		<uc:FolderEmptyIndicator
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			Canvas.ZIndex="0"
+			EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
-        <!--  Invalid Item Name Tip  -->
-        <TeachingTip
-            x:Name="FileNameTeachingTip"
-            Grid.RowSpan="2"
-            CloseButtonContent="{helpers:ResourceString Name=OK}"
-            PreferredPlacement="Auto"
-            Subtitle="{helpers:ResourceString Name=FileNameTeachingTip/Subtitle}"
-            Visibility="Collapsed" />
+		<!--  Invalid Item Name Tip  -->
+		<TeachingTip
+			x:Name="FileNameTeachingTip"
+			Grid.RowSpan="2"
+			CloseButtonContent="{helpers:ResourceString Name=OK}"
+			PreferredPlacement="Auto"
+			Subtitle="{helpers:ResourceString Name=FileNameTeachingTip/Subtitle}"
+			Visibility="Collapsed" />
 
-        <!--  Grouping/Ungrouping  -->
-        <SemanticZoom
-            x:Name="RootGridZoom"
-            CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
-            ViewChangeStarted="SemanticZoom_ViewChangeStarted"
-            Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+		<!--  Grouping/Ungrouping  -->
+		<SemanticZoom
+			x:Name="RootGridZoom"
+			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
+			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
+			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
 
-            <!--  Main View  -->
-            <SemanticZoom.ZoomedInView>
-                <ListView
-                    x:Name="FileList"
-                    wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
-                    x:FieldModifier="public"
-                    AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                    CanDragItems="True"
-                    ContainerContentChanging="FileList_ContainerContentChanging"
-                    DoubleTapped="FileList_DoubleTapped"
-                    DragItemsStarting="FileList_DragItemsStarting"
-                    DragOver="ItemsLayout_DragOver"
-                    Drop="ItemsLayout_Drop"
-                    FocusVisualPrimaryThickness="0"
-                    FocusVisualSecondaryThickness="0"
-                    Holding="FileList_Holding"
-                    IsDoubleTapEnabled="True"
-                    IsRightTapEnabled="True"
-                    IsTabStop="True"
-                    ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
-                    PreviewKeyDown="FileList_PreviewKeyDown"
-                    PreviewKeyUp="FileList_PreviewKeyUp"
-                    RightTapped="FileList_RightTapped"
-                    ScrollViewer.IsScrollInertiaEnabled="True"
-                    SelectionChanged="FileList_SelectionChanged"
-                    SelectionMode="Extended"
-                    Tapped="FileList_ItemTapped">
+			<!--  Main View  -->
+			<SemanticZoom.ZoomedInView>
+				<ListView
+					x:Name="FileList"
+					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
+					x:FieldModifier="public"
+					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+					CanDragItems="True"
+					ContainerContentChanging="FileList_ContainerContentChanging"
+					DoubleTapped="FileList_DoubleTapped"
+					DragItemsStarting="FileList_DragItemsStarting"
+					DragOver="ItemsLayout_DragOver"
+					Drop="ItemsLayout_Drop"
+					FocusVisualPrimaryThickness="0"
+					FocusVisualSecondaryThickness="0"
+					Holding="FileList_Holding"
+					IsDoubleTapEnabled="True"
+					IsRightTapEnabled="True"
+					IsTabStop="True"
+					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
+					PreviewKeyDown="FileList_PreviewKeyDown"
+					PreviewKeyUp="FileList_PreviewKeyUp"
+					RightTapped="FileList_RightTapped"
+					ScrollViewer.IsScrollInertiaEnabled="True"
+					SelectionChanged="FileList_SelectionChanged"
+					SelectionMode="Extended"
+					Tapped="FileList_ItemTapped">
 
-                    <ListView.ItemContainerTransitions>
-                        <TransitionCollection>
-                            <AddDeleteThemeTransition />
-                        </TransitionCollection>
-                    </ListView.ItemContainerTransitions>
+					<ListView.ItemContainerTransitions>
+						<TransitionCollection>
+							<AddDeleteThemeTransition />
+						</TransitionCollection>
+					</ListView.ItemContainerTransitions>
 
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="filesystem:ListedItem">
-                            <Grid
-                                x:Name="FilesRootGrid"
-                                Height="30"
-                                Padding="12,0,12,0"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                IsRightTapEnabled="True"
-                                Loaded="Grid_Loaded"
-                                ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="24" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+					<ListView.ItemTemplate>
+						<DataTemplate x:DataType="filesystem:ListedItem">
+							<Grid
+								x:Name="FilesRootGrid"
+								Height="30"
+								Padding="12,0,12,0"
+								CornerRadius="{StaticResource ControlCornerRadius}"
+								IsRightTapEnabled="True"
+								Loaded="Grid_Loaded"
+								ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="24" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
 
-                                <!--  Thumbnail  -->
-                                <Grid
-                                    Grid.Column="0"
-                                    Width="24"
-                                    Height="24"
-                                    Opacity="{x:Bind Opacity, Mode=OneWay}"
-                                    Tag="ItemImage">
-                                    <ContentPresenter
-                                        x:Name="PicturePresenter"
-                                        Width="20"
-                                        Height="20"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
-                                        CornerRadius="{StaticResource DetailsLayoutThumbnailCornerRadius}">
-                                        <Image
-                                            x:Name="Picture"
-                                            Source="{x:Bind FileImage, Mode=OneWay}"
-                                            Stretch="Uniform" />
-                                    </ContentPresenter>
-                                    <Image
-                                        x:Name="FolderGlyphIcon"
-                                        Width="20"
-                                        Height="20"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
-                                        x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
-                                        Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
-                                    <Border
-                                        x:Name="TypeUnknownGlyph"
-                                        Width="20"
-                                        Height="20"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
-                                        x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-                                        Background="{ThemeResource SystemChromeHighColor}"
-                                        CornerRadius="4" />
-                                    <Image
-                                        x:Name="IconOverlay"
-                                        Width="16"
-                                        Height="16"
-                                        Margin="2"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Bottom"
-                                        x:Load="True"
-                                        Source="{x:Bind IconOverlay, Mode=OneWay}"
-                                        Stretch="Uniform" />
-                                    <Viewbox
-                                        x:Name="WebShortcutGlyph"
-                                        MaxWidth="20"
-                                        MaxHeight="20"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
-                                        Visibility="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
-                                        <FontIcon FontSize="20" Glyph="&#xE71B;" />
-                                    </Viewbox>
-                                    <Border
-                                        x:Name="ShortcutGlyphElement"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Bottom"
-                                        Visibility="{x:Bind IsShortcut}">
-                                        <uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
-                                    </Border>
+								<!--  Thumbnail  -->
+								<Grid
+									Grid.Column="0"
+									Width="24"
+									Height="24"
+									Opacity="{x:Bind Opacity, Mode=OneWay}"
+									Tag="ItemImage">
+									<ContentPresenter
+										x:Name="PicturePresenter"
+										Width="20"
+										Height="20"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+										CornerRadius="{StaticResource DetailsLayoutThumbnailCornerRadius}">
+										<Image
+											x:Name="Picture"
+											Source="{x:Bind FileImage, Mode=OneWay}"
+											Stretch="Uniform" />
+									</ContentPresenter>
+									<Image
+										x:Name="FolderGlyphIcon"
+										Width="20"
+										Height="20"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Stretch"
+										x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
+										Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
+									<Border
+										x:Name="TypeUnknownGlyph"
+										Width="20"
+										Height="20"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Stretch"
+										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
+										Background="{ThemeResource SystemChromeHighColor}"
+										CornerRadius="4" />
+									<Image
+										x:Name="IconOverlay"
+										Width="16"
+										Height="16"
+										Margin="2"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Bottom"
+										x:Load="True"
+										Source="{x:Bind IconOverlay, Mode=OneWay}"
+										Stretch="Uniform" />
+									<Viewbox
+										x:Name="WebShortcutGlyph"
+										MaxWidth="20"
+										MaxHeight="20"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Stretch"
+										Visibility="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
+										<FontIcon FontSize="20" Glyph="&#xE71B;" />
+									</Viewbox>
+									<Border
+										x:Name="ShortcutGlyphElement"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Bottom"
+										Visibility="{x:Bind IsShortcut}">
+										<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
+									</Border>
 									<Image
                                         x:Name="ShieldOverlay"
                                         Width="16"
@@ -274,218 +274,218 @@
                                         Stretch="Uniform" />
 								</Grid>
 
-                                <!--  Item Name  -->
-                                <TextBlock
-                                    x:Name="ItemName"
-                                    Grid.Column="1"
-                                    Margin="5,0,5,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind Name, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap" />
+								<!--  Item Name  -->
+								<TextBlock
+									x:Name="ItemName"
+									Grid.Column="1"
+									Margin="5,0,5,0"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center"
+									Text="{x:Bind Name, Mode=OneWay}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap" />
 
-                                <!--  Rename Text Box  -->
-                                <TextBox
-                                    x:Name="ListViewTextBoxItemName"
-                                    Grid.Column="1"
-                                    Margin="0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
-                                    TextAlignment="Left"
-                                    TextWrapping="Wrap"
-                                    Visibility="Collapsed" />
+								<!--  Rename Text Box  -->
+								<TextBox
+									x:Name="ListViewTextBoxItemName"
+									Grid.Column="1"
+									Margin="0"
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Stretch"
+									BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
+									TextAlignment="Left"
+									TextWrapping="Wrap"
+									Visibility="Collapsed" />
 
-                                <Grid Grid.Column="2">
-                                    <StackPanel Orientation="Horizontal" Spacing="4">
+								<Grid Grid.Column="2">
+									<StackPanel Orientation="Horizontal" Spacing="4">
 
-                                        <!--  Cloud Status  -->
-                                        <FontIcon
-                                            x:Name="CloudDriveSyncStatusGlyph"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            x:Phase="2"
-                                            FontSize="12"
-                                            Glyph="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-                                            Visibility="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}" />
+										<!--  Cloud Status  -->
+										<FontIcon
+											x:Name="CloudDriveSyncStatusGlyph"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											x:Phase="2"
+											FontSize="12"
+											Glyph="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+											Visibility="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}" />
 
-                                        <!--  Tag  -->
-                                        <Ellipse
-                                            Width="12"
-                                            Height="12"
-                                            Margin="8,0,4,0"
-                                            x:Phase="2"
-                                            Fill="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-                                            ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
-                                            Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+										<!--  Tag  -->
+										<Ellipse
+											Width="12"
+											Height="12"
+											Margin="8,0,4,0"
+											x:Phase="2"
+											Fill="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
+											ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
+											Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
 
-                                        <!--  Open Folder Chevron  -->
-                                        <FontIcon
-                                            x:Name="OpenFolderChevron"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Center"
-                                            x:Load="{x:Bind IsFolder}"
-                                            FontSize="12"
-                                            Foreground="{ThemeResource TextFillColorSecondary}"
-                                            Glyph="&#xE76C;" />
+										<!--  Open Folder Chevron  -->
+										<FontIcon
+											x:Name="OpenFolderChevron"
+											HorizontalAlignment="Right"
+											VerticalAlignment="Center"
+											x:Load="{x:Bind IsFolder}"
+											FontSize="12"
+											Foreground="{ThemeResource TextFillColorSecondary}"
+											Glyph="&#xE76C;" />
 
-                                    </StackPanel>
-                                </Grid>
+									</StackPanel>
+								</Grid>
 
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
+							</Grid>
+						</DataTemplate>
+					</ListView.ItemTemplate>
 
-                    <ListView.GroupStyle>
-                        <GroupStyle>
-                            <GroupStyle.HeaderTemplate>
-                                <DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
-                                    <StackPanel
-                                        Margin="0,0,0,4"
-                                        VerticalAlignment="Top"
-                                        AutomationProperties.Name="{x:Bind Model.Text}"
-                                        Spacing="0">
+					<ListView.GroupStyle>
+						<GroupStyle>
+							<GroupStyle.HeaderTemplate>
+								<DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
+									<StackPanel
+										Margin="0,0,0,4"
+										VerticalAlignment="Top"
+										AutomationProperties.Name="{x:Bind Model.Text}"
+										Spacing="0">
 
-                                        <StackPanel Orientation="Horizontal" Spacing="4">
+										<StackPanel Orientation="Horizontal" Spacing="4">
 
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                FontSize="16"
-                                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                                Text="{x:Bind Model.Text, Mode=OneWay}" />
+											<TextBlock
+												VerticalAlignment="Center"
+												FontSize="16"
+												Style="{StaticResource SubtitleTextBlockStyle}"
+												Text="{x:Bind Model.Text, Mode=OneWay}" />
 
-                                            <TextBlock
-                                                Margin="4,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Style="{StaticResource BodyTextBlockStyle}"
-                                                Text="{x:Bind Model.CountText, Mode=OneWay}"
-                                                Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											<TextBlock
+												Margin="4,0,0,0"
+												VerticalAlignment="Center"
+												Style="{StaticResource BodyTextBlockStyle}"
+												Text="{x:Bind Model.CountText, Mode=OneWay}"
+												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                FontSize="14"
-                                                Style="{StaticResource SubheaderTextBlockStyle}"
-                                                Text="{x:Bind Model.Subtext, Mode=OneWay}"
-                                                Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+											<TextBlock
+												VerticalAlignment="Center"
+												FontSize="14"
+												Style="{StaticResource SubheaderTextBlockStyle}"
+												Text="{x:Bind Model.Subtext, Mode=OneWay}"
+												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-                                        </StackPanel>
+										</StackPanel>
 
-                                        <TextBlock
-                                            Margin="0,2,0,0"
-                                            Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{x:Bind Model.CountText, Mode=OneWay}"
-                                            Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+										<TextBlock
+											Margin="0,2,0,0"
+											Style="{StaticResource BodyTextBlockStyle}"
+											Text="{x:Bind Model.CountText, Mode=OneWay}"
+											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GroupStyle.HeaderTemplate>
-                        </GroupStyle>
-                    </ListView.GroupStyle>
+									</StackPanel>
+								</DataTemplate>
+							</GroupStyle.HeaderTemplate>
+						</GroupStyle>
+					</ListView.GroupStyle>
 
-                    <ListView.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="MinHeight" Value="1" />
-                            <Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
-                            <Setter Property="Padding" Value="4,0" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
+					<ListView.ItemContainerStyle>
+						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+							<Setter Property="MinHeight" Value="1" />
+							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
+							<Setter Property="Padding" Value="4,0" />
+						</Style>
+					</ListView.ItemContainerStyle>
 
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsStackPanel AreStickyGroupHeadersEnabled="True" Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
+					<ListView.ItemsPanel>
+						<ItemsPanelTemplate>
+							<ItemsStackPanel AreStickyGroupHeadersEnabled="True" Orientation="Vertical" />
+						</ItemsPanelTemplate>
+					</ListView.ItemsPanel>
 
-                </ListView>
-            </SemanticZoom.ZoomedInView>
+				</ListView>
+			</SemanticZoom.ZoomedInView>
 
-            <!--  Grouped View  -->
-            <SemanticZoom.ZoomedOutView>
-                <ListView
-                    HorizontalAlignment="Stretch"
-                    ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
-                    SelectionMode="None">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="ICollectionViewGroup">
-                            <StackPanel
-                                Margin="0,4,0,4"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal"
-                                Spacing="4">
+			<!--  Grouped View  -->
+			<SemanticZoom.ZoomedOutView>
+				<ListView
+					HorizontalAlignment="Stretch"
+					ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
+					SelectionMode="None">
+					<ListView.ItemTemplate>
+						<DataTemplate x:DataType="ICollectionViewGroup">
+							<StackPanel
+								Margin="0,4,0,4"
+								VerticalAlignment="Center"
+								Orientation="Horizontal"
+								Spacing="4">
 
-                                <!--  Group Image  -->
-                                <Image
-                                    Height="36"
-                                    Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
-                                    Stretch="Uniform" />
+								<!--  Group Image  -->
+								<Image
+									Height="36"
+									Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
+									Stretch="Uniform" />
 
-                                <!--  Group Icon  -->
-                                <FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
+								<!--  Group Icon  -->
+								<FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
 
-                                <StackPanel
-                                    VerticalAlignment="Center"
-                                    AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
-                                    Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal" Spacing="4">
+								<StackPanel
+									VerticalAlignment="Center"
+									AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
+									Orientation="Vertical">
+									<StackPanel Orientation="Horizontal" Spacing="4">
 
-                                        <!--  Header  -->
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            FontSize="16"
-                                            Style="{StaticResource SubtitleTextBlockStyle}"
-                                            Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
+										<!--  Header  -->
+										<TextBlock
+											VerticalAlignment="Center"
+											FontSize="16"
+											Style="{StaticResource SubtitleTextBlockStyle}"
+											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
 
-                                        <!--  Count  -->
-                                        <TextBlock
-                                            Margin="4,0,0,0"
-                                            VerticalAlignment="Center"
-                                            Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-                                            Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-                                            Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										<!--  Count  -->
+										<TextBlock
+											Margin="4,0,0,0"
+											VerticalAlignment="Center"
+											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
+											Style="{StaticResource BodyTextBlockStyle}"
+											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
-                                        <!--  Subheader  -->
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            FontSize="14"
-                                            Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-                                            Style="{StaticResource SubheaderTextBlockStyle}"
-                                            Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-                                            Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+										<!--  Subheader  -->
+										<TextBlock
+											VerticalAlignment="Center"
+											FontSize="14"
+											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
+											Style="{StaticResource SubheaderTextBlockStyle}"
+											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
+											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-                                    </StackPanel>
+									</StackPanel>
 
-                                    <TextBlock
-                                        Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-                                        Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+									<TextBlock
+										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
+										Style="{StaticResource BodyTextBlockStyle}"
+										Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+										Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-                                </StackPanel>
+								</StackPanel>
 
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </SemanticZoom.ZoomedOutView>
+							</StackPanel>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</SemanticZoom.ZoomedOutView>
 
-        </SemanticZoom>
+		</SemanticZoom>
 
-        <!--  Selector  -->
-        <Canvas>
-            <Rectangle
-                Name="SelectionRectangle"
-                Canvas.Left="0"
-                Canvas.Top="0"
-                Width="0"
-                Height="0"
-                Fill="{ThemeResource SystemAccentColor}"
-                Opacity="0.5"
-                Stroke="{ThemeResource SystemAccentColorLight1}"
-                StrokeThickness="1" />
-        </Canvas>
+		<!--  Selector  -->
+		<Canvas>
+			<Rectangle
+				Name="SelectionRectangle"
+				Canvas.Left="0"
+				Canvas.Top="0"
+				Width="0"
+				Height="0"
+				Fill="{ThemeResource SystemAccentColor}"
+				Opacity="0.5"
+				Stroke="{ThemeResource SystemAccentColorLight1}"
+				StrokeThickness="1" />
+		</Canvas>
 
-    </Grid>
+	</Grid>
 </local:StandardViewBase>
