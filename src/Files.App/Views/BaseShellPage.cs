@@ -18,7 +18,6 @@ using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Enums;
-using LibGit2Sharp;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -231,7 +230,7 @@ namespace Files.App.Views
 				? "ItemCount/Text".GetLocalizedResource()
 				: "ItemsCount/Text".GetLocalizedResource();
 
-			InstanceViewModel.GitRepositoryPath = Repository.Discover(FilesystemViewModel.WorkingDirectory);
+			InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
 
 			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
 					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
@@ -239,6 +238,14 @@ namespace Files.App.Views
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();
+		}
+
+		protected void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
+		{
+			InstanceViewModel.UpdateCurrentBranchName();
+			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
+					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
+					: null;
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)
@@ -719,6 +726,7 @@ namespace Files.App.Views
 				FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
 				FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 				FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
+				FilesystemViewModel.GitDirectoryUpdated -= FilesystemViewModel_GitDirectoryUpdated;
 				FilesystemViewModel.Dispose();
 			}
 

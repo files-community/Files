@@ -220,5 +220,10 @@ namespace Files.App.ViewModels
 				return string.Empty;
 			}
 		}
+
+		public void UpdateCurrentBranchName()
+		{
+			OnPropertyChanged(nameof(GitBranchName));
+		}
 	}
 }

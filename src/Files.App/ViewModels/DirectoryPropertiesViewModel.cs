@@ -1,7 +1,4 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.Extensions;
-using LibGit2Sharp;
-using System.Linq;
 
 namespace Files.App.ViewModels
 {
