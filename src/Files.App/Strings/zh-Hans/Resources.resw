@@ -2662,7 +2662,7 @@
     <value>退出精简模式</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Opens the "Format Drive" menu for the selected item</value>
+    <value>打开所选项目的“格式化驱动器”菜单</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>打开/关闭侧边栏</value>
@@ -2861,10 +2861,10 @@
     <value>更改文件扩展名时显示警告</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
-    <value>This PC</value>
+    <value>此电脑</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>Recycle Bin</value>
+    <value>回收站</value>
   </data>
   <data name="Untagged" xml:space="preserve">
     <value>无标签</value>

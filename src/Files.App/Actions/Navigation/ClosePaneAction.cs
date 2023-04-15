@@ -8,30 +8,28 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class NavigateForwardAction : ObservableObject, IAction
+	internal class ClosePaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "Forward".GetLocalizedResource();
+		public string Label { get; } = "NavigationToolbarClosePane/Label".GetLocalizedResource();
 
-		public string Description { get; } = "NavigateForward".GetLocalizedResource();
+		public string Description { get; } = "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(Keys.Right, KeyModifiers.Menu);
-		public HotKey SecondHotKey { get; } = new(Keys.Mouse5);
-		public HotKey MediaHotKey { get; } = new(Keys.GoForward);
+		public HotKey HotKey { get; } = new(Keys.W, KeyModifiers.CtrlShift);
 
-		public RichGlyph Glyph { get; } = new("\uE72A");
+		public RichGlyph Glyph { get; } = new("\uE89F");
 
-		public bool IsExecutable => context.CanGoForward;
+		public bool IsExecutable => context.IsMultiPaneActive;
 
-		public NavigateForwardAction()
+		public ClosePaneAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.ShellPage!.Forward_Click();
+			context.ShellPage!.PaneHolder.CloseActivePane();
 			return Task.CompletedTask;
 		}
 
@@ -39,7 +37,8 @@ namespace Files.App.Actions
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IContentPageContext.CanGoForward):
+				case nameof(IContentPageContext.ShellPage):
+				case nameof(IContentPageContext.IsMultiPaneActive):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}

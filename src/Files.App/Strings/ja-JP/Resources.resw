@@ -313,13 +313,13 @@
     <value>このフォルダーは空です。</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>戻る (Alt+左矢印)</value>
+    <value>戻る</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>進む (Alt+右矢印)</value>
+    <value>進む</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>上の階層へ (Alt+上矢印)</value>
+    <value>上の階層へ</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>最新の情報に更新</value>
@@ -1336,7 +1336,7 @@
     <value>{0} 個の競合するファイル名と、{1} 個の競合しないファイルがあります</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>削除</value>
+    <value>ファイル名が競合しています</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>1 個の競合するファイル名と、{0} 個の競合しないファイルがあります</value>
@@ -2662,7 +2662,7 @@
     <value>コンパクト オーバーレイを終了</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Opens the "Format Drive" menu for the selected item</value>
+    <value>選択した項目の「ドライブのフォーマット」メニューを開く</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>サイドバーの表示を切り替える</value>

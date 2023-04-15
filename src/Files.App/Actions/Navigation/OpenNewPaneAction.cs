@@ -8,29 +8,30 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class SearchAction : ObservableObject, IAction
+	internal class OpenNewPaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "Search".GetLocalizedResource();
+		public string Label { get; } = "NavigationToolbarNewPane/Label".GetLocalizedResource();
 
 		public string Description { get; } = "TODO: Need to be described.";
 
-		public HotKey HotKey { get; } = new(Keys.F, KeyModifiers.Ctrl);
-		public HotKey SecondHotKey { get; } = new(Keys.F3);
+		public HotKey HotKey { get; } = new(Keys.OemPlus, KeyModifiers.MenuShift);
 
-		public RichGlyph Glyph { get; } = new();
+		public HotKey SecondHotKey { get; } = new(Keys.Add, KeyModifiers.MenuShift);
 
-		public bool IsExecutable => !context.IsSearchBoxVisible;
+		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconRightPane");
 
-		public SearchAction()
+		public bool IsExecutable => context.IsMultiPaneEnabled && !context.IsMultiPaneActive;
+
+		public OpenNewPaneAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.ShellPage!.ToolbarViewModel.SwitchSearchBoxVisibility();
+			context.ShellPage!.PaneHolder.OpenPathInNewPane("Home");
 			return Task.CompletedTask;
 		}
 
@@ -38,7 +39,8 @@ namespace Files.App.Actions
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IContentPageContext.IsSearchBoxVisible):
+				case nameof(IContentPageContext.IsMultiPaneEnabled):
+				case nameof(IContentPageContext.IsMultiPaneActive):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}

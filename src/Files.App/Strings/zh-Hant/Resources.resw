@@ -259,7 +259,7 @@
     <value>在新索引標籤中開啟</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>在新視窗中開啟</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>分享</value>
@@ -271,7 +271,7 @@
     <value>刪除</value>
   </data>
   <data name="PinToFavorites" xml:space="preserve">
-    <value>Pin to Favorites</value>
+    <value>釘選至收藏</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>歡迎使用 Files！</value>
@@ -286,7 +286,7 @@
     <value>顯示</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>輸入名稱</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>命名</value>
@@ -334,7 +334,7 @@
     <value>檔案已存在</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>設為鎖定畫面背景</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>無法刪除此檔案</value>
@@ -367,7 +367,7 @@
     <value>檔案正在被使用</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>布局</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>唯讀</value>
@@ -415,7 +415,7 @@
     <value>檔案名稱不可以包含下列字元：　\ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>指定的項目名稱無效</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>已選取的項目</value>
@@ -619,7 +619,7 @@
     <value>個人化</value>
   </data>
   <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Layout and sorting</value>
+    <value>布局和排序</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>我們無法建立此項目</value>
@@ -670,10 +670,10 @@
     <value>語言</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>將 shell 擴展（shell extensions）形式的選單移入子選單中</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>刪除項目時顯示確認訊息框</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>儲存屬性時發生錯誤。</value>
@@ -982,13 +982,13 @@
     <value>退出</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>複製標籤頁</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>將索引標籤移到新視窗</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
+    <value>新索引標籤</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>部分屬性可能會包含個資。</value>
@@ -1027,7 +1027,7 @@
     <value>自訂右鍵選單</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>原始路徑</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>新增</value>
@@ -2665,10 +2665,10 @@
     <value>Opens the "Format Drive" menu for the selected item</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Toggle the sidebar</value>
+    <value>開啟/關閉側邊欄</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
-    <value>Menu</value>
+    <value>選單</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Control" xml:space="preserve">
@@ -2688,11 +2688,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
-    <value>Space</value>
+    <value>空白鍵</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Escape" xml:space="preserve">
-    <value>Escape</value>
+    <value>Esc</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Back" xml:space="preserve">
@@ -2776,7 +2776,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application" xml:space="preserve">
-    <value>App</value>
+    <value>應用程式</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application1" xml:space="preserve">
@@ -2792,7 +2792,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
-    <value>GoHome</value>
+    <value>首頁</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
@@ -2861,10 +2861,10 @@
     <value>Show warning when changing file extensions</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
-    <value>This PC</value>
+    <value>我的電腦</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>Recycle Bin</value>
+    <value>資源回收筒</value>
   </data>
   <data name="Untagged" xml:space="preserve">
     <value>Untagged</value>
@@ -2876,6 +2876,6 @@
     <value>Moves to the next tab</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Closes current tab</value>
+    <value>關閉目前標籤</value>
   </data>
 </root>

@@ -486,9 +486,10 @@ namespace Files.App.Views
 		{
 			foreach (PageStackEntry entry in ItemDisplay.BackStack.ToList())
 			{
-				if (entry.Parameter is NavigationArguments args)
+				if (entry.Parameter is NavigationArguments args && 
+					args.NavPathParam is not null and not "Home")
 				{
-					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam);
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
 					if (!entry.SourcePageType.Equals(correctPageType))
 					{
 						int index = ItemDisplay.BackStack.IndexOf(entry);
@@ -501,9 +502,10 @@ namespace Files.App.Views
 
 			foreach (PageStackEntry entry in ItemDisplay.ForwardStack.ToList())
 			{
-				if (entry.Parameter is NavigationArguments args)
+				if (entry.Parameter is NavigationArguments args &&
+					args.NavPathParam is not null and not "Home")
 				{
-					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam);
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
 					if (!entry.SourcePageType.Equals(correctPageType))
 					{
 						int index = ItemDisplay.ForwardStack.IndexOf(entry);
@@ -602,8 +604,6 @@ namespace Files.App.Views
 		protected void InitToolbarCommands()
 		{
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
-			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
-			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());

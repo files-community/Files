@@ -30,21 +30,9 @@ namespace Files.App.Views.LayoutModes
 {
 	public sealed partial class DetailsLayoutBrowser : StandardViewBase
 	{
-		public bool IsPointerOver
-		{
-			get { return (bool)GetValue(IsPointerOverProperty); }
-			set { SetValue(IsPointerOverProperty, value); }
-		}
-		public static readonly DependencyProperty IsPointerOverProperty =
-			DependencyProperty.Register("IsPointerOver", typeof(bool), typeof(DetailsLayoutBrowser), new PropertyMetadata(false));
-
 		private const int TAG_TEXT_BLOCK = 1;
 
 		private uint currentIconSize;
-
-		private InputCursor arrowCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Arrow, 0));
-
-		private InputCursor resizeCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.SizeWestEast, 1));
 
 		private ListedItem? _nextItemToSelect;
 
@@ -309,7 +297,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (ParentShellPageInstance is null)
+			if (ParentShellPageInstance is null || IsRenamingItem)
 				return;
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -323,18 +311,12 @@ namespace Files.App.Views.LayoutModes
 				e.Handled = true;
 
 				var commands = Ioc.Default.GetRequiredService<ICommandManager>();
-				var hotKey = new HotKey(VirtualKey.A, VirtualKeyModifiers.Control);
+				var hotKey = new HotKey(Keys.A, KeyModifiers.Ctrl);
 
 				await commands[hotKey].ExecuteAsync();
-
-				return;
 			}
-
-			if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
+			else if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
 			{
-				if (IsRenamingItem)
-					return;
-
 				e.Handled = true;
 
 				if (ctrlPressed && !shiftPressed)
@@ -358,7 +340,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Space)
 			{
-				if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
+				if (!ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 					e.Handled = true;
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -373,7 +355,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Down)
 			{
-				if (!IsRenamingItem && isHeaderFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
+				if (isHeaderFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 				{
 					var selectIndex = FileList.SelectedIndex < 0 ? 0 : FileList.SelectedIndex;
 					if (FileList.ContainerFromIndex(selectIndex) is ListViewItem item)
@@ -525,20 +507,20 @@ namespace Files.App.Views.LayoutModes
 			MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
 		}
 
-		private void GridSplitter_ManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
+		private void GridSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			this.ChangeCursor(resizeCursor);
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
 		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
-			this.ChangeCursor(arrowCursor);
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
 		private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
 		{
-			(sender as UIElement).ChangeCursor(resizeCursor);
+			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -551,7 +533,6 @@ namespace Files.App.Views.LayoutModes
 			var columnToResize = Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) / 2 + 1;
 			ResizeColumnToFit(columnToResize);
 
-			this.ChangeCursor(arrowCursor);
 			e.Handled = true;
 		}
 
@@ -727,16 +708,23 @@ namespace Files.App.Views.LayoutModes
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			args.ItemContainer.PointerEntered -= ItemRow_PointerEntered;
-			args.ItemContainer.PointerExited -= ItemRow_PointerExited;
-			args.ItemContainer.PointerCanceled -= ItemRow_PointerCanceled;
+			var iconBox = args.ItemContainer.FindDescendant("IconBox")!;
+			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
+
+			iconBox.PointerEntered -= IconBox_PointerEntered;
+			iconBox.PointerExited -= IconBox_PointerExited;
+			iconBox.PointerCanceled -= IconBox_PointerCanceled;
+			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
+			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
 
 			base.FileList_ContainerContentChanging(sender, args);
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
 
-			args.ItemContainer.PointerEntered += ItemRow_PointerEntered;
-			args.ItemContainer.PointerExited += ItemRow_PointerExited;
-			args.ItemContainer.PointerCanceled += ItemRow_PointerCanceled;
+			iconBox.PointerEntered += IconBox_PointerEntered;
+			iconBox.PointerExited += IconBox_PointerExited;
+			iconBox.PointerCanceled += IconBox_PointerCanceled;
+			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
+			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
 		}
 
 		private void SetCheckboxSelectionState(object item, ListViewItem? lviContainer = null)
@@ -756,7 +744,7 @@ namespace Files.App.Views.LayoutModes
 					checkbox.Checked += ItemSelected_Checked;
 					checkbox.Unchecked += ItemSelected_Unchecked;
 				}
-				UpdateCheckboxVisibility(container);
+				UpdateCheckboxVisibility(container, false);
 			}
 		}
 
@@ -796,30 +784,37 @@ namespace Files.App.Views.LayoutModes
 			e.Handled = true;
 		}
 
-		private void ItemRow_PointerEntered(object sender, PointerRoutedEventArgs e)
+		private void IconBox_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			UpdateCheckboxVisibility(sender, true);
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, true);
 		}
 
-		private void ItemRow_PointerExited(object sender, PointerRoutedEventArgs e)
+		private void IconBox_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
-			UpdateCheckboxVisibility(sender, false);
+			e.Handled = true;
 		}
 
-		private void ItemRow_PointerCanceled(object sender, PointerRoutedEventArgs e)
+		private void IconBox_PointerCanceled(object sender, PointerRoutedEventArgs e)
 		{
-			UpdateCheckboxVisibility(sender, false);
+			e.Handled = true;
 		}
 
-		private void UpdateCheckboxVisibility(object sender, bool? isPointerOver = null)
+		private void SelectionCheckbox_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
+		}
+
+		private void SelectionCheckbox_PointerCanceled(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
+		}
+
+		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
 		{
 			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
 			{
-				// Save pointer over state accordingly
-				if (isPointerOver.HasValue)
-					control.SetValue(IsPointerOverProperty, isPointerOver);
 				// Handle visual states
-				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false && SelectedItems?.Count >= 1)
+				if (control.IsSelected || isPointerOver || (control.FindDescendant("SelectionCheckbox") as CheckBox)!.IsPointerOver)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
