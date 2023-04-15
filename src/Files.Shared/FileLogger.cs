@@ -30,7 +30,8 @@ namespace Files.Shared
 				semaphoreSlim.Wait();
 				try
 				{
-					File.AppendAllText(filePath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ffff}|{logLevel}|{formatter(state, exception)}" + Environment.NewLine);
+					var message = exception?.ToString() ?? formatter(state, exception);
+					File.AppendAllText(filePath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ffff}|{logLevel}|{message}" + Environment.NewLine);
 				}
 				catch (Exception e)
 				{
