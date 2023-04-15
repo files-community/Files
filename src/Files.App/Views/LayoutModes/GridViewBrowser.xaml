@@ -213,10 +213,7 @@
 						Unchecked="ItemSelected_Unchecked"
 						Visibility="Collapsed" />
 
-					<Popup
-						x:Name="EditPopup"
-						Grid.Row="1"
-						x:Load="False">
+					<Popup x:Name="EditPopup" Grid.Row="1" x:Load="False">
 						<TextBox
 							x:Name="GridViewTextBoxItemName"
 							Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
