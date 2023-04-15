@@ -66,8 +66,8 @@ namespace Files.App.ViewModels
 		private readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
 		private readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 
-		private Task aProcessQueueAction;
-		private Task gitProcessQueueAction;
+		private Task? aProcessQueueAction;
+		private Task? gitProcessQueueAction;
 
 		// Files and folders list for manipulating
 		private List<ListedItem> filesAndFolders;
@@ -1388,6 +1388,7 @@ namespace Files.App.ViewModels
 			watcher = null;
 
 			aProcessQueueAction = null;
+			gitProcessQueueAction = null;
 			watcherCTS?.Cancel();
 			watcherCTS = new CancellationTokenSource();
 		}
@@ -1961,7 +1962,7 @@ namespace Files.App.ViewModels
 			if (hWatchDir.ToInt64() == -1)
 				return;
 
-			gitProcessQueueAction ??= Task.Factory.StartNew(() => ProcessGitChangesQueue(watcherCTS.Token, hasSyncStatus), default,
+			gitProcessQueueAction ??= Task.Factory.StartNew(() => ProcessGitChangesQueue(watcherCTS.Token), default,
 				TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
 			var gitWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
@@ -2038,10 +2039,10 @@ namespace Files.App.ViewModels
 			});
 		}
 
-		private async Task ProcessGitChangesQueue(CancellationToken cancellationToken, bool hasSyncStatus)
+		private async Task ProcessGitChangesQueue(CancellationToken cancellationToken)
 		{
-			const int DELAY = 500;
-			var sampler = new IntervalSampler(DELAY);
+			const int DELAY = 200;
+			var sampler = new IntervalSampler(100);
 			int changes = 0;
 
 			try
