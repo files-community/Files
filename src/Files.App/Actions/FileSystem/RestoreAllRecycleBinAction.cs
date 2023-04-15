@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class RestoreAllRecycleBinAction : ObservableObject, IAction
+	internal class RestoreAllRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -19,15 +18,11 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRestoreItem");
 
-		public bool IsExecutable
-		{
-			get
-			{
-				if (context.PageType is ContentPageTypes.RecycleBin)
-					return context.HasItem;
-				return RecycleBinHelpers.RecycleBinHasItems();
-			}
-		}
+		public override bool IsExecutable =>
+			context.ShellPage is not null &&
+			UIHelpers.CanShowDialog &&
+			((context.PageType is ContentPageTypes.RecycleBin && context.HasItem) || 
+			RecycleBinHelpers.RecycleBinHasItems());
 
 		public RestoreAllRecycleBinAction()
 		{
