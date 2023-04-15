@@ -642,14 +642,14 @@
 						<StackPanel
 							x:Name="SearchUnindexedItemsPanel"
 							HorizontalAlignment="Stretch"
-							x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
+							x:Load="{x:Bind Commands.SearchUnindexedItems.IsExecutable, Mode=OneWay}"
 							Orientation="Vertical">
 							<TextBlock HorizontalTextAlignment="Center" Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
 							<HyperlinkButton
 								x:Name="SearchUnindexedItemsButton"
 								HorizontalAlignment="Center"
-								Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
-								Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
+								Command="{x:Bind Commands.SearchUnindexedItems}"
+								Content="{x:Bind Commands.SearchUnindexedItems.Label}" />
 						</StackPanel>
 					</toolkit:AdaptiveGridView.Footer>
 

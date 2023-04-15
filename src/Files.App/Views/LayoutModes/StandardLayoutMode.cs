@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.WinUI.UI;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
@@ -31,6 +33,8 @@ namespace Files.App
 		protected override ItemsControl ItemsControl => ListViewBase;
 
 		protected abstract SemanticZoom RootZoom { get; }
+
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		public StandardViewBase() : base()
 		{

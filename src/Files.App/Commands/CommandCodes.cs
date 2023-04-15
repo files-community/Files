@@ -11,6 +11,7 @@ namespace Files.App.Commands
 		ExitCompactOverlay,
 		ToggleCompactOverlay,
 		Search,
+		SearchUnindexedItems,
 
 		// Show
 		ToggleShowHiddenItems,
