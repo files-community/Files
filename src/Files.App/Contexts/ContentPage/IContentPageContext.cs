@@ -26,5 +26,8 @@ namespace Files.App.Contexts
 		bool CanNavigateToParent { get; }
 
 		bool IsSearchBoxVisible { get; }
+
+		bool IsMultiPaneEnabled { get; }
+		bool IsMultiPaneActive { get; }
 	}
 }
