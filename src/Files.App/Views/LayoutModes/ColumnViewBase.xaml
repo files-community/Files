@@ -133,7 +133,7 @@
 			Canvas.ZIndex="0"
 			EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
-		<!--  Invalid Item Name Tip  -->
+		<!--  Invalid Item Name Tip	 -->
 		<TeachingTip
 			x:Name="FileNameTeachingTip"
 			Grid.RowSpan="2"
@@ -149,7 +149,7 @@
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
 
-			<!--  Main View  -->
+			<!--  Main View	 -->
 			<SemanticZoom.ZoomedInView>
 				<ListView
 					x:Name="FileList"
@@ -199,7 +199,7 @@
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 
-								<!--  Thumbnail  -->
+								<!--  Thumbnail	 -->
 								<Grid
 									Grid.Column="0"
 									Width="24"
@@ -263,18 +263,18 @@
 										<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
 									</Border>
 									<Image
-                                        x:Name="ShieldOverlay"
-                                        Width="8"
-                                        Height="8"
-                                        Margin="2"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom"
+										x:Name="ShieldOverlay"
+										Width="8"
+										Height="8"
+										Margin="2"
+										HorizontalAlignment="Right"
+										VerticalAlignment="Bottom"
 										x:Load="{x:Bind IsElevated}"
-                                        Source="{x:Bind ShieldIcon, Mode=OneWay}"
-                                        Stretch="Uniform" />
+										Source="{x:Bind ShieldIcon, Mode=OneWay}"
+										Stretch="Uniform" />
 								</Grid>
 
-								<!--  Item Name  -->
+								<!--  Item Name	 -->
 								<TextBlock
 									x:Name="ItemName"
 									Grid.Column="1"
@@ -300,7 +300,7 @@
 								<Grid Grid.Column="2">
 									<StackPanel Orientation="Horizontal" Spacing="4">
 
-										<!--  Cloud Status  -->
+										<!--  Cloud Status	-->
 										<FontIcon
 											x:Name="CloudDriveSyncStatusGlyph"
 											HorizontalAlignment="Center"
@@ -401,7 +401,7 @@
 				</ListView>
 			</SemanticZoom.ZoomedInView>
 
-			<!--  Grouped View  -->
+			<!--  Grouped View	-->
 			<SemanticZoom.ZoomedOutView>
 				<ListView
 					HorizontalAlignment="Stretch"
@@ -437,7 +437,7 @@
 											Style="{StaticResource SubtitleTextBlockStyle}"
 											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
 
-										<!--  Count  -->
+										<!--  Count	 -->
 										<TextBlock
 											Margin="4,0,0,0"
 											VerticalAlignment="Center"
@@ -446,7 +446,7 @@
 											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
 											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
-										<!--  Subheader  -->
+										<!--  Subheader	 -->
 										<TextBlock
 											VerticalAlignment="Center"
 											FontSize="14"
@@ -473,7 +473,7 @@
 
 		</SemanticZoom>
 
-		<!--  Selector  -->
+		<!--  Selector	-->
 		<Canvas>
 			<Rectangle
 				Name="SelectionRectangle"
