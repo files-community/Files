@@ -113,3 +113,5 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | PreviousTab                         | Moves to the previous tab                 | Move to the previous tab                                 | Ctrl+Shift+Tab      |
 |                    | NextTab                             | Moves to the next tab                     | Move to the next tab                                     | Ctrl+Tab            |
 |                    | CloseSelectedTab                    | Closes current tab                        | Close current tab                                        | Ctrl+W, Ctrl+F4     |
+|                    | OpenNewPane                         | New pane                                  | Open new pane                                            | Alt+Shift++         |
+|                    | ClosePane                           | Close pane                                | Close right pane                                         | Ctrl+Shift+W        |
