@@ -155,7 +155,7 @@ namespace Files.App.Commands
 		OpenNewPane,
 		ClosePane,
 
-    // Play
+		// Play
 		PlayAll,
 	}
 }

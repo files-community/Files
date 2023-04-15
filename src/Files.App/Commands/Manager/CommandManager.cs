@@ -134,7 +134,7 @@ namespace Files.App.Commands
 		public IRichCommand PreviousTab => commands[CommandCodes.PreviousTab];
 		public IRichCommand NextTab => commands[CommandCodes.NextTab];
 		public IRichCommand CloseSelectedTab => commands[CommandCodes.CloseSelectedTab];
-    public IRichCommand OpenNewPane => commands[CommandCodes.OpenNewPane];
+		public IRichCommand OpenNewPane => commands[CommandCodes.OpenNewPane];
 		public IRichCommand ClosePane => commands[CommandCodes.ClosePane];
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
 
@@ -277,7 +277,7 @@ namespace Files.App.Commands
 			[CommandCodes.PreviousTab] = new PreviousTabAction(),
 			[CommandCodes.NextTab] = new NextTabAction(),
 			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
-      [CommandCodes.OpenNewPane] = new OpenNewPaneAction(),
+			[CommandCodes.OpenNewPane] = new OpenNewPaneAction(),
 			[CommandCodes.ClosePane] = new ClosePaneAction(),
 			[CommandCodes.PlayAll] = new PlayAllAction(),
 		};
