@@ -1845,12 +1845,6 @@
   <data name="Home" xml:space="preserve">
     <value>首頁</value>
   </data>
-  <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Alt + Shift + +</value>
-  </data>
-  <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl + Shift + W</value>
-  </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl + N</value>
   </data>
@@ -2668,7 +2662,7 @@
     <value>開啟/關閉側邊欄</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
-    <value>選單</value>
+    <value>Alt</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Control" xml:space="preserve">
@@ -2696,7 +2690,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Back" xml:space="preserve">
-    <value>返回（Alt + 向左键）</value>
+    <value>Backspace</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Tab" xml:space="preserve">
