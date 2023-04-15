@@ -271,6 +271,7 @@
 									Margin="5,0,5,0"
 									HorizontalAlignment="Left"
 									VerticalAlignment="Center"
+									Opacity="{x:Bind Opacity, Mode=OneWay}"
 									Text="{x:Bind Name, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap" />

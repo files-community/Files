@@ -188,7 +188,7 @@
 							Grid.Column="2"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
-							Opacity="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToOpacityConverter}}"
+							Opacity="{x:Bind Opacity, Mode=OneWay}"
 							Text="{x:Bind Name, Mode=OneWay}"
 							TextAlignment="Center"
 							TextTrimming="CharacterEllipsis"
@@ -214,8 +214,7 @@
 
 					<Popup
 						x:Name="EditPopup"
-						Grid.Row="1"
-						x:Load="False">
+						Grid.Row="1">
 						<TextBox
 							x:Name="GridViewTextBoxItemName"
 							Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
@@ -389,6 +388,7 @@
 							Grid.Row="0"
 							HorizontalAlignment="Left"
 							MaxLines="2"
+							Opacity="{x:Bind Opacity, Mode=OneWay}"
 							Text="{x:Bind Name, Mode=OneWay}"
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="Wrap" />
