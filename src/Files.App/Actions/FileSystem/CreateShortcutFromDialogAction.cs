@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CreateShortcutFromDialogAction : ObservableObject, IAction
+	internal class CreateShortcutFromDialogAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -19,7 +18,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
 
-		public bool IsExecutable => context.CanCreateItem;
+		public override bool IsExecutable => context.CanCreateItem && UIHelpers.CanShowDialog;
 
 		public CreateShortcutFromDialogAction()
 		{
@@ -28,8 +27,13 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			if (context.ShellPage is not null)
-				await UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage);
+			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage);
+		}
+
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(IContentPageContext.ShellPage))
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

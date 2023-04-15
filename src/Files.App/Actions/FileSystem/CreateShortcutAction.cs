@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CreateShortcutAction : ObservableObject, IAction
+	internal class CreateShortcutAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -21,7 +20,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
 
-		public bool IsExecutable => context.HasSelection && context.CanCreateItem;
+		public override bool IsExecutable => context.HasSelection && context.CanCreateItem && UIHelpers.CanShowDialog;
 
 		public CreateShortcutAction()
 		{
