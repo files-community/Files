@@ -152,8 +152,10 @@ namespace Files.App.Commands
 		PreviousTab,
 		NextTab,
 		CloseSelectedTab,
+		OpenNewPane,
+		ClosePane,
 
-		// Play
+    // Play
 		PlayAll,
 	}
 }

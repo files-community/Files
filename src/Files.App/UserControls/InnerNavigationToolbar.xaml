@@ -813,34 +813,21 @@
 			<CommandBar.SecondaryCommands>
 				<AppBarButton
 					x:Name="NavToolbarNewPane"
-					x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(ShowMultiPaneControls, IsMultiPaneActive), Mode=OneWay}"
-					Command="{x:Bind ViewModel.OpenNewPaneCommand, Mode=OneWay}"
-					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=NavigationToolbarNewPane/KeyboardAcceleratorTextOverride}"
-					Label="{helpers:ResourceString Name=NavigationToolbarNewPane/Label}">
-
-					<local:OpacityIcon Style="{StaticResource ColorIconRightPane}" />
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="Add"
-							IsEnabled="False"
-							Modifiers="Menu,Shift" />
-					</AppBarButton.KeyboardAccelerators>
+					x:Load="{x:Bind Commands.OpenNewPane.IsExecutable, Mode=OneWay}"
+					Command="{x:Bind Commands.OpenNewPane, Mode=OneWay}"
+					Label="{x:Bind Commands.OpenNewPane.Label}"
+					ToolTipService.ToolTip="{x:Bind Commands.OpenNewPane.LabelWithHotKey, Mode=OneWay}">
+					<local:OpacityIcon Style="{x:Bind Commands.OpenNewPane.OpacityStyle}" />
 				</AppBarButton>
 				<AppBarButton
 					x:Name="NavToolbarClosePane"
-					x:Load="{x:Bind IsMultiPaneActive, Mode=OneWay}"
-					Command="{x:Bind ViewModel.ClosePaneCommand, Mode=OneWay}"
-					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=NavigationToolbarClosePane/KeyboardAcceleratorTextOverride}"
-					Label="{helpers:ResourceString Name=NavigationToolbarClosePane/Label}">
+					x:Load="{x:Bind Commands.ClosePane.IsExecutable, Mode=OneWay}"
+					Command="{x:Bind Commands.ClosePane, Mode=OneWay}"
+					Label="{x:Bind Commands.ClosePane.Label}"
+					ToolTipService.ToolTip="{x:Bind Commands.ClosePane.LabelWithHotKey, Mode=OneWay}">
 					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE89F;" />
+						<FontIcon Glyph="{x:Bind Commands.ClosePane.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="W"
-							IsEnabled="False"
-							Modifiers="Control,Shift" />
-					</AppBarButton.KeyboardAccelerators>
 				</AppBarButton>
 				<AppBarButton
 					x:Name="NavToolbarNewWindow"

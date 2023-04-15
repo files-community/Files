@@ -135,7 +135,9 @@ namespace Files.App.Commands
 		IRichCommand PreviousTab { get; }
 		IRichCommand NextTab { get; }
 		IRichCommand CloseSelectedTab { get; }
-
+    IRichCommand OpenNewPane { get; }
+		IRichCommand ClosePane { get; }
+    
 		IRichCommand PlayAll { get; }
 	}
 }

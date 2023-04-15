@@ -128,7 +128,7 @@
 	{
 		"NameResource": "PropertyAperture",
 		"SectionResource": "PropertySectionPhoto",
-		"Property": "System.Photo.Aperture",
+		"Property": "System.Photo.FNumber",
 		"IsReadOnly": true,
 		"ID": null,
 		"DisplayFunctionName": "AddF"

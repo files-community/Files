@@ -14,12 +14,7 @@ namespace Files.App.Contexts
 		private readonly IPageContext context = Ioc.Default.GetRequiredService<IPageContext>();
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
-		private bool isLayoutAdaptiveEnabled = false;
-		public bool IsLayoutAdaptiveEnabled
-		{
-			get => isLayoutAdaptiveEnabled;
-			set => settings.SyncFolderPreferencesAcrossDirectories = value;
-		}
+		public bool IsLayoutAdaptiveEnabled => !settings.SyncFolderPreferencesAcrossDirectories;
 
 		private LayoutTypes layoutType = LayoutTypes.None;
 		public LayoutTypes LayoutType
@@ -182,9 +177,8 @@ namespace Files.App.Contexts
 		{
 			if (e.PropertyName is nameof(IFoldersSettingsService.SyncFolderPreferencesAcrossDirectories))
 			{
-				bool isEnabled = settings.SyncFolderPreferencesAcrossDirectories;
-				if (SetProperty(ref isLayoutAdaptiveEnabled, isEnabled, nameof(IsLayoutAdaptiveEnabled)))
-					SetProperty(ref layoutType, GetLayoutType(), nameof(LayoutType));
+				OnPropertyChanged(nameof(IsLayoutAdaptiveEnabled));
+				SetProperty(ref layoutType, GetLayoutType(), nameof(LayoutType));
 			}
 		}
 
@@ -216,7 +210,7 @@ namespace Files.App.Contexts
 			if (viewModel is null)
 				return LayoutTypes.None;
 
-			bool isAdaptive = isLayoutAdaptiveEnabled && viewModel.IsAdaptiveLayoutEnabled && !viewModel.IsLayoutModeFixed;
+			bool isAdaptive = IsLayoutAdaptiveEnabled && viewModel.IsAdaptiveLayoutEnabled && !viewModel.IsLayoutModeFixed;
 			if (isAdaptive)
 				return LayoutTypes.Adaptive;
 
