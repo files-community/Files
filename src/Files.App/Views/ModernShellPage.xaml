@@ -87,12 +87,11 @@
 			<Ellipse
 				Width="48"
 				Height="48"
-				Fill="White"
-				Stroke="{ThemeResource SystemAccentColor}" />
+				Fill="{ThemeResource SystemAccentColor}" />
 			<SymbolIcon
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
-				Foreground="Black"
+				Foreground="{StaticResource TextOnAccentFillColorDefaultBrush}"
 				Symbol="Back" />
 		</Grid>
 		<Grid
@@ -104,12 +103,11 @@
 			<Ellipse
 				Width="48"
 				Height="48"
-				Fill="White"
-				Stroke="{ThemeResource SystemAccentColor}" />
+				Fill="{ThemeResource SystemAccentColor}" />
 			<SymbolIcon
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
-				Foreground="Black"
+				Foreground="{StaticResource TextOnAccentFillColorDefaultBrush}"
 				Symbol="Forward" />
 		</Grid>
 		<Frame
