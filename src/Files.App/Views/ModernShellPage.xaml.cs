@@ -2,6 +2,7 @@ using Files.App.EventArguments;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
+using Files.App.ServicesImplementation.Settings;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
@@ -54,10 +55,12 @@ namespace Files.App.Views
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 
 			ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
-
 			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
+
 			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
-			_navigationInteractionTracker.NavigationRequested += SwipeNavigationRequested;
+			_navigationInteractionTracker.NavigationRequested += OverscrollNavigationRequested;
+
+			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 		}
 
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -152,6 +155,20 @@ namespace Files.App.Views
 				UpdatePathUIToWorkingDirectory(e.Path);
 		}
 
+		private void UserSettingsService_OnSettingChangedEvent(object? sender, Shared.EventArguments.SettingChangedEventArgs e)
+		{
+			switch (e.SettingName)
+			{
+				case nameof(UserSettingsService.PreferencesSettingsService.EnableOverscrollNavigation):
+					if (e.NewValue is bool enableOverscrollNavigation)
+					{
+						_navigationInteractionTracker.CanNavigateBackward = enableOverscrollNavigation ? CanNavigateBackward : false;
+						_navigationInteractionTracker.CanNavigateForward = enableOverscrollNavigation ? CanNavigateForward : false;
+					}
+					break;
+			}
+		}
+
 		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
@@ -180,8 +197,11 @@ namespace Files.App.Views
 			if (parameters.IsLayoutSwitch)
 				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
 
-			_navigationInteractionTracker.CanGoBack = CanNavigateBackward;
-			_navigationInteractionTracker.CanGoForward = CanNavigateForward;
+			if (userSettingsService.PreferencesSettingsService.EnableOverscrollNavigation)
+			{
+				_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
+				_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
+			}
 		}
 
 		private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -260,15 +280,15 @@ namespace Files.App.Views
 			}
 		}
 
-		private void SwipeNavigationRequested(object? sender, SwipeNavigationEventArgs e)
+		private void OverscrollNavigationRequested(object? sender, OverscrollNavigationEventArgs e)
 		{
 			switch (e)
 			{
-				case SwipeNavigationEventArgs.Forward:
+				case OverscrollNavigationEventArgs.Forward:
 					Forward_Click();
 					break;
 
-				case SwipeNavigationEventArgs.Back:
+				case OverscrollNavigationEventArgs.Back:
 					Back_Click();
 					break;
 			}
@@ -338,7 +358,8 @@ namespace Files.App.Views
 		public override void Dispose()
 		{
 			ToolbarViewModel.RefreshWidgetsRequested -= ModernShellPage_RefreshWidgetsRequested;
-			_navigationInteractionTracker.NavigationRequested -= SwipeNavigationRequested;
+			userSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			_navigationInteractionTracker.NavigationRequested -= OverscrollNavigationRequested;
 			_navigationInteractionTracker.Dispose();
 
 			base.Dispose();

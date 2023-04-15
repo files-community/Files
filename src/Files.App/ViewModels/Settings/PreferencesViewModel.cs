@@ -313,6 +313,20 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool EnableOverscrollNavigation
+		{
+			get => UserSettingsService.PreferencesSettingsService.EnableOverscrollNavigation;
+			set
+			{
+				if(value != UserSettingsService.PreferencesSettingsService.EnableOverscrollNavigation)
+				{
+					UserSettingsService.PreferencesSettingsService.EnableOverscrollNavigation = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		private async Task ChangePage()
 		{
 			var folderPicker = InitializeWithWindow(new FolderPicker());

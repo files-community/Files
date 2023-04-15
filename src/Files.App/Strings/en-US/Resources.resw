@@ -2878,4 +2878,7 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
   </data>
+  <data name="SettingsEnableOverscrollNavigation" xml:space="preserve">
+    <value>Use swipe gestures for navigation</value>
+  </data>
 </root>

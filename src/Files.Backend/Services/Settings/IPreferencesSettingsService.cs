@@ -168,6 +168,11 @@ namespace Files.Backend.Services.Settings
 		bool ShowOpenInNewPane { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to navigate forward or back on horizontal overscroll on a touchscreen or Precision touchpad.
+		/// </summary>
+		bool EnableOverscrollNavigation { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating the default option to resolve conflicts.
 		/// </summary>
 		FileNameConflictResolveOptionType ConflictsResolveOption { get; set; }

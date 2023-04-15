@@ -13,30 +13,30 @@ namespace Files.App.Views
 {
 	internal class NavigationInteractionTracker : IDisposable
 	{
-		public bool CanGoForward
+		public bool CanNavigateForward
 		{
 			get
 			{
-				_props.TryGetBoolean(nameof(CanGoForward), out bool val);
+				_props.TryGetBoolean(nameof(CanNavigateForward), out bool val);
 				return val;
 			}
 			set
 			{
-				_props.InsertBoolean(nameof(CanGoForward), value);
+				_props.InsertBoolean(nameof(CanNavigateForward), value);
 				_tracker.MaxPosition = new(value ? 96f : 0f);
 			}
 		}
 
-		public bool CanGoBack
+		public bool CanNavigateBackward
 		{
 			get
 			{
-				_props.TryGetBoolean(nameof(CanGoBack), out bool val);
+				_props.TryGetBoolean(nameof(CanNavigateBackward), out bool val);
 				return val;
 			}
 			set
 			{
-				_props.InsertBoolean(nameof(CanGoBack), value);
+				_props.InsertBoolean(nameof(CanNavigateBackward), value);
 				_tracker.MinPosition = new(value ? -96f : 0f);
 			}
 		}
@@ -56,7 +56,7 @@ namespace Files.App.Views
 		private InteractionTrackerOwner _trackerOwner;
 		private CompositionPropertySet _props;
 
-		public event EventHandler<SwipeNavigationEventArgs>? NavigationRequested;
+		public event EventHandler<OverscrollNavigationEventArgs>? NavigationRequested;
 
 		private bool _disposed;
 
@@ -75,8 +75,8 @@ namespace Files.App.Views
 			SetupInteractionTracker();
 
 			_props = _rootVisual.Compositor.CreatePropertySet();
-			CanGoBack = false;
-			CanGoForward = false;
+			CanNavigateBackward = false;
+			CanNavigateForward = false;
 
 			SetupAnimations();
 
@@ -186,16 +186,16 @@ namespace Files.App.Views
 				{
 					_parent._tracker.TryUpdatePosition(new(0f));
 
-					EventHandler<SwipeNavigationEventArgs>? navEvent = _parent.NavigationRequested;
+					EventHandler<OverscrollNavigationEventArgs>? navEvent = _parent.NavigationRequested;
 					if (navEvent is not null)
 					{
-						if (sender.Position.X > 0 && _parent.CanGoForward)
+						if (sender.Position.X > 0 && _parent.CanNavigateForward)
 						{
-							navEvent(_parent, SwipeNavigationEventArgs.Forward);
+							navEvent(_parent, OverscrollNavigationEventArgs.Forward);
 						}
-						else if (sender.Position.X < 0 && _parent.CanGoBack)
+						else if (sender.Position.X < 0 && _parent.CanNavigateBackward)
 						{
-							navEvent(_parent, SwipeNavigationEventArgs.Back);
+							navEvent(_parent, OverscrollNavigationEventArgs.Back);
 						}
 					}
 				}
@@ -224,7 +224,7 @@ namespace Files.App.Views
 		}
 	}
 
-	public enum SwipeNavigationEventArgs
+	public enum OverscrollNavigationEventArgs
 	{
 		Back,
 		Forward
