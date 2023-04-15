@@ -16,7 +16,7 @@ namespace Files.App.Actions
 
 		public string Label => "Install".GetLocalizedResource();
 		
-		public string Description => "TODO: Need to be described.";
+		public string Description => "InstallInfDriverDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new("\uE9F5");
 

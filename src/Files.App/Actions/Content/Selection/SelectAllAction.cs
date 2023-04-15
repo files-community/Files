@@ -12,7 +12,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "SelectAll".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "SelectAllDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new("\uE8B3");
 
