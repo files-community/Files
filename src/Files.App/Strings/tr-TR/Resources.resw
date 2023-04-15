@@ -271,7 +271,7 @@
     <value>Sil</value>
   </data>
   <data name="PinToFavorites" xml:space="preserve">
-    <value>Pin to Favorites</value>
+    <value>Favorilere Sabitle</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Files uygulamasına hoş geldiniz!</value>
@@ -322,7 +322,7 @@
     <value>Yukarı (Alt + Yukarı Ok)</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Yenile</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Bu dizinde aynı adlı bir öge zaten var.</value>
@@ -334,7 +334,7 @@
     <value>Öge zaten mevcut</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>Kilit Ekranı olarak ayarla</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Bu öge silinemedi</value>
@@ -523,7 +523,7 @@
     <value>{0} içine kopyala</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Create shortcut</value>
+    <value>Kısayol oluştur</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Dosya konumunu aç</value>
@@ -1414,7 +1414,7 @@
     <value>Değiştirilme tarihi</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Original folder</value>
+    <value>Orjinal klasör</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sıralama Ölçütü</value>
@@ -1441,7 +1441,7 @@
     <value>Minik</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>Gelecek</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>Bugün</value>
@@ -1456,19 +1456,19 @@
     <value>Geçen hafta</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>Bu ayın başlarında</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>Geçen ay</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>Bu yılın başında</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>Geçen yıl</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>Yıl {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} öğe</value>
@@ -1603,7 +1603,7 @@
     <value>İzin ver</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Deny</value>
+    <value>Reddet</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Tam kontrol</value>
@@ -1636,7 +1636,7 @@
     <value>Bu nesnenin güvenlik özelliklerini görüntüleme izniniz yok. Devam etmek için "Gelişmiş izinler" i tıklayın.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Sahip:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Bilinmeyen sahip</value>
@@ -1675,10 +1675,10 @@
     <value>Erişim</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>Şunlar için geçerlidir</value>
   </data>
   <data name="Principal" xml:space="preserve">
-    <value>Principal</value>
+    <value>Başlıca</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>dosyalar</value>
@@ -1690,10 +1690,10 @@
     <value>alt dizinler</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Inherited</value>
+    <value>Devral</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>İzinler</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Bu nesnenin güvenlik özelliklerini görüntüleme izniniz yok. Bu nesnenin sahipliğini almayı deneyebilirsiniz.</value>
@@ -1845,12 +1845,6 @@
   <data name="Home" xml:space="preserve">
     <value>Ev</value>
   </data>
-  <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Alt+Shift++</value>
-  </data>
-  <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+W</value>
-  </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
   </data>
@@ -1993,7 +1987,7 @@
     <value>Öğeleri tek bir tıklamayla açın</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>Folder path</value>
+    <value>Klasör yolu</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Ayarları Dışa Aktar</value>
@@ -2578,10 +2572,10 @@
     <value>Bu eylemi tüm çakışan öğelere uygula</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in terminal</value>
+    <value>Terminal'de aç</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in terminal as administrator</value>
+    <value>Terminali burada yönetici olarak aç</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Kaydet</value>
@@ -2590,19 +2584,19 @@
     <value>Çoklu seçim</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>Menü öğelerini yeniden sırala</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hashler</value>
   </data>
   <data name="CalculationError" xml:space="preserve">
-    <value>An error occurred during the calculation</value>
+    <value>İşlem sırasında hata oluştu</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
-    <value>Algorithm</value>
+    <value>Algoritma</value>
   </data>
   <data name="HashValue" xml:space="preserve">
-    <value>Hash value</value>
+    <value>Hash Değeri</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
     <value>Select hashes to show</value>
@@ -2668,7 +2662,7 @@
     <value>Toggle the sidebar</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
-    <value>Menu</value>
+    <value>Alt</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Control" xml:space="preserve">
@@ -2692,11 +2686,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Escape" xml:space="preserve">
-    <value>Escape</value>
+    <value>Esc</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Back" xml:space="preserve">
-    <value>Geri (Alt + Sol Ok)</value>
+    <value>Backspace</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Tab" xml:space="preserve">
