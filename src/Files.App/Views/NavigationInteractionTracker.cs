@@ -7,10 +7,7 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Files.App.Views
 {
@@ -26,6 +23,7 @@ namespace Files.App.Views
 			set
 			{
 				_props.InsertBoolean(nameof(CanGoForward), value);
+				_tracker.MaxPosition = new(value ? 96f : 0f);
 			}
 		}
 
@@ -39,6 +37,7 @@ namespace Files.App.Views
 			set
 			{
 				_props.InsertBoolean(nameof(CanGoBack), value);
+				_tracker.MinPosition = new(value ? -96f : 0f);
 			}
 		}
 
@@ -73,15 +72,16 @@ namespace Files.App.Views
 			_backVisual = ElementCompositionPreview.GetElementVisual(_backIcon);
 			_forwardVisual = ElementCompositionPreview.GetElementVisual(_forwardIcon);
 
+			SetupInteractionTracker();
+
 			_props = _rootVisual.Compositor.CreatePropertySet();
 			CanGoBack = false;
 			CanGoForward = false;
 
+			SetupAnimations();
+
 			_pointerPressedHandler = new(PointerPressed);
 			_rootElement.AddHandler(UIElement.PointerPressedEvent, _pointerPressedHandler, true);
-
-			SetupInteractionTracker();
-			SetupAnimations();
 		}
 
 		[MemberNotNull(nameof(_tracker), nameof(_source), nameof(_trackerOwner))]
@@ -97,7 +97,7 @@ namespace Files.App.Views
 			_source = VisualInteractionSource.Create(_rootVisual);
 			_source.ManipulationRedirectionMode = VisualInteractionSourceRedirectionMode.CapableTouchpadOnly;
 			_source.PositionXSourceMode = InteractionSourceMode.EnabledWithoutInertia;
-			_source.PositionXChainingMode = InteractionChainingMode.Auto;
+			_source.PositionXChainingMode = InteractionChainingMode.Always;
 			_source.PositionYSourceMode = InteractionSourceMode.Disabled;
 			_tracker.InteractionSources.Add(_source);
 		}
@@ -111,12 +111,12 @@ namespace Files.App.Views
 			List<CompositionConditionalValue> conditionalValues = new() { backResistance, forwardResistance };
 			_source.ConfigureDeltaPositionXModifiers(conditionalValues);
 
-			var backAnim = compositor.CreateExpressionAnimation("props.CanGoBack ? (-clamp(tracker.Position.X, -96, 0) * 2) - 48 : this.CurrentValue - 48");
+			var backAnim = compositor.CreateExpressionAnimation("(-clamp(tracker.Position.X, -96, 0) * 2) - 48");
 			backAnim.SetReferenceParameter("tracker", _tracker);
 			backAnim.SetReferenceParameter("props", _props);
 			_backVisual.StartAnimation("Translation.X", backAnim);
 
-			var forwardAnim = compositor.CreateExpressionAnimation("props.CanGoForward ? (-clamp(tracker.Position.X, 0, 96) * 2) + 48 : this.CurrentValue + 48");
+			var forwardAnim = compositor.CreateExpressionAnimation("(-clamp(tracker.Position.X, 0, 96) * 2) + 48");
 			forwardAnim.SetReferenceParameter("tracker", _tracker);
 			forwardAnim.SetReferenceParameter("props", _props);
 			_forwardVisual.StartAnimation("Translation.X", forwardAnim);
@@ -157,6 +157,8 @@ namespace Files.App.Views
 				return;
 
 			_rootElement.RemoveHandler(UIElement.PointerPressedEvent, _pointerPressedHandler);
+			_backVisual.StopAnimation("Translation.X");
+			_forwardVisual.StopAnimation("Translation.X");
 			_tracker.Dispose();
 			_source.Dispose();
 			_props.Dispose();
@@ -180,29 +182,33 @@ namespace Files.App.Views
 				if (!_shouldBounceBack)
 					return;
 
-				var compositor = _parent._rootVisual.Compositor;
-				var springAnim = compositor.CreateSpringVector3Animation();
-				springAnim.FinalValue = new(0f);
-				springAnim.DampingRatio = 1f;
-				_parent._tracker.TryUpdatePositionWithAnimation(springAnim);
+				if (Math.Abs(sender.Position.X) > 64)
+				{
+					_parent._tracker.TryUpdatePosition(new(0f));
+
+					EventHandler<SwipeNavigationEventArgs>? navEvent = _parent.NavigationRequested;
+					if (navEvent is not null)
+					{
+						if (sender.Position.X > 0 && _parent.CanGoForward)
+						{
+							navEvent(_parent, SwipeNavigationEventArgs.Forward);
+						}
+						else if (sender.Position.X < 0 && _parent.CanGoBack)
+						{
+							navEvent(_parent, SwipeNavigationEventArgs.Back);
+						}
+					}
+				}
+				else
+				{
+					var compositor = _parent._rootVisual.Compositor;
+					var springAnim = compositor.CreateSpringVector3Animation();
+					springAnim.FinalValue = new(0f);
+					springAnim.DampingRatio = 1f;
+					_parent._tracker.TryUpdatePositionWithAnimation(springAnim);
+					springAnim.Dispose();
+				}
 				_shouldBounceBack = false;
-
-				if (Math.Abs(sender.Position.X) < 64)
-					return;
-
-				EventHandler<SwipeNavigationEventArgs>? navEvent = _parent.NavigationRequested;
-				if (navEvent is null)
-					return;
-
-				if (sender.Position.X > 0 && _parent.CanGoForward)
-				{
-					navEvent(_parent, SwipeNavigationEventArgs.Forward);
-				}
-				else if (sender.Position.X < 0 && _parent.CanGoBack)
-				{
-					navEvent(_parent, SwipeNavigationEventArgs.Back);
-				}
-				
 			}
 
 			public void InteractingStateEntered(InteractionTracker sender, InteractionTrackerInteractingStateEnteredArgs args)
