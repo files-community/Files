@@ -45,7 +45,7 @@ namespace Files.App.ViewModels.Properties
 		public async override void GetSpecialProperties()
 		{
 			ViewModel.ItemAttributesVisibility = false;
-			var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Drive.Path));
+			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Drive.Path));
 			BaseStorageFolder diskRoot = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(Drive.Path, item));
 
 			if (ViewModel.LoadFileIcon)

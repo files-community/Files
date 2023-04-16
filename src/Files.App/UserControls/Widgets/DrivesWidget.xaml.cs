@@ -54,7 +54,10 @@ namespace Files.App.UserControls.Widgets
 
 			// Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
 			if (thumbnailData is null || thumbnailData.Length == 0)
+			{
+				await Item.LoadThumbnailAsync();
 				thumbnailData = Item.IconData;
+			}
 
 			// Thumbnail data is valid, set the item icon
 			if (thumbnailData is not null && thumbnailData.Length > 0)
@@ -67,6 +70,7 @@ namespace Files.App.UserControls.Widgets
 	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
@@ -124,9 +128,9 @@ namespace Files.App.UserControls.Widgets
 		{
 			InitializeComponent();
 
-			Manager_DataChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-			App.DrivesManager.DataChanged += Manager_DataChanged;
+			drivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
 
 			FormatDriveCommand = new RelayCommand<DriveCardItem>(FormatDrive);
 			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDevice);
@@ -139,7 +143,29 @@ namespace Files.App.UserControls.Widgets
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
-		
+
+		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			await DispatcherQueue.EnqueueAsync(async () =>
+			{
+				foreach (DriveItem drive in drivesViewModel.Drives)
+				{
+					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
+					{
+						var cardItem = new DriveCardItem(drive);
+						ItemsAdded.AddSorted(cardItem);
+						await cardItem.LoadCardThumbnailAsync(); // After add
+					}
+				}
+
+				foreach (DriveCardItem driveCard in ItemsAdded.ToList())
+				{
+					if (!drivesViewModel.Drives.Contains(driveCard.Item))
+						ItemsAdded.Remove(driveCard);
+				}
+			});
+		}
+
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			var drive = ItemsAdded.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
@@ -242,28 +268,6 @@ namespace Files.App.UserControls.Widgets
 		private async Task DoNetworkMapDrive()
 		{
 			await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
-		}
-		
-		private async void Manager_DataChanged(object? sender, NotifyCollectionChangedEventArgs e)
-		{
-			await DispatcherQueue.EnqueueAsync(async () =>
-			{
-				foreach (DriveItem drive in App.DrivesManager.Drives)
-				{
-					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DataModels.NavigationControlItems.DriveType.VirtualDrive)
-					{
-						var cardItem = new DriveCardItem(drive);
-						ItemsAdded.AddSorted(cardItem);
-						await cardItem.LoadCardThumbnailAsync(); // After add
-					}
-				}
-
-				foreach (DriveCardItem driveCard in ItemsAdded.ToList())
-				{
-					if (!App.DrivesManager.Drives.Contains(driveCard.Item))
-						ItemsAdded.Remove(driveCard);
-				}
-			});
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

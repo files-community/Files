@@ -63,7 +63,6 @@ namespace Files.App
 		public static QuickAccessManager QuickAccessManager { get; private set; }
 		public static CloudDrivesManager CloudDrivesManager { get; private set; }
 		public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
-		public static DrivesManager DrivesManager { get; private set; }
 		public static WSLDistroManager WSLDistroManager { get; private set; }
 		public static LibraryManager LibraryManager { get; private set; }
 		public static FileTagsManager FileTagsManager { get; private set; }
@@ -94,7 +93,6 @@ namespace Files.App
 			RecentItemsManager ??= new RecentItems();
 			AppModel ??= new AppModel();
 			LibraryManager ??= new LibraryManager();
-			DrivesManager ??= new DrivesManager();
 			NetworkDrivesManager ??= new NetworkDrivesManager();
 			CloudDrivesManager ??= new CloudDrivesManager();
 			WSLDistroManager ??= new WSLDistroManager();
@@ -129,7 +127,6 @@ namespace Files.App
 			{
 				await Task.WhenAll(
 					StartAppCenter(),
-					DrivesManager.UpdateDrivesAsync(),
 					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					LibraryManager.UpdateLibrariesAsync(),
 					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowNetworkDrivesSection),
@@ -225,10 +222,12 @@ namespace Files.App
 						.AddSingleton<IQuickAccessService, QuickAccessService>()
 						.AddSingleton<IResourcesService, ResourcesService>()
 						.AddSingleton<IJumpListService, JumpListService>()
+						.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 						.AddSingleton<MainPageViewModel>()
 						.AddSingleton<PreviewPaneViewModel>()
 						.AddSingleton<SidebarViewModel>()
 						.AddSingleton<SettingsViewModel>()
+						.AddSingleton<DrivesViewModel>()
 						.AddSingleton<OngoingTasksViewModel>()
 						.AddSingleton<AppearanceViewModel>()
 				)
@@ -312,8 +311,6 @@ namespace Files.App
 				},
 				Logger);
 			}
-
-			DrivesManager?.Dispose();
 
 			// Try to maintain clipboard data after app close
 			SafetyExtensions.IgnoreExceptions(() =>

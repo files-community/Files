@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
@@ -27,6 +28,7 @@ namespace Files.App.ViewModels
 	{
 		private IUserSettingsService userSettingsService;
 		private IAppearanceSettingsService appearanceSettingsService;
+		private readonly DrivesViewModel drivesViewModel;
 		private IResourcesService resourcesService;
 
 		public IMultitaskingControl? MultitaskingControl { get; set; }
@@ -48,10 +50,12 @@ namespace Files.App.ViewModels
 		public MainPageViewModel(
 			IUserSettingsService userSettings, 
 			IAppearanceSettingsService appearanceSettings,
-			IResourcesService resources)
+			IResourcesService resources,
+			DrivesViewModel drivesViewModel)
 		{
 			userSettingsService = userSettings;
 			appearanceSettingsService = appearanceSettings;
+			this.drivesViewModel = drivesViewModel;
 			resourcesService = resources;
 			// Create commands
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
@@ -114,7 +118,7 @@ namespace Files.App.ViewModels
 			e!.Handled = true;
 		}
 
-		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
+		public async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
 		{
 			if (string.IsNullOrEmpty(path))
 				path = "Home";
@@ -168,7 +172,7 @@ namespace Files.App.ViewModels
 				App.GetAppWindow(App.Window).Title = $"{windowTitle} - Files";
 		}
 
-		public static async Task UpdateTabInfo(TabItem tabItem, object navigationArg)
+		public async Task UpdateTabInfo(TabItem tabItem, object navigationArg)
 		{
 			tabItem.AllowStorageItemDrop = true;
 			if (navigationArg is PaneNavigationArguments paneArgs)
@@ -191,7 +195,7 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public static async Task<(string tabLocationHeader, Microsoft.UI.Xaml.Controls.IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
+		public async Task<(string tabLocationHeader, Microsoft.UI.Xaml.Controls.IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
 		{
 			string? tabLocationHeader;
 			var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
@@ -239,14 +243,14 @@ namespace Files.App.ViewModels
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
 				{
 					var matchingDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
-					matchingDrive ??= App.DrivesManager.Drives.FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
+					matchingDrive ??= drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
 					tabLocationHeader = matchingDrive is not null ? matchingDrive.Text : normalizedCurrentPath;
 				}
 				else
 				{
 					tabLocationHeader = currentPath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
 
-					FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentPath));
+					FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(currentPath));
 					if (rootItem)
 					{
 						BaseStorageFolder currentFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem));
@@ -270,6 +274,11 @@ namespace Files.App.ViewModels
 		{
 			if (e.NavigationMode == NavigationMode.Back)
 				return;
+
+			if (drivesViewModel.Drives.Count == 0)
+			{
+				await drivesViewModel.UpdateDrivesAsync();
+			}
 
 			//Initialize the static theme helper to capture a reference to this window
 			//to handle theme changes without restarting the app
@@ -371,12 +380,12 @@ namespace Files.App.ViewModels
 			resourcesService.LoadAppResources(appearanceSettingsService);
 		}
 
-		public static Task AddNewTabAsync()
+		public Task AddNewTabAsync()
 		{
 			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
 		}
 
-		public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
+		public async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
 		{
 			var tabItem = new TabItem()
 			{
@@ -401,7 +410,7 @@ namespace Files.App.ViewModels
 			App.AppModel.TabStripSelectedIndex = index;
 		}
 
-		public static async void Control_ContentChanged(object? sender, TabItemArguments e)
+		public async void Control_ContentChanged(object? sender, TabItemArguments e)
 		{
 			if (sender is null)
 				return;

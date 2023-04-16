@@ -79,7 +79,7 @@ namespace Files.App.DataModels
 
 		public async Task<LocationItem> CreateLocationItemFromPathAsync(string path)
 		{
-			var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 			LocationItem locationItem;
 
