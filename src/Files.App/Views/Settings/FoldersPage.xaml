@@ -238,6 +238,17 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
+			<!--  Show Checkboxes in the Details Layout  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowCheckboxesInDetailsLayout}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE73A;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowCheckboxesInDetailsLayout}"
+					IsOn="{x:Bind ViewModel.ShowCheckboxesInDetailsView, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+
 			<!--  Behaviors  -->
 			<TextBlock
 				Padding="0,12,0,4"
@@ -289,7 +300,7 @@
 					<ComboBoxItem Content="{helpers:ResourceString Name=Never}" />
 				</ComboBox>
 			</local:SettingsBlockControl>
-			
+
 			<!--  File Extension Warning  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFileExtensionWarning}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>

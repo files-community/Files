@@ -421,6 +421,20 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowCheckboxesInDetailsView
+		{
+			get => UserSettingsService.FoldersSettingsService.ShowCheckboxesInDetailsView;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.ShowCheckboxesInDetailsView)
+				{
+					UserSettingsService.FoldersSettingsService.ShowCheckboxesInDetailsView = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public void ResetLayoutPreferences()
 		{
 			// Is this proper practice?

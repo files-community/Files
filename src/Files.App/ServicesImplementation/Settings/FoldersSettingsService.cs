@@ -274,6 +274,12 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		public bool ShowCheckboxesInDetailsView
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -305,6 +311,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(SelectFilesOnHover):
 				case nameof(DoubleClickToGoUp):
 				case nameof(ShowFileExtensionWarning):
+				case nameof(ShowCheckboxesInDetailsView):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

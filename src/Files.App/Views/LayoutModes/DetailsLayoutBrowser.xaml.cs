@@ -814,7 +814,9 @@ namespace Files.App.Views.LayoutModes
 			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
 			{
 				// Handle visual states
-				if (control.IsSelected || isPointerOver || (control.FindDescendant("SelectionCheckbox") as CheckBox)!.IsPointerOver)
+				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesInDetailsView && control.IsSelected
+					|| isPointerOver || (control.FindDescendant("SelectionCheckbox") as CheckBox)!.IsPointerOver)
+
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);

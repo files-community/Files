@@ -194,5 +194,10 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating if a warning dialog show be shown when changing file extensions.
 		/// </summary>
 		bool ShowFileExtensionWarning { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show checkboxes when selecting items in the details layout.
+		/// </summary>
+		bool ShowCheckboxesInDetailsView { get; set; }
 	}
 }
