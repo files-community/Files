@@ -185,6 +185,7 @@ namespace Files.App.Views.LayoutModes
 				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				textBox = popup.Child as TextBox;
 				textBox.Text = textBlock.Text;
+				textBlock.Opacity = 0;
 				popup.IsOpen = true;
 				OldItemName = textBlock.Text;
 			}
@@ -233,7 +234,9 @@ namespace Files.App.Views.LayoutModes
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
 				Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
+				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				popup!.IsOpen = false;
+				textBlock!.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
@@ -504,7 +507,7 @@ namespace Files.App.Views.LayoutModes
 				if (isPointerOver.HasValue)
 					control.SetValue(IsPointerOverProperty, isPointerOver);
 				// Handle visual states
-				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false && SelectedItems?.Count >= 1)
+				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);

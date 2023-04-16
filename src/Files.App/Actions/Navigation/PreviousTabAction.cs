@@ -14,7 +14,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "PreviousTab".GetLocalizedResource();
 
-		public string Description { get; } = "TODO: Need to be described.";
+		public string Description { get; } = "PreviousTabDescription".GetLocalizedResource();
 
 		public bool IsExecutable => multitaskingContext.TabCount > 1;
 

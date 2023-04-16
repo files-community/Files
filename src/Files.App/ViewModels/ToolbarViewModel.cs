@@ -246,11 +246,11 @@ namespace Files.App.ViewModels
 			switch (e.SettingName)
 			{
 				// TODO: Move this to the widget page, it doesn't belong here.
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowDrivesWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowBundlesWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowDrivesWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowBundlesWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowFileTagsWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget):
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 					OnPropertyChanged(e.SettingName);
 					break;

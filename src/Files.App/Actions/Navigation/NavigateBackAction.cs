@@ -14,7 +14,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Back".GetLocalizedResource();
 
-		public string Description { get; } = "NavigateBack".GetLocalizedResource();
+		public string Description { get; } = "NavigateBackDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.Left, KeyModifiers.Menu);
 		public HotKey SecondHotKey { get; } = new(Keys.Back);

@@ -13,7 +13,7 @@ namespace Files.App.Actions
 		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 		public string Label { get; } = "DuplicateTab".GetLocalizedResource();
-		public string Description => "TODO: Need to be described.";
+		public string Description => "DuplicateCurrentTabDescription".GetLocalizedResource();
 
 		public async Task ExecuteAsync()
 		{

@@ -10,7 +10,7 @@ namespace Files.App.Actions
 	{
 		public string Label { get; } = "Help".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "OpenHelpDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.F1);
 
