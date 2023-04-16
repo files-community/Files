@@ -265,7 +265,7 @@ namespace Files.App.Helpers
 				if (sendToItem is not null)
 					shellMenuItems.Remove(sendToItem);
 
-				if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+				if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 				{
 					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
 					if (secondaryElements.Any())
@@ -340,7 +340,7 @@ namespace Files.App.Helpers
 				shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
 					await x.LoadSubMenuAction.Invoke();
 
-					if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 					{
 						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, x);
 					}

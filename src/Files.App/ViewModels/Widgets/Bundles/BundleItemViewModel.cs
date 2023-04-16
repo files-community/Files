@@ -68,7 +68,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public bool OpenInNewPaneLoad
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane && TargetType == FilesystemItemType.Directory;
+			get => UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && TargetType == FilesystemItemType.Directory;
 		}
 
 		#endregion Properties
