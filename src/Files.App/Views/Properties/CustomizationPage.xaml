@@ -71,7 +71,7 @@
 				Margin="-12,0"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
-			<!--  Titlebar  -->
+			<!--  Picked DLL Location & Browse Button  -->
 			<Grid
 				Grid.Row="2"
 				Margin="12,0"
@@ -95,7 +95,7 @@
 
 			</Grid>
 
-			<!--  Titlebar  -->
+			<!--  Icon List  -->
 			<GridView
 				x:Name="IconSelectionGrid"
 				Grid.Row="3"
@@ -113,7 +113,6 @@
 					</DataTemplate>
 				</GridView.ItemTemplate>
 			</GridView>
-
 		</Grid>
 
 	</Grid>

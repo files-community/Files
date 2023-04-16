@@ -18,7 +18,7 @@ namespace Files.App.Views.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = (PropertiesPageArguments)e.Parameter;
+			var np = (PropertiesPageNavigationParameter)e.Parameter;
 			if (np.Parameter is ListedItem listedItem)
 				CompatibilityProperties = new CompatibilityViewModel(listedItem);
 

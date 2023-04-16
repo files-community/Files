@@ -13,30 +13,9 @@ namespace Files.App.ViewModels.Properties
 {
 	public class SecurityAdvancedViewModel : ObservableObject
 	{
-		public SecurityAdvancedViewModel(ListedItem item)
-		{
-			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
-			Item = item;
-
-			InitializeCommands();
-			GetAccessControlList();
-		}
-
-		public SecurityAdvancedViewModel(DriveItem item)
-		{
-			IsFolder = true;
-			Item = new ListedItem()
-			{
-				ItemNameRaw = item.Text,
-				ItemPath = item.Path,
-				PrimaryItemAttribute = StorageItemTypes.Folder
-			};
-
-			InitializeCommands();
-			GetAccessControlList();
-		}
-
 		public ListedItem Item { get; }
+
+		private readonly Window Window;
 
 		private AccessControlList _accessControlList;
 		public AccessControlList AccessControlList
@@ -131,6 +110,31 @@ namespace Files.App.ViewModels.Properties
 		public RelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
 		public RelayCommand ReplaceChildPermissionsCommand { get; set; }
 
+		public SecurityAdvancedViewModel(ListedItem item, Window window)
+		{
+			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
+			Item = item;
+			Window = window;
+
+			InitializeCommands();
+			GetAccessControlList();
+		}
+
+		public SecurityAdvancedViewModel(DriveItem item, Window window)
+		{
+			IsFolder = true;
+			Item = new ListedItem()
+			{
+				ItemNameRaw = item.Text,
+				ItemPath = item.Path,
+				PrimaryItemAttribute = StorageItemTypes.Folder
+			};
+			Window = window;
+
+			InitializeCommands();
+			GetAccessControlList();
+		}
+
 		private void InitializeCommands()
 		{
 			ChangeOwnerCommand = new RelayCommand(ChangeOwner, () => AccessControlList is not null);
@@ -193,8 +197,6 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		public Task<string?> OpenObjectPicker()
-		{
-			return FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
-		}
+			=> FileOperationsHelpers.OpenObjectPickerAsync(FilePropertiesHelpers.GetWindowHandle(Window).ToInt64());
 	}
 }

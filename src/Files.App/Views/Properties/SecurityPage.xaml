@@ -27,7 +27,7 @@
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<ScrollViewer>
+	<ScrollViewer x:Name="RootScrollViewer">
 		<Grid Padding="12" RowSpacing="8">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />

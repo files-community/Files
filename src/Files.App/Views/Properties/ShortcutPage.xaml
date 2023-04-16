@@ -20,7 +20,7 @@
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
 
-	<ScrollViewer>
+	<ScrollViewer x:Name="RootScrollViewer">
 		<StackPanel Padding="12" Spacing="8">
 
 			<Grid

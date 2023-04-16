@@ -18,20 +18,16 @@ namespace Files.App.Helpers
 {
 	public static class FilePropertiesHelpers
 	{
-		public static readonly bool IsWinUI3 = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
-
-		public static readonly bool FlowDirectionSettingIsRightToLeft = new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"] == "RTL";
+		public static readonly bool FlowDirectionSettingIsRightToLeft =
+			new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"] == "RTL";
 
 		private static readonly Lazy<string> logoPath = new(GetFilesLogoPath);
 
-		public static string LogoPath => logoPath.Value;
+		public static string LogoPath
+			=> logoPath.Value;
 
 		public static nint GetWindowHandle(Window w)
-		{
-			var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(w);
-
-			return hWnd;
-		}
+			=> WinRT.Interop.WindowNative.GetWindowHandle(w);
 
 		public static void ShowProperties(IShellPage associatedInstance)
 		{
@@ -69,8 +65,6 @@ namespace Files.App.Helpers
 				RequestedTheme = ThemeHelper.RootTheme
 			};
 
-			Navigate(frame);
-
 			var propertiesWindow = new WinUIEx.WindowEx
 			{
 				IsMinimizable = false,
@@ -91,11 +85,16 @@ namespace Files.App.Helpers
 
 			appWindow.SetIcon(LogoPath);
 
-			if (frame.Content is Views.Properties.MainPropertiesPage properties)
-			{
-				properties.Window = propertiesWindow;
-				properties.AppWindow = appWindow;
-			}
+			frame.Navigate(
+				typeof(Views.Properties.MainPropertiesPage),
+				new PropertiesPageNavigationParameter
+				{
+					Parameter = item,
+					AppInstance = associatedInstance,
+					AppWindow = appWindow,
+					Window = propertiesWindow
+				},
+				new SuppressNavigationTransitionInfo());
 
 			appWindow.Show();
 
@@ -111,20 +110,6 @@ namespace Files.App.Helpers
 			};
 
 			appWindow.Move(appWindowPos);
-
-			void Navigate(Frame frame)
-			{
-				var argument = new PropertiesPageArguments
-				{
-					Parameter = item,
-					AppInstance = associatedInstance,
-				};
-
-				frame.Navigate(
-					typeof(Views.Properties.MainPropertiesPage),
-					argument,
-					new SuppressNavigationTransitionInfo());
-			}
 		}
 
 		private static string GetFilesLogoPath()

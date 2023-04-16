@@ -52,7 +52,10 @@
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
 
-	<Grid Padding="12" RowSpacing="8">
+	<Grid
+		x:Name="RootGrid"
+		Padding="12"
+		RowSpacing="8">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />

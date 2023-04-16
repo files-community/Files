@@ -18,11 +18,11 @@ namespace Files.App.Views.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = (PropertiesPageArguments)e.Parameter;
+			var np = (PropertiesPageNavigationParameter)e.Parameter;
 			if (np.Parameter is ListedItem listedItem)
-				SecurityAdvancedViewModel = new(listedItem);
+				SecurityAdvancedViewModel = new(listedItem, np.Window);
 			else if (np.Parameter is DriveItem driveitem)
-				SecurityAdvancedViewModel = new(driveitem);
+				SecurityAdvancedViewModel = new(driveitem, np.Window);
 
 			base.OnNavigatedTo(e);
 		}

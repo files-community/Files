@@ -1,9 +1,10 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using System.Threading;
 
 namespace Files.App.DataModels
 {
-	public class PropertiesPageArguments
+	public class PropertiesPageNavigationParameter
 	{
 		public CancellationTokenSource CancellationTokenSource;
 
@@ -12,5 +13,7 @@ namespace Files.App.DataModels
 		public IShellPage AppInstance;
 
 		public Window Window;
+
+		public AppWindow AppWindow;
 	}
 }

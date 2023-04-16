@@ -5,6 +5,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
 using Files.App.Helpers;
+using Microsoft.UI.Xaml;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -14,6 +15,8 @@ namespace Files.App.ViewModels.Properties
 	public class SecurityViewModel : ObservableObject
 	{
 		public string Path { get; set; }
+
+		private readonly Window Window;
 
 		private bool _IsFolder;
 		public bool IsFolder
@@ -53,22 +56,24 @@ namespace Files.App.ViewModels.Properties
 		public IRelayCommand AddAccessControlEntryCommand { get; set; }
 		public IRelayCommand RemoveAccessControlEntryCommand { get; set; }
 
-		public SecurityViewModel(ListedItem item)
+		public SecurityViewModel(ListedItem item, Window window)
 		{
 			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
 			Path = item.ItemPath;
 			AccessControlList = FileSecurityHelpers.GetAccessControlList(Path, IsFolder);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
+			Window = window;
 
 			InitializeCommands();
 		}
 
-		public SecurityViewModel(DriveItem item)
+		public SecurityViewModel(DriveItem item, Window window)
 		{
 			IsFolder = true;
 			Path = item.Path;
 			AccessControlList = FileSecurityHelpers.GetAccessControlList(Path, IsFolder);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
+			Window = window;
 
 			InitializeCommands();
 		}
@@ -104,7 +109,7 @@ namespace Files.App.ViewModels.Properties
 			return false;
 		}
 
-		private static Task<string?> OpenObjectPicker()
-			=> FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
+		private Task<string?> OpenObjectPicker()
+			=> FileOperationsHelpers.OpenObjectPickerAsync(FilePropertiesHelpers.GetWindowHandle(Window).ToInt64());
 	}
 }

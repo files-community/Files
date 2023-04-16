@@ -100,12 +100,16 @@
 						x:Name="ClearPropertiesButton"
 						Margin="0,8,0,0"
 						HorizontalAlignment="Stretch"
-						Content="{helpers:ResourceString Name=ClearPropertiesButton/Content}">
+						Content="{helpers:ResourceString Name=ClearPropertiesButton/Content}"
+						Style="{StaticResource EnhancedButtonStyle}">
 						<Button.Flyout>
 							<Flyout x:Name="ClearPropertiesFlyout">
-								<StackPanel Orientation="Vertical" Spacing="4">
+								<StackPanel Orientation="Vertical" Spacing="8">
 									<TextBlock Text="{helpers:ResourceString Name=ClearPropertiesFlyoutText/Text}" />
-									<Button Click="ClearPropertiesConfirmation_Click" Content="{helpers:ResourceString Name=Clear}" />
+									<Button
+										HorizontalAlignment="Right"
+										Click="ClearPropertiesConfirmation_Click"
+										Content="{helpers:ResourceString Name=Clear}" />
 								</StackPanel>
 							</Flyout>
 						</Button.Flyout>

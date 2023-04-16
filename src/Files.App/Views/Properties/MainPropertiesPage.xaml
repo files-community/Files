@@ -13,7 +13,7 @@
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyDown="Page_KeyDown"
 	Loaded="Page_Loaded"
-	SizeChanged="MainPropertiesPage_SizeChanged"
+	SizeChanged="Page_SizeChanged"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -39,7 +39,7 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<!--  Titlebar  -->
+		<!--  Title bar  -->
 		<Grid x:Name="TitlebarArea">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
@@ -55,7 +55,8 @@
 				Margin="4,4,0,0"
 				Background="Transparent"
 				BorderThickness="0"
-				Click="BackwardNavigationButton_Click"
+				Command="{x:Bind ViewModel.DoBackwardNavigationCommand, Mode=OneWay}"
+				CommandParameter="{x:Bind}"
 				IsEnabled="{x:Bind MainContentFrame.CanGoBack, Mode=OneWay}"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=Back}">
 				<Button.Resources>
@@ -80,9 +81,9 @@
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch">
 				<TextBlock
-					Margin="8,0,0,-2"
+					Margin="4,4,0,0"
 					VerticalAlignment="Center"
-					Style="{StaticResource BodyStrongTextBlockStyle}"
+					Style="{StaticResource CaptionTextBlockStyle}"
 					Text="{helpers:ResourceString Name=Properties}" />
 			</Border>
 
@@ -96,12 +97,12 @@
 			IsPaneToggleButtonVisible="False"
 			IsSettingsVisible="False"
 			IsTitleBarAutoPaddingEnabled="False"
-			MenuItemsSource="{x:Bind NavigationViewItems, Mode=OneWay}"
+			MenuItemsSource="{x:Bind ViewModel.NavigationViewItems, Mode=OneWay}"
 			OpenPaneLength="180"
 			PaneDisplayMode="Left"
-			SelectionChanged="MainPropertiesWindowNavigationView_SelectionChanged">
+			SelectedItem="{x:Bind ViewModel.SelectedNavigationViewItem, Mode=TwoWay}">
 
-			<!--  Template  -->
+			<!--  Item Template  -->
 			<NavigationView.MenuItemTemplate>
 				<DataTemplate x:DataType="datamodels:NavigationViewItemButtonStyleItem">
 					<NavigationViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Tag="{x:Bind ItemType, Mode=OneWay}">
@@ -128,7 +129,7 @@
 									VerticalAlignment="Center"
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 									Style="{StaticResource BodyTextBlockStyle}"
-									Text="{x:Bind Name}"
+									Text="{x:Bind Name, Mode=OneWay}"
 									Visibility="{x:Bind IsCompact, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}" />
 
 							</Grid>
@@ -155,7 +156,7 @@
 						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 						BorderThickness="0,1,0,0">
 						<StackPanel
-							Margin="12,0"
+							Margin="12,0,12,0"
 							HorizontalAlignment="Right"
 							Orientation="Horizontal"
 							Spacing="12">
@@ -163,14 +164,14 @@
 							<Button
 								x:Name="SaveChangesButton"
 								Width="96"
-								Click="SaveChangesButton_Click"
+								Command="{x:Bind ViewModel.SaveChangedPropertiesCommand, Mode=OneWay}"
 								Content="{helpers:ResourceString Name=Save}"
 								Style="{StaticResource AccentButtonStyle}" />
 
 							<Button
 								x:Name="CancelChangesButton"
 								Width="96"
-								Click="CancelChangesButton_Click"
+								Command="{x:Bind ViewModel.CancelChangedPropertiesCommand, Mode=OneWay}"
 								Content="{helpers:ResourceString Name=Cancel}" />
 
 						</StackPanel>
