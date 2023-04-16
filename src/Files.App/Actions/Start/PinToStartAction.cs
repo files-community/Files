@@ -13,7 +13,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "PinItemToStart/Text".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "PinToStartDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconPinToFavorites");
 

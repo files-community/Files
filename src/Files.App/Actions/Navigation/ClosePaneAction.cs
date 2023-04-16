@@ -8,29 +8,28 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class SearchAction : ObservableObject, IAction
+	internal class ClosePaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "Search".GetLocalizedResource();
+		public string Label { get; } = "NavigationToolbarClosePane/Label".GetLocalizedResource();
 
-		public string Description { get; } = "SearchDescription".GetLocalizedResource();
+		public string Description { get; } = "ClosePaneDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.F, KeyModifiers.Ctrl);
-		public HotKey SecondHotKey { get; } = new(Keys.F3);
+		public HotKey HotKey { get; } = new(Keys.W, KeyModifiers.CtrlShift);
 
-		public RichGlyph Glyph { get; } = new();
+		public RichGlyph Glyph { get; } = new("\uE89F");
 
-		public bool IsExecutable => !context.IsSearchBoxVisible;
+		public bool IsExecutable => context.IsMultiPaneActive;
 
-		public SearchAction()
+		public ClosePaneAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.ShellPage!.ToolbarViewModel.SwitchSearchBoxVisibility();
+			context.ShellPage!.PaneHolder.CloseActivePane();
 			return Task.CompletedTask;
 		}
 
@@ -38,7 +37,8 @@ namespace Files.App.Actions
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IContentPageContext.IsSearchBoxVisible):
+				case nameof(IContentPageContext.ShellPage):
+				case nameof(IContentPageContext.IsMultiPaneActive):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}

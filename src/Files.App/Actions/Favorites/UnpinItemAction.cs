@@ -19,7 +19,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "UnpinFromFavorites".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "UnpinItemFromFavoritesDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconUnpinFromFavorites");
 

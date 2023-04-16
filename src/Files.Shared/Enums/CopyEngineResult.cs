@@ -46,6 +46,12 @@
 		//public const int COPYENGINE_E_SAME_FILE = -2144927741;
 		//public const int COPYENGINE_E_DEST_SAME_TREE = -2144927734;
 		//public const int COPYENGINE_E_DEST_SUBTREE = -2144927735;
+		// Property loss
+		public const int COPYENGINE_E_STREAM_LOSS = -2144927699; // Secondary Stream information would be lost
+		public const int COPYENGINE_E_EA_LOSS = -2144927698; // Extended Attributes would be lost
+		public const int COPYENGINE_E_PROPERTY_LOSS = -2144927697; // Property would be lost
+		public const int COPYENGINE_E_PROPERTIES_LOSS = -2144927696; // Properties would be lost
+		public const int COPYENGINE_E_ENCRYPTION_LOSS = -2144927695; // Encryption would be lost
 
 		public static FileSystemStatusCode Convert(int? hres)
 		{
@@ -73,6 +79,11 @@
 				CopyEngineResult.COPYENGINE_E_FLD_IS_FILE_DEST => FileSystemStatusCode.NotAFolder,
 				CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC => FileSystemStatusCode.InUse,
 				CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_DEST => FileSystemStatusCode.InUse,
+				CopyEngineResult.COPYENGINE_E_STREAM_LOSS => FileSystemStatusCode.PropertyLoss,
+				CopyEngineResult.COPYENGINE_E_EA_LOSS => FileSystemStatusCode.PropertyLoss,
+				CopyEngineResult.COPYENGINE_E_PROPERTY_LOSS => FileSystemStatusCode.PropertyLoss,
+				CopyEngineResult.COPYENGINE_E_PROPERTIES_LOSS => FileSystemStatusCode.PropertyLoss,
+				CopyEngineResult.COPYENGINE_E_ENCRYPTION_LOSS => FileSystemStatusCode.PropertyLoss,
 				null => FileSystemStatusCode.Generic,
 				_ => FileSystemStatusCode.Generic
 			};

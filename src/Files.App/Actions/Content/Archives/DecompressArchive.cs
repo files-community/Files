@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class DecompressArchive : BaseUIAction
+	internal class DecompressArchive : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public override string Label => "ExtractFiles".GetLocalizedResource();
+		public string Label => "ExtractFiles".GetLocalizedResource();
 
-		public override string Description => "TODO: Need to be described.";
+		public string Description => "DecompressArchiveDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.E, KeyModifiers.Ctrl);
 
@@ -28,7 +28,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public override async Task ExecuteAsync()
+		public async Task ExecuteAsync()
 		{
 			await ArchiveHelpers.DecompressArchive(context.ShellPage);
 		}

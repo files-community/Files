@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class RestoreRecycleBinAction : BaseUIAction
+	internal class RestoreRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public override string Label { get; } = "Restore".GetLocalizedResource();
+		public string Label { get; } = "Restore".GetLocalizedResource();
 
-		public override string Description => "TODO: Need to be described.";
+		public string Description => "RestoreRecycleBinDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRestoreItem");
 
@@ -29,7 +29,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public override async Task ExecuteAsync()
+		public async Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
 				await RecycleBinHelpers.RestoreSelectionRecycleBin(context.ShellPage);
