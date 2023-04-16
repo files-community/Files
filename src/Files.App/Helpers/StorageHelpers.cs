@@ -111,13 +111,13 @@ namespace Files.App.Helpers
 
 			async Task GetFile()
 			{
-				var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+				var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
 				file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path, rootItem));
 			}
 
 			async Task GetFolder()
 			{
-				var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+				var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
 				folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, rootItem));
 			}
 		}
@@ -131,7 +131,7 @@ namespace Files.App.Helpers
 		public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item)
 		{
 			var returnedItem = new FilesystemResult<IStorageItem>(null, FileSystemStatusCode.Generic);
-			var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(item.Path));
+			var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(item.Path));
 			if (!string.IsNullOrEmpty(item.Path))
 			{
 				returnedItem = (item.ItemType == FilesystemItemType.File) ?

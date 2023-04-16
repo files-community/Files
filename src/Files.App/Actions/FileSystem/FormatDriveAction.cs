@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
+using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Shell;
 using Files.App.ViewModels;
@@ -13,11 +14,11 @@ namespace Files.App.Actions
 	internal class FormatDriveAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
+		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		public string Label { get; } = "FormatDriveText".GetLocalizedResource();
 
 		public string Description { get; } = "FormatDriveDescription".GetLocalizedResource();
-		public bool IsExecutable => context.HasItem && (App.DrivesManager.Drives.FirstOrDefault(x => string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
+		public bool IsExecutable => context.HasItem && (drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
 
 		public FormatDriveAction()
 		{

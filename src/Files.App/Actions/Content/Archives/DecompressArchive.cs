@@ -14,7 +14,7 @@ namespace Files.App.Actions
 
 		public string Label => "ExtractFiles".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "DecompressArchiveDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.E, KeyModifiers.Ctrl);
 

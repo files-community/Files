@@ -23,8 +23,8 @@ namespace Files.InteractionTests.Tests
 
 			var settingsItems = new string[]
 			{
+				"SettingsItemGeneral",
 				"SettingsItemAppearance",
-				"SettingsItemPreferences",
 				"SettingsItemFolders",
 				"SettingsItemTags",
 				"SettingsItemAdvanced",

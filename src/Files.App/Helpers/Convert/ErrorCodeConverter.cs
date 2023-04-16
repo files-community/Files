@@ -11,27 +11,14 @@ namespace Files.App.Helpers
 				case FileSystemStatusCode.Success:
 					return ReturnResult.Success;
 
-				case FileSystemStatusCode.Generic:
-					return ReturnResult.Failed;
-
 				case FileSystemStatusCode.Unauthorized:
+				case FileSystemStatusCode.InUse:
 					return ReturnResult.AccessUnauthorized;
 
 				case FileSystemStatusCode.NotFound:
 					return ReturnResult.IntegrityCheckFailed;
 
-				case FileSystemStatusCode.InUse:
-					return ReturnResult.AccessUnauthorized;
-
-				case FileSystemStatusCode.NameTooLong:
-					return ReturnResult.UnknownException;
-
-				case FileSystemStatusCode.AlreadyExists:
-					return ReturnResult.Failed;
-
 				case FileSystemStatusCode.NotAFolder:
-					return ReturnResult.BadArgumentException;
-
 				case FileSystemStatusCode.NotAFile:
 					return ReturnResult.BadArgumentException;
 
@@ -39,7 +26,7 @@ namespace Files.App.Helpers
 					return ReturnResult.InProgress;
 
 				default:
-					return default;
+					return ReturnResult.Failed;
 			}
 		}
 	}
