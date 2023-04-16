@@ -19,7 +19,7 @@ namespace Files.App.Actions
 
 		public string Label => "Open".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "OpenItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph => new(opacityStyle: "ColorIconOpenFile");
 
@@ -53,7 +53,7 @@ namespace Files.App.Actions
 
 		public string Label => "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "OpenItemWithApplicationPickerDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph => new(opacityStyle: "ColorIconOpenWith");
 
@@ -83,7 +83,7 @@ namespace Files.App.Actions
 
 		public string Label => "BaseLayoutItemContextFlyoutOpenParentFolder/Text".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "OpenParentFolderDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph => new(baseGlyph: "\uE197");
 

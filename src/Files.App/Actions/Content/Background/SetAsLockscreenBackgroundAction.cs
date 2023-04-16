@@ -10,7 +10,7 @@ namespace Files.App.Actions
 	{
 		public override string Label { get; } = "SetAsLockscreen".GetLocalizedResource();
 
-		public override string Description => "TODO: Need to be described.";
+		public override string Description => "SetAsLockscreenBackgroundDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph { get; } = new("\uEE3F");
 

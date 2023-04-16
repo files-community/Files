@@ -9,7 +9,7 @@ namespace Files.App.Actions
 	{
 		public string Label { get; } = "NewTab".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "NewTabDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.T, KeyModifiers.Ctrl);
 
