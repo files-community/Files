@@ -75,7 +75,9 @@
 						<HyperlinkButton
 							Grid.Column="2"
 							Margin="4"
-							Command="{x:Bind ViewMoreCommand}">
+							AutomationProperties.Name="{helpers:ResourceString Name=ViewMore}"
+							Command="{x:Bind ViewMoreCommand}"
+							ToolTipService.ToolTip="{helpers:ResourceString Name=ViewMore}">
 							<HyperlinkButton.Content>
 								<FontIcon
 									FontSize="12"
