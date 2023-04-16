@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -13,22 +12,24 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal class DeleteItemAction : ObservableObject, IAction
+	internal class DeleteItemAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
 		public string Label { get; } = "Delete".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "DeleteItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconDelete");
 
 		public HotKey HotKey { get; } = new(Keys.Delete);
 
-		public bool IsExecutable =>
+		public override bool IsExecutable =>
 			context.HasSelection &&
-			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
+			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false) &&
+			UIHelpers.CanShowDialog;
 
 		public DeleteItemAction()
 		{

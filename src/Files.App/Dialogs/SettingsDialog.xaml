@@ -50,6 +50,7 @@
 				Background="Transparent"
 				BorderBrush="Transparent"
 				Click="CloseSettingsDialogButton_Click"
+				ToolTipService.Placement="Bottom"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
 				<FontIcon FontSize="12" Glyph="&#xE8BB;" />
 			</Button>

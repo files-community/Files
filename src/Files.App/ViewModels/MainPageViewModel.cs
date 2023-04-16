@@ -335,6 +335,30 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
+				try
+				{
+					if (userSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup &&
+							userSettingsService.PreferencesSettingsService.TabsOnStartupList is not null)
+					{
+						foreach (string path in userSettingsService.PreferencesSettingsService.TabsOnStartupList)
+							await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+					}
+					else if (userSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp &&
+						userSettingsService.PreferencesSettingsService.LastSessionTabList is not null)
+					{
+						foreach (string tabArgsString in userSettingsService.PreferencesSettingsService.LastSessionTabList)
+						{
+							var tabArgs = TabItemArguments.Deserialize(tabArgsString);
+							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+						}
+
+						var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
+
+						userSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
+					}
+				}
+				catch (Exception) { }
+
 				if (e.Parameter is string navArgs)
 					await AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs);
 				else if (e.Parameter is PaneNavigationArguments paneArgs)

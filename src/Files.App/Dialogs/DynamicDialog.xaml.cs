@@ -1,3 +1,4 @@
+using Files.App.Helpers;
 using Files.App.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
@@ -21,17 +22,7 @@ namespace Files.App.Dialogs
 			get => ViewModel.DynamicResult;
 		}
 
-		public new Task<ContentDialogResult> ShowAsync() => SetContentDialogRoot(this).ShowAsync().AsTask();
-
-		// WINUI3
-		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
-			return contentDialog;
-		}
+		public new Task<ContentDialogResult> ShowAsync() => this.TryShowAsync();
 
 		public DynamicDialog(DynamicDialogViewModel dynamicDialogViewModel)
 		{
