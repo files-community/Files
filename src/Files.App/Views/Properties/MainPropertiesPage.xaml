@@ -55,7 +55,7 @@
 				Height="32"
 				Margin="4,4,0,0"
 				Background="Transparent"
-				BorderThickness="0"
+				BorderBrush="Transparent"
 				Command="{x:Bind MainPropertiesViewModel.DoBackwardNavigationCommand, Mode=OneWay}"
 				CommandParameter="{x:Bind}"
 				IsEnabled="{x:Bind MainContentFrame.CanGoBack, Mode=OneWay}"
@@ -103,7 +103,7 @@
 			IsSettingsVisible="False"
 			IsTitleBarAutoPaddingEnabled="False"
 			MenuItemsSource="{x:Bind MainPropertiesViewModel.NavigationViewItems, Mode=OneWay}"
-			OpenPaneLength="180"
+			OpenPaneLength="168"
 			PaneDisplayMode="Left"
 			SelectedItem="{x:Bind MainPropertiesViewModel.SelectedNavigationViewItem, Mode=TwoWay}">
 
@@ -120,8 +120,8 @@
 
 								<!--  Icon  -->
 								<Viewbox
-									Width="18"
-									Height="18"
+									Width="16"
+									Height="16"
 									VerticalAlignment="Center">
 									<uc:OpacityIcon IsSelected="{x:Bind IsSelected, Mode=OneWay}" Style="{x:Bind OpacityIconStyle, Mode=OneWay}" />
 								</Viewbox>

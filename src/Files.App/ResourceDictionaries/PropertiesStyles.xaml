@@ -79,15 +79,4 @@
 		<Setter Property="Grid.Column" Value="0" />
 		<Setter Property="FontSize" Value="22" />
 	</Style>
-
-	<Style
-		x:Key="EnhancedButtonStyle"
-		BasedOn="{StaticResource DefaultButtonStyle}"
-		TargetType="Button">
-		<Setter Property="Background" Value="{ThemeResource ExpanderHeaderBackground}" />
-		<Setter Property="BorderBrush" Value="{ThemeResource ExpanderHeaderBorderBrush}" />
-		<Setter Property="BorderThickness" Value="{ThemeResource ExpanderHeaderBorderThickness}" />
-		<Setter Property="HorizontalAlignment" Value="Stretch" />
-		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
-	</Style>
 </ResourceDictionary>

@@ -98,10 +98,9 @@
 				<ListView.Footer>
 					<Button
 						x:Name="ClearPropertiesButton"
-						Margin="0,8,0,0"
+						Margin="0,4,0,0"
 						HorizontalAlignment="Stretch"
-						Content="{helpers:ResourceString Name=ClearPropertiesButton/Content}"
-						Style="{StaticResource EnhancedButtonStyle}">
+						Content="{helpers:ResourceString Name=ClearPropertiesButton/Content}">
 						<Button.Flyout>
 							<Flyout x:Name="ClearPropertiesFlyout">
 								<StackPanel Orientation="Vertical" Spacing="8">

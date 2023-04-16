@@ -34,7 +34,7 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<!--  Principal List Card  -->
+			<!--  Principal List  -->
 			<Grid
 				x:Name="PrincipalListGrid"
 				Grid.Row="0"
@@ -144,15 +144,16 @@
 					</ListView>
 				</ScrollViewer>
 
+				<!--  No ACEs  -->
 				<TextBlock
-					x:Name="NoAcesTextBlock"
+					x:Name="NoAccessControlEntriesTextBlock"
 					Margin="12,8,12,8"
 					x:Load="{x:Bind SecurityViewModel.AccessControlList.AccessControlEntries, Converter={StaticResource EmptyCollectionToBoolConverter}, Mode=OneWay}"
 					Text="No groups or users have permission to access this object. However, the owner of this object can assign permissions." />
 
 			</Grid>
 
-			<!--  Permissions of Selected Principal Card  -->
+			<!--  Permissions of Selected Principal  -->
 			<Grid
 				Grid.Row="1"
 				Padding="12"
@@ -231,6 +232,7 @@
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
+					<!--  Allow  -->
 					<TextBlock
 						Grid.Row="0"
 						Grid.Column="1"
@@ -239,6 +241,7 @@
 						VerticalAlignment="Center"
 						Text="{helpers:ResourceString Name=Allow}" />
 
+					<!--  Deny  -->
 					<TextBlock
 						Grid.Row="0"
 						Grid.Column="3"
@@ -303,15 +306,6 @@
 						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedModifyAccess, Mode=TwoWay}"
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedModifyAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
-					<!--  (Alternal Color)  -->
-					<Border
-						Grid.Row="2"
-						Grid.ColumnSpan="4"
-						Height="32"
-						Margin="-8,0"
-						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-						CornerRadius="4" />
-
 					<!--  Read & Execute  -->
 					<TextBlock
 						Grid.Row="3"
@@ -339,17 +333,6 @@
 						VerticalAlignment="Center"
 						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedReadAndExecuteAccess, Mode=TwoWay}"
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedReadAndExecuteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
-
-					<!--  (Alternal Color)  -->
-					<Border
-						x:Name="AlternalColorBorderSecondIfFolder"
-						Grid.Row="4"
-						Grid.ColumnSpan="4"
-						Height="32"
-						Margin="-8,0"
-						x:Load="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}"
-						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-						CornerRadius="4" />
 
 					<!--  List Directory Contents  -->
 					<TextBlock
@@ -382,17 +365,6 @@
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedListDirectoryAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 						Visibility="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}" />
 
-					<!--  (Alternal Color)  -->
-					<Border
-						x:Name="AlternalColorBorderSecondIfFile"
-						Grid.Row="5"
-						Grid.ColumnSpan="4"
-						Height="32"
-						Margin="-8,0"
-						x:Load="{x:Bind SecurityViewModel.IsFolder, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-						CornerRadius="4" />
-
 					<!--  Read  -->
 					<TextBlock
 						Grid.Row="5"
@@ -420,17 +392,6 @@
 						VerticalAlignment="Center"
 						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedReadAccess, Mode=TwoWay}"
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedReadAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
-
-					<!--  (Alternal Color)  -->
-					<Border
-						x:Name="AlternalColorBorderSecondIfFolder2"
-						Grid.Row="6"
-						Grid.ColumnSpan="4"
-						Height="32"
-						Margin="-8,0"
-						x:Load="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}"
-						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-						CornerRadius="4" />
 
 					<!--  Write  -->
 					<TextBlock
@@ -461,7 +422,7 @@
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedWriteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 				</Grid>
 
-				<!--  Cannot Read Message  -->
+				<!--  Cannot Read Permissions  -->
 				<TextBlock
 					x:Name="CannotReadPermissionsTextBlock"
 					Grid.Row="2"
