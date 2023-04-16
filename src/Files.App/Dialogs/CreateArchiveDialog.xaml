@@ -35,16 +35,11 @@
 			BorderThickness="1"
 			ColumnSpacing="8"
 			CornerRadius="4">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<TextBlock
-				Grid.RowSpan="2"
 				Grid.Column="0"
 				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=Name}" />
