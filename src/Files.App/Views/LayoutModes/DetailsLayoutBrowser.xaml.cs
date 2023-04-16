@@ -816,7 +816,7 @@ namespace Files.App.Views.LayoutModes
 				// Handle visual states
 				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesInDetailsLayout && control.IsSelected
 					|| isPointerOver || (control.FindDescendant("SelectionCheckbox") as CheckBox)!.IsPointerOver)
-
+					// Show checkboxes regardless of the setting when hovered the icon to keep the checkbox feature
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
