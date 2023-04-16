@@ -463,17 +463,17 @@ namespace Files.App
 
 			// Restart the app
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			var lastSessionTabList = userSettingsService.PreferencesSettingsService.LastSessionTabList;
+			var lastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList;
 
-			if (userSettingsService.PreferencesSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) ?? false)
+			if (userSettingsService.GeneralSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) ?? false)
 			{
 				// Avoid infinite restart loop
-				userSettingsService.PreferencesSettingsService.LastSessionTabList = null;
+				userSettingsService.GeneralSettingsService.LastSessionTabList = null;
 			}
 			else
 			{
 				userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
-				userSettingsService.PreferencesSettingsService.LastCrashedTabList = lastSessionTabList;
+				userSettingsService.GeneralSettingsService.LastCrashedTabList = lastSessionTabList;
 			}
 
 			Window.DispatcherQueue.EnqueueAsync(async () =>
