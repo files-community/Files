@@ -219,7 +219,7 @@ namespace Files.App.UserControls
 						OpacityIconStyle = "ColorIconOpenInNewTab",
 					},
 					Command = OpenInNewTabCommand,
-					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+					ShowItem = options.IsLocationItem && userSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -229,13 +229,13 @@ namespace Files.App.UserControls
 						OpacityIconStyle = "ColorIconOpenInNewWindow",
 					},
 					Command = OpenInNewWindowCommand,
-					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+					ShowItem = options.IsLocationItem && userSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
-					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
+					ShowItem = options.IsLocationItem && userSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -319,25 +319,25 @@ namespace Files.App.UserControls
 			switch (rightClickedItem.Section)
 			{
 				case SectionType.Favorites:
-					userSettingsService.PreferencesSettingsService.ShowFavoritesSection = false;
+					userSettingsService.GeneralSettingsService.ShowFavoritesSection = false;
 					break;
 				case SectionType.Library:
-					userSettingsService.PreferencesSettingsService.ShowLibrarySection = false;
+					userSettingsService.GeneralSettingsService.ShowLibrarySection = false;
 					break;
 				case SectionType.CloudDrives:
-					userSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = false;
+					userSettingsService.GeneralSettingsService.ShowCloudDrivesSection = false;
 					break;
 				case SectionType.Drives:
-					userSettingsService.PreferencesSettingsService.ShowDrivesSection = false;
+					userSettingsService.GeneralSettingsService.ShowDrivesSection = false;
 					break;
 				case SectionType.Network:
-					userSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = false;
+					userSettingsService.GeneralSettingsService.ShowNetworkDrivesSection = false;
 					break;
 				case SectionType.WSL:
-					userSettingsService.PreferencesSettingsService.ShowWslSection = false;
+					userSettingsService.GeneralSettingsService.ShowWslSection = false;
 					break;
 				case SectionType.FileTag:
-					userSettingsService.PreferencesSettingsService.ShowFileTagsSection = false;
+					userSettingsService.GeneralSettingsService.ShowFileTagsSection = false;
 					break;
 			}
 		}
