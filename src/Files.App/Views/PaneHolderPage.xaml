@@ -46,18 +46,6 @@
 			Key="Right"
 			Invoked="KeyboardAccelerator_Invoked"
 			Modifiers="Control,Shift" />
-		<KeyboardAccelerator
-			Key="W"
-			Invoked="KeyboardAccelerator_Invoked"
-			Modifiers="Control,Shift" />
-		<KeyboardAccelerator
-			Key="Add"
-			Invoked="KeyboardAccelerator_Invoked"
-			Modifiers="Menu,Shift" />
-		<KeyboardAccelerator
-			Key="{x:Bind local:PaneHolderPage.PlusKey}"
-			Invoked="KeyboardAccelerator_Invoked"
-			Modifiers="Menu,Shift" />
 	</Page.KeyboardAccelerators>
 
 	<Grid x:Name="RootGrid">
@@ -102,13 +90,13 @@
 			HorizontalAlignment="Left"
 			Background="Transparent"
 			Canvas.ZIndex="150"
-			CursorBehavior="ChangeOnSplitterHover"
 			DoubleTapped="PaneResizer_OnDoubleTapped"
 			Foreground="Transparent"
-			GripperCursor="Default"
 			GripperForeground="Transparent"
 			IsTabStop="False"
+			Loaded="PaneResizer_Loaded"
 			ManipulationCompleted="PaneResizer_ManipulationCompleted"
+			ManipulationStarted="PaneResizer_ManipulationStarted"
 			ResizeBehavior="BasedOnAlignment"
 			ResizeDirection="Auto"
 			Style="{StaticResource DefaultGridSplitterStyle}">

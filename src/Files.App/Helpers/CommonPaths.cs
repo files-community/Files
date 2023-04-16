@@ -28,7 +28,7 @@ namespace Files.App.Helpers
 
 		public static readonly string RecentItemsPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
 
-		public static Dictionary<string, string> ShellPlaces = new Dictionary<string, string>() {
+		public static Dictionary<string, string> ShellPlaces = new() {
 			{ "::{645FF040-5081-101B-9F08-00AA002F954E}", RecycleBinPath },
 			{ "::{5E5F29CE-E0A8-49D3-AF32-7A7BDC173478}", "Home" /*MyComputerPath*/ },
 			{ "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}", MyComputerPath },
