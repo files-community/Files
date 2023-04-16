@@ -58,7 +58,7 @@
 						</Grid.ColumnDefinitions>
 
 						<StackPanel
-							Padding="12,8"
+							Padding="12,8,12,8"
 							Orientation="Horizontal"
 							Spacing="8">
 							<Ellipse
