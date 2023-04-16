@@ -22,7 +22,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "BaseLayoutContextFlyoutNew/Label".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "AddItemDescription".GetLocalizedResource();
 
         public HotKey HotKey { get; } = new(Keys.N, KeyModifiers.CtrlShift);
 

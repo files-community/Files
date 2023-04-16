@@ -12,7 +12,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "EditPath".GetLocalizedResource();
 
-		public string Description { get; } = "TODO: Need to be described.";
+		public string Description { get; } = "EditPathDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.L, KeyModifiers.Ctrl);
 

@@ -3184,4 +3184,10 @@
   <data name="ShowCheckboxesInDetailsLayout" xml:space="preserve">
     <value>Show checkboxes when selecting items in the details layout</value>
   </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Go to path bar</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Open the menu to create a new item</value>
+  </data>
 </root>
