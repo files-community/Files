@@ -3172,6 +3172,9 @@
   <data name="Undo" xml:space="preserve">
     <value>Undo</value>
   </data>
+  <data name="InvalidLocation" xml:space="preserve">
+    <value>Invalid location</value>
+  </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
     <value>Are you sure you want to copy these files without their properties?</value>
   </data>
