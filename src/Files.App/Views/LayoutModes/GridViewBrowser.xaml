@@ -149,6 +149,17 @@
 							<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
 						</Viewbox>
 
+						<Image
+							x:Name="ShieldOverlay"
+							Width="16"
+							Height="16"
+							Margin="14"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Bottom"
+							x:Load="{x:Bind IsElevated}"
+							x:Phase="1"
+							Source="{x:Bind ShieldIcon, Mode=OneWay}"
+							Stretch="Uniform" />
 					</Grid>
 
 					<Grid
@@ -371,6 +382,16 @@
 							<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
 						</Viewbox>
 
+						<Image
+							x:Name="ShieldOverlay"
+							Width="16"
+							Height="16"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Bottom"
+							x:Load="{x:Bind IsElevated}"
+							x:Phase="1"
+							Source="{x:Bind ShieldIcon, Mode=OneWay}"
+							Stretch="Uniform" />
 					</Grid>
 
 					<Grid
