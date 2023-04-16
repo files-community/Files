@@ -814,7 +814,7 @@ namespace Files.App.Views.LayoutModes
 			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
 			{
 				// Handle visual states
-				// Show checkboxes on hover as long as one item is selected (regardless of the setting to hide them)
+				// Show checkboxes when hovering of the thumbnail as long as one item is selected (regardless of the setting to hide them)
 				// Show checkboxes when items are selected (as long as the setting is enabled)
 				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesInDetailsLayout && control.IsSelected
 					|| isPointerOver || (control.FindDescendant("SelectionCheckbox") as CheckBox)!.IsPointerOver)
