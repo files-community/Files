@@ -2872,4 +2872,7 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
   </data>
+  <data name="PermanentlyDelete" xml:space="preserve">
+    <value>Permanently delete</value>
+  </data>
 </root>
