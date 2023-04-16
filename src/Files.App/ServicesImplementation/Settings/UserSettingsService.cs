@@ -12,10 +12,10 @@ namespace Files.App.ServicesImplementation.Settings
 {
 	internal sealed class UserSettingsService : BaseJsonSettings, IUserSettingsService
 	{
-		private IPreferencesSettingsService _PreferencesSettingsService;
-		public IPreferencesSettingsService PreferencesSettingsService
+		private IGeneralSettingsService _GeneralSettingsService;
+		public IGeneralSettingsService GeneralSettingsService
 		{
-			get => GetSettingsService(ref _PreferencesSettingsService);
+			get => GetSettingsService(ref _GeneralSettingsService);
 		}
 
 		private IFoldersSettingsService _FoldersSettingsService;
@@ -68,7 +68,7 @@ namespace Files.App.ServicesImplementation.Settings
 			var export = (Dictionary<string, object>)base.ExportSettings();
 
 			// Remove session settings
-			export.Remove(nameof(PreferencesSettingsService.LastSessionTabList));
+			export.Remove(nameof(GeneralSettingsService.LastSessionTabList));
 
 			return JsonSettingsSerializer.SerializeToJson(export);
 		}
