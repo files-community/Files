@@ -50,7 +50,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string AutomationProperties => "FileTags".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget;
 
 		public bool ShowMenuFlyout => false;
 
@@ -118,7 +118,7 @@ namespace Files.App.UserControls.Widgets
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+			if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 				secondaryElements.OfType<FrameworkElement>()
 								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
 
@@ -185,7 +185,7 @@ namespace Files.App.UserControls.Widgets
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane && isFolder
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
