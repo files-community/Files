@@ -93,6 +93,8 @@ namespace Files.App.ViewModels
 
 		private FileSystemWatcher watcher;
 
+		private static BitmapImage shieldIcon;
+
 		private CancellationTokenSource addFilesCTS;
 		private CancellationTokenSource semaphoreCTS;
 		private CancellationTokenSource loadPropsCTS;
@@ -142,7 +144,7 @@ namespace Files.App.ViewModels
 			if (isLibrary || !Path.IsPathRooted(value))
 				workingRoot = currentStorageFolder = null;
 			else if (!Path.IsPathRooted(WorkingDirectory) || Path.GetPathRoot(WorkingDirectory) != Path.GetPathRoot(value))
-				workingRoot = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(value));
+				workingRoot = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(value));
 
 			if (value == "Home")
 				currentStorageFolder = null;
@@ -513,6 +515,7 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.FoldersSettingsService.ShowDotFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.CalculateFolderSizes):
 				case nameof(UserSettingsService.FoldersSettingsService.SelectFilesOnHover):
+				case nameof(UserSettingsService.FoldersSettingsService.ShowCheckboxesInDetailsLayout):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
 						if (WorkingDirectory != "Home")
@@ -847,7 +850,7 @@ namespace Files.App.ViewModels
 			FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
 		}
 
-		public Dictionary<string, BitmapImage> DefaultIcons = new();
+		public Dictionary<string, BitmapImage> DefaultIcons = new ();
 
 		private uint currentDefaultIconSize = 0;
 
@@ -875,6 +878,13 @@ namespace Files.App.ViewModels
 		{
 			get => isLoadingItems;
 			set => isLoadingItems = value;
+		}
+
+		private async Task<BitmapImage> GetShieldIcon()
+		{
+			shieldIcon ??= await UIHelpers.GetShieldIconResource();
+
+			return shieldIcon;
 		}
 
 		// ThumbnailSize is set to 96 so that unless we override it, mode is in turn set to SingleItem
@@ -920,6 +930,7 @@ namespace Files.App.ViewModels
 							await dispatcherQueue.EnqueueAsync(async () =>
 							{
 								item.IconOverlay = await overlayInfo.ToBitmapAsync();
+								item.ShieldIcon = await GetShieldIcon();
 							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						}
 					}
@@ -947,6 +958,7 @@ namespace Files.App.ViewModels
 						await dispatcherQueue.EnqueueAsync(async () =>
 						{
 							item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
+							item.ShieldIcon = await GetShieldIcon();
 						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					}
 				}
@@ -982,6 +994,7 @@ namespace Files.App.ViewModels
 							await dispatcherQueue.EnqueueAsync(async () =>
 							{
 								item.IconOverlay = await overlayInfo.ToBitmapAsync();
+								item.ShieldIcon = await GetShieldIcon();
 							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						}
 					}
@@ -1003,6 +1016,7 @@ namespace Files.App.ViewModels
 						await dispatcherQueue.EnqueueAsync(async () =>
 						{
 							item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
+							item.ShieldIcon = await GetShieldIcon();
 						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					}
 				}

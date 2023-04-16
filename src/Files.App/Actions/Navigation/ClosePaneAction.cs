@@ -14,7 +14,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "NavigationToolbarClosePane/Label".GetLocalizedResource();
 
-		public string Description { get; } = "TODO: Need to be described.";
+		public string Description { get; } = "ClosePaneDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.W, KeyModifiers.CtrlShift);
 
