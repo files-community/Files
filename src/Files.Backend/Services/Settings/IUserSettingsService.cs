@@ -11,7 +11,7 @@ namespace Files.Backend.Services.Settings
 
 		object ExportSettings();
 
-		IPreferencesSettingsService PreferencesSettingsService { get; }
+		IGeneralSettingsService PreferencesSettingsService { get; }
 
 		IFoldersSettingsService FoldersSettingsService { get; }
 

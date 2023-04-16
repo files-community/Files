@@ -12,8 +12,8 @@ namespace Files.App.ServicesImplementation.Settings
 {
 	internal sealed class UserSettingsService : BaseJsonSettings, IUserSettingsService
 	{
-		private IPreferencesSettingsService _PreferencesSettingsService;
-		public IPreferencesSettingsService PreferencesSettingsService
+		private IGeneralSettingsService _PreferencesSettingsService;
+		public IGeneralSettingsService PreferencesSettingsService
 		{
 			get => GetSettingsService(ref _PreferencesSettingsService);
 		}

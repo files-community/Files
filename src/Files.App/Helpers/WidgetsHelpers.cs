@@ -7,7 +7,7 @@ namespace Files.App.Helpers
 {
 	public static class WidgetsHelpers
 	{
-		public static TWidget? TryGetWidget<TWidget>(IPreferencesSettingsService preferencesSettingsService, WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItemModel, new()
+		public static TWidget? TryGetWidget<TWidget>(IGeneralSettingsService preferencesSettingsService, WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItemModel, new()
 		{
 			bool canAddWidget = widgetsViewModel.CanAddWidget(typeof(TWidget).Name);
 			bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>(preferencesSettingsService);
@@ -35,7 +35,7 @@ namespace Files.App.Helpers
 			return (defaultValue);
 		}
 
-		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IPreferencesSettingsService preferencesSettingsService) where TWidget : IWidgetItemModel
+		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IGeneralSettingsService preferencesSettingsService) where TWidget : IWidgetItemModel
 		{
 			if (typeof(TWidget) == typeof(QuickAccessWidget))
 			{

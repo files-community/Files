@@ -23,7 +23,7 @@ using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
 namespace Files.App.ViewModels.Settings
 {
-	public class PreferencesViewModel : ObservableObject, IDisposable
+	public class GeneralViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -97,7 +97,7 @@ namespace Files.App.ViewModels.Settings
 
 		public ObservableCollection<AppLanguageItem> AppLanguages { get; set; }
 
-		public PreferencesViewModel()
+		public GeneralViewModel()
 		{
 			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
 			ChangePageCommand = new AsyncRelayCommand(ChangePage);
@@ -590,7 +590,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		~PreferencesViewModel()
+		~GeneralViewModel()
 		{
 			Dispose();
 		}
