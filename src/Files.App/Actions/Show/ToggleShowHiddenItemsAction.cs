@@ -14,7 +14,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "ShowHiddenItems".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "ToggleShowHiddenItemsDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.H, KeyModifiers.Ctrl);
 

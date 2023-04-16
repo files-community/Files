@@ -14,7 +14,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Search".GetLocalizedResource();
 
-		public string Description { get; } = "TODO: Need to be described.";
+		public string Description { get; } = "SearchDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.F, KeyModifiers.Ctrl);
 		public HotKey SecondHotKey { get; } = new(Keys.F3);
