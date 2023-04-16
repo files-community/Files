@@ -55,7 +55,7 @@
 				Height="32"
 				Margin="4,4,0,0"
 				Background="Transparent"
-				BorderBrush="Transparent"
+				BorderThickness="0"
 				Command="{x:Bind MainPropertiesViewModel.DoBackwardNavigationCommand, Mode=OneWay}"
 				CommandParameter="{x:Bind}"
 				IsEnabled="{x:Bind MainContentFrame.CanGoBack, Mode=OneWay}"
