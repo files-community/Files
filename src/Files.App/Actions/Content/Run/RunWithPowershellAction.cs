@@ -19,7 +19,7 @@ namespace Files.App.Actions
 
 		public string Label => "RunWithPowerShell".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "RunWithPowershellDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph => new("\uE756");
 

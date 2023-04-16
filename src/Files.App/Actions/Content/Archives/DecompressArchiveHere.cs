@@ -13,7 +13,7 @@ namespace Files.App.Actions
 
 		public string Label => "ExtractHere".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "DecompressArchiveHereDescription".GetLocalizedResource();
 
 		public override bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&

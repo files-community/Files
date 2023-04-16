@@ -16,7 +16,7 @@ namespace Files.App.Actions
 
 		public string Label => "Settings".GetLocalizedResource();
 
-		public string Description => "Settings".GetLocalizedResource();
+		public string Description => "OpenSettingsDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.OemComma, KeyModifiers.Ctrl);
 
