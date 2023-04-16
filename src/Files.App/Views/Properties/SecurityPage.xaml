@@ -146,7 +146,7 @@
 
 				<TextBlock
 					x:Name="NoAcesTextBlock"
-					Margin="12,8"
+					Margin="12,8,12,8"
 					x:Load="{x:Bind SecurityViewModel.AccessControlList.AccessControlEntries, Converter={StaticResource EmptyCollectionToBoolConverter}, Mode=OneWay}"
 					Text="No groups or users have permission to access this object. However, the owner of this object can assign permissions." />
 
