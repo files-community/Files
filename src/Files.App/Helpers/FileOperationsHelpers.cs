@@ -559,7 +559,12 @@ namespace Files.App.Helpers
 						ipf.GetUrl(out var retVal);
 						return retVal;
 					});
-					return string.IsNullOrEmpty(targetPath) ? null : new ShellLinkItem { TargetPath = targetPath };
+					return string.IsNullOrEmpty(targetPath) ? 
+						new ShellLinkItem
+						{
+							TargetPath = string.Empty,
+							InvalidTarget = true
+						} : new ShellLinkItem { TargetPath = targetPath };
 				}
 				return null;
 			}
