@@ -16,7 +16,7 @@ namespace Files.App.Actions
 
 		public string Label => "CreateArchive".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "CompressIntoArchiveDescription".GetLocalizedResource();
 
 		public override bool IsExecutable => 
 			IsContextPageTypeAdaptedToCommand() &&
