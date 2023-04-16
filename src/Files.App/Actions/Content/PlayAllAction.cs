@@ -17,7 +17,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "PlayAll".GetLocalizedResource();
 
-		public string Description { get; } = "TODO: Need to be described.";
+		public string Description { get; } = "PlayAllDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new("\uE768");
 

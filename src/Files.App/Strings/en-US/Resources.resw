@@ -3190,4 +3190,13 @@
   <data name="ShowCheckboxesInDetailsLayout" xml:space="preserve">
     <value>Show checkboxes when selecting items in the details layout</value>
   </data>
+  <data name="PlayAllDescription" xml:space="preserve">
+    <value>Play all the selected media files</value>
+  </data>
+  <data name="UndoDescription" xml:space="preserve">
+    <value>Undo the last action</value>
+  </data>
+  <data name="RedoDescription" xml:space="preserve">
+    <value>Redo the last action</value>
+  </data>
 </root>

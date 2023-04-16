@@ -14,7 +14,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Redo".GetLocalizedResource();
 
-		public string Description { get; } = "TODO: Need to be described.";
+		public string Description { get; } = "RedoDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.Y, KeyModifiers.Ctrl);
 
