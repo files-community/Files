@@ -15,7 +15,7 @@ namespace Files.App.ViewModels.Previews
 {
 	public class FolderPreviewViewModel
 	{
-		private readonly IGeneralSettingsService preferencesSettingsService = Ioc.Default.GetService<IGeneralSettingsService>();
+		private readonly IGeneralSettingsService generalSettingsService = Ioc.Default.GetService<IGeneralSettingsService>();
 
 		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
 

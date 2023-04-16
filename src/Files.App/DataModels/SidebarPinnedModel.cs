@@ -173,7 +173,7 @@ namespace Files.App.DataModels
 		/// </summary>
 		public async Task AddAllItemsToSidebar()
 		{
-			if (userSettingsService.PreferencesSettingsService.ShowFavoritesSection)
+			if (userSettingsService.GeneralSettingsService.ShowFavoritesSection)
 				foreach (string path in FavoriteItems)
 					await AddItemToSidebarAsync(path);
 		}

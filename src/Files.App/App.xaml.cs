@@ -122,7 +122,7 @@ namespace Files.App
 		{
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
-			var preferencesSettingsService = userSettingsService.PreferencesSettingsService;
+			var generalSettingsService = userSettingsService.PreferencesSettingsService;
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.Run(async () =>
@@ -130,11 +130,11 @@ namespace Files.App
 				await Task.WhenAll(
 					StartAppCenter(),
 					DrivesManager.UpdateDrivesAsync(),
-					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), preferencesSettingsService.ShowCloudDrivesSection),
+					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					LibraryManager.UpdateLibrariesAsync(),
-					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), preferencesSettingsService.ShowNetworkDrivesSection),
-					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), preferencesSettingsService.ShowWslSection),
-					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), preferencesSettingsService.ShowFileTagsSection),
+					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowNetworkDrivesSection),
+					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
 					QuickAccessManager.InitializeAsync()
 				);
 
