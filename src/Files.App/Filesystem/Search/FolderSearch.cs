@@ -1,8 +1,10 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
+using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
@@ -24,6 +26,7 @@ namespace Files.App.Filesystem.Search
 	public class FolderSearch
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
@@ -104,7 +107,7 @@ namespace Files.App.Filesystem.Search
 
 		private async Task AddItemsAsyncForHome(IList<ListedItem> results, CancellationToken token)
 		{
-			foreach (var drive in App.DrivesManager.Drives.Where(x => !x.IsNetwork))
+			foreach (var drive in drivesViewModel.Drives.Cast<DriveItem>().Where(x => !x.IsNetwork))
 			{
 				await AddItemsAsync(drive.Path, results, token);
 			}

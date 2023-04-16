@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.Views;
@@ -11,6 +12,8 @@ namespace Files.App.UserControls.MultitaskingControl
 {
 	public class TabItem : ObservableObject, ITabItem, ITabItemControl, IDisposable
 	{
+		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
 		private string header;
 
 		public string Header
@@ -70,7 +73,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		public void Unload()
 		{
-			Control.ContentChanged -= MainPageViewModel.Control_ContentChanged;
+			Control.ContentChanged -= mainPageViewModel.Control_ContentChanged;
 			tabItemArguments = Control?.NavigationArguments;
 			Dispose();
 		}

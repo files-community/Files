@@ -79,7 +79,7 @@ namespace Files.App.DataModels
 
 		public async Task<LocationItem> CreateLocationItemFromPathAsync(string path)
 		{
-			var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 			LocationItem locationItem;
 
@@ -128,7 +128,7 @@ namespace Files.App.DataModels
 			}
 			else
 			{
-				locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.Folder));
+				locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetSidebarIconResource(Constants.ImageRes.Folder));
 				locationItem.IsInvalid = true;
 				Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
 			}
@@ -173,7 +173,7 @@ namespace Files.App.DataModels
 		/// </summary>
 		public async Task AddAllItemsToSidebar()
 		{
-			if (userSettingsService.PreferencesSettingsService.ShowFavoritesSection)
+			if (userSettingsService.GeneralSettingsService.ShowFavoritesSection)
 				foreach (string path in FavoriteItems)
 					await AddItemToSidebarAsync(path);
 		}

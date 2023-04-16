@@ -48,6 +48,8 @@ namespace Files.App.Interacts
 		private readonly IShellPage associatedInstance;
 
 		private readonly ItemManipulationModel itemManipulationModel;
+		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
 
 		#endregion Private Members
 
@@ -131,7 +133,7 @@ namespace Files.App.Interacts
 			{
 				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
 				{
-					await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 				},
 				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}

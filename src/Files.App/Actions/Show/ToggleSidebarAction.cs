@@ -14,7 +14,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "ToggleSidebar".GetLocalizedResource();
 
-		public string Description { get; } = "TODO: Need to be described.";
+		public string Description { get; } = "ToggleSidebarDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.B, KeyModifiers.Ctrl);
 

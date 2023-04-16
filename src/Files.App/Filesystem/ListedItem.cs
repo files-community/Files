@@ -256,6 +256,19 @@ namespace Files.App.Filesystem
 			set => SetProperty(ref placeholderDefaultIcon, value);
 		}
 
+		private BitmapImage shieldIcon;
+		public BitmapImage ShieldIcon
+		{
+			get => shieldIcon;
+			set
+			{
+				if (value is not null)
+				{
+					SetProperty(ref shieldIcon, value);
+				}
+			}
+		}
+
 		private string itemPath;
 		public string ItemPath
 		{
@@ -421,6 +434,7 @@ namespace Files.App.Filesystem
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
+		public bool IsElevated => CheckElevationRights();
 
 		private BaseStorageFile itemFile;
 		public BaseStorageFile ItemFile
@@ -448,6 +462,13 @@ namespace Files.App.Filesystem
 			NeedsPlaceholderGlyph = false;
 			LoadDefaultIcon = true;
 			PlaceholderDefaultIcon = img;
+		}
+
+		private bool CheckElevationRights()
+		{
+			return IsShortcut
+				? ElevationHelpers.IsElevationRequired(((ShortcutItem)this).TargetPath)
+				: ElevationHelpers.IsElevationRequired(this.ItemPath);
 		}
 	}
 

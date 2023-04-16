@@ -20,7 +20,7 @@ namespace Files.App.Actions
 
 		public string Label => "LaunchQuickLook".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "LaunchQuickLookDescription".GetLocalizedResource();
 
 		public LaunchQuickLookAction()
 		{

@@ -34,6 +34,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private readonly IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
+		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 		/// <summary>
 		/// The name of a bundle this item is contained within
@@ -68,7 +69,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public bool OpenInNewPaneLoad
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane && TargetType == FilesystemItemType.Directory;
+			get => UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && TargetType == FilesystemItemType.Directory;
 		}
 
 		#endregion Properties
@@ -106,7 +107,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		private async void OpenInNewTab()
 		{
-			await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
+			await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
 		}
 
 		private void OpenInNewPane()
