@@ -47,7 +47,7 @@ namespace Files.Backend.Services.Settings
 		List<string> LastSessionTabList { get; set; }
 
 		/// <summary>
-		/// A list containing all paths to tabs last crashed.
+		/// A list containing paths of the tabs from the previous session that crashed.
 		/// </summary>
 		List<string> LastCrashedTabList { get; set; }
 
