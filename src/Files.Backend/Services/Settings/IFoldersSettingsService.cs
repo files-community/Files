@@ -198,6 +198,6 @@ namespace Files.Backend.Services.Settings
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to show checkboxes when selecting items in the details layout.
 		/// </summary>
-		bool ShowCheckboxesInDetailsView { get; set; }
+		bool ShowCheckboxesInDetailsLayout { get; set; }
 	}
 }

@@ -245,7 +245,7 @@
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowCheckboxesInDetailsLayout}"
-					IsOn="{x:Bind ViewModel.ShowCheckboxesInDetailsView, Mode=TwoWay}"
+					IsOn="{x:Bind ViewModel.ShowCheckboxesInDetailsLayout, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 

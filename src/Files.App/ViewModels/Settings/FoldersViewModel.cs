@@ -421,14 +421,14 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool ShowCheckboxesInDetailsView
+		public bool ShowCheckboxesInDetailsLayout
 		{
-			get => UserSettingsService.FoldersSettingsService.ShowCheckboxesInDetailsView;
+			get => UserSettingsService.FoldersSettingsService.ShowCheckboxesInDetailsLayout;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowCheckboxesInDetailsView)
+				if (value != UserSettingsService.FoldersSettingsService.ShowCheckboxesInDetailsLayout)
 				{
-					UserSettingsService.FoldersSettingsService.ShowCheckboxesInDetailsView = value;
+					UserSettingsService.FoldersSettingsService.ShowCheckboxesInDetailsLayout = value;
 
 					OnPropertyChanged();
 				}
