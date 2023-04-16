@@ -14,7 +14,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "NavigationToolbarNewPane/Label".GetLocalizedResource();
 
-		public string Description { get; } = "TODO: Need to be described.";
+		public string Description { get; } = "OpenNewPaneDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.OemPlus, KeyModifiers.MenuShift);
 

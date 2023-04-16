@@ -13,7 +13,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Rename".GetLocalizedResource();
 
-		public string Description { get; } = "TODO";
+		public string Description { get; } = "RenameDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.F2);
 

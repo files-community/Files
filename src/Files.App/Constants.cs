@@ -39,6 +39,7 @@ namespace Files.App
 			public const int OneDrive = 1043;
 			public const int Libraries = 1023;
 			public const int Folder = 3;
+			public const int ShieldIcon = 78;
 		}
 
 		public static class Shell32
