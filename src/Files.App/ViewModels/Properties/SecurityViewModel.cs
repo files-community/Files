@@ -86,27 +86,26 @@ namespace Files.App.ViewModels.Properties
 
 		private async void AddAccessControlEntry()
 		{
-			var pickedSid = await OpenObjectPicker();
-			if (string.IsNullOrEmpty(pickedSid))
+			// Pick an user/group
+			var sid = await OpenObjectPicker();
+			if (string.IsNullOrEmpty(sid))
 				return;
 
-			// TODO: Add ACE here
+			// Initialize
+			var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(IsFolder, sid);
+			AccessControlList.AccessControlEntries.Add(ace);
 
-			SaveChangedAccessControlList();
+			// Save
+			FileSecurityHelpers.SetAccessControlList(AccessControlList);
 		}
 
 		private void RemoveAccessControlEntry()
 		{
-			// TODO: Remove ACE here
+			// Remove
+			AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
 
-			SaveChangedAccessControlList();
-		}
-
-		public bool SaveChangedAccessControlList()
-		{
-			// TODO: Add saving codes here
-
-			return false;
+			// Save
+			FileSecurityHelpers.SetAccessControlList(AccessControlList);
 		}
 
 		private Task<string?> OpenObjectPicker()

@@ -23,6 +23,16 @@ namespace Files.App.Filesystem.Security
 		public bool IsValid { get; set; }
 
 		/// <summary>
+		/// File path which have this access control list
+		/// </summary>
+		public string Path { get; set; }
+
+		/// <summary>
+		/// Whether the path indicates folder or not
+		/// </summary>
+		public bool IsFolder { get; set; }
+
+		/// <summary>
 		/// ACE list
 		/// </summary>
 		public ObservableCollection<AccessControlEntry> AccessControlEntries { get; set; }

@@ -160,10 +160,26 @@ namespace Files.App.ViewModels.Properties
 
 		private async void AddAccessControlEntry()
 		{
+			// Pick an user/group
+			var sid = await OpenObjectPicker();
+			if (string.IsNullOrEmpty(sid))
+				return;
+
+			// Initialize
+			var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(IsFolder, sid);
+			AccessControlList.AccessControlEntries.Add(ace);
+
+			// Save
+			FileSecurityHelpers.SetAccessControlList(AccessControlList);
 		}
 
 		private void RemoveAccessControlEntry()
 		{
+			// Remove
+			AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
+
+			// Save
+			FileSecurityHelpers.SetAccessControlList(AccessControlList);
 		}
 
 		private void DisableInheritance()

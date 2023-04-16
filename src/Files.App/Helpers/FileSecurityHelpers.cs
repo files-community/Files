@@ -2,6 +2,7 @@
 using Files.App.Shell;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
@@ -128,6 +129,8 @@ namespace Files.App.Helpers
 				IsProtected = GetAccessControlProtection(path, isFolder),
 				IsValid = true,
 				AccessControlEntries = new(),
+				Path = path,
+				IsFolder = isFolder
 			};
 
 			// Get ACEs
@@ -168,8 +171,51 @@ namespace Files.App.Helpers
 			return acl;
 		}
 
-		public static bool SetAccessControlList(string path, bool isFolder)
+		public static bool SetAccessControlList(AccessControlList acl)
 		{
+			return false;
+		}
+
+		public static AccessControlEntry InitializeDefaultAccessControlEntry(bool isFolder, string ownerSid)
+		{
+			return new(
+				isFolder,
+				ownerSid,
+				FilesSecurity.AccessControlType.Allow,
+				FilesSecurity.AccessMaskFlags.ReadAndExecute,
+				false,
+				isFolder
+					? FilesSecurity.InheritanceFlags.ContainerInherit | FilesSecurity.InheritanceFlags.ObjectInherit
+					: FilesSecurity.InheritanceFlags.None,
+				FilesSecurity.PropagationFlags.None);
+		}
+
+		public static bool AddAccessControlEntry(string path, AccessControlEntry entry)
+		{
+			// Get DACL
+			GetNamedSecurityInfo(
+				path,
+				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
+				out _,
+				out _,
+				out var pDacl,
+				out _,
+				out _);
+
+			// Get ACL size info
+			GetAclInformation(pDacl, out ACL_SIZE_INFORMATION aclSize);
+
+			uint revision = GetAclInformation(pDacl, out ACL_REVISION_INFORMATION aclRevision) ? aclRevision.AclRevision : 0U;
+
+			// Get ACEs
+			for (uint i = 0; i < aclSize.AceCount; i++)
+			{
+				//GetAce(pDacl, i, out var pAce);
+
+				//AddAce(pDacl, revision, 0, (IntPtr)pAce, ((PACL)pDacl).Length() - (uint)Marshal.SizeOf(typeof(ACL)));
+			}
+
 			return false;
 		}
 	}
