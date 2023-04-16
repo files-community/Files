@@ -11,12 +11,13 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI;
 
 namespace Files.App.Views.Properties
 {
-	public sealed partial class MainPropertiesPage : Page
+	public sealed partial class MainPropertiesPage : BasePropertiesPage
 	{
 		private AppWindow AppWindow;
 
@@ -24,7 +25,7 @@ namespace Files.App.Views.Properties
 
 		private SettingsViewModel AppSettings { get; set; }
 
-		private MainPropertiesViewModel ViewModel { get; set; }
+		private MainPropertiesViewModel MainPropertiesViewModel { get; set; }
 
 		public MainPropertiesPage()
 		{
@@ -44,9 +45,9 @@ namespace Files.App.Views.Properties
 			AppSettings = Ioc.Default.GetRequiredService<SettingsViewModel>();
 			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
 
-			ViewModel = new(Window, AppWindow, MainContentFrame, parameter);
-
 			base.OnNavigatedTo(e);
+
+			MainPropertiesViewModel = new(Window, AppWindow, MainContentFrame, BaseProperties, parameter);
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -67,17 +68,20 @@ namespace Files.App.Views.Properties
 
 		private void UpdatePageLayout()
 		{
+			// Drag zone
 			DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight, 40);
 
+			// NavigationView Pane Mode
 			MainPropertiesWindowNavigationView.PaneDisplayMode =
 				ActualWidth <= 600
 					? NavigationViewPaneDisplayMode.LeftCompact
 					: NavigationViewPaneDisplayMode.Left;
 
+			// Collapse NavigationViewItem Content text
 			if (ActualWidth <= 600)
-				foreach (var item in ViewModel.NavigationViewItems) item.IsCompact = true;
+				foreach (var item in MainPropertiesViewModel.NavigationViewItems) item.IsCompact = true;
 			else
-				foreach (var item in ViewModel.NavigationViewItems) item.IsCompact = false;
+				foreach (var item in MainPropertiesViewModel.NavigationViewItems) item.IsCompact = false;
 		}
 
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
@@ -109,11 +113,18 @@ namespace Files.App.Views.Properties
 			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
 			Window.Closed -= Window_Closed;
 
-			if (ViewModel.ChangedPropertiesCancellationTokenSource is not null &&
-				!ViewModel.ChangedPropertiesCancellationTokenSource.IsCancellationRequested)
+			if (MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource is not null &&
+				!MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource.IsCancellationRequested)
 			{
-				ViewModel.ChangedPropertiesCancellationTokenSource.Cancel();
+				MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource.Cancel();
 			}
+		}
+
+		public async override Task<bool> SaveChangesAsync()
+			=> await Task.FromResult(false);
+
+		public override void Dispose()
+		{
 		}
 	}
 }

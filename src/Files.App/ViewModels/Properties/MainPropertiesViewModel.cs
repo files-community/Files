@@ -18,7 +18,6 @@ namespace Files.App.ViewModels.Properties
 {
 	public class MainPropertiesViewModel : ObservableObject
 	{
-		#region Props
 		public CancellationTokenSource ChangedPropertiesCancellationTokenSource { get; }
 
 		public ObservableCollection<NavigationViewItemButtonStyleItem> NavigationViewItems { get; }
@@ -60,11 +59,37 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
+		//public string TitleBarText
+		//{
+		//	get
+		//	{
+		//		// Library
+		//		if (_baseProperties is LibraryProperties library)
+		//			return library.Library.Name;
+		//		// Drive
+		//		else if (_baseProperties is DriveProperties drive)
+		//			return drive.Drive.Text;
+		//		// Storage objects (multi-selected)
+		//		else if (_baseProperties is CombinedProperties combined)
+		//			return string.Join(", ", combined.List.Select(x => x.Name));
+		//		// File
+		//		else if (_baseProperties is FileProperties file)
+		//			return file.Item.Name;
+		//		// Folder
+		//		else if (_baseProperties is FolderProperties folder)
+		//			return folder.Item.Name;
+		//		else
+		//			return string.Empty;
+		//	}
+		//}
+
 		private readonly Window Window;
 
 		private readonly AppWindow AppWindow;
 
 		private readonly Frame _mainFrame;
+
+		private readonly BaseProperties _baseProperties;
 
 		private readonly PropertiesPageNavigationParameter _parameter;
 
@@ -73,9 +98,8 @@ namespace Files.App.ViewModels.Properties
 		public IRelayCommand DoBackwardNavigationCommand { get; }
 		public IAsyncRelayCommand SaveChangedPropertiesCommand { get; }
 		public IRelayCommand CancelChangedPropertiesCommand { get; }
-		#endregion
 
-		public MainPropertiesViewModel(Window window, AppWindow appWindow, Frame mainFrame, PropertiesPageNavigationParameter parameter)
+		public MainPropertiesViewModel(Window window, AppWindow appWindow, Frame mainFrame, BaseProperties baseProperties, PropertiesPageNavigationParameter parameter)
 		{
 			ChangedPropertiesCancellationTokenSource = new();
 
@@ -83,6 +107,7 @@ namespace Files.App.ViewModels.Properties
 			AppWindow = appWindow;
 			_mainFrame = mainFrame;
 			_parameter = parameter;
+			_baseProperties = baseProperties;
 
 			DoBackwardNavigationCommand = new RelayCommand(ExecuteDoBackwardNavigationCommand);
 			SaveChangedPropertiesCommand = new AsyncRelayCommand(ExecuteSaveChangedPropertiesCommand);

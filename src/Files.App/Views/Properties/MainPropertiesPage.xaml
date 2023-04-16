@@ -1,4 +1,4 @@
-﻿<Page
+﻿<vm:BasePropertiesPage
 	x:Class="Files.App.Views.Properties.MainPropertiesPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,17 +6,18 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:datamodels="using:Files.App.DataModels"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.Views.Properties"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
+	xmlns:vm="using:Files.App.ViewModels.Properties"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
+	DataContext="{x:Bind MainPropertiesViewModel, Mode=OneWay}"
 	KeyDown="Page_KeyDown"
 	Loaded="Page_Loaded"
 	SizeChanged="Page_SizeChanged"
 	mc:Ignorable="d">
 
-	<Page.Resources>
+	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
@@ -31,7 +32,7 @@
 				TrueValue="Collapsed" />
 
 		</ResourceDictionary>
-	</Page.Resources>
+	</vm:BasePropertiesPage.Resources>
 
 	<Grid x:Name="RootGrid">
 		<Grid.RowDefinitions>
@@ -55,7 +56,7 @@
 				Margin="4,4,0,0"
 				Background="Transparent"
 				BorderThickness="0"
-				Command="{x:Bind ViewModel.DoBackwardNavigationCommand, Mode=OneWay}"
+				Command="{x:Bind MainPropertiesViewModel.DoBackwardNavigationCommand, Mode=OneWay}"
 				CommandParameter="{x:Bind}"
 				IsEnabled="{x:Bind MainContentFrame.CanGoBack, Mode=OneWay}"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=Back}">
@@ -81,10 +82,14 @@
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch">
 				<TextBlock
-					Margin="4,4,0,0"
+					x:Name="TitlebarFileNameTextBlock"
+					Margin="4,4,48,0"
 					VerticalAlignment="Center"
 					Style="{StaticResource CaptionTextBlockStyle}"
-					Text="{helpers:ResourceString Name=Properties}" />
+					TextTrimming="CharacterEllipsis"
+					TextWrapping="NoWrap">
+					<Run Text="{helpers:ResourceString Name=Properties}" />
+				</TextBlock>
 			</Border>
 
 		</Grid>
@@ -97,10 +102,10 @@
 			IsPaneToggleButtonVisible="False"
 			IsSettingsVisible="False"
 			IsTitleBarAutoPaddingEnabled="False"
-			MenuItemsSource="{x:Bind ViewModel.NavigationViewItems, Mode=OneWay}"
+			MenuItemsSource="{x:Bind MainPropertiesViewModel.NavigationViewItems, Mode=OneWay}"
 			OpenPaneLength="180"
 			PaneDisplayMode="Left"
-			SelectedItem="{x:Bind ViewModel.SelectedNavigationViewItem, Mode=TwoWay}">
+			SelectedItem="{x:Bind MainPropertiesViewModel.SelectedNavigationViewItem, Mode=TwoWay}">
 
 			<!--  Item Template  -->
 			<NavigationView.MenuItemTemplate>
@@ -164,14 +169,14 @@
 							<Button
 								x:Name="SaveChangesButton"
 								Width="96"
-								Command="{x:Bind ViewModel.SaveChangedPropertiesCommand, Mode=OneWay}"
+								Command="{x:Bind MainPropertiesViewModel.SaveChangedPropertiesCommand, Mode=OneWay}"
 								Content="{helpers:ResourceString Name=Save}"
 								Style="{StaticResource AccentButtonStyle}" />
 
 							<Button
 								x:Name="CancelChangesButton"
 								Width="96"
-								Command="{x:Bind ViewModel.CancelChangedPropertiesCommand, Mode=OneWay}"
+								Command="{x:Bind MainPropertiesViewModel.CancelChangedPropertiesCommand, Mode=OneWay}"
 								Content="{helpers:ResourceString Name=Cancel}" />
 
 						</StackPanel>
@@ -183,4 +188,4 @@
 		</NavigationView>
 
 	</Grid>
-</Page>
+</vm:BasePropertiesPage>
