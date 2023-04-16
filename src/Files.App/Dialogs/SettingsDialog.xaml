@@ -73,7 +73,7 @@
 			<NavigationView.MenuItems>
 				<NavigationViewItem
 					AccessKey="P"
-					AutomationProperties.AutomationId="SettingsItemPreferences"
+					AutomationProperties.AutomationId="SettingsItemGeneral"
 					Content="{helpers:ResourceString Name=General}"
 					IsSelected="True"
 					Tag="0">
