@@ -27,13 +27,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage);
-		}
-
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName is nameof(IContentPageContext.ShellPage))
-				OnPropertyChanged(nameof(IsExecutable));
+			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage!);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
