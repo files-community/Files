@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings
 {
-	public interface IPreferencesSettingsService : IBaseSettingsService, INotifyPropertyChanged
+	public interface IGeneralSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to search unindexed items.

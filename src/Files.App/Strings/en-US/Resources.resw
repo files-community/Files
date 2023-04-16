@@ -216,9 +216,6 @@
   <data name="Advanced" xml:space="preserve">
     <value>Advanced</value>
   </data>
-  <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>Preferences</value>
-  </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continue where you left off</value>
   </data>
@@ -3180,5 +3177,8 @@
   </data>
   <data name="MoveFileWithoutProperties" xml:space="preserve">
     <value>Are you sure you want to move these files without their properties?</value>
+  </data>
+  <data name="ShowCheckboxesInDetailsLayout" xml:space="preserve">
+    <value>Show checkboxes when selecting items in the details layout</value>
   </data>
 </root>
