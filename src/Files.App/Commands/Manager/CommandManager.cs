@@ -59,6 +59,7 @@ namespace Files.App.Commands
 		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
 		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
+		public IRichCommand PermanentlyDelete => commands[CommandCodes.PermanentlyDelete];
 		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
 		public IRichCommand InstallInfDriver => commands[CommandCodes.InstallInfDriver];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
@@ -199,6 +200,7 @@ namespace Files.App.Commands
 			[CommandCodes.PasteItem] = new PasteItemAction(),
 			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
+			[CommandCodes.PermanentlyDelete] = new PermanentlyDeleteAction(),
 			[CommandCodes.InstallFont] = new InstallFontAction(),
 			[CommandCodes.InstallInfDriver] = new InstallInfDriverAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),

@@ -25,6 +25,7 @@ namespace Files.App.Commands
 		PasteItem,
 		PasteItemToSelection,
 		DeleteItem,
+		PermanentlyDelete,
 		CreateFolder,
 		CreateShortcut,
 		CreateShortcutFromDialog,
