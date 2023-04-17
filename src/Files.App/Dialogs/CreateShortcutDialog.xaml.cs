@@ -2,6 +2,7 @@ using Files.App.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using System;
 using System.Threading.Tasks;
 
@@ -18,6 +19,18 @@ namespace Files.App.Dialogs
 		public CreateShortcutDialog()
 		{
 			InitializeComponent();
+			this.Closing += CreateShortcutDialog_Closing;
+
+			InvalidPathWarning.SetBinding(TeachingTip.TargetProperty, new Binding()
+			{
+				Source = DestinationItemPath
+			});
+		}
+
+		private void CreateShortcutDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
+		{
+			this.Closing -= CreateShortcutDialog_Closing;
+			InvalidPathWarning.IsOpen = false;
 		}
 
 		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
