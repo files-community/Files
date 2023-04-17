@@ -3166,9 +3166,6 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
   </data>
-  <data name="PermanentlyDelete" xml:space="preserve">
-    <value>Permanently delete</value>
-  </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Invalid location</value>
   </data>
@@ -3186,9 +3183,6 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
-  </data>
-  <data name="PermanentlyDeleteDescription" xml:space="preserve">
-    <value>Permanently delte item(s)</value>
   </data>
   <data name="SearchUnindexedItemsDescription" xml:space="preserve">
     <value>Include unindexed items in search results</value>
