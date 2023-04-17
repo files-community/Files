@@ -274,7 +274,7 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ShowCheckboxesInDetailsLayout
+		public bool ShowCheckboxesWhenSelectingItems
 		{
 			get => Get(true);
 			set => Set(value);
@@ -311,7 +311,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(SelectFilesOnHover):
 				case nameof(DoubleClickToGoUp):
 				case nameof(ShowFileExtensionWarning):
-				case nameof(ShowCheckboxesInDetailsLayout):
+				case nameof(ShowCheckboxesWhenSelectingItems):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}
