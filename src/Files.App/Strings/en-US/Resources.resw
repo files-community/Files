@@ -3166,6 +3166,9 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
   </data>
+  <data name="InvalidLocation" xml:space="preserve">
+    <value>Invalid location</value>
+  </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
     <value>Are you sure you want to copy these files without their properties?</value>
   </data>
@@ -3178,7 +3181,7 @@
   <data name="MoveFileWithoutProperties" xml:space="preserve">
     <value>Are you sure you want to move these files without their properties?</value>
   </data>
-  <data name="ShowCheckboxesInDetailsLayout" xml:space="preserve">
-    <value>Show checkboxes when selecting items in the details layout</value>
+  <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
+    <value>Show checkboxes when selecting items</value>
   </data>
 </root>
