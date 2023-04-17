@@ -118,67 +118,67 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>New window</value>
+    <value>Naujas langas</value>
   </data>
   <data name="CopyLocation" xml:space="preserve">
-    <value>Copy location</value>
+    <value>Kopijuoti Lokacija</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Browse</value>
+    <value>Naršyti</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value>Size</value>
+    <value>Dydis</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>Created:</value>
+    <value>Sukurta:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Vieta:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Dydis:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Nesuspaustas dydis:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>This action cannot be done</value>
+    <value>Ši veiksma negalima atlikti</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>The destination folder</value>
+    <value>Paskirties aplankas</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>is a subfolder of the source folder</value>
+    <value>yra šaltinio aplanko poaplankis</value>
   </data>
   <data name="Skip" xml:space="preserve">
-    <value>Skip</value>
+    <value>Praleisti</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>Pažymėti visus</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Invert Selection</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>Išvalyti pasirinkimą</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Modified:</value>
+    <value>Modifikuota:</value>
   </data>
   <data name="Accessed" xml:space="preserve">
-    <value>Accessed:</value>
+    <value>Atidaryta:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>Išvalyti visus elementus</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path</value>
+    <value>Įveskite kelią</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Ieškoti</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Files you've previously accessed will show up here</value>
+    <value>Čia bus rodomi failai, kuriuos anksčiau atidarėte</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Remove this item</value>
@@ -215,9 +215,6 @@
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Advanced</value>
-  </data>
-  <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>Preferences</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continue where you left off</value>
@@ -3103,7 +3100,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>Search</value>
+    <value>Ieškoti</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
@@ -3168,5 +3165,23 @@
   </data>
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
+  </data>
+  <data name="InvalidLocation" xml:space="preserve">
+    <value>Invalid location</value>
+  </data>
+  <data name="CopyFileWithoutProperties" xml:space="preserve">
+    <value>Are you sure you want to copy these files without their properties?</value>
+  </data>
+  <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
+    <value>These files have properties that can't be copied to the new location</value>
+  </data>
+  <data name="FilePropertiesCannotBeMoved" xml:space="preserve">
+    <value>These files have properties that can't be moved to the new location</value>
+  </data>
+  <data name="MoveFileWithoutProperties" xml:space="preserve">
+    <value>Are you sure you want to move these files without their properties?</value>
+  </data>
+  <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
+    <value>Show checkboxes when selecting items</value>
   </data>
 </root>
