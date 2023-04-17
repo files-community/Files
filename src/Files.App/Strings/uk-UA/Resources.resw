@@ -2635,7 +2635,7 @@
     <value>Увімкнути компактний оверлей</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Go to search box</value>
+    <value>Перейти до поля пошуку</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Toggle whether to show hidden items</value>
@@ -2668,7 +2668,7 @@
     <value>Видалити елемент(и)</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
-    <value>Create new folder</value>
+    <value>Створити нову папку</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
     <value>Create new shortcut(s) to selected item(s)</value>
@@ -2704,7 +2704,7 @@
     <value>Rename selected item</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>Select all items</value>
+    <value>Вибрати все</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
     <value>Invert item selection</value>
@@ -2785,7 +2785,7 @@
     <value>Open settings page</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Open folder in terminal</value>
+    <value>Відкрити папку в терміналі</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
     <value>Open folder in terminal as administrator</value>
