@@ -13,7 +13,7 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "Refresh".GetLocalizedResource();
-		public string Description { get; } = "TODO";
+		public string Description { get; } = "RefreshItemsDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new("\uE72C");
 

@@ -1,6 +1,8 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.DataModels;
 using Files.App.Dialogs;
 using Files.App.Extensions;
+using Files.App.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -46,7 +48,9 @@ namespace Files.App.Helpers
 
 				var folder = instance.FilesystemViewModel.CurrentFolder;
 
-				var drives = App.DrivesManager.Drives;
+				var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
+				var drives = drivesViewModel.Drives;
 				foreach (var drive in drives)
 					if (drive.Path.Equals(folder.ItemPath))
 						return drive;

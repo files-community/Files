@@ -52,7 +52,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "RecentFiles".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget;
 
 		public bool ShowMenuFlyout => false;
 
