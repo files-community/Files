@@ -1,8 +1,10 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
+using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.App.ViewModels;
 using Files.App.Views;
 using Files.Shared.Extensions;
 using System;
@@ -286,7 +288,9 @@ namespace Files.App.Filesystem
 			}
 			else if (component.Contains(':', StringComparison.Ordinal))
 			{
-				var drives = App.DrivesManager.Drives.Concat(App.NetworkDrivesManager.Drives).Concat(App.CloudDrivesManager.Drives);
+				var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
+				var drives = drivesViewModel.Drives.Cast<DriveItem>().Concat(App.NetworkDrivesManager.Drives).Concat(App.CloudDrivesManager.Drives);
 				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));
 				title = drive is not null ? drive.Text : $@"Drive ({component})";
 			}

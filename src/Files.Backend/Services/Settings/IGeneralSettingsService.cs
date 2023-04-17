@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings
 {
-	public interface IPreferencesSettingsService : IBaseSettingsService, INotifyPropertyChanged
+	public interface IGeneralSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to search unindexed items.
@@ -45,6 +45,11 @@ namespace Files.Backend.Services.Settings
 		/// A list containing all paths to tabs closed on last session.
 		/// </summary>
 		List<string> LastSessionTabList { get; set; }
+
+		/// <summary>
+		/// A list containing paths of the tabs from the previous session that crashed.
+		/// </summary>
+		List<string> LastCrashedTabList { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating which date and time format to use.

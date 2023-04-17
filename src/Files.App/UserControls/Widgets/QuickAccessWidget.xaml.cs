@@ -143,7 +143,7 @@ namespace Files.App.UserControls.Widgets
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget;
 
 		public bool ShowMenuFlyout => false;
 
@@ -173,7 +173,7 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -184,14 +184,14 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewWindow
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

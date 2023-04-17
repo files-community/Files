@@ -137,7 +137,7 @@ namespace Files.App.ViewModels
 			if (isLibrary || !Path.IsPathRooted(value))
 				workingRoot = currentStorageFolder = null;
 			else if (!Path.IsPathRooted(WorkingDirectory) || Path.GetPathRoot(WorkingDirectory) != Path.GetPathRoot(value))
-				workingRoot = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(value));
+				workingRoot = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(value));
 
 			if (value == "Home")
 				currentStorageFolder = null;
@@ -505,6 +505,7 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.FoldersSettingsService.ShowDotFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.CalculateFolderSizes):
 				case nameof(UserSettingsService.FoldersSettingsService.SelectFilesOnHover):
+				case nameof(UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
 						if (WorkingDirectory != "Home")
