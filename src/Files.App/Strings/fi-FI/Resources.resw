@@ -216,9 +216,6 @@
   <data name="Advanced" xml:space="preserve">
     <value>Lisäasetukset</value>
   </data>
-  <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>Asetukset</value>
-  </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Jatka siitä mihin jäit</value>
   </data>
@@ -2539,7 +2536,7 @@
     <value>Näytä piilotetut kohteet</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Muoto...</value>
+    <value>Alusta...</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Tuki</value>
@@ -2623,7 +2620,7 @@
     <value>Kytke suppea asettelu päälle/pois</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open online help page in browser</value>
+    <value>Avaa online-ohjesivu selaimessa</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>Vaihda koko näytön tilaan</value>
@@ -2638,19 +2635,19 @@
     <value>Kytke suppea asettelu päälle/pois</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Go to search box</value>
+    <value>Siirry hakukenttään</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle whether to show hidden items</value>
+    <value>Valitse, näytetäänkö piilotetut kohteet</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>Valitse, näytetäänkö tiedostotunnisteet</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle whether to show preview pane</value>
+    <value>Valitse, näytetäänkö esikatseluruutu</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Toggle whether to show sidebar</value>
+    <value>Valitse, näytetäänkö sivupalkki</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
     <value>Kopioi kohteet leikepöydälle</value>
@@ -2662,88 +2659,88 @@
     <value>Leikkaa kohteet leikepöydälle</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to current folder</value>
+    <value>Liitä kohteet leikepöydältä nykyiseen kansioon</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to selected folder</value>
+    <value>Liitä kohteet leikepöydältä valittuun kansioon</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Poista kohteet</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
-    <value>Create new folder</value>
+    <value>Luo uusi kansio</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new shortcut(s) to selected item(s)</value>
+    <value>Luo uudet pikakuvakkeet valittuihin kohteisiin</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>Luo uusi pikakuvake mihin tahansa kohteeseen</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Tyhjennä roskakori</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Open "Format Drive" menu for selected item</value>
+    <value>Avaa valitun kohteen "Alusta asema" -valikko</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected item(s) from recycle bin</value>
+    <value>Palauta valitut kohteet roskakorista</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>Palauta kaikki kohteet roskakorista</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open item(s)</value>
+    <value>Avaa kohteet</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open item(s) with selected application</value>
+    <value>Avaa kohteet valitussa sovelluksessa</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Open parent folder of searched item</value>
+    <value>Avaa haetun kohteen yläkansio</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>Päivitä sivun sisältö</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>Rename selected item</value>
+    <value>Nimeä valittu kohde uudelleen</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>Select all items</value>
+    <value>Valitse kaikki kohteet</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert item selection</value>
+    <value>Käänteinen kohteen valinta</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear item selection</value>
+    <value>Tyhjennä kohteen valinta</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Toggle item selection</value>
+    <value>Vaihda kohteen valinta</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected file(s) with others</value>
+    <value>Jaa valitut tiedostot muiden kanssa</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin item(s) to the Start Menu</value>
+    <value>Kiinnitä kohteet Käynnistä-valikkoon</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin item(s) from the Start Menu</value>
+    <value>Irrota kohteet Käynnistä-valikosta</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Pin folder(s) to Favorites</value>
+    <value>Kiinnitä kansiot suosikkeihin</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Unpin folder(s) from Favorites</value>
+    <value>Irrota kansiot suosikeista</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as desktop background</value>
+    <value>Aseta valittu kuva työpöydän taustaksi</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Set selected pictures as desktop slideshow</value>
+    <value>Aseta valitut kuvat työpöydän diaesitykseksi</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as lockscreen background</value>
+    <value>Aseta valittu kuva lukitusnäytön taustaksi</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected font(s)</value>
+    <value>Asenna valitut kirjasimet</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Install driver(s) using selected inf file(s)</value>
@@ -3168,5 +3165,23 @@
   </data>
   <data name="CloseTab" xml:space="preserve">
     <value>Sulkee nykyisen välilehden</value>
+  </data>
+  <data name="InvalidLocation" xml:space="preserve">
+    <value>Invalid location</value>
+  </data>
+  <data name="CopyFileWithoutProperties" xml:space="preserve">
+    <value>Haluatko varmasti kopioida nämä tiedostot ilman niiden ominaisuuksia?</value>
+  </data>
+  <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
+    <value>Näillä tiedostoilla on ominaisuuksia, joita ei voi kopioida uuteen sijaintiin</value>
+  </data>
+  <data name="FilePropertiesCannotBeMoved" xml:space="preserve">
+    <value>Näillä tiedostoilla on ominaisuuksia, joita ei voi siirtää uuteen sijaintiin</value>
+  </data>
+  <data name="MoveFileWithoutProperties" xml:space="preserve">
+    <value>Haluatko varmasti siirtää nämä tiedostot ilman niiden ominaisuuksia?</value>
+  </data>
+  <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
+    <value>Show checkboxes when selecting items</value>
   </data>
 </root>

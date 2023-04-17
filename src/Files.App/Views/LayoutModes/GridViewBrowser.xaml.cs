@@ -507,7 +507,10 @@ namespace Files.App.Views.LayoutModes
 				if (isPointerOver.HasValue)
 					control.SetValue(IsPointerOverProperty, isPointerOver);
 				// Handle visual states
-				if (control.IsSelected || control.GetValue(IsPointerOverProperty) is not false)
+				// Show checkboxes when items are selected (as long as the setting is enabled)
+				// Show checkboxes when hovering of the item (regardless of the setting to hide them)
+				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
+					|| control.GetValue(IsPointerOverProperty) is not false)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
