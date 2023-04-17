@@ -14,9 +14,9 @@ namespace Files.App.Actions
 {
 	internal class DeleteItemAction : BaseUIAction, IAction
 	{
-		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
-
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
 		public string Label { get; } = "Delete".GetLocalizedResource();
 
