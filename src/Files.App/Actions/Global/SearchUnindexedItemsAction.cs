@@ -12,7 +12,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "SearchUnindexedItemsButton/Content".GetLocalizedResource();
 
-		public string Description { get; } = "TODO: Need to be described.";
+		public string Description { get; } = "SearchUnindexedItemsDescription".GetLocalizedResource();
 
 		public bool IsExecutable => context.ShowSearchUnindexedItemsMessage;
 

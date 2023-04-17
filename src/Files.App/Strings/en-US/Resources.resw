@@ -3187,4 +3187,10 @@
   <data name="ShowCheckboxesInDetailsLayout" xml:space="preserve">
     <value>Show checkboxes when selecting items in the details layout</value>
   </data>
+  <data name="PermanentlyDeleteDescription" xml:space="preserve">
+    <value>Permanently delte item(s)</value>
+  </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Include unindexed items in search results</value>
+  </data>
 </root>

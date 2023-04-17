@@ -8,7 +8,7 @@ namespace Files.App.Actions
 	{
 		public string Label { get; } = "PermanentlyDelete".GetLocalizedResource();
 
-		public string Description { get; } = "TODO: Need to be described.";
+		public string Description { get; } = "PermanentlyDeleteDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.Delete, KeyModifiers.Shift);
 
