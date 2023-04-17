@@ -3181,8 +3181,8 @@
   <data name="MoveFileWithoutProperties" xml:space="preserve">
     <value>Are you sure you want to move these files without their properties?</value>
   </data>
-  <data name="ShowCheckboxesInDetailsLayout" xml:space="preserve">
-    <value>Show checkboxes when selecting items in the details layout</value>
+  <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
+    <value>Show checkboxes when selecting items</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Go to path bar</value>

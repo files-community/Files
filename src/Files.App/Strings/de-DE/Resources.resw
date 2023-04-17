@@ -216,9 +216,6 @@
   <data name="Advanced" xml:space="preserve">
     <value>Erweitert</value>
   </data>
-  <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>Präferenzen</value>
-  </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Weitermachen, wo Du aufgehört hast</value>
   </data>
@@ -2623,7 +2620,7 @@
     <value>Kompakte Ansicht umschalten</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open online help page in browser</value>
+    <value>Online-Hilfeseite im Browser öffnen</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>Vollbild ein-/ausschalten</value>
@@ -2638,19 +2635,19 @@
     <value>Kompakte Ansicht umschalten</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Go to search box</value>
+    <value>Gehe zu Suchfeld</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle whether to show hidden items</value>
+    <value>Umschalten, ob versteckte Elemente angezeigt werden sollen</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>Umschalten, ob Dateierweiterungen angezeigt werden sollen</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle whether to show preview pane</value>
+    <value>Umschalten, ob Vorschaupanel angezeigt werden soll</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Toggle whether to show sidebar</value>
+    <value>Umschalten, ob Seitenleiste angezeigt werden soll</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
     <value>Element(e) in Zwischenablage kopieren</value>
@@ -2662,64 +2659,64 @@
     <value>Element(e) in die Zwischenablage ausschneiden</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to current folder</value>
+    <value>Element(e) aus der Zwischenablage in aktuellen Ordner einfügen</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to selected folder</value>
+    <value>Element(e) aus der Zwischenablage in ausgewählten Ordner einfügen</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Objekt(e) löschen</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
-    <value>Create new folder</value>
+    <value>Neuen Ordner erstellen</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new shortcut(s) to selected item(s)</value>
+    <value>Neue Verknüpfung(en) zu ausgewähltem Element/ausgewählten Elementen erstellen</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>Neue Verknüpfung zu beliebigem Element erstellen</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Papierkorb leeren</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Open "Format Drive" menu for selected item</value>
+    <value>"Datenträger formatieren"-Menü für ausgewähltes Element öffnen</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected item(s) from recycle bin</value>
+    <value>Ausgewählte(s) Element(e) aus Papierkorb wiederherstellen</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>Alle Elemente aus dem Papierkorb wiederherstellen</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open item(s)</value>
+    <value>Element(e) öffnen</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open item(s) with selected application</value>
+    <value>Ausgewählte(s) Element(e) mit ausgewählter Anwendung öffnen</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Open parent folder of searched item</value>
+    <value>Übergeordneten Ordner des gesuchten Elements öffnen</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>Seiteninhalt aktualisieren</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>Rename selected item</value>
+    <value>Ausgewähltes Element umbenennen</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>Select all items</value>
+    <value>Alles auswählen</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert item selection</value>
+    <value>Auswahl umkehren</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear item selection</value>
+    <value>Auswahl aufheben</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Toggle item selection</value>
+    <value>Auswahl umschalten</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected file(s) with others</value>
+    <value>Ausgewählte Datei(en) mit anderen teilen</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
     <value>Pin item(s) to the Start Menu</value>
@@ -3168,5 +3165,23 @@
   </data>
   <data name="CloseTab" xml:space="preserve">
     <value>Schließt den aktuellen Tab</value>
+  </data>
+  <data name="InvalidLocation" xml:space="preserve">
+    <value>Invalid location</value>
+  </data>
+  <data name="CopyFileWithoutProperties" xml:space="preserve">
+    <value>Are you sure you want to copy these files without their properties?</value>
+  </data>
+  <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
+    <value>These files have properties that can't be copied to the new location</value>
+  </data>
+  <data name="FilePropertiesCannotBeMoved" xml:space="preserve">
+    <value>These files have properties that can't be moved to the new location</value>
+  </data>
+  <data name="MoveFileWithoutProperties" xml:space="preserve">
+    <value>Are you sure you want to move these files without their properties?</value>
+  </data>
+  <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
+    <value>Show checkboxes when selecting items</value>
   </data>
 </root>
