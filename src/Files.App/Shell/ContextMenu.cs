@@ -299,7 +299,7 @@ namespace Files.App.Shell
 				{
 					try
 					{
-						loadSubMenuAction!.Invoke();
+						loadSubMenuAction!();
 					}
 					catch (COMException)
 					{
