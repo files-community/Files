@@ -235,7 +235,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				ItemContextMenuFlyout.Closed -= flyoutClosed;
 				var listedItem = await UniversalStorageEnumerator.AddFileAsync(await BaseStorageFile.GetFileFromPathAsync(item.Path), null, default);
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, associatedInstance);
+				FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, associatedInstance);
 			};
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}

@@ -108,6 +108,11 @@ namespace Files.App.ViewModels.Properties
 			FileSecurityHelpers.SetAccessControlList(AccessControlList);
 		}
 
+		public bool SaveChangedAccessControlList()
+		{
+			return false;
+		}
+
 		private Task<string?> OpenObjectPicker()
 			=> FileOperationsHelpers.OpenObjectPickerAsync(FilePropertiesHelpers.GetWindowHandle(Window).ToInt64());
 	}
