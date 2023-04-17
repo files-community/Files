@@ -13,13 +13,12 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Web.Http.Headers;
 
 namespace Files.App.Commands
 {
 	internal class CommandManager : ICommandManager
 	{
-		private readonly IPreferencesSettingsService settings = Ioc.Default.GetRequiredService<IPreferencesSettingsService>();
+		private readonly IGeneralSettingsService settings = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
 		private readonly IImmutableDictionary<CommandCodes, IRichCommand> commands;
 		private IImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
@@ -314,7 +313,7 @@ namespace Files.App.Commands
 
 		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IPreferencesSettingsService.Actions))
+			if (e.PropertyName is nameof(IGeneralSettingsService.Actions))
 				UpdateHotKeys();
 		}
 
