@@ -536,7 +536,6 @@
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				x:Load="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}"
-				CornerRadius="4"
 				Header="{helpers:ResourceString Name=Attributes}"
 				IsExpanded="False">
 				<Expander.Content>
