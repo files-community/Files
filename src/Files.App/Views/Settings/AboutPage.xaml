@@ -24,7 +24,7 @@
 					<EntranceThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
-			
+
 			<!--  Title  -->
 			<TextBlock
 				Padding="0,0,0,12"

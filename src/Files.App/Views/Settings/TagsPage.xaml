@@ -41,14 +41,14 @@
 					<EntranceThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
-			
+
 			<!--  Title  -->
 			<TextBlock
 				Padding="0,0,0,12"
 				FontSize="24"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=FileTags}" />
-			
+
 			<!--  Edit Tags  -->
 			<local:SettingsBlockControl
 				Title="{helpers:ResourceString Name=FileTags}"

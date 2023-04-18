@@ -30,14 +30,14 @@
 					<EntranceThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
-			
+
 			<!--  Title  -->
 			<TextBlock
 				Padding="0,0,0,12"
 				FontSize="24"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=General}" />
-			
+
 			<!--  Language settings  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Language}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
