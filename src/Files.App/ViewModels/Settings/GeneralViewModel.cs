@@ -315,12 +315,12 @@ namespace Files.App.ViewModels.Settings
 
 		public bool EnableOverscrollNavigation
 		{
-			get => UserSettingsService.PreferencesSettingsService.EnableOverscrollNavigation;
+			get => UserSettingsService.GeneralSettingsService.EnableOverscrollNavigation;
 			set
 			{
-				if(value != UserSettingsService.PreferencesSettingsService.EnableOverscrollNavigation)
+				if(value != UserSettingsService.GeneralSettingsService.EnableOverscrollNavigation)
 				{
-					UserSettingsService.PreferencesSettingsService.EnableOverscrollNavigation = value;
+					UserSettingsService.GeneralSettingsService.EnableOverscrollNavigation = value;
 
 					OnPropertyChanged();
 				}

@@ -159,7 +159,7 @@ namespace Files.App.Views
 		{
 			switch (e.SettingName)
 			{
-				case nameof(UserSettingsService.PreferencesSettingsService.EnableOverscrollNavigation):
+				case nameof(UserSettingsService.GeneralSettingsService.EnableOverscrollNavigation):
 					if (e.NewValue is bool enableOverscrollNavigation)
 					{
 						_navigationInteractionTracker.CanNavigateBackward = enableOverscrollNavigation ? CanNavigateBackward : false;
@@ -197,7 +197,7 @@ namespace Files.App.Views
 			if (parameters.IsLayoutSwitch)
 				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
 
-			if (userSettingsService.PreferencesSettingsService.EnableOverscrollNavigation)
+			if (userSettingsService.GeneralSettingsService.EnableOverscrollNavigation)
 			{
 				_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
 				_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
