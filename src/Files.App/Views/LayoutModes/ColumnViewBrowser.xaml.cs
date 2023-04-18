@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Storage;
 using static Files.App.Constants;
 using static Files.App.Helpers.PathNormalization;
 
@@ -59,9 +60,10 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
+			var nextBlade = ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex);
+			var arePathsDifferent = ((nextBlade?.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam;
 
-			if (ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex) is not BladeItem nextBlade ||
-				((nextBlade.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam)
+			if (nextBlade is null || arePathsDifferent)
 			{
 				DismissOtherBlades(column.ListView);
 
@@ -75,7 +77,8 @@ namespace Files.App.Views.LayoutModes
 				navigationArguments.NavPathParam = column.NavPathParam;
 				ParentShellPageInstance.TabItemArguments.NavigationArg = column.NavPathParam;
 			}
-			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && 
+				arePathsDifferent)
 			{
 				CloseUnnecessaryColumns(column);
 			}
@@ -268,7 +271,9 @@ namespace Files.App.Views.LayoutModes
 
 		private void ColumnViewBase_KeyUp(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
 		{
-			CloseUnnecessaryColumns((ActiveColumnShellPage as ColumnShellPage)?.ColumnParams);
+			var shPage = ActiveColumnShellPage as ColumnShellPage;
+			if (shPage?.SlimContentPage?.SelectedItem?.PrimaryItemAttribute is not StorageItemTypes.Folder)
+				CloseUnnecessaryColumns(shPage?.ColumnParams);
 		}
 
 		public void NavigateBack()
@@ -436,7 +441,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void CloseUnnecessaryColumns(ColumnParam column)
 		{
-			var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
+			var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel?.WorkingDirectory;
 			var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
 			if (string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath))
 				return;
