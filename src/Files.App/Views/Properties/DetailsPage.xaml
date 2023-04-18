@@ -21,18 +21,27 @@
 	<ScrollViewer>
 		<Grid Padding="12">
 
+			<!--  Details Expander List  -->
 			<ListView
 				x:Name="MainList"
 				HorizontalAlignment="Stretch"
 				ItemsSource="{x:Bind ViewModel.PropertySections, Mode=OneWay}"
 				SelectionMode="None">
 
+				<!--  Style  -->
+				<ListView.ItemContainerStyle>
+					<Style TargetType="ListViewItem">
+						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+						<Setter Property="Padding" Value="0,2,0,2" />
+					</Style>
+				</ListView.ItemContainerStyle>
+
+				<!--  Item Template  -->
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="vm:FilePropertySection">
 						<Expander
 							HorizontalAlignment="Stretch"
 							HorizontalContentAlignment="Stretch"
-							CornerRadius="4"
 							Header="{x:Bind Title}"
 							IsExpanded="True">
 
@@ -88,13 +97,7 @@
 					</DataTemplate>
 				</ListView.ItemTemplate>
 
-				<ListView.ItemContainerStyle>
-					<Style TargetType="ListViewItem">
-						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-						<Setter Property="Padding" Value="0,2,0,2" />
-					</Style>
-				</ListView.ItemContainerStyle>
-
+				<!--  Footer  -->
 				<ListView.Footer>
 					<Button
 						x:Name="ClearPropertiesButton"
