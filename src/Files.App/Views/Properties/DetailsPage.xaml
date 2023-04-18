@@ -32,7 +32,6 @@
 						<Expander
 							HorizontalAlignment="Stretch"
 							HorizontalContentAlignment="Stretch"
-							CornerRadius="8"
 							Header="{x:Bind Title}"
 							IsExpanded="True">
 
