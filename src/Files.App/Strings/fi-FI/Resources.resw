@@ -1858,7 +1858,7 @@
     <value>Arkiston purkaminen onnistui.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>Extracting archive</value>
+    <value>Puretaan arkistoa</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Extracting complete!</value>
@@ -2743,100 +2743,100 @@
     <value>Asenna valitut kirjasimet</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install driver(s) using selected inf file(s)</value>
+    <value>Asenna ajurit käyttämällä valittuja inf-tiedostoja</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Run selected application as administrator</value>
+    <value>Suorita valittu sovellus järjestelmänvalvojana</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>Suorita valittu sovellus toisena käyttäjänä</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Run selected PowerShell script</value>
+    <value>Suorita valittu PowerShell-skripti</value>
   </data>
   <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Launch QuickLook with selected item</value>
+    <value>Käynnistä pikakatselu valitulla kohteella</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected item(s)</value>
+    <value>Luo arkisto valituista kohteista</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive instantly with selected item(s)</value>
+    <value>Luo 7z-arkisto välittömästi valituilla kohteilla</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive instantly with selected item(s)</value>
+    <value>Luo zip-arkisto välittömästi valituilla kohteilla</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to any folder</value>
+    <value>Pura kohteet valituista arkistoista mihin tahansa kansioon</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder</value>
+    <value>Pura kohteet valituista arkistoista nykyiseen kansioon</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to new folder</value>
+    <value>Pura kohteet valituista arkistoista uuteen kansioon</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the left</value>
+    <value>Kierrä valittuja kuvia vasemmalle</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>Kierrä valittuja kuvia oikealle</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>Open settings page</value>
+    <value>Avaa asetussivu</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Open folder in terminal</value>
+    <value>Avaa kansio päätteessä</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Open folder in terminal as administrator</value>
+    <value>Avaa kansio päätteessä järjestelmänvalvojana</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease icon size in grid view</value>
+    <value>Pienennä kuvakkeen kokoa ruudukkonäkymässä</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase icon size in grid view</value>
+    <value>Kasvata kuvakkeen kokoa ruudukkonäkymässä</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Switch to details view</value>
+    <value>Vaihda tietonäkymään</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+    <value>Vaihda laattanäkymään</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Switch to grid view with small icons</value>
+    <value>Vaihda ruudukkonäkymään pienillä kuvakkeilla</value>
   </data>
   <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Switch to grid view with medium icons</value>
+    <value>Vaihda ruudukkonäkymään keskikokoisilla kuvakkeilla</value>
   </data>
   <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Switch to grid view with large icons</value>
+    <value>Vaihda ruudukkonäkymään suurilla kuvakkeilla</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>Vaihda sarakenäkymään</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>Vaihda näkymää mukautuvasti</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>Sort items by name</value>
+    <value>Lajittele kohteet nimen mukaan</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>Lajittele kohteet muokkauspäivämäärän mukaan</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>Lajittele kohteet luontipäivämäärän mukaan</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
-    <value>Sort items by size</value>
+    <value>Lajittele kohteet koon mukaan</value>
   </data>
   <data name="SortByTypeDescription" xml:space="preserve">
-    <value>Sort items by type</value>
+    <value>Lajittele kohteet tyypin mukaan</value>
   </data>
   <data name="SortBySyncStatusDescription" xml:space="preserve">
-    <value>Sort items by sync status</value>
+    <value>Lajittele kohteet synkronoinnin tilan mukaan</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
-    <value>Sort items by tags</value>
+    <value>Lajittele kohteet tunnisteiden mukaan</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
     <value>Sort items by original folder</value>
@@ -2878,7 +2878,7 @@
     <value>Group items by sync status</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
-    <value>Group items by tags</value>
+    <value>Ryhmittele tuotteet tunnisteiden mukaan</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
     <value>Group items by original folder</value>
@@ -2944,13 +2944,13 @@
     <value>Move to the next tab</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
-    <value>Close current tab</value>
+    <value>Sulje nykyinen välilehti</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Open new pane</value>
+    <value>Avaa uusi ruutu</value>
   </data>
   <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Close right pane</value>
+    <value>Sulje oikea ruutu</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Vaihda sivupalkkia</value>
@@ -3167,7 +3167,7 @@
     <value>Sulkee nykyisen välilehden</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
-    <value>Invalid location</value>
+    <value>Virheellinen sijainti</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
     <value>Haluatko varmasti kopioida nämä tiedostot ilman niiden ominaisuuksia?</value>
@@ -3182,6 +3182,6 @@
     <value>Haluatko varmasti siirtää nämä tiedostot ilman niiden ominaisuuksia?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>Show checkboxes when selecting items</value>
+    <value>Näytä valintaruudut kohteita valittaessa</value>
   </data>
 </root>
