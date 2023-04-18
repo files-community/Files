@@ -133,10 +133,10 @@
     <value>Geskep:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Pad:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Grootte:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Uncompressed Size:</value>
