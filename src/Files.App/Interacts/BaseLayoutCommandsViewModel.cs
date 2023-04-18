@@ -28,7 +28,6 @@ namespace Files.App.Interacts
 		private void InitializeCommands()
 		{
 			ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowProperties);
-			OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenFileLocation);
 			OpenDirectoryInNewTabCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewTab);
 			OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewPane);
 			OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenInNewWindowItem);
@@ -47,8 +46,6 @@ namespace Files.App.Interacts
 		#region Commands
 
 		public ICommand ShowPropertiesCommand { get; private set; }
-
-		public ICommand OpenFileLocationCommand { get; private set; }
 
 		public ICommand OpenDirectoryInNewTabCommand { get; private set; }
 

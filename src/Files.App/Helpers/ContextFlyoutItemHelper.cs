@@ -257,14 +257,7 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					ShowItem = itemsSelected && showOpenItemWith
 				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenFileLocation".GetLocalizedResource(),
-					Glyph = "\uE8DA",
-					Command = commandsViewModel.OpenFileLocationCommand,
-					ShowItem = itemsSelected && selectedItems.All(i => i.IsShortcut),
-					ShowInSearchPage = true,
-				},
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenFileLocation).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
