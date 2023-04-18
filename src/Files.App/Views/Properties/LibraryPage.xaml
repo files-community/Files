@@ -29,7 +29,7 @@
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
-			CornerRadius="8"
+			CornerRadius="4"
 			RowSpacing="4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />

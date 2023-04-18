@@ -32,7 +32,7 @@
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
 			ColumnSpacing="8"
-			CornerRadius="8"
+			CornerRadius="4"
 			RowSpacing="8">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />

@@ -55,7 +55,7 @@
 				Height="32"
 				Margin="4,4,0,0"
 				Background="Transparent"
-				BorderThickness="0"
+				BorderBrush="Transparent"
 				Command="{x:Bind MainPropertiesViewModel.DoBackwardNavigationCommand, Mode=OneWay}"
 				CommandParameter="{x:Bind}"
 				IsEnabled="{x:Bind MainContentFrame.CanGoBack, Mode=OneWay}"
@@ -63,6 +63,7 @@
 				<Button.Resources>
 					<ResourceDictionary>
 						<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
+						<StaticResource x:Key="ButtonBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
 					</ResourceDictionary>
 				</Button.Resources>
 				<AnimatedIcon x:Name="BackAnimatedIcon">

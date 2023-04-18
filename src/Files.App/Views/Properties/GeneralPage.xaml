@@ -45,7 +45,7 @@
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
 				ColumnSpacing="8"
-				CornerRadius="8"
+				CornerRadius="4"
 				RowSpacing="8">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition
@@ -141,7 +141,7 @@
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				x:Load="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}"
-				CornerRadius="8"
+				CornerRadius="4"
 				Header="{helpers:ResourceString Name=MoreDetails}"
 				IsExpanded="True">
 				<Expander.Content>
@@ -307,7 +307,7 @@
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
 				ColumnSpacing="8"
-				CornerRadius="8"
+				CornerRadius="4"
 				RowSpacing="8">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="72" />
@@ -409,11 +409,7 @@
 				<Button
 					Grid.Row="0"
 					Grid.Column="3"
-					Width="28"
-					Height="28"
-					Padding="0"
-					HorizontalAlignment="Center"
-					VerticalAlignment="Center"
+					Padding="8,6"
 					AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
 					Background="Transparent"
 					BorderBrush="Transparent"
@@ -458,11 +454,7 @@
 				<Button
 					Grid.Row="1"
 					Grid.Column="3"
-					Width="28"
-					Height="28"
-					Padding="0"
-					HorizontalAlignment="Center"
-					VerticalAlignment="Center"
+					Padding="8,6"
 					AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
 					Background="Transparent"
 					BorderBrush="Transparent"
@@ -497,11 +489,7 @@
 				<Button
 					Grid.Row="2"
 					Grid.Column="3"
-					Width="28"
-					Height="28"
-					Padding="0"
-					HorizontalAlignment="Center"
-					VerticalAlignment="Center"
+					Padding="8,6"
 					AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
 					Background="Transparent"
 					BorderBrush="Transparent"
@@ -549,7 +537,7 @@
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				x:Load="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}"
-				CornerRadius="8"
+				CornerRadius="4"
 				Header="{helpers:ResourceString Name=Attributes}"
 				IsExpanded="False">
 				<Expander.Content>

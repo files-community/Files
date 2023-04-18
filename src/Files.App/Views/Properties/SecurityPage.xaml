@@ -42,7 +42,7 @@
 				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
-				CornerRadius="8">
+				CornerRadius="4">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
@@ -67,12 +67,18 @@
 						Orientation="Horizontal"
 						Spacing="8">
 
-						<Button Padding="8" Command="{x:Bind SecurityViewModel.AddAccessControlEntryCommand}">
-							<FontIcon FontSize="16" Glyph="&#xE710;" />
+						<Button Padding="6,4" Command="{x:Bind SecurityViewModel.AddAccessControlEntryCommand}">
+							<StackPanel Orientation="Horizontal" Spacing="6">
+								<TextBlock Text="{helpers:ResourceString Name=Add}" />
+								<FontIcon FontSize="16" Glyph="&#xE710;" />
+							</StackPanel>
 						</Button>
 
-						<Button Padding="8" Command="{x:Bind SecurityViewModel.RemoveAccessControlEntryCommand}">
-							<FontIcon FontSize="16" Glyph="&#xE738;" />
+						<Button Padding="6,4" Command="{x:Bind SecurityViewModel.RemoveAccessControlEntryCommand}">
+							<StackPanel Orientation="Horizontal" Spacing="6">
+								<TextBlock Text="{helpers:ResourceString Name=Remove}" />
+								<FontIcon FontSize="16" Glyph="&#xE738;" />
+							</StackPanel>
 						</Button>
 
 					</StackPanel>
@@ -152,7 +158,7 @@
 				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
-				CornerRadius="8"
+				CornerRadius="4"
 				RowSpacing="8">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
