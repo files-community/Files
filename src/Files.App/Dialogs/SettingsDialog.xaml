@@ -50,6 +50,7 @@
 				Background="Transparent"
 				BorderBrush="Transparent"
 				Click="CloseSettingsDialogButton_Click"
+				ToolTipService.Placement="Bottom"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
 				<FontIcon FontSize="12" Glyph="&#xE8BB;" />
 			</Button>
@@ -71,22 +72,22 @@
 			<!--  Menu Items  -->
 			<NavigationView.MenuItems>
 				<NavigationViewItem
-					AccessKey="A"
-					AutomationProperties.AutomationId="SettingsItemAppearance"
-					Content="{helpers:ResourceString Name=Appearance}"
+					AccessKey="P"
+					AutomationProperties.AutomationId="SettingsItemGeneral"
+					Content="{helpers:ResourceString Name=General}"
 					IsSelected="True"
 					Tag="0">
 					<NavigationViewItem.Icon>
-						<FontIcon HorizontalAlignment="Left" Glyph="&#xE790;" />
+						<FontIcon Glyph="&#xE9E9;" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem
-					AccessKey="P"
-					AutomationProperties.AutomationId="SettingsItemPreferences"
-					Content="{helpers:ResourceString Name=SettingsNavPreferences/Content}"
+					AccessKey="A"
+					AutomationProperties.AutomationId="SettingsItemAppearance"
+					Content="{helpers:ResourceString Name=Appearance}"
 					Tag="1">
 					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE9E9;" />
+						<FontIcon HorizontalAlignment="Left" Glyph="&#xE790;" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem

@@ -15,7 +15,7 @@ namespace Files.App.Actions
 		public bool IsExecutable => context.SelectedItem is not null &&
 			FileExtensionHelpers.IsExecutableFile(context.SelectedItem.FileExtension);
 		public string Label => "RunAsAdministrator".GetLocalizedResource();
-		public string Description => "TODO: Need to be described.";
+		public string Description => "RunAsAdminDescription".GetLocalizedResource();
 		public RichGlyph Glyph => new("\uE7EF");
 
 		public RunAsAdminAction()

@@ -19,7 +19,7 @@ namespace Files.App.Actions
 
 		public virtual string Label { get; } = "OpenTerminal".GetLocalizedResource();
 
-		public virtual string Description => "TODO: Need to be described.";
+		public virtual string Description => "OpenTerminalDescription".GetLocalizedResource();
 
 		public virtual HotKey HotKey { get; } = new(Keys.Oem3, KeyModifiers.Ctrl);
 

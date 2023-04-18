@@ -705,7 +705,7 @@ namespace Files.App
 			index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
 
 			// Only show the edit tags flyout if settings is enabled
-			if (!UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu)
+			if (!UserSettingsService.GeneralSettingsService.ShowEditTagsMenu)
 				return;
 
 			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
@@ -725,7 +725,7 @@ namespace Files.App
 			var openWithMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
 			var sendToMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
 			var shellMenuItemsFiltered = shellMenuItems.Where(x => x != openWithMenuItem && x != sendToMenuItem).ToList();
-			var mainShellMenuItems = shellMenuItemsFiltered.RemoveFrom(!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
+			var mainShellMenuItems = shellMenuItemsFiltered.RemoveFrom(!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
 			var overflowShellMenuItemsUnfiltered = shellMenuItemsFiltered.Except(mainShellMenuItems).ToList();
 			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
 				(x, i) => (x.ItemType == ItemType.Separator &&
@@ -780,12 +780,12 @@ namespace Files.App
 						index++;
 					}
 
-					if (overflowItemFlyout.Items.Count > 0 && UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+					if (overflowItemFlyout.Items.Count > 0 && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 					{
 						overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
 						overflowItem.IsEnabled = true;
 					}
-					else if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+					else if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 						overflowItem.Visibility = Visibility.Collapsed;
 				}
 			}
@@ -800,7 +800,7 @@ namespace Files.App
 			var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
 			if (openWithMenuItem?.LoadSubMenuAction is not null && openWithOverflow is not null && openWith is not null)
 			{
-				await openWithMenuItem.LoadSubMenuAction.Invoke();
+				await openWithMenuItem.LoadSubMenuAction();
 				var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
 
 				if (openWithSubItems is not null)
@@ -824,7 +824,7 @@ namespace Files.App
 			var sendTo = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendTo") as AppBarButton;
 			if (sendToMenuItem?.LoadSubMenuAction is not null && sendToOverflow is not null && sendTo is not null)
 			{
-				await sendToMenuItem.LoadSubMenuAction.Invoke();
+				await sendToMenuItem.LoadSubMenuAction();
 				var sendToSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetSendToItems(shellMenuItems));
 
 				if (sendToSubItems is not null)
@@ -844,14 +844,14 @@ namespace Files.App
 
 			// Add items to main shell submenu
 			mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
-				await x.LoadSubMenuAction.Invoke();
+				await x.LoadSubMenuAction();
 
 				ShellContextmenuHelper.AddItemsToMainMenu(mainItems, x);
 			});
 
 			// Add items to overflow shell submenu
 			overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
-				await x.LoadSubMenuAction.Invoke();
+				await x.LoadSubMenuAction();
 
 				ShellContextmenuHelper.AddItemsToOverflowMenu(overflowItem, x);
 			});

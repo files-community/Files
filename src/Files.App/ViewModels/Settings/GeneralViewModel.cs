@@ -23,7 +23,7 @@ using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
 namespace Files.App.ViewModels.Settings
 {
-	public class PreferencesViewModel : ObservableObject, IDisposable
+	public class GeneralViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -97,7 +97,7 @@ namespace Files.App.ViewModels.Settings
 
 		public ObservableCollection<AppLanguageItem> AppLanguages { get; set; }
 
-		public PreferencesViewModel()
+		public GeneralViewModel()
 		{
 			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
 			ChangePageCommand = new AsyncRelayCommand(ChangePage);
@@ -111,8 +111,8 @@ namespace Files.App.ViewModels.Settings
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
-			if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList is not null)
-				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.PreferencesSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
+			if (UserSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
+				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.GeneralSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
 			else
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>();
 
@@ -211,21 +211,21 @@ namespace Files.App.ViewModels.Settings
 		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (PagesOnStartupList.Count > 0)
-				UserSettingsService.PreferencesSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
+				UserSettingsService.GeneralSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
 			else
-				UserSettingsService.PreferencesSettingsService.TabsOnStartupList = null;
+				UserSettingsService.GeneralSettingsService.TabsOnStartupList = null;
 		}
 
 		public int SelectedStartupSettingIndex => ContinueLastSessionOnStartUp ? 1 : OpenASpecificPageOnStartup ? 2 : 0;
 
 		public bool OpenNewTabPageOnStartup
 		{
-			get => UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup;
+			get => UserSettingsService.GeneralSettingsService.OpenNewTabOnStartup;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup)
+				if (value != UserSettingsService.GeneralSettingsService.OpenNewTabOnStartup)
 				{
-					UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup = value;
+					UserSettingsService.GeneralSettingsService.OpenNewTabOnStartup = value;
 
 					OnPropertyChanged();
 				}
@@ -234,12 +234,12 @@ namespace Files.App.ViewModels.Settings
 
 		public bool ContinueLastSessionOnStartUp
 		{
-			get => UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp;
+			get => UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
+				if (value != UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp)
 				{
-					UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp = value;
+					UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp = value;
 
 					OnPropertyChanged();
 				}
@@ -248,12 +248,12 @@ namespace Files.App.ViewModels.Settings
 
 		public bool OpenASpecificPageOnStartup
 		{
-			get => UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup;
+			get => UserSettingsService.GeneralSettingsService.OpenSpecificPageOnStartup;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup)
+				if (value != UserSettingsService.GeneralSettingsService.OpenSpecificPageOnStartup)
 				{
-					UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup = value;
+					UserSettingsService.GeneralSettingsService.OpenSpecificPageOnStartup = value;
 
 					OnPropertyChanged();
 				}
@@ -270,12 +270,12 @@ namespace Files.App.ViewModels.Settings
 
 		public bool AlwaysOpenANewInstance
 		{
-			get => UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance;
+			get => UserSettingsService.GeneralSettingsService.AlwaysOpenNewInstance;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance)
+				if (value != UserSettingsService.GeneralSettingsService.AlwaysOpenNewInstance)
 				{
-					UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance = value;
+					UserSettingsService.GeneralSettingsService.AlwaysOpenNewInstance = value;
 
 					// Needed in Program.cs
 					ApplicationData.Current.LocalSettings.Values["AlwaysOpenANewInstance"] = value;
@@ -287,12 +287,12 @@ namespace Files.App.ViewModels.Settings
 
 		public bool ShowOpenInNewPane
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane;
+			get => UserSettingsService.GeneralSettingsService.ShowOpenInNewPane;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane)
+				if (value != UserSettingsService.GeneralSettingsService.ShowOpenInNewPane)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane = value;
+					UserSettingsService.GeneralSettingsService.ShowOpenInNewPane = value;
 
 					OnPropertyChanged();
 				}
@@ -301,12 +301,12 @@ namespace Files.App.ViewModels.Settings
 
 		public bool AlwaysOpenDualPaneInNewTab
 		{
-			get => UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;
+			get => UserSettingsService.GeneralSettingsService.AlwaysOpenDualPaneInNewTab;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab)
+				if (value != UserSettingsService.GeneralSettingsService.AlwaysOpenDualPaneInNewTab)
 				{
-					UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab = value;
+					UserSettingsService.GeneralSettingsService.AlwaysOpenDualPaneInNewTab = value;
 
 					OnPropertyChanged();
 				}
@@ -385,12 +385,12 @@ namespace Files.App.ViewModels.Settings
 
 		public DateTimeFormats DateTimeFormat
 		{
-			get => UserSettingsService.PreferencesSettingsService.DateTimeFormat;
+			get => UserSettingsService.GeneralSettingsService.DateTimeFormat;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.DateTimeFormat)
+				if (value != UserSettingsService.GeneralSettingsService.DateTimeFormat)
 				{
-					UserSettingsService.PreferencesSettingsService.DateTimeFormat = value;
+					UserSettingsService.GeneralSettingsService.DateTimeFormat = value;
 					OnPropertyChanged();
 				}
 			}
@@ -471,12 +471,12 @@ namespace Files.App.ViewModels.Settings
 
 		public bool SearchUnindexedItems
 		{
-			get => UserSettingsService.PreferencesSettingsService.SearchUnindexedItems;
+			get => UserSettingsService.GeneralSettingsService.SearchUnindexedItems;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.SearchUnindexedItems)
+				if (value != UserSettingsService.GeneralSettingsService.SearchUnindexedItems)
 				{
-					UserSettingsService.PreferencesSettingsService.SearchUnindexedItems = value;
+					UserSettingsService.GeneralSettingsService.SearchUnindexedItems = value;
 
 					OnPropertyChanged();
 				}
@@ -485,31 +485,31 @@ namespace Files.App.ViewModels.Settings
 
 		public bool ShowQuickAccessWidget
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget;
+			get => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget)
-					UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget = value;
+				if (value != UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget)
+					UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget = value;
 			}
 		}
 
 		public bool ShowDrivesWidget
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
+			get => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowDrivesWidget)
-					UserSettingsService.PreferencesSettingsService.ShowDrivesWidget = value;
+				if (value != UserSettingsService.GeneralSettingsService.ShowDrivesWidget)
+					UserSettingsService.GeneralSettingsService.ShowDrivesWidget = value;
 			}
 		}
 
 		public bool ShowBundlesWidget
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowBundlesWidget;
+			get => UserSettingsService.GeneralSettingsService.ShowBundlesWidget;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowBundlesWidget)
-					UserSettingsService.PreferencesSettingsService.ShowBundlesWidget = value;
+				if (value != UserSettingsService.GeneralSettingsService.ShowBundlesWidget)
+					UserSettingsService.GeneralSettingsService.ShowBundlesWidget = value;
 
 				if (value & ShowFileTagsWidget)
 					ShowFileTagsWidget = false;
@@ -519,11 +519,11 @@ namespace Files.App.ViewModels.Settings
 		}
 		public bool ShowFileTagsWidget
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget;
+			get => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget)
-					UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget = value;
+				if (value != UserSettingsService.GeneralSettingsService.ShowFileTagsWidget)
+					UserSettingsService.GeneralSettingsService.ShowFileTagsWidget = value;
 
 				if (value & ShowBundlesWidget)
 					ShowBundlesWidget = false;
@@ -534,22 +534,22 @@ namespace Files.App.ViewModels.Settings
 
 		public bool ShowRecentFilesWidget
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget;
+			get => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget)
-					UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget = value;
+				if (value != UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget)
+					UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget = value;
 			}
 		}
 
 		public bool MoveShellExtensionsToSubMenu
 		{
-			get => UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu;
+			get => UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+				if (value != UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 				{
-					UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu = value;
+					UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu = value;
 					OnPropertyChanged();
 				}
 			}
@@ -557,12 +557,12 @@ namespace Files.App.ViewModels.Settings
 
 		public bool ShowEditTagsMenu
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu;
+			get => UserSettingsService.GeneralSettingsService.ShowEditTagsMenu;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu)
+				if (value != UserSettingsService.GeneralSettingsService.ShowEditTagsMenu)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu = value;
+					UserSettingsService.GeneralSettingsService.ShowEditTagsMenu = value;
 					OnPropertyChanged();
 				}
 			}
@@ -570,12 +570,12 @@ namespace Files.App.ViewModels.Settings
 
 		public bool ShowOpenInNewTab
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewTab;
+			get => UserSettingsService.GeneralSettingsService.ShowOpenInNewTab;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowOpenInNewTab)
+				if (value != UserSettingsService.GeneralSettingsService.ShowOpenInNewTab)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowOpenInNewTab = value;
+					UserSettingsService.GeneralSettingsService.ShowOpenInNewTab = value;
 					OnPropertyChanged();
 				}
 			}
@@ -583,12 +583,12 @@ namespace Files.App.ViewModels.Settings
 
 		public bool ShowOpenInNewWindow
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewWindow;
+			get => UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowOpenInNewWindow)
+				if (value != UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow)
 				{
-					UserSettingsService.PreferencesSettingsService.ShowOpenInNewWindow = value;
+					UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow = value;
 					OnPropertyChanged();
 				}
 			}
@@ -604,7 +604,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		~PreferencesViewModel()
+		~GeneralViewModel()
 		{
 			Dispose();
 		}

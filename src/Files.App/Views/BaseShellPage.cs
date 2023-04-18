@@ -47,6 +47,8 @@ namespace Files.App.Views
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
 
+		protected readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
 		protected readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		protected readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -199,7 +201,7 @@ namespace Files.App.Views
 
 			PointerPressed += CoreWindow_PointerPressed;
 
-			App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+			drivesViewModel.PropertyChanged += DrivesManager_PropertyChanged;
 
 			PreviewKeyDown += ShellPage_PreviewKeyDown;
 		}
@@ -271,7 +273,7 @@ namespace Files.App.Views
 			if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
 				await NavigationHelpers.OpenPath(item.ItemPath, this);
 			else if (e.ChosenSuggestion is null && !string.IsNullOrWhiteSpace(sender.Query))
-				SubmitSearch(sender.Query, userSettingsService.PreferencesSettingsService.SearchUnindexedItems);
+				SubmitSearch(sender.Query, userSettingsService.GeneralSettingsService.SearchUnindexedItems);
 		}
 
 		protected async void ShellPage_TextChanged(ISearchBox sender, SearchBoxTextChangedEventArgs e)
@@ -286,7 +288,7 @@ namespace Files.App.Views
 					Query = sender.Query,
 					Folder = FilesystemViewModel.WorkingDirectory,
 					MaxItemCount = 10,
-					SearchUnindexedItems = userSettingsService.PreferencesSettingsService.SearchUnindexedItems
+					SearchUnindexedItems = userSettingsService.GeneralSettingsService.SearchUnindexedItems
 				};
 
 				sender.SetSuggestions((await search.SearchAsync()).Select(suggestion => new SuggestionModel(suggestion)));
@@ -604,8 +606,6 @@ namespace Files.App.Views
 		protected void InitToolbarCommands()
 		{
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
-			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
-			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
@@ -626,9 +626,9 @@ namespace Files.App.Views
 
 		protected async void DisplayFilesystemConsentDialog()
 		{
-			if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
+			if (drivesViewModel?.ShowUserConsentOnInit ?? false)
 			{
-				App.DrivesManager.ShowUserConsentOnInit = false;
+				drivesViewModel.ShowUserConsentOnInit = false;
 				await DispatcherQueue.EnqueueAsync(async () =>
 				{
 					var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
@@ -686,7 +686,7 @@ namespace Files.App.Views
 		{
 			PreviewKeyDown -= ShellPage_PreviewKeyDown;
 			PointerPressed -= CoreWindow_PointerPressed;
-			App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
+			drivesViewModel.PropertyChanged -= DrivesManager_PropertyChanged;
 
 			ToolbarViewModel.ToolbarPathItemInvoked -= ShellPage_NavigationRequested;
 			ToolbarViewModel.ToolbarFlyoutOpened -= ShellPage_ToolbarFlyoutOpened;
