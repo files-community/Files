@@ -36,7 +36,7 @@
 	</vm:BasePropertiesPage.Resources>
 
 	<ScrollViewer>
-		<StackPanel Padding="12" Spacing="8">
+		<StackPanel Padding="12" Spacing="4">
 
 			<!--  Item Overview  -->
 			<Grid
@@ -141,7 +141,6 @@
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				x:Load="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}"
-				CornerRadius="4"
 				Header="{helpers:ResourceString Name=MoreDetails}"
 				IsExpanded="True">
 				<Expander.Content>
@@ -537,7 +536,6 @@
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				x:Load="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}"
-				CornerRadius="4"
 				Header="{helpers:ResourceString Name=Attributes}"
 				IsExpanded="False">
 				<Expander.Content>

@@ -21,7 +21,7 @@
 	</vm:BasePropertiesPage.Resources>
 
 	<ScrollViewer x:Name="RootScrollViewer">
-		<StackPanel Padding="12" Spacing="8">
+		<StackPanel Padding="12" Spacing="4">
 
 			<Grid
 				Padding="12"
@@ -30,7 +30,7 @@
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
 				ColumnSpacing="8"
-				CornerRadius="8"
+				CornerRadius="4"
 				RowSpacing="8">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition
