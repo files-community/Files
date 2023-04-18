@@ -9,7 +9,7 @@ namespace Files.App.Actions
 	internal class ToggleSelectAction : IAction
 	{
 		public string Label { get; } = "ToggleSelect".GetLocalizedResource();
-		public string Description => "TODO: Need to be described.";
+		public string Description => "ToggleSelectDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.Space, KeyModifiers.Ctrl);
 

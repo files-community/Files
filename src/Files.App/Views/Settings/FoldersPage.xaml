@@ -238,6 +238,17 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
+			<!--  Show Checkboxes When Selecting Items  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowCheckboxesWhenSelectingItems}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE73A;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowCheckboxesWhenSelectingItems}"
+					IsOn="{x:Bind ViewModel.ShowCheckboxesWhenSelectingItems, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+
 			<!--  Behaviors  -->
 			<TextBlock
 				Padding="0,12,0,4"
@@ -289,7 +300,7 @@
 					<ComboBoxItem Content="{helpers:ResourceString Name=Never}" />
 				</ComboBox>
 			</local:SettingsBlockControl>
-			
+
 			<!--  File Extension Warning  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFileExtensionWarning}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>

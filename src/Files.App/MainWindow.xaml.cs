@@ -26,6 +26,8 @@ namespace Files.App
 {
 	public sealed partial class MainWindow : WindowEx
 	{
+		private MainPageViewModel mainPageViewModel;
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -57,6 +59,8 @@ namespace Files.App
 
 		public async Task InitializeApplication(object activatedEventArgs)
 		{
+			mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
 			var rootFrame = EnsureWindowIsInitialized();
 			Activate();
 
@@ -82,7 +86,7 @@ namespace Files.App
 					{
 						if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 						{
-							await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+							await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
 						}
 					}
 					break;
@@ -135,16 +139,6 @@ namespace Files.App
 					}
 					break;
 
-				case IToastNotificationActivatedEventArgs eventArgsForNotification:
-					if (eventArgsForNotification.Argument == "report")
-					{
-						await Windows.System.Launcher.LaunchUriAsync(new Uri(Constants.GitHub.BugReportUrl));
-					}
-					break;
-
-				case IStartupTaskActivatedEventArgs:
-					break;
-
 				case IFileActivatedEventArgs fileArgs:
 					var index = 0;
 					if (rootFrame.Content is null)
@@ -156,7 +150,7 @@ namespace Files.App
 					}
 					for (; index < fileArgs.Files.Count; index++)
 					{
-						await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
+						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
 					}
 					break;
 			}
@@ -211,7 +205,7 @@ namespace Files.App
 				};
 
 				if (rootFrame.Content is not null)
-					await MainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
+					await mainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 			}

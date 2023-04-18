@@ -447,11 +447,11 @@ namespace Files.App.Views.LayoutModes
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
 				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
-				_ = NavigationHelpers.OpenPath(item.ItemPath, ParentShellPageInstance);
+				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-				ParentShellPageInstance.Up_Click();
+				ParentShellPageInstance?.Up_Click();
 			}
 			ResetRenameDoubleClick();
 		}
@@ -708,21 +708,16 @@ namespace Files.App.Views.LayoutModes
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			var iconBox = args.ItemContainer.FindDescendant("IconBox")!;
 			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
 
-			iconBox.PointerEntered -= IconBox_PointerEntered;
-			iconBox.PointerExited -= IconBox_PointerExited;
-			iconBox.PointerCanceled -= IconBox_PointerCanceled;
+			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
 			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
 			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
 
 			base.FileList_ContainerContentChanging(sender, args);
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
 
-			iconBox.PointerEntered += IconBox_PointerEntered;
-			iconBox.PointerExited += IconBox_PointerExited;
-			iconBox.PointerCanceled += IconBox_PointerCanceled;
+			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
 			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
 			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
 		}
@@ -744,7 +739,7 @@ namespace Files.App.Views.LayoutModes
 					checkbox.Checked += ItemSelected_Checked;
 					checkbox.Unchecked += ItemSelected_Unchecked;
 				}
-				UpdateCheckboxVisibility(container, false);
+				UpdateCheckboxVisibility(container, checkbox?.IsPointerOver ?? false);
 			}
 		}
 
@@ -784,19 +779,9 @@ namespace Files.App.Views.LayoutModes
 			e.Handled = true;
 		}
 
-		private void IconBox_PointerEntered(object sender, PointerRoutedEventArgs e)
+		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, true);
-		}
-
-		private void IconBox_PointerExited(object sender, PointerRoutedEventArgs e)
-		{
-			e.Handled = true;
-		}
-
-		private void IconBox_PointerCanceled(object sender, PointerRoutedEventArgs e)
-		{
-			e.Handled = true;
 		}
 
 		private void SelectionCheckbox_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -814,7 +799,10 @@ namespace Files.App.Views.LayoutModes
 			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
 			{
 				// Handle visual states
-				if (control.IsSelected || isPointerOver || (control.FindDescendant("SelectionCheckbox") as CheckBox)!.IsPointerOver)
+				// Show checkboxes when items are selected (as long as the setting is enabled)
+				// Show checkboxes when hovering of the thumbnail (regardless of the setting to hide them)
+				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
+					|| isPointerOver)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);

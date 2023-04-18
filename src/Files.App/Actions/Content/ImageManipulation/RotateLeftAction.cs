@@ -8,7 +8,7 @@ namespace Files.App.Actions
 	{
 		public override string Label { get; } = "RotateLeft".GetLocalizedResource();
 
-		public override string Description => "TODO: Need to be described.";
+		public override string Description => "RotateLeftDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRotateLeft");
 
