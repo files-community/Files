@@ -7,9 +7,9 @@ using System.Collections.Generic;
 
 namespace Files.App.ServicesImplementation.Settings
 {
-	internal sealed class PreferencesSettingsService : BaseObservableJsonSettings, IPreferencesSettingsService
+	internal sealed class GeneralSettingsService : BaseObservableJsonSettings, IGeneralSettingsService
 	{
-		public PreferencesSettingsService(ISettingsSharingContext settingsSharingContext)
+		public GeneralSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
 			// Register root
 			RegisterSettingsContext(settingsSharingContext);
@@ -58,6 +58,12 @@ namespace Files.App.ServicesImplementation.Settings
 		}
 
 		public List<string> LastSessionTabList
+		{
+			get => Get<List<string>>(null);
+			set => Set(value);
+		}
+
+		public List<string> LastCrashedTabList
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);

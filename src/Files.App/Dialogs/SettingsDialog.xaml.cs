@@ -45,8 +45,8 @@ namespace Files.App.Dialogs
 
 			_ = selectedItemTag switch
 			{
-				0 => SettingsContentFrame.Navigate(typeof(AppearancePage)),
-				1 => SettingsContentFrame.Navigate(typeof(PreferencesPage)),
+				0 => SettingsContentFrame.Navigate(typeof(GeneralPage)),
+				1 => SettingsContentFrame.Navigate(typeof(AppearancePage)),
 				2 => SettingsContentFrame.Navigate(typeof(FoldersPage)),
 				3 => SettingsContentFrame.Navigate(typeof(TagsPage)),
 				4 => SettingsContentFrame.Navigate(typeof(AdvancedPage)),

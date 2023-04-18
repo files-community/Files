@@ -553,16 +553,6 @@
 										Width="24"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Stretch">
-										<CheckBox
-											x:Name="SelectionCheckbox"
-											Width="20"
-											MinWidth="0"
-											HorizontalAlignment="Center"
-											AutomationProperties.AccessibilityView="Raw"
-											Checked="ItemSelected_Checked"
-											DoubleTapped="SelectionCheckbox_DoubleTapped"
-											Unchecked="ItemSelected_Unchecked"
-											Visibility="Collapsed" />
 										<Grid
 											x:Name="IconBox"
 											Width="20"
@@ -624,7 +614,26 @@
 												x:Load="{x:Bind IsShortcut}">
 												<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
 											</Border>
+											<Image
+												x:Name="ShieldOverlay"
+												Width="8"
+												Height="8"
+												HorizontalAlignment="Right"
+												VerticalAlignment="Bottom"
+												x:Load="{x:Bind IsElevated}"
+												Source="{x:Bind ShieldIcon, Mode=OneWay}"
+												Stretch="Uniform" />
 										</Grid>
+										<CheckBox
+											x:Name="SelectionCheckbox"
+											Width="20"
+											MinWidth="0"
+											HorizontalAlignment="Center"
+											AutomationProperties.AccessibilityView="Raw"
+											Checked="ItemSelected_Checked"
+											DoubleTapped="SelectionCheckbox_DoubleTapped"
+											Opacity="0"
+											Unchecked="ItemSelected_Unchecked" />
 									</Grid>
 
 									<Grid
@@ -640,6 +649,7 @@
 										<TextBlock
 											x:Name="ItemName"
 											VerticalAlignment="Center"
+											Opacity="{x:Bind Opacity, Mode=OneWay}"
 											Text="{x:Bind Name, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis" />
 										<TextBox
@@ -796,7 +806,7 @@
 											<VisualState x:Name="HideCheckbox" />
 											<VisualState x:Name="ShowCheckbox">
 												<VisualState.Setters>
-													<Setter Target="SelectionCheckbox.Visibility" Value="Visible" />
+													<Setter Target="SelectionCheckbox.Opacity" Value="1" />
 													<Setter Target="IconBox.Visibility" Value="Collapsed" />
 												</VisualState.Setters>
 											</VisualState>

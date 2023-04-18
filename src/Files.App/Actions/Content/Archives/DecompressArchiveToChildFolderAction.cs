@@ -15,7 +15,7 @@ namespace Files.App.Actions
 
 		public string Label => ComputeLabel();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "DecompressArchiveToChildFolderDescription".GetLocalizedResource();
 
 		public override bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
