@@ -68,7 +68,7 @@
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
 			ColumnSpacing="8"
-			CornerRadius="8">
+			CornerRadius="4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="108" />
 				<ColumnDefinition Width="*" />
@@ -127,7 +127,7 @@
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
-			CornerRadius="8">
+			CornerRadius="4">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
