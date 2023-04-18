@@ -36,7 +36,7 @@
 	</vm:BasePropertiesPage.Resources>
 
 	<ScrollViewer>
-		<StackPanel Padding="12" Spacing="8">
+		<StackPanel Padding="12" Spacing="4">
 
 			<!--  Item Overview  -->
 			<Grid
