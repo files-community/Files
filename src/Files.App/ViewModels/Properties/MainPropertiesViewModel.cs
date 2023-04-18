@@ -28,7 +28,9 @@ namespace Files.App.ViewModels.Properties
 			get => _SelectedNavigationViewItem;
 			set
 			{
-				if (SetProperty(ref _SelectedNavigationViewItem, value) && !SelectionChangedAutomatically)
+				if (SetProperty(ref _SelectedNavigationViewItem, value) &&
+					!_selectionChangedAutomatically &&
+					_previousPageName != value.ItemType.ToString())
 				{
 					var parameter = new PropertiesPageNavigationParameter()
 					{
@@ -55,7 +57,7 @@ namespace Files.App.ViewModels.Properties
 					_mainFrame?.Navigate(page, parameter, new EntranceNavigationTransitionInfo());
 				}
 
-				SelectionChangedAutomatically = false;
+				_selectionChangedAutomatically = false;
 			}
 		}
 
@@ -93,7 +95,9 @@ namespace Files.App.ViewModels.Properties
 
 		private readonly PropertiesPageNavigationParameter _parameter;
 
-		private bool SelectionChangedAutomatically { get; set; }
+		private bool _selectionChangedAutomatically { get; set; }
+
+		private string _previousPageName { get; set; }
 
 		public IRelayCommand DoBackwardNavigationCommand { get; }
 		public IAsyncRelayCommand SaveChangedPropertiesCommand { get; }
@@ -129,7 +133,8 @@ namespace Files.App.ViewModels.Properties
 
 			var pageTag = ((Page)_mainFrame.Content).Tag.ToString();
 
-			SelectionChangedAutomatically = true;
+			_selectionChangedAutomatically = true;
+			_previousPageName = pageTag;
 
 			// Move selection indicator
 			SelectedNavigationViewItem =

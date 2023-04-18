@@ -69,15 +69,15 @@
 
 						<Button Padding="6,4" Command="{x:Bind SecurityViewModel.AddAccessControlEntryCommand}">
 							<StackPanel Orientation="Horizontal" Spacing="6">
-								<TextBlock Text="{helpers:ResourceString Name=Add}" />
 								<FontIcon FontSize="16" Glyph="&#xE710;" />
+								<TextBlock Text="{helpers:ResourceString Name=Add}" />
 							</StackPanel>
 						</Button>
 
 						<Button Padding="6,4" Command="{x:Bind SecurityViewModel.RemoveAccessControlEntryCommand}">
 							<StackPanel Orientation="Horizontal" Spacing="6">
-								<TextBlock Text="{helpers:ResourceString Name=Remove}" />
 								<FontIcon FontSize="16" Glyph="&#xE738;" />
+								<TextBlock Text="{helpers:ResourceString Name=Remove}" />
 							</StackPanel>
 						</Button>
 

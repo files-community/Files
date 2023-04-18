@@ -63,7 +63,7 @@
 				<Button.Resources>
 					<ResourceDictionary>
 						<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
-						<StaticResource x:Key="ButtonBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
+						<StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="SystemControlTransparentBrush" />
 					</ResourceDictionary>
 				</Button.Resources>
 				<AnimatedIcon x:Name="BackAnimatedIcon">
