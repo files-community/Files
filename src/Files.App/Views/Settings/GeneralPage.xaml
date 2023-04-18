@@ -30,7 +30,14 @@
 					<EntranceThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
-
+			
+			<!--  Title  -->
+			<TextBlock
+				Padding="0,0,0,12"
+				FontSize="24"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=General}" />
+			
 			<!--  Language settings  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Language}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
@@ -254,8 +261,8 @@
 
 			<!--  Right Click Menu  -->
 			<TextBlock
-				Padding="0,12,0,4"
-				FontSize="14"
+				Padding="0,16,0,4"
+				FontSize="16"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=SettingsContextMenu/Text}" />
 
