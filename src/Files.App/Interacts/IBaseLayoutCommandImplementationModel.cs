@@ -28,7 +28,5 @@ namespace Files.App.Interacts
 		void SearchUnindexedItems(RoutedEventArgs e);
 
 		Task CreateFolderWithSelection(RoutedEventArgs e);
-
-		Task PlayAll();
 	}
 }

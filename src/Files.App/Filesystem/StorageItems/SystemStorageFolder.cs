@@ -18,7 +18,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override string FolderRelativeId => Folder.FolderRelativeId;
 
 		public override DateTimeOffset DateCreated => Folder.DateCreated;
-		public override FileAttributes Attributes => Folder.Attributes;
+		public override Windows.Storage.FileAttributes Attributes => Folder.Attributes;
 		public override IStorageItemExtraProperties Properties => Folder.Properties;
 
 		public SystemStorageFolder(StorageFolder folder) => Folder = folder;

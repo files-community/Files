@@ -16,7 +16,7 @@ namespace Files.App.Filesystem.StorageItems
 		public StorageProvider Provider => null;
 
 		public abstract DateTimeOffset DateCreated { get; }
-		public abstract FileAttributes Attributes { get; }
+		public abstract Windows.Storage.FileAttributes Attributes { get; }
 		public abstract string FolderRelativeId { get; }
 
 		public abstract IStorageItemExtraProperties Properties { get; }

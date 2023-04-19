@@ -49,7 +49,7 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override DateTimeOffset DateCreated { get; }
 
-		public override FileAttributes Attributes => FileAttributes.Normal | FileAttributes.ReadOnly;
+		public override Windows.Storage.FileAttributes Attributes => Windows.Storage.FileAttributes.Normal | Windows.Storage.FileAttributes.ReadOnly;
 
 		private IStorageItemExtraProperties properties;
 		public override IStorageItemExtraProperties Properties => properties ??= new BaseBasicStorageItemExtraProperties(this);
