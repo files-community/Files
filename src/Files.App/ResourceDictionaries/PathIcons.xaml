@@ -43,7 +43,7 @@
 					<SolidColorBrush x:Key="IconAltBrush" Color="#F0000000" />
 					<SolidColorBrush
 						x:Key="Local.IconAltAccentBrush"
-						Opacity=".4"
+						Opacity=".40"
 						Color="{StaticResource TextOnAccentFillColorPrimary}" />
 					<SolidColorBrush
 						x:Key="IconBaseFadedBrush"
@@ -79,7 +79,7 @@
 					<SolidColorBrush x:Key="IconAltBrush" Color="#F0FFFFFF" />
 					<SolidColorBrush
 						x:Key="Local.IconAltAccentBrush"
-						Opacity=".4"
+						Opacity=".40"
 						Color="{StaticResource TextOnAccentFillColorPrimary}" />
 					<SolidColorBrush
 						x:Key="IconBaseFadedBrush"
