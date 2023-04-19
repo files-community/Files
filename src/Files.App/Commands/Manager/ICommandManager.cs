@@ -16,6 +16,8 @@ namespace Files.App.Commands
 		IRichCommand ToggleCompactOverlay { get; }
 		IRichCommand Search { get; }
 		IRichCommand SearchUnindexedItems { get; }
+		IRichCommand Redo { get; }
+		IRichCommand Undo { get; }
 
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
@@ -136,5 +138,7 @@ namespace Files.App.Commands
 		IRichCommand CloseSelectedTab { get; }
 		IRichCommand OpenNewPane { get; }
 		IRichCommand ClosePane { get; }
+    
+		IRichCommand PlayAll { get; }
 	}
 }

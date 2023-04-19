@@ -30,6 +30,8 @@ namespace Files.App.Commands
 		public IRichCommand ToggleCompactOverlay => commands[CommandCodes.ToggleCompactOverlay];
 		public IRichCommand Search => commands[CommandCodes.Search];
 		public IRichCommand SearchUnindexedItems => commands[CommandCodes.SearchUnindexedItems];
+		public IRichCommand Redo => commands[CommandCodes.Redo];
+		public IRichCommand Undo => commands[CommandCodes.Undo];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand TogglePreviewPane => commands[CommandCodes.TogglePreviewPane];
@@ -135,6 +137,7 @@ namespace Files.App.Commands
 		public IRichCommand CloseSelectedTab => commands[CommandCodes.CloseSelectedTab];
 		public IRichCommand OpenNewPane => commands[CommandCodes.OpenNewPane];
 		public IRichCommand ClosePane => commands[CommandCodes.ClosePane];
+		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
 
 		public CommandManager()
 		{
@@ -171,6 +174,8 @@ namespace Files.App.Commands
 			[CommandCodes.ToggleCompactOverlay] = new ToggleCompactOverlayAction(),
 			[CommandCodes.Search] = new SearchAction(),
 			[CommandCodes.SearchUnindexedItems] = new SearchUnindexedItemsAction(),
+			[CommandCodes.Redo] = new RedoAction(),
+			[CommandCodes.Undo] = new UndoAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
 			[CommandCodes.TogglePreviewPane] = new TogglePreviewPaneAction(),
@@ -276,6 +281,7 @@ namespace Files.App.Commands
 			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
 			[CommandCodes.OpenNewPane] = new OpenNewPaneAction(),
 			[CommandCodes.ClosePane] = new ClosePaneAction(),
+			[CommandCodes.PlayAll] = new PlayAllAction(),
 		};
 
 		[DebuggerDisplay("Command None")]

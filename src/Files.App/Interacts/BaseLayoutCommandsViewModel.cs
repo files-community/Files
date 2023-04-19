@@ -37,7 +37,6 @@ namespace Files.App.Interacts
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.DragOver);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.Drop);
 			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
-			PlayAllCommand = new AsyncRelayCommand(CommandsModel.PlayAll);
 		}
 
 		#endregion Command Initialization
@@ -65,8 +64,6 @@ namespace Files.App.Interacts
 		public ICommand DropCommand { get; private set; }
 
 		public ICommand CreateFolderWithSelection { get; private set; }
-
-		public ICommand PlayAllCommand { get; private set; }
 
 		#endregion Commands
 

@@ -134,16 +134,6 @@ namespace Files.App.Views
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
 			{
-				// Ctrl + Z: undo
-				case (true, false, false, true, VirtualKey.Z):
-					if (!InstanceViewModel.IsPageTypeSearchResults)
-						await storageHistoryHelpers.TryUndo();
-					break;
-				// Ctrl + Y: Redo
-				case (true, false, false, true, VirtualKey.Y):
-					if (!InstanceViewModel.IsPageTypeSearchResults)
-						await storageHistoryHelpers.TryRedo();
-					break;
 				// Ctrl + Shift + N: New item
 				case (true, true, false, true, VirtualKey.N):
 					if (InstanceViewModel.CanCreateFileInPage)

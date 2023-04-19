@@ -3167,7 +3167,7 @@
     <value>Ferme l'onglet actuel</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
-    <value>Invalid location</value>
+    <value>Emplacement invalide</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
     <value>Êtes-vous sûr de vouloir copier ces fichiers sans leurs propriétés ?</value>
@@ -3182,6 +3182,6 @@
     <value>Êtes-vous sûr de vouloir déplacer ces fichiers sans leurs propriétés ?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>Show checkboxes when selecting items</value>
+    <value>Afficher les cases à cocher lors de la sélection des éléments</value>
   </data>
 </root>
