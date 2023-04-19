@@ -28,12 +28,12 @@
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
-			<!--  Layout And Sorting  -->
+			<!--  Title  -->
 			<TextBlock
-				Padding="0,0,0,4"
-				FontSize="14"
+				Padding="0,0,0,12"
+				FontSize="24"
 				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=LayoutAndSorting}" />
+				Text="{helpers:ResourceString Name=Folders}" />
 
 			<!--  Folder Overrides  -->
 			<local:SettingsBlockControl
@@ -169,8 +169,8 @@
 
 			<!--  Display  -->
 			<TextBlock
-				Padding="0,12,0,4"
-				FontSize="14"
+				Padding="0,16,0,4"
+				FontSize="16"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=Display}" />
 
@@ -251,8 +251,8 @@
 
 			<!--  Behaviors  -->
 			<TextBlock
-				Padding="0,12,0,4"
-				FontSize="14"
+				Padding="0,16,0,4"
+				FontSize="16"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=Behaviors}" />
 
