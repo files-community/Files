@@ -8,6 +8,7 @@
 				<ResourceDictionary x:Key="Light">
 					<SolidColorBrush x:Key="IconBaseBrush" Color="#AB000000" />
 					<SolidColorBrush x:Key="IconAltBrush" Color="#F0FFFFFF" />
+					<SolidColorBrush x:Key="Local.IconAltAccentBrush" Color="{StaticResource TextOnAccentFillColorPrimary}" />
 					<SolidColorBrush
 						x:Key="IconBaseFadedBrush"
 						Opacity=".12"
@@ -41,6 +42,10 @@
 					<SolidColorBrush x:Key="IconBaseBrush" Color="#ABFFFFFF" />
 					<SolidColorBrush x:Key="IconAltBrush" Color="#F0000000" />
 					<SolidColorBrush
+						x:Key="Local.IconAltAccentBrush"
+						Opacity=".40"
+						Color="{StaticResource TextOnAccentFillColorPrimary}" />
+					<SolidColorBrush
 						x:Key="IconBaseFadedBrush"
 						Opacity=".12"
 						Color="#E0FFFFFF" />
@@ -72,6 +77,10 @@
 				<ResourceDictionary x:Key="HighContrast">
 					<SolidColorBrush x:Key="IconBaseBrush" Color="#AB000000" />
 					<SolidColorBrush x:Key="IconAltBrush" Color="#F0FFFFFF" />
+					<SolidColorBrush
+						x:Key="Local.IconAltAccentBrush"
+						Opacity=".40"
+						Color="{StaticResource TextOnAccentFillColorPrimary}" />
 					<SolidColorBrush
 						x:Key="IconBaseFadedBrush"
 						Opacity=".12"
@@ -145,7 +154,7 @@
 									<Path
 										x:Name="Path1"
 										Data="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15Z"
-										Fill="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+										Fill="{ThemeResource Local.IconAltAccentBrush}" />
 									<Path
 										x:Name="Path2"
 										Data="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15ZM8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
@@ -337,7 +346,7 @@
 									<Path
 										x:Name="Path4"
 										Data="M2.5 2H4.08535C4.29127 2.5826 4.84689 3 5.5 3H8.5C9.15311 3 9.70873 2.5826 9.91465 2H11.5C11.7761 2 12 2.22386 12 2.5V4H8.5C7.11929 4 6 5.11929 6 6.5V15H2.5C2.22386 15 2 14.7761 2 14.5V2.5C2 2.22386 2.22386 2 2.5 2Z"
-										Fill="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+										Fill="{ThemeResource Local.IconAltAccentBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -379,11 +388,11 @@
 									<Path
 										x:Name="Path3"
 										Data="M10 3H2.5C1.67157 3 1 3.67157 1 4.5V11.5C1 12.3284 1.67157 13 2.5 13H10V3Z"
-										Fill="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+										Fill="{ThemeResource Local.IconAltAccentBrush}" />
 									<Path
 										x:Name="Path4"
 										Data="M13 13H13.5C14.3284 13 15 12.3284 15 11.5V4.5C15 3.67157 14.3284 3 13.5 3H13V13Z"
-										Fill="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+										Fill="{ThemeResource Local.IconAltAccentBrush}" />
 									<Path
 										x:Name="Path5"
 										Data="M9 0.5C9 0.223858 9.22386 0 9.5 0H13.5C13.7761 0 14 0.223858 14 0.5C14 0.776142 13.7761 1 13.5 1H12V15H13.5C13.7761 15 14 15.2239 14 15.5C14 15.7761 13.7761 16 13.5 16H9.5C9.22386 16 9 15.7761 9 15.5C9 15.2239 9.22386 15 9.5 15H11V1H9.5C9.22386 1 9 0.776142 9 0.5Z"
