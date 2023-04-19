@@ -11,6 +11,8 @@ namespace Files.App.Commands
 		ExitCompactOverlay,
 		ToggleCompactOverlay,
 		Search,
+		Redo,
+		Undo,
 
 		// Show
 		ToggleShowHiddenItems,
@@ -25,6 +27,7 @@ namespace Files.App.Commands
 		PasteItem,
 		PasteItemToSelection,
 		DeleteItem,
+		DeleteItemPermanently,
 		CreateFolder,
 		CreateShortcut,
 		CreateShortcutFromDialog,
@@ -152,5 +155,8 @@ namespace Files.App.Commands
 		CloseSelectedTab,
 		OpenNewPane,
 		ClosePane,
+
+		// Play
+		PlayAll,
 	}
 }
