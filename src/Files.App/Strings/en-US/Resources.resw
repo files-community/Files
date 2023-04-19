@@ -3181,6 +3181,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
   </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Open the item's location</value>
+  </data>
   <data name="DeletePermanently" xml:space="preserve">
     <value>Delete permanently</value>
   </data>

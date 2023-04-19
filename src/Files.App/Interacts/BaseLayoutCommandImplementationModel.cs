@@ -96,37 +96,6 @@ namespace Files.App.Interacts
 			FilePropertiesHelpers.ShowProperties(associatedInstance);
 		}
 
-		public virtual async void OpenFileLocation(RoutedEventArgs e)
-		{
-			ShortcutItem item = SlimContentPage.SelectedItem as ShortcutItem;
-
-			if (string.IsNullOrWhiteSpace(item?.TargetPath))
-				return;
-
-			// Check if destination path exists
-			string folderPath = Path.GetDirectoryName(item.TargetPath);
-			FilesystemResult<StorageFolderWithPath> destFolder = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
-
-			if (destFolder)
-			{
-				associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
-				{
-					NavPathParam = folderPath,
-					SelectItems = new[] { Path.GetFileName(item.TargetPath.TrimPath()) },
-					AssociatedTabInstance = associatedInstance
-				});
-			}
-			else if (destFolder == FileSystemStatusCode.NotFound)
-			{
-				await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
-			}
-			else
-			{
-				await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
-					string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, destFolder.ErrorCode.ToString()));
-			}
-		}
-
 		public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
 		{
 			foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
