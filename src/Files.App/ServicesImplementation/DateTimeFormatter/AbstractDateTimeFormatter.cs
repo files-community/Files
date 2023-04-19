@@ -1,6 +1,4 @@
-using Files.App.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
-using System;
 using System.Globalization;
 using Windows.Globalization;
 

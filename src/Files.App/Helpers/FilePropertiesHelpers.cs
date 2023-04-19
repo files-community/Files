@@ -1,14 +1,9 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Dialogs;
-using Files.App.Extensions;
 using Files.App.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;

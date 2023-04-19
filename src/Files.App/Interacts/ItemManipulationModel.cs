@@ -1,7 +1,3 @@
-using Files.App.Filesystem;
-using System;
-using System.Collections.Generic;
-
 namespace Files.App.Interacts
 {
 	public class ItemManipulationModel

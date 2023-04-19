@@ -1,10 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.ViewModels;
+﻿using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
-using System;
-using System.ComponentModel;
 using static Files.App.Constants.Browser.GridViewBrowser;
 
 namespace Files.App.Contexts

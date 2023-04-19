@@ -1,7 +1,6 @@
 using Files.App.Views;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.Collections.ObjectModel;
 
 namespace Files.App.Helpers
 {

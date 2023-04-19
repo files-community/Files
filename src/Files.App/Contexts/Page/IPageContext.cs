@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Files.App.Contexts
+﻿namespace Files.App.Contexts
 {
 	public interface IPageContext
 	{

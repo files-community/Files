@@ -1,5 +1,3 @@
-using System;
-
 namespace Files.App.Filesystem.StorageItems
 {
 	public class BaseBasicProperties : BaseStorageItemExtraProperties

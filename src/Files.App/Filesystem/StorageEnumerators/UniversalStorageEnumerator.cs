@@ -1,16 +1,7 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Filesystem.StorageEnumerators

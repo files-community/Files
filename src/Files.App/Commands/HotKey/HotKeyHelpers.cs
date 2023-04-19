@@ -1,9 +1,6 @@
-﻿using Files.App.Extensions;
-using Microsoft.UI.Input;
-using System.Collections.Generic;
+﻿using Microsoft.UI.Input;
 using System.Collections.Immutable;
 using System.Runtime.InteropServices;
-using System.Text;
 using Windows.System;
 using Windows.UI.Core;
 using Forms = System.Windows.Forms;

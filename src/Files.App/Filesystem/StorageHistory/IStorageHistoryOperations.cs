@@ -1,6 +1,4 @@
 using Files.Shared.Enums;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Filesystem.FilesystemHistory
 {

@@ -1,6 +1,5 @@
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml.Navigation;
-using System.Threading.Tasks;
 
 namespace Files.App.Views.Properties
 {

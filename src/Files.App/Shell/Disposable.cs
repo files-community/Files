@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Files.App.Shell
+﻿namespace Files.App.Shell
 {
 	public abstract class Disposable : IDisposable
 	{

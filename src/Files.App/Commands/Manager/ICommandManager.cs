@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Files.App.Commands
 {
 	public interface ICommandManager : IEnumerable<IRichCommand>

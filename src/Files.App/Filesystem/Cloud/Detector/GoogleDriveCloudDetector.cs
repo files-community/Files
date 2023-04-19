@@ -1,10 +1,6 @@
-using Files.App.Extensions;
 using Files.Shared.Cloud;
 using Files.Shared.Extensions;
 using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using Windows.Storage;
 
 namespace Files.App.Filesystem.Cloud

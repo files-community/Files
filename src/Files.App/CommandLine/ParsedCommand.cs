@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Files.App.CommandLine
 {
 	internal class ParsedCommand

@@ -1,4 +1,3 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.ViewModels;
@@ -8,7 +7,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System.Windows.Input;
 using Windows.System;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 

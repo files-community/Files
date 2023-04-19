@@ -1,12 +1,7 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI.Helpers;
+﻿using CommunityToolkit.WinUI.Helpers;
 using Files.App.DataModels;
-using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.UserControls.Widgets;
-using System;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Files.App.Filesystem
 {

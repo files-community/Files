@@ -1,7 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Dialogs;
-using Files.App.Extensions;
-using Files.App.Filesystem;
+﻿using Files.App.Dialogs;
 using Files.App.Filesystem.Archive;
 using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels;
@@ -9,14 +6,7 @@ using Files.App.ViewModels.Dialogs;
 using Files.Backend.Helpers;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Helpers

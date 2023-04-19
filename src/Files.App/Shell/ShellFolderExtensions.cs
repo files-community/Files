@@ -1,9 +1,4 @@
-﻿using Files.App.Helpers;
-using Files.Shared;
-using Files.Shared.Extensions;
-using System;
-using System.IO;
-using System.Linq;
+﻿using Files.Shared.Extensions;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 

@@ -1,13 +1,6 @@
-using Files.App.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Filesystem.FilesystemHistory

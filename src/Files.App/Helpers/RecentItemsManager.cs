@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace Files.App.Helpers
+﻿namespace Files.App.Helpers
 {
 	public sealed class RecentItemsManager
 	{

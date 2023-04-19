@@ -1,9 +1,5 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem.Cloud;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
@@ -12,13 +8,6 @@ using Files.Shared.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
 using FluentFTP;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 #pragma warning disable CS0618 // Type or member is obsolete

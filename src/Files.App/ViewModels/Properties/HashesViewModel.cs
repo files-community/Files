@@ -1,19 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
-using Files.App.Extensions;
-using Files.App.Filesystem;
+﻿using CommunityToolkit.WinUI;
 using Files.Backend.Models;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Files.Shared.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Properties

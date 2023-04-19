@@ -1,12 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Helpers;
-using Files.Backend.Services.Settings;
+﻿using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Files.Shared.Extensions;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings

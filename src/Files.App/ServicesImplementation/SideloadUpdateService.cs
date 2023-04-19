@@ -1,17 +1,8 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.Helpers;
 using Files.Backend.Services;
-using Files.Shared;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;

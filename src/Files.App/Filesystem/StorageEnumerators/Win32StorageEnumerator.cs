@@ -1,18 +1,10 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Helpers.FileListCache;
 using Files.Backend.Extensions;
 using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;

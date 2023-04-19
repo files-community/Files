@@ -3,8 +3,6 @@ using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Dialogs
 {

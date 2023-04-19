@@ -1,5 +1,4 @@
 using Files.Shared.Enums;
-using System.Collections.Generic;
 
 namespace Files.App.Filesystem.FilesystemHistory
 {

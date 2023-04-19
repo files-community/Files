@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.Filesystem;
-using Files.Shared.Extensions;
+﻿using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.DataModels

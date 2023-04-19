@@ -1,6 +1,4 @@
 using FluentFTP;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {

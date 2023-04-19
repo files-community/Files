@@ -1,17 +1,11 @@
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.Interacts;
 using Files.App.UserControls;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Windows.Storage;
 using static Files.App.Constants;
 using static Files.App.Helpers.PathNormalization;
 
@@ -60,10 +54,9 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
-			var nextBlade = ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex);
-			var arePathsDifferent = ((nextBlade?.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam;
 
-			if (nextBlade is null || arePathsDifferent)
+			if (ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex) is not BladeItem nextBlade ||
+				((nextBlade.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam)
 			{
 				DismissOtherBlades(column.ListView);
 
@@ -77,8 +70,7 @@ namespace Files.App.Views.LayoutModes
 				navigationArguments.NavPathParam = column.NavPathParam;
 				ParentShellPageInstance.TabItemArguments.NavigationArg = column.NavPathParam;
 			}
-			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && 
-				arePathsDifferent)
+			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 			{
 				CloseUnnecessaryColumns(column);
 			}
@@ -271,9 +263,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void ColumnViewBase_KeyUp(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
 		{
-			var shPage = ActiveColumnShellPage as ColumnShellPage;
-			if (shPage?.SlimContentPage?.SelectedItem?.PrimaryItemAttribute is not StorageItemTypes.Folder)
-				CloseUnnecessaryColumns(shPage?.ColumnParams);
+			CloseUnnecessaryColumns((ActiveColumnShellPage as ColumnShellPage)?.ColumnParams);
 		}
 
 		public void NavigateBack()
@@ -441,7 +431,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void CloseUnnecessaryColumns(ColumnParam column)
 		{
-			var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel?.WorkingDirectory;
+			var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
 			var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
 			if (string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath))
 				return;

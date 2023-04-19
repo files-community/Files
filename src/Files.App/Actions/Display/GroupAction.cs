@@ -1,10 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Contexts;
-using Files.App.Extensions;
+﻿using Files.App.Contexts;
 using Files.Shared.Enums;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {

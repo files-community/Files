@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Files.App.Commands
+﻿namespace Files.App.Commands
 {
 	public readonly struct HotKey : IEquatable<HotKey>
 	{

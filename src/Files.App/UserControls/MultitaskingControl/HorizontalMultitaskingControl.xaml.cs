@@ -1,13 +1,8 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Shapes;
-using System;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 

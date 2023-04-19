@@ -1,10 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Files.App.Filesystem.Security
 {
 	/// <summary>

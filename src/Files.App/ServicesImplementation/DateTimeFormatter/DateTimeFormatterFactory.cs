@@ -1,6 +1,5 @@
 using Files.Shared.Enums;
 using Files.Shared.Services.DateTimeFormatter;
-using System;
 
 namespace Files.App.ServicesImplementation.DateTimeFormatter
 {

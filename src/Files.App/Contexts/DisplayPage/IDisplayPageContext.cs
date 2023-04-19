@@ -1,5 +1,4 @@
 ﻿using Files.Shared.Enums;
-using System.ComponentModel;
 
 namespace Files.App.Contexts
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Files.App.Filesystem.Security
+﻿namespace Files.App.Filesystem.Security
 {
 	/// <summary>
 	/// Represents inheritance flags of an ACE

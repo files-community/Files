@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Windowing;
+﻿using Microsoft.UI.Windowing;
 
 namespace Files.App.Contexts
 {

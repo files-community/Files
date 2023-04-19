@@ -1,14 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
+﻿using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.ServicesImplementation;
 using Files.App.UserControls.Widgets;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {

@@ -1,10 +1,8 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.ViewModels.Previews;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System;
 using Windows.Media.Playback;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236

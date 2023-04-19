@@ -1,11 +1,8 @@
 using Files.App.Dialogs;
-using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Files.App.Views.Properties
 {

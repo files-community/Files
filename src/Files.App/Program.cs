@@ -1,17 +1,11 @@
 using Files.App.CommandLine;
-using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Backend.Helpers;
 using Files.Shared.Extensions;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
-using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using static UWPToWinAppSDKUpgradeHelpers.InteropHelpers;

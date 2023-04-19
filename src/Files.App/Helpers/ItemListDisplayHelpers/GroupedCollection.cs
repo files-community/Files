@@ -1,9 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.Extensions;
 using Microsoft.UI.Xaml.Media;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Files.App.Helpers

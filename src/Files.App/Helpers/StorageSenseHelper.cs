@@ -1,5 +1,4 @@
 using Files.App.Shell;
-using System;
 using Windows.Foundation.Metadata;
 using Windows.System;
 

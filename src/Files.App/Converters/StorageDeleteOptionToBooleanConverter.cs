@@ -1,5 +1,4 @@
 using Microsoft.UI.Xaml.Data;
-using System;
 using Windows.Storage;
 
 namespace Files.App.Converters

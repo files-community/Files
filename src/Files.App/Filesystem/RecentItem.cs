@@ -1,10 +1,6 @@
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.UserControls.Widgets;
-using Files.Shared;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 

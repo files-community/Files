@@ -1,11 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
+﻿using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Extensions;
 using Microsoft.UI.Windowing;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {

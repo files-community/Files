@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
 namespace Files.App.UserControls.MultitaskingControl
 {
 	public interface IMultitaskingControl

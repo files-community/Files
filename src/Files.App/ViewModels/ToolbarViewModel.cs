@@ -1,15 +1,9 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Shell;
 using Files.App.UserControls;
 using Files.App.Views;
@@ -23,13 +17,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Text;
@@ -577,6 +564,8 @@ namespace Files.App.ViewModels
 
 		public ICommand? UpdateCommand { get; set; }
 
+		public ICommand? PlayAllCommand { get; set; }
+
 		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
 		{
 			var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
@@ -858,6 +847,7 @@ namespace Files.App.ViewModels
 					OnPropertyChanged(nameof(IsImage));
 					OnPropertyChanged(nameof(IsMultipleImageSelected));
 					OnPropertyChanged(nameof(IsFont));
+					OnPropertyChanged(nameof(IsMultipleMediaFilesSelected));
 					OnPropertyChanged(nameof(HasAdditionalAction));
 				}
 			}
@@ -875,6 +865,7 @@ namespace Files.App.ViewModels
 		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsMultipleMediaFilesSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsMediaFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
 		public string ExtractToText
 			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();

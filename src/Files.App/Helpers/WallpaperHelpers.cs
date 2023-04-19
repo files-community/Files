@@ -1,6 +1,4 @@
 using Files.Shared.Enums;
-using System;
-using System.Linq;
 using Vanara.PInvoke;
 using Windows.Storage;
 using Windows.System.UserProfile;

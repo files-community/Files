@@ -1,11 +1,6 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
 using System.Text.Json;
 
 namespace Files.App.UserControls.MultitaskingControl

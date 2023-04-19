@@ -1,8 +1,5 @@
 using Files.Shared.Enums;
-using System;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Filesystem

@@ -1,7 +1,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using System;
 
 namespace Files.App.Helpers
 {

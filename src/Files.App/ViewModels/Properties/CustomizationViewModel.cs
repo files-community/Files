@@ -1,16 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
+﻿using CommunityToolkit.WinUI;
 using Files.App.Shell;
-using Files.App.Helpers;
 using Files.App.Views.Properties;
-using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Threading.Tasks;
 using Windows.Storage.Pickers;
 
 namespace Files.App.ViewModels.Properties

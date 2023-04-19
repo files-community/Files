@@ -1,5 +1,3 @@
-using System;
-
 namespace Files.App.Filesystem
 {
 	public interface INavigationControlItem : IComparable<INavigationControlItem>

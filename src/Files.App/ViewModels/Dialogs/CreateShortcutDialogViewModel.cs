@@ -1,10 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Helpers;
-using Files.Backend.Extensions;
-using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using Files.Backend.Extensions;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
 

@@ -1,8 +1,5 @@
-using Files.App.Helpers;
 using Files.App.Views;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.UserControls

@@ -1,10 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Extensions;
+﻿using Files.App.Commands;
 using Files.Backend.Services.Settings;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {

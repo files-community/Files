@@ -1,8 +1,4 @@
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Helpers;
-using Files.Shared;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 namespace Files.App.Filesystem
 {

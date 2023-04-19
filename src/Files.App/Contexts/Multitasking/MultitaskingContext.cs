@@ -1,10 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.UserControls.MultitaskingControl;
+﻿using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System.Collections.Specialized;
-using System.ComponentModel;
 
 namespace Files.App.Contexts
 {

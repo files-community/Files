@@ -1,14 +1,7 @@
-﻿using Files.Shared;
-using Files.Shared.Extensions;
+﻿using Files.Shared.Extensions;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Runtime.Versioning;
 using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Shell

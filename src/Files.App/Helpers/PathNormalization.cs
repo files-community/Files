@@ -1,6 +1,4 @@
 using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
 
 namespace Files.App.Helpers
 {

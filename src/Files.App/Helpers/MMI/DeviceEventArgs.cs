@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Files.App.Helpers.MMI
+﻿namespace Files.App.Helpers.MMI
 {
 	public class DeviceEventArgs : EventArgs
 	{

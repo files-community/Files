@@ -1,6 +1,4 @@
-using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using static Files.App.Helpers.NativeIoDeviceControlHelper;
 
 namespace Files.App.Interacts

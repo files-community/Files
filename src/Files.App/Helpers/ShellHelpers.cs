@@ -1,9 +1,4 @@
-﻿using Files.App.Extensions;
-using Files.Shared;
-using System;
-using System.IO;
-
-namespace Files.App.Helpers
+﻿namespace Files.App.Helpers
 {
 	public static class ShellHelpers
 	{

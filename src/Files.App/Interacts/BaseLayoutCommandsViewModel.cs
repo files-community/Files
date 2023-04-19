@@ -1,8 +1,5 @@
-using CommunityToolkit.Mvvm.Input;
-using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
-using System;
 using System.Windows.Input;
 
 namespace Files.App.Interacts
@@ -38,6 +35,7 @@ namespace Files.App.Interacts
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.Drop);
 			SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
 			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
+			PlayAllCommand = new AsyncRelayCommand(CommandsModel.PlayAll);
 		}
 
 		#endregion Command Initialization
@@ -67,6 +65,8 @@ namespace Files.App.Interacts
 		public ICommand SearchUnindexedItems { get; private set; }
 
 		public ICommand CreateFolderWithSelection { get; private set; }
+
+		public ICommand PlayAllCommand { get; private set; }
 
 		#endregion Commands
 

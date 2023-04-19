@@ -1,8 +1,6 @@
 using CommunityToolkit.WinUI;
 using Files.Backend.Services;
 using Microsoft.UI.Dispatching;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.ServicesImplementation
 {

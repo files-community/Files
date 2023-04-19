@@ -1,8 +1,6 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
 using System.Diagnostics;
 using Windows.System;
 

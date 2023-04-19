@@ -1,19 +1,10 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.Shared.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
 

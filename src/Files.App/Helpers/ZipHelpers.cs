@@ -1,13 +1,6 @@
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Microsoft.Extensions.Logging;
 using SevenZip;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {

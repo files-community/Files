@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-
 namespace Files.App.Helpers
 {
 	/// <summary>

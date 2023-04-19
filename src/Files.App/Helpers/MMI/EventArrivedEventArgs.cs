@@ -1,5 +1,4 @@
 ﻿using Microsoft.Management.Infrastructure;
-using System;
 
 namespace Files.App.MMI
 {

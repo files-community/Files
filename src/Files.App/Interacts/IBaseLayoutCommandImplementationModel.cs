@@ -1,8 +1,5 @@
-using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Interacts
 {
@@ -31,5 +28,7 @@ namespace Files.App.Interacts
 		void SearchUnindexedItems(RoutedEventArgs e);
 
 		Task CreateFolderWithSelection(RoutedEventArgs e);
+
+		Task PlayAll();
 	}
 }

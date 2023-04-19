@@ -1,14 +1,9 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.EventArguments;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.Helpers.LayoutPreferences;
 using Files.App.Views.LayoutModes;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using System;
 using System.Text.Json;
 using Windows.Storage;
 using IO = System.IO;

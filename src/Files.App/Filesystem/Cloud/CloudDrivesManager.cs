@@ -1,15 +1,8 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Helpers;
-using Files.Shared;
 using Files.Shared.Cloud;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Filesystem.Cloud

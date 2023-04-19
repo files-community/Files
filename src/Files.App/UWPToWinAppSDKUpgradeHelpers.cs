@@ -1,6 +1,5 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
-using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 

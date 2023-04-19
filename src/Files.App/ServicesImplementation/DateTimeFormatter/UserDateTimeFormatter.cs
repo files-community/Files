@@ -1,8 +1,6 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Files.Shared.Services.DateTimeFormatter;
-using System;
 
 namespace Files.App.ServicesImplementation.DateTimeFormatter
 {

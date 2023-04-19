@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;

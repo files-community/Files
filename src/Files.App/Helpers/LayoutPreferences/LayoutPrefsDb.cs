@@ -1,8 +1,5 @@
 using Files.Shared.Extensions;
 using LiteDB;
-using System;
-using System.Linq;
-using System.Text;
 using IO = System.IO;
 
 namespace Files.App.Helpers.LayoutPreferences

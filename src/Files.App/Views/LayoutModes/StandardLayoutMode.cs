@@ -1,6 +1,4 @@
 ﻿using CommunityToolkit.WinUI.UI;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
 using Files.App.UserControls;
@@ -10,11 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
 

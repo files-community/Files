@@ -1,8 +1,4 @@
 ﻿using Files.App.Commands;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {

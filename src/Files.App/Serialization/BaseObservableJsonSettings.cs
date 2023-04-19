@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Files.App.Serialization

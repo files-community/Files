@@ -1,5 +1,4 @@
 using CommunityToolkit.WinUI.Helpers;
-using System;
 using System.Globalization;
 using Windows.UI;
 

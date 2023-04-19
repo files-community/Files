@@ -1,11 +1,8 @@
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.Backend.Helpers;
 using Files.Shared.Enums;
-using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 

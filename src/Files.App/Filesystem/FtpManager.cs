@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Net;
 
 namespace Files.App.Filesystem

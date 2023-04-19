@@ -1,9 +1,6 @@
 using Files.App.Shell;
 using Files.Shared.Extensions;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {

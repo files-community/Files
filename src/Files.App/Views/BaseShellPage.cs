@@ -1,14 +1,9 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.Commands;
 using Files.App.DataModels;
 using Files.App.EventArguments;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.Search;
-using Files.App.Helpers;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
@@ -16,7 +11,6 @@ using Files.App.Views.LayoutModes;
 using Files.Backend.Enums;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -25,13 +19,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Shared.Enums.SortDirection;
@@ -43,7 +31,7 @@ namespace Files.App.Views
 		public static readonly DependencyProperty NavParamsProperty =
 			DependencyProperty.Register("NavParams", typeof(NavigationParams), typeof(ModernShellPage), new PropertyMetadata(null));
 
-		public StorageHistoryHelpers StorageHistoryHelpers { get; }
+		protected readonly StorageHistoryHelpers storageHistoryHelpers;
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
 
@@ -165,7 +153,7 @@ namespace Files.App.Views
 			InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
 			cancellationTokenSource = new CancellationTokenSource();
 			FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
-			StorageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
+			storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
 			ToolbarViewModel.InstanceViewModel = InstanceViewModel;
 
@@ -609,6 +597,7 @@ namespace Files.App.Views
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
+			ToolbarViewModel.PlayAllCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.PlayAllCommand.Execute(null));
 		}
 
 		protected async Task<BaseLayout> GetContentOrNullAsync()

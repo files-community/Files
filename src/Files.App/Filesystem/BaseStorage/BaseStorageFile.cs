@@ -1,8 +1,4 @@
-using System;
-using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;

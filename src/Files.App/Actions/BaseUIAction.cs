@@ -1,8 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.Helpers;
-using System.ComponentModel;
-
-namespace Files.App.Actions
+﻿namespace Files.App.Actions
 {
 	internal abstract class BaseUIAction : ObservableObject
 	{

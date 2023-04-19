@@ -1,5 +1,4 @@
 ﻿using Files.App.Commands;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {

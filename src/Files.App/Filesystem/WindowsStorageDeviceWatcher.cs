@@ -1,11 +1,8 @@
 ﻿using Files.App.DataModels.NavigationControlItems;
-using Files.App.Helpers;
 using Files.App.Helpers.MMI;
 using Files.Backend.Models;
 using Files.Sdk.Storage.LocatableStorage;
 using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;

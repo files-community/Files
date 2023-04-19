@@ -12,7 +12,6 @@ global using global::System.Threading.Tasks;
 global using global::CommunityToolkit.Mvvm.ComponentModel;
 global using global::CommunityToolkit.Mvvm.DependencyInjection;
 global using global::CommunityToolkit.Mvvm.Input;
-global using global::CommunityToolkit.Mvvm.Messaging;
 
 // Files front-end
 global using global::Files.App.Helpers;
@@ -21,7 +20,6 @@ global using global::Files.App.Filesystem;
 
 // Files back-end
 global using global::Files.Shared;
-global using global::Files.App.Storage;
 global using global::Files.Sdk.Storage;
 
 // Vanara

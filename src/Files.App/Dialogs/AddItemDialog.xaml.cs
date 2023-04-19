@@ -1,12 +1,9 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

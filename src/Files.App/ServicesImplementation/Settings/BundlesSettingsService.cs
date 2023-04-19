@@ -1,9 +1,6 @@
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
 using Files.Backend.Services.Settings;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using Windows.Storage;
 
 namespace Files.App.ServicesImplementation.Settings

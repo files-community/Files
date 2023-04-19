@@ -1,17 +1,11 @@
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.Shell;
 using Files.App.ViewModels.Properties;
-using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
-using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Views.Properties

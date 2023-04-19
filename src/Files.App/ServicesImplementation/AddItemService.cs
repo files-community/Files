@@ -1,8 +1,4 @@
-﻿using Files.App.Extensions;
-using Files.Backend.Services;
-using Files.Shared;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Files.Backend.Services;
 
 namespace Files.App.ServicesImplementation
 {

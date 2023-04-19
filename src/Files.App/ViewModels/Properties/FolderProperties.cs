@@ -1,17 +1,9 @@
 using ByteSizeLib;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Shell;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
-using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Files.App.ViewModels.Properties
 {

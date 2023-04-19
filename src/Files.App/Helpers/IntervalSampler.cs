@@ -1,5 +1,3 @@
-using System;
-
 namespace Files.App.Helpers
 {
 	internal class IntervalSampler

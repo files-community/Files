@@ -1,9 +1,4 @@
-﻿using Files.App.Filesystem;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-
-namespace Files.App.Contexts
+﻿namespace Files.App.Contexts
 {
 	public interface IContentPageContext : INotifyPropertyChanged
 	{

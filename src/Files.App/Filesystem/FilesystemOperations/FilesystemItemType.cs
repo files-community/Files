@@ -1,5 +1,3 @@
-using System;
-
 namespace Files.App.Filesystem
 {
 	public enum FilesystemItemType : byte

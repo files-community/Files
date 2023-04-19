@@ -1,4 +1,3 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.DataModels;
 using Files.App.ViewModels;
@@ -8,9 +7,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.IO;
-using System.Linq;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 

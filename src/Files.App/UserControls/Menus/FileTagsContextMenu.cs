@@ -1,14 +1,8 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.Backend.Services.Settings;
+﻿using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using static Files.App.Helpers.MenuFlyoutHelper;
 
 namespace Files.App.UserControls.Menus

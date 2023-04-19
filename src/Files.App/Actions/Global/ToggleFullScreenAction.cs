@@ -1,7 +1,5 @@
 ﻿using Files.App.Commands;
-using Files.App.Extensions;
 using Microsoft.UI.Windowing;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {

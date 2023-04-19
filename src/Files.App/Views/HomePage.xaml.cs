@@ -1,18 +1,10 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Dialogs;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.UserControls.Widgets;
 using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Views

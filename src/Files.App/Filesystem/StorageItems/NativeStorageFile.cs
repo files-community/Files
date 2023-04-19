@@ -1,12 +1,6 @@
-using Files.App.Extensions;
-using Files.App.Helpers;
 using Files.Backend.Helpers;
-using System;
-using System.ComponentModel;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;

@@ -1,6 +1,4 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
-using Files.App.Extensions;
 using Files.App.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;

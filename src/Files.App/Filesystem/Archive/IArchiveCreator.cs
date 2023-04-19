@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Files.App.Filesystem.Archive
+﻿namespace Files.App.Filesystem.Archive
 {
 	public interface IArchiveCreator
 	{

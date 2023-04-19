@@ -1,5 +1,4 @@
-﻿using Files.App.Helpers;
-using Files.Backend.Services;
+﻿using Files.Backend.Services;
 using Microsoft.UI.Xaml;
 using System.Drawing;
 

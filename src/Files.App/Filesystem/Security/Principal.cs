@@ -1,6 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.Generic;
-using System.Text;
 using static Vanara.PInvoke.AdvApi32;
 
 namespace Files.App.Filesystem.Security

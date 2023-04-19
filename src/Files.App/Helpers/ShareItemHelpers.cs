@@ -1,9 +1,4 @@
-﻿using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Filesystem.StorageItems;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Files.App.Filesystem.StorageItems;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Storage;

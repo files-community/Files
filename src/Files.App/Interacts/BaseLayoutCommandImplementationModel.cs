@@ -1,24 +1,14 @@
 #nullable disable warnings
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.Backend.Enums;
-using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;

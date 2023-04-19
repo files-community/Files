@@ -1,14 +1,7 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Interacts;
 using Files.App.ViewModels;
 using Microsoft.Management.Infrastructure;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;

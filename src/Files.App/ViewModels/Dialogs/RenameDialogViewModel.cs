@@ -1,8 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-
-namespace Files.App.ViewModels.Dialogs
+﻿namespace Files.App.ViewModels.Dialogs
 {
-    class RenameDialogViewModel : ObservableObject
+	class RenameDialogViewModel : ObservableObject
     {
 		private bool isNameInvalid;
 		public bool IsNameInvalid

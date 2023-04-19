@@ -1,6 +1,3 @@
-using Files.App.Extensions;
-using System;
-
 namespace Files.App.ServicesImplementation.DateTimeFormatter
 {
 	internal class UniversalDateTimeFormatter : AbstractDateTimeFormatter

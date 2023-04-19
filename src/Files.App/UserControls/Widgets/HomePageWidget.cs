@@ -1,17 +1,12 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Helpers;
-using Files.App.Helpers.ContextFlyouts;
+﻿using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
 using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
-using Files.Sdk.Storage;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 
 namespace Files.App.UserControls.Widgets

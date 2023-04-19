@@ -1,16 +1,10 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Actions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Commands
 {

@@ -1,7 +1,5 @@
 ﻿using Microsoft.Management.Infrastructure;
 using Microsoft.Management.Infrastructure.Generic;
-using System;
-using System.Threading;
 
 namespace Files.App.MMI
 {

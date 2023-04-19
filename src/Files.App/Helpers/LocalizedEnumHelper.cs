@@ -1,6 +1,3 @@
-using Files.App.Extensions;
-using System;
-
 namespace Files.App.Helpers
 {
 	public sealed class LocalizedEnumHelper<T> where T : Enum

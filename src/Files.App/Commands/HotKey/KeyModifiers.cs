@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Files.App.Commands
+﻿namespace Files.App.Commands
 {
 	[Flags]
 	public enum KeyModifiers : ushort

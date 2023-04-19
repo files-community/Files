@@ -1,6 +1,4 @@
 ﻿using Files.App.Commands;
-using Files.App.Extensions;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {

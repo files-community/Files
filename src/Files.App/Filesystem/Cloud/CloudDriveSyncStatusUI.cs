@@ -1,5 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.Extensions;
 using Files.Shared.Cloud;
 
 namespace Files.App.Filesystem.Cloud

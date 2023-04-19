@@ -1,11 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
+﻿using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions

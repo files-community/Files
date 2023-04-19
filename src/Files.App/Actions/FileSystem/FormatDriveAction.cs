@@ -1,13 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Contexts;
+﻿using Files.App.Contexts;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
 using Files.App.Shell;
 using Files.App.ViewModels;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {

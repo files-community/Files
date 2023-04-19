@@ -1,17 +1,10 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
-using Files.Backend.AppModels;
+﻿using Files.Backend.AppModels;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
-using Files.Sdk.Storage;
 using Files.Sdk.Storage.Extensions;
 using Files.Sdk.Storage.LocatableStorage;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Files.App.ServicesImplementation
 {

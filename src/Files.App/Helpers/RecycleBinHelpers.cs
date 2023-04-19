@@ -1,17 +1,9 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
-using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;
 

@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Xaml.Media.Imaging;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
 namespace Files.App.Helpers
 {

@@ -1,16 +1,11 @@
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using static Files.App.Views.Properties.SecurityAdvancedPage;

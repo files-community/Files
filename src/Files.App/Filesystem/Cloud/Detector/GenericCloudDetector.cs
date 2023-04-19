@@ -1,6 +1,4 @@
-using Files.App.Helpers;
 using Files.Shared.Cloud;
-using System.Collections.Generic;
 
 namespace Files.App.Filesystem.Cloud
 {

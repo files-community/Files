@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Files.App.Filesystem.FilesystemHistory
 {
 	public class StorageHistoryWrapper : IDisposable
