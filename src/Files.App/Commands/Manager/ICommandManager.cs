@@ -47,6 +47,7 @@ namespace Files.App.Commands
 		IRichCommand OpenItem { get; }
 		IRichCommand OpenItemWithApplicationPicker { get; }
 		IRichCommand OpenParentFolder { get; }
+		IRichCommand OpenFileLocation { get; }
 		IRichCommand RefreshItems { get; }
 		IRichCommand Rename { get; }
 
