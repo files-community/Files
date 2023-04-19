@@ -3184,10 +3184,10 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
   </data>
-  <data name="PermanentlyDelete" xml:space="preserve">
-    <value>Permanently delete</value>
+  <data name="DeletePermanently" xml:space="preserve">
+    <value>Delete permanently</value>
   </data>
-  <data name="PermanentlyDeleteDescription" xml:space="preserve">
-    <value>Permanently delete item(s)</value>
+  <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
+    <value>Delete item(s) permanently</value>
   </data>
 </root>

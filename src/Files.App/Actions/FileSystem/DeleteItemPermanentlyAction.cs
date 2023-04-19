@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class PermanentlyDeleteAction : BaseDeleteAction, IAction
+	internal class DeleteItemPermanentlyAction : BaseDeleteAction, IAction
 	{
-		public string Label { get; } = "PermanentlyDelete".GetLocalizedResource();
+		public string Label { get; } = "DeletePermanently".GetLocalizedResource();
 
-		public string Description { get; } = "PermanentlyDeleteDescription".GetLocalizedResource();
+		public string Description { get; } = "DeleteItemPermanentlyDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.Delete, KeyModifiers.Shift);
 
