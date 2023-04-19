@@ -564,9 +564,6 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Invalid item</value>
   </data>
-  <data name="Version" xml:space="preserve">
-    <value>Version</value>
-  </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Version:</value>
   </data>
@@ -611,12 +608,6 @@
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Sponsor us on GitHub</value>
-  </data>
-  <data name="Personalization" xml:space="preserve">
-    <value>Personalization</value>
-  </data>
-  <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Layout and sorting</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>We weren't able to create this item</value>
@@ -1982,9 +1973,6 @@
   </data>
   <data name="ImportSettings" xml:space="preserve">
     <value>Import Settings</value>
-  </data>
-  <data name="ManageSettings" xml:space="preserve">
-    <value>Manage settings</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Couldn't import settings. The settings file is corrupted.</value>
