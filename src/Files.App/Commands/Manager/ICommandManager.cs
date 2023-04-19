@@ -16,6 +16,8 @@ namespace Files.App.Commands
 		IRichCommand ToggleCompactOverlay { get; }
 		IRichCommand Search { get; }
 		IRichCommand EditPath { get; }
+		IRichCommand Redo { get; }
+		IRichCommand Undo { get; }
 
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
@@ -28,6 +30,7 @@ namespace Files.App.Commands
 		IRichCommand PasteItem { get; }
 		IRichCommand PasteItemToSelection { get; }
 		IRichCommand DeleteItem { get; }
+		IRichCommand DeleteItemPermanently { get; }
 		IRichCommand SelectAll { get; }
 		IRichCommand InvertSelection { get; }
 		IRichCommand ClearSelection { get; }
@@ -137,5 +140,7 @@ namespace Files.App.Commands
 		IRichCommand CloseSelectedTab { get; }
 		IRichCommand OpenNewPane { get; }
 		IRichCommand ClosePane { get; }
+    
+		IRichCommand PlayAll { get; }
 	}
 }

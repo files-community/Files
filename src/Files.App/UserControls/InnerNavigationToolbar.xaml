@@ -358,13 +358,14 @@
 				</AppBarButton>
 				<AppBarButton
 					x:Name="PlayAllMediaButton"
-					x:Load="{x:Bind ViewModel.IsMultipleMediaFilesSelected, Mode=OneWay, FallbackValue=False}"
-					Command="{x:Bind ViewModel.PlayAllCommand, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=PlayAll}"
+					x:Load="{x:Bind Commands.PlayAll.IsExecutable, Mode=OneWay, FallbackValue=False}"
+					Command="{x:Bind Commands.PlayAll, Mode=OneWay}"
+					KeyboardAcceleratorTextOverride="{x:Bind Commands.PlayAll.HotKeyText, Mode=OneWay}"
+					Label="{x:Bind Commands.PlayAll.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=PlayAll}">
+					ToolTipService.ToolTip="{x:Bind Commands.PlayAll.LabelWithHotKey, Mode=OneWay}">
 					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE768;" />
+						<FontIcon Glyph="{x:Bind Commands.PlayAll.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
 				</AppBarButton>
 			</CommandBar.PrimaryCommands>
