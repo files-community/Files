@@ -1,4 +1,5 @@
 using Files.App.Filesystem;
+using Files.App.Filesystem.FilesystemHistory;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.App.Views;
@@ -12,6 +13,8 @@ namespace Files.App
 		ItemViewModel FilesystemViewModel { get; }
 
 		CurrentInstanceViewModel InstanceViewModel { get; }
+
+		StorageHistoryHelpers StorageHistoryHelpers { get; }
 
 		IBaseLayout SlimContentPage { get; }
 
