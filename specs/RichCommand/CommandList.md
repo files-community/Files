@@ -10,6 +10,8 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | ExitCompactOverlay                  | Exit compact overlay                      | Exit compact overlay                                     | Ctrl+Alt+Down       |
 |                    | ToggleCompactOverlay                | Toggle compact overlay                    | Toggle compact overlay                                   | F12                 |
 |                    | Search                              | Search                                    | Go to search box                                         | Ctrl+F, F3          |
+|                    | Redo                                | Redo                                      | Redo the last file operation                             | Ctrl+Y              |
+|                    | Undo                                | Undo                                      | Undo the last file operation                             | Ctrl+Z              |
 | Show               | ToggleShowHiddenItems               | Show hidden items                         | Toggle whether to show hidden items                      | Ctrl+H              |
 |                    | ToggleShowFileExtensions            | Show file extensions                      | Toggle whether to show file extensions                   |                     |
 |                    | TogglePreviewPane                   | Toggle the preview pane                   | Toggle whether to show preview pane                      | Ctrl+P              |
@@ -50,6 +52,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 | Run                | RunAsAdmin                          | Run as administrator                      | Run selected application as administrator                |                     |
 |                    | RunAsAnotherUser                    | Run as another user                       | Run selected application as another user                 |                     |
 |                    | RunWithPowershell                   | Run with PowerShell                       | Run selected PowerShell script                           |                     |
+| Play               | PlayAll                             | Play all                                  | Play the selected media files                            |                     |
 | QuickLook          | LaunchQuickLook                     | Launch QuickLook                          | Launch QuickLook with selected item                      | Space               |
 | Archives           | CompressIntoArchive                 | Create archive                            | Create archive with selected item(s)                     |                     |
 |                    | CompressIntoSevenZip                | Create _ArchiveName_.7z                   | Create 7z archive instantly with selected item(s)        |                     |
