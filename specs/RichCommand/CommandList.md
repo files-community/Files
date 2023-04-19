@@ -21,7 +21,8 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | CutItem                             | Cut                                       | Cut item(s) to clipboard                                 | Ctrl+X              |
 |                    | PasteItem                           | Paste                                     | Paste item(s) from clipboard to current folder           | Ctrl+V              |
 |                    | PasteItemToSelection                | Paste                                     | Paste item(s) from clipboard to selected folder          | Ctrl+Shift+V        |
-|                    | DeleteItem                          | Delete                                    | Delete item(s)                                           | Delete              |
+|                    | DeleteItem                          | Delete                                    | Delete item(s)                                           | Delete, Ctrl+D      |
+
 |                    | DeletemeItemPermanently             | Delete permanently                        | Delete item(s) permanently                               | Shift+Delete        |
 |                    | CreateFolder                        | Folder                                    | Create new folder                                        |                     |
 |                    | CreateShortcut                      | Create shortcut                           | Create new shortcut(s) to selected item(s)               |                     |
