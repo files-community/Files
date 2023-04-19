@@ -564,9 +564,6 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Nevaljana stavka</value>
   </data>
-  <data name="Version" xml:space="preserve">
-    <value>Verzija</value>
-  </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Verzija:</value>
   </data>
@@ -611,12 +608,6 @@
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Sponsor us on GitHub</value>
-  </data>
-  <data name="Personalization" xml:space="preserve">
-    <value>Personalization</value>
-  </data>
-  <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Layout and sorting</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Nismo uspjeli napraviti ovu stavku</value>
@@ -1983,9 +1974,6 @@
   <data name="ImportSettings" xml:space="preserve">
     <value>Uvoz postavki</value>
   </data>
-  <data name="ManageSettings" xml:space="preserve">
-    <value>Manage settings</value>
-  </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Nije moguće uvesti postavke. Datoteka postavki je oštećena.</value>
   </data>
@@ -3166,6 +3154,12 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
   </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Invalid location</value>
   </data>
@@ -3183,5 +3177,20 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
+  </data>
+  <data name="DeletePermanently" xml:space="preserve">
+    <value>Delete permanently</value>
+  </data>
+  <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
+    <value>Delete item(s) permanently</value>
+  </data>
+  <data name="PlayAllDescription" xml:space="preserve">
+    <value>Play the selected media files</value>
+  </data>
+  <data name="UndoDescription" xml:space="preserve">
+    <value>Undo the last file operation</value>
+  </data>
+  <data name="RedoDescription" xml:space="preserve">
+    <value>Redo the last file operation</value>
   </data>
 </root>
