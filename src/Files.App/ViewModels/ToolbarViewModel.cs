@@ -5,6 +5,7 @@ using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
 using Files.App.Contexts;
+using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
@@ -41,7 +42,8 @@ namespace Files.App.ViewModels
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
+		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
 
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
@@ -244,11 +246,11 @@ namespace Files.App.ViewModels
 			switch (e.SettingName)
 			{
 				// TODO: Move this to the widget page, it doesn't belong here.
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowDrivesWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowBundlesWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowDrivesWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowBundlesWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowFileTagsWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget):
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 					OnPropertyChanged(e.SettingName);
 					break;
@@ -488,7 +490,7 @@ namespace Files.App.ViewModels
 			{
 				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
 				{
-					await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
+					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);
 				e.Handled = true;
 				pointerRoutedEventArgs = null;
@@ -567,10 +569,6 @@ namespace Files.App.ViewModels
 
 		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
 
-		public ICommand? OpenNewPaneCommand { get; set; }
-
-		public ICommand? ClosePaneCommand { get; set; }
-
 		public ICommand? CreateNewFileCommand { get; set; }
 
 		public ICommand? Share { get; set; }
@@ -578,8 +576,6 @@ namespace Files.App.ViewModels
 		public ICommand PropertiesCommand { get; set; }
 
 		public ICommand? UpdateCommand { get; set; }
-
-		public ICommand? PlayAllCommand { get; set; }
 
 		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
 		{
@@ -670,12 +666,12 @@ namespace Files.App.ViewModels
 					if (currentSelectedPath == currentInput)
 						return;
 
-					var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentInput));
+					var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(currentInput));
 
 					var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
 					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
 					{
-						var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
+						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
 						if (matchingDrive is not null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
@@ -862,7 +858,6 @@ namespace Files.App.ViewModels
 					OnPropertyChanged(nameof(IsImage));
 					OnPropertyChanged(nameof(IsMultipleImageSelected));
 					OnPropertyChanged(nameof(IsFont));
-					OnPropertyChanged(nameof(IsMultipleMediaFilesSelected));
 					OnPropertyChanged(nameof(HasAdditionalAction));
 				}
 			}
@@ -880,7 +875,6 @@ namespace Files.App.ViewModels
 		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsMultipleMediaFilesSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsMediaFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
 		public string ExtractToText
 			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();

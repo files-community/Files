@@ -13,7 +13,7 @@ namespace Files.App.Actions
 		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 
 		public string Label { get; } = "CloseTabsToTheLeft".GetLocalizedResource();
-		public string Description => "TODO: Need to be described.";
+		public string Description => "CloseTabsToTheLeftCurrentDescription".GetLocalizedResource();
 
 		private bool isExecutable;
 		public bool IsExecutable => isExecutable;

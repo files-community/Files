@@ -15,7 +15,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "ReopenClosedTab".GetLocalizedResource();
 
-		public string Description { get; } = "TODO: Need to be described";
+		public string Description { get; } = "ReopenClosedTabDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.T, KeyModifiers.CtrlShift);
 

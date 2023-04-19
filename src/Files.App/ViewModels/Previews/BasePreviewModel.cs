@@ -62,7 +62,7 @@ namespace Files.App.ViewModels.Previews
 
 			if (Item.ItemFile is null)
 			{
-				var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Item.ItemPath));
+				var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Item.ItemPath));
 				Item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath, rootItem);
 			}
 

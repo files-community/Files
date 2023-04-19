@@ -16,8 +16,22 @@ namespace Files.App.UserControls
 {
 	public sealed partial class InnerNavigationToolbar : UserControl
 	{
+		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
+		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+
+		public InnerNavigationToolbar()
+		{
+			InitializeComponent();
+			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
+		}
+
 		public AppModel AppModel
 			=> App.AppModel;
+
+		public readonly PreviewPaneViewModel PreviewPaneViewModel;
 
 		public ToolbarViewModel ViewModel
 		{
@@ -26,11 +40,7 @@ namespace Files.App.UserControls
 		}
 
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(
-				nameof(ViewModel),
-				typeof(ToolbarViewModel),
-				typeof(InnerNavigationToolbar),
-				new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
 
 		public bool ShowPreviewPaneButton
 		{
@@ -39,56 +49,7 @@ namespace Files.App.UserControls
 		}
 
 		public static readonly DependencyProperty ShowPreviewPaneButtonProperty =
-			DependencyProperty.Register(
-				nameof(ShowPreviewPaneButton),
-				typeof(bool),
-				typeof(AddressToolbar),
-				new PropertyMetadata(null));
-
-		public bool ShowMultiPaneControls
-		{
-			get => (bool)GetValue(ShowMultiPaneControlsProperty);
-			set => SetValue(ShowMultiPaneControlsProperty, value);
-		}
-
-		public static readonly DependencyProperty ShowMultiPaneControlsProperty =
-			DependencyProperty.Register(
-				nameof(ShowMultiPaneControls),
-				typeof(bool),
-				typeof(AddressToolbar),
-				new PropertyMetadata(null));
-
-		public bool IsMultiPaneActive
-		{
-			get => (bool)GetValue(IsMultiPaneActiveProperty);
-			set => SetValue(IsMultiPaneActiveProperty, value);
-		}
-
-		public static readonly DependencyProperty IsMultiPaneActiveProperty =
-			DependencyProperty.Register(
-				nameof(IsMultiPaneActive),
-				typeof(bool),
-				typeof(AddressToolbar),
-				new PropertyMetadata(false));
-
-		private IUserSettingsService UserSettingsService { get; }
-
-		private ICommandManager Commands { get; }
-
-		private IAddItemService AddItemService { get; }
-
-		private PreviewPaneViewModel PreviewPaneViewModel { get; }
-
-		public InnerNavigationToolbar()
-		{
-			InitializeComponent();
-
-			// Dependency Injection
-			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
-			AddItemService = Ioc.Default.GetRequiredService<IAddItemService>();
-			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
-	}
+			DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
 		private void NewEmptySpace_Opening(object sender, object e)
 		{

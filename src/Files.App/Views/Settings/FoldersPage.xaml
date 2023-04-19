@@ -28,12 +28,12 @@
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
-			<!--  Layout And Sorting  -->
+			<!--  Title  -->
 			<TextBlock
-				Padding="0,0,0,4"
-				FontSize="14"
+				Padding="0,0,0,12"
+				FontSize="24"
 				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=LayoutAndSorting}" />
+				Text="{helpers:ResourceString Name=Folders}" />
 
 			<!--  Folder Overrides  -->
 			<local:SettingsBlockControl
@@ -169,8 +169,8 @@
 
 			<!--  Display  -->
 			<TextBlock
-				Padding="0,12,0,4"
-				FontSize="14"
+				Padding="0,16,0,4"
+				FontSize="16"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=Display}" />
 
@@ -238,10 +238,21 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
+			<!--  Show Checkboxes When Selecting Items  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowCheckboxesWhenSelectingItems}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE73A;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowCheckboxesWhenSelectingItems}"
+					IsOn="{x:Bind ViewModel.ShowCheckboxesWhenSelectingItems, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+
 			<!--  Behaviors  -->
 			<TextBlock
-				Padding="0,12,0,4"
-				FontSize="14"
+				Padding="0,16,0,4"
+				FontSize="16"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=Behaviors}" />
 
@@ -289,7 +300,7 @@
 					<ComboBoxItem Content="{helpers:ResourceString Name=Never}" />
 				</ComboBox>
 			</local:SettingsBlockControl>
-			
+
 			<!--  File Extension Warning  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFileExtensionWarning}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>

@@ -33,7 +33,7 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 
 		private void Update()
 		{
-			var dateTimeFormat = UserSettingsService.PreferencesSettingsService.DateTimeFormat;
+			var dateTimeFormat = UserSettingsService.GeneralSettingsService.DateTimeFormat;
 			var factory = Ioc.Default.GetService<IDateTimeFormatterFactory>();
 
 			formatter = factory.GetDateTimeFormatter(dateTimeFormat);
@@ -41,7 +41,7 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
-			if (e.SettingName is nameof(UserSettingsService.PreferencesSettingsService.DateTimeFormat))
+			if (e.SettingName is nameof(UserSettingsService.GeneralSettingsService.DateTimeFormat))
 				Update();
 		}
 	}

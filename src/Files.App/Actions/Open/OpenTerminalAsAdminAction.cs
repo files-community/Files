@@ -8,7 +8,7 @@ namespace Files.App.Actions
 	{
 		public override string Label { get; } = "OpenTerminalAsAdmin".GetLocalizedResource();
 
-		public override string Description => "TODO: Need to be described.";
+		public override string Description => "OpenTerminalAsAdminDescription".GetLocalizedResource();
 
 		public override HotKey HotKey { get; } = new(Keys.Oem3, KeyModifiers.CtrlShift);
 

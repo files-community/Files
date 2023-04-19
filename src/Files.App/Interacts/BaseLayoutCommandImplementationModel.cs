@@ -7,7 +7,6 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.ServicesImplementation;
-using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.Backend.Enums;
@@ -49,6 +48,8 @@ namespace Files.App.Interacts
 		private readonly IShellPage associatedInstance;
 
 		private readonly ItemManipulationModel itemManipulationModel;
+		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
 
 		#endregion Private Members
 
@@ -132,7 +133,7 @@ namespace Files.App.Interacts
 			{
 				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
 				{
-					await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 				},
 				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
@@ -294,11 +295,6 @@ namespace Files.App.Interacts
 		public async Task CreateFolderWithSelection(RoutedEventArgs e)
 		{
 			await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
-		}
-
-		public async Task PlayAll()
-		{
-			await NavigationHelpers.OpenSelectedItems(associatedInstance);
 		}
 
 		#endregion Command Implementation
