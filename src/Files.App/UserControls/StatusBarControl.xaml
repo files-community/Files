@@ -19,6 +19,7 @@
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 		<StackPanel
+			Grid.Column="0"
 			Height="32"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
@@ -48,17 +49,13 @@
 
 		<StackPanel
 			Grid.Column="1"
+			VerticalAlignment="Center"
 			Orientation="Horizontal"
 			Spacing="8">
-			<Button
+			<TextBlock
 				x:Name="GitBranch"
-				VerticalAlignment="Center"
 				x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-				AutomationProperties.AccessibilityView="Raw"
-				Background="Transparent"
-				BorderThickness="0">
-				<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />
-			</Button>
+				Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />
 		</StackPanel>
 	</Grid>
 </UserControl>
