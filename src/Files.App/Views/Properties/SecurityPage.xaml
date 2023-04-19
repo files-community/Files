@@ -34,7 +34,7 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<!--  Principal List  -->
+			<!--  Access Control Entries  -->
 			<Grid
 				x:Name="PrincipalListGrid"
 				Grid.Row="0"
@@ -93,7 +93,7 @@
 					Height="1"
 					Background="{ThemeResource DividerStrokeColorDefault}" />
 
-				<!--  Principal List  -->
+				<!--  Access Control Entries List  -->
 				<ScrollViewer Grid.Row="2" MaxHeight="160">
 					<ListView
 						x:Name="AccessControlListListView"
@@ -144,16 +144,16 @@
 					</ListView>
 				</ScrollViewer>
 
-				<!--  No ACEs  -->
+				<!--  No Access Control Entries Message  -->
 				<TextBlock
 					x:Name="NoAccessControlEntriesTextBlock"
 					Margin="12,8,12,8"
 					x:Load="{x:Bind SecurityViewModel.AccessControlList.AccessControlEntries, Converter={StaticResource EmptyCollectionToBoolConverter}, Mode=OneWay}"
-					Text="No groups or users have permission to access this object. However, the owner of this object can assign permissions." />
+					Text="{helpers:ResourceString Name=SecurityNoAccessControlEntriesText}" />
 
 			</Grid>
 
-			<!--  Permissions of Selected Principal  -->
+			<!--  Permissions of Selected ACE  -->
 			<Grid
 				Grid.Row="1"
 				Padding="12"

@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.DataModels;
-using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.ViewModels;
 using Microsoft.UI;
@@ -11,55 +10,84 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
-using Windows.Foundation.Metadata;
 using Windows.Graphics;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Represents a helper class that helps users open and handle item properties window
+	/// </summary>
 	public static class FilePropertiesHelpers
 	{
+		/// <summary>
+		/// Whether LayoutDirection (FlowDirection) is set to right-to-left (RTL)
+		/// </summary>
 		public static readonly bool FlowDirectionSettingIsRightToLeft =
 			new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"] == "RTL";
 
-		private static readonly Lazy<string> logoPath = new(GetFilesLogoPath);
-
+		/// <summary>
+		/// App logo location to use as window popup icon and title bar icon
+		/// </summary>
 		public static string LogoPath
-			=> logoPath.Value;
+			=> Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath);
 
+		/// <summary>
+		/// Get window handle (hWnd) of the given properties window instance
+		/// </summary>
+		/// <param name="w">Window instance</param>
+		/// <returns></returns>
 		public static nint GetWindowHandle(Window w)
 			=> WinRT.Interop.WindowNative.GetWindowHandle(w);
 
-		public static void ShowProperties(IShellPage associatedInstance)
+		/// <summary>
+		/// Open properties window
+		/// </summary>
+		/// <param name="associatedInstance">Associated main window instance</param>
+		public static void OpenPropertiesWindow(IShellPage associatedInstance)
 		{
-			var item = GetItem(associatedInstance);
-			OpenPropertiesWindowAsync(item, associatedInstance);
+			object item;
 
-			static object GetItem(IShellPage instance)
+			var page = associatedInstance.SlimContentPage;
+
+			// Item(s) selected
+			if (page.IsItemSelected)
 			{
-				var page = instance.SlimContentPage;
-				if (page.IsItemSelected)
-				{
-					return page.SelectedItems?.Count is 1
-						? page.SelectedItem!
-						: page.SelectedItems!;
-				}
-
-				var folder = instance.FilesystemViewModel.CurrentFolder;
+				// Selected item(s)
+				item = page.SelectedItems?.Count is 1
+					? page.SelectedItem!
+					: page.SelectedItems!;
+			}
+			// No items selected
+			else
+			{
+				// Instance's current folder
+				var folder = associatedInstance.FilesystemViewModel.CurrentFolder;
+				item = folder;
 
 				var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-
 				var drives = drivesViewModel.Drives;
 				foreach (var drive in drives)
+				{
+					// Current folder is drive
 					if (drive.Path.Equals(folder.ItemPath))
-						return drive;
-
-				return folder;
+					{
+						item = drive;
+						break;
+					}
+				}
 			}
+
+			// Open properties window
+			OpenPropertiesWindow(item, associatedInstance);
 		}
 
-		public static void OpenPropertiesWindowAsync(object item, IShellPage associatedInstance)
+		/// <summary>
+		/// Open properties window with an explicitly specified item
+		/// </summary>
+		/// <param name="item">An item to view properties</param>
+		/// <param name="associatedInstance">Associated main window instance</param>
+		public static void OpenPropertiesWindow(object item, IShellPage associatedInstance)
 		{
 			if (item is null)
 				return;
@@ -115,8 +143,5 @@ namespace Files.App.Helpers
 
 			appWindow.Move(appWindowPos);
 		}
-
-		private static string GetFilesLogoPath()
-			=> Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath);
 	}
 }

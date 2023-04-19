@@ -87,7 +87,7 @@ namespace Files.App.UserControls.Widgets
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = "Folder".GetLocalizedResource(),
 				};
-				FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, AppInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance);
 			};
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}

@@ -201,7 +201,7 @@ namespace Files.App.Views
 				ItemType = "Folder".GetLocalizedResource(),
 			};
 
-			FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, AppInstance);
+			FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance);
 		}
 
 		private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
