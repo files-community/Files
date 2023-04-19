@@ -25,6 +25,7 @@
         <Configurations>Debug;Release;Sideload</Configurations>
         <TieredCompilation>true</TieredCompilation>
         <TieredPgo>true</TieredPgo>
+        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <DefineConstants>TRACE;DEBUG;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
