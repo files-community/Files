@@ -11,6 +11,8 @@ namespace Files.App.Commands
 		ExitCompactOverlay,
 		ToggleCompactOverlay,
 		Search,
+		Redo,
+		Undo,
 
 		// Show
 		ToggleShowHiddenItems,
@@ -152,5 +154,8 @@ namespace Files.App.Commands
 		CloseSelectedTab,
 		OpenNewPane,
 		ClosePane,
+
+		// Play
+		PlayAll,
 	}
 }
