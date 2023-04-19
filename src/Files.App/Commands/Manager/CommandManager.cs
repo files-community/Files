@@ -62,6 +62,7 @@ namespace Files.App.Commands
 		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
 		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
+		public IRichCommand DeleteItemPermanently => commands[CommandCodes.DeleteItemPermanently];
 		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
 		public IRichCommand InstallInfDriver => commands[CommandCodes.InstallInfDriver];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
@@ -137,6 +138,7 @@ namespace Files.App.Commands
 		public IRichCommand CloseSelectedTab => commands[CommandCodes.CloseSelectedTab];
 		public IRichCommand OpenNewPane => commands[CommandCodes.OpenNewPane];
 		public IRichCommand ClosePane => commands[CommandCodes.ClosePane];
+		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
 
 		public CommandManager()
@@ -206,6 +208,7 @@ namespace Files.App.Commands
 			[CommandCodes.PasteItem] = new PasteItemAction(),
 			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
+			[CommandCodes.DeleteItemPermanently] = new DeleteItemPermanentlyAction(),
 			[CommandCodes.InstallFont] = new InstallFontAction(),
 			[CommandCodes.InstallInfDriver] = new InstallInfDriverAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
@@ -281,6 +284,7 @@ namespace Files.App.Commands
 			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
 			[CommandCodes.OpenNewPane] = new OpenNewPaneAction(),
 			[CommandCodes.ClosePane] = new ClosePaneAction(),
+			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
 			[CommandCodes.PlayAll] = new PlayAllAction(),
 		};
 

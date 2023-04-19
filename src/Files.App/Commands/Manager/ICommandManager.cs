@@ -30,6 +30,7 @@ namespace Files.App.Commands
 		IRichCommand PasteItem { get; }
 		IRichCommand PasteItemToSelection { get; }
 		IRichCommand DeleteItem { get; }
+		IRichCommand DeleteItemPermanently { get; }
 		IRichCommand SelectAll { get; }
 		IRichCommand InvertSelection { get; }
 		IRichCommand ClearSelection { get; }
@@ -45,6 +46,7 @@ namespace Files.App.Commands
 		IRichCommand OpenItem { get; }
 		IRichCommand OpenItemWithApplicationPicker { get; }
 		IRichCommand OpenParentFolder { get; }
+		IRichCommand OpenFileLocation { get; }
 		IRichCommand RefreshItems { get; }
 		IRichCommand Rename { get; }
 

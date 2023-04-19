@@ -10,8 +10,6 @@ namespace Files.App.Interacts
 	{
 		void ShowProperties(RoutedEventArgs e);
 
-		void OpenFileLocation(RoutedEventArgs e);
-
 		void OpenDirectoryInNewTab(RoutedEventArgs e);
 
 		void OpenDirectoryInNewPane(RoutedEventArgs e);

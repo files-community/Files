@@ -3181,6 +3181,15 @@
   <data name="SearchUnindexedItemsDescription" xml:space="preserve">
     <value>Include unindexed items in search results</value>
   </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Open the item's location</value>
+  </data>
+  <data name="DeletePermanently" xml:space="preserve">
+    <value>Delete permanently</value>
+  </data>
+  <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
+    <value>Delete item(s) permanently</value>
+  </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Play the selected media files</value>
   </data>
