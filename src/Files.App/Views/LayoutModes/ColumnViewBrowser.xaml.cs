@@ -441,13 +441,26 @@ namespace Files.App.Views.LayoutModes
 
 		private void CloseUnnecessaryColumns(ColumnParam column)
 		{
+			var secondLastIndex = ColumnHost.ActiveBlades.Count - 2;
 			var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel?.WorkingDirectory;
-			var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
-			if (string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath))
+			var columnFirstPath = ((ColumnHost.ActiveBlades.ElementAtOrDefault(secondLastIndex)?.Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
+			if (string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath) || column.NavPathParam is null)
 				return;
+
+			var parentPath = GetParentDir(columnPath);
+			var offsetIndex = secondLastIndex;
+			while (offsetIndex > 0 && parentPath.Equals(columnFirstPath, StringComparison.OrdinalIgnoreCase))
+			{
+				columnFirstPath = ((ColumnHost.ActiveBlades[--offsetIndex].Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
+				if (columnFirstPath is null)
+					return;
+				parentPath = GetParentDir(parentPath);
+			}
 
 			var destComponents = StorageFileExtensions.GetDirectoryPathComponents(column.NavPathParam);
 			var (_, relativeIndex) = GetLastCommonAndRelativeIndex(destComponents, columnPath, columnFirstPath);
+
+			relativeIndex += offsetIndex;
 			if (relativeIndex >= 0)
 			{
 				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnViewBase>()?.ClearOpenedFolderSelectionIndicator();
