@@ -77,8 +77,7 @@ namespace Files.App.Views.LayoutModes
 				navigationArguments.NavPathParam = column.NavPathParam;
 				ParentShellPageInstance.TabItemArguments.NavigationArg = column.NavPathParam;
 			}
-			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && 
-				arePathsDifferent)
+			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 			{
 				CloseUnnecessaryColumns(column);
 			}
@@ -435,33 +434,18 @@ namespace Files.App.Views.LayoutModes
 			var column = sender as ColumnParam;
 			if (column?.ListView.FindAscendant<ColumnViewBrowser>() != this || string.IsNullOrEmpty(column.NavPathParam))
 				return;
-			
+
 			CloseUnnecessaryColumns(column);
 		}
 
 		private void CloseUnnecessaryColumns(ColumnParam column)
 		{
-			var secondLastIndex = ColumnHost.ActiveBlades.Count - 2;
-			var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel?.WorkingDirectory;
-			var columnFirstPath = ((ColumnHost.ActiveBlades.ElementAtOrDefault(secondLastIndex)?.Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
-			if (string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath) || column.NavPathParam is null)
-				return;
+			var relativeIndex = -1;
 
-			var parentPath = GetParentDir(columnPath);
-			var offsetIndex = secondLastIndex;
-			while (offsetIndex > 0 && parentPath.Equals(columnFirstPath, StringComparison.OrdinalIgnoreCase))
-			{
-				columnFirstPath = ((ColumnHost.ActiveBlades[--offsetIndex].Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
-				if (columnFirstPath is null)
-					return;
-				parentPath = GetParentDir(parentPath);
-			}
+			while (relativeIndex < ColumnHost.ActiveBlades.Count && 
+				(!column.NavPathParam?.Equals(GetWorkingDirOfColumnAt(++relativeIndex)) ?? false));
 
-			var destComponents = StorageFileExtensions.GetDirectoryPathComponents(column.NavPathParam);
-			var (_, relativeIndex) = GetLastCommonAndRelativeIndex(destComponents, columnPath, columnFirstPath);
-
-			relativeIndex += offsetIndex;
-			if (relativeIndex >= 0)
+			if (relativeIndex >= 0 && relativeIndex < ColumnHost.ActiveBlades.Count)
 			{
 				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnViewBase>()?.ClearOpenedFolderSelectionIndicator();
 				DismissOtherBlades(relativeIndex);
@@ -493,6 +477,11 @@ namespace Files.App.Views.LayoutModes
 
 			ColumnHost.Items.Add(newblade);
 			return (frame, newblade);
+		}
+
+		private string? GetWorkingDirOfColumnAt(int index)
+		{
+			return ((ColumnHost.ActiveBlades[index].Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel?.WorkingDirectory;
 		}
 	}
 }
