@@ -24,7 +24,7 @@ namespace Files.App
 
 		bool CanNavigateForward { get; }
 
-		void Refresh_Click();
+		Task Refresh_Click();
 
 		void Back_Click();
 

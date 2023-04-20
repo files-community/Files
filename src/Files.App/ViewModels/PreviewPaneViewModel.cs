@@ -235,7 +235,7 @@ namespace Files.App.ViewModels
 			return control ?? null;
 		}
 
-		public async void UpdateSelectedItemPreview(bool downloadItem = false)
+		public async Task UpdateSelectedItemPreview(bool downloadItem = false)
 		{
 			loadCancellationTokenSource?.Cancel();
 			if (SelectedItem is not null && IsItemSelected)

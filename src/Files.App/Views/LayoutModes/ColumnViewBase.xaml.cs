@@ -134,7 +134,7 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatingFrom(e);
 		}
 
-		private async void ReloadItemIcons()
+		private async Task ReloadItemIcons()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
@@ -195,7 +195,7 @@ namespace Files.App.Views.LayoutModes
 			columnsOwner = null;
 		}
 
-		protected override async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			base.FileList_SelectionChanged(sender, e);
 			if (e is null)

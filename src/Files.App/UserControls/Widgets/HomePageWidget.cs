@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Files.App.UserControls.Widgets
@@ -58,22 +59,22 @@ namespace Files.App.UserControls.Widgets
 		}
 
 
-		public async void OpenInNewTab(WidgetCardItem item)
+		public async Task OpenInNewTab(WidgetCardItem item)
 		{
 			await NavigationHelpers.OpenPathInNewTab(item.Path);
 		}
 
-		public async void OpenInNewWindow(WidgetCardItem item)
+		public async Task OpenInNewWindow(WidgetCardItem item)
 		{
 			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
 		}
 
-		public virtual async void PinToFavorites(WidgetCardItem item)
+		public virtual async Task PinToFavorites(WidgetCardItem item)
 		{
 			_ = QuickAccessService.PinToSidebar(item.Path);
 		}
 
-		public virtual async void UnpinFromFavorites(WidgetCardItem item)
+		public virtual async Task UnpinFromFavorites(WidgetCardItem item)
 		{
 			_ = QuickAccessService.UnpinFromSidebar(item.Path);
 		}

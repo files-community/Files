@@ -178,7 +178,7 @@ namespace Files.App.Helpers
 				}
 			}
 
-			async void InvokeShellMenuItem(ContextMenu contextMenu, object? tag)
+			async Task InvokeShellMenuItem(ContextMenu contextMenu, object? tag)
 			{
 				if (tag is not Win32ContextMenuItem menuItem)
 					return;

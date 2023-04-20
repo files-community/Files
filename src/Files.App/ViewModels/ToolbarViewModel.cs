@@ -275,7 +275,7 @@ namespace Files.App.ViewModels
 
 		private bool lockFlag = false;
 
-		public async void PathBoxItem_Drop(object sender, DragEventArgs e)
+		public async Task PathBoxItem_Drop(object sender, DragEventArgs e)
 		{
 			if (lockFlag)
 				return;
@@ -311,7 +311,7 @@ namespace Files.App.ViewModels
 			lockFlag = false;
 		}
 
-		public async void PathBoxItem_DragOver(object sender, DragEventArgs e)
+		public async Task PathBoxItem_DragOver(object sender, DragEventArgs e)
 		{
 			if (IsSingleItemOverride ||
 				((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
@@ -466,7 +466,7 @@ namespace Files.App.ViewModels
 			pointerRoutedEventArgs = ptrPt.Properties.IsMiddleButtonPressed ? e : null;
 		}
 
-		public async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
+		public async Task PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var itemTappedPath = ((sender as TextBlock)?.DataContext as PathBoxItem)?.Path;
 			if (itemTappedPath is null)
@@ -728,7 +728,7 @@ namespace Files.App.ViewModels
 			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
 		}
 
-		public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
+		public async Task SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
 		{
 			if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel is not null)
 			{

@@ -78,7 +78,7 @@ namespace Files.App
 			ReloadSelectedItemIcon();
 		}
 
-		protected virtual async void ReloadSelectedItemIcon()
+		protected virtual async Task ReloadSelectedItemIcon()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
@@ -86,7 +86,7 @@ namespace Files.App
 			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, IconSize);
 		}
 
-		protected virtual async void ReloadSelectedItemsIcon()
+		protected virtual async Task ReloadSelectedItemsIcon()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 
@@ -152,7 +152,7 @@ namespace Files.App
 				RootZoom.IsZoomedInViewActive = true;
 		}
 
-		protected virtual async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected virtual void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 		}

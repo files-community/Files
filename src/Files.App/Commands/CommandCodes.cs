@@ -38,6 +38,7 @@ namespace Files.App.Commands
 		OpenItem,
 		OpenItemWithApplicationPicker,
 		OpenParentFolder,
+		OpenFileLocation,
 		RefreshItems,
 		Rename,
 

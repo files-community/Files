@@ -507,7 +507,7 @@ namespace Files.App
 		private void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
 			=> GroupPreferenceUpdated();
 
-		private async void GroupPreferenceUpdated()
+		private async Task GroupPreferenceUpdated()
 		{
 			// Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
 			groupingCancellationToken?.Cancel();
@@ -1330,7 +1330,7 @@ namespace Files.App
 			tapDebounceTimer.Stop();
 		}
 
-		protected async void ValidateItemNameInputText(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
+		protected async Task ValidateItemNameInputText(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
 		{
 			if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
 			{
