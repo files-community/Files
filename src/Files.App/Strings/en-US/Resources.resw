@@ -3154,6 +3154,9 @@
   <data name="EditPath" xml:space="preserve">
     <value>Edit path</value>
   </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Branch: {0}</value>
+  </data>
   <data name="Redo" xml:space="preserve">
     <value>Redo</value>
   </data>
