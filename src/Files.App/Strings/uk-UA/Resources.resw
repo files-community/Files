@@ -564,9 +564,6 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Невірний елемент</value>
   </data>
-  <data name="Version" xml:space="preserve">
-    <value>Версія</value>
-  </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Версія:</value>
   </data>
@@ -611,12 +608,6 @@
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Підтримайте нас на GitHub</value>
-  </data>
-  <data name="Personalization" xml:space="preserve">
-    <value>Особисті налаштування</value>
-  </data>
-  <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Макет і сортування</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Елемент не може бути створений</value>
@@ -1983,9 +1974,6 @@
   <data name="ImportSettings" xml:space="preserve">
     <value>Настройки імпорту</value>
   </data>
-  <data name="ManageSettings" xml:space="preserve">
-    <value>Керування налаштуваннями</value>
-  </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Не вдалося імпортувати налаштування. Файл налаштувань пошкоджений.</value>
   </data>
@@ -3166,6 +3154,12 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Закриває поточну вкладку</value>
   </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Повторити</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Хибне розташування</value>
   </data>
@@ -3183,5 +3177,20 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Показувати прапорці під час вибору елементів</value>
+  </data>
+  <data name="DeletePermanently" xml:space="preserve">
+    <value>Видалити безповоротно</value>
+  </data>
+  <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
+    <value>Видалити елемент(и) безповоротно</value>
+  </data>
+  <data name="PlayAllDescription" xml:space="preserve">
+    <value>Відтворити вибрані медіафайли</value>
+  </data>
+  <data name="UndoDescription" xml:space="preserve">
+    <value>Скасувати останню операцію з файлом</value>
+  </data>
+  <data name="RedoDescription" xml:space="preserve">
+    <value>Повторити останню операцію з файлом</value>
   </data>
 </root>

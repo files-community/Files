@@ -144,7 +144,7 @@ namespace Files.App.ViewModels
 			App.AppModel.TabStripSelectedIndex = index;
 		}
 
-		public async void UpdateInstanceProperties(object navigationArg)
+		public async Task UpdateInstanceProperties(object navigationArg)
 		{
 			string windowTitle = string.Empty;
 			if (navigationArg is PaneNavigationArguments paneArgs)
@@ -270,7 +270,7 @@ namespace Files.App.ViewModels
 			return (tabLocationHeader, iconSource, toolTipText);
 		}
 
-		public async void OnNavigatedTo(NavigationEventArgs e)
+		public async Task OnNavigatedTo(NavigationEventArgs e)
 		{
 			if (e.NavigationMode == NavigationMode.Back)
 				return;

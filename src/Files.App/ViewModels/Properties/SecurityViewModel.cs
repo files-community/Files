@@ -124,8 +124,8 @@ namespace Files.App.ViewModels.Properties
 			set => SetProperty(ref _columnInherited, value);
 		}
 
-		public RelayCommand ChangeOwnerCommand { get; set; }
-		public RelayCommand AddAccessControlEntryCommand { get; set; }
+		public AsyncRelayCommand ChangeOwnerCommand { get; set; }
+		public AsyncRelayCommand AddAccessControlEntryCommand { get; set; }
 		public RelayCommand RemoveAccessControlEntryCommand { get; set; }
 		public RelayCommand DisableInheritanceCommand { get; set; }
 		public RelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
@@ -133,15 +133,15 @@ namespace Files.App.ViewModels.Properties
 
 		private void InitializeCommands()
 		{
-			ChangeOwnerCommand = new RelayCommand(ChangeOwner, () => AccessControlList is not null);
-			AddAccessControlEntryCommand = new RelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
+			ChangeOwnerCommand = new AsyncRelayCommand(ChangeOwner, () => AccessControlList is not null);
+			AddAccessControlEntryCommand = new AsyncRelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
 			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && SelectedAccessControlEntry is not null);
 			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && (AccessControlList.IsAccessControlListProtected != _isProtected));
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
 			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
 		}
 
-		private async void ChangeOwner()
+		private async Task ChangeOwner()
 		{
 			var pickedObject = await OpenObjectPicker();
 			if (pickedObject is not null)
@@ -154,7 +154,7 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private async void AddAccessControlEntry()
+		private async Task AddAccessControlEntry()
 		{
 			var pickedSid = await OpenObjectPicker();
 			if (pickedSid is not null)
