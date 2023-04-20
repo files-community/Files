@@ -214,7 +214,7 @@
     <value>Фон</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Разширени</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Продължете откъдето сте спрели</value>
@@ -361,7 +361,7 @@
     <value>Файлът, до който се опитвате да получите достъп в момента се използва от друго приложение</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>Файлът се изпозлва</value>
+    <value>Файлът се използва</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Оформление</value>
@@ -439,7 +439,7 @@
     <value>Наистина ли искате да изтриете за постоянно всички тези елементи?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>Изпразни кошчето</value>
+    <value>Изпразване на кошчето</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>байтове</value>
@@ -523,7 +523,7 @@
     <value>Създаване на пряк път</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>Отвори местоположението на файла</value>
+    <value>Отваряне местоположението на файла</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
     <value>Аргументи:</value>
@@ -607,7 +607,7 @@
     <value>Приложението трябва да се рестартира, за да се приложат тези настройки. Искате ли да рестартирате приложението?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Финансирайте ни в GitHub</value>
+    <value>Подкрепете ни в GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Не успяхме да създадем този елемент</value>
@@ -997,7 +997,7 @@
     <value>Показване на защитените системни файлове</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Включва неиндексирани елементи в резултатите от търсене</value>
+    <value>Включва елементи без указател в резултатите от търсене</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Синхро на оформлението и подреждане на предпочитанията през директориите</value>
@@ -1590,11 +1590,11 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>Списък със съдържанието на директорията</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
-    <value>Промени</value>
+  <data name="Modify" xml:space="preserve">
+    <value>Modify</value>
   </data>
-  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Разрешения за</value>
+  <data name="SecurityPermissionsHeaderText" xml:space="preserve">
+    <value>Permissions for {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Четене и изпълнение</value>
@@ -1644,9 +1644,6 @@
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Собственик</value>
   </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Разширени разрешения за {0}</value>
-  </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Специални разрешения</value>
   </data>
@@ -1669,7 +1666,7 @@
     <value>подпапки</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Inherited</value>
+    <value>Наследяване</value>
   </data>
   <data name="Permissions" xml:space="preserve">
     <value>Позволения</value>
@@ -2191,7 +2188,7 @@
     <value>Маркери</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Use compact spacing in the details layout</value>
+    <value>Употреба на компактно пространство в оформлението на подробностите</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Универсално</value>
@@ -2224,7 +2221,7 @@
     <value>Адаптивно</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Адаптивно (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -2275,7 +2272,7 @@
     <value>Open folders with a single click in the Columns Layout</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>Отваряне на елементи</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
     <value>Компресирането завърши</value>
@@ -2449,7 +2446,7 @@
     <value>Настройки</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double click on a blank space to go up one directory</value>
+    <value>Двойно щракване на празно място, за да отидете една директория нагоре</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>Преглед на още</value>
@@ -3154,6 +3151,9 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Затваря текущия раздел</value>
   </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Клон: {0}</value>
+  </data>
   <data name="Redo" xml:space="preserve">
     <value>Повтаряне</value>
   </data>
@@ -3178,11 +3178,17 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Показване на поле за отметки при избор на елементи</value>
   </data>
+  <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
+    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+  </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Отвори местоположението на елемента</value>
+  </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Delete permanently</value>
+    <value>Изтриване за постоянно</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete item(s) permanently</value>
+    <value>Безвъзвратно изтриване на елемент(ите)</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Пускане на избраните мултимедийни файлове</value>
