@@ -772,7 +772,7 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		private async void CancelOperation(object operationID)
+		private void CancelOperation(object operationID)
 			=> FileOperationsHelpers.TryCancelOperation((string)operationID);
 
 		private async Task<bool> RequestAdminOperation()

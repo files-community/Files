@@ -18,6 +18,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using UWPToWinAppSDKUpgradeHelpers;
 using Windows.Foundation;
 using Windows.Storage;
@@ -228,7 +229,7 @@ namespace Files.App.Views.LayoutModes
 
 		}
 
-		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 
@@ -385,7 +386,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private async void ReloadItemIcons()
+		private async Task ReloadItemIcons()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())

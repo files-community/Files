@@ -84,7 +84,7 @@ namespace Files.App.ViewModels.Properties
 			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
 		}
 
-		private async void AddAccessControlEntry()
+		private async Task AddAccessControlEntry()
 		{
 			// Pick an user/group
 			var sid = await OpenObjectPicker();
