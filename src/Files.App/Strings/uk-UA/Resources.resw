@@ -1590,11 +1590,11 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>Показати вміст директорії</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
-    <value>Змінити</value>
+  <data name="Modify" xml:space="preserve">
+    <value>Modify</value>
   </data>
-  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Дозволи для</value>
+  <data name="SecurityPermissionsHeaderText" xml:space="preserve">
+    <value>Permissions for {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Читати і виконати</value>
@@ -1643,9 +1643,6 @@
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Власник</value>
-  </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Розширені дозволи для {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Особливі</value>
@@ -3154,6 +3151,9 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Закриває поточну вкладку</value>
   </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Гілка: {0}</value>
+  </data>
   <data name="Redo" xml:space="preserve">
     <value>Повторити</value>
   </data>
@@ -3177,6 +3177,12 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Показувати прапорці під час вибору елементів</value>
+  </data>
+  <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
+    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+  </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Відкрити розташування елемента</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
     <value>Видалити безповоротно</value>
