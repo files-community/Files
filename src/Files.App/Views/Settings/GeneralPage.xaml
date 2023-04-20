@@ -207,16 +207,6 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEnableOverscrollNavigation}">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE927;" />
-				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsEnableOverscrollNavigation}"
-					IsOn="{x:Bind ViewModel.EnableOverscrollNavigation, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</local:SettingsBlockControl>
-
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Widgets}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xF246;" />

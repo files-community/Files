@@ -213,12 +213,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool EnableOverscrollNavigation
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public FileNameConflictResolveOptionType ConflictsResolveOption
 		{
 			get => (FileNameConflictResolveOptionType)Get((long)FileNameConflictResolveOptionType.GenerateNewName);

@@ -2,7 +2,6 @@ using Files.App.EventArguments;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using Files.App.ServicesImplementation.Settings;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
@@ -59,8 +58,6 @@ namespace Files.App.Views
 
 			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
 			_navigationInteractionTracker.NavigationRequested += OverscrollNavigationRequested;
-
-			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 		}
 
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -155,20 +152,6 @@ namespace Files.App.Views
 				UpdatePathUIToWorkingDirectory(e.Path);
 		}
 
-		private void UserSettingsService_OnSettingChangedEvent(object? sender, Shared.EventArguments.SettingChangedEventArgs e)
-		{
-			switch (e.SettingName)
-			{
-				case nameof(UserSettingsService.GeneralSettingsService.EnableOverscrollNavigation):
-					if (e.NewValue is bool enableOverscrollNavigation)
-					{
-						_navigationInteractionTracker.CanNavigateBackward = enableOverscrollNavigation ? CanNavigateBackward : false;
-						_navigationInteractionTracker.CanNavigateForward = enableOverscrollNavigation ? CanNavigateForward : false;
-					}
-					break;
-			}
-		}
-
 		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
@@ -196,12 +179,8 @@ namespace Files.App.Views
 
 			if (parameters.IsLayoutSwitch)
 				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
-
-			if (userSettingsService.GeneralSettingsService.EnableOverscrollNavigation)
-			{
-				_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
-				_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
-			}
+			_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
+			_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
 		}
 
 		private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -358,7 +337,6 @@ namespace Files.App.Views
 		public override void Dispose()
 		{
 			ToolbarViewModel.RefreshWidgetsRequested -= ModernShellPage_RefreshWidgetsRequested;
-			userSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			_navigationInteractionTracker.NavigationRequested -= OverscrollNavigationRequested;
 			_navigationInteractionTracker.Dispose();
 
