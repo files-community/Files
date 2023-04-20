@@ -292,7 +292,7 @@ namespace Files.App.UserControls.Widgets
 			flyoutClosed = async (s, e) =>
 			{
 				ItemContextMenuFlyout.Closed -= flyoutClosed;
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(item.Item, associatedInstance);
 			};
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}

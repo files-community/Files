@@ -282,9 +282,9 @@ namespace Files.App.Views
 		private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
 		{
 			if (e.InvokedItemDataContext is DriveItem)
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
+				FilePropertiesHelpers.OpenPropertiesWindow(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			else if (e.InvokedItemDataContext is LibraryLocationItem library)
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
+				FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			else if (e.InvokedItemDataContext is LocationItem locationItem)
 			{
 				ListedItem listedItem = new ListedItem(null!)
@@ -295,7 +295,7 @@ namespace Files.App.Views
 					ItemType = "Folder".GetLocalizedResource(),
 				};
 
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			}
 		}
 

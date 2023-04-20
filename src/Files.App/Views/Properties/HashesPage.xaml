@@ -9,6 +9,7 @@
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	DataContext="{x:Bind HashesViewModel, Mode=OneWay}"
+	Tag="Hashes"
 	mc:Ignorable="d">
 
 	<vm:BasePropertiesPage.Resources>
@@ -49,21 +50,29 @@
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
+
+						<!--  Algorithm  -->
 						<TextBlock
 							VerticalAlignment="Center"
 							Style="{StaticResource BodyTextBlockStyle}"
 							Text="{helpers:ResourceString Name=Algorithm}" />
+
+						<!--  (Divider)  -->
 						<Border
 							Grid.Column="1"
 							Width="1"
 							Height="36"
 							VerticalAlignment="Bottom"
 							Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+						<!--  Hash  -->
 						<TextBlock
 							Grid.Column="2"
 							VerticalAlignment="Center"
 							Style="{StaticResource BodyTextBlockStyle}"
 							Text="{helpers:ResourceString Name=HashValue}" />
+
+						<!--  Toggle Hashes  -->
 						<Button
 							x:Name="SelectAlgorithmsButton"
 							Grid.Column="3"
