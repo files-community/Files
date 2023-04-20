@@ -33,6 +33,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | OpenItem                            | Open                                      | Open item(s)                                             | Enter               |
 |                    | OpenItemWithApplicationPicker       | Open With                                 | Open item(s) with selected application                   |                     |
 |                    | OpenParentFolder                    | Open parent folder                        | Open parent folder of searched item                      |                     |
+|                    | OpenFileLocation                    | Open file location                        | Open the item's location                                 |                     |
 |                    | RefreshItems                        | Refresh                                   | Refresh page contents                                    | Ctrl+R, F5          |
 |                    | Rename                              | Rename                                    | Rename selected item                                     | F2                  |
 | Selection          | SelectAll                           | Select All                                | Select all items                                         | Ctrl+A              |
