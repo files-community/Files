@@ -78,7 +78,6 @@ namespace Files.App.Helpers
 				}
 			}
 
-			// Open properties window
 			OpenPropertiesWindow(item, associatedInstance);
 		}
 
