@@ -457,7 +457,7 @@ namespace Files.App.Views
 			return SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);
 		}
 
-		public async void Refresh_Click()
+		public async Task Refresh_Click()
 		{
 			if (InstanceViewModel.IsPageTypeSearchResults)
 			{
@@ -637,7 +637,7 @@ namespace Files.App.Views
 			return await tcs.Task as BaseLayout;
 		}
 
-		protected async void DisplayFilesystemConsentDialog()
+		protected async Task DisplayFilesystemConsentDialog()
 		{
 			if (drivesViewModel?.ShowUserConsentOnInit ?? false)
 			{

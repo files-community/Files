@@ -117,12 +117,12 @@ namespace Files.App.UserControls.Widgets
 			Loaded += QuickAccessWidget_Loaded;
 			Unloaded += QuickAccessWidget_Unloaded;
 
-			OpenInNewTabCommand = new RelayCommand<FolderCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new RelayCommand<FolderCardItem>(OpenInNewWindow);
+			OpenInNewTabCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewTab);
+			OpenInNewWindowCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewWindow);
 			OpenInNewPaneCommand = new RelayCommand<FolderCardItem>(OpenInNewPane);
 			OpenPropertiesCommand = new RelayCommand<FolderCardItem>(OpenProperties);
-			PinToFavoritesCommand = new RelayCommand<FolderCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new RelayCommand<FolderCardItem>(UnpinFromFavorites);
+			PinToFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(PinToFavorites);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(UnpinFromFavorites);
 
 			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChanged;
 		}
@@ -369,7 +369,7 @@ namespace Files.App.UserControls.Widgets
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
-		public override async void PinToFavorites(WidgetCardItem item)
+		public override async Task PinToFavorites(WidgetCardItem item)
 		{
 			await QuickAccessService.PinToSidebar(item.Path);
 
@@ -388,7 +388,7 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		public override async void UnpinFromFavorites(WidgetCardItem item)
+		public override async Task UnpinFromFavorites(WidgetCardItem item)
 		{
 			await QuickAccessService.UnpinFromSidebar(item.Path);
 

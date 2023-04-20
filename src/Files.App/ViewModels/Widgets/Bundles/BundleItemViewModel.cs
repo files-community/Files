@@ -95,7 +95,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			TargetType = targetType;
 
 			// Create commands
-			OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
+			OpenInNewTabCommand = new AsyncRelayCommand(OpenInNewTab);
 			OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
 			OpenItemLocationCommand = new RelayCommand(OpenItemLocation);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
@@ -105,7 +105,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		#region Command Implementation
 
-		private async void OpenInNewTab()
+		private async Task OpenInNewTab()
 		{
 			await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
 		}

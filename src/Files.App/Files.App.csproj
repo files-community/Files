@@ -75,7 +75,7 @@
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
         <PackageReference Include="FluentFTP" Version="43.0.1" />
         <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
-        <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
+        <PackageReference Include="LibGit2Sharp" Version="0.27.2" />
         <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.1" />
         <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.1" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.5" />
