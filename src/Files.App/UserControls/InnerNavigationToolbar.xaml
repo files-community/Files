@@ -901,7 +901,6 @@
 					x:Name="NavToolbarNewPane"
 					x:Load="{x:Bind Commands.OpenNewPane.IsExecutable, Mode=OneWay}"
 					Command="{x:Bind Commands.OpenNewPane, Mode=OneWay}"
-					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=NavigationToolbarNewPane/KeyboardAcceleratorTextOverride}"
 					Label="{x:Bind Commands.OpenNewPane.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.OpenNewPane.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.OpenNewPane.OpacityStyle}" />
