@@ -19,7 +19,9 @@ using System.Linq;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using static Files.App.Constants;
+using Microsoft.UI.Dispatching;
 
 namespace Files.App.Views.LayoutModes
 {
@@ -30,6 +32,8 @@ namespace Files.App.Views.LayoutModes
 		protected override ListViewBase ListViewBase => FileList;
 
 		protected override SemanticZoom RootZoom => RootGridZoom;
+
+		private readonly DispatcherQueueTimer doubleClickTimer;
 
 		private ColumnViewBrowser? columnsOwner;
 
@@ -42,6 +46,8 @@ namespace Files.App.Views.LayoutModes
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 			ItemInvoked += ColumnViewBase_ItemInvoked;
 			GotFocus += ColumnViewBase_GotFocus;
+
+			doubleClickTimer = DispatcherQueue.CreateTimer();
 		}
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
@@ -316,6 +322,8 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
+			doubleClickTimer.Stop();
+
 			var clickedItem = e.OriginalSource as FrameworkElement;
 
 			if (clickedItem?.DataContext is ListedItem item)
@@ -413,15 +421,26 @@ namespace Files.App.Views.LayoutModes
 				}
 				else if (!IsRenamingItem && (isItemFile || isItemFolder))
 				{
-					ClearOpenedFolderSelectionIndicator();
-
-					var itemPath = item!.ItemPath.EndsWith('\\')
-						? item.ItemPath.Substring(0, item.ItemPath.Length - 1)
-						: item.ItemPath;
-
-					ItemTapped?.Invoke(new ColumnParam { Source = this, NavPathParam = Path.GetDirectoryName(itemPath), ListView = FileList }, EventArgs.Empty);
+					CheckDoubleClick(item!);
 				}
 			}
+		}
+
+		private void CheckDoubleClick(ListedItem item)
+		{
+			doubleClickTimer.Debounce(() =>
+			{
+				ClearOpenedFolderSelectionIndicator();
+
+				var itemPath = item!.ItemPath.EndsWith('\\')
+					? item.ItemPath.Substring(0, item.ItemPath.Length - 1)
+					: item.ItemPath;
+
+				ItemTapped?.Invoke(new ColumnParam { Source = this, NavPathParam = Path.GetDirectoryName(itemPath), ListView = FileList }, EventArgs.Empty);
+
+				doubleClickTimer.Stop();
+			},
+			TimeSpan.FromMilliseconds(200));
 		}
 
 		private void Grid_Loaded(object sender, RoutedEventArgs e)
