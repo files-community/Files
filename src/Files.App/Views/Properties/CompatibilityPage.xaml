@@ -9,11 +9,11 @@
 	xmlns:settingsuc="using:Files.App.UserControls.Settings"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Loaded="Properties_Loaded"
+	Tag="Compatibility"
 	mc:Ignorable="d">
 
 	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
-
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
 				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
@@ -24,9 +24,10 @@
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
 
-	<ScrollViewer>
+	<ScrollViewer x:Name="RootScrollViewer">
 		<StackPanel Padding="12" Spacing="4">
 
+			<!--  Run Troubleshooter  -->
 			<settingsuc:SettingsBlockControl
 				Title="{helpers:ResourceString Name=RunCompatibilityTroubleShooter}"
 				ButtonCommand="{x:Bind CompatibilityProperties.RunTroubleshooterCommand}"
@@ -37,6 +38,7 @@
 					Glyph="&#xE8A7;" />
 			</settingsuc:SettingsBlockControl>
 
+			<!--  Compatibility Mode  -->
 			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityMode}" HorizontalAlignment="Stretch">
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityMode}"
@@ -46,6 +48,7 @@
 					SelectedValue="{x:Bind CompatibilityProperties.OSCompatibility, Mode=TwoWay}" />
 			</settingsuc:SettingsBlockControl>
 
+			<!--  Reduce Color Mode  -->
 			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=ReducedColorMode}" HorizontalAlignment="Stretch">
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=ReducedColorMode}"
@@ -55,6 +58,7 @@
 					SelectedValue="{x:Bind CompatibilityProperties.ReducedColorMode, Mode=TwoWay}" />
 			</settingsuc:SettingsBlockControl>
 
+			<!--  Run Low Resolution  -->
 			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=ExecuteAt640X480}" HorizontalAlignment="Stretch">
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=ExecuteAt640X480}"
@@ -63,6 +67,7 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</settingsuc:SettingsBlockControl>
 
+			<!--  Full Screen Optimizations  -->
 			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=DisableFullscreenOptimizations}" HorizontalAlignment="Stretch">
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=DisableFullscreenOptimizations}"
@@ -71,6 +76,7 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</settingsuc:SettingsBlockControl>
 
+			<!--  Run As  -->
 			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=RunAsAdministrator}" HorizontalAlignment="Stretch">
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=DisableFullscreenOptimizations}"
@@ -79,6 +85,7 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</settingsuc:SettingsBlockControl>
 
+			<!--  Register For Restart  -->
 			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=RegisterForRestart}" HorizontalAlignment="Stretch">
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=RegisterForRestart}"
@@ -87,6 +94,7 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</settingsuc:SettingsBlockControl>
 
+			<!--  Use Main Monitor DPI Settings  -->
 			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=UseMainMonitorDPISettings}" HorizontalAlignment="Stretch">
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=UseMainMonitorDPISettings}"
@@ -96,6 +104,7 @@
 					SelectedValue="{x:Bind CompatibilityProperties.HighDpiOption, Mode=TwoWay}" />
 			</settingsuc:SettingsBlockControl>
 
+			<!--  Override High DPI Scaling Behavior  -->
 			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=OverrideDPIScalingBehaviour}" HorizontalAlignment="Stretch">
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=OverrideDPIScalingBehaviour}"

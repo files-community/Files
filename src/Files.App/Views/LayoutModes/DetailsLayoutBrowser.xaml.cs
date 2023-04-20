@@ -336,7 +336,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
-				FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(ParentShellPageInstance);
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Space)
