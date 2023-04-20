@@ -96,7 +96,7 @@ namespace Files.App.Interacts
 			FilePropertiesHelpers.ShowProperties(associatedInstance);
 		}
 
-		public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
+		public virtual async Task OpenDirectoryInNewTab(RoutedEventArgs e)
 		{
 			foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
 			{
@@ -113,7 +113,7 @@ namespace Files.App.Interacts
 			NavigationHelpers.OpenInSecondaryPane(associatedInstance, SlimContentPage.SelectedItems.FirstOrDefault());
 		}
 
-		public virtual async void OpenInNewWindowItem(RoutedEventArgs e)
+		public virtual async Task OpenInNewWindowItem(RoutedEventArgs e)
 		{
 			List<ListedItem> items = SlimContentPage.SelectedItems;
 
@@ -130,7 +130,7 @@ namespace Files.App.Interacts
 			UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, f, associatedInstance);
 		}
 
-		public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)
+		public virtual async Task ItemPointerPressed(PointerRoutedEventArgs e)
 		{
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
 			{

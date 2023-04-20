@@ -65,12 +65,12 @@ namespace Files.App.UserControls.Widgets
 			// Second function is layered on top to ensure that OpenPath function is late initialized and a null reference is not passed-in
 			// See FileTagItemViewModel._openAction for more information
 			ViewModel = new(x => OpenAction!(x));
-			OpenInNewTabCommand = new RelayCommand<WidgetCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new RelayCommand<WidgetCardItem>(OpenInNewWindow);
+			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTab);
+			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindow);
 			OpenFileLocationCommand = new RelayCommand<WidgetCardItem>(OpenFileLocation);
 			OpenInNewPaneCommand = new RelayCommand<WidgetCardItem>(OpenInNewPane);
-			PinToFavoritesCommand = new RelayCommand<WidgetCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new RelayCommand<WidgetCardItem>(UnpinFromFavorites);
+			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavorites);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavorites);
 			OpenPropertiesCommand = new RelayCommand<WidgetCardItem>(OpenProperties);
 		}
 
