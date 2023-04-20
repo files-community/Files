@@ -30,7 +30,7 @@ namespace Files.App.Helpers
 	{
 		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
-		public static async void CutItem(IShellPage associatedInstance)
+		public static async Task CutItem(IShellPage associatedInstance)
 		{
 			DataPackage dataPackage = new DataPackage()
 			{
@@ -280,7 +280,7 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static async void CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
+		public static async Task CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
 		{
 			await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
 		}

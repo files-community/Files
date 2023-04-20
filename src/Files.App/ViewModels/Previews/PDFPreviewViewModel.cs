@@ -50,7 +50,7 @@ namespace Files.App.ViewModels.Previews
 			return details;
 		}
 
-		public async void TryLoadPagesAsync(PdfDocument pdf, IRandomAccessStream fileStream)
+		public async Task TryLoadPagesAsync(PdfDocument pdf, IRandomAccessStream fileStream)
 		{
 			try
 			{

@@ -1,5 +1,6 @@
 using Files.App.Shell;
 using System;
+using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.System;
 
@@ -7,7 +8,7 @@ namespace Files.App.Helpers
 {
 	internal class StorageSenseHelper
 	{
-		public static async void OpenStorageSense(string path)
+		public static async Task OpenStorageSense(string path)
 		{
 			if (!path.StartsWith("C:", StringComparison.OrdinalIgnoreCase)
 				&& ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using Windows.Storage;
 using Windows.System;
 
 namespace Files.App.Views
@@ -75,6 +76,7 @@ namespace Files.App.Views
 			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
 			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
 			base.Page_Loaded(sender, e);
 
@@ -209,7 +211,7 @@ namespace Files.App.Views
 			//this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);
 		}
 
-		private async void CreateNewShortcutFromDialog()
+		private async Task CreateNewShortcutFromDialog()
 			=> await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 	}
 }

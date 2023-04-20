@@ -27,7 +27,7 @@ namespace Files.App.ViewModels
 
 			// Create commands
 			YourHomeLoadedCommand = new RelayCommand<RoutedEventArgs>(YourHomeLoaded);
-			LoadBundlesCommand = new RelayCommand<BundlesViewModel>(LoadBundles);
+			LoadBundlesCommand = new AsyncRelayCommand<BundlesViewModel>(LoadBundles);
 		}
 
 		public void ChangeAppInstance(IShellPage associatedInstance)
@@ -40,7 +40,7 @@ namespace Files.App.ViewModels
 			YourHomeLoadedInvoked?.Invoke(this, e);
 		}
 
-		private async void LoadBundles(BundlesViewModel viewModel)
+		private async Task LoadBundles(BundlesViewModel viewModel)
 		{
 			bundlesViewModel = viewModel;
 

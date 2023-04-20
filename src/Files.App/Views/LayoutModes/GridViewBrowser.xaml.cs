@@ -143,7 +143,7 @@ namespace Files.App.Views.LayoutModes
 			NotifyPropertyChanged(nameof(GridViewItemMinWidth));
 		}
 
-		protected override async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			base.FileList_SelectionChanged(sender, e);
 
@@ -334,7 +334,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private async void ReloadItemIcons()
+		private async Task ReloadItemIcons()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())

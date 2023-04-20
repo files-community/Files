@@ -226,7 +226,7 @@ namespace Files.App.ViewModels
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
 		}
 
-		private async void CreateItemHome()
+		private async Task CreateItemHome()
 		{
 			await CreateSection(SectionType.Home);
 		}
@@ -510,7 +510,7 @@ namespace Files.App.ViewModels
 			SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
 		}
 
-		public async void UpdateSectionVisibility(SectionType sectionType, bool show)
+		public async Task UpdateSectionVisibility(SectionType sectionType, bool show)
 		{
 			if (show)
 			{

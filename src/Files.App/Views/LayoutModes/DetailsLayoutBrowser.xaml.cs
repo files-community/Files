@@ -219,7 +219,7 @@ namespace Files.App.Views.LayoutModes
 
 		}
 
-		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 
@@ -376,7 +376,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private async void ReloadItemIcons()
+		private async Task ReloadItemIcons()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
