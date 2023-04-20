@@ -564,9 +564,6 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Élément invalide</value>
   </data>
-  <data name="Version" xml:space="preserve">
-    <value>Version</value>
-  </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Version :</value>
   </data>
@@ -611,12 +608,6 @@
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Soutenez-nous sur GitHub</value>
-  </data>
-  <data name="Personalization" xml:space="preserve">
-    <value>Personnalisation</value>
-  </data>
-  <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Disposition et tri</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Cet élément n'a pas pu être créé</value>
@@ -1983,9 +1974,6 @@
   <data name="ImportSettings" xml:space="preserve">
     <value>Importer les paramètres</value>
   </data>
-  <data name="ManageSettings" xml:space="preserve">
-    <value>Gérer les paramètres</value>
-  </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Importation des paramètres impossible. Le fichier de paramètres est corrompu.</value>
   </data>
@@ -3166,8 +3154,14 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Ferme l'onglet actuel</value>
   </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
   <data name="InvalidLocation" xml:space="preserve">
-    <value>Invalid location</value>
+    <value>Emplacement invalide</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
     <value>Êtes-vous sûr de vouloir copier ces fichiers sans leurs propriétés ?</value>
@@ -3182,6 +3176,21 @@
     <value>Êtes-vous sûr de vouloir déplacer ces fichiers sans leurs propriétés ?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>Show checkboxes when selecting items</value>
+    <value>Afficher les cases à cocher lors de la sélection des éléments</value>
+  </data>
+  <data name="DeletePermanently" xml:space="preserve">
+    <value>Delete permanently</value>
+  </data>
+  <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
+    <value>Delete item(s) permanently</value>
+  </data>
+  <data name="PlayAllDescription" xml:space="preserve">
+    <value>Play the selected media files</value>
+  </data>
+  <data name="UndoDescription" xml:space="preserve">
+    <value>Undo the last file operation</value>
+  </data>
+  <data name="RedoDescription" xml:space="preserve">
+    <value>Redo the last file operation</value>
   </data>
 </root>

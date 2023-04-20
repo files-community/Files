@@ -289,7 +289,7 @@ namespace Files.App.ViewModels
 
 		private bool lockFlag = false;
 
-		public async void PathBoxItem_Drop(object sender, DragEventArgs e)
+		public async Task PathBoxItem_Drop(object sender, DragEventArgs e)
 		{
 			if (lockFlag)
 				return;
@@ -325,7 +325,7 @@ namespace Files.App.ViewModels
 			lockFlag = false;
 		}
 
-		public async void PathBoxItem_DragOver(object sender, DragEventArgs e)
+		public async Task PathBoxItem_DragOver(object sender, DragEventArgs e)
 		{
 			if (IsSingleItemOverride ||
 				((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
@@ -480,7 +480,7 @@ namespace Files.App.ViewModels
 			pointerRoutedEventArgs = ptrPt.Properties.IsMiddleButtonPressed ? e : null;
 		}
 
-		public async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
+		public async Task PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var itemTappedPath = ((sender as TextBlock)?.DataContext as PathBoxItem)?.Path;
 			if (itemTappedPath is null)
@@ -576,8 +576,6 @@ namespace Files.App.ViewModels
 		public ICommand PropertiesCommand { get; set; }
 
 		public ICommand? UpdateCommand { get; set; }
-
-		public ICommand? PlayAllCommand { get; set; }
 
 		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
 		{
@@ -744,7 +742,7 @@ namespace Files.App.ViewModels
 			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
 		}
 
-		public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
+		public async Task SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
 		{
 			if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel is not null)
 			{
@@ -860,7 +858,6 @@ namespace Files.App.ViewModels
 					OnPropertyChanged(nameof(IsImage));
 					OnPropertyChanged(nameof(IsMultipleImageSelected));
 					OnPropertyChanged(nameof(IsFont));
-					OnPropertyChanged(nameof(IsMultipleMediaFilesSelected));
 					OnPropertyChanged(nameof(HasAdditionalAction));
 				}
 			}
@@ -878,7 +875,6 @@ namespace Files.App.ViewModels
 		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsMultipleMediaFilesSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsMediaFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
 		public string ExtractToText
 			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();
