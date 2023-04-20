@@ -1,14 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Extensions;
-using Files.Backend.Extensions;
+using Files.App.Helpers;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class OpenSettingsAction : IAction
+	internal class OpenSettingsAction : BaseUIAction, IAction
 	{
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
@@ -16,7 +16,7 @@ namespace Files.App.Actions
 
 		public string Label => "Settings".GetLocalizedResource();
 
-		public string Description => "Settings".GetLocalizedResource();
+		public string Description => "OpenSettingsDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.OemComma, KeyModifiers.Ctrl);
 

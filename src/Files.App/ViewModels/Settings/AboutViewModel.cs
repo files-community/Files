@@ -110,7 +110,7 @@ namespace Files.App.ViewModels.Settings
             return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl)).AsTask();
         }
 
-		public async void LoadThirdPartyNotices()
+		public async Task LoadThirdPartyNotices()
 		{
 			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
 			ThirdPartyNotices = await FileIO.ReadTextAsync(file);

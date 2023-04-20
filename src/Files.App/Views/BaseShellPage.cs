@@ -43,9 +43,11 @@ namespace Files.App.Views
 		public static readonly DependencyProperty NavParamsProperty =
 			DependencyProperty.Register("NavParams", typeof(NavigationParams), typeof(ModernShellPage), new PropertyMetadata(null));
 
-		protected readonly StorageHistoryHelpers storageHistoryHelpers;
+		public StorageHistoryHelpers StorageHistoryHelpers { get; }
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
+
+		protected readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		protected readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
@@ -163,7 +165,7 @@ namespace Files.App.Views
 			InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
 			cancellationTokenSource = new CancellationTokenSource();
 			FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
-			storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
+			StorageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
 			ToolbarViewModel.InstanceViewModel = InstanceViewModel;
 
@@ -199,7 +201,7 @@ namespace Files.App.Views
 
 			PointerPressed += CoreWindow_PointerPressed;
 
-			App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+			drivesViewModel.PropertyChanged += DrivesManager_PropertyChanged;
 
 			PreviewKeyDown += ShellPage_PreviewKeyDown;
 		}
@@ -230,8 +232,22 @@ namespace Files.App.Views
 				? "ItemCount/Text".GetLocalizedResource()
 				: "ItemsCount/Text".GetLocalizedResource();
 
+			InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
+
+			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
+					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
+					: null;
+
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();
+		}
+
+		protected void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
+		{
+			InstanceViewModel.UpdateCurrentBranchName();
+			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
+					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
+					: null;
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)
@@ -271,7 +287,7 @@ namespace Files.App.Views
 			if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
 				await NavigationHelpers.OpenPath(item.ItemPath, this);
 			else if (e.ChosenSuggestion is null && !string.IsNullOrWhiteSpace(sender.Query))
-				SubmitSearch(sender.Query, userSettingsService.PreferencesSettingsService.SearchUnindexedItems);
+				SubmitSearch(sender.Query, userSettingsService.GeneralSettingsService.SearchUnindexedItems);
 		}
 
 		protected async void ShellPage_TextChanged(ISearchBox sender, SearchBoxTextChangedEventArgs e)
@@ -286,7 +302,7 @@ namespace Files.App.Views
 					Query = sender.Query,
 					Folder = FilesystemViewModel.WorkingDirectory,
 					MaxItemCount = 10,
-					SearchUnindexedItems = userSettingsService.PreferencesSettingsService.SearchUnindexedItems
+					SearchUnindexedItems = userSettingsService.GeneralSettingsService.SearchUnindexedItems
 				};
 
 				sender.SetSuggestions((await search.SearchAsync()).Select(suggestion => new SuggestionModel(suggestion)));
@@ -441,7 +457,7 @@ namespace Files.App.Views
 			return SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);
 		}
 
-		public async void Refresh_Click()
+		public async Task Refresh_Click()
 		{
 			if (InstanceViewModel.IsPageTypeSearchResults)
 			{
@@ -486,7 +502,7 @@ namespace Files.App.Views
 		{
 			foreach (PageStackEntry entry in ItemDisplay.BackStack.ToList())
 			{
-				if (entry.Parameter is NavigationArguments args && 
+				if (entry.Parameter is NavigationArguments args &&
 					args.NavPathParam is not null and not "Home")
 				{
 					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
@@ -604,12 +620,9 @@ namespace Files.App.Views
 		protected void InitToolbarCommands()
 		{
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
-			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
-			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
-			ToolbarViewModel.PlayAllCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.PlayAllCommand.Execute(null));
 		}
 
 		protected async Task<BaseLayout> GetContentOrNullAsync()
@@ -624,11 +637,11 @@ namespace Files.App.Views
 			return await tcs.Task as BaseLayout;
 		}
 
-		protected async void DisplayFilesystemConsentDialog()
+		protected async Task DisplayFilesystemConsentDialog()
 		{
-			if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
+			if (drivesViewModel?.ShowUserConsentOnInit ?? false)
 			{
-				App.DrivesManager.ShowUserConsentOnInit = false;
+				drivesViewModel.ShowUserConsentOnInit = false;
 				await DispatcherQueue.EnqueueAsync(async () =>
 				{
 					var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
@@ -651,7 +664,7 @@ namespace Files.App.Views
 				x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control.TabItemContent == PaneHolder), isLoading);
 		}
 
-		protected async void CreateNewShortcutFromDialog()
+		protected async Task CreateNewShortcutFromDialog()
 		{
 			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 		}
@@ -686,7 +699,7 @@ namespace Files.App.Views
 		{
 			PreviewKeyDown -= ShellPage_PreviewKeyDown;
 			PointerPressed -= CoreWindow_PointerPressed;
-			App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
+			drivesViewModel.PropertyChanged -= DrivesManager_PropertyChanged;
 
 			ToolbarViewModel.ToolbarPathItemInvoked -= ShellPage_NavigationRequested;
 			ToolbarViewModel.ToolbarFlyoutOpened -= ShellPage_ToolbarFlyoutOpened;
@@ -712,6 +725,7 @@ namespace Files.App.Views
 				FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
 				FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 				FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
+				FilesystemViewModel.GitDirectoryUpdated -= FilesystemViewModel_GitDirectoryUpdated;
 				FilesystemViewModel.Dispose();
 			}
 

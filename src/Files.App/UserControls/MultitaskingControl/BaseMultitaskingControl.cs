@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Helpers;
 using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
@@ -27,6 +29,8 @@ namespace Files.App.UserControls.MultitaskingControl
 				StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(IsRestoringClosedTab)));
 			}
 		}
+
+		protected readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 		protected ITabItemContent CurrentSelectedAppInstance;
 
@@ -99,7 +103,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		protected async void TabView_AddTabButtonClick(TabView sender, object args)
 		{
-			await MainPageViewModel.AddNewTabAsync();
+			await mainPageViewModel.AddNewTabAsync();
 		}
 
 		public void MultitaskingControl_Loaded(object sender, RoutedEventArgs e)
@@ -118,14 +122,14 @@ namespace Files.App.UserControls.MultitaskingControl
 			return MainPageViewModel.AppInstances.Select(x => x.Control?.TabItemContent).ToList();
 		}
 
-		public async void ReopenClosedTab()
+		public async Task ReopenClosedTab()
 		{
 			if (!IsRestoringClosedTab && RecentlyClosedTabs.Count > 0)
 			{
 				IsRestoringClosedTab = true;
 				var lastTab = RecentlyClosedTabs.Pop();
 				foreach (var item in lastTab)
-					await MainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationArg);
+					await mainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationArg);
 
 				IsRestoringClosedTab = false;
 			}

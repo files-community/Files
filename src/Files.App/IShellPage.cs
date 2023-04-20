@@ -1,9 +1,11 @@
 using Files.App.Filesystem;
+using Files.App.Filesystem.FilesystemHistory;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.App.Views;
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Files.App
 {
@@ -12,6 +14,8 @@ namespace Files.App
 		ItemViewModel FilesystemViewModel { get; }
 
 		CurrentInstanceViewModel InstanceViewModel { get; }
+
+		StorageHistoryHelpers StorageHistoryHelpers { get; }
 
 		IBaseLayout SlimContentPage { get; }
 
@@ -25,7 +29,7 @@ namespace Files.App
 
 		bool CanNavigateForward { get; }
 
-		void Refresh_Click();
+		Task Refresh_Click();
 
 		void Back_Click();
 

@@ -187,7 +187,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
 
-			return dialog.ShowAsync();
+			return dialog.TryShowAsync();
 		}
 
 		private void AddBundle(string name)

@@ -50,6 +50,7 @@ namespace Files.App.Views
 			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
 			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
 			ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
 
@@ -190,16 +191,6 @@ namespace Files.App.Views
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
 			{
-				// Ctrl + Z, Undo
-				case (true, false, false, true, VirtualKey.Z):
-					if (!InstanceViewModel.IsPageTypeSearchResults)
-						await storageHistoryHelpers.TryUndo();
-					break;
-				// Ctrl + Y, Redo
-				case (true, false, false, true, VirtualKey.Y):
-					if (!InstanceViewModel.IsPageTypeSearchResults)
-						await storageHistoryHelpers.TryRedo();
-					break;
 				// Ctrl + Shift + N, New item
 				case (true, true, false, true, VirtualKey.N):
 					if (InstanceViewModel.CanCreateFileInPage)
@@ -216,32 +207,10 @@ namespace Files.App.Views
 								this);
 					}
 					break;
-				// Shift + Del, Permanent delete
-				case (false, true, false, true, VirtualKey.Delete):
-					if (ContentPage.IsItemSelected && !ToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
-					{
-						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
-							item.ItemPath,
-							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-
-						await FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, true, true);
-					}
-					break;
 				// Ctrl + V, Paste
 				case (true, false, false, true, VirtualKey.V):
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
 						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
-					break;
-				// Ctrl + D, Delete item
-				case (true, false, false, true, VirtualKey.D):
-					if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
-					{
-						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
-							item.ItemPath,
-							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-
-						await FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
-					}
 					break;
 				// Alt + D, Select address bar (English)
 				case (false, false, true, _, VirtualKey.D):

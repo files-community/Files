@@ -224,6 +224,15 @@ namespace Files.App.Shell
 				{
 					Debug.WriteLine("Item {0} ({1}): {2}", ii, mii.wID, mii.dwTypeData);
 
+					// Hackish workaround to avoid an AccessViolationException on some items,
+					// notably the "Run with graphic processor" menu item of NVidia cards
+					if (mii.wID - 1 > 5000)
+					{
+						container.Dispose();
+
+						continue;
+					}
+
 					menuItem.Label = mii.dwTypeData;
 					menuItem.CommandString = GetCommandString(cMenu, mii.wID - 1);
 
@@ -300,7 +309,7 @@ namespace Files.App.Shell
 				{
 					try
 					{
-						loadSubMenuAction!.Invoke();
+						loadSubMenuAction!();
 					}
 					catch (COMException)
 					{
@@ -314,11 +323,6 @@ namespace Files.App.Shell
 
 		private static string? GetCommandString(Shell32.IContextMenu cMenu, uint offset, Shell32.GCS flags = Shell32.GCS.GCS_VERBW)
 		{
-			// Hackish workaround to avoid an AccessViolationException on some items,
-			// notably the "Run with graphic processor" menu item of NVidia cards
-			if (offset > 5000)
-				return null;
-
 			SafeCoTaskMemString? commandString = null;
 
 			try

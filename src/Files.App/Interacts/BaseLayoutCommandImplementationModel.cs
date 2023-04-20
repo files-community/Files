@@ -7,7 +7,6 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.ServicesImplementation;
-using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.Backend.Enums;
@@ -49,6 +48,8 @@ namespace Files.App.Interacts
 		private readonly IShellPage associatedInstance;
 
 		private readonly ItemManipulationModel itemManipulationModel;
+		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
 
 		#endregion Private Members
 
@@ -80,59 +81,28 @@ namespace Files.App.Interacts
 			else if (SlimContentPage.BaseContextMenuFlyout.IsOpen)
 				SlimContentPage.BaseContextMenuFlyout.Closed += OpenPropertiesFromBaseContextMenuFlyout;
 			else
-				FilePropertiesHelpers.ShowProperties(associatedInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
 		}
 
 		private void OpenPropertiesFromItemContextMenuFlyout(object sender, object e)
 		{
 			SlimContentPage.ItemContextMenuFlyout.Closed -= OpenPropertiesFromItemContextMenuFlyout;
-			FilePropertiesHelpers.ShowProperties(associatedInstance);
+			FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
 		}
 
 		private void OpenPropertiesFromBaseContextMenuFlyout(object sender, object e)
 		{
 			SlimContentPage.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
-			FilePropertiesHelpers.ShowProperties(associatedInstance);
+			FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
 		}
 
-		public virtual async void OpenFileLocation(RoutedEventArgs e)
-		{
-			ShortcutItem item = SlimContentPage.SelectedItem as ShortcutItem;
-
-			if (string.IsNullOrWhiteSpace(item?.TargetPath))
-				return;
-
-			// Check if destination path exists
-			string folderPath = Path.GetDirectoryName(item.TargetPath);
-			FilesystemResult<StorageFolderWithPath> destFolder = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
-
-			if (destFolder)
-			{
-				associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
-				{
-					NavPathParam = folderPath,
-					SelectItems = new[] { Path.GetFileName(item.TargetPath.TrimPath()) },
-					AssociatedTabInstance = associatedInstance
-				});
-			}
-			else if (destFolder == FileSystemStatusCode.NotFound)
-			{
-				await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
-			}
-			else
-			{
-				await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
-					string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, destFolder.ErrorCode.ToString()));
-			}
-		}
-
-		public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
+		public virtual async Task OpenDirectoryInNewTab(RoutedEventArgs e)
 		{
 			foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
 			{
 				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
 				{
-					await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 				},
 				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
@@ -143,7 +113,7 @@ namespace Files.App.Interacts
 			NavigationHelpers.OpenInSecondaryPane(associatedInstance, SlimContentPage.SelectedItems.FirstOrDefault());
 		}
 
-		public virtual async void OpenInNewWindowItem(RoutedEventArgs e)
+		public virtual async Task OpenInNewWindowItem(RoutedEventArgs e)
 		{
 			List<ListedItem> items = SlimContentPage.SelectedItems;
 
@@ -160,7 +130,7 @@ namespace Files.App.Interacts
 			UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, f, associatedInstance);
 		}
 
-		public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)
+		public virtual async Task ItemPointerPressed(PointerRoutedEventArgs e)
 		{
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
 			{
@@ -294,11 +264,6 @@ namespace Files.App.Interacts
 		public Task CreateFolderWithSelection(RoutedEventArgs e)
 		{
 			return UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
-		}
-
-		public Task PlayAll()
-		{
-			return NavigationHelpers.OpenSelectedItems(associatedInstance);
 		}
 
 		#endregion Command Implementation

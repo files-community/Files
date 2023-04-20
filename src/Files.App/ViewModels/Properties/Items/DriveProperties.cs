@@ -5,6 +5,7 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.ViewModels.Properties
@@ -42,10 +43,10 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ItemType = string.Format("DriveType{0}", Drive.Type).GetLocalizedResource();
 		}
 
-		public async override void GetSpecialProperties()
+		public async override Task GetSpecialProperties()
 		{
 			ViewModel.ItemAttributesVisibility = false;
-			var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Drive.Path));
+			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Drive.Path));
 			BaseStorageFolder diskRoot = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(Drive.Path, item));
 
 			if (ViewModel.LoadFileIcon)

@@ -53,7 +53,7 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public async override void GetSpecialProperties()
+		public async override Task GetSpecialProperties()
 		{
 			ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
 			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
@@ -108,7 +108,7 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private async void GetLibrarySize(List<BaseStorageFolder> storageFolders, CancellationToken token)
+		private async Task GetLibrarySize(List<BaseStorageFolder> storageFolders, CancellationToken token)
 		{
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSizeProgressVisibility = true;

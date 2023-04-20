@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -10,17 +9,20 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class RestoreRecycleBinAction : ObservableObject, IAction
+	internal class RestoreRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "Restore".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "RestoreRecycleBinDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRestoreItem");
 
-		public bool IsExecutable => context.PageType is ContentPageTypes.RecycleBin && context.SelectedItems.Any();
+		public override bool IsExecutable =>
+			context.PageType is ContentPageTypes.RecycleBin &&
+			context.SelectedItems.Any() &&
+			UIHelpers.CanShowDialog;
 
 		public RestoreRecycleBinAction()
 		{

@@ -50,7 +50,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string AutomationProperties => "FileTags".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget;
 
 		public bool ShowMenuFlyout => false;
 
@@ -65,12 +65,12 @@ namespace Files.App.UserControls.Widgets
 			// Second function is layered on top to ensure that OpenPath function is late initialized and a null reference is not passed-in
 			// See FileTagItemViewModel._openAction for more information
 			ViewModel = new(x => OpenAction!(x));
-			OpenInNewTabCommand = new RelayCommand<WidgetCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new RelayCommand<WidgetCardItem>(OpenInNewWindow);
+			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTab);
+			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindow);
 			OpenFileLocationCommand = new RelayCommand<WidgetCardItem>(OpenFileLocation);
 			OpenInNewPaneCommand = new RelayCommand<WidgetCardItem>(OpenInNewPane);
-			PinToFavoritesCommand = new RelayCommand<WidgetCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new RelayCommand<WidgetCardItem>(UnpinFromFavorites);
+			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavorites);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavorites);
 			OpenPropertiesCommand = new RelayCommand<WidgetCardItem>(OpenProperties);
 		}
 
@@ -87,7 +87,7 @@ namespace Files.App.UserControls.Widgets
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = "Folder".GetLocalizedResource(),
 				};
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, AppInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance);
 			};
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
@@ -118,7 +118,7 @@ namespace Files.App.UserControls.Widgets
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+			if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 				secondaryElements.OfType<FrameworkElement>()
 								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
 
@@ -185,7 +185,7 @@ namespace Files.App.UserControls.Widgets
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane && isFolder
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

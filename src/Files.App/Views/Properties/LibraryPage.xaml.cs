@@ -26,7 +26,7 @@ namespace Files.App.Views.Properties
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public ObservableCollection<LibraryFolder> Folders { get; } = new ObservableCollection<LibraryFolder>();
+		public ObservableCollection<LibraryFolder> Folders { get; } = new();
 
 		public bool IsLibraryEmpty => Folders.Count == 0;
 
@@ -48,7 +48,6 @@ namespace Files.App.Views.Properties
 		public bool IsNotDefaultFolderSelected => selectedFolderIndex >= 0 && !Folders[selectedFolderIndex].IsDefault;
 
 		private bool isPinned;
-
 		public bool IsPinned
 		{
 			get => isPinned;
@@ -181,16 +180,6 @@ namespace Files.App.Views.Properties
 			return isChanged;
 		}
 
-		// WINUI3
-		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
-			return contentDialog;
-		}
-
 		public override async Task<bool> SaveChangesAsync()
 		{
 			if (BaseProperties is LibraryProperties props)
@@ -219,7 +208,7 @@ namespace Files.App.Views.Properties
 					}
 					catch
 					{
-						await SetContentDialogRoot(dialog).TryShowAsync();
+						await dialog.TryShowAsync();
 						switch (dialog.DynamicResult)
 						{
 							case DynamicDialogResult.Primary:
@@ -240,6 +229,7 @@ namespace Files.App.Views.Properties
 		}
 
 	}
+
 	public class LibraryFolder : ObservableObject
 	{
 		public string Path { get; set; }

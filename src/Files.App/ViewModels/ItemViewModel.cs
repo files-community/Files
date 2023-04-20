@@ -57,14 +57,17 @@ namespace Files.App.ViewModels
 	{
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
+		private readonly ConcurrentQueue<uint> gitChangesQueue;
 		private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
 		private readonly AsyncManualResetEvent operationEvent;
+		private readonly AsyncManualResetEvent gitChangedEvent;
 		private readonly DispatcherQueue dispatcherQueue;
 		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 		private readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
 		private readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 
-		private Task aProcessQueueAction;
+		private Task? aProcessQueueAction;
+		private Task? gitProcessQueueAction;
 
 		// Files and folders list for manipulating
 		private List<ListedItem> filesAndFolders;
@@ -90,6 +93,8 @@ namespace Files.App.ViewModels
 
 		private FileSystemWatcher watcher;
 
+		private static BitmapImage shieldIcon;
+
 		private CancellationTokenSource addFilesCTS;
 		private CancellationTokenSource semaphoreCTS;
 		private CancellationTokenSource loadPropsCTS;
@@ -98,9 +103,13 @@ namespace Files.App.ViewModels
 
 		public event EventHandler DirectoryInfoUpdated;
 
+		public event EventHandler GitDirectoryUpdated;
+
 		public event EventHandler<List<ListedItem>> OnSelectionRequestedEvent;
 
 		public string WorkingDirectory { get; private set; }
+
+		public string? GitDirectory { get; private set; }
 
 		private StorageFolderWithPath currentStorageFolder;
 		private StorageFolderWithPath workingRoot;
@@ -135,7 +144,7 @@ namespace Files.App.ViewModels
 			if (isLibrary || !Path.IsPathRooted(value))
 				workingRoot = currentStorageFolder = null;
 			else if (!Path.IsPathRooted(WorkingDirectory) || Path.GetPathRoot(WorkingDirectory) != Path.GetPathRoot(value))
-				workingRoot = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(value));
+				workingRoot = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(value));
 
 			if (value == "Home")
 				currentStorageFolder = null;
@@ -143,6 +152,7 @@ namespace Files.App.ViewModels
 				_ = Task.Run(() => jumpListService.AddFolderAsync(value));
 
 			WorkingDirectory = value;
+			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, Path.GetPathRoot(WorkingDirectory));
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
 
@@ -165,7 +175,7 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref emptyTextType, value);
 		}
 
-		public async void UpdateSortOptionStatus()
+		public async Task UpdateSortOptionStatus()
 		{
 			OnPropertyChanged(nameof(IsSortedByName));
 			OnPropertyChanged(nameof(IsSortedByDate));
@@ -181,7 +191,7 @@ namespace Files.App.ViewModels
 			await ApplyFilesAndFoldersChangesAsync();
 		}
 
-		public async void UpdateSortDirectionStatus()
+		public async Task UpdateSortDirectionStatus()
 		{
 			OnPropertyChanged(nameof(IsSortedAscending));
 			OnPropertyChanged(nameof(IsSortedDescending));
@@ -190,7 +200,7 @@ namespace Files.App.ViewModels
 			await ApplyFilesAndFoldersChangesAsync();
 		}
 
-		public async void UpdateSortDirectoriesAlongsideFiles()
+		public async Task UpdateSortDirectoriesAlongsideFiles()
 		{
 			OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
 
@@ -374,12 +384,14 @@ namespace Files.App.ViewModels
 			filesAndFolders = new List<ListedItem>();
 			FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
 			operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
+			gitChangesQueue = new ConcurrentQueue<uint>();
 			itemLoadQueue = new ConcurrentDictionary<string, bool>();
 			addFilesCTS = new CancellationTokenSource();
 			semaphoreCTS = new CancellationTokenSource();
 			loadPropsCTS = new CancellationTokenSource();
 			watcherCTS = new CancellationTokenSource();
 			operationEvent = new AsyncManualResetEvent();
+			gitChangedEvent = new AsyncManualResetEvent();
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
@@ -503,6 +515,7 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.FoldersSettingsService.ShowDotFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.CalculateFolderSizes):
 				case nameof(UserSettingsService.FoldersSettingsService.SelectFilesOnHover):
+				case nameof(UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
 						if (WorkingDirectory != "Home")
@@ -837,7 +850,7 @@ namespace Files.App.ViewModels
 			FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
 		}
 
-		public Dictionary<string, BitmapImage> DefaultIcons = new();
+		public Dictionary<string, BitmapImage> DefaultIcons = new ();
 
 		private uint currentDefaultIconSize = 0;
 
@@ -865,6 +878,13 @@ namespace Files.App.ViewModels
 		{
 			get => isLoadingItems;
 			set => isLoadingItems = value;
+		}
+
+		private async Task<BitmapImage> GetShieldIcon()
+		{
+			shieldIcon ??= await UIHelpers.GetShieldIconResource();
+
+			return shieldIcon;
 		}
 
 		// ThumbnailSize is set to 96 so that unless we override it, mode is in turn set to SingleItem
@@ -910,6 +930,7 @@ namespace Files.App.ViewModels
 							await dispatcherQueue.EnqueueAsync(async () =>
 							{
 								item.IconOverlay = await overlayInfo.ToBitmapAsync();
+								item.ShieldIcon = await GetShieldIcon();
 							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						}
 					}
@@ -937,6 +958,7 @@ namespace Files.App.ViewModels
 						await dispatcherQueue.EnqueueAsync(async () =>
 						{
 							item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
+							item.ShieldIcon = await GetShieldIcon();
 						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					}
 				}
@@ -972,6 +994,7 @@ namespace Files.App.ViewModels
 							await dispatcherQueue.EnqueueAsync(async () =>
 							{
 								item.IconOverlay = await overlayInfo.ToBitmapAsync();
+								item.ShieldIcon = await GetShieldIcon();
 							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						}
 					}
@@ -993,6 +1016,7 @@ namespace Files.App.ViewModels
 						await dispatcherQueue.EnqueueAsync(async () =>
 						{
 							item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
+							item.ShieldIcon = await GetShieldIcon();
 						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					}
 				}
@@ -1229,7 +1253,7 @@ namespace Files.App.ViewModels
 			RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
 		}
 
-		private async void RapidAddItemsToCollectionAsync(string path, string? previousDir, Action postLoadCallback)
+		private async Task RapidAddItemsToCollectionAsync(string path, string? previousDir, Action postLoadCallback)
 		{
 			IsSearchResults = false;
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
@@ -1378,6 +1402,7 @@ namespace Files.App.ViewModels
 			watcher = null;
 
 			aProcessQueueAction = null;
+			gitProcessQueueAction = null;
 			watcherCTS?.Cancel();
 			watcherCTS = new CancellationTokenSource();
 		}
@@ -1732,7 +1757,7 @@ namespace Files.App.ViewModels
 			return (CloudDriveSyncStatus)syncStatus;
 		}
 
-		private async void WatchForStorageFolderChanges(BaseStorageFolder? rootFolder)
+		private async Task WatchForStorageFolderChanges(BaseStorageFolder? rootFolder)
 		{
 			if (rootFolder is null)
 				return;
@@ -1909,6 +1934,9 @@ namespace Files.App.ViewModels
 				Debug.WriteLine("aWatcherAction done: {0}", rand);
 			});
 
+			if (GitDirectory is not null)
+				WatchForGitChanges(hasSyncStatus);
+
 			watcherCTS.Token.Register(() =>
 			{
 				if (aWatcherAction is not null)
@@ -1924,6 +1952,124 @@ namespace Files.App.ViewModels
 				CancelIoEx(hWatchDir, IntPtr.Zero);
 				CloseHandle(hWatchDir);
 			});
+		}
+
+		private void WatchForGitChanges(bool hasSyncStatus)
+		{
+			var hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(
+				GitDirectory!,
+				1,
+				1 | 2 | 4,
+				IntPtr.Zero,
+				3,
+				(uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics | (uint)NativeFileOperationsHelper.File_Attributes.Overlapped,
+				IntPtr.Zero);
+
+			if (hWatchDir.ToInt64() == -1)
+				return;
+
+			gitProcessQueueAction ??= Task.Factory.StartNew(() => ProcessGitChangesQueue(watcherCTS.Token), default,
+				TaskCreationOptions.LongRunning, TaskScheduler.Default);
+
+			var gitWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
+			{
+				var buff = new byte[4096];
+				var rand = Guid.NewGuid();
+				var notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_CREATION;
+
+				if (hasSyncStatus)
+					notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
+
+				var overlapped = new OVERLAPPED();
+				overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
+				const uint INFINITE = 0xFFFFFFFF;
+
+				while (x.Status != AsyncStatus.Canceled)
+				{
+					unsafe
+					{
+						fixed (byte* pBuff = buff)
+						{
+							ref var notifyInformation = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[0]);
+							if (x.Status == AsyncStatus.Canceled)
+								break;
+
+							ReadDirectoryChangesW(hWatchDir, pBuff,
+								4096, true,
+								notifyFilters, null,
+								ref overlapped, null);
+
+							if (x.Status == AsyncStatus.Canceled)
+								break;
+
+							var rc = WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
+
+							uint offset = 0;
+							ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
+							if (x.Status == AsyncStatus.Canceled)
+								break;
+
+							do
+							{
+								notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
+
+								uint action = notifyInfo.Action;
+
+								gitChangesQueue.Enqueue(action);
+
+								offset += notifyInfo.NextEntryOffset;
+							}
+							while (notifyInfo.NextEntryOffset != 0 && x.Status != AsyncStatus.Canceled);
+
+							gitChangedEvent.Set();
+						}
+					}
+				}
+
+				CloseHandle(overlapped.hEvent);
+				gitChangesQueue.Clear();
+			});
+
+			watcherCTS.Token.Register(() =>
+			{
+				if (gitWatcherAction is not null)
+				{
+					gitWatcherAction?.Cancel();
+
+					// Prevent duplicate execution of this block
+					gitWatcherAction = null;
+				}
+
+				CancelIoEx(hWatchDir, IntPtr.Zero);
+				CloseHandle(hWatchDir);
+			});
+		}
+
+		private async Task ProcessGitChangesQueue(CancellationToken cancellationToken)
+		{
+			const int DELAY = 200;
+			var sampler = new IntervalSampler(100);
+			int changes = 0;
+
+			try
+			{
+				while (!cancellationToken.IsCancellationRequested)
+				{
+					if (await gitChangedEvent.WaitAsync(DELAY, cancellationToken))
+					{
+						gitChangedEvent.Reset();
+						while (gitChangesQueue.TryDequeue(out var _))
+							++changes;
+
+						if (changes != 0 && sampler.CheckNow())
+						{
+							await dispatcherQueue.EnqueueAsync(() => GitDirectoryUpdated?.Invoke(null, null!));
+							changes = 0;
+						}
+					}
+				}
+			}
+			catch { }
 		}
 
 		private async Task ProcessOperationQueue(CancellationToken cancellationToken, bool hasSyncStatus)

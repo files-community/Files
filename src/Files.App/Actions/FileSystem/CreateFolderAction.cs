@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -10,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class CreateFolderAction : ObservableObject, IAction
+	internal class CreateFolderAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "Folder".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "CreateFolderDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new RichGlyph(baseGlyph: "\uE8B7");
 
-		public bool IsExecutable => context.ShellPage is not null;
+		public override bool IsExecutable => context.ShellPage is not null && UIHelpers.CanShowDialog;
 
 		public CreateFolderAction()
 		{

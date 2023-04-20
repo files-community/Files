@@ -16,7 +16,7 @@ namespace Files.App.Actions
 
 		public string Label => "Share".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "ShareItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShare");
 

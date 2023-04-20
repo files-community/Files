@@ -23,9 +23,9 @@ namespace Files.App.Helpers
 	public static class NavigationHelpers
 	{
 		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
+		private static readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		public static Task OpenPathInNewTab(string? path)
-			=> MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+			=> mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 
 		public static Task<bool> OpenPathInNewWindowAsync(string? path)
 		{
@@ -92,7 +92,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async void OpenItemsWithExecutable(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executable)
+		public static async Task OpenItemsWithExecutable(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executable)
 		{
 			// Don't open files and folders inside  recycle bin
 			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal) ||

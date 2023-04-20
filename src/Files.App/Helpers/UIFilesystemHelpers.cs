@@ -30,7 +30,7 @@ namespace Files.App.Helpers
 	{
 		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
-		public static async void CutItem(IShellPage associatedInstance)
+		public static async Task CutItem(IShellPage associatedInstance)
 		{
 			DataPackage dataPackage = new DataPackage()
 			{
@@ -280,18 +280,9 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static async void CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
+		public static async Task CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
 		{
 			await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
-		}
-
-		// WINUI3
-		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-
-			return contentDialog;
 		}
 
 		public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
@@ -314,7 +305,7 @@ namespace Files.App.Helpers
 			if (itemType != AddItemDialogItemType.File || itemInfo?.Command is null)
 			{
 				DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
-				await SetContentDialogRoot(dialog).ShowAsync(); // Show rename dialog
+				await dialog.TryShowAsync(); // Show rename dialog
 
 				if (dialog.DynamicResult != DynamicDialogResult.Primary)
 					return null;

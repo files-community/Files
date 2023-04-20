@@ -59,11 +59,11 @@ namespace Files.App.Views
 
 		public void ReloadWidgets()
 		{
-			quickAccessWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadQuickAccessWidget, quickAccessWidget);
-			drivesWidget =      WidgetsHelpers.TryGetWidget(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
-			bundlesWidget =     WidgetsHelpers.TryGetWidget(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
-			fileTagsWidget =    WidgetsHelpers.TryGetWidget(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadFileTags, fileTagsWidget);
-			recentFilesWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.PreferencesSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
+			quickAccessWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadQuickAccessWidget, quickAccessWidget);
+			drivesWidget =      WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
+			bundlesWidget =     WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
+			fileTagsWidget =    WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadFileTags, fileTagsWidget);
+			recentFilesWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
 			// Reload QuickAccessWidget
 			if (shouldReloadQuickAccessWidget && quickAccessWidget is not null)
@@ -71,8 +71,8 @@ namespace Files.App.Views
 				Widgets.ViewModel.InsertWidget(
 					new(
 						quickAccessWidget,
-						(value) => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded = value,
-						() => UserSettingsService.PreferencesSettingsService.FoldersWidgetExpanded),
+						(value) => UserSettingsService.GeneralSettingsService.FoldersWidgetExpanded = value,
+						() => UserSettingsService.GeneralSettingsService.FoldersWidgetExpanded),
 					0);
 
 				quickAccessWidget.CardInvoked -= QuickAccessWidget_CardInvoked;
@@ -86,7 +86,7 @@ namespace Files.App.Views
 			// Reload DrivesWidget
 			if (shouldReloadDrivesWidget && drivesWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(drivesWidget, (value) => UserSettingsService.PreferencesSettingsService.DrivesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.DrivesWidgetExpanded), 1);
+				Widgets.ViewModel.InsertWidget(new(drivesWidget, (value) => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded = value, () => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded), 1);
 
 				drivesWidget.AppInstance = AppInstance;
 				drivesWidget.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
@@ -98,7 +98,7 @@ namespace Files.App.Views
 			// Reload FileTags
 			if (shouldReloadFileTags && fileTagsWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(fileTagsWidget, (value) => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.FileTagsWidgetExpanded), 2);
+				Widgets.ViewModel.InsertWidget(new(fileTagsWidget, (value) => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded = value, () => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded), 2);
 
 				fileTagsWidget.AppInstance = AppInstance;
 				fileTagsWidget.OpenAction = x => NavigationHelpers.OpenPath(x, AppInstance);
@@ -112,15 +112,16 @@ namespace Files.App.Views
 			// Reload BundlesWidget
 			if (shouldReloadBundles && bundlesWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(bundlesWidget, (value) => UserSettingsService.PreferencesSettingsService.BundlesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.BundlesWidgetExpanded), 3);
+				Widgets.ViewModel.InsertWidget(new(bundlesWidget, (value) => UserSettingsService.GeneralSettingsService.BundlesWidgetExpanded = value, () => UserSettingsService.GeneralSettingsService.BundlesWidgetExpanded), 3);
 				ViewModel.LoadBundlesCommand.Execute(bundlesWidget.ViewModel);
 			}
 
 			// Reload RecentFilesWidget
 			if (shouldReloadRecentFiles && recentFilesWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.PreferencesSettingsService.RecentFilesWidgetExpanded), 4);
+				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded), 4);
 
+				recentFilesWidget.AppInstance = AppInstance;
 				recentFilesWidget.RecentFilesOpenLocationInvoked -= WidgetOpenLocationInvoked;
 				recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
 				recentFilesWidget.RecentFilesOpenLocationInvoked += WidgetOpenLocationInvoked;
@@ -134,15 +135,6 @@ namespace Files.App.Views
 			ViewModel.ChangeAppInstance(AppInstance);
 
 			ReloadWidgets();
-		}
-
-		// WINUI3
-		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-
-			return contentDialog;
 		}
 
 		private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
@@ -167,7 +159,7 @@ namespace Files.App.Views
 			catch (UnauthorizedAccessException)
 			{
 				DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-				await SetContentDialogRoot(dialog).ShowAsync();
+				await dialog.TryShowAsync();
 			}
 			catch (COMException) { }
 			catch (ArgumentException) { }
@@ -209,7 +201,7 @@ namespace Files.App.Views
 				ItemType = "Folder".GetLocalizedResource(),
 			};
 
-			await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, AppInstance);
+			FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance);
 		}
 
 		private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
