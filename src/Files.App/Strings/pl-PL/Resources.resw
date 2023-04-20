@@ -1590,11 +1590,11 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>Wyświetlanie zawartości folderu</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
-    <value>Modyfikacja</value>
+  <data name="Modify" xml:space="preserve">
+    <value>Modify</value>
   </data>
-  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Uprawnienia dla</value>
+  <data name="SecurityPermissionsHeaderText" xml:space="preserve">
+    <value>Permissions for {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Odczyt i wykonywanie</value>
@@ -1643,9 +1643,6 @@
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Właściciel</value>
-  </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Zaawansowane uprawnienia dla {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Uprawnienia specjalne</value>
@@ -3154,6 +3151,9 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
   </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Branch: {0}</value>
+  </data>
   <data name="Redo" xml:space="preserve">
     <value>Redo</value>
   </data>
@@ -3177,6 +3177,12 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
+  </data>
+  <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
+    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+  </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Open the item's location</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
     <value>Delete permanently</value>
