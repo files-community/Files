@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
@@ -14,7 +15,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		public List<ITabItemContent> GetAllTabInstances();
 
-		public void ReopenClosedTab();
+		public Task ReopenClosedTab();
 
 		public void CloseTab(TabItem tabItem);
 

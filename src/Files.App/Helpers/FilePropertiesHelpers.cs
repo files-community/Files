@@ -24,7 +24,7 @@ namespace Files.App.Helpers
 		private static readonly Lazy<string> logoPath = new(GetFilesLogoPath);
 		public static string LogoPath => logoPath.Value;
 
-		public static async void ShowProperties(IShellPage associatedInstance)
+		public static async Task ShowProperties(IShellPage associatedInstance)
 		{
 			var item = GetItem(associatedInstance);
 			await OpenPropertiesWindowAsync(item, associatedInstance);

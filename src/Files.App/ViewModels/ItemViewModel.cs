@@ -175,7 +175,7 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref emptyTextType, value);
 		}
 
-		public async void UpdateSortOptionStatus()
+		public async Task UpdateSortOptionStatus()
 		{
 			OnPropertyChanged(nameof(IsSortedByName));
 			OnPropertyChanged(nameof(IsSortedByDate));
@@ -191,7 +191,7 @@ namespace Files.App.ViewModels
 			await ApplyFilesAndFoldersChangesAsync();
 		}
 
-		public async void UpdateSortDirectionStatus()
+		public async Task UpdateSortDirectionStatus()
 		{
 			OnPropertyChanged(nameof(IsSortedAscending));
 			OnPropertyChanged(nameof(IsSortedDescending));
@@ -200,7 +200,7 @@ namespace Files.App.ViewModels
 			await ApplyFilesAndFoldersChangesAsync();
 		}
 
-		public async void UpdateSortDirectoriesAlongsideFiles()
+		public async Task UpdateSortDirectoriesAlongsideFiles()
 		{
 			OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
 
@@ -1253,7 +1253,7 @@ namespace Files.App.ViewModels
 			RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
 		}
 
-		private async void RapidAddItemsToCollectionAsync(string path, string? previousDir, Action postLoadCallback)
+		private async Task RapidAddItemsToCollectionAsync(string path, string? previousDir, Action postLoadCallback)
 		{
 			IsSearchResults = false;
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
@@ -1765,7 +1765,7 @@ namespace Files.App.ViewModels
 			return (CloudDriveSyncStatus)syncStatus;
 		}
 
-		private async void WatchForStorageFolderChanges(BaseStorageFolder? rootFolder)
+		private async Task WatchForStorageFolderChanges(BaseStorageFolder? rootFolder)
 		{
 			if (rootFolder is null)
 				return;
