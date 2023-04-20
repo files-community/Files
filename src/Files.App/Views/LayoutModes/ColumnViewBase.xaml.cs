@@ -234,7 +234,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			// Open selected directory
 			if (IsItemSelected && SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
-				ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 		}
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -259,7 +259,7 @@ namespace Files.App.Views.LayoutModes
 				e.Handled = true;
 
 				if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
@@ -328,7 +328,7 @@ namespace Files.App.Views.LayoutModes
 						break;
 					case StorageItemTypes.Folder:
 						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-							ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
+							ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						break;
 					default:
 						if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
@@ -405,6 +405,7 @@ namespace Files.App.Views.LayoutModes
 					ItemInvoked?.Invoke(
 						new ColumnParam
 						{
+							Source = this,
 							NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item!.ItemPath),
 							ListView = FileList
 						},
@@ -418,7 +419,7 @@ namespace Files.App.Views.LayoutModes
 						? item.ItemPath.Substring(0, item.ItemPath.Length - 1)
 						: item.ItemPath;
 
-					ItemTapped?.Invoke(new ColumnParam { NavPathParam = Path.GetDirectoryName(itemPath), ListView = FileList }, EventArgs.Empty);
+					ItemTapped?.Invoke(new ColumnParam { Source = this, NavPathParam = Path.GetDirectoryName(itemPath), ListView = FileList }, EventArgs.Empty);
 				}
 			}
 		}

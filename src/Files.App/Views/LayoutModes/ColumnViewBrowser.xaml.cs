@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
+using Windows.System.Threading.Core;
 using static Files.App.Constants;
 using static Files.App.Helpers.PathNormalization;
 
@@ -442,8 +443,19 @@ namespace Files.App.Views.LayoutModes
 		{
 			var relativeIndex = -1;
 
-			while (relativeIndex < ColumnHost.ActiveBlades.Count && 
-				(!column.NavPathParam?.Equals(GetWorkingDirOfColumnAt(++relativeIndex)) ?? false));
+			if (column.Source is not null)
+			{
+				for (var i = 0; i < ColumnHost.ActiveBlades.Count && relativeIndex is -1; i++)
+				{
+					var bladeColumn = ColumnHost.ActiveBlades[i].FindDescendant<ColumnViewBase>();
+					if (bladeColumn is not null && bladeColumn == column.Source)
+						relativeIndex = i;
+				}
+			}
+
+			if (relativeIndex is -1)
+				while (relativeIndex < ColumnHost.ActiveBlades.Count &&
+					(!column.NavPathParam?.Equals(GetWorkingDirOfColumnAt(++relativeIndex)) ?? false)) ;
 
 			if (relativeIndex >= 0 && relativeIndex < ColumnHost.ActiveBlades.Count)
 			{
