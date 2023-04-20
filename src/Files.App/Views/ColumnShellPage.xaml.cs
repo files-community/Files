@@ -1,20 +1,13 @@
 using CommunityToolkit.WinUI.UI;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.App.Views.LayoutModes;
 using Files.Backend.Enums;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Linq;
-using Windows.Storage;
 using Windows.System;
 
 namespace Files.App.Views

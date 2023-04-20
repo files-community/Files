@@ -1,6 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using Files.Shared.Enums;
-
 namespace Files.App.ViewModels
 {
 	public class CurrentInstanceViewModel : ObservableObject

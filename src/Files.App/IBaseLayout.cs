@@ -1,9 +1,4 @@
-using Files.App.Filesystem;
-using Files.App.Interacts;
-using Files.App.ViewModels;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
 
 namespace Files.App
 {

@@ -1,5 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-
 namespace Files.App.ViewModels
 {
 	public class DirectoryPropertiesViewModel : ObservableObject

@@ -20,6 +20,7 @@ using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
+using WIN32_FIND_DATA = Files.Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA;
 
 namespace Files.App.Filesystem.Search
 {
