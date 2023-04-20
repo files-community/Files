@@ -564,9 +564,6 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Elemento inválido</value>
   </data>
-  <data name="Version" xml:space="preserve">
-    <value>Versión</value>
-  </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Versión:</value>
   </data>
@@ -611,12 +608,6 @@
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Patrocínenos en GitHub</value>
-  </data>
-  <data name="Personalization" xml:space="preserve">
-    <value>Personalización</value>
-  </data>
-  <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Diseño y clasificación</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>No pudimos crear este elemento</value>
@@ -1983,9 +1974,6 @@
   <data name="ImportSettings" xml:space="preserve">
     <value>Importar ajustes</value>
   </data>
-  <data name="ManageSettings" xml:space="preserve">
-    <value>Administrar configuración</value>
-  </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>No se pudo importar los ajustes. El archivo de ajustes está dañado.</value>
   </data>
@@ -3166,6 +3154,12 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Cierra la pestaña actual</value>
   </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Rehacer</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Deshacer</value>
+  </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Ubicación no válida</value>
   </data>
@@ -3183,5 +3177,20 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostrar casillas de verificación al seleccionar elementos</value>
+  </data>
+  <data name="DeletePermanently" xml:space="preserve">
+    <value>Delete permanently</value>
+  </data>
+  <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
+    <value>Delete item(s) permanently</value>
+  </data>
+  <data name="PlayAllDescription" xml:space="preserve">
+    <value>Reproducir los archivos multimedia seleccionados</value>
+  </data>
+  <data name="UndoDescription" xml:space="preserve">
+    <value>Deshacer la última operación del archivo</value>
+  </data>
+  <data name="RedoDescription" xml:space="preserve">
+    <value>Rehacer la última operación del archivo</value>
   </data>
 </root>

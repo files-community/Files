@@ -56,7 +56,7 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public override async void GetSpecialProperties()
+		public override async Task GetSpecialProperties()
 		{
 			if (List.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
 				ViewModel.IsReadOnly = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.ReadOnly));
