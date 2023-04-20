@@ -80,7 +80,7 @@ namespace Files.App.ViewModels.Properties
 
 		private void InitializeCommands()
 		{
-			AddAccessControlEntryCommand = new RelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid);
+			AddAccessControlEntryCommand = new AsyncRelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid);
 			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
 		}
 
