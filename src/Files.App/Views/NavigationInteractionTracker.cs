@@ -23,7 +23,7 @@ namespace Files.App.Views
 			set
 			{
 				_props.InsertBoolean(nameof(CanNavigateForward), value);
-				_tracker.MaxPosition = new(value ? 96f : 0f);
+				_tracker.MaxPosition = new(value ? 108f : 0f);
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace Files.App.Views
 			set
 			{
 				_props.InsertBoolean(nameof(CanNavigateBackward), value);
-				_tracker.MinPosition = new(value ? -96f : 0f);
+				_tracker.MinPosition = new(value ? -108f : 0f);
 			}
 		}
 
@@ -91,8 +91,8 @@ namespace Files.App.Views
 
 			_trackerOwner = new(this);
 			_tracker = InteractionTracker.CreateWithOwner(compositor, _trackerOwner);
-			_tracker.MinPosition = new Vector3(-96f);
-			_tracker.MaxPosition = new Vector3(96f);
+			_tracker.MinPosition = new Vector3(-108f);
+			_tracker.MaxPosition = new Vector3(108f);
 
 			_source = VisualInteractionSource.Create(_rootVisual);
 			_source.ManipulationRedirectionMode = VisualInteractionSourceRedirectionMode.CapableTouchpadOnly;
@@ -106,8 +106,8 @@ namespace Files.App.Views
 		{
 			var compositor = _rootVisual.Compositor;
 
-			var backResistance = CreateResistanceCondition(-96f, 0f);
-			var forwardResistance = CreateResistanceCondition(0f, 96f);
+			var backResistance = CreateResistanceCondition(-108f, 0f);
+			var forwardResistance = CreateResistanceCondition(0f, 108f);
 			List<CompositionConditionalValue> conditionalValues = new() { backResistance, forwardResistance };
 			_source.ConfigureDeltaPositionXModifiers(conditionalValues);
 
