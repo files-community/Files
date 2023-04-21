@@ -3,7 +3,9 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
+using Files.Backend.Helpers;
 using System.ComponentModel;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions
@@ -19,8 +21,9 @@ namespace Files.App.Actions
 		public HotKey HotKey { get; } = new(Keys.E, KeyModifiers.Ctrl);
 
 		public override bool IsExecutable => 
-			IsContextPageTypeAdaptedToCommand() &&
-			ArchiveHelpers.CanDecompress(context.SelectedItems) &&
+			(IsContextPageTypeAdaptedToCommand() &&
+			ArchiveHelpers.CanDecompress(context.SelectedItems)
+			|| CanDecompressInsideArchive()) &&
 			UIHelpers.CanShowDialog;
 
 		public DecompressArchive()
@@ -36,7 +39,16 @@ namespace Files.App.Actions
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
 			return context.PageType is not ContentPageTypes.RecycleBin
+				and not ContentPageTypes.ZipFolder
 				and not ContentPageTypes.None;
+		}
+
+		private bool CanDecompressInsideArchive()
+		{
+			return context.PageType is ContentPageTypes.ZipFolder &&
+				!context.HasSelection &&
+				context.Folder is not null &&
+				FileExtensionHelpers.IsZipFile(Path.GetExtension(context.Folder.ItemPath));
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -44,8 +56,7 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.SelectedItems):
-					if (IsContextPageTypeAdaptedToCommand())
-						OnPropertyChanged(nameof(IsExecutable));
+					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
 		}
