@@ -441,6 +441,9 @@ namespace Files.App.Views.LayoutModes
 
 		private void CloseUnnecessaryColumns(ColumnParam column)
 		{
+			if (string.IsNullOrEmpty(column.NavPathParam))
+				return;
+
 			var relativeIndex = -1;
 
 			if (column.Source is not null)
@@ -455,7 +458,7 @@ namespace Files.App.Views.LayoutModes
 
 			if (relativeIndex is -1)
 				while (relativeIndex < ColumnHost.ActiveBlades.Count &&
-					(!column.NavPathParam?.Equals(GetWorkingDirOfColumnAt(++relativeIndex)) ?? false)) ;
+					!column.NavPathParam.Equals(GetWorkingDirOfColumnAt(++relativeIndex))) ;
 
 			if (relativeIndex >= 0 && relativeIndex < ColumnHost.ActiveBlades.Count)
 			{
