@@ -2269,7 +2269,7 @@
     <value>ロック画面</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>列レイアウトでシングル クリックでフォルダーを開く</value>
+    <value>カラム レイアウトでシングル クリックでフォルダーを開く</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>ファイルを開くとき</value>
@@ -2785,19 +2785,19 @@
     <value>詳細ビューに切り替える</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>タイルビューに切り替える</value>
+    <value>タイル ビューに切り替える</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>小アイコンのグリッドビューに切り替える</value>
+    <value>小アイコンのグリッド ビューに切り替える</value>
   </data>
   <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>中アイコンのグリッドビューに切り替える</value>
+    <value>中アイコンのグリッド ビューに切り替える</value>
   </data>
   <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>大アイコンのグリッドビューに切り替える</value>
+    <value>大アイコンのグリッド ビューに切り替える</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>カラムビューに切り替える</value>
+    <value>カラム ビューに切り替える</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
     <value>適切なビューに切り替える</value>
@@ -3179,7 +3179,7 @@
     <value>アイテム選択時にチェックボックスを表示する</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>このオブジェクトにアクセスする権限を持つグループまたはユーザーがありません。ただし、このオブジェクトの所有者は権限を割り当てることができます。</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
     <value>ファイルの場所を開く</value>
