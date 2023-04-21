@@ -1591,10 +1591,10 @@
     <value>Списък със съдържанието на директорията</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Промяна</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Разрешения за {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Четене и изпълнение</value>
@@ -2209,7 +2209,7 @@
     <value>Скрити елементи</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>По избор</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Задаване като слайдшоу на работния плот</value>
@@ -2230,7 +2230,7 @@
     <value>Показване на алтернативни потоци от данни</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
-    <value>Behaviors</value>
+    <value>Поведение</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Прегледани файлове</value>
@@ -2269,7 +2269,7 @@
     <value>Заключен екран</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Отваряне на папки с едно щракване в оформлението на колоните</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Отваряне на елементи</value>
@@ -3179,7 +3179,7 @@
     <value>Показване на поле за отметки при избор на елементи</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>Няма групи или потребители, които да имат достъп до този обект. Въпреки това собственикът на този обект може да дава разрешения.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
     <value>Отвори местоположението на елемента</value>
