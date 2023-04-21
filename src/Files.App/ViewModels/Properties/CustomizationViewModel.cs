@@ -11,6 +11,57 @@ namespace Files.App.ViewModels.Properties
 	/// </summary>
 	public class CustomizationViewModel : ObservableObject
 	{
+		private readonly AppWindow AppWindow;
+
+		private static string DefaultIconDllFilePath
+			=> Path.Combine(CommonPaths.SystemRootPath, "System32", "SHELL32.dll");
+
+		private string _SelectedItemPath;
+		public string SelectedItemPath
+		{
+			get => _SelectedItemPath;
+			set => SetProperty(ref _SelectedItemPath, value);
+		}
+
+		private string _IconResourceItemPath;
+		public string IconResourceItemPath
+		{
+			get => _IconResourceItemPath;
+			set => SetProperty(ref _IconResourceItemPath, value);
+		}
+
+		private IShellPage _AppInstance;
+		private IShellPage AppInstance
+		{
+			get => _AppInstance;
+			set => SetProperty(ref _AppInstance, value);
+		}
+
+		private bool _IsShortcut;
+		public bool IsShortcut
+		{
+			get => _IsShortcut;
+			private set => SetProperty(ref _IsShortcut, value);
+		}
+
+		public ObservableCollection<IconFileInfo> DllIcons { get; }
+
+		private IconFileInfo? _SelectedDllIcon;
+		public IconFileInfo? SelectedDllIcon
+		{
+			get => _SelectedDllIcon;
+			set
+			{
+				if (SetProperty(ref _SelectedDllIcon, value))
+					IsIconChanged = true;
+			}
+		}
+
+		private bool IsIconChanged;
+
+		public IRelayCommand RestoreDefaultIconCommand { get; private set; }
+		public IAsyncRelayCommand OpenFilePickerCommand { get; private set; }
+
 		public CustomizationViewModel(IShellPage appInstance, BaseProperties baseProperties, AppWindow appWindow)
 		{
 			ListedItem item;
@@ -33,62 +84,11 @@ namespace Files.App.ViewModels.Properties
 			// Get default
 			LoadIconsForPath(IconResourceItemPath);
 
-			RestoreDefaultIconCommand = new AsyncRelayCommand(ExecuteRestoreDefaultIconAsync);
+			RestoreDefaultIconCommand = new RelayCommand(ExecuteRestoreDefaultIcon);
 			OpenFilePickerCommand = new AsyncRelayCommand(ExecuteOpenFilePickerAsync);
 		}
 
-		private AppWindow AppWindow;
-
-		private static string DefaultIconDllFilePath
-			=> Path.Combine(CommonPaths.SystemRootPath, "System32", "SHELL32.dll");
-
-		private string? _SelectedItemPath;
-		public string? SelectedItemPath
-		{
-			get => _SelectedItemPath;
-			set => SetProperty(ref _SelectedItemPath, value);
-		}
-
-		private string? _IconResourceItemPath;
-		public string? IconResourceItemPath
-		{
-			get => _IconResourceItemPath;
-			set => SetProperty(ref _IconResourceItemPath, value);
-		}
-
-		private IShellPage? _AppInstance;
-		private IShellPage? AppInstance
-		{
-			get => _AppInstance;
-			set => SetProperty(ref _AppInstance, value);
-		}
-
-		private bool _IsShortcut;
-		public bool IsShortcut
-		{
-			get => _IsShortcut;
-			private set => SetProperty(ref _IsShortcut, value);
-		}
-
-		public ObservableCollection<IconFileInfo> DllIcons { get; }
-
-		private IconFileInfo _SelectedDllIcon;
-		public IconFileInfo SelectedDllIcon
-		{
-			get => _SelectedDllIcon;
-			set
-			{
-				if (SetProperty(ref _SelectedDllIcon, value))
-					IsIconChanged = true;
-			}
-		}
-
-		private bool IsIconChanged;
-
-		public IAsyncRelayCommand RestoreDefaultIconCommand { get; private set; }
-		public IAsyncRelayCommand OpenFilePickerCommand { get; private set; }
-
-		private async Task ExecuteRestoreDefaultIconAsync()
+		private void ExecuteRestoreDefaultIcon()
 		{
 			SelectedDllIcon = null;
 			IsIconChanged = true;
@@ -120,14 +120,14 @@ namespace Files.App.ViewModels.Properties
 			LoadIconsForPath(file.Path);
 		}
 
-		public async Task<bool> ChangeIcon(IconFileInfo selectedIconInfo)
+		public async Task<bool> UpdateIcon()
 		{
 			if (!IsIconChanged)
 				return false;
 
 			bool result = false;
 
-			if (selectedIconInfo is null)
+			if (SelectedDllIcon is null)
 			{
 				result = IsShortcut
 					? Win32API.SetCustomFileIcon(SelectedItemPath, null)
@@ -136,8 +136,8 @@ namespace Files.App.ViewModels.Properties
 			else
 			{
 				result = IsShortcut
-					? Win32API.SetCustomFileIcon(SelectedItemPath, IconResourceItemPath, selectedIconInfo.Index)
-					: Win32API.SetCustomDirectoryIcon(SelectedItemPath, IconResourceItemPath, selectedIconInfo.Index);
+					? Win32API.SetCustomFileIcon(SelectedItemPath, IconResourceItemPath, SelectedDllIcon.Index)
+					: Win32API.SetCustomDirectoryIcon(SelectedItemPath, IconResourceItemPath, SelectedDllIcon.Index);
 			}
 
 			if (!result)

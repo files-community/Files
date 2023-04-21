@@ -22,7 +22,7 @@ namespace Files.App.Views.Properties
 		}
 
 		public async override Task<bool> SaveChangesAsync()
-			=> await CustomizationViewModel.ChangeIcon(CustomizationViewModel.SelectedDllIcon);
+			=> await CustomizationViewModel.UpdateIcon();
 
 		public override void Dispose()
 		{
