@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Storage;
+using Windows.System.Threading.Core;
 using static Files.App.Constants;
 using static Files.App.Helpers.PathNormalization;
 
@@ -70,8 +71,7 @@ namespace Files.App.Views.LayoutModes
 				navigationArguments.NavPathParam = column.NavPathParam;
 				ParentShellPageInstance.TabItemArguments.NavigationArg = column.NavPathParam;
 			}
-			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && 
-				arePathsDifferent)
+			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 			{
 				CloseUnnecessaryColumns(column);
 			}
@@ -428,19 +428,37 @@ namespace Files.App.Views.LayoutModes
 			var column = sender as ColumnParam;
 			if (column?.ListView.FindAscendant<ColumnViewBrowser>() != this || string.IsNullOrEmpty(column.NavPathParam))
 				return;
-			
+
 			CloseUnnecessaryColumns(column);
 		}
 
 		private void CloseUnnecessaryColumns(ColumnParam column)
 		{
-			var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel?.WorkingDirectory;
-			var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
-			if (string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath))
+			if (string.IsNullOrEmpty(column.NavPathParam))
 				return;
 
-			var destComponents = StorageFileExtensions.GetDirectoryPathComponents(column.NavPathParam);
-			var (_, relativeIndex) = GetLastCommonAndRelativeIndex(destComponents, columnPath, columnFirstPath);
+			var relativeIndex = column.Column is not 0 ? column.Column : -1;
+
+			if (column.Source is not null)
+			{
+				for (var i = 0; i < ColumnHost.ActiveBlades.Count && relativeIndex is -1; i++)
+				{
+					var bladeColumn = ColumnHost.ActiveBlades[i].FindDescendant<ColumnViewBase>();
+					if (bladeColumn is not null && bladeColumn == column.Source)
+						relativeIndex = i;
+				}
+			}
+
+			if (relativeIndex is -1)
+			{
+				// Get the index of the blade with the same path as the requested
+				var blade = ColumnHost.ActiveBlades.FirstOrDefault(b => 
+					column.NavPathParam.Equals(((b.Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel?.WorkingDirectory));
+
+				if (blade is not null)
+					relativeIndex = ColumnHost.ActiveBlades.IndexOf(blade);
+			}
+
 			if (relativeIndex >= 0)
 			{
 				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnViewBase>()?.ClearOpenedFolderSelectionIndicator();
