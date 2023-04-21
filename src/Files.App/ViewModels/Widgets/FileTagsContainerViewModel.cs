@@ -1,12 +1,5 @@
-﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services;
+﻿using Files.Backend.Services;
 using Files.Shared.Utils;
-using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.Input;
 
 namespace Files.App.ViewModels.Widgets
 {

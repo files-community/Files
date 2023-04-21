@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Security.Principal;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
-using Windows.Storage;
 
 namespace Files.App.Shell
 {

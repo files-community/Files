@@ -1,16 +1,9 @@
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.App.Interacts;
 using Files.App.UserControls;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.Storage;
 using Windows.System.Threading.Core;
 using static Files.App.Constants;

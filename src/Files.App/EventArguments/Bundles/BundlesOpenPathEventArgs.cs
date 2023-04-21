@@ -1,6 +1,3 @@
-using Files.App.Filesystem;
-using System.Collections.Generic;
-
 namespace Files.App.EventArguments.Bundles
 {
 	public class BundlesOpenPathEventArgs

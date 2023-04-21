@@ -1,6 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
-using System;
 
 namespace Files.App.ViewModels.Widgets
 {
