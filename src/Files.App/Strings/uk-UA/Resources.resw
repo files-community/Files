@@ -1591,10 +1591,10 @@
     <value>Показати вміст директорії</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Змінити</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Дозволи для {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Читати і виконати</value>
@@ -3179,7 +3179,7 @@
     <value>Показувати прапорці під час вибору елементів</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>Жодна група чи користувач не має дозволів на даний обєкт. Проте, власник даного обєкту може надавати дозволи.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
     <value>Відкрити розташування елемента</value>
