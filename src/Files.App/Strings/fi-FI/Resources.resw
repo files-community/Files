@@ -1591,10 +1591,10 @@
     <value>Listaa hakemiston sisältö</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Muokkaa</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Käyttöoikeudet kohteelle {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Lue ja suorita</value>
@@ -3152,7 +3152,7 @@
     <value>Sulkee nykyisen välilehden</value>
   </data>
   <data name="Branch" xml:space="preserve">
-    <value>Branch: {0}</value>
+    <value>Haara: {0}</value>
   </data>
   <data name="Redo" xml:space="preserve">
     <value>Tee uudelleen</value>
@@ -3179,7 +3179,7 @@
     <value>Näytä valintaruudut kohteita valittaessa</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>Millään ryhmillä tai käyttäjillä ei ole oikeutta käyttää tätä objektia. Tämän objektin omistaja voi kuitenkin määrittää käyttöoikeuksia.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
     <value>Avaa kohteen sijainti</value>
