@@ -1,12 +1,7 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Files.App.EventArguments.Bundles;
-using Files.App.Helpers;
 using Files.App.ViewModels.Widgets;
 using Files.App.ViewModels.Widgets.Bundles;
 using Microsoft.UI.Xaml;
-using System;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels

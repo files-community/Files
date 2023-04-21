@@ -1,14 +1,7 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
-using Files.Backend.Services.Settings;
 using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.ViewModels.Previews

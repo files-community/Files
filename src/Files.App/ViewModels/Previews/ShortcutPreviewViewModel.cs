@@ -1,9 +1,4 @@
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.ViewModels.Previews
 {

@@ -1,4 +1,3 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml.Controls;
 

@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-
-namespace Files.App.ViewModels.Dialogs
+﻿namespace Files.App.ViewModels.Dialogs
 {
     class RenameDialogViewModel : ObservableObject
     {
