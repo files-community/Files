@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Animations.Expressions;
 using CommunityToolkit.WinUI.UI.Behaviors;

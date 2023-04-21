@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using System.Windows.Forms;
 using Vanara.Extensions;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using ByteSizeLib;
 using Files.Shared.Extensions;
 using Microsoft.Windows.ApplicationModel.Resources;

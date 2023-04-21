@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.Shared.EventArguments;
 using System;
 using System.Runtime.CompilerServices;
@@ -5,11 +8,8 @@ using System.Runtime.CompilerServices;
 namespace Files.App.Serialization
 {
 	/// <summary>
-	/// SecureFolderFS
-	/// <br/>
 	/// A base class to easily manage all application's settings.
 	/// </summary>
-	/// <remarks>BaseJsonSettings v3</remarks>
 	internal abstract class BaseJsonSettings : ISettingsSharingContext
 	{
 		private ISettingsSharingContext? _settingsSharingContext;
