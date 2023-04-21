@@ -457,11 +457,16 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			if (relativeIndex is -1)
+			{
 				// Get the index of the blade with the same path as the requested
-				while (relativeIndex < ColumnHost.ActiveBlades.Count &&
-					!column.NavPathParam.Equals(GetWorkingDirOfColumnAt(++relativeIndex))) ;
+				var blade = ColumnHost.ActiveBlades.FirstOrDefault(b => 
+					column.NavPathParam.Equals(((b.Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel?.WorkingDirectory));
 
-			if (relativeIndex >= 0 && relativeIndex < ColumnHost.ActiveBlades.Count)
+				if (blade is not null)
+					relativeIndex = ColumnHost.ActiveBlades.IndexOf(blade);
+			}
+
+			if (relativeIndex >= 0)
 			{
 				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnViewBase>()?.ClearOpenedFolderSelectionIndicator();
 				DismissOtherBlades(relativeIndex);
@@ -493,11 +498,6 @@ namespace Files.App.Views.LayoutModes
 
 			ColumnHost.Items.Add(newblade);
 			return (frame, newblade);
-		}
-
-		private string? GetWorkingDirOfColumnAt(int index)
-		{
-			return ((ColumnHost.ActiveBlades[index].Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel?.WorkingDirectory;
 		}
 	}
 }
