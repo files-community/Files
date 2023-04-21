@@ -1,12 +1,7 @@
-﻿// Copyright (c) 2023 Files Community
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Helpers;
-using Files.Shared;
-using Files.Shared.Extensions;
-using System;
 using System.IO;
-using System.Linq;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 

@@ -1,6 +1,5 @@
 using Files.App.AppModels;
 using Microsoft.UI.Xaml.Data;
-using System;
 
 namespace Files.App.ValueConverters
 {

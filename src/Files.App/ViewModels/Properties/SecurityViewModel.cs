@@ -6,6 +6,7 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
 using Files.App.Helpers;
 using Microsoft.UI.Xaml;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -13,218 +14,106 @@ namespace Files.App.ViewModels.Properties
 {
 	public class SecurityViewModel : ObservableObject
 	{
-		public SecurityViewModel(ListedItem item)
-		{
-			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
-			Item = item;
+		public string Path { get; set; }
 
-			InitializeCommands();
-			GetAccessControlList();
-		}
+		private readonly Window Window;
 
-		public SecurityViewModel(DriveItem item)
-		{
-			IsFolder = true;
-			Item = new ListedItem()
-			{
-				ItemNameRaw = item.Text,
-				ItemPath = item.Path,
-				PrimaryItemAttribute = StorageItemTypes.Folder
-			};
-
-			InitializeCommands();
-			GetAccessControlList();
-		}
-
-		public ListedItem Item { get; }
-
-		private AccessControlList _accessControlList;
-		public AccessControlList AccessControlList
-		{
-			get => _accessControlList;
-			set
-			{
-				if (SetProperty(ref _accessControlList, value))
-				{
-					ChangeOwnerCommand.NotifyCanExecuteChanged();
-					AddAccessControlEntryCommand.NotifyCanExecuteChanged();
-					RemoveAccessControlEntryCommand.NotifyCanExecuteChanged();
-					DisableInheritanceCommand.NotifyCanExecuteChanged();
-					ReplaceChildPermissionsCommand.NotifyCanExecuteChanged();
-				}
-			}
-		}
-
-		private AccessControlEntry _selectedAccessControlEntry;
-		public AccessControlEntry SelectedAccessControlEntry
-		{
-			get => _selectedAccessControlEntry;
-			set
-			{
-				if (_selectedAccessControlEntry is not null)
-					_selectedAccessControlEntry.IsSelected = false;
-
-				if (SetProperty(ref _selectedAccessControlEntry, value))
-				{
-					value.IsSelected = true;
-					RemoveAccessControlEntryCommand.NotifyCanExecuteChanged();
-				}
-			}
-		}
-
-		private bool _isFolder;
+		private bool _IsFolder;
 		public bool IsFolder
 		{
-			get => _isFolder;
-			set => SetProperty(ref _isFolder, value);
+			get => _IsFolder;
+			set => SetProperty(ref _IsFolder, value);
 		}
 
-		public string DisableInheritanceOption
+		private AccessControlList _AccessControlList;
+		public AccessControlList AccessControlList
 		{
-			get
+			get => _AccessControlList;
+			set => SetProperty(ref _AccessControlList, value);
+		}
+
+		private AccessControlEntry _SelectedAccessControlEntry;
+		public AccessControlEntry SelectedAccessControlEntry
+		{
+			get => _SelectedAccessControlEntry;
+			set
 			{
-				if (!_isProtected)
-					return "SecurityAdvancedInheritedEnable/Text".GetLocalizedResource();
-				else if (_preserveInheritance)
-					return "SecurityAdvancedInheritedConvert/Text".GetLocalizedResource();
-				else
-					return "SecurityAdvancedInheritedRemove/Text".GetLocalizedResource();
+				if (_SelectedAccessControlEntry is not null)
+					_SelectedAccessControlEntry.IsSelected = false;
+
+				if (SetProperty(ref _SelectedAccessControlEntry, value))
+				{
+					value.IsSelected = true;
+					RemoveAccessControlEntryCommand?.NotifyCanExecuteChanged();
+					OnPropertyChanged(nameof(SelectedItemHeaderText));
+				}
 			}
 		}
 
-		private bool _isProtected;
+		public string SelectedItemHeaderText
+			=> string.Format("SecurityPermissionsHeaderText".GetLocalizedResource(), SelectedAccessControlEntry.Principal.DisplayName);
 
-		private bool _preserveInheritance;
+		public IRelayCommand AddAccessControlEntryCommand { get; set; }
+		public IRelayCommand RemoveAccessControlEntryCommand { get; set; }
 
-		private GridLength _columnType = new(64d);
-		public GridLength ColumnType
+		public SecurityViewModel(ListedItem item, Window window)
 		{
-			get => _columnType;
-			set => SetProperty(ref _columnType, value);
+			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
+			Path = item.ItemPath;
+			AccessControlList = FileSecurityHelpers.GetAccessControlList(Path, IsFolder);
+			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
+			Window = window;
+
+			InitializeCommands();
 		}
 
-		private GridLength _columnPrincipal = new(200d);
-		public GridLength ColumnPrincipal
+		public SecurityViewModel(DriveItem item, Window window)
 		{
-			get => _columnPrincipal;
-			set => SetProperty(ref _columnPrincipal, value);
-		}
+			IsFolder = true;
+			Path = item.Path;
+			AccessControlList = FileSecurityHelpers.GetAccessControlList(Path, IsFolder);
+			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
+			Window = window;
 
-		private GridLength _columnAccess = new(160d);
-		public GridLength ColumnAccess
-		{
-			get => _columnAccess;
-			set => SetProperty(ref _columnAccess, value);
+			InitializeCommands();
 		}
-
-		private GridLength _columnInherited = new(70d);
-		public GridLength ColumnInherited
-		{
-			get => _columnInherited;
-			set => SetProperty(ref _columnInherited, value);
-		}
-
-		public AsyncRelayCommand ChangeOwnerCommand { get; set; }
-		public AsyncRelayCommand AddAccessControlEntryCommand { get; set; }
-		public RelayCommand RemoveAccessControlEntryCommand { get; set; }
-		public RelayCommand DisableInheritanceCommand { get; set; }
-		public RelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
-		public RelayCommand ReplaceChildPermissionsCommand { get; set; }
 
 		private void InitializeCommands()
 		{
-			ChangeOwnerCommand = new AsyncRelayCommand(ChangeOwner, () => AccessControlList is not null);
-			AddAccessControlEntryCommand = new AsyncRelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
-			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && SelectedAccessControlEntry is not null);
-			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => AccessControlList is not null && AccessControlList.CanReadAccessControl && (AccessControlList.IsAccessControlListProtected != _isProtected));
-			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
-			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.CanReadAccessControl);
-		}
-
-		private async Task ChangeOwner()
-		{
-			var pickedObject = await OpenObjectPicker();
-			if (pickedObject is not null)
-			{
-				bool isFolder = Item.PrimaryItemAttribute == StorageItemTypes.Folder && !Item.IsShortcut;
-
-				// Set owner and refresh file permissions
-				if (FileOperationsHelpers.SetFileOwner(Item.ItemPath, isFolder, pickedObject))
-					GetAccessControlList();
-			}
+			AddAccessControlEntryCommand = new AsyncRelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid);
+			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
 		}
 
 		private async Task AddAccessControlEntry()
 		{
-			var pickedSid = await OpenObjectPicker();
-			if (pickedSid is not null)
-			{
-				var mapping = new AccessControlEntryPrimitiveMapping()
-				{
-					AccessControlType = System.Security.AccessControl.AccessControlType.Allow,
-					FileSystemRights = System.Security.AccessControl.FileSystemRights.ReadAndExecute,
-					InheritanceFlags = IsFolder
-						? System.Security.AccessControl.InheritanceFlags.ContainerInherit | System.Security.AccessControl.InheritanceFlags.ObjectInherit
-						: System.Security.AccessControl.InheritanceFlags.None,
-					IsInherited = false,
-					PrincipalSid = pickedSid,
-					PropagationFlags = System.Security.AccessControl.PropagationFlags.None,
-				};
+			// Pick an user/group
+			var sid = await OpenObjectPicker();
+			if (string.IsNullOrEmpty(sid))
+				return;
 
-				AccessControlList.AccessControlEntryPrimitiveMappings.Add(mapping);
-				AccessControlList.AccessControlEntries.Add(new(mapping, IsFolder));
+			// Initialize
+			var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(IsFolder, sid);
+			AccessControlList.AccessControlEntries.Add(ace);
 
-				SaveChangedAccessControlList();
-			}
+			// Save
+			FileSecurityHelpers.SetAccessControlList(AccessControlList);
 		}
 
 		private void RemoveAccessControlEntry()
 		{
-			AccessControlList.AccessControlEntryPrimitiveMappings.RemoveAll(x =>
-				x.AccessControlType == (System.Security.AccessControl.AccessControlType)SelectedAccessControlEntry.AccessControlType &&
-				x.FileSystemRights == (System.Security.AccessControl.FileSystemRights)SelectedAccessControlEntry.AccessMaskFlags &&
-				x.InheritanceFlags == (System.Security.AccessControl.InheritanceFlags)SelectedAccessControlEntry.InheritanceFlags &&
-				x.IsInherited == SelectedAccessControlEntry.IsInherited &&
-				x.PrincipalSid == SelectedAccessControlEntry.PrincipalSid &&
-				x.PropagationFlags == (System.Security.AccessControl.PropagationFlags)SelectedAccessControlEntry.PropagationFlags);
+			// Remove
 			AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
 
-			SaveChangedAccessControlList();
-		}
-
-		private void DisableInheritance()
-		{
-			// Update protection status and refresh access control
-			if (FileOperationsHelpers.SetAccessRuleProtection(Item.ItemPath, IsFolder, _isProtected, _preserveInheritance))
-				GetAccessControlList();
-		}
-
-		private void SetDisableInheritanceOption(string options)
-		{
-			_isProtected = bool.Parse(options.Split(',')[0]);
-			_preserveInheritance = bool.Parse(options.Split(',')[1]);
-
-			OnPropertyChanged(nameof(DisableInheritanceOption));
-			DisableInheritanceCommand.NotifyCanExecuteChanged();
-		}
-
-		private void ReplaceChildPermissions()
-		{
-		}
-
-		public void GetAccessControlList()
-		{
-			AccessControlList = FileOperationsHelpers.GetFilePermissions(Item.ItemPath, IsFolder);
+			// Save
+			FileSecurityHelpers.SetAccessControlList(AccessControlList);
 		}
 
 		public bool SaveChangedAccessControlList()
 		{
-			return AccessControlList.SetAccessControl();
+			return false;
 		}
 
-		public Task<string?> OpenObjectPicker()
-		{
-			return FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
-		}
+		private Task<string?> OpenObjectPicker()
+			=> FileOperationsHelpers.OpenObjectPickerAsync(FilePropertiesHelpers.GetWindowHandle(Window).ToInt64());
 	}
 }

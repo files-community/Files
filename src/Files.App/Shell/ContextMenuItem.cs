@@ -1,9 +1,5 @@
-﻿// Copyright (c) 2023 Files Community
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
-
-using Files.Shared;
-using System;
-using System.Collections.Generic;
 
 namespace Files.App.Shell
 {

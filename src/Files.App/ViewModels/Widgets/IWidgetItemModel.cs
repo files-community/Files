@@ -1,6 +1,4 @@
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.ViewModels.Widgets
 {

@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Data;
-using System;
 using Windows.Storage;
 
 namespace Files.App.Converters

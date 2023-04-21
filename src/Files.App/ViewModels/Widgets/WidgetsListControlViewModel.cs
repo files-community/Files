@@ -1,8 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-
 namespace Files.App.ViewModels.Widgets
 {
 	public class WidgetsListControlViewModel : ObservableObject, IDisposable

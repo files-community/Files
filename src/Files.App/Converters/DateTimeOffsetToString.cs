@@ -1,10 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.UI.Xaml.Data;
-using System;
 
 namespace Files.App.Converters
 {

@@ -1,8 +1,4 @@
-using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
-using Files.Shared.Extensions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Files.App.ViewModels.Previews
 {
