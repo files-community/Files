@@ -1,4 +1,7 @@
-﻿using System.Drawing;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;

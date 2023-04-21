@@ -1,4 +1,8 @@
-﻿using Microsoft.Win32;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+
+using Microsoft.Win32;
 using System.IO;
 using System.Runtime.Versioning;
 using System.Security;
