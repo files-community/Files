@@ -36,7 +36,6 @@ namespace Files.App.Actions
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
 			return context.PageType is not ContentPageTypes.RecycleBin
-				and not ContentPageTypes.ZipFolder
 				and not ContentPageTypes.None;
 		}
 
