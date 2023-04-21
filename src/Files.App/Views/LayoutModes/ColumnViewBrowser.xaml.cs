@@ -444,7 +444,7 @@ namespace Files.App.Views.LayoutModes
 			if (string.IsNullOrEmpty(column.NavPathParam))
 				return;
 
-			var relativeIndex = -1;
+			var relativeIndex = column.Column is not 0 ? column.Column : -1;
 
 			if (column.Source is not null)
 			{
@@ -457,6 +457,7 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			if (relativeIndex is -1)
+				// Get the index of the blade with the same path as the requested
 				while (relativeIndex < ColumnHost.ActiveBlades.Count &&
 					!column.NavPathParam.Equals(GetWorkingDirOfColumnAt(++relativeIndex))) ;
 
