@@ -11,17 +11,20 @@ namespace Files.App.ViewModels.Properties
 	/// </summary>
 	public class CustomizationViewModel : ObservableObject
 	{
-		private readonly AppWindow AppWindow;
-
 		private static string DefaultIconDllFilePath
 			=> Path.Combine(CommonPaths.SystemRootPath, "System32", "SHELL32.dll");
 
-		private string _SelectedItemPath;
-		public string SelectedItemPath
-		{
-			get => _SelectedItemPath;
-			set => SetProperty(ref _SelectedItemPath, value);
-		}
+		private readonly AppWindow AppWindow;
+
+		private readonly IShellPage AppInstance;
+
+		private readonly string SelectedItemPath;
+
+		public readonly bool IsShortcut;
+
+		private bool IsIconChanged;
+
+		public ObservableCollection<IconFileInfo> DllIcons { get; }
 
 		private string _IconResourceItemPath;
 		public string IconResourceItemPath
@@ -29,22 +32,6 @@ namespace Files.App.ViewModels.Properties
 			get => _IconResourceItemPath;
 			set => SetProperty(ref _IconResourceItemPath, value);
 		}
-
-		private IShellPage _AppInstance;
-		private IShellPage AppInstance
-		{
-			get => _AppInstance;
-			set => SetProperty(ref _AppInstance, value);
-		}
-
-		private bool _IsShortcut;
-		public bool IsShortcut
-		{
-			get => _IsShortcut;
-			private set => SetProperty(ref _IsShortcut, value);
-		}
-
-		public ObservableCollection<IconFileInfo> DllIcons { get; }
 
 		private IconFileInfo? _SelectedDllIcon;
 		public IconFileInfo? SelectedDllIcon
@@ -56,8 +43,6 @@ namespace Files.App.ViewModels.Properties
 					IsIconChanged = true;
 			}
 		}
-
-		private bool IsIconChanged;
 
 		public IRelayCommand RestoreDefaultIconCommand { get; private set; }
 		public IAsyncRelayCommand OpenFilePickerCommand { get; private set; }
