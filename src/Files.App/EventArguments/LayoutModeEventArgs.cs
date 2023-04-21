@@ -1,5 +1,3 @@
-using Files.Shared.Enums;
-
 namespace Files.App.EventArguments
 {
 	public class LayoutModeEventArgs

@@ -1,6 +1,3 @@
-using Files.App.Filesystem;
-using System;
-
 namespace Files.App.DataModels.NavigationControlItems
 {
 	public class WslDistroItem : INavigationControlItem

@@ -1,15 +1,7 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.Helpers;
-using Files.App.Extensions;
-using Files.App.Helpers;
 using Files.App.Views.Settings.Appearance;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Files.App.ViewModels.Settings
 {

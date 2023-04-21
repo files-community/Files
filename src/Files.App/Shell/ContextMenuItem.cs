@@ -1,8 +1,4 @@
-﻿using Files.Shared;
-using System;
-using System.Collections.Generic;
-
-namespace Files.App.Shell
+﻿namespace Files.App.Shell
 {
 	public class ContextMenuItem : Win32ContextMenuItem, IDisposable
 	{
