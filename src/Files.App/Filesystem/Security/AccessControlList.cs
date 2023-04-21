@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace Files.App.Filesystem.Security
+﻿namespace Files.App.Filesystem.Security
 {
 	/// <summary>
 	/// Represents an ACL.

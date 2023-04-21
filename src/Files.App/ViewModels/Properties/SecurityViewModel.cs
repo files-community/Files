@@ -1,13 +1,6 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
-using Files.App.Helpers;
 using Microsoft.UI.Xaml;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
@@ -64,7 +57,8 @@ namespace Files.App.ViewModels.Properties
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 			Window = window;
 
-			InitializeCommands();
+			AddAccessControlEntryCommand = new AsyncRelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid);
+			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
 		}
 
 		public SecurityViewModel(DriveItem item, Window window)
@@ -75,18 +69,13 @@ namespace Files.App.ViewModels.Properties
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 			Window = window;
 
-			InitializeCommands();
-		}
-
-		private void InitializeCommands()
-		{
 			AddAccessControlEntryCommand = new AsyncRelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid);
 			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
 		}
 
 		private async Task AddAccessControlEntry()
 		{
-			// Pick an user/group
+			// Pick an user or a group
 			var sid = await OpenObjectPicker();
 			if (string.IsNullOrEmpty(sid))
 				return;
