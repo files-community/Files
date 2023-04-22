@@ -2021,7 +2021,7 @@ namespace Files.App.ViewModels
 							if (renameIndex != -1 && oldName != string.Empty && newName != string.Empty)
 							{
 								await RemoveFileOrFolderAsync(oldName);
-								await AddFileOrFolderAsync(newName, renameIndex);
+								lastItemAdded = await AddFileOrFolderAsync(newName, renameIndex);
 								renameIndex = -1;
 								oldName = string.Empty;
 								newName = string.Empty;
