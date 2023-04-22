@@ -1,4 +1,7 @@
-﻿using Microsoft.UI.Windowing;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System.Threading;
 
