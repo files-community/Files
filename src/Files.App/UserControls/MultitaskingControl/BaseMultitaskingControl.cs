@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
@@ -121,7 +122,7 @@ namespace Files.App.UserControls.MultitaskingControl
 			return MainPageViewModel.AppInstances.Select(x => x.Control?.TabItemContent).ToList();
 		}
 
-		public async void ReopenClosedTab()
+		public async Task ReopenClosedTab()
 		{
 			if (!IsRestoringClosedTab && RecentlyClosedTabs.Count > 0)
 			{

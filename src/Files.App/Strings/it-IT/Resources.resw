@@ -564,9 +564,6 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Elemento non valido</value>
   </data>
-  <data name="Version" xml:space="preserve">
-    <value>Versione</value>
-  </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Versione</value>
   </data>
@@ -611,12 +608,6 @@
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Sponsorizzaci su Github</value>
-  </data>
-  <data name="Personalization" xml:space="preserve">
-    <value>Personalizzazione</value>
-  </data>
-  <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Layout e ordinamento</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Impossibile creare questo elemento</value>
@@ -1983,9 +1974,6 @@
   <data name="ImportSettings" xml:space="preserve">
     <value>Importa impostazioni</value>
   </data>
-  <data name="ManageSettings" xml:space="preserve">
-    <value>Gestisci le impostazioni</value>
-  </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Impossibile importare le impostazioni. File corrotto.</value>
   </data>
@@ -3166,6 +3154,12 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Chiudi scheda corrente</value>
   </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Ripeti</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Destinazione non valida</value>
   </data>
@@ -3183,5 +3177,20 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
+  </data>
+  <data name="DeletePermanently" xml:space="preserve">
+    <value>Elimina permanentemente</value>
+  </data>
+  <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
+    <value>Elimina gli elementi permanentemente</value>
+  </data>
+  <data name="PlayAllDescription" xml:space="preserve">
+    <value>Riproduci i file multimediali selezionati</value>
+  </data>
+  <data name="UndoDescription" xml:space="preserve">
+    <value>Annulla l'ultima operazione dei file</value>
+  </data>
+  <data name="RedoDescription" xml:space="preserve">
+    <value>Ripeti l'ultima operazione dei file</value>
   </data>
 </root>

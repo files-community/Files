@@ -1,11 +1,5 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Extensions;
 using Files.App.ViewModels.Properties;
 using Files.Backend.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace Files.App.ViewModels
 {

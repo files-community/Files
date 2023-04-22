@@ -1,17 +1,7 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.Views;
 using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage.FileProperties;
 
@@ -95,7 +85,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			TargetType = targetType;
 
 			// Create commands
-			OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
+			OpenInNewTabCommand = new AsyncRelayCommand(OpenInNewTab);
 			OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
 			OpenItemLocationCommand = new RelayCommand(OpenItemLocation);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
@@ -105,7 +95,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		#region Command Implementation
 
-		private async void OpenInNewTab()
+		private async Task OpenInNewTab()
 		{
 			await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
 		}

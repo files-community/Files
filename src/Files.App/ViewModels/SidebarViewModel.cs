@@ -1,25 +1,13 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.UserControls;
-using Files.Backend.Services.Settings;
-using Files.Sdk.Storage.LocatableStorage;
 using Files.Shared.EventArguments;
-using Files.Shared.Extensions;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.ViewModels
 {
@@ -238,7 +226,7 @@ namespace Files.App.ViewModels
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
 		}
 
-		private async void CreateItemHome()
+		private async Task CreateItemHome()
 		{
 			await CreateSection(SectionType.Home);
 		}
@@ -522,7 +510,7 @@ namespace Files.App.ViewModels
 			SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
 		}
 
-		public async void UpdateSectionVisibility(SectionType sectionType, bool show)
+		public async Task UpdateSectionVisibility(SectionType sectionType, bool show)
 		{
 			if (show)
 			{

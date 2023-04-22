@@ -564,9 +564,6 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Chybná položka</value>
   </data>
-  <data name="Version" xml:space="preserve">
-    <value>Verzia</value>
-  </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Verzia:</value>
   </data>
@@ -611,12 +608,6 @@
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Podporte nás na GitHube</value>
-  </data>
-  <data name="Personalization" xml:space="preserve">
-    <value>Prispôsobenie</value>
-  </data>
-  <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Rozloženie a zoraďovanie</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Nepodarilo sa vytvoriť túto položku</value>
@@ -1985,9 +1976,6 @@
   <data name="ImportSettings" xml:space="preserve">
     <value>Importovať nastavenia</value>
   </data>
-  <data name="ManageSettings" xml:space="preserve">
-    <value>Spravovať nastavenia</value>
-  </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Nastavenia sa nepodarilo importovať. Súbor nastavení je poškodený.</value>
   </data>
@@ -3168,6 +3156,12 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
   </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Invalid location</value>
   </data>
@@ -3185,5 +3179,20 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
+  </data>
+  <data name="DeletePermanently" xml:space="preserve">
+    <value>Delete permanently</value>
+  </data>
+  <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
+    <value>Delete item(s) permanently</value>
+  </data>
+  <data name="PlayAllDescription" xml:space="preserve">
+    <value>Play the selected media files</value>
+  </data>
+  <data name="UndoDescription" xml:space="preserve">
+    <value>Undo the last file operation</value>
+  </data>
+  <data name="RedoDescription" xml:space="preserve">
+    <value>Redo the last file operation</value>
   </data>
 </root>

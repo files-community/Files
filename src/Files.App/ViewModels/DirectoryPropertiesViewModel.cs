@@ -1,5 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-
 namespace Files.App.ViewModels
 {
 	public class DirectoryPropertiesViewModel : ObservableObject
@@ -9,6 +7,13 @@ namespace Files.App.ViewModels
 		{
 			get => directoryItemCount;
 			set => SetProperty(ref directoryItemCount, value);
+		}
+
+		private string? gitBranchDisplayName;
+		public string? GitBranchDisplayName
+		{
+			get => gitBranchDisplayName;
+			set => SetProperty(ref gitBranchDisplayName, value);
 		}
 	}
 }

@@ -1,8 +1,4 @@
-using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Windows.Storage.Streams;
 
 namespace Files.App.ViewModels.Previews

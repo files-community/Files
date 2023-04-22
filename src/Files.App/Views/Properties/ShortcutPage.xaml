@@ -8,6 +8,7 @@
 	xmlns:settingsuc="using:Files.App.UserControls.Settings"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Loaded="Properties_Loaded"
+	Tag="Shortcut"
 	mc:Ignorable="d">
 
 	<vm:BasePropertiesPage.Resources>
@@ -19,7 +20,7 @@
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
 
-	<ScrollViewer>
+	<ScrollViewer x:Name="RootScrollViewer">
 		<StackPanel Padding="12" Spacing="4">
 
 			<Grid
