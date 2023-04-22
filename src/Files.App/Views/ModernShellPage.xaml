@@ -58,7 +58,7 @@
 			Margin="-1,0,0,0"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
-			wct:VisualExtensions.NormalizedCenterPoint="0, 0.5"
+			wct:VisualExtensions.NormalizedCenterPoint="0.5, 0.5"
 			Canvas.ZIndex="64">
 			<Ellipse
 				Width="48"
@@ -75,7 +75,7 @@
 			Margin="1,0,0,0"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Center"
-			wct:VisualExtensions.NormalizedCenterPoint="0, 0.5"
+			wct:VisualExtensions.NormalizedCenterPoint="0.5, 0.5"
 			Canvas.ZIndex="64">
 			<Ellipse
 				Width="48"

@@ -181,9 +181,9 @@ namespace Files.App.Views
 
 				var compositor = _parent._rootVisual.Compositor;
 				_scaleAnimation = compositor.CreateVector3KeyFrameAnimation();
-				_scaleAnimation.InsertKeyFrame(0.5f, new(1.25f));
+				_scaleAnimation.InsertKeyFrame(0.5f, new(1.35f));
 				_scaleAnimation.InsertKeyFrame(1f, new(1f));
-				_scaleAnimation.Duration = TimeSpan.FromMilliseconds(250);
+				_scaleAnimation.Duration = TimeSpan.FromMilliseconds(275);
 
 				_returnAnimation = compositor.CreateSpringVector3Animation();
 				_returnAnimation.FinalValue = new(0f);
@@ -225,16 +225,12 @@ namespace Files.App.Views
 				_shouldBounceBack = true;
 			}
 
-			// required to implement IInteractionTrackerOwner
-			public void CustomAnimationStateEntered(InteractionTracker sender, InteractionTrackerCustomAnimationStateEnteredArgs args) { }
-			public void InertiaStateEntered(InteractionTracker sender, InteractionTrackerInertiaStateEnteredArgs args) { }
-			public void RequestIgnored(InteractionTracker sender, InteractionTrackerRequestIgnoredArgs args) { }
 			public void ValuesChanged(InteractionTracker sender, InteractionTrackerValuesChangedArgs args)
 			{
 				if (!_shouldAnimate)
 					return;
 
-				if(args.Position.X <= -64)
+				if (args.Position.X <= -64)
 				{
 					_parent._backVisual.StartAnimation("Scale", _scaleAnimation);
 					_shouldAnimate = false;
@@ -246,6 +242,11 @@ namespace Files.App.Views
 				}
 
 			}
+
+			// required to implement IInteractionTrackerOwner
+			public void CustomAnimationStateEntered(InteractionTracker sender, InteractionTrackerCustomAnimationStateEnteredArgs args) { }
+			public void InertiaStateEntered(InteractionTracker sender, InteractionTrackerInertiaStateEnteredArgs args) { }
+			public void RequestIgnored(InteractionTracker sender, InteractionTrackerRequestIgnoredArgs args) { }
 		}
 	}
 
