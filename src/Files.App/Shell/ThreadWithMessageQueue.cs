@@ -1,4 +1,7 @@
-﻿using System.Collections.Concurrent;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using System.Collections.Concurrent;
 using System.Runtime.Versioning;
 
 namespace Files.App.Shell
