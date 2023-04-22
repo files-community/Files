@@ -1973,9 +1973,9 @@ namespace Files.App.ViewModels
 						operationEvent.Reset();
 
 						// Keep track of renaming information available
-						int RenameIndex = -1;
-						string OldName = "";
-						string NewName = "";
+						int renameIndex = -1;
+						string oldName = string.Empty;
+						string newName = string.Empty;
 
 						while (operationQueue.TryDequeue(out var operation))
 						{
@@ -1993,7 +1993,7 @@ namespace Files.App.ViewModels
 										break;
 
 									case FILE_ACTION_RENAMED_NEW_NAME:
-										NewName = operation.FileName;
+										newName = operation.FileName;
 										break;
 
 									case FILE_ACTION_MODIFIED:
@@ -2008,8 +2008,8 @@ namespace Files.App.ViewModels
 										break;
 
 									case FILE_ACTION_RENAMED_OLD_NAME:
-										RenameIndex = filesAndFolders.FindIndex(x => x.ItemPath.Equals(operation.FileName));
-										OldName = operation.FileName;
+										renameIndex = filesAndFolders.FindIndex(x => x.ItemPath.Equals(operation.FileName));
+										oldName = operation.FileName;
 										break;
 								}
 							}
@@ -2018,13 +2018,13 @@ namespace Files.App.ViewModels
 								App.Logger.LogWarning(ex, ex.Message);
 							}
 
-							if (RenameIndex != -1 && OldName != "" && NewName != "")
+							if (renameIndex != -1 && oldName != string.Empty && newName != string.Empty)
 							{
-								var itemRemoved = await RemoveFileOrFolderAsync(OldName);
-								var itemAdded = await AddFileOrFolderAsync(NewName, RenameIndex);
-								RenameIndex = -1;
-								OldName = "";
-								NewName = "";
+								await RemoveFileOrFolderAsync(oldName);
+								await AddFileOrFolderAsync(newName, renameIndex);
+								renameIndex = -1;
+								oldName = string.Empty;
+								newName = string.Empty;
 								anyEdits = true;
 							}
 
@@ -2068,38 +2068,6 @@ namespace Files.App.ViewModels
 				UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
 		}
 
-		private async Task AddFileOrFolderAsync(ListedItem? item)
-		{
-			if (item is null)
-				return;
-
-			try
-			{
-				await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
-			}
-			catch (OperationCanceledException)
-			{
-				return;
-			}
-
-			if (!filesAndFolders.Any(x => x.ItemPath.Equals(item.ItemPath, StringComparison.OrdinalIgnoreCase))) // Avoid adding duplicate items
-			{
-				filesAndFolders.Add(item);
-
-				if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
-				{
-					// New file added, enumerate ADS
-					foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(item.ItemPath))
-					{
-						var adsItem = Win32StorageEnumerator.GetAlternateStream(ads, item);
-						filesAndFolders.Add(adsItem);
-					}
-				}
-			}
-
-			enumFolderSemaphore.Release();
-		}
-
 		private async Task AddFileOrFolderAsync(ListedItem? item, int index = -1)
 		{
 			if (item is null)
@@ -2117,13 +2085,14 @@ namespace Files.App.ViewModels
 			if (!filesAndFolders.Any(x => x.ItemPath.Equals(item.ItemPath, StringComparison.OrdinalIgnoreCase))) // Avoid adding duplicate items
 			{
 				if (index == -1)
-				{
+
 					filesAndFolders.Add(item);
-				}
+
 				else
-				{
+
 					filesAndFolders.Insert(index, item);
-				}
+
+
 				if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 				{
 					// New file added, enumerate ADS
@@ -2173,14 +2142,7 @@ namespace Files.App.ViewModels
 			else
 				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, addFilesCTS.Token);
 
-			if (index == -1)
-			{
-				await AddFileOrFolderAsync(listedItem);
-			}
-			else
-			{
-				await AddFileOrFolderAsync(listedItem, index);
-			}
+			await AddFileOrFolderAsync(listedItem, index);
 
 			return listedItem;
 		}
