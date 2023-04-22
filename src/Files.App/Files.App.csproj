@@ -70,7 +70,6 @@
         <Content Remove="Assets\FilesHome.png" />
     </ItemGroup>
     <ItemGroup>
-      <None Remove="Actions\Content\Archives\CompressIntoSevenZipAction.cs~RF470bfdf.TMP" />
       <None Remove="UserControls\OpacityIcon.xaml" />
     </ItemGroup>
     <ItemGroup>
