@@ -23,7 +23,7 @@ namespace Files.App.Views
 			set
 			{
 				_props.InsertBoolean(nameof(CanNavigateForward), value);
-				_tracker.MaxPosition = new(value ? 108f : 0f);
+				_tracker.MaxPosition = new(value ? 96f : 0f);
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace Files.App.Views
 			set
 			{
 				_props.InsertBoolean(nameof(CanNavigateBackward), value);
-				_tracker.MinPosition = new(value ? -108f : 0f);
+				_tracker.MinPosition = new(value ? -96f : 0f);
 			}
 		}
 
@@ -91,8 +91,8 @@ namespace Files.App.Views
 
 			_trackerOwner = new(this);
 			_tracker = InteractionTracker.CreateWithOwner(compositor, _trackerOwner);
-			_tracker.MinPosition = new Vector3(-108f);
-			_tracker.MaxPosition = new Vector3(108f);
+			_tracker.MinPosition = new Vector3(-96f);
+			_tracker.MaxPosition = new Vector3(96f);
 
 			_source = VisualInteractionSource.Create(_rootVisual);
 			_source.ManipulationRedirectionMode = VisualInteractionSourceRedirectionMode.CapableTouchpadOnly;
@@ -106,8 +106,8 @@ namespace Files.App.Views
 		{
 			var compositor = _rootVisual.Compositor;
 
-			var backResistance = CreateResistanceCondition(-108f, 0f);
-			var forwardResistance = CreateResistanceCondition(0f, 108f);
+			var backResistance = CreateResistanceCondition(-96f, 0f);
+			var forwardResistance = CreateResistanceCondition(0f, 96f);
 			List<CompositionConditionalValue> conditionalValues = new() { backResistance, forwardResistance };
 			_source.ConfigureDeltaPositionXModifiers(conditionalValues);
 
@@ -171,10 +171,23 @@ namespace Files.App.Views
 		{
 			private NavigationInteractionTracker _parent;
 			private bool _shouldBounceBack;
+			private bool _shouldAnimate = true;
+			private Vector3KeyFrameAnimation _scaleAnimation;
+			private SpringVector3NaturalMotionAnimation _returnAnimation;
 
 			public InteractionTrackerOwner(NavigationInteractionTracker parent)
 			{
 				_parent = parent;
+
+				var compositor = _parent._rootVisual.Compositor;
+				_scaleAnimation = compositor.CreateVector3KeyFrameAnimation();
+				_scaleAnimation.InsertKeyFrame(0.5f, new(1.25f));
+				_scaleAnimation.InsertKeyFrame(1f, new(1f));
+				_scaleAnimation.Duration = TimeSpan.FromMilliseconds(250);
+
+				_returnAnimation = compositor.CreateSpringVector3Animation();
+				_returnAnimation.FinalValue = new(0f);
+				_returnAnimation.DampingRatio = 1f;
 			}
 
 			public void IdleStateEntered(InteractionTracker sender, InteractionTrackerIdleStateEnteredArgs args)
@@ -200,15 +213,11 @@ namespace Files.App.Views
 					}
 				}
 				else
-				{
-					var compositor = _parent._rootVisual.Compositor;
-					var springAnim = compositor.CreateSpringVector3Animation();
-					springAnim.FinalValue = new(0f);
-					springAnim.DampingRatio = 1f;
-					_parent._tracker.TryUpdatePositionWithAnimation(springAnim);
-					springAnim.Dispose();
+				{					
+					_parent._tracker.TryUpdatePositionWithAnimation(_returnAnimation);
 				}
 				_shouldBounceBack = false;
+				_shouldAnimate = true;
 			}
 
 			public void InteractingStateEntered(InteractionTracker sender, InteractionTrackerInteractingStateEnteredArgs args)
@@ -220,7 +229,23 @@ namespace Files.App.Views
 			public void CustomAnimationStateEntered(InteractionTracker sender, InteractionTrackerCustomAnimationStateEnteredArgs args) { }
 			public void InertiaStateEntered(InteractionTracker sender, InteractionTrackerInertiaStateEnteredArgs args) { }
 			public void RequestIgnored(InteractionTracker sender, InteractionTrackerRequestIgnoredArgs args) { }
-			public void ValuesChanged(InteractionTracker sender, InteractionTrackerValuesChangedArgs args) { }
+			public void ValuesChanged(InteractionTracker sender, InteractionTrackerValuesChangedArgs args)
+			{
+				if (!_shouldAnimate)
+					return;
+
+				if(args.Position.X <= -64)
+				{
+					_parent._backVisual.StartAnimation("Scale", _scaleAnimation);
+					_shouldAnimate = false;
+				}
+				else if (args.Position.X >= 64)
+				{
+					_parent._forwardVisual.StartAnimation("Scale", _scaleAnimation);
+					_shouldAnimate = false;
+				}
+
+			}
 		}
 	}
 
