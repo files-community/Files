@@ -181,7 +181,7 @@ namespace Files.App.Views
 
 				var compositor = _parent._rootVisual.Compositor;
 				_scaleAnimation = compositor.CreateVector3KeyFrameAnimation();
-				_scaleAnimation.InsertKeyFrame(0.5f, new(1.35f));
+				_scaleAnimation.InsertKeyFrame(0.5f, new(1.3f));
 				_scaleAnimation.InsertKeyFrame(1f, new(1f));
 				_scaleAnimation.Duration = TimeSpan.FromMilliseconds(275);
 
