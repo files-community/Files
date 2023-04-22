@@ -1,4 +1,7 @@
-﻿using Files.Backend.ViewModels.FileTags;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Backend.ViewModels.FileTags;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
