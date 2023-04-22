@@ -1,4 +1,7 @@
-﻿using Microsoft.Management.Infrastructure;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.Management.Infrastructure;
 using Microsoft.Management.Infrastructure.Generic;
 using System;
 using System.Threading;

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.UserControls.Widgets;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
