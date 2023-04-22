@@ -1,4 +1,7 @@
-﻿using Files.Sdk.Storage.LocatableStorage;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Sdk.Storage.LocatableStorage;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
