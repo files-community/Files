@@ -1591,10 +1591,10 @@
     <value>列出目录内容</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>修改</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>{0} 的权限</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>读取和执行</value>
@@ -3152,7 +3152,7 @@
     <value>关闭当前标签页</value>
   </data>
   <data name="Branch" xml:space="preserve">
-    <value>Branch: {0}</value>
+    <value>分支: {0}</value>
   </data>
   <data name="Redo" xml:space="preserve">
     <value>重做</value>
@@ -3179,16 +3179,16 @@
     <value>选择项目时显示复选框</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>没有组或用户有权访问此对象。然而，此对象的所有者可以分配权限。</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
-    <value>Open the item's location</value>
+    <value>打开项目的位置</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Delete permanently</value>
+    <value>永久删除</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete item(s) permanently</value>
+    <value>永久删除项目</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>播放选中的媒体文件</value>
