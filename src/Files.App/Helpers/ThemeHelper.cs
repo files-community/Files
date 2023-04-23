@@ -62,14 +62,11 @@ namespace Files.App.Helpers
 		private static async void UiSettings_ColorValuesChanged(UISettings sender, object args)
 		{
 			// Make sure we have a reference to our window so we dispatch a UI change
-			if (currentApplicationWindow is not null)
-			{
-				// Dispatch on UI thread so that we have a current appbar to access and change
-				await currentApplicationWindow.DispatcherQueue.EnqueueAsync(() =>
-				{
-					ApplyTheme();
-				});
-			}
+			if (currentApplicationWindow is null)
+				return;
+
+			// Dispatch on UI thread so that we have a current appbar to access and change
+			await currentApplicationWindow.DispatcherQueue.EnqueueAsync(ApplyTheme);
 		}
 
 		private static void ApplyTheme()
