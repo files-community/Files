@@ -71,7 +71,6 @@
     </ItemGroup>
     <ItemGroup>
       <None Remove="UserControls\OpacityIcon.xaml" />
-      <None Remove="Views\Settings\s5lspshi.5ja~" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
