@@ -1,4 +1,7 @@
-﻿using Microsoft.UI.Input;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.UI.Input;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using Windows.System;

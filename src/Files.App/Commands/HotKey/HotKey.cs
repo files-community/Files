@@ -1,12 +1,7 @@
-﻿using Files.App.Extensions;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using Forms = System.Windows.Forms;
 
 namespace Files.App.Commands
 {

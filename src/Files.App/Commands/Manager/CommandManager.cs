@@ -468,11 +468,6 @@ namespace Files.App.Commands
 
 			internal void UpdateHotKeys(bool isCustom, HotKeyCollection hotKeys)
 			{
-				if (Code is CommandCodes.SelectAll or CommandCodes.ClearSelection)
-				{
-
-				}
-
 				SetProperty(ref isCustomHotKeys, isCustom, nameof(IsCustomHotKeys));
 
 				if (SetProperty(ref this.hotKeys, hotKeys, nameof(HotKeys)))
