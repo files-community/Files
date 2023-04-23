@@ -38,7 +38,7 @@ namespace Files.App.Views.Properties
 		}
 
 		public async override Task<bool> SaveChangesAsync()
-			=> await Task.FromResult(SecurityViewModel is null || SecurityViewModel.SaveChangedAccessControlList());
+			=> await Task.FromResult(true);
 
 		public override void Dispose()
 		{

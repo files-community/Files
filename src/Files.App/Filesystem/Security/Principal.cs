@@ -27,7 +27,7 @@ namespace Files.App.Filesystem.Security
 			=> string.IsNullOrEmpty(Name) ? Sid : Name;
 
 		public string? FullNameOrSid
-			=> string.IsNullOrEmpty(Domain) ? Sid : $"{Domain}\\{Name}";
+			=> string.IsNullOrEmpty(Domain) ? Name : $"{Domain}\\{Name}";
 
 		public string? FullNameHumanized
 			=> string.IsNullOrEmpty(Domain) ? string.Empty : $"({Domain}\\{Name})";

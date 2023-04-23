@@ -58,8 +58,8 @@ namespace Files.App.ViewModels.Properties
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 			Window = window;
 
-			AddAccessControlEntryCommand = new AsyncRelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid);
-			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
+			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid);
+			RemoveAccessControlEntryCommand = new RelayCommand(ExecuteRemoveAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
 		}
 
 		public SecurityViewModel(DriveItem item, Window window)
@@ -70,18 +70,18 @@ namespace Files.App.ViewModels.Properties
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 			Window = window;
 
-			AddAccessControlEntryCommand = new AsyncRelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid);
-			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
+			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid);
+			RemoveAccessControlEntryCommand = new RelayCommand(ExecuteRemoveAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
 		}
 
-		private async Task AddAccessControlEntry()
+		private async Task ExecuteAddAccessControlEntryCommand()
 		{
 			// Pick an user or a group
-			var sid = await OpenObjectPicker();
+			var sid = await FileOperationsHelpers.OpenObjectPickerAsync(FilePropertiesHelpers.GetWindowHandle(Window).ToInt64());
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			// Add a new one to the list
+			// Add a new ACE to the ACL
 			var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(IsFolder, sid);
 			AccessControlList.AccessControlEntries.Insert(0, ace);
 
@@ -89,25 +89,17 @@ namespace Files.App.ViewModels.Properties
 			FileSecurityHelpers.AddAccessControlEntry(Path, sid);
 		}
 
-		private void RemoveAccessControlEntry()
+		private void ExecuteRemoveAccessControlEntryCommand()
 		{
-			// Get ACE index
+			// Get index of the ACE
 			var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);
 
-			// Remove
+			// Remove the ACE
 			AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
 			// Apply changes
 			FileSecurityHelpers.RemoveAccessControlEntry(Path, (uint)index);
 		}
-
-		public bool SaveChangedAccessControlList()
-		{
-			return false;
-		}
-
-		private Task<string?> OpenObjectPicker()
-			=> FileOperationsHelpers.OpenObjectPickerAsync(FilePropertiesHelpers.GetWindowHandle(Window).ToInt64());
 	}
 }
