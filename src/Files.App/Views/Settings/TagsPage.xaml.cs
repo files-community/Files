@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.UI;
 using Files.Backend.ViewModels.FileTags;
 using Microsoft.UI.Xaml;
