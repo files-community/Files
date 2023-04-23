@@ -22,7 +22,7 @@ namespace Files.App.Actions
 		public HotKey HotKey { get; } = new(Keys.Left, KeyModifiers.Menu);
 		public HotKey SecondHotKey { get; } = new(Keys.Back);
 		public HotKey ThirdHotKey { get; } = new(Keys.Mouse4);
-		public HotKey MediaHotKey { get; } = new(Keys.GoBack);
+		public HotKey MediaHotKey { get; } = new(Keys.GoBack, false);
 
 		public RichGlyph Glyph { get; } = new("\uE72B");
 

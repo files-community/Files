@@ -184,5 +184,10 @@ namespace Files.Backend.Services.Settings
 		/// A dictionary to determine which hashes should be shown.
 		/// </summary>
 		Dictionary<string, bool> ShowHashesDictionary { get; set; }
+
+		/// <summary>
+		/// A dictionary to determine the custom hotkeys
+		/// </summary>
+		Dictionary<string, string> Actions { get; set; }
 	}
 }
