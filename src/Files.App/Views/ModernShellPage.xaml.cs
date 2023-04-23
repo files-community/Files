@@ -33,6 +33,8 @@ namespace Files.App.Views
 
 		protected override Frame ItemDisplay => ItemDisplayFrame;
 
+		private NavigationInteractionTracker _navigationInteractionTracker;
+
 		public Thickness CurrentInstanceBorderThickness
 		{
 			get => (Thickness)GetValue(CurrentInstanceBorderThicknessProperty);
@@ -56,8 +58,10 @@ namespace Files.App.Views
 			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
 			ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
-
 			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
+
+			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
+			_navigationInteractionTracker.NavigationRequested += OverscrollNavigationRequested;
 		}
 
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -179,6 +183,8 @@ namespace Files.App.Views
 
 			if (parameters.IsLayoutSwitch)
 				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
+			_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
+			_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
 		}
 
 		private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -221,6 +227,20 @@ namespace Files.App.Views
 				case (true, false, false, _, VirtualKey.L):
 					if (tabInstance || CurrentPageType == typeof(HomePage))
 						ToolbarViewModel.IsEditModeEnabled = true;
+					break;
+			}
+		}
+
+		private void OverscrollNavigationRequested(object? sender, OverscrollNavigationEventArgs e)
+		{
+			switch (e)
+			{
+				case OverscrollNavigationEventArgs.Forward:
+					Forward_Click();
+					break;
+
+				case OverscrollNavigationEventArgs.Back:
+					Back_Click();
 					break;
 			}
 		}
@@ -289,6 +309,8 @@ namespace Files.App.Views
 		public override void Dispose()
 		{
 			ToolbarViewModel.RefreshWidgetsRequested -= ModernShellPage_RefreshWidgetsRequested;
+			_navigationInteractionTracker.NavigationRequested -= OverscrollNavigationRequested;
+			_navigationInteractionTracker.Dispose();
 
 			base.Dispose();
 		}
