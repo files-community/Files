@@ -63,12 +63,13 @@
 			<Ellipse
 				Width="48"
 				Height="48"
-				Fill="{ThemeResource SystemAccentColor}" />
-			<SymbolIcon
+				Fill="{ThemeResource AccentFillColorDefaultBrush}"
+				Stroke="{ThemeResource AccentControlElevationBorderBrush}" />
+			<FontIcon
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
-				Foreground="{StaticResource TextOnAccentFillColorDefaultBrush}"
-				Symbol="Back" />
+				Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+				Glyph="&#xE72B;" />
 		</Grid>
 		<Grid
 			x:Name="ForwardIcon"
@@ -80,11 +81,12 @@
 			<Ellipse
 				Width="48"
 				Height="48"
-				Fill="{ThemeResource SystemAccentColor}" />
+				Fill="{ThemeResource AccentFillColorDefaultBrush}"
+				Stroke="{ThemeResource AccentControlElevationBorderBrush}" />
 			<SymbolIcon
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
-				Foreground="{StaticResource TextOnAccentFillColorDefaultBrush}"
+				Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
 				Symbol="Forward" />
 		</Grid>
 		<Frame
