@@ -1,6 +1,5 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.Generic;
 using System.Text;
+using Vanara.PInvoke;
 using static Vanara.PInvoke.AdvApi32;
 
 namespace Files.App.Filesystem.Security
@@ -44,7 +43,7 @@ namespace Files.App.Filesystem.Security
 			PrincipalType = PrincipalType.Unknown;
 		}
 
-		public static Principal FromSid(string sid)
+		public static Principal? FromSid(string sid)
 		{
 			var userGroup = new Principal()
 			{
@@ -61,7 +60,7 @@ namespace Files.App.Filesystem.Security
 			int cchName = 0;
 			int cchDomainName = 0;
 
-			LookupAccountSid(null, lpSid, lpName, ref cchName, lpDomain, ref cchDomainName, out _);
+			bool bResult = LookupAccountSid(null, lpSid, lpName, ref cchName, lpDomain, ref cchDomainName, out _);
 
 			lpName.EnsureCapacity(cchName);
 			lpDomain.EnsureCapacity(cchDomainName);
@@ -85,8 +84,17 @@ namespace Files.App.Filesystem.Security
 					_ => PrincipalType.Unknown
 				};
 
+				lpDomain.Clear();
+
+				if (snu == SID_NAME_USE.SidTypeUser || snu == SID_NAME_USE.SidTypeAlias)
+				{
+					lpDomain = new(256, 256);
+					uint size = (uint)lpDomain.Capacity;
+					bResult = Kernel32.GetComputerName(lpDomain, ref size);
+				}
+
 				userGroup.Name = lpName.ToString();
-				userGroup.Domain = lpDomain.ToString();
+				userGroup.Domain = lpDomain.ToString().ToLower();
 			}
 
 			return userGroup;

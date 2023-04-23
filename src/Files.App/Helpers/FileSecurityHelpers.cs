@@ -1,11 +1,7 @@
 ﻿using Files.App.Filesystem.Security;
 using Files.App.Shell;
-using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Security.AccessControl;
-using System.Security.Principal;
-using System.Text;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.AdvApi32;
 using FilesSecurity = Files.App.Filesystem.Security;
@@ -190,33 +186,95 @@ namespace Files.App.Helpers
 				FilesSecurity.PropagationFlags.None);
 		}
 
-		public static bool AddAccessControlEntry(string path, string sid)
+		/// <summary>
+		/// Add an default Access Control Entry (ACE) to the specified object's DACL
+		/// </summary>
+		/// <param name="path">The object's path to add an new ACE to its DACL</param>
+		/// <param name="sid">Principal's SID</param>
+		/// <returns> If the function succeeds, the return value is ERROR_SUCCESS. If the function fails, the return value is a nonzero error code defined in WinError.h.</returns>
+		public static Win32Error AddAccessControlEntry(string szPath, string szSid)
 		{
-			// Get DACL
-			GetNamedSecurityInfo(
-				path,
+			// Get DACL for the specified object
+			var result = GetNamedSecurityInfo(
+				szPath,
 				SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
-				out var pDACL,
+				out PACL pDACL,
 				out _,
-				out var pSD);
+				out _);
 
-			// Get ACL revision info
-			uint revision = GetAclInformation(pDACL, out ACL_REVISION_INFORMATION aclRevision) ? aclRevision.AclRevision : 0U;
+			if (result.Failed)
+				return result;
 
-			// Initialize
-			var pSafeDACL = new SafePACL(pDACL);
-			var pSafeSID = new SafePSID(sid);
-			pSafeDACL.Size += GetRequiredAceSize<ACCESS_ALLOWED_ACE>(pSafeSID, out _);
-			InsertAccessAllowedAce(pSafeDACL, revision, 0, AceFlags.None, ACCESS_MASK.GENERIC_READ, pSafeSID);
+			// Initialize default trustee
+			var explicitAccess = new EXPLICIT_ACCESS
+			{
+				grfAccessMode = ACCESS_MODE.GRANT_ACCESS,
+				grfAccessPermissions = ACCESS_MASK.GENERIC_READ | ACCESS_MASK.GENERIC_EXECUTE,
+				grfInheritance = INHERIT_FLAGS.NO_INHERITANCE,
+				Trustee = new TRUSTEE(new SafePSID(szSid)),
+			};
 
-			// Set
-			var pAbsSD = pSD.MakeAbsolute();
-			SetSecurityDescriptorDacl(pAbsSD.pAbsoluteSecurityDescriptor, true, pSafeDACL, false);
+			// Add an new ACE and get a new ACL
+			result = SetEntriesInAcl(1, new[] { explicitAccess }, pDACL, out var pNewDACL);
 
-			return true;
+			if (result.Failed)
+				return result;
+
+			// Set the new ACL
+			result = SetNamedSecurityInfo(
+				szPath,
+				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
+				ppDacl: pNewDACL);
+
+			if (result.Failed)
+				return result;
+
+			return result;
+		}
+
+		/// <summary>
+		/// Add an Access Control Entry (ACE) from the specified object's DACL
+		/// </summary>
+		/// <param name="szPath">The object's path to remove an ACE from its DACL</param>
+		/// <param name="dwAceIndex"></param>
+		/// <returns></returns>
+		public static Win32Error RemoveAccessControlEntry(string szPath, uint dwAceIndex)
+		{
+			// Get DACL for the specified object
+			var result = GetNamedSecurityInfo(
+				szPath,
+				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
+				out _,
+				out _,
+				out PACL pDACL,
+				out _,
+				out _);
+
+			if (result.Failed)
+				return result;
+
+			// Remove an ACE
+			bool bResult = DeleteAce(pDACL, dwAceIndex);
+
+			if (!bResult)
+				return Kernel32.GetLastError();
+
+			// Set the new ACL
+			result = SetNamedSecurityInfo(
+				szPath,
+				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
+				ppDacl: pDACL);
+
+			if (result.Failed)
+				return result;
+
+			return result;
 		}
 	}
 }

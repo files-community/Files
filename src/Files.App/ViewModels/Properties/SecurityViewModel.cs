@@ -31,10 +31,11 @@ namespace Files.App.ViewModels.Properties
 			get => _SelectedAccessControlEntry;
 			set
 			{
+				// Previous selection
 				if (_SelectedAccessControlEntry is not null)
 					_SelectedAccessControlEntry.IsSelected = false;
 
-				if (SetProperty(ref _SelectedAccessControlEntry, value))
+				if (value is not null && SetProperty(ref _SelectedAccessControlEntry, value))
 				{
 					value.IsSelected = true;
 					RemoveAccessControlEntryCommand?.NotifyCanExecuteChanged();
@@ -80,21 +81,25 @@ namespace Files.App.ViewModels.Properties
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			// Initialize
+			// Add a new one to the list
 			var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(IsFolder, sid);
-			AccessControlList.AccessControlEntries.Add(ace);
+			AccessControlList.AccessControlEntries.Insert(0, ace);
 
-			// Save
-			FileSecurityHelpers.SetAccessControlList(AccessControlList);
+			// Apply changes
+			FileSecurityHelpers.AddAccessControlEntry(Path, sid);
 		}
 
 		private void RemoveAccessControlEntry()
 		{
+			// Get ACE index
+			var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);
+
 			// Remove
 			AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
+			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
-			// Save
-			FileSecurityHelpers.SetAccessControlList(AccessControlList);
+			// Apply changes
+			FileSecurityHelpers.RemoveAccessControlEntry(Path, (uint)index);
 		}
 
 		public bool SaveChangedAccessControlList()
