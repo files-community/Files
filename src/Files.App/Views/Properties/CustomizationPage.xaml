@@ -10,6 +10,7 @@
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	DataContext="{x:Bind CustomizationViewModel, Mode=OneWay}"
+	Tag="Customization"
 	mc:Ignorable="d">
 
 	<vm:BasePropertiesPage.Resources>
@@ -40,6 +41,7 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
+			<!--  Header  -->
 			<Grid Grid.Row="0" Margin="12,12,12,0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
@@ -62,12 +64,14 @@
 
 			</Grid>
 
+			<!--  (Divider)  -->
 			<Border
 				Grid.Row="1"
 				Height="1"
 				Margin="-12,0"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
+			<!--  Picked DLL Location & Browse Button  -->
 			<Grid
 				Grid.Row="2"
 				Margin="12,0"
@@ -91,6 +95,7 @@
 
 			</Grid>
 
+			<!--  Icon List  -->
 			<GridView
 				x:Name="IconSelectionGrid"
 				Grid.Row="3"
@@ -108,7 +113,6 @@
 					</DataTemplate>
 				</GridView.ItemTemplate>
 			</GridView>
-
 		</Grid>
 
 	</Grid>

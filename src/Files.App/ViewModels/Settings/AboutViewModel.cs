@@ -1,12 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
-using Files.App.Extensions;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
-using System;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -40,15 +32,15 @@ namespace Files.App.ViewModels.Settings
 		{
 			CopyAppVersionCommand = new RelayCommand(CopyAppVersion);
 			CopyWindowsVersionCommand = new RelayCommand(CopyWindowsVersion);
-			SupportUsCommand = new RelayCommand(SupportUs);
+			SupportUsCommand = new AsyncRelayCommand(SupportUs);
 
-			OpenDocumentationCommand = new RelayCommand(DoOpenDocumentation);
-			SubmitFeatureRequestCommand = new RelayCommand(DoSubmitFeatureRequest);
-			SubmitBugReportCommand = new RelayCommand(DoSubmitBugReport);
+			OpenDocumentationCommand = new AsyncRelayCommand(DoOpenDocumentation);
+			SubmitFeatureRequestCommand = new AsyncRelayCommand(DoSubmitFeatureRequest);
+			SubmitBugReportCommand = new AsyncRelayCommand(DoSubmitBugReport);
 
-			OpenGitHubRepoCommand = new RelayCommand(DoOpenGitHubRepo);
+			OpenGitHubRepoCommand = new AsyncRelayCommand(DoOpenGitHubRepo);
 
-			OpenPrivacyPolicyCommand = new RelayCommand(DoOpenPrivacyPolicy);
+			OpenPrivacyPolicyCommand = new AsyncRelayCommand(DoOpenPrivacyPolicy);
 
 			OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
 		}
@@ -58,27 +50,27 @@ namespace Files.App.ViewModels.Settings
 			await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
 		}
 
-		public async void DoOpenDocumentation()
+		public async Task DoOpenDocumentation()
 		{
 			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl));
 		}
 
-		public async void DoSubmitFeatureRequest()
+		public async Task DoSubmitFeatureRequest()
 		{
 			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeatureRequestUrl));
 		}
 
-		public async void DoSubmitBugReport()
+		public async Task DoSubmitBugReport()
 		{
 			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.BugReportUrl));
 		}
 
-		public async void DoOpenGitHubRepo()
+		public async Task DoOpenGitHubRepo()
 		{
 			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.GitHubRepoUrl));
 		}
 
-		public async void DoOpenPrivacyPolicy()
+		public async Task DoOpenPrivacyPolicy()
 		{
 			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.PrivacyPolicyUrl));
 		}
@@ -105,12 +97,12 @@ namespace Files.App.ViewModels.Settings
 			});
 		}
 
-		public async void SupportUs()
+		public async Task SupportUs()
 		{
 			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
 		}
 
-		public async void LoadThirdPartyNotices()
+		public async Task LoadThirdPartyNotices()
 		{
 			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
 			ThirdPartyNotices = await FileIO.ReadTextAsync(file);

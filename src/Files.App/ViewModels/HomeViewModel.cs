@@ -1,11 +1,7 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Files.App.EventArguments.Bundles;
-using Files.App.Helpers;
 using Files.App.ViewModels.Widgets;
 using Files.App.ViewModels.Widgets.Bundles;
 using Microsoft.UI.Xaml;
-using System;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels
@@ -31,7 +27,7 @@ namespace Files.App.ViewModels
 
 			// Create commands
 			YourHomeLoadedCommand = new RelayCommand<RoutedEventArgs>(YourHomeLoaded);
-			LoadBundlesCommand = new RelayCommand<BundlesViewModel>(LoadBundles);
+			LoadBundlesCommand = new AsyncRelayCommand<BundlesViewModel>(LoadBundles);
 		}
 
 		public void ChangeAppInstance(IShellPage associatedInstance)
@@ -44,7 +40,7 @@ namespace Files.App.ViewModels
 			YourHomeLoadedInvoked?.Invoke(this, e);
 		}
 
-		private async void LoadBundles(BundlesViewModel viewModel)
+		private async Task LoadBundles(BundlesViewModel viewModel)
 		{
 			bundlesViewModel = viewModel;
 

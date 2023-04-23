@@ -564,9 +564,6 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>無效的項目</value>
   </data>
-  <data name="Version" xml:space="preserve">
-    <value>版本</value>
-  </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>版本：</value>
   </data>
@@ -611,12 +608,6 @@
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>在 GitHub 上贊助我們</value>
-  </data>
-  <data name="Personalization" xml:space="preserve">
-    <value>個人化</value>
-  </data>
-  <data name="LayoutAndSorting" xml:space="preserve">
-    <value>布局和排序</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>我們無法建立此項目</value>
@@ -1393,7 +1384,7 @@
     <value>刪除日期</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>排序</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>分類</value>
@@ -1402,7 +1393,7 @@
     <value>修改日期</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Original folder</value>
+    <value>原始資料夾</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>排序</value>
@@ -1429,7 +1420,7 @@
     <value>微小</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>未來</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>今天</value>
@@ -1982,9 +1973,6 @@
   </data>
   <data name="ImportSettings" xml:space="preserve">
     <value>匯入設定</value>
-  </data>
-  <data name="ManageSettings" xml:space="preserve">
-    <value>管理設定</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>設定檔已損壞，無法將其匯入。</value>
@@ -3166,6 +3154,12 @@
   <data name="CloseTab" xml:space="preserve">
     <value>關閉目前標籤</value>
   </data>
+  <data name="Redo" xml:space="preserve">
+    <value>重做</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>復原</value>
+  </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Invalid location</value>
   </data>
@@ -3183,5 +3177,20 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
+  </data>
+  <data name="DeletePermanently" xml:space="preserve">
+    <value>Delete permanently</value>
+  </data>
+  <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
+    <value>Delete item(s) permanently</value>
+  </data>
+  <data name="PlayAllDescription" xml:space="preserve">
+    <value>播放所選取的媒體檔</value>
+  </data>
+  <data name="UndoDescription" xml:space="preserve">
+    <value>復原上次檔案的動作</value>
+  </data>
+  <data name="RedoDescription" xml:space="preserve">
+    <value>重做上次檔案的動作</value>
   </data>
 </root>

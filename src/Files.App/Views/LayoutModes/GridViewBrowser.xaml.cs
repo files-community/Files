@@ -1,11 +1,6 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
-using Files.App.EventArguments;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.UserControls.Selection;
-using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -13,8 +8,6 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Linq;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -150,7 +143,7 @@ namespace Files.App.Views.LayoutModes
 			NotifyPropertyChanged(nameof(GridViewItemMinWidth));
 		}
 
-		protected override async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			base.FileList_SelectionChanged(sender, e);
 
@@ -293,7 +286,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
-				FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(ParentShellPageInstance);
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Space)
@@ -341,7 +334,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private async void ReloadItemIcons()
+		private async Task ReloadItemIcons()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())

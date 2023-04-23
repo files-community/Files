@@ -538,7 +538,7 @@
     <value>Web リンク</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value>概要</value>
+    <value>全般</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
     <value>ショートカット</value>
@@ -563,9 +563,6 @@
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>無効なファイル</value>
-  </data>
-  <data name="Version" xml:space="preserve">
-    <value>バージョン</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>バージョン:</value>
@@ -611,12 +608,6 @@
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>GitHub で支援</value>
-  </data>
-  <data name="Personalization" xml:space="preserve">
-    <value>個人設定</value>
-  </data>
-  <data name="LayoutAndSorting" xml:space="preserve">
-    <value>レイアウトと並べ替え</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>このファイルを作成できませんでした</value>
@@ -1983,9 +1974,6 @@
   <data name="ImportSettings" xml:space="preserve">
     <value>設定をインポート</value>
   </data>
-  <data name="ManageSettings" xml:space="preserve">
-    <value>設定を管理</value>
-  </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>設定をインポートすることができませんでした。設定ファイルが壊れています。</value>
   </data>
@@ -3166,6 +3154,12 @@
   <data name="CloseTab" xml:space="preserve">
     <value>現在のタブを閉じる</value>
   </data>
+  <data name="Redo" xml:space="preserve">
+    <value>やり直す</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>無効な場所です</value>
   </data>
@@ -3183,5 +3177,20 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>アイテム選択時にチェックボックスを表示する</value>
+  </data>
+  <data name="DeletePermanently" xml:space="preserve">
+    <value>Delete permanently</value>
+  </data>
+  <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
+    <value>Delete item(s) permanently</value>
+  </data>
+  <data name="PlayAllDescription" xml:space="preserve">
+    <value>選択したメディア ファイルを再生</value>
+  </data>
+  <data name="UndoDescription" xml:space="preserve">
+    <value>最後の操作を元に戻す</value>
+  </data>
+  <data name="RedoDescription" xml:space="preserve">
+    <value>最後の操作をやり直す</value>
   </data>
 </root>

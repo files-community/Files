@@ -1,6 +1,5 @@
 using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Xaml.Controls;
-using System;
 using Windows.System;
 
 namespace Files.App.Views.Settings

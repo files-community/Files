@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Extensions;
@@ -257,14 +260,7 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					ShowItem = itemsSelected && showOpenItemWith
 				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenFileLocation".GetLocalizedResource(),
-					Glyph = "\uE8DA",
-					Command = commandsViewModel.OpenFileLocationCommand,
-					ShowItem = itemsSelected && selectedItems.All(i => i.IsShortcut),
-					ShowInSearchPage = true,
-				},
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenFileLocation).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
 using Files.App.Shell;
@@ -636,13 +639,13 @@ namespace Files.App.Helpers
 		}
 
 		public static AccessControlList GetFilePermissions(string filePath, bool isFolder)
-			=> AccessControlList.FromPath(filePath, isFolder);
+			=> FileSecurityHelpers.GetAccessControlList(filePath, isFolder);
 
-		public static bool SetFileOwner(string filePath, bool isFolder, string ownerSid)
-			=> AccessControlList.SetOwner(filePath, isFolder, ownerSid);
+		public static bool SetFileOwner(string filePath, string ownerSid)
+			=> FileSecurityHelpers.SetOwner(filePath, ownerSid);
 
 		public static bool SetAccessRuleProtection(string filePath, bool isFolder, bool isProtected, bool preserveInheritance)
-			=> AccessControlList.SetAccessControlProtection(filePath, isFolder, isProtected, preserveInheritance);
+			=> FileSecurityHelpers.SetAccessControlProtection(filePath, isFolder, isProtected, preserveInheritance);
 
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
 		{

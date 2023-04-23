@@ -118,7 +118,7 @@ namespace Files.App.Filesystem
 			{
 				using var ncd = new NetworkConnectionDialog { UseMostRecentPath = true };
 				ncd.HideRestoreConnectionCheckBox = false;
-				return ncd.ShowDialog(Win32API.Win32Window.FromLong(hwnd)) == DialogResult.OK;
+				return ncd.ShowDialog(Win32API.Win32Window.FromLong(hwnd)) == System.Windows.Forms.DialogResult.OK;
 			});
 		}
 

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 namespace Files.App.Commands
 {
 	public enum CommandCodes
@@ -11,6 +14,8 @@ namespace Files.App.Commands
 		ExitCompactOverlay,
 		ToggleCompactOverlay,
 		Search,
+		Redo,
+		Undo,
 
 		// Show
 		ToggleShowHiddenItems,
@@ -25,6 +30,7 @@ namespace Files.App.Commands
 		PasteItem,
 		PasteItemToSelection,
 		DeleteItem,
+		DeleteItemPermanently,
 		CreateFolder,
 		CreateShortcut,
 		CreateShortcutFromDialog,
@@ -35,6 +41,7 @@ namespace Files.App.Commands
 		OpenItem,
 		OpenItemWithApplicationPicker,
 		OpenParentFolder,
+		OpenFileLocation,
 		RefreshItems,
 		Rename,
 
@@ -152,5 +159,8 @@ namespace Files.App.Commands
 		CloseSelectedTab,
 		OpenNewPane,
 		ClosePane,
+
+		// Play
+		PlayAll,
 	}
 }

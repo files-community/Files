@@ -1,10 +1,6 @@
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using SevenZip;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Files.App.ViewModels.Previews
 {

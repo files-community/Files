@@ -1,11 +1,7 @@
 using CommunityToolkit.WinUI;
-using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
@@ -178,7 +181,7 @@ namespace Files.App.Helpers
 				}
 			}
 
-			async void InvokeShellMenuItem(ContextMenu contextMenu, object? tag)
+			async Task InvokeShellMenuItem(ContextMenu contextMenu, object? tag)
 			{
 				if (tag is not Win32ContextMenuItem menuItem)
 					return;
