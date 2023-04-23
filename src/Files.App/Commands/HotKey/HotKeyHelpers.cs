@@ -1,4 +1,7 @@
-﻿using Files.App.Extensions;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Extensions;
 using Microsoft.UI.Input;
 using System.Collections.Generic;
 using System.Collections.Immutable;

@@ -1,4 +1,7 @@
-﻿using LibGit2Sharp;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using LibGit2Sharp;
 using System;
 using Files.App.Filesystem.StorageItems;
 
