@@ -1,4 +1,7 @@
-﻿using Files.Backend.Models;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Backend.Models;
 using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.AppModels

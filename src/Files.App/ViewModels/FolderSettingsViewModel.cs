@@ -1,14 +1,8 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.EventArguments;
-using Files.App.Filesystem;
-using Files.App.Helpers;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Helpers.LayoutPreferences;
 using Files.App.Views.LayoutModes;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
-using System;
 using System.Text.Json;
 using Windows.Storage;
 using IO = System.IO;
