@@ -1,7 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
+using System.Collections.Immutable;
+using System.Runtime.InteropServices;
+using System.Text;
+using Forms = System.Windows.Forms;
 
 namespace Files.App.Commands
 {
