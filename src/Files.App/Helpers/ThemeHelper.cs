@@ -17,8 +17,8 @@ namespace Files.App.Helpers
 	public static class ThemeHelper
 	{
 		private const string selectedAppThemeKey = "theme";
-		private static Window currentApplicationWindow;
-		private static AppWindowTitleBar titleBar;
+		private static Window? currentApplicationWindow;
+		private static AppWindowTitleBar? titleBar;
 
 		// Keep reference so it does not get optimized/garbage collected
 		public static UISettings UiSettings;
@@ -77,9 +77,7 @@ namespace Files.App.Helpers
 			var rootTheme = RootTheme;
 
 			if (App.Window.Content is FrameworkElement rootElement)
-			{
 				rootElement.RequestedTheme = rootTheme;
-			}
 
 			if (titleBar is not null)
 			{
