@@ -1,4 +1,7 @@
-﻿using Windows.System;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Windows.System;
 
 namespace Files.App.Commands
 {
