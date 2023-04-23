@@ -55,16 +55,17 @@
 	<Grid HorizontalAlignment="Stretch" wct:UIElementExtensions.ClipToBounds="True">
 		<Grid
 			x:Name="BackIcon"
+			Width="48"
+			Height="48"
 			Margin="-1,0,0,0"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			wct:VisualExtensions.NormalizedCenterPoint="0.5, 0.5"
-			Canvas.ZIndex="64">
-			<Ellipse
-				Width="48"
-				Height="48"
-				Fill="{ThemeResource AccentFillColorDefaultBrush}"
-				Stroke="{ThemeResource AccentControlElevationBorderBrush}" />
+			Background="{ThemeResource AccentFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource AccentControlElevationBorderBrush}"
+			BorderThickness="1"
+			Canvas.ZIndex="64"
+			CornerRadius="24">
 			<FontIcon
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
@@ -73,16 +74,17 @@
 		</Grid>
 		<Grid
 			x:Name="ForwardIcon"
+			Width="48"
+			Height="48"
 			Margin="1,0,0,0"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Center"
 			wct:VisualExtensions.NormalizedCenterPoint="0.5, 0.5"
-			Canvas.ZIndex="64">
-			<Ellipse
-				Width="48"
-				Height="48"
-				Fill="{ThemeResource AccentFillColorDefaultBrush}"
-				Stroke="{ThemeResource AccentControlElevationBorderBrush}" />
+			Background="{ThemeResource AccentFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource AccentControlElevationBorderBrush}"
+			BorderThickness="1"
+			Canvas.ZIndex="64"
+			CornerRadius="24">
 			<SymbolIcon
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
