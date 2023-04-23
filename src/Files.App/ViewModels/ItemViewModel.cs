@@ -2085,13 +2085,9 @@ namespace Files.App.ViewModels
 			if (!filesAndFolders.Any(x => x.ItemPath.Equals(item.ItemPath, StringComparison.OrdinalIgnoreCase))) // Avoid adding duplicate items
 			{
 				if (index == -1)
-
 					filesAndFolders.Add(item);
-
 				else
-
 					filesAndFolders.Insert(index, item);
-
 
 				if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 				{
