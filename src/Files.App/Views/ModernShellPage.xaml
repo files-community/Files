@@ -53,7 +53,7 @@
 	</local:BaseShellPage.KeyboardAccelerators>
 
 	<Grid HorizontalAlignment="Stretch" wct:UIElementExtensions.ClipToBounds="True">
-		<Grid
+		<Border
 			x:Name="BackIcon"
 			Width="48"
 			Height="48"
@@ -71,8 +71,8 @@
 				VerticalAlignment="Center"
 				Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
 				Glyph="&#xE72B;" />
-		</Grid>
-		<Grid
+		</Border>
+		<Border
 			x:Name="ForwardIcon"
 			Width="48"
 			Height="48"
@@ -90,7 +90,7 @@
 				VerticalAlignment="Center"
 				Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
 				Symbol="Forward" />
-		</Grid>
+		</Border>
 		<Frame
 			x:Name="ItemDisplayFrame"
 			HorizontalAlignment="Stretch"
