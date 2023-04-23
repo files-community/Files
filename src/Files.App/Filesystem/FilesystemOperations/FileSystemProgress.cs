@@ -1,4 +1,7 @@
-﻿using Files.App.Helpers;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Helpers;
 using Files.Shared.Enums;
 using System;
 
