@@ -214,6 +214,11 @@ namespace Files.App.UserControls
 				{
 					IsVisible = options.ShowEmptyRecycleBin,
 				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RestoreAllRecycleBin)
+				{
+					IsVisible = options.ShowEmptyRecycleBin
+								&& RecycleBinHelpers.RecycleBinHasItems(),
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
