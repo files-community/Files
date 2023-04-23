@@ -119,6 +119,12 @@ namespace Files.App.Helpers
 						return; // TODO: handle error
 					}
 				}
+				
+				_ = new FileInfo(filePath)
+				{
+					CreationTime = entry.CreationTime < entry.LastWriteTime ? entry.CreationTime : entry.LastWriteTime,
+					LastWriteTime = entry.LastWriteTime,
+				};
 
 				entriesFinished++;
 				fsProgress.ProcessedItemsCount = entriesFinished;
