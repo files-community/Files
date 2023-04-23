@@ -1,4 +1,7 @@
-﻿using Microsoft.UI.Composition;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.UI.Composition;
 using Microsoft.UI.Composition.Interactions;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
