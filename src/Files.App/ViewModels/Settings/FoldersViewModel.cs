@@ -1,8 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
-
 namespace Files.App.ViewModels.Settings
 {
 	public class FoldersViewModel : ObservableObject

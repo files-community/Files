@@ -1,17 +1,11 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views.LayoutModes;
-using Files.Backend.Services.Settings;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using UWPToWinAppSDKUpgradeHelpers;
 using Windows.System;
 
