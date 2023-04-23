@@ -1,4 +1,6 @@
-using Files.App.Filesystem;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.Backend.ViewModels.FileTags;
 
 namespace Files.App.DataModels.NavigationControlItems

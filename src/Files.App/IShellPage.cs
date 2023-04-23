@@ -1,11 +1,9 @@
-using Files.App.Filesystem;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.App.Views;
-using System;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace Files.App
 {
