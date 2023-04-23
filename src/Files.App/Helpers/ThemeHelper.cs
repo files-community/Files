@@ -49,7 +49,8 @@ namespace Files.App.Helpers
 			currentApplicationWindow = App.Window;
 
 			// Set TitleBar background color
-			titleBar = App.GetAppWindow(currentApplicationWindow).TitleBar;
+			if (currentApplicationWindow is not null)
+				titleBar = App.GetAppWindow(currentApplicationWindow).TitleBar;
 
 			// Apply the desired theme based on what is set in the application settings
 			ApplyTheme();
