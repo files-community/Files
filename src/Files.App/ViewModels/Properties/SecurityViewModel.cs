@@ -7,9 +7,9 @@ namespace Files.App.ViewModels.Properties
 {
 	public class SecurityViewModel : ObservableObject
 	{
-		public string Path { get; set; }
+		private readonly string _path;
 
-		private readonly Window Window;
+		private readonly Window _window;
 
 		private bool _IsFolder;
 		public bool IsFolder
@@ -53,10 +53,10 @@ namespace Files.App.ViewModels.Properties
 		public SecurityViewModel(ListedItem item, Window window)
 		{
 			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
-			Path = item.ItemPath;
-			AccessControlList = FileSecurityHelpers.GetAccessControlList(Path, IsFolder);
+			_path = item.ItemPath;
+			AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, IsFolder);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
-			Window = window;
+			_window = window;
 
 			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid);
 			RemoveAccessControlEntryCommand = new RelayCommand(ExecuteRemoveAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
@@ -65,10 +65,10 @@ namespace Files.App.ViewModels.Properties
 		public SecurityViewModel(DriveItem item, Window window)
 		{
 			IsFolder = true;
-			Path = item.Path;
-			AccessControlList = FileSecurityHelpers.GetAccessControlList(Path, IsFolder);
+			_path = item.Path;
+			AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, IsFolder);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
-			Window = window;
+			_window = window;
 
 			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid);
 			RemoveAccessControlEntryCommand = new RelayCommand(ExecuteRemoveAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
@@ -77,7 +77,7 @@ namespace Files.App.ViewModels.Properties
 		private async Task ExecuteAddAccessControlEntryCommand()
 		{
 			// Pick an user or a group
-			var sid = await FileOperationsHelpers.OpenObjectPickerAsync(FilePropertiesHelpers.GetWindowHandle(Window).ToInt64());
+			var sid = await FileOperationsHelpers.OpenObjectPickerAsync(FilePropertiesHelpers.GetWindowHandle(_window).ToInt64());
 			if (string.IsNullOrEmpty(sid))
 				return;
 
@@ -86,7 +86,7 @@ namespace Files.App.ViewModels.Properties
 			AccessControlList.AccessControlEntries.Insert(0, ace);
 
 			// Apply changes
-			FileSecurityHelpers.AddAccessControlEntry(Path, sid);
+			FileSecurityHelpers.AddAccessControlEntry(_path, sid);
 		}
 
 		private void ExecuteRemoveAccessControlEntryCommand()
@@ -99,7 +99,7 @@ namespace Files.App.ViewModels.Properties
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
 			// Apply changes
-			FileSecurityHelpers.RemoveAccessControlEntry(Path, (uint)index);
+			FileSecurityHelpers.RemoveAccessControlEntry(_path, (uint)index);
 		}
 	}
 }
