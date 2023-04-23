@@ -190,7 +190,7 @@ namespace Files.App.Helpers
 				FilesSecurity.PropagationFlags.None);
 		}
 
-		public static bool AddAccessControlEntry(string path, AccessControlEntry entry)
+		public static bool AddAccessControlEntry(string path, string sid)
 		{
 			// Get DACL
 			GetNamedSecurityInfo(
@@ -199,24 +199,24 @@ namespace Files.App.Helpers
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
-				out var pDacl,
+				out var pDACL,
 				out _,
-				out _);
+				out var pSD);
 
-			// Get ACL size info
-			GetAclInformation(pDacl, out ACL_SIZE_INFORMATION aclSize);
+			// Get ACL revision info
+			uint revision = GetAclInformation(pDACL, out ACL_REVISION_INFORMATION aclRevision) ? aclRevision.AclRevision : 0U;
 
-			uint revision = GetAclInformation(pDacl, out ACL_REVISION_INFORMATION aclRevision) ? aclRevision.AclRevision : 0U;
+			// Initialize
+			var pSafeDACL = new SafePACL(pDACL);
+			var pSafeSID = new SafePSID(sid);
+			pSafeDACL.Size += GetRequiredAceSize<ACCESS_ALLOWED_ACE>(pSafeSID, out _);
+			InsertAccessAllowedAce(pSafeDACL, revision, 0, AceFlags.None, ACCESS_MASK.GENERIC_READ, pSafeSID);
 
-			// Get ACEs
-			for (uint i = 0; i < aclSize.AceCount; i++)
-			{
-				//GetAce(pDacl, i, out var pAce);
+			// Set
+			var pAbsSD = pSD.MakeAbsolute();
+			SetSecurityDescriptorDacl(pAbsSD.pAbsoluteSecurityDescriptor, true, pSafeDACL, false);
 
-				//AddAce(pDacl, revision, 0, (IntPtr)pAce, ((PACL)pDacl).Length() - (uint)Marshal.SizeOf(typeof(ACL)));
-			}
-
-			return false;
+			return true;
 		}
 	}
 }
