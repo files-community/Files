@@ -228,6 +228,12 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		public Dictionary<string, string> Actions
+		{
+			get => Get<Dictionary<string, string>>(null) ?? new();
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)

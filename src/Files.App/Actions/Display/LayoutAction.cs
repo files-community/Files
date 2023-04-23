@@ -154,7 +154,7 @@ namespace Files.App.Actions
 		public string Description => "LayoutDecreaseSizeDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.Subtract, KeyModifiers.Ctrl);
-		public HotKey MediaHotKey { get; } = new(Keys.OemMinus, KeyModifiers.Ctrl);
+		public HotKey MediaHotKey { get; } = new(Keys.OemMinus, KeyModifiers.Ctrl, false);
 
 		public Task ExecuteAsync()
 		{
@@ -172,7 +172,7 @@ namespace Files.App.Actions
 		public string Description => "LayoutIncreaseSizeDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.Add, KeyModifiers.Ctrl);
-		public HotKey MediaHotKey { get; } = new(Keys.OemPlus, KeyModifiers.Ctrl);
+		public HotKey MediaHotKey { get; } = new(Keys.OemPlus, KeyModifiers.Ctrl, false);
 
 		public Task ExecuteAsync()
 		{
