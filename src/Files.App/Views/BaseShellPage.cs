@@ -1,23 +1,15 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using Files.App.Commands;
-using Files.App.DataModels;
-using Files.App.EventArguments;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.Search;
-using Files.App.Helpers;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.App.Views.LayoutModes;
 using Files.Backend.Enums;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
-using Files.Shared;
-using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -25,13 +17,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Shared.Enums.SortDirection;
@@ -232,8 +218,22 @@ namespace Files.App.Views
 				? "ItemCount/Text".GetLocalizedResource()
 				: "ItemsCount/Text".GetLocalizedResource();
 
+			InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
+
+			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
+					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
+					: null;
+
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();
+		}
+
+		protected void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
+		{
+			InstanceViewModel.UpdateCurrentBranchName();
+			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
+					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
+					: null;
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)
@@ -443,7 +443,7 @@ namespace Files.App.Views
 			return SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);
 		}
 
-		public async void Refresh_Click()
+		public async Task Refresh_Click()
 		{
 			if (InstanceViewModel.IsPageTypeSearchResults)
 			{
@@ -488,7 +488,7 @@ namespace Files.App.Views
 		{
 			foreach (PageStackEntry entry in ItemDisplay.BackStack.ToList())
 			{
-				if (entry.Parameter is NavigationArguments args && 
+				if (entry.Parameter is NavigationArguments args &&
 					args.NavPathParam is not null and not "Home")
 				{
 					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
@@ -623,7 +623,7 @@ namespace Files.App.Views
 			return await tcs.Task as BaseLayout;
 		}
 
-		protected async void DisplayFilesystemConsentDialog()
+		protected async Task DisplayFilesystemConsentDialog()
 		{
 			if (drivesViewModel?.ShowUserConsentOnInit ?? false)
 			{
@@ -650,7 +650,7 @@ namespace Files.App.Views
 				x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control.TabItemContent == PaneHolder), isLoading);
 		}
 
-		protected async void CreateNewShortcutFromDialog()
+		protected async Task CreateNewShortcutFromDialog()
 		{
 			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 		}
@@ -711,6 +711,7 @@ namespace Files.App.Views
 				FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
 				FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 				FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
+				FilesystemViewModel.GitDirectoryUpdated -= FilesystemViewModel_GitDirectoryUpdated;
 				FilesystemViewModel.Dispose();
 			}
 

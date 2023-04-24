@@ -1,4 +1,7 @@
-﻿using Files.Backend.Extensions;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Backend.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.IO;

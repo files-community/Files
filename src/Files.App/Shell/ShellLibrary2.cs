@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.Windows.Forms;
 using Vanara.Extensions;
 using Vanara.PInvoke;

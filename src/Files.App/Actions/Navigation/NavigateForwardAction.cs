@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -18,7 +21,7 @@ namespace Files.App.Actions
 
 		public HotKey HotKey { get; } = new(Keys.Right, KeyModifiers.Menu);
 		public HotKey SecondHotKey { get; } = new(Keys.Mouse5);
-		public HotKey MediaHotKey { get; } = new(Keys.GoForward);
+		public HotKey MediaHotKey { get; } = new(Keys.GoForward, false);
 
 		public RichGlyph Glyph { get; } = new("\uE72A");
 

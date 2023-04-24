@@ -1,4 +1,5 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.ViewModels
 {
@@ -9,6 +10,13 @@ namespace Files.App.ViewModels
 		{
 			get => directoryItemCount;
 			set => SetProperty(ref directoryItemCount, value);
+		}
+
+		private string? gitBranchDisplayName;
+		public string? GitBranchDisplayName
+		{
+			get => gitBranchDisplayName;
+			set => SetProperty(ref gitBranchDisplayName, value);
 		}
 	}
 }

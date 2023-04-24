@@ -1,4 +1,7 @@
-﻿namespace Files.Shared.Cloud
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+namespace Files.Shared.Cloud
 {
 	public enum CloudProviders
 	{

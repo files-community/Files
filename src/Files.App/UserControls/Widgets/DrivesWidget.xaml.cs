@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
@@ -134,12 +137,12 @@ namespace Files.App.UserControls.Widgets
 
 			FormatDriveCommand = new RelayCommand<DriveCardItem>(FormatDrive);
 			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDevice);
-			OpenInNewTabCommand = new RelayCommand<WidgetCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new RelayCommand<WidgetCardItem>(OpenInNewWindow);
+			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTab);
+			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindow);
 			OpenInNewPaneCommand = new AsyncRelayCommand<DriveCardItem>(OpenInNewPane);
 			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(OpenProperties);
-			PinToFavoritesCommand = new RelayCommand<WidgetCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new RelayCommand<WidgetCardItem>(UnpinFromFavorites);
+			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavorites);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavorites);
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
@@ -292,7 +295,7 @@ namespace Files.App.UserControls.Widgets
 			flyoutClosed = async (s, e) =>
 			{
 				ItemContextMenuFlyout.Closed -= flyoutClosed;
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(item.Item, associatedInstance);
 			};
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}

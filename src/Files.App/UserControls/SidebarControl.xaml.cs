@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
@@ -101,9 +104,9 @@ namespace Files.App.UserControls
 			set => SetValue(TabContentProperty, value);
 		}
 
-		public readonly ICommand CreateLibraryCommand = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
+		public readonly ICommand CreateLibraryCommand = new AsyncRelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
 
-		public readonly ICommand RestoreLibrariesCommand = new RelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialog);
+		public readonly ICommand RestoreLibrariesCommand = new AsyncRelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialog);
 
 		private ICommand HideSectionCommand { get; }
 
@@ -139,13 +142,13 @@ namespace Files.App.UserControls
 			HideSectionCommand = new RelayCommand(HideSection);
 			UnpinItemCommand = new RelayCommand(UnpinItem);
 			PinItemCommand = new RelayCommand(PinItem);
-			OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
-			OpenInNewWindowCommand = new RelayCommand(OpenInNewWindow);
-			OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
-			EjectDeviceCommand = new RelayCommand(EjectDevice);
+			OpenInNewTabCommand = new AsyncRelayCommand(OpenInNewTab);
+			OpenInNewWindowCommand = new AsyncRelayCommand(OpenInNewWindow);
+			OpenInNewPaneCommand = new AsyncRelayCommand(OpenInNewPane);
+			EjectDeviceCommand = new AsyncRelayCommand(EjectDevice);
 			FormatDriveCommand = new RelayCommand(FormatDrive);
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
-			ReorderItemsCommand = new RelayCommand(ReorderItems);
+			ReorderItemsCommand = new AsyncRelayCommand(ReorderItems);
 		}
 
 		public SidebarViewModel ViewModel
@@ -342,14 +345,14 @@ namespace Files.App.UserControls
 			}
 		}
 
-		private async void ReorderItems()
+		private async Task ReorderItems()
 		{
 			var dialog = new ReorderSidebarItemsDialogViewModel();
 			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 			var result = await dialogService.ShowDialogAsync(dialog);
 		}
 
-		private async void OpenInNewPane()
+		private async Task OpenInNewPane()
 		{
 			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
 				return;
@@ -357,7 +360,7 @@ namespace Files.App.UserControls
 			SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(rightClickedItem));
 		}
 
-		private async void OpenInNewTab()
+		private async Task OpenInNewTab()
 		{
 			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
 				return;
@@ -365,7 +368,7 @@ namespace Files.App.UserControls
 			await NavigationHelpers.OpenPathInNewTab(rightClickedItem.Path);
 		}
 
-		private async void OpenInNewWindow()
+		private async Task OpenInNewWindow()
 		{
 			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
 				return;
@@ -395,7 +398,7 @@ namespace Files.App.UserControls
 			menu.Closed += flyoutClosed;
 		}
 
-		private async void EjectDevice()
+		private async Task EjectDevice()
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
 			await UIHelpers.ShowDeviceEjectResultAsync(result);
