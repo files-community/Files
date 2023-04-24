@@ -17,12 +17,8 @@ using Windows.UI.Core;
 
 namespace Files.App.Views.LayoutModes
 {
-	public sealed partial class GridViewBrowser : StandardViewBase
+	public sealed partial class GridViewBrowser : GridBaseLayout
 	{
-		private uint currentIconSize;
-
-		protected override uint IconSize => currentIconSize;
-
 		protected override ListViewBase ListViewBase => FileList;
 
 		protected override SemanticZoom RootZoom => RootGridZoom;
@@ -50,11 +46,6 @@ namespace Files.App.Views.LayoutModes
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
 
-		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
-		{
-			FileList.ScrollIntoView(e);
-		}
-
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems.Any())
@@ -70,12 +61,6 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			FileList!.SelectedItems.Add(e);
-		}
-
-		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
-		{
-			if (FileList?.Items.Contains(e) ?? false)
-				FileList.SelectedItems.Remove(e);
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -100,15 +85,7 @@ namespace Files.App.Views.LayoutModes
 				ReloadItemIcons();
 		}
 
-		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-		{
-			base.OnNavigatingFrom(e);
-
-			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-		}
-
-		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
+		protected override void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
@@ -321,33 +298,10 @@ namespace Files.App.Views.LayoutModes
 		protected override bool CanGetItemFromElement(object element)
 			=> element is GridViewItem;
 
-		private void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
+		protected override void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
 			SetItemMinWidth();
-
-			// Get new icon size
-			var requestedIconSize = FolderSettings.GetIconSize();
-
-			// Prevents reloading icons when the icon size hasn't changed
-			if (requestedIconSize != currentIconSize)
-			{
-				// Update icon size before refreshing
-				currentIconSize = requestedIconSize;
-				ReloadItemIcons();
-			}
-		}
-
-		private async Task ReloadItemIcons()
-		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
-			{
-				listedItem.ItemPropertiesInitialized = false;
-				if (FileList.ContainerFromItem(listedItem) is null)
-					return;
-
-				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
-			}
+			base.FolderSettings_GridViewSizeChangeRequested(sender, e);
 		}
 
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
@@ -403,35 +357,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-		{
-			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
-				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-				ParentShellPageInstance.Up_Click();
-
-			ResetRenameDoubleClick();
-		}
-
-		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
-		{
-			if (sender is CheckBox checkBox &&
-				checkBox.DataContext is ListedItem item &&
-				!FileList.SelectedItems.Contains(item))
-				FileList.SelectedItems.Add(item);
-		}
-
-		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
-		{
-			if (sender is CheckBox checkBox &&
-				checkBox.DataContext is ListedItem item &&
-				FileList.SelectedItems.Contains(item))
-				FileList.SelectedItems.Remove(item);
-		}
-
-		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+		private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
 			args.ItemContainer.PointerEntered -= ItemRow_PointerEntered;
 			args.ItemContainer.PointerExited -= ItemRow_PointerExited;

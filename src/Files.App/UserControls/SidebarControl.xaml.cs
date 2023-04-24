@@ -349,7 +349,7 @@ namespace Files.App.UserControls
 		{
 			var dialog = new ReorderSidebarItemsDialogViewModel();
 			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-			var result = await dialogService.ShowDialogAsync(dialog);
+			_ = await dialogService.ShowDialogAsync(dialog);
 		}
 
 		private async Task OpenInNewPane()
