@@ -2,12 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 using Windows.Storage;
 using static Files.App.Constants;
 
