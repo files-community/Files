@@ -1,4 +1,5 @@
-﻿using Files.App.DataModels.NavigationControlItems;
+﻿using CommunityToolkit.WinUI;
+using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem.Security;
 using Microsoft.UI.Xaml;
 using Windows.Storage;
@@ -99,7 +100,8 @@ namespace Files.App.ViewModels.Properties
 
 		public IAsyncRelayCommand ChangeOwnerCommand { get; set; }
 		public IAsyncRelayCommand AddAccessControlEntryCommand { get; set; }
-		public IRelayCommand RemoveAccessControlEntryCommand { get; set; }
+		public IAsyncRelayCommand RemoveAccessControlEntryCommand { get; set; }
+
 		public IRelayCommand DisableInheritanceCommand { get; set; }
 		public IRelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
 		public IRelayCommand ReplaceChildPermissionsCommand { get; set; }
@@ -128,7 +130,8 @@ namespace Files.App.ViewModels.Properties
 		{
 			ChangeOwnerCommand = new AsyncRelayCommand(ExecuteChangeOwnerCommand, () => AccessControlList is not null);
 			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid);
-			RemoveAccessControlEntryCommand = new RelayCommand(ExecuteRemoveAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
+			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
+
 			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => AccessControlList is not null && AccessControlList.IsValid && (AccessControlList.IsProtected != _isProtected));
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
 			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.IsValid);
@@ -146,7 +149,7 @@ namespace Files.App.ViewModels.Properties
 
 		private async Task ExecuteAddAccessControlEntryCommand()
 		{
-			// Pick an user or a group
+			// Pick an user or a group with Object Picker UI
 			var sid = await OpenObjectPicker();
 			if (string.IsNullOrEmpty(sid))
 				return;
@@ -156,21 +159,34 @@ namespace Files.App.ViewModels.Properties
 			AccessControlList.AccessControlEntries.Insert(0, ace);
 
 			// Apply changes
-			FileSecurityHelpers.AddAccessControlEntry(_path, sid);
+			await App.Window.DispatcherQueue.EnqueueAsync(() =>
+			{
+				FileSecurityHelpers.AddAccessControlEntry(_path, sid);
+			});
 		}
 
-		private void ExecuteRemoveAccessControlEntryCommand()
+		private async Task ExecuteRemoveAccessControlEntryCommand()
 		{
 			// Get index of the ACE
 			var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);
 
 			// Remove the ACE
 			AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
-			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
+
+			if (AccessControlList.AccessControlEntries.Count == 0)
+				return;
+
+			// Re-select item
+			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.First();
 
 			// Apply changes
-			FileSecurityHelpers.RemoveAccessControlEntry(_path, (uint)index);
+			await App.Window.DispatcherQueue.EnqueueAsync(() =>
+			{
+				FileSecurityHelpers.RemoveAccessControlEntry(_path, (uint)index);
+			});
 		}
+
+		// --- TODO: Following methods are unimplemented ---
 
 		private void DisableInheritance()
 		{
