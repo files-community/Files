@@ -11,15 +11,13 @@ variables:
 - name: buildPlatform
   value: 'x64|ARM64'
 - name: buildConfiguration
-  value: 'Release'
-- name: sideloadBuildConfiguration
-  value: 'Sideload'
+  value: 'Preview'
 - name: appxPackageDir
   value: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
 jobs:
-### Sideload release ###
-- job: SideloadRelease
+### Preview release ###
+- job: PreviewRelease
   timeoutInMinutes: 120
   steps:
   - task: PowerShell@2
@@ -34,7 +32,7 @@ jobs:
         $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest')
       failOnStderr: true
       
- # This replaces references to the dev icon with the specified icon variant 
+ # This replaces references to the dev icon with the preview icon 
   - task: PowerShell@2
     displayName: 'Use Correct Logo'
     inputs:
@@ -85,8 +83,8 @@ jobs:
     inputs:
       platform: 'x64'
       solution: '$(solution)'
-      configuration: '$(sideloadBuildConfiguration)'
-      msbuildArguments: '/t:restore /p:Configuration="$(sideloadBuildConfiguration)";Platform="$(buildPlatform)";PublishReadyToRun=true'
+      configuration: '$(buildConfiguration)'
+      msbuildArguments: '/t:restore /p:Configuration="$(buildConfiguration)";Platform="$(buildPlatform)";PublishReadyToRun=true'
       maximumCpuCount: true
 
   - task: DownloadSecureFile@1
@@ -99,7 +97,7 @@ jobs:
     inputs:
       solution: '**/*.wapproj'
       platform: 'x64'
-      configuration: '$(sideloadBuildConfiguration)'
+      configuration: '$(buildConfiguration)'
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxLogTelemetryFromSideloadingScript=False /p:GenerateAppInstallerFile=True /p:AppInstallerUri=https://cdn.files.community/files/preview/ /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
       maximumCpuCount: true
 
@@ -107,7 +105,7 @@ jobs:
     displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
     inputs:
       SourceFolder: '$(system.defaultworkingdirectory)'
-      Contents: '**\bin\$(sideloadBuildConfiguration)\**'
+      Contents: '**\bin\$(buildConfiguration)\**'
       TargetFolder: '$(build.artifactstagingdirectory)'
 
   - task: PublishBuildArtifacts@1
