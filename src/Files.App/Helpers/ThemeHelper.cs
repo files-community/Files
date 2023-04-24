@@ -64,7 +64,14 @@ namespace Files.App.Helpers
 		{
 			// Make sure we have a reference to our window so we dispatch a UI change
 			if (currentApplicationWindow is null)
-				return;
+			{
+				currentApplicationWindow = App.Window;
+
+				if (currentApplicationWindow is not null)
+					titleBar = App.GetAppWindow(currentApplicationWindow).TitleBar;
+				else
+					return;
+			}
 
 			// Dispatch on UI thread so that we have a current appbar to access and change
 			await currentApplicationWindow.DispatcherQueue.EnqueueAsync(ApplyTheme);
