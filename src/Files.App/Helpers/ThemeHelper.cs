@@ -50,7 +50,7 @@ namespace Files.App.Helpers
 
 			// Set TitleBar background color
 			if (currentApplicationWindow is not null)
-				titleBar = App.GetAppWindow(currentApplicationWindow).TitleBar;
+				titleBar = App.GetAppWindow(currentApplicationWindow)?.TitleBar;
 
 			// Apply the desired theme based on what is set in the application settings
 			ApplyTheme();
@@ -67,11 +67,12 @@ namespace Files.App.Helpers
 			{
 				currentApplicationWindow = App.Window;
 
-				if (currentApplicationWindow is not null)
-					titleBar = App.GetAppWindow(currentApplicationWindow).TitleBar;
-				else
+				if (currentApplicationWindow is null)
 					return;
 			}
+
+			if (titleBar is null)
+				titleBar = App.GetAppWindow(currentApplicationWindow)?.TitleBar;
 
 			// Dispatch on UI thread so that we have a current appbar to access and change
 			await currentApplicationWindow.DispatcherQueue.EnqueueAsync(ApplyTheme);
