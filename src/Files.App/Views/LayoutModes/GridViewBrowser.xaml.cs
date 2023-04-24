@@ -131,10 +131,10 @@ namespace Files.App.Views.LayoutModes
 			if (e != null)
 			{
 				foreach (var item in e.AddedItems)
-					SetCheckboxSelectionState(item);
+					SetCheckboxSelectionState<GridViewItem>(item);
 
 				foreach (var item in e.RemovedItems)
-					SetCheckboxSelectionState(item);
+					SetCheckboxSelectionState<GridViewItem>(item);
 			}
 		}
 
@@ -360,40 +360,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
-
-			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
-			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
-			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
-
-			base.FileList_ContainerContentChanging(sender, args);
-			SetCheckboxSelectionState(args.Item, args.ItemContainer as GridViewItem);
-
-			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
-			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
-			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
-		}
-
-		private void SetCheckboxSelectionState(object item, GridViewItem? lviContainer = null)
-		{
-			var container = lviContainer ?? FileList.ContainerFromItem(item) as GridViewItem;
-			if (container is not null)
-			{
-				var checkbox = container.FindDescendant("SelectionCheckbox") as CheckBox;
-				if (checkbox is not null)
-				{
-					// Temporarily disable events to avoid selecting wrong items
-					checkbox.Checked -= ItemSelected_Checked;
-					checkbox.Unchecked -= ItemSelected_Unchecked;
-
-					checkbox.IsChecked = FileList.SelectedItems.Contains(item);
-
-					checkbox.Checked += ItemSelected_Checked;
-					checkbox.Unchecked += ItemSelected_Unchecked;
-				}
-
-				UpdateCheckboxVisibility(container, checkbox?.IsPointerOver ?? false);
-			}
+			base.FileList_ContainerContentChanging<GridViewItem>(sender, args, args.ItemContainer);
 		}
 
 		private void Grid_Loaded(object sender, RoutedEventArgs e)
@@ -409,30 +376,18 @@ namespace Files.App.Views.LayoutModes
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
 		}
 
-		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
-		{
-			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, true);
-		}
-
-		private void SelectionCheckbox_PointerExited(object sender, PointerRoutedEventArgs e)
-		{
-			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, false);
-		}
-
-		private void SelectionCheckbox_PointerCanceled(object sender, PointerRoutedEventArgs e)
-		{
-			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, false);
-		}
-
-		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
+		protected override void UpdateCheckboxVisibility(object sender, bool? isPointerOver = null)
 		{
 			if (sender is GridViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
 			{
+				// Save pointer over state accordingly
+				if (isPointerOver.HasValue)
+					control.SetValue(IsPointerOverProperty, isPointerOver);
+
 				// Handle visual states
 				// Show checkboxes when items are selected (as long as the setting is enabled)
 				// Show checkboxes when hovering over the checkbox area (regardless of the setting to hide them)
-				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
-					|| isPointerOver)
+				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected || (bool)isPointerOver)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);

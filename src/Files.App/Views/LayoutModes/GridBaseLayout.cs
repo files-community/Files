@@ -1,8 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 
@@ -100,6 +102,58 @@ namespace Files.App
 		{
 			if (IsCheckboxChecked(sender, out var item))
 				ListViewBase.SelectedItems.Remove(item);
+		}
+
+		protected void FileList_ContainerContentChanging<T>(ListViewBase sender, ContainerContentChangingEventArgs args, FrameworkElement itemContainer) where T : SelectorItem
+		{
+			itemContainer.PointerEntered -= Container_PointerEntered;
+			itemContainer.PointerExited -= Container_PointerExited;
+			itemContainer.PointerCanceled -= Container_PointerCanceled;
+
+			base.FileList_ContainerContentChanging(sender, args);
+			SetCheckboxSelectionState(args.Item, args.ItemContainer as T);
+
+			itemContainer.PointerEntered += Container_PointerEntered;
+			itemContainer.PointerExited += Container_PointerExited;
+			itemContainer.PointerCanceled += Container_PointerCanceled;
+		}
+
+		protected virtual void Container_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility(sender, true);
+		}
+
+		protected virtual void Container_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility(sender, false);
+		}
+
+		protected virtual void Container_PointerCanceled(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility(sender, false);
+		}
+
+		protected abstract void UpdateCheckboxVisibility(object sender, bool? isPointerOver = null);
+
+		protected virtual void SetCheckboxSelectionState<T>(object item, T? lviContainer = null) where T : SelectorItem
+		{
+			var container = lviContainer ?? ListViewBase.ContainerFromItem(item) as T;
+			if (container is not null)
+			{
+				var checkbox = container.FindDescendant("SelectionCheckbox") as CheckBox;
+				if (checkbox is not null)
+				{
+					// Temporarily disable events to avoid selecting wrong items
+					checkbox.Checked -= ItemSelected_Checked;
+					checkbox.Unchecked -= ItemSelected_Unchecked;
+
+					checkbox.IsChecked = ListViewBase.SelectedItems.Contains(item);
+
+					checkbox.Checked += ItemSelected_Checked;
+					checkbox.Unchecked += ItemSelected_Unchecked;
+				}
+				UpdateCheckboxVisibility(container, checkbox?.IsPointerOver ?? false);
+			}
 		}
 	}
 }
