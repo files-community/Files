@@ -148,7 +148,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			await DispatcherQueue.EnqueueAsync(async () =>
 			{
-				foreach (DriveItem drive in drivesViewModel.Drives)
+				foreach (DriveItem drive in drivesViewModel.Drives.ToList())
 				{
 					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
 					{
