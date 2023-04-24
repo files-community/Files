@@ -221,6 +221,11 @@ namespace Files.App.ViewModels
 				// If localized string is empty use the library name.
 				tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
 			}
+			else if (App.WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
+			{
+				tabLocationHeader = wslDistro.Text;
+				iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(wslDistro.Logo);
+			}
 			else
 			{
 				var normalizedCurrentPath = PathNormalization.NormalizePath(currentPath);
