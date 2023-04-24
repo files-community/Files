@@ -262,13 +262,13 @@
     <value>Sdílet</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>Vyjmout</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Smazat</value>
   </data>
   <data name="PinToFavorites" xml:space="preserve">
-    <value>Pin to Favorites</value>
+    <value>Přidat k oblíbeným</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Vítejte v Files!</value>
@@ -319,7 +319,7 @@
     <value>Nahoru (Alt+Šipka Nahoru)</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Obnovit</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Položka s tímto názvem již existuje v této složce.</value>
@@ -331,7 +331,7 @@
     <value>Položka již existuje</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>Nastavit pozadí uzamčení obrazovky</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nepodařilo se nám odstranit tuto položku</value>
@@ -520,7 +520,7 @@
     <value>Kopírovat do {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Create shortcut</value>
+    <value>Vytvořit zástupce</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Otevřít umístění souboru</value>
@@ -961,13 +961,13 @@
     <value>Odpojit</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>Duplikovat kartu</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Přesunout kartu do nového okna</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
+    <value>Nová karta</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Některé vlastnosti mohou obsahovat osobní informace.</value>
