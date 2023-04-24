@@ -211,7 +211,7 @@ namespace Files.App
 						.AddSingleton<IStorageService, NativeStorageService>()
 #endif
 						.AddSingleton<IAddItemService, AddItemService>()
-#if SIDELOAD
+#if STABLE || PREVIEW
 						.AddSingleton<IUpdateService, SideloadUpdateService>()
 #else
 						.AddSingleton<IUpdateService, UpdateService>()
