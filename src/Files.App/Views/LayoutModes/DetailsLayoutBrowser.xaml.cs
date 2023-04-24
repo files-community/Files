@@ -22,15 +22,11 @@ using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.App.Views.LayoutModes
 {
-	public sealed partial class DetailsLayoutBrowser : StandardViewBase
+	public sealed partial class DetailsLayoutBrowser : GridBaseLayout
 	{
 		private const int TAG_TEXT_BLOCK = 1;
 
-		private uint currentIconSize;
-
 		private ListedItem? _nextItemToSelect;
-
-		protected override uint IconSize => currentIconSize;
 
 		protected override ListViewBase ListViewBase => FileList;
 
@@ -67,7 +63,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
-			FileList.ScrollIntoView(e);
+			base.ItemManipulationModel_ScrollIntoViewInvoked(sender, e);
 			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, true); // Scroll to index * item height
 		}
 
@@ -89,12 +85,6 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (FileList?.Items.Contains(e) ?? false)
 				FileList!.SelectedItems.Add(e);
-		}
-
-		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
-		{
-			if (FileList?.Items.Contains(e) ?? false)
-				FileList.SelectedItems.Remove(e);
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -119,7 +109,6 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			currentIconSize = FolderSettings.GetIconSize();
-			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
@@ -157,8 +146,7 @@ namespace Files.App.Views.LayoutModes
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
-			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
@@ -215,11 +203,6 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.StatusColumn.Show();
 
 			UpdateSortIndicator();
-		}
-
-		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
-		{
-
 		}
 
 		private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -367,29 +350,6 @@ namespace Files.App.Views.LayoutModes
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
-		private void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
-		{
-			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
-
-			// Prevents reloading icons when the icon size hasn't changed
-			if (requestedIconSize != currentIconSize)
-			{
-				currentIconSize = requestedIconSize; // Update icon size before refreshing
-				ReloadItemIcons();
-			}
-		}
-
-		private async Task ReloadItemIcons()
-		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
-			{
-				listedItem.ItemPropertiesInitialized = false;
-				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
-			}
-		}
-
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var clickedItem = e.OriginalSource as FrameworkElement;
@@ -433,21 +393,6 @@ namespace Files.App.Views.LayoutModes
 					}
 				}
 			}
-		}
-
-		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-		{
-			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-			{
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-			}
-			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-			{
-				ParentShellPageInstance?.Up_Click();
-			}
-			ResetRenameDoubleClick();
 		}
 
 		private void StackPanel_Loaded(object sender, RoutedEventArgs e)
@@ -686,18 +631,6 @@ namespace Files.App.Views.LayoutModes
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
 			FolderSettings.SetDefaultLayoutPreferences(ColumnsViewModel);
-		}
-
-		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
-		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
-				FileList.SelectedItems.Add(item);
-		}
-
-		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
-		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
-				FileList.SelectedItems.Remove(item);
 		}
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)

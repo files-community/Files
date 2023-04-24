@@ -1,5 +1,5 @@
 <!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
-<local:StandardViewBase
+<local:GridBaseLayout
 	x:Class="Files.App.Views.LayoutModes.DetailsLayoutBrowser"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -1058,4 +1058,4 @@
 		</Canvas>
 
 	</Grid>
-</local:StandardViewBase>
+</local:GridBaseLayout>
