@@ -474,12 +474,12 @@ namespace Files.App
 			{
 				userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
 				userSettingsService.GeneralSettingsService.LastCrashedTabList = lastSessionTabList;
-			}
 
-			Window.DispatcherQueue.EnqueueAsync(async () =>
-			{
-				await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
-			}).Wait(1000);
+				Window.DispatcherQueue.EnqueueAsync(async () =>
+				{
+					await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+				}).Wait(1000);
+			}
 			Process.GetCurrentProcess().Kill();
 		}
 
