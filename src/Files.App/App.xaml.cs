@@ -103,6 +103,7 @@ namespace Files.App
 
 		private static Task StartAppCenter()
 		{
+#if STORE || STABLE || PREVIEW
 			try
 			{
 				// AppCenter secret is injected in builds/azure-pipelines-release.yml
@@ -113,7 +114,7 @@ namespace Files.App
 			{
 				App.Logger.LogWarning(ex, "AppCenter could not be started.");
 			}
-
+#endif
 			return Task.CompletedTask;
 		}
 
@@ -211,7 +212,7 @@ namespace Files.App
 						.AddSingleton<IStorageService, NativeStorageService>()
 #endif
 						.AddSingleton<IAddItemService, AddItemService>()
-#if SIDELOAD
+#if STABLE || PREVIEW
 						.AddSingleton<IUpdateService, SideloadUpdateService>()
 #else
 						.AddSingleton<IUpdateService, UpdateService>()

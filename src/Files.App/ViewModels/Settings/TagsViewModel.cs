@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace Files.App.ViewModels.Settings
 {
 	public class TagsViewModel : ObservableObject
-    {
+	{
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		private bool isBulkOperation = true;
@@ -111,8 +111,11 @@ namespace Files.App.ViewModels.Settings
 			get => name;
 			set
 			{
-				if (SetProperty(ref name, value))
+				SetProperty(ref name, value);
+				{
+					OnPropertyChanged(nameof(CanCommit));
 					OnPropertyChanged(nameof(IsNameValid));
+				}
 			}
 		}
 
@@ -123,17 +126,23 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref color, value);
 		}
 
-		private bool isNameValid;
+		private bool isNameValid = true;
 		public bool IsNameValid
 		{
 			get => isNameValid;
-			set => SetProperty(ref isNameValid, value);
+			set
+			{
+				if (SetProperty(ref isNameValid, value))
+					OnPropertyChanged(nameof(CanCommit));
+			}
 		}
+
+		public bool CanCommit => !string.IsNullOrEmpty(name) && IsNameValid;
 
 		public void Reset()
 		{
 			Name = string.Empty;
-			IsNameValid = false;
+			IsNameValid = true;
 			Color = ColorHelpers.RandomColor();
 		}
 	}
