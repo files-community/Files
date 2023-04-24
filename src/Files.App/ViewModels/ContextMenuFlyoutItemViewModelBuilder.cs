@@ -1,5 +1,7 @@
-﻿using Files.App.Commands;
-using System.Collections.Generic;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Commands;
 
 namespace Files.App.ViewModels
 {

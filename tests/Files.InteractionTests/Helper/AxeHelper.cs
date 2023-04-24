@@ -1,4 +1,7 @@
-﻿using Axe.Windows.Automation;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Axe.Windows.Automation;
 using Axe.Windows.Core.Enums;
 using System.Diagnostics;
 using System.Linq;

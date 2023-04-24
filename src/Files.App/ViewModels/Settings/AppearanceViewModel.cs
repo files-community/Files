@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.Helpers;
 using Files.App.Views.Settings.Appearance;
 using Files.Backend.Services;

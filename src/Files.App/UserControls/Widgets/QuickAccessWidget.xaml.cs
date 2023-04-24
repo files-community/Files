@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
@@ -97,7 +100,7 @@ namespace Files.App.UserControls.Widgets
 			}
 			if (thumbnailData is not null && thumbnailData.Length > 0)
 			{
-				Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
+				Thumbnail = await thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize);
 			}
 		}
 	}

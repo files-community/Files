@@ -1,4 +1,7 @@
-﻿using OpenQA.Selenium.Appium;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 using System.Diagnostics;
