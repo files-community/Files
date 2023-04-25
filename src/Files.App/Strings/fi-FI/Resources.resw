@@ -1590,11 +1590,11 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>Listaa hakemiston sisältö</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
+  <data name="Modify" xml:space="preserve">
     <value>Muokkaa</value>
   </data>
-  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Käyttöoikeudet kohteelle</value>
+  <data name="SecurityPermissionsHeaderText" xml:space="preserve">
+    <value>Käyttöoikeudet kohteelle {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Lue ja suorita</value>
@@ -1643,9 +1643,6 @@
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Omistaja</value>
-  </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Lisäkäyttöoikeudet kohteelle {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Mukautettu</value>
@@ -2827,109 +2824,109 @@
     <value>Lajittele kohteet tunnisteiden mukaan</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
-    <value>Sort items by original folder</value>
+    <value>Lajittele kohteet alkuperäisen kansion mukaan</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
-    <value>Sort items by date deleted</value>
+    <value>Lajittele kohteet poistopäivämäärän mukaan</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
-    <value>Sort items in ascending order</value>
+    <value>Lajittele kohteet nousevaan järjestykseen</value>
   </data>
   <data name="SortDescendingDescription" xml:space="preserve">
-    <value>Sort items in descending order</value>
+    <value>Lajittele kohteet laskevaan järjestykseen</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Toggle item sort direction</value>
+    <value>Vaihda kohteiden lajittelusuuntaa</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
     <value>Listaa ja lajittele hakemistot tiedostojen rinnalla</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
-    <value>List items without grouping</value>
+    <value>Listaa kohteet ilman ryhmittelyä</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
-    <value>Group items by name</value>
+    <value>Ryhmittele kohteet nimen mukaan</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>Group items by date modified</value>
+    <value>Ryhmittele kohteet muokkauspäivämäärän mukaan</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>Group items by date created</value>
+    <value>Ryhmittele kohteet luontipäivämäärän mukaan</value>
   </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
-    <value>Group items by size</value>
+    <value>Ryhmittele kohteet koon mukaan</value>
   </data>
   <data name="GroupByTypeDescription" xml:space="preserve">
-    <value>Group items by type</value>
+    <value>Ryhmittele kohteet tyypin mukaan</value>
   </data>
   <data name="GroupBySyncStatusDescription" xml:space="preserve">
-    <value>Group items by sync status</value>
+    <value>Ryhmittele kohteet synkronoinnin tilan mukaan</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
     <value>Ryhmittele tuotteet tunnisteiden mukaan</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
-    <value>Group items by original folder</value>
+    <value>Ryhmittele kohteet alkuperäisen kansion mukaan</value>
   </data>
   <data name="GroupByDateDeletedDescription" xml:space="preserve">
-    <value>Group items by date deleted</value>
+    <value>Ryhmittele kohteet poistopäivämäärän mukaan</value>
   </data>
   <data name="GroupByFolderPathDescription" xml:space="preserve">
-    <value>Group items by folder path</value>
+    <value>Ryhmittele kohteet kansiopolun mukaan</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
-    <value>Sort groups in ascending order</value>
+    <value>Lajittele ryhmät nousevaan järjestykseen</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
-    <value>Sort groups in descending order</value>
+    <value>Lajittele ryhmät laskevaan järjestykseen</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Toggle group sort direction</value>
+    <value>Vaihda ryhmän lajittelusuuntaa</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>Open new tab</value>
+    <value>Avaa uusi välilehti</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward in navigation history</value>
+    <value>Navigoi taaksepäin navigointihistoriassa</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward in navigation history</value>
+    <value>Navigoi eteenpäin navigointihistoriassa</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navigate up one directory</value>
+    <value>Navigoi yksi hakemisto ylöspäin</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplicate current tab</value>
+    <value>Monista nykyinen välilehti</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
-    <value>Duplicate selected tab</value>
+    <value>Monista valittu välilehti</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the left of current tab</value>
+    <value>Sulje välilehdet nykyisen välilehden vasemmalla puolella</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the left of selected tab</value>
+    <value>Sulje välilehdet valitun välilehden vasemmalla puolella</value>
   </data>
   <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the right of current tab</value>
+    <value>Sulje välilehdet nykyisen välilehden oikealla puolella</value>
   </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the right of selected tab</value>
+    <value>Sulje välilehdet valitun välilehden oikealla puolella</value>
   </data>
   <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Close tabs other than current tab</value>
+    <value>Sulje muut kuin nykyinen välilehti</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
-    <value>Close tabs other than selected tab</value>
+    <value>Sulje muut kuin valittu välilehti</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen last closed tab</value>
+    <value>Avaa viimeksi suljettu välilehti uudelleen</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
-    <value>Move to the previous tab</value>
+    <value>Siirry edelliseen välilehteen</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
-    <value>Move to the next tab</value>
+    <value>Siirry seuraavaan välilehteen</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Sulje nykyinen välilehti</value>
@@ -3154,11 +3151,14 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Sulkee nykyisen välilehden</value>
   </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Haara: {0}</value>
+  </data>
   <data name="Redo" xml:space="preserve">
-    <value>Redo</value>
+    <value>Tee uudelleen</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>Kumoa</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Virheellinen sijainti</value>
@@ -3178,19 +3178,25 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Näytä valintaruudut kohteita valittaessa</value>
   </data>
+  <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
+    <value>Millään ryhmillä tai käyttäjillä ei ole oikeutta käyttää tätä objektia. Tämän objektin omistaja voi kuitenkin määrittää käyttöoikeuksia.</value>
+  </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Avaa kohteen sijainti</value>
+  </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Delete permanently</value>
+    <value>Poista pysyvästi</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete item(s) permanently</value>
+    <value>Poista kohteet pysyvästi</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
-    <value>Play the selected media files</value>
+    <value>Toista valitut mediatiedostot</value>
   </data>
   <data name="UndoDescription" xml:space="preserve">
-    <value>Undo the last file operation</value>
+    <value>Peru viimeisin tiedostotoiminto</value>
   </data>
   <data name="RedoDescription" xml:space="preserve">
-    <value>Redo the last file operation</value>
+    <value>Tee viimeisin tiedostotoiminto uudestaan</value>
   </data>
 </root>
