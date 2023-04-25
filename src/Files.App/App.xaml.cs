@@ -270,7 +270,7 @@ namespace Files.App
 			var data = activatedEventArgs.Data;
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
-			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(data));
+			_ = Window.DispatcherQueue.EnqueueOrInvokeAsync(() => Window.InitializeApplication(data));
 		}
 
 		/// <summary>
@@ -475,7 +475,7 @@ namespace Files.App
 				userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
 				userSettingsService.GeneralSettingsService.LastCrashedTabList = lastSessionTabList;
 
-				Window.DispatcherQueue.EnqueueAsync(async () =>
+				Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
 				}).Wait(1000);

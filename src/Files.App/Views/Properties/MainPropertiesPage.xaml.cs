@@ -89,7 +89,7 @@ namespace Files.App.Views.Properties
 				DragZoneHelper.SetDragZones(Window, (int)TitlebarArea.ActualHeight);
 				AppWindow.Destroying += AppWindow_Destroying;
 
-				await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => AppSettings.UpdateThemeElements.Execute(null));
 			}
 			else
 			{
@@ -116,7 +116,7 @@ namespace Files.App.Views.Properties
 
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
 		{
-			await DispatcherQueue.EnqueueAsync(() =>
+			await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				((Frame)Parent).RequestedTheme = ThemeHelper.RootTheme;
 

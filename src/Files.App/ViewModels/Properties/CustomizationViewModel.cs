@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage.Pickers;
+using Files.App.Extensions;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -107,11 +108,11 @@ namespace Files.App.ViewModels.Properties
 
 			if (setIconResult)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(() =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					AppInstance?.FilesystemViewModel?.RefreshItems(null, async () =>
 					{
-						await App.Window.DispatcherQueue.EnqueueAsync(() => RestoreButtonIsEnabled = true);
+						await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => RestoreButtonIsEnabled = true);
 						
 					});
 				});
@@ -155,7 +156,7 @@ namespace Files.App.ViewModels.Properties
 
 			if (setIconResult)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(() =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					AppInstance?.FilesystemViewModel?.RefreshItems(null);
 				});

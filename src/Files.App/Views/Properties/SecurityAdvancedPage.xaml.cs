@@ -67,7 +67,7 @@ namespace Files.App.Views.Properties
 				appWindow.Destroying += AppWindow_Destroying;
 
 				// Update theme
-				await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => AppSettings.UpdateThemeElements.Execute(null));
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace Files.App.Views.Properties
 		{
 			var selectedTheme = ThemeHelper.RootTheme;
 
-			await DispatcherQueue.EnqueueAsync(() =>
+			await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				((Frame)Parent).RequestedTheme = selectedTheme;
 

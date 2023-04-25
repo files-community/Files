@@ -257,7 +257,7 @@ namespace Files.App
 						if (selectedItems.Count == 1)
 						{
 							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems.Count} {"ItemSelected/Text".GetLocalizedResource()}";
-							DispatcherQueue.EnqueueAsync(async () =>
+							DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								// Tapped event must be executed first
 								await Task.Delay(50);
@@ -1355,7 +1355,7 @@ namespace Files.App
 			{
 				args.Cancel = true;
 
-				await DispatcherQueue.EnqueueAsync(() =>
+				await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
 					var oldText = textBox.Text;

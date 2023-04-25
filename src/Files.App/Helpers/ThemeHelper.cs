@@ -75,7 +75,7 @@ namespace Files.App.Helpers
 				titleBar = App.GetAppWindow(currentApplicationWindow)?.TitleBar;
 
 			// Dispatch on UI thread so that we have a current appbar to access and change
-			await currentApplicationWindow.DispatcherQueue.EnqueueAsync(ApplyTheme);
+			await currentApplicationWindow.DispatcherQueue.EnqueueOrInvokeAsync(ApplyTheme);
 		}
 
 		private static void ApplyTheme()

@@ -1,4 +1,5 @@
 using CommunityToolkit.WinUI;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
@@ -25,7 +26,7 @@ namespace Files.App.Views.Properties
 			if (shortcutItem is null)
 				return true;
 
-			await App.Window.DispatcherQueue.EnqueueAsync(() =>
+			await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				UIFilesystemHelpers.UpdateShortcutItemProperties(shortcutItem,
 				ViewModel.ShortcutItemPath,
 				ViewModel.ShortcutItemArguments,

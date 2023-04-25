@@ -184,7 +184,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			item.DeviceID = deviceId;
 			item.Root = root;
 
-			_ = App.Window.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
+			_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => item.UpdatePropertiesAsync());
 
 			return item;
 		}
