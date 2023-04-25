@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -97,7 +100,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task RestoreRecycleBin(IShellPage associatedInstance)
+		public static async Task RestoreRecycleBin()
 		{
 			var ConfirmEmptyBinDialog = new ContentDialog()
 			{
@@ -112,8 +115,7 @@ namespace Files.App.Helpers
 
 			if (result == ContentDialogResult.Primary)
 			{
-				associatedInstance.SlimContentPage.ItemManipulationModel.SelectAllItems();
-				await RestoreItem(associatedInstance);
+				Vanara.Windows.Shell.RecycleBin.RestoreAll();
 			}
 		}
 

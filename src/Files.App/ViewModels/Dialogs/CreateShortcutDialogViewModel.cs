@@ -1,4 +1,7 @@
-﻿using Files.Backend.Extensions;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Backend.Extensions;
 using System.IO;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
@@ -29,6 +32,7 @@ namespace Files.App.ViewModels.Dialogs
 				if (!SetProperty(ref _destinationItemPath, value))
 					return;
 
+				OnPropertyChanged(nameof(ShowWarningTip));
 				if (string.IsNullOrWhiteSpace(DestinationItemPath))
 				{
 					IsLocationValid = false;
@@ -60,8 +64,10 @@ namespace Files.App.ViewModels.Dialogs
 		public bool IsLocationValid
 		{
 			get => _isLocationValid;
-			set => SetProperty(ref _isLocationValid, value);
+			set => SetProperty(ref _isLocationValid, value, nameof(ShowWarningTip));
 		}
+
+		public bool ShowWarningTip => !string.IsNullOrEmpty(DestinationItemPath) && !_isLocationValid;
 
 		// Command invoked when the user clicks the 'Browse' button
 		public ICommand SelectDestinationCommand { get; private set; }
@@ -105,10 +111,10 @@ namespace Files.App.ViewModels.Dialogs
 				if (string.IsNullOrEmpty(destinationName))
 				{
 					var destinationPath = DestinationItemPath.Replace('/', '\\');
-					
+
 					if (destinationPath.EndsWith('\\'))
 						destinationPath = destinationPath.Substring(0, destinationPath.Length - 1);
-					
+
 					destinationName = destinationPath.Substring(destinationPath.LastIndexOf('\\') + 1);
 				}
 			}

@@ -22,7 +22,7 @@
         <UseWinUI>true</UseWinUI>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <Configurations>Debug;Release;Sideload</Configurations>
+        <Configurations>Debug;Release;Sideload;Stable;Preview;Store</Configurations>
         <TieredCompilation>true</TieredCompilation>
         <TieredPgo>true</TieredPgo>
         <!--<ImplicitUsings>disable</ImplicitUsings>
@@ -38,6 +38,18 @@
     <PropertyGroup Condition="'$(Configuration)' == 'Sideload'">
         <DefineConstants>TRACE;SIDELOAD;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
         <Optimize>true</Optimize>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Store'">
+      <DefineConstants>TRACE;SIDELOAD;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+      <Optimize>true</Optimize>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Preview'">
+      <DefineConstants>TRACE;SIDELOAD;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+      <Optimize>true</Optimize>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Stable'">
+      <DefineConstants>TRACE;SIDELOAD;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+      <Optimize>true</Optimize>
     </PropertyGroup>
     <ItemGroup>
         <Manifest Include="$(ApplicationManifest)" />

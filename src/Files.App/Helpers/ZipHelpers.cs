@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Microsoft.Extensions.Logging;
@@ -116,6 +119,12 @@ namespace Files.App.Helpers
 						return; // TODO: handle error
 					}
 				}
+				
+				_ = new FileInfo(filePath)
+				{
+					CreationTime = entry.CreationTime < entry.LastWriteTime ? entry.CreationTime : entry.LastWriteTime,
+					LastWriteTime = entry.LastWriteTime,
+				};
 
 				entriesFinished++;
 				fsProgress.ProcessedItemsCount = entriesFinished;

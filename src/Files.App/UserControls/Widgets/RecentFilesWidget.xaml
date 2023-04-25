@@ -42,6 +42,7 @@
 			ItemClick="RecentsView_ItemClick"
 			ItemContainerTransitions="{x:Null}"
 			ItemsSource="{x:Bind recentItemsCollection}"
+			RightTapped="ListView_RightTapped"
 			SelectionMode="None">
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
@@ -51,65 +52,64 @@
 			</ListView.ItemContainerStyle>
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="fs:RecentItem">
-					<ListViewItem RightTapped="ListViewItem_RightTapped" ToolTipService.ToolTip="{x:Bind RecentPath}">
-						<Grid
-							Padding="2.5"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							AutomationProperties.Name="{x:Bind Name}"
-							ColumnSpacing="14">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="*" />
-								<ColumnDefinition Width="*" />
-							</Grid.ColumnDefinitions>
-							<FontIcon
-								x:Name="RecentFolderImg"
-								Grid.Column="0"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								x:Load="{x:Bind FolderImg}"
-								x:Phase="1"
-								FontSize="24"
-								Foreground="#ffe793"
-								Glyph="&#xE8B7;" />
-							<FontIcon
-								x:Name="EmptyImg"
-								Grid.Column="0"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								x:Load="{x:Bind EmptyImgVis}"
-								x:Phase="1"
-								FontSize="24"
-								Glyph="&#xE7C3;" />
-							<Image
-								x:Name="RecentFileImg"
-								Grid.Column="0"
-								Width="24"
-								Height="24"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								x:Load="{x:Bind FileIconVis}"
-								x:Phase="1"
-								Source="{x:Bind FileImg, Mode=OneWay}"
-								Stretch="Uniform" />
+					<Grid
+						Padding="2.5"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						AutomationProperties.Name="{x:Bind Name}"
+						ColumnSpacing="14"
+						ToolTipService.ToolTip="{x:Bind RecentPath}">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<FontIcon
+							x:Name="RecentFolderImg"
+							Grid.Column="0"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							x:Load="{x:Bind FolderImg}"
+							x:Phase="1"
+							FontSize="24"
+							Foreground="#ffe793"
+							Glyph="&#xE8B7;" />
+						<FontIcon
+							x:Name="EmptyImg"
+							Grid.Column="0"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							x:Load="{x:Bind EmptyImgVis}"
+							x:Phase="1"
+							FontSize="24"
+							Glyph="&#xE7C3;" />
+						<Image
+							x:Name="RecentFileImg"
+							Grid.Column="0"
+							Width="24"
+							Height="24"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							x:Load="{x:Bind FileIconVis}"
+							x:Phase="1"
+							Source="{x:Bind FileImg, Mode=OneWay}"
+							Stretch="Uniform" />
 
-							<TextBlock
-								Grid.Column="1"
-								VerticalAlignment="Center"
-								Text="{x:Bind Name}"
-								TextTrimming="CharacterEllipsis"
-								TextWrapping="NoWrap" />
+						<TextBlock
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							Text="{x:Bind Name}"
+							TextTrimming="CharacterEllipsis"
+							TextWrapping="NoWrap" />
 
-							<TextBlock
-								Grid.Column="2"
-								VerticalAlignment="Center"
-								FontSize="12"
-								Text="{x:Bind RecentPath}"
-								TextTrimming="CharacterEllipsis"
-								TextWrapping="NoWrap" />
-						</Grid>
-					</ListViewItem>
+						<TextBlock
+							Grid.Column="2"
+							VerticalAlignment="Center"
+							FontSize="12"
+							Text="{x:Bind RecentPath}"
+							TextTrimming="CharacterEllipsis"
+							TextWrapping="NoWrap" />
+					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>

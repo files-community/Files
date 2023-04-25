@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
@@ -208,6 +211,10 @@ namespace Files.App.UserControls
 					ShowItem = options.IsLibrariesHeader
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.EmptyRecycleBin)
+				{
+					IsVisible = options.ShowEmptyRecycleBin,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RestoreAllRecycleBin)
 				{
 					IsVisible = options.ShowEmptyRecycleBin,
 				}.Build(),
