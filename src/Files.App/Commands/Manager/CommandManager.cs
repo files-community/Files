@@ -466,7 +466,7 @@ namespace Files.App.Commands
 			{
 				if (IsExecutable)
 				{
-					Analytics.TrackEvent(Action.Label);
+					Analytics.TrackEvent($"Triggered {Action.Label} action");
 					await Action.ExecuteAsync();
 				}
 			}
