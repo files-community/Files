@@ -63,7 +63,7 @@ namespace Files.App.Helpers
 			using var memStream = new InMemoryRandomAccessStream();
 			BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(memStream, decoder);
 
-			for(int i = 0; i < decoder.FrameCount - 1; i++) 
+			for (int i = 0; i < decoder.FrameCount - 1; i++) 
 			{
 				encoder.BitmapTransform.Rotation = rotation;
 				await encoder.GoToNextFrameAsync();
