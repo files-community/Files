@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 #nullable disable warnings
 
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -81,19 +84,19 @@ namespace Files.App.Interacts
 			else if (SlimContentPage.BaseContextMenuFlyout.IsOpen)
 				SlimContentPage.BaseContextMenuFlyout.Closed += OpenPropertiesFromBaseContextMenuFlyout;
 			else
-				FilePropertiesHelpers.ShowProperties(associatedInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
 		}
 
 		private void OpenPropertiesFromItemContextMenuFlyout(object sender, object e)
 		{
 			SlimContentPage.ItemContextMenuFlyout.Closed -= OpenPropertiesFromItemContextMenuFlyout;
-			FilePropertiesHelpers.ShowProperties(associatedInstance);
+			FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
 		}
 
 		private void OpenPropertiesFromBaseContextMenuFlyout(object sender, object e)
 		{
 			SlimContentPage.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
-			FilePropertiesHelpers.ShowProperties(associatedInstance);
+			FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
 		}
 
 		public virtual async Task OpenDirectoryInNewTab(RoutedEventArgs e)

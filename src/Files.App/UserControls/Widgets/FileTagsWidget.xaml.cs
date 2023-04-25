@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -87,7 +90,7 @@ namespace Files.App.UserControls.Widgets
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = "Folder".GetLocalizedResource(),
 				};
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, AppInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance);
 			};
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}

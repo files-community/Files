@@ -1,4 +1,7 @@
-﻿using Files.Backend.ViewModels.Dialogs;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using System.ComponentModel;
 using System.Threading.Tasks;

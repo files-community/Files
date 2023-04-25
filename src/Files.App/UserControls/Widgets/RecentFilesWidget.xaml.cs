@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.Extensions;
@@ -118,11 +121,11 @@ namespace Files.App.UserControls.Widgets
 			OpenPropertiesCommand = new RelayCommand<RecentItem>(OpenProperties);
 		}
 
-		private void ListViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private void ListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			ItemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			ItemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			if (sender is not ListViewItem listViewItem || listViewItem.DataContext is not RecentItem item)
+			if (e.OriginalSource is not FrameworkElement element || element.DataContext is not RecentItem item)
 				return;
 
 			var menuItems = GetItemMenuItems(item, false);
@@ -132,11 +135,9 @@ namespace Files.App.UserControls.Widgets
 							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
-			ItemContextMenuFlyout.ShowAt(listViewItem, new FlyoutShowOptions { Position = e.GetPosition(listViewItem) });
+			ItemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
 
 			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
-
-			e.Handled = true;
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -235,7 +236,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				ItemContextMenuFlyout.Closed -= flyoutClosed;
 				var listedItem = await UniversalStorageEnumerator.AddFileAsync(await BaseStorageFile.GetFileFromPathAsync(item.Path), null, default);
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, associatedInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, associatedInstance);
 			};
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.IO;
 using System.Security.Principal;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
-using Windows.Storage;
 
 namespace Files.App.Shell
 {

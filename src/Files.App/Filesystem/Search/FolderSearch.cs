@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
@@ -20,6 +23,7 @@ using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
+using WIN32_FIND_DATA = Files.Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA;
 
 namespace Files.App.Filesystem.Search
 {

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
@@ -20,7 +23,34 @@ namespace Files.App.Views.Properties
 	{
 		private readonly Regex letterRegex = new(@"\s*\(\w:\)$");
 
-		public GeneralPage() => InitializeComponent();
+		public GeneralPage()
+		{
+			InitializeComponent();
+		}
+
+		private void ItemFileName_GettingFocus(UIElement _, GettingFocusEventArgs e)
+		{
+			ItemFileName.Text = letterRegex.Replace(ItemFileName.Text, string.Empty);
+		}
+
+		private void ItemFileName_LosingFocus(UIElement _, LosingFocusEventArgs e)
+		{
+			if (string.IsNullOrWhiteSpace(ItemFileName.Text))
+			{
+				ItemFileName.Text = ViewModel.ItemName;
+				return;
+			}
+
+			var match = letterRegex.Match(ViewModel.OriginalItemName);
+			if (match.Success)
+				ItemFileName.Text += match.Value;
+		}
+
+		private void DiskCleanupButton_Click(object _, RoutedEventArgs e)
+		{
+			if (BaseProperties is DriveProperties driveProps)
+				StorageSenseHelper.OpenStorageSense(driveProps.Drive.Path);
+		}
 
 		public override async Task<bool> SaveChangesAsync()
 		{
@@ -124,29 +154,6 @@ namespace Files.App.Views.Properties
 
 		public override void Dispose()
 		{
-		}
-
-		private void ItemFileName_GettingFocus(UIElement _, GettingFocusEventArgs e)
-		{
-			ItemFileName.Text = letterRegex.Replace(ItemFileName.Text, string.Empty);
-		}
-		private void ItemFileName_LosingFocus(UIElement _, LosingFocusEventArgs e)
-		{
-			if (string.IsNullOrWhiteSpace(ItemFileName.Text))
-			{
-				ItemFileName.Text = ViewModel.ItemName;
-				return;
-			}
-
-			var match = letterRegex.Match(ViewModel.OriginalItemName);
-			if (match.Success)
-				ItemFileName.Text += match.Value;
-		}
-
-		private void DiskCleanupButton_Click(object _, RoutedEventArgs e)
-		{
-			if (BaseProperties is DriveProperties driveProps)
-				StorageSenseHelper.OpenStorageSense(driveProps.Drive.Path);
 		}
 	}
 }

@@ -1,19 +1,15 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.Backend.Extensions;
-using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
@@ -22,10 +18,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Windows.ApplicationModel.Resources;
-using System;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
@@ -282,9 +275,9 @@ namespace Files.App.Views
 		private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
 		{
 			if (e.InvokedItemDataContext is DriveItem)
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
+				FilePropertiesHelpers.OpenPropertiesWindow(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			else if (e.InvokedItemDataContext is LibraryLocationItem library)
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
+				FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			else if (e.InvokedItemDataContext is LocationItem locationItem)
 			{
 				ListedItem listedItem = new ListedItem(null!)
@@ -295,7 +288,7 @@ namespace Files.App.Views
 					ItemType = "Folder".GetLocalizedResource(),
 				};
 
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			}
 		}
 

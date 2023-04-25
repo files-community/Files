@@ -1,8 +1,13 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Files.App.DataModels;
 using Files.App.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Files.App.Filesystem.Security
@@ -12,22 +17,127 @@ namespace Files.App.Filesystem.Security
 	/// </summary>
 	public class AccessControlEntry : ObservableObject
 	{
-		public readonly bool IsFolder;
-
-		public string? PrincipalSid { get; set; }
+		public bool IsFolder { get; set; }
 
 		public Principal Principal { get; set; }
 
-		private AccessControlType _accessControlType;
+		private AccessControlType _AccessControlType;
 		public AccessControlType AccessControlType
 		{
-			get => _accessControlType;
+			get => _AccessControlType;
 			set
 			{
-				if (SetProperty(ref _accessControlType, value))
+				// Update access control type glyph
+				if (SetProperty(ref _AccessControlType, value))
 					OnPropertyChanged(nameof(AccessControlTypeGlyph));
 			}
 		}
+
+		private AccessMaskFlags _AccessMaskFlags;
+		public AccessMaskFlags AccessMaskFlags
+		{
+			get => _AccessMaskFlags;
+			set
+			{
+				if (SetProperty(ref _AccessMaskFlags, value))
+					OnPropertyChanged(nameof(AccessMaskFlagsHumanized));
+			}
+		}
+
+		private InheritanceFlags _InheritanceFlags;
+		public InheritanceFlags InheritanceFlags
+		{
+			get => _InheritanceFlags;
+			set
+			{
+				if (SetProperty(ref _InheritanceFlags, value))
+					OnPropertyChanged(nameof(InheritanceFlagsHumanized));
+			}
+		}
+
+		private PropagationFlags _PropagationFlags;
+		public PropagationFlags PropagationFlags
+		{
+			get => _PropagationFlags;
+			set
+			{
+				if (SetProperty(ref _PropagationFlags, value))
+					OnPropertyChanged(nameof(InheritanceFlagsHumanized));
+			}
+		}
+
+		private AccessMaskFlags _AllowedAccessMaskFlags;
+		public AccessMaskFlags AllowedAccessMaskFlags
+		{
+			get => _AllowedAccessMaskFlags;
+			set
+			{
+				if (SetProperty(ref _AllowedAccessMaskFlags, value))
+				{
+					OnPropertyChanged(nameof(AllowedWriteAccess));
+					OnPropertyChanged(nameof(AllowedFullControlAccess));
+					OnPropertyChanged(nameof(AllowedListDirectoryAccess));
+					OnPropertyChanged(nameof(AllowedModifyAccess));
+					OnPropertyChanged(nameof(AllowedReadAccess));
+					OnPropertyChanged(nameof(AllowedReadAndExecuteAccess));
+				}
+			}
+		}
+
+		private AccessMaskFlags _DeniedAccessMaskFlags;
+		public AccessMaskFlags DeniedAccessMaskFlags
+		{
+			get => _DeniedAccessMaskFlags;
+			set
+			{
+				if (SetProperty(ref _DeniedAccessMaskFlags, value))
+				{
+					OnPropertyChanged(nameof(DeniedWriteAccess));
+					OnPropertyChanged(nameof(DeniedFullControlAccess));
+					OnPropertyChanged(nameof(DeniedListDirectoryAccess));
+					OnPropertyChanged(nameof(DeniedModifyAccess));
+					OnPropertyChanged(nameof(DeniedReadAccess));
+					OnPropertyChanged(nameof(DeniedReadAndExecuteAccess));
+				}
+			}
+		}
+
+		public AccessMaskFlags InheritedAllowAccessMaskFlags { get; set; }
+
+		public AccessMaskFlags InheritedDenyAccessMaskFlags { get; set; }
+
+		private bool _IsSelected;
+		public bool IsSelected
+		{
+			get => _IsSelected;
+			set
+			{
+				if (SetProperty(ref _IsSelected, value))
+				{
+					if (!value)
+						AreAdvancedPermissionsShown = false;
+
+					OnPropertyChanged(nameof(IsEditEnabled));
+				}
+			}
+		}
+
+		private bool _AreAdvancedPermissionsShown;
+		public bool AreAdvancedPermissionsShown
+		{
+			get => _AreAdvancedPermissionsShown;
+			set
+			{
+				// Reinitialize list
+				if (SetProperty(ref _AreAdvancedPermissionsShown, value))
+					AccessMaskItemList = SecurityAdvancedAccessControlItemFactory.Initialize(this, AreAdvancedPermissionsShown, IsInherited, IsFolder);
+			}
+		}
+
+		public bool IsInherited { get; set; }
+
+		public bool IsEditEnabled
+			=> IsSelected && !IsInherited;
 
 		public string AccessControlTypeHumanized
 			=> AccessControlType switch
@@ -42,41 +152,6 @@ namespace Files.App.Filesystem.Security
 				AccessControlType.Allow => "\xE73E",
 				_ => "\xF140" // AccessControlType.Deny
 			};
-
-		public bool IsInherited { get; set; }
-
-		private InheritanceFlags _inheritanceFlags;
-		public InheritanceFlags InheritanceFlags
-		{
-			get => _inheritanceFlags;
-			set
-			{
-				if (SetProperty(ref _inheritanceFlags, value))
-					OnPropertyChanged(nameof(InheritanceFlagsHumanized));
-			}
-		}
-
-		private PropagationFlags _propagationFlags;
-		public PropagationFlags PropagationFlags
-		{
-			get => _propagationFlags;
-			set
-			{
-				if (SetProperty(ref _propagationFlags, value))
-					OnPropertyChanged(nameof(InheritanceFlagsHumanized));
-			}
-		}
-
-		private AccessMaskFlags _accessMaskFlags;
-		public AccessMaskFlags AccessMaskFlags
-		{
-			get => _accessMaskFlags;
-			set
-			{
-				if (SetProperty(ref _accessMaskFlags, value))
-					OnPropertyChanged(nameof(AccessMaskFlagsHumanized));
-			}
-		}
 
 		public string AccessMaskFlagsHumanized
 		{
@@ -133,86 +208,9 @@ namespace Files.App.Filesystem.Security
 			}
 		}
 
-		private bool _isSelected;
-		public bool IsSelected
-		{
-			get => _isSelected;
-			set
-			{
-				if (SetProperty(ref _isSelected, value))
-				{
-					if (!value)
-						AreAdvancedPermissionsShown = false;
+		public ObservableCollection<AccessMaskItem> AccessMaskItemList { get; set; }
 
-					OnPropertyChanged(nameof(IsEditEnabled));
-				}
-			}
-		}
-
-		private bool _areAdvancedPermissionsShown;
-		public bool AreAdvancedPermissionsShown
-		{
-			get => _areAdvancedPermissionsShown;
-			set
-			{
-				// Reconstruct list
-				if (SetProperty(ref _areAdvancedPermissionsShown, value))
-					AccessMaskItemList = GetAllAccessMaskList();
-			}
-		}
-
-		public bool IsEditEnabled
-			=> IsSelected && !IsInherited;
-
-		private List<AccessMaskItem> _accessMaskItemList;
-		public List<AccessMaskItem> AccessMaskItemList
-		{
-			get => _accessMaskItemList;
-			set => SetProperty(ref _accessMaskItemList, value);
-		}
-
-		public RelayCommand<string> ChangeAccessControlTypeCommand { get; set; }
-		public RelayCommand<string> ChangeInheritanceFlagsCommand { get; set; }
-
-		public AccessMaskFlags InheritedAllowAccessMaskFlags { get; set; }
-		public AccessMaskFlags InheritedDenyAccessMaskFlags { get; set; }
-
-		private AccessMaskFlags _allowedAccessMaskFlags;
-		public AccessMaskFlags AllowedAccessMaskFlags
-		{
-			get => _allowedAccessMaskFlags;
-			set
-			{
-				if (SetProperty(ref _allowedAccessMaskFlags, value))
-				{
-					OnPropertyChanged(nameof(AllowedWriteAccess));
-					OnPropertyChanged(nameof(AllowedFullControlAccess));
-					OnPropertyChanged(nameof(AllowedListDirectoryAccess));
-					OnPropertyChanged(nameof(AllowedModifyAccess));
-					OnPropertyChanged(nameof(AllowedReadAccess));
-					OnPropertyChanged(nameof(AllowedReadAndExecuteAccess));
-				}
-			}
-		}
-
-		private AccessMaskFlags _deniedAccessMaskFlags;
-		public AccessMaskFlags DeniedAccessMaskFlags
-		{
-			get => _deniedAccessMaskFlags;
-			set
-			{
-				if (SetProperty(ref _deniedAccessMaskFlags, value))
-				{
-					OnPropertyChanged(nameof(DeniedWriteAccess));
-					OnPropertyChanged(nameof(DeniedFullControlAccess));
-					OnPropertyChanged(nameof(DeniedListDirectoryAccess));
-					OnPropertyChanged(nameof(DeniedModifyAccess));
-					OnPropertyChanged(nameof(DeniedReadAccess));
-					OnPropertyChanged(nameof(DeniedReadAndExecuteAccess));
-				}
-			}
-		}
-
+		#region Security page
 		public bool WriteAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Write);
 		public bool ReadAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Read);
 		public bool ListDirectoryAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
@@ -228,20 +226,22 @@ namespace Files.App.Filesystem.Security
 				(ReadAccess ? ~AccessMaskFlags.Read : AccessMaskFlags.FullControl) &
 				(WriteAccess ? ~AccessMaskFlags.Write : AccessMaskFlags.FullControl)) != 0;
 
-		public bool AllowedInheritedWriteAccess =>          InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.Write);
-		public bool AllowedInheritedReadAccess =>           InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.Read);
-		public bool AllowedInheritedListDirectoryAccess =>  InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
+		public bool AllowedInheritedWriteAccess => InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.Write);
+		public bool AllowedInheritedReadAccess => InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.Read);
+		public bool AllowedInheritedListDirectoryAccess => InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
 		public bool AllowedInheritedReadAndExecuteAccess => InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.ReadAndExecute);
-		public bool AllowedInheritedModifyAccess =>         InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.Modify);
-		public bool AllowedInheritedFullControlAccess =>    InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.FullControl);
+		public bool AllowedInheritedModifyAccess => InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.Modify);
+		public bool AllowedInheritedFullControlAccess => InheritedAllowAccessMaskFlags.HasFlag(AccessMaskFlags.FullControl);
 
-		public bool DeniedInheritedWriteAccess =>           InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.Write);
-		public bool DeniedInheritedReadAccess =>            InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.Read);
-		public bool DeniedInheritedListDirectoryAccess =>   InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
-		public bool DeniedInheritedReadAndExecuteAccess =>  InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.ReadAndExecute);
-		public bool DeniedInheritedModifyAccess =>          InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.Modify);
-		public bool DeniedInheritedFullControlAccess =>     InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.FullControl);
+		public bool DeniedInheritedWriteAccess => InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.Write);
+		public bool DeniedInheritedReadAccess => InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.Read);
+		public bool DeniedInheritedListDirectoryAccess => InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
+		public bool DeniedInheritedReadAndExecuteAccess => InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.ReadAndExecute);
+		public bool DeniedInheritedModifyAccess => InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.Modify);
+		public bool DeniedInheritedFullControlAccess => InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.FullControl);
+		#endregion
 
+		#region SecurityAdvanced page
 		public bool AllowedWriteAccess
 		{
 			get => AllowedAccessMaskFlags.HasFlag(AccessMaskFlags.Write) || AllowedInheritedWriteAccess;
@@ -313,12 +313,14 @@ namespace Files.App.Filesystem.Security
 			get => DeniedAccessMaskFlags.HasFlag(AccessMaskFlags.FullControl) || DeniedInheritedFullControlAccess;
 			set => ToggleDenyAccess(AccessMaskFlags.FullControl, value);
 		}
+		#endregion
 
-		public AccessControlEntry(AccessControlEntryPrimitiveMapping accessRule, bool isFolder)
+		public IRelayCommand<string> ChangeAccessControlTypeCommand { get; set; }
+		public IRelayCommand<string> ChangeInheritanceFlagsCommand { get; set; }
+
+		public AccessControlEntry(bool isFolder, string ownerSid, AccessControlType type, AccessMaskFlags accessMaskFlags, bool isInherited, InheritanceFlags inheritanceFlags, PropagationFlags propagationFlags)
 		{
-			IsFolder = isFolder;
-
-			AccessMaskItemList = GetAllAccessMaskList();
+			AccessMaskItemList = SecurityAdvancedAccessControlItemFactory.Initialize(this, AreAdvancedPermissionsShown, IsInherited, IsFolder);
 
 			ChangeAccessControlTypeCommand = new RelayCommand<string>(x =>
 			{
@@ -333,13 +335,13 @@ namespace Files.App.Filesystem.Security
 				PropagationFlags = Enum.Parse<PropagationFlags>(parts[1]);
 			});
 
-			AccessControlType = (AccessControlType)accessRule.AccessControlType;
-			AccessMaskFlags = (AccessMaskFlags)accessRule.FileSystemRights;
-			PrincipalSid = accessRule.PrincipalSid;
-			Principal = Principal.FromSid(accessRule.PrincipalSid);
-			IsInherited = accessRule.IsInherited;
-			InheritanceFlags = (InheritanceFlags)accessRule.InheritanceFlags;
-			PropagationFlags = (PropagationFlags)accessRule.PropagationFlags;
+			IsFolder = isFolder;
+			Principal = Principal.FromSid(ownerSid);
+			AccessControlType = type;
+			AccessMaskFlags = accessMaskFlags;
+			IsInherited = isInherited;
+			InheritanceFlags = inheritanceFlags;
+			PropagationFlags = propagationFlags;
 
 			switch (AccessControlType)
 			{
@@ -360,229 +362,34 @@ namespace Files.App.Filesystem.Security
 
 		private void ToggleAllowAccess(AccessMaskFlags accessMask, bool value)
 		{
-			if (value && !AllowedAccessMaskFlags.HasFlag(accessMask) && !InheritedAllowAccessMaskFlags.HasFlag(accessMask))
+			if (value &&
+				!AllowedAccessMaskFlags.HasFlag(accessMask) &&
+				!InheritedAllowAccessMaskFlags.HasFlag(accessMask))
 			{
 				AllowedAccessMaskFlags |= accessMask;
 				DeniedAccessMaskFlags &= ~accessMask;
 			}
-			else if (!value && AllowedAccessMaskFlags.HasFlag(accessMask))
+			else if (!value &&
+				AllowedAccessMaskFlags.HasFlag(accessMask))
 			{
 				AllowedAccessMaskFlags &= ~accessMask;
 			}
-
-			UpdateAccessControlEntry();
 		}
 
 		private void ToggleDenyAccess(AccessMaskFlags accessMask, bool value)
 		{
-			if (value && !DeniedAccessMaskFlags.HasFlag(accessMask) && !InheritedDenyAccessMaskFlags.HasFlag(accessMask))
+			if (value &&
+				!DeniedAccessMaskFlags.HasFlag(accessMask) &&
+				!InheritedDenyAccessMaskFlags.HasFlag(accessMask))
 			{
 				DeniedAccessMaskFlags |= accessMask;
 				AllowedAccessMaskFlags &= ~accessMask;
 			}
-			else if (!value && DeniedAccessMaskFlags.HasFlag(accessMask))
+			else if (!value &&
+				DeniedAccessMaskFlags.HasFlag(accessMask))
 			{
 				DeniedAccessMaskFlags &= ~accessMask;
 			}
-
-			UpdateAccessControlEntry();
-		}
-
-		private void UpdateAccessControlEntry()
-		{
-		}
-
-		private List<AccessMaskItem> GetAllAccessMaskList()
-		{
-			// This list will be shown in an ACE item in security advanced page
-			List<AccessMaskItem> accessControls;
-
-			if (AreAdvancedPermissionsShown)
-			{
-				accessControls = new()
-				{
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.FullControl,
-						AccessMaskName = "SecurityFullControlLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.Traverse,
-						AccessMaskName = "SecurityTraverseLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.ExecuteFile,
-						AccessMaskName = "SecurityExecuteFileLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.ListDirectory,
-						AccessMaskName = "SecurityListDirectoryLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.ReadData,
-						AccessMaskName = "SecurityReadDataLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.ReadAttributes,
-						AccessMaskName = "SecurityReadAttributesLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.ReadExtendedAttributes,
-						AccessMaskName = "SecurityReadExtendedAttributesLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.CreateFiles,
-						AccessMaskName = "SecurityCreateFilesLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.CreateDirectories,
-						AccessMaskName = "SecurityCreateDirectoriesLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.WriteData,
-						AccessMaskName = "SecurityWriteDataLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.AppendData,
-						AccessMaskName = "SecurityAppendDataLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.WriteAttributes,
-						AccessMaskName = "SecurityWriteAttributesLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.WriteExtendedAttributes,
-						AccessMaskName = "SecurityWriteExtendedAttributesLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.DeleteSubdirectoriesAndFiles,
-						AccessMaskName = "SecurityDeleteSubdirectoriesAndFilesLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.Delete,
-						AccessMaskName = "Delete".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.ReadPermissions,
-						AccessMaskName = "SecurityReadPermissionsLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.ChangePermissions,
-						AccessMaskName = "SecurityChangePermissionsLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.TakeOwnership,
-						AccessMaskName = "SecurityTakeOwnershipLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					}
-				};
-
-				if (IsFolder)
-				{
-					accessControls.RemoveAll(x =>
-						x.AccessMask == AccessMaskFlags.ExecuteFile ||
-						x.AccessMask == AccessMaskFlags.ReadData ||
-						x.AccessMask == AccessMaskFlags.WriteData ||
-						x.AccessMask == AccessMaskFlags.AppendData);
-				}
-				else
-				{
-					accessControls.RemoveAll(x =>
-						x.AccessMask == AccessMaskFlags.Traverse ||
-						x.AccessMask == AccessMaskFlags.ListDirectory ||
-						x.AccessMask == AccessMaskFlags.CreateFiles ||
-						x.AccessMask == AccessMaskFlags.CreateDirectories ||
-						x.AccessMask == AccessMaskFlags.DeleteSubdirectoriesAndFiles);
-				}
-			}
-			else
-			{
-				accessControls = new()
-				{
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.FullControl,
-						AccessMaskName = "SecurityFullControlLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.Modify,
-						AccessMaskName = "SecurityModifyLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.ReadAndExecute,
-						AccessMaskName = "SecurityReadAndExecuteLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.ListDirectory,
-						AccessMaskName = "SecurityListDirectoryLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.Read,
-						AccessMaskName = "SecurityReadLabel/Text".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this)
-					{
-						AccessMask = AccessMaskFlags.Write,
-						AccessMaskName = "Write".GetLocalizedResource(),
-						IsEditable = !IsInherited
-					},
-					new AccessMaskItem(this, false)
-					{
-						AccessMaskName = "SecuritySpecialLabel/Text".GetLocalizedResource()
-					}
-				};
-
-				if (!IsFolder)
-				{
-					accessControls.RemoveAll(x =>
-						x.AccessMask == AccessMaskFlags.ListDirectory);
-				}
-			}
-
-			return accessControls;
 		}
 	}
 }
