@@ -1,4 +1,7 @@
-﻿using Files.Shared.Enums;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Shared.Enums;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -181,5 +184,10 @@ namespace Files.Backend.Services.Settings
 		/// A dictionary to determine which hashes should be shown.
 		/// </summary>
 		Dictionary<string, bool> ShowHashesDictionary { get; set; }
+
+		/// <summary>
+		/// A dictionary to determine the custom hotkeys
+		/// </summary>
+		Dictionary<string, string> Actions { get; set; }
 	}
 }

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
@@ -222,6 +225,12 @@ namespace Files.App.ServicesImplementation.Settings
 		public Dictionary<string, bool> ShowHashesDictionary
 		{
 			get => Get<Dictionary<string, bool>>(null);
+			set => Set(value);
+		}
+
+		public Dictionary<string, string> Actions
+		{
+			get => Get<Dictionary<string, string>>(null) ?? new();
 			set => Set(value);
 		}
 

@@ -1,4 +1,7 @@
-﻿// System
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+// System
 global using global::System;
 global using global::System.Collections;
 global using global::System.Collections.Generic;
