@@ -384,7 +384,10 @@ namespace Files.App.Commands
 			public async Task ExecuteAsync()
 			{
 				if (IsExecutable)
+				{
+					Analytics.TrackEvent($"Triggered {Action.Label} action");
 					await action.ExecuteAsync();
+				}
 			}
 
 			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
