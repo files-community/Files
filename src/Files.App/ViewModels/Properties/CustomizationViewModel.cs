@@ -14,15 +14,15 @@ namespace Files.App.ViewModels.Properties
 		private static string DefaultIconDllFilePath
 			=> Path.Combine(CommonPaths.SystemRootPath, "System32", "SHELL32.dll");
 
-		private readonly AppWindow AppWindow;
+		private readonly AppWindow _appWindow;
 
-		private readonly IShellPage AppInstance;
+		private readonly IShellPage _appInstance;
 
-		private readonly string SelectedItemPath;
+		private readonly string _selectedItemPath;
+
+		private bool _isIconChanged;
 
 		public readonly bool IsShortcut;
-
-		private bool IsIconChanged;
 
 		public ObservableCollection<IconFileInfo> DllIcons { get; }
 
@@ -40,7 +40,7 @@ namespace Files.App.ViewModels.Properties
 			set
 			{
 				if (SetProperty(ref _SelectedDllIcon, value))
-					IsIconChanged = true;
+					_isIconChanged = true;
 			}
 		}
 
@@ -58,11 +58,11 @@ namespace Files.App.ViewModels.Properties
 			else
 				return;
 
-			AppInstance = appInstance;
-			AppWindow = appWindow;
+			_appInstance = appInstance;
+			_appWindow = appWindow;
 			IconResourceItemPath = DefaultIconDllFilePath;
 			IsShortcut = item.IsShortcut;
-			SelectedItemPath = item.ItemPath;
+			_selectedItemPath = item.ItemPath;
 
 			DllIcons = new();
 
@@ -76,7 +76,7 @@ namespace Files.App.ViewModels.Properties
 		private void ExecuteRestoreDefaultIcon()
 		{
 			SelectedDllIcon = null;
-			IsIconChanged = true;
+			_isIconChanged = true;
 		}
 
 		private async Task ExecuteOpenFilePickerAsync()
@@ -93,7 +93,7 @@ namespace Files.App.ViewModels.Properties
 			picker.FileTypeFilter.Add(".ico");
 
 			// WINUI3: Create and initialize new window
-			var parentWindowId = AppWindow.Id;
+			var parentWindowId = _appWindow.Id;
 			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
 			WinRT.Interop.InitializeWithWindow.Initialize(picker, handle);
 
@@ -107,7 +107,7 @@ namespace Files.App.ViewModels.Properties
 
 		public async Task<bool> UpdateIcon()
 		{
-			if (!IsIconChanged)
+			if (!_isIconChanged)
 				return false;
 
 			bool result = false;
@@ -115,14 +115,14 @@ namespace Files.App.ViewModels.Properties
 			if (SelectedDllIcon is null)
 			{
 				result = IsShortcut
-					? Win32API.SetCustomFileIcon(SelectedItemPath, null)
-					: Win32API.SetCustomDirectoryIcon(SelectedItemPath, null);
+					? Win32API.SetCustomFileIcon(_selectedItemPath, null)
+					: Win32API.SetCustomDirectoryIcon(_selectedItemPath, null);
 			}
 			else
 			{
 				result = IsShortcut
-					? Win32API.SetCustomFileIcon(SelectedItemPath, IconResourceItemPath, SelectedDllIcon.Index)
-					: Win32API.SetCustomDirectoryIcon(SelectedItemPath, IconResourceItemPath, SelectedDllIcon.Index);
+					? Win32API.SetCustomFileIcon(_selectedItemPath, IconResourceItemPath, SelectedDllIcon.Index)
+					: Win32API.SetCustomDirectoryIcon(_selectedItemPath, IconResourceItemPath, SelectedDllIcon.Index);
 			}
 
 			if (!result)
@@ -130,7 +130,7 @@ namespace Files.App.ViewModels.Properties
 
 			await App.Window.DispatcherQueue.EnqueueAsync(() =>
 			{
-				AppInstance?.FilesystemViewModel?.RefreshItems(null);
+				_appInstance?.FilesystemViewModel?.RefreshItems(null);
 			});
 
 			return true;
