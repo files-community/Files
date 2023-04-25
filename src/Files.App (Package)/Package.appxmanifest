@@ -10,7 +10,7 @@
          xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
          xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
          IgnorableNamespaces="uap uap5 mp rescap desktop6 desktop4 desktop">
-    <Identity Name="FilesDev" Publisher="CN=Files" Version="2.4.66.0" />
+    <Identity Name="FilesDev" Publisher="CN=Files" Version="2.4.68.0" />
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
         <PublisherDisplayName>Yair A</PublisherDisplayName>

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem.StorageItems;
 using Files.App.UserControls.MultitaskingControl;
@@ -262,9 +265,7 @@ namespace Files.App.ViewModels
 				return;
 
 			if (drivesViewModel.Drives.Count == 0)
-			{
 				await drivesViewModel.UpdateDrivesAsync();
-			}
 
 			//Initialize the static theme helper to capture a reference to this window
 			//to handle theme changes without restarting the app

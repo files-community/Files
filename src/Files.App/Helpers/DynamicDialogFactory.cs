@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
 using Files.App.Extensions;
@@ -87,7 +90,7 @@ namespace Files.App.Helpers
 			inputText.TextChanged += (textBox, args) =>
 			{
 				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
-				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = !isInputValid;
+				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = !string.IsNullOrEmpty(inputText.Text) && !isInputValid;
 				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
 														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 														: DynamicDialogButtons.Cancel;
@@ -99,7 +102,6 @@ namespace Files.App.Helpers
 			{
 				// dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
 				_ = inputText.DispatcherQueue.EnqueueAsync(() => inputText.Focus(FocusState.Programmatic));
-				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = true;
 			};
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()

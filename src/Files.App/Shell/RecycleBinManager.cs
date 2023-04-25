@@ -1,4 +1,7 @@
-﻿using System.IO;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using System.IO;
 using System.Security.Principal;
 
 namespace Files.App.Shell
