@@ -127,7 +127,7 @@ namespace Files.App.Views.Properties
 			if (SecurityViewModel is not null)
 			{
 				// Reload permissions when closing
-				await DispatcherQueue.EnqueueAsync(() => SecurityViewModel.GetAccessControlList());
+				await DispatcherQueue.EnqueueOrInvokeAsync(() => SecurityViewModel.GetAccessControlList());
 			}
 		}
 

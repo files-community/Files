@@ -95,7 +95,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			{
 				SetProperty(ref spaceUsed, value);
 
-				App.Window.DispatcherQueue.EnqueueAsync(() => OnPropertyChanged(nameof(ToolTipText)));
+				App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => OnPropertyChanged(nameof(ToolTipText)));
 			}
 		}
 

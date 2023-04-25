@@ -1,4 +1,5 @@
 using CommunityToolkit.WinUI;
+using Files.App.Extensions;
 using Files.Backend.Services;
 using Microsoft.UI.Dispatching;
 using System;
@@ -17,12 +18,12 @@ namespace Files.App.ServicesImplementation
 
 		public Task ExecuteOnUiThreadAsync(Action action)
 		{
-			return _dispatcherQueue.EnqueueAsync(action);
+			return _dispatcherQueue.EnqueueOrInvokeAsync(action);
 		}
 
 		public Task<TResult?> ExecuteOnUiThreadAsync<TResult>(Func<TResult?> func)
 		{
-			return _dispatcherQueue.EnqueueAsync<TResult?>(func);
+			return _dispatcherQueue.EnqueueOrInvokeAsync<TResult?>(func);
 		}
 	}
 }

@@ -100,7 +100,7 @@ namespace Files.App.Interacts
 		{
 			foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 				},

@@ -488,7 +488,7 @@ namespace Files.App.ViewModels
 
 			if (pointerRoutedEventArgs is not null)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);

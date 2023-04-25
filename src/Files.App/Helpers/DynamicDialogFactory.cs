@@ -98,7 +98,7 @@ namespace Files.App.Helpers
 			inputText.Loaded += (s, e) =>
 			{
 				// dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
-				_ = inputText.DispatcherQueue.EnqueueAsync(() => inputText.Focus(FocusState.Programmatic));
+				_ = inputText.DispatcherQueue.EnqueueOrInvokeAsync(() => inputText.Focus(FocusState.Programmatic));
 				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = true;
 			};
 
