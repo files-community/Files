@@ -216,8 +216,7 @@ namespace Files.App.UserControls
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RestoreAllRecycleBin)
 				{
-					IsVisible = options.ShowEmptyRecycleBin
-								&& RecycleBinHelpers.RecycleBinHasItems(),
+					IsVisible = options.ShowEmptyRecycleBin,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
