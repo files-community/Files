@@ -213,7 +213,7 @@ namespace Files.App.UserControls.Widgets
 
 		private async void Manager_RecentFilesChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			await DispatcherQueue.EnqueueAsync(async () =>
+			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				// e.Action can only be Reset right now; naively refresh everything for simplicity
 				await UpdateRecentsList(e);

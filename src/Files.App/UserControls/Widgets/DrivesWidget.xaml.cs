@@ -52,7 +52,7 @@ namespace Files.App.UserControls.Widgets
 
 			// Thumbnail data is valid, set the item icon
 			if (thumbnailData is not null && thumbnailData.Length > 0)
-				Thumbnail = await thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize);
+				Thumbnail = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
 		}
 
 		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
@@ -137,9 +137,9 @@ namespace Files.App.UserControls.Widgets
 
 		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			await DispatcherQueue.EnqueueAsync(async () =>
+			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				foreach (DriveItem drive in drivesViewModel.Drives)
+				foreach (DriveItem drive in drivesViewModel.Drives.ToList())
 				{
 					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
 					{

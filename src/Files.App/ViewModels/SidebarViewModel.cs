@@ -238,7 +238,7 @@ namespace Files.App.ViewModels
 
 		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			await dispatcherQueue.EnqueueAsync(async () =>
+			await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				var sectionType = (SectionType)sender;
 				var section = await GetOrCreateSection(sectionType);

@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.Shared;
 using Files.Shared.Cloud;
@@ -56,7 +57,7 @@ namespace Files.App.Filesystem.Cloud
 				try
 				{
 					cloudProviderItem.Root = await StorageFolder.GetFolderFromPathAsync(cloudProviderItem.Path);
-					_ = App.Window.DispatcherQueue.EnqueueAsync(() => cloudProviderItem.UpdatePropertiesAsync());
+					_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => cloudProviderItem.UpdatePropertiesAsync());
 				}
 				catch (Exception ex)
 				{
@@ -75,7 +76,7 @@ namespace Files.App.Filesystem.Cloud
 				{
 					cloudProviderItem.IconData = iconData;
 					await App.Window.DispatcherQueue
-						.EnqueueAsync(async () => cloudProviderItem.Icon = await iconData.ToBitmapAsync());
+						.EnqueueOrInvokeAsync(async () => cloudProviderItem.Icon = await iconData.ToBitmapAsync());
 				}
 
 				lock (drives)
