@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.Extensions;
@@ -112,8 +115,8 @@ namespace Files.App.UserControls.Widgets
 
 			App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
 
-			RemoveRecentItemCommand = new RelayCommand<RecentItem>(RemoveRecentItem);
-			ClearAllItemsCommand = new RelayCommand(ClearRecentItems);
+			RemoveRecentItemCommand = new AsyncRelayCommand<RecentItem>(RemoveRecentItem);
+			ClearAllItemsCommand = new AsyncRelayCommand(ClearRecentItems);
 			OpenFileLocationCommand = new RelayCommand<RecentItem>(OpenFileLocation);
 			OpenPropertiesCommand = new RelayCommand<RecentItem>(OpenProperties);
 		}
@@ -233,7 +236,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				ItemContextMenuFlyout.Closed -= flyoutClosed;
 				var listedItem = await UniversalStorageEnumerator.AddFileAsync(await BaseStorageFile.GetFileFromPathAsync(item.Path), null, default);
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, associatedInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, associatedInstance);
 			};
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
@@ -340,7 +343,7 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		private async void RemoveRecentItem(RecentItem item)
+		private async Task RemoveRecentItem(RecentItem item)
 		{
 			await refreshRecentsSemaphore.WaitAsync();
 
@@ -354,7 +357,7 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		private async void ClearRecentItems()
+		private async Task ClearRecentItems()
 		{
 			await refreshRecentsSemaphore.WaitAsync();
 			try

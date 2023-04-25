@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
@@ -772,7 +775,7 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		private async void CancelOperation(object operationID)
+		private void CancelOperation(object operationID)
 			=> FileOperationsHelpers.TryCancelOperation((string)operationID);
 
 		private async Task<bool> RequestAdminOperation()

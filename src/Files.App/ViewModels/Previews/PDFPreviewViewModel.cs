@@ -1,14 +1,10 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Windows.Data.Pdf;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
@@ -57,7 +53,7 @@ namespace Files.App.ViewModels.Previews
 			return details;
 		}
 
-		public async void TryLoadPagesAsync(PdfDocument pdf, IRandomAccessStream fileStream)
+		public async Task TryLoadPagesAsync(PdfDocument pdf, IRandomAccessStream fileStream)
 		{
 			try
 			{

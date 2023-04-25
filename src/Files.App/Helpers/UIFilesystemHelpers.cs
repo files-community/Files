@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Dialogs;
 using Files.App.Extensions;
@@ -30,7 +33,7 @@ namespace Files.App.Helpers
 	{
 		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
-		public static async void CutItem(IShellPage associatedInstance)
+		public static async Task CutItem(IShellPage associatedInstance)
 		{
 			DataPackage dataPackage = new DataPackage()
 			{
@@ -280,7 +283,7 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static async void CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
+		public static async Task CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
 		{
 			await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
 		}

@@ -1,19 +1,16 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.UI;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.App.Views.LayoutModes;
 using Files.Backend.Enums;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Linq;
 using Windows.Storage;
 using Windows.System;
 
@@ -82,6 +79,7 @@ namespace Files.App.Views
 			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
 			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
 			base.Page_Loaded(sender, e);
 
@@ -216,7 +214,7 @@ namespace Files.App.Views
 			//this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);
 		}
 
-		private async void CreateNewShortcutFromDialog()
+		private async Task CreateNewShortcutFromDialog()
 			=> await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 	}
 }

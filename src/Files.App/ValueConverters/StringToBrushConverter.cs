@@ -1,7 +1,9 @@
-﻿using CommunityToolkit.WinUI.Helpers;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
-using System;
 
 namespace Files.App.ValueConverters
 {

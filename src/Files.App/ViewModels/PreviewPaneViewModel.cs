@@ -1,19 +1,13 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Filesystem;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
 using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Shared.Cloud;
 using Files.Shared.EventArguments;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 
@@ -244,7 +238,7 @@ namespace Files.App.ViewModels
 			return control ?? null;
 		}
 
-		public async void UpdateSelectedItemPreview(bool downloadItem = false)
+		public async Task UpdateSelectedItemPreview(bool downloadItem = false)
 		{
 			loadCancellationTokenSource?.Cancel();
 			if (SelectedItem is not null && IsItemSelected)

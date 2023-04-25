@@ -1,3 +1,7 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.DataModels;
 using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
@@ -8,7 +12,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class CompatibilityPage : BasePropertiesPage
 	{
-		public CompatibilityViewModel CompatibilityProperties { get; set; }
+		private CompatibilityViewModel CompatibilityProperties { get; set; }
 
 		public CompatibilityPage()
 		{
@@ -17,12 +21,9 @@ namespace Files.App.Views.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = e.Parameter as Views.Properties.MainPropertiesPage.PropertyNavParam;
-
-			if (np.navParameter is ListedItem listedItem)
-			{
+			var np = (PropertiesPageNavigationParameter)e.Parameter;
+			if (np.Parameter is ListedItem listedItem)
 				CompatibilityProperties = new CompatibilityViewModel(listedItem);
-			}
 
 			base.OnNavigatedTo(e);
 		}
@@ -31,10 +32,7 @@ namespace Files.App.Views.Properties
 		{
 			base.Properties_Loaded(sender, e);
 
-			if (CompatibilityProperties is not null)
-			{
-				CompatibilityProperties.GetCompatibilityOptions();
-			}
+			CompatibilityProperties?.GetCompatibilityOptions();
 		}
 
 		public override Task<bool> SaveChangesAsync()

@@ -1,21 +1,13 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.UserControls.Widgets;
-using Files.Backend.Services.Settings;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.DataModels

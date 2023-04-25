@@ -1,4 +1,7 @@
-﻿using Files.App.Helpers.MMI;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Helpers.MMI;
 using Files.App.MMI;
 using Files.Shared;
 using Microsoft.Management.Infrastructure;
