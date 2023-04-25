@@ -1,31 +1,22 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.DataModels;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.Cloud;
 using Files.App.Filesystem.FilesystemHistory;
-using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.ServicesImplementation.DateTimeFormatter;
 using Files.App.ServicesImplementation.Settings;
 using Files.App.Shell;
 using Files.App.Storage.NativeStorage;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Settings;
 using Files.App.Views;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
 using Files.Sdk.Storage;
-using Files.Shared;
 using Files.Shared.Cloud;
-using Files.Shared.Extensions;
 using Files.Shared.Services;
 using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.AppCenter;
@@ -38,12 +29,8 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
-using System;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -101,13 +88,25 @@ namespace Files.App
 			QuickAccessManager ??= new QuickAccessManager();
 		}
 
-		private static Task StartAppCenter()
+		private static async Task<Task> StartAppCenter()
 		{
 			try
 			{
 				// AppCenter secret is injected in builds/azure-pipelines-release.yml
 				if (!AppCenter.Configured)
 					AppCenter.Start("appcenter.secret", typeof(Analytics), typeof(Crashes));
+
+				StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+				StorageFile storageFile = await storageFolder.GetFileAsync("debug.log");
+				var logs = await FileIO.ReadTextAsync(storageFile);
+
+				Crashes.GetErrorAttachments = (ErrorReport report) =>
+				{
+					return new ErrorAttachmentLog[]
+					{
+					ErrorAttachmentLog.AttachmentWithText(logs, "debug.log"),
+					};
+				};
 			}
 			catch (Exception ex)
 			{
@@ -127,7 +126,9 @@ namespace Files.App
 			await Task.Run(async () =>
 			{
 				await Task.WhenAll(
+#if STORE || STABLE || PREVIEW
 					StartAppCenter(),
+#endif
 					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					LibraryManager.UpdateLibrariesAsync(),
 					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowNetworkDrivesSection),
@@ -176,12 +177,12 @@ namespace Files.App
 			// Initialize MainWindow here
 			EnsureWindowIsInitialized();
 			host = Host.CreateDefaultBuilder()
-				.ConfigureLogging(builder => 
+				.ConfigureLogging(builder =>
 					builder
 					.AddProvider(new FileLoggerProvider(logPath))
 					.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Information)
 				)
-				.ConfigureServices(services => 
+				.ConfigureServices(services =>
 					services
 						.AddSingleton<IUserSettingsService, UserSettingsService>()
 						.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
@@ -332,7 +333,7 @@ namespace Files.App
 		/// <summary>
 		/// Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages.
 		/// </summary>
-		public static void SaveSessionTabs() 
+		public static void SaveSessionTabs()
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
@@ -410,11 +411,14 @@ namespace Files.App
 
 			Debug.WriteLine(formattedException.ToString());
 
-			 // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
+			// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 			Debugger.Break();
 
 			SaveSessionTabs();
 			App.Logger.LogError(ex, ex.Message);
+
+			// TODO enable this code if uploading the existing log file isn't helping
+			// Crashes.TrackError(ex, (IDictionary<string, string>)ErrorAttachmentLog.AttachmentWithText(ex.Message, "debug.log"));
 
 			if (!ShowErrorNotification || !shouldShowNotification)
 				return;
