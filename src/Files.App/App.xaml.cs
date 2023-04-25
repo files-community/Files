@@ -39,6 +39,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -101,25 +102,13 @@ namespace Files.App
 			QuickAccessManager ??= new QuickAccessManager();
 		}
 
-		private static async Task<Task> StartAppCenter()
+		private static Task StartAppCenter()
 		{
 			try
 			{
 				// AppCenter secret is injected in builds/azure-pipelines-release.yml
 				if (!AppCenter.Configured)
-					AppCenter.Start("appcenter.secret", typeof(Analytics), typeof(Crashes));
-
-				StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-				StorageFile storageFile = await storageFolder.GetFileAsync("debug.log");
-				var logs = await FileIO.ReadTextAsync(storageFile);
-
-				Crashes.GetErrorAttachments = (ErrorReport report) =>
-				{
-					return new ErrorAttachmentLog[]
-					{
-					ErrorAttachmentLog.AttachmentWithText(logs, "debug.log"),
-					};
-				};
+					AppCenter.Start("appcenter.secret", typeof(Analytics));
 			}
 			catch (Exception ex)
 			{
@@ -129,49 +118,49 @@ namespace Files.App
 			return Task.CompletedTask;
 		}
 
-		private static async Task InitializeAppComponentsAsync()
-		{
-			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
-			var generalSettingsService = userSettingsService.GeneralSettingsService;
-
-			// Start off a list of tasks we need to run before we can continue startup
-			await Task.Run(async () =>
+			private static async Task InitializeAppComponentsAsync()
 			{
-				await Task.WhenAll(
-#if STORE || STABLE || PREVIEW
-					StartAppCenter(),
-#endif
-					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
-					LibraryManager.UpdateLibrariesAsync(),
-					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowNetworkDrivesSection),
-					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-					QuickAccessManager.InitializeAsync()
-				);
+				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+				var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+				var generalSettingsService = userSettingsService.GeneralSettingsService;
 
-				await Task.WhenAll(
-					JumpListHelper.InitializeUpdatesAsync(),
-					addItemService.GetNewEntriesAsync(),
-					ContextMenu.WarmUpQueryContextMenuAsync()
-				);
+				// Start off a list of tasks we need to run before we can continue startup
+				await Task.Run(async () =>
+				{
+					await Task.WhenAll(
+//#if STORE || STABLE || PREVIEW
+						StartAppCenter(),
+//#endif
+						OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
+						LibraryManager.UpdateLibrariesAsync(),
+						OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowNetworkDrivesSection),
+						OptionalTask(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+						OptionalTask(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+						QuickAccessManager.InitializeAsync()
+					);
 
-				FileTagsHelper.UpdateTagsDb();
-			});
+					await Task.WhenAll(
+						JumpListHelper.InitializeUpdatesAsync(),
+						addItemService.GetNewEntriesAsync(),
+						ContextMenu.WarmUpQueryContextMenuAsync()
+					);
 
-			// Check for required updates
-			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
-			await updateService.CheckForUpdates();
-			await updateService.DownloadMandatoryUpdates();
-			await updateService.CheckAndUpdateFilesLauncherAsync();
-			await updateService.CheckLatestReleaseNotesAsync();
+					FileTagsHelper.UpdateTagsDb();
+				});
 
-			static async Task OptionalTask(Task task, bool condition)
-			{
-				if (condition)
-					await task;
+				// Check for required updates
+				var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
+				await updateService.CheckForUpdates();
+				await updateService.DownloadMandatoryUpdates();
+				await updateService.CheckAndUpdateFilesLauncherAsync();
+				await updateService.CheckLatestReleaseNotesAsync();
+
+				static async Task OptionalTask(Task task, bool condition)
+				{
+					if (condition)
+						await task;
+				}
 			}
-		}
 
 		/// <summary>
 		/// Invoked when the application is launched normally by the end user.  Other entry points
@@ -429,9 +418,7 @@ namespace Files.App
 
 			SaveSessionTabs();
 			App.Logger.LogError(ex, ex.Message);
-
-			// TODO enable this code if uploading the existing log file isn't helping
-			// Crashes.TrackError(ex, (IDictionary<string, string>)ErrorAttachmentLog.AttachmentWithText(ex.Message, "debug.log"));
+			Crashes.TrackError(ex, (IDictionary<string, string>)ErrorAttachmentLog.AttachmentWithText(formattedException.ToString(), "debug.log"));
 
 			if (!ShowErrorNotification || !shouldShowNotification)
 				return;
