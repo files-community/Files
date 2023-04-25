@@ -2,6 +2,7 @@
 	x:Class="Files.App.UserControls.InnerNavigationToolbar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
@@ -492,7 +493,7 @@
 				<local:OpacityIcon Style="{StaticResource ColorIconSort}" />
 
 				<AppBarButton.Flyout>
-					<MenuFlyout Placement="Bottom">
+					<MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
 						<MenuFlyoutSubItem
 							AccessKey="S"
 							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
@@ -592,7 +593,7 @@
 				</AppBarButton.Icon>
 
 				<AppBarButton.Flyout>
-					<Flyout Placement="Bottom">
+					<Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
 						<StackPanel Spacing="12">
 
 							<!--  Header  -->
