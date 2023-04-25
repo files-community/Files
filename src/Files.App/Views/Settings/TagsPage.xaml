@@ -158,7 +158,7 @@
 								<Button
 									Command="{x:Bind ViewModel.SaveNewTagCommand, Mode=OneWay}"
 									Content="{helpers:ResourceString Name=Create}"
-									IsEnabled="{x:Bind ViewModel.NewTag.IsNameValid, Mode=OneWay}"
+									IsEnabled="{x:Bind ViewModel.NewTag.CanCommit, Mode=OneWay}"
 									Style="{StaticResource AccentButtonStyle}" />
 							</StackPanel>
 						</Grid>
