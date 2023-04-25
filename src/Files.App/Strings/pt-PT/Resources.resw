@@ -2740,7 +2740,7 @@
     <value>Executar script PowerShell selecionado</value>
   </data>
   <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Launch QuickLook with selected item</value>
+    <value>Iniciar QuickLook no item selecionado</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Criar arquivo com os itens selecionados</value>
@@ -2800,7 +2800,7 @@
     <value>Trocar para a vista de colunas</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>Troca de vistas adaptável</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Ordenar itens por nome</value>
