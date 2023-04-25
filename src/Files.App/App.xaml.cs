@@ -118,49 +118,49 @@ namespace Files.App
 			return Task.CompletedTask;
 		}
 
-			private static async Task InitializeAppComponentsAsync()
+		private static async Task InitializeAppComponentsAsync()
+		{
+			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+			var generalSettingsService = userSettingsService.GeneralSettingsService;
+
+			// Start off a list of tasks we need to run before we can continue startup
+			await Task.Run(async () =>
 			{
-				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-				var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
-				var generalSettingsService = userSettingsService.GeneralSettingsService;
+				await Task.WhenAll(
+					//#if STORE || STABLE || PREVIEW
+					StartAppCenter(),
+					//#endif
+					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
+					LibraryManager.UpdateLibrariesAsync(),
+					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowNetworkDrivesSection),
+					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+					QuickAccessManager.InitializeAsync()
+				);
 
-				// Start off a list of tasks we need to run before we can continue startup
-				await Task.Run(async () =>
-				{
-					await Task.WhenAll(
-//#if STORE || STABLE || PREVIEW
-						StartAppCenter(),
-//#endif
-						OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
-						LibraryManager.UpdateLibrariesAsync(),
-						OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowNetworkDrivesSection),
-						OptionalTask(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-						OptionalTask(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-						QuickAccessManager.InitializeAsync()
-					);
+				await Task.WhenAll(
+					JumpListHelper.InitializeUpdatesAsync(),
+					addItemService.GetNewEntriesAsync(),
+					ContextMenu.WarmUpQueryContextMenuAsync()
+				);
 
-					await Task.WhenAll(
-						JumpListHelper.InitializeUpdatesAsync(),
-						addItemService.GetNewEntriesAsync(),
-						ContextMenu.WarmUpQueryContextMenuAsync()
-					);
+				FileTagsHelper.UpdateTagsDb();
+			});
 
-					FileTagsHelper.UpdateTagsDb();
-				});
+			// Check for required updates
+			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
+			await updateService.CheckForUpdates();
+			await updateService.DownloadMandatoryUpdates();
+			await updateService.CheckAndUpdateFilesLauncherAsync();
+			await updateService.CheckLatestReleaseNotesAsync();
 
-				// Check for required updates
-				var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
-				await updateService.CheckForUpdates();
-				await updateService.DownloadMandatoryUpdates();
-				await updateService.CheckAndUpdateFilesLauncherAsync();
-				await updateService.CheckLatestReleaseNotesAsync();
-
-				static async Task OptionalTask(Task task, bool condition)
-				{
-					if (condition)
-						await task;
-				}
+			static async Task OptionalTask(Task task, bool condition)
+			{
+				if (condition)
+					await task;
 			}
+		}
 
 		/// <summary>
 		/// Invoked when the application is launched normally by the end user.  Other entry points
