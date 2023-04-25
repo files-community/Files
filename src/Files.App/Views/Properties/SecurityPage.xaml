@@ -71,7 +71,8 @@
 							Padding="8"
 							Background="Transparent"
 							BorderBrush="Transparent"
-							Command="{x:Bind SecurityViewModel.AddAccessControlEntryCommand}">
+							Command="{x:Bind SecurityViewModel.AddAccessControlEntryCommand, Mode=OneWay}"
+							IsEnabled="{x:Bind SecurityViewModel.IsAddAccessControlEntryButtonEnabled, Mode=OneWay}">
 							<FontIcon FontSize="16" Glyph="&#xE710;" />
 						</Button>
 
@@ -79,7 +80,8 @@
 							Padding="8"
 							Background="Transparent"
 							BorderBrush="Transparent"
-							Command="{x:Bind SecurityViewModel.RemoveAccessControlEntryCommand}">
+							Command="{x:Bind SecurityViewModel.RemoveAccessControlEntryCommand, Mode=OneWay}"
+							IsEnabled="{x:Bind SecurityViewModel.IsDeleteAccessControlEntryButtonEnabled, Mode=OneWay}">
 							<FontIcon FontSize="16" Glyph="&#xE738;" />
 						</Button>
 
