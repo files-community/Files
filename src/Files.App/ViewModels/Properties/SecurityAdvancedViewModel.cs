@@ -167,6 +167,10 @@ namespace Files.App.ViewModels.Properties
 
 		private async Task ExecuteRemoveAccessControlEntryCommand()
 		{
+			// TODO: Should show a dialog to notify that that entry couldn't removed
+			if (SelectedAccessControlEntry.IsInherited)
+				return;
+
 			// Get index of the ACE
 			var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);
 

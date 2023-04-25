@@ -12,11 +12,23 @@ namespace Files.App.ViewModels.Properties
 
 		private readonly Window _window;
 
-		private bool _IsFolder;
-		public bool IsFolder
+		public string SelectedItemHeaderText
+			=> string.Format("SecurityPermissionsHeaderText".GetLocalizedResource(), SelectedAccessControlEntry.Principal.DisplayName);
+
+		public readonly bool _isFolder;
+
+		private bool _IsAddAccessControlEntryButtonEnabled;
+		public bool IsAddAccessControlEntryButtonEnabled
 		{
-			get => _IsFolder;
-			set => SetProperty(ref _IsFolder, value);
+			get => _IsAddAccessControlEntryButtonEnabled;
+			set => SetProperty(ref _IsAddAccessControlEntryButtonEnabled, value);
+		}
+
+		private bool _IsDeleteAccessControlEntryButtonEnabled;
+		public bool IsDeleteAccessControlEntryButtonEnabled
+		{
+			get => _IsDeleteAccessControlEntryButtonEnabled;
+			set => SetProperty(ref _IsDeleteAccessControlEntryButtonEnabled, value);
 		}
 
 		private AccessControlList _AccessControlList;
@@ -45,17 +57,14 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public string SelectedItemHeaderText
-			=> string.Format("SecurityPermissionsHeaderText".GetLocalizedResource(), SelectedAccessControlEntry.Principal.DisplayName);
-
 		public IAsyncRelayCommand AddAccessControlEntryCommand { get; set; }
 		public IAsyncRelayCommand RemoveAccessControlEntryCommand { get; set; }
 
 		public SecurityViewModel(ListedItem item, Window window)
 		{
-			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
+			_isFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
 			_path = item.ItemPath;
-			AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, IsFolder);
+			AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, _isFolder);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 			_window = window;
 
@@ -65,9 +74,9 @@ namespace Files.App.ViewModels.Properties
 
 		public SecurityViewModel(DriveItem item, Window window)
 		{
-			IsFolder = true;
+			_isFolder = true;
 			_path = item.Path;
-			AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, IsFolder);
+			AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, _isFolder);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 			_window = window;
 
@@ -83,7 +92,7 @@ namespace Files.App.ViewModels.Properties
 				return;
 
 			// Add a new ACE to the ACL
-			var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(IsFolder, sid);
+			var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(_isFolder, sid);
 			AccessControlList.AccessControlEntries.Insert(0, ace);
 
 			// Apply changes
