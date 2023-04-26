@@ -8,14 +8,11 @@ namespace Files.App.ViewModels.Properties
 {
 	public class SecurityViewModel : ObservableObject
 	{
-		private readonly string _path;
-
 		private readonly Window _window;
 
-		public string SelectedItemHeaderText
-			=> string.Format("SecurityPermissionsHeaderText".GetLocalizedResource(), SelectedAccessControlEntry.Principal.DisplayName);
+		private readonly string _path;
 
-		public readonly bool _isFolder;
+		private readonly bool _isFolder;
 
 		public bool IsAddAccessControlEntryButtonEnabled =>
 			AccessControlList is not null &&
@@ -27,6 +24,9 @@ namespace Files.App.ViewModels.Properties
 			SelectedAccessControlEntry is not null &&
 			SelectedAccessControlEntry.IsInherited is false;
 
+		public string SelectedItemHeaderText
+			=> string.Format("SecurityPermissionsHeaderText".GetLocalizedResource(), SelectedAccessControlEntry.Principal.DisplayName);
+
 		private AccessControlList _AccessControlList;
 		public AccessControlList AccessControlList
 		{
@@ -34,8 +34,8 @@ namespace Files.App.ViewModels.Properties
 			set => SetProperty(ref _AccessControlList, value);
 		}
 
-		private AccessControlEntry _SelectedAccessControlEntry;
-		public AccessControlEntry SelectedAccessControlEntry
+		private AccessControlEntry? _SelectedAccessControlEntry;
+		public AccessControlEntry? SelectedAccessControlEntry
 		{
 			get => _SelectedAccessControlEntry;
 			set
@@ -47,9 +47,9 @@ namespace Files.App.ViewModels.Properties
 				if (value is not null && SetProperty(ref _SelectedAccessControlEntry, value))
 				{
 					value.IsSelected = true;
-					RemoveAccessControlEntryCommand?.NotifyCanExecuteChanged();
-					OnPropertyChanged(nameof(SelectedItemHeaderText));
+
 					OnPropertyChanged(nameof(IsDeleteAccessControlEntryButtonEnabled));
+					OnPropertyChanged(nameof(SelectedItemHeaderText));
 				}
 			}
 		}
@@ -88,7 +88,6 @@ namespace Files.App.ViewModels.Properties
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			// Apply changes
 			await App.Window.DispatcherQueue.EnqueueAsync(() =>
 			{
 				// Run Win32API
@@ -102,7 +101,6 @@ namespace Files.App.ViewModels.Properties
 
 		private async Task ExecuteRemoveAccessControlEntryCommand()
 		{
-			// Apply changes
 			await App.Window.DispatcherQueue.EnqueueAsync(() =>
 			{
 				// Get index of the ACE
