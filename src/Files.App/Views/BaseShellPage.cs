@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using Files.App.Commands;
 using Files.App.Filesystem.FilesystemHistory;
@@ -625,7 +628,7 @@ namespace Files.App.Views
 			if (drivesViewModel?.ShowUserConsentOnInit ?? false)
 			{
 				drivesViewModel.ShowUserConsentOnInit = false;
-				await DispatcherQueue.EnqueueAsync(async () =>
+				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
 					await SetContentDialogRoot(dialog).ShowAsync(ContentDialogPlacement.Popup);

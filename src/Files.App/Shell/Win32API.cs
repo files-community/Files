@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Drawing;
 using System.Drawing.Imaging;

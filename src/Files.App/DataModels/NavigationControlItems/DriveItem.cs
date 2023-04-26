@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using ByteSizeLib;
 using CommunityToolkit.WinUI;
 using Files.App.Storage.WindowsStorage;
@@ -175,7 +178,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			item.DeviceID = deviceId;
 			item.Root = root;
 
-			_ = App.Window.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
+			_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => item.UpdatePropertiesAsync());
 
 			return item;
 		}

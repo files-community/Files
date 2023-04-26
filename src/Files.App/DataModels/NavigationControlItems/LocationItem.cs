@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using Files.App.Shell;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -89,7 +92,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			{
 				SetProperty(ref spaceUsed, value);
 
-				App.Window.DispatcherQueue.EnqueueAsync(() => OnPropertyChanged(nameof(ToolTipText)));
+				App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => OnPropertyChanged(nameof(ToolTipText)));
 			}
 		}
 

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
@@ -85,7 +88,7 @@ namespace Files.App.ViewModels.Previews
 				BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
 				using SoftwareBitmap sw = await decoder.GetSoftwareBitmapAsync();
 
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					BitmapImage src = new();
 					PageViewModel pageData = new()

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Dialogs;
 using Files.App.Helpers;
 using Files.App.ViewModels.Dialogs;
