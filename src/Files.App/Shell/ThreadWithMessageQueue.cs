@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Runtime.Versioning;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace Files.App.Shell
@@ -9,7 +9,7 @@ namespace Files.App.Shell
 	[SupportedOSPlatform("Windows")]
 	public class ThreadWithMessageQueue : Disposable
 	{
-		private readonly BlockingCollection<Internal> messageQueue;
+		private readonly Channel<Internal> channel;
 
 		private readonly Thread thread;
 
@@ -17,42 +17,46 @@ namespace Files.App.Shell
 		{
 			if (disposing)
 			{
-				messageQueue.CompleteAdding();
+				channel.Writer.TryComplete();
 				thread.Join();
-				messageQueue.Dispose();
 			}
 		}
 
 		public async Task<V> PostMethod<V>(Func<object> payload)
 		{
 			var message = new Internal(payload);
-			messageQueue.TryAdd(message);
+
+			if (await channel.Writer.WaitToWriteAsync())
+				channel.Writer.TryWrite(message);
 
 			return (V)await message.tcs.Task;
 		}
 
-		public Task PostMethod(Action payload)
+		public async Task<object> PostMethod(Action payload)
 		{
 			var message = new Internal(payload);
-			messageQueue.TryAdd(message);
 
-			return message.tcs.Task;
+			if (await channel.Writer.WaitToWriteAsync())
+				channel.Writer.TryWrite(message);
+
+			return await message.tcs.Task;
 		}
 
 		public ThreadWithMessageQueue()
 		{
-			messageQueue = new BlockingCollection<Internal>(new ConcurrentQueue<Internal>());
+			channel = Channel.CreateUnbounded<Internal>(new UnboundedChannelOptions { SingleReader = true });
 
-			thread = new Thread(new ThreadStart(() =>
+			thread = new Thread(new ThreadStart(async () =>
 			{
-				foreach (var message in messageQueue.GetConsumingEnumerable())
+				while (await channel.Reader.WaitToReadAsync())
 				{
-					var res = message.payload();
-					message.tcs.SetResult(res);
+					while (channel.Reader.TryRead(out var message))
+					{
+						var res = message.payload();
+						message.tcs.SetResult(res);
+					}
 				}
 			}));
-
-			thread.SetApartmentState(ApartmentState.STA);
 
 			// Do not prevent app from closing
 			thread.IsBackground = true;
