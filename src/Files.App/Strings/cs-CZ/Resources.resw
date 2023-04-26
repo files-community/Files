@@ -2635,13 +2635,13 @@
     <value>Toggle whether to show sidebar</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy item(s) to clipboard</value>
+    <value>Kopírovat do schránky</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of item to clipboard</value>
+    <value>Zkopírovat umístění položky do schránky</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut item(s) to clipboard</value>
+    <value>Vyjmout do schránky</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Paste item(s) from clipboard to current folder</value>
@@ -2659,34 +2659,34 @@
     <value>Vytvořit nové zástupce pro vybrané položky</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>Vytvořit nového zástupce pro libovolnou položku</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Vyprázdnit koš</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Open "Format Drive" menu for selected item</value>
+    <value>Otevře menu "Formátovat disk" pro vybranou položku</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
     <value>Restore selected item(s) from recycle bin</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>Obnoví veškeré položky umístěné v koši</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open item(s)</value>
+    <value>Otevře položky</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
     <value>Open item(s) with selected application</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Open parent folder of searched item</value>
+    <value>Otevřít nadřazenou složku vyhledané položky</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>Aktualizovat obsah stránky</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>Rename selected item</value>
+    <value>Přejmenovat vybranou položku</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
     <value>Vybrat všechny položky</value>
@@ -2731,22 +2731,22 @@
     <value>Install driver(s) using selected inf file(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Run selected application as administrator</value>
+    <value>Spustit vybranou aplikaci jako administrátor</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>Spustit vybranou aplikaci jako jiný uživatel</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Run selected PowerShell script</value>
+    <value>Spustit vybraný skript PowerShell</value>
   </data>
   <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Launch QuickLook with selected item</value>
+    <value>Spustit QuickLook s vybranou položkou</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected item(s)</value>
+    <value>Vytvořit archiv s vybranými položkami</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive instantly with selected item(s)</value>
+    <value>Vytvořit okamžitě 7z archiv s vybranými položkami</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
     <value>Create zip archive instantly with selected item(s)</value>
