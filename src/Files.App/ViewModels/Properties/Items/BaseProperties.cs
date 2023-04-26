@@ -92,7 +92,7 @@ namespace Files.App.ViewModels.Properties
 
 					if (size > ViewModel.ItemSizeBytes)
 					{
-						await Dispatcher.EnqueueAsync(() =>
+						await Dispatcher.EnqueueOrInvokeAsync(() =>
 						{
 							ViewModel.ItemSizeBytes = size;
 							ViewModel.ItemSize = size.ToSizeString();

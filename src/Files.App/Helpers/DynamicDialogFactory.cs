@@ -90,7 +90,7 @@ namespace Files.App.Helpers
 			inputText.TextChanged += (textBox, args) =>
 			{
 				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
-				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = !isInputValid;
+				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = !string.IsNullOrEmpty(inputText.Text) && !isInputValid;
 				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
 														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 														: DynamicDialogButtons.Cancel;
@@ -101,8 +101,7 @@ namespace Files.App.Helpers
 			inputText.Loaded += (s, e) =>
 			{
 				// dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
-				_ = inputText.DispatcherQueue.EnqueueAsync(() => inputText.Focus(FocusState.Programmatic));
-				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = true;
+				_ = inputText.DispatcherQueue.EnqueueOrInvokeAsync(() => inputText.Focus(FocusState.Programmatic));
 			};
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()

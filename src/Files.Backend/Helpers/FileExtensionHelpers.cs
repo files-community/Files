@@ -29,7 +29,7 @@ namespace Files.Backend.Helpers
 		/// <returns><c>true</c> if the fileExtensionToCheck is an image;
 		/// otherwise, <c>false</c>.</returns>
 		public static bool IsImageFile(string? fileExtensionToCheck)
-			=> HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg");
+			=> HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".gif", ".tiff", ".tif");
 
 		/// <summary>
 		/// Check if the file extension is a PowerShell script.
