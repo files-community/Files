@@ -26,7 +26,7 @@ namespace Files.App.Shell
 		public async Task<V> PostMethod<V>(Func<object> payload)
 		{
 			var message = new Internal(payload);
-			messageQueue.Add(message);
+			messageQueue.TryAdd(message);
 
 			return (V)await message.tcs.Task;
 		}
@@ -34,21 +34,27 @@ namespace Files.App.Shell
 		public Task PostMethod(Action payload)
 		{
 			var message = new Internal(payload);
-			messageQueue.Add(message);
+			messageQueue.TryAdd(message);
 
 			return message.tcs.Task;
 		}
 
 		public ThreadWithMessageQueue()
 		{
-			messageQueue = new BlockingCollection<Internal>(1);
+			messageQueue = new BlockingCollection<Internal>();
 
 			thread = new Thread(new ThreadStart(() =>
 			{
-				foreach (var message in messageQueue.GetConsumingEnumerable())
+				while (!messageQueue.IsCompleted)
 				{
-					var res = message.payload();
-					message.tcs.SetResult(res);
+					try
+					{
+						var message = messageQueue.Take();
+
+						var res = message.payload();
+						message.tcs.SetResult(res);
+					}
+					catch (InvalidOperationException) { }
 				}
 			}));
 
