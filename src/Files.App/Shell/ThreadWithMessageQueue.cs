@@ -26,7 +26,7 @@ namespace Files.App.Shell
 		public async Task<V> PostMethod<V>(Func<object> payload)
 		{
 			var message = new Internal(payload);
-			messageQueue.TryAdd(message);
+			messageQueue.Add(message);
 
 			return (V)await message.tcs.Task;
 		}
@@ -34,14 +34,14 @@ namespace Files.App.Shell
 		public Task PostMethod(Action payload)
 		{
 			var message = new Internal(payload);
-			messageQueue.TryAdd(message);
+			messageQueue.Add(message);
 
 			return message.tcs.Task;
 		}
 
 		public ThreadWithMessageQueue()
 		{
-			messageQueue = new BlockingCollection<Internal>(new ConcurrentQueue<Internal>());
+			messageQueue = new BlockingCollection<Internal>(1);
 
 			thread = new Thread(new ThreadStart(() =>
 			{
