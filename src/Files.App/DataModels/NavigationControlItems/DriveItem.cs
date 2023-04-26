@@ -1,20 +1,20 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using ByteSizeLib;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.Shared.Extensions;
+using Files.App.Storage.WindowsStorage;
+using Files.Sdk.Storage;
+using Files.Sdk.Storage.Enums;
+using Files.Sdk.Storage.LocatableStorage;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace Files.App.DataModels.NavigationControlItems
 {
-	public class DriveItem : ObservableObject, INavigationControlItem
+	public class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
 	{
 		private BitmapImage icon;
 		public BitmapImage Icon
@@ -22,8 +22,6 @@ namespace Files.App.DataModels.NavigationControlItems
 			get => icon;
 			set => SetProperty(ref icon, value);
 		}
-
-		//public Uri IconSource { get; set; }
 
 		public byte[] IconData { get; set; }
 
@@ -150,6 +148,10 @@ namespace Files.App.DataModels.NavigationControlItems
 			set => SetProperty(ref showStorageSense, value);
 		}
 
+		public string Id => DeviceID;
+
+		public string Name => Root.DisplayName;
+
 		public DriveItem()
 		{
 			ItemType = NavigationControlItemType.CloudDrive;
@@ -176,7 +178,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			item.DeviceID = deviceId;
 			item.Root = root;
 
-			_ = App.Window.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
+			_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => item.UpdatePropertiesAsync());
 
 			return item;
 		}
@@ -235,17 +237,22 @@ namespace Files.App.DataModels.NavigationControlItems
 			return result == 0 ? Text.CompareTo(other.Text) : result;
 		}
 
-		public async Task LoadDriveIcon()
+		public async Task LoadThumbnailAsync(bool isSidebar = false)
 		{
-			if (IconData is null)
+			if (!isSidebar)
+			{
+				using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
+				IconData ??= await thumbnail.ToByteArrayAsync();
+			}
+			else
 			{
 				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
-					IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
+					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
 
-				IconData ??= UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder).IconData;
+				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			}
 
-			Icon = await IconData.ToBitmapAsync();
+			Icon ??= await IconData.ToBitmapAsync();
 		}
 
 		private string GetSizeString()
@@ -254,6 +261,30 @@ namespace Files.App.DataModels.NavigationControlItems
 				"DriveFreeSpaceAndCapacity".GetLocalizedResource(),
 				FreeSpace.ToSizeString(),
 				MaxSpace.ToSizeString());
+		}
+
+		public Task<IFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
+		{
+			var folder = new WindowsStorageFolder(Root);
+			return folder.GetFileAsync(fileName, cancellationToken);
+		}
+
+		public Task<IFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
+		{
+			var folder = new WindowsStorageFolder(Root);
+			return folder.GetFolderAsync(folderName, cancellationToken);
+		}
+
+		public IAsyncEnumerable<IStorable> GetItemsAsync(StorableKind kind = StorableKind.All, CancellationToken cancellationToken = default)
+		{
+			var folder = new WindowsStorageFolder(Root);
+			return folder.GetItemsAsync(kind, cancellationToken);
+		}
+
+		public Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		{
+			var folder = new WindowsStorageFolder(Root);
+			return folder.GetParentAsync(cancellationToken);
 		}
 	}
 

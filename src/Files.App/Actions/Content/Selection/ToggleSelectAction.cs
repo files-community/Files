@@ -1,4 +1,7 @@
-﻿using Files.App.Commands;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Commands;
 using Files.App.Extensions;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
@@ -9,7 +12,7 @@ namespace Files.App.Actions
 	internal class ToggleSelectAction : IAction
 	{
 		public string Label { get; } = "ToggleSelect".GetLocalizedResource();
-		public string Description => "TODO: Need to be described.";
+		public string Description => "ToggleSelectDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.Space, KeyModifiers.Ctrl);
 

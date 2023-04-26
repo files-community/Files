@@ -47,6 +47,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Notifications;
 
 namespace Files.App
@@ -62,8 +63,6 @@ namespace Files.App
 		public static RecentItems RecentItemsManager { get; private set; }
 		public static QuickAccessManager QuickAccessManager { get; private set; }
 		public static CloudDrivesManager CloudDrivesManager { get; private set; }
-		public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
-		public static DrivesManager DrivesManager { get; private set; }
 		public static WSLDistroManager WSLDistroManager { get; private set; }
 		public static LibraryManager LibraryManager { get; private set; }
 		public static FileTagsManager FileTagsManager { get; private set; }
@@ -73,8 +72,6 @@ namespace Files.App
 
 		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
 		public static string LogoPath;
-
-		public IServiceProvider Services { get; private set; }
 
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
@@ -94,8 +91,6 @@ namespace Files.App
 			RecentItemsManager ??= new RecentItems();
 			AppModel ??= new AppModel();
 			LibraryManager ??= new LibraryManager();
-			DrivesManager ??= new DrivesManager();
-			NetworkDrivesManager ??= new NetworkDrivesManager();
 			CloudDrivesManager ??= new CloudDrivesManager();
 			WSLDistroManager ??= new WSLDistroManager();
 			FileTagsManager ??= new FileTagsManager();
@@ -104,6 +99,7 @@ namespace Files.App
 
 		private static Task StartAppCenter()
 		{
+#if STORE || STABLE || PREVIEW
 			try
 			{
 				// AppCenter secret is injected in builds/azure-pipelines-release.yml
@@ -114,7 +110,7 @@ namespace Files.App
 			{
 				App.Logger.LogWarning(ex, "AppCenter could not be started.");
 			}
-
+#endif
 			return Task.CompletedTask;
 		}
 
@@ -122,19 +118,17 @@ namespace Files.App
 		{
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
-			var preferencesSettingsService = userSettingsService.PreferencesSettingsService;
+			var generalSettingsService = userSettingsService.GeneralSettingsService;
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.Run(async () =>
 			{
 				await Task.WhenAll(
 					StartAppCenter(),
-					DrivesManager.UpdateDrivesAsync(),
-					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), preferencesSettingsService.ShowCloudDrivesSection),
+					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					LibraryManager.UpdateLibrariesAsync(),
-					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), preferencesSettingsService.ShowNetworkDrivesSection),
-					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), preferencesSettingsService.ShowWslSection),
-					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), preferencesSettingsService.ShowFileTagsSection),
+					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
 					QuickAccessManager.InitializeAsync()
 				);
 
@@ -187,7 +181,7 @@ namespace Files.App
 					services
 						.AddSingleton<IUserSettingsService, UserSettingsService>()
 						.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+						.AddSingleton<IGeneralSettingsService, GeneralSettingsService>((sp) => new GeneralSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 						.AddSingleton<IFoldersSettingsService, FoldersSettingsService>((sp) => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 						.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>((sp) => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 						.AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>((sp) => new PreviewPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
@@ -213,7 +207,7 @@ namespace Files.App
 						.AddSingleton<IStorageService, NativeStorageService>()
 #endif
 						.AddSingleton<IAddItemService, AddItemService>()
-#if SIDELOAD
+#if STABLE || PREVIEW
 						.AddSingleton<IUpdateService, SideloadUpdateService>()
 #else
 						.AddSingleton<IUpdateService, UpdateService>()
@@ -225,10 +219,14 @@ namespace Files.App
 						.AddSingleton<IQuickAccessService, QuickAccessService>()
 						.AddSingleton<IResourcesService, ResourcesService>()
 						.AddSingleton<IJumpListService, JumpListService>()
+						.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
+						.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
 						.AddSingleton<MainPageViewModel>()
 						.AddSingleton<PreviewPaneViewModel>()
 						.AddSingleton<SidebarViewModel>()
 						.AddSingleton<SettingsViewModel>()
+						.AddSingleton<DrivesViewModel>()
+						.AddSingleton<NetworkDrivesViewModel>()
 						.AddSingleton<OngoingTasksViewModel>()
 						.AddSingleton<AppearanceViewModel>()
 				)
@@ -270,7 +268,7 @@ namespace Files.App
 			var data = activatedEventArgs.Data;
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
-			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(data));
+			_ = Window.DispatcherQueue.EnqueueOrInvokeAsync(() => Window.InitializeApplication(data));
 		}
 
 		/// <summary>
@@ -313,8 +311,6 @@ namespace Files.App
 				Logger);
 			}
 
-			DrivesManager?.Dispose();
-
 			// Try to maintain clipboard data after app close
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
@@ -341,7 +337,7 @@ namespace Files.App
 
 			bundlesSettingsService.FlushSettings();
 
-			userSettingsService.PreferencesSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
+			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
 				if (tab is not null && tab.TabItemArguments is not null)
 				{
@@ -448,12 +444,13 @@ namespace Files.App
 				{
 					Buttons =
 					{
-						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), "report")
+						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), Constants.GitHub.BugReportUrl)
 						{
-							ActivationType = ToastActivationType.Foreground
+							ActivationType = ToastActivationType.Protocol
 						}
 					}
-				}
+				},
+				ActivationType = ToastActivationType.Protocol
 			};
 
 			// Create the toast notification
@@ -461,6 +458,27 @@ namespace Files.App
 
 			// And send the notification
 			ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+
+			// Restart the app
+			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			var lastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList;
+
+			if (userSettingsService.GeneralSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) ?? false)
+			{
+				// Avoid infinite restart loop
+				userSettingsService.GeneralSettingsService.LastSessionTabList = null;
+			}
+			else
+			{
+				userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
+				userSettingsService.GeneralSettingsService.LastCrashedTabList = lastSessionTabList;
+
+				Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+				}).Wait(1000);
+			}
+			Process.GetCurrentProcess().Kill();
 		}
 
 		public static void CloseApp()

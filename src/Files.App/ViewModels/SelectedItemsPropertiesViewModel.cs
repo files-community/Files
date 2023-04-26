@@ -1,11 +1,8 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Extensions;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.ViewModels.Properties;
 using Files.Backend.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace Files.App.ViewModels
 {

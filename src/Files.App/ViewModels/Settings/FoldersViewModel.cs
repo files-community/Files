@@ -1,7 +1,5 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.ViewModels.Settings
 {
@@ -415,6 +413,20 @@ namespace Files.App.ViewModels.Settings
 				if (value != UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning)
 				{
 					UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowCheckboxesWhenSelectingItems
+		{
+			get => UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems)
+				{
+					UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems = value;
 
 					OnPropertyChanged();
 				}

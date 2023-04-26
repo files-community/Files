@@ -1,21 +1,13 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.UserControls.Widgets;
-using Files.Backend.Services.Settings;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.DataModels
@@ -79,7 +71,7 @@ namespace Files.App.DataModels
 
 		public async Task<LocationItem> CreateLocationItemFromPathAsync(string path)
 		{
-			var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 			LocationItem locationItem;
 
@@ -115,7 +107,7 @@ namespace Files.App.DataModels
 				{
 					var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 96u, ThumbnailMode.ListView);
 					locationItem.IconData = iconData;
-					locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
+					locationItem.Icon = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
 				}
 
 				if (locationItem.IconData is null)
@@ -123,12 +115,12 @@ namespace Files.App.DataModels
 					locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 96u);
 
 					if (locationItem.IconData is not null)
-						locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
+						locationItem.Icon = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
 				}
 			}
 			else
 			{
-				locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.Folder));
+				locationItem.Icon = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => UIHelpers.GetSidebarIconResource(Constants.ImageRes.Folder));
 				locationItem.IsInvalid = true;
 				Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
 			}
@@ -173,7 +165,7 @@ namespace Files.App.DataModels
 		/// </summary>
 		public async Task AddAllItemsToSidebar()
 		{
-			if (userSettingsService.PreferencesSettingsService.ShowFavoritesSection)
+			if (userSettingsService.GeneralSettingsService.ShowFavoritesSection)
 				foreach (string path in FavoriteItems)
 					await AddItemToSidebarAsync(path);
 		}
@@ -204,7 +196,7 @@ namespace Files.App.DataModels
 		{
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 			await LoadAsync();
-			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(null, new ModifyQuickAccessEventArgs((await QuickAccessService.GetPinnedFoldersAsync()).Select(x => x.FilePath).ToArray(), true)
+			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(null, new ModifyQuickAccessEventArgs((await QuickAccessService.GetPinnedFoldersAsync()).ToArray(), true)
 			{
 				Reset = true
 			});

@@ -90,7 +90,7 @@ namespace Files.App.ViewModels.Properties
 				}
 				else
 				{
-					await App.Window.DispatcherQueue.EnqueueAsync(
+					await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(
 						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
 				}
 			},
@@ -100,7 +100,7 @@ namespace Files.App.ViewModels.Properties
 			});
 		}
 
-		public override async void GetSpecialProperties()
+		public override async Task GetSpecialProperties()
 		{
 			ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.ReadOnly);
@@ -155,7 +155,7 @@ namespace Files.App.ViewModels.Properties
 				GetOtherProperties(file.Properties);
 		}
 
-		public async void GetSystemFileProperties()
+		public async Task GetSystemFileProperties()
 		{
 			BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
 			if (file is null)

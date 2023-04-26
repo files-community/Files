@@ -13,12 +13,13 @@
 	Closing="ContentDialog_Closing"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
-	IsPrimaryButtonEnabled="True"
+	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsNameValid, Mode=OneWay}"
 	Loaded="ContentDialog_Loaded"
 	PrimaryButtonText="{helpers:ResourceString Name=Create}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
+
 	<StackPanel Width="440" Spacing="4">
 
 		<!--  Archive Name  -->
@@ -42,7 +43,16 @@
 				Grid.Column="1"
 				Width="260"
 				PlaceholderText="{helpers:ResourceString Name=EnterName}"
-				Text="{x:Bind ViewModel.FileName, Mode=TwoWay}" />
+				Text="{x:Bind ViewModel.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+				<TextBox.Resources>
+					<TeachingTip
+						x:Name="InvalidNameWarning"
+						Title="{helpers:ResourceString Name=InvalidFilename/Text}"
+						IsOpen="{x:Bind ViewModel.ShowNameWarning, Mode=OneWay}"
+						PreferredPlacement="Bottom"
+						Target="{x:Bind FileNameBox}" />
+				</TextBox.Resources>
+			</TextBox>
 		</Grid>
 
 		<!--  Archive Options  -->

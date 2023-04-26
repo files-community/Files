@@ -1,8 +1,13 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
+using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
@@ -18,12 +23,14 @@ using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
+using WIN32_FIND_DATA = Files.Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA;
 
 namespace Files.App.Filesystem.Search
 {
 	public class FolderSearch
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
@@ -104,7 +111,7 @@ namespace Files.App.Filesystem.Search
 
 		private async Task AddItemsAsyncForHome(IList<ListedItem> results, CancellationToken token)
 		{
-			foreach (var drive in App.DrivesManager.Drives.Where(x => !x.IsNetwork))
+			foreach (var drive in drivesViewModel.Drives.Cast<DriveItem>().Where(x => !x.IsNetwork))
 			{
 				await AddItemsAsync(drive.Path, results, token);
 			}
@@ -390,7 +397,7 @@ namespace Files.App.Filesystem.Search
 					{
 						if (t.IsCompletedSuccessfully && t.Result is not null)
 						{
-							_ = FilesystemTasks.Wrap(() => App.Window.DispatcherQueue.EnqueueAsync(async () =>
+							_ = FilesystemTasks.Wrap(() => App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								listedItem.FileImage = await t.Result.ToBitmapAsync();
 							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low));

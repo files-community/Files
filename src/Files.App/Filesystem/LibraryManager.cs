@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Shell;
@@ -297,7 +300,7 @@ namespace Files.App.Filesystem
 			return (true, string.Empty);
 		}
 
-		public static async void ShowRestoreDefaultLibrariesDialog()
+		public static async Task ShowRestoreDefaultLibrariesDialog()
 		{
 			var dialog = new DynamicDialog(new DynamicDialogViewModel
 			{
@@ -323,7 +326,7 @@ namespace Files.App.Filesystem
 			await dialog.ShowAsync();
 		}
 
-		public static async void ShowCreateNewLibraryDialog()
+		public static async Task ShowCreateNewLibraryDialog()
 		{
 			var inputText = new TextBox
 			{
@@ -388,7 +391,7 @@ namespace Files.App.Filesystem
 			await dialog.ShowAsync();
 		}
 
-		private async void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
+		private void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
 		{
 			if (newPath is not null && (!newPath.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal) || !File.Exists(newPath)))
 			{

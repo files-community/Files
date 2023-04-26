@@ -1,4 +1,7 @@
-﻿using Files.App.Commands;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Commands;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.Shared.Enums;
@@ -10,7 +13,7 @@ namespace Files.App.Actions
 	{
 		public override string Label { get; } = "SetAsLockscreen".GetLocalizedResource();
 
-		public override string Description => "TODO: Need to be described.";
+		public override string Description => "SetAsLockscreenBackgroundDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph { get; } = new("\uEE3F");
 

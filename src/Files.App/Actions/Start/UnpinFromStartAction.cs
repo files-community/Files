@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -13,7 +16,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "UnpinItemFromStart/Text".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "UnpinFromStartDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconUnpinFromFavorites");
 

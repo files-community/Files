@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -13,7 +16,7 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label { get; } = "Refresh".GetLocalizedResource();
-		public string Description { get; } = "TODO";
+		public string Description { get; } = "RefreshItemsDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new("\uE72C");
 

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
@@ -7,9 +10,9 @@ using System.Collections.Generic;
 
 namespace Files.App.ServicesImplementation.Settings
 {
-	internal sealed class PreferencesSettingsService : BaseObservableJsonSettings, IPreferencesSettingsService
+	internal sealed class GeneralSettingsService : BaseObservableJsonSettings, IGeneralSettingsService
 	{
-		public PreferencesSettingsService(ISettingsSharingContext settingsSharingContext)
+		public GeneralSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
 			// Register root
 			RegisterSettingsContext(settingsSharingContext);
@@ -58,6 +61,12 @@ namespace Files.App.ServicesImplementation.Settings
 		}
 
 		public List<string> LastSessionTabList
+		{
+			get => Get<List<string>>(null);
+			set => Set(value);
+		}
+
+		public List<string> LastCrashedTabList
 		{
 			get => Get<List<string>>(null);
 			set => Set(value);
@@ -216,6 +225,12 @@ namespace Files.App.ServicesImplementation.Settings
 		public Dictionary<string, bool> ShowHashesDictionary
 		{
 			get => Get<Dictionary<string, bool>>(null);
+			set => Set(value);
+		}
+
+		public Dictionary<string, string> Actions
+		{
+			get => Get<Dictionary<string, string>>(null) ?? new();
 			set => Set(value);
 		}
 

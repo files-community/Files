@@ -1,4 +1,7 @@
-﻿using Files.Sdk.Storage;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Sdk.Storage;
 using Files.Sdk.Storage.ExtendableStorage;
 using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.ModifiableStorage;

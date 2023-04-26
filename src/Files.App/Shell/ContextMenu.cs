@@ -1,13 +1,10 @@
-﻿using Files.Shared;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
-using System.Threading.Tasks;
 using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -223,6 +220,15 @@ namespace Files.App.Shell
 				{
 					Debug.WriteLine("Item {0} ({1}): {2}", ii, mii.wID, mii.dwTypeData);
 
+					// Hackish workaround to avoid an AccessViolationException on some items,
+					// notably the "Run with graphic processor" menu item of NVidia cards
+					if (mii.wID - 1 > 5000)
+					{
+						container.Dispose();
+
+						continue;
+					}
+
 					menuItem.Label = mii.dwTypeData;
 					menuItem.CommandString = GetCommandString(cMenu, mii.wID - 1);
 
@@ -299,7 +305,7 @@ namespace Files.App.Shell
 				{
 					try
 					{
-						loadSubMenuAction!.Invoke();
+						loadSubMenuAction!();
 					}
 					catch (COMException)
 					{
@@ -313,11 +319,6 @@ namespace Files.App.Shell
 
 		private static string? GetCommandString(Shell32.IContextMenu cMenu, uint offset, Shell32.GCS flags = Shell32.GCS.GCS_VERBW)
 		{
-			// Hackish workaround to avoid an AccessViolationException on some items,
-			// notably the "Run with graphic processor" menu item of NVidia cards
-			if (offset > 5000)
-				return null;
-
 			SafeCoTaskMemString? commandString = null;
 
 			try

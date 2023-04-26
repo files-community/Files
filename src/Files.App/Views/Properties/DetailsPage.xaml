@@ -7,6 +7,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Loaded="Properties_Loaded"
+	Tag="Details"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -20,12 +21,22 @@
 	<ScrollViewer>
 		<Grid Padding="12">
 
+			<!--  Details Expander List  -->
 			<ListView
 				x:Name="MainList"
 				HorizontalAlignment="Stretch"
 				ItemsSource="{x:Bind ViewModel.PropertySections, Mode=OneWay}"
 				SelectionMode="None">
 
+				<!--  Style  -->
+				<ListView.ItemContainerStyle>
+					<Style TargetType="ListViewItem">
+						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+						<Setter Property="Padding" Value="0,2,0,2" />
+					</Style>
+				</ListView.ItemContainerStyle>
+
+				<!--  Item Template  -->
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="vm:FilePropertySection">
 						<Expander
@@ -33,12 +44,14 @@
 							HorizontalContentAlignment="Stretch"
 							Header="{x:Bind Title}"
 							IsExpanded="True">
+
 							<ListView
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Stretch"
 								ItemsSource="{x:Bind}"
 								ScrollViewer.VerticalScrollMode="Disabled"
 								SelectionMode="None">
+
 								<ListView.ItemTemplate>
 									<DataTemplate x:DataType="vm:FileProperty">
 										<Grid HorizontalAlignment="Stretch" ColumnSpacing="8">
@@ -66,6 +79,7 @@
 												IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
 												Style="{StaticResource PropertyValueTextBox}"
 												Text="{x:Bind ValueText, Mode=TwoWay}" />
+
 										</Grid>
 									</DataTemplate>
 								</ListView.ItemTemplate>
@@ -76,18 +90,14 @@
 										<Setter Property="Padding" Value="0" />
 									</Style>
 								</ListView.ItemContainerStyle>
+
 							</ListView>
+
 						</Expander>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 
-				<ListView.ItemContainerStyle>
-					<Style TargetType="ListViewItem">
-						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-						<Setter Property="Padding" Value="0,2,0,2" />
-					</Style>
-				</ListView.ItemContainerStyle>
-
+				<!--  Footer  -->
 				<ListView.Footer>
 					<Button
 						x:Name="ClearPropertiesButton"
@@ -96,9 +106,12 @@
 						Content="{helpers:ResourceString Name=ClearPropertiesButton/Content}">
 						<Button.Flyout>
 							<Flyout x:Name="ClearPropertiesFlyout">
-								<StackPanel Orientation="Vertical" Spacing="4">
+								<StackPanel Orientation="Vertical" Spacing="8">
 									<TextBlock Text="{helpers:ResourceString Name=ClearPropertiesFlyoutText/Text}" />
-									<Button Click="ClearPropertiesConfirmation_Click" Content="{helpers:ResourceString Name=Clear}" />
+									<Button
+										HorizontalAlignment="Right"
+										Click="ClearPropertiesConfirmation_Click"
+										Content="{helpers:ResourceString Name=Clear}" />
 								</StackPanel>
 							</Flyout>
 						</Button.Flyout>

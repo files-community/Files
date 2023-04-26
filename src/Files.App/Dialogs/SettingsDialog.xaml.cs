@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Views.Settings;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Enums;
@@ -45,8 +48,8 @@ namespace Files.App.Dialogs
 
 			_ = selectedItemTag switch
 			{
-				0 => SettingsContentFrame.Navigate(typeof(AppearancePage)),
-				1 => SettingsContentFrame.Navigate(typeof(PreferencesPage)),
+				0 => SettingsContentFrame.Navigate(typeof(GeneralPage)),
+				1 => SettingsContentFrame.Navigate(typeof(AppearancePage)),
 				2 => SettingsContentFrame.Navigate(typeof(FoldersPage)),
 				3 => SettingsContentFrame.Navigate(typeof(TagsPage)),
 				4 => SettingsContentFrame.Navigate(typeof(AdvancedPage)),

@@ -1,10 +1,13 @@
-﻿using Files.Shared.Enums;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Shared.Enums;
 using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings
 {
-	public interface IPreferencesSettingsService : IBaseSettingsService, INotifyPropertyChanged
+	public interface IGeneralSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to search unindexed items.
@@ -45,6 +48,11 @@ namespace Files.Backend.Services.Settings
 		/// A list containing all paths to tabs closed on last session.
 		/// </summary>
 		List<string> LastSessionTabList { get; set; }
+
+		/// <summary>
+		/// A list containing paths of the tabs from the previous session that crashed.
+		/// </summary>
+		List<string> LastCrashedTabList { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating which date and time format to use.
@@ -176,5 +184,10 @@ namespace Files.Backend.Services.Settings
 		/// A dictionary to determine which hashes should be shown.
 		/// </summary>
 		Dictionary<string, bool> ShowHashesDictionary { get; set; }
+
+		/// <summary>
+		/// A dictionary to determine the custom hotkeys
+		/// </summary>
+		Dictionary<string, string> Actions { get; set; }
 	}
 }

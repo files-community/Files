@@ -1,4 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System.ComponentModel;
@@ -22,11 +25,9 @@ namespace Files.App.Commands
 		FontIcon? FontIcon { get; }
 		Style? OpacityStyle { get; }
 
+		bool IsCustomHotKeys { get; }
 		string? HotKeyText { get; }
-		HotKey HotKey { get; }
-		HotKey SecondHotKey { get; }
-		HotKey ThirdHotKey { get; }
-		HotKey MediaHotKey { get; }
+		HotKeyCollection HotKeys { get; set; }
 
 		bool IsToggle { get; }
 		bool IsOn { get; set; }
@@ -34,5 +35,7 @@ namespace Files.App.Commands
 
 		Task ExecuteAsync();
 		void ExecuteTapped(object sender, TappedRoutedEventArgs e);
+
+		void ResetHotKeys();
 	}
 }

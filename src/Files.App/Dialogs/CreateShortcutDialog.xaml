@@ -49,7 +49,15 @@
 				Grid.Column="0"
 				HorizontalAlignment="Stretch"
 				PlaceholderText="C:\Users\"
-				Text="{x:Bind ViewModel.DestinationItemPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+				Text="{x:Bind ViewModel.DestinationItemPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+				<TextBox.Resources>
+					<TeachingTip
+						x:Name="InvalidPathWarning"
+						Title="{helpers:ResourceString Name=InvalidLocation}"
+						IsOpen="{x:Bind ViewModel.ShowWarningTip, Mode=OneWay}"
+						PreferredPlacement="Bottom" />
+				</TextBox.Resources>
+			</TextBox>
 			<Button
 				x:Name="SelectDestination"
 				Grid.Row="2"

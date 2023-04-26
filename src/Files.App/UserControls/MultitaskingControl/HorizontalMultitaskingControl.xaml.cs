@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
@@ -151,7 +154,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 			var tabViewItemArgs = TabItemArguments.Deserialize(tabViewItemString);
 			ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-			await MainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index);
+			await mainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index);
 		}
 
 		private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)

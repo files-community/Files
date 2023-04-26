@@ -56,7 +56,7 @@ namespace Files.App.ViewModels.Properties
 				new() { Algorithm = "SHA512" },
 			};
 
-			ShowHashes = UserSettingsService.PreferencesSettingsService.ShowHashesDictionary ?? new();
+			ShowHashes = UserSettingsService.GeneralSettingsService.ShowHashesDictionary ?? new();
 			// Default settings
 			ShowHashes.TryAdd("CRC32", true);
 			ShowHashes.TryAdd("MD5", true);
@@ -76,14 +76,14 @@ namespace Files.App.ViewModels.Properties
 			if (ShowHashes[hashInfoItem.Algorithm] != hashInfoItem.IsEnabled)
 			{
 				ShowHashes[hashInfoItem.Algorithm] = hashInfoItem.IsEnabled;
-				UserSettingsService.PreferencesSettingsService.ShowHashesDictionary = ShowHashes;
+				UserSettingsService.GeneralSettingsService.ShowHashesDictionary = ShowHashes;
 			}
 
 			if (hashInfoItem.HashValue is null && hashInfoItem.IsEnabled)
 			{
 				hashInfoItem.HashValue = "Calculating".GetLocalizedResource();
 
-				App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					try
 					{

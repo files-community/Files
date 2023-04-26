@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -14,7 +17,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "CloseTab".GetLocalizedResource();
 
-		public string Description { get; } = "TODO: Need to be described.";
+		public string Description { get; } = "CloseSelectedTabDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.W, KeyModifiers.Ctrl);
 

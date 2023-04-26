@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -13,6 +16,8 @@ namespace Files.App.Actions
 		protected override GroupOption GroupOption { get; } = GroupOption.None;
 
 		public override string Label { get; } = "None".GetLocalizedResource();
+
+		public override string Description => "GroupByNoneDescription".GetLocalizedResource();
 	}
 
 	internal class GroupByNameAction : GroupByAction
@@ -20,6 +25,8 @@ namespace Files.App.Actions
 		protected override GroupOption GroupOption { get; } = GroupOption.Name;
 
 		public override string Label { get; } = "Name".GetLocalizedResource();
+
+		public override string Description => "GroupByNameDescription".GetLocalizedResource();
 	}
 
 	internal class GroupByDateModifiedAction : GroupByAction
@@ -27,6 +34,8 @@ namespace Files.App.Actions
 		protected override GroupOption GroupOption { get; } = GroupOption.DateModified;
 
 		public override string Label { get; } = "DateModifiedLowerCase".GetLocalizedResource();
+
+		public override string Description => "GroupByDateModifiedDescription".GetLocalizedResource();
 	}
 
 	internal class GroupByDateCreatedAction : GroupByAction
@@ -34,6 +43,8 @@ namespace Files.App.Actions
 		protected override GroupOption GroupOption { get; } = GroupOption.DateCreated;
 
 		public override string Label { get; } = "DateCreated".GetLocalizedResource();
+
+		public override string Description => "GroupByDateCreatedDescription".GetLocalizedResource();
 	}
 
 	internal class GroupBySizeAction : GroupByAction
@@ -41,6 +52,8 @@ namespace Files.App.Actions
 		protected override GroupOption GroupOption { get; } = GroupOption.Size;
 
 		public override string Label { get; } = "Size".GetLocalizedResource();
+
+		public override string Description => "GroupBySizeDescription".GetLocalizedResource();
 	}
 
 	internal class GroupByTypeAction : GroupByAction
@@ -48,6 +61,8 @@ namespace Files.App.Actions
 		protected override GroupOption GroupOption { get; } = GroupOption.FileType;
 
 		public override string Label { get; } = "Type".GetLocalizedResource();
+
+		public override string Description => "GroupByTypeDescription".GetLocalizedResource();
 	}
 
 	internal class GroupBySyncStatusAction : GroupByAction
@@ -55,6 +70,8 @@ namespace Files.App.Actions
 		protected override GroupOption GroupOption { get; } = GroupOption.SyncStatus;
 
 		public override string Label { get; } = "SyncStatus".GetLocalizedResource();
+
+		public override string Description => "GroupBySyncStatusDescription".GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.CloudDrive;
 	}
@@ -64,6 +81,8 @@ namespace Files.App.Actions
 		protected override GroupOption GroupOption { get; } = GroupOption.FileTag;
 
 		public override string Label { get; } = "FileTags".GetLocalizedResource();
+
+		public override string Description => "GroupByTagDescription".GetLocalizedResource();
 	}
 
 	internal class GroupByOriginalFolderAction : GroupByAction
@@ -71,6 +90,8 @@ namespace Files.App.Actions
 		protected override GroupOption GroupOption { get; } = GroupOption.OriginalFolder;
 
 		public override string Label { get; } = "OriginalFolder".GetLocalizedResource();
+
+		public override string Description => "GroupByOriginalFolderDescription".GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.CloudDrive;
 	}
@@ -81,6 +102,8 @@ namespace Files.App.Actions
 
 		public override string Label { get; } = "DateDeleted".GetLocalizedResource();
 
+		public override string Description => "GroupByDateDeletedDescription".GetLocalizedResource();
+
 		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.RecycleBin;
 	}
 
@@ -89,6 +112,8 @@ namespace Files.App.Actions
 		protected override GroupOption GroupOption { get; } = GroupOption.FolderPath;
 
 		public override string Label { get; } = "FolderPath".GetLocalizedResource();
+
+		public override string Description => "GroupByFolderPathDescription".GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.Library;
 	}
@@ -102,7 +127,7 @@ namespace Files.App.Actions
 
 		public abstract string Label { get; }
 
-		public string Description => "TODO: Need to be described.";
+		public abstract string Description { get; }
 
 		private bool isOn;
 		public bool IsOn => isOn;
@@ -146,7 +171,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Ascending".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "GroupAscendingDescription".GetLocalizedResource();
 
 		public bool IsOn => context.GroupDirection is SortDirection.Ascending;
 		public bool IsExecutable => context.GroupOption is not GroupOption.None;
@@ -182,7 +207,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Descending".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "GroupDescendingDescription".GetLocalizedResource();
 
 		public bool IsOn => context.GroupDirection is SortDirection.Descending;
 		public bool IsExecutable => context.GroupOption is not GroupOption.None;
@@ -218,7 +243,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "ToggleSortDirection".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "ToggleGroupDirectionDescription".GetLocalizedResource();
 
 		public Task ExecuteAsync()
 		{

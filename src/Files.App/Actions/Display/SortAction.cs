@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -13,6 +16,8 @@ namespace Files.App.Actions
 		protected override SortOption SortOption { get; } = SortOption.Name;
 
 		public override string Label { get; } = "Name".GetLocalizedResource();
+
+		public override string Description => "SortByNameDescription".GetLocalizedResource();
 	}
 
 	internal class SortByDateModifiedAction : SortByAction
@@ -20,6 +25,8 @@ namespace Files.App.Actions
 		protected override SortOption SortOption { get; } = SortOption.DateModified;
 
 		public override string Label { get; } = "DateModifiedLowerCase".GetLocalizedResource();
+
+		public override string Description => "SortByDateModifiedDescription".GetLocalizedResource();
 	}
 
 	internal class SortByDateCreatedAction : SortByAction
@@ -27,6 +34,8 @@ namespace Files.App.Actions
 		protected override SortOption SortOption { get; } = SortOption.DateCreated;
 
 		public override string Label { get; } = "DateCreated".GetLocalizedResource();
+
+		public override string Description => "SortByDateCreatedDescription".GetLocalizedResource();
 	}
 
 	internal class SortBySizeAction : SortByAction
@@ -34,6 +43,8 @@ namespace Files.App.Actions
 		protected override SortOption SortOption { get; } = SortOption.Size;
 
 		public override string Label { get; } = "Size".GetLocalizedResource();
+
+		public override string Description => "SortBySizeDescription".GetLocalizedResource();
 	}
 
 	internal class SortByTypeAction : SortByAction
@@ -41,6 +52,8 @@ namespace Files.App.Actions
 		protected override SortOption SortOption { get; } = SortOption.FileType;
 
 		public override string Label { get; } = "Type".GetLocalizedResource();
+
+		public override string Description => "SortByTypeDescription".GetLocalizedResource();
 	}
 
 	internal class SortBySyncStatusAction : SortByAction
@@ -48,6 +61,8 @@ namespace Files.App.Actions
 		protected override SortOption SortOption { get; } = SortOption.SyncStatus;
 
 		public override string Label { get; } = "SyncStatus".GetLocalizedResource();
+
+		public override string Description => "SortBySyncStatusDescription".GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.CloudDrive;
 	}
@@ -57,6 +72,8 @@ namespace Files.App.Actions
 		protected override SortOption SortOption { get; } = SortOption.FileTag;
 
 		public override string Label { get; } = "FileTags".GetLocalizedResource();
+
+		public override string Description => "SortByTagDescription".GetLocalizedResource();
 	}
 
 	internal class SortByOriginalFolderAction : SortByAction
@@ -64,6 +81,8 @@ namespace Files.App.Actions
 		protected override SortOption SortOption { get; } = SortOption.OriginalFolder;
 
 		public override string Label { get; } = "OriginalFolder".GetLocalizedResource();
+
+		public override string Description => "SortByOriginalFolderDescription".GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.CloudDrive;
 	}
@@ -73,6 +92,8 @@ namespace Files.App.Actions
 		protected override SortOption SortOption { get; } = SortOption.DateDeleted;
 
 		public override string Label { get; } = "DateDeleted".GetLocalizedResource();
+
+		public override string Description => "SortByDateDeletedDescription".GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.RecycleBin;
 	}
@@ -86,7 +107,7 @@ namespace Files.App.Actions
 
 		public abstract string Label { get; }
 
-		public string Description => "TODO: Need to be described.";
+		public abstract string Description { get; }
 
 		private bool isOn;
 		public bool IsOn => isOn;
@@ -130,7 +151,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Ascending".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "SortAscendingDescription".GetLocalizedResource();
 
 		public bool IsOn => context.SortDirection is SortDirection.Ascending;
 
@@ -158,7 +179,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "Descending".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "SortDescendingDescription".GetLocalizedResource();
 
 		public bool IsOn => context.SortDirection is SortDirection.Descending;
 
@@ -186,7 +207,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "ToggleSortDirection".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "ToggleSortDirectionDescription".GetLocalizedResource();
 
 		public Task ExecuteAsync()
 		{

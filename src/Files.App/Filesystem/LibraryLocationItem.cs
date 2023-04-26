@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Helpers;
 using Files.Shared;
@@ -40,7 +43,7 @@ namespace Files.App.Filesystem
 
 			if (!res)
 			{
-				var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(DefaultSaveFolder));
+				var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(DefaultSaveFolder));
 				res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(DefaultSaveFolder, item));
 			}
 

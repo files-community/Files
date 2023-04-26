@@ -1,7 +1,5 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.ViewModels.Widgets
 {

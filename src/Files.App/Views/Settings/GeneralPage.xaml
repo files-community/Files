@@ -1,5 +1,5 @@
 ﻿<Page
-	x:Class="Files.App.Views.Settings.PreferencesPage"
+	x:Class="Files.App.Views.Settings.GeneralPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -17,7 +17,7 @@
 	</Page.Resources>
 
 	<Page.DataContext>
-		<vm:PreferencesViewModel x:Name="ViewModel" />
+		<vm:GeneralViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
 	<Grid>
@@ -27,9 +27,16 @@
 			Spacing="4">
 			<StackPanel.ChildrenTransitions>
 				<TransitionCollection>
-					<EntranceThemeTransition />
+					<RepositionThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
+
+			<!--  Title  -->
+			<TextBlock
+				Padding="0,0,0,12"
+				FontSize="24"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=General}" />
 
 			<!--  Language settings  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Language}" HorizontalAlignment="Stretch">
@@ -254,8 +261,8 @@
 
 			<!--  Right Click Menu  -->
 			<TextBlock
-				Padding="0,12,0,4"
-				FontSize="14"
+				Padding="0,16,0,4"
+				FontSize="16"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=SettingsContextMenu/Text}" />
 

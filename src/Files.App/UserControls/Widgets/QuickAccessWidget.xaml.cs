@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
@@ -97,7 +100,7 @@ namespace Files.App.UserControls.Widgets
 			}
 			if (thumbnailData is not null && thumbnailData.Length > 0)
 			{
-				Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
+				Thumbnail = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
 			}
 		}
 	}
@@ -117,12 +120,12 @@ namespace Files.App.UserControls.Widgets
 			Loaded += QuickAccessWidget_Loaded;
 			Unloaded += QuickAccessWidget_Unloaded;
 
-			OpenInNewTabCommand = new RelayCommand<FolderCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new RelayCommand<FolderCardItem>(OpenInNewWindow);
+			OpenInNewTabCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewTab);
+			OpenInNewWindowCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewWindow);
 			OpenInNewPaneCommand = new RelayCommand<FolderCardItem>(OpenInNewPane);
 			OpenPropertiesCommand = new RelayCommand<FolderCardItem>(OpenProperties);
-			PinToFavoritesCommand = new RelayCommand<FolderCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new RelayCommand<FolderCardItem>(UnpinFromFavorites);
+			PinToFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(PinToFavorites);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(UnpinFromFavorites);
 
 			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChanged;
 		}
@@ -143,7 +146,7 @@ namespace Files.App.UserControls.Widgets
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget;
 
 		public bool ShowMenuFlyout => false;
 
@@ -173,7 +176,7 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -184,14 +187,14 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewWindow
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -247,7 +250,7 @@ namespace Files.App.UserControls.Widgets
 			if (e is null)
 				return;
 
-			await DispatcherQueue.EnqueueAsync(async () =>
+			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				if (e.Reset)
 				{
@@ -264,7 +267,7 @@ namespace Files.App.UserControls.Widgets
 					{
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
-						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault().Properties["System.Home.IsPinned"] ?? false;
+						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault()?.Properties["System.Home.IsPinned"] ?? false;
 
 						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
 						{
@@ -369,7 +372,7 @@ namespace Files.App.UserControls.Widgets
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
-		public override async void PinToFavorites(WidgetCardItem item)
+		public override async Task PinToFavorites(WidgetCardItem item)
 		{
 			await QuickAccessService.PinToSidebar(item.Path);
 
@@ -388,7 +391,7 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		public override async void UnpinFromFavorites(WidgetCardItem item)
+		public override async Task UnpinFromFavorites(WidgetCardItem item)
 		{
 			await QuickAccessService.UnpinFromSidebar(item.Path);
 

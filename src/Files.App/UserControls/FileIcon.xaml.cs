@@ -1,9 +1,13 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Storage.Streams;
 
 namespace Files.App.UserControls
@@ -75,7 +79,7 @@ namespace Files.App.UserControls
 			InitializeComponent();
 		}
 
-		public async void UpdateImageSourceAsync()
+		public async Task UpdateImageSourceAsync()
 		{
 			if (FileIconImageData is not null)
 			{

@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Extensions;
 using Files.App.Helpers;
@@ -16,7 +19,7 @@ namespace Files.App.Actions
 
 		public string Label => "Settings".GetLocalizedResource();
 
-		public string Description => "Settings".GetLocalizedResource();
+		public string Description => "OpenSettingsDescription".GetLocalizedResource();
 
 		public HotKey HotKey { get; } = new(Keys.OemComma, KeyModifiers.Ctrl);
 

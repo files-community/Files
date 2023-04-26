@@ -38,9 +38,16 @@
 			Spacing="4">
 			<StackPanel.ChildrenTransitions>
 				<TransitionCollection>
-					<EntranceThemeTransition />
+					<RepositionThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
+
+			<!--  Title  -->
+			<TextBlock
+				Padding="0,0,0,12"
+				FontSize="24"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=FileTags}" />
 
 			<!--  Edit Tags  -->
 			<local:SettingsBlockControl
@@ -151,7 +158,7 @@
 								<Button
 									Command="{x:Bind ViewModel.SaveNewTagCommand, Mode=OneWay}"
 									Content="{helpers:ResourceString Name=Create}"
-									IsEnabled="{x:Bind ViewModel.NewTag.IsNameValid, Mode=OneWay}"
+									IsEnabled="{x:Bind ViewModel.NewTag.CanCommit, Mode=OneWay}"
 									Style="{StaticResource AccentButtonStyle}" />
 							</StackPanel>
 						</Grid>

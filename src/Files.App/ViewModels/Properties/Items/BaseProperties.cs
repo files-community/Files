@@ -29,9 +29,9 @@ namespace Files.App.ViewModels.Properties
 
 		public abstract void GetBaseProperties();
 
-		public abstract void GetSpecialProperties();
+		public abstract Task GetSpecialProperties();
 
-		public async void GetOtherProperties(IStorageItemExtraProperties properties)
+		public async Task GetOtherProperties(IStorageItemExtraProperties properties)
 		{
 			string dateAccessedProperty = "System.DateAccessed";
 
@@ -92,7 +92,7 @@ namespace Files.App.ViewModels.Properties
 
 					if (size > ViewModel.ItemSizeBytes)
 					{
-						await Dispatcher.EnqueueAsync(() =>
+						await Dispatcher.EnqueueOrInvokeAsync(() =>
 						{
 							ViewModel.ItemSizeBytes = size;
 							ViewModel.ItemSize = size.ToSizeString();

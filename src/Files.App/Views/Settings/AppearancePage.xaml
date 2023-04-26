@@ -91,16 +91,16 @@
 			Spacing="4">
 			<StackPanel.ChildrenTransitions>
 				<TransitionCollection>
-					<EntranceThemeTransition />
+					<RepositionThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
-			<!--  Personalization  -->
+			<!--  Title  -->
 			<TextBlock
-				Padding="0,0,0,4"
-				FontSize="14"
+				Padding="0,0,0,12"
+				FontSize="24"
 				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=Personalization}" />
+				Text="{helpers:ResourceString Name=Appearance}" />
 
 			<!--  Theme  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">

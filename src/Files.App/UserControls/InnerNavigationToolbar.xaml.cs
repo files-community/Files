@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.DataModels;
@@ -52,27 +55,6 @@ namespace Files.App.UserControls
 		// Using a DependencyProperty as the backing store for ShowPreviewPaneButton.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowPreviewPaneButtonProperty =
 			DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
-
-		public bool ShowMultiPaneControls
-		{
-			get => (bool)GetValue(ShowMultiPaneControlsProperty);
-			set => SetValue(ShowMultiPaneControlsProperty, value);
-		}
-
-		// Using a DependencyProperty as the backing store for ShowMultiPaneControls.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ShowMultiPaneControlsProperty =
-			DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
-
-		public bool IsMultiPaneActive
-		{
-			get { return (bool)GetValue(IsMultiPaneActiveProperty); }
-			set { SetValue(IsMultiPaneActiveProperty, value); }
-		}
-
-		// Using a DependencyProperty as the backing store for IsMultiPaneActive.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty IsMultiPaneActiveProperty =
-			DependencyProperty.Register("IsMultiPaneActive", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(false));
-
 		private void NewEmptySpace_Opening(object sender, object e)
 		{
 			if (!ViewModel.InstanceViewModel.CanCreateFileInPage)

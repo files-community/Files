@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Shell;
 using Files.Shared.Cloud;
 using Files.Shared.Extensions;
@@ -64,7 +67,7 @@ namespace Files.App.Helpers
 			using var clsidKey = Registry.ClassesRoot.OpenSubKey(@"CLSID");
 			using var namespaceKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace");
 
-			foreach (var subKeyName in namespaceKey.GetSubKeyNames())
+			foreach (var subKeyName in namespaceKey?.GetSubKeyNames() ?? Array.Empty<string>())
 			{
 				using var clsidSubKey = SafetyExtensions.IgnoreExceptions(() => clsidKey.OpenSubKey(subKeyName));
 				if (clsidSubKey is not null && (int?)clsidSubKey.GetValue("System.IsPinnedToNameSpaceTree") is 1)

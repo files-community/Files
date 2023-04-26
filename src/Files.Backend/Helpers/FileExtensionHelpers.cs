@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System;
 using System.Linq;
 
@@ -26,7 +29,7 @@ namespace Files.Backend.Helpers
 		/// <returns><c>true</c> if the fileExtensionToCheck is an image;
 		/// otherwise, <c>false</c>.</returns>
 		public static bool IsImageFile(string? fileExtensionToCheck)
-			=> HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg");
+			=> HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".gif", ".tiff", ".tif");
 
 		/// <summary>
 		/// Check if the file extension is a PowerShell script.
@@ -44,7 +47,7 @@ namespace Files.Backend.Helpers
 		/// <returns><c>true</c> if the fileExtensionToCheck is a zip bundle file;
 		/// otherwise <c>false</c>.</returns>
 		public static bool IsZipFile(string? fileExtensionToCheck)
-			=> HasExtension(fileExtensionToCheck, ".zip", ".msix", ".appx", ".msixbundle", ".7z", ".rar", ".tar", ".iso");
+			=> HasExtension(fileExtensionToCheck, ".zip", ".msix", ".appx", ".msixbundle", ".7z", ".rar", ".tar");
 
 		public static bool IsBrowsableZipFile(string? filePath, out string? ext)
 		{
@@ -54,7 +57,7 @@ namespace Files.Backend.Helpers
 				return false;
 			}
 
-			ext = new[] { ".zip", ".7z", ".rar", ".tar" , ".iso"} // Only ext we want to browse
+			ext = new[] { ".zip", ".7z", ".rar", ".tar"} // Only extensions we want to browse
 				.FirstOrDefault(x => filePath.Contains(x, StringComparison.OrdinalIgnoreCase));
 			return ext is not null;
 		}

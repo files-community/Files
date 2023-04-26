@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -13,7 +16,7 @@ namespace Files.App.Actions
 		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 
 		public string Label { get; } = "CloseTabsToTheRight".GetLocalizedResource();
-		public string Description => "TODO: Need to be described.";
+		public string Description => "CloseTabsToTheRightSelectedDescription".GetLocalizedResource();
 
 		private bool isExecutable;
 		public bool IsExecutable => isExecutable;

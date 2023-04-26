@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
@@ -13,7 +16,7 @@ namespace Files.App.Actions
 
 		public string Label => "ExtractHere".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "DecompressArchiveHereDescription".GetLocalizedResource();
 
 		public override bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&

@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
@@ -108,7 +111,7 @@ namespace Files.App.Contexts
 			}
 		}
 
-		private FolderSettingsViewModel? FolderSettings => context.Pane?.InstanceViewModel?.FolderSettings;
+		private FolderSettingsViewModel? FolderSettings => context.PaneOrColumn?.InstanceViewModel?.FolderSettings;
 
 		public DisplayPageContext()
 		{

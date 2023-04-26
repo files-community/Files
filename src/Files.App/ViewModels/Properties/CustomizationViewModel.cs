@@ -12,12 +12,13 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage.Pickers;
+using Microsoft.UI.Windowing;
 
 namespace Files.App.ViewModels.Properties
 {
 	public class CustomizationViewModel : ObservableObject
 	{
-		public CustomizationViewModel(IShellPage appInstance, BaseProperties baseProperties)
+		public CustomizationViewModel(IShellPage appInstance, BaseProperties baseProperties, AppWindow appWindow)
 		{
 			Filesystem.ListedItem item;
 
@@ -29,6 +30,7 @@ namespace Files.App.ViewModels.Properties
 				return;
 
 			AppInstance = appInstance;
+			AppWindow = appWindow;
 			IconResourceItemPath = Path.Combine(CommonPaths.SystemRootPath, "System32", "SHELL32.dll");
 			IsShortcut = item.IsShortcut;
 			SelectedItemPath = item.ItemPath;
@@ -40,8 +42,10 @@ namespace Files.App.ViewModels.Properties
 			LoadIconsForPath(IconResourceItemPath);
 
 			RestoreDefaultIconCommand = new AsyncRelayCommand(ExecuteRestoreDefaultIconAsync);
-			PickDllFileCommand = new AsyncRelayCommand<XamlRoot>(ExecuteOpenFilePickerAsync);
+			PickDllFileCommand = new AsyncRelayCommand(ExecuteOpenFilePickerAsync);
 		}
+
+		private AppWindow AppWindow;
 
 		private string? _selectedItemPath;
 		public string? SelectedItemPath
@@ -95,7 +99,7 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		public IAsyncRelayCommand RestoreDefaultIconCommand { get; private set; }
-		public IAsyncRelayCommand<XamlRoot> PickDllFileCommand { get; private set; }
+		public IAsyncRelayCommand PickDllFileCommand { get; private set; }
 
 		private async Task ExecuteRestoreDefaultIconAsync()
 		{
@@ -107,22 +111,19 @@ namespace Files.App.ViewModels.Properties
 
 			if (setIconResult)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(() =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					AppInstance?.FilesystemViewModel?.RefreshItems(null, async () =>
 					{
-						await App.Window.DispatcherQueue.EnqueueAsync(() => RestoreButtonIsEnabled = true);
+						await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => RestoreButtonIsEnabled = true);
 						
 					});
 				});
 			}
 		}
 
-		private async Task ExecuteOpenFilePickerAsync(XamlRoot? xamlRoot)
+		private async Task ExecuteOpenFilePickerAsync()
 		{
-			if (xamlRoot is null)
-				return;
-
 			// Initialize picker
 			FileOpenPicker picker = new()
 			{
@@ -135,7 +136,7 @@ namespace Files.App.ViewModels.Properties
 			picker.FileTypeFilter.Add(".ico");
 
 			// WINUI3: Create and initialize new window
-			var parentWindowId = ((MainPropertiesPage)((Frame)xamlRoot.Content).Content).AppWindow.Id;
+			var parentWindowId = AppWindow.Id;
 			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
 			WinRT.Interop.InitializeWithWindow.Initialize(picker, handle);
 
@@ -155,7 +156,7 @@ namespace Files.App.ViewModels.Properties
 
 			if (setIconResult)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(() =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					AppInstance?.FilesystemViewModel?.RefreshItems(null);
 				});
