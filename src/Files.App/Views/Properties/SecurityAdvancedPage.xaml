@@ -74,6 +74,7 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 
+			<!--  Header  -->
 			<TextBlock
 				Grid.Column="0"
 				Margin="4"
@@ -85,13 +86,14 @@
 				Orientation="Horizontal"
 				Spacing="8">
 
+				<!--  User/Group Icon  -->
 				<FontIcon
 					x:Name="FontIcon"
 					VerticalAlignment="Center"
-					FontFamily="{StaticResource SymbolThemeFontFamily}"
 					FontSize="16"
 					Glyph="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.Glyph, Mode=OneWay}" />
 
+				<!--  Owner Name  -->
 				<TextBlock
 					x:Name="OwnerText"
 					VerticalAlignment="Center"
@@ -103,13 +105,8 @@
 					<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameHumanized, Mode=OneWay}" />
 				</TextBlock>
 
-				<TextBlock
-					x:Name="UnknownOwnerText"
-					VerticalAlignment="Center"
-					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-					Text="{helpers:ResourceString Name=SecurityUnknownOwnerText/Text}" />
-
-				<HyperlinkButton VerticalAlignment="Center" Command="{x:Bind SecurityAdvancedViewModel.ChangeOwnerCommand}">
+				<!--  Change Owner  -->
+				<HyperlinkButton VerticalAlignment="Center" Command="{x:Bind SecurityAdvancedViewModel.ChangeOwnerCommand, Mode=OneWay}">
 					<StackPanel Orientation="Horizontal" Spacing="6">
 						<FontIcon FontSize="14" Glyph="&#xE70F;" />
 						<TextBlock Text="{helpers:ResourceString Name=Change}" />
@@ -136,6 +133,7 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
+			<!--  Header  -->
 			<Grid Grid.Row="0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
@@ -173,12 +171,14 @@
 
 			</Grid>
 
+			<!--  (Divider)  -->
 			<Border
 				Grid.Row="1"
 				Height="1"
 				Margin="-12,8,-12,4"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
+			<!--  Access Control Entries List  -->
 			<ListView
 				x:Name="AdvancedPermissionListView"
 				Grid.Row="2"
@@ -579,6 +579,7 @@
 
 			</ListView>
 
+			<!--  Falied To Load  -->
 			<TextBlock
 				x:Name="CannotReadPropsText"
 				Grid.Row="2"
@@ -588,12 +589,14 @@
 				Text="{helpers:ResourceString Name=SecurityAdvancedCannotReadProperties}"
 				TextWrapping="WrapWholeWords" />
 
+			<!--  (Divider)  -->
 			<Border
 				Grid.Row="3"
 				Height="1"
 				Margin="-12,0,-12,8"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
+			<!--  Inheritance Actions  -->
 			<Grid
 				Grid.Row="4"
 				Margin="0,4,0,0"

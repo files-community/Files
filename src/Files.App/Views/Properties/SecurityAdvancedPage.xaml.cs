@@ -1,12 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml.Navigation;
-using System.Threading.Tasks;
 
 namespace Files.App.Views.Properties
 {
@@ -31,7 +28,7 @@ namespace Files.App.Views.Properties
 		}
 
 		public async override Task<bool> SaveChangesAsync()
-			=> await Task.FromResult(SecurityAdvancedViewModel is null || SecurityAdvancedViewModel.SaveChangedAccessControlList());
+			=> await Task.FromResult(true);
 
 		public override void Dispose()
 		{

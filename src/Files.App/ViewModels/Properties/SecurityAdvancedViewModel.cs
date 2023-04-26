@@ -8,9 +8,15 @@ namespace Files.App.ViewModels.Properties
 {
 	public class SecurityAdvancedViewModel : ObservableObject
 	{
+		private readonly Window _window;
+
 		private readonly string _path;
 
-		private readonly Window _window;
+		private readonly bool _isFolder;
+
+		private bool _isProtected;
+
+		private bool _preserveInheritance;
 
 		private AccessControlList _AccessControlList;
 		public AccessControlList AccessControlList
@@ -29,8 +35,8 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private AccessControlEntry _SelectedAccessControlEntry;
-		public AccessControlEntry SelectedAccessControlEntry
+		private AccessControlEntry? _SelectedAccessControlEntry;
+		public AccessControlEntry? SelectedAccessControlEntry
 		{
 			get => _SelectedAccessControlEntry;
 			set
@@ -46,13 +52,6 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private bool _IsFolder;
-		public bool IsFolder
-		{
-			get => _IsFolder;
-			set => SetProperty(ref _IsFolder, value);
-		}
-
 		public string DisableInheritanceOption
 		{
 			get
@@ -65,10 +64,6 @@ namespace Files.App.ViewModels.Properties
 					return "SecurityAdvancedInheritedRemove/Text".GetLocalizedResource();
 			}
 		}
-
-		private bool _isProtected;
-
-		private bool _preserveInheritance;
 
 		private GridLength _ColumnType = new(64d);
 		public GridLength ColumnType
@@ -108,7 +103,7 @@ namespace Files.App.ViewModels.Properties
 
 		public SecurityAdvancedViewModel(ListedItem item, Window window)
 		{
-			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
+			_isFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
 			_path = item.ItemPath;
 			_window = window;
 
@@ -118,7 +113,7 @@ namespace Files.App.ViewModels.Properties
 
 		public SecurityAdvancedViewModel(DriveItem item, Window window)
 		{
-			IsFolder = true;
+			_isFolder = true;
 			_path = item.Path;
 			_window = window;
 
@@ -155,7 +150,7 @@ namespace Files.App.ViewModels.Properties
 				return;
 
 			// Add a new ACE to the ACL
-			var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(IsFolder, sid);
+			var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(_isFolder, sid);
 			AccessControlList.AccessControlEntries.Insert(0, ace);
 
 			// Apply changes
@@ -195,7 +190,7 @@ namespace Files.App.ViewModels.Properties
 		private void DisableInheritance()
 		{
 			// Update protection status and refresh access control
-			if (FileOperationsHelpers.SetAccessRuleProtection(_path, IsFolder, _isProtected, _preserveInheritance))
+			if (FileOperationsHelpers.SetAccessRuleProtection(_path, _isFolder, _isProtected, _preserveInheritance))
 				GetAccessControlList();
 		}
 
@@ -214,7 +209,7 @@ namespace Files.App.ViewModels.Properties
 
 		public void GetAccessControlList()
 		{
-			AccessControlList = FileOperationsHelpers.GetFilePermissions(_path, IsFolder);
+			AccessControlList = FileOperationsHelpers.GetFilePermissions(_path, _isFolder);
 		}
 
 		public bool SaveChangedAccessControlList()
