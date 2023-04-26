@@ -59,11 +59,11 @@ namespace Files.App.ViewModels.Properties
 
 		public SecurityViewModel(ListedItem item, Window window)
 		{
-			_isFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
+			_window = window;
 			_path = item.ItemPath;
+			_isFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
 			AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, _isFolder);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
-			_window = window;
 
 			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand);
 			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand);
@@ -71,11 +71,11 @@ namespace Files.App.ViewModels.Properties
 
 		public SecurityViewModel(DriveItem item, Window window)
 		{
-			_isFolder = true;
+			_window = window;
 			_path = item.Path;
+			_isFolder = true;
 			AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, _isFolder);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
-			_window = window;
 
 			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid);
 			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
