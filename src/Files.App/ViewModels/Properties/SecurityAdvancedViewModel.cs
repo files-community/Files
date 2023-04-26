@@ -163,39 +163,35 @@ namespace Files.App.ViewModels.Properties
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			// Add a new ACE to the ACL
-			var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(_isFolder, sid);
-			AccessControlList.AccessControlEntries.Insert(0, ace);
-
-			// Apply changes
 			await App.Window.DispatcherQueue.EnqueueAsync(() =>
 			{
-				FileSecurityHelpers.AddAccessControlEntry(_path, sid);
+				// Run Win32API
+				var win32Result = FileSecurityHelpers.AddAccessControlEntry(_path, sid);
+
+				// Add a new ACE to the ACL
+				var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(_isFolder, sid);
+				AccessControlList.AccessControlEntries.Insert(0, ace);
 			});
 		}
 
 		private async Task ExecuteRemoveAccessControlEntryCommand()
 		{
-			// TODO: Should show a dialog to notify that that entry couldn't removed
-			if (SelectedAccessControlEntry.IsInherited)
-				return;
-
-			// Get index of the ACE
-			var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);
-
-			// Remove the ACE
-			AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
-
-			if (AccessControlList.AccessControlEntries.Count == 0)
-				return;
-
-			// Re-select item
-			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.First();
-
-			// Apply changes
 			await App.Window.DispatcherQueue.EnqueueAsync(() =>
 			{
-				FileSecurityHelpers.RemoveAccessControlEntry(_path, (uint)index);
+				// Get index of the ACE
+				var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);
+
+				// Run Win32API
+				var win32Result = FileSecurityHelpers.RemoveAccessControlEntry(_path, (uint)index);
+
+				// Remove the ACE
+				AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
+
+				if (AccessControlList.AccessControlEntries.Count == 0)
+					return;
+
+				// Re-select item
+				SelectedAccessControlEntry = AccessControlList.AccessControlEntries.First();
 			});
 		}
 
