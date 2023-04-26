@@ -2,37 +2,26 @@
 	x:Class="Files.App.Views.ColumnShellPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:Custom="using:CommunityToolkit.WinUI.UI.Controls"
-	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="RootPage"
 	Background="Transparent"
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
 	mc:Ignorable="d">
+
 	<local:BaseShellPage.Resources>
 		<ResourceDictionary>
-			<converters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-
-			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		</ResourceDictionary>
 	</local:BaseShellPage.Resources>
 
 	<local:BaseShellPage.KeyboardAccelerators>
 		<KeyboardAccelerator
 			Key="E"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-		<KeyboardAccelerator
-			Key="Z"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-		<KeyboardAccelerator
-			Key="Y"
 			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="Control" />
@@ -47,42 +36,7 @@
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="Control,Shift" />
 		<KeyboardAccelerator
-			Key="Delete"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Shift" />
-		<KeyboardAccelerator
-			Key="C"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-		<KeyboardAccelerator
 			Key="V"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-		<KeyboardAccelerator
-			Key="X"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-		<KeyboardAccelerator
-			Key="A"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-		<KeyboardAccelerator
-			Key="D"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-		<KeyboardAccelerator
-			Key="Delete"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="None" />
-		<KeyboardAccelerator
-			Key="R"
 			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="Control" />
@@ -96,40 +50,8 @@
 			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="Menu" />
-		<KeyboardAccelerator
-			Key="F2"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="None" />
-		<KeyboardAccelerator
-			Key="P"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-		<KeyboardAccelerator
-			Key="F"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-		<KeyboardAccelerator
-			Key="F3"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
-		<KeyboardAccelerator
-			Key="F1"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
-		<KeyboardAccelerator
-			Key="K"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control,Shift" />
-		<KeyboardAccelerator
-			Key="H"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
 	</local:BaseShellPage.KeyboardAccelerators>
+
 	<Grid
 		x:Name="RootGrid"
 		BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
@@ -145,7 +67,6 @@
 				MaxHeight="400" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="3*" />
 			<ColumnDefinition Width="Auto" />
@@ -163,5 +84,6 @@
 			x:FieldModifier="public"
 			Canvas.ZIndex="30"
 			Navigated="ItemDisplayFrame_Navigated" />
+
 	</Grid>
 </local:BaseShellPage>

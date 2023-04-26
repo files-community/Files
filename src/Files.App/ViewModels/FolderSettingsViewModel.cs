@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -11,7 +10,6 @@ using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using System;
 using System.Text.Json;
-using System.Windows.Input;
 using Windows.Storage;
 using IO = System.IO;
 
@@ -34,18 +32,6 @@ namespace Files.App.ViewModels
 		public FolderSettingsViewModel()
 		{
 			LayoutPreference = new LayoutPreferences();
-
-			ToggleLayoutModeGridViewLargeCommand = new RelayCommand<bool>(ToggleLayoutModeGridViewLarge);
-			ToggleLayoutModeColumnViewCommand = new RelayCommand<bool>(ToggleLayoutModeColumnView);
-			ToggleLayoutModeGridViewMediumCommand = new RelayCommand<bool>(ToggleLayoutModeGridViewMedium);
-			ToggleLayoutModeGridViewSmallCommand = new RelayCommand<bool>(ToggleLayoutModeGridViewSmall);
-			ToggleLayoutModeGridViewCommand = new RelayCommand<int>(ToggleLayoutModeGridView);
-			ToggleLayoutModeTilesCommand = new RelayCommand<bool>(ToggleLayoutModeTiles);
-			ToggleLayoutModeDetailsViewCommand = new RelayCommand<bool>(ToggleLayoutModeDetailsView);
-			ToggleLayoutModeAdaptiveCommand = new RelayCommand(ToggleLayoutModeAdaptive);
-
-			ChangeGroupOptionCommand = new RelayCommand<GroupOption>(ChangeGroupOption);
-			ChangeGroupDirectionCommand = new RelayCommand<SortDirection>(ChangeGroupDirection);
 		}
 
 		public FolderSettingsViewModel(FolderLayoutModes modeOverride) : this()
@@ -108,11 +94,14 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref isLayoutModeChanging, value);
 		}
 
-		public Type GetLayoutType(string folderPath)
+		public Type GetLayoutType(string folderPath, bool changeLayoutMode = true)
 		{
 			var prefsForPath = GetLayoutPreferencesForPath(folderPath);
-			IsLayoutModeChanging = LayoutPreference.LayoutMode != prefsForPath.LayoutMode;
-			LayoutPreference = prefsForPath;
+			if (changeLayoutMode)
+			{
+				IsLayoutModeChanging = LayoutPreference.LayoutMode != prefsForPath.LayoutMode;
+				LayoutPreference = prefsForPath;
+			}
 
 			return (prefsForPath.LayoutMode) switch
 			{
@@ -127,15 +116,6 @@ namespace Files.App.ViewModels
 		public event EventHandler<LayoutModeEventArgs>? LayoutModeChangeRequested;
 
 		public event EventHandler? GridViewSizeChangeRequested;
-
-		public ICommand ToggleLayoutModeGridViewLargeCommand { get; }
-		public ICommand ToggleLayoutModeColumnViewCommand { get; }
-		public ICommand ToggleLayoutModeGridViewMediumCommand { get; }
-		public ICommand ToggleLayoutModeGridViewSmallCommand { get; }
-		public ICommand ToggleLayoutModeGridViewCommand { get; }
-		public ICommand ToggleLayoutModeTilesCommand { get; }
-		public ICommand ToggleLayoutModeDetailsViewCommand { get; }
-		public ICommand ToggleLayoutModeAdaptiveCommand { get; }
 
 		public GridViewSizeKind GridViewSizeKind
 		{
@@ -253,8 +233,6 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public ICommand ChangeGroupOptionCommand { get; }
-
 		public GroupOption DirectoryGroupOption
 		{
 			get => LayoutPreference.DirectoryGroupOption;
@@ -280,8 +258,6 @@ namespace Files.App.ViewModels
 				}
 			}
 		}
-
-		public ICommand ChangeGroupDirectionCommand { get; }
 
 		public SortDirection DirectoryGroupDirection
 		{
@@ -561,11 +537,6 @@ namespace Files.App.ViewModels
 
 			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.Adaptive, GridViewSize));
 		}
-
-		private void ChangeGroupOption(GroupOption option)
-			=> DirectoryGroupOption = option;
-
-		private void ChangeGroupDirection(SortDirection option) => DirectoryGroupDirection = option;
 
 		public void OnDefaultPreferencesChanged(string folderPath, string settingsName)
 		{

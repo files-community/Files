@@ -1,9 +1,11 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ServicesImplementation;
+using Files.App.UserControls.Widgets;
 using Files.Backend.Services.Settings;
 using System;
 using System.Collections.Generic;
@@ -29,7 +31,7 @@ namespace Files.App.DataModels
 
 		public List<string> FavoriteItems { get; set; } = new List<string>();
 
-		private readonly List<INavigationControlItem> favoriteList = new();
+		public readonly List<INavigationControlItem> favoriteList = new();
 
 		[JsonIgnore]
 		public IReadOnlyList<INavigationControlItem> Favorites
@@ -77,16 +79,22 @@ namespace Files.App.DataModels
 
 		public async Task<LocationItem> CreateLocationItemFromPathAsync(string path)
 		{
-			var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 			LocationItem locationItem;
 
 			if (string.Equals(path, CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 				locationItem = LocationItem.Create<RecycleBinLocationItem>();
 			else
+			{
 				locationItem = LocationItem.Create<LocationItem>();
 
-			locationItem.Font = App.AppModel.SymbolFontFamily;
+				if (path.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+					locationItem.Text = "ThisPC".GetLocalizedResource();
+				else if (path.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+					locationItem.Text = "Network".GetLocalizedResource();
+			}
+
 			locationItem.Path = path;
 			locationItem.Section = SectionType.Favorites;
 			locationItem.MenuOptions = new ContextMenuOptions
@@ -107,7 +115,7 @@ namespace Files.App.DataModels
 				{
 					var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 96u, ThumbnailMode.ListView);
 					locationItem.IconData = iconData;
-					locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
+					locationItem.Icon = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
 				}
 
 				if (locationItem.IconData is null)
@@ -115,12 +123,12 @@ namespace Files.App.DataModels
 					locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 96u);
 
 					if (locationItem.IconData is not null)
-						locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
+						locationItem.Icon = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
 				}
 			}
 			else
 			{
-				locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.Folder));
+				locationItem.Icon = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => UIHelpers.GetSidebarIconResource(Constants.ImageRes.Folder));
 				locationItem.IsInvalid = true;
 				Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
 			}
@@ -136,7 +144,7 @@ namespace Files.App.DataModels
 		public async Task AddItemToSidebarAsync(string path)
 		{
 			var locationItem = await CreateLocationItemFromPathAsync(path);
-			
+
 			AddLocationItemToSidebar(locationItem);
 		}
 
@@ -165,7 +173,7 @@ namespace Files.App.DataModels
 		/// </summary>
 		public async Task AddAllItemsToSidebar()
 		{
-			if (userSettingsService.PreferencesSettingsService.ShowFavoritesSection)
+			if (userSettingsService.GeneralSettingsService.ShowFavoritesSection)
 				foreach (string path in FavoriteItems)
 					await AddItemToSidebarAsync(path);
 		}
@@ -193,9 +201,19 @@ namespace Files.App.DataModels
 		}
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)
-			=> await LoadAsync();
+		{
+			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
+			await LoadAsync();
+			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(null, new ModifyQuickAccessEventArgs((await QuickAccessService.GetPinnedFoldersAsync()).ToArray(), true)
+			{
+				Reset = true
+			});
+			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
+		}
 
 		public async Task LoadAsync()
-			=> await UpdateItemsWithExplorer();
+		{
+			await UpdateItemsWithExplorer();
+		}
 	}
 }

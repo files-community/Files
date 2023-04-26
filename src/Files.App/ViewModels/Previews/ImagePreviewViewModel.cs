@@ -1,4 +1,5 @@
 using CommunityToolkit.WinUI;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml.Media;
@@ -33,7 +34,7 @@ namespace Files.App.ViewModels.Previews
 		{
 			using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
 
-			await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+			await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				BitmapImage bitmap = new();
 				await bitmap.SetSourceAsync(stream);

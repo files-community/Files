@@ -53,7 +53,7 @@ namespace Files.App.Filesystem
 				tooltipBuilder.AppendLine($"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}");
 				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
 				if(!string.IsNullOrWhiteSpace(FileSize))
-					tooltipBuilder.Append($"{Environment.NewLine}{"ToolTipDescriptionSize".GetLocalizedResource()} {FileSize}");
+					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
 				if(SyncStatusUI.LoadSyncStatus)
 					tooltipBuilder.Append($"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}");
 
@@ -256,6 +256,19 @@ namespace Files.App.Filesystem
 			set => SetProperty(ref placeholderDefaultIcon, value);
 		}
 
+		private BitmapImage shieldIcon;
+		public BitmapImage ShieldIcon
+		{
+			get => shieldIcon;
+			set
+			{
+				if (value is not null)
+				{
+					SetProperty(ref shieldIcon, value);
+				}
+			}
+		}
+
 		private string itemPath;
 		public string ItemPath
 		{
@@ -400,7 +413,7 @@ namespace Files.App.Filesystem
 			}
 			else if (IsLibrary)
 			{
-				suffix = "LibraryItemAutomation".GetLocalizedResource();
+				suffix = "Library".GetLocalizedResource();
 			}
 			else
 			{
@@ -420,6 +433,8 @@ namespace Files.App.Filesystem
 		public bool IsAlternateStream => this is AlternateStreamItem;
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
+		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
+		public bool IsElevated => CheckElevationRights();
 
 		private BaseStorageFile itemFile;
 		public BaseStorageFile ItemFile
@@ -447,6 +462,13 @@ namespace Files.App.Filesystem
 			NeedsPlaceholderGlyph = false;
 			LoadDefaultIcon = true;
 			PlaceholderDefaultIcon = img;
+		}
+
+		private bool CheckElevationRights()
+		{
+			return IsShortcut
+				? ElevationHelpers.IsElevationRequired(((ShortcutItem)this).TargetPath)
+				: ElevationHelpers.IsElevationRequired(this.ItemPath);
 		}
 	}
 
@@ -492,7 +514,7 @@ namespace Files.App.Filesystem
 			PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
 			ItemPropertiesInitialized = false;
 
-			var itemType = isFile ? "ItemTypeFile".GetLocalizedResource() : "Folder".GetLocalizedResource();
+			var itemType = isFile ? "File".GetLocalizedResource() : "Folder".GetLocalizedResource();
 			if (isFile && Name.Contains('.', StringComparison.Ordinal))
 			{
 				itemType = FileExtension.Trim('.') + " " + itemType;
@@ -502,7 +524,7 @@ namespace Files.App.Filesystem
 			FileSizeBytes = item.Size;
 			ContainsFilesOrFolders = !isFile;
 			FileImage = null;
-			FileSize = FileSizeBytes.ToSizeString();
+			FileSize = isFile ? FileSizeBytes.ToSizeString() : null;
 			Opacity = 1;
 			IsHiddenItem = false;
 		}
@@ -570,7 +592,7 @@ namespace Files.App.Filesystem
 			ItemPath = library.Path;
 			ItemNameRaw = library.Text;
 			PrimaryItemAttribute = StorageItemTypes.Folder;
-			ItemType = "ItemTypeLibrary".GetLocalizedResource();
+			ItemType = "Library".GetLocalizedResource();
 			LoadCustomIcon = true;
 			CustomIcon = library.Icon;
 			//CustomIconSource = library.IconSource;

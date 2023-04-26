@@ -8,31 +8,31 @@ parameters:
   - name: releaseBranch
     displayName: Release Branch
     type: string
-    default: 'preview'
+    default: 'stable'
     values:
-    - 'preview'
     - 'stable'
+    - 'preview'
   - name: packageIdentityName
     displayName: Package Identity Name
     type: string
-    default: 'FilesPreview'
+    default: 'Files'
     values:
-    - 'FilesPreview'
     - 'Files'
+    - 'FilesPreview'
   - name: packageDisplayName
     displayName: Package Display Name
     type: string
-    default: 'Files (Preview)'
+    default: 'Files'
     values:
-    - 'Files (Preview)'
     - 'Files'
+    - 'Files - Preview'
   - name: iconVariant
     displayName: Icon Variant
     type: string
-    default: 'Preview'
+    default: 'Release'
     values:
-    - 'Preview'
     - 'Release'
+    - 'Preview'
 
 variables:
 - group: BuildPipelineVariables

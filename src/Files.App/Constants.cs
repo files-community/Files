@@ -15,15 +15,6 @@ namespace Files.App
 			public const float ExtraSmallThreshold = 15.0f;
 		}
 
-		public static class CommonPaths
-		{
-			public const string RecycleBinPath = @"Shell:RecycleBinFolder";
-
-			public const string NetworkFolderPath = @"Shell:NetworkPlacesFolder";
-
-			public const string MyComputerPath = @"Shell:MyComputerFolder";
-		}
-
 		public static class KnownImageFormats
 		{
 			public const string BITMAP_IMAGE_FORMAT = "bitmapimage";
@@ -48,6 +39,7 @@ namespace Files.App
 			public const int OneDrive = 1043;
 			public const int Libraries = 1023;
 			public const int Folder = 3;
+			public const int ShieldIcon = 78;
 		}
 
 		public static class Shell32
@@ -216,6 +208,11 @@ namespace Files.App
 			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?assignees=&labels=bug&template=bug_report.yml";
 			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/Privacy.md";
 			public const string SupportUsUrl = @"https://github.com/sponsors/yaira2";
+		}
+
+		public static class Actions
+		{
+			public const int MaxSelectedItems = 5;
 		}
 	}
 }

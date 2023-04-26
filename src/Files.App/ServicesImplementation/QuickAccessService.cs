@@ -1,14 +1,15 @@
-﻿using Files.App.Shell;
+﻿using Files.App.Filesystem.StorageItems;
+using Files.App.Helpers;
+using Files.App.Shell;
 using Files.App.UserControls.Widgets;
-using Files.Sdk.Storage.LocatableStorage;
 using Files.Shared;
 using Files.Shared.Extensions;
-using Microsoft.UI.Xaml.Shapes;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI.Input;
 
 namespace Files.App.ServicesImplementation
 {
@@ -23,19 +24,24 @@ namespace Files.App.ServicesImplementation
 		}
 
 		public Task PinToSidebar(string folderPath)
-			=> PinToSidebar(new[] { folderPath });
+		{ 
+			return PinToSidebar(new[] { folderPath });
+		}
 		
 		public async Task PinToSidebar(string[] folderPaths)
 		{
-			await ContextMenu.InvokeVerb("pintohome", folderPaths);
+			foreach (string folderPath in folderPaths)
+				await ContextMenu.InvokeVerb("pintohome", new[] {folderPath});
 
 			await App.QuickAccessManager.Model.LoadAsync();
 			
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
 		}
-		
+
 		public Task UnpinFromSidebar(string folderPath)
-			=> UnpinFromSidebar(new[] { folderPath });
+		{ 
+			return UnpinFromSidebar(new[] { folderPath }); 
+		}
 		
 		public async Task UnpinFromSidebar(string[] folderPaths)
 		{
@@ -43,12 +49,36 @@ namespace Files.App.ServicesImplementation
 			object? shell = Activator.CreateInstance(shellAppType);
 			dynamic? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, new object[] { $"shell:{guid}" });
 
+			if (folderPaths.Length == 0)
+				folderPaths = (await GetPinnedFoldersAsync())
+					.Where(link => (bool?)link.Properties["System.Home.IsPinned"] ?? false)
+					.Select(link => link.FilePath).ToArray();
+
 			foreach (dynamic? fi in f2.Items())
-				if (folderPaths.Contains((string)fi.Path)
-					|| (string.Equals(fi.Path, "::{645FF040-5081-101B-9F08-00AA002F954E}") && folderPaths.Contains(Constants.CommonPaths.RecycleBinPath)))
-					await SafetyExtensions.IgnoreExceptions(async () => {
+			{
+				if (ShellStorageFolder.IsShellPath((string)fi.Path))
+				{
+					var folder = await ShellStorageFolder.FromPathAsync((string)fi.Path);
+					var path = folder.Path;
+
+					if (folderPaths.Contains(path) || (path.StartsWith(@"\\SHELL\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\")))) // Fix for the Linux header
+					{
+						await SafetyExtensions.IgnoreExceptions(async () =>
+						{
+							await fi.InvokeVerb("unpinfromhome");
+						});
+						continue;
+					}
+				}
+
+				if (folderPaths.Contains((string)fi.Path))
+				{
+					await SafetyExtensions.IgnoreExceptions(async () =>
+					{
 						await fi.InvokeVerb("unpinfromhome");
 					});
+				}
+			}
 
 			await App.QuickAccessManager.Model.LoadAsync();
 			
@@ -58,6 +88,21 @@ namespace Files.App.ServicesImplementation
 		public bool IsItemPinned(string folderPath)
 		{
 			return App.QuickAccessManager.Model.FavoriteItems.Contains(folderPath);
+		}
+
+		public async Task Save(string[] items)
+		{
+			if (Equals(items, App.QuickAccessManager.Model.FavoriteItems.ToArray()))
+				return;
+
+			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
+
+			// Unpin every item that is below this index and then pin them all in order
+			await UnpinFromSidebar(Array.Empty<string>());
+
+			await PinToSidebar(items);
+			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
+			await App.QuickAccessManager.Model.LoadAsync();
 		}
 	}
 }

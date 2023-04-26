@@ -1,4 +1,5 @@
 using CommunityToolkit.WinUI;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
@@ -91,7 +92,7 @@ namespace Files.App.ViewModels.Previews
 				BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
 				using SoftwareBitmap sw = await decoder.GetSoftwareBitmapAsync();
 
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					BitmapImage src = new();
 					PageViewModel pageData = new()

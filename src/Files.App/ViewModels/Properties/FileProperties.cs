@@ -68,7 +68,7 @@ namespace Files.App.ViewModels.Properties
 				FileExtensionHelpers.IsMsiFile(shortcutItem.TargetPath);
 
 			ViewModel.ShortcutItemType = isApplication ? "Application".GetLocalizedResource() :
-				Item.IsLinkItem ? "PropertiesShortcutTypeLink".GetLocalizedResource() : "PropertiesShortcutTypeFile".GetLocalizedResource();
+				Item.IsLinkItem ? "PropertiesShortcutTypeLink".GetLocalizedResource() : "File".GetLocalizedResource();
 			ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
 			ViewModel.IsShortcutItemPathReadOnly = shortcutItem.IsSymLink;
 			ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
@@ -90,7 +90,7 @@ namespace Files.App.ViewModels.Properties
 				}
 				else
 				{
-					await App.Window.DispatcherQueue.EnqueueAsync(
+					await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(
 						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
 				}
 			},

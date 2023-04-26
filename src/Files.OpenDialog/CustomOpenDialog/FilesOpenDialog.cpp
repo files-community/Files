@@ -1,13 +1,17 @@
-// FilesOpenDialog.cpp: implementazione di CFilesOpenDialog
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
-#include "pch.h"
-#include "FilesOpenDialog.h"
+// Abstract:
+//  Implementation of CFilesOpenDialog.
+
 #include <shlobj.h>
 #include <iostream>
 #include <fstream>
 #include <cstdio>
 #include <locale>
 #include <codecvt>
+#include "FilesOpenDialog.h"
+#include "pch.h"
 
 //#define SYSTEMDIALOG
 
@@ -15,18 +19,19 @@ using std::cout;
 using std::wcout;
 using std::endl;
 
-// CFilesOpenDialog
-
 CComPtr<IFileOpenDialog> GetSystemDialog()
 {
 	HINSTANCE lib = CoLoadLibrary(L"C:\\Windows\\System32\\comdlg32.dll", false);
-	BOOL(WINAPI * dllGetClassObject)(REFCLSID, REFIID, LPVOID*) =
-		(BOOL(WINAPI*)(REFCLSID, REFIID, LPVOID*))GetProcAddress(lib, "DllGetClassObject");
+
+	BOOL(WINAPI *dllGetClassObject)(REFCLSID, REFIID, LPVOID*) = (BOOL(WINAPI*)(REFCLSID, REFIID, LPVOID*))GetProcAddress(lib, "DllGetClassObject");
+
 	CComPtr<IClassFactory> pClassFactory;
 	dllGetClassObject(CLSID_FileOpenDialog, IID_IClassFactory, (void**)&pClassFactory);
+
 	CComPtr<IFileOpenDialog> systemDialog;
 	pClassFactory->CreateInstance(NULL, IID_IFileOpenDialog, (void**)&systemDialog);
 	//CoFreeLibrary(lib);
+
 	return systemDialog;
 }
 
@@ -42,6 +47,7 @@ IShellItem* CloneShellItem(IShellItem* psi)
 			CoTaskMemFree(pidl);
 		}
 	}
+
 	return item;
 }
 
@@ -50,6 +56,7 @@ CComPtr<T> AsInterface(CComPtr<IFileOpenDialog> dialog)
 {
 	CComPtr<T> dialogInterface;
 	dialog->QueryInterface<T>(&dialogInterface);
+
 	return dialogInterface;
 }
 
@@ -71,6 +78,7 @@ CFilesOpenDialog::CFilesOpenDialog()
 #endif
 		CoTaskMemFree(pszPath);
 	}
+
 	cout << "Create" << endl;
 
 	TCHAR tempPath[MAX_PATH];
@@ -80,11 +88,10 @@ CFilesOpenDialog::CFilesOpenDialog()
 	_outputPath = tempName;
 
 	(void)SHGetKnownFolderItem(FOLDERID_Documents, KF_FLAG_DEFAULT_PATH, NULL, IID_IShellItem, (void**)&_initFolder);
+
 	hr = _initFolder->GetDisplayName(SIGDN_NORMALDISPLAY, &pszPath);
 	if (SUCCEEDED(hr))
-	{
 		wcout << L"_outputPath: " << _outputPath << L", _initFolder: " << pszPath << endl;
-	}
 
 #ifdef  SYSTEMDIALOG
 	_systemDialog = GetSystemDialog();
@@ -94,20 +101,16 @@ CFilesOpenDialog::CFilesOpenDialog()
 void CFilesOpenDialog::FinalRelease()
 {
 	if (_systemDialog)
-	{
 		_systemDialog.Release();
-	}
+
 	if (_initFolder)
-	{
 		_initFolder->Release();
-	}
+
 	if (_debugStream)
-	{
 		fclose(_debugStream);
-	}
 }
 
-HRESULT __stdcall CFilesOpenDialog::Show(HWND hwndOwner)
+STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 {
 	cout << "Show, hwndOwner: " << hwndOwner << endl;
 
@@ -120,6 +123,7 @@ HRESULT __stdcall CFilesOpenDialog::Show(HWND hwndOwner)
 	ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
 	ShExecInfo.lpFile = L"files.exe";
 	PWSTR pszPath = NULL;
+
 	if (_initFolder && SUCCEEDED(_initFolder->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
 	{
 		TCHAR args[1024];
@@ -128,6 +132,7 @@ HRESULT __stdcall CFilesOpenDialog::Show(HWND hwndOwner)
 		ShExecInfo.lpParameters = args;
 		CoTaskMemFree(pszPath);
 	}
+
 	ShExecInfo.nShow = SW_SHOW;
 	ShellExecuteEx(&ShExecInfo);
 	if (ShExecInfo.hProcess)
@@ -137,34 +142,33 @@ HRESULT __stdcall CFilesOpenDialog::Show(HWND hwndOwner)
 	}
 
 	if (hwndOwner)
-	{
 		SetForegroundWindow(hwndOwner);
-	}
 
 	std::ifstream file(_outputPath);
 	if (file.good())
 	{
 		std::string str;
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+
 		while (std::getline(file, str))
 		{
 			std::wstring wide = converter.from_bytes(str);
 			_selectedItems.push_back(wide);
 		}
 	}
+
 	DeleteFile(_outputPath.c_str());
 
 	if (!_selectedItems.empty())
 	{
 		if (_dialogEvents)
-		{
 			_dialogEvents->OnFileOk(this);
-		}
 	}
+
 	return !_selectedItems.empty() ? S_OK : HRESULT_FROM_WIN32(ERROR_CANCELLED);
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetFileTypes(UINT cFileTypes, const COMDLG_FILTERSPEC* rgFilterSpec)
+STDAPICALL CFilesOpenDialog::SetFileTypes(UINT cFileTypes, const COMDLG_FILTERSPEC* rgFilterSpec)
 {
 	cout << "SetFileTypes, cFileTypes: " << cFileTypes << endl;
 #ifdef SYSTEMDIALOG
@@ -173,7 +177,7 @@ HRESULT __stdcall CFilesOpenDialog::SetFileTypes(UINT cFileTypes, const COMDLG_F
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetFileTypeIndex(UINT iFileType)
+STDAPICALL CFilesOpenDialog::SetFileTypeIndex(UINT iFileType)
 {
 	cout << "SetFileTypeIndex, iFileType: " << iFileType << endl;
 #ifdef SYSTEMDIALOG
@@ -182,7 +186,7 @@ HRESULT __stdcall CFilesOpenDialog::SetFileTypeIndex(UINT iFileType)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetFileTypeIndex(UINT* piFileType)
+STDAPICALL CFilesOpenDialog::GetFileTypeIndex(UINT* piFileType)
 {
 	cout << "GetFileTypeIndex" << endl;
 #ifdef SYSTEMDIALOG
@@ -192,7 +196,7 @@ HRESULT __stdcall CFilesOpenDialog::GetFileTypeIndex(UINT* piFileType)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCookie)
+STDAPICALL CFilesOpenDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCookie)
 {
 	cout << "Advise" << endl;
 #ifdef SYSTEMDIALOG
@@ -203,7 +207,7 @@ HRESULT __stdcall CFilesOpenDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCo
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::Unadvise(DWORD dwCookie)
+STDAPICALL CFilesOpenDialog::Unadvise(DWORD dwCookie)
 {
 	cout << "Unadvise, dwCookie: " << dwCookie << endl;
 #ifdef SYSTEMDIALOG
@@ -213,7 +217,7 @@ HRESULT __stdcall CFilesOpenDialog::Unadvise(DWORD dwCookie)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetOptions(FILEOPENDIALOGOPTIONS fos)
+STDAPICALL CFilesOpenDialog::SetOptions(FILEOPENDIALOGOPTIONS fos)
 {
 	cout << "SetOptions, fos: " << fos << endl;
 #ifdef SYSTEMDIALOG
@@ -223,7 +227,7 @@ HRESULT __stdcall CFilesOpenDialog::SetOptions(FILEOPENDIALOGOPTIONS fos)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetOptions(FILEOPENDIALOGOPTIONS* pfos)
+STDAPICALL CFilesOpenDialog::GetOptions(FILEOPENDIALOGOPTIONS* pfos)
 {
 	cout << "GetOptions, fos: " << _fos << endl;
 #ifdef SYSTEMDIALOG
@@ -233,7 +237,7 @@ HRESULT __stdcall CFilesOpenDialog::GetOptions(FILEOPENDIALOGOPTIONS* pfos)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetDefaultFolder(IShellItem* psi)
+STDAPICALL CFilesOpenDialog::SetDefaultFolder(IShellItem* psi)
 {
 	PWSTR pszPath = NULL;
 	if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
@@ -252,7 +256,7 @@ HRESULT __stdcall CFilesOpenDialog::SetDefaultFolder(IShellItem* psi)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetFolder(IShellItem* psi)
+STDAPICALL CFilesOpenDialog::SetFolder(IShellItem* psi)
 {
 	PWSTR pszPath = NULL;
 	if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
@@ -271,7 +275,7 @@ HRESULT __stdcall CFilesOpenDialog::SetFolder(IShellItem* psi)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetFolder(IShellItem** ppsi)
+STDAPICALL CFilesOpenDialog::GetFolder(IShellItem** ppsi)
 {
 	cout << "GetFolder" << endl;
 #ifdef SYSTEMDIALOG
@@ -281,7 +285,7 @@ HRESULT __stdcall CFilesOpenDialog::GetFolder(IShellItem** ppsi)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetCurrentSelection(IShellItem** ppsi)
+STDAPICALL CFilesOpenDialog::GetCurrentSelection(IShellItem** ppsi)
 {
 	cout << "GetCurrentSelection" << endl;
 #ifdef SYSTEMDIALOG
@@ -290,7 +294,7 @@ HRESULT __stdcall CFilesOpenDialog::GetCurrentSelection(IShellItem** ppsi)
 	return GetResult(ppsi);
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetFileName(LPCWSTR pszName)
+STDAPICALL CFilesOpenDialog::SetFileName(LPCWSTR pszName)
 {
 	wcout << L"SetFileName, pszName: " << pszName << endl;
 #ifdef SYSTEMDIALOG
@@ -299,7 +303,7 @@ HRESULT __stdcall CFilesOpenDialog::SetFileName(LPCWSTR pszName)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetFileName(LPWSTR* pszName)
+STDAPICALL CFilesOpenDialog::GetFileName(LPWSTR* pszName)
 {
 	cout << "GetFileName" << endl;
 #ifdef SYSTEMDIALOG
@@ -313,7 +317,7 @@ HRESULT __stdcall CFilesOpenDialog::GetFileName(LPWSTR* pszName)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetTitle(LPCWSTR pszTitle)
+STDAPICALL CFilesOpenDialog::SetTitle(LPCWSTR pszTitle)
 {
 	cout << "SetTitle, title: " << pszTitle << endl;
 #ifdef SYSTEMDIALOG
@@ -322,7 +326,7 @@ HRESULT __stdcall CFilesOpenDialog::SetTitle(LPCWSTR pszTitle)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetOkButtonLabel(LPCWSTR pszText)
+STDAPICALL CFilesOpenDialog::SetOkButtonLabel(LPCWSTR pszText)
 {
 	cout << "SetOkButtonLabel, pszText: " << pszText << endl;
 #ifdef SYSTEMDIALOG
@@ -331,7 +335,7 @@ HRESULT __stdcall CFilesOpenDialog::SetOkButtonLabel(LPCWSTR pszText)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetFileNameLabel(LPCWSTR pszLabel)
+STDAPICALL CFilesOpenDialog::SetFileNameLabel(LPCWSTR pszLabel)
 {
 	cout << "SetFileNameLabel, pszLabel: " << pszLabel << endl;
 #ifdef SYSTEMDIALOG
@@ -340,7 +344,7 @@ HRESULT __stdcall CFilesOpenDialog::SetFileNameLabel(LPCWSTR pszLabel)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetResult(IShellItem** ppsi)
+STDAPICALL CFilesOpenDialog::GetResult(IShellItem** ppsi)
 {
 	cout << "GetResult" << endl;
 #ifdef SYSTEMDIALOG
@@ -354,7 +358,7 @@ HRESULT __stdcall CFilesOpenDialog::GetResult(IShellItem** ppsi)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::AddPlace(IShellItem* psi, FDAP fdap)
+STDAPICALL CFilesOpenDialog::AddPlace(IShellItem* psi, FDAP fdap)
 {
 	PWSTR pszPath = NULL;
 	if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
@@ -368,7 +372,7 @@ HRESULT __stdcall CFilesOpenDialog::AddPlace(IShellItem* psi, FDAP fdap)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetDefaultExtension(LPCWSTR pszDefaultExtension)
+STDAPICALL CFilesOpenDialog::SetDefaultExtension(LPCWSTR pszDefaultExtension)
 {
 	cout << "SetDefaultExtension, pszDefaultExtension: " << pszDefaultExtension << endl;
 #ifdef SYSTEMDIALOG
@@ -377,7 +381,7 @@ HRESULT __stdcall CFilesOpenDialog::SetDefaultExtension(LPCWSTR pszDefaultExtens
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::Close(HRESULT hr)
+STDAPICALL CFilesOpenDialog::Close(HRESULT hr)
 {
 	cout << "Close, hr: " << hr << endl;
 #ifdef SYSTEMDIALOG
@@ -386,7 +390,7 @@ HRESULT __stdcall CFilesOpenDialog::Close(HRESULT hr)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetClientGuid(REFGUID guid)
+STDAPICALL CFilesOpenDialog::SetClientGuid(REFGUID guid)
 {
 	cout << "SetClientGuid" << endl;
 #ifdef SYSTEMDIALOG
@@ -395,7 +399,7 @@ HRESULT __stdcall CFilesOpenDialog::SetClientGuid(REFGUID guid)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::ClearClientData(void)
+STDAPICALL CFilesOpenDialog::ClearClientData(void)
 {
 	cout << "ClearClientData" << endl;
 #ifdef SYSTEMDIALOG
@@ -404,7 +408,7 @@ HRESULT __stdcall CFilesOpenDialog::ClearClientData(void)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetFilter(IShellItemFilter* pFilter)
+STDAPICALL CFilesOpenDialog::SetFilter(IShellItemFilter* pFilter)
 {
 	cout << "SetFilter" << endl;
 #ifdef SYSTEMDIALOG
@@ -413,7 +417,7 @@ HRESULT __stdcall CFilesOpenDialog::SetFilter(IShellItemFilter* pFilter)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetResults(IShellItemArray** ppenum)
+STDAPICALL CFilesOpenDialog::GetResults(IShellItemArray** ppenum)
 {
 	cout << "GetResults, results: " << _selectedItems.size() << endl;
 #ifdef SYSTEMDIALOG
@@ -446,7 +450,7 @@ HRESULT __stdcall CFilesOpenDialog::GetResults(IShellItemArray** ppenum)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetSelectedItems(IShellItemArray** ppsai)
+STDAPICALL CFilesOpenDialog::GetSelectedItems(IShellItemArray** ppsai)
 {
 	cout << "GetSelectedItems" << endl;
 #ifdef SYSTEMDIALOG
@@ -455,7 +459,7 @@ HRESULT __stdcall CFilesOpenDialog::GetSelectedItems(IShellItemArray** ppsai)
 	return GetResults(ppsai);
 }
 
-HRESULT __stdcall CFilesOpenDialog::EnableOpenDropDown(DWORD dwIDCtl)
+STDAPICALL CFilesOpenDialog::EnableOpenDropDown(DWORD dwIDCtl)
 {
 	cout << "EnableOpenDropDown" << endl;
 #ifdef SYSTEMDIALOG
@@ -464,7 +468,7 @@ HRESULT __stdcall CFilesOpenDialog::EnableOpenDropDown(DWORD dwIDCtl)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::AddMenu(DWORD dwIDCtl, LPCWSTR pszLabel)
+STDAPICALL CFilesOpenDialog::AddMenu(DWORD dwIDCtl, LPCWSTR pszLabel)
 {
 	cout << "AddMenu" << endl;
 #ifdef SYSTEMDIALOG
@@ -473,7 +477,7 @@ HRESULT __stdcall CFilesOpenDialog::AddMenu(DWORD dwIDCtl, LPCWSTR pszLabel)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::AddPushButton(DWORD dwIDCtl, LPCWSTR pszLabel)
+STDAPICALL CFilesOpenDialog::AddPushButton(DWORD dwIDCtl, LPCWSTR pszLabel)
 {
 	cout << "AddPushButton" << endl;
 #ifdef SYSTEMDIALOG
@@ -482,7 +486,7 @@ HRESULT __stdcall CFilesOpenDialog::AddPushButton(DWORD dwIDCtl, LPCWSTR pszLabe
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::AddComboBox(DWORD dwIDCtl)
+STDAPICALL CFilesOpenDialog::AddComboBox(DWORD dwIDCtl)
 {
 	cout << "AddComboBox" << endl;
 #ifdef SYSTEMDIALOG
@@ -491,7 +495,7 @@ HRESULT __stdcall CFilesOpenDialog::AddComboBox(DWORD dwIDCtl)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::AddRadioButtonList(DWORD dwIDCtl)
+STDAPICALL CFilesOpenDialog::AddRadioButtonList(DWORD dwIDCtl)
 {
 	cout << "AddRadioButtonList" << endl;
 #ifdef SYSTEMDIALOG
@@ -500,7 +504,7 @@ HRESULT __stdcall CFilesOpenDialog::AddRadioButtonList(DWORD dwIDCtl)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::AddCheckButton(DWORD dwIDCtl, LPCWSTR pszLabel, BOOL bChecked)
+STDAPICALL CFilesOpenDialog::AddCheckButton(DWORD dwIDCtl, LPCWSTR pszLabel, BOOL bChecked)
 {
 	cout << "AddCheckButton" << endl;
 #ifdef SYSTEMDIALOG
@@ -509,7 +513,7 @@ HRESULT __stdcall CFilesOpenDialog::AddCheckButton(DWORD dwIDCtl, LPCWSTR pszLab
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::AddEditBox(DWORD dwIDCtl, LPCWSTR pszText)
+STDAPICALL CFilesOpenDialog::AddEditBox(DWORD dwIDCtl, LPCWSTR pszText)
 {
 	cout << "AddEditBox" << endl;
 #ifdef SYSTEMDIALOG
@@ -518,7 +522,7 @@ HRESULT __stdcall CFilesOpenDialog::AddEditBox(DWORD dwIDCtl, LPCWSTR pszText)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::AddSeparator(DWORD dwIDCtl)
+STDAPICALL CFilesOpenDialog::AddSeparator(DWORD dwIDCtl)
 {
 	cout << "AddSeparator" << endl;
 #ifdef SYSTEMDIALOG
@@ -527,7 +531,7 @@ HRESULT __stdcall CFilesOpenDialog::AddSeparator(DWORD dwIDCtl)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::AddText(DWORD dwIDCtl, LPCWSTR pszText)
+STDAPICALL CFilesOpenDialog::AddText(DWORD dwIDCtl, LPCWSTR pszText)
 {
 	cout << "AddText" << endl;
 #ifdef SYSTEMDIALOG
@@ -536,7 +540,7 @@ HRESULT __stdcall CFilesOpenDialog::AddText(DWORD dwIDCtl, LPCWSTR pszText)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetControlLabel(DWORD dwIDCtl, LPCWSTR pszLabel)
+STDAPICALL CFilesOpenDialog::SetControlLabel(DWORD dwIDCtl, LPCWSTR pszLabel)
 {
 	cout << "SetControlLabel" << endl;
 #ifdef SYSTEMDIALOG
@@ -545,7 +549,7 @@ HRESULT __stdcall CFilesOpenDialog::SetControlLabel(DWORD dwIDCtl, LPCWSTR pszLa
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetControlState(DWORD dwIDCtl, CDCONTROLSTATEF* pdwState)
+STDAPICALL CFilesOpenDialog::GetControlState(DWORD dwIDCtl, CDCONTROLSTATEF* pdwState)
 {
 	cout << "GetControlState" << endl;
 #ifdef SYSTEMDIALOG
@@ -555,7 +559,7 @@ HRESULT __stdcall CFilesOpenDialog::GetControlState(DWORD dwIDCtl, CDCONTROLSTAT
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetControlState(DWORD dwIDCtl, CDCONTROLSTATEF dwState)
+STDAPICALL CFilesOpenDialog::SetControlState(DWORD dwIDCtl, CDCONTROLSTATEF dwState)
 {
 	cout << "SetControlState" << endl;
 #ifdef SYSTEMDIALOG
@@ -564,7 +568,7 @@ HRESULT __stdcall CFilesOpenDialog::SetControlState(DWORD dwIDCtl, CDCONTROLSTAT
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetEditBoxText(DWORD dwIDCtl, WCHAR** ppszText)
+STDAPICALL CFilesOpenDialog::GetEditBoxText(DWORD dwIDCtl, WCHAR** ppszText)
 {
 	cout << "GetEditBoxText" << endl;
 #ifdef SYSTEMDIALOG
@@ -574,7 +578,7 @@ HRESULT __stdcall CFilesOpenDialog::GetEditBoxText(DWORD dwIDCtl, WCHAR** ppszTe
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetEditBoxText(DWORD dwIDCtl, LPCWSTR pszText)
+STDAPICALL CFilesOpenDialog::SetEditBoxText(DWORD dwIDCtl, LPCWSTR pszText)
 {
 	cout << "SetEditBoxText" << endl;
 #ifdef SYSTEMDIALOG
@@ -583,7 +587,7 @@ HRESULT __stdcall CFilesOpenDialog::SetEditBoxText(DWORD dwIDCtl, LPCWSTR pszTex
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetCheckButtonState(DWORD dwIDCtl, BOOL* pbChecked)
+STDAPICALL CFilesOpenDialog::GetCheckButtonState(DWORD dwIDCtl, BOOL* pbChecked)
 {
 	cout << "GetCheckButtonState" << endl;
 #ifdef SYSTEMDIALOG
@@ -593,7 +597,7 @@ HRESULT __stdcall CFilesOpenDialog::GetCheckButtonState(DWORD dwIDCtl, BOOL* pbC
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetCheckButtonState(DWORD dwIDCtl, BOOL bChecked)
+STDAPICALL CFilesOpenDialog::SetCheckButtonState(DWORD dwIDCtl, BOOL bChecked)
 {
 	cout << "SetCheckButtonState" << endl;
 #ifdef SYSTEMDIALOG
@@ -602,7 +606,7 @@ HRESULT __stdcall CFilesOpenDialog::SetCheckButtonState(DWORD dwIDCtl, BOOL bChe
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::AddControlItem(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel)
+STDAPICALL CFilesOpenDialog::AddControlItem(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel)
 {
 	cout << "AddControlItem" << endl;
 #ifdef SYSTEMDIALOG
@@ -611,7 +615,7 @@ HRESULT __stdcall CFilesOpenDialog::AddControlItem(DWORD dwIDCtl, DWORD dwIDItem
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::RemoveControlItem(DWORD dwIDCtl, DWORD dwIDItem)
+STDAPICALL CFilesOpenDialog::RemoveControlItem(DWORD dwIDCtl, DWORD dwIDItem)
 {
 	cout << "RemoveControlItem" << endl;
 #ifdef SYSTEMDIALOG
@@ -620,7 +624,7 @@ HRESULT __stdcall CFilesOpenDialog::RemoveControlItem(DWORD dwIDCtl, DWORD dwIDI
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::RemoveAllControlItems(DWORD dwIDCtl)
+STDAPICALL CFilesOpenDialog::RemoveAllControlItems(DWORD dwIDCtl)
 {
 	cout << "RemoveAllControlItems" << endl;
 #ifdef SYSTEMDIALOG
@@ -629,7 +633,7 @@ HRESULT __stdcall CFilesOpenDialog::RemoveAllControlItems(DWORD dwIDCtl)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF* pdwState)
+STDAPICALL CFilesOpenDialog::GetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF* pdwState)
 {
 	cout << "GetControlItemState" << endl;
 #ifdef SYSTEMDIALOG
@@ -639,7 +643,7 @@ HRESULT __stdcall CFilesOpenDialog::GetControlItemState(DWORD dwIDCtl, DWORD dwI
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF dwState)
+STDAPICALL CFilesOpenDialog::SetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF dwState)
 {
 	cout << "SetControlItemState" << endl;
 #ifdef SYSTEMDIALOG
@@ -648,7 +652,7 @@ HRESULT __stdcall CFilesOpenDialog::SetControlItemState(DWORD dwIDCtl, DWORD dwI
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetSelectedControlItem(DWORD dwIDCtl, DWORD* pdwIDItem)
+STDAPICALL CFilesOpenDialog::GetSelectedControlItem(DWORD dwIDCtl, DWORD* pdwIDItem)
 {
 	cout << "GetSelectedControlItem" << endl;
 #ifdef SYSTEMDIALOG
@@ -658,7 +662,7 @@ HRESULT __stdcall CFilesOpenDialog::GetSelectedControlItem(DWORD dwIDCtl, DWORD*
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetSelectedControlItem(DWORD dwIDCtl, DWORD dwIDItem)
+STDAPICALL CFilesOpenDialog::SetSelectedControlItem(DWORD dwIDCtl, DWORD dwIDItem)
 {
 	cout << "SetSelectedControlItem" << endl;
 #ifdef SYSTEMDIALOG
@@ -667,7 +671,7 @@ HRESULT __stdcall CFilesOpenDialog::SetSelectedControlItem(DWORD dwIDCtl, DWORD 
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::StartVisualGroup(DWORD dwIDCtl, LPCWSTR pszLabel)
+STDAPICALL CFilesOpenDialog::StartVisualGroup(DWORD dwIDCtl, LPCWSTR pszLabel)
 {
 	cout << "StartVisualGroup" << endl;
 #ifdef SYSTEMDIALOG
@@ -676,7 +680,7 @@ HRESULT __stdcall CFilesOpenDialog::StartVisualGroup(DWORD dwIDCtl, LPCWSTR pszL
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::EndVisualGroup(void)
+STDAPICALL CFilesOpenDialog::EndVisualGroup(void)
 {
 	cout << "EndVisualGroup" << endl;
 #ifdef SYSTEMDIALOG
@@ -685,7 +689,7 @@ HRESULT __stdcall CFilesOpenDialog::EndVisualGroup(void)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::MakeProminent(DWORD dwIDCtl)
+STDAPICALL CFilesOpenDialog::MakeProminent(DWORD dwIDCtl)
 {
 	cout << "MakeProminent" << endl;
 #ifdef SYSTEMDIALOG
@@ -694,7 +698,7 @@ HRESULT __stdcall CFilesOpenDialog::MakeProminent(DWORD dwIDCtl)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetControlItemText(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel)
+STDAPICALL CFilesOpenDialog::SetControlItemText(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel)
 {
 	cout << "SetControlItemText" << endl;
 #ifdef SYSTEMDIALOG
@@ -703,7 +707,7 @@ HRESULT __stdcall CFilesOpenDialog::SetControlItemText(DWORD dwIDCtl, DWORD dwID
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetCancelButtonLabel(LPCWSTR pszLabel)
+STDAPICALL CFilesOpenDialog::SetCancelButtonLabel(LPCWSTR pszLabel)
 {
 	cout << "SetCancelButtonLabel" << endl;
 #ifdef SYSTEMDIALOG
@@ -712,7 +716,7 @@ HRESULT __stdcall CFilesOpenDialog::SetCancelButtonLabel(LPCWSTR pszLabel)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetNavigationRoot(IShellItem* psi)
+STDAPICALL CFilesOpenDialog::SetNavigationRoot(IShellItem* psi)
 {
 	cout << "SetNavigationRoot" << endl;
 #ifdef SYSTEMDIALOG
@@ -721,7 +725,7 @@ HRESULT __stdcall CFilesOpenDialog::SetNavigationRoot(IShellItem* psi)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetSite(IUnknown* pUnkSite)
+STDAPICALL CFilesOpenDialog::SetSite(IUnknown* pUnkSite)
 {
 	cout << "SetSite" << endl;
 #ifdef SYSTEMDIALOG
@@ -730,7 +734,7 @@ HRESULT __stdcall CFilesOpenDialog::SetSite(IUnknown* pUnkSite)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetSite(REFIID riid, void** ppvSite)
+STDAPICALL CFilesOpenDialog::GetSite(REFIID riid, void** ppvSite)
 {
 	cout << "GetSite" << endl;
 #ifdef SYSTEMDIALOG
@@ -739,7 +743,7 @@ HRESULT __stdcall CFilesOpenDialog::GetSite(REFIID riid, void** ppvSite)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::HideControlsForHostedPickerProviderApp(void)
+STDAPICALL CFilesOpenDialog::HideControlsForHostedPickerProviderApp(void)
 {
 	cout << "HideControlsForHostedPickerProviderApp" << endl;
 #ifdef SYSTEMDIALOG
@@ -748,7 +752,7 @@ HRESULT __stdcall CFilesOpenDialog::HideControlsForHostedPickerProviderApp(void)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::EnableControlsForHostedPickerProviderApp(void)
+STDAPICALL CFilesOpenDialog::EnableControlsForHostedPickerProviderApp(void)
 {
 	cout << "EnableControlsForHostedPickerProviderApp" << endl;
 #ifdef SYSTEMDIALOG
@@ -757,7 +761,7 @@ HRESULT __stdcall CFilesOpenDialog::EnableControlsForHostedPickerProviderApp(voi
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetPrivateOptions(unsigned long* pfos)
+STDAPICALL CFilesOpenDialog::GetPrivateOptions(unsigned long* pfos)
 {
 	cout << "GetPrivateOptions" << endl;
 #ifdef SYSTEMDIALOG
@@ -767,7 +771,7 @@ HRESULT __stdcall CFilesOpenDialog::GetPrivateOptions(unsigned long* pfos)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetPrivateOptions(unsigned long fos)
+STDAPICALL CFilesOpenDialog::SetPrivateOptions(unsigned long fos)
 {
 	cout << "SetPrivateOptions" << endl;
 #ifdef SYSTEMDIALOG
@@ -776,7 +780,7 @@ HRESULT __stdcall CFilesOpenDialog::SetPrivateOptions(unsigned long fos)
 	return S_OK;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetPersistenceKey(unsigned short const* pkey)
+STDAPICALL CFilesOpenDialog::SetPersistenceKey(unsigned short const* pkey)
 {
 	cout << "SetPersistenceKey" << endl;
 #ifdef SYSTEMDIALOG
@@ -785,7 +789,7 @@ HRESULT __stdcall CFilesOpenDialog::SetPersistenceKey(unsigned short const* pkey
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::HasPlaces(void)
+STDAPICALL CFilesOpenDialog::HasPlaces(void)
 {
 	cout << "HasPlaces" << endl;
 #ifdef SYSTEMDIALOG
@@ -794,7 +798,7 @@ HRESULT __stdcall CFilesOpenDialog::HasPlaces(void)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::EnumPlaces(int plc, _GUID const& riid, void** ppv)
+STDAPICALL CFilesOpenDialog::EnumPlaces(int plc, _GUID const& riid, void** ppv)
 {
 	cout << "EnumPlaces" << endl;
 #ifdef SYSTEMDIALOG
@@ -803,7 +807,7 @@ HRESULT __stdcall CFilesOpenDialog::EnumPlaces(int plc, _GUID const& riid, void*
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::EnumControls(void** ppv)
+STDAPICALL CFilesOpenDialog::EnumControls(void** ppv)
 {
 	cout << "EnumControls" << endl;
 #ifdef SYSTEMDIALOG
@@ -812,7 +816,7 @@ HRESULT __stdcall CFilesOpenDialog::EnumControls(void** ppv)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetPersistRegkey(unsigned short** preg)
+STDAPICALL CFilesOpenDialog::GetPersistRegkey(unsigned short** preg)
 {
 	cout << "GetPersistRegkey" << endl;
 #ifdef SYSTEMDIALOG
@@ -821,7 +825,7 @@ HRESULT __stdcall CFilesOpenDialog::GetPersistRegkey(unsigned short** preg)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetSavePropertyStore(IPropertyStore** ppstore, IPropertyDescriptionList** ppdesclist)
+STDAPICALL CFilesOpenDialog::GetSavePropertyStore(IPropertyStore** ppstore, IPropertyDescriptionList** ppdesclist)
 {
 	cout << "GetSavePropertyStore" << endl;
 #ifdef SYSTEMDIALOG
@@ -830,7 +834,7 @@ HRESULT __stdcall CFilesOpenDialog::GetSavePropertyStore(IPropertyStore** ppstor
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetSaveExtension(unsigned short** pext)
+STDAPICALL CFilesOpenDialog::GetSaveExtension(unsigned short** pext)
 {
 	cout << "GetSaveExtension" << endl;
 #ifdef SYSTEMDIALOG
@@ -839,7 +843,7 @@ HRESULT __stdcall CFilesOpenDialog::GetSaveExtension(unsigned short** pext)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetFileTypeControl(void** ftp)
+STDAPICALL CFilesOpenDialog::GetFileTypeControl(void** ftp)
 {
 	cout << "GetFileTypeControl" << endl;
 #ifdef SYSTEMDIALOG
@@ -848,7 +852,7 @@ HRESULT __stdcall CFilesOpenDialog::GetFileTypeControl(void** ftp)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetFileNameControl(void** pctrl)
+STDAPICALL CFilesOpenDialog::GetFileNameControl(void** pctrl)
 {
 	cout << "GetFileNameControl" << endl;
 #ifdef SYSTEMDIALOG
@@ -857,7 +861,7 @@ HRESULT __stdcall CFilesOpenDialog::GetFileNameControl(void** pctrl)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetFileProtectionControl(void** pfctrl)
+STDAPICALL CFilesOpenDialog::GetFileProtectionControl(void** pfctrl)
 {
 	cout << "GetFileProtectionControl" << endl;
 #ifdef SYSTEMDIALOG
@@ -866,7 +870,7 @@ HRESULT __stdcall CFilesOpenDialog::GetFileProtectionControl(void** pfctrl)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetFolderPrivate(IShellItem* psi, int arg)
+STDAPICALL CFilesOpenDialog::SetFolderPrivate(IShellItem* psi, int arg)
 {
 	cout << "SetFolderPrivate" << endl;
 #ifdef SYSTEMDIALOG
@@ -875,7 +879,7 @@ HRESULT __stdcall CFilesOpenDialog::SetFolderPrivate(IShellItem* psi, int arg)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetCustomControlAreaHeight(unsigned int height)
+STDAPICALL CFilesOpenDialog::SetCustomControlAreaHeight(unsigned int height)
 {
 	cout << "SetCustomControlAreaHeight" << endl;
 #ifdef SYSTEMDIALOG
@@ -884,7 +888,7 @@ HRESULT __stdcall CFilesOpenDialog::SetCustomControlAreaHeight(unsigned int heig
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetDialogState(unsigned long arg, unsigned long* pstate)
+STDAPICALL CFilesOpenDialog::GetDialogState(unsigned long arg, unsigned long* pstate)
 {
 	cout << "GetDialogState" << endl;
 #ifdef SYSTEMDIALOG
@@ -893,7 +897,7 @@ HRESULT __stdcall CFilesOpenDialog::GetDialogState(unsigned long arg, unsigned l
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetAppControlsModule(void* papp)
+STDAPICALL CFilesOpenDialog::SetAppControlsModule(void* papp)
 {
 	cout << "SetAppControlsModule" << endl;
 #ifdef SYSTEMDIALOG
@@ -902,7 +906,7 @@ HRESULT __stdcall CFilesOpenDialog::SetAppControlsModule(void* papp)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetUserEditedSaveProperties(void)
+STDAPICALL CFilesOpenDialog::SetUserEditedSaveProperties(void)
 {
 	cout << "SetUserEditedSaveProperties" << endl;
 #ifdef SYSTEMDIALOG
@@ -911,7 +915,7 @@ HRESULT __stdcall CFilesOpenDialog::SetUserEditedSaveProperties(void)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::ShouldShowStandardNavigationRoots(void)
+STDAPICALL CFilesOpenDialog::ShouldShowStandardNavigationRoots(void)
 {
 	cout << "ShouldShowStandardNavigationRoots" << endl;
 #ifdef SYSTEMDIALOG
@@ -920,7 +924,7 @@ HRESULT __stdcall CFilesOpenDialog::ShouldShowStandardNavigationRoots(void)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetNavigationRoot(_GUID const& riid, void** ppv)
+STDAPICALL CFilesOpenDialog::GetNavigationRoot(_GUID const& riid, void** ppv)
 {
 	cout << "GetNavigationRoot" << endl;
 #ifdef SYSTEMDIALOG
@@ -929,7 +933,7 @@ HRESULT __stdcall CFilesOpenDialog::GetNavigationRoot(_GUID const& riid, void** 
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::ShouldShowFileProtectionControl(int* pfpc)
+STDAPICALL CFilesOpenDialog::ShouldShowFileProtectionControl(int* pfpc)
 {
 	cout << "ShouldShowFileProtectionControl" << endl;
 #ifdef SYSTEMDIALOG
@@ -938,7 +942,7 @@ HRESULT __stdcall CFilesOpenDialog::ShouldShowFileProtectionControl(int* pfpc)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::GetCurrentDialogView(_GUID const& riid, void** ppv)
+STDAPICALL CFilesOpenDialog::GetCurrentDialogView(_GUID const& riid, void** ppv)
 {
 	cout << "GetCurrentDialogView" << endl;
 #ifdef SYSTEMDIALOG
@@ -947,7 +951,7 @@ HRESULT __stdcall CFilesOpenDialog::GetCurrentDialogView(_GUID const& riid, void
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::SetSaveDialogEditBoxTextAndFileType(int arg, unsigned short const* pargb)
+STDAPICALL CFilesOpenDialog::SetSaveDialogEditBoxTextAndFileType(int arg, unsigned short const* pargb)
 {
 	cout << "SetSaveDialogEditBoxTextAndFileType" << endl;
 #ifdef SYSTEMDIALOG
@@ -956,7 +960,7 @@ HRESULT __stdcall CFilesOpenDialog::SetSaveDialogEditBoxTextAndFileType(int arg,
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::MoveFocusFromBrowser(int arg)
+STDAPICALL CFilesOpenDialog::MoveFocusFromBrowser(int arg)
 {
 	cout << "MoveFocusFromBrowser" << endl;
 #ifdef SYSTEMDIALOG
@@ -965,7 +969,7 @@ HRESULT __stdcall CFilesOpenDialog::MoveFocusFromBrowser(int arg)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::EnableOkButton(int enbl)
+STDAPICALL CFilesOpenDialog::EnableOkButton(int enbl)
 {
 	cout << "EnableOkButton" << endl;
 #ifdef SYSTEMDIALOG
@@ -974,7 +978,7 @@ HRESULT __stdcall CFilesOpenDialog::EnableOkButton(int enbl)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::InitEnterpriseId(unsigned short const* pid)
+STDAPICALL CFilesOpenDialog::InitEnterpriseId(unsigned short const* pid)
 {
 	cout << "InitEnterpriseId" << endl;
 #ifdef SYSTEMDIALOG
@@ -983,7 +987,7 @@ HRESULT __stdcall CFilesOpenDialog::InitEnterpriseId(unsigned short const* pid)
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::AdviseFirst(IFileDialogEvents* pfde, unsigned long* pdwCookie)
+STDAPICALL CFilesOpenDialog::AdviseFirst(IFileDialogEvents* pfde, unsigned long* pdwCookie)
 {
 	cout << "AdviseFirst" << endl;
 #ifdef SYSTEMDIALOG
@@ -992,7 +996,7 @@ HRESULT __stdcall CFilesOpenDialog::AdviseFirst(IFileDialogEvents* pfde, unsigne
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesOpenDialog::HandleTab(void)
+STDAPICALL CFilesOpenDialog::HandleTab(void)
 {
 	cout << "HandleTab" << endl;
 #ifdef SYSTEMDIALOG

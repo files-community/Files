@@ -101,7 +101,7 @@
 	{
 		"NameResource": "PropertyAperture",
 		"SectionResource": "PropertySectionPhoto",
-		"Property": "System.Photo.Aperture",
+		"Property": "System.Photo.FNumber",
 		"IsReadOnly": true,
 		"ID": null,
 		"DisplayFunctionName": "AddF"
@@ -190,6 +190,22 @@
 		"Property": "System.Media.Duration",
 		"IsReadOnly": true,
 		"DisplayFunctionName": "FormatDuration",
+		"ID": null
+	},
+	{
+		"NameResource": "Width",
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.Video.FrameWidth",
+		"IsReadOnly": true,
+		"DisplayFunctionName": "FrameWidth",
+		"ID": null
+	},
+	{
+		"NameResource": "Height",
+		"SectionResource": "PropertySectionMedia",
+		"Property": "System.Video.FrameHeight",
+		"IsReadOnly": true,
+		"DisplayFunctionName": "FrameHeight",
 		"ID": null
 	},
 	{

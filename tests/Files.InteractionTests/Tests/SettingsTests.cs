@@ -23,8 +23,8 @@ namespace Files.InteractionTests.Tests
 
 			var settingsItems = new string[]
 			{
+				"SettingsItemGeneral",
 				"SettingsItemAppearance",
-				"SettingsItemPreferences",
 				"SettingsItemFolders",
 				"SettingsItemTags",
 				"SettingsItemAdvanced",
@@ -38,7 +38,7 @@ namespace Files.InteractionTests.Tests
 					try
 					{
 						Console.WriteLine("Invoking button:" + item);
-						Thread.Sleep(1000);
+						Thread.Sleep(3000);
 						TestHelper.InvokeButtonById(item);
 						i = 1000;
 					}

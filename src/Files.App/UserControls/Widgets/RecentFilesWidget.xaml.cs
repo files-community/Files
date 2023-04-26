@@ -2,11 +2,14 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
+using Files.App.Filesystem.StorageEnumerators;
+using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -49,7 +52,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "RecentFiles".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget;
 
 		public bool ShowMenuFlyout => false;
 
@@ -83,6 +86,20 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
+		private IShellPage associatedInstance;
+		public IShellPage AppInstance
+		{
+			get => associatedInstance;
+			set
+			{
+				if (value != associatedInstance)
+				{
+					associatedInstance = value;
+					NotifyPropertyChanged(nameof(AppInstance));
+				}
+			}
+		}
+
 		public RecentFilesWidget()
 		{
 			InitializeComponent();
@@ -98,46 +115,45 @@ namespace Files.App.UserControls.Widgets
 			RemoveRecentItemCommand = new RelayCommand<RecentItem>(RemoveRecentItem);
 			ClearAllItemsCommand = new RelayCommand(ClearRecentItems);
 			OpenFileLocationCommand = new RelayCommand<RecentItem>(OpenFileLocation);
+			OpenPropertiesCommand = new RelayCommand<RecentItem>(OpenProperties);
 		}
 
-		private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private void ListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
-			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			if (sender is not Grid recentItemsGrid || recentItemsGrid.DataContext is not RecentItem item)
+			ItemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			ItemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+			if (e.OriginalSource is not FrameworkElement element || element.DataContext is not RecentItem item)
 				return;
 
 			var menuItems = GetItemMenuItems(item, false);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
-				secondaryElements.OfType<FrameworkElement>()
-								 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
+			secondaryElements.OfType<FrameworkElement>()
+							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
-			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			itemContextMenuFlyout.ShowAt(recentItemsGrid, new FlyoutShowOptions { Position = e.GetPosition(recentItemsGrid) });
+			secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
+			ItemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
 
-			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
-
-			e.Handled = true;
+			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenItemsWithCaptionText".GetLocalizedResource(),
-					Glyph = "\uE17D",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenWith",
+					},
 					Tag = "OpenWithPlaceholder",
-					IsEnabled = false
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
-					IsEnabled = false
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -154,9 +170,19 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "RecentItemOpenFileLocation/Text".GetLocalizedResource(),
+					Text = "OpenFileLocation".GetLocalizedResource(),
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
+					CommandParameter = item
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "Properties".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconProperties",
+					},
+					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
 				new ContextMenuFlyoutItemViewModel()
@@ -184,7 +210,7 @@ namespace Files.App.UserControls.Widgets
 
 		private async void Manager_RecentFilesChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			await DispatcherQueue.EnqueueAsync(async () =>
+			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				// e.Action can only be Reset right now; naively refresh everything for simplicity
 				await UpdateRecentsList(e);
@@ -199,7 +225,19 @@ namespace Files.App.UserControls.Widgets
 				ItemName = Path.GetFileName(item.RecentPath),                // file name w extension
 			});
 		}
-			
+
+		private void OpenProperties(RecentItem item)
+		{
+			EventHandler<object> flyoutClosed = null!;
+			flyoutClosed = async (s, e) =>
+			{
+				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				var listedItem = await UniversalStorageEnumerator.AddFileAsync(await BaseStorageFile.GetFileFromPathAsync(item.Path), null, default);
+				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, associatedInstance);
+			};
+			ItemContextMenuFlyout.Closed += flyoutClosed;
+		}
+
 		private async Task UpdateRecentsList(NotifyCollectionChangedEventArgs e)
 		{
 			try
@@ -268,7 +306,7 @@ namespace Files.App.UserControls.Widgets
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Info(ex, "Could not populate recent files");
+				App.Logger.LogInformation(ex, "Could not populate recent files");
 			}
 			finally
 			{
@@ -286,7 +324,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				recentItemsCollection.Insert(index < 0 ? recentItemsCollection.Count : Math.Min(index, recentItemsCollection.Count), recentItem);
 				_ = recentItem.LoadRecentItemIcon()
-					.ContinueWith(t => App.Logger.Warn(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+					.ContinueWith(t => App.Logger.LogWarning(t.Exception, null), TaskContinuationOptions.OnlyOnFaulted);
 				return true;
 			}
 			return false;

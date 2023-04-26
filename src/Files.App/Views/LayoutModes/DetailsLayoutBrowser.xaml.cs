@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -8,7 +9,6 @@ using Files.App.Helpers.XamlHelpers;
 using Files.App.UserControls;
 using Files.App.UserControls.Selection;
 using Files.App.ViewModels;
-using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -34,10 +34,6 @@ namespace Files.App.Views.LayoutModes
 
 		private uint currentIconSize;
 
-		private InputCursor arrowCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Arrow, 0));
-
-		private InputCursor resizeCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.SizeWestEast, 1));
-
 		private ListedItem? _nextItemToSelect;
 
 		protected override uint IconSize => currentIconSize;
@@ -47,15 +43,6 @@ namespace Files.App.Views.LayoutModes
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
-
-		public bool AreAllItemsSelected
-		{
-			get
-			{
-				return FileList.SelectedItems.Count == FileList.Items.Count;
-			}
-			set { }
-		}
 
 		private double maxWidthForRenameTextbox;
 
@@ -244,14 +231,6 @@ namespace Files.App.Views.LayoutModes
 		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
-			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
-			{
-				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
-			}
-
-
-			// If the selection is not all items, uncheck the select all checkbox and vice versa
-			NotifyPropertyChanged(nameof(AreAllItemsSelected));
 
 			if (e != null)
 			{
@@ -318,7 +297,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (ParentShellPageInstance is null)
+			if (ParentShellPageInstance is null || IsRenamingItem)
 				return;
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -327,11 +306,17 @@ namespace Files.App.Views.LayoutModes
 			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
 			var isFooterFocused = focusedElement is HyperlinkButton;
 
-			if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
+			if (ctrlPressed && e.Key is VirtualKey.A)
 			{
-				if (IsRenamingItem)
-					return;
+				e.Handled = true;
 
+				var commands = Ioc.Default.GetRequiredService<ICommandManager>();
+				var hotKey = new HotKey(Keys.A, KeyModifiers.Ctrl);
+
+				await commands[hotKey].ExecuteAsync();
+			}
+			else if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
+			{
 				e.Handled = true;
 
 				if (ctrlPressed && !shiftPressed)
@@ -347,11 +332,6 @@ namespace Files.App.Views.LayoutModes
 				{
 					NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
 				}
-				else
-				{
-					await NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-					FileList.SelectedIndex = 0;
-				}
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
@@ -360,11 +340,8 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Space)
 			{
-				if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
-				{
+				if (!ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 					e.Handled = true;
-					await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
-				}
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
 			{
@@ -378,7 +355,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Down)
 			{
-				if (!IsRenamingItem && isHeaderFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
+				if (isHeaderFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 				{
 					var selectIndex = FileList.SelectedIndex < 0 ? 0 : FileList.SelectedIndex;
 					if (FileList.ContainerFromIndex(selectIndex) is ListViewItem item)
@@ -433,7 +410,6 @@ namespace Files.App.Views.LayoutModes
 			(
 				ctrlPressed ||
 				shiftPressed ||
-				AppModel.ShowSelectionCheckboxes && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick ||
 				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle
 			)
 			{
@@ -471,12 +447,11 @@ namespace Files.App.Views.LayoutModes
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
 				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
-				_ = NavigationHelpers.OpenPath(item.ItemPath, ParentShellPageInstance);
+				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
-			else
+			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-				if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-					ParentShellPageInstance.Up_Click();
+				ParentShellPageInstance?.Up_Click();
 			}
 			ResetRenameDoubleClick();
 		}
@@ -490,8 +465,6 @@ namespace Files.App.Views.LayoutModes
 				item = VisualTreeHelper.GetParent(item);
 			if (item is ListViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
-
-			NotifyPropertyChanged(nameof(AreAllItemsSelected));
 		}
 
 		private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -534,20 +507,20 @@ namespace Files.App.Views.LayoutModes
 			MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
 		}
 
-		private void GridSplitter_ManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
+		private void GridSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			this.ChangeCursor(resizeCursor);
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
 		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
-			this.ChangeCursor(arrowCursor);
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
 		private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
 		{
-			(sender as UIElement).ChangeCursor(resizeCursor);
+			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -557,8 +530,9 @@ namespace Files.App.Views.LayoutModes
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			var columnToResize = (Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) - 1) / 2;
+			var columnToResize = Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) / 2 + 1;
 			ResizeColumnToFit(columnToResize);
+
 			e.Handled = true;
 		}
 
@@ -582,7 +556,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				1 => 40, // Check all items columns
 				2 => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
-				3 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.FirstOrDefault()?.Name?.Length ?? 0).Max(), // file tag column
+				3 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(), // file tag column
 				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
 				5 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
 				6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
@@ -597,7 +571,8 @@ namespace Files.App.Views.LayoutModes
 			if (maxItemLength == 0)
 				return;
 
-			var columnSizeToFit = columnToResize == 10 ? maxItemLength : MeasureTextColumnEstimate(columnToResize, 5, maxItemLength);
+			var columnSizeToFit = MeasureColumnEstimate(columnToResize, 5, maxItemLength);
+
 			if (columnSizeToFit > 1)
 			{
 				var column = columnToResize switch
@@ -613,7 +588,7 @@ namespace Files.App.Views.LayoutModes
 					_ => ColumnsViewModel.StatusColumn
 				};
 
-				if (columnToResize == 1) // file name column
+				if (columnToResize == 2) // file name column
 					columnSizeToFit += 20;
 
 				var minFitLength = Math.Max(columnSizeToFit, column.NormalMinLength);
@@ -625,46 +600,88 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
 		}
 
+		private double MeasureColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
+		{
+			if (columnIndex == 10)
+				return maxItemLength;
+
+			if (columnIndex == 3)
+				return MeasureTagColumnEstimate(columnIndex);
+
+			return MeasureTextColumnEstimate(columnIndex, measureItemsCount, maxItemLength);
+		}
+
+		private double MeasureTagColumnEstimate(int columnIndex)
+		{
+			var grids = DependencyObjectHelpers
+				.FindChildren<Grid>(FileList.ItemsPanelRoot)
+				.Where(grid => IsCorrectColumn(grid, columnIndex));
+
+			// Get the list of stack panels with the most letters
+			var stackPanels = grids
+				.Select(DependencyObjectHelpers.FindChildren<StackPanel>)
+				.OrderByDescending(sps => sps.Select(sp => DependencyObjectHelpers.FindChildren<TextBlock>(sp).Select(tb => tb.Text.Length).Sum()).Sum())
+				.First()
+				.ToArray();
+
+			var mesuredSize = stackPanels.Select(x =>
+			{
+				x.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+
+				return x.DesiredSize.Width;
+			}).Sum();
+
+			if (stackPanels.Length >= 2)
+				mesuredSize += 4 * (stackPanels.Length - 1); // The spacing between the tags
+
+			return mesuredSize;
+		}
+
 		private double MeasureTextColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
 		{
-			var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(tb =>
-			{
-				int columnIndexFromName = tb.Name switch
-				{
-					"ItemName" => 1,
-					"ItemTag" => 2,
-					"ItemOriginalPath" => 3,
-					"ItemDateDeleted" => 4,
-					"ItemDateModified" => 5,
-					"ItemDateCreated" => 6,
-					"ItemType" => 7,
-					"ItemSize" => 8,
-					"ItemStatus" => 9,
-					_ => -1,
-				};
-
-				if (columnIndexFromName == -1)
-					return false;
-
-				return columnIndexFromName == columnIndex;
-			});
+			var tbs = DependencyObjectHelpers
+				.FindChildren<TextBlock>(FileList.ItemsPanelRoot)
+				.Where(tb => IsCorrectColumn(tb, columnIndex));
 
 			// heuristic: usually, text with more letters are wider than shorter text with wider letters
 			// with this, we can calculate avg width using longest text(s) to avoid overshooting the width
-			var widthPerLetter = tbs.OrderByDescending(x => x.Text.Length).Where(tb => !string.IsNullOrEmpty(tb.Text)).Take(measureItemsCount).Select(tb =>
-			{
-				var sampleTb = new TextBlock { Text = tb.Text, FontSize = tb.FontSize, FontFamily = tb.FontFamily };
-				sampleTb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+			var widthPerLetter = tbs
+				.OrderByDescending(x => x.Text.Length)
+				.Where(tb => !string.IsNullOrEmpty(tb.Text))
+				.Take(measureItemsCount)
+				.Select(tb =>
+				{
+					var sampleTb = new TextBlock { Text = tb.Text, FontSize = tb.FontSize, FontFamily = tb.FontFamily };
+					sampleTb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
 
-				return sampleTb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
-			});
+					return sampleTb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
+				});
 
 			if (!widthPerLetter.Any())
 				return 0;
 
-			// take weighted avg between mean and max since width is an estimate
+			// Take weighted avg between mean and max since width is an estimate
 			var weightedAvg = (widthPerLetter.Average() + widthPerLetter.Max()) / 2;
 			return weightedAvg * maxItemLength;
+		}
+
+		private bool IsCorrectColumn(FrameworkElement element, int columnIndex)
+		{
+			int columnIndexFromName = element.Name switch
+			{
+				"ItemName" => 2,
+				"ItemTagGrid" => 3,
+				"ItemOriginalPath" => 4,
+				"ItemDateDeleted" => 5,
+				"ItemDateModified" => 6,
+				"ItemDateCreated" => 7,
+				"ItemType" => 8,
+				"ItemSize" => 9,
+				"ItemStatus" => 10,
+				_ => -1,
+			};
+
+			return columnIndexFromName != -1 && columnIndexFromName == columnIndex;
 		}
 
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
@@ -675,19 +692,6 @@ namespace Files.App.Views.LayoutModes
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
 			FolderSettings.SetDefaultLayoutPreferences(ColumnsViewModel);
-		}
-
-		private void SelectAllCheckbox_Checked(object sender, RoutedEventArgs e)
-		{
-			FileList.SelectAll();
-		}
-
-		private void SelectAllCheckbox_Unchecked(object sender, RoutedEventArgs e)
-		{
-			// We should only unselect all items if the user clicked the checkbox
-			// We determine this by checking if all items were selected
-			if (SelectedItems.Count == FileList.Items.Count)
-				FileList.SelectedItem = null;
 		}
 
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
@@ -704,8 +708,18 @@ namespace Files.App.Views.LayoutModes
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
+			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
+
+			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
+			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
+			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
+
 			base.FileList_ContainerContentChanging(sender, args);
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
+
+			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
+			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
+			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
 		}
 
 		private void SetCheckboxSelectionState(object item, ListViewItem? lviContainer = null)
@@ -725,6 +739,7 @@ namespace Files.App.Views.LayoutModes
 					checkbox.Checked += ItemSelected_Checked;
 					checkbox.Unchecked += ItemSelected_Unchecked;
 				}
+				UpdateCheckboxVisibility(container, checkbox?.IsPointerOver ?? false);
 			}
 		}
 
@@ -754,7 +769,7 @@ namespace Files.App.Views.LayoutModes
 
 			if (tagName is null || parent?.DataContext is not ListedItem item)
 				return;
-			
+
 			var tagId = FileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
 
 			item.FileTags = item.FileTags
@@ -762,6 +777,36 @@ namespace Files.App.Views.LayoutModes
 				.ToArray();
 
 			e.Handled = true;
+		}
+
+		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, true);
+		}
+
+		private void SelectionCheckbox_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
+		}
+
+		private void SelectionCheckbox_PointerCanceled(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
+		}
+
+		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
+		{
+			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
+			{
+				// Handle visual states
+				// Show checkboxes when items are selected (as long as the setting is enabled)
+				// Show checkboxes when hovering of the thumbnail (regardless of the setting to hide them)
+				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
+					|| isPointerOver)
+					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
+				else
+					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
+			}
 		}
 	}
 }

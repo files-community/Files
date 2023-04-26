@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
@@ -62,7 +63,7 @@ namespace Files.App.ViewModels.Previews
 
 			if (Item.ItemFile is null)
 			{
-				var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Item.ItemPath));
+				var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Item.ItemPath));
 				Item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath, rootItem);
 			}
 
@@ -98,11 +99,11 @@ namespace Files.App.ViewModels.Previews
 			iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 256);
 			if (iconData is not null)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(async () => FileImage = await iconData.ToBitmapAsync());
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () => FileImage = await iconData.ToBitmapAsync());
 			}
 			else
 			{
-				FileImage ??= await App.Window.DispatcherQueue.EnqueueAsync(() => new BitmapImage());
+				FileImage ??= await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => new BitmapImage());
 			}
 
 			return new List<FileProperty>();

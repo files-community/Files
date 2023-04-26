@@ -31,10 +31,8 @@ namespace Files.App.ViewModels
 				SetProperty(ref isPageTypeSearchResults, value);
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
-				OnPropertyChanged(nameof(CanPasteInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -73,10 +71,8 @@ namespace Files.App.ViewModels
 				SetProperty(ref isPageTypeNotHome, value);
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
-				OnPropertyChanged(nameof(CanPasteInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -90,10 +86,8 @@ namespace Files.App.ViewModels
 				SetProperty(ref isPageTypeMtpDevice, value);
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
-				OnPropertyChanged(nameof(CanPasteInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -107,10 +101,8 @@ namespace Files.App.ViewModels
 				SetProperty(ref isPageTypeRecycleBin, value);
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
-				OnPropertyChanged(nameof(CanPasteInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -124,10 +116,8 @@ namespace Files.App.ViewModels
 				SetProperty(ref isPageTypeFtp, value);
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
-				OnPropertyChanged(nameof(CanPasteInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -141,10 +131,8 @@ namespace Files.App.ViewModels
 				SetProperty(ref isPageTypeCloudDrive, value);
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
-				OnPropertyChanged(nameof(CanPasteInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -158,10 +146,8 @@ namespace Files.App.ViewModels
 				SetProperty(ref isPageTypeZipFolder, value);
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
-				OnPropertyChanged(nameof(CanPasteInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -175,10 +161,8 @@ namespace Files.App.ViewModels
 				SetProperty(ref isPageTypeLibrary, value);
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
-				OnPropertyChanged(nameof(CanPasteInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanShareInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -196,16 +180,6 @@ namespace Files.App.ViewModels
 		public bool CanCreateFileInPage
 		{
 			get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp && !isPageTypeZipFolder;
-		}
-
-		public bool CanPasteInPage
-		{
-			get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
-		}
-
-		public bool CanShareInPage
-		{
-			get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeFtp && !isPageTypeZipFolder;
 		}
 
 		public bool CanTagFilesInPage

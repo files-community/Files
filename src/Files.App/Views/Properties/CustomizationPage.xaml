@@ -1,0 +1,115 @@
+﻿<vm:BasePropertiesPage
+	x:Class="Files.App.Views.Properties.CustomizationPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:shared="using:Files.Shared"
+	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:uc="using:Files.App.UserControls"
+	xmlns:vm="using:Files.App.ViewModels.Properties"
+	DataContext="{x:Bind CustomizationViewModel, Mode=OneWay}"
+	mc:Ignorable="d">
+
+	<vm:BasePropertiesPage.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+
+		</ResourceDictionary>
+	</vm:BasePropertiesPage.Resources>
+
+	<Grid x:Name="RootGrid">
+
+		<Grid
+			Margin="12"
+			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			ColumnSpacing="8"
+			CornerRadius="4"
+			RowSpacing="8">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<Grid Grid.Row="0" Margin="12,12,12,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+
+				<TextBlock
+					Padding="4"
+					Text="{helpers:ResourceString Name=ChooseCustomIcon}"
+					TextTrimming="CharacterEllipsis"
+					TextWrapping="NoWrap" />
+
+				<Button
+					x:Name="RestoreDefaultButton"
+					Grid.Column="1"
+					x:Load="{x:Bind CustomizationViewModel.IsShortcut, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+					Command="{x:Bind CustomizationViewModel.RestoreDefaultIconCommand, Mode=OneWay}"
+					Content="{helpers:ResourceString Name=RestoreDefault}"
+					IsEnabled="{x:Bind CustomizationViewModel.RestoreButtonIsEnabled, Mode=OneWay}" />
+
+			</Grid>
+
+			<Border
+				Grid.Row="1"
+				Height="1"
+				Margin="-12,0"
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+			<Grid
+				Grid.Row="2"
+				Margin="12,0"
+				ColumnSpacing="8">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+
+				<TextBox
+					x:Name="PickedDllFilePathTextBox"
+					IsReadOnly="True"
+					Text="{x:Bind CustomizationViewModel.IconResourceItemPath, Mode=OneWay}" />
+
+				<Button
+					x:Name="PickDllFileButton"
+					Grid.Column="1"
+					Command="{x:Bind CustomizationViewModel.PickDllFileCommand, Mode=OneWay}"
+					CommandParameter="{x:Bind XamlRoot, Mode=OneWay}"
+					Content="{helpers:ResourceString Name=Browse}" />
+
+			</Grid>
+
+			<GridView
+				x:Name="IconSelectionGrid"
+				Grid.Row="3"
+				Padding="12"
+				ItemsSource="{x:Bind CustomizationViewModel.DllIcons, Mode=OneWay}"
+				SelectedItem="{x:Bind CustomizationViewModel.SelectedDllIcon, Mode=TwoWay}">
+				<GridView.ItemTemplate>
+					<DataTemplate x:DataType="shared:IconFileInfo">
+
+						<Image
+							Width="32"
+							Height="32"
+							uc:ImageFromBytes.SourceBytes="{x:Bind IconData}" />
+
+					</DataTemplate>
+				</GridView.ItemTemplate>
+			</GridView>
+
+		</Grid>
+
+	</Grid>
+</vm:BasePropertiesPage>

@@ -15,6 +15,7 @@ namespace Files.Shared.Enums
 		NotAFolder = 64,
 		NotAFile = 128,
 		ReadOnly = 256,
-		InProgress = 512
+		PropertyLoss = 512,
+		InProgress = 1024
 	}
 }

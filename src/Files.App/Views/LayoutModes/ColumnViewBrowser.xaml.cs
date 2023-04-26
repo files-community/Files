@@ -11,6 +11,8 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Storage;
+using Windows.System.Threading.Core;
 using static Files.App.Constants;
 using static Files.App.Helpers.PathNormalization;
 
@@ -19,9 +21,11 @@ namespace Files.App.Views.LayoutModes
 	public sealed partial class ColumnViewBrowser : BaseLayout
 	{
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+
 		protected override ItemsControl ItemsControl => ColumnHost;
 
 		public string? OwnerPath { get; private set; }
+
 		public int FocusIndex { get; private set; }
 
 		public ColumnViewBrowser() : base()
@@ -57,9 +61,10 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
+			var nextBlade = ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex);
+			var arePathsDifferent = ((nextBlade?.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam;
 
-			if (ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex) is not BladeItem nextBlade ||
-				((nextBlade.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam)
+			if (nextBlade is null || arePathsDifferent)
 			{
 				DismissOtherBlades(column.ListView);
 
@@ -72,6 +77,10 @@ namespace Files.App.Views.LayoutModes
 				});
 				navigationArguments.NavPathParam = column.NavPathParam;
 				ParentShellPageInstance.TabItemArguments.NavigationArg = column.NavPathParam;
+			}
+			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+			{
+				CloseUnnecessaryColumns(column);
 			}
 		}
 
@@ -112,6 +121,7 @@ namespace Files.App.Views.LayoutModes
 				SearchPathParam = navigationArguments.SearchPathParam,
 				NavPathParam = path
 			});
+
 			var index = 0;
 			while (pathStack.TryPop(out path))
 			{
@@ -133,14 +143,14 @@ namespace Files.App.Views.LayoutModes
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
+
 			Dispose();
 		}
-
-		#region IDisposable
 
 		public override void Dispose()
 		{
 			base.Dispose();
+
 			var columnHostItems = ColumnHost.Items.OfType<BladeItem>().Select(blade => blade.Content as Frame);
 			foreach (var frame in columnHostItems)
 			{
@@ -154,16 +164,17 @@ namespace Files.App.Views.LayoutModes
 						viewBase.KeyUp -= ColumnViewBase_KeyUp;
 					}
 				}
+
 				if (frame?.Content is UIElement element)
 					element.GotFocus -= ColumnViewBrowser_GotFocus;
+
 				if (frame?.Content is IDisposable disposable)
 					disposable.Dispose();
 			}
+
 			UnhookEvents();
 			CommandsViewModel?.Dispose();
 		}
-
-		#endregion IDisposable
 
 		private void DismissOtherBlades(ListView listView)
 		{
@@ -184,19 +195,24 @@ namespace Files.App.Views.LayoutModes
 					while (ColumnHost.ActiveBlades.Count > index + 1)
 					{
 						var frame = ColumnHost.ActiveBlades[index + 1].Content as Frame;
+
 						if (frame?.Content is IDisposable disposableContent)
 							disposableContent.Dispose();
+
 						if ((frame?.Content as ColumnShellPage)?.SlimContentPage is ColumnViewBase columnLayout)
 						{
 							columnLayout.ItemInvoked -= ColumnViewBase_ItemInvoked;
 							columnLayout.ItemTapped -= ColumnViewBase_ItemTapped;
 							columnLayout.KeyUp -= ColumnViewBase_KeyUp;
 						}
+
 						(frame?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus;
 						(frame?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged;
+
 						ColumnHost.Items.RemoveAt(index + 1);
 						ColumnHost.ActiveBlades.RemoveAt(index + 1);
 					}
+
 					if ((ColumnHost.ActiveBlades[index].Content as Frame)?.Content is ColumnShellPage s)
 					{
 						navigationArguments.NavPathParam = s.FilesystemViewModel.WorkingDirectory;
@@ -204,6 +220,7 @@ namespace Files.App.Views.LayoutModes
 					}
 				});
 			}
+
 			ContentChanged(ActiveColumnShellPage);
 		}
 
@@ -219,6 +236,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (sender is not IShellPage shPage || shPage.IsCurrentInstance)
 				return;
+
 			var currentBlade = ColumnHost.ActiveBlades.Single(x => (x.Content as Frame)?.Content == sender);
 			currentBlade.StartBringIntoView();
 			if (ColumnHost.ActiveBlades is not null)
@@ -229,6 +247,7 @@ namespace Files.App.Views.LayoutModes
 					shellPage.IsCurrentInstance = false;
 				});
 			}
+
 			shPage.IsCurrentInstance = true;
 			ContentChanged(shPage);
 		}
@@ -246,12 +265,15 @@ namespace Files.App.Views.LayoutModes
 				columnView.KeyUp -= ColumnViewBase_KeyUp;
 				columnView.KeyUp += ColumnViewBase_KeyUp;
 			}
+
 			ContentChanged(c);
 		}
 
 		private void ColumnViewBase_KeyUp(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
 		{
-			CloseUnnecessaryColumns((ActiveColumnShellPage as ColumnShellPage)?.ColumnParams);
+			var shPage = ActiveColumnShellPage as ColumnShellPage;
+			if (shPage?.SlimContentPage?.SelectedItem?.PrimaryItemAttribute is not StorageItemTypes.Folder)
+				CloseUnnecessaryColumns(shPage?.ColumnParams);
 		}
 
 		public void NavigateBack()
@@ -287,7 +309,7 @@ namespace Files.App.Views.LayoutModes
 			if (activeBladeColumnViewBase is null)
 				return;
 
-			//This allows to deselect and reselect the parent folder, hence forcing the refocus.
+			// This allows to deselect and reselect the parent folder, hence forcing the refocus.
 			var selectedItem = activeBladeColumnViewBase.FileList.SelectedItem;
 			activeBladeColumnViewBase.FileList.SelectedItem = null;
 			activeBladeColumnViewBase.FileList.SelectedItem = selectedItem;
@@ -309,14 +331,22 @@ namespace Files.App.Views.LayoutModes
 
 		private ColumnViewBase? RetrieveBladeColumnViewBase(BladeItem blade)
 		{
-			if (blade.Content is not Frame activeBladeFrame || activeBladeFrame.Content is not ColumnShellPage activeBladePage)
+			if (blade.Content is not Frame activeBladeFrame ||
+				activeBladeFrame.Content is not ColumnShellPage activeBladePage)
 				return null;
+
 			return activeBladePage.SlimContentPage as ColumnViewBase;
 		}
 
 		public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
 		{
-			var destPath = navArgs is not null ? (navArgs.IsSearchResultPage ? navArgs.SearchPathParam : navArgs.NavPathParam) : navigationPath;
+			if (navArgs is not null && navArgs.IsSearchResultPage)
+			{
+				ParentShellPageInstance?.NavigateToPath(navArgs.SearchPathParam, typeof(DetailsLayoutBrowser), navArgs);
+				return;
+			}
+
+			var destPath = navArgs is not null ? navArgs.NavPathParam : navigationPath;
 			var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
 			var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
 
@@ -327,9 +357,7 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			var destComponents = StorageFileExtensions.GetDirectoryPathComponents(destPath);
-
 			var (lastCommonItemIndex, relativeIndex) = GetLastCommonAndRelativeIndex(destComponents, columnPath, columnFirstPath);
-
 			if (relativeIndex < 0 || destComponents.Count - (lastCommonItemIndex + 1) > 1) // Going above parent or too deep down
 			{
 				ParentShellPageInstance?.NavigateToPath(navigationPath, sourcePageType, navArgs);
@@ -347,6 +375,7 @@ namespace Files.App.Views.LayoutModes
 						Column = ColumnHost.ActiveBlades.IndexOf(newblade),
 						NavPathParam = destComponents[ii].Path
 					};
+
 					if (navArgs is not null)
 					{
 						columnParam.IsSearchResultPage = navArgs.IsSearchResultPage;
@@ -354,6 +383,7 @@ namespace Files.App.Views.LayoutModes
 						columnParam.SearchUnindexedItems = navArgs.SearchUnindexedItems;
 						columnParam.SearchPathParam = navArgs.SearchPathParam;
 					}
+
 					frame.Navigate(typeof(ColumnShellPage), columnParam);
 				}
 			}
@@ -405,21 +435,42 @@ namespace Files.App.Views.LayoutModes
 			var column = sender as ColumnParam;
 			if (column?.ListView.FindAscendant<ColumnViewBrowser>() != this || string.IsNullOrEmpty(column.NavPathParam))
 				return;
-			
+
 			CloseUnnecessaryColumns(column);
 		}
 
 		private void CloseUnnecessaryColumns(ColumnParam column)
 		{
-			var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
-			var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
-			if (string.IsNullOrEmpty(columnPath) || string.IsNullOrEmpty(columnFirstPath))
+			if (string.IsNullOrEmpty(column.NavPathParam))
 				return;
 
-			var destComponents = StorageFileExtensions.GetDirectoryPathComponents(column.NavPathParam);
-			var (_, relativeIndex) = GetLastCommonAndRelativeIndex(destComponents, columnPath, columnFirstPath);
+			var relativeIndex = column.Column is not 0 ? column.Column : -1;
+
+			if (column.Source is not null)
+			{
+				for (var i = 0; i < ColumnHost.ActiveBlades.Count && relativeIndex is -1; i++)
+				{
+					var bladeColumn = ColumnHost.ActiveBlades[i].FindDescendant<ColumnViewBase>();
+					if (bladeColumn is not null && bladeColumn == column.Source)
+						relativeIndex = i;
+				}
+			}
+
+			if (relativeIndex is -1)
+			{
+				// Get the index of the blade with the same path as the requested
+				var blade = ColumnHost.ActiveBlades.FirstOrDefault(b => 
+					column.NavPathParam.Equals(((b.Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel?.WorkingDirectory));
+
+				if (blade is not null)
+					relativeIndex = ColumnHost.ActiveBlades.IndexOf(blade);
+			}
+
 			if (relativeIndex >= 0)
+			{
+				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnViewBase>()?.ClearOpenedFolderSelectionIndicator();
 				DismissOtherBlades(relativeIndex);
+			}
 		}
 
 		private (int, int) GetLastCommonAndRelativeIndex(List<PathBoxItem> destComponents, string columnPath, string columnFirstPath)
@@ -444,6 +495,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				Content = frame
 			};
+
 			ColumnHost.Items.Add(newblade);
 			return (frame, newblade);
 		}

@@ -6,6 +6,7 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Shell;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using System;
 using System.IO;
@@ -64,7 +65,7 @@ namespace Files.App.ViewModels.Properties
 					ViewModel.ShortcutItemArgumentsVisibility = false;
 					ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 					{
-						await App.Window.DispatcherQueue.EnqueueAsync(
+						await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(
 							() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(Environment.ExpandEnvironmentVariables(ViewModel.ShortcutItemPath))));
 					},
 					() =>
@@ -174,7 +175,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 
 			ViewModel.ItemSizeProgressVisibility = false;

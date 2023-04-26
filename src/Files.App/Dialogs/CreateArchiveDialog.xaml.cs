@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Extensions;
+using Files.App.Filesystem;
 using Files.App.Filesystem.Archive;
 using Files.Backend.Models;
 using Microsoft.UI.Xaml;
@@ -81,6 +82,7 @@ namespace Files.App.Dialogs
 		}
 		private void ContentDialog_Closing(ContentDialog _, ContentDialogClosingEventArgs e)
 		{
+			InvalidNameWarning.IsOpen = false;
 			Closing -= ContentDialog_Closing;
 			ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
 
@@ -99,11 +101,22 @@ namespace Files.App.Dialogs
 
 		private class DialogViewModel : ObservableObject
 		{
+			public bool IsNameValid => FilesystemHelpers.IsValidForFilename(fileName);
+
+			public bool ShowNameWarning => !string.IsNullOrEmpty(fileName) && !IsNameValid;
+
 			private string fileName = string.Empty;
 			public string FileName
 			{
 				get => fileName;
-				set => SetProperty(ref fileName, value);
+				set
+				{
+					if (SetProperty(ref fileName, value))
+					{
+						OnPropertyChanged(nameof(IsNameValid));
+						OnPropertyChanged(nameof(ShowNameWarning));
+					}
+				}
 			}
 
 			private FileFormatItem fileFormat;

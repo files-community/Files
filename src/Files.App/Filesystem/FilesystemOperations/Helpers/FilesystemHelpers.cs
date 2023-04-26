@@ -9,6 +9,8 @@ using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using Files.Shared.Services;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -31,7 +33,7 @@ namespace Files.App.Filesystem
 		#region Private Members
 
 		private IShellPage associatedInstance;
-
+		private readonly IJumpListService jumpListService;
 		private IFilesystemOperations filesystemOperations;
 
 		private ItemManipulationModel itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
@@ -78,6 +80,7 @@ namespace Files.App.Filesystem
 		{
 			this.associatedInstance = associatedInstance;
 			this.cancellationToken = cancellationToken;
+			jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
 			filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
 		}
 
@@ -184,7 +187,7 @@ namespace Files.App.Filesystem
 				App.HistoryWrapper.AddHistory(history);
 			var itemsDeleted = history?.Source.Count ?? 0;
 
-			source.ForEach(x => App.JumpList.RemoveFolder(x.Path)); // Remove items from jump list
+			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path)); // Remove items from jump list
 
 			banner.Remove();
 			sw.Stop();
@@ -294,7 +297,7 @@ namespace Files.App.Filesystem
 			}
 			finally
 			{
-				packageView.ReportOperationCompleted(operation);
+				packageView.ReportOperationCompleted(packageView.RequestedOperation);
 			}
 		}
 
@@ -481,7 +484,7 @@ namespace Files.App.Filesystem
 			}
 			int itemsMoved = history?.Source.Count ?? 0;
 
-			source.ForEach(x => App.JumpList.RemoveFolder(x.Path)); // Remove items from jump list
+			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path)); // Remove items from jump list
 
 			banner.Remove();
 			sw.Stop();
@@ -559,11 +562,16 @@ namespace Files.App.Filesystem
 					history = await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
 					break;
 
+				// Prompt user when extension has changed, not when file name has changed
 				case FilesystemItemType.File:
-					if (showExtensionDialog &&
-						Path.GetExtension(source.Path) != Path.GetExtension(newName)) // Only prompt user when extension has changed, not when file name has changed
+					if
+					(
+						showExtensionDialog &&
+						Path.GetExtension(source.Path) != Path.GetExtension(newName) &&
+						UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning
+					)
 					{
-						var yesSelected = await DialogDisplayHelper.ShowDialogAsync("RenameFileDialogTitle".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
+						var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
 						if (yesSelected)
 						{
 							history = await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
@@ -586,7 +594,7 @@ namespace Files.App.Filesystem
 				App.HistoryWrapper.AddHistory(history);
 			}
 
-			App.JumpList.RemoveFolder(source.Path); // Remove items from jump list
+			await jumpListService.RemoveFolderAsync(source.Path); // Remove items from jump list
 
 			await Task.Yield();
 			return returnStatus;
@@ -661,7 +669,7 @@ namespace Files.App.Filesystem
 				if (collisions.ContainsKey(incomingItems.ElementAt(item.index).SourcePath))
 				{
 					// Something strange happened, log
-					App.Logger.Warn($"Duplicate key when resolving conflicts: {incomingItems.ElementAt(item.index).SourcePath}, {item.src.Name}\n" +
+					App.Logger.LogWarning($"Duplicate key when resolving conflicts: {incomingItems.ElementAt(item.index).SourcePath}, {item.src.Name}\n" +
 						$"Source: {string.Join(", ", source.Select(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path))}");
 				}
 				collisions.AddIfNotPresent(incomingItems.ElementAt(item.index).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
@@ -746,13 +754,13 @@ namespace Files.App.Filesystem
 				}
 				catch (Exception ex)
 				{
-					App.Logger.Warn(ex, ex.Message);
+					App.Logger.LogWarning(ex, ex.Message);
 					return itemsList;
 				}
 			}
 
 			// workaround for GetStorageItemsAsync() bug that only yields 16 items at most
-			// https://learn.microsoft.com/en-us/windows/win32/shell/clipboard#cf_hdrop
+			// https://learn.microsoft.com/windows/win32/shell/clipboard#cf_hdrop
 			if (packageView.Contains("FileDrop"))
 			{
 				var fileDropData = await packageView.GetDataAsync("FileDrop");
@@ -760,12 +768,20 @@ namespace Files.App.Filesystem
 				{
 					stream.Seek(0);
 
-					byte[] dropBytes = new byte[stream.Size];
-					int bytesRead = await stream.AsStreamForRead().ReadAsync(dropBytes);
-
+					byte[]? dropBytes = null;
+					int bytesRead = 0;
+					try
+					{
+						dropBytes = new byte[stream.Size];
+						bytesRead = await stream.AsStreamForRead().ReadAsync(dropBytes);
+					}
+					catch (COMException)
+					{
+					}
+					
 					if (bytesRead > 0)
 					{
-						IntPtr dropStructPointer = Marshal.AllocHGlobal(dropBytes.Length);
+						IntPtr dropStructPointer = Marshal.AllocHGlobal(dropBytes!.Length);
 
 						try
 						{

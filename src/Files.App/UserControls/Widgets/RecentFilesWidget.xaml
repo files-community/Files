@@ -42,6 +42,7 @@
 			ItemClick="RecentsView_ItemClick"
 			ItemContainerTransitions="{x:Null}"
 			ItemsSource="{x:Bind recentItemsCollection}"
+			RightTapped="ListView_RightTapped"
 			SelectionMode="None">
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
@@ -57,8 +58,6 @@
 						VerticalAlignment="Stretch"
 						AutomationProperties.Name="{x:Bind Name}"
 						ColumnSpacing="14"
-						DataContext="{x:Bind}"
-						RightTapped="Grid_RightTapped"
 						ToolTipService.ToolTip="{x:Bind RecentPath}">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />

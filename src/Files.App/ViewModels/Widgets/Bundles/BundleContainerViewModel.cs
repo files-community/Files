@@ -252,7 +252,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
 
-			await dialog.ShowAsync();
+			await dialog.TryShowAsync();
 
 			bool CanAddBundleSetErrorMessage()
 			{
@@ -538,7 +538,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		{
 			if (string.IsNullOrWhiteSpace(name))
 			{
-				return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalizedResource());
+				return (false, "ErrorInputEmpty".GetLocalizedResource());
 			}
 
 			if (!BundlesSettingsService.SavedBundles.Any((item) => item.Key == name))

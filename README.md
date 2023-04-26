@@ -27,7 +27,7 @@ Files also offers advanced features such as file tagging for easy organization, 
     - MSVC v143 - VS 2022 C++ x64/x86 or ARM64 build tools (latest)
     - C++ ATL for latest v143 build tools (x86 & x64 or ARM64)
     - Git for Windows
-- [Windows App SDK 1.2](https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/downloads#current-releases)
+- [Windows App SDK 1.3](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#current-releases)
     
 ### 2. Clone the repository
 
@@ -47,6 +47,8 @@ In the top pane, select the items which correspond to your desired build mode an
 ## Contributors
 
 Want to contribute to this project? Let us know with an [issue](https://github.com/files-community/Files/issues) that communicates your intent to create a [pull request](https://github.com/files-community/Files/pulls). Also, view our [contributing guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md) to make sure you're up to date on the coding conventions.
+
+Looking for a place to start? Check out the [task board](https://github.com/orgs/files-community/projects/3/views/2), where you can sort tasks by size and priority.
 
 ## Screenshots
 

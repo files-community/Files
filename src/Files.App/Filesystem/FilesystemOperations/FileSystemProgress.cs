@@ -46,7 +46,7 @@ namespace Files.App.Filesystem
 		/// <summary>
 		/// Only used when detailed count isn't available.
 		/// </summary>
-		public float? Percentage { get; set; }
+		public int? Percentage { get; set; }
 
 		public FileSystemProgress(
 			IProgress<FileSystemProgress>? progress,
@@ -65,15 +65,18 @@ namespace Files.App.Filesystem
 			TotalSize = totalSize;
 		}
 
-		public void Report(float? percentage = null)
+		public void Report(int? percentage = null)
 		{
 			Percentage = percentage;
-			if (((EnumerationCompleted && ProcessedItemsCount == ItemsCount && ProcessedSize == TotalSize) ||
-				(percentage is float f && MathF.Abs(f - 100f) <= float.Epsilon)) &&
+			if ((
+				(EnumerationCompleted &&
+				ProcessedItemsCount == ItemsCount &&
+				ProcessedSize == TotalSize &&
+				TotalSize is not 0) ||
+				percentage is 100) &&
 				status is FileSystemStatusCode.InProgress or null)
 			{
 				status = FileSystemStatusCode.Success;
-				CompletedTime = DateTimeOffset.Now;
 			}
 
 			if (status is FileSystemStatusCode.Success)
