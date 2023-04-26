@@ -88,7 +88,7 @@ namespace Files.App.ViewModels.Previews
 				BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
 				using SoftwareBitmap sw = await decoder.GetSoftwareBitmapAsync();
 
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					BitmapImage src = new();
 					PageViewModel pageData = new()

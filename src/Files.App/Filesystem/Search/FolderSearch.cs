@@ -397,7 +397,7 @@ namespace Files.App.Filesystem.Search
 					{
 						if (t.IsCompletedSuccessfully && t.Result is not null)
 						{
-							_ = FilesystemTasks.Wrap(() => App.Window.DispatcherQueue.EnqueueAsync(async () =>
+							_ = FilesystemTasks.Wrap(() => App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								listedItem.FileImage = await t.Result.ToBitmapAsync();
 							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low));
