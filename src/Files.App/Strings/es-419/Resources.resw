@@ -1591,10 +1591,10 @@
     <value>Mostrar el contenido del directorio</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Modificar</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Permisos para {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Lectura y ejecución</value>
@@ -3179,7 +3179,7 @@
     <value>Mostrar casillas de verificación al seleccionar elementos</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>Ningún grupo o usuario tiene permiso para acceder a este objeto. Sin embargo, el propietario de este objeto puede asignar permisos.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
     <value>Abrir ubicación del elemento</value>
