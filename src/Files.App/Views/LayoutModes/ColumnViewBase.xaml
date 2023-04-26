@@ -1,4 +1,5 @@
-﻿<local:StandardViewBase
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<local:StandardViewBase
 	x:Class="Files.App.Views.LayoutModes.ColumnViewBase"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

@@ -1,4 +1,5 @@
-﻿<NavigationView
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<NavigationView
 	x:Class="Files.App.UserControls.SidebarControl"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

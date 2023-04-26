@@ -1,3 +1,4 @@
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Page
 	x:Class="Files.App.Views.Settings.AboutPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
