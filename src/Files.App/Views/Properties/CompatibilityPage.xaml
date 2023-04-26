@@ -1,4 +1,5 @@
-﻿<vm:BasePropertiesPage
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<vm:BasePropertiesPage
 	x:Class="Files.App.Views.Properties.CompatibilityPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

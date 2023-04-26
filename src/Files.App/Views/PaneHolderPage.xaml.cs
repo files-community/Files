@@ -28,7 +28,7 @@ namespace Files.App.Views
 
 		public event EventHandler<TabItemArguments> ContentChanged;
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public IFilesystemHelpers FilesystemHelpers
 			=> ActivePane?.FilesystemHelpers;
@@ -308,6 +308,7 @@ namespace Files.App.Views
 		{
 			// NOTE: Can only close right pane at the moment
 			IsRightPaneVisible = false;
+			PaneLeft.Focus(FocusState.Programmatic);
 		}
 
 		private void Pane_Loaded(object sender, RoutedEventArgs e)
@@ -353,9 +354,9 @@ namespace Files.App.Views
 
 	public class PaneNavigationArguments
 	{
-		public string LeftPaneNavPathParam { get; set; } = null;
-		public string LeftPaneSelectItemParam { get; set; } = null;
-		public string RightPaneNavPathParam { get; set; } = null;
-		public string RightPaneSelectItemParam { get; set; } = null;
+		public string? LeftPaneNavPathParam { get; set; } = null;
+		public string? LeftPaneSelectItemParam { get; set; } = null;
+		public string? RightPaneNavPathParam { get; set; } = null;
+		public string? RightPaneSelectItemParam { get; set; } = null;
 	}
 }
