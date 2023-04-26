@@ -1,4 +1,7 @@
-﻿using Files.Backend.AppModels;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Backend.AppModels;
 using Files.Backend.ViewModels.FileTags;
 using Files.Sdk.Storage.LocatableStorage;
 using System.Collections.Generic;

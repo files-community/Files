@@ -1,4 +1,7 @@
-﻿using Files.App.UserControls.MultitaskingControl;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.UserControls.MultitaskingControl;
 using System.ComponentModel;
 
 namespace Files.App.Contexts

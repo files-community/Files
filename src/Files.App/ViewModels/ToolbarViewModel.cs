@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
@@ -474,7 +477,7 @@ namespace Files.App.ViewModels
 
 			if (pointerRoutedEventArgs is not null)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);

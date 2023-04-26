@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 #nullable disable warnings
 
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -100,7 +103,7 @@ namespace Files.App.Interacts
 		{
 			foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 				},

@@ -4,7 +4,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <IsTrimmable>true</IsTrimmable>
-        <Configurations>Debug;Release;Sideload</Configurations>
+        <Configurations>Debug;Release;Sideload;Stable;Preview;Store</Configurations>
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     </PropertyGroup>

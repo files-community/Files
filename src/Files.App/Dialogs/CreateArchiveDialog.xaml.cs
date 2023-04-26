@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -103,11 +106,20 @@ namespace Files.App.Dialogs
 		{
 			public bool IsNameValid => FilesystemHelpers.IsValidForFilename(fileName);
 
+			public bool ShowNameWarning => !string.IsNullOrEmpty(fileName) && !IsNameValid;
+
 			private string fileName = string.Empty;
 			public string FileName
 			{
 				get => fileName;
-				set => SetProperty(ref fileName, value, nameof(IsNameValid));
+				set
+				{
+					if (SetProperty(ref fileName, value))
+					{
+						OnPropertyChanged(nameof(IsNameValid));
+						OnPropertyChanged(nameof(ShowNameWarning));
+					}
+				}
 			}
 
 			private FileFormatItem fileFormat;

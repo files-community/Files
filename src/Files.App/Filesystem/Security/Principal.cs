@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.Text;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.AdvApi32;

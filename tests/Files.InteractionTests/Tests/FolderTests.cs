@@ -1,4 +1,7 @@
-﻿using OpenQA.Selenium;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using System.Threading;
 

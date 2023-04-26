@@ -26,7 +26,7 @@
 			Spacing="4">
 			<StackPanel.ChildrenTransitions>
 				<TransitionCollection>
-					<EntranceThemeTransition />
+					<RepositionThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 

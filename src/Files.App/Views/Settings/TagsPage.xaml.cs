@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.UI;
 using Files.Backend.ViewModels.FileTags;
 using Microsoft.UI.Xaml;
@@ -91,8 +94,9 @@ namespace Files.App.Views.Settings
 		private void RenameTextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var text = ((TextBox)sender).Text;
-			editingTag!.IsNameValid = IsNameValid(text) && !ViewModel.Tags.Any(tag => tag.Tag.Name == text && editingTag!.Tag.Name != text);
-			editingTag!.CanCommit = editingTag!.IsNameValid && (
+			var isNullOrEmpty = string.IsNullOrEmpty(text);
+			editingTag!.IsNameValid = isNullOrEmpty || (IsNameValid(text) && !ViewModel.Tags.Any(tag => tag.Tag.Name == text && editingTag!.Tag.Name != text));
+			editingTag!.CanCommit = !isNullOrEmpty && editingTag!.IsNameValid && (
 				text != editingTag!.Tag.Name ||
 				editingTag!.NewColor != editingTag!.Tag.Color
 			);
@@ -113,7 +117,7 @@ namespace Files.App.Views.Settings
 		{
 			var text = ((TextBox)sender).Text;
 			ViewModel.NewTag.Name = text;
-			ViewModel.NewTag.IsNameValid = IsNameValid(text) && !ViewModel.Tags.Any(tag => text == tag.Tag.Name);
+			ViewModel.NewTag.IsNameValid = string.IsNullOrEmpty(text) || (IsNameValid(text) && !ViewModel.Tags.Any(tag => text == tag.Tag.Name));
 		}
 
 		private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
