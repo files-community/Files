@@ -54,6 +54,7 @@ namespace Files.App.Helpers
 					Win32API.ExtractStringFromDLL("shell32.dll", 5385), // Unpin from Start
 					Win32API.ExtractStringFromDLL("shell32.dll", 5386), // Pin to taskbar
 					Win32API.ExtractStringFromDLL("shell32.dll", 5387), // Unpin from taskbar
+					Win32API.ExtractStringFromDLL("playtomenu.dll", 101), // Cast to Device (causes unhandled com exceptions)
 				};
 
 				bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem)
