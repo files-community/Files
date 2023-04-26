@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,10 +46,17 @@ namespace Files.App.Shell
 
 			thread = new Thread(new ThreadStart(() =>
 			{
-				foreach (var message in messageQueue.GetConsumingEnumerable())
+				while (!messageQueue.IsCompleted)
 				{
-					var res = message.payload();
-					message.tcs.SetResult(res);
+					try
+					{
+						foreach (var message in messageQueue.GetConsumingEnumerable())
+						{
+							var res = message.payload();
+							message.tcs.SetResult(res);
+						}
+					} 
+					catch (COMException) { }
 				}
 			}));
 
