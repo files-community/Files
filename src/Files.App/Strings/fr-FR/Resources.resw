@@ -1590,11 +1590,11 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>Lister le contenu du dossier</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
+  <data name="Modify" xml:space="preserve">
     <value>Modifier</value>
   </data>
-  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Autorisations pour</value>
+  <data name="SecurityPermissionsHeaderText" xml:space="preserve">
+    <value>Permissions pour {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Lire et exécuter</value>
@@ -1643,9 +1643,6 @@
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Propriétaire</value>
-  </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Autorisations avancées pour {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Autorisations spéciales</value>
@@ -3154,11 +3151,14 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Ferme l'onglet actuel</value>
   </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Branche : {0}</value>
+  </data>
   <data name="Redo" xml:space="preserve">
-    <value>Redo</value>
+    <value>Rétablir</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>Annuler</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Emplacement invalide</value>
@@ -3178,19 +3178,25 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Afficher les cases à cocher lors de la sélection des éléments</value>
   </data>
+  <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
+    <value>Aucun groupe ou utilisateur n'a la permission d'accéder à cet objet. Cependant, le propriétaire de cet objet peut assigner des permissions.</value>
+  </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Ouvrir l'emplacement de l'élément</value>
+  </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Delete permanently</value>
+    <value>Supprimer définitivement</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete item(s) permanently</value>
+    <value>Supprimer ce(s) élément(s) définitivement</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
-    <value>Play the selected media files</value>
+    <value>Lire les fichiers médias sélectionnés</value>
   </data>
   <data name="UndoDescription" xml:space="preserve">
-    <value>Undo the last file operation</value>
+    <value>Annuler la dernière opération</value>
   </data>
   <data name="RedoDescription" xml:space="preserve">
-    <value>Redo the last file operation</value>
+    <value>Rétablir la dernière opération</value>
   </data>
 </root>

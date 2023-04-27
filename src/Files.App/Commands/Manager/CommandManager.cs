@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Actions;
 using Files.Backend.Services.Settings;
+using Microsoft.AppCenter.Analytics;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -468,7 +469,10 @@ namespace Files.App.Commands
 			public async Task ExecuteAsync()
 			{
 				if (IsExecutable)
+				{
+					Analytics.TrackEvent($"Triggered {Action.Label} action");
 					await Action.ExecuteAsync();
+				}
 			}
 
 			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();

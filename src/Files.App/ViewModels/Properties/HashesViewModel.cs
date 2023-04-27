@@ -83,7 +83,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				hashInfoItem.HashValue = "Calculating".GetLocalizedResource();
 
-				App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					try
 					{

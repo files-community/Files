@@ -18,6 +18,7 @@ namespace Files.App.ViewModels
 		private IUserSettingsService userSettingsService;
 		private IAppearanceSettingsService appearanceSettingsService;
 		private readonly DrivesViewModel drivesViewModel;
+		private readonly NetworkDrivesViewModel networkDrivesViewModel;
 		private IResourcesService resourcesService;
 
 		public IMultitaskingControl? MultitaskingControl { get; set; }
@@ -40,11 +41,13 @@ namespace Files.App.ViewModels
 			IUserSettingsService userSettings, 
 			IAppearanceSettingsService appearanceSettings,
 			IResourcesService resources,
-			DrivesViewModel drivesViewModel)
+			DrivesViewModel drivesViewModel,
+			NetworkDrivesViewModel networkDrivesViewModel)
 		{
 			userSettingsService = userSettings;
 			appearanceSettingsService = appearanceSettings;
 			this.drivesViewModel = drivesViewModel;
+			this.networkDrivesViewModel = networkDrivesViewModel;
 			resourcesService = resources;
 			// Create commands
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
@@ -231,7 +234,7 @@ namespace Files.App.ViewModels
 				}
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
 				{
-					var matchingDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
+					var matchingDrive = networkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
 					matchingDrive ??= drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
 					tabLocationHeader = matchingDrive is not null ? matchingDrive.Text : normalizedCurrentPath;
 				}
