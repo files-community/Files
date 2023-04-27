@@ -1,25 +1,123 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.DataModels;
-using Files.App.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-
 namespace Files.App.Filesystem.Security
 {
 	/// <summary>
-	/// Represents an ACE.
+	/// Represents an access control entry (ACE).
 	/// </summary>
 	public class AccessControlEntry : ObservableObject
 	{
-		public bool IsFolder { get; set; }
+		/// <summary>
+		/// Whether the path indicates folder or not
+		/// </summary>
+		public bool IsFolder { get; private set; }
 
+		/// <summary>
+		/// The owner in the security descriptor (SD).
+		/// NULL if the security descriptor has no owner SID.
+		/// </summary>
 		public Principal Principal { get; set; }
+
+		/// <summary>
+		/// Whether the ACE is inherited or not
+		/// </summary>
+		public bool IsInherited { get; private set; }
+
+		/// <summary>
+		/// Whether the ACE is editable or not
+		/// </summary>
+		public bool IsEditEnabled
+			=> IsSelected && !IsInherited && false;
+
+		/// <summary>
+		/// AccessControlTypeHumanized
+		/// </summary>
+		public string AccessControlTypeHumanized
+			=> AccessControlType switch
+			{
+				AccessControlType.Allow => "Allow",
+				_ => "Deny" // AccessControlType.Deny
+			};
+
+		/// <summary>
+		/// AccessControlTypeGlyph
+		/// </summary>
+		public string AccessControlTypeGlyph
+			=> AccessControlType switch
+			{
+				AccessControlType.Allow => "\xE73E",
+				_ => "\xF140" // AccessControlType.Deny
+			};
+
+		/// <summary>
+		/// AccessMaskFlagsHumanized
+		/// </summary>
+		public string AccessMaskFlagsHumanized
+		{
+			get
+			{
+				var accessMaskStrings = new List<string>();
+
+				if (AccessMaskFlags == AccessMaskFlags.NULL)
+					accessMaskStrings.Add("None".GetLocalizedResource());
+
+				if (FullControlAccess)
+					accessMaskStrings.Add("SecurityFullControlLabel/Text".GetLocalizedResource());
+				else if (ModifyAccess)
+					accessMaskStrings.Add("SecurityModifyLabel/Text".GetLocalizedResource());
+				else if (ReadAndExecuteAccess)
+					accessMaskStrings.Add("SecurityReadAndExecuteLabel/Text".GetLocalizedResource());
+				else if (ReadAccess)
+					accessMaskStrings.Add("SecurityReadLabel/Text".GetLocalizedResource());
+
+				if (!FullControlAccess && !ModifyAccess && WriteAccess)
+					accessMaskStrings.Add("Write".GetLocalizedResource());
+
+				if (SpecialAccess)
+					accessMaskStrings.Add("SecuritySpecialLabel/Text".GetLocalizedResource());
+
+				return string.Join(",", accessMaskStrings);
+			}
+		}
+
+		/// <summary>
+		/// IsInheritedHumanized
+		/// </summary>
+		public string IsInheritedHumanized
+			=> IsInherited ? "Yes".GetLocalizedResource() : "No".GetLocalizedResource();
+
+		/// <summary>
+		/// InheritanceFlagsHumanized
+		/// </summary>
+		public string InheritanceFlagsHumanized
+		{
+			get
+			{
+				var inheritanceStrings = new List<string>();
+
+				if (AccessControlEntryFlags == AccessControlEntryFlags.None ||
+					AccessControlEntryFlags == AccessControlEntryFlags.NoPropagateInherit)
+					inheritanceStrings.Add("SecurityAdvancedFlagsFolderLabel".GetLocalizedResource());
+
+				if (AccessControlEntryFlags.HasFlag(AccessControlEntryFlags.ContainerInherit))
+					inheritanceStrings.Add("SecurityAdvancedFlagsSubfoldersLabel".GetLocalizedResource());
+
+				if (AccessControlEntryFlags.HasFlag(AccessControlEntryFlags.ObjectInherit))
+					inheritanceStrings.Add("SecurityAdvancedFlagsFilesLabel".GetLocalizedResource());
+
+				// Capitalize the first letter
+				if (inheritanceStrings.Any())
+					inheritanceStrings[0] = char.ToUpperInvariant(inheritanceStrings[0].First()) + inheritanceStrings[0][1..];
+
+				return string.Join(", ", inheritanceStrings);
+			}
+		}
+
+		/// <summary>
+		/// AccessMaskItems
+		/// </summary>
+		public ObservableCollection<AccessMaskItem> AccessMaskItems { get; set; }
 
 		private AccessControlType _AccessControlType;
 		public AccessControlType AccessControlType
@@ -27,12 +125,15 @@ namespace Files.App.Filesystem.Security
 			get => _AccessControlType;
 			set
 			{
-				// Update access control type glyph
 				if (SetProperty(ref _AccessControlType, value))
+				{
 					OnPropertyChanged(nameof(AccessControlTypeGlyph));
+					OnPropertyChanged(nameof(AccessControlTypeHumanized));
+				}
 			}
 		}
 
+		#region Access Mask Properties
 		private AccessMaskFlags _AccessMaskFlags;
 		public AccessMaskFlags AccessMaskFlags
 		{
@@ -41,28 +142,6 @@ namespace Files.App.Filesystem.Security
 			{
 				if (SetProperty(ref _AccessMaskFlags, value))
 					OnPropertyChanged(nameof(AccessMaskFlagsHumanized));
-			}
-		}
-
-		private InheritanceFlags _InheritanceFlags;
-		public InheritanceFlags InheritanceFlags
-		{
-			get => _InheritanceFlags;
-			set
-			{
-				if (SetProperty(ref _InheritanceFlags, value))
-					OnPropertyChanged(nameof(InheritanceFlagsHumanized));
-			}
-		}
-
-		private PropagationFlags _PropagationFlags;
-		public PropagationFlags PropagationFlags
-		{
-			get => _PropagationFlags;
-			set
-			{
-				if (SetProperty(ref _PropagationFlags, value))
-					OnPropertyChanged(nameof(InheritanceFlagsHumanized));
 			}
 		}
 
@@ -102,9 +181,21 @@ namespace Files.App.Filesystem.Security
 			}
 		}
 
+		private AccessControlEntryFlags _InheritanceFlags;
+		public AccessControlEntryFlags AccessControlEntryFlags
+		{
+			get => _InheritanceFlags;
+			set
+			{
+				if (SetProperty(ref _InheritanceFlags, value))
+					OnPropertyChanged(nameof(InheritanceFlagsHumanized));
+			}
+		}
+
 		public AccessMaskFlags InheritedAllowAccessMaskFlags { get; set; }
 
 		public AccessMaskFlags InheritedDenyAccessMaskFlags { get; set; }
+		#endregion
 
 		private bool _IsSelected;
 		public bool IsSelected
@@ -114,8 +205,7 @@ namespace Files.App.Filesystem.Security
 			{
 				if (SetProperty(ref _IsSelected, value))
 				{
-					if (!value)
-						AreAdvancedPermissionsShown = false;
+					AreAdvancedPermissionsShown = false;
 
 					OnPropertyChanged(nameof(IsEditEnabled));
 				}
@@ -130,85 +220,9 @@ namespace Files.App.Filesystem.Security
 			{
 				// Reinitialize list
 				if (SetProperty(ref _AreAdvancedPermissionsShown, value))
-					AccessMaskItemList = SecurityAdvancedAccessControlItemFactory.Initialize(this, AreAdvancedPermissionsShown, IsInherited, IsFolder);
+					AccessMaskItems = SecurityAdvancedAccessControlItemFactory.Initialize(this, value, IsInherited, IsFolder);
 			}
 		}
-
-		public bool IsInherited { get; set; }
-
-		public bool IsEditEnabled
-			=> IsSelected && !IsInherited;
-
-		public string AccessControlTypeHumanized
-			=> AccessControlType switch
-			{
-				AccessControlType.Allow => "Allow",
-				_ => "Deny" // AccessControlType.Deny
-			};
-
-		public string AccessControlTypeGlyph
-			=> AccessControlType switch
-			{
-				AccessControlType.Allow => "\xE73E",
-				_ => "\xF140" // AccessControlType.Deny
-			};
-
-		public string AccessMaskFlagsHumanized
-		{
-			get
-			{
-				var accessMaskStrings = new List<string>();
-
-				if (AccessMaskFlags == AccessMaskFlags.NULL)
-					accessMaskStrings.Add("None".GetLocalizedResource());
-
-				if (FullControlAccess)
-					accessMaskStrings.Add("SecurityFullControlLabel/Text".GetLocalizedResource());
-				else if (ModifyAccess)
-					accessMaskStrings.Add("SecurityModifyLabel/Text".GetLocalizedResource());
-				else if (ReadAndExecuteAccess)
-					accessMaskStrings.Add("SecurityReadAndExecuteLabel/Text".GetLocalizedResource());
-				else if (ReadAccess)
-					accessMaskStrings.Add("SecurityReadLabel/Text".GetLocalizedResource());
-
-				if (!FullControlAccess && !ModifyAccess && WriteAccess)
-					accessMaskStrings.Add("Write".GetLocalizedResource());
-
-				if (SpecialAccess)
-					accessMaskStrings.Add("SecuritySpecialLabel/Text".GetLocalizedResource());
-
-				return string.Join(",", accessMaskStrings);
-			}
-		}
-
-		public string IsInheritedHumanized
-			=> IsInherited ? "Yes".GetLocalizedResource() : "No".GetLocalizedResource();
-
-		public string InheritanceFlagsHumanized
-		{
-			get
-			{
-				var inheritanceStrings = new List<string>();
-
-				if (PropagationFlags == PropagationFlags.None ||
-					PropagationFlags == PropagationFlags.NoPropagateInherit)
-					inheritanceStrings.Add("SecurityAdvancedFlagsFolderLabel".GetLocalizedResource());
-
-				if (InheritanceFlags.HasFlag(InheritanceFlags.ContainerInherit))
-					inheritanceStrings.Add("SecurityAdvancedFlagsSubfoldersLabel".GetLocalizedResource());
-
-				if (InheritanceFlags.HasFlag(InheritanceFlags.ObjectInherit))
-					inheritanceStrings.Add("SecurityAdvancedFlagsFilesLabel".GetLocalizedResource());
-
-				// Capitalize first letter
-				if (inheritanceStrings.Any())
-					inheritanceStrings[0] = char.ToUpperInvariant(inheritanceStrings[0].First()) + inheritanceStrings[0][1..];
-
-				return string.Join(",", inheritanceStrings);
-			}
-		}
-
-		public ObservableCollection<AccessMaskItem> AccessMaskItemList { get; set; }
 
 		#region Security page
 		public bool WriteAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Write);
@@ -318,30 +332,27 @@ namespace Files.App.Filesystem.Security
 		public IRelayCommand<string> ChangeAccessControlTypeCommand { get; set; }
 		public IRelayCommand<string> ChangeInheritanceFlagsCommand { get; set; }
 
-		public AccessControlEntry(bool isFolder, string ownerSid, AccessControlType type, AccessMaskFlags accessMaskFlags, bool isInherited, InheritanceFlags inheritanceFlags, PropagationFlags propagationFlags)
+		public AccessControlEntry(bool isFolder, string ownerSid, AccessControlType type, AccessMaskFlags accessMaskFlags, bool isInherited, AccessControlEntryFlags inheritanceFlags)
 		{
-			AccessMaskItemList = SecurityAdvancedAccessControlItemFactory.Initialize(this, AreAdvancedPermissionsShown, IsInherited, IsFolder);
+			AccessMaskItems = SecurityAdvancedAccessControlItemFactory.Initialize(this, AreAdvancedPermissionsShown, IsInherited, IsFolder);
 
-			ChangeAccessControlTypeCommand = new RelayCommand<string>(x =>
-			{
-				AccessControlType = Enum.Parse<AccessControlType>(x);
-			});
+			//ChangeAccessControlTypeCommand = new RelayCommand<string>(x =>
+			//{
+			//	AccessControlType = Enum.Parse<AccessControlType>(x);
+			//});
 
-			ChangeInheritanceFlagsCommand = new RelayCommand<string>(x =>
-			{
-				var parts = x.Split(',');
-
-				InheritanceFlags = Enum.Parse<InheritanceFlags>(parts[0]);
-				PropagationFlags = Enum.Parse<PropagationFlags>(parts[1]);
-			});
+			//ChangeInheritanceFlagsCommand = new RelayCommand<string>(x =>
+			//{
+			//	var parts = x.Split(',');
+			//	InheritanceFlags = Enum.Parse<AccessControlEntryFlags>(parts[0]);
+			//});
 
 			IsFolder = isFolder;
 			Principal = Principal.FromSid(ownerSid);
 			AccessControlType = type;
 			AccessMaskFlags = accessMaskFlags;
 			IsInherited = isInherited;
-			InheritanceFlags = inheritanceFlags;
-			PropagationFlags = propagationFlags;
+			AccessControlEntryFlags = inheritanceFlags;
 
 			switch (AccessControlType)
 			{

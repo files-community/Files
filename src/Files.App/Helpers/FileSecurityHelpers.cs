@@ -16,6 +16,23 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static class FileSecurityHelpers
 	{
+		public static string GetOwner(string path)
+		{
+			GetNamedSecurityInfo(
+				path,
+				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION,
+				out var pSidOwner,
+				out _,
+				out _,
+				out _,
+				out _);
+
+			var szSid = ConvertSidToStringSid(pSidOwner);
+
+			return szSid;
+		}
+
 		public static bool SetOwner(string path, string sid)
 		{
 			SECURITY_INFORMATION secInfo = SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION;
@@ -37,23 +54,6 @@ namespace Files.App.Helpers
 			}
 
 			return true;
-		}
-
-		public static string GetOwner(string path)
-		{
-			GetNamedSecurityInfo(
-				path,
-				SE_OBJECT_TYPE.SE_FILE_OBJECT,
-				SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION,
-				out var pSidOwner,
-				out _,
-				out _,
-				out _,
-				out _);
-
-			var szSid = ConvertSidToStringSid(pSidOwner);
-
-			return szSid;
 		}
 
 		public static bool GetAccessControlProtection(string path, bool isFolder)
@@ -120,17 +120,10 @@ namespace Files.App.Helpers
 
 			// Get owner
 			var szOwnerSid = GetOwner(path);
+			var principal = Principal.FromSid(szOwnerSid);
 
 			// Initialize
-			var acl = new AccessControlList()
-			{
-				Owner = Principal.FromSid(szOwnerSid),
-				IsProtected = GetAccessControlProtection(path, isFolder),
-				IsValid = true,
-				AccessControlEntries = new(),
-				Path = path,
-				IsFolder = isFolder
-			};
+			var acl = new AccessControlList(path, isFolder, principal, pDacl.IsValidAcl());
 
 			// Get ACEs
 			for (uint i = 0; i < aclSize.AceCount; i++)
@@ -142,8 +135,7 @@ namespace Files.App.Helpers
 				var header = pAce.GetHeader();
 
 				FilesSecurity.AccessControlType type;
-				FilesSecurity.InheritanceFlags inheritanceFlags = FilesSecurity.InheritanceFlags.None;
-				FilesSecurity.PropagationFlags propagationFlags = FilesSecurity.PropagationFlags.None;
+				FilesSecurity.AccessControlEntryFlags inheritanceFlags = FilesSecurity.AccessControlEntryFlags.None;
 				AccessMaskFlags accessMaskFlags = (AccessMaskFlags)pAce.GetMask();
 
 				type = header.AceType switch
@@ -155,24 +147,19 @@ namespace Files.App.Helpers
 				bool isInherited = header.AceFlags.HasFlag(AceFlags.InheritanceFlags);
 
 				if (header.AceFlags.HasFlag(AceFlags.ContainerInherit))
-					inheritanceFlags |= FilesSecurity.InheritanceFlags.ContainerInherit;
+					inheritanceFlags |= FilesSecurity.AccessControlEntryFlags.ContainerInherit;
 				if (header.AceFlags.HasFlag(AceFlags.ObjectInherit))
-					inheritanceFlags |= FilesSecurity.InheritanceFlags.ObjectInherit;
+					inheritanceFlags |= FilesSecurity.AccessControlEntryFlags.ObjectInherit;
 				if (header.AceFlags.HasFlag(AceFlags.NoPropagateInherit))
-					propagationFlags |= FilesSecurity.PropagationFlags.NoPropagateInherit;
+					inheritanceFlags |= FilesSecurity.AccessControlEntryFlags.NoPropagateInherit;
 				if (header.AceFlags.HasFlag(AceFlags.InheritOnly))
-					propagationFlags |= FilesSecurity.PropagationFlags.InheritOnly;
+					inheritanceFlags |= FilesSecurity.AccessControlEntryFlags.InheritOnly;
 
 				// Initialize an ACE
-				acl.AccessControlEntries.Add(new(isFolder, szSid, type, accessMaskFlags, isInherited, inheritanceFlags, propagationFlags));
+				acl.AccessControlEntries.Add(new(isFolder, szSid, type, accessMaskFlags, isInherited, inheritanceFlags));
 			}
 
 			return acl;
-		}
-
-		public static bool SetAccessControlList(AccessControlList acl)
-		{
-			return false;
 		}
 
 		public static AccessControlEntry InitializeDefaultAccessControlEntry(bool isFolder, string ownerSid)
@@ -184,9 +171,8 @@ namespace Files.App.Helpers
 				FilesSecurity.AccessMaskFlags.ReadAndExecute,
 				false,
 				isFolder
-					? FilesSecurity.InheritanceFlags.ContainerInherit | FilesSecurity.InheritanceFlags.ObjectInherit
-					: FilesSecurity.InheritanceFlags.None,
-				FilesSecurity.PropagationFlags.None);
+					? FilesSecurity.AccessControlEntryFlags.ContainerInherit | FilesSecurity.AccessControlEntryFlags.ObjectInherit
+					: FilesSecurity.AccessControlEntryFlags.None);
 		}
 
 		/// <summary>
@@ -254,7 +240,7 @@ namespace Files.App.Helpers
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
-				out PACL pDACL,
+				out var pDACL,
 				out _,
 				out _);
 

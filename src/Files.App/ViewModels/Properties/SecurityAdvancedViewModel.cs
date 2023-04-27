@@ -137,11 +137,11 @@ namespace Files.App.ViewModels.Properties
 
 		private void InitializeCommands()
 		{
-			ChangeOwnerCommand = new AsyncRelayCommand(ExecuteChangeOwnerCommand, () => AccessControlList is not null);
-			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid);
-			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
+			ChangeOwnerCommand = new AsyncRelayCommand(ExecuteChangeOwnerCommand);
+			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand);
+			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand);
 
-			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () => AccessControlList is not null && AccessControlList.IsValid && (AccessControlList.IsProtected != _isProtected));
+			DisableInheritanceCommand = new RelayCommand(DisableInheritance);
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
 			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.IsValid);
 		}
@@ -204,7 +204,7 @@ namespace Files.App.ViewModels.Properties
 			//	GetAccessControlList();
 		}
 
-		private void SetDisableInheritanceOption(string options)
+		private void SetDisableInheritanceOption(string? options)
 		{
 			//_isProtected = bool.Parse(options.Split(',')[0]);
 			//_preserveInheritance = bool.Parse(options.Split(',')[1]);
