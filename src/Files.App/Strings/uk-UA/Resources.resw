@@ -406,7 +406,7 @@
     <value>Відкрити за допомогою</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Надіслати</value>
+    <value>Надіслати до</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Ім'я елемента не повинно містити таких знаків: \ / : * ? " &lt; &gt; |</value>
@@ -1288,7 +1288,7 @@
     <value>Копіювати</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Буде скопійовано елементів: {0}</value>
+    <value>Буде скопійовано {0} елемент(ів)</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
     <value>Копіювати елемент(и)</value>
