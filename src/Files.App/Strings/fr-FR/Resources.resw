@@ -949,7 +949,7 @@
     <value>Le matériel peut être retiré en toute sécurité</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
-    <value>Le périphérique peut maintenant être retiré en tout sécurité de l'ordinateur.</value>
+    <value>Le périphérique peut maintenant être retiré en toute sécurité de l'ordinateur.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
     <value>Problème lors de l'éjection du périphérique</value>
@@ -1156,7 +1156,7 @@
     <value>Inconnu</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>Si vous changez l'extension du fichier, celui-ci peut devenir inutilisable. Etes-vous sûr de vouloir la changer ?</value>
+    <value>Si vous changez l'extension du fichier, celui-ci peut devenir inutilisable. Êtes-vous sûr de vouloir la changer ?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>Lecteur CD</value>
@@ -1615,7 +1615,7 @@
     <value>Vous n'êtes pas autorisé à afficher les propriétés de sécurité de cet objet. Cliquez sur « Autorisations avancées » pour continuer.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Propriétaire:</value>
+    <value>Propriétaire :</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Propriétaire inconnu</value>
@@ -1927,7 +1927,7 @@
     <value>Tuiles</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Ouvrir les dossiers dans des nouvels onglets</value>
+    <value>Ouvrir les dossiers dans un nouvel onglet</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tâches en cours</value>
@@ -2080,7 +2080,7 @@
     <value>Entrer le nom de la bibliothèque</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculer la taille du fichier</value>
+    <value>Calculer la taille des fichiers et dossiers</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Fichiers récents</value>
@@ -2137,7 +2137,7 @@
     <value>Exécuter avec PowerShell</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Le calcul de la taille des dossiers consomme beaucoup de ressources et peut entraîner une augmentation de l'utilisation du processeur.</value>
+    <value>Ce calcul de taille consomme beaucoup de ressources et peut entraîner une augmentation de l'utilisation du processeur.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Tourner à gauche</value>
@@ -2272,7 +2272,7 @@
     <value>Ouvrir les dossiers avec un seul clic dans la disposition des colonnes</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Ouverture d'objets</value>
+    <value>Ouverture des éléments</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
     <value>Compression terminée</value>
@@ -2287,7 +2287,7 @@
     <value>Compression de l'archive</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Sélectionnez les fichiers et dossiers lorsque vous les survolez</value>
+    <value>Sélectionner les fichiers et dossiers lorsqu'ils sont juste survolés</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Êtes-vous sûr de vouloir restaurer tous les éléments de la corbeille ?</value>
@@ -2296,7 +2296,7 @@
     <value>Restaurer tous les éléments</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Voulez-vous restaurer le(s) {0} élément(s) sélectionné(s)?</value>
+    <value>Voulez-vous restaurer le(s) {0} élément(s) sélectionné(s) ?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Restaurer la sélection</value>
@@ -2446,7 +2446,7 @@
     <value>Paramètres</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double-cliquer sur un espace vide pour monter d'un dossier</value>
+    <value>Double-cliquer sur un espace vide pour remonter un dossier</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>Voir plus</value>
@@ -2458,7 +2458,7 @@
     <value>Les paquets prendront leur retraite dans une future mise à jour 📎</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Afficher le survol des tags d'édition</value>
+    <value>Afficher l'édition des étiquettes en survolant</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Afficher l'option pour ouvrir les dossiers dans un nouvel onglet</value>
@@ -2509,7 +2509,7 @@
     <value>Créer une nouvelle étiquette</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Chargement ...</value>
+    <value>Chargement...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
     <value>Options du menu contextuel</value>
@@ -2521,7 +2521,7 @@
     <value>Afficher les éléments masqués</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format...</value>
+    <value>Formater...</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Aide</value>
@@ -2797,7 +2797,7 @@
     <value>Basculer en vue grille avec des grandes icônes</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Basculer en vue des colonnes</value>
+    <value>Basculer en vue colonnes</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
     <value>Basculer les vues en mode adaptatif</value>
@@ -3131,7 +3131,7 @@
     <value>Activer/Désactiver la sélection</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>Afficher un avertissement lors du changement d'extensions de fichier</value>
+    <value>Afficher un avertissement lors du changement d'extension de fichier</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
     <value>Ce PC</value>
