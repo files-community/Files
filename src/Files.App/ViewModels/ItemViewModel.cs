@@ -143,7 +143,7 @@ namespace Files.App.ViewModels
 			var pathRoot = FtpHelpers.IsFtpPath(WorkingDirectory) 
 				? WorkingDirectory.Substring(0, FtpHelpers.GetRootIndex(WorkingDirectory)) 
 				: Path.GetPathRoot(WorkingDirectory);
-			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
+			GitDirectory = pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
 
