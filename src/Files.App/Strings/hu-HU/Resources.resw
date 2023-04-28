@@ -1420,7 +1420,7 @@
     <value>Apró</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>Jövő</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>Ma</value>
@@ -1435,16 +1435,16 @@
     <value>Előző héten</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>Ebben a hónapban</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>Előző hónapban</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>Ebben az évben</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>Utolsó év</value>
   </data>
   <data name="YearN" xml:space="preserve">
     <value>Year {0}</value>
