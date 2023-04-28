@@ -1861,7 +1861,7 @@
     <value>Desconocido</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Editar etiquetas de archivo</value>
+    <value>Editar etiquetas</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>Parte del conjunto</value>
