@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Converters
 {
-	internal sealed class ImageModelToImageConverter : IValueConverter
+	internal class ImageModelToImageConverter : IValueConverter
 	{
 		public object? Convert(object value, Type targetType, object parameter, string language)
 		{

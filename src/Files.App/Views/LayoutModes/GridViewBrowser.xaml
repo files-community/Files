@@ -15,7 +15,6 @@
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:vc="using:Files.App.ValueConverters"
 	xmlns:wctanimations="using:CommunityToolkit.WinUI.UI.Animations"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
@@ -33,7 +32,7 @@
 
 	<root:StandardViewBase.Resources>
 
-		<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
+		<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 		<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		<wctconverters:BoolToVisibilityConverter
 			x:Key="NegatedBoolToVisibilityConverter"
@@ -52,7 +51,7 @@
 			x:Key="BoolToVisibilityConverter"
 			FalseValue="Collapsed"
 			TrueValue="Visible" />
-		<converters:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+		<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 
 		<DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="filesystem:ListedItem">
 			<UserControl>

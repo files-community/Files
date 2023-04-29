@@ -15,7 +15,6 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:valueconverters="using:Files.App.ValueConverters"
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
@@ -46,8 +45,8 @@
 				x:Key="EmptyObjectToObjectConverter"
 				EmptyValue="Collapsed"
 				NotEmptyValue="Visible" />
-			<valueconverters:StringToBrushConverter x:Key="StringToBrushConverter" />
-			<converters:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+			<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
 			<Style
