@@ -162,15 +162,7 @@ namespace Files.App.Shell
 
 		public static async Task WarmUpQueryContextMenuAsync()
 		{
-			var thread = new ThreadWithMessageQueue();
-			await thread.PostMethod(() =>
-			{
-				// Create a dummy context menu for warming up
-				var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl("C:\\");
-				Shell32.IContextMenu menu = shellItem.Parent.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItem);
-				menu.QueryContextMenu(User32.CreatePopupMenu(), 0, 1, 0x7FFF, Shell32.CMF.CMF_NORMAL);
-			});
-			thread.Dispose();
+			using var cMenu = await GetContextMenuForFiles(new string[] { "C:\\" }, Shell32.CMF.CMF_NORMAL);
 		}
 
 		#endregion FactoryMethods
@@ -259,18 +251,18 @@ namespace Files.App.Shell
 
 						if (loadSubenus)
 						{
-							LoadSubMenu(hSubMenu);
+							LoadSubMenu();
 						}
 						else
 						{
-							loadSubMenuActions.Add(subItems, () => LoadSubMenu(hSubMenu));
+							loadSubMenuActions.Add(subItems, LoadSubMenu);
 						}
 
 						menuItem.SubItems = subItems;
 
 						Debug.WriteLine("Item {0}: done submenu", ii);
 
-						void LoadSubMenu(HMENU hSubMenu)
+						void LoadSubMenu()
 						{
 							try
 							{
@@ -297,24 +289,25 @@ namespace Files.App.Shell
 
 		public async Task<bool> LoadSubMenu(List<Win32ContextMenuItem> subItems)
 		{
-			return await owningThread.PostMethod<bool>(() =>
+			if (loadSubMenuActions.Remove(subItems, out var loadSubMenuAction))
 			{
-				var result = loadSubMenuActions.Remove(subItems, out var loadSubMenuAction);
-
-				if (result)
+				return await owningThread.PostMethod<bool>(() =>
 				{
 					try
 					{
 						loadSubMenuAction!();
+						return true;
 					}
 					catch (COMException)
 					{
-						result = false;
+						return false;
 					}
-				}
-
-				return result;
-			});
+				});
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		private static string? GetCommandString(Shell32.IContextMenu cMenu, uint offset, Shell32.GCS flags = Shell32.GCS.GCS_VERBW)

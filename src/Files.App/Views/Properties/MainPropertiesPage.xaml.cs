@@ -89,7 +89,7 @@ namespace Files.App.Views.Properties
 
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
 		{
-			await DispatcherQueue.EnqueueAsync(() =>
+			await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				((Frame)Parent).RequestedTheme = ThemeHelper.RootTheme;
 

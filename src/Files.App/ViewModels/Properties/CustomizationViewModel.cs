@@ -6,9 +6,6 @@ using Microsoft.UI.Windowing;
 
 namespace Files.App.ViewModels.Properties
 {
-	/// <summary>
-	/// Represents ViewModel for Files.App.CustomizationPage
-	/// </summary>
 	public class CustomizationViewModel : ObservableObject
 	{
 		private static string DefaultIconDllFilePath
@@ -128,7 +125,7 @@ namespace Files.App.ViewModels.Properties
 			if (!result)
 				return false;
 
-			await App.Window.DispatcherQueue.EnqueueAsync(() =>
+			await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				_appInstance?.FilesystemViewModel?.RefreshItems(null);
 			});

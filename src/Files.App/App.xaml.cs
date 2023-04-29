@@ -63,7 +63,6 @@ namespace Files.App
 		public static RecentItems RecentItemsManager { get; private set; }
 		public static QuickAccessManager QuickAccessManager { get; private set; }
 		public static CloudDrivesManager CloudDrivesManager { get; private set; }
-		public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
 		public static WSLDistroManager WSLDistroManager { get; private set; }
 		public static LibraryManager LibraryManager { get; private set; }
 		public static FileTagsManager FileTagsManager { get; private set; }
@@ -73,8 +72,6 @@ namespace Files.App
 
 		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
 		public static string LogoPath;
-
-		public IServiceProvider Services { get; private set; }
 
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
@@ -94,7 +91,6 @@ namespace Files.App
 			RecentItemsManager ??= new RecentItems();
 			AppModel ??= new AppModel();
 			LibraryManager ??= new LibraryManager();
-			NetworkDrivesManager ??= new NetworkDrivesManager();
 			CloudDrivesManager ??= new CloudDrivesManager();
 			WSLDistroManager ??= new WSLDistroManager();
 			FileTagsManager ??= new FileTagsManager();
@@ -131,7 +127,6 @@ namespace Files.App
 					StartAppCenter(),
 					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					LibraryManager.UpdateLibrariesAsync(),
-					OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowNetworkDrivesSection),
 					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
 					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
 					QuickAccessManager.InitializeAsync()
@@ -225,11 +220,13 @@ namespace Files.App
 						.AddSingleton<IResourcesService, ResourcesService>()
 						.AddSingleton<IJumpListService, JumpListService>()
 						.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
+						.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
 						.AddSingleton<MainPageViewModel>()
 						.AddSingleton<PreviewPaneViewModel>()
 						.AddSingleton<SidebarViewModel>()
 						.AddSingleton<SettingsViewModel>()
 						.AddSingleton<DrivesViewModel>()
+						.AddSingleton<NetworkDrivesViewModel>()
 						.AddSingleton<OngoingTasksViewModel>()
 						.AddSingleton<AppearanceViewModel>()
 				)
@@ -271,7 +268,7 @@ namespace Files.App
 			var data = activatedEventArgs.Data;
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
-			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(data));
+			_ = Window.DispatcherQueue.EnqueueOrInvokeAsync(() => Window.InitializeApplication(data));
 		}
 
 		/// <summary>
@@ -476,7 +473,7 @@ namespace Files.App
 				userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
 				userSettingsService.GeneralSettingsService.LastCrashedTabList = lastSessionTabList;
 
-				Window.DispatcherQueue.EnqueueAsync(async () =>
+				Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
 				}).Wait(1000);

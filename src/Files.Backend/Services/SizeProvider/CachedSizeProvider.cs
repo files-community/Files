@@ -60,6 +60,10 @@ namespace Files.Backend.Services.SizeProvider
 				{
 					do
 					{
+						if (((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint)
+							// Skip symbolic links and junctions
+							continue;
+
 						bool isDirectory = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) is FileAttributes.Directory;
 						if (!isDirectory)
 						{

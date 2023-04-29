@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
@@ -11,7 +11,7 @@
 
     <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
     </ItemGroup>
 
     <ItemGroup>

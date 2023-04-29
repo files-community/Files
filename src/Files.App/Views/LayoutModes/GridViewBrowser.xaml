@@ -1,3 +1,4 @@
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <root:StandardViewBase
 	x:Class="Files.App.Views.LayoutModes.GridViewBrowser"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

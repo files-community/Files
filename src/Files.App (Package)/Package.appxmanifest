@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
          xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
          xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
@@ -10,7 +11,7 @@
          xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
          xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
          IgnorableNamespaces="uap uap5 mp rescap desktop6 desktop4 desktop">
-    <Identity Name="FilesDev" Publisher="CN=Files" Version="2.4.68.0" />
+    <Identity Name="FilesDev" Publisher="CN=Files" Version="2.4.70.0" />
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
         <PublisherDisplayName>Yair A</PublisherDisplayName>
