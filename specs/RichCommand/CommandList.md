@@ -25,7 +25,8 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | DeleteItem                          | Delete                                    | Delete item(s)                                           | Delete, Ctrl+D      |
 |                    | DeletemeItemPermanently             | Delete permanently                        | Delete item(s) permanently                               | Shift+Delete        |
 |                    | CreateFolder                        | Folder                                    | Create new folder                                        |                     |
-|                    | AddItem                             | New                                       | Open the menu to create a new item                       | Ctrl+Shift+N        |
+|                    | AddItem                             | New                                       | Create new item                       | Ctrl+Shift+N        |
+
 |                    | CreateShortcut                      | Create shortcut                           | Create new shortcut(s) to selected item(s)               |                     |
 |                    | CreateShortcutFromDialog            | Shortcut                                  | Create new shortcut to any item                          |                     |
 |                    | EmptyRecycleBin                     | Empty Recycle Bin                         | Empty recycle bin                                        |                     |
