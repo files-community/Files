@@ -5,6 +5,8 @@ using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem.Security;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Vanara.PInvoke;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
@@ -19,9 +21,38 @@ namespace Files.App.ViewModels.Properties
 
 		private readonly bool _isFolder;
 
-		private bool _isProtected;
+		public bool DisplayElements { get; private set; }
 
-		private bool _preserveInheritance;
+		public string ErrorMessage { get; private set; }
+
+		public bool IsAddAccessControlEntryButtonEnabled =>
+			AccessControlList is not null &&
+			AccessControlList.IsValid;
+
+		public bool IsDeleteAccessControlEntryButtonEnabled =>
+			AccessControlList is not null &&
+			AccessControlList.IsValid &&
+			SelectedAccessControlEntry is not null &&
+			SelectedAccessControlEntry.IsInherited is false;
+
+		public IconFileInfo ShieldIconFileInfo { get; private set; }
+
+		public bool CurrentUserIsInAdministratorsGroup { get; private set; }
+
+		public string DisableInheritanceOption
+		{
+			get
+			{
+				//if (!_isProtected)
+				//	return "SecurityAdvancedInheritedEnable/Text".GetLocalizedResource();
+				//else if (_preserveInheritance)
+				//	return "SecurityAdvancedInheritedConvert/Text".GetLocalizedResource();
+				//else
+				//	return "SecurityAdvancedInheritedRemove/Text".GetLocalizedResource();
+
+				return string.Empty;
+			}
+		}
 
 		private AccessControlList _AccessControlList;
 		public AccessControlList AccessControlList
@@ -59,52 +90,29 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public bool IsAddAccessControlEntryButtonEnabled =>
-			AccessControlList is not null &&
-			AccessControlList.IsValid;
-
-		public bool IsDeleteAccessControlEntryButtonEnabled =>
-			AccessControlList is not null &&
-			AccessControlList.IsValid &&
-			SelectedAccessControlEntry is not null &&
-			SelectedAccessControlEntry.IsInherited is false;
-
-		public string DisableInheritanceOption
-		{
-			get
-			{
-				if (!_isProtected)
-					return "SecurityAdvancedInheritedEnable/Text".GetLocalizedResource();
-				else if (_preserveInheritance)
-					return "SecurityAdvancedInheritedConvert/Text".GetLocalizedResource();
-				else
-					return "SecurityAdvancedInheritedRemove/Text".GetLocalizedResource();
-			}
-		}
-
 		private GridLength _ColumnType = new(64d);
-		public GridLength ColumnType
+		public GridLength ColumnTypeGridLength
 		{
 			get => _ColumnType;
 			set => SetProperty(ref _ColumnType, value);
 		}
 
 		private GridLength _ColumnPrincipal = new(200d);
-		public GridLength ColumnPrincipal
+		public GridLength ColumnPrincipalGridLength
 		{
 			get => _ColumnPrincipal;
 			set => SetProperty(ref _ColumnPrincipal, value);
 		}
 
 		private GridLength _ColumnAccess = new(160d);
-		public GridLength ColumnAccess
+		public GridLength ColumnAccessGridLength
 		{
 			get => _ColumnAccess;
 			set => SetProperty(ref _ColumnAccess, value);
 		}
 
 		private GridLength _ColumnInherited = new(70d);
-		public GridLength ColumnInherited
+		public GridLength ColumnInheritedGridLength
 		{
 			get => _ColumnInherited;
 			set => SetProperty(ref _ColumnInherited, value);
@@ -113,6 +121,8 @@ namespace Files.App.ViewModels.Properties
 		public IAsyncRelayCommand ChangeOwnerCommand { get; set; }
 		public IAsyncRelayCommand AddAccessControlEntryCommand { get; set; }
 		public IAsyncRelayCommand RemoveAccessControlEntryCommand { get; set; }
+
+		// --- TODO: Following commands are unimplemented ---
 
 		public IRelayCommand DisableInheritanceCommand { get; set; }
 		public IRelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
@@ -140,16 +150,54 @@ namespace Files.App.ViewModels.Properties
 					break;
 			};
 
+			ShieldIconFileInfo = LoadShieldIconResource();
+
 			var error = FileSecurityHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
+			CurrentUserIsInAdministratorsGroup = Shell32.IsUserAnAdmin() == false;
+
+			if (!AccessControlList.IsValid)
+			{
+				DisplayElements = false;
+
+				if (error == Win32Error.ERROR_ACCESS_DENIED)
+				{
+					ErrorMessage = "You must have Read permissions to view the properties of this object.";
+
+					if (CurrentUserIsInAdministratorsGroup)
+						ErrorMessage += ("\n\n" + " Click Continue to attempt the operation with administrative permissions.");
+				}
+				else
+				{
+					ErrorMessage = "Unable to display permissions for one or more errors";
+				}
+			}
+			else
+			{
+				DisplayElements = true;
+				ErrorMessage = string.Empty;
+			}
+
+			OnPropertyChanged(nameof(DisplayElements));
+			OnPropertyChanged(nameof(ErrorMessage));
 
 			ChangeOwnerCommand = new AsyncRelayCommand(ExecuteChangeOwnerCommand);
 			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand);
 			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand);
-
 			DisableInheritanceCommand = new RelayCommand(DisableInheritance);
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
 			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.IsValid);
+		}
+
+		private IconFileInfo LoadShieldIconResource()
+		{
+			string imageres = System.IO.Path.Combine(CommonPaths.SystemRootPath, "System32", "imageres.dll");
+			var imageResList = Shell.Win32API.ExtractSelectedIconsFromDLL(
+				imageres,
+				new List<int>() { Constants.ImageRes.ShieldIcon },
+				16);
+
+			return imageResList.First();
 		}
 
 		private async Task ExecuteChangeOwnerCommand()

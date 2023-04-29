@@ -10,8 +10,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:security="using:Files.App.Filesystem.Security"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
-	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	DataContext="{x:Bind SecurityAdvancedViewModel, Mode=OneWay}"
 	Tag="Security"
 	mc:Ignorable="d">
@@ -40,15 +41,23 @@
 
 			</ResourceDictionary.MergedDictionaries>
 
-			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
-			<toolkitconverters:BoolToObjectConverter
+			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolToObjectConverter
 				x:Key="BoolToMinWidthConverter"
 				FalseValue="0"
 				TrueValue="200" />
-			<toolkitconverters:BoolToObjectConverter
+			<wctconverters:BoolToObjectConverter
 				x:Key="BoolToWidthConverter"
 				FalseValue="0"
 				TrueValue="*" />
+			<wctconverters:EmptyCollectionToObjectConverter
+				x:Key="EmptyCollectionToBoolConverter"
+				EmptyValue="True"
+				NotEmptyValue="False" />
+			<wctconverters:EmptyCollectionToObjectConverter
+				x:Key="EmptyCollectionToBoolNegationConverter"
+				EmptyValue="False"
+				NotEmptyValue="True" />
 
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
@@ -64,6 +73,7 @@
 
 		<!--  Owner  -->
 		<Grid
+			x:Name="OwnerLayerGrid"
 			Padding="12"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -118,10 +128,37 @@
 
 		</Grid>
 
+		<!--  No Read Access Control InfoBar  -->
+		<InfoBar
+			x:Name="UnableToDisplayInformationInfoBar"
+			Grid.Row="1"
+			VerticalAlignment="Top"
+			x:Load="{x:Bind SecurityAdvancedViewModel.DisplayElements, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+			IsClosable="False"
+			IsOpen="True"
+			Message="{x:Bind SecurityAdvancedViewModel.ErrorMessage, Mode=OneWay}"
+			Severity="Informational">
+			<Button
+				x:Name="OpenSecurityAdvancedPageFromInfoBarButton"
+				Margin="0,0,12,12"
+				HorizontalAlignment="Right"
+				x:Load="{x:Bind SecurityAdvancedViewModel.CurrentUserIsInAdministratorsGroup, Mode=OneWay}">
+				<StackPanel Orientation="Horizontal" Spacing="6">
+					<!--<Image
+						Width="16"
+						Height="16"
+						uc:ImageFromBytes.SourceBytes="{x:Bind SecurityAdvancedViewModel.ShieldIconFileInfo.IconData, Mode=OneWay}" />-->
+					<TextBlock Text="Continue" />
+				</StackPanel>
+			</Button>
+		</InfoBar>
+
 		<!--  Access Control List  -->
 		<Grid
+			x:Name="AccessControlEntriesListLayerGrid"
 			Grid.Row="1"
 			Padding="12,8,12,12"
+			x:Load="{x:Bind SecurityAdvancedViewModel.DisplayElements, Mode=OneWay}"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
@@ -186,7 +223,7 @@
 				Margin="-12,0"
 				Padding="0,0,0,8"
 				HorizontalAlignment="Stretch"
-				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsValid, Mode=OneWay}"
+				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.AccessControlEntries, Converter={StaticResource EmptyCollectionToBoolNegationConverter}, Mode=OneWay}"
 				DataContext="{x:Bind SecurityAdvancedViewModel, Mode=OneWay}"
 				ItemsSource="{x:Bind SecurityAdvancedViewModel.AccessControlList.AccessControlEntries, Mode=OneWay}"
 				ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -217,23 +254,23 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="16" />
 							<ColumnDefinition
-								x:Name="ColumnType"
-								Width="{x:Bind SecurityAdvancedViewModel.ColumnType, Mode=TwoWay}"
+								x:Name="ColumnTypeGridLength"
+								Width="{x:Bind SecurityAdvancedViewModel.ColumnTypeGridLength, Mode=TwoWay}"
 								MinWidth="36" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition
-								x:Name="ColumnPrincipal"
-								Width="{x:Bind SecurityAdvancedViewModel.ColumnPrincipal, Mode=TwoWay}"
+								x:Name="ColumnPrincipalGridLength"
+								Width="{x:Bind SecurityAdvancedViewModel.ColumnPrincipalGridLength, Mode=TwoWay}"
 								MinWidth="36" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition
-								x:Name="ColumnAccess"
-								Width="{x:Bind SecurityAdvancedViewModel.ColumnAccess, Mode=TwoWay}"
+								x:Name="ColumnAccessGridLength"
+								Width="{x:Bind SecurityAdvancedViewModel.ColumnAccessGridLength, Mode=TwoWay}"
 								MinWidth="36" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition
-								x:Name="ColumnInherited"
-								Width="{x:Bind SecurityAdvancedViewModel.ColumnInherited, Mode=TwoWay}"
+								x:Name="ColumnInheritedGridLength"
+								Width="{x:Bind SecurityAdvancedViewModel.ColumnInheritedGridLength, Mode=TwoWay}"
 								MinWidth="36" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
@@ -321,10 +358,10 @@
 						<Grid ColumnSpacing="13">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="20" />
-								<ColumnDefinition x:Name="ColumnType" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnType, Mode=OneWay}" />
-								<ColumnDefinition x:Name="ColumnPrincipal" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnPrincipal, Mode=OneWay}" />
-								<ColumnDefinition x:Name="ColumnAccess" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnAccess, Mode=OneWay}" />
-								<ColumnDefinition x:Name="ColumnInherited" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnInherited, Mode=OneWay}" />
+								<ColumnDefinition x:Name="ColumnTypeGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnTypeGridLength, Mode=OneWay}" />
+								<ColumnDefinition x:Name="ColumnPrincipalGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnPrincipalGridLength, Mode=OneWay}" />
+								<ColumnDefinition x:Name="ColumnAccessGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnAccessGridLength, Mode=OneWay}" />
+								<ColumnDefinition x:Name="ColumnInheritedGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnInheritedGridLength, Mode=OneWay}" />
 								<ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
 							</Grid.ColumnDefinitions>
 
@@ -340,7 +377,7 @@
 								Grid.Column="1"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
-								x:Load="{x:Bind IsEditEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+								x:Load="{x:Bind IsEditable, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 								Text="{x:Bind AccessControlTypeHumanized, Mode=OneWay}"
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
@@ -350,7 +387,7 @@
 								Grid.Column="1"
 								Padding="0,6"
 								VerticalAlignment="Center"
-								x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
+								x:Load="{x:Bind IsEditable, Mode=OneWay}"
 								Background="Transparent"
 								BorderThickness="0">
 
@@ -409,7 +446,7 @@
 								x:Name="AccessFlagsHumanizedTextBlock"
 								Grid.Column="3"
 								VerticalAlignment="Center"
-								x:Load="{x:Bind IsEditEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+								x:Load="{x:Bind IsEditable, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 								Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}"
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
@@ -421,7 +458,7 @@
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
 								HorizontalContentAlignment="Left"
-								x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
+								x:Load="{x:Bind IsEditable, Mode=OneWay}"
 								Background="Transparent"
 								BorderThickness="0">
 
@@ -509,7 +546,7 @@
 								x:Name="InheritanceFlagsHumanizedTextBlock"
 								Grid.Column="5"
 								VerticalAlignment="Center"
-								x:Load="{x:Bind IsEditEnabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+								x:Load="{x:Bind IsEditable, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}"
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap"
@@ -522,7 +559,7 @@
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
 								HorizontalContentAlignment="Left"
-								x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
+								x:Load="{x:Bind IsEditable, Mode=OneWay}"
 								Background="Transparent"
 								BorderThickness="0"
 								Visibility="{x:Bind IsFolder, Mode=OneWay}">
@@ -580,15 +617,14 @@
 
 			</ListView>
 
-			<!--  Falied To Load  -->
+			<!--  No Access Control Entries Message  -->
 			<TextBlock
-				x:Name="CannotReadPropsText"
+				x:Name="NoAccessControlEntriesTextBlock"
 				Grid.Row="2"
-				Padding="8"
-				HorizontalAlignment="Left"
-				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-				Text="{helpers:ResourceString Name=SecurityAdvancedCannotReadProperties}"
-				TextWrapping="WrapWholeWords" />
+				Margin="4,4,4,4"
+				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.AccessControlEntries, Converter={StaticResource EmptyCollectionToBoolConverter}, Mode=OneWay}"
+				Text="{helpers:ResourceString Name=SecurityNoAccessControlEntriesText}"
+				TextWrapping="Wrap" />
 
 			<!--  (Divider)  -->
 			<Border

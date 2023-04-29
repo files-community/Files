@@ -107,15 +107,15 @@ namespace Files.App.Helpers
 
 				var szSid = ConvertSidToStringSid(pAce.GetSid());
 
-				AccessControlType type;
+				AccessControlEntryType type;
 				AccessControlEntryFlags inheritanceFlags = AccessControlEntryFlags.None;
 				AccessMaskFlags accessMaskFlags = (AccessMaskFlags)pAce.GetMask();
 
 				var header = pAce.GetHeader();
 				type = header.AceType switch
 				{
-					SystemSecurity.AceType.AccessAllowed => AccessControlType.Allow,
-					_ => AccessControlType.Deny
+					SystemSecurity.AceType.AccessAllowed => AccessControlEntryType.Allow,
+					_ => AccessControlEntryType.Deny
 				};
 
 				bool isInherited = header.AceFlags.HasFlag(SystemSecurity.AceFlags.InheritanceFlags);
@@ -154,7 +154,7 @@ namespace Files.App.Helpers
 			return new(
 				isFolder,
 				ownerSid,
-				AccessControlType.Allow,
+				AccessControlEntryType.Allow,
 				AccessMaskFlags.ReadAndExecute,
 				false,
 				isFolder

@@ -27,7 +27,7 @@ namespace Files.App.Filesystem.Security
 		/// <summary>
 		/// Whether the ACE is editable or not
 		/// </summary>
-		public bool IsEditEnabled
+		public bool IsEditable
 			=> IsSelected && !IsInherited && false;
 
 		/// <summary>
@@ -36,7 +36,7 @@ namespace Files.App.Filesystem.Security
 		public string AccessControlTypeHumanized
 			=> AccessControlType switch
 			{
-				AccessControlType.Allow => "Allow",
+				AccessControlEntryType.Allow => "Allow",
 				_ => "Deny" // AccessControlType.Deny
 			};
 
@@ -46,7 +46,7 @@ namespace Files.App.Filesystem.Security
 		public string AccessControlTypeGlyph
 			=> AccessControlType switch
 			{
-				AccessControlType.Allow => "\xE73E",
+				AccessControlEntryType.Allow => "\xE73E",
 				_ => "\xF140" // AccessControlType.Deny
 			};
 
@@ -77,7 +77,7 @@ namespace Files.App.Filesystem.Security
 				if (SpecialAccess)
 					accessMaskStrings.Add("SecuritySpecialLabel/Text".GetLocalizedResource());
 
-				return string.Join(",", accessMaskStrings);
+				return string.Join(", ", accessMaskStrings);
 			}
 		}
 
@@ -119,8 +119,8 @@ namespace Files.App.Filesystem.Security
 		/// </summary>
 		public ObservableCollection<AccessMaskItem> AccessMaskItems { get; set; }
 
-		private AccessControlType _AccessControlType;
-		public AccessControlType AccessControlType
+		private AccessControlEntryType _AccessControlType;
+		public AccessControlEntryType AccessControlType
 		{
 			get => _AccessControlType;
 			set
@@ -207,7 +207,7 @@ namespace Files.App.Filesystem.Security
 				{
 					AreAdvancedPermissionsShown = false;
 
-					OnPropertyChanged(nameof(IsEditEnabled));
+					OnPropertyChanged(nameof(IsEditable));
 				}
 			}
 		}
@@ -332,7 +332,7 @@ namespace Files.App.Filesystem.Security
 		public IRelayCommand<string> ChangeAccessControlTypeCommand { get; set; }
 		public IRelayCommand<string> ChangeInheritanceFlagsCommand { get; set; }
 
-		public AccessControlEntry(bool isFolder, string ownerSid, AccessControlType type, AccessMaskFlags accessMaskFlags, bool isInherited, AccessControlEntryFlags inheritanceFlags)
+		public AccessControlEntry(bool isFolder, string ownerSid, AccessControlEntryType type, AccessMaskFlags accessMaskFlags, bool isInherited, AccessControlEntryFlags inheritanceFlags)
 		{
 			AccessMaskItems = SecurityAdvancedAccessControlItemFactory.Initialize(this, AreAdvancedPermissionsShown, IsInherited, IsFolder);
 
@@ -356,13 +356,13 @@ namespace Files.App.Filesystem.Security
 
 			switch (AccessControlType)
 			{
-				case AccessControlType.Allow:
+				case AccessControlEntryType.Allow:
 					if (IsInherited)
 						InheritedAllowAccessMaskFlags |= AccessMaskFlags;
 					else
 						AllowedAccessMaskFlags |= AccessMaskFlags;
 					break;
-				case AccessControlType.Deny:
+				case AccessControlEntryType.Deny:
 					if (IsInherited)
 						InheritedDenyAccessMaskFlags |= AccessMaskFlags;
 					else

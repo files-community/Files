@@ -49,8 +49,10 @@
 				Message="{x:Bind SecurityViewModel.ErrorMessage, Mode=OneWay}"
 				Severity="Informational">
 				<Button
+					x:Name="OpenSecurityAdvancedPageFromInfoBarButton"
 					Margin="0,0,12,12"
 					HorizontalAlignment="Right"
+					Click="OpenSecurityAdvancedPageButton_Click"
 					Content="Advanced permissions" />
 			</InfoBar>
 
