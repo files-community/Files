@@ -6,7 +6,7 @@ using Files.App.Filesystem.Security;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Files.App.DataModels
+namespace Files.App.Data.Factories
 {
 	public static class SecurityAdvancedAccessControlItemFactory
 	{

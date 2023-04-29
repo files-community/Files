@@ -4,8 +4,8 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Data.Items;
 using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.Shell;
 using Files.App.ViewModels;
@@ -66,7 +66,7 @@ namespace Files.App.Helpers
 			}
 
 			var contextMenu = await ContextMenu.GetContextMenuForFiles(filePaths,
-				shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL, FilterMenuItems(showOpenMenu));
+				(shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(showOpenMenu));
 
 			if (contextMenu is not null)
 				LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items, cancellationToken, true);

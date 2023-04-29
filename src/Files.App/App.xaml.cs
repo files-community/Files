@@ -4,7 +4,7 @@ using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.DataModels;
+using Files.App.Data.Models;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Cloud;

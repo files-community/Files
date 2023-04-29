@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI;
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Data.Items;
 using Files.App.ServicesImplementation;
 using Files.App.UserControls.Widgets;
 using System.Collections.Specialized;
@@ -10,7 +10,7 @@ using System.IO;
 using System.Text.Json.Serialization;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.DataModels
+namespace Files.App.Data.Models
 {
 	public class SidebarPinnedModel
 	{
