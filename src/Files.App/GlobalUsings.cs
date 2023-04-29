@@ -11,6 +11,7 @@ global using global::System.Threading;
 global using global::System.Threading.Tasks;
 global using global::System.ComponentModel;
 global using global::System.Diagnostics;
+global using SystemIO = global::System.IO;
 
 // Windows Community Toolkit
 global using global::CommunityToolkit.Mvvm.ComponentModel;
