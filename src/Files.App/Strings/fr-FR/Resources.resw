@@ -439,7 +439,7 @@
     <value>Êtes-vous sûr de vouloir supprimer définitivement tous les éléments ?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>Vider la Corbeille</value>
+    <value>Vider la corbeille</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>octets</value>
@@ -769,7 +769,7 @@
     <value>Compositeur</value>
   </data>
   <data name="Conductor" xml:space="preserve">
-    <value>Chef d'orchestre</value>
+    <value>Conducteur</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
     <value>Numéro du disque</value>
@@ -832,7 +832,7 @@
     <value>Vignette Petit Uri</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
-    <value>Url du site de l'utilisateur</value>
+    <value>URL du site de l'utilisateur</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
     <value>Auteur</value>
@@ -934,7 +934,7 @@
     <value>Sélectionner</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>Élément de la Corbeille</value>
+    <value>Élément de la corbeille</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Raccourci</value>
@@ -979,7 +979,7 @@
     <value>Vérifiez le statut des opérations de fichiers ici</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Centre de status</value>
+    <value>Centre d'état</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Résultats de la recherche dans {1} pour {0}</value>
@@ -1033,19 +1033,19 @@
     <value>Dossiers</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Détails (Ctrl+Shift+1)</value>
+    <value>Détails (Ctrl+Maj+1)</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Grandes Icônes (Ctrl+Shift+5)</value>
+    <value>Grandes Icônes (Ctrl+Maj+5)</value>
   </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Moyennes Icônes (Ctrl+Shift+4)</value>
+    <value>Moyennes Icônes (Ctrl+Maj+4)</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Petites Icônes (Ctrl+Shift+3)</value>
+    <value>Petites Icônes (Ctrl+Maj+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tuiles (Ctrl+Shift+2)</value>
+    <value>Tuiles (Ctrl+Maj+2)</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Date de suppression</value>
@@ -1249,7 +1249,7 @@
     <value>Voulez-vous continuer en tant qu'administrateur ?</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
-    <value>Colonnes (Ctrl+Shift+6)</value>
+    <value>Colonnes (Ctrl+Maj+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>Épingler au menu Démarrer</value>
@@ -1546,7 +1546,7 @@
     <value>La suppression de {0} éléments depuis {1} a échoué</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
-    <value>la Corbeille</value>
+    <value>la corbeille</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
     <value>Déplacement d'éléments</value>
@@ -1555,10 +1555,10 @@
     <value>Copie d'éléments</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Le déplacement vers la Corbeille a échoué</value>
+    <value>Le déplacement vers la corbeille a échoué</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Le déplacement vers la Corbeille a été annulé</value>
+    <value>Le déplacement vers la corbeille a été annulé</value>
   </data>
   <data name="canceling" xml:space="preserve">
     <value>annulé</value>
@@ -1840,7 +1840,7 @@
     <value>Ctrl+Maj+5</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+6</value>
+    <value>Ctrl+Maj+6</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>L'extraction des archives s'est terminée avec succès.</value>
@@ -1915,13 +1915,13 @@
     <value>Colonnes</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Grandes Icônes</value>
+    <value>Grandes icônes</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Moyennes Icônes</value>
+    <value>Moyennes icônes</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Petites Icônes</value>
+    <value>Petites icônes</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Tuiles</value>
@@ -1978,7 +1978,7 @@
     <value>Erreur lors de l'importation des paramètres</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Vider la Corbeille</value>
+    <value>Vider la corbeille</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
     <value>Panneau latéral</value>
@@ -2164,7 +2164,7 @@
     <value>Images</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Mettre-à-jour Files</value>
+    <value>Mettre à jour Files</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
     <value>Préparation de {0} éléments</value>
@@ -2224,7 +2224,7 @@
     <value>Adaptatif (Ctrl+Maj+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+7</value>
+    <value>Ctrl+Maj+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
     <value>Afficher les flux de données alternatifs</value>
@@ -2269,7 +2269,7 @@
     <value>Écran de verrouillage</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Ouvrir les dossiers avec un seul clic dans la disposition des colonnes</value>
+    <value>Ouvrir les dossiers avec un seul clic dans la disposition en colonnes</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Ouverture des éléments</value>
@@ -2431,7 +2431,7 @@
     <value>Éditer le fichier de configuration</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
-    <value>Notes de mise à jour</value>
+    <value>Notes de version</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>La création d'un raccourci dans cet emplacement nécessite des droits d'administrateur</value>
@@ -2560,7 +2560,7 @@
     <value>Réorganiser la barre latérale des éléments</value>
   </data>
   <data name="Hashes" xml:space="preserve">
-    <value>Hash</value>
+    <value>Hachages</value>
   </data>
   <data name="CalculationError" xml:space="preserve">
     <value>Une erreur s'est produite lors du calcul</value>
@@ -2593,7 +2593,7 @@
     <value>Nom invalide</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>Le nom ne peut être vide, commencer ou se terminer par un point.</value>
+    <value>Le nom ne doit pas être vide, ni commencer ou se terminer par un point.</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>Vidéos</value>
@@ -2662,7 +2662,7 @@
     <value>Créer un nouveau raccourci sur n'importe quel élément</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Vider la Corbeille</value>
+    <value>Vider la corbeille</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Ouvre le menu "Formatage de disque dur" pour l'élément sélectionné</value>
