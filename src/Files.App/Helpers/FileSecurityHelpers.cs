@@ -5,8 +5,10 @@ using Files.App.Filesystem.Security;
 using Files.App.Shell;
 using System.IO;
 using System.Security.AccessControl;
+using System.Text;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.AdvApi32;
+using static Vanara.PInvoke.Secur32;
 using FilesSecurity = Files.App.Filesystem.Security;
 
 namespace Files.App.Helpers
@@ -56,88 +58,66 @@ namespace Files.App.Helpers
 			return true;
 		}
 
-		public static bool GetAccessControlProtection(string path, bool isFolder)
-		{
-			FileSystemSecurity fileSystemSecurity;
-
-			if (isFolder && Directory.Exists(path))
-			{
-				fileSystemSecurity = FileSystemAclExtensions.GetAccessControl(new DirectoryInfo(path));
-				return fileSystemSecurity.AreAccessRulesProtected;
-			}
-			else if (File.Exists(path))
-			{
-				fileSystemSecurity = FileSystemAclExtensions.GetAccessControl(new FileInfo(path));
-				return fileSystemSecurity.AreAccessRulesProtected;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		public static bool SetAccessControlProtection(string path, bool isFolder, bool isProtected, bool preserveInheritance)
-		{
-			FileSystemSecurity fileSystemSecurity;
-
-			if (isFolder && Directory.Exists(path))
-			{
-				fileSystemSecurity = FileSystemAclExtensions.GetAccessControl(new DirectoryInfo(path));
-				fileSystemSecurity.SetAccessRuleProtection(isProtected, preserveInheritance);
-				FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(path), (DirectorySecurity)fileSystemSecurity);
-
-				return true;
-			}
-			else if (File.Exists(path))
-			{
-				fileSystemSecurity = FileSystemAclExtensions.GetAccessControl(new FileInfo(path));
-				fileSystemSecurity.SetAccessRuleProtection(isProtected, preserveInheritance);
-				FileSystemAclExtensions.SetAccessControl(new FileInfo(path), (FileSecurity)fileSystemSecurity);
-
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
+		/// <summary>The GetAclInformation function retrieves information about an access control list (ACL).</summary>
+		/// <returns>
+		/// If the function succeeds, the function returns AccessControlList. If the function fails, it returns null. To get extended error information, call GetLastError.
+		/// </returns>
 		public static AccessControlList GetAccessControlList(string path, bool isFolder)
 		{
 			// Get DACL
-			GetNamedSecurityInfo(
+			var win32Error = GetNamedSecurityInfo(
 				path,
 				SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
-				out _,
-				out _,
-				out var pDacl,
-				out _,
-				out _);
+				out _, out _, out var pDacl, out _, out _);
+
+			if (win32Error.Failed || pDacl == PACL.NULL)
+				return new AccessControlList(false);
 
 			// Get ACL size info
-			GetAclInformation(pDacl, out ACL_SIZE_INFORMATION aclSize);
+			bool bResult = GetAclInformation(pDacl, out ACL_SIZE_INFORMATION aclSize);
+			if (!bResult)
+				return new AccessControlList(false);
 
 			// Get owner
 			var szOwnerSid = GetOwner(path);
 			var principal = Principal.FromSid(szOwnerSid);
 
-			// Initialize
-			var acl = new AccessControlList(path, isFolder, principal, pDacl.IsValidAcl());
+			var isValidAcl = IsValidAcl(pDacl);
+
+			uint chhCurrentUserName = 256 + 1;
+			StringBuilder szCurrentUserName = new((int)chhCurrentUserName);
+
+			// Get the current username
+			bResult = GetUserName(szCurrentUserName, ref chhCurrentUserName);
+			if (!bResult)
+				return new AccessControlList(false);
+
+			// Get sid from the current username
+			var pCurrentUserSid = GetSid(szCurrentUserName.ToString());
+			var szCurrentUserStringSid = ConvertSidToStringSid(pCurrentUserSid);
+
+			List<AccessControlEntry> aces = new();
 
 			// Get ACEs
 			for (uint i = 0; i < aclSize.AceCount; i++)
 			{
-				GetAce(pDacl, i, out var pAce);
+				bResult = GetAce(pDacl, i, out var pAce);
+				if (!bResult)
+					return new AccessControlList(false);
 
 				var szSid = ConvertSidToStringSid(pAce.GetSid());
-
-				var header = pAce.GetHeader();
 
 				FilesSecurity.AccessControlType type;
 				FilesSecurity.AccessControlEntryFlags inheritanceFlags = FilesSecurity.AccessControlEntryFlags.None;
 				AccessMaskFlags accessMaskFlags = (AccessMaskFlags)pAce.GetMask();
 
+				// Get if the viewer has 'Read Permissions' access control
+				if (szCurrentUserStringSid == szSid &&
+					accessMaskFlags.HasFlag(AccessMaskFlags.ReadPermissions))
+					return new AccessControlList(false);
+
+				var header = pAce.GetHeader();
 				type = header.AceType switch
 				{
 					AceType.AccessAllowed => FilesSecurity.AccessControlType.Allow,
@@ -156,8 +136,15 @@ namespace Files.App.Helpers
 					inheritanceFlags |= FilesSecurity.AccessControlEntryFlags.InheritOnly;
 
 				// Initialize an ACE
-				acl.AccessControlEntries.Add(new(isFolder, szSid, type, accessMaskFlags, isInherited, inheritanceFlags));
+				aces.Add(new(isFolder, szSid, type, accessMaskFlags, isInherited, inheritanceFlags));
 			}
+
+			// Initialize
+			var acl = new AccessControlList(path, isFolder, principal, isValidAcl);
+
+			// Set access control entries
+			foreach (var ace in aces)
+				acl.AccessControlEntries.Add(ace);
 
 			return acl;
 		}
@@ -264,6 +251,22 @@ namespace Files.App.Helpers
 				return result;
 
 			return result;
+		}
+
+		private static PSID GetSid(string accountName)
+		{
+			int sidSize = 0;
+			int nameSize = 0;
+
+			LookupAccountName(null, accountName, SafePSID.Null, ref sidSize, null, ref nameSize, out _);
+			var domainName = new StringBuilder(nameSize);
+
+			SizeT size = new((uint)sidSize);
+			var sid = new SafePSID(size);
+
+			LookupAccountName(string.Empty, accountName, sid, ref sidSize, domainName, ref nameSize, out _);
+
+			return sid;
 		}
 	}
 }

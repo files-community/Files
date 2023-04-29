@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.WinUI;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem.Security;
 using Microsoft.UI.Xaml;
@@ -8,6 +11,8 @@ namespace Files.App.ViewModels.Properties
 {
 	public class SecurityAdvancedViewModel : ObservableObject
 	{
+		private readonly PropertiesPageNavigationParameter _navigationParameter;
+
 		private readonly Window _window;
 
 		private readonly string _path;
@@ -113,30 +118,31 @@ namespace Files.App.ViewModels.Properties
 		public IRelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
 		public IRelayCommand ReplaceChildPermissionsCommand { get; set; }
 
-		public SecurityAdvancedViewModel(ListedItem item, Window window)
+		public SecurityAdvancedViewModel(PropertiesPageNavigationParameter parameter)
 		{
-			_isFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
-			_path = item.ItemPath;
-			_window = window;
-			AccessControlList = FileOperationsHelpers.GetFilePermissions(_path, _isFolder);
+			_navigationParameter = parameter;
+			_window = parameter.Window;
+
+			switch (parameter.Parameter)
+			{
+				case ListedItem listedItem:
+					_path = listedItem.ItemPath;
+					_isFolder = listedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !listedItem.IsShortcut;
+					break;
+				case DriveItem driveItem:
+					_path = driveItem.Path;
+					_isFolder = true;
+					break;
+				default:
+					var defaultlistedItem = (ListedItem)parameter.Parameter;
+					_path = defaultlistedItem.ItemPath;
+					_isFolder = defaultlistedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !defaultlistedItem.IsShortcut;
+					break;
+			};
+
+			AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, _isFolder);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
-			InitializeCommands();
-		}
-
-		public SecurityAdvancedViewModel(DriveItem item, Window window)
-		{
-			_isFolder = true;
-			_path = item.Path;
-			_window = window;
-			AccessControlList = FileOperationsHelpers.GetFilePermissions(_path, _isFolder);
-			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
-
-			InitializeCommands();
-		}
-
-		private void InitializeCommands()
-		{
 			ChangeOwnerCommand = new AsyncRelayCommand(ExecuteChangeOwnerCommand);
 			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand);
 			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand);
@@ -153,7 +159,7 @@ namespace Files.App.ViewModels.Properties
 				return;
 
 			// Set owner and refresh file permissions
-			FileOperationsHelpers.SetFileOwner(_path, sid);
+			FileSecurityHelpers.SetOwner(_path, sid);
 		}
 
 		private async Task ExecuteAddAccessControlEntryCommand()

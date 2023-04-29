@@ -236,7 +236,7 @@
 								Width="{x:Bind SecurityAdvancedViewModel.ColumnInherited, Mode=TwoWay}"
 								MinWidth="36" />
 							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="{x:Bind SecurityAdvancedViewModel.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind SecurityAdvancedViewModel.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
+							<ColumnDefinition Width="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
 						</Grid.ColumnDefinitions>
 
 						<TextBlock
@@ -456,7 +456,7 @@
 												<RowDefinition Height="Auto" />
 											</Grid.RowDefinitions>
 
-											<GridView ItemsSource="{x:Bind AccessMaskItemList, Mode=OneWay}" SelectionMode="None">
+											<GridView ItemsSource="{x:Bind AccessMaskItems, Mode=OneWay}" SelectionMode="None">
 
 												<GridView.ItemContainerStyle>
 													<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
@@ -607,7 +607,7 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 
-				<SplitButton
+				<!--<SplitButton
 					x:Name="SplitButton"
 					MaxWidth="196"
 					Command="{x:Bind SecurityAdvancedViewModel.DisableInheritanceCommand, Mode=OneWay}"
@@ -642,12 +642,12 @@
 				<Button
 					x:Name="ReplaceChildPermissionsButton"
 					Grid.Column="1"
-					x:Load="{x:Bind SecurityAdvancedViewModel.IsFolder, Mode=OneWay}"
+					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsFolder, Mode=OneWay}"
 					Command="{x:Bind SecurityAdvancedViewModel.ReplaceChildPermissionsCommand, Mode=OneWay}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions2/ToolTipService/ToolTip}"
 					Visibility="Collapsed">
 					<TextBlock Text="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions/Text}" TextTrimming="CharacterEllipsis" />
-				</Button>
+				</Button>-->
 
 			</Grid>
 

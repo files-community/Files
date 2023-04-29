@@ -1,26 +1,14 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem;
-using Files.App.Filesystem.Security;
 using Files.App.Shell;
 using Files.Backend.Helpers;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
-using System.Threading;
-using System.Threading.Tasks;
 using Tulpep.ActiveDirectoryObjectPicker;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -638,15 +626,6 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static AccessControlList GetFilePermissions(string filePath, bool isFolder)
-			=> FileSecurityHelpers.GetAccessControlList(filePath, isFolder);
-
-		public static bool SetFileOwner(string filePath, string ownerSid)
-			=> FileSecurityHelpers.SetOwner(filePath, ownerSid);
-
-		public static bool SetAccessRuleProtection(string filePath, bool isFolder, bool isProtected, bool preserveInheritance)
-			=> FileSecurityHelpers.SetAccessControlProtection(filePath, isFolder, isProtected, preserveInheritance);
-
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
 		{
 			return Win32API.StartSTATask(() =>
@@ -660,6 +639,7 @@ namespace Files.App.Helpers
 					MultiSelect = false,
 					ShowAdvancedView = true
 				};
+
 				picker.AttributesToFetch.Add("objectSid");
 
 				using (picker)
@@ -670,13 +650,9 @@ namespace Files.App.Helpers
 						{
 							var attribs = picker.SelectedObject.FetchedAttributes;
 							if (attribs.Any() && attribs[0] is byte[] objectSid)
-							{
 								return new SecurityIdentifier(objectSid, 0).Value;
-							}
 						}
-						catch
-						{
-						}
+						catch {}
 					}
 				}
 

@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.DataModels.NavigationControlItems;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml.Navigation;
 
@@ -18,11 +17,8 @@ namespace Files.App.Views.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = (PropertiesPageNavigationParameter)e.Parameter;
-			if (np.Parameter is ListedItem listedItem)
-				SecurityAdvancedViewModel = new(listedItem, np.Window);
-			else if (np.Parameter is DriveItem driveitem)
-				SecurityAdvancedViewModel = new(driveitem, np.Window);
+			var parameter = (PropertiesPageNavigationParameter)e.Parameter;
+			SecurityAdvancedViewModel = new(parameter);
 
 			base.OnNavigatedTo(e);
 		}

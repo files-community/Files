@@ -1,18 +1,28 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem.Security;
 using Microsoft.UI.Xaml;
+using Vanara.PInvoke;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
 {
 	public class SecurityViewModel : ObservableObject
 	{
+		private readonly PropertiesPageNavigationParameter _navigationParameter;
+
 		private readonly Window _window;
 
 		private readonly string _path;
 
 		private readonly bool _isFolder;
+
+		public bool DisplayElements { get; private set; }
+
+		public string ErrorMessage { get; private set; }
 
 		public bool IsAddAccessControlEntryButtonEnabled =>
 			AccessControlList is not null &&
@@ -24,8 +34,10 @@ namespace Files.App.ViewModels.Properties
 			SelectedAccessControlEntry is not null &&
 			SelectedAccessControlEntry.IsInherited is false;
 
-		public string SelectedItemHeaderText
-			=> string.Format("SecurityPermissionsHeaderText".GetLocalizedResource(), SelectedAccessControlEntry.Principal.DisplayName);
+		public string SelectedItemHeaderText =>
+			SelectedAccessControlEntry is null
+				? "Permissions".GetLocalizedResource()
+				: string.Format("SecurityPermissionsHeaderText".GetLocalizedResource(), SelectedAccessControlEntry?.Principal.DisplayName);
 
 		private AccessControlList _AccessControlList;
 		public AccessControlList AccessControlList
@@ -57,28 +69,50 @@ namespace Files.App.ViewModels.Properties
 		public IAsyncRelayCommand AddAccessControlEntryCommand { get; set; }
 		public IAsyncRelayCommand RemoveAccessControlEntryCommand { get; set; }
 
-		public SecurityViewModel(ListedItem item, Window window)
+		public SecurityViewModel(PropertiesPageNavigationParameter parameter)
 		{
-			_window = window;
-			_path = item.ItemPath;
-			_isFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
-			AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, _isFolder);
-			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
+			_navigationParameter = parameter;
+			_window = parameter.Window;
+
+			switch (parameter.Parameter)
+			{
+				case ListedItem listedItem:
+					_path = listedItem.ItemPath;
+					_isFolder = listedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !listedItem.IsShortcut;
+					break;
+				case DriveItem driveItem:
+					_path = driveItem.Path;
+					_isFolder = true;
+					break;
+				default:
+					var defaultlistedItem = (ListedItem)parameter.Parameter;
+					_path = defaultlistedItem.ItemPath;
+					_isFolder = defaultlistedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !defaultlistedItem.IsShortcut;
+					break;
+			};
+
+			_AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, _isFolder);
+			_SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
+
+			if (Kernel32.GetLastError().Failed || !AccessControlList.ViewerHasReadPermissionAccessControl)
+			{
+				DisplayElements = false;
+				ErrorMessage =
+					!AccessControlList.ViewerHasReadPermissionAccessControl &&
+					Kernel32.GetLastError() == Win32Error.ERROR_ACCESS_DENIED
+						? "You must have Read permissions to view the properties of this object. Click 'Advanced permissions' to continue."
+						: "Unable to display permissions for one or more errors";
+			}
+			else
+			{
+				DisplayElements = true;
+			}
+
+			OnPropertyChanged(nameof(DisplayElements));
+			OnPropertyChanged(nameof(ErrorMessage));
 
 			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand);
 			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand);
-		}
-
-		public SecurityViewModel(DriveItem item, Window window)
-		{
-			_window = window;
-			_path = item.Path;
-			_isFolder = true;
-			AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, _isFolder);
-			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
-
-			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid);
-			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
 		}
 
 		private async Task ExecuteAddAccessControlEntryCommand()

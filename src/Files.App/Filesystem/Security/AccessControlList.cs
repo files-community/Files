@@ -9,12 +9,12 @@ namespace Files.App.Filesystem.Security
 	public class AccessControlList
 	{
 		/// <summary>
-		/// Object path
+		/// Object path.
 		/// </summary>
 		public string Path { get; private set; }
 
 		/// <summary>
-		/// Whether the path indicates folder or not
+		/// Whether the path indicates folder or not.
 		/// </summary>
 		public bool IsFolder { get; private set; }
 
@@ -30,7 +30,13 @@ namespace Files.App.Filesystem.Security
 		public bool IsValid { get; private set; }
 
 		/// <summary>
-		/// Access control entries (ACEs) list
+		/// Whether the viewer has 'Read Permissions' access control or not.
+		/// If not, the user cannot view access control list (ACL).
+		/// </summary>
+		public bool ViewerHasReadPermissionAccessControl { get; private set; }
+
+		/// <summary>
+		/// Access control entry (ACE) list
 		/// </summary>
 		public ObservableCollection<AccessControlEntry> AccessControlEntries { get; private set; }
 
@@ -40,6 +46,13 @@ namespace Files.App.Filesystem.Security
 			IsFolder = isFolder;
 			Owner = owner;
 			IsValid = isValid;
+			AccessControlEntries = new();
+		}
+
+		public AccessControlList(bool canRead)
+		{
+			Path = string.Empty;
+			ViewerHasReadPermissionAccessControl = canRead;
 			AccessControlEntries = new();
 		}
 	}
