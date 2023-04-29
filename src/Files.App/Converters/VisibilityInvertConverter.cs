@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Converters
 {
-	public class VisibilityInvertConverter : IValueConverter
+	internal class VisibilityInvertConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{

@@ -1,27 +1,27 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Converters
 {
-	internal class DoubleToString : IValueConverter
+	internal class DateTimeOffsetToStringConverter : IValueConverter
 	{
+		private static readonly IDateTimeFormatter formatter = Ioc.Default.GetService<IDateTimeFormatter>();
+
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			if (value is not null)
-			{
-				return value.ToString();
-			}
-
-			return "";
+			return value is null
+				? string.Empty
+				: formatter.ToLongLabel((DateTimeOffset)value);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
 		{
 			try
 			{
-				return Double.Parse(value as string);
+				return DateTimeOffset.Parse(value as string);
 			}
 			catch (FormatException)
 			{

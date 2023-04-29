@@ -3,9 +3,9 @@
 
 using Microsoft.UI.Xaml.Data;
 
-namespace Files.App.ValueConverters.EnumConverters
+namespace Files.App.Converters
 {
-	internal sealed class ConflictResolveOptionToIndexConverter : IValueConverter
+	internal class ConflictResolveOptionToIndexConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
