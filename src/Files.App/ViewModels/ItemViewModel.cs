@@ -2058,7 +2058,7 @@ namespace Files.App.ViewModels
 
 						if (changes != 0 && sampler.CheckNow())
 						{
-							await dispatcherQueue.EnqueueAsync(() => GitDirectoryUpdated?.Invoke(null, null!));
+							await dispatcherQueue.EnqueueOrInvokeAsync(() => GitDirectoryUpdated?.Invoke(null, null!));
 							changes = 0;
 						}
 					}
