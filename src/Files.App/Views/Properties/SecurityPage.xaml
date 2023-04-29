@@ -24,6 +24,10 @@
 				x:Key="EmptyCollectionToBoolConverter"
 				EmptyValue="True"
 				NotEmptyValue="False" />
+			<wctconverters:EmptyCollectionToObjectConverter
+				x:Key="EmptyCollectionToBoolNegationConverter"
+				EmptyValue="False"
+				NotEmptyValue="True" />
 
 		</ResourceDictionary>
 	</Page.Resources>
@@ -112,11 +116,14 @@
 					Background="{ThemeResource DividerStrokeColorDefault}" />
 
 				<!--  Access Control Entries List  -->
-				<ScrollViewer Grid.Row="2" MaxHeight="160">
+				<ScrollViewer
+					x:Name="AccessControlListScrollViewer"
+					Grid.Row="2"
+					MaxHeight="160"
+					x:Load="{x:Bind SecurityViewModel.AccessControlList.AccessControlEntries, Converter={StaticResource EmptyCollectionToBoolNegationConverter}, Mode=OneWay}">
 					<ListView
 						x:Name="AccessControlListListView"
 						Margin="0,4"
-						x:Load="{x:Bind SecurityViewModel.AccessControlList.IsValid, Mode=OneWay}"
 						ItemsSource="{x:Bind SecurityViewModel.AccessControlList.AccessControlEntries, Mode=OneWay}"
 						ScrollViewer.VerticalScrollBarVisibility="Disabled"
 						ScrollViewer.VerticalScrollMode="Disabled"
@@ -235,7 +242,6 @@
 					Grid.Row="2"
 					Padding="8"
 					HorizontalAlignment="Stretch"
-					x:Load="{x:Bind SecurityViewModel.AccessControlList.IsValid, Mode=OneWay}"
 					ColumnSpacing="8">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
@@ -443,16 +449,6 @@
 						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedWriteAccess, Mode=TwoWay}"
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedWriteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 				</Grid>
-
-				<!--  Cannot Read Permissions  -->
-				<TextBlock
-					x:Name="CannotReadPermissionsTextBlock"
-					Grid.Row="2"
-					Margin="4"
-					HorizontalAlignment="Left"
-					x:Load="{x:Bind SecurityViewModel.AccessControlList.IsValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-					Text="{helpers:ResourceString Name=SecurityCannotReadProperties/Text}"
-					TextWrapping="WrapWholeWords" />
 
 			</Grid>
 

@@ -140,7 +140,7 @@ namespace Files.App.ViewModels.Properties
 					break;
 			};
 
-			AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, _isFolder);
+			var error = FileSecurityHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
 			ChangeOwnerCommand = new AsyncRelayCommand(ExecuteChangeOwnerCommand);

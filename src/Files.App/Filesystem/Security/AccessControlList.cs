@@ -30,12 +30,6 @@ namespace Files.App.Filesystem.Security
 		public bool IsValid { get; private set; }
 
 		/// <summary>
-		/// Whether the viewer has 'Read Permissions' access control or not.
-		/// If not, the user cannot view access control list (ACL).
-		/// </summary>
-		public bool ViewerHasReadPermissionAccessControl { get; private set; }
-
-		/// <summary>
 		/// Access control entry (ACE) list
 		/// </summary>
 		public ObservableCollection<AccessControlEntry> AccessControlEntries { get; private set; }
@@ -49,10 +43,9 @@ namespace Files.App.Filesystem.Security
 			AccessControlEntries = new();
 		}
 
-		public AccessControlList(bool canRead)
+		public AccessControlList()
 		{
 			Path = string.Empty;
-			ViewerHasReadPermissionAccessControl = canRead;
 			AccessControlEntries = new();
 		}
 	}

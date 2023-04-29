@@ -91,21 +91,20 @@ namespace Files.App.ViewModels.Properties
 					break;
 			};
 
-			_AccessControlList = FileSecurityHelpers.GetAccessControlList(_path, _isFolder);
+			var error = FileSecurityHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
 			_SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
-			if (Kernel32.GetLastError().Failed || !AccessControlList.ViewerHasReadPermissionAccessControl)
+			if (!AccessControlList.IsValid)
 			{
 				DisplayElements = false;
-				ErrorMessage =
-					!AccessControlList.ViewerHasReadPermissionAccessControl &&
-					Kernel32.GetLastError() == Win32Error.ERROR_ACCESS_DENIED
-						? "You must have Read permissions to view the properties of this object. Click 'Advanced permissions' to continue."
-						: "Unable to display permissions for one or more errors";
+				ErrorMessage = error == Win32Error.ERROR_ACCESS_DENIED
+					? "You must have Read permissions to view the properties of this object. Click 'Advanced permissions' to continue."
+					: "Unable to display permissions for one or more errors";
 			}
 			else
 			{
 				DisplayElements = true;
+				ErrorMessage = string.Empty;
 			}
 
 			OnPropertyChanged(nameof(DisplayElements));
