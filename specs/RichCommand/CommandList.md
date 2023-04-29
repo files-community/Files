@@ -12,7 +12,8 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | Search                              | Search                                    | Go to search box                                         | Ctrl+F, F3          |
 |                    | Redo                                | Redo                                      | Redo the last file operation                             | Ctrl+Y              |
 |                    | Undo                                | Undo                                      | Undo the last file operation                             | Ctrl+Z              |
-|                    | EditPath                            | Edit path                                 | Go to path bar                                           | Ctrl+L, Alt+D       |
+|                    | EditPath                            | Edit path                                 | Focus path bar                                           | Ctrl+L, Alt+D       |
+
 | Show               | ToggleShowHiddenItems               | Show hidden items                         | Toggle whether to show hidden items                      | Ctrl+H              |
 |                    | ToggleShowFileExtensions            | Show file extensions                      | Toggle whether to show file extensions                   |                     |
 |                    | TogglePreviewPane                   | Toggle the preview pane                   | Toggle whether to show preview pane                      | Ctrl+P              |
