@@ -495,19 +495,24 @@ namespace Files.App.Views.LayoutModes
 			UpdateCheckboxVisibility(sender, false);
 		}
 
-		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
+		private void UpdateCheckboxVisibility(object sender, bool? isPointerOver = null)
 		{
 			if (sender is GridViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
 			{
+				// Save pointer over state accordingly
+				if (isPointerOver.HasValue)
+					control.SetValue(IsPointerOverProperty, isPointerOver);
+
 				// Handle visual states
 				// Show checkboxes when items are selected (as long as the setting is enabled)
-				// Show checkboxes when hovering of the item (regardless of the setting to hide them)
-				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
-					|| IsPointerOver)
+				// Show checkboxes when hovering over the item and the setting is enabled
+				if ((UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected)
+					|| (isPointerOver == true && UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems == true))
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
 			}
 		}
+
 	}
 }
