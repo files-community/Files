@@ -8,7 +8,7 @@
 	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:mconv="using:CommunityToolkit.WinUI.UI.Converters"
-	xmlns:navigationcontrolitems="using:Files.App.DataModels.NavigationControlItems"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:vc="using:Files.App.ValueConverters"
 	HorizontalAlignment="Stretch"
 	Collapsed="NavigationView_Collapsed"
@@ -53,7 +53,7 @@
 			<mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<mconv:StringFormatConverter x:Key="StringFormatConverter" />
 			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
-			<DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
+			<DataTemplate x:Key="LocationNavItem" x:DataType="dataitems:LocationItem">
 				<NavigationViewItem
 					AllowDrop="True"
 					AutomationProperties.AutomationId="{x:Bind Text}"
@@ -82,7 +82,7 @@
 				</NavigationViewItem>
 			</DataTemplate>
 
-			<DataTemplate x:Key="DriveNavItem" x:DataType="navigationcontrolitems:DriveItem">
+			<DataTemplate x:Key="DriveNavItem" x:DataType="dataitems:DriveItem">
 				<NavigationViewItem
 					Padding="0"
 					AllowDrop="True"
@@ -270,7 +270,7 @@
 				</NavigationViewItem>
 			</DataTemplate>
 
-			<DataTemplate x:Key="LinuxNavItem" x:DataType="navigationcontrolitems:WslDistroItem">
+			<DataTemplate x:Key="LinuxNavItem" x:DataType="dataitems:WslDistroItem">
 				<NavigationViewItem
 					Padding="0"
 					AutomationProperties.AutomationId="{x:Bind Text}"
@@ -292,7 +292,7 @@
 				</NavigationViewItem>
 			</DataTemplate>
 
-			<DataTemplate x:Key="FileTagNavItem" x:DataType="navigationcontrolitems:FileTagItem">
+			<DataTemplate x:Key="FileTagNavItem" x:DataType="dataitems:FileTagItem">
 				<NavigationViewItem
 					AllowDrop="True"
 					CanDrag="False"
