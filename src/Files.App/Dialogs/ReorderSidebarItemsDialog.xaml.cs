@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Data.Items;
 using Files.App.Extensions;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs;

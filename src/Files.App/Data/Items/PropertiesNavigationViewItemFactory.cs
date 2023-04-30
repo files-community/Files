@@ -1,17 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections.ObjectModel;
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.Backend.Enums;
 using Files.Backend.Helpers;
 using Microsoft.UI.Xaml;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace Files.App.DataModels
+namespace Files.App.Data.Items
 {
 	public static class PropertiesNavigationViewItemFactory
 	{
@@ -102,7 +96,7 @@ namespace Files.App.DataModels
 				var securityItemEnabled = !isLibrary && !listedItem.IsRecycleBinItem;
 				var hashItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
 				var detailsItemEnabled = fileExt is not null && !isShortcut && !isLibrary;
-				var customizationItemEnabled = !isLibrary && ((isFolder && !listedItem.IsArchive) || (isShortcut && !listedItem.IsLinkItem));
+				var customizationItemEnabled = !isLibrary && (isFolder && !listedItem.IsArchive || isShortcut && !listedItem.IsLinkItem);
 				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : fileExt, true);
 
 				if (!securityItemEnabled)

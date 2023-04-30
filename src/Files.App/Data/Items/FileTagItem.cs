@@ -3,7 +3,7 @@
 
 using Files.Backend.ViewModels.FileTags;
 
-namespace Files.App.DataModels.NavigationControlItems
+namespace Files.App.Data.Items
 {
 	public class FileTagItem : INavigationControlItem
 	{

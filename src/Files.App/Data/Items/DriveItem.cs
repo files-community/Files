@@ -12,7 +12,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace Files.App.DataModels.NavigationControlItems
+namespace Files.App.Data.Items
 {
 	public class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
 	{
@@ -212,7 +212,7 @@ namespace Files.App.DataModels.NavigationControlItems
 					SpaceText = GetSizeString();
 
 					if (MaxSpace.Bytes > 0 && FreeSpace.Bytes > 0) // Make sure we don't divide by 0
-						PercentageUsed = 100.0f - ((float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f);
+						PercentageUsed = 100.0f - (float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f;
 				}
 				else
 				{
