@@ -1355,21 +1355,21 @@ namespace Files.App
 				showError?.Invoke(false);
 			}
 		}
-	}
 
-	public class ContextMenuExtensions : DependencyObject
-	{
-		public static ItemsControl GetItemsControl(DependencyObject obj)
+		public class ContextMenuExtensions : DependencyObject
 		{
-			return (ItemsControl)obj.GetValue(ItemsControlProperty);
-		}
+			public static ItemsControl GetItemsControl(DependencyObject obj)
+			{
+				return (ItemsControl)obj.GetValue(ItemsControlProperty);
+			}
 
-		public static void SetItemsControl(DependencyObject obj, ItemsControl value)
-		{
-			obj.SetValue(ItemsControlProperty, value);
-		}
+			public static void SetItemsControl(DependencyObject obj, ItemsControl value)
+			{
+				obj.SetValue(ItemsControlProperty, value);
+			}
 
-		public static readonly DependencyProperty ItemsControlProperty =
-			DependencyProperty.RegisterAttached("ItemsControl", typeof(ItemsControl), typeof(ContextMenuExtensions), new PropertyMetadata(null));
+			public static readonly DependencyProperty ItemsControlProperty =
+				DependencyProperty.RegisterAttached("ItemsControl", typeof(ItemsControl), typeof(ContextMenuExtensions), new PropertyMetadata(null));
+		}
 	}
 }

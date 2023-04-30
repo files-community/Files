@@ -5,7 +5,7 @@ using Files.Backend.Enums;
 using Files.Backend.Helpers;
 using Microsoft.UI.Xaml;
 
-namespace Files.App.Data.Items
+namespace Files.App.Data.Factories
 {
 	public static class PropertiesNavigationViewItemFactory
 	{
