@@ -148,26 +148,7 @@
 			IsClosable="False"
 			IsOpen="True"
 			Message="{x:Bind SecurityAdvancedViewModel.ErrorMessage, Mode=OneWay}"
-			Severity="Informational">
-			<InfoBar.Content>
-				<Grid Margin="0,0,12,12">
-					<StackPanel>
-						<Button
-							x:Name="OpenSecurityAdvancedPageFromInfoBarButton"
-							HorizontalAlignment="Left"
-							Command="{x:Bind SecurityAdvancedViewModel.ContinueWithAdministrativePrivileges, Mode=OneWay}">
-							<StackPanel Orientation="Horizontal" Spacing="6">
-								<Image
-									Width="16"
-									Height="16"
-									uc:ImageFromBytes.SourceBytes="{x:Bind SecurityAdvancedViewModel.ShieldIconFileInfo.IconData, Mode=OneWay}" />
-								<TextBlock Text="Continue" />
-							</StackPanel>
-						</Button>
-					</StackPanel>
-				</Grid>
-			</InfoBar.Content>
-		</InfoBar>
+			Severity="Informational" />
 
 		<!--  Access Control List  -->
 		<Grid
@@ -381,13 +362,15 @@
 								<ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
 							</Grid.ColumnDefinitions>
 
+							<!--  Principal Type Glyph  -->
 							<FontIcon
 								x:Name="FontIcon"
 								VerticalAlignment="Center"
 								FontFamily="{StaticResource SymbolThemeFontFamily}"
 								FontSize="16"
-								Glyph="{x:Bind Principal.Glyph}" />
+								Glyph="{x:Bind Principal.Glyph, Mode=OneWay}" />
 
+							<!--  Principal Type Text  -->
 							<TextBlock
 								x:Name="AccessControlTypeHumanizedTextBlock"
 								Grid.Column="1"
@@ -398,6 +381,7 @@
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
 
+							<!--  Principal Type Changer DropDown  -->
 							<DropDownButton
 								x:Name="TypeDropdown"
 								Grid.Column="1"
@@ -448,6 +432,7 @@
 
 							</DropDownButton>
 
+							<!--  Principal Name Text  -->
 							<TextBlock
 								Grid.Column="2"
 								HorizontalAlignment="Left"
@@ -458,6 +443,7 @@
 								<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanizedWithBrackes, Mode=OneWay}" />
 							</TextBlock>
 
+							<!--  Access Flags Text  -->
 							<TextBlock
 								x:Name="AccessFlagsHumanizedTextBlock"
 								Grid.Column="3"
@@ -467,6 +453,7 @@
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
 
+							<!--  Access Flags Changer DropDown  -->
 							<DropDownButton
 								x:Name="AccessFlagsEditDropDownButton"
 								Grid.Column="3"
@@ -550,6 +537,7 @@
 
 							</DropDownButton>
 
+							<!--  Is Inherited Or Not Text  -->
 							<TextBlock
 								x:Name="IsInheritedHumanizedTextBlock"
 								Grid.Column="4"
@@ -558,6 +546,7 @@
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
 
+							<!--  Applies To Text  -->
 							<TextBlock
 								x:Name="InheritanceFlagsHumanizedTextBlock"
 								Grid.Column="5"
@@ -568,6 +557,7 @@
 								TextWrapping="NoWrap"
 								Visibility="{x:Bind IsFolder, Mode=OneWay}" />
 
+							<!--  Applies To Changer DropDown  -->
 							<DropDownButton
 								x:Name="InheritanceFlagsEditDropDownButton"
 								Grid.Column="5"

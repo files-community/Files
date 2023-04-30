@@ -33,7 +33,9 @@ namespace Files.App.ViewModels.Properties
 
 		public IconFileInfo ShieldIconFileInfo { get; private set; }
 
-		public bool CurrentInstanceHasAdminPrivileges { get; private set; }
+		public bool CurrentInstanceCanReadPermissions { get; private set; }
+
+		public bool CurrentInstanceCanChangePermissions { get; private set; }
 
 		public string DisableInheritanceOption
 		{
@@ -54,17 +56,7 @@ namespace Files.App.ViewModels.Properties
 		public AccessControlList AccessControlList
 		{
 			get => _AccessControlList;
-			set
-			{
-				if (SetProperty(ref _AccessControlList, value))
-				{
-					ChangeOwnerCommand.NotifyCanExecuteChanged();
-					AddAccessControlEntryCommand.NotifyCanExecuteChanged();
-					RemoveAccessControlEntryCommand.NotifyCanExecuteChanged();
-					DisableInheritanceCommand.NotifyCanExecuteChanged();
-					ReplaceChildPermissionsCommand.NotifyCanExecuteChanged();
-				}
-			}
+			set => SetProperty(ref _AccessControlList, value);
 		}
 
 		private AccessControlEntry? _SelectedAccessControlEntry;
@@ -93,7 +85,7 @@ namespace Files.App.ViewModels.Properties
 			set => SetProperty(ref _DisplayElements, value);
 		}
 
-		private string _ErrorMessage;
+		private string _ErrorMessage = string.Empty;
 		public string ErrorMessage
 		{
 			get => _ErrorMessage;
@@ -131,13 +123,6 @@ namespace Files.App.ViewModels.Properties
 		public IAsyncRelayCommand ChangeOwnerCommand { get; set; }
 		public IAsyncRelayCommand AddAccessControlEntryCommand { get; set; }
 		public IAsyncRelayCommand RemoveAccessControlEntryCommand { get; set; }
-		public IRelayCommand ContinueWithAdministrativePrivileges { get; set; }
-
-		// --- TODO: Following commands are unimplemented ---
-
-		public IRelayCommand DisableInheritanceCommand { get; set; }
-		public IRelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
-		public IRelayCommand ReplaceChildPermissionsCommand { get; set; }
 
 		public SecurityAdvancedViewModel(PropertiesPageNavigationParameter parameter)
 		{
@@ -165,7 +150,6 @@ namespace Files.App.ViewModels.Properties
 
 			var error = FileSecurityHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
-			CurrentInstanceHasAdminPrivileges = Shell32.IsUserAnAdmin() == false;
 
 			if (!AccessControlList.IsValid)
 			{
@@ -175,7 +159,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					ErrorMessage = "You must have Read permissions to view the properties of this object.";
 
-					if (CurrentInstanceHasAdminPrivileges)
+					if (CurrentInstanceCanReadPermissions)
 						ErrorMessage += ("\n\n" + " Click Continue to attempt the operation with administrative permissions.");
 				}
 				else
@@ -192,11 +176,6 @@ namespace Files.App.ViewModels.Properties
 			ChangeOwnerCommand = new AsyncRelayCommand(ExecuteChangeOwnerCommand);
 			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand);
 			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand);
-			ContinueWithAdministrativePrivileges = new RelayCommand(ExecuteContinueWithAdministrativePrivilegesCommand);
-
-			DisableInheritanceCommand = new RelayCommand(DisableInheritance);
-			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
-			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.IsValid);
 		}
 
 		private IconFileInfo LoadShieldIconResource()
@@ -258,43 +237,5 @@ namespace Files.App.ViewModels.Properties
 				SelectedAccessControlEntry = AccessControlList.AccessControlEntries.First();
 			});
 		}
-
-		private void ExecuteContinueWithAdministrativePrivilegesCommand()
-		{
-			var win32Error = FileSecurityHelpers.GetAdministratorGroupSid(out var adminSid);
-
-			if (AccessControlList.Owner.Sid == adminSid)
-			{
-				DisplayElements = true;
-			}
-			else
-			{
-
-			}
-		}
-
-		// --- TODO: Following methods are unimplemented ---
-
-		private void DisableInheritance()
-		{
-			// Update protection status and refresh access control
-			//if (FileOperationsHelpers.SetAccessRuleProtection(_path, _isFolder, _isProtected, _preserveInheritance))
-			//	GetAccessControlList();
-		}
-
-		private void SetDisableInheritanceOption(string? options)
-		{
-			//_isProtected = bool.Parse(options.Split(',')[0]);
-			//_preserveInheritance = bool.Parse(options.Split(',')[1]);
-
-			//OnPropertyChanged(nameof(DisableInheritanceOption));
-			//DisableInheritanceCommand.NotifyCanExecuteChanged();
-		}
-
-		private void ReplaceChildPermissions()
-		{
-		}
-
-		// ---
 	}
 }
