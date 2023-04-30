@@ -6,7 +6,7 @@ namespace Files.App.Filesystem.Security
 	/// <summary>
 	/// Represents an access control list (ACL).
 	/// </summary>
-	public class AccessControlList
+	public class AccessControlList : ObservableObject
 	{
 		/// <summary>
 		/// Object path.

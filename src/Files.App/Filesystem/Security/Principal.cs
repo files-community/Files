@@ -10,7 +10,7 @@ namespace Files.App.Filesystem.Security
 	/// <summary>
 	/// Represents a principal of an ACE or an owner of an ACL.
 	/// </summary>
-	public class Principal
+	public class Principal : ObservableObject
 	{
 		/// <summary>
 		/// Account type.

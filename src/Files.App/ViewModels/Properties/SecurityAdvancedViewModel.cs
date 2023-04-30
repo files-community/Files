@@ -169,6 +169,8 @@ namespace Files.App.ViewModels.Properties
 
 		private void LoadAccessControlEntry()
 		{
+			AccessControlList?.Dispose();
+
 			var error = FileSecurityHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
@@ -190,14 +192,6 @@ namespace Files.App.ViewModels.Properties
 			{
 				DisplayElements = true;
 				ErrorMessage = string.Empty;
-			}
-
-			if (AccessControlList.Owner.IsValid)
-			{
-				OnPropertyChanged(nameof(AccessControlList.Owner.IsValid));
-				OnPropertyChanged(nameof(AccessControlList.Owner.Glyph));
-				OnPropertyChanged(nameof(AccessControlList.Owner.FullNameHumanized));
-				OnPropertyChanged(nameof(AccessControlList.Owner.FullNameHumanizedWithBrackes));
 			}
 		}
 

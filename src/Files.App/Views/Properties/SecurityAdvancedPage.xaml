@@ -121,6 +121,7 @@
 					VerticalAlignment="Center"
 					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.IsValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					IsTextSelectionEnabled="True"
+					Style="{StaticResource BodyTextBlockStyle}"
 					Text="Unable to display current owner." />
 
 				<!--  Change Owner  -->
