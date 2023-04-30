@@ -1851,9 +1851,6 @@
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>展開が完了しました</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+N</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>親フォルダーを開く</value>
   </data>
@@ -3151,6 +3148,9 @@
   <data name="CloseTab" xml:space="preserve">
     <value>現在のタブを閉じる</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>パスを編集</value>
+  </data>
   <data name="Branch" xml:space="preserve">
     <value>ブランチ: {0}</value>
   </data>
@@ -3177,6 +3177,12 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>アイテム選択時にチェックボックスを表示する</value>
+  </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>パス バーに移動する</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>新しいファイルを作成する</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>このオブジェクトにアクセスする権限を持つグループまたはユーザーがありません。ただし、このオブジェクトの所有者は権限を割り当てることができます。</value>

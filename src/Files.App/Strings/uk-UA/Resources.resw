@@ -406,7 +406,7 @@
     <value>Відкрити за допомогою</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Надіслати</value>
+    <value>Надіслати до</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Ім'я елемента не повинно містити таких знаків: \ / : * ? " &lt; &gt; |</value>
@@ -1288,7 +1288,7 @@
     <value>Копіювати</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Буде скопійовано елементів: {0}</value>
+    <value>Буде скопійовано {0} елемент(ів)</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
     <value>Копіювати елемент(и)</value>
@@ -1850,9 +1850,6 @@
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Видобування завершено!</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Відкрити батьківську папку</value>
@@ -3151,6 +3148,9 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Закриває поточну вкладку</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Edit path</value>
+  </data>
   <data name="Branch" xml:space="preserve">
     <value>Гілка: {0}</value>
   </data>
@@ -3177,6 +3177,12 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Показувати прапорці під час вибору елементів</value>
+  </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Focus path bar</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Create new item</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>Жодна група чи користувач не має дозволів на даний обєкт. Проте, власник даного обєкту може надавати дозволи.</value>
