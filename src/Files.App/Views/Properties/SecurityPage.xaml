@@ -44,6 +44,7 @@
 				x:Name="UnableToDisplayInformationInfoBar"
 				Grid.Row="0"
 				x:Load="{x:Bind SecurityViewModel.DisplayElements, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+				Background="{ThemeResource LayerFillColorDefaultBrush}"
 				IsClosable="False"
 				IsOpen="True"
 				Message="{x:Bind SecurityViewModel.ErrorMessage, Mode=OneWay}"
@@ -61,7 +62,7 @@
 				x:Name="PrincipalListGrid"
 				Grid.Row="0"
 				x:Load="{x:Bind SecurityViewModel.DisplayElements, Mode=OneWay}"
-				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+				Background="{ThemeResource LayerFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
 				CornerRadius="4">
@@ -159,9 +160,9 @@
 									<TextBlock
 										Grid.Column="1"
 										Style="{StaticResource BodyTextBlockStyle}"
-										ToolTipService.ToolTip="{x:Bind Principal.FullNameOrSid}">
+										ToolTipService.ToolTip="{x:Bind Principal.FullNameHumanized}">
 										<Run Text="{x:Bind Principal.DisplayName}" />
-										<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanized}" />
+										<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanizedWithBrackes}" />
 									</TextBlock>
 
 								</Grid>
@@ -188,7 +189,7 @@
 				Grid.Row="1"
 				Padding="12"
 				x:Load="{x:Bind SecurityViewModel.DisplayElements, Mode=OneWay}"
-				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+				Background="{ThemeResource LayerFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
 				CornerRadius="4"

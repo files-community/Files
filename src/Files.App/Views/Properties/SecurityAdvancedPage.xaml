@@ -74,8 +74,8 @@
 		<!--  Owner  -->
 		<Grid
 			x:Name="OwnerLayerGrid"
-			Padding="12"
-			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			Padding="16,12"
+			Background="{ThemeResource LayerFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
 			ColumnSpacing="8"
@@ -88,7 +88,6 @@
 			<!--  Header  -->
 			<TextBlock
 				Grid.Column="0"
-				Margin="4"
 				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=SecurityOwnerLabel/Text}" />
 
@@ -108,18 +107,27 @@
 				<TextBlock
 					x:Name="OwnerText"
 					VerticalAlignment="Center"
-					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsValid, Mode=OneWay}"
+					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.IsValid, Mode=OneWay}"
 					IsTextSelectionEnabled="True"
 					Style="{StaticResource BodyTextBlockStyle}"
-					ToolTipService.ToolTip="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameOrSid, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameHumanized, Mode=OneWay}">
 					<Run Text="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.DisplayName, Mode=OneWay}" />
-					<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameHumanized, Mode=OneWay}" />
+					<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameHumanizedWithBrackes, Mode=OneWay}" />
 				</TextBlock>
+
+				<!--  Owner name is unknown  -->
+				<TextBlock
+					VerticalAlignment="Center"
+					IsTextSelectionEnabled="True"
+					Text="Unable to display current owner." />
 
 				<!--  Change Owner  -->
 				<HyperlinkButton VerticalAlignment="Center" Command="{x:Bind SecurityAdvancedViewModel.ChangeOwnerCommand, Mode=OneWay}">
 					<StackPanel Orientation="Horizontal" Spacing="6">
-						<FontIcon FontSize="14" Glyph="&#xE70F;" />
+						<Image
+							Width="16"
+							Height="16"
+							uc:ImageFromBytes.SourceBytes="{x:Bind SecurityAdvancedViewModel.ShieldIconFileInfo.IconData, Mode=OneWay}" />
 						<TextBlock Text="{helpers:ResourceString Name=Change}" />
 					</StackPanel>
 				</HyperlinkButton>
@@ -134,23 +142,26 @@
 			Grid.Row="1"
 			VerticalAlignment="Top"
 			x:Load="{x:Bind SecurityAdvancedViewModel.DisplayElements, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+			Background="{ThemeResource LayerFillColorDefaultBrush}"
 			IsClosable="False"
 			IsOpen="True"
 			Message="{x:Bind SecurityAdvancedViewModel.ErrorMessage, Mode=OneWay}"
 			Severity="Informational">
-			<Button
-				x:Name="OpenSecurityAdvancedPageFromInfoBarButton"
-				Margin="0,0,12,12"
-				HorizontalAlignment="Right"
-				x:Load="{x:Bind SecurityAdvancedViewModel.CurrentUserIsInAdministratorsGroup, Mode=OneWay}">
-				<StackPanel Orientation="Horizontal" Spacing="6">
-					<!--<Image
-						Width="16"
-						Height="16"
-						uc:ImageFromBytes.SourceBytes="{x:Bind SecurityAdvancedViewModel.ShieldIconFileInfo.IconData, Mode=OneWay}" />-->
-					<TextBlock Text="Continue" />
-				</StackPanel>
-			</Button>
+			<InfoBar.Content>
+				<Grid Margin="0,0,12,12">
+					<StackPanel>
+						<Button x:Name="OpenSecurityAdvancedPageFromInfoBarButton" HorizontalAlignment="Left">
+							<StackPanel Orientation="Horizontal" Spacing="6">
+								<Image
+									Width="16"
+									Height="16"
+									uc:ImageFromBytes.SourceBytes="{x:Bind SecurityAdvancedViewModel.ShieldIconFileInfo.IconData, Mode=OneWay}" />
+								<TextBlock Text="Continue" />
+							</StackPanel>
+						</Button>
+					</StackPanel>
+				</Grid>
+			</InfoBar.Content>
 		</InfoBar>
 
 		<!--  Access Control List  -->
@@ -159,7 +170,7 @@
 			Grid.Row="1"
 			Padding="12,8,12,12"
 			x:Load="{x:Bind SecurityAdvancedViewModel.DisplayElements, Mode=OneWay}"
-			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			Background="{ThemeResource LayerFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
 			CornerRadius="4">
@@ -439,7 +450,7 @@
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap">
 								<Run Text="{x:Bind Principal.DisplayName, Mode=OneWay}" />
-								<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanized, Mode=OneWay}" />
+								<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanizedWithBrackes, Mode=OneWay}" />
 							</TextBlock>
 
 							<TextBlock

@@ -348,7 +348,7 @@ namespace Files.App.Filesystem.Security
 			//});
 
 			IsFolder = isFolder;
-			Principal = Principal.FromSid(ownerSid);
+			Principal = new(ownerSid);
 			AccessControlType = type;
 			AccessMaskFlags = accessMaskFlags;
 			IsInherited = isInherited;

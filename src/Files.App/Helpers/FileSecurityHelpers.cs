@@ -92,7 +92,7 @@ namespace Files.App.Helpers
 
 			// Get owner
 			var szOwnerSid = GetOwner(path);
-			var principal = Principal.FromSid(szOwnerSid);
+			var principal = new Principal(szOwnerSid);
 
 			var isValidAcl = IsValidAcl(pDacl);
 
