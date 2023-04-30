@@ -223,8 +223,7 @@
 						AutomationProperties.AccessibilityView="Raw"
 						Checked="ItemSelected_Checked"
 						DoubleTapped="SelectionCheckbox_DoubleTapped"
-						Unchecked="ItemSelected_Unchecked"
-							/>
+						Unchecked="ItemSelected_Unchecked" />
 
 					<Popup x:Name="EditPopup" Grid.Row="1">
 						<TextBox
@@ -293,7 +292,7 @@
 							Glyph="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
 							Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
-
+					
 					<CheckBox
 						x:Name="SelectionCheckbox"
 						Grid.RowSpan="2"
@@ -309,9 +308,8 @@
 						AutomationProperties.AccessibilityView="Raw"
 						Checked="ItemSelected_Checked"
 						DoubleTapped="SelectionCheckbox_DoubleTapped"
-						Unchecked="ItemSelected_Unchecked"
-							/>
-
+						Unchecked="ItemSelected_Unchecked" />
+					
 					<Grid
 						Grid.Column="1"
 						Height="60"
