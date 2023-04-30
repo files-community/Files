@@ -1851,9 +1851,6 @@
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Extracting complete!</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Vaihto+N</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Avaa yläkansio</value>
   </data>
@@ -3151,6 +3148,9 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Sulkee nykyisen välilehden</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Muokkaa polkua</value>
+  </data>
   <data name="Branch" xml:space="preserve">
     <value>Haara: {0}</value>
   </data>
@@ -3177,6 +3177,12 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Näytä valintaruudut kohteita valittaessa</value>
+  </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Kohdista polkupalkkiin</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Luo uusi kohde</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>Millään ryhmillä tai käyttäjillä ei ole oikeutta käyttää tätä objektia. Tämän objektin omistaja voi kuitenkin määrittää käyttöoikeuksia.</value>
