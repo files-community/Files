@@ -5,7 +5,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:datamodels="using:Files.App.DataModels"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
@@ -111,7 +111,7 @@
 
 			<!--  Item Template  -->
 			<NavigationView.MenuItemTemplate>
-				<DataTemplate x:DataType="datamodels:NavigationViewItemButtonStyleItem">
+				<DataTemplate x:DataType="dataitems:NavigationViewItemButtonStyleItem">
 					<NavigationViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Tag="{x:Bind ItemType, Mode=OneWay}">
 						<NavigationViewItem.Content>
 							<Grid>

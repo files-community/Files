@@ -28,6 +28,8 @@ using static Files.App.Helpers.PathNormalization;
 using VA = Vanara.Windows.Shell;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Shared.Enums.SortDirection;
+using Files.App.Data.EventArguments;
+using Files.App.Data.Models;
 
 namespace Files.App
 {

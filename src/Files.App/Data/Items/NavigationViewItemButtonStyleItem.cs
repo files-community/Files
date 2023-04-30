@@ -1,11 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using Files.Backend.Enums;
 using Microsoft.UI.Xaml;
 
-namespace Files.App.DataModels
+namespace Files.App.Data.Items
 {
 	public class NavigationViewItemButtonStyleItem : ObservableObject
 	{

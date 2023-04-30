@@ -4,7 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Data.Items;
 using Files.App.Extensions;
 using Files.App.Shell;
 using Files.App.ViewModels;
