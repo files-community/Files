@@ -119,7 +119,7 @@ namespace Files.App.Converters
 	/// <summary>
 	/// Converts a boolean to and from a visibility value.
 	/// </summary>
-	internal class InverseBooleanConverter : ValueConverter<bool, bool>
+	internal sealed class InverseBooleanConverter : ValueConverter<bool, bool>
 	{
 		/// <summary>
 		/// Converts a source value to the target type.
@@ -146,7 +146,7 @@ namespace Files.App.Converters
 		}
 	}
 
-	internal class NullToTrueConverter : ValueConverter<object?, bool>
+	internal sealed class NullToTrueConverter : ValueConverter<object?, bool>
 	{
 		/// <summary>
 		/// Determines whether an inverse conversion should take place.
@@ -179,7 +179,7 @@ namespace Files.App.Converters
 		}
 	}
 
-	internal class StringNullOrWhiteSpaceToTrueConverter : ValueConverter<string, bool>
+	internal sealed class StringNullOrWhiteSpaceToTrueConverter : ValueConverter<string, bool>
 	{
 		/// <summary>
 		/// Determines whether an inverse conversion should take place.

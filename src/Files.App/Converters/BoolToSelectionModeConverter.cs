@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Converters
 {
-	internal class BoolToSelectionModeConverter : IValueConverter
+	internal sealed class BoolToSelectionModeConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
