@@ -191,7 +191,7 @@
 						Background="Transparent"
 						BorderBrush="Transparent"
 						Command="{x:Bind SecurityAdvancedViewModel.AddAccessControlEntryCommand, Mode=OneWay}"
-						IsEnabled="{x:Bind SecurityViewModel.IsAddAccessControlEntryButtonEnabled, Mode=OneWay}">
+						IsEnabled="{x:Bind SecurityAdvancedViewModel.IsAddAccessControlEntryButtonEnabled, Mode=OneWay}">
 						<FontIcon FontSize="16" Glyph="&#xE710;" />
 					</Button>
 
@@ -200,7 +200,7 @@
 						Background="Transparent"
 						BorderBrush="Transparent"
 						Command="{x:Bind SecurityAdvancedViewModel.RemoveAccessControlEntryCommand, Mode=OneWay}"
-						IsEnabled="{x:Bind SecurityViewModel.IsDeleteAccessControlEntryButtonEnabled, Mode=OneWay}">
+						IsEnabled="{x:Bind SecurityAdvancedViewModel.IsDeleteAccessControlEntryButtonEnabled, Mode=OneWay}">
 						<FontIcon FontSize="16" Glyph="&#xE738;" />
 					</Button>
 

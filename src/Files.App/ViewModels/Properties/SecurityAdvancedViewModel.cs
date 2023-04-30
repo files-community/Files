@@ -179,7 +179,7 @@ namespace Files.App.ViewModels.Properties
 				if (error == Win32Error.ERROR_ACCESS_DENIED)
 				{
 					ErrorMessage = "You must have Read permissions to view the properties of this object.";
-					ErrorMessage += "To try taking ownership of the object, which includes permission to view its properties, click Change above.";
+					ErrorMessage += "\r\n\r\n" + "To try taking ownership of the object, which includes permission to view its properties, click Change above.";
 				}
 				else
 				{
@@ -190,6 +190,14 @@ namespace Files.App.ViewModels.Properties
 			{
 				DisplayElements = true;
 				ErrorMessage = string.Empty;
+			}
+
+			if (AccessControlList.Owner.IsValid)
+			{
+				OnPropertyChanged(nameof(AccessControlList.Owner.IsValid));
+				OnPropertyChanged(nameof(AccessControlList.Owner.Glyph));
+				OnPropertyChanged(nameof(AccessControlList.Owner.FullNameHumanized));
+				OnPropertyChanged(nameof(AccessControlList.Owner.FullNameHumanizedWithBrackes));
 			}
 		}
 
