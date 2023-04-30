@@ -295,7 +295,6 @@
 
 					<CheckBox
 						x:Name="SelectionCheckbox"
-						Grid.RowSpan="2"
 						Grid.ColumnSpan="2"
 						Width="32"
 						MinWidth="0"
