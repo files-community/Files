@@ -85,7 +85,7 @@ namespace Files.App.Filesystem.Security
 			lpDomain.EnsureCapacity(cchDomainName);
 
 			// Get account name and domain
-			bResult = LookupAccountSid(null, lpSid, lpName, ref cchName, lpDomain, ref cchDomainName, out var snu));
+			bResult = LookupAccountSid(null, lpSid, lpName, ref cchName, lpDomain, ref cchDomainName, out var snu);
 			if(!bResult)
 				return;
 
