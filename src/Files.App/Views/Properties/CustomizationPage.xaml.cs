@@ -4,7 +4,6 @@
 using Files.App.Data.Parameters;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml.Navigation;
-using System.Threading.Tasks;
 
 namespace Files.App.Views.Properties
 {
@@ -26,8 +25,8 @@ namespace Files.App.Views.Properties
 			CustomizationViewModel = new(AppInstance, BaseProperties, parameter.AppWindow);
 		}
 
-		public override Task<bool> SaveChangesAsync()
-			=> Task.FromResult(true);
+		public async override Task<bool> SaveChangesAsync()
+			=> await CustomizationViewModel.UpdateIcon();
 
 		public override void Dispose()
 		{

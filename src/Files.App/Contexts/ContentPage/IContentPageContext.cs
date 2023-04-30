@@ -30,6 +30,8 @@ namespace Files.App.Contexts
 
 		bool IsSearchBoxVisible { get; }
 
+		bool CanCreateItem { get; }
+
 		bool IsMultiPaneEnabled { get; }
 		bool IsMultiPaneActive { get; }
 	}
