@@ -22,7 +22,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new RichGlyph(baseGlyph: "\uE8B7");
 
-		public override bool IsExecutable => context.ShellPage is not null && UIHelpers.CanShowDialog;
+		public override bool IsExecutable => context.CanCreateItem && !context.HasSelection && UIHelpers.CanShowDialog;
 
 		public CreateFolderAction()
 		{
@@ -38,8 +38,13 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
-				OnPropertyChanged(nameof(IsExecutable));
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.CanCreateItem):
+				case nameof(IContentPageContext.HasSelection):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 	}
 }

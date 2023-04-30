@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Data.Items;
 using Files.App.Helpers;
 using Files.App.Helpers.MMI;
 using Files.Backend.Models;
@@ -96,7 +96,7 @@ namespace Files.App.Filesystem
 				return;
 			}
 
-            DataModels.NavigationControlItems.DriveType type;
+            Data.Items.DriveType type;
 			try
 			{
 				// Check if this drive is associated with a drive letter
@@ -105,7 +105,7 @@ namespace Files.App.Filesystem
 			}
 			catch (ArgumentException)
 			{
-				type = DataModels.NavigationControlItems.DriveType.Removable;
+				type = Data.Items.DriveType.Removable;
 			}
 
 			var driveItem = await DriveItem.CreateFromPropertiesAsync(root, deviceId, type);

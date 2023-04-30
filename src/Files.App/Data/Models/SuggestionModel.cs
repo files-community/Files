@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace Files.App.DataModels
+namespace Files.App.Data.Models
 {
 	public class SuggestionModel : ObservableObject
 	{
