@@ -217,12 +217,14 @@
 						MinHeight="0"
 						Margin="6"
 						Padding="0"
+						Opacity="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Top"
+						AutomationProperties.AccessibilityView="Raw"
 						Checked="ItemSelected_Checked"
 						DoubleTapped="SelectionCheckbox_DoubleTapped"
 						Unchecked="ItemSelected_Unchecked"
-						Visibility="Collapsed" />
+							/>
 
 					<Popup x:Name="EditPopup" Grid.Row="1">
 						<TextBox
@@ -243,7 +245,7 @@
 							<VisualState x:Name="HideCheckbox" />
 							<VisualState x:Name="ShowCheckbox">
 								<VisualState.Setters>
-									<Setter Target="SelectionCheckbox.Visibility" Value="Visible" />
+									<Setter Target="SelectionCheckbox.Opacity" Value="1" />
 								</VisualState.Setters>
 							</VisualState>
 						</VisualStateGroup>
@@ -294,18 +296,21 @@
 
 					<CheckBox
 						x:Name="SelectionCheckbox"
+						Grid.RowSpan="2"
 						Grid.ColumnSpan="2"
 						Width="32"
 						MinWidth="0"
 						MinHeight="0"
 						Margin="6"
 						Padding="0"
+						Opacity="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Top"
+						AutomationProperties.AccessibilityView="Raw"
 						Checked="ItemSelected_Checked"
 						DoubleTapped="SelectionCheckbox_DoubleTapped"
 						Unchecked="ItemSelected_Unchecked"
-						Visibility="Collapsed" />
+							/>
 
 					<Grid
 						Grid.Column="1"
@@ -446,7 +451,7 @@
 							<VisualState x:Name="HideCheckbox" />
 							<VisualState x:Name="ShowCheckbox">
 								<VisualState.Setters>
-									<Setter Target="SelectionCheckbox.Visibility" Value="Visible" />
+									<Setter Target="SelectionCheckbox.Opacity" Value="1" />
 								</VisualState.Setters>
 							</VisualState>
 						</VisualStateGroup>
