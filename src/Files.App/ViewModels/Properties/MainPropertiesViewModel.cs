@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Files.App.DataModels;
 using Files.App.Views.Properties;
 using Files.Backend.Enums;
 using Microsoft.UI.Windowing;
