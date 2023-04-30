@@ -6,7 +6,7 @@ using Files.App.Shell;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 
-namespace Files.App.DataModels.NavigationControlItems
+namespace Files.App.Data.Items
 {
 	public class LocationItem : ObservableObject, INavigationControlItem
 	{

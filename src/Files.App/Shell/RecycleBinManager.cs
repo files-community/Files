@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.IO;
 using System.Security.Principal;
 
 namespace Files.App.Shell
@@ -9,12 +8,12 @@ namespace Files.App.Shell
 	public sealed class RecycleBinManager
 	{
 		private static readonly Lazy<RecycleBinManager> lazy = new(() => new RecycleBinManager());
-		private IList<FileSystemWatcher>? binWatchers;
+		private IList<SystemIO.FileSystemWatcher>? binWatchers;
 
-		public event FileSystemEventHandler? RecycleBinItemCreated;
-		public event FileSystemEventHandler? RecycleBinItemDeleted;
-		public event FileSystemEventHandler? RecycleBinItemRenamed;
-		public event FileSystemEventHandler? RecycleBinRefreshRequested;
+		public event SystemIO.FileSystemEventHandler? RecycleBinItemCreated;
+		public event SystemIO.FileSystemEventHandler? RecycleBinItemDeleted;
+		public event SystemIO.FileSystemEventHandler? RecycleBinItemRenamed;
+		public event SystemIO.FileSystemEventHandler? RecycleBinRefreshRequested;
 
 		public static RecycleBinManager Default
 		{
@@ -36,21 +35,21 @@ namespace Files.App.Shell
 		{
 			// Create filesystem watcher to monitor recycle bin folder(s)
 			// SHChangeNotifyRegister only works if recycle bin is open in explorer :(
-			binWatchers = new List<FileSystemWatcher>();
+			binWatchers = new List<SystemIO.FileSystemWatcher>();
 			var sid = WindowsIdentity.GetCurrent().User.ToString();
 
-			foreach (var drive in DriveInfo.GetDrives())
+			foreach (var drive in SystemIO.DriveInfo.GetDrives())
 			{
-				var recyclePath = Path.Combine(drive.Name, "$RECYCLE.BIN", sid);
+				var recyclePath = SystemIO.Path.Combine(drive.Name, "$RECYCLE.BIN", sid);
 
-				if (drive.DriveType == DriveType.Network || !Directory.Exists(recyclePath))
+				if (drive.DriveType == SystemIO.DriveType.Network || !SystemIO.Directory.Exists(recyclePath))
 					continue;
 
-				FileSystemWatcher watcher = new FileSystemWatcher
+				SystemIO.FileSystemWatcher watcher = new()
 				{
 					Path = recyclePath,
 					Filter = "*.*",
-					NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
+					NotifyFilter = SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName | SystemIO.NotifyFilters.DirectoryName
 				};
 
 				watcher.Created += RecycleBinWatcher_Changed;
@@ -61,7 +60,7 @@ namespace Files.App.Shell
 			}
 		}
 
-		private void RecycleBinWatcher_Changed(object sender, FileSystemEventArgs e)
+		private void RecycleBinWatcher_Changed(object sender, SystemIO.FileSystemEventArgs e)
 		{
 			System.Diagnostics.Debug.WriteLine($"Recycle bin event: {e.ChangeType}, {e.FullPath}");
 			if (e.Name.StartsWith("$I", StringComparison.Ordinal))
@@ -72,13 +71,13 @@ namespace Files.App.Shell
 
 			switch (e.ChangeType)
 			{
-				case WatcherChangeTypes.Created:
+				case SystemIO.WatcherChangeTypes.Created:
 					RecycleBinItemCreated?.Invoke(this, e);
 					break;
-				case WatcherChangeTypes.Deleted:
+				case SystemIO.WatcherChangeTypes.Deleted:
 					RecycleBinItemDeleted?.Invoke(this, e);
 					break;
-				case WatcherChangeTypes.Renamed:
+				case SystemIO.WatcherChangeTypes.Renamed:
 					RecycleBinItemRenamed?.Invoke(this, e);
 					break;
 				default:

@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.DataModels.NavigationControlItems
+namespace Files.App.Data.Items
 {
 	public class WslDistroItem : INavigationControlItem
 	{

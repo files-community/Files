@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Data.Items;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
