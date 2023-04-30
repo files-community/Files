@@ -13,7 +13,6 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | Redo                                | Redo                                      | Redo the last file operation                             | Ctrl+Y              |
 |                    | Undo                                | Undo                                      | Undo the last file operation                             | Ctrl+Z              |
 |                    | EditPath                            | Edit path                                 | Focus path bar                                           | Ctrl+L, Alt+D       |
-
 | Show               | ToggleShowHiddenItems               | Show hidden items                         | Toggle whether to show hidden items                      | Ctrl+H              |
 |                    | ToggleShowFileExtensions            | Show file extensions                      | Toggle whether to show file extensions                   |                     |
 |                    | TogglePreviewPane                   | Toggle the preview pane                   | Toggle whether to show preview pane                      | Ctrl+P              |
@@ -26,8 +25,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | DeleteItem                          | Delete                                    | Delete item(s)                                           | Delete, Ctrl+D      |
 |                    | DeletemeItemPermanently             | Delete permanently                        | Delete item(s) permanently                               | Shift+Delete        |
 |                    | CreateFolder                        | Folder                                    | Create new folder                                        |                     |
-|                    | AddItem                             | New                                       | Create new item                       | Ctrl+Shift+N        |
-
+|                    | AddItem                             | New                                       | Create new item                                          | Ctrl+Shift+N        |
 |                    | CreateShortcut                      | Create shortcut                           | Create new shortcut(s) to selected item(s)               |                     |
 |                    | CreateShortcutFromDialog            | Shortcut                                  | Create new shortcut to any item                          |                     |
 |                    | EmptyRecycleBin                     | Empty Recycle Bin                         | Empty recycle bin                                        |                     |
