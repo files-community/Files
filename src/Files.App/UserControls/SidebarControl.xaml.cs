@@ -8,7 +8,6 @@ using Files.App.Commands;
 using Files.App.Data.Items;
 using Files.App.Data.Models;
 using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
