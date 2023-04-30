@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 #nullable disable warnings
 
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -81,26 +84,26 @@ namespace Files.App.Interacts
 			else if (SlimContentPage.BaseContextMenuFlyout.IsOpen)
 				SlimContentPage.BaseContextMenuFlyout.Closed += OpenPropertiesFromBaseContextMenuFlyout;
 			else
-				FilePropertiesHelpers.ShowProperties(associatedInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
 		}
 
 		private void OpenPropertiesFromItemContextMenuFlyout(object sender, object e)
 		{
 			SlimContentPage.ItemContextMenuFlyout.Closed -= OpenPropertiesFromItemContextMenuFlyout;
-			FilePropertiesHelpers.ShowProperties(associatedInstance);
+			FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
 		}
 
 		private void OpenPropertiesFromBaseContextMenuFlyout(object sender, object e)
 		{
 			SlimContentPage.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
-			FilePropertiesHelpers.ShowProperties(associatedInstance);
+			FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
 		}
 
-		public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
+		public virtual async Task OpenDirectoryInNewTab(RoutedEventArgs e)
 		{
 			foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 				},
@@ -113,7 +116,7 @@ namespace Files.App.Interacts
 			NavigationHelpers.OpenInSecondaryPane(associatedInstance, SlimContentPage.SelectedItems.FirstOrDefault());
 		}
 
-		public virtual async void OpenInNewWindowItem(RoutedEventArgs e)
+		public virtual async Task OpenInNewWindowItem(RoutedEventArgs e)
 		{
 			List<ListedItem> items = SlimContentPage.SelectedItems;
 
@@ -130,7 +133,7 @@ namespace Files.App.Interacts
 			UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, f, associatedInstance);
 		}
 
-		public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)
+		public virtual async Task ItemPointerPressed(PointerRoutedEventArgs e)
 		{
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
 			{

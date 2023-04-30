@@ -1,13 +1,10 @@
-﻿using Files.Backend.Helpers;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Backend.Helpers;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 

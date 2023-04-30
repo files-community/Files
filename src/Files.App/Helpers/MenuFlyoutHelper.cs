@@ -1,8 +1,13 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
+using Files.App.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Files.App.Helpers
@@ -89,7 +94,7 @@ namespace Files.App.Helpers
 
 		#endregion IsVisible
 
-		private static async void SetupItems(MenuFlyout menu)
+		private static async Task SetupItems(MenuFlyout menu)
 		{
 			if (menu is null || Windows.ApplicationModel.DesignMode.DesignModeEnabled)
 			{
@@ -101,7 +106,7 @@ namespace Files.App.Helpers
 				return;
 			}
 
-			await menu.DispatcherQueue.EnqueueAsync(() =>
+			await menu.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				menu.Items.Clear();
 				AddItems(menu.Items, itemSource);

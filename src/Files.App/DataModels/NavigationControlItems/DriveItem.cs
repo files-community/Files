@@ -1,20 +1,14 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using ByteSizeLib;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.Storage.WindowsStorage;
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.Enums;
 using Files.Sdk.Storage.LocatableStorage;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -184,7 +178,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			item.DeviceID = deviceId;
 			item.Root = root;
 
-			_ = App.Window.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
+			_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => item.UpdatePropertiesAsync());
 
 			return item;
 		}

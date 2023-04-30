@@ -1,19 +1,16 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.UI;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.App.Views.LayoutModes;
 using Files.Backend.Enums;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Linq;
 using Windows.Storage;
 using Windows.System;
 
@@ -135,31 +132,10 @@ namespace Files.App.Views
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
 			{
-				// Ctrl + Shift + N: New item
-				case (true, true, false, true, VirtualKey.N):
-					if (InstanceViewModel.CanCreateFileInPage)
-					{
-						var addItemDialogViewModel = new AddItemDialogViewModel();
-						await dialogService.ShowDialogAsync(addItemDialogViewModel);
-						if (addItemDialogViewModel.ResultType.ItemType == AddItemDialogItemType.Shortcut)
-							CreateNewShortcutFromDialog();
-						else if (addItemDialogViewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
-							UIFilesystemHelpers.CreateFileFromDialogResultType(
-								addItemDialogViewModel.ResultType.ItemType,
-								addItemDialogViewModel.ResultType.ItemInfo,
-								this);
-					}
-					break;
 				// Ctrl + V, Paste
 				case (true, false, false, true, VirtualKey.V):
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
 						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
-					break;
-				// Alt + D, Select address bar (English)
-				case (false, false, true, true, VirtualKey.D):
-				// Ctrl + L, Select address bar
-				case (true, false, false, true, VirtualKey.L):
-					ToolbarViewModel.IsEditModeEnabled = true;
 					break;
 			}
 		}
@@ -217,7 +193,7 @@ namespace Files.App.Views
 			//this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);
 		}
 
-		private async void CreateNewShortcutFromDialog()
+		private async Task CreateNewShortcutFromDialog()
 			=> await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 	}
 }

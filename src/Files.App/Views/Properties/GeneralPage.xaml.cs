@@ -1,5 +1,9 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Shell;
@@ -20,7 +24,34 @@ namespace Files.App.Views.Properties
 	{
 		private readonly Regex letterRegex = new(@"\s*\(\w:\)$");
 
-		public GeneralPage() => InitializeComponent();
+		public GeneralPage()
+		{
+			InitializeComponent();
+		}
+
+		private void ItemFileName_GettingFocus(UIElement _, GettingFocusEventArgs e)
+		{
+			ItemFileName.Text = letterRegex.Replace(ItemFileName.Text, string.Empty);
+		}
+
+		private void ItemFileName_LosingFocus(UIElement _, LosingFocusEventArgs e)
+		{
+			if (string.IsNullOrWhiteSpace(ItemFileName.Text))
+			{
+				ItemFileName.Text = ViewModel.ItemName;
+				return;
+			}
+
+			var match = letterRegex.Match(ViewModel.OriginalItemName);
+			if (match.Success)
+				ItemFileName.Text += match.Value;
+		}
+
+		private void DiskCleanupButton_Click(object _, RoutedEventArgs e)
+		{
+			if (BaseProperties is DriveProperties driveProps)
+				StorageSenseHelper.OpenStorageSense(driveProps.Drive.Path);
+		}
 
 		public override async Task<bool> SaveChangesAsync()
 		{
@@ -55,7 +86,7 @@ namespace Files.App.Views.Properties
 				newName = letterRegex.Replace(newName, string.Empty); // Remove "(C:)" from the new label
 
 				Win32API.SetVolumeLabel(drive.Path, newName);
-				_ = App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await drive.UpdateLabelAsync();
 					await fsVM.SetWorkingDirectoryAsync(drive.Path);
@@ -76,7 +107,7 @@ namespace Files.App.Views.Properties
 				if (renamed is ReturnResult.Success)
 				{
 					var newPath = Path.Combine(Path.GetDirectoryName(library.ItemPath)!, newName);
-					_ = App.Window.DispatcherQueue.EnqueueAsync(async () =>
+					_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
 						await fsVM.SetWorkingDirectoryAsync(newPath);
 					});
@@ -94,7 +125,7 @@ namespace Files.App.Views.Properties
 				{
 					foreach (var fileOrFolder in fileOrFolders)
 					{
-						await App.Window.DispatcherQueue.EnqueueAsync(() =>
+						await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 							UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, itemMM)
 						);
 					}
@@ -108,7 +139,7 @@ namespace Files.App.Views.Properties
 				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
 				if (itemMM is not null) // null on homepage
 				{
-					await App.Window.DispatcherQueue.EnqueueAsync(() =>
+					await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 						UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, itemMM)
 					);
 				}
@@ -116,7 +147,7 @@ namespace Files.App.Views.Properties
 				if (!GetNewName(out var newName))
 					return true;
 
-				return await App.Window.DispatcherQueue.EnqueueAsync(() =>
+				return await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 					UIFilesystemHelpers.RenameFileItemAsync(item, ViewModel.ItemName, AppInstance, false)
 				);
 			}
@@ -124,29 +155,6 @@ namespace Files.App.Views.Properties
 
 		public override void Dispose()
 		{
-		}
-
-		private void ItemFileName_GettingFocus(UIElement _, GettingFocusEventArgs e)
-		{
-			ItemFileName.Text = letterRegex.Replace(ItemFileName.Text, string.Empty);
-		}
-		private void ItemFileName_LosingFocus(UIElement _, LosingFocusEventArgs e)
-		{
-			if (string.IsNullOrWhiteSpace(ItemFileName.Text))
-			{
-				ItemFileName.Text = ViewModel.ItemName;
-				return;
-			}
-
-			var match = letterRegex.Match(ViewModel.OriginalItemName);
-			if (match.Success)
-				ItemFileName.Text += match.Value;
-		}
-
-		private void DiskCleanupButton_Click(object _, RoutedEventArgs e)
-		{
-			if (BaseProperties is DriveProperties driveProps)
-				StorageSenseHelper.OpenStorageSense(driveProps.Drive.Path);
 		}
 	}
 }

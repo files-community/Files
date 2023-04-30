@@ -1,12 +1,9 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.Shell;
-using Files.Shared;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
 using System.IO;
 
 namespace Files.App.DataModels.NavigationControlItems
@@ -95,7 +92,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			{
 				SetProperty(ref spaceUsed, value);
 
-				App.Window.DispatcherQueue.EnqueueAsync(() => OnPropertyChanged(nameof(ToolTipText)));
+				App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => OnPropertyChanged(nameof(ToolTipText)));
 			}
 		}
 

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -10,15 +13,15 @@ namespace Files.App.Interacts
 	{
 		void ShowProperties(RoutedEventArgs e);
 
-		void OpenDirectoryInNewTab(RoutedEventArgs e);
+		Task OpenDirectoryInNewTab(RoutedEventArgs e);
 
 		void OpenDirectoryInNewPane(RoutedEventArgs e);
 
-		void OpenInNewWindowItem(RoutedEventArgs e);
+		Task OpenInNewWindowItem(RoutedEventArgs e);
 
 		void CreateNewFile(ShellNewEntry e);
 
-		void ItemPointerPressed(PointerRoutedEventArgs e);
+		Task ItemPointerPressed(PointerRoutedEventArgs e);
 
 		void PointerWheelChanged(PointerRoutedEventArgs e);
 

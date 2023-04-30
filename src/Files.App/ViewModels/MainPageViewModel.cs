@@ -1,25 +1,14 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Storage;
 using Windows.System;
 
 namespace Files.App.ViewModels
@@ -29,6 +18,7 @@ namespace Files.App.ViewModels
 		private IUserSettingsService userSettingsService;
 		private IAppearanceSettingsService appearanceSettingsService;
 		private readonly DrivesViewModel drivesViewModel;
+		private readonly NetworkDrivesViewModel networkDrivesViewModel;
 		private IResourcesService resourcesService;
 
 		public IMultitaskingControl? MultitaskingControl { get; set; }
@@ -51,11 +41,13 @@ namespace Files.App.ViewModels
 			IUserSettingsService userSettings, 
 			IAppearanceSettingsService appearanceSettings,
 			IResourcesService resources,
-			DrivesViewModel drivesViewModel)
+			DrivesViewModel drivesViewModel,
+			NetworkDrivesViewModel networkDrivesViewModel)
 		{
 			userSettingsService = userSettings;
 			appearanceSettingsService = appearanceSettings;
 			this.drivesViewModel = drivesViewModel;
+			this.networkDrivesViewModel = networkDrivesViewModel;
 			resourcesService = resources;
 			// Create commands
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
@@ -144,7 +136,7 @@ namespace Files.App.ViewModels
 			App.AppModel.TabStripSelectedIndex = index;
 		}
 
-		public async void UpdateInstanceProperties(object navigationArg)
+		public async Task UpdateInstanceProperties(object navigationArg)
 		{
 			string windowTitle = string.Empty;
 			if (navigationArg is PaneNavigationArguments paneArgs)
@@ -242,7 +234,7 @@ namespace Files.App.ViewModels
 				}
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
 				{
-					var matchingDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
+					var matchingDrive = networkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
 					matchingDrive ??= drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
 					tabLocationHeader = matchingDrive is not null ? matchingDrive.Text : normalizedCurrentPath;
 				}
@@ -270,15 +262,13 @@ namespace Files.App.ViewModels
 			return (tabLocationHeader, iconSource, toolTipText);
 		}
 
-		public async void OnNavigatedTo(NavigationEventArgs e)
+		public async Task OnNavigatedTo(NavigationEventArgs e)
 		{
 			if (e.NavigationMode == NavigationMode.Back)
 				return;
 
 			if (drivesViewModel.Drives.Count == 0)
-			{
 				await drivesViewModel.UpdateDrivesAsync();
-			}
 
 			//Initialize the static theme helper to capture a reference to this window
 			//to handle theme changes without restarting the app

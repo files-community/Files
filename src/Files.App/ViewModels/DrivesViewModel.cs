@@ -1,15 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.Backend.Models;
 using Files.Backend.Services;
 using Files.Backend.Services.SizeProvider;
 using Files.Sdk.Storage.LocatableStorage;
-using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.ViewModels
 {

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 namespace Files.App.Commands
 {
 	public enum CommandCodes
@@ -11,6 +14,7 @@ namespace Files.App.Commands
 		ExitCompactOverlay,
 		ToggleCompactOverlay,
 		Search,
+		EditPath,
 		Redo,
 		Undo,
 
@@ -29,6 +33,7 @@ namespace Files.App.Commands
 		DeleteItem,
 		DeleteItemPermanently,
 		CreateFolder,
+		AddItem,
 		CreateShortcut,
 		CreateShortcutFromDialog,
 		EmptyRecycleBin,

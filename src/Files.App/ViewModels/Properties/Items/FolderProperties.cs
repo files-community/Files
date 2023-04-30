@@ -65,7 +65,7 @@ namespace Files.App.ViewModels.Properties
 					ViewModel.ShortcutItemArgumentsVisibility = false;
 					ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 					{
-						await App.Window.DispatcherQueue.EnqueueAsync(
+						await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(
 							() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(Environment.ExpandEnvironmentVariables(ViewModel.ShortcutItemPath))));
 					},
 					() =>
@@ -76,7 +76,7 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public async override void GetSpecialProperties()
+		public async override Task GetSpecialProperties()
 		{
 			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.Hidden);
@@ -149,7 +149,7 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private async void GetFolderSize(string folderPath, CancellationToken token)
+		private async Task GetFolderSize(string folderPath, CancellationToken token)
 		{
 			if (string.IsNullOrEmpty(folderPath))
 			{

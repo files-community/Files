@@ -1,35 +1,24 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Shell;
 using Files.App.UserControls;
 using Files.App.Views;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
-using Files.Shared.Extensions;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Text;
@@ -289,7 +278,7 @@ namespace Files.App.ViewModels
 
 		private bool lockFlag = false;
 
-		public async void PathBoxItem_Drop(object sender, DragEventArgs e)
+		public async Task PathBoxItem_Drop(object sender, DragEventArgs e)
 		{
 			if (lockFlag)
 				return;
@@ -325,7 +314,7 @@ namespace Files.App.ViewModels
 			lockFlag = false;
 		}
 
-		public async void PathBoxItem_DragOver(object sender, DragEventArgs e)
+		public async Task PathBoxItem_DragOver(object sender, DragEventArgs e)
 		{
 			if (IsSingleItemOverride ||
 				((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
@@ -480,7 +469,7 @@ namespace Files.App.ViewModels
 			pointerRoutedEventArgs = ptrPt.Properties.IsMiddleButtonPressed ? e : null;
 		}
 
-		public async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
+		public async Task PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var itemTappedPath = ((sender as TextBlock)?.DataContext as PathBoxItem)?.Path;
 			if (itemTappedPath is null)
@@ -488,7 +477,7 @@ namespace Files.App.ViewModels
 
 			if (pointerRoutedEventArgs is not null)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);
@@ -742,7 +731,7 @@ namespace Files.App.ViewModels
 			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
 		}
 
-		public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
+		public async Task SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
 		{
 			if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel is not null)
 			{

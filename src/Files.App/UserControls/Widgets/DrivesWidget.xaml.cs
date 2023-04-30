@@ -1,27 +1,18 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.Shell;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
@@ -61,7 +52,7 @@ namespace Files.App.UserControls.Widgets
 
 			// Thumbnail data is valid, set the item icon
 			if (thumbnailData is not null && thumbnailData.Length > 0)
-				Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
+				Thumbnail = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
 		}
 
 		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
@@ -71,7 +62,7 @@ namespace Files.App.UserControls.Widgets
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-
+		private NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
@@ -134,21 +125,21 @@ namespace Files.App.UserControls.Widgets
 
 			FormatDriveCommand = new RelayCommand<DriveCardItem>(FormatDrive);
 			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDevice);
-			OpenInNewTabCommand = new RelayCommand<WidgetCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new RelayCommand<WidgetCardItem>(OpenInNewWindow);
+			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTab);
+			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindow);
 			OpenInNewPaneCommand = new AsyncRelayCommand<DriveCardItem>(OpenInNewPane);
 			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(OpenProperties);
-			PinToFavoritesCommand = new RelayCommand<WidgetCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new RelayCommand<WidgetCardItem>(UnpinFromFavorites);
-			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
+			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavorites);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavorites);
+			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDriveAsync); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
 
 		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			await DispatcherQueue.EnqueueAsync(async () =>
+			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				foreach (DriveItem drive in drivesViewModel.Drives)
+				foreach (DriveItem drive in drivesViewModel.Drives.ToList())
 				{
 					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
 					{
@@ -265,9 +256,9 @@ namespace Files.App.UserControls.Widgets
 			}.Where(x => x.ShowItem).ToList();
 		}
 
-		private async Task DoNetworkMapDrive()
+		private Task DoNetworkMapDriveAsync()
 		{
-			await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
+			return networkDrivesViewModel.OpenMapNetworkDriveDialogAsync();
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -292,7 +283,7 @@ namespace Files.App.UserControls.Widgets
 			flyoutClosed = async (s, e) =>
 			{
 				ItemContextMenuFlyout.Closed -= flyoutClosed;
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(item.Item, associatedInstance);
 			};
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
@@ -354,7 +345,7 @@ namespace Files.App.UserControls.Widgets
 
 		private void DisconnectNetworkDrive(DriveCardItem item)
 		{
-			NetworkDrivesManager.DisconnectNetworkDrive(item.Item.Path);
+			networkDrivesViewModel.DisconnectNetworkDrive(item.Item);
 		}
 
 		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
