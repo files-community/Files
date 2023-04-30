@@ -1,15 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
-using Files.App.Data.Items;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Vanara.PInvoke;
 using Windows.Storage;
 
@@ -173,8 +166,6 @@ namespace Files.App.ViewModels.Properties
 
 		private void LoadAccessControlEntry()
 		{
-			AccessControlList?.Dispose();
-
 			var error = FileSecurityHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 

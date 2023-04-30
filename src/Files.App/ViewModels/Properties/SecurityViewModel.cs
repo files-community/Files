@@ -1,12 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using Files.App.Data.Items;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
 using Microsoft.UI.Xaml;
 using Vanara.PInvoke;
