@@ -8,7 +8,6 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Data.Items;
 using Files.App.Data.Models;
-using Files.App.DataModels.NavigationControlItems;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
 using Files.Backend.Extensions;
