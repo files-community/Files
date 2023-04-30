@@ -21,10 +21,6 @@ namespace Files.App.ViewModels.Properties
 
 		private readonly bool _isFolder;
 
-		public bool DisplayElements { get; private set; }
-
-		public string ErrorMessage { get; private set; }
-
 		public bool IsAddAccessControlEntryButtonEnabled =>
 			AccessControlList is not null &&
 			AccessControlList.IsValid;
@@ -37,7 +33,7 @@ namespace Files.App.ViewModels.Properties
 
 		public IconFileInfo ShieldIconFileInfo { get; private set; }
 
-		public bool CurrentUserIsInAdministratorsGroup { get; private set; }
+		public bool CurrentInstanceHasAdminPrivileges { get; private set; }
 
 		public string DisableInheritanceOption
 		{
@@ -90,6 +86,20 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
+		private bool _DisplayElements;
+		public bool DisplayElements
+		{
+			get => _DisplayElements;
+			set => SetProperty(ref _DisplayElements, value);
+		}
+
+		private string _ErrorMessage;
+		public string ErrorMessage
+		{
+			get => _ErrorMessage;
+			set => SetProperty(ref _ErrorMessage, value);
+		}
+
 		private GridLength _ColumnType = new(64d);
 		public GridLength ColumnTypeGridLength
 		{
@@ -121,6 +131,7 @@ namespace Files.App.ViewModels.Properties
 		public IAsyncRelayCommand ChangeOwnerCommand { get; set; }
 		public IAsyncRelayCommand AddAccessControlEntryCommand { get; set; }
 		public IAsyncRelayCommand RemoveAccessControlEntryCommand { get; set; }
+		public IRelayCommand ContinueWithAdministrativePrivileges { get; set; }
 
 		// --- TODO: Following commands are unimplemented ---
 
@@ -154,7 +165,7 @@ namespace Files.App.ViewModels.Properties
 
 			var error = FileSecurityHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
-			CurrentUserIsInAdministratorsGroup = Shell32.IsUserAnAdmin() == false;
+			CurrentInstanceHasAdminPrivileges = Shell32.IsUserAnAdmin() == false;
 
 			if (!AccessControlList.IsValid)
 			{
@@ -164,7 +175,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					ErrorMessage = "You must have Read permissions to view the properties of this object.";
 
-					if (CurrentUserIsInAdministratorsGroup)
+					if (CurrentInstanceHasAdminPrivileges)
 						ErrorMessage += ("\n\n" + " Click Continue to attempt the operation with administrative permissions.");
 				}
 				else
@@ -178,12 +189,11 @@ namespace Files.App.ViewModels.Properties
 				ErrorMessage = string.Empty;
 			}
 
-			OnPropertyChanged(nameof(DisplayElements));
-			OnPropertyChanged(nameof(ErrorMessage));
-
 			ChangeOwnerCommand = new AsyncRelayCommand(ExecuteChangeOwnerCommand);
 			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand);
 			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand);
+			ContinueWithAdministrativePrivileges = new RelayCommand(ExecuteContinueWithAdministrativePrivilegesCommand);
+
 			DisableInheritanceCommand = new RelayCommand(DisableInheritance);
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
 			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => AccessControlList is not null && AccessControlList.IsValid);
@@ -249,6 +259,20 @@ namespace Files.App.ViewModels.Properties
 			});
 		}
 
+		private void ExecuteContinueWithAdministrativePrivilegesCommand()
+		{
+			var win32Error = FileSecurityHelpers.GetAdministratorGroupSid(out var adminSid);
+
+			if (AccessControlList.Owner.Sid == adminSid)
+			{
+				DisplayElements = true;
+			}
+			else
+			{
+
+			}
+		}
+
 		// --- TODO: Following methods are unimplemented ---
 
 		private void DisableInheritance()
@@ -270,5 +294,7 @@ namespace Files.App.ViewModels.Properties
 		private void ReplaceChildPermissions()
 		{
 		}
+
+		// ---
 	}
 }

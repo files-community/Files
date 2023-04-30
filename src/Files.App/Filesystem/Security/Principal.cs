@@ -52,7 +52,7 @@ namespace Files.App.Filesystem.Security
 		/// Account display name
 		/// </summary>
 		public string? DisplayName
-			=> string.IsNullOrEmpty(Name) ? Sid : Name;
+			=> !string.IsNullOrEmpty(Name) ? Sid : Name;
 
 		/// <summary>
 		/// Account full name or just name

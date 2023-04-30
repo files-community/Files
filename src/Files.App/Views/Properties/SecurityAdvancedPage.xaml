@@ -117,7 +117,9 @@
 
 				<!--  Owner name is unknown  -->
 				<TextBlock
+					x:Name="OwnerAccountIsUnknwonMessageTextBlock"
 					VerticalAlignment="Center"
+					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.IsValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					IsTextSelectionEnabled="True"
 					Text="Unable to display current owner." />
 
@@ -150,7 +152,10 @@
 			<InfoBar.Content>
 				<Grid Margin="0,0,12,12">
 					<StackPanel>
-						<Button x:Name="OpenSecurityAdvancedPageFromInfoBarButton" HorizontalAlignment="Left">
+						<Button
+							x:Name="OpenSecurityAdvancedPageFromInfoBarButton"
+							HorizontalAlignment="Left"
+							Command="{x:Bind SecurityAdvancedViewModel.ContinueWithAdministrativePrivileges, Mode=OneWay}">
 							<StackPanel Orientation="Horizontal" Spacing="6">
 								<Image
 									Width="16"

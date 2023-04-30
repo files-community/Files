@@ -5,6 +5,7 @@ using Files.App.Filesystem.Security;
 using Files.App.Shell;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.AdvApi32;
+using Vanara.Extensions;
 using SystemSecurity = System.Security.AccessControl;
 
 namespace Files.App.Helpers
@@ -251,6 +252,23 @@ namespace Files.App.Helpers
 				return result;
 
 			return result;
+		}
+
+		public static Win32Error GetAdministratorGroupSid(out string adminSid)
+		{
+			adminSid = string.Empty;
+
+			int sidSize = 0, nameSize = 0;
+			LookupAccountName(null, "Administrators", SafePSID.Null, ref sidSize, null, ref nameSize, out _);
+
+			var sid = new SafePSID(new SizeT((uint)sidSize));
+
+			if (!LookupAccountName(null, "Administrators", sid, ref sidSize, null, ref nameSize, out _))
+				return Kernel32.GetLastError();
+
+			adminSid = ConvertStringSidToSid(sid);
+
+			return Kernel32.GetLastError();
 		}
 	}
 }
