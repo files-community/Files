@@ -1,16 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
-using Files.App.Helpers;
-using Files.Shared.Extensions;
+using Files.App.Storage.FtpStorage;
 using FluentFTP;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -186,14 +180,29 @@ namespace Files.App.Filesystem.StorageItems
 
 				using var stream = new MemoryStream();
 
-				string remotePath = $"{FtpPath}/{desiredName}";
 				var ftpRemoteExists = options is CreationCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
 
-				var result = await ftpClient.UploadStream(stream, remotePath, ftpRemoteExists);
+				FtpStatus result;
+				string finalName;
+				var remotePath = $"{FtpPath}/{desiredName}";
+				var nameWithoutExt = System.IO.Path.GetFileNameWithoutExtension(desiredName);
+				var extension = System.IO.Path.GetExtension(desiredName);
+				ushort attempt = 1;
+
+				do
+				{
+					finalName = desiredName;
+					result = await ftpClient.UploadStream(stream, remotePath, ftpRemoteExists);
+					desiredName = $"{nameWithoutExt} ({attempt}){extension}";
+					remotePath = $"{FtpPath}/{desiredName}";
+				}
+				while (result is FtpStatus.Skipped && ++attempt < 1024 && options == CreationCollisionOption.GenerateUniqueName);
+
 				if (result is FtpStatus.Success)
 				{
-					return new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{desiredName}"));
+					return new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{finalName}"));
 				}
+
 				if (result is FtpStatus.Skipped)
 				{
 					if (options is CreationCollisionOption.FailIfExists)
