@@ -107,9 +107,6 @@ namespace Files.App.ViewModels.Properties
 				ErrorMessage = string.Empty;
 			}
 
-			OnPropertyChanged(nameof(DisplayElements));
-			OnPropertyChanged(nameof(ErrorMessage));
-
 			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand);
 			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand);
 		}

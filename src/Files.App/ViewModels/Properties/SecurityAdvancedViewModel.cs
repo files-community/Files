@@ -69,9 +69,10 @@ namespace Files.App.ViewModels.Properties
 				if (_SelectedAccessControlEntry is not null)
 					_SelectedAccessControlEntry.IsSelected = false;
 
-				if (value is not null && SetProperty(ref _SelectedAccessControlEntry, value))
+				if (SetProperty(ref _SelectedAccessControlEntry, value))
 				{
-					value.IsSelected = true;
+					if(value is not null)
+						value.IsSelected = true;
 
 					OnPropertyChanged(nameof(IsDeleteAccessControlEntryButtonEnabled));
 				}
@@ -146,8 +147,28 @@ namespace Files.App.ViewModels.Properties
 					break;
 			};
 
-			ShieldIconFileInfo = LoadShieldIconResource();
+			LoadShieldIconResource();
 
+			LoadAccessControlEntry();
+
+			ChangeOwnerCommand = new AsyncRelayCommand(ExecuteChangeOwnerCommand);
+			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand);
+			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand);
+		}
+
+		private void LoadShieldIconResource()
+		{
+			string imageres = System.IO.Path.Combine(CommonPaths.SystemRootPath, "System32", "imageres.dll");
+			var imageResList = Shell.Win32API.ExtractSelectedIconsFromDLL(
+				imageres,
+				new List<int>() { Constants.ImageRes.ShieldIcon },
+				16);
+
+			ShieldIconFileInfo = imageResList.First();
+		}
+
+		private void LoadAccessControlEntry()
+		{
 			var error = FileSecurityHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
@@ -158,9 +179,7 @@ namespace Files.App.ViewModels.Properties
 				if (error == Win32Error.ERROR_ACCESS_DENIED)
 				{
 					ErrorMessage = "You must have Read permissions to view the properties of this object.";
-
-					if (CurrentInstanceCanReadPermissions)
-						ErrorMessage += ("\n\n" + " Click Continue to attempt the operation with administrative permissions.");
+					ErrorMessage += "To try taking ownership of the object, which includes permission to view its properties, click Change above.";
 				}
 				else
 				{
@@ -172,21 +191,6 @@ namespace Files.App.ViewModels.Properties
 				DisplayElements = true;
 				ErrorMessage = string.Empty;
 			}
-
-			ChangeOwnerCommand = new AsyncRelayCommand(ExecuteChangeOwnerCommand);
-			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand);
-			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand);
-		}
-
-		private IconFileInfo LoadShieldIconResource()
-		{
-			string imageres = System.IO.Path.Combine(CommonPaths.SystemRootPath, "System32", "imageres.dll");
-			var imageResList = Shell.Win32API.ExtractSelectedIconsFromDLL(
-				imageres,
-				new List<int>() { Constants.ImageRes.ShieldIcon },
-				16);
-
-			return imageResList.First();
 		}
 
 		private async Task ExecuteChangeOwnerCommand()
@@ -195,8 +199,14 @@ namespace Files.App.ViewModels.Properties
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			// Set owner and refresh file permissions
-			FileSecurityHelpers.SetOwner(_path, sid);
+			await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				// Set owner
+				FileSecurityHelpers.SetOwner(_path, sid);
+
+				// Reload
+				LoadAccessControlEntry();
+			});
 		}
 
 		private async Task ExecuteAddAccessControlEntryCommand()
@@ -206,7 +216,7 @@ namespace Files.App.ViewModels.Properties
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			await App.Window.DispatcherQueue.EnqueueAsync(() =>
+			await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				// Run Win32API
 				var win32Result = FileSecurityHelpers.AddAccessControlEntry(_path, sid);
@@ -219,7 +229,10 @@ namespace Files.App.ViewModels.Properties
 
 		private async Task ExecuteRemoveAccessControlEntryCommand()
 		{
-			await App.Window.DispatcherQueue.EnqueueAsync(() =>
+			if (SelectedAccessControlEntry is null)
+				return;
+
+			await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				// Get index of the ACE
 				var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);
