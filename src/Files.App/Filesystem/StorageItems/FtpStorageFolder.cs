@@ -199,16 +199,12 @@ namespace Files.App.Filesystem.StorageItems
 				while (result is FtpStatus.Skipped && ++attempt < 1024 && options == CreationCollisionOption.GenerateUniqueName);
 
 				if (result is FtpStatus.Success)
-				{
 					return new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{finalName}"));
-				}
 
 				if (result is FtpStatus.Skipped)
 				{
 					if (options is CreationCollisionOption.FailIfExists)
-					{
 						throw new IOException("File already exists.");
-					}
 
 					return null;
 				}
