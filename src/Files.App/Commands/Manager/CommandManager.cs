@@ -37,6 +37,7 @@ namespace Files.App.Commands
 		public IRichCommand ExitCompactOverlay => commands[CommandCodes.ExitCompactOverlay];
 		public IRichCommand ToggleCompactOverlay => commands[CommandCodes.ToggleCompactOverlay];
 		public IRichCommand Search => commands[CommandCodes.Search];
+		public IRichCommand EditPath => commands[CommandCodes.EditPath];
 		public IRichCommand Redo => commands[CommandCodes.Redo];
 		public IRichCommand Undo => commands[CommandCodes.Undo];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
@@ -56,6 +57,7 @@ namespace Files.App.Commands
 		public IRichCommand CreateShortcut => commands[CommandCodes.CreateShortcut];
 		public IRichCommand CreateShortcutFromDialog => commands[CommandCodes.CreateShortcutFromDialog];
 		public IRichCommand CreateFolder => commands[CommandCodes.CreateFolder];
+		public IRichCommand AddItem => commands[CommandCodes.AddItem];
 		public IRichCommand PinToStart => commands[CommandCodes.PinToStart];
 		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
 		public IRichCommand PinItemToFavorites => commands[CommandCodes.PinItemToFavorites];
@@ -171,6 +173,7 @@ namespace Files.App.Commands
 			[CommandCodes.ExitCompactOverlay] = new ExitCompactOverlayAction(),
 			[CommandCodes.ToggleCompactOverlay] = new ToggleCompactOverlayAction(),
 			[CommandCodes.Search] = new SearchAction(),
+			[CommandCodes.EditPath] = new EditPathAction(),
 			[CommandCodes.Redo] = new RedoAction(),
 			[CommandCodes.Undo] = new UndoAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
@@ -190,6 +193,7 @@ namespace Files.App.Commands
 			[CommandCodes.CreateShortcut] = new CreateShortcutAction(),
 			[CommandCodes.CreateShortcutFromDialog] = new CreateShortcutFromDialogAction(),
 			[CommandCodes.CreateFolder] = new CreateFolderAction(),
+			[CommandCodes.AddItem] = new AddItemAction(),
 			[CommandCodes.PinToStart] = new PinToStartAction(),
 			[CommandCodes.UnpinFromStart] = new UnpinFromStartAction(),
 			[CommandCodes.PinItemToFavorites] = new PinItemAction(),

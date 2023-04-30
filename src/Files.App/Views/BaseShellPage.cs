@@ -650,11 +650,6 @@ namespace Files.App.Views
 				x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control.TabItemContent == PaneHolder), isLoading);
 		}
 
-		protected async Task CreateNewShortcutFromDialog()
-		{
-			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
-		}
-
 		// WINUI3
 		protected static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
