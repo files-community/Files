@@ -64,7 +64,11 @@ namespace Files.App.ViewModels.Dialogs
 		public bool IsLocationValid
 		{
 			get => _isLocationValid;
-			set => SetProperty(ref _isLocationValid, value, nameof(ShowWarningTip));
+			set
+			{
+				if (SetProperty(ref _isLocationValid, value))
+					OnPropertyChanged(nameof(ShowWarningTip));
+			}
 		}
 
 		public bool ShowWarningTip => !string.IsNullOrEmpty(DestinationItemPath) && !_isLocationValid;

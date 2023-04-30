@@ -3,7 +3,7 @@
 
 using Files.App.Helpers.LayoutPreferences;
 
-namespace Files.App.EventArguments
+namespace Files.App.Data.EventArguments
 {
 	public class LayoutPreferenceEventArgs
 	{

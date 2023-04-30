@@ -8,7 +8,7 @@
 	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:mconv="using:CommunityToolkit.WinUI.UI.Converters"
-	xmlns:navigationcontrolitems="using:Files.App.DataModels.NavigationControlItems"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:vc="using:Files.App.ValueConverters"
 	HorizontalAlignment="Stretch"
 	Collapsed="NavigationView_Collapsed"
@@ -53,7 +53,7 @@
 			<mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<mconv:StringFormatConverter x:Key="StringFormatConverter" />
 			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
-			<DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
+			<DataTemplate x:Key="LocationNavItem" x:DataType="dataitems:LocationItem">
 				<NavigationViewItem
 					AllowDrop="True"
 					AutomationProperties.AutomationId="{x:Bind Text}"
@@ -82,7 +82,7 @@
 				</NavigationViewItem>
 			</DataTemplate>
 
-			<DataTemplate x:Key="DriveNavItem" x:DataType="navigationcontrolitems:DriveItem">
+			<DataTemplate x:Key="DriveNavItem" x:DataType="dataitems:DriveItem">
 				<NavigationViewItem
 					Padding="0"
 					AllowDrop="True"
@@ -100,168 +100,163 @@
 					Visibility="{x:Bind ItemVisibility}">
 					<ToolTipService.ToolTip>
 						<ToolTip>
-							<Grid
-								x:Name="DriveTooltip"
-								Padding="0"
-								HorizontalAlignment="Stretch"
-								ColumnSpacing="8"
-								CornerRadius="4"
-								RowSpacing="8">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="72" />
-									<ColumnDefinition
-										Width="Auto"
-										MinWidth="100"
-										MaxWidth="140" />
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-								</Grid.RowDefinitions>
-
+							<StackPanel>
 								<!--  Displays the drive name, this is hidden when the extended details are shown  -->
 								<TextBlock
 									x:Name="DriveNameTextBlock"
 									x:Load="{x:Bind ShowDriveDetails, Converter={StaticResource BoolNegationConverter}}"
 									Text="{x:Bind Text, Mode=OneWay}" />
 
-								<!--  Label  -->
-								<TextBlock
-									x:Name="DriveLabel"
-									Grid.ColumnSpan="3"
-									Padding="8,8,0,0"
-									VerticalAlignment="Center"
+								<Grid
+									x:Name="DriveTooltip"
+									Padding="0"
+									HorizontalAlignment="Stretch"
 									x:Load="{x:Bind ShowDriveDetails}"
-									FontSize="14"
-									FontWeight="Medium"
-									Text="{x:Bind Text, Mode=OneWay}" />
+									ColumnSpacing="8"
+									CornerRadius="4"
+									RowSpacing="8">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="72" />
+										<ColumnDefinition
+											Width="Auto"
+											MinWidth="100"
+											MaxWidth="140" />
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
 
-								<!--  Space used progress  -->
-								<ProgressRing
-									x:Name="SpaceUserProgressRing"
-									Grid.Row="1"
-									Grid.RowSpan="3"
-									Grid.Column="0"
-									Width="60"
-									Height="60"
-									HorizontalAlignment="Left"
-									x:Load="{x:Bind ShowDriveDetails}"
-									Background="{ThemeResource ProgressRingBackgroundThemeBrush}"
-									IsIndeterminate="False"
-									Value="{x:Bind PercentageUsed, Mode=OneWay}">
-
-									<ProgressRing.Template>
-										<ControlTemplate TargetType="ProgressRing">
-											<Grid x:Name="LayoutRoot" Background="Transparent">
-												<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-													<TextBlock
-														Margin="0"
-														FontWeight="SemiBold"
-														Text="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0}%', Mode=OneWay}"
-														TextAlignment="Center" />
-												</StackPanel>
-
-												<!--  AnimatedVisualPlayer for Lottie  -->
-												<AnimatedVisualPlayer
-													x:Name="LottiePlayer"
-													AutoPlay="false"
-													Opacity="1"
-													Stretch="fill" />
-
-												<VisualStateManager.VisualStateGroups>
-													<VisualStateGroup x:Name="CommonStates">
-														<VisualState x:Name="Inactive">
-															<VisualState.Setters>
-																<Setter Target="LayoutRoot.Opacity" Value="0" />
-															</VisualState.Setters>
-														</VisualState>
-														<VisualState x:Name="DeterminateActive" />
-														<VisualState x:Name="Active" />
-													</VisualStateGroup>
-												</VisualStateManager.VisualStateGroups>
-											</Grid>
-										</ControlTemplate>
-									</ProgressRing.Template>
-								</ProgressRing>
-
-								<!--  Disk used space  -->
-								<StackPanel
-									x:Name="UsedSpaceDrivePanel"
-									Grid.Row="1"
-									Grid.Column="1"
-									x:Load="{x:Bind ShowDriveDetails}"
-									Orientation="Horizontal">
-									<Rectangle
-										Width="16"
-										Height="16"
-										Margin="0,0,12,0"
-										Fill="{Binding Foreground, ElementName=SpaceUserProgressRing}"
-										RadiusX="2"
-										RadiusY="2"
-										Stroke="{ThemeResource TextControlElevationBorderBrush}" />
+									<!--  Label  -->
 									<TextBlock
+										x:Name="DriveLabel"
+										Grid.ColumnSpan="3"
+										Padding="8,8,0,0"
+										VerticalAlignment="Center"
+										FontSize="14"
+										FontWeight="Medium"
+										Text="{x:Bind Text, Mode=OneWay}" />
+
+									<!--  Space used progress  -->
+									<ProgressRing
+										x:Name="SpaceUserProgressRing"
+										Grid.Row="1"
+										Grid.RowSpan="3"
+										Grid.Column="0"
+										Width="60"
+										Height="60"
+										HorizontalAlignment="Left"
+										Background="{ThemeResource ProgressRingBackgroundThemeBrush}"
+										IsIndeterminate="False"
+										Value="{x:Bind PercentageUsed, Mode=OneWay}">
+
+										<ProgressRing.Template>
+											<ControlTemplate TargetType="ProgressRing">
+												<Grid x:Name="LayoutRoot" Background="Transparent">
+													<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+														<TextBlock
+															Margin="0"
+															FontWeight="SemiBold"
+															Text="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0}%', Mode=OneWay}"
+															TextAlignment="Center" />
+													</StackPanel>
+
+													<!--  AnimatedVisualPlayer for Lottie  -->
+													<AnimatedVisualPlayer
+														x:Name="LottiePlayer"
+														AutoPlay="false"
+														Opacity="1"
+														Stretch="fill" />
+
+													<VisualStateManager.VisualStateGroups>
+														<VisualStateGroup x:Name="CommonStates">
+															<VisualState x:Name="Inactive">
+																<VisualState.Setters>
+																	<Setter Target="LayoutRoot.Opacity" Value="0" />
+																</VisualState.Setters>
+															</VisualState>
+															<VisualState x:Name="DeterminateActive" />
+															<VisualState x:Name="Active" />
+														</VisualStateGroup>
+													</VisualStateManager.VisualStateGroups>
+												</Grid>
+											</ControlTemplate>
+										</ProgressRing.Template>
+									</ProgressRing>
+
+									<!--  Disk used space  -->
+									<StackPanel
+										x:Name="UsedSpaceDrivePanel"
+										Grid.Row="1"
+										Grid.Column="1"
+										Orientation="Horizontal">
+										<Rectangle
+											Width="16"
+											Height="16"
+											Margin="0,0,12,0"
+											Fill="{Binding Foreground, ElementName=SpaceUserProgressRing}"
+											RadiusX="2"
+											RadiusY="2"
+											Stroke="{ThemeResource TextControlElevationBorderBrush}" />
+										<TextBlock
+											VerticalAlignment="Center"
+											FontWeight="Bold"
+											Text="{helpers:ResourceString Name=PropertiesDriveUsedSpace/Text}" />
+									</StackPanel>
+									<TextBlock
+										x:Name="UsedSpaceDriveValue"
+										Grid.Row="1"
+										Grid.Column="2"
+										Style="{StaticResource PropertyValueTextBlock}"
+										Text="{x:Bind UsedSpaceText, Mode=OneWay}" />
+
+									<!--  Disk free space  -->
+									<StackPanel
+										x:Name="FreeSpaceDrivePanel"
+										Grid.Row="2"
+										Grid.Column="1"
+										Orientation="Horizontal">
+										<Rectangle
+											Width="16"
+											Height="16"
+											Margin="0,0,12,0"
+											Fill="{ThemeResource ProgressRingBackgroundThemeBrush}"
+											RadiusX="2"
+											RadiusY="2"
+											Stroke="{ThemeResource TextControlElevationBorderBrush}" />
+										<TextBlock
+											VerticalAlignment="Center"
+											FontWeight="Bold"
+											Text="{helpers:ResourceString Name=PropertiesDriveFreeSpace/Text}" />
+									</StackPanel>
+									<TextBlock
+										x:Name="FreeSpaceDriveValue"
+										Grid.Row="2"
+										Grid.Column="2"
+										Style="{StaticResource PropertyValueTextBlock}"
+										Text="{x:Bind FreeSpaceText, Mode=OneWay}" />
+
+									<!--  Drive capacity  -->
+									<TextBlock
+										x:Name="MaxSpaceDriveLabel"
+										Grid.Row="3"
+										Grid.Column="1"
+										Padding="28,0,0,0"
 										VerticalAlignment="Center"
 										FontWeight="Bold"
-										Text="{helpers:ResourceString Name=PropertiesDriveUsedSpace/Text}" />
-								</StackPanel>
-								<TextBlock
-									x:Name="UsedSpaceDriveValue"
-									Grid.Row="1"
-									Grid.Column="2"
-									x:Load="{x:Bind ShowDriveDetails}"
-									Style="{StaticResource PropertyValueTextBlock}"
-									Text="{x:Bind UsedSpaceText, Mode=OneWay}" />
-
-								<!--  Disk free space  -->
-								<StackPanel
-									x:Name="FreeSpaceDrivePanel"
-									Grid.Row="2"
-									Grid.Column="1"
-									x:Load="{x:Bind ShowDriveDetails}"
-									Orientation="Horizontal">
-									<Rectangle
-										Width="16"
-										Height="16"
-										Margin="0,0,12,0"
-										Fill="{ThemeResource ProgressRingBackgroundThemeBrush}"
-										RadiusX="2"
-										RadiusY="2"
-										Stroke="{ThemeResource TextControlElevationBorderBrush}" />
+										Text="{helpers:ResourceString Name=PropertiesDriveCapacity/Text}" />
 									<TextBlock
-										VerticalAlignment="Center"
-										FontWeight="Bold"
-										Text="{helpers:ResourceString Name=PropertiesDriveFreeSpace/Text}" />
-								</StackPanel>
-								<TextBlock
-									x:Name="FreeSpaceDriveValue"
-									Grid.Row="2"
-									Grid.Column="2"
-									x:Load="{x:Bind ShowDriveDetails}"
-									Style="{StaticResource PropertyValueTextBlock}"
-									Text="{x:Bind FreeSpaceText, Mode=OneWay}" />
-
-								<!--  Drive capacity  -->
-								<TextBlock
-									x:Name="MaxSpaceDriveLabel"
-									Grid.Row="3"
-									Grid.Column="1"
-									Padding="28,0,0,0"
-									VerticalAlignment="Center"
-									x:Load="{x:Bind ShowDriveDetails}"
-									FontWeight="Bold"
-									Text="{helpers:ResourceString Name=PropertiesDriveCapacity/Text}" />
-								<TextBlock
-									x:Name="MaxSpaceDriveValue"
-									Grid.Row="3"
-									Grid.Column="2"
-									x:Load="{x:Bind ShowDriveDetails}"
-									Style="{StaticResource PropertyValueTextBlock}"
-									Text="{x:Bind MaxSpaceText, Mode=OneWay}" />
-							</Grid>
+										x:Name="MaxSpaceDriveValue"
+										Grid.Row="3"
+										Grid.Column="2"
+										Style="{StaticResource PropertyValueTextBlock}"
+										Text="{x:Bind MaxSpaceText, Mode=OneWay}" />
+								</Grid>
+							</StackPanel>
 						</ToolTip>
 					</ToolTipService.ToolTip>
 					<NavigationViewItem.Icon>
@@ -270,7 +265,7 @@
 				</NavigationViewItem>
 			</DataTemplate>
 
-			<DataTemplate x:Key="LinuxNavItem" x:DataType="navigationcontrolitems:WslDistroItem">
+			<DataTemplate x:Key="LinuxNavItem" x:DataType="dataitems:WslDistroItem">
 				<NavigationViewItem
 					Padding="0"
 					AutomationProperties.AutomationId="{x:Bind Text}"
@@ -292,7 +287,7 @@
 				</NavigationViewItem>
 			</DataTemplate>
 
-			<DataTemplate x:Key="FileTagNavItem" x:DataType="navigationcontrolitems:FileTagItem">
+			<DataTemplate x:Key="FileTagNavItem" x:DataType="dataitems:FileTagItem">
 				<NavigationViewItem
 					AllowDrop="True"
 					CanDrag="False"

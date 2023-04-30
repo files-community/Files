@@ -3,6 +3,8 @@
 
 using CommunityToolkit.WinUI;
 using Files.App.Commands;
+using Files.App.Data.EventArguments;
+using Files.App.Data.Models;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.Search;
 using Files.App.UserControls;
@@ -648,11 +650,6 @@ namespace Files.App.Views
 
 			foreach (var x in multitaskingControls)
 				x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control.TabItemContent == PaneHolder), isLoading);
-		}
-
-		protected async Task CreateNewShortcutFromDialog()
-		{
-			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 		}
 
 		// WINUI3

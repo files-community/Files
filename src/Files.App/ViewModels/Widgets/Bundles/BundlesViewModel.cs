@@ -1,8 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Data.EventArguments.Bundles;
 using Files.App.Dialogs;
-using Files.App.EventArguments.Bundles;
 using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

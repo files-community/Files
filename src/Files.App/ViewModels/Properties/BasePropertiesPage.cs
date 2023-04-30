@@ -1,5 +1,5 @@
-using Files.App.DataModels;
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Data.Items;
+using Files.App.Data.Parameters;
 using Files.App.Filesystem;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
