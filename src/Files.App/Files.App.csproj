@@ -146,7 +146,4 @@
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Views\Settings\Appearance\" />
-    </ItemGroup>
 </Project>
