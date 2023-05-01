@@ -6,7 +6,9 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views;
 using Files.Backend.Services;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.System;
@@ -187,16 +189,16 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public async Task<(string tabLocationHeader, Microsoft.UI.Xaml.Controls.IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
+		public async Task<(string tabLocationHeader, IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
 		{
 			string? tabLocationHeader;
-			var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
+			var iconSource = new ImageIconSource();
 			string toolTipText = currentPath;
 
 			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home")
 			{
 				tabLocationHeader = "Home".GetLocalizedResource();
-				iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+				iconSource.ImageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			}
 			else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
 			{
@@ -227,7 +229,7 @@ namespace Files.App.ViewModels
 			else if (App.WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
 			{
 				tabLocationHeader = wslDistro.Text;
-				iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(wslDistro.Logo);
+				iconSource.ImageSource = new BitmapImage(wslDistro.Logo);
 			}
 			else
 			{
