@@ -52,7 +52,7 @@ namespace Files.App.ViewModels.Properties
 					(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath));
 
 				if (itemsPath.Distinct().Count() == 1)
-					ViewModel.ItemLocation = string.Format("PropertiesCombinedItemPath".GetLocalizedResource(), itemsPath.First());
+					ViewModel.ItemLocation = string.Format("PropertiesCombinedItemLocation".GetLocalizedResource(), itemsPath.First());
 			}
 		}
 

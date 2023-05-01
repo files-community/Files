@@ -477,7 +477,7 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Different types</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>All in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
