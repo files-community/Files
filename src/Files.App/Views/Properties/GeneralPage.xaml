@@ -176,7 +176,7 @@
 							Visibility="{x:Bind ViewModel.ItemLocationVisibility, Mode=OneWay}" />
 
 						<TextBlock
-							x:Name="itemPathValue"
+							x:Name="itemLocationValue"
 							Grid.Row="0"
 							Grid.Column="1"
 							Style="{StaticResource PropertyValueTextBlock}"
