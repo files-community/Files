@@ -1,9 +1,11 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Microsoft.UI.Xaml;
-using System;
 
 namespace Files.App.Converters
 {
-	internal class MultiBooleanConverter
+	internal sealed class MultiBooleanConverter
 	{
 		public static Boolean OrConvert(bool a, bool b)
 			=> (a || b);

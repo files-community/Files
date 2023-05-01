@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.Collections.Generic;
 
 namespace Files.App.Commands
@@ -16,6 +19,7 @@ namespace Files.App.Commands
 		IRichCommand ToggleCompactOverlay { get; }
 		IRichCommand Search { get; }
 		IRichCommand SearchUnindexedItems { get; }
+		IRichCommand EditPath { get; }
 		IRichCommand Redo { get; }
 		IRichCommand Undo { get; }
 
@@ -37,6 +41,7 @@ namespace Files.App.Commands
 		IRichCommand ToggleSelect { get; }
 		IRichCommand ShareItem { get; }
 		IRichCommand CreateFolder { get; }
+		IRichCommand AddItem { get; }
 		IRichCommand CreateShortcut { get; }
 		IRichCommand CreateShortcutFromDialog { get; }
 		IRichCommand EmptyRecycleBin { get; }

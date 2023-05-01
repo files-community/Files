@@ -1,5 +1,9 @@
-﻿using CommunityToolkit.WinUI;
-using Files.App.DataModels.NavigationControlItems;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.WinUI;
+using Files.App.Data.Items;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Storage.WindowsStorage;
@@ -66,7 +70,7 @@ namespace Files.App.ServicesImplementation
 			var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Path).AsTask());
 			if (rootModified && drive is DriveItem matchingDriveEjected)
 			{
-				_ = App.Window.DispatcherQueue.EnqueueAsync(() =>
+				_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					matchingDriveEjected.Root = rootModified.Result;
 					matchingDriveEjected.Text = rootModified.Result.DisplayName;

@@ -22,9 +22,11 @@
         <UseWinUI>true</UseWinUI>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <Configurations>Debug;Release;Sideload</Configurations>
+        <Configurations>Debug;Release;Sideload;Stable;Preview;Store</Configurations>
         <TieredCompilation>true</TieredCompilation>
         <TieredPgo>true</TieredPgo>
+        <!--<ImplicitUsings>disable</ImplicitUsings>
+        <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>-->
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <DefineConstants>TRACE;DEBUG;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
@@ -36,6 +38,18 @@
     <PropertyGroup Condition="'$(Configuration)' == 'Sideload'">
         <DefineConstants>TRACE;SIDELOAD;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
         <Optimize>true</Optimize>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Store'">
+      <DefineConstants>TRACE;SIDELOAD;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+      <Optimize>true</Optimize>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Preview'">
+      <DefineConstants>TRACE;SIDELOAD;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+      <Optimize>true</Optimize>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Stable'">
+      <DefineConstants>TRACE;SIDELOAD;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+      <Optimize>true</Optimize>
     </PropertyGroup>
     <ItemGroup>
         <Manifest Include="$(ApplicationManifest)" />
@@ -72,7 +86,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
         <PackageReference Include="FluentFTP" Version="43.0.1" />
         <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
         <PackageReference Include="LibGit2Sharp" Version="0.27.2" />
@@ -87,7 +101,7 @@
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
         <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230331000" />
         <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
-        <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.410601" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302" PrivateAssets="all" />
         <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />

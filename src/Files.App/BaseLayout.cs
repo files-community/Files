@@ -1,38 +1,22 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
-using Files.App.DataModels;
-using Files.App.EventArguments;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.Interacts;
 using Files.App.UserControls;
 using Files.App.UserControls.Menus;
-using Files.App.ViewModels;
 using Files.App.Views;
-using Files.Backend.Services.Settings;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.ComTypes;
-using System.Threading;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
@@ -44,6 +28,8 @@ using static Files.App.Helpers.PathNormalization;
 using VA = Vanara.Windows.Shell;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Shared.Enums.SortDirection;
+using Files.App.Data.EventArguments;
+using Files.App.Data.Models;
 
 namespace Files.App
 {
@@ -257,7 +243,7 @@ namespace Files.App
 						if (selectedItems.Count == 1)
 						{
 							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems.Count} {"ItemSelected/Text".GetLocalizedResource()}";
-							DispatcherQueue.EnqueueAsync(async () =>
+							DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								// Tapped event must be executed first
 								await Task.Delay(50);
@@ -1355,7 +1341,7 @@ namespace Files.App
 			{
 				args.Cancel = true;
 
-				await DispatcherQueue.EnqueueAsync(() =>
+				await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
 					var oldText = textBox.Text;

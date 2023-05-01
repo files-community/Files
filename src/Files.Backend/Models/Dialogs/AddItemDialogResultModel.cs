@@ -1,4 +1,7 @@
-﻿using Files.Backend.Enums;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Backend.Enums;
 using Files.Shared;
 
 namespace Files.Backend.Models.Dialogs

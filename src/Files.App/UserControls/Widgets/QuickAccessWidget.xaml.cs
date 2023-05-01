@@ -1,7 +1,10 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Data.Items;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.App.ViewModels;
@@ -97,7 +100,7 @@ namespace Files.App.UserControls.Widgets
 			}
 			if (thumbnailData is not null && thumbnailData.Length > 0)
 			{
-				Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
+				Thumbnail = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
 			}
 		}
 	}
@@ -247,7 +250,7 @@ namespace Files.App.UserControls.Widgets
 			if (e is null)
 				return;
 
-			await DispatcherQueue.EnqueueAsync(async () =>
+			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				if (e.Reset)
 				{

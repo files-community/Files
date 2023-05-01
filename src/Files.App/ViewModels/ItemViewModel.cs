@@ -1,46 +1,33 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.Cloud;
 using Files.App.Filesystem.Search;
 using Files.App.Filesystem.StorageEnumerators;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Helpers.FileListCache;
 using Files.App.Shell;
 using Files.App.UserControls;
 using Files.App.ViewModels.Previews;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
 using Files.Backend.ViewModels.Dialogs;
-using Files.Shared;
 using Files.Shared.Cloud;
-using Files.Shared.Enums;
 using Files.Shared.EventArguments;
-using Files.Shared.Extensions;
 using Files.Shared.Services;
 using FluentFTP;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 using Vanara.Windows.Shell;
 using Windows.Foundation;
 using Windows.Storage;
@@ -152,7 +139,11 @@ namespace Files.App.ViewModels
 				_ = Task.Run(() => jumpListService.AddFolderAsync(value));
 
 			WorkingDirectory = value;
-			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, Path.GetPathRoot(WorkingDirectory));
+
+			var pathRoot = FtpHelpers.IsFtpPath(WorkingDirectory) 
+				? WorkingDirectory.Substring(0, FtpHelpers.GetRootIndex(WorkingDirectory)) 
+				: Path.GetPathRoot(WorkingDirectory);
+			GitDirectory = pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
 
@@ -409,7 +400,7 @@ namespace Files.App.ViewModels
 			if (!CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 
-			await dispatcherQueue.EnqueueAsync(() =>
+			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				RefreshItems(null);
 			});
@@ -470,7 +461,7 @@ namespace Files.App.ViewModels
 				var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath == e.Path);
 				if (matchingItem is not null)
 				{
-					await dispatcherQueue.EnqueueAsync(() =>
+					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						if (e.ValueState is SizeChangedValueState.None)
 						{
@@ -496,7 +487,7 @@ namespace Files.App.ViewModels
 
 		private async void FileTagsSettingsService_OnSettingUpdated(object? sender, EventArgs e)
 		{
-			await dispatcherQueue.EnqueueAsync(() =>
+			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				if (WorkingDirectory != "Home")
 					RefreshItems(null);
@@ -516,7 +507,7 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.FoldersSettingsService.CalculateFolderSizes):
 				case nameof(UserSettingsService.FoldersSettingsService.SelectFilesOnHover):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems):
-					await dispatcherQueue.EnqueueAsync(() =>
+					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						if (WorkingDirectory != "Home")
 							RefreshItems(null);
@@ -526,7 +517,7 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupOption):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
-					await dispatcherQueue.EnqueueAsync(() =>
+					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
 						UpdateSortAndGroupOptions();
@@ -563,7 +554,7 @@ namespace Files.App.ViewModels
 		public async Task ApplySingleFileChangeAsync(ListedItem item)
 		{
 			var newIndex = filesAndFolders.IndexOf(item);
-			await dispatcherQueue.EnqueueAsync(() =>
+			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				FilesAndFolders.Remove(item);
 				if (newIndex != -1)
@@ -605,7 +596,7 @@ namespace Files.App.ViewModels
 					if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
 						ClearDisplay();
 					else
-						await dispatcherQueue.EnqueueAsync(ClearDisplay);
+						await dispatcherQueue.EnqueueOrInvokeAsync(ClearDisplay);
 
 					return;
 				}
@@ -691,7 +682,7 @@ namespace Files.App.ViewModels
 				else
 				{
 					ApplyChanges();
-					await dispatcherQueue.EnqueueAsync(UpdateUI);
+					await dispatcherQueue.EnqueueOrInvokeAsync(UpdateUI);
 				}
 			}
 			catch (Exception ex)
@@ -706,7 +697,7 @@ namespace Files.App.ViewModels
 			if (itemsToSelect is null || itemsToSelect.IsEmpty())
 				return Task.CompletedTask;
 
-			return dispatcherQueue.EnqueueAsync(() =>
+			return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				OnSelectionRequestedEvent?.Invoke(this, itemsToSelect);
 			});
@@ -810,7 +801,7 @@ namespace Files.App.ViewModels
 				if (token.IsCancellationRequested)
 					return;
 
-				await dispatcherQueue.EnqueueAsync(
+				await dispatcherQueue.EnqueueOrInvokeAsync(
 					FilesAndFolders.EndBulkOperation);
 			}
 			catch (Exception ex)
@@ -834,7 +825,7 @@ namespace Files.App.ViewModels
 				foreach (var gp in FilesAndFolders.GroupedCollection.ToList())
 				{
 					var img = await GetItemTypeGroupIcon(gp.FirstOrDefault());
-					await dispatcherQueue.EnqueueAsync(() =>
+					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						gp.Model.ImageSource = img;
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
@@ -908,7 +899,7 @@ namespace Files.App.ViewModels
 
 						if (!(Thumbnail is null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
-							await dispatcherQueue.EnqueueAsync(async () =>
+							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								item.FileImage ??= new BitmapImage();
 								item.FileImage.DecodePixelType = DecodePixelType.Logical;
@@ -927,7 +918,7 @@ namespace Files.App.ViewModels
 						var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
 						if (overlayInfo is not null)
 						{
-							await dispatcherQueue.EnqueueAsync(async () =>
+							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								item.IconOverlay = await overlayInfo.ToBitmapAsync();
 								item.ShieldIcon = await GetShieldIcon();
@@ -941,7 +932,7 @@ namespace Files.App.ViewModels
 					var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false);
 					if (iconInfo.IconData is not null)
 					{
-						await dispatcherQueue.EnqueueAsync(async () =>
+						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 						{
 							item.FileImage = await iconInfo.IconData.ToBitmapAsync();
 							if (!string.IsNullOrEmpty(item.FileExtension) &&
@@ -955,7 +946,7 @@ namespace Files.App.ViewModels
 
 					if (iconInfo.OverlayData is not null)
 					{
-						await dispatcherQueue.EnqueueAsync(async () =>
+						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 						{
 							item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
 							item.ShieldIcon = await GetShieldIcon();
@@ -978,7 +969,7 @@ namespace Files.App.ViewModels
 						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask());
 						if (!(Thumbnail is null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
-							await dispatcherQueue.EnqueueAsync(async () =>
+							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								item.FileImage ??= new BitmapImage();
 								item.FileImage.DecodePixelType = DecodePixelType.Logical;
@@ -991,7 +982,7 @@ namespace Files.App.ViewModels
 						var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
 						if (overlayInfo is not null)
 						{
-							await dispatcherQueue.EnqueueAsync(async () =>
+							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								item.IconOverlay = await overlayInfo.ToBitmapAsync();
 								item.ShieldIcon = await GetShieldIcon();
@@ -1005,7 +996,7 @@ namespace Files.App.ViewModels
 					var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true);
 					if (iconInfo.IconData is not null)
 					{
-						await dispatcherQueue.EnqueueAsync(async () =>
+						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 						{
 							item.FileImage = await iconInfo.IconData.ToBitmapAsync();
 						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
@@ -1013,7 +1004,7 @@ namespace Files.App.ViewModels
 
 					if (iconInfo.OverlayData is not null)
 					{
-						await dispatcherQueue.EnqueueAsync(async () =>
+						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 						{
 							item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
 							item.ShieldIcon = await GetShieldIcon();
@@ -1079,7 +1070,7 @@ namespace Files.App.ViewModels
 									var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
 									cts.Token.ThrowIfCancellationRequested();
 
-									await dispatcherQueue.EnqueueAsync(() =>
+									await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 									{
 										item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
 										item.ItemType = itemType;
@@ -1110,7 +1101,7 @@ namespace Files.App.ViewModels
 									if (matchingStorageFolder.DisplayName != item.Name && !matchingStorageFolder.DisplayName.StartsWith("$R", StringComparison.Ordinal))
 									{
 										cts.Token.ThrowIfCancellationRequested();
-										await dispatcherQueue.EnqueueAsync(() =>
+										await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 										{
 											item.ItemNameRaw = matchingStorageFolder.DisplayName;
 										});
@@ -1129,7 +1120,7 @@ namespace Files.App.ViewModels
 									var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
 									cts.Token.ThrowIfCancellationRequested();
 
-									await dispatcherQueue.EnqueueAsync(() =>
+									await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 									{
 										item.FolderRelativeId = matchingStorageFolder.FolderRelativeId;
 										item.ItemType = itemType;
@@ -1168,7 +1159,7 @@ namespace Files.App.ViewModels
 							{
 								var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
 
-								await dispatcherQueue.EnqueueAsync(() =>
+								await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
 									// Reset cloud sync status icon
 									item.SyncStatusUI = new CloudDriveSyncStatusUI();
@@ -1185,7 +1176,7 @@ namespace Files.App.ViewModels
 						{
 							cts.Token.ThrowIfCancellationRequested();
 							await SafetyExtensions.IgnoreExceptions(() =>
-								dispatcherQueue.EnqueueAsync(() =>
+								dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
 									gp.Model.ImageSource = groupImage;
 									gp.InitializeExtendedGroupHeaderInfoAsync();
@@ -1212,7 +1203,7 @@ namespace Files.App.ViewModels
 				var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u, false);
 
 				if (headerIconInfo is not null && !item.IsShortcut)
-					groupImage = await dispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+					groupImage = await dispatcherQueue.EnqueueOrInvokeAsync(() => headerIconInfo.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 				// The groupImage is null if loading icon from fulltrust process failed
 				if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath) && groupImage is null)
@@ -1224,7 +1215,7 @@ namespace Files.App.ViewModels
 						using StorageItemThumbnail headerThumbnail = await FilesystemTasks.Wrap(() => matchingStorageItem.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale).AsTask());
 						if (headerThumbnail is not null)
 						{
-							await dispatcherQueue.EnqueueAsync(async () =>
+							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								var bmp = new BitmapImage();
 								await bmp.SetSourceAsync(headerThumbnail);
@@ -1238,7 +1229,7 @@ namespace Files.App.ViewModels
 			// This prevents both the shortcut glyph and folder icon being shown
 			else if (!item.IsShortcut)
 			{
-				await dispatcherQueue.EnqueueAsync(() => groupImage = new SvgImageSource(new Uri("ms-appx:///Assets/FolderIcon2.svg"))
+				await dispatcherQueue.EnqueueOrInvokeAsync(() => groupImage = new SvgImageSource(new Uri("ms-appx:///Assets/FolderIcon2.svg"))
 				{
 					RasterizePixelHeight = 128,
 					RasterizePixelWidth = 128,
@@ -1460,7 +1451,7 @@ namespace Files.App.ViewModels
 				{
 					if (!client.IsConnected && await WrappedAutoConnectFtpAsync(client) is null)
 					{
-						await dispatcherQueue.EnqueueAsync(async () =>
+						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 						{
 							var credentialDialogViewModel = new CredentialDialogViewModel();
 
@@ -1823,7 +1814,7 @@ namespace Files.App.ViewModels
 		{
 			Debug.WriteLine($"Directory watcher event: {e.ChangeType}, {e.FullPath}");
 
-			await dispatcherQueue.EnqueueAsync(() =>
+			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				RefreshItems(null);
 			});
@@ -1843,7 +1834,7 @@ namespace Files.App.ViewModels
 
 			sender.ApplyNewQueryOptions(options);
 
-			await dispatcherQueue.EnqueueAsync(() =>
+			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				RefreshItems(null);
 			});
@@ -2071,7 +2062,7 @@ namespace Files.App.ViewModels
 
 						if (changes != 0 && sampler.CheckNow())
 						{
-							await dispatcherQueue.EnqueueAsync(() => GitDirectoryUpdated?.Invoke(null, null!));
+							await dispatcherQueue.EnqueueOrInvokeAsync(() => GitDirectoryUpdated?.Invoke(null, null!));
 							changes = 0;
 						}
 					}
@@ -2320,7 +2311,7 @@ namespace Files.App.ViewModels
 				var matchingItems = filesAndFolders.Where(x => paths.Any(p => p.Equals(x.ItemPath, StringComparison.OrdinalIgnoreCase)));
 				var results = await Task.WhenAll(matchingItems.Select(x => GetFileOrFolderUpdateInfoAsync(x, hasSyncStatus)));
 
-				await dispatcherQueue.EnqueueAsync(() =>
+				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					foreach (var result in results)
 					{

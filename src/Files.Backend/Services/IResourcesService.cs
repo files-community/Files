@@ -1,4 +1,7 @@
-﻿using System.Drawing;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using System.Drawing;
 
 namespace Files.Backend.Services
 {

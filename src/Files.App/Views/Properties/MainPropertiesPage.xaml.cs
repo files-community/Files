@@ -1,6 +1,9 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
-using Files.App.DataModels;
+using Files.App.Data.Parameters;
 using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Properties;
@@ -86,7 +89,7 @@ namespace Files.App.Views.Properties
 
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
 		{
-			await DispatcherQueue.EnqueueAsync(() =>
+			await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				((Frame)Parent).RequestedTheme = ThemeHelper.RootTheme;
 

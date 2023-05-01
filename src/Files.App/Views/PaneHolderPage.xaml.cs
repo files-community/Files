@@ -1,18 +1,14 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views.LayoutModes;
-using Files.Backend.Services.Settings;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using UWPToWinAppSDKUpgradeHelpers;
 using Windows.System;
 
 namespace Files.App.Views
@@ -31,7 +27,7 @@ namespace Files.App.Views
 
 		public event EventHandler<TabItemArguments> ContentChanged;
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public IFilesystemHelpers FilesystemHelpers
 			=> ActivePane?.FilesystemHelpers;
@@ -311,6 +307,7 @@ namespace Files.App.Views
 		{
 			// NOTE: Can only close right pane at the moment
 			IsRightPaneVisible = false;
+			PaneLeft.Focus(FocusState.Programmatic);
 		}
 
 		private void Pane_Loaded(object sender, RoutedEventArgs e)
@@ -356,9 +353,9 @@ namespace Files.App.Views
 
 	public class PaneNavigationArguments
 	{
-		public string LeftPaneNavPathParam { get; set; } = null;
-		public string LeftPaneSelectItemParam { get; set; } = null;
-		public string RightPaneNavPathParam { get; set; } = null;
-		public string RightPaneSelectItemParam { get; set; } = null;
+		public string? LeftPaneNavPathParam { get; set; } = null;
+		public string? LeftPaneSelectItemParam { get; set; } = null;
+		public string? RightPaneNavPathParam { get; set; } = null;
+		public string? RightPaneSelectItemParam { get; set; } = null;
 	}
 }

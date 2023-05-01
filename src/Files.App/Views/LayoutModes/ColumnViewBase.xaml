@@ -1,4 +1,5 @@
-﻿<local:StandardViewBase
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<local:StandardViewBase
 	x:Class="Files.App.Views.LayoutModes.ColumnViewBase"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,7 +11,6 @@
 	xmlns:local="using:Files.App"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:valueconverters="using:Files.App.ValueConverters"
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
@@ -18,7 +18,7 @@
 
 	<local:StandardViewBase.Resources>
 
-		<valueconverters:StringToBrushConverter x:Key="StringToBrushConverter" />
+		<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 		<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		<wctconverters:BoolToVisibilityConverter
 			x:Key="NegatedBoolToVisibilityConverter"
@@ -32,7 +32,7 @@
 			x:Key="EmptyObjectToObjectConverter"
 			EmptyValue="Collapsed"
 			NotEmptyValue="Visible" />
-		<converters:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+		<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 
 		<Style TargetType="ListViewHeaderItem">
 			<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
