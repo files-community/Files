@@ -139,7 +139,11 @@ namespace Files.App.ViewModels
 				_ = Task.Run(() => jumpListService.AddFolderAsync(value));
 
 			WorkingDirectory = value;
-			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, Path.GetPathRoot(WorkingDirectory));
+
+			var pathRoot = FtpHelpers.IsFtpPath(WorkingDirectory) 
+				? WorkingDirectory.Substring(0, FtpHelpers.GetRootIndex(WorkingDirectory)) 
+				: Path.GetPathRoot(WorkingDirectory);
+			GitDirectory = pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
 
@@ -2058,7 +2062,7 @@ namespace Files.App.ViewModels
 
 						if (changes != 0 && sampler.CheckNow())
 						{
-							await dispatcherQueue.EnqueueAsync(() => GitDirectoryUpdated?.Invoke(null, null!));
+							await dispatcherQueue.EnqueueOrInvokeAsync(() => GitDirectoryUpdated?.Invoke(null, null!));
 							changes = 0;
 						}
 					}

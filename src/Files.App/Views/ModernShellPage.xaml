@@ -32,25 +32,10 @@
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="Control,Shift" />
 		<KeyboardAccelerator
-			Key="N"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control,Shift" />
-		<KeyboardAccelerator
 			Key="V"
 			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="Control" />
-		<KeyboardAccelerator
-			Key="L"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-		<KeyboardAccelerator
-			Key="D"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Menu" />
 	</local:BaseShellPage.KeyboardAccelerators>
 
 	<Grid HorizontalAlignment="Stretch" wct:UIElementExtensions.ClipToBounds="True">

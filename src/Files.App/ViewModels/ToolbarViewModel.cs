@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Data.Items;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Shell;
 using Files.App.UserControls;
@@ -661,7 +661,7 @@ namespace Files.App.ViewModels
 					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
 					{
 						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
-						if (matchingDrive is not null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+						if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
 							if (ejectButton)

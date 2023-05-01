@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Files.App.DataModels;
 using Files.App.Views.Properties;
 using Files.Backend.Enums;
 using Microsoft.UI.Windowing;
@@ -13,6 +12,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Threading;
 using Microsoft.UI.Xaml.Media.Animation;
+using Files.App.Data.Items;
+using Files.App.Data.Parameters;
 
 namespace Files.App.ViewModels.Properties
 {

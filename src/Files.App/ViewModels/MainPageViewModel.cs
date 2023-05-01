@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Data.Items;
 using Files.App.Filesystem.StorageItems;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views;
