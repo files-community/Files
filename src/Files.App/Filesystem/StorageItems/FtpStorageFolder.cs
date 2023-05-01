@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Data.Exceptions;
 using Files.App.Storage.FtpStorage;
 using FluentFTP;
 using System.IO;
@@ -204,7 +205,7 @@ namespace Files.App.Filesystem.StorageItems
 				if (result is FtpStatus.Skipped)
 				{
 					if (options is CreationCollisionOption.FailIfExists)
-						throw new IOException("File already exists.");
+						throw new FileAlreadyExistsException("File already exists.", desiredName);
 
 					return null;
 				}
