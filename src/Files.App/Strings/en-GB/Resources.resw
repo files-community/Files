@@ -133,7 +133,7 @@
     <value>Created:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Location:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Size:</value>
