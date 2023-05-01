@@ -50,7 +50,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ItemName = Item.Name;
 			ViewModel.OriginalItemName = Item.Name;
 			ViewModel.ItemType = Item.ItemType;
-			ViewModel.ItemPath = (Item as RecycleBinItem)?.ItemOriginalFolder ??
+			ViewModel.ItemLocation = (Item as RecycleBinItem)?.ItemOriginalFolder ??
 				(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
 			ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
 			ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;

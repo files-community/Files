@@ -141,7 +141,7 @@
 				x:Name="ItemDetails"
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
-				x:Load="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}"
+				x:Load="{x:Bind ViewModel.ItemLocationVisibility, Mode=OneWay}"
 				Header="{helpers:ResourceString Name=MoreDetails}"
 				IsExpanded="True">
 				<Expander.Content>
@@ -173,16 +173,16 @@
 							HorizontalAlignment="Left"
 							Style="{StaticResource PropertyName}"
 							Text="{helpers:ResourceString Name=Location}"
-							Visibility="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}" />
+							Visibility="{x:Bind ViewModel.ItemLocationVisibility, Mode=OneWay}" />
 
 						<TextBlock
 							x:Name="itemPathValue"
 							Grid.Row="0"
 							Grid.Column="1"
 							Style="{StaticResource PropertyValueTextBlock}"
-							Text="{x:Bind ViewModel.ItemPath, Mode=OneWay}"
+							Text="{x:Bind ViewModel.ItemLocation, Mode=OneWay}"
 							TextWrapping="Wrap"
-							Visibility="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}" />
+							Visibility="{x:Bind ViewModel.ItemLocationVisibility, Mode=OneWay}" />
 
 						<!--  Item Size  -->
 						<TextBlock
