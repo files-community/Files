@@ -202,5 +202,10 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating whether or not to show checkboxes when selecting items.
 		/// </summary>
 		bool ShowCheckboxesWhenSelectingItems { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show checkboxes.
+		/// </summary>
+		bool ShowCheckboxes { get; set; }
 	}
 }

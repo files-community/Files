@@ -3179,6 +3179,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
   </data>
+	<data name="ShowCheckboxes" xml:space="preserve">
+    <value>Show checkboxes</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Focus path bar</value>
   </data>
