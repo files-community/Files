@@ -1851,9 +1851,6 @@
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>ამოღება დასრულებულია!</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+N</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>მშობელი საქაღალდის გახსნა</value>
   </data>
@@ -3151,6 +3148,9 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Edit path</value>
+  </data>
   <data name="Branch" xml:space="preserve">
     <value>Branch: {0}</value>
   </data>
@@ -3177,6 +3177,12 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
+  </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Focus path bar</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Create new item</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>

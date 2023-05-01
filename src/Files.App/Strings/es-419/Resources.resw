@@ -1591,10 +1591,10 @@
     <value>Mostrar el contenido del directorio</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Modificar</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Permisos para {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Lectura y ejecución</value>
@@ -1850,9 +1850,6 @@
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Extracción completada!</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Abrir carpeta principal</value>
@@ -3151,6 +3148,9 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Cierra la pestaña actual</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Edit path</value>
+  </data>
   <data name="Branch" xml:space="preserve">
     <value>Rama: {0}</value>
   </data>
@@ -3178,8 +3178,14 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostrar casillas de verificación al seleccionar elementos</value>
   </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Focus path bar</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Create new item</value>
+  </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>Ningún grupo o usuario tiene permiso para acceder a este objeto. Sin embargo, el propietario de este objeto puede asignar permisos.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
     <value>Abrir ubicación del elemento</value>
