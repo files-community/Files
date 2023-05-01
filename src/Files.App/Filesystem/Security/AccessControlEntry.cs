@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Files.App.DataModels;
+using Files.App.Data.Factories;
 using Files.App.Extensions;
 using System;
 using System.Collections.Generic;

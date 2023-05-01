@@ -4,7 +4,7 @@
 using Files.Backend.Models;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace Files.App.AppModels
+namespace Files.App.Data.Models
 {
 	/// <inheritdoc cref="IImageModel"/>
 	internal sealed class BitmapImageModel : IImageModel

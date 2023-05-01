@@ -5,7 +5,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System.Threading;
 
-namespace Files.App.DataModels
+namespace Files.App.Data.Parameters
 {
 	public class PropertiesPageNavigationParameter
 	{

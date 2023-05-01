@@ -11,6 +11,7 @@ global using global::System.Threading;
 global using global::System.Threading.Tasks;
 global using global::System.ComponentModel;
 global using global::System.Diagnostics;
+global using SystemIO = global::System.IO;
 
 // Windows Community Toolkit
 global using global::CommunityToolkit.Mvvm.ComponentModel;
@@ -22,8 +23,11 @@ global using global::CommunityToolkit.Mvvm.Messaging;
 global using global::Files.App.Helpers;
 global using global::Files.App.Extensions;
 global using global::Files.App.Filesystem;
-global using global::Files.App.DataModels;
-global using global::Files.App.EventArguments;
+global using global::Files.App.Data.EventArguments;
+global using global::Files.App.Data.Factories;
+global using global::Files.App.Data.Items;
+global using global::Files.App.Data.Models;
+global using global::Files.App.Data.Parameters;
 global using global::Files.App.Interacts;
 global using global::Files.App.ViewModels;
 global using global::Files.Backend.Services.Settings;

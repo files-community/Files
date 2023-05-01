@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Data.Items;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Shell;

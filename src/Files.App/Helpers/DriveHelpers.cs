@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Data.Items;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Interacts;
@@ -46,7 +46,7 @@ namespace Files.App.Helpers
 			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 			var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
-			if (matchingDrive is null || matchingDrive.Type != DataModels.NavigationControlItems.DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
+			if (matchingDrive is null || matchingDrive.Type != Data.Items.DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
 				return false;
 
 			var ejectButton = await DialogDisplayHelper.ShowDialogAsync(
@@ -114,25 +114,25 @@ namespace Files.App.Helpers
 			return null;
 		}
 
-		public static DataModels.NavigationControlItems.DriveType GetDriveType(System.IO.DriveInfo drive)
+		public static Data.Items.DriveType GetDriveType(System.IO.DriveInfo drive)
 		{
 			if (drive.DriveType is System.IO.DriveType.Unknown)
 			{
 				string path = PathNormalization.NormalizePath(drive.Name);
 
 				if (path is "A:" or "B:")
-					return DataModels.NavigationControlItems.DriveType.FloppyDisk;
+					return Data.Items.DriveType.FloppyDisk;
 			}
 
 			return drive.DriveType switch
 			{
-				System.IO.DriveType.CDRom => DataModels.NavigationControlItems.DriveType.CDRom,
-				System.IO.DriveType.Fixed => DataModels.NavigationControlItems.DriveType.Fixed,
-				System.IO.DriveType.Network => DataModels.NavigationControlItems.DriveType.Network,
-				System.IO.DriveType.NoRootDirectory => DataModels.NavigationControlItems.DriveType.NoRootDirectory,
-				System.IO.DriveType.Ram => DataModels.NavigationControlItems.DriveType.Ram,
-				System.IO.DriveType.Removable => DataModels.NavigationControlItems.DriveType.Removable,
-				_ => DataModels.NavigationControlItems.DriveType.Unknown,
+				System.IO.DriveType.CDRom => Data.Items.DriveType.CDRom,
+				System.IO.DriveType.Fixed => Data.Items.DriveType.Fixed,
+				System.IO.DriveType.Network => Data.Items.DriveType.Network,
+				System.IO.DriveType.NoRootDirectory => Data.Items.DriveType.NoRootDirectory,
+				System.IO.DriveType.Ram => Data.Items.DriveType.Ram,
+				System.IO.DriveType.Removable => Data.Items.DriveType.Removable,
+				_ => Data.Items.DriveType.Unknown,
 			};
 		}
 

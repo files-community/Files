@@ -12,6 +12,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | Search                              | Search                                    | Go to search box                                         | Ctrl+F, F3          |
 |                    | Redo                                | Redo                                      | Redo the last file operation                             | Ctrl+Y              |
 |                    | Undo                                | Undo                                      | Undo the last file operation                             | Ctrl+Z              |
+|                    | EditPath                            | Edit path                                 | Focus path bar                                           | Ctrl+L, Alt+D       |
 | Show               | ToggleShowHiddenItems               | Show hidden items                         | Toggle whether to show hidden items                      | Ctrl+H              |
 |                    | ToggleShowFileExtensions            | Show file extensions                      | Toggle whether to show file extensions                   |                     |
 |                    | TogglePreviewPane                   | Toggle the preview pane                   | Toggle whether to show preview pane                      | Ctrl+P              |
@@ -24,6 +25,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | DeleteItem                          | Delete                                    | Delete item(s)                                           | Delete, Ctrl+D      |
 |                    | DeletemeItemPermanently             | Delete permanently                        | Delete item(s) permanently                               | Shift+Delete        |
 |                    | CreateFolder                        | Folder                                    | Create new folder                                        |                     |
+|                    | AddItem                             | New                                       | Create new item                                          | Ctrl+Shift+N        |
 |                    | CreateShortcut                      | Create shortcut                           | Create new shortcut(s) to selected item(s)               |                     |
 |                    | CreateShortcutFromDialog            | Shortcut                                  | Create new shortcut to any item                          |                     |
 |                    | EmptyRecycleBin                     | Empty Recycle Bin                         | Empty recycle bin                                        |                     |
@@ -33,6 +35,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | OpenItem                            | Open                                      | Open item(s)                                             | Enter               |
 |                    | OpenItemWithApplicationPicker       | Open With                                 | Open item(s) with selected application                   |                     |
 |                    | OpenParentFolder                    | Open parent folder                        | Open parent folder of searched item                      |                     |
+|                    | OpenFileLocation                    | Open file location                        | Open the item's location                                 |                     |
 |                    | RefreshItems                        | Refresh                                   | Refresh page contents                                    | Ctrl+R, F5          |
 |                    | Rename                              | Rename                                    | Rename selected item                                     | F2                  |
 | Selection          | SelectAll                           | Select All                                | Select all items                                         | Ctrl+A              |

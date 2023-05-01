@@ -1,14 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.AppModels;
-using Files.App.Helpers;
 using Files.Backend.Models;
 using Files.Backend.Services;
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.LocatableStorage;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.ServicesImplementation

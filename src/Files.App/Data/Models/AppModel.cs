@@ -5,7 +5,7 @@ using Files.App.Views;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.DataTransfer;
 
-namespace Files.App.DataModels
+namespace Files.App.Data.Models
 {
 	public class AppModel : ObservableObject
 	{
