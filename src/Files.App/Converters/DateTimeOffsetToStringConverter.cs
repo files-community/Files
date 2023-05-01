@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Converters
 {
-	internal class DateTimeOffsetToString : IValueConverter
+	internal sealed class DateTimeOffsetToStringConverter : IValueConverter
 	{
 		private static readonly IDateTimeFormatter formatter = Ioc.Default.GetService<IDateTimeFormatter>();
 

@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Data;
 
-namespace Files.App.ValueConverters.EnumConverters
+namespace Files.App.Converters
 {
 	internal sealed class ConflictResolveOptionToIndexConverter : IValueConverter
 	{

@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Converters
 {
-	internal class MultiBooleanConverter
+	internal sealed class MultiBooleanConverter
 	{
 		public static Boolean OrConvert(bool a, bool b)
 			=> (a || b);
