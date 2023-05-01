@@ -8,8 +8,8 @@
 	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:mconv="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:converters="using:Files.App.Converters"
 	xmlns:dataitems="using:Files.App.Data.Items"
-	xmlns:vc="using:Files.App.ValueConverters"
 	HorizontalAlignment="Stretch"
 	Collapsed="NavigationView_Collapsed"
 	DisplayModeChanged="SidebarControl_DisplayModeChanged"
@@ -52,7 +52,7 @@
 
 			<mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<mconv:StringFormatConverter x:Key="StringFormatConverter" />
-			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
+			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 			<DataTemplate x:Key="LocationNavItem" x:DataType="dataitems:LocationItem">
 				<NavigationViewItem
 					AllowDrop="True"
