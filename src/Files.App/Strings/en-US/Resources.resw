@@ -3199,4 +3199,7 @@
   <data name="RedoDescription" xml:space="preserve">
     <value>Redo the last file operation</value>
   </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location:</value>
+  </data>
 </root>
