@@ -1,28 +1,15 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Dialogs;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Interacts;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.Enums;
 using Files.Backend.Extensions;
 using Files.Backend.Services;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml.Controls;
-using System;
 using System.Collections.Concurrent;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
@@ -144,16 +131,19 @@ namespace Files.App.Helpers
 
 		public static async Task CopyItem(IShellPage associatedInstance)
 		{
-			DataPackage dataPackage = new DataPackage()
+			var dataPackage = new DataPackage()
 			{
 				RequestedOperation = DataPackageOperation.Copy
 			};
-			ConcurrentBag<IStorageItem> items = new ConcurrentBag<IStorageItem>();
+			ConcurrentBag<IStorageItem> items = new();
 
-			if (associatedInstance.SlimContentPage.IsItemSelected)
+			if (associatedInstance.SlimContentPage.IsItemSelected &&
+				associatedInstance.SlimContentPage.SelectedItems is not null)
 			{
+				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
+
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
-				PostedStatusBanner banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
+				var banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 					0,
