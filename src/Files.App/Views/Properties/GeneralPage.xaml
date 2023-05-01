@@ -166,13 +166,13 @@
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
-						<!--  Item Path  -->
+						<!--  Item Location  -->
 						<TextBlock
 							Grid.Row="0"
 							Grid.Column="0"
 							HorizontalAlignment="Left"
 							Style="{StaticResource PropertyName}"
-							Text="{helpers:ResourceString Name=Path}"
+							Text="{helpers:ResourceString Name=Location}"
 							Visibility="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}" />
 
 						<TextBlock
