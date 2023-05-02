@@ -22,8 +22,8 @@ namespace Files.App.Helpers
 
 		public static void ShareItems(IEnumerable<ListedItem> itemsToShare)
 		{
-			var interop = DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>();
-			IntPtr result = interop.GetForWindow(App.WindowHandle, UWPToWinAppSDKUpgradeHelpers.InteropHelpers.DataTransferManagerInteropIID);
+			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
+			IntPtr result = interop.GetForWindow(App.WindowHandle, InteropHelpers.DataTransferManagerInteropIID);
 
 			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
 			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);

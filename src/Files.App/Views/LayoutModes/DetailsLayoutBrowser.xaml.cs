@@ -13,7 +13,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using UWPToWinAppSDKUpgradeHelpers;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
