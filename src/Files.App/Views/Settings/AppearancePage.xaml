@@ -138,12 +138,13 @@
 					</Button>
 				</local:SettingsExpander.Content>
 				<local:SettingsExpander.Items>
-					<GridView
-						Padding="16"
-						Background="{ThemeResource SettingsCardBackground}"
-						ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
-						ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
-						SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />
+					<local:SettingsCard Padding="0" HorizontalAlignment="Left">
+						<GridView
+							Padding="16"
+							ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
+							ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
+							SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />
+					</local:SettingsCard>
 				</local:SettingsExpander.Items>
 			</local:SettingsExpander>
 

@@ -124,13 +124,18 @@
 					<FontIcon Glyph="&#xE15E;" />
 				</local:SettingsExpander.HeaderIcon>
 				<local:SettingsExpander.Items>
-					<ScrollViewer Height="400" Background="{ThemeResource SettingsCardBackground}">
-						<wct:MarkdownTextBlock
-							Margin="16"
-							Background="Transparent"
-							LinkClicked="MarkdownTextBlock_LinkClicked"
-							Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-					</ScrollViewer>
+					<local:SettingsCard Padding="0" HorizontalAlignment="Left">
+						<ScrollViewer
+							Height="400"
+							Padding="16"
+							Background="{ThemeResource SettingsCardBackground}">
+							<wct:MarkdownTextBlock
+								Margin="16"
+								Background="Transparent"
+								LinkClicked="MarkdownTextBlock_LinkClicked"
+								Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						</ScrollViewer>
+					</local:SettingsCard>
 				</local:SettingsExpander.Items>
 			</local:SettingsExpander>
 
