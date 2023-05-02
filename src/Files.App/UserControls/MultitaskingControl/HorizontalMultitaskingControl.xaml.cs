@@ -30,10 +30,8 @@ namespace Files.App.UserControls.MultitaskingControl
 			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
 			tabHoverTimer.Tick += TabHoverSelected;
 
-			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
-
 			var appWindowTitleBar = App.GetAppWindow(App.Window).TitleBar;
-			double rightPaddingColumnWidth = flowDirectionSetting is "RTL" ? appWindowTitleBar.LeftInset : appWindowTitleBar.RightInset;
+			double rightPaddingColumnWidth = FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft ? appWindowTitleBar.LeftInset : appWindowTitleBar.RightInset;
 			RightPaddingColumn.Width = new GridLength(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
 		}
 
