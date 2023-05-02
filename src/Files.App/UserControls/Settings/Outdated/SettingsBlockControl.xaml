@@ -3,21 +3,22 @@
 	x:Class="Files.App.UserControls.Settings.SettingsBlockControl"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UserControls.Settings"
-	xmlns:local1="using:Files.App.Converters"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	d:DesignHeight="300"
-	d:DesignWidth="400"
+	Loaded="SettingsBlockControl_Loaded"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
-		<local1:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-		<local1:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
-		<local1:NullToTrueConverter x:Key="NullToTrueConverter" Inverse="False" />
-		<local1:StringNullOrWhiteSpaceToTrueConverter x:Key="StringNullOrWhiteSpaceToFalseConverter" Inverse="True" />
-		<local1:StringNullOrWhiteSpaceToTrueConverter x:Key="StringNullOrWhiteSpaceToTrueConverter" Inverse="False" />
 
+		<converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+		<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
+		<converters:NullToTrueConverter x:Key="NullToTrueConverter" Inverse="False" />
+		<converters:StringNullOrWhiteSpaceToTrueConverter x:Key="StringNullOrWhiteSpaceToFalseConverter" Inverse="True" />
+		<converters:StringNullOrWhiteSpaceToTrueConverter x:Key="StringNullOrWhiteSpaceToTrueConverter" Inverse="False" />
+
+		<!--  Expander Style  -->
 		<Style x:Key="TextBlockGroupHeaderStyle" TargetType="TextBlock">
 			<Setter Property="Margin" Value="0,8,0,4" />
 			<Setter Property="FontSize" Value="16" />
@@ -25,6 +26,7 @@
 			<Setter Property="FontWeight" Value="Bold" />
 		</Style>
 
+		<!--  Static Card Style  -->
 		<Style x:Key="GridSettingsBlockStyle" TargetType="Grid">
 			<Setter Property="Background" Value="{ThemeResource ExpanderHeaderBackground}" />
 			<Setter Property="BorderBrush" Value="{ThemeResource ExpanderHeaderBorderBrush}" />
@@ -35,6 +37,7 @@
 			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
 		</Style>
 
+		<!--  Button Style Settings Block  -->
 		<Style
 			x:Key="ButtonSettingsBlockStyle"
 			BasedOn="{StaticResource DefaultButtonStyle}"
@@ -48,10 +51,12 @@
 			<Setter Property="MinHeight" Value="{StaticResource ExpanderMinHeight}" />
 			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
 		</Style>
+
 	</UserControl.Resources>
 
-	<Grid>
-		<!--  Expander  -->
+	<Grid x:Name="RootGrid">
+
+		<!--  Expander Style Settings Block  -->
 		<Grid x:Name="ExpanderPreGrid" x:Load="{x:Bind ExpandableContent, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}">
 			<Grid x:Name="ExpanderGrid" x:Load="{x:Bind IsClickable, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
 				<Expander
@@ -61,6 +66,7 @@
 					Collapsed="Expander_Collapsed"
 					Expanding="Expander_Expanding"
 					IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">
+
 					<Expander.Header>
 						<local:SettingsDisplayControl
 							Title="{x:Bind Title, Mode=OneWay}"
@@ -75,10 +81,27 @@
 						Margin="-16"
 						HorizontalAlignment="Stretch"
 						Content="{x:Bind ExpandableContent, Mode=OneWay}" />
+
 				</Expander>
 			</Grid>
 		</Grid>
-		<!--  Button  -->
+
+		<!--  Static Card Style  -->
+		<Grid x:Name="StaticPreGrid" x:Load="{x:Bind ExpandableContent, Mode=OneWay, Converter={StaticResource NullToTrueConverter}}">
+			<Grid
+				x:Name="StaticGrid"
+				x:Load="{x:Bind IsClickable, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}"
+				Style="{StaticResource GridSettingsBlockStyle}">
+				<local:SettingsDisplayControl
+					Title="{x:Bind Title, Mode=OneWay}"
+					AdditionalDescriptionContent="{x:Bind AdditionalDescriptionContent, Mode=OneWay}"
+					Description="{x:Bind Description, Mode=OneWay}"
+					Icon="{x:Bind Icon, Mode=OneWay}"
+					SettingsActionableElement="{x:Bind SettingsActionableElement, Mode=OneWay}" />
+			</Grid>
+		</Grid>
+
+		<!--  Button Style Settings Block  -->
 		<Grid x:Name="ButtonPreGrid" x:Load="{x:Bind ExpandableContent, Mode=OneWay, Converter={StaticResource NullToTrueConverter}}">
 			<Grid x:Name="ButtonGrid" x:Load="{x:Bind IsClickable, Mode=OneWay}">
 				<Button
@@ -94,19 +117,6 @@
 				</Button>
 			</Grid>
 		</Grid>
-		<!--  Grid  -->
-		<Grid x:Name="StaticPreGrid" x:Load="{x:Bind ExpandableContent, Mode=OneWay, Converter={StaticResource NullToTrueConverter}}">
-			<Grid
-				x:Name="StaticGrid"
-				x:Load="{x:Bind IsClickable, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}"
-				Style="{StaticResource GridSettingsBlockStyle}">
-				<local:SettingsDisplayControl
-					Title="{x:Bind Title, Mode=OneWay}"
-					AdditionalDescriptionContent="{x:Bind AdditionalDescriptionContent, Mode=OneWay}"
-					Description="{x:Bind Description, Mode=OneWay}"
-					Icon="{x:Bind Icon, Mode=OneWay}"
-					SettingsActionableElement="{x:Bind SettingsActionableElement, Mode=OneWay}" />
-			</Grid>
-		</Grid>
+
 	</Grid>
 </UserControl>

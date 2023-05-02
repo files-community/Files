@@ -16,9 +16,6 @@
 
 	<Page.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
-			</ResourceDictionary.MergedDictionaries>
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
@@ -82,89 +79,86 @@
 						TextTrimming="CharacterEllipsis" />
 				</Grid>
 			</DataTemplate>
+
 		</ResourceDictionary>
 	</Page.Resources>
 
 	<Grid>
-		<StackPanel
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Spacing="4">
+		<StackPanel Spacing="{StaticResource SettingsCardSpacing}">
 			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<RepositionThemeTransition />
-				</TransitionCollection>
+				<EntranceThemeTransition FromVerticalOffset="50" />
+				<RepositionThemeTransition IsStaggeringEnabled="False" />
 			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock
-				Padding="0,0,0,12"
-				FontSize="24"
-				FontWeight="Medium"
+				Margin="2,0,2,12"
+				Style="{StaticResource SubtitleTextBlockStyle}"
 				Text="{helpers:ResourceString Name=Appearance}" />
 
 			<!--  Theme  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<local:SettingsCard Header="{helpers:ResourceString Name=SettingsAppearanceTheme}">
+				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE790;" />
-				</local:SettingsBlockControl.Icon>
+				</local:SettingsCard.HeaderIcon>
 				<ComboBox
 					x:Name="ThemeChooser"
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsAppearanceTheme}"
 					ItemsSource="{x:Bind ViewModel.Themes, Mode=OneWay}"
 					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
-			</local:SettingsBlockControl>
+			</local:SettingsCard>
 
 			<!--  App Background  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=Background}"
-				HorizontalAlignment="Stretch"
-				IsExpanded="True">
-				<local:SettingsBlockControl.Icon>
+			<local:SettingsExpander Header="{helpers:ResourceString Name=Background}" IsExpanded="True">
+				<local:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE771;" />
-				</local:SettingsBlockControl.Icon>
-				<Button Padding="0" AutomationProperties.Name="{helpers:ResourceString Name=Background}">
-					<StackPanel Orientation="Horizontal">
-						<Border
-							Width="24"
-							Height="24"
-							Margin="4"
-							Background="{ThemeResource App.Theme.BackgroundBrush}"
-							CornerRadius="4" />
-						<FontIcon
-							Margin="8,4,10,4"
-							FontSize="12"
-							Glyph="&#xE70D;" />
-					</StackPanel>
-					<Button.Flyout>
-						<Flyout>
-							<toolkit:ColorPicker
-								IsAlphaEnabled="True"
-								IsColorSpectrumVisible="False"
-								Color="{x:Bind ViewModel.AppThemeBackgroundColor, Mode=TwoWay}" />
-						</Flyout>
-					</Button.Flyout>
-				</Button>
-				<local:SettingsBlockControl.ExpandableContent>
-					<GridView
-						Padding="8"
-						HorizontalAlignment="Stretch"
-						ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
-						ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
-						SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+				</local:SettingsExpander.HeaderIcon>
+				<local:SettingsExpander.Content>
+					<Button Padding="0" AutomationProperties.Name="{helpers:ResourceString Name=Background}">
+						<StackPanel Orientation="Horizontal">
+							<Border
+								Width="24"
+								Height="24"
+								Margin="4"
+								Background="{ThemeResource App.Theme.BackgroundBrush}"
+								CornerRadius="4" />
+							<FontIcon
+								Margin="8,4,10,4"
+								FontSize="12"
+								Glyph="&#xE70D;" />
+						</StackPanel>
+						<Button.Flyout>
+							<Flyout>
+								<toolkit:ColorPicker
+									IsAlphaEnabled="True"
+									IsColorSpectrumVisible="False"
+									Color="{x:Bind ViewModel.AppThemeBackgroundColor, Mode=TwoWay}" />
+							</Flyout>
+						</Button.Flyout>
+					</Button>
+				</local:SettingsExpander.Content>
+				<local:SettingsExpander.Items>
+					<local:SettingsCard>
+						<GridView
+							Padding="8"
+							ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
+							ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
+							SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />
+					</local:SettingsCard>
+				</local:SettingsExpander.Items>
+			</local:SettingsExpander>
 
 			<!--  Compact Spacing  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=UseCompactSpacing}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<local:SettingsCard Header="{helpers:ResourceString Name=UseCompactSpacing}">
+				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE62B;" />
-				</local:SettingsBlockControl.Icon>
+				</local:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=UseCompactSpacing}"
 					IsOn="{x:Bind ViewModel.UseCompactStyles, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</local:SettingsBlockControl>
+					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
+			</local:SettingsCard>
+
 		</StackPanel>
 	</Grid>
 </Page>

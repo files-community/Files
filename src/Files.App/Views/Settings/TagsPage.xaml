@@ -3,13 +3,13 @@
 	x:Class="Files.App.Views.Settings.TagsPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
+	xmlns:wct="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	mc:Ignorable="d">
 
@@ -33,21 +33,16 @@
 	</Page.DataContext>
 
 	<Grid>
-		<StackPanel
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Spacing="4">
+		<StackPanel Spacing="{StaticResource SettingsCardSpacing}">
 			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<RepositionThemeTransition />
-				</TransitionCollection>
+				<EntranceThemeTransition FromVerticalOffset="50" />
+				<RepositionThemeTransition IsStaggeringEnabled="False" />
 			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock
-				Padding="0,0,0,12"
-				FontSize="24"
-				FontWeight="Medium"
+				Margin="2,0,2,12"
+				Style="{StaticResource SubtitleTextBlockStyle}"
 				Text="{helpers:ResourceString Name=FileTags}" />
 
 			<!--  Edit Tags  -->
@@ -106,7 +101,7 @@
 									</StackPanel>
 									<Button.Flyout>
 										<Flyout>
-											<controls:ColorPicker Color="{x:Bind ViewModel.NewTag.Color, Mode=TwoWay}" />
+											<wct:ColorPicker Color="{x:Bind ViewModel.NewTag.Color, Mode=TwoWay}" />
 										</Flyout>
 									</Button.Flyout>
 								</Button>
@@ -245,7 +240,7 @@
 												</StackPanel>
 												<Button.Flyout>
 													<Flyout>
-														<controls:ColorPicker ColorChanged="EditColorPicker_ColorChanged" Color="{x:Bind NewColor, Mode=TwoWay}" />
+														<wct:ColorPicker ColorChanged="EditColorPicker_ColorChanged" Color="{x:Bind NewColor, Mode=TwoWay}" />
 													</Flyout>
 												</Button.Flyout>
 											</Button>
@@ -352,6 +347,7 @@
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
+
 		</StackPanel>
 	</Grid>
 </Page>

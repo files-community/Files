@@ -19,21 +19,16 @@
 	</Page.DataContext>
 
 	<Grid>
-		<StackPanel
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Spacing="4">
+		<StackPanel Spacing="{StaticResource SettingsCardSpacing}">
 			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<RepositionThemeTransition />
-				</TransitionCollection>
+				<EntranceThemeTransition FromVerticalOffset="50" />
+				<RepositionThemeTransition IsStaggeringEnabled="False" />
 			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock
-				Padding="0,0,0,12"
-				FontSize="24"
-				FontWeight="Medium"
+				Margin="2,0,2,12"
+				Style="{StaticResource SubtitleTextBlockStyle}"
 				Text="{helpers:ResourceString Name=Folders}" />
 
 			<!--  Folder Overrides  -->
@@ -167,13 +162,8 @@
 				</ComboBox>
 			</local:SettingsBlockControl>
 
-
 			<!--  Display  -->
-			<TextBlock
-				Padding="0,16,0,4"
-				FontSize="16"
-				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=Display}" />
+			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Display}" />
 
 			<!--  Hidden Items  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=HiddenItems}" HorizontalAlignment="Stretch">
@@ -251,11 +241,7 @@
 			</local:SettingsBlockControl>
 
 			<!--  Behaviors  -->
-			<TextBlock
-				Padding="0,16,0,4"
-				FontSize="16"
-				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=Behaviors}" />
+			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Behaviors}" />
 
 			<!--  Opening items  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=OpeningItems}" HorizontalAlignment="Stretch">
@@ -360,6 +346,7 @@
 						Severity="Warning" />
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
+
 		</StackPanel>
 	</Grid>
 </Page>
