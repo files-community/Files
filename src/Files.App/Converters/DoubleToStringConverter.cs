@@ -2,31 +2,31 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Data;
-using System.Text;
 
 namespace Files.App.Converters
 {
-	internal class StringArrayToString : IValueConverter
+	internal sealed class DoubleToStringConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			var array = value as string[];
-
-			if (array is null || !(array is string[]))
-				return string.Empty;
-
-			var str = new StringBuilder();
-			foreach (var i in array)
+			if (value is not null)
 			{
-				str.Append(string.Format("{0}; ", i));
+				return value.ToString();
 			}
 
-			return str.ToString();
+			return "";
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			return (value as string).Split("; ");
+			try
+			{
+				return Double.Parse(value as string);
+			}
+			catch (FormatException)
+			{
+				return null;
+			}
 		}
 	}
 }
