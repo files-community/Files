@@ -71,8 +71,8 @@
 	<Thickness x:Key="SettingsCardActionIconMargin">14,0,0,0</Thickness>
 	<x:Double x:Key="SettingsCardActionIconMaxSize">13</x:Double>
 	<Thickness x:Key="SettingsCardVerticalHeaderContentSpacing">0,8,0,0</Thickness>
-	<x:Double x:Key="SettingsCardWrapThreshold">800</x:Double>
-	<x:Double x:Key="SettingsCardWrapNoIconThreshold">600</x:Double>
+	<x:Double x:Key="SettingsCardWrapThreshold">476</x:Double>
+	<x:Double x:Key="SettingsCardWrapNoIconThreshold">286</x:Double>
 
 	<x:String x:Key="SettingsExpanderChevronToolTip">Show all settings</x:String>
 	<Thickness x:Key="SettingsExpanderHeaderPadding">16,16,4,16</Thickness>

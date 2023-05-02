@@ -15,7 +15,7 @@
 		<vm:AboutViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
-	<Grid>
+	<Grid x:Name="RootGrid">
 		<StackPanel Spacing="{StaticResource SettingsCardSpacing}">
 			<StackPanel.ChildrenTransitions>
 				<EntranceThemeTransition FromVerticalOffset="50" />
@@ -29,10 +29,7 @@
 				Text="{helpers:ResourceString Name=About}" />
 
 			<!--  App Info  -->
-			<local:SettingsCard
-				HorizontalAlignment="Stretch"
-				Description="{x:Bind ViewModel.Version}"
-				Header="{x:Bind ViewModel.AppName}">
+			<local:SettingsCard Description="{x:Bind ViewModel.Version}" Header="{x:Bind ViewModel.AppName}">
 				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE946;" />
 				</local:SettingsCard.HeaderIcon>
@@ -54,85 +51,65 @@
 				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEB51;" />
 				</local:SettingsCard.HeaderIcon>
-
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-
+				<local:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</local:SettingsCard.ActionIcon>
 			</local:SettingsCard>
 
-
 			<!--  Help and support  -->
-			<TextBlock
-				Padding="0,16,0,4"
-				FontSize="16"
-				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=HelpAndSupport}" />
+			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=HelpAndSupport}" />
 
 			<!--  Documentation  -->
 			<local:SettingsCard
-				HorizontalAlignment="Stretch"
 				Command="{x:Bind ViewModel.OpenDocumentationCommand}"
 				Header="{helpers:ResourceString Name=Documentation}"
 				IsClickEnabled="True">
 				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE736;" />
 				</local:SettingsCard.HeaderIcon>
-
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-
+				<local:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</local:SettingsCard.ActionIcon>
 			</local:SettingsCard>
 
 			<!--  Feedback  -->
-			<local:SettingsExpander HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=Feedback}">
+			<local:SettingsExpander Header="{helpers:ResourceString Name=Feedback}">
 				<local:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xED15;" />
 				</local:SettingsExpander.HeaderIcon>
 				<local:SettingsExpander.Items>
 					<!--  Submit feature request  -->
 					<local:SettingsCard
-						HorizontalAlignment="Stretch"
 						Command="{x:Bind ViewModel.SubmitFeatureRequestCommand}"
 						Header="{helpers:ResourceString Name=SubmitFeatureRequest}"
 						IsClickEnabled="True">
-						<FontIcon
-							FontSize="14"
-							Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-							Glyph="&#xE8A7;" />
+						<local:SettingsCard.ActionIcon>
+							<FontIcon Glyph="&#xE8A7;" />
+						</local:SettingsCard.ActionIcon>
 					</local:SettingsCard>
 					<!--  Submit bug report  -->
 					<local:SettingsCard
-						HorizontalAlignment="Stretch"
 						Command="{x:Bind ViewModel.SubmitBugReportCommand}"
 						Header="{helpers:ResourceString Name=SubmitBugReport}"
 						IsClickEnabled="True">
-						<FontIcon
-							FontSize="14"
-							Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-							Glyph="&#xE8A7;" />
+						<local:SettingsCard.ActionIcon>
+							<FontIcon Glyph="&#xE8A7;" />
+						</local:SettingsCard.ActionIcon>
 					</local:SettingsCard>
 				</local:SettingsExpander.Items>
 			</local:SettingsExpander>
 
 			<!--  Open Log File Location  -->
 			<local:SettingsCard
-				HorizontalAlignment="Stretch"
 				Command="{x:Bind ViewModel.OpenLogLocationCommand}"
 				Header="{helpers:ResourceString Name=OpenLogLocation}"
 				IsClickEnabled="True">
 				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE838;" />
 				</local:SettingsCard.HeaderIcon>
-
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-
+				<local:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</local:SettingsCard.ActionIcon>
 			</local:SettingsCard>
 
 			<!--  Open Source  -->
@@ -141,57 +118,46 @@
 			<!--  Third Party Licenses  -->
 			<local:SettingsExpander
 				x:Name="ThirdPartyLicensesSettingsExpander"
-				HorizontalAlignment="Stretch"
 				Expanded="ThirdPartyLicensesSettingsExpander_Expanded"
 				Header="{helpers:ResourceString Name=ThirdPartyLicenses}">
 				<local:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE15E;" />
 				</local:SettingsExpander.HeaderIcon>
 				<local:SettingsExpander.Items>
-					<local:SettingsCard>
-						<ScrollViewer Height="400">
-							<wct:MarkdownTextBlock
-								Margin="10"
-								Background="Transparent"
-								LinkClicked="MarkdownTextBlock_LinkClicked"
-								Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-						</ScrollViewer>
-					</local:SettingsCard>
+					<ScrollViewer Height="400" Background="{ThemeResource SettingsCardBackground}">
+						<wct:MarkdownTextBlock
+							Margin="16"
+							Background="Transparent"
+							LinkClicked="MarkdownTextBlock_LinkClicked"
+							Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					</ScrollViewer>
 				</local:SettingsExpander.Items>
 			</local:SettingsExpander>
 
 			<!--  Open GitHub repo  -->
 			<local:SettingsCard
-				HorizontalAlignment="Stretch"
 				Command="{x:Bind ViewModel.OpenGitHubRepoCommand}"
 				Header="{helpers:ResourceString Name=OpenGitHubRepo}"
 				IsClickEnabled="True">
 				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE12B;" />
 				</local:SettingsCard.HeaderIcon>
-
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-
+				<local:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</local:SettingsCard.ActionIcon>
 			</local:SettingsCard>
 
 			<!--  Privacy  -->
 			<local:SettingsCard
-				HorizontalAlignment="Stretch"
 				Command="{x:Bind ViewModel.OpenPrivacyPolicyCommand}"
 				Header="{helpers:ResourceString Name=Privacy}"
 				IsClickEnabled="True">
 				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE72E;" />
 				</local:SettingsCard.HeaderIcon>
-
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-
+				<local:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</local:SettingsCard.ActionIcon>
 			</local:SettingsCard>
 
 		</StackPanel>

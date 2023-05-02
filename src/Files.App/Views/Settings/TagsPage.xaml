@@ -46,17 +46,17 @@
 				Text="{helpers:ResourceString Name=FileTags}" />
 
 			<!--  Edit Tags  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=FileTags}"
-				HorizontalAlignment="Stretch"
-				IsExpanded="True">
-				<local:SettingsBlockControl.Icon>
+			<local:SettingsExpander Header="{helpers:ResourceString Name=FileTags}" IsExpanded="True">
+				<local:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE8EC;" />
-				</local:SettingsBlockControl.Icon>
+				</local:SettingsExpander.HeaderIcon>
 
-				<Button Command="{x:Bind ViewModel.AddTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=NewTag}" />
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
+				<local:SettingsExpander.Content>
+					<Button Command="{x:Bind ViewModel.AddTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=NewTag}" />
+				</local:SettingsExpander.Content>
+
+				<local:SettingsExpander.Items>
+					<StackPanel Background="{ThemeResource SettingsCardBackground}">
 						<!--  Create new tag  -->
 						<Grid
 							x:Name="AddTagGrid"
@@ -345,8 +345,8 @@
 							</ListView.ItemTemplate>
 						</ListView>
 					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+				</local:SettingsExpander.Items>
+			</local:SettingsExpander>
 
 		</StackPanel>
 	</Grid>

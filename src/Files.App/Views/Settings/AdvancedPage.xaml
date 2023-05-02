@@ -12,15 +12,11 @@
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
 
-	<Page.Resources>
-		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
-	</Page.Resources>
-
 	<Page.DataContext>
 		<vm:AdvancedViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
-	<Grid>
+	<Grid x:Name="RootGrid">
 		<StackPanel Spacing="{StaticResource SettingsCardSpacing}">
 			<StackPanel.ChildrenTransitions>
 				<EntranceThemeTransition FromVerticalOffset="50" />
@@ -34,92 +30,86 @@
 				Text="{helpers:ResourceString Name=Advanced}" />
 
 			<!--  Export  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=ExportSettings}"
-				ButtonCommand="{x:Bind ViewModel.ExportSettingsCommand}"
-				IsClickable="True">
-				<local:SettingsBlockControl.Icon>
+			<local:SettingsCard
+				Command="{x:Bind ViewModel.ExportSettingsCommand}"
+				Header="{helpers:ResourceString Name=ExportSettings}"
+				IsClickEnabled="True">
+				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEDE1;" />
-				</local:SettingsBlockControl.Icon>
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</local:SettingsBlockControl>
+				</local:SettingsCard.HeaderIcon>
+				<local:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</local:SettingsCard.ActionIcon>
+			</local:SettingsCard>
 
 			<!--  Import  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=ImportSettings}"
-				ButtonCommand="{x:Bind ViewModel.ImportSettingsCommand}"
-				IsClickable="True">
-				<local:SettingsBlockControl.Icon>
+			<local:SettingsCard
+				Command="{x:Bind ViewModel.ImportSettingsCommand}"
+				Header="{helpers:ResourceString Name=ImportSettings}"
+				IsClickEnabled="True">
+				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEDE2;" />
-				</local:SettingsBlockControl.Icon>
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</local:SettingsBlockControl>
+				</local:SettingsCard.HeaderIcon>
+				<local:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</local:SettingsCard.ActionIcon>
+			</local:SettingsCard>
 
 			<!--  Edit Settings File  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=EditSettingsFile}"
-				ButtonCommand="{x:Bind ViewModel.OpenSettingsJsonCommand}"
-				IsClickable="True">
-				<local:SettingsBlockControl.Icon>
+			<local:SettingsCard
+				Command="{x:Bind ViewModel.OpenSettingsJsonCommand}"
+				Header="{helpers:ResourceString Name=EditSettingsFile}"
+				IsClickEnabled="True">
+				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8DA;" />
-				</local:SettingsBlockControl.Icon>
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</local:SettingsBlockControl>
+				</local:SettingsCard.HeaderIcon>
+				<local:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</local:SettingsCard.ActionIcon>
+			</local:SettingsCard>
 
 			<!--  Default file manager  -->
 			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=ExperimentalFeatureFlags}" />
 
 			<!--  Replace File Explorer  -->
-			<local:SettingsBlockControl
+			<local:SettingsCard
 				x:Name="SetAsDefaultSettingsBlockControl"
-				Title="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
-				HorizontalAlignment="Stretch"
 				Description="{helpers:ResourceString Name=SettingsSetAsDefaultFileManagerDescription}"
-				IsExpanded="True">
-				<local:SettingsBlockControl.Icon>
+				Header="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}">
+				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEC50;" />
-				</local:SettingsBlockControl.Icon>
+				</local:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
 					IsOn="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}">
+					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}">
 					<i:Interaction.Behaviors>
 						<icore:EventTriggerBehavior EventName="Toggled">
 							<icore:InvokeCommandAction Command="{x:Bind ViewModel.SetAsDefaultExplorerCommand, Mode=OneWay}" />
 						</icore:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
 				</ToggleSwitch>
-			</local:SettingsBlockControl>
+			</local:SettingsCard>
 
-			<!--  Replace Open File Dialog  -->
-			<local:SettingsBlockControl
+			<!--  Replace Open File Dialog (Invisible)  -->
+			<local:SettingsCard
 				x:Name="ReplaceOpenFileDialogSetting"
-				Title="{helpers:ResourceString Name=SettingsSetAsOpenDialog}"
-				HorizontalAlignment="Stretch"
-				x:Load="False">
-				<local:SettingsBlockControl.Icon>
+				x:Load="False"
+				Header="{helpers:ResourceString Name=SettingsSetAsOpenDialog}">
+				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE1A5;" />
-				</local:SettingsBlockControl.Icon>
+				</local:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					IsEnabled="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=OneWay}"
 					IsOn="{x:Bind ViewModel.IsSetAsOpenFileDialog, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}">
+					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}">
 					<i:Interaction.Behaviors>
 						<icore:EventTriggerBehavior EventName="Toggled">
 							<icore:InvokeCommandAction Command="{x:Bind ViewModel.SetAsOpenFileDialogCommand, Mode=OneWay}" />
 						</icore:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
 				</ToggleSwitch>
-			</local:SettingsBlockControl>
+			</local:SettingsCard>
 
 		</StackPanel>
 	</Grid>

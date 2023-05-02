@@ -83,7 +83,7 @@
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<Grid>
+	<Grid x:Name="RootGrid">
 		<StackPanel Spacing="{StaticResource SettingsCardSpacing}">
 			<StackPanel.ChildrenTransitions>
 				<EntranceThemeTransition FromVerticalOffset="50" />
@@ -138,13 +138,12 @@
 					</Button>
 				</local:SettingsExpander.Content>
 				<local:SettingsExpander.Items>
-					<local:SettingsCard>
-						<GridView
-							Padding="8"
-							ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
-							ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
-							SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />
-					</local:SettingsCard>
+					<GridView
+						Padding="16"
+						Background="{ThemeResource SettingsCardBackground}"
+						ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
+						ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
+						SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />
 				</local:SettingsExpander.Items>
 			</local:SettingsExpander>
 

@@ -17,7 +17,7 @@
 		<vm:GeneralViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
-	<Grid>
+	<Grid x:Name="RootGrid">
 		<StackPanel Spacing="{StaticResource SettingsCardSpacing}">
 			<StackPanel.ChildrenTransitions>
 				<EntranceThemeTransition FromVerticalOffset="50" />
