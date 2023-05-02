@@ -477,7 +477,7 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Différents types</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>Tous dans {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
@@ -1210,7 +1210,7 @@
     <value>Aucun élément sélectionné</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
-    <value>Cible</value>
+    <value>Destination</value>
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Arguments :</value>
@@ -2308,7 +2308,7 @@
     <value>Le raccourci ne peut pas être ouvert</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>La cible est introuvable {0}. Voulez-vous supprimer ce raccourci ?</value>
+    <value>La destination cible {0} est introuvable. Voulez-vous supprimer ce raccourci ?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Vous n'avez pas l'autorisation pour accéder à ce dossier.</value>
@@ -3204,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Rétablir la dernière opération</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Emplacement :</value>
   </data>
 </root>
