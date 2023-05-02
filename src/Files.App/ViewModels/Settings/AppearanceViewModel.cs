@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
-using Files.App.Views.Settings.Appearance;
 using Files.Backend.Services;
 using Microsoft.UI.Xaml;
 
@@ -15,7 +14,7 @@ namespace Files.App.ViewModels.Settings
 
 		public List<string> Themes { get; private set; }
 
-		public ObservableCollection<AppThemeResource> AppThemeResources { get; }
+		public ObservableCollection<AppThemeResourceItem> AppThemeResources { get; }
 
 		public AppearanceViewModel(IUserSettingsService userSettingsService, IResourcesService resourcesService)
 		{
@@ -48,7 +47,7 @@ namespace Files.App.ViewModels.Settings
 				if (AppThemeResources.Last().Name == "Custom")
 					AppThemeResources.Remove(AppThemeResources.Last());
 
-				var appThemeBackgroundColor = new AppThemeResource
+				var appThemeBackgroundColor = new AppThemeResourceItem
 				{
 					BackgroundColor = themeBackgroundColor,
 					Name = "Custom"
@@ -62,9 +61,8 @@ namespace Files.App.ViewModels.Settings
 				.FirstOrDefault() ?? AppThemeResources[0];
 		}
 
-
-		private AppThemeResource selectedAppThemeResources;
-		public AppThemeResource SelectedAppThemeResources
+		private AppThemeResourceItem selectedAppThemeResources;
+		public AppThemeResourceItem SelectedAppThemeResources
 		{
 			get => selectedAppThemeResources;
 			set

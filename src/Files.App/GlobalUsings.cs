@@ -30,6 +30,7 @@ global using global::Files.App.Data.Models;
 global using global::Files.App.Data.Parameters;
 global using global::Files.App.Interacts;
 global using global::Files.App.ViewModels;
+global using global::Files.Backend.Enums;
 global using global::Files.Backend.Services.Settings;
 global using global::Files.Shared;
 global using global::Files.Shared.Enums;

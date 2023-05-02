@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers.ContextFlyouts;
@@ -25,11 +24,9 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
-using VA = Vanara.Windows.Shell;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Shared.Enums.SortDirection;
-using Files.App.Data.EventArguments;
-using Files.App.Data.Models;
+using VanaraWindowsShell = Vanara.Windows.Shell;
 
 namespace Files.App
 {
@@ -893,7 +890,7 @@ namespace Files.App
 		{
 			try
 			{
-				var shellItemList = e.Items.OfType<ListedItem>().Select(x => new VA.ShellItem(x.ItemPath)).ToArray();
+				var shellItemList = e.Items.OfType<ListedItem>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray();
 				if (shellItemList[0].FileSystemPath is not null)
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
@@ -1355,21 +1352,21 @@ namespace Files.App
 				showError?.Invoke(false);
 			}
 		}
-	}
 
-	public class ContextMenuExtensions : DependencyObject
-	{
-		public static ItemsControl GetItemsControl(DependencyObject obj)
+		public class ContextMenuExtensions : DependencyObject
 		{
-			return (ItemsControl)obj.GetValue(ItemsControlProperty);
-		}
+			public static ItemsControl GetItemsControl(DependencyObject obj)
+			{
+				return (ItemsControl)obj.GetValue(ItemsControlProperty);
+			}
 
-		public static void SetItemsControl(DependencyObject obj, ItemsControl value)
-		{
-			obj.SetValue(ItemsControlProperty, value);
-		}
+			public static void SetItemsControl(DependencyObject obj, ItemsControl value)
+			{
+				obj.SetValue(ItemsControlProperty, value);
+			}
 
-		public static readonly DependencyProperty ItemsControlProperty =
-			DependencyProperty.RegisterAttached("ItemsControl", typeof(ItemsControl), typeof(ContextMenuExtensions), new PropertyMetadata(null));
+			public static readonly DependencyProperty ItemsControlProperty =
+				DependencyProperty.RegisterAttached("ItemsControl", typeof(ItemsControl), typeof(ContextMenuExtensions), new PropertyMetadata(null));
+		}
 	}
 }
