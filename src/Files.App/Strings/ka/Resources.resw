@@ -477,8 +477,8 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>განსხვავებული ნიმუშები</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>ყველა {0} -ში</value>
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
+    <value>All in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>გამოყენებული სივრცე:</value>
@@ -3204,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Redo the last file operation</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location:</value>
   </data>
 </root>
