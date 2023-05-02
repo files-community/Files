@@ -85,9 +85,6 @@
       <None Remove="UserControls\OpacityIcon.xaml" />
     </ItemGroup>
     <ItemGroup>
-      <Page Remove="UserControls\Settings\SettingsControls.xaml" />
-    </ItemGroup>
-    <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
         <PackageReference Include="FluentFTP" Version="43.0.1" />
@@ -148,13 +145,5 @@
       <Page Update="UserControls\OpacityIcon.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="UserControls\Settings\Outdated\" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Update="UserControls\Settings\SettingsControls.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </None>
     </ItemGroup>
 </Project>
