@@ -16,7 +16,7 @@ namespace Files.App.ViewModels
 		private readonly IRichCommand command;
 
 		private bool? _IsVisible = null;
-		public bool IsVisible
+		public bool? IsVisible
 		{
 			get => _IsVisible ?? command.IsExecutable;
 			init => _IsVisible = value;
@@ -44,7 +44,7 @@ namespace Files.App.ViewModels
 
 			bool isExecutable = command.IsExecutable;
 
-			if (IsVisible is null && !isExecutable)
+			if (_IsVisible is null && !isExecutable)
 				return none;
 
 			ItemType type = IsToggle ? ItemType.Toggle : ItemType.Item;

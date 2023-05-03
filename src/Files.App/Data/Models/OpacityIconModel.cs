@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls;
+using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Models
 {

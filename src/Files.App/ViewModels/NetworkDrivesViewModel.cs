@@ -52,7 +52,7 @@ namespace Files.App.ViewModels
 			var unsortedDrives = new List<ILocatableFolder>();
 			Drives.Clear();
 
-			await foreach (ILocatableFolder item in networkDrivesService.GetDrivesAsync())
+			await foreach (ILocatableFolder item in _networkDrivesService.GetDrivesAsync())
 			{
 				unsortedDrives.Add(item);
 			}
