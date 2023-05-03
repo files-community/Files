@@ -1,5 +1,6 @@
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.Enums;
+using Files.Sdk.Storage.ExtendableStorage;
 using Files.Sdk.Storage.Extensions;
 using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.ModifiableStorage;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
 {
-	public sealed class FtpStorageFolder : FtpStorable, ILocatableFolder, IModifiableFolder
+	public sealed class FtpStorageFolder : FtpStorable, ILocatableFolder, IModifiableFolder, IFolderExtended
 	{
 		public FtpStorageFolder(string path, string name)
 			: base(path, name)
@@ -107,11 +108,11 @@ namespace Files.App.Storage.FtpStorage
 		}
 
 		/// <inheritdoc/>
-		public async Task<IStorable> CreateCopyOfAsync(IStorable itemToCopy, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
+		public async Task<IStorable> CreateCopyOfAsync(IStorable itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			if (itemToCopy is IFile sourceFile)
 			{
-				var copiedFile = await CreateFileAsync(itemToCopy.Name, collisionOption, cancellationToken);
+				var copiedFile = await CreateFileAsync(itemToCopy.Name, overwrite, cancellationToken);
 				await sourceFile.CopyContentsToAsync(copiedFile, cancellationToken);
 
 				return copiedFile;
@@ -123,19 +124,19 @@ namespace Files.App.Storage.FtpStorage
 		}
 
 		/// <inheritdoc/>
-		public async Task<IStorable> MoveFromAsync(IStorable itemToMove, IModifiableFolder source, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
+		public async Task<IStorable> MoveFromAsync(IStorable itemToMove, IModifiableFolder source, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var newItem = await CreateCopyOfAsync(itemToMove, collisionOption, cancellationToken);
+			var newItem = await CreateCopyOfAsync(itemToMove, overwrite, cancellationToken);
 			await source.DeleteAsync(itemToMove, true, cancellationToken);
 
 			return newItem;
 		}
 
 		/// <inheritdoc/>
-		public async Task<IFile> CreateFileAsync(string desiredName, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
+		public async Task<IFile> CreateFileAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
@@ -151,8 +152,7 @@ namespace Files.App.Storage.FtpStorage
 			}
 
 			using var stream = new MemoryStream();
-			var replaceExisting = collisionOption == CreationCollisionOption.ReplaceExisting;
-			var result = await ftpClient.UploadStream(stream, newPath, replaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip, token: cancellationToken);
+			var result = await ftpClient.UploadStream(stream, newPath, overwrite ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip, token: cancellationToken);
 
 			if (result == FtpStatus.Success)
 			{
@@ -172,7 +172,7 @@ namespace Files.App.Storage.FtpStorage
 		}
 
 		/// <inheritdoc/>
-		public async Task<IFolder> CreateFolderAsync(string desiredName, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
+		public async Task<IFolder> CreateFolderAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
@@ -187,8 +187,7 @@ namespace Files.App.Storage.FtpStorage
 					return new FtpStorageFolder(newPath, desiredName);
 			}
 
-			var replaceExisting = collisionOption == CreationCollisionOption.ReplaceExisting;
-			var isSuccessful = await ftpClient.CreateDirectory(newPath, replaceExisting, cancellationToken);
+			var isSuccessful = await ftpClient.CreateDirectory(newPath, overwrite, cancellationToken);
 			if (!isSuccessful)
 				throw new IOException("Directory was not successfully created.");
 

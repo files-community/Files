@@ -1,5 +1,6 @@
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.Enums;
+using Files.Sdk.Storage.ExtendableStorage;
 using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.ModifiableStorage;
 using System;
@@ -8,12 +9,11 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using CreationCollisionOption = Files.Sdk.Storage.Enums.CreationCollisionOption;
 
 namespace Files.App.Storage.WindowsStorage
 {
 	/// <inheritdoc cref="IFolder"/>
-	public sealed class WindowsStorageFolder : WindowsStorable<StorageFolder>, ILocatableFolder, IModifiableFolder
+	public sealed class WindowsStorageFolder : WindowsStorable<StorageFolder>, ILocatableFolder, IModifiableFolder, IFolderExtended
 	{
 		public WindowsStorageFolder(StorageFolder storage)
 			: base(storage)
@@ -89,11 +89,11 @@ namespace Files.App.Storage.WindowsStorage
 		}
 
 		/// <inheritdoc/>
-		public async Task<IStorable> CreateCopyOfAsync(IStorable itemToCopy, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
+		public async Task<IStorable> CreateCopyOfAsync(IStorable itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			if (itemToCopy is WindowsStorable<StorageFile> storageFile)
 			{
-				var copiedFileTask = storageFile.storage.CopyAsync(storage, itemToCopy.Name, GetWindowsNameCollisionOption(collisionOption)).AsTask(cancellationToken);
+				var copiedFileTask = storageFile.storage.CopyAsync(storage, itemToCopy.Name, GetWindowsNameCollisionOption(overwrite)).AsTask(cancellationToken);
 				var copiedFile = await copiedFileTask;
 
 				return new WindowsStorageFile(copiedFile);
@@ -103,11 +103,11 @@ namespace Files.App.Storage.WindowsStorage
 		}
 
 		/// <inheritdoc/>
-		public async Task<IStorable> MoveFromAsync(IStorable itemToMove, IModifiableFolder source, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
+		public async Task<IStorable> MoveFromAsync(IStorable itemToMove, IModifiableFolder source, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			if (itemToMove is WindowsStorable<StorageFile> storageFile)
 			{
-				await storageFile.storage.MoveAsync(storage, itemToMove.Name, GetWindowsNameCollisionOption(collisionOption)).AsTask(cancellationToken);
+				await storageFile.storage.MoveAsync(storage, itemToMove.Name, GetWindowsNameCollisionOption(overwrite)).AsTask(cancellationToken);
 				return new WindowsStorageFile(storageFile.storage);
 			}
 
@@ -115,18 +115,18 @@ namespace Files.App.Storage.WindowsStorage
 		}
 
 		/// <inheritdoc/>
-		public async Task<IFile> CreateFileAsync(string desiredName, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
+		public async Task<IFile> CreateFileAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
-			var fileTask = storage.CreateFileAsync(desiredName, GetWindowsCreationCollisionOption(collisionOption)).AsTask(cancellationToken);
+			var fileTask = storage.CreateFileAsync(desiredName, GetWindowsCreationCollisionOption(overwrite)).AsTask(cancellationToken);
 			var file = await fileTask;
 
 			return new WindowsStorageFile(file);
 		}
 
 		/// <inheritdoc/>
-		public async Task<IFolder> CreateFolderAsync(string desiredName, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
+		public async Task<IFolder> CreateFolderAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
-			var folderTask = storage.CreateFolderAsync(desiredName, GetWindowsCreationCollisionOption(collisionOption)).AsTask(cancellationToken);
+			var folderTask = storage.CreateFolderAsync(desiredName, GetWindowsCreationCollisionOption(overwrite)).AsTask(cancellationToken);
 			var folder = await folderTask;
 
 			return new WindowsStorageFolder(folder);
@@ -146,29 +146,14 @@ namespace Files.App.Storage.WindowsStorage
 			return deletePermanentlyFlag ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default;
 		}
 
-		private static Windows.Storage.NameCollisionOption GetWindowsNameCollisionOption(
-			CreationCollisionOption options)
+		private static NameCollisionOption GetWindowsNameCollisionOption(bool overwrite)
 		{
-			return options switch
-			{
-				CreationCollisionOption.GenerateUniqueName => Windows.Storage.NameCollisionOption.GenerateUniqueName,
-				CreationCollisionOption.ReplaceExisting => Windows.Storage.NameCollisionOption.ReplaceExisting,
-				CreationCollisionOption.FailIfExists => Windows.Storage.NameCollisionOption.FailIfExists,
-				_ => throw new ArgumentOutOfRangeException(nameof(options))
-			};
+			return overwrite ? NameCollisionOption.ReplaceExisting : NameCollisionOption.GenerateUniqueName;
 		}
 
-		private static Windows.Storage.CreationCollisionOption GetWindowsCreationCollisionOption(
-			CreationCollisionOption options)
+		private static CreationCollisionOption GetWindowsCreationCollisionOption(bool overwrite)
 		{
-			return options switch
-			{
-				CreationCollisionOption.GenerateUniqueName => Windows.Storage.CreationCollisionOption.GenerateUniqueName,
-				CreationCollisionOption.ReplaceExisting => Windows.Storage.CreationCollisionOption.ReplaceExisting,
-				CreationCollisionOption.OpenIfExists => Windows.Storage.CreationCollisionOption.OpenIfExists,
-				CreationCollisionOption.FailIfExists => Windows.Storage.CreationCollisionOption.FailIfExists,
-				_ => throw new ArgumentOutOfRangeException(nameof(options))
-			};
+			return overwrite ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.OpenIfExists;
 		}
 	}
 }

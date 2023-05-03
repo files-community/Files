@@ -1,5 +1,4 @@
-﻿using Files.Sdk.Storage.Enums;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace Files.Sdk.Storage.ModifiableStorage
@@ -17,21 +16,21 @@ namespace Files.Sdk.Storage.ModifiableStorage
 		/// <summary>
 		/// Creates a copy of the provided storable item in this folder.
 		/// </summary>
-		Task<IStorable> CreateCopyOfAsync(IStorable itemToCopy, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default);
+		Task<IStorable> CreateCopyOfAsync(IStorable itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Moves a storable item out of the provided folder, and into this folder. Returns the new item that resides in this folder.
 		/// </summary>
-		Task<IStorable> MoveFromAsync(IStorable itemToMove, IModifiableFolder source, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default);
+		Task<IStorable> MoveFromAsync(IStorable itemToMove, IModifiableFolder source, bool overwrite = default, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Creates a new file with the desired name inside this folder.
 		/// </summary>
-		Task<IFile> CreateFileAsync(string desiredName, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default);
+		Task<IFile> CreateFileAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Creates a new folder with the desired name inside this folder.
 		/// </summary>
-		Task<IFolder> CreateFolderAsync(string desiredName, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default);
+		Task<IFolder> CreateFolderAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default);
 	}
 }
