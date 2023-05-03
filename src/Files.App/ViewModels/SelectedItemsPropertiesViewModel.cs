@@ -8,92 +8,92 @@ namespace Files.App.ViewModels
 {
 	public class SelectedItemsPropertiesViewModel : ObservableObject
 	{
-		private bool loadFolderGlyph;
+		private bool _LoadFolderGlyph;
 		public bool LoadFolderGlyph
 		{
-			get => loadFolderGlyph;
-			set => SetProperty(ref loadFolderGlyph, value);
+			get => _LoadFolderGlyph;
+			set => SetProperty(ref _LoadFolderGlyph, value);
 		}
 
-		private bool loadUnknownTypeGlyph;
+		private bool _LoadUnknownTypeGlyph;
 		public bool LoadUnknownTypeGlyph
 		{
-			get => loadUnknownTypeGlyph;
-			set => SetProperty(ref loadUnknownTypeGlyph, value);
+			get => _LoadUnknownTypeGlyph;
+			set => SetProperty(ref _LoadUnknownTypeGlyph, value);
 		}
 
-		private bool loadCombinedItemsGlyph;
+		private bool _LoadCombinedItemsGlyph;
 		public bool LoadCombinedItemsGlyph
 		{
-			get => loadCombinedItemsGlyph;
-			set => SetProperty(ref loadCombinedItemsGlyph, value);
+			get => _LoadCombinedItemsGlyph;
+			set => SetProperty(ref _LoadCombinedItemsGlyph, value);
 		}
 
-		private Uri customIconSource;
+		private Uri _CustomIconSource;
 		public Uri CustomIconSource
 		{
-			get => customIconSource;
-			set => SetProperty(ref customIconSource, value);
+			get => _CustomIconSource;
+			set => SetProperty(ref _CustomIconSource, value);
 		}
 
-		private bool loadCustomIcon;
+		private bool _LoadCustomIcon;
 		public bool LoadCustomIcon
 		{
-			get => loadCustomIcon;
-			set => SetProperty(ref loadCustomIcon, value);
+			get => _LoadCustomIcon;
+			set => SetProperty(ref _LoadCustomIcon, value);
 		}
 
-		private bool loadFileIcon;
+		private bool _LoadFileIcon;
 		public bool LoadFileIcon
 		{
-			get => loadFileIcon;
-			set => SetProperty(ref loadFileIcon, value);
+			get => _LoadFileIcon;
+			set => SetProperty(ref _LoadFileIcon, value);
 		}
 
-		private byte[] iconData;
+		private byte[] _IconData;
 		public byte[] IconData
 		{
-			get => iconData;
-			set => SetProperty(ref iconData, value);
+			get => _IconData;
+			set => SetProperty(ref _IconData, value);
 		}
 
-		private string itemName;
+		private string _ItemName;
 		public string ItemName
 		{
-			get => itemName;
+			get => _ItemName;
 			set
 			{
 				ItemNameVisibility = true;
-				SetProperty(ref itemName, value);
+				SetProperty(ref _ItemName, value);
 			}
 		}
 
-		private string originalItemName;
+		private string _OriginalItemName;
 		public string OriginalItemName
 		{
-			get => originalItemName;
+			get => _OriginalItemName;
 			set
 			{
 				ItemNameVisibility = true;
-				SetProperty(ref originalItemName, value);
+				SetProperty(ref _OriginalItemName, value);
 			}
 		}
 
-		private bool itemNameVisibility = false;
+		private bool _ItemNameVisibility = false;
 		public bool ItemNameVisibility
 		{
-			get => itemNameVisibility;
-			set => SetProperty(ref itemNameVisibility, value);
+			get => _ItemNameVisibility;
+			set => SetProperty(ref _ItemNameVisibility, value);
 		}
 
-		private string itemType;
+		private string _ItemType;
 		public string ItemType
 		{
-			get => itemType;
+			get => _ItemType;
 			set
 			{
 				ItemTypeVisibility = true;
-				SetProperty(ref itemType, value);
+				SetProperty(ref _ItemType, value);
 			}
 		}
 

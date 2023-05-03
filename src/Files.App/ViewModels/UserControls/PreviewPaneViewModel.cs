@@ -65,6 +65,13 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref previewPaneContent, value);
 		}
 
+		/// <summary>
+		/// true if the content needs to be refreshed the next time the model is used
+		/// </summary>
+		private bool needsRefresh = false;
+
+		public ICommand ShowPreviewOnlyInvoked { get; }
+
 		public PreviewPaneViewModel(IUserSettingsService userSettings, IPreviewPaneSettingsService previewSettings)
 		{
 			userSettingsService = userSettings;
@@ -280,8 +287,6 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public ICommand ShowPreviewOnlyInvoked { get; }
-
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			if (e.SettingName is nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
@@ -321,11 +326,6 @@ namespace Files.App.ViewModels
 		}
 
 		/// <summary>
-		/// true if the content needs to be refreshed the next time the model is used
-		/// </summary>
-		private bool needsRefresh = false;
-
-		/// <summary>
 		/// refreshes the content if it needs to be refreshed, does nothing otherwise
 		/// </summary>
 		public void TryRefresh()
@@ -343,12 +343,4 @@ namespace Files.App.ViewModels
 		}
 	}
 
-	public enum PreviewPaneStates
-	{
-		NoItemSelected,
-		NoPreviewAvailable,
-		NoPreviewOrDetailsAvailable,
-		PreviewAndDetailsAvailable,
-		LoadingPreview,
-	}
 }

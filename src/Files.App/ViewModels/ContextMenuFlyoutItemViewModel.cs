@@ -108,16 +108,4 @@ namespace Files.App.ViewModels
 		Toggle,
 		SplitButton,
 	}
-
-	public struct OpacityIconModel
-	{
-		public string OpacityIconStyle { get; set; }
-
-		public OpacityIcon ToOpacityIcon() => new()
-		{
-			Style = (Style)Application.Current.Resources[OpacityIconStyle],
-		};
-
-		public bool IsValid => !string.IsNullOrEmpty(OpacityIconStyle);
-	}
 }

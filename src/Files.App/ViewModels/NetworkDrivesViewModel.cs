@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Items;
 using Files.Backend.Services;
 using Files.Sdk.Storage.LocatableStorage;
 
@@ -16,11 +15,13 @@ namespace Files.App.ViewModels
 		}
 
 		private ObservableCollection<ILocatableFolder> drives;
-		private readonly INetworkDrivesService networkDrivesService;
+
+		private readonly INetworkDrivesService _networkDrivesService;
 
 		public NetworkDrivesViewModel(INetworkDrivesService networkDrivesService)
 		{
-			this.networkDrivesService = networkDrivesService;
+			_networkDrivesService = networkDrivesService;
+
 			drives = new ObservableCollection<ILocatableFolder>();
 
 			var networkItem = new DriveItem
@@ -31,6 +32,7 @@ namespace Files.App.ViewModels
 				Type = DriveType.Network,
 				ItemType = NavigationControlItemType.Drive,
 			};
+
 			networkItem.MenuOptions = new ContextMenuOptions
 			{
 				IsLocationItem = true,
@@ -65,7 +67,10 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public void DisconnectNetworkDrive(ILocatableFolder drive) => networkDrivesService.DisconnectNetworkDrive(drive);
-		public Task OpenMapNetworkDriveDialogAsync() => networkDrivesService.OpenMapNetworkDriveDialogAsync();
+		public void DisconnectNetworkDrive(ILocatableFolder drive)
+			=> _networkDrivesService.DisconnectNetworkDrive(drive);
+
+		public Task OpenMapNetworkDriveDialogAsync()
+			=> _networkDrivesService.OpenMapNetworkDriveDialogAsync();
 	}
 }

@@ -12,7 +12,6 @@ namespace Files.App.ViewModels
 			UserLength = new GridLength(24, GridUnitType.Pixel),
 			IsResizeable = false,
 		};
-
 		[LiteDB.BsonIgnore]
 		public ColumnViewModel IconColumn
 		{
@@ -31,7 +30,6 @@ namespace Files.App.ViewModels
 		{
 			NormalMaxLength = 1000d
 		};
-
 		public ColumnViewModel NameColumn
 		{
 			get => nameColumn;
@@ -43,7 +41,6 @@ namespace Files.App.ViewModels
 			UserLength = new GridLength(50),
 			NormalMaxLength = 80,
 		};
-
 		public ColumnViewModel StatusColumn
 		{
 			get => statusColumn;
@@ -61,7 +58,6 @@ namespace Files.App.ViewModels
 		{
 			NormalMaxLength = 500,
 		};
-
 		public ColumnViewModel OriginalPathColumn
 		{
 			get => originalPathColumn;
@@ -86,7 +82,6 @@ namespace Files.App.ViewModels
 		{
 			UserCollapsed = true
 		};
-
 		public ColumnViewModel DateCreatedColumn
 		{
 			get => dateCreatedColumn;

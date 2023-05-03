@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.EventArguments;
 using Files.App.Helpers.LayoutPreferences;
 using Files.App.Views.LayoutModes;
 using System.Text.Json;

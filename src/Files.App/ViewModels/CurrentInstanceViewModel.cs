@@ -158,7 +158,8 @@ namespace Files.App.ViewModels
 			get => !isPageTypeRecycleBin && !isPageTypeFtp && !isPageTypeZipFolder;
 		}
 
-		public bool IsGitRepository => !string.IsNullOrWhiteSpace(gitRepositoryPath);
+		public bool IsGitRepository
+			=> !string.IsNullOrWhiteSpace(gitRepositoryPath);
 
 		private string? gitRepositoryPath;
 		public string? GitRepositoryPath

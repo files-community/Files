@@ -5,18 +5,18 @@ namespace Files.App.ViewModels
 {
 	public class DirectoryPropertiesViewModel : ObservableObject
 	{
-		private string directoryItemCount;
+		private string _DirectoryItemCount;
 		public string DirectoryItemCount
 		{
-			get => directoryItemCount;
-			set => SetProperty(ref directoryItemCount, value);
+			get => _DirectoryItemCount;
+			set => SetProperty(ref _DirectoryItemCount, value);
 		}
 
-		private string? gitBranchDisplayName;
+		private string? _GitBranchDisplayName;
 		public string? GitBranchDisplayName
 		{
-			get => gitBranchDisplayName;
-			set => SetProperty(ref gitBranchDisplayName, value);
+			get => _GitBranchDisplayName;
+			set => SetProperty(ref _GitBranchDisplayName, value);
 		}
 	}
 }

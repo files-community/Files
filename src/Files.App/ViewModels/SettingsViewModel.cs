@@ -12,18 +12,17 @@ namespace Files.App.ViewModels
 	[Obsolete("Do not use this class as Settings store anymore, settings have been merged to IUserSettingsService.")]
 	public class SettingsViewModel : ObservableObject
 	{
-		private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+		private ApplicationDataContainer localSettings
+			=> ApplicationData.Current.LocalSettings;
 
 		public SettingsViewModel()
 		{
 			UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
 		}
 
-		public event EventHandler ThemeModeChanged;
+		public event EventHandler? ThemeModeChanged;
 
 		public ICommand UpdateThemeElements { get; }
-
-		#region ReadAndSaveSettings
 
 		public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
 		{
@@ -104,7 +103,5 @@ namespace Files.App.ViewModels
 		}
 
 		private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
-
-		#endregion ReadAndSaveSettings
 	}
 }

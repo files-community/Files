@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
 using Files.App.Filesystem.Cloud;
 using Files.App.Filesystem.Search;
 using Files.App.Filesystem.StorageEnumerators;
@@ -2436,43 +2435,5 @@ namespace Files.App.ViewModels
 			folderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
 			DefaultIcons.Clear();
 		}
-	}
-
-	public class PageTypeUpdatedEventArgs
-	{
-		public bool IsTypeCloudDrive { get; set; }
-
-		public bool IsTypeRecycleBin { get; set; }
-	}
-
-	public class WorkingDirectoryModifiedEventArgs : EventArgs
-	{
-		public string? Path { get; set; }
-
-		public string? Name { get; set; }
-
-		public bool IsLibrary { get; set; }
-	}
-
-	public class ItemLoadStatusChangedEventArgs : EventArgs
-	{
-		public enum ItemLoadStatus
-		{
-			Starting,
-			InProgress,
-			Complete
-		}
-
-		public ItemLoadStatus Status { get; set; }
-
-		/// <summary>
-		/// This property may not be provided consistently if Status is not Complete
-		/// </summary>
-		public string? PreviousDirectory { get; set; }
-
-		/// <summary>
-		/// This property may not be provided consistently if Status is not Complete
-		/// </summary>
-		public string? Path { get; set; }
 	}
 }

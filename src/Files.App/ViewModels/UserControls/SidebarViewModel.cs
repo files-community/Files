@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
-using Files.App.Data.Items;
 using Files.App.UserControls;
 using Files.Shared.EventArguments;
 using Microsoft.UI.Dispatching;
@@ -11,15 +9,16 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
-using static Files.App.Constants.Widgets;
 
 namespace Files.App.ViewModels
 {
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+
+		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
+		private NetworkDrivesViewModel networkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
 		private IPaneHolder paneHolder;
 		public IPaneHolder PaneHolder
@@ -204,6 +203,13 @@ namespace Files.App.ViewModels
 		{
 			get => selectedSidebarItem;
 			set => SetProperty(ref selectedSidebarItem, value);
+		}
+
+		private GridLength tabControlMargin;
+		public GridLength TabControlMargin
+		{
+			get => tabControlMargin;
+			set => SetProperty(ref tabControlMargin, value);
 		}
 
 		public SidebarViewModel()
@@ -610,14 +616,6 @@ namespace Files.App.ViewModels
 				NavigationViewDisplayMode.Minimal => new GridLength(44, GridUnitType.Pixel),
 				_ => new GridLength(0, GridUnitType.Pixel),
 			};
-		}
-
-		private GridLength tabControlMargin;
-
-		public GridLength TabControlMargin
-		{
-			get => tabControlMargin;
-			set => SetProperty(ref tabControlMargin, value);
 		}
 	}
 }

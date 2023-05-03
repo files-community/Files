@@ -15,14 +15,15 @@ namespace Files.App.ViewModels
 
 		private readonly IRichCommand command;
 
-		private bool? isVisible = null;
+		private bool? _IsVisible = null;
 		public bool IsVisible
 		{
-			get => isVisible ?? command.IsExecutable;
-			init => isVisible = value;
+			get => _IsVisible ?? command.IsExecutable;
+			init => _IsVisible = value;
 		}
 
 		public bool IsPrimary { get; init; } = false;
+
 		public bool IsToggle { get; init; } = false;
 
 		public object Tag { get; init; }
@@ -38,12 +39,12 @@ namespace Files.App.ViewModels
 
 		public ContextMenuFlyoutItemViewModel Build()
 		{
-			if (isVisible is false)
+			if (IsVisible is false)
 				return none;
 
 			bool isExecutable = command.IsExecutable;
 
-			if (isVisible is null && !isExecutable)
+			if (IsVisible is null && !isExecutable)
 				return none;
 
 			ItemType type = IsToggle ? ItemType.Toggle : ItemType.Item;
