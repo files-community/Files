@@ -478,7 +478,7 @@
     <value>Tipos diferentes</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Tudo em {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Espaço utilizado:</value>
@@ -3206,6 +3206,6 @@
     <value>Refazer a última operação</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Location:</value>
+    <value>Localização:</value>
   </data>
 </root>
