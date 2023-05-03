@@ -93,7 +93,7 @@
 		BasedOn="{StaticResource BodyStrongTextBlockStyle}"
 		TargetType="TextBlock">
 		<Style.Setters>
-			<Setter Property="Margin" Value="2,32,0,4" />
+			<Setter Property="Margin" Value="2,32,2,4" />
 		</Style.Setters>
 	</Style>
 
@@ -118,10 +118,19 @@
 		</Style.Setters>
 	</Style>
 
+	<Style x:Key="UnknownTypeSettingsExpanderItemStyle" TargetType="Grid">
+		<Style.Setters>
+			<Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+			<Setter Property="BorderThickness" Value="{ThemeResource SettingsExpanderItemBorderThickness}" />
+			<Setter Property="Padding" Value="{ThemeResource SettingsExpanderItemPadding}" />
+		</Style.Setters>
+	</Style>
+
 	<local:SettingsExpanderItemStyleSelector
 		x:Key="SettingsExpanderItemStyleSelector"
 		ClickableStyle="{StaticResource ClickableSettingsExpanderItemStyle}"
-		DefaultStyle="{StaticResource DefaultSettingsExpanderItemStyle}" />
+		DefaultStyle="{StaticResource DefaultSettingsExpanderItemStyle}"
+		UnknownStyle="{StaticResource UnknownTypeSettingsExpanderItemStyle}" />
 
 	<Style x:Key="DefaultSettingsCardStyle" TargetType="local:SettingsCard">
 		<Style.Setters>
@@ -176,6 +185,7 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
+							<!--  Header Icon Element  -->
 							<Viewbox
 								x:Name="PART_HeaderIconPresenterHolder"
 								Grid.RowSpan="1"
@@ -189,23 +199,27 @@
 									HighContrastAdjustment="None" />
 							</Viewbox>
 
-							<StackPanel
+							<!--  Header & Description  -->
+							<Grid
 								x:Name="HeaderPanel"
 								Grid.Column="1"
 								Margin="0,0,24,0"
-								VerticalAlignment="Center"
-								Orientation="Vertical">
+								VerticalAlignment="Center">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
 
 								<ContentPresenter
 									x:Name="PART_HeaderPresenter"
-									Grid.Column="1"
-									HorizontalAlignment="Left"
+									Grid.Row="0"
 									Content="{TemplateBinding Header}"
 									HighContrastAdjustment="None"
 									TextWrapping="Wrap" />
 
 								<ContentPresenter
 									x:Name="PART_DescriptionPresenter"
+									Grid.Row="1"
 									Content="{TemplateBinding Description}"
 									FontSize="{ThemeResource SettingsCardDescriptionFontSize}"
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -232,8 +246,9 @@
 										</Style>
 									</ContentPresenter.Resources>
 								</ContentPresenter>
-							</StackPanel>
+							</Grid>
 
+							<!--  Content  -->
 							<ContentPresenter
 								x:Name="PART_ContentPresenter"
 								Grid.Column="2"
@@ -242,6 +257,7 @@
 								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 								Content="{TemplateBinding Content}" />
 
+							<!--  Action Icon  -->
 							<Viewbox
 								x:Name="PART_ActionIconPresenterHolder"
 								Grid.RowSpan="2"

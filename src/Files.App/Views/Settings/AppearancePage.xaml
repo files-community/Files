@@ -7,8 +7,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitem="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:settingsuc="using:Files.App.UserControls.Settings"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
@@ -97,23 +97,23 @@
 				Text="{helpers:ResourceString Name=Appearance}" />
 
 			<!--  App Theme Mode  -->
-			<local:SettingsCard Header="{helpers:ResourceString Name=SettingsAppearanceTheme}">
-				<local:SettingsCard.HeaderIcon>
+			<settingsuc:SettingsCard Header="{helpers:ResourceString Name=SettingsAppearanceTheme}">
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE790;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<ComboBox
 					x:Name="ThemeChooser"
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsAppearanceTheme}"
 					ItemsSource="{x:Bind ViewModel.Themes, Mode=OneWay}"
 					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 			<!--  App Background Color  -->
-			<local:SettingsExpander Header="{helpers:ResourceString Name=Background}" IsExpanded="True">
-				<local:SettingsExpander.HeaderIcon>
+			<settingsuc:SettingsExpander Header="{helpers:ResourceString Name=Background}" IsExpanded="True">
+				<settingsuc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE771;" />
-				</local:SettingsExpander.HeaderIcon>
-				<local:SettingsExpander.Content>
+				</settingsuc:SettingsExpander.HeaderIcon>
+				<settingsuc:SettingsExpander.Content>
 					<Button Padding="0" AutomationProperties.Name="{helpers:ResourceString Name=Background}">
 						<StackPanel Orientation="Horizontal">
 							<Border
@@ -136,28 +136,27 @@
 							</Flyout>
 						</Button.Flyout>
 					</Button>
-				</local:SettingsExpander.Content>
-				<local:SettingsExpander.Items>
-					<local:SettingsCard Padding="0" HorizontalAlignment="Left">
+				</settingsuc:SettingsExpander.Content>
+				<settingsuc:SettingsExpander.Items>
+					<Grid>
 						<GridView
-							Padding="16"
 							ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
 							ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
 							SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />
-					</local:SettingsCard>
-				</local:SettingsExpander.Items>
-			</local:SettingsExpander>
+					</Grid>
+				</settingsuc:SettingsExpander.Items>
+			</settingsuc:SettingsExpander>
 
 			<!--  Compact Spacing  -->
-			<local:SettingsCard Header="{helpers:ResourceString Name=UseCompactSpacing}">
-				<local:SettingsCard.HeaderIcon>
+			<settingsuc:SettingsCard Header="{helpers:ResourceString Name=UseCompactSpacing}">
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE62B;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=UseCompactSpacing}"
 					IsOn="{x:Bind ViewModel.UseCompactStyles, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 		</StackPanel>
 	</Grid>

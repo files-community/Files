@@ -5,8 +5,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:settingsuc="using:Files.App.UserControls.Settings"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
 
@@ -28,63 +28,63 @@
 				Text="{helpers:ResourceString Name=Folders}" />
 
 			<!--  Folder Overrides  -->
-			<local:SettingsCard Header="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}">
-				<local:SettingsCard.HeaderIcon>
+			<settingsuc:SettingsCard Header="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}">
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE2AC;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
 					IsOn="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 			<!--  Details layout columns  -->
-			<local:SettingsExpander Header="{helpers:ResourceString Name=DetailsLayoutColumns}">
-				<local:SettingsExpander.HeaderIcon>
+			<settingsuc:SettingsExpander Header="{helpers:ResourceString Name=DetailsLayoutColumns}">
+				<settingsuc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE179;" />
-				</local:SettingsExpander.HeaderIcon>
-				<local:SettingsExpander.Items>
-					<local:SettingsCard Header="{helpers:ResourceString Name=TagColumn}">
+				</settingsuc:SettingsExpander.HeaderIcon>
+				<settingsuc:SettingsExpander.Items>
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=TagColumn}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=TagColumn}"
 							IsOn="{x:Bind ViewModel.ShowFileTagColumn, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
-					<local:SettingsCard Header="{helpers:ResourceString Name=SizeColumn}">
+					</settingsuc:SettingsCard>
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=SizeColumn}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=SizeColumn}"
 							IsOn="{x:Bind ViewModel.ShowSizeColumn, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
-					<local:SettingsCard Header="{helpers:ResourceString Name=TypeColumn}">
+					</settingsuc:SettingsCard>
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=TypeColumn}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=TypeColumn}"
 							IsOn="{x:Bind ViewModel.ShowTypeColumn, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
-					<local:SettingsCard Header="{helpers:ResourceString Name=DateColumn}">
+					</settingsuc:SettingsCard>
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=DateColumn}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=DateColumn}"
 							IsOn="{x:Bind ViewModel.ShowDateColumn, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
-					<local:SettingsCard Header="{helpers:ResourceString Name=DateCreatedColumn}">
+					</settingsuc:SettingsCard>
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=DateCreatedColumn}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=DateCreatedColumn}"
 							IsOn="{x:Bind ViewModel.ShowDateCreatedColumn, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
-				</local:SettingsExpander.Items>
-			</local:SettingsExpander>
+					</settingsuc:SettingsCard>
+				</settingsuc:SettingsExpander.Items>
+			</settingsuc:SettingsExpander>
 
 			<!--  Default sorting and grouping options  -->
-			<local:SettingsExpander Header="{helpers:ResourceString Name=SortingAndGrouping}">
-				<local:SettingsExpander.HeaderIcon>
+			<settingsuc:SettingsExpander Header="{helpers:ResourceString Name=SortingAndGrouping}">
+				<settingsuc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE8CB;" />
-				</local:SettingsExpander.HeaderIcon>
-				<local:SettingsExpander.Items>
+				</settingsuc:SettingsExpander.HeaderIcon>
+				<settingsuc:SettingsExpander.Items>
 					<!--  Sorting Options  -->
-					<local:SettingsCard Header="{helpers:ResourceString Name=SortBy}">
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=SortBy}">
 						<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=SortBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
 							<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
 							<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
@@ -93,16 +93,16 @@
 							<ComboBoxItem Content="{helpers:ResourceString Name=Type}" />
 							<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
 						</ComboBox>
-					</local:SettingsCard>
+					</settingsuc:SettingsCard>
 					<!--  Sort in Descending order  -->
-					<local:SettingsCard Header="{helpers:ResourceString Name=SortInDescendingOrder}">
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=SortInDescendingOrder}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=SortInDescendingOrder}"
 							IsOn="{x:Bind ViewModel.SortInDescendingOrder, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
+					</settingsuc:SettingsCard>
 					<!--  Grouping Options  -->
-					<local:SettingsCard Header="{helpers:ResourceString Name=GroupBy}">
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=GroupBy}">
 						<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
 							<ComboBoxItem Content="{helpers:ResourceString Name=None}" />
 							<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
@@ -112,30 +112,30 @@
 							<ComboBoxItem Content="{helpers:ResourceString Name=Type}" />
 							<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
 						</ComboBox>
-					</local:SettingsCard>
+					</settingsuc:SettingsCard>
 					<!--  Group in Descending order  -->
-					<local:SettingsCard Header="{helpers:ResourceString Name=GroupInDescendingOrder}">
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=GroupInDescendingOrder}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=GroupInDescendingOrder}"
 							IsEnabled="{x:Bind ViewModel.isDefaultGrouped, Mode=OneWay}"
 							IsOn="{x:Bind ViewModel.GroupInDescendingOrder, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
+					</settingsuc:SettingsCard>
 					<!--  Sort Folders Alongside Files  -->
-					<local:SettingsCard Header="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}">
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}"
 							IsOn="{x:Bind ViewModel.ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
-				</local:SettingsExpander.Items>
-			</local:SettingsExpander>
+					</settingsuc:SettingsCard>
+				</settingsuc:SettingsExpander.Items>
+			</settingsuc:SettingsExpander>
 
 			<!--  Layout mode  -->
-			<local:SettingsCard Header="{helpers:ResourceString Name=LayoutMode}">
-				<local:SettingsCard.HeaderIcon>
+			<settingsuc:SettingsCard Header="{helpers:ResourceString Name=LayoutMode}">
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE152;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=LayoutMode}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
@@ -143,179 +143,181 @@
 					<ComboBoxItem Content="{helpers:ResourceString Name=IconGrid}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}" />
 				</ComboBox>
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 			<!--  Header (Display)  -->
 			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Display}" />
 
 			<!--  Hidden Items  -->
-			<local:SettingsExpander Header="{helpers:ResourceString Name=HiddenItems}">
-				<local:SettingsExpander.HeaderIcon>
+			<settingsuc:SettingsExpander Header="{helpers:ResourceString Name=HiddenItems}">
+				<settingsuc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xED1A;" />
-				</local:SettingsExpander.HeaderIcon>
-				<local:SettingsExpander.Items>
+				</settingsuc:SettingsExpander.HeaderIcon>
+				<settingsuc:SettingsExpander.Items>
 					<!--  Hidden Files  -->
-					<local:SettingsCard Header="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}">
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}"
 							IsOn="{x:Bind ViewModel.ShowHiddenItems, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
+					</settingsuc:SettingsCard>
 					<!--  Dots Files  -->
-					<local:SettingsCard Header="{helpers:ResourceString Name=ShowDotFiles}">
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=ShowDotFiles}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}"
 							IsOn="{x:Bind ViewModel.ShowDotFiles, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
+					</settingsuc:SettingsCard>
 					<!--  System Files  -->
-					<local:SettingsCard Header="{helpers:ResourceString Name=ShowProtectedSystemFiles}">
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=ShowProtectedSystemFiles}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=ShowProtectedSystemFiles}"
 							IsOn="{x:Bind ViewModel.ShowProtectedSystemFiles, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
+					</settingsuc:SettingsCard>
 					<!--  Alternate Data Streams  -->
-					<local:SettingsCard Header="{helpers:ResourceString Name=ShowAlternateStreams}">
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=ShowAlternateStreams}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=ShowAlternateStreams}"
 							IsOn="{x:Bind ViewModel.AreAlternateStreamsVisible, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
-				</local:SettingsExpander.Items>
-			</local:SettingsExpander>
+					</settingsuc:SettingsCard>
+				</settingsuc:SettingsExpander.Items>
+			</settingsuc:SettingsExpander>
 
 			<!--  File Extensions  -->
-			<local:SettingsCard Header="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}">
-				<local:SettingsCard.HeaderIcon>
+			<settingsuc:SettingsCard Header="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}">
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8F9;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}"
 					IsOn="{x:Bind ViewModel.ShowFileExtensions, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 			<!--  Show Thumbnails  -->
-			<local:SettingsCard Header="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}">
-				<local:SettingsCard.HeaderIcon>
+			<settingsuc:SettingsCard Header="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}">
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE91B;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}"
 					IsOn="{x:Bind ViewModel.ShowThumbnails, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 			<!--  Show Checkboxes When Selecting Items  -->
-			<local:SettingsCard Header="{helpers:ResourceString Name=ShowCheckboxesWhenSelectingItems}">
-				<local:SettingsCard.HeaderIcon>
+			<settingsuc:SettingsCard Header="{helpers:ResourceString Name=ShowCheckboxesWhenSelectingItems}">
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE73A;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowCheckboxesWhenSelectingItems}"
 					IsOn="{x:Bind ViewModel.ShowCheckboxesWhenSelectingItems, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 			<!--  Header (Behaviors)  -->
 			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Behaviors}" />
 
 			<!--  Opening items  -->
-			<local:SettingsExpander Header="{helpers:ResourceString Name=OpeningItems}">
-				<local:SettingsExpander.HeaderIcon>
+			<settingsuc:SettingsExpander Header="{helpers:ResourceString Name=OpeningItems}">
+				<settingsuc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xED25;" />
-				</local:SettingsExpander.HeaderIcon>
-				<local:SettingsExpander.Items>
-					<local:SettingsCard Header="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}">
+				</settingsuc:SettingsExpander.HeaderIcon>
+				<settingsuc:SettingsExpander.Items>
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}"
 							IsOn="{x:Bind ViewModel.OpenItemsWithOneClick, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
-					<local:SettingsCard Header="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}">
+					</settingsuc:SettingsCard>
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}"
 							IsOn="{x:Bind ViewModel.ColumnLayoutOpenFoldersWithOneClick, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
-					<local:SettingsCard Header="{helpers:ResourceString Name=OpenFoldersInNewTab}">
+					</settingsuc:SettingsCard>
+					<settingsuc:SettingsCard Header="{helpers:ResourceString Name=OpenFoldersInNewTab}">
 						<ToggleSwitch
 							x:Name="OpenFoldersNewTab"
 							AutomationProperties.Name="{helpers:ResourceString Name=OpenFoldersInNewTab}"
 							IsOn="{x:Bind ViewModel.OpenFoldersNewTab, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-					</local:SettingsCard>
-				</local:SettingsExpander.Items>
-			</local:SettingsExpander>
+					</settingsuc:SettingsCard>
+				</settingsuc:SettingsExpander.Items>
+			</settingsuc:SettingsExpander>
 
 			<!--  Confirm Delete  -->
-			<local:SettingsCard Header="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}">
-				<local:SettingsCard.HeaderIcon>
+			<settingsuc:SettingsCard Header="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}">
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE74D;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}" SelectedIndex="{x:Bind ViewModel.SelectedDeleteConfirmationPolicyIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Always}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=PermanentDeletionOnly}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Never}" />
 				</ComboBox>
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 			<!--  File Extension Warning  -->
-			<local:SettingsCard Header="{helpers:ResourceString Name=ShowFileExtensionWarning}">
-				<local:SettingsCard.HeaderIcon>
+			<settingsuc:SettingsCard Header="{helpers:ResourceString Name=ShowFileExtensionWarning}">
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8AC;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowFileExtensionWarning}"
 					IsOn="{x:Bind ViewModel.ShowFileExtensionWarning, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 			<!--  Select On Hover  -->
-			<local:SettingsCard Header="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}">
-				<local:SettingsCard.HeaderIcon>
+			<settingsuc:SettingsCard Header="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}">
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8B3;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}"
 					IsOn="{x:Bind ViewModel.SelectFilesOnHover, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 			<!--  Double click to go up  -->
-			<local:SettingsCard Header="{helpers:ResourceString Name=DoubleClickBlankSpaceToGoUp}">
-				<local:SettingsCard.HeaderIcon>
+			<settingsuc:SettingsCard Header="{helpers:ResourceString Name=DoubleClickBlankSpaceToGoUp}">
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8B0;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=DoubleClickBlankSpaceToGoUp}"
 					IsOn="{x:Bind ViewModel.DoubleClickToGoUp, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 			<!--  Calculate folder sizes  -->
-			<local:SettingsExpander Header="{helpers:ResourceString Name=CalculateFolderSizes}" IsExpanded="True">
-				<local:SettingsExpander.HeaderIcon>
+			<settingsuc:SettingsExpander Header="{helpers:ResourceString Name=CalculateFolderSizes}" IsExpanded="True">
+				<settingsuc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE2B2;" />
-				</local:SettingsExpander.HeaderIcon>
-				<local:SettingsExpander.Content>
+				</settingsuc:SettingsExpander.HeaderIcon>
+				<settingsuc:SettingsExpander.Content>
 					<ToggleSwitch
 						AutomationProperties.Name="{helpers:ResourceString Name=CalculateFolderSizes}"
 						IsOn="{x:Bind ViewModel.CalculateFolderSizes, Mode=TwoWay}"
 						Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-				</local:SettingsExpander.Content>
-				<local:SettingsExpander.Items>
-					<InfoBar
-						BorderBrush="Transparent"
-						CornerRadius="0,0,2,2"
-						IsClosable="False"
-						IsIconVisible="True"
-						IsOpen="True"
-						Message="{helpers:ResourceString Name=ShowFolderSizesWarning}"
-						Severity="Warning" />
-				</local:SettingsExpander.Items>
-			</local:SettingsExpander>
+				</settingsuc:SettingsExpander.Content>
+				<settingsuc:SettingsExpander.Items>
+					<Grid Padding="0">
+						<InfoBar
+							BorderThickness="0"
+							CornerRadius="0"
+							IsClosable="False"
+							IsIconVisible="True"
+							IsOpen="True"
+							Message="{helpers:ResourceString Name=ShowFolderSizesWarning}"
+							Severity="Warning" />
+					</Grid>
+				</settingsuc:SettingsExpander.Items>
+			</settingsuc:SettingsExpander>
 
 		</StackPanel>
 	</Grid>

@@ -124,18 +124,15 @@
 					<FontIcon Glyph="&#xE15E;" />
 				</settingsuc:SettingsExpander.HeaderIcon>
 				<settingsuc:SettingsExpander.Items>
-					<settingsuc:SettingsCard Padding="0" HorizontalAlignment="Left">
-						<ScrollViewer
-							Height="400"
-							Padding="16"
-							Background="{ThemeResource SettingsCardBackground}">
+					<Grid Padding="0">
+						<ScrollViewer Height="400">
 							<wct:MarkdownTextBlock
 								Margin="16"
 								Background="Transparent"
 								LinkClicked="MarkdownTextBlock_LinkClicked"
 								Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 						</ScrollViewer>
-					</settingsuc:SettingsCard>
+					</Grid>
 				</settingsuc:SettingsExpander.Items>
 			</settingsuc:SettingsExpander>
 
