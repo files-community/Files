@@ -3,7 +3,7 @@
 
 using Files.App.Data.Items;
 using Files.App.Filesystem.StorageItems;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabView;
 using Files.App.Views;
 using Files.Backend.Services;
 using Microsoft.UI.Xaml.Input;
@@ -21,9 +21,9 @@ namespace Files.App.ViewModels
 		private readonly NetworkDrivesViewModel networkDrivesViewModel;
 		private IResourcesService resourcesService;
 
-		public IMultitaskingControl? MultitaskingControl { get; set; }
+		public ITabView? MultitaskingControl { get; set; }
 
-		public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
+		public List<ITabView> MultitaskingControls { get; } = new List<ITabView>();
 
 		public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
 
@@ -285,7 +285,7 @@ namespace Files.App.ViewModels
 						for (int i = 0; i < items.Length; i++)
 							items[i] = TabItemArguments.Deserialize(userSettingsService.GeneralSettingsService.LastSessionTabList[i]);
 
-						BaseMultitaskingControl.PushRecentTab(items);
+						BaseTabView.PushRecentTab(items);
 					}
 
 					if (userSettingsService.AppSettingsService.RestoreTabsOnStartup)
@@ -405,7 +405,7 @@ namespace Files.App.ViewModels
 			if (sender is null)
 				return;
 
-			var matchingTabItem = AppInstances.SingleOrDefault(x => x.Control == (TabItemControl)sender);
+			var matchingTabItem = AppInstances.SingleOrDefault(x => x.Control == (TabViewItemContent)sender);
 			if (matchingTabItem is null)
 				return;
 

@@ -6,7 +6,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.UserControls;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabView;
 using Files.App.ViewModels;
 using Files.App.Views.LayoutModes;
 using Files.Backend.Enums;

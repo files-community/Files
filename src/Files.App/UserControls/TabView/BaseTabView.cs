@@ -1,34 +1,26 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Helpers;
-using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Files.App.UserControls.MultitaskingControl
+namespace Files.App.UserControls.TabView
 {
-	public class BaseMultitaskingControl : UserControl, IMultitaskingControl
+	public class BaseTabView : UserControl, ITabView
 	{
-		public static event EventHandler<IMultitaskingControl>? OnLoaded;
+		public static event EventHandler<ITabView>? OnLoaded;
 
 		public static event PropertyChangedEventHandler? StaticPropertyChanged;
 
-		private static bool isRestoringClosedTab;
 		// Avoid reopening two tabs
+		private static bool _IsRestoringClosedTab;
 		public static bool IsRestoringClosedTab
 		{
-			get => isRestoringClosedTab;
+			get => _IsRestoringClosedTab;
 			private set
 			{
-				isRestoringClosedTab = value;
+				_IsRestoringClosedTab = value;
+
 				StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(IsRestoringClosedTab)));
 			}
 		}
@@ -50,7 +42,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
 
-		public BaseMultitaskingControl()
+		public BaseTabView()
 		{
 			Loaded += MultitaskingControl_Loaded;
 		}
@@ -99,12 +91,12 @@ namespace Files.App.UserControls.MultitaskingControl
 			CurrentInstanceChanged?.Invoke(this, args);
 		}
 
-		protected void TabStrip_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
+		protected void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, TabViewTabCloseRequestedEventArgs args)
 		{
 			CloseTab(args.Item as TabItem);
 		}
 
-		protected async void TabView_AddTabButtonClick(TabView sender, object args)
+		protected async void TabView_AddTabButtonClick(Microsoft.UI.Xaml.Controls.TabView sender, object args)
 		{
 			await mainPageViewModel.AddNewTabAsync();
 		}

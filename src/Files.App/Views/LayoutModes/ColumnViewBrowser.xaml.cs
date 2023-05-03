@@ -248,7 +248,7 @@ namespace Files.App.Views.LayoutModes
 			ContentChanged(shPage);
 		}
 
-		private void ColumnViewBrowser_ContentChanged(object sender, UserControls.MultitaskingControl.TabItemArguments e)
+		private void ColumnViewBrowser_ContentChanged(object sender, UserControls.TabView.TabItemArguments e)
 		{
 			var c = sender as IShellPage;
 			var columnView = c?.SlimContentPage as ColumnViewBase;

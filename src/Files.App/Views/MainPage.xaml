@@ -9,7 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
+	xmlns:usercontrols="using:Files.App.UserControls.TabView"
 	xmlns:viewmodels="using:Files.App.ViewModels"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	AllowDrop="True"
@@ -136,7 +136,7 @@
 					</Grid.RowDefinitions>
 
 					<!--  Tab Control  -->
-					<usercontrols:HorizontalMultitaskingControl
+					<usercontrols:TabView
 						x:Name="TabControl"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
@@ -147,7 +147,7 @@
 						TabIndex="0"
 						TabStripVisibility="Visible"
 						Visibility="Visible">
-						<usercontrols:HorizontalMultitaskingControl.ActionsControl>
+						<usercontrols:TabView.ActionsControl>
 							<Button
 								x:Name="HorizontalMultitaskingControlAddButton"
 								Width="32"
@@ -167,8 +167,8 @@
 										Glyph="&#xE710;" />
 								</Button.Content>
 							</Button>
-						</usercontrols:HorizontalMultitaskingControl.ActionsControl>
-					</usercontrols:HorizontalMultitaskingControl>
+						</usercontrols:TabView.ActionsControl>
+					</usercontrols:TabView>
 
 					<!--  Address Bar  -->
 					<uc:AddressToolbar

@@ -15,7 +15,7 @@ using Files.App.ServicesImplementation.DateTimeFormatter;
 using Files.App.ServicesImplementation.Settings;
 using Files.App.Shell;
 using Files.App.Storage.NativeStorage;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabView;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Settings;
 using Files.App.Views;

@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabView;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
@@ -24,13 +24,13 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.Control is not null &&
-			!BaseMultitaskingControl.IsRestoringClosedTab &&
-			BaseMultitaskingControl.RecentlyClosedTabs.Count > 0;
+			!BaseTabView.IsRestoringClosedTab &&
+			BaseTabView.RecentlyClosedTabs.Count > 0;
 
 		public ReopenClosedTabAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
-			BaseMultitaskingControl.StaticPropertyChanged += BaseMultitaskingControl_StaticPropertyChanged;
+			BaseTabView.StaticPropertyChanged += BaseMultitaskingControl_StaticPropertyChanged;
 		}
 
 		public Task ExecuteAsync()

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Filesystem.FilesystemHistory;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabView;
 using Files.App.Views;
 
 namespace Files.App

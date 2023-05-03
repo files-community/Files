@@ -1,14 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-
-namespace Files.App.UserControls.MultitaskingControl
+namespace Files.App.UserControls.TabView
 {
-	public interface IMultitaskingControl
+	public interface ITabView
 	{
 		public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
 
@@ -25,9 +20,4 @@ namespace Files.App.UserControls.MultitaskingControl
 		public void SetLoadingIndicatorStatus(ITabItem item, bool loading);
 	}
 
-	public class CurrentInstanceChangedEventArgs : EventArgs
-	{
-		public ITabItemContent CurrentInstance { get; set; }
-		public List<ITabItemContent> PageInstances { get; set; }
-	}
 }

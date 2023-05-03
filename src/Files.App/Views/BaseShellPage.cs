@@ -8,7 +8,7 @@ using Files.App.Data.Models;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.Search;
 using Files.App.UserControls;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabView;
 using Files.App.Views.LayoutModes;
 using Files.Backend.Enums;
 using Files.Backend.Services;

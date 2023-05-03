@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabView;
 using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -15,8 +15,8 @@ namespace Files.App.Contexts
 	{
 		private bool isPopupOpen = false;
 
-		private IMultitaskingControl? control;
-		public IMultitaskingControl? Control => control;
+		private ITabView? control;
+		public ITabView? Control => control;
 
 		private ushort tabCount = 0;
 		public ushort TabCount => tabCount;
@@ -34,8 +34,8 @@ namespace Files.App.Contexts
 		{
 			MainPageViewModel.AppInstances.CollectionChanged += AppInstances_CollectionChanged;
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
-			BaseMultitaskingControl.OnLoaded += BaseMultitaskingControl_OnLoaded;
-			HorizontalMultitaskingControl.SelectedTabItemChanged += HorizontalMultitaskingControl_SelectedTabItemChanged;
+			BaseTabView.OnLoaded += BaseMultitaskingControl_OnLoaded;
+			TabView.SelectedTabItemChanged += HorizontalMultitaskingControl_SelectedTabItemChanged;
 			FocusManager.GotFocus += FocusManager_GotFocus;
 			FocusManager.LosingFocus += FocusManager_LosingFocus;
 		}
@@ -48,7 +48,7 @@ namespace Files.App.Contexts
 		{
 			UpdateCurrentTabIndex();
 		}
-		private void BaseMultitaskingControl_OnLoaded(object? sender, IMultitaskingControl control)
+		private void BaseMultitaskingControl_OnLoaded(object? sender, ITabView control)
 		{
 			SetProperty(ref this.control, control, nameof(Control));
 			UpdateTabCount();

@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UserControls.MultitaskingControl
+namespace Files.App.UserControls.TabView
 {
 	public interface ITabItemControl
 	{
@@ -13,7 +13,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		IconSource IconSource { get; }
 
-		TabItemControl Control { get; }
+		TabViewItemContent Control { get; }
 
 		bool AllowStorageItemDrop { get; }
 	}

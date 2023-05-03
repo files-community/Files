@@ -9,7 +9,7 @@ using Files.App.Contexts;
 using Files.App.Data.Items;
 using Files.App.Data.Models;
 using Files.App.UserControls;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabView;
 using Files.Backend.Extensions;
 using Files.Shared.EventArguments;
 using Microsoft.Extensions.Logging;
@@ -116,7 +116,7 @@ namespace Files.App.Views
 		{
 			TabControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
 
-			if (ViewModel.MultitaskingControl is not HorizontalMultitaskingControl)
+			if (ViewModel.MultitaskingControl is not UserControls.TabView.TabView)
 			{
 				ViewModel.MultitaskingControl = TabControl;
 				ViewModel.MultitaskingControls.Add(TabControl);
