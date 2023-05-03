@@ -77,28 +77,6 @@ namespace Files.App.Interacts
 
 		#region Command Implementation
 
-		public virtual void ShowProperties(RoutedEventArgs e)
-		{
-			if (SlimContentPage.ItemContextMenuFlyout.IsOpen)
-				SlimContentPage.ItemContextMenuFlyout.Closed += OpenPropertiesFromItemContextMenuFlyout;
-			else if (SlimContentPage.BaseContextMenuFlyout.IsOpen)
-				SlimContentPage.BaseContextMenuFlyout.Closed += OpenPropertiesFromBaseContextMenuFlyout;
-			else
-				FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
-		}
-
-		private void OpenPropertiesFromItemContextMenuFlyout(object sender, object e)
-		{
-			SlimContentPage.ItemContextMenuFlyout.Closed -= OpenPropertiesFromItemContextMenuFlyout;
-			FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
-		}
-
-		private void OpenPropertiesFromBaseContextMenuFlyout(object sender, object e)
-		{
-			SlimContentPage.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
-			FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
-		}
-
 		public virtual async Task OpenDirectoryInNewTab(RoutedEventArgs e)
 		{
 			foreach (ListedItem listedItem in SlimContentPage.SelectedItems)

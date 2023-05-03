@@ -288,17 +288,10 @@ namespace Files.App.UserControls
 					CommandParameter = item,
 					ShowItem = options.ShowFormatDrive
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenProperties)
 				{
-					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconProperties",
-					},
-					Command = OpenPropertiesCommand,
-					CommandParameter = menu,
-					ShowItem = options.ShowProperties
-				},
+					IsVisible = options.ShowProperties,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ItemType.Separator,

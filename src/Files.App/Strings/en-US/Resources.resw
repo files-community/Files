@@ -3208,4 +3208,10 @@
   <data name="Location" xml:space="preserve">
     <value>Location:</value>
   </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Open properties</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Open properties window</value>
+  </data>
 </root>
