@@ -1,4 +1,5 @@
-﻿<local:BaseMultitaskingControl
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<local:BaseMultitaskingControl
 	x:Class="Files.App.UserControls.MultitaskingControl.HorizontalMultitaskingControl"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,7 +8,6 @@
 	xmlns:local="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:local1="using:Files.App"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.App.ViewModels"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
@@ -18,29 +18,16 @@
 					<MenuFlyout
 						x:Key="TabFlyout"
 						x:Name="TabItemContextMenu"
+						Closing="TabItemContextMenu_Closing"
 						Opening="TabItemContextMenu_Opening">
 						<MenuFlyoutItem
-							Click="{x:Bind vm:MainPageViewModel.AddNewTabAtIndex}"
-							KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlNewTab/KeyboardAcceleratorTextOverride}"
-							Text="{helpers:ResourceString Name=HorizontalMultitaskingControlNewTab/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
-							</MenuFlyoutItem.Icon>
-							<MenuFlyoutItem.KeyboardAccelerators>
-								<KeyboardAccelerator
-									Key="T"
-									IsEnabled="False"
-									Modifiers="Control" />
-							</MenuFlyoutItem.KeyboardAccelerators>
-						</MenuFlyoutItem>
+							Command="{x:Bind Commands.NewTab}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.NewTab.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.NewTab.Label}" />
 						<MenuFlyoutItem
-							Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
-							KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab/KeyboardAcceleratorTextOverride}"
-							Text="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab/Text}">
-							<MenuFlyoutItem.Icon>
-								<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11B;" />
-							</MenuFlyoutItem.Icon>
-						</MenuFlyoutItem>
+							Command="{x:Bind Commands.DuplicateSelectedTab}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.DuplicateSelectedTab.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.DuplicateSelectedTab.Label}" />
 						<MenuFlyoutItem
 							x:Name="MenuItemMoveTabToNewWindow"
 							Click="MoveTabToNewWindow"
@@ -50,32 +37,22 @@
 							</MenuFlyoutItem.Icon>
 						</MenuFlyoutItem>
 						<MenuFlyoutItem
-							x:Name="MenuItemCloseTabsToTheLeft"
-							Click="CloseTabsToTheLeft"
-							DataContextChanged="MenuItemCloseTabsToTheLeft_DataContextChanged"
-							Text="{helpers:ResourceString Name=CloseTabsToTheLeft}" />
+							Command="{x:Bind Commands.CloseTabsToTheLeftSelected}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.CloseTabsToTheLeftSelected.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.CloseTabsToTheLeftSelected.Label}" />
 						<MenuFlyoutItem
-							x:Name="MenuItemCloseTabsToTheRight"
-							Click="CloseTabsToTheRight"
-							DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged"
-							Text="{helpers:ResourceString Name=CloseTabsToTheRight}" />
+							Command="{x:Bind Commands.CloseTabsToTheRightSelected}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.CloseTabsToTheRightSelected.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.CloseTabsToTheRightSelected.Label}" />
 						<MenuFlyoutItem
-							x:Name="MenuItemCloseOtherTabs"
-							Click="CloseOtherTabs"
-							DataContextChanged="MenuItemCloseOtherTabs_DataContextChanged"
-							Text="{helpers:ResourceString Name=CloseOtherTabs}" />
+							Command="{x:Bind Commands.CloseOtherTabsSelected}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.CloseOtherTabsSelected.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.CloseOtherTabsSelected.Label}" />
 						<MenuFlyoutItem
-							x:Name="MenuItemReopenClosedTab"
-							Click="ReopenClosedTab"
-							KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlReopenClosedTab/KeyboardAcceleratorTextOverride}"
-							Text="{helpers:ResourceString Name=HorizontalMultitaskingControlReopenClosedTab/Text}">
-							<MenuFlyoutItem.KeyboardAccelerators>
-								<KeyboardAccelerator
-									Key="T"
-									IsEnabled="False"
-									Modifiers="Control,Shift" />
-							</MenuFlyoutItem.KeyboardAccelerators>
-						</MenuFlyoutItem>
+							Command="{x:Bind Commands.ReopenClosedTab}"
+							IsEnabled="{x:Bind Commands.ReopenClosedTab.IsExecutable}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.ReopenClosedTab.HotKeyText, Mode=OneWay}"
+							Text="{x:Bind Commands.ReopenClosedTab.Label}" />
 					</MenuFlyout>
 
 					<Style x:Key="TabViewCloseButtonStyle" TargetType="Button">
@@ -143,6 +120,7 @@
 						<Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
 						<Setter Property="BorderThickness" Value="{ThemeResource TabViewItemBorderThickness}" />
 						<Setter Property="BorderBrush" Value="{ThemeResource TabViewItemBorderBrush}" />
+						<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 						<Setter Property="Template">
 							<Setter.Value>
 								<ControlTemplate TargetType="TabViewItem">
@@ -608,8 +586,8 @@
 						Drop="TabViewItem_Drop"
 						Header="{x:Bind Header, Mode=OneWay}"
 						IconSource="{x:Bind IconSource, Mode=OneWay}"
-						Style="{StaticResource Local.TabViewItem}"
 						Loaded="TabViewItem_Loaded"
+						Style="{StaticResource Local.TabViewItem}"
 						ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}" />
 				</DataTemplate>
 			</TabView.TabItemTemplate>

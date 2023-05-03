@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,5 +41,10 @@ namespace Files.Backend.Services
 		/// Gets release notes for the latest release
 		/// </summary>
 		Task<string?> GetLatestReleaseNotesAsync(CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Replace FilesLauncher.exe if it is used and has been updated
+		/// </summary>
+		Task CheckAndUpdateFilesLauncherAsync();
 	}
 }

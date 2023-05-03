@@ -1,33 +1,19 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.App.Interacts;
-using Files.Shared.Enums;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels
 {
 	public class OngoingTasksViewModel : ObservableObject, IOngoingTasksActions
 	{
-		#region Public Properties
+		// Public Properties
 
 		public ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
 
-		private float medianOperationProgressValue = 0.0f;
-
-		public OngoingTasksViewModel()
-		{
-			StatusBannersSource.CollectionChanged += (s, e) => OnPropertyChanged(nameof(AnyBannersPresent));
-		}
-
-		public float MedianOperationProgressValue
+		private int medianOperationProgressValue = 0;
+		public int MedianOperationProgressValue
 		{
 			get => medianOperationProgressValue;
 			private set => SetProperty(ref medianOperationProgressValue, value);
@@ -82,17 +68,20 @@ namespace Files.App.ViewModels
 			get => OngoingOperationsCount > 0 ? OngoingOperationsCount : -1;
 		}
 
-		#endregion Public Properties
-
-		#region Events
+		// Events
 
 		public event EventHandler<PostedStatusBanner> ProgressBannerPosted;
 
-		#endregion Events
+		// Constructors
 
-		#region IOngoingTasksActions
+		public OngoingTasksViewModel()
+		{
+			StatusBannersSource.CollectionChanged += (s, e) => OnPropertyChanged(nameof(AnyBannersPresent));
+		}
 
-		public PostedStatusBanner PostBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation)
+		// IOngoingTasksActions
+
+		public PostedStatusBanner PostBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation)
 		{
 			StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation);
 			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
@@ -105,7 +94,7 @@ namespace Files.App.ViewModels
 			return postedBanner;
 		}
 
-		public PostedStatusBanner PostOperationBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource)
+		public PostedStatusBanner PostOperationBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource)
 		{
 			StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation)
 			{
@@ -161,16 +150,14 @@ namespace Files.App.ViewModels
 		{
 			if (AnyOperationsOngoing)
 			{
-				MedianOperationProgressValue = StatusBannersSource.Where((item) => item.IsProgressing).Average(x => x.Progress);
+				MedianOperationProgressValue = (int)StatusBannersSource.Where((item) => item.IsProgressing).Average(x => x.Progress);
 			}
 		}
-
-		#endregion IOngoingTasksActions
 	}
 
 	public class PostedStatusBanner
 	{
-		#region Private Members
+		// Private Members
 
 		private readonly IOngoingTasksActions OngoingTasksActions;
 
@@ -178,9 +165,8 @@ namespace Files.App.ViewModels
 
 		private readonly CancellationTokenSource cancellationTokenSource;
 
-		#endregion Private Members
 
-		#region Public Members
+		// Public Members
 
 		public readonly FileSystemProgress Progress;
 
@@ -188,9 +174,7 @@ namespace Files.App.ViewModels
 
 		public CancellationToken CancellationToken => cancellationTokenSource?.Token ?? default;
 
-		#endregion Public Members
-
-		#region Constructor
+		// Constructor
 
 		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions)
 		{
@@ -211,9 +195,7 @@ namespace Files.App.ViewModels
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
 
-		#endregion Constructor
-
-		#region Private Helpers
+		// Private Helpers
 
 		private void ReportProgressToBanner(FileSystemProgress value)
 		{
@@ -226,10 +208,10 @@ namespace Files.App.ViewModels
 
 			Banner.IsProgressing = (value.Status & FileSystemStatusCode.InProgress) != 0;
 
-			if (value.Percentage is float f)
+			if (value.Percentage is int p)
 			{
-				Banner.Progress = f;
-				Banner.FullTitle = $"{Banner.Title} ({Banner.Progress:0.00}%)";
+				Banner.Progress = p;
+				Banner.FullTitle = $"{Banner.Title} ({Banner.Progress}%)";
 
 				// TODO: Show detailed progress if Size/Count information available
 			}
@@ -238,18 +220,18 @@ namespace Files.App.ViewModels
 				switch (value.TotalSize, value.ItemsCount)
 				{
 					case (not 0, not 0):
-						Banner.Progress = value.ProcessedSize * 100f / value.TotalSize;
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {Banner.Progress:0.00}%)";
+						Banner.Progress = (int)(value.ProcessedSize * 100f / value.TotalSize);
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {Banner.Progress}%)";
 						break;
 
 					case (not 0, _):
-						Banner.Progress = value.ProcessedSize * 100f / value.TotalSize;
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {Banner.Progress:0.00}%)";
+						Banner.Progress = (int)(value.ProcessedSize * 100 / value.TotalSize);
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {Banner.Progress}%)";
 						break;
 
 					case (_, not 0):
-						Banner.Progress = value.ProcessedItemsCount * 100f / value.ItemsCount;
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {Banner.Progress:0.00}%)";
+						Banner.Progress = (int)(value.ProcessedItemsCount * 100 / value.ItemsCount);
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {Banner.Progress}%)";
 						break;
 
 					default:
@@ -272,9 +254,7 @@ namespace Files.App.ViewModels
 			OngoingTasksActions.UpdateMedianProgress();
 		}
 
-		#endregion Private Helpers
-
-		#region Public Helpers
+		// Public Helpers
 
 		public void Remove()
 		{
@@ -285,8 +265,6 @@ namespace Files.App.ViewModels
 		{
 			cancellationTokenSource?.Cancel();
 		}
-
-		#endregion Public Helpers
 	}
 
 	public class StatusBanner : ObservableObject
@@ -303,9 +281,8 @@ namespace Files.App.ViewModels
 
 		#region Public Properties
 
-		private float progress = 0.0f;
-
-		public float Progress
+		private int progress = 0;
+		public int Progress
 		{
 			get => progress;
 			set => SetProperty(ref progress, value);

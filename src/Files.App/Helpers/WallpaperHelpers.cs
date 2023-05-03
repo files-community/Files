@@ -1,6 +1,10 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.Shared.Enums;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;
 using Windows.System.UserProfile;
@@ -9,7 +13,7 @@ namespace Files.App.Helpers
 {
 	public static class WallpaperHelpers
 	{
-		public static async void SetAsBackground(WallpaperType type, string filePath)
+		public static async Task SetAsBackground(WallpaperType type, string filePath)
 		{
 			if (type == WallpaperType.Desktop)
 			{
@@ -28,7 +32,7 @@ namespace Files.App.Helpers
 
 		public static void SetSlideshow(string[] filePaths)
 		{
-			if (filePaths is null || filePaths.Any())
+			if (filePaths is null || !filePaths.Any())
 				return;
 
 			var idList = filePaths.Select(Shell32.IntILCreateFromPath).ToArray();
@@ -40,12 +44,6 @@ namespace Files.App.Helpers
 
 			// Set wallpaper to fill desktop.
 			wallpaper.SetPosition(Shell32.DESKTOP_WALLPAPER_POSITION.DWPOS_FILL);
-
-			// TODO: Should we handle multiple monitors?
-			// var monitors = wallpaper.GetMonitorDevicePathCount();
-			wallpaper.GetMonitorDevicePathAt(0, out var monitorId);
-			// Advance the slideshow to reflect the change.
-			wallpaper.AdvanceSlideshow(monitorId, Shell32.DESKTOP_SLIDESHOW_DIRECTION.DSD_FORWARD);
 		}
 	}
 }

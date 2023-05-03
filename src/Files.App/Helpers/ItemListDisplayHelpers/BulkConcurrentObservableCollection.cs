@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.Shared.Extensions;
 using System;
 using System.Collections;
@@ -168,7 +171,7 @@ namespace Files.App.Helpers
 
 				var key = GetGroupKeyForItem(item);
 				if (key is null)
-					return;
+					continue;
 
 				var groups = GroupedCollection?.Where(x => x.Model.Key == key);
 				if (item is IGroupableItem groupable)

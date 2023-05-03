@@ -1,11 +1,8 @@
-﻿using Files.Shared;
-using Files.Shared.Extensions;
-using System;
-using System.Collections.Generic;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 
@@ -39,16 +36,18 @@ namespace Files.App.Shell
 				try
 				{
 					using var shellFolder = ShellFolderExtensions.GetShellItemFromPathOrPidl(path) as ShellFolder;
-					folder = ShellFolderExtensions.GetShellFileItem(shellFolder);
 
-					if ((controlPanel.PIDL.IsParentOf(shellFolder.PIDL, false) ||
+					if (shellFolder is null ||
+						(controlPanel.PIDL.IsParentOf(shellFolder.PIDL, false) ||
 						controlPanelCategoryView.PIDL.IsParentOf(shellFolder.PIDL, false)) &&
-						(shellFolder is null || !shellFolder.Any()))
+						!shellFolder.Any())
 					{
 						// Return null to force open unsupported items in explorer
 						// only if inside control panel and folder appears empty
 						return (null, flc);
 					}
+
+					folder = ShellFolderExtensions.GetShellFileItem(shellFolder);
 
 					if (action == "Enumerate")
 					{

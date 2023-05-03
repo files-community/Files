@@ -1,39 +1,62 @@
-﻿<UserControl
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<UserControl
 	x:Class="Files.App.UserControls.StatusBarControl"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DesignHeight="32"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
 
-	<StackPanel
-		Height="32"
-		Padding="8,0"
-		HorizontalAlignment="Stretch"
-		VerticalAlignment="Stretch"
-		Orientation="Horizontal"
-		Spacing="8">
+	<UserControl.Resources>
+		<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
+	</UserControl.Resources>
 
-		<TextBlock
-			x:Name="DirectoryItemCount"
-			VerticalAlignment="Center"
-			x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
-			Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
+	<Grid Padding="8,0" ColumnSpacing="8">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<StackPanel
+			Grid.Column="0"
+			Height="32"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Orientation="Horizontal"
+			Spacing="8">
 
-		<TextBlock
-			x:Name="SelectedItemsCountString"
-			VerticalAlignment="Center"
-			x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
-			Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}"
-			Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+			<TextBlock
+				x:Name="DirectoryItemCount"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
 
-		<TextBlock
-			x:Name="ItemSize"
+			<TextBlock
+				x:Name="SelectedItemsCountString"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}"
+				Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+
+			<TextBlock
+				x:Name="ItemSize"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}"
+				Visibility="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}" />
+		</StackPanel>
+
+		<StackPanel
+			Grid.Column="1"
 			VerticalAlignment="Center"
-			x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
-			Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}"
-			Visibility="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}" />
-	</StackPanel>
+			Orientation="Horizontal"
+			Spacing="8">
+			<TextBlock
+				x:Name="GitBranch"
+				x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
+				Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />
+		</StackPanel>
+	</Grid>
 </UserControl>

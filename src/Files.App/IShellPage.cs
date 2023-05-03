@@ -1,17 +1,19 @@
-using Files.App.Filesystem;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Filesystem.FilesystemHistory;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.App.Views;
-using System;
-using System.ComponentModel;
 
 namespace Files.App
 {
-	public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable
+	public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
 	{
 		ItemViewModel FilesystemViewModel { get; }
 
 		CurrentInstanceViewModel InstanceViewModel { get; }
+
+		StorageHistoryHelpers StorageHistoryHelpers { get; }
 
 		IBaseLayout SlimContentPage { get; }
 
@@ -25,7 +27,11 @@ namespace Files.App
 
 		bool CanNavigateForward { get; }
 
-		void Refresh_Click();
+		Task Refresh_Click();
+
+		void Back_Click();
+
+		void Forward_Click();
 
 		void Up_Click();
 
@@ -48,6 +54,11 @@ namespace Files.App
 		void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
 
 		void RemoveLastPageFromBackStack();
+
+		/// <summary>
+		/// Replaces any outdated entries with those of the correct page type
+		/// </summary>
+		void ResetNavigationStackLayoutMode();
 
 		void SubmitSearch(string query, bool searchUnindexedItems);
 
@@ -85,9 +96,6 @@ namespace Files.App
 
 	public interface IMultiPaneInfo
 	{
-		// The instance is the left (or only) pane
-		public bool IsPageMainPane { get; }
-
 		public IPaneHolder PaneHolder { get; }
 	}
 }

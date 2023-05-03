@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -9,6 +12,7 @@ using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Enums;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +26,9 @@ namespace Files.App.Helpers
 	public static class NavigationHelpers
 	{
 		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
+		private static readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		public static Task OpenPathInNewTab(string? path)
-			=> MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+			=> mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 
 		public static Task<bool> OpenPathInNewWindowAsync(string? path)
 		{
@@ -91,7 +95,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async void OpenItemsWithExecutable(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executable)
+		public static async Task OpenItemsWithExecutable(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executable)
 		{
 			// Don't open files and folders inside  recycle bin
 			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal) ||
@@ -109,7 +113,7 @@ namespace Files.App.Helpers
 				catch (Exception e)
 				{
 					// This is to try and figure out the root cause of AppCenter error #985932119u
-					App.Logger.Warn(e, e.Message);
+					App.Logger.LogWarning(e, e.Message);
 				}
 			}
 		}
@@ -380,7 +384,7 @@ namespace Files.App.Helpers
 										queryOptions.SortOrder.Add(sortEntry);
 										break;
 
-									//Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+									//Unfortunately this is unsupported | Remarks: https://learn.microsoft.com/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
 									//case Enums.SortOption.Size:
 
 									//sortEntry.PropertyName = "System.TotalFileSize";
@@ -388,7 +392,7 @@ namespace Files.App.Helpers
 									//queryOptions.SortOrder.Add(sortEntry);
 									//break;
 
-									//Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+									//Unfortunately this is unsupported | Remarks: https://learn.microsoft.com/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
 									//case Enums.SortOption.FileType:
 
 									//sortEntry.PropertyName = "System.FileExtension";

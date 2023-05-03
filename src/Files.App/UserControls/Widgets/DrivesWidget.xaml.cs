@@ -1,28 +1,18 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
+using Files.App.Data.Items;
 using Files.App.Shell;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
@@ -55,11 +45,14 @@ namespace Files.App.UserControls.Widgets
 
 			// Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
 			if (thumbnailData is null || thumbnailData.Length == 0)
+			{
+				await Item.LoadThumbnailAsync();
 				thumbnailData = Item.IconData;
+			}
 
 			// Thumbnail data is valid, set the item icon
 			if (thumbnailData is not null && thumbnailData.Length > 0)
-				Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
+				Thumbnail = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
 		}
 
 		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
@@ -68,7 +61,8 @@ namespace Files.App.UserControls.Widgets
 	public sealed partial class DrivesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
+		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
@@ -108,7 +102,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "Drives".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
 
 		public bool ShowMenuFlyout => true;
 
@@ -125,23 +119,45 @@ namespace Files.App.UserControls.Widgets
 		{
 			InitializeComponent();
 
-			Manager_DataChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-			App.DrivesManager.DataChanged += Manager_DataChanged;
+			drivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
 
 			FormatDriveCommand = new RelayCommand<DriveCardItem>(FormatDrive);
 			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDevice);
-			OpenInNewTabCommand = new RelayCommand<WidgetCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new RelayCommand<WidgetCardItem>(OpenInNewWindow);
+			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTab);
+			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindow);
 			OpenInNewPaneCommand = new AsyncRelayCommand<DriveCardItem>(OpenInNewPane);
-			OpenPropertiesCommand = new AsyncRelayCommand<DriveCardItem>(OpenProperties);
-			PinToFavoritesCommand = new RelayCommand<WidgetCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new RelayCommand<WidgetCardItem>(UnpinFromFavorites);
-			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDrive); 
+			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(OpenProperties);
+			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavorites);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavorites);
+			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDriveAsync); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
+		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			{
+				foreach (DriveItem drive in drivesViewModel.Drives.ToList())
+				{
+					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
+					{
+						var cardItem = new DriveCardItem(drive);
+						ItemsAdded.AddSorted(cardItem);
+						await cardItem.LoadCardThumbnailAsync(); // After add
+					}
+				}
+
+				foreach (DriveCardItem driveCard in ItemsAdded.ToList())
+				{
+					if (!drivesViewModel.Drives.Contains(driveCard.Item))
+						ItemsAdded.Remove(driveCard);
+				}
+			});
+		}
+
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			var drive = ItemsAdded.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
 			var options = drive?.Item.MenuOptions;
@@ -150,46 +166,51 @@ namespace Files.App.UserControls.Widgets
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
-					Glyph = "\uF113",
-					GlyphFontFamilyName = "CustomGlyph",
+					Text = "OpenInNewTab".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewTab",
+					},
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
-					Glyph = "\uE737",
+					Text = "OpenInNewWindow".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewWindow",
+					},
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewWindow
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel()
-					{
-						BaseBackdropGlyph = "\uF056",
-						BaseLayerGlyph = "\uF03B",
-						OverlayLayerGlyph = "\uF03C",
-					},
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
-					Glyph = "\uE840",
+					Text = "PinToFavorites".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconPinToFavorites",
+					},
 					Command = PinToFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarUnpinFromFavorites/Text".GetLocalizedResource(),
-					Glyph = "\uE77A",
+					Text = "UnpinFromFavorites".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+					},
 					Command = UnpinFromFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = isPinned
@@ -197,8 +218,6 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
-					Glyph = "\uF10B",
-					GlyphFontFamilyName = "CustomGlyph",
 					Command = EjectDeviceCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowEjectDevice ?? false
@@ -212,8 +231,11 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
-					Glyph = "\uE946",
+					Text = "Properties".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconProperties",
+					},
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
@@ -234,31 +256,9 @@ namespace Files.App.UserControls.Widgets
 			}.Where(x => x.ShowItem).ToList();
 		}
 
-		private async Task DoNetworkMapDrive()
+		private Task DoNetworkMapDriveAsync()
 		{
-			await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
-		}
-		
-		private async void Manager_DataChanged(object? sender, NotifyCollectionChangedEventArgs e)
-		{
-			await DispatcherQueue.EnqueueAsync(async () =>
-			{
-				foreach (DriveItem drive in App.DrivesManager.Drives)
-				{
-					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DataModels.NavigationControlItems.DriveType.VirtualDrive)
-					{
-						var cardItem = new DriveCardItem(drive);
-						ItemsAdded.AddSorted(cardItem);
-						await cardItem.LoadCardThumbnailAsync(); // After add
-					}
-				}
-
-				foreach (DriveCardItem driveCard in ItemsAdded.ToList())
-				{
-					if (!App.DrivesManager.Drives.Contains(driveCard.Item))
-						ItemsAdded.Remove(driveCard);
-				}
-			});
+			return networkDrivesViewModel.OpenMapNetworkDriveDialogAsync();
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -277,9 +277,15 @@ namespace Files.App.UserControls.Widgets
 			Win32API.OpenFormatDriveDialog(item?.Path ?? string.Empty);
 		}
 
-		private async Task OpenProperties(DriveCardItem item)
-		{ 
-			await FilePropertiesHelpers.OpenPropertiesWindowAsync(item.Item, associatedInstance); 
+		private void OpenProperties(DriveCardItem item)
+		{
+			EventHandler<object> flyoutClosed = null!;
+			flyoutClosed = async (s, e) =>
+			{
+				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				FilePropertiesHelpers.OpenPropertiesWindow(item.Item, associatedInstance);
+			};
+			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
@@ -339,7 +345,7 @@ namespace Files.App.UserControls.Widgets
 
 		private void DisconnectNetworkDrive(DriveCardItem item)
 		{
-			NetworkDrivesManager.DisconnectNetworkDrive(item.Item.Path);
+			networkDrivesViewModel.DisconnectNetworkDrive(item.Item);
 		}
 
 		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
-﻿<local:HomePageWidget
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<local:HomePageWidget
 	x:Class="Files.App.UserControls.Widgets.DrivesWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -96,12 +97,12 @@
 								HorizontalContentAlignment="Center"
 								VerticalContentAlignment="Center"
 								x:Load="{x:Bind Item.ShowStorageSense, Mode=OneWay}"
-								AutomationProperties.Name="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton/AutomationProperties/Name}"
+								AutomationProperties.Name="{helpers:ResourceString Name=OpenStorageSense}"
 								Background="Transparent"
 								BorderBrush="Transparent"
 								Click="GoToStorageSense_Click"
 								Tag="{x:Bind Item.Path}"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton/ToolTipService/ToolTip}">
+								ToolTipService.ToolTip="{helpers:ResourceString Name=OpenStorageSense}">
 								<FontIcon
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"

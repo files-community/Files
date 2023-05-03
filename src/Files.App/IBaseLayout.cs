@@ -1,9 +1,7 @@
-using Files.App.Filesystem;
-using Files.App.Interacts;
-using Files.App.ViewModels;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
 
 namespace Files.App
 {
@@ -30,5 +28,7 @@ namespace Files.App
 		public BaseLayoutCommandsViewModel? CommandsViewModel { get; }
 
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; }
+
+		public CommandBarFlyout BaseContextMenuFlyout { get; set; }
 	}
 }

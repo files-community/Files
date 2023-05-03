@@ -1,5 +1,10 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.Extensions;
+using Files.App.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -15,8 +20,8 @@ namespace Files.App.Helpers
 	public static class ThemeHelper
 	{
 		private const string selectedAppThemeKey = "theme";
-		private static Window currentApplicationWindow;
-		private static AppWindowTitleBar titleBar;
+		private static Window? currentApplicationWindow;
+		private static AppWindowTitleBar? titleBar;
 
 		// Keep reference so it does not get optimized/garbage collected
 		public static UISettings UiSettings;
@@ -47,7 +52,8 @@ namespace Files.App.Helpers
 			currentApplicationWindow = App.Window;
 
 			// Set TitleBar background color
-			titleBar = App.GetAppWindow(currentApplicationWindow).TitleBar;
+			if (currentApplicationWindow is not null)
+				titleBar = App.GetAppWindow(currentApplicationWindow)?.TitleBar;
 
 			// Apply the desired theme based on what is set in the application settings
 			ApplyTheme();
@@ -60,14 +66,19 @@ namespace Files.App.Helpers
 		private static async void UiSettings_ColorValuesChanged(UISettings sender, object args)
 		{
 			// Make sure we have a reference to our window so we dispatch a UI change
-			if (currentApplicationWindow is not null)
+			if (currentApplicationWindow is null)
 			{
-				// Dispatch on UI thread so that we have a current appbar to access and change
-				await currentApplicationWindow.DispatcherQueue.EnqueueAsync(() =>
-				{
-					ApplyTheme();
-				});
+				currentApplicationWindow = App.Window;
+
+				if (currentApplicationWindow is null)
+					return;
 			}
+
+			if (titleBar is null)
+				titleBar = App.GetAppWindow(currentApplicationWindow)?.TitleBar;
+
+			// Dispatch on UI thread so that we have a current appbar to access and change
+			await currentApplicationWindow.DispatcherQueue.EnqueueOrInvokeAsync(ApplyTheme);
 		}
 
 		private static void ApplyTheme()
@@ -75,9 +86,7 @@ namespace Files.App.Helpers
 			var rootTheme = RootTheme;
 
 			if (App.Window.Content is FrameworkElement rootElement)
-			{
 				rootElement.RequestedTheme = rootTheme;
-			}
 
 			if (titleBar is not null)
 			{
@@ -102,7 +111,7 @@ namespace Files.App.Helpers
 						break;
 				}
 			}
-			App.AppSettings.UpdateThemeElements.Execute(null);
+			Ioc.Default.GetRequiredService<SettingsViewModel>().UpdateThemeElements.Execute(null);
 		}
 	}
 }

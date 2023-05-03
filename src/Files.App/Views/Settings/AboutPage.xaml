@@ -1,0 +1,203 @@
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<Page
+	x:Class="Files.App.Views.Settings.AboutPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:local="using:Files.App.UserControls.Settings"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="using:Files.App.ViewModels.Settings"
+	mc:Ignorable="d">
+
+	<Page.DataContext>
+		<vm:AboutViewModel x:Name="ViewModel" />
+	</Page.DataContext>
+
+	<Grid>
+		<StackPanel
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Spacing="4">
+			<StackPanel.ChildrenTransitions>
+				<TransitionCollection>
+					<RepositionThemeTransition />
+				</TransitionCollection>
+			</StackPanel.ChildrenTransitions>
+
+			<!--  Title  -->
+			<TextBlock
+				Padding="0,0,0,12"
+				FontSize="24"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=About}" />
+
+			<!--  App Info  -->
+			<local:SettingsBlockControl
+				Title="{x:Bind ViewModel.AppName}"
+				HorizontalAlignment="Stretch"
+				Description="{x:Bind ViewModel.Version}">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE946;" />
+				</local:SettingsBlockControl.Icon>
+				<Button x:Name="CopyVersionInfo" Content="{helpers:ResourceString Name=Copy}">
+					<Button.Flyout>
+						<MenuFlyout>
+							<MenuFlyoutItem Command="{x:Bind ViewModel.CopyAppVersionCommand}" Text="{helpers:ResourceString Name=AppVersion}" />
+							<MenuFlyoutItem Command="{x:Bind ViewModel.CopyWindowsVersionCommand}" Text="{helpers:ResourceString Name=WindowsVersion}" />
+						</MenuFlyout>
+					</Button.Flyout>
+				</Button>
+			</local:SettingsBlockControl>
+
+			<!--  GitHub Sponsor  -->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=SponsorUsOnGitHub}"
+				ButtonCommand="{x:Bind ViewModel.SupportUsCommand}"
+				IsClickable="True">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xEB51;" />
+				</local:SettingsBlockControl.Icon>
+
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE8A7;" />
+			</local:SettingsBlockControl>
+
+
+			<!--  Help and support  -->
+			<TextBlock
+				Padding="0,16,0,4"
+				FontSize="16"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=HelpAndSupport}" />
+
+			<!--  Documentation  -->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=Documentation}"
+				HorizontalAlignment="Stretch"
+				ButtonCommand="{x:Bind ViewModel.OpenDocumentationCommand}"
+				IsClickable="True">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE736;" />
+				</local:SettingsBlockControl.Icon>
+
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE8A7;" />
+			</local:SettingsBlockControl>
+
+			<!--  Feedback  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Feedback}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xED15;" />
+				</local:SettingsBlockControl.Icon>
+				<local:SettingsBlockControl.ExpandableContent>
+					<StackPanel>
+						<!--  Submit feature request  -->
+						<local:SettingsBlockControl
+							Title="{helpers:ResourceString Name=SubmitFeatureRequest}"
+							HorizontalAlignment="Stretch"
+							ButtonCommand="{x:Bind ViewModel.SubmitFeatureRequestCommand}"
+							IsClickable="True">
+							<FontIcon
+								FontSize="14"
+								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+								Glyph="&#xE8A7;" />
+						</local:SettingsBlockControl>
+
+						<!--  Submit bug report  -->
+						<local:SettingsBlockControl
+							Title="{helpers:ResourceString Name=SubmitBugReport}"
+							HorizontalAlignment="Stretch"
+							ButtonCommand="{x:Bind ViewModel.SubmitBugReportCommand}"
+							IsClickable="True">
+							<FontIcon
+								FontSize="14"
+								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+								Glyph="&#xE8A7;" />
+						</local:SettingsBlockControl>
+					</StackPanel>
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
+			<!--  Open Log File Location  -->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=OpenLogLocation}"
+				HorizontalAlignment="Stretch"
+				ButtonCommand="{x:Bind ViewModel.OpenLogLocationCommand}"
+				IsClickable="True">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE838;" />
+				</local:SettingsBlockControl.Icon>
+
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE8A7;" />
+			</local:SettingsBlockControl>
+
+
+			<!--  Open Source  -->
+			<TextBlock
+				Padding="0,16,0,4"
+				FontSize="16"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=OpenSource}" />
+
+			<!--  Third Party Licenses  -->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=ThirdPartyLicenses}"
+				HorizontalAlignment="Stretch"
+				Click="ThirdPartyLicenses_Click">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE15E;" />
+				</local:SettingsBlockControl.Icon>
+				<local:SettingsBlockControl.ExpandableContent>
+					<ScrollViewer Height="400">
+						<controls:MarkdownTextBlock
+							Margin="10"
+							Background="Transparent"
+							LinkClicked="MarkdownTextBlock_LinkClicked"
+							Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					</ScrollViewer>
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
+			<!--  Open GitHub repo  -->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=OpenGitHubRepo}"
+				HorizontalAlignment="Stretch"
+				ButtonCommand="{x:Bind ViewModel.OpenGitHubRepoCommand}"
+				IsClickable="True">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE12B;" />
+				</local:SettingsBlockControl.Icon>
+
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE8A7;" />
+			</local:SettingsBlockControl>
+
+			<!--  Privacy  -->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=Privacy}"
+				HorizontalAlignment="Stretch"
+				ButtonCommand="{x:Bind ViewModel.OpenPrivacyPolicyCommand}"
+				IsClickable="True">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE72E;" />
+				</local:SettingsBlockControl.Icon>
+
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE8A7;" />
+			</local:SettingsBlockControl>
+		</StackPanel>
+	</Grid>
+</Page>

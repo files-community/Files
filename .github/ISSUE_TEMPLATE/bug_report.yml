@@ -20,8 +20,8 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: Steps to fix
-      description: describe all the requirements to fix the issue (if left blank, issue will likely be closed without discussion).
+      label: Requirements
+      description: describe all the requirements to fix the issue (eg. Fix crash that occurs when...). If left blank, the issue will likely be closed without discussion.
       value: |
         - eg. Fix crash that occurs when...
         - eg. Correct action happens when clicking...
@@ -46,12 +46,10 @@ body:
     attributes:
       label: Log file
       description: |
-        This issue will be closed if the apps log file is not attatched. Do not enter text into this field, it's for attaching the log file only.
-
-        Tip: You can upload the log file by clicking this area to highlight it and then dragging file in.
+        This issue will be closed if the apps log file is not attatched.
       placeholder: |
         To upload the log, access it from Settings -> About -> Open log location; Or
-        - Copy the `debug.log` file from `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`
-        - Drag and drop them into this text area.
+        - Select the `debug.log` file from `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`
+        - Upload the file as an attachment
     validations:
       required: true

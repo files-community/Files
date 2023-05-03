@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Files.Shared.Extensions
@@ -15,7 +19,7 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				logger?.Info(ex, ex.Message);
+				logger?.LogInformation(ex, ex.Message);
 				return false;
 			}
 		}
@@ -29,7 +33,7 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				logger?.Info(ex, ex.Message);
+				logger?.LogInformation(ex, ex.Message);
 				return false;
 			}
 		}
@@ -42,7 +46,7 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				logger?.Info(ex, ex.Message);
+				logger?.LogInformation(ex, ex.Message);
 				return default;
 			}
 		}
@@ -55,7 +59,7 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				logger?.Info(ex, ex.Message);
+				logger?.LogInformation(ex, ex.Message);
 				return default;
 			}
 		}

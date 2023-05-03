@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -36,8 +39,8 @@ namespace Files.App.Helpers
 		/// <param name="filePath">The file path to the image.</param>
 		/// <param name="rotation">The rotation direction.</param>
 		/// <remarks>
-		/// https://docs.microsoft.com/en-us/uwp/api/windows.graphics.imaging.bitmapdecoder?view=winrt-22000
-		/// https://docs.microsoft.com/en-us/uwp/api/windows.graphics.imaging.bitmapencoder?view=winrt-22000
+		/// https://learn.microsoft.com/uwp/api/windows.graphics.imaging.bitmapdecoder?view=winrt-22000
+		/// https://learn.microsoft.com/uwp/api/windows.graphics.imaging.bitmapencoder?view=winrt-22000
 		/// </remarks>
 		public static async Task Rotate(string filePath, BitmapRotation rotation)
 		{
@@ -62,6 +65,12 @@ namespace Files.App.Helpers
 			BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
 			using var memStream = new InMemoryRandomAccessStream();
 			BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(memStream, decoder);
+
+			for (int i = 0; i < decoder.FrameCount - 1; i++) 
+			{
+				encoder.BitmapTransform.Rotation = rotation;
+				await encoder.GoToNextFrameAsync();
+			}
 
 			encoder.BitmapTransform.Rotation = rotation;
 

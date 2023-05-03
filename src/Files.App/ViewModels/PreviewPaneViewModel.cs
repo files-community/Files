@@ -1,20 +1,13 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Filesystem;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
 using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Shared.Cloud;
 using Files.Shared.EventArguments;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 
@@ -22,10 +15,8 @@ namespace Files.App.ViewModels
 {
 	public class PreviewPaneViewModel : ObservableObject, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		private readonly IPreviewPaneSettingsService previewSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
-
+		private readonly IUserSettingsService userSettingsService;
+		private readonly IPreviewPaneSettingsService previewSettingsService;
 		private CancellationTokenSource loadCancellationTokenSource;
 
 		private bool isEnabled;
@@ -74,12 +65,15 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref previewPaneContent, value);
 		}
 
-		public PreviewPaneViewModel()
+		public PreviewPaneViewModel(IUserSettingsService userSettings, IPreviewPaneSettingsService previewSettings)
 		{
+			userSettingsService = userSettings;
+			previewSettingsService = previewSettings;
+
 			ShowPreviewOnlyInvoked = new RelayCommand(() => UpdateSelectedItemPreview());
 
 			IsEnabled = previewSettingsService.IsEnabled;
-			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 		}
 
@@ -244,7 +238,7 @@ namespace Files.App.ViewModels
 			return control ?? null;
 		}
 
-		public async void UpdateSelectedItemPreview(bool downloadItem = false)
+		public async Task UpdateSelectedItemPreview(bool downloadItem = false)
 		{
 			loadCancellationTokenSource?.Cancel();
 			if (SelectedItem is not null && IsItemSelected)
@@ -344,7 +338,7 @@ namespace Files.App.ViewModels
 
 		public void Dispose()
 		{
-			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			userSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			previewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 		}
 	}

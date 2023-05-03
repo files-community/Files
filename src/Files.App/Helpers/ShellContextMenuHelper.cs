@@ -1,8 +1,11 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Data.Items;
 using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.Shell;
 using Files.App.ViewModels;
@@ -16,7 +19,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -64,7 +66,7 @@ namespace Files.App.Helpers
 			}
 
 			var contextMenu = await ContextMenu.GetContextMenuForFiles(filePaths,
-				(shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(showOpenMenu));
+				shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL, FilterMenuItems(showOpenMenu));
 
 			if (contextMenu is not null)
 				LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items, cancellationToken, true);
@@ -75,7 +77,7 @@ namespace Files.App.Helpers
 			return menuItemsList;
 		}
 
-		public static void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
+		private static void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
 								ContextMenu contextMenu,
 								IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
 								CancellationToken cancellationToken,
@@ -137,7 +139,7 @@ namespace Files.App.Helpers
 					};
 					menuItemsListLocal.Insert(0, menuLayoutItem);
 				}
-				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label) && menuFlyoutItem.SubItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
+				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label) && menuFlyoutItem.SubItems is not null)
 				{
 					if (string.Equals(menuFlyoutItem.Label, Win32API.ExtractStringFromDLL("shell32.dll", 30312)))
 						menuFlyoutItem.CommandString = "sendto";
@@ -146,9 +148,23 @@ namespace Files.App.Helpers
 					{
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
 						Tag = menuFlyoutItem,
+						BitmapIcon = image,
 						Items = new List<ContextMenuFlyoutItemViewModel>(),
 					};
-					LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
+
+					if (menuFlyoutItem.SubItems.Any())
+					{
+						LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
+					}
+					else
+					{
+						menuLayoutSubItem.LoadSubMenuAction = async () =>
+						{
+							if (await contextMenu.LoadSubMenu(menuFlyoutItem.SubItems))
+								LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
+						};
+					}
+
 					menuItemsListLocal.Insert(0, menuLayoutSubItem);
 				}
 				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
@@ -165,7 +181,7 @@ namespace Files.App.Helpers
 				}
 			}
 
-			async void InvokeShellMenuItem(ContextMenu contextMenu, object? tag)
+			async Task InvokeShellMenuItem(ContextMenu contextMenu, object? tag)
 			{
 				if (tag is not Win32ContextMenuItem menuItem)
 					return;
@@ -178,14 +194,14 @@ namespace Files.App.Helpers
 					case "install" when isFont:
 						{
 							foreach (string path in contextMenu.ItemsPath)
-								InstallFont(path, false);
+								Win32API.InstallFont(path, false);
 						}
 						break;
 
 					case "installAllUsers" when isFont:
 						{
 							foreach (string path in contextMenu.ItemsPath)
-								InstallFont(path, true);
+								Win32API.InstallFont(path, true);
 						}
 						break;
 
@@ -204,16 +220,6 @@ namespace Files.App.Helpers
 						break;
 				}
 
-				void InstallFont(string path, bool asAdmin)
-				{
-					string dir = asAdmin ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
-						: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
-
-					string registryKey = asAdmin ? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
-						: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
-
-					Win32API.RunPowershellCommand($"-command \"Copy-Item '{path}' '{dir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(path)}' -Path '{registryKey}' -PropertyType string -Value '{dir}'\"", asAdmin);
-				}
 				//contextMenu.Dispose(); // Prevents some menu items from working (TBC)
 			}
 		}
@@ -235,72 +241,34 @@ namespace Files.App.Helpers
 		}
 
 		public static async Task LoadShellMenuItems(
-			string path, 
-			CommandBarFlyout itemContextMenuFlyout, 
-			ContextMenuOptions options = null, 
-			bool showOpenWithMenu = false, 
+			string path,
+			CommandBarFlyout itemContextMenuFlyout,
+			ContextMenuOptions options = null,
+			bool showOpenWithMenu = false,
 			bool showSendToMenu = false)
-		{ 
+		{
 			try
 			{
-				if (options is not null)
-				{
-					if (options.ShowEmptyRecycleBin)
-					{
-						var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
-						if (emptyRecycleBinItem is not null)
-						{
-							var binHasItems = RecycleBinHelpers.RecycleBinHasItems();
-							emptyRecycleBinItem.IsEnabled = binHasItems;
-						}
-					}
+				if (options is not null && !options.IsLocationItem)
+					return;
 
-					if (!options.IsLocationItem)
-						return;
-				}
-				
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(
 					workingDir: null,
-					new List<ListedItem>() { new ListedItem(null) { ItemPath = path } }, 
-					shiftPressed: shiftPressed, 
-					showOpenMenu: false, 
+					new List<ListedItem>() { new ListedItem(null) { ItemPath = path } },
+					shiftPressed: shiftPressed,
+					showOpenMenu: false,
 					default);
 
-				if (showOpenWithMenu)
-				{
-					var openWithItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "openas").ToList().FirstOrDefault();
-					if (openWithItem is not null)
-					{
-						openWithItem.ColoredIcon = new ColoredIconModel()
-						{
-							BaseLayerGlyph = "\uF049",
-							OverlayLayerGlyph = "\uF04A",
-						};
-						var (_, openWithItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
-						var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")).FirstOrDefault() as AppBarButton;
-						if (placeholder is not null)
-							placeholder.Visibility = Visibility.Collapsed;
-						itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
-						shellMenuItems.Remove(openWithItem);
-					}
-				}
+				var openWithItem = showOpenWithMenu ? shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "openas").ToList().FirstOrDefault() : null;
+				if (openWithItem is not null)
+					shellMenuItems.Remove(openWithItem);
 
-				if (showSendToMenu) 
-				{
-					var sendToItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "sendto").ToList().FirstOrDefault();
-					if (sendToItem is not null)
-					{
-						var (_, sendToItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { sendToItem });
-						var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")).FirstOrDefault() as AppBarButton;
-						if (placeholder is not null)
-							placeholder.Visibility = Visibility.Collapsed;
-						itemContextMenuFlyout.SecondaryCommands.Insert(1, sendToItems.FirstOrDefault());
-						shellMenuItems.Remove(sendToItem);
-					}
-				}
+				var sendToItem = showSendToMenu ? shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "sendto").ToList().FirstOrDefault() : null;
+				if (sendToItem is not null)
+					shellMenuItems.Remove(sendToItem);
 
-				if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+				if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 				{
 					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
 					if (secondaryElements.Any())
@@ -342,8 +310,78 @@ namespace Files.App.Helpers
 					overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
 					overflowItem.IsEnabled = true;
 				}
+
+				// Add items to openwith dropdown
+				if (openWithItem?.LoadSubMenuAction is not null)
+				{
+					await openWithItem.LoadSubMenuAction();
+
+					openWithItem.OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenWith",
+					};
+					var (_, openWithItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
+					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")).FirstOrDefault() as AppBarButton;
+					if (placeholder is not null)
+						placeholder.Visibility = Visibility.Collapsed;
+					itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
+				}
+
+				// Add items to sendto dropdown
+				if (sendToItem?.LoadSubMenuAction is not null)
+				{
+					await sendToItem.LoadSubMenuAction();
+
+					var (_, sendToItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { sendToItem });
+					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")).FirstOrDefault() as AppBarButton;
+					if (placeholder is not null)
+						placeholder.Visibility = Visibility.Collapsed;
+					itemContextMenuFlyout.SecondaryCommands.Insert(1, sendToItems.FirstOrDefault());
+				}
+
+				// Add items to shell submenu
+				shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
+					await x.LoadSubMenuAction();
+
+					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
+					{
+						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, x);
+					}
+					else if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is AppBarButton overflowItem)
+					{
+						AddItemsToOverflowMenu(overflowItem, x);
+					}
+				});
 			}
 			catch { }
+		}
+
+		public static void AddItemsToMainMenu(IEnumerable<ICommandBarElement> mainMenu, ContextMenuFlyoutItemViewModel viewModel)
+		{
+			var appBarButton = mainMenu.FirstOrDefault(x => (x as AppBarButton)?.Tag == viewModel.Tag) as AppBarButton;
+
+			if (appBarButton is not null)
+			{
+				var ctxFlyout = new MenuFlyout();
+				ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(viewModel.Items)?.ForEach(i => ctxFlyout.Items.Add(i));
+				appBarButton.Flyout = ctxFlyout;
+				appBarButton.Visibility = Visibility.Collapsed;
+				appBarButton.Visibility = Visibility.Visible;
+			}
+		}
+
+		public static void AddItemsToOverflowMenu(AppBarButton? overflowItem, ContextMenuFlyoutItemViewModel viewModel)
+		{
+			if (overflowItem?.Flyout is MenuFlyout flyout)
+			{
+				var flyoutSubItem = flyout.Items.FirstOrDefault(x => x.Tag == viewModel.Tag) as MenuFlyoutSubItem;
+				if (flyoutSubItem is not null)
+				{
+					viewModel.Items.ForEach(i => flyoutSubItem.Items.Add(ItemModelListToContextFlyoutHelper.GetMenuItem(i)));
+					flyout.Items[flyout.Items.IndexOf(flyoutSubItem) + 1].Visibility = Visibility.Collapsed;
+					flyoutSubItem.Visibility = Visibility.Visible;
+				}
+			}
 		}
 	}
 }

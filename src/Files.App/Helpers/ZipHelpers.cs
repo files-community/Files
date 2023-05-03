@@ -1,5 +1,9 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
+using Microsoft.Extensions.Logging;
 using SevenZip;
 using System;
 using System.Collections.Generic;
@@ -57,7 +61,7 @@ namespace Files.App.Helpers
 			}
 			catch (Exception ex)
 			{
-				App.Logger.Warn(ex, $"Error transforming zip names into: {destinationFolder.Path}\n" +
+				App.Logger.LogWarning(ex, $"Error transforming zip names into: {destinationFolder.Path}\n" +
 					$"Directories: {string.Join(", ", directoryEntries.Select(x => x.FileName))}\n" +
 					$"Files: {string.Join(", ", fileEntries.Select(x => x.FileName))}");
 				return;
@@ -111,10 +115,16 @@ namespace Files.App.Helpers
 					}
 					catch (Exception ex)
 					{
-						App.Logger.Warn(ex, $"Error extracting file: {filePath}");
+						App.Logger.LogWarning(ex, $"Error extracting file: {filePath}");
 						return; // TODO: handle error
 					}
 				}
+				
+				_ = new FileInfo(filePath)
+				{
+					CreationTime = entry.CreationTime < entry.LastWriteTime ? entry.CreationTime : entry.LastWriteTime,
+					LastWriteTime = entry.LastWriteTime,
+				};
 
 				entriesFinished++;
 				fsProgress.ProcessedItemsCount = entriesFinished;

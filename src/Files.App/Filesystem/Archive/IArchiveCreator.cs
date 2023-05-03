@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,7 +9,7 @@ namespace Files.App.Filesystem.Archive
 {
 	public interface IArchiveCreator
 	{
-		string ArchivePath { get; }
+		string ArchivePath { get; set; }
 
 		string Directory { get; }
 		string FileName { get; }
@@ -19,6 +22,8 @@ namespace Files.App.Filesystem.Archive
 		ArchiveSplittingSizes SplittingSize { get; }
 
 		IProgress<FileSystemProgress> Progress { get; set; }
+
+		string GetArchivePath(string suffix = "");
 
 		Task<bool> RunCreationAsync();
 	}

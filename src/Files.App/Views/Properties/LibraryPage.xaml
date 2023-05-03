@@ -1,0 +1,134 @@
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<vm:BasePropertiesPage
+	x:Class="Files.App.Views.Properties.LibraryPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:local="using:Files.App.Views.Properties"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:vm="using:Files.App.ViewModels.Properties"
+	Loaded="Properties_Loaded"
+	Tag="Library"
+	mc:Ignorable="d">
+
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<toolkitconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+		</ResourceDictionary>
+	</Page.Resources>
+
+	<ScrollViewer x:Name="RootScrollViewer">
+		<Grid
+			Padding="12,4,12,12"
+			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			CornerRadius="4"
+			RowSpacing="4">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+
+			<!--  Location  -->
+			<TextBlock
+				Grid.Row="0"
+				Grid.Column="0"
+				Padding="8,0,0,0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Center"
+				Text="{helpers:ResourceString Name=LibraryLocations/Text}"
+				TextTrimming="CharacterEllipsis" />
+
+			<!--  Commands  -->
+			<CommandBar
+				Grid.Row="0"
+				Grid.Column="1"
+				VerticalAlignment="Center"
+				Background="Transparent"
+				DefaultLabelPosition="Right"
+				IsOpen="False">
+				<AppBarButton
+					Command="{x:Bind AddLocationCommand}"
+					Icon="Add"
+					Label="{helpers:ResourceString Name=Add}" />
+				<AppBarButton
+					Command="{x:Bind SetDefaultLocationCommand}"
+					Icon="Accept"
+					IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
+					Label="{helpers:ResourceString Name=Default}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsDefaultSavePath}" />
+				<AppBarButton
+					Command="{x:Bind RemoveLocationCommand}"
+					Icon="Delete"
+					IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
+					Label="{helpers:ResourceString Name=Remove}" />
+			</CommandBar>
+
+			<!--  (Divider)  -->
+			<Border
+				Grid.Row="1"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Height="1"
+				Margin="-12,0"
+				Background="{ThemeResource DividerColorStrokeDefaultBrush}" />
+
+			<!--  Path List  -->
+			<ListView
+				x:Name="PathsList"
+				Grid.Row="2"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Margin="-8,0,-8,0"
+				CanReorderItems="False"
+				ItemsSource="{x:Bind Folders, Mode=OneWay}"
+				SelectedIndex="{x:Bind SelectedFolderIndex, Mode=TwoWay}"
+				SelectionMode="Single">
+
+				<ListView.ItemTemplate>
+					<DataTemplate x:DataType="local:LibraryFolder">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="36" />
+								<ColumnDefinition />
+							</Grid.ColumnDefinitions>
+							<FontIcon Glyph="&#xE73E;" Visibility="{x:Bind IsDefault, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+							<TextBlock
+								Grid.Column="2"
+								Margin="0,0,0,2"
+								VerticalAlignment="Center"
+								Text="{x:Bind Path}"
+								TextTrimming="CharacterEllipsis"
+								ToolTipService.ToolTip="{x:Bind Path}" />
+						</Grid>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+
+				<ListView.Footer>
+					<TextBlock
+						Text="{helpers:ResourceString Name=LibraryNoLocations/Text}"
+						TextWrapping="WrapWholeWords"
+						Visibility="{x:Bind IsLibraryEmpty, Mode=OneWay}" />
+				</ListView.Footer>
+
+			</ListView>
+
+			<!--  TODO?: Add More Controls  -->
+
+		</Grid>
+	</ScrollViewer>
+</vm:BasePropertiesPage>

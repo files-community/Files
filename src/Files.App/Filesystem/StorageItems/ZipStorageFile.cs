@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.Backend.Helpers;
@@ -32,7 +35,7 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			get
 			{
-				var itemType = "ItemTypeFile".GetLocalizedResource();
+				var itemType = "File".GetLocalizedResource();
 				if (Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemType = FileType.Trim('.') + " " + itemType;

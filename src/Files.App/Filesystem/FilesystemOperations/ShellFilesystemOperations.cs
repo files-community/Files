@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
@@ -85,7 +88,7 @@ namespace Files.App.Filesystem
 			var copyResult = new ShellOperationResult();
 			if (sourceRename.Any())
 			{
-				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), progress, operationID);
 
 				result &= (FilesystemResult)resultItem.Item1;
 
@@ -93,7 +96,7 @@ namespace Files.App.Filesystem
 			}
 			if (sourceReplace.Any())
 			{
-				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID, progress);
+				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), progress, operationID);
 
 				result &= (FilesystemResult)resultItem.Item1;
 
@@ -160,6 +163,23 @@ namespace Files.App.Filesystem
 				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
 				{
 					await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
+				}
+				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.PropertyLoss))
+				{
+					var failedSources = copyResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.PropertyLoss);
+					var filePath = failedSources.Select(x => x.Source);
+					switch (await GetFileListDialog(filePath, "FilePropertiesCannotBeCopied".GetLocalizedResource(), "CopyFileWithoutProperties".GetLocalizedResource(), "OK".GetLocalizedResource(), "Cancel".GetLocalizedResource()))
+					{
+						case DialogResult.Primary:
+							var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
+							var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
+							return await CopyItemsAsync(
+								await sourceMatch.Select(x => x.src).ToListAsync(),
+								await sourceMatch.Select(x => x.dest).ToListAsync(),
+								// Force collision option to "replace" to accept copying with property loss
+								// Ok since property loss error is raised after checking if the destination already exists
+								await sourceMatch.Select(x => FileNameConflictResolveOptionType.ReplaceExisting).ToListAsync(), progress, cancellationToken);
+					}
 				}
 				else if (copyResult.Items.All(x => x.HResult == -1)) // ADS
 				{
@@ -335,7 +355,7 @@ namespace Files.App.Filesystem
 			var operationID = Guid.NewGuid().ToString();
 			using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-			var (success, response) = await FileOperationsHelpers.DeleteItemAsync(deleleFilePaths.ToArray(), permanently, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID, progress);
+			var (success, response) = await FileOperationsHelpers.DeleteItemAsync(deleleFilePaths.ToArray(), permanently, NativeWinApiHelper.CoreWindowHandle.ToInt64(), progress, operationID);
 
 			var result = (FilesystemResult)success;
 			var deleteResult = new ShellOperationResult();
@@ -449,14 +469,14 @@ namespace Files.App.Filesystem
 
 			if (sourceRename.Any())
 			{
-				var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID, progress);
+				var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), progress, operationID);
 
 				result &= (FilesystemResult)status;
 				moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 			}
 			if (sourceReplace.Any())
 			{
-				var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID, progress);
+				var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), progress, operationID);
 
 				result &= (FilesystemResult)status;
 				moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
@@ -534,6 +554,23 @@ namespace Files.App.Filesystem
 				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
 				{
 					await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
+				}
+				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.PropertyLoss))
+				{
+					var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.PropertyLoss);
+					var filePath = failedSources.Select(x => x.Source);
+					switch (await GetFileListDialog(filePath, "FilePropertiesCannotBeMoved".GetLocalizedResource(), "MoveFileWithoutProperties".GetLocalizedResource(), "OK".GetLocalizedResource(), "Cancel".GetLocalizedResource()))
+					{
+						case DialogResult.Primary:
+							var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
+							var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
+							return await CopyItemsAsync(
+								await sourceMatch.Select(x => x.src).ToListAsync(),
+								await sourceMatch.Select(x => x.dest).ToListAsync(),
+								// Force collision option to "replace" to accept moving with property loss
+								// Ok since property loss error is raised after checking if the destination already exists
+								await sourceMatch.Select(x => FileNameConflictResolveOptionType.ReplaceExisting).ToListAsync(), progress, cancellationToken);
+					}
 				}
 				else if (moveResult.Items.All(x => x.HResult == -1)) // ADS
 				{
@@ -663,7 +700,7 @@ namespace Files.App.Filesystem
 			using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
 			var moveResult = new ShellOperationResult();
-			var (status, response) = await FileOperationsHelpers.MoveItemAsync(source.Select(s => s.Path).ToArray(), destination.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID, progress);
+			var (status, response) = await FileOperationsHelpers.MoveItemAsync(source.Select(s => s.Path).ToArray(), destination.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), progress, operationID);
 
 			var result = (FilesystemResult)status;
 			moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
@@ -738,7 +775,7 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		private async void CancelOperation(object operationID)
+		private void CancelOperation(object operationID)
 			=> FileOperationsHelpers.TryCancelOperation((string)operationID);
 
 		private async Task<bool> RequestAdminOperation()

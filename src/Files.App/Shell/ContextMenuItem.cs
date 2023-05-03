@@ -1,13 +1,10 @@
-﻿using Files.Shared;
-using System;
-using System.Collections.Generic;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Shell
 {
 	public class ContextMenuItem : Win32ContextMenuItem, IDisposable
 	{
-		public ContextMenuItem() => SubItems = new List<Win32ContextMenuItem>();
-
 		public void Dispose()
 		{
 			Dispose(true);

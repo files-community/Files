@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.UserControls.Widgets;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
@@ -7,10 +10,10 @@ namespace Files.App.Helpers
 {
 	public static class WidgetsHelpers
 	{
-		public static TWidget? TryGetWidget<TWidget>(IPreferencesSettingsService preferencesSettingsService, WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItemModel, new()
+		public static TWidget? TryGetWidget<TWidget>(IGeneralSettingsService generalSettingsService, WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItemModel, new()
 		{
 			bool canAddWidget = widgetsViewModel.CanAddWidget(typeof(TWidget).Name);
-			bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>(preferencesSettingsService);
+			bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>(generalSettingsService);
 
 			if (canAddWidget && isWidgetSettingEnabled)
 			{
@@ -35,27 +38,27 @@ namespace Files.App.Helpers
 			return (defaultValue);
 		}
 
-		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IPreferencesSettingsService preferencesSettingsService) where TWidget : IWidgetItemModel
+		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IGeneralSettingsService generalSettingsService) where TWidget : IWidgetItemModel
 		{
 			if (typeof(TWidget) == typeof(QuickAccessWidget))
 			{
-				return preferencesSettingsService.ShowQuickAccessWidget;
+				return generalSettingsService.ShowQuickAccessWidget;
 			}
 			if (typeof(TWidget) == typeof(DrivesWidget))
 			{
-				return preferencesSettingsService.ShowDrivesWidget;
+				return generalSettingsService.ShowDrivesWidget;
 			}
 			if (typeof(TWidget) == typeof(FileTagsWidget))
 			{
-				return preferencesSettingsService.ShowFileTagsWidget;
+				return generalSettingsService.ShowFileTagsWidget;
 			}
 			if (typeof(TWidget) == typeof(BundlesWidget))
 			{
-				return preferencesSettingsService.ShowBundlesWidget;
+				return generalSettingsService.ShowBundlesWidget;
 			}
 			if (typeof(TWidget) == typeof(RecentFilesWidget))
 			{
-				return preferencesSettingsService.ShowRecentFilesWidget;
+				return generalSettingsService.ShowRecentFilesWidget;
 			}
 
 			// A custom widget it is - TWidget implements ICustomWidgetItemModel

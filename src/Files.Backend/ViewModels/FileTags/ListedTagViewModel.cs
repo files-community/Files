@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Files.Backend.ViewModels.FileTags
 {
@@ -23,6 +26,20 @@ namespace Files.Backend.ViewModels.FileTags
 		{
 			get => isNameValid;
 			set => SetProperty(ref isNameValid, value);
+		}
+
+		private bool canCommit = false;
+		public bool CanCommit
+		{
+			get => canCommit;
+			set => SetProperty(ref canCommit, value);
+		}
+
+		private string newName;
+		public string NewName
+		{
+			get => newName;
+			set => SetProperty(ref newName, value);
 		}
 
 		private string newColor;

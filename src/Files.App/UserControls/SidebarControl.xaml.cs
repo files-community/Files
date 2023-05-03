@@ -1,16 +1,20 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
-using Files.App.DataModels;
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Commands;
+using Files.App.Data.Items;
+using Files.App.Data.Models;
 using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
 using Files.App.Shell;
 using Files.App.ViewModels;
+using Files.App.ViewModels.Dialogs;
+using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Microsoft.UI.Input;
@@ -25,19 +29,19 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
 using Windows.UI.Core;
-using static System.Net.Mime.MediaTypeNames;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.UserControls
 {
 	public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
 	{
-		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
@@ -73,8 +77,6 @@ namespace Files.App.UserControls
 
 		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
 
-		public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
-
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(nameof(ViewModel), typeof(SidebarViewModel), typeof(SidebarControl), new PropertyMetadata(null));
@@ -99,15 +101,9 @@ namespace Files.App.UserControls
 			set => SetValue(TabContentProperty, value);
 		}
 
-		public ICommand EmptyRecycleBinCommand
-		{
-			get => (ICommand)GetValue(EmptyRecycleBinCommandProperty);
-			set => SetValue(EmptyRecycleBinCommandProperty, value);
-		}
+		public readonly ICommand CreateLibraryCommand = new AsyncRelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
 
-		public readonly ICommand CreateLibraryCommand = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
-
-		public readonly ICommand RestoreLibrariesCommand = new RelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialog);
+		public readonly ICommand RestoreLibrariesCommand = new AsyncRelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialog);
 
 		private ICommand HideSectionCommand { get; }
 
@@ -127,6 +123,8 @@ namespace Files.App.UserControls
 
 		private ICommand OpenPropertiesCommand { get; }
 
+		private ICommand ReorderItemsCommand { get; }
+
 		private bool IsInPointerPressed = false;
 
 		private readonly DispatcherQueueTimer dragOverSectionTimer, dragOverItemTimer;
@@ -141,12 +139,13 @@ namespace Files.App.UserControls
 			HideSectionCommand = new RelayCommand(HideSection);
 			UnpinItemCommand = new RelayCommand(UnpinItem);
 			PinItemCommand = new RelayCommand(PinItem);
-			OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
-			OpenInNewWindowCommand = new RelayCommand(OpenInNewWindow);
-			OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
-			EjectDeviceCommand = new RelayCommand(EjectDevice);
+			OpenInNewTabCommand = new AsyncRelayCommand(OpenInNewTab);
+			OpenInNewWindowCommand = new AsyncRelayCommand(OpenInNewWindow);
+			OpenInNewPaneCommand = new AsyncRelayCommand(OpenInNewPane);
+			EjectDeviceCommand = new AsyncRelayCommand(EjectDevice);
 			FormatDriveCommand = new RelayCommand(FormatDrive);
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
+			ReorderItemsCommand = new AsyncRelayCommand(ReorderItems);
 		}
 
 		public SidebarViewModel ViewModel
@@ -208,57 +207,66 @@ namespace Files.App.UserControls
 					Command = RestoreLibrariesCommand,
 					ShowItem = options.IsLibrariesHeader
 				},
+				new ContextMenuFlyoutItemViewModelBuilder(commands.EmptyRecycleBin)
+				{
+					IsVisible = options.ShowEmptyRecycleBin,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RestoreAllRecycleBin)
+				{
+					IsVisible = options.ShowEmptyRecycleBin,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalizedResource(),
-					Glyph = "\uEF88",
-					GlyphFontFamilyName = "RecycleBinIcons",
-					Command = EmptyRecycleBinCommand,
-					ShowItem = options.ShowEmptyRecycleBin,
-					IsEnabled = false,
-					ID = "EmptyRecycleBin",
-					Tag = "EmptyRecycleBin",
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
-					Glyph = "\uF113",
-					GlyphFontFamilyName = "CustomGlyph",
+					Text = "OpenInNewTab".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewTab",
+					},
 					Command = OpenInNewTabCommand,
-					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+					ShowItem = options.IsLocationItem && userSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
-					Glyph = "\uE737",
+					Text = "OpenInNewWindow".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewWindow",
+					},
 					Command = OpenInNewWindowCommand,
-					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+					ShowItem = options.IsLocationItem && userSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel()
-					{
-						BaseBackdropGlyph = "\uF056",
-						BaseLayerGlyph = "\uF03B",
-						OverlayLayerGlyph = "\uF03C",
-					},
 					Command = OpenInNewPaneCommand,
-					ShowItem = options.IsLocationItem && userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
+					ShowItem = options.IsLocationItem && userSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
-					Glyph = "\uE840",
+					Text = "PinToFavorites".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconPinToFavorites",
+					},
 					Command = PinItemCommand,
 					ShowItem = isDriveItem && !isDriveItemPinned
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarUnpinFromFavorites/Text".GetLocalizedResource(),
-					Glyph = "\uE77A",
+					Text = "UnpinFromFavorites".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+					},
 					Command = UnpinItemCommand,
 					ShowItem = options.ShowUnpinItem || isDriveItemPinned
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ReorderSidebarItemsDialogText".GetLocalizedResource(),
+					Glyph = "\uE8D8",
+					Command = ReorderItemsCommand,
+					ShowItem = isFavoriteItem || item.Section is SectionType.Favorites
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -270,8 +278,6 @@ namespace Files.App.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
-					Glyph = "\uF10B",
-					GlyphFontFamilyName = "CustomGlyph",
 					Command = EjectDeviceCommand,
 					ShowItem = options.ShowEjectDevice
 				},
@@ -284,8 +290,11 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
-					Glyph = "\uE946",
+					Text = "Properties".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconProperties",
+					},
 					Command = OpenPropertiesCommand,
 					CommandParameter = menu,
 					ShowItem = options.ShowProperties
@@ -314,30 +323,37 @@ namespace Files.App.UserControls
 			switch (rightClickedItem.Section)
 			{
 				case SectionType.Favorites:
-					userSettingsService.PreferencesSettingsService.ShowFavoritesSection = false;
+					userSettingsService.GeneralSettingsService.ShowFavoritesSection = false;
 					break;
 				case SectionType.Library:
-					userSettingsService.PreferencesSettingsService.ShowLibrarySection = false;
+					userSettingsService.GeneralSettingsService.ShowLibrarySection = false;
 					break;
 				case SectionType.CloudDrives:
-					userSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = false;
+					userSettingsService.GeneralSettingsService.ShowCloudDrivesSection = false;
 					break;
 				case SectionType.Drives:
-					userSettingsService.PreferencesSettingsService.ShowDrivesSection = false;
+					userSettingsService.GeneralSettingsService.ShowDrivesSection = false;
 					break;
 				case SectionType.Network:
-					userSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = false;
+					userSettingsService.GeneralSettingsService.ShowNetworkDrivesSection = false;
 					break;
 				case SectionType.WSL:
-					userSettingsService.PreferencesSettingsService.ShowWslSection = false;
+					userSettingsService.GeneralSettingsService.ShowWslSection = false;
 					break;
 				case SectionType.FileTag:
-					userSettingsService.PreferencesSettingsService.ShowFileTagsSection = false;
+					userSettingsService.GeneralSettingsService.ShowFileTagsSection = false;
 					break;
 			}
 		}
 
-		private async void OpenInNewPane()
+		private async Task ReorderItems()
+		{
+			var dialog = new ReorderSidebarItemsDialogViewModel();
+			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			var result = await dialogService.ShowDialogAsync(dialog);
+		}
+
+		private async Task OpenInNewPane()
 		{
 			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
 				return;
@@ -345,7 +361,7 @@ namespace Files.App.UserControls
 			SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(rightClickedItem));
 		}
 
-		private async void OpenInNewTab()
+		private async Task OpenInNewTab()
 		{
 			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
 				return;
@@ -353,7 +369,7 @@ namespace Files.App.UserControls
 			await NavigationHelpers.OpenPathInNewTab(rightClickedItem.Path);
 		}
 
-		private async void OpenInNewWindow()
+		private async Task OpenInNewWindow()
 		{
 			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
 				return;
@@ -383,7 +399,7 @@ namespace Files.App.UserControls
 			menu.Closed += flyoutClosed;
 		}
 
-		private async void EjectDevice()
+		private async Task EjectDevice()
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
 			await UIHelpers.ShowDeviceEjectResultAsync(result);
@@ -461,15 +477,6 @@ namespace Files.App.UserControls
 				_ = ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, itemContextMenuFlyout, item.MenuOptions);
 
 			e.Handled = true;
-		}
-
-		private void NavigationViewItem_DragStarting(UIElement sender, DragStartingEventArgs args)
-		{
-			if (sender is not NavigationViewItem navItem || navItem.DataContext is not LocationItem)
-				return;
-
-			// Adding the original Location item dragged to the DragEvents data view
-			args.Data.Properties.Add("sourceLocationItem", navItem);
 		}
 
 		private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
@@ -561,7 +568,7 @@ namespace Files.App.UserControls
 					}
 					else
 					{
-						var captionText = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource();
+						var captionText = "PinToFavorites".GetLocalizedResource();
 						CompleteDragEventArgs(e, captionText, DataPackageOperation.Move);
 					}
 				}
@@ -617,12 +624,7 @@ namespace Files.App.UserControls
 					}
 					CompleteDragEventArgs(e, captionText, operationType);
 				}
-			}
-			else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
-			{
-				// else if the drag over event is called over a location item
-				NavigationViewLocationItem_DragOver_SetCaptions(locationItem, sourceLocationItem, e);
-			}
+			}			
 
 			deferral.Complete();
 		}
@@ -633,20 +635,6 @@ namespace Files.App.UserControls
 			e.DragUIOverride.Caption = captionText;
 			e.AcceptedOperation = operationType;
 			return e;
-		}
-
-		private void NavigationViewLocationItem_DragOver_SetCaptions(LocationItem senderLocationItem, LocationItem sourceLocationItem, DragEventArgs e)
-		{
-			// If the location item is the same as the original dragged item
-			if (sourceLocationItem.Equals(senderLocationItem))
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				e.DragUIOverride.IsCaptionVisible = false;
-			}
-			else
-			{
-				CompleteDragEventArgs(e, "PinToSidebarByDraggingCaptionText".GetLocalizedResource(), DataPackageOperation.Move);
-			}
 		}
 
 		private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
@@ -711,7 +699,7 @@ namespace Files.App.UserControls
 			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 			var hasStorageItems = storageItems.Any();
 
-			if ("DriveCapacityUnknown".GetLocalizedResource().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
+			if ("Unknown".GetLocalizedResource().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
 				(hasStorageItems && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
@@ -993,14 +981,14 @@ namespace Files.App.UserControls
 		{
 			await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
 			if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
-				App.AppSettings.Set(isCollapsed, $"section:{loc.Text.Replace('\\', '_')}");
+				Ioc.Default.GetRequiredService<SettingsViewModel>().Set(isCollapsed, $"section:{loc.Text.Replace('\\', '_')}");
 		}
 
 		private void NavigationView_PaneOpened(NavigationView sender, object args)
 		{
 			// Restore expanded state when pane is opened
 			foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems is not null))
-				loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{loc.Text.Replace('\\', '_')}");
+				loc.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(loc.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{loc.Text.Replace('\\', '_')}");
 		}
 
 		private void NavigationView_PaneClosed(NavigationView sender, object args)

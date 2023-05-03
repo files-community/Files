@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
 using Files.App.Extensions;
@@ -5,7 +8,9 @@ using Files.App.Filesystem;
 using Files.App.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,21 +65,32 @@ namespace Files.App.Helpers
 			DynamicDialog? dialog = null;
 			TextBox inputText = new()
 			{
-				PlaceholderText = "RenameDialogInputText/PlaceholderText".GetLocalizedResource()
+				PlaceholderText = "EnterAnItemName".GetLocalizedResource()
 			};
 
-			TextBlock tipText = new()
+			TeachingTip warning = new()
 			{
-				Text = "InvalidFilename/Text".GetLocalizedResource(),
-				Margin = new Microsoft.UI.Xaml.Thickness(0, 0, 4, 0),
-				TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
-				Opacity = 0.0d
+				Title = "InvalidFilename/Text".GetLocalizedResource(),
+				PreferredPlacement = TeachingTipPlacementMode.Bottom,
+				DataContext = new RenameDialogViewModel(),
 			};
+
+			warning.SetBinding(TeachingTip.TargetProperty, new Binding()
+			{
+				Source = inputText
+			});
+			warning.SetBinding(TeachingTip.IsOpenProperty, new Binding()
+			{
+				Mode = BindingMode.OneWay,
+				Path = new PropertyPath("IsNameInvalid")
+			});
+
+			inputText.Resources.Add("InvalidNameWarningTip", warning);
 
 			inputText.TextChanged += (textBox, args) =>
 			{
 				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
-				tipText.Opacity = isInputValid ? 0.0d : 1.0d;
+				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = !string.IsNullOrEmpty(inputText.Text) && !isInputValid;
 				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
 														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 														: DynamicDialogButtons.Cancel;
@@ -85,27 +101,19 @@ namespace Files.App.Helpers
 			inputText.Loaded += (s, e) =>
 			{
 				// dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
-				_ = inputText.DispatcherQueue.EnqueueAsync(() => inputText.Focus(Microsoft.UI.Xaml.FocusState.Programmatic));
+				_ = inputText.DispatcherQueue.EnqueueOrInvokeAsync(() => inputText.Focus(FocusState.Programmatic));
 			};
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = "RenameDialog/Title".GetLocalizedResource(),
+				TitleText = "EnterAnItemName".GetLocalizedResource(),
 				SubtitleText = null,
 				DisplayControl = new Grid()
 				{
 					MinWidth = 300d,
 					Children =
 					{
-						new StackPanel()
-						{
-							Spacing = 4d,
-							Children =
-							{
-								inputText,
-								tipText
-							}
-						}
+						inputText
 					}
 				},
 				PrimaryButtonAction = (vm, e) =>
@@ -117,6 +125,11 @@ namespace Files.App.Helpers
 				DynamicButtonsEnabled = DynamicDialogButtons.Cancel,
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
+
+			dialog.Closing += (s, e) =>
+			{
+				warning.IsOpen = false;
+			};
 
 			return dialog;
 		}
@@ -146,7 +159,7 @@ namespace Files.App.Helpers
 
 			PasswordBox inputPassword = new()
 			{
-				PlaceholderText = "CredentialDialogPassword/PlaceholderText".GetLocalizedResource()
+				PlaceholderText = "Password".GetLocalizedResource()
 			};
 
 			CheckBox saveCreds = new()
@@ -181,7 +194,7 @@ namespace Files.App.Helpers
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
 				TitleText = "NetworkAuthenticationDialogTitle".GetLocalizedResource(),
-				PrimaryButtonText = "AskCredentialDialog/PrimaryButtonText".GetLocalizedResource(),
+				PrimaryButtonText = "OK".GetLocalizedResource(),
 				CloseButtonText = "Cancel".GetLocalizedResource(),
 				SubtitleText = string.Format("NetworkAuthenticationDialogMessage".GetLocalizedResource(), path.Substring(2)),
 				DisplayControl = new Grid()

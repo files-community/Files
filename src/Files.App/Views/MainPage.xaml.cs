@@ -1,80 +1,66 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Commands;
-using Files.App.DataModels;
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
+using Files.App.Contexts;
+using Files.App.Data.Items;
+using Files.App.Data.Models;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.Backend.Extensions;
-using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.ComponentModel;
-using System.Linq;
+using Microsoft.Windows.ApplicationModel.Resources;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel;
-using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
+using Windows.System;
+using WinRT.Interop;
 
 namespace Files.App.Views
 {
-	/// <summary>
-	/// The root page of Files
-	/// </summary>
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		public IUserSettingsService UserSettingsService { get; }
 
-		public AppModel AppModel => App.AppModel;
+		public ICommandManager Commands { get; }
 
-		public MainPageViewModel ViewModel
-		{
-			get => (MainPageViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public IWindowContext WindowContext { get; }
 
+		public SidebarViewModel SidebarAdaptiveViewModel { get; }
 
-		/// <summary>
-		/// True if the user is currently resizing the preview pane
-		/// </summary>
-		private bool draggingPreviewPane;
+		public MainPageViewModel ViewModel { get; }
 
-		public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
+		public OngoingTasksViewModel OngoingTasksViewModel { get; }
 
-		public OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
+		public static AppModel AppModel
+			=> App.AppModel;
 
-		private ICommand ToggleCompactOverlayCommand { get; }
-		private ICommand SetCompactOverlayCommand { get; }
-
-		private ICommand ToggleSidebarCollapsedStateCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleSidebarCollapsedState(x));
+		private bool keyReleased = true;
 
 		public MainPage()
 		{
 			InitializeComponent();
 
-			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
-			if (flowDirectionSetting == "RTL")
-				FlowDirection = FlowDirection.RightToLeft;
+			// Dependency Injection
+			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
+			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
+			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
-			ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
-			SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
+			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
+				FlowDirection = FlowDirection.RightToLeft;
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 		}
@@ -89,14 +75,17 @@ namespace Files.App.Views
 				SecondaryButtonText = "No".ToLocalized()
 			};
 
-			var result = await SetContentDialogRoot(promptForReviewDialog).ShowAsync();
+			var result = await promptForReviewDialog.TryShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 			{
 				try
 				{
 					var storeContext = StoreContext.GetDefault();
-					await storeContext.RequestRateAndReviewAppAsync();
+					InitializeWithWindow.Initialize(storeContext, App.WindowHandle);
+					var storeRateAndReviewResult = await storeContext.RequestRateAndReviewAppAsync();
+
+					App.Logger.LogInformation($"STORE: review request status: {storeRateAndReviewResult.Status}");
 
 					UserSettingsService.ApplicationSettingsService.ClickedToReviewApp = true;
 				}
@@ -109,6 +98,7 @@ namespace Files.App.Views
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+
 			return contentDialog;
 		}
 
@@ -136,16 +126,9 @@ namespace Files.App.Views
 
 		private void SetRectDragRegion()
 		{
-			var scaleAdjustment = XamlRoot.RasterizationScale;
-			var dragArea = TabControl.DragArea;
-
-			var x = (int)((TabControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
-			var y = 0;
-			var width = (int)(dragArea.ActualWidth * scaleAdjustment);
-			var height = (int)(TabControl.TitlebarArea.ActualHeight * scaleAdjustment);
-
-			var dragRect = new RectInt32(x, y, width, height);
-			App.Window.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
+			DragZoneHelper.SetDragZones(
+				App.Window,
+				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
 		}
 
 		public void TabItemContent_ContentChanged(object? sender, TabItemArguments e)
@@ -156,6 +139,7 @@ namespace Files.App.Views
 			var paneArgs = e.NavigationArg as PaneNavigationArguments;
 			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
 				paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
+
 			UpdateStatusBarProperties();
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
@@ -171,10 +155,12 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments).LeftPaneNavPathParam);
+
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
 			ViewModel.UpdateInstanceProperties(navArgs);
+
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
 		}
@@ -202,20 +188,81 @@ namespace Files.App.Views
 				NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
 
 			if (InnerNavigationToolbar is not null)
-			{
 				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
-				InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
-				InnerNavigationToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-			}
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			ViewModel.OnNavigatedTo(e);
+
 			SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
 			SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
 			SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
 			SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
+		}
+
+		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e)
+		{
+			base.OnPreviewKeyDown(e);
+
+			switch (e.Key)
+			{
+				case VirtualKey.Menu:
+				case VirtualKey.Control:
+				case VirtualKey.Shift:
+				case VirtualKey.LeftWindows:
+				case VirtualKey.RightWindows:
+					break;
+				default:
+					var currentModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
+					HotKey hotKey = new((Keys)e.Key, currentModifiers);
+
+					// A textbox takes precedence over certain hotkeys.
+					bool isTextBox = e.OriginalSource is DependencyObject source && source.FindAscendantOrSelf<TextBox>() is not null;
+					if (isTextBox)
+					{
+						if (hotKey.IsTextBoxHotKey())
+							break;
+						if (currentModifiers is KeyModifiers.None && !hotKey.Key.IsGlobalKey())
+							break;
+					}
+
+					// Execute command for hotkey
+					var command = Commands[hotKey];
+					if (command.Code is not CommandCodes.None && keyReleased)
+					{
+						keyReleased = false;
+						e.Handled = command.IsExecutable;
+						await command.ExecuteAsync();
+					}
+					break;
+			}
+		}
+
+		protected override void OnPreviewKeyUp(KeyRoutedEventArgs e)
+		{
+			base.OnPreviewKeyUp(e);
+
+			switch (e.Key)
+			{
+				case VirtualKey.Menu:
+				case VirtualKey.Control:
+				case VirtualKey.Shift:
+				case VirtualKey.LeftWindows:
+				case VirtualKey.RightWindows:
+					break;
+				default:
+					keyReleased = true;
+					break;
+			}
+		}
+
+		// A workaround for issue with OnPreviewKeyUp not being called when the hotkey displays a dialog
+		protected override void OnLostFocus(RoutedEventArgs e)
+		{
+			base.OnLostFocus(e);
+
+			keyReleased = true;
 		}
 
 		private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
@@ -227,13 +274,9 @@ namespace Files.App.Views
 		private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
 		{
 			if (e.InvokedItemDataContext is DriveItem)
-			{
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
-			}
+				FilePropertiesHelpers.OpenPropertiesWindow(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			else if (e.InvokedItemDataContext is LibraryLocationItem library)
-			{
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
-			}
+				FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			else if (e.InvokedItemDataContext is LocationItem locationItem)
 			{
 				ListedItem listedItem = new ListedItem(null!)
@@ -243,7 +286,8 @@ namespace Files.App.Views
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = "Folder".GetLocalizedResource(),
 				};
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
+
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			}
 		}
 
@@ -257,32 +301,38 @@ namespace Files.App.Views
 		{
 			var invokedItemContainer = e.InvokedItemContainer;
 
-			string? navigationPath; // path to navigate
-			Type? sourcePageType = null; // type of page to navigate
+			// Path to navigate
+			string? navigationPath;
+
+			// Type of page to navigate
+			Type? sourcePageType = null;
 
 			switch ((invokedItemContainer.DataContext as INavigationControlItem)?.ItemType)
 			{
 				case NavigationControlItemType.Location:
 					{
-						var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path; // Get the path of the invoked item
+						// Get the path of the invoked item
+						var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path;
 
-						if (string.IsNullOrEmpty(ItemPath)) // Section item
+						// Section item
+						if (string.IsNullOrEmpty(ItemPath))
 						{
 							navigationPath = invokedItemContainer.Tag?.ToString();
 						}
-						else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
+						// Home item
+						else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase))
 						{
 							if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
 								return; // return if already selected
 
 							navigationPath = "Home";
-							sourcePageType = typeof(WidgetsPage);
+							sourcePageType = typeof(HomePage);
 						}
-						else // Any other item
+						// Any other item
+						else
 						{
 							navigationPath = invokedItemContainer.Tag?.ToString();
 						}
-
 						break;
 					}
 
@@ -320,11 +370,6 @@ namespace Files.App.Views
 			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));
 
-			var commands = Commands.Where(command => !command.CustomHotKey.IsNone);
-			foreach (var command in commands)
-				KeyboardAccelerators.Add(new CommandAccelerator(command));
-			Commands.HotKeyChanged += Commands_HotKeyChanged;
-
 			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
 				return;
 
@@ -351,15 +396,10 @@ namespace Files.App.Views
 			}
 		}
 
-		private void ToggleSidebarCollapsedState(KeyboardAcceleratorInvokedEventArgs? e)
-		{
-			SidebarAdaptiveViewModel.IsSidebarOpen = !SidebarAdaptiveViewModel.IsSidebarOpen;
-			e!.Handled = true;
-		}
-
 		private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			SidebarAdaptiveViewModel.UpdateTabControlMargin(); // Set the correct tab margin on startup
+			// Set the correct tab margin on startup
+			SidebarAdaptiveViewModel.UpdateTabControlMargin();
 		}
 
 		private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e) => LoadPaneChanged();
@@ -398,6 +438,7 @@ namespace Files.App.Views
 						PaneSplitter.Width = 2;
 						PaneSplitter.Height = RootGrid.ActualHeight;
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
+						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 						PaneColumn.MinWidth = PreviewPane.MinWidth;
 						PaneColumn.MaxWidth = PreviewPane.MaxWidth;
 						PaneColumn.Width = new GridLength(UserSettingsService.PreviewPaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
@@ -413,6 +454,7 @@ namespace Files.App.Views
 						PaneSplitter.Height = 2;
 						PaneSplitter.Width = RootGrid.ActualWidth;
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeNorthSouth;
+						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth));
 						PaneColumn.MinWidth = 0;
 						PaneColumn.MaxWidth = double.MaxValue;
 						PaneColumn.Width = new GridLength(0);
@@ -422,11 +464,6 @@ namespace Files.App.Views
 						break;
 				}
 			}
-		}
-
-		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-		{
-			draggingPreviewPane = true;
 		}
 
 		private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
@@ -441,22 +478,7 @@ namespace Files.App.Views
 					break;
 			}
 
-			draggingPreviewPane = false;
-		}
-
-		private void PaneSplitter_PointerExited(object sender, PointerRoutedEventArgs e)
-		{
-			if (draggingPreviewPane)
-				return;
-
-			var paneSplitter = (GridSplitter)sender;
-			paneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-		}
-
-		private void PaneSplitter_PointerEntered(object sender, PointerRoutedEventArgs e)
-		{
-			var paneSplitter = (GridSplitter)sender;
-			paneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
 		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
@@ -488,76 +510,33 @@ namespace Files.App.Views
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		private void ToggleCompactOverlay() => SetCompactOverlay(App.GetAppWindow(App.Window).Presenter.Kind != AppWindowPresenterKind.CompactOverlay);
-
-		private void SetCompactOverlay(bool isCompact)
-		{
-			var view = App.GetAppWindow(App.Window);
-			ViewModel.IsWindowCompactOverlay = isCompact;
-			if (!isCompact)
-			{
-				view.SetPresenter(AppWindowPresenterKind.Overlapped);
-			}
-			else
-			{
-				view.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-				view.Resize(new SizeInt32(400, 350));
-			}
-		}
-
 		private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			// prevents the arrow key events from navigating the list instead of switching compact overlay
-			if (EnterCompactOverlayKeyboardAccelerator.CheckIsPressed() || ExitCompactOverlayKeyboardAccelerator.CheckIsPressed())
-				Focus(FocusState.Keyboard);
+			switch (e.Key)
+			{
+				case VirtualKey.Menu:
+				case VirtualKey.Control:
+				case VirtualKey.Shift:
+				case VirtualKey.LeftWindows:
+				case VirtualKey.RightWindows:
+					break;
+				default:
+					var currentModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
+					HotKey hotKey = new((Keys)e.Key, currentModifiers);
+
+					// Prevents the arrow key events from navigating the list instead of switching compact overlay
+					if (Commands[hotKey].Code is CommandCodes.EnterCompactOverlay or CommandCodes.ExitCompactOverlay)
+						Focus(FocusState.Keyboard);
+					break;
+			}
 		}
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
 
-		private void Commands_HotKeyChanged(object? sender, HotKeyChangedEventArgs e)
+		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			if (!e.OldHotKey.IsNone)
-			{
-				var oldAccelerator = KeyboardAccelerators.FirstOrDefault(IsOldHotKey);
-				if (oldAccelerator is CommandAccelerator commandAccelerator)
-				{
-					commandAccelerator.Dispose();
-					KeyboardAccelerators.Remove(commandAccelerator);
-				}
-			}
-
-			if (!e.NewHotKey.IsNone)
-			{
-				var newAccelerator = new CommandAccelerator(e.Command);
-				KeyboardAccelerators.Add(newAccelerator);
-			}
-
-			bool IsOldHotKey(KeyboardAccelerator accelerator)
-				=> accelerator is CommandAccelerator commandAccelerator
-				&& accelerator.Key == e.OldHotKey.Key
-				&& accelerator.Modifiers == e.OldHotKey.Modifiers;
-		}
-
-		private class CommandAccelerator : KeyboardAccelerator, IDisposable
-		{
-			public IRichCommand Command { get; }
-
-			public CommandAccelerator(IRichCommand command)
-			{
-				Command = command;
-
-				Key = Command.CustomHotKey.Key;
-				Modifiers = Command.CustomHotKey.Modifiers;
-				Invoked += CommandAccelerator_Invoked;
-			}
-
-			public void Dispose() => Invoked -= CommandAccelerator_Invoked;
-
-			private async void CommandAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
-			{
-				e.Handled = true;
-				await Command.ExecuteAsync();
-			}
+			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ? 
+				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
 		}
 	}
 }

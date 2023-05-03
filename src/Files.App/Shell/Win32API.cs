@@ -1,20 +1,14 @@
-﻿using Files.App.Helpers;
-using Files.Shared;
-using Files.Shared.Extensions;
-using System;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vanara.PInvoke;
 using Windows.System;
@@ -39,7 +33,7 @@ namespace Files.App.Shell
 				catch (Exception ex)
 				{
 					taskCompletionSource.SetResult();
-					App.Logger.Warn(ex, ex.Message);
+					App.Logger.LogWarning(ex, ex.Message);
 				}
 				finally
 				{
@@ -73,7 +67,7 @@ namespace Files.App.Shell
 				catch (Exception ex)
 				{
 					taskCompletionSource.SetResult();
-					App.Logger.Warn(ex, ex.Message);
+					App.Logger.LogWarning(ex, ex.Message);
 				}
 				finally
 				{
@@ -107,7 +101,7 @@ namespace Files.App.Shell
 				catch (Exception ex)
 				{
 					taskCompletionSource.SetResult(default);
-					App.Logger.Warn(ex, ex.Message);
+					App.Logger.LogWarning(ex, ex.Message);
 					//tcs.SetException(e);
 				}
 				finally
@@ -141,7 +135,7 @@ namespace Files.App.Shell
 				catch (Exception ex)
 				{
 					taskCompletionSource.SetResult(default);
-					App.Logger.Info(ex, ex.Message);
+					App.Logger.LogInformation(ex, ex.Message);
 					//tcs.SetException(e);
 				}
 				finally
@@ -787,12 +781,12 @@ namespace Files.App.Shell
 			{
 				var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
 
-				using Process process = new Process();
+				using Process process = new();
 				process.StartInfo.FileName = "InfDefaultInstall.exe";
 				process.StartInfo.Verb = "runas";
 				process.StartInfo.UseShellExecute = true;
 				process.StartInfo.CreateNoWindow = true;
-				process.StartInfo.Arguments = $"{filePath}";
+				process.StartInfo.Arguments = $"\"{filePath}\"";
 				process.Start();
 
 				await process.WaitForExitAsync(cts.Token);
@@ -805,12 +799,19 @@ namespace Files.App.Shell
 			}
 		}
 
-		public static void InstallFont(string fontFilePath)
+		public static void InstallFont(string fontFilePath, bool forAllUsers)
 		{
-			var userFontDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
-			var destName = Path.Combine(userFontDir, Path.GetFileName(fontFilePath));
+			string fontDirectory = forAllUsers
+				? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
+				: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
 
-			RunPowershellCommand($"-command \"Copy-Item '{fontFilePath}' '{userFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{destName}'\"", false);
+			string registryKey = forAllUsers 
+				? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
+				: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
+
+			var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
+
+			RunPowershellCommand($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
 		}
 	}
 }

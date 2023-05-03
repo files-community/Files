@@ -1,4 +1,5 @@
-﻿<UserControl
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<UserControl
 	x:Class="Files.App.UserControls.Widgets.BundlesWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -49,7 +50,7 @@
 				AutomationProperties.Name="{helpers:ResourceString Name=BundlesWidgetMoreOptionsButton/AutomationProperties/Name}"
 				Background="Transparent"
 				BorderBrush="Transparent"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=BundlesWidgetMoreOptionsButton/ToolTipService/ToolTip}">
+				ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
 
 				<FontIcon
 					HorizontalAlignment="Center"
@@ -305,20 +306,12 @@
 															x:Name="OpenInNewTab"
 															x:Load="{x:Bind OpenInNewTabLoad, Mode=OneWay}"
 															Command="{x:Bind OpenInNewTabCommand}"
-															Text="{helpers:ResourceString Name=BundleItemFlyouOpenInNewTabMenuItem/Text}">
-															<MenuFlyoutItem.Icon>
-																<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
-															</MenuFlyoutItem.Icon>
-														</MenuFlyoutItem>
+															Text="{helpers:ResourceString Name=OpenInNewTab}" />
 														<MenuFlyoutItem
 															x:Name="OpenInNewPane"
 															x:Load="{x:Bind OpenInNewPaneLoad, Mode=OneWay}"
 															Command="{x:Bind OpenInNewPaneCommand}"
-															Text="{helpers:ResourceString Name=BundlesOpenInNewPane/Text}">
-															<MenuFlyoutItem.Icon>
-																<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
-															</MenuFlyoutItem.Icon>
-														</MenuFlyoutItem>
+															Text="{helpers:ResourceString Name=BundlesOpenInNewPane/Text}" />
 														<MenuFlyoutItem Command="{x:Bind OpenItemLocationCommand}" Text="{helpers:ResourceString Name=BundleItemFlyouOpenItemLocationMenuItem/Text}">
 															<MenuFlyoutItem.Icon>
 																<FontIcon Glyph="&#xED25;" />

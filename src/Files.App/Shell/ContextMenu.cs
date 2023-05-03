@@ -1,13 +1,10 @@
-﻿using Files.Shared;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
-using System.Threading.Tasks;
 using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -23,15 +20,21 @@ namespace Files.App.Shell
 		
 		private ThreadWithMessageQueue owningThread;
 
+		Func<string, bool>? itemFilter;
+
+		private Dictionary<List<Win32ContextMenuItem>, Action> loadSubMenuActions;
+
 		public List<string> ItemsPath { get; }
 
-		private ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath, ThreadWithMessageQueue owningThread)
+		private ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath, ThreadWithMessageQueue owningThread, Func<string, bool>? itemFilter)
 		{
 			this.cMenu = cMenu;
 			this.hMenu = hMenu;
 			ItemsPath = itemsPath.ToList();
 			Items = new List<Win32ContextMenuItem>();
 			this.owningThread = owningThread;
+			this.itemFilter = itemFilter;
+			loadSubMenuActions = new();
 		}
 
 		public async static Task<bool> InvokeVerb(string verb, params string[] filePaths)
@@ -145,8 +148,8 @@ namespace Files.App.Shell
 				Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
 				var hMenu = User32.CreatePopupMenu();
 				menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
-				EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
+				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread, itemFilter);
+				contextMenu.EnumMenuItems(hMenu, contextMenu.Items);
 
 				return contextMenu;
 			}
@@ -157,13 +160,17 @@ namespace Files.App.Shell
 			}
 		}
 
+		public static async Task WarmUpQueryContextMenuAsync()
+		{
+			using var cMenu = await GetContextMenuForFiles(new string[] { "C:\\" }, Shell32.CMF.CMF_NORMAL);
+		}
+
 		#endregion FactoryMethods
 
-		private static void EnumMenuItems(
-			Shell32.IContextMenu cMenu,
+		private void EnumMenuItems(
 			HMENU hMenu,
 			List<Win32ContextMenuItem> menuItemsResult,
-			Func<string, bool>? itemFilter = null)
+			bool loadSubenus = false)
 		{
 			var itemCount = User32.GetMenuItemCount(hMenu);
 
@@ -205,6 +212,15 @@ namespace Files.App.Shell
 				{
 					Debug.WriteLine("Item {0} ({1}): {2}", ii, mii.wID, mii.dwTypeData);
 
+					// Hackish workaround to avoid an AccessViolationException on some items,
+					// notably the "Run with graphic processor" menu item of NVidia cards
+					if (mii.wID - 1 > 5000)
+					{
+						container.Dispose();
+
+						continue;
+					}
+
 					menuItem.Label = mii.dwTypeData;
 					menuItem.CommandString = GetCommandString(cMenu, mii.wID - 1);
 
@@ -231,20 +247,34 @@ namespace Files.App.Shell
 					{
 						Debug.WriteLine("Item {0}: has submenu", ii);
 						var subItems = new List<Win32ContextMenuItem>();
+						var hSubMenu = mii.hSubMenu;
 
-						try
+						if (loadSubenus)
 						{
-							cMenu2?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)mii.hSubMenu, new IntPtr(ii));
+							LoadSubMenu();
 						}
-						catch (Exception ex) when (ex is COMException or NotImplementedException)
+						else
 						{
-							// Only for dynamic/owner drawn? (open with, etc)
+							loadSubMenuActions.Add(subItems, LoadSubMenu);
 						}
 
-						EnumMenuItems(cMenu, mii.hSubMenu, subItems, itemFilter);
 						menuItem.SubItems = subItems;
 
 						Debug.WriteLine("Item {0}: done submenu", ii);
+
+						void LoadSubMenu()
+						{
+							try
+							{
+								cMenu2?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)hSubMenu, new IntPtr(ii));
+							}
+							catch (Exception ex) when (ex is COMException or NotImplementedException)
+							{
+								// Only for dynamic/owner drawn? (open with, etc)
+							}
+
+							EnumMenuItems(hSubMenu, subItems, true);
+						}
 					}
 				}
 				else
@@ -257,13 +287,31 @@ namespace Files.App.Shell
 			}
 		}
 
+		public async Task<bool> LoadSubMenu(List<Win32ContextMenuItem> subItems)
+		{
+			if (loadSubMenuActions.Remove(subItems, out var loadSubMenuAction))
+			{
+				return await owningThread.PostMethod<bool>(() =>
+				{
+					try
+					{
+						loadSubMenuAction!();
+						return true;
+					}
+					catch (COMException)
+					{
+						return false;
+					}
+				});
+			}
+			else
+			{
+				return false;
+			}
+		}
+
 		private static string? GetCommandString(Shell32.IContextMenu cMenu, uint offset, Shell32.GCS flags = Shell32.GCS.GCS_VERBW)
 		{
-			// Hackish workaround to avoid an AccessViolationException on some items,
-			// notably the "Run with graphic processor" menu item of NVidia cards
-			if (offset > 5000)
-				return null;
-
 			SafeCoTaskMemString? commandString = null;
 
 			try

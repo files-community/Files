@@ -1,20 +1,15 @@
-﻿using CommunityToolkit.WinUI.UI;
-using Files.App.Filesystem;
-using Files.App.Helpers;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.WinUI.UI;
 using Files.App.Helpers.XamlHelpers;
-using Files.App.Interacts;
 using Files.App.UserControls;
-using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -26,21 +21,14 @@ namespace Files.App
 
 		protected int NextRenameIndex = 0;
 
-		protected abstract ListViewBase ListViewBase
-		{
-			get;
-		}
+		protected abstract ListViewBase ListViewBase { get; }
 
 		protected override ItemsControl ItemsControl => ListViewBase;
 
-		protected abstract SemanticZoom RootZoom
-		{
-			get;
-		}
+		protected abstract SemanticZoom RootZoom { get; }
 
 		public StandardViewBase() : base()
 		{
-
 		}
 
 		protected override void InitializeCommandsViewModel()
@@ -51,6 +39,7 @@ namespace Files.App
 		protected override void HookEvents()
 		{
 			UnhookEvents();
+
 			ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
 			ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
 			ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
@@ -60,6 +49,8 @@ namespace Files.App
 			ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
 			ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
 			ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
+			ItemManipulationModel.RefreshItemThumbnailInvoked += ItemManipulationModel_RefreshItemThumbnail;
+			ItemManipulationModel.RefreshItemsThumbnailInvoked += ItemManipulationModel_RefreshItemsThumbnail;
 		}
 
 		protected override void UnhookEvents()
@@ -76,6 +67,37 @@ namespace Files.App
 			ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
 			ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
 			ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
+			ItemManipulationModel.RefreshItemThumbnailInvoked -= ItemManipulationModel_RefreshItemThumbnail;
+			ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
+		}
+
+		protected virtual void ItemManipulationModel_RefreshItemsThumbnail(object? sender, EventArgs e)
+		{
+			ReloadSelectedItemsIcon();
+		}
+
+		protected virtual void ItemManipulationModel_RefreshItemThumbnail(object? sender, EventArgs args)
+		{
+			ReloadSelectedItemIcon();
+		}
+
+		protected virtual async Task ReloadSelectedItemIcon()
+		{
+			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
+
+			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, IconSize);
+		}
+
+		protected virtual async Task ReloadSelectedItemsIcon()
+		{
+			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+
+			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
+			{
+				selectedItem.ItemPropertiesInitialized = false;
+				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(selectedItem, IconSize);
+			}
 		}
 
 		protected virtual void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
@@ -133,12 +155,9 @@ namespace Files.App
 				RootZoom.IsZoomedInViewActive = true;
 		}
 
-		protected virtual async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected virtual void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
-
-			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
-				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
 		}
 
 		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);
@@ -188,6 +207,7 @@ namespace Files.App
 		{
 			EndRename(textBox);
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
+
 			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
 		}
 
@@ -247,11 +267,8 @@ namespace Files.App
 						NextRenameIndex = 0;
 						EndRename(textBox);
 
-						if
-						(
-							newIndex >= 0 &&
-							newIndex < ListViewBase.Items.Count
-						)
+						if (newIndex >= 0 &&
+							newIndex < ListViewBase.Items.Count)
 						{
 							ListViewBase.SelectedIndex = newIndex;
 							StartRenameItem();
@@ -268,11 +285,8 @@ namespace Files.App
 			var nextItemIndex = ListViewBase.Items.IndexOf(item) + NextRenameIndex;
 			NextRenameIndex = 0;
 
-			if
-			(
-				nextItemIndex >= 0 &&
-				nextItemIndex < ListViewBase.Items.Count
-			)
+			if (nextItemIndex >= 0 &&
+				nextItemIndex < ListViewBase.Items.Count)
 			{
 				ListViewBase.SelectedIndex = nextItemIndex;
 				StartRenameItem();
@@ -301,6 +315,11 @@ namespace Files.App
 				return;
 
 			base.Page_CharacterReceived(sender, args);
+		}
+
+		protected void SelectionCheckbox_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			e.Handled = true;
 		}
 
 		public override void Dispose()

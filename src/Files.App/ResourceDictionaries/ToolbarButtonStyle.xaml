@@ -1,4 +1,5 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<Style
 		x:Key="ToolBarAppBarButtonFlyoutStyle"
 		BasedOn="{StaticResource DefaultAppBarButtonStyle}"
@@ -98,7 +99,7 @@
 								FontFamily="{ThemeResource SymbolThemeFontFamily}"
 								FontSize="{ThemeResource AppBarButtonSecondarySubItemChevronFontSize}"
 								Foreground="{ThemeResource AppBarButtonSubItemChevronForeground}"
-								Glyph="&#xE019;" />
+								Glyph="&#xE70D;" />
 							<Grid
 								x:Name="SubItemChevronPanel"
 								Grid.Column="2"

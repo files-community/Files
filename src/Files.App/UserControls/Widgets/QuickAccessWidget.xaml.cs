@@ -1,13 +1,16 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Data.Items;
 using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
+using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -15,6 +18,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -39,12 +43,21 @@ namespace Files.App.UserControls.Widgets
 	public class ModifyQuickAccessEventArgs : EventArgs
 	{
 		public string[] Paths { get; set; }
+		public ShellFileItem[] Items { get; set; }
 		public bool Add;
 		public bool Pin = true;
+		public bool Reset = false;
 
 		public ModifyQuickAccessEventArgs(string[] paths, bool add)
 		{
 			Paths = paths;
+			Add = add;
+		}
+
+		public ModifyQuickAccessEventArgs(ShellFileItem[] items, bool add)
+		{
+			Paths = items.Select(x => x.FilePath).ToArray();
+			Items = items;
 			Add = add;
 		}
 	}
@@ -87,7 +100,7 @@ namespace Files.App.UserControls.Widgets
 			}
 			if (thumbnailData is not null && thumbnailData.Length > 0)
 			{
-				Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
+				Thumbnail = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
 			}
 		}
 	}
@@ -107,31 +120,33 @@ namespace Files.App.UserControls.Widgets
 			Loaded += QuickAccessWidget_Loaded;
 			Unloaded += QuickAccessWidget_Unloaded;
 
-			OpenInNewTabCommand = new RelayCommand<FolderCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new RelayCommand<FolderCardItem>(OpenInNewWindow);
+			OpenInNewTabCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewTab);
+			OpenInNewWindowCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewWindow);
 			OpenInNewPaneCommand = new RelayCommand<FolderCardItem>(OpenInNewPane);
 			OpenPropertiesCommand = new RelayCommand<FolderCardItem>(OpenProperties);
-			PinToFavoritesCommand = new RelayCommand<FolderCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new RelayCommand<FolderCardItem>(UnpinFromFavorites);
+			PinToFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(PinToFavorites);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(UnpinFromFavorites);
+
+			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChanged;
 		}
 
-		public delegate void LibraryCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
+		public delegate void QuickAccessCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
 
-		public delegate void LibraryCardNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
+		public delegate void QuickAccessCardNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
 
-		public delegate void LibraryCardPropertiesInvokedEventHandler(object sender, QuickAccessCardEventArgs e);
+		public delegate void QuickAccessCardPropertiesInvokedEventHandler(object sender, QuickAccessCardEventArgs e);
 
-		public event LibraryCardInvokedEventHandler CardInvoked;
+		public event QuickAccessCardInvokedEventHandler CardInvoked;
 
-		public event LibraryCardNewPaneInvokedEventHandler CardNewPaneInvoked;
+		public event QuickAccessCardNewPaneInvokedEventHandler CardNewPaneInvoked;
 
-		public event LibraryCardPropertiesInvokedEventHandler CardPropertiesInvoked;
+		public event QuickAccessCardPropertiesInvokedEventHandler CardPropertiesInvoked;
 
 		public event EventHandler QuickAccessWidgetShowMultiPaneControlsInvoked;
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget;
 
 		public bool ShowMenuFlyout => false;
 
@@ -142,70 +157,74 @@ namespace Files.App.UserControls.Widgets
 		public ICommand OpenPropertiesCommand;
 		public ICommand OpenInNewPaneCommand;
 
-		public ICommand ShowCreateNewLibraryDialogCommand { get; } = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
-
-		public readonly ICommand ShowRestoreLibrariesDialogCommand = new RelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialog);
-
 		public string WidgetName => nameof(QuickAccessWidget);
 
 		public string AutomationProperties => "QuickAccess".GetLocalizedResource();
 
 		public string WidgetHeader => "QuickAccess".GetLocalizedResource();
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned)
+		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{				
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
-					Glyph = "\uF113",
-					GlyphFontFamilyName = "CustomGlyph",
+					Text = "OpenInNewTab".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewTab",
+					},
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewTab
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
-					Glyph = "\uE737",
+					Text = "OpenInNewWindow".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewWindow",
+					},
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewWindow
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewWindow
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
-					ColoredIcon = new ColoredIconModel()
-					{
-						BaseBackdropGlyph = "\uF056",
-						BaseLayerGlyph = "\uF03B",
-						OverlayLayerGlyph = "\uF03C",
-					},
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.PreferencesSettingsService.ShowOpenInNewPane
+					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
-					Glyph = "\uE840",
+					Text = "PinToFavorites".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconPinToFavorites",
+					},
 					Command = PinToFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = !isPinned
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarUnpinFromFavorites/Text".GetLocalizedResource(),
-					Glyph = "\uE77A",
+					Text = "UnpinFromFavorites".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+					},
 					Command = UnpinFromFavoritesCommand,
 					CommandParameter = item,
 					ShowItem = isPinned
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
-					Glyph = "\uE946",
+					Text = "Properties".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconProperties",
+					},
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
@@ -231,8 +250,34 @@ namespace Files.App.UserControls.Widgets
 			if (e is null)
 				return;
 
-			await DispatcherQueue.EnqueueAsync(async () =>
+			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
+				if (e.Reset)
+				{
+					// Find the intersection between the two lists and determine whether to remove or add
+					var itemsToRemove = ItemsAdded.Where(x => !e.Paths.Contains(x.Path)).ToList();
+					var itemsToAdd = e.Paths.Where(x => !ItemsAdded.Any(y => y.Path == x)).ToList();
+
+					// Remove items
+					foreach (var itemToRemove in itemsToRemove)
+						ItemsAdded.Remove(itemToRemove);
+
+					// Add items
+					foreach (var itemToAdd in itemsToAdd)
+					{
+						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
+						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
+						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault()?.Properties["System.Home.IsPinned"] ?? false;
+
+						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
+						{
+							Path = item.Path,
+							SelectCommand = QuickAccessCardCommand
+						});
+					}
+
+					return;
+				}
 				if (e.Add)
 				{
 					foreach (var itemToAdd in e.Paths)
@@ -245,9 +290,6 @@ namespace Files.App.UserControls.Widgets
 							SelectCommand = QuickAccessCardCommand
 						});
 					}
-
-					var cardLoadTasks = ItemsAdded.Select(cardItem => cardItem.LoadCardThumbnailAsync());
-					await Task.WhenAll(cardLoadTasks);
 				}
 				else
 					foreach (var itemToRemove in ItemsAdded.Where(x => e.Paths.Contains(x.Path)).ToList())
@@ -272,9 +314,6 @@ namespace Files.App.UserControls.Widgets
 			}
 
 			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItem;
-
-			var cardLoadTasks = ItemsAdded.Select(cardItem => cardItem.LoadCardThumbnailAsync());
-			await Task.WhenAll(cardLoadTasks);
 		}
 
 		private void QuickAccessWidget_Unloaded(object sender, RoutedEventArgs e)
@@ -283,15 +322,24 @@ namespace Files.App.UserControls.Widgets
 			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItem;
 		}
 
-		private void MenuFlyout_Opening(object sender, object e)
-		{			
-			var pinToFavoritesItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "PinToFavorites");
-			if (pinToFavoritesItem is not null)
-				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as FolderCardItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
+		private async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (e.Action is NotifyCollectionChangedAction.Add)
+			{
+				foreach (FolderCardItem cardItem in e.NewItems!)
+					await cardItem.LoadCardThumbnailAsync();
+			}
+		}
 
-			var unpinFromFavoritesItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "UnpinFromFavorites");
+		private void MenuFlyout_Opening(object sender)
+		{			
+			var pinToFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "PinToFavorites");
+			if (pinToFavoritesItem is not null)
+				pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as FolderCardItem)?.IsPinned ?? false ? Visibility.Collapsed : Visibility.Visible;
+
+			var unpinFromFavoritesItem = (sender as MenuFlyout)?.Items.SingleOrDefault(x => x.Name == "UnpinFromFavorites");
 			if (unpinFromFavoritesItem is not null)
-				unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as FolderCardItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
+				unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as FolderCardItem)?.IsPinned ?? false ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -315,15 +363,24 @@ namespace Files.App.UserControls.Widgets
 
 		private void OpenProperties(FolderCardItem item)
 		{
-			CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item });
+			EventHandler<object> flyoutClosed = null!;
+			flyoutClosed = (s, e) =>
+			{
+				ItemContextMenuFlyout.Closed -= flyoutClosed;
+				CardPropertiesInvoked?.Invoke(this, new QuickAccessCardEventArgs { Item = item.Item });
+			};
+			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
-		public override async void PinToFavorites(WidgetCardItem item)
+		public override async Task PinToFavorites(WidgetCardItem item)
 		{
 			await QuickAccessService.PinToSidebar(item.Path);
+
 			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
+
 			var items = (await QuickAccessService.GetPinnedFoldersAsync())
 				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
+
 			var recentItem = items.Where(x => !ItemsAdded.Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
 			if (recentItem is not null)
 			{
@@ -334,9 +391,10 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		public override async void UnpinFromFavorites(WidgetCardItem item)
+		public override async Task UnpinFromFavorites(WidgetCardItem item)
 		{
 			await QuickAccessService.UnpinFromSidebar(item.Path);
+
 			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 		}
 
@@ -363,9 +421,9 @@ namespace Files.App.UserControls.Widgets
 			return Task.CompletedTask;
 		}
 
-		public void Dispose()
+		public void Dispose() 
 		{
-
+			ItemsAdded.CollectionChanged -= ItemsAdded_CollectionChanged;
 		}
 	}
 }

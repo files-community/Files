@@ -1,4 +1,7 @@
-﻿using Files.Backend.Models;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Backend.Models;
 using Files.Sdk.Storage;
 using System;
 using System.Threading;
@@ -6,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Files.Backend.Services
 {
-	/// <summary>
-	/// Represents a service used for data to image conversion.
-	/// </summary>
-	public interface IImageService
+    /// <summary>
+    /// Represents a service used for data to image conversion.
+    /// </summary>
+    public interface IImageService
     {
         /// <summary>
         /// Gets associated item icon of provided <paramref name="storable"/>. May return null if the icon is inaccessible.

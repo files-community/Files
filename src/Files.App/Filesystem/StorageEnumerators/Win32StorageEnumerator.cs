@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
@@ -139,7 +142,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 
 		public static ListedItem GetAlternateStream((string Name, long Size) ads, ListedItem main)
 		{
-			string itemType = "ItemTypeFile".GetLocalizedResource();
+			string itemType = "File".GetLocalizedResource();
 			string itemFileExtension = null;
 			if (ads.Name.Contains('.'))
 			{
@@ -253,7 +256,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 
 			long itemSizeBytes = findData.GetSize();
 			var itemSize = itemSizeBytes.ToSizeString();
-			string itemType = "ItemTypeFile".GetLocalizedResource();
+			string itemType = "File".GetLocalizedResource();
 			string itemFileExtension = null;
 
 			if (findData.cFileName.Contains('.'))
@@ -273,7 +276,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			bool isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 			double opacity = isHidden ? Constants.UI.DimItemOpacity : 1;
 
-			// https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
+			// https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
 			bool isReparsePoint = ((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
 			bool isSymlink = isReparsePoint && findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK;
 
@@ -293,7 +296,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 					ItemDateModifiedReal = itemModifiedDate,
 					ItemDateAccessedReal = itemLastAccessDate,
 					ItemDateCreatedReal = itemCreatedDate,
-					ItemType = "ShortcutFileType".GetLocalizedResource(),
+					ItemType = "Shortcut".GetLocalizedResource(),
 					ItemPath = itemPath,
 					FileSize = itemSize,
 					FileSizeBytes = itemSizeBytes,
@@ -322,7 +325,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 					ItemDateModifiedReal = itemModifiedDate,
 					ItemDateAccessedReal = itemLastAccessDate,
 					ItemDateCreatedReal = itemCreatedDate,
-					ItemType = isUrl ? "ShortcutWebLinkFileType".GetLocalizedResource() : "ShortcutFileType".GetLocalizedResource(),
+					ItemType = isUrl ? "ShortcutWebLinkFileType".GetLocalizedResource() : "Shortcut".GetLocalizedResource(),
 					ItemPath = itemPath,
 					FileSize = itemSize,
 					FileSizeBytes = itemSizeBytes,

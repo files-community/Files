@@ -1,4 +1,5 @@
-﻿<UserControl
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<UserControl
 	x:Class="Files.App.UserControls.FilePreviews.MediaPreview"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -24,7 +25,10 @@
 			Foreground="Transparent"
 			Source="{x:Bind ViewModel.Source, Mode=OneWay}">
 			<MediaPlayerElement.TransportControls>
-				<MediaTransportControls IsPlaybackRateButtonVisible="False" IsZoomButtonVisible="False" />
+				<MediaTransportControls
+					IsCompact="True"
+					IsPlaybackRateButtonVisible="False"
+					IsZoomButtonVisible="False" />
 			</MediaPlayerElement.TransportControls>
 		</MediaPlayerElement>
 	</Border>

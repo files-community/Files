@@ -1,6 +1,9 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
-using Files.App.DataModels;
+using Files.App.Data.Models;
 using Files.App.ViewModels;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
@@ -11,7 +14,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.IO;
 using System.Linq;
-using System.Windows.Input;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -22,16 +24,17 @@ namespace Files.App.UserControls
 		public InnerNavigationToolbar()
 		{
 			InitializeComponent();
+			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 		}
 
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public ICommandManager CommandManager { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
 		public AppModel AppModel => App.AppModel;
 
-		public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
+		public readonly PreviewPaneViewModel PreviewPaneViewModel;
 
 		public ToolbarViewModel ViewModel
 		{
@@ -52,47 +55,6 @@ namespace Files.App.UserControls
 		// Using a DependencyProperty as the backing store for ShowPreviewPaneButton.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowPreviewPaneButtonProperty =
 			DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
-
-		public bool ShowMultiPaneControls
-		{
-			get => (bool)GetValue(ShowMultiPaneControlsProperty);
-			set => SetValue(ShowMultiPaneControlsProperty, value);
-		}
-
-		// Using a DependencyProperty as the backing store for ShowMultiPaneControls.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ShowMultiPaneControlsProperty =
-			DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
-
-		public bool IsMultiPaneActive
-		{
-			get { return (bool)GetValue(IsMultiPaneActiveProperty); }
-			set { SetValue(IsMultiPaneActiveProperty, value); }
-		}
-
-		// Using a DependencyProperty as the backing store for IsMultiPaneActive.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty IsMultiPaneActiveProperty =
-			DependencyProperty.Register("IsMultiPaneActive", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(false));
-
-		public bool IsCompactOverlay
-		{
-			get { return (bool)GetValue(IsCompactOverlayProperty); }
-			set { SetValue(IsCompactOverlayProperty, value); }
-		}
-
-		// Using a DependencyProperty as the backing store for IsCompactOverlay.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty IsCompactOverlayProperty =
-			DependencyProperty.Register("IsCompactOverlay", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
-
-		public ICommand SetCompactOverlayCommand
-		{
-			get { return (ICommand)GetValue(SetCompactOverlayCommandProperty); }
-			set { SetValue(SetCompactOverlayCommandProperty, value); }
-		}
-
-		// Using a DependencyProperty as the backing store for ToggleCompactOverlayCommand.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty SetCompactOverlayCommandProperty =
-			DependencyProperty.Register("ToggleCompactOverlayCommand", typeof(ICommand), typeof(AddressToolbar), new PropertyMetadata(null));
-
 		private void NewEmptySpace_Opening(object sender, object e)
 		{
 			if (!ViewModel.InstanceViewModel.CanCreateFileInPage)
@@ -107,6 +69,10 @@ namespace Files.App.UserControls
 			if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
 			{
 				var separatorIndex = NewEmptySpace.Items.IndexOf(NewEmptySpace.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
+
+				ushort key = 0;
+				string keyFormat = $"D{cachedNewContextMenuEntries.Count.ToString().Length}";
+
 				foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
 				{
 					MenuFlyoutItem menuLayoutItem;
@@ -128,13 +94,14 @@ namespace Files.App.UserControls
 						menuLayoutItem = new MenuFlyoutItem()
 						{
 							Text = newEntry.Name,
-							Icon = new FontIcon()
+							Icon = new FontIcon
 							{
 								Glyph = "\xE7C3"
 							},
 							Tag = "CreateNewFile"
 						};
 					}
+					menuLayoutItem.AccessKey = (cachedNewContextMenuEntries.Count + 1 - (++key)).ToString(keyFormat);
 					menuLayoutItem.Command = ViewModel.CreateNewFileCommand;
 					menuLayoutItem.CommandParameter = newEntry;
 					NewEmptySpace.Items.Insert(separatorIndex + 1, menuLayoutItem);
@@ -142,19 +109,23 @@ namespace Files.App.UserControls
 			}
 		}
 
-		private void NavToolbarDetailsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
-		private void NavToolbarTilesHeader_Tapped(object sender, TappedRoutedEventArgs e)
-			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
-		private void NavToolbarSmallIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
-		private void NavToolbarMediumIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
-		private void NavToolbarLargeIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
-		private void NavToolbarColumnsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
-		private void NavToolbarAdaptiveHeader_Tapped(object sender, TappedRoutedEventArgs e)
-			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
+		private void SortGroup_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
+		{
+			if (sender is MenuFlyoutSubItem menu)
+			{
+				var items = menu.Items
+					.TakeWhile(item => item is not MenuFlyoutSeparator)
+					.Where(item => item.IsEnabled)
+					.ToList();
+
+				string format = $"D{items.Count.ToString().Length}";
+
+				for (ushort index = 0; index < items.Count; ++index)
+				{
+					items[index].AccessKey = (index+1).ToString(format);
+				}
+			}
+
+		}
 	}
 }

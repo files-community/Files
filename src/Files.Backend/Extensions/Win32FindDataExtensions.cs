@@ -1,4 +1,7 @@
-﻿using static Files.Backend.Helpers.NativeFindStorageItemHelper;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.Backend.Extensions
 {

@@ -1,10 +1,14 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Filesystem;
-using Files.App.Filesystem.Permissions;
+using Files.App.Filesystem.Security;
 using Files.App.Shell;
 using Files.Backend.Helpers;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System;
 using System.Collections.Concurrent;
@@ -198,7 +202,7 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, string operationID = "", IProgress<FileSystemProgress>? progress = default)
+		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, IProgress<FileSystemProgress> progress, string operationID = "")
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -347,7 +351,7 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, string operationID = "", IProgress<FileSystemProgress>? progress = default)
+		public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, IProgress<FileSystemProgress> progress, string operationID = "")
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -427,7 +431,7 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, string operationID = "", IProgress<FileSystemProgress>? progress = default)
+		public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, IProgress<FileSystemProgress> progress, string operationID = "")
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -558,13 +562,18 @@ namespace Files.App.Helpers
 						ipf.GetUrl(out var retVal);
 						return retVal;
 					});
-					return string.IsNullOrEmpty(targetPath) ? null : new ShellLinkItem { TargetPath = targetPath };
+					return string.IsNullOrEmpty(targetPath) ? 
+						new ShellLinkItem
+						{
+							TargetPath = string.Empty,
+							InvalidTarget = true
+						} : new ShellLinkItem { TargetPath = targetPath };
 				}
 				return null;
 			}
 			catch (FileNotFoundException ex) // Could not parse shortcut
 			{
-				App.Logger?.Warn(ex, ex.Message);
+				App.Logger?.LogWarning(ex, ex.Message);
 				// Return a item containing the invalid target path
 				return new ShellLinkItem
 				{
@@ -575,7 +584,7 @@ namespace Files.App.Helpers
 			catch (Exception ex)
 			{
 				// Could not parse shortcut
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 				return null;
 			}
 		}
@@ -605,7 +614,7 @@ namespace Files.App.Helpers
 			catch (Exception ex)
 			{
 				// Could not create shortcut
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 
 			return Task.FromResult(false);
@@ -623,26 +632,20 @@ namespace Files.App.Helpers
 			catch (Exception ex)
 			{
 				// Could not create shortcut
-				App.Logger.Warn(ex, ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 
 			return false;
 		}
 
-		public static FilePermissions GetFilePermissions(string filePath, bool isFolder)
-			=> FilePermissions.FromFilePath(filePath, isFolder);
+		public static AccessControlList GetFilePermissions(string filePath, bool isFolder)
+			=> FileSecurityHelpers.GetAccessControlList(filePath, isFolder);
 
-		public static bool SetFileOwner(string filePath, bool isFolder, string ownerSid)
-		{
-			var fp = FilePermissions.FromFilePath(filePath, isFolder);
-			return fp.SetOwner(ownerSid);
-		}
+		public static bool SetFileOwner(string filePath, string ownerSid)
+			=> FileSecurityHelpers.SetOwner(filePath, ownerSid);
 
 		public static bool SetAccessRuleProtection(string filePath, bool isFolder, bool isProtected, bool preserveInheritance)
-		{
-			var fp = FilePermissions.FromFilePath(filePath, isFolder);
-			return fp.SetAccessRuleProtection(isProtected, preserveInheritance);
-		}
+			=> FileSecurityHelpers.SetAccessControlProtection(filePath, isFolder, isProtected, preserveInheritance);
 
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
 		{

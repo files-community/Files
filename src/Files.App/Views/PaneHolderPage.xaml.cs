@@ -1,35 +1,38 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views.LayoutModes;
-using Files.Backend.Services.Settings;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Windows.System;
 
 namespace Files.App.Views
 {
 	public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent
 	{
+		public static event EventHandler<PaneHolderPage>? CurrentInstanceChanged;
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		public bool IsLeftPaneActive => ActivePane == PaneLeft;
-		public bool IsRightPaneActive => ActivePane == PaneRight;
+		public bool IsLeftPaneActive
+			=> ActivePane == PaneLeft;
+
+		public bool IsRightPaneActive
+			=> ActivePane == PaneRight;
 
 		public event EventHandler<TabItemArguments> ContentChanged;
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
+		public IFilesystemHelpers FilesystemHelpers
+			=> ActivePane?.FilesystemHelpers;
 
 		private TabItemArguments tabItemArguments;
-
 		public TabItemArguments TabItemArguments
 		{
 			get => tabItemArguments;
@@ -38,13 +41,13 @@ namespace Files.App.Views
 				if (tabItemArguments != value)
 				{
 					tabItemArguments = value;
+
 					ContentChanged?.Invoke(this, value);
 				}
 			}
 		}
 
 		private bool _windowIsCompact = App.Window.Bounds.Width <= 750;
-
 		private bool windowIsCompact
 		{
 			get => _windowIsCompact;
@@ -53,6 +56,7 @@ namespace Files.App.Views
 				if (value != _windowIsCompact)
 				{
 					_windowIsCompact = value;
+
 					if (value)
 					{
 						wasRightPaneVisible = isRightPaneVisible;
@@ -63,6 +67,7 @@ namespace Files.App.Views
 						IsRightPaneVisible = true;
 						wasRightPaneVisible = false;
 					}
+
 					NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
 				}
 			}
@@ -70,15 +75,13 @@ namespace Files.App.Views
 
 		private bool wasRightPaneVisible;
 
-		public bool IsMultiPaneActive => IsRightPaneVisible;
+		public bool IsMultiPaneActive
+			=> IsRightPaneVisible;
 
 		public bool IsMultiPaneEnabled
-		{
-			get => !(App.Window.Bounds.Width <= 750);
-		}
+			=> !(App.Window.Bounds.Width <= 750);
 
 		private NavigationParams navParamsLeft;
-
 		public NavigationParams NavParamsLeft
 		{
 			get => navParamsLeft;
@@ -87,13 +90,13 @@ namespace Files.App.Views
 				if (navParamsLeft != value)
 				{
 					navParamsLeft = value;
+
 					NotifyPropertyChanged(nameof(NavParamsLeft));
 				}
 			}
 		}
 
 		private NavigationParams navParamsRight;
-
 		public NavigationParams NavParamsRight
 		{
 			get => navParamsRight;
@@ -102,13 +105,13 @@ namespace Files.App.Views
 				if (navParamsRight != value)
 				{
 					navParamsRight = value;
+
 					NotifyPropertyChanged(nameof(NavParamsRight));
 				}
 			}
 		}
 
 		private IShellPage activePane;
-
 		public IShellPage ActivePane
 		{
 			get => activePane;
@@ -117,15 +120,14 @@ namespace Files.App.Views
 				if (activePane != value)
 				{
 					activePane = value;
+
 					PaneLeft.IsCurrentInstance = false;
+
 					if (PaneRight is not null)
-					{
 						PaneRight.IsCurrentInstance = false;
-					}
 					if (ActivePane is not null)
-					{
 						ActivePane.IsCurrentInstance = isCurrentInstance;
-					}
+
 					NotifyPropertyChanged(nameof(ActivePane));
 					NotifyPropertyChanged(nameof(IsLeftPaneActive));
 					NotifyPropertyChanged(nameof(IsRightPaneActive));
@@ -140,16 +142,13 @@ namespace Files.App.Views
 			get
 			{
 				if (ActivePane is not null && ActivePane.IsColumnView)
-				{
 					return (ActivePane.SlimContentPage as ColumnViewBrowser).ActiveColumnShellPage;
-				}
 
 				return ActivePane ?? PaneLeft;
 			}
 		}
 
 		private bool isRightPaneVisible;
-
 		public bool IsRightPaneVisible
 		{
 			get => isRightPaneVisible;
@@ -159,9 +158,8 @@ namespace Files.App.Views
 				{
 					isRightPaneVisible = value;
 					if (!isRightPaneVisible)
-					{
 						ActivePane = PaneLeft;
-					}
+
 					Pane_ContentChanged(null, null);
 					NotifyPropertyChanged(nameof(IsRightPaneVisible));
 					NotifyPropertyChanged(nameof(IsMultiPaneActive));
@@ -170,35 +168,35 @@ namespace Files.App.Views
 		}
 
 		private bool isCurrentInstance;
-
 		public bool IsCurrentInstance
 		{
 			get => isCurrentInstance;
 			set
 			{
+				if (isCurrentInstance == value)
+					return;
+
 				isCurrentInstance = value;
 				PaneLeft.IsCurrentInstance = false;
+
 				if (PaneRight is not null)
-				{
 					PaneRight.IsCurrentInstance = false;
-				}
+
 				if (ActivePane is not null)
-				{
 					ActivePane.IsCurrentInstance = value;
-				}
+
+				CurrentInstanceChanged?.Invoke(null, this);
 			}
 		}
-
-		public const VirtualKey PlusKey = (VirtualKey)187;
 
 		public PaneHolderPage()
 		{
 			InitializeComponent();
 			App.Window.SizeChanged += Current_SizeChanged;
 			ActivePane = PaneLeft;
-			IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;
+			IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.GeneralSettingsService.AlwaysOpenDualPaneInNewTab;
 
-			// TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
+			// TODO?: Fallback or an error can occur when failing to get NavigationViewCompactPaneLength value
 		}
 
 		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
@@ -212,25 +210,26 @@ namespace Files.App.Views
 
 			if (eventArgs.Parameter is string navPath)
 			{
-				NavParamsLeft = new NavigationParams { NavPath = navPath };
-				NavParamsRight = new NavigationParams { NavPath = "Home" };
+				NavParamsLeft = new() { NavPath = navPath };
+				NavParamsRight = new() { NavPath = "Home" };
 			}
 			else if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
 			{
-				NavParamsLeft = new NavigationParams
+				NavParamsLeft = new()
 				{
 					NavPath = paneArgs.LeftPaneNavPathParam,
 					SelectItem = paneArgs.LeftPaneSelectItemParam
 				};
-				NavParamsRight = new NavigationParams
+				NavParamsRight = new()
 				{
 					NavPath = paneArgs.RightPaneNavPathParam,
 					SelectItem = paneArgs.RightPaneSelectItemParam
 				};
+
 				IsRightPaneVisible = IsMultiPaneEnabled && paneArgs.RightPaneNavPathParam is not null;
 			}
 
-			TabItemArguments = new TabItemArguments()
+			TabItemArguments = new()
 			{
 				InitialPageType = typeof(PaneHolderPage),
 				NavigationArg = new PaneNavigationArguments()
@@ -246,14 +245,14 @@ namespace Files.App.Views
 		private void PaneResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			if (PaneRight is not null && PaneRight.ActualWidth <= 300)
-			{
 				IsRightPaneVisible = false;
-			}
+
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
 		private void Pane_ContentChanged(object sender, TabItemArguments e)
 		{
-			TabItemArguments = new TabItemArguments()
+			TabItemArguments = new()
 			{
 				InitialPageType = typeof(PaneHolderPage),
 				NavigationArg = new PaneNavigationArguments()
@@ -271,7 +270,7 @@ namespace Files.App.Views
 		public void OpenPathInNewPane(string path)
 		{
 			IsRightPaneVisible = true;
-			NavParamsRight = new NavigationParams { NavPath = path };
+			NavParamsRight = new() { NavPath = path };
 			ActivePane = PaneRight;
 		}
 
@@ -296,19 +295,6 @@ namespace Files.App.Views
 					IsRightPaneVisible = true;
 					ActivePane = PaneRight;
 					break;
-
-				case (true, true, false, VirtualKey.W): // ctrl + shift + "W" close right pane
-					IsRightPaneVisible = false;
-					break;
-
-				case (false, true, true, VirtualKey.Add): // alt + shift + "+" open pane
-				case (false, true, true, PlusKey):
-					if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
-					{
-						NavParamsRight = new NavigationParams { NavPath = "Home" };
-					}
-					IsRightPaneVisible = true;
-					break;
 			}
 		}
 
@@ -319,23 +305,25 @@ namespace Files.App.Views
 
 		public void CloseActivePane()
 		{
-			// Can only close right pane atm
+			// NOTE: Can only close right pane at the moment
 			IsRightPaneVisible = false;
+			PaneLeft.Focus(FocusState.Programmatic);
 		}
 
-		private void PaneLeft_Loaded(object sender, RoutedEventArgs e)
+		private void Pane_Loaded(object sender, RoutedEventArgs e)
 		{
-			(sender as UIElement).GotFocus += Pane_GotFocus;
-		}
-
-		private void PaneRight_Loaded(object sender, RoutedEventArgs e)
-		{
-			(sender as UIElement).GotFocus += Pane_GotFocus;
+			((UIElement)sender).GotFocus += Pane_GotFocus;
 		}
 
 		private void Pane_GotFocus(object sender, RoutedEventArgs e)
 		{
-			ActivePane = sender == PaneLeft ? PaneLeft : PaneRight;
+			var isLeftPane = sender == PaneLeft;
+			if (isLeftPane && (PaneRight?.SlimContentPage?.IsItemSelected ?? false))
+				PaneRight.SlimContentPage.ItemManipulationModel.ClearSelection();
+			else if (!isLeftPane && (PaneLeft?.SlimContentPage?.IsItemSelected ?? false))
+				PaneLeft.SlimContentPage.ItemManipulationModel.ClearSelection();
+
+			ActivePane = isLeftPane ? PaneLeft : PaneRight;
 		}
 
 		public void Dispose()
@@ -351,13 +339,23 @@ namespace Files.App.Views
 			LeftColumn.Width = new GridLength(1, GridUnitType.Star);
 			RightColumn.Width = new GridLength(1, GridUnitType.Star);
 		}
+
+		private void PaneResizer_Loaded(object sender, RoutedEventArgs e)
+		{
+			PaneResizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+		}
+
+		private void PaneResizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+		{
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+		}
 	}
 
 	public class PaneNavigationArguments
 	{
-		public string LeftPaneNavPathParam { get; set; } = null;
-		public string LeftPaneSelectItemParam { get; set; } = null;
-		public string RightPaneNavPathParam { get; set; } = null;
-		public string RightPaneSelectItemParam { get; set; } = null;
+		public string? LeftPaneNavPathParam { get; set; } = null;
+		public string? LeftPaneSelectItemParam { get; set; } = null;
+		public string? RightPaneNavPathParam { get; set; } = null;
+		public string? RightPaneSelectItemParam { get; set; } = null;
 	}
 }

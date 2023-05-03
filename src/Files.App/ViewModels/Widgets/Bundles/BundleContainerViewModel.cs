@@ -1,22 +1,12 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Dialogs;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -252,7 +242,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
 
-			await dialog.ShowAsync();
+			await dialog.TryShowAsync();
 
 			bool CanAddBundleSetErrorMessage()
 			{
@@ -538,7 +528,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		{
 			if (string.IsNullOrWhiteSpace(name))
 			{
-				return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalizedResource());
+				return (false, "ErrorInputEmpty".GetLocalizedResource());
 			}
 
 			if (!BundlesSettingsService.SavedBundles.Any((item) => item.Key == name))

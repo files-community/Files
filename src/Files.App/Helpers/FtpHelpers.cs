@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using FluentFTP;
 using System;
 using System.Threading.Tasks;
@@ -56,9 +59,7 @@ namespace Files.App.Helpers
 			var index = authority.IndexOf(':', StringComparison.Ordinal);
 
 			if (index == -1)
-			{
 				return path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase) ? (ushort)990 : (ushort)21;
-			}
 
 			return ushort.Parse(authority.Substring(index + 1));
 		}
@@ -70,9 +71,7 @@ namespace Files.App.Helpers
 			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
 
 			if (hostIndex == -1)
-			{
 				hostIndex = path.Length;
-			}
 
 			return path.Substring(schemaIndex, hostIndex - schemaIndex);
 		}
@@ -83,6 +82,13 @@ namespace Files.App.Helpers
 			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
 			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
 			return hostIndex == -1 ? "/" : path.Substring(hostIndex);
+		}
+
+		public static int GetRootIndex(string path)
+		{
+			path = path.Replace("\\", "/", StringComparison.Ordinal);
+			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
+			return path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
 		}
 	}
 }

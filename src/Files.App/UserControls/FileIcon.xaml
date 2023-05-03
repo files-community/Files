@@ -1,4 +1,5 @@
-﻿<UserControl
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<UserControl
 	x:Class="Files.App.UserControls.FileIcon"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -29,9 +30,8 @@
 			HorizontalAlignment="Left"
 			VerticalAlignment="Stretch"
 			x:Load="{x:Bind ViewModel.LoadCombinedItemsGlyph, Mode=OneWay}"
-			FontFamily="{StaticResource CustomGlyph}"
 			FontSize="{x:Bind LargerItemSize}"
-			Glyph="&#xF109;" />
+			Glyph="&#xF571;" />
 		<Image
 			x:Name="DriveItemIcon"
 			HorizontalAlignment="Center"

@@ -1,34 +1,25 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
+using Files.App.Data.Items;
 using Files.App.UserControls;
-using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
-using Files.Shared.Extensions;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
+using static Files.App.Constants.Widgets;
 
 namespace Files.App.ViewModels
 {
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		public ICommand EmptyRecycleBinCommand { get; private set; }
+		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
 		private IPaneHolder paneHolder;
 		public IPaneHolder PaneHolder
@@ -125,85 +116,85 @@ namespace Files.App.ViewModels
 
 		public bool ShowFavoritesSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFavoritesSection;
+			get => UserSettingsService.GeneralSettingsService.ShowFavoritesSection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowFavoritesSection)
+				if (value == UserSettingsService.GeneralSettingsService.ShowFavoritesSection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowFavoritesSection = value;
+				UserSettingsService.GeneralSettingsService.ShowFavoritesSection = value;
 			}
 		}
 
 		public bool ShowLibrarySection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowLibrarySection;
+			get => UserSettingsService.GeneralSettingsService.ShowLibrarySection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowLibrarySection)
+				if (value == UserSettingsService.GeneralSettingsService.ShowLibrarySection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowLibrarySection = value;
+				UserSettingsService.GeneralSettingsService.ShowLibrarySection = value;
 			}
 		}
 
 		public bool ShowDrivesSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowDrivesSection;
+			get => UserSettingsService.GeneralSettingsService.ShowDrivesSection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowDrivesSection)
+				if (value == UserSettingsService.GeneralSettingsService.ShowDrivesSection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowDrivesSection = value;
+				UserSettingsService.GeneralSettingsService.ShowDrivesSection = value;
 			}
 		}
 
 		public bool ShowCloudDrivesSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection;
+			get => UserSettingsService.GeneralSettingsService.ShowCloudDrivesSection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection)
+				if (value == UserSettingsService.GeneralSettingsService.ShowCloudDrivesSection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = value;
+				UserSettingsService.GeneralSettingsService.ShowCloudDrivesSection = value;
 			}
 		}
 
 		public bool ShowNetworkDrivesSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection;
+			get => UserSettingsService.GeneralSettingsService.ShowNetworkDrivesSection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection)
+				if (value == UserSettingsService.GeneralSettingsService.ShowNetworkDrivesSection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = value;
+				UserSettingsService.GeneralSettingsService.ShowNetworkDrivesSection = value;
 			}
 		}
 
 		public bool ShowWslSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowWslSection;
+			get => UserSettingsService.GeneralSettingsService.ShowWslSection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowWslSection)
+				if (value == UserSettingsService.GeneralSettingsService.ShowWslSection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowWslSection = value;
+				UserSettingsService.GeneralSettingsService.ShowWslSection = value;
 			}
 		}
 
 		public bool ShowFileTagsSection
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFileTagsSection;
+			get => UserSettingsService.GeneralSettingsService.ShowFileTagsSection;
 			set
 			{
-				if (value == UserSettingsService.PreferencesSettingsService.ShowFileTagsSection)
+				if (value == UserSettingsService.GeneralSettingsService.ShowFileTagsSection)
 					return;
 
-				UserSettingsService.PreferencesSettingsService.ShowFileTagsSection = value;
+				UserSettingsService.GeneralSettingsService.ShowFileTagsSection = value;
 			}
 		}
 
@@ -220,9 +211,8 @@ namespace Files.App.ViewModels
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
-			EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-			CreateItemHome();
+			CreateItemHomeAsync();
 
 			Manager_DataChanged(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -234,29 +224,30 @@ namespace Files.App.ViewModels
 
 			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
 			App.LibraryManager.DataChanged += Manager_DataChanged;
-			App.DrivesManager.DataChanged += Manager_DataChanged;
+			drivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			App.CloudDrivesManager.DataChanged += Manager_DataChanged;
-			App.NetworkDrivesManager.DataChanged += Manager_DataChanged;
+			networkDrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
 			App.WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
 		}
 
-		private async void CreateItemHome()
+		private Task CreateItemHomeAsync()
 		{
-			await CreateSection(SectionType.Home);
+			return CreateSection(SectionType.Home);
 		}
 
 		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			await dispatcherQueue.EnqueueAsync(async () =>
+			await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				var section = await GetOrCreateSection((SectionType)sender);
-				Func<IReadOnlyList<INavigationControlItem>> getElements = () => (SectionType)sender switch
+				var sectionType = (SectionType)sender;
+				var section = await GetOrCreateSection(sectionType);
+				Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
 				{
 					SectionType.Favorites => App.QuickAccessManager.Model.Favorites,
 					SectionType.CloudDrives => App.CloudDrivesManager.Drives,
-					SectionType.Drives => App.DrivesManager.Drives,
-					SectionType.Network => App.NetworkDrivesManager.Drives,
+					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
+					SectionType.Network => networkDrivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.WSL => App.WSLDistroManager.Distros,
 					SectionType.Library => App.LibraryManager.Libraries,
 					SectionType.FileTag => App.FileTagsManager.FileTags,
@@ -333,7 +324,6 @@ namespace Files.App.ViewModels
 					await lib.CheckDefaultSaveFolderAccess() &&
 					!section.ChildItems.Any(x => x.Path == lib.Path))
 				{
-					lib.Font = App.AppModel.SymbolFontFamily;
 					section.ChildItems.AddSorted(elem);
 					await lib.LoadLibraryIcon();
 				}
@@ -349,7 +339,7 @@ namespace Files.App.ViewModels
 					int position = paths.IndexOf(drivePath);
 
 					section.ChildItems.Insert(position, drive);
-					await drive.LoadDriveIcon();
+					await drive.LoadThumbnailAsync(true);
 				}
 			}
 			else
@@ -363,7 +353,7 @@ namespace Files.App.ViewModels
 			if (IsSidebarOpen)
 			{
 				// Restore expanded state when section has items
-				section.IsExpanded = App.AppSettings.Get(section.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
+				section.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(section.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
 			}
 		}
 
@@ -390,8 +380,8 @@ namespace Files.App.ViewModels
 					{
 						section = BuildSection("Home".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
 						section.Path = "Home";
-						section.Font = App.AppModel.SymbolFontFamily;
 						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -404,8 +394,8 @@ namespace Files.App.ViewModels
 						}
 
 						section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						section.Font = App.AppModel.SymbolFontFamily;
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FavoritesIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -418,6 +408,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.Libraries;
+						section.IsHeader = true;
 
 						break;
 					}
@@ -430,6 +421,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("Drives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.ThisPC;
+						section.IsHeader = true;
 
 						break;
 					}
@@ -442,6 +434,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -454,6 +447,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("SidebarNetworkDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.NetworkDrives;
+						section.IsHeader = true;
 
 						break;
 					}
@@ -466,6 +460,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -478,6 +473,7 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
+						section.IsHeader = true;
 
 						break;
 					}
@@ -494,7 +490,7 @@ namespace Files.App.ViewModels
 
 				if (iconIdex != -1)
 				{
-					section.Icon = await UIHelpers.GetIconResource(iconIdex);
+					section.Icon = await UIHelpers.GetSidebarIconResource(iconIdex);
 				}
 			}
 
@@ -519,19 +515,19 @@ namespace Files.App.ViewModels
 			SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
 		}
 
-		public async void UpdateSectionVisibility(SectionType sectionType, bool show)
+		public async Task UpdateSectionVisibility(SectionType sectionType, bool show)
 		{
 			if (show)
 			{
-				var preferencesSettingsService = UserSettingsService.PreferencesSettingsService;
+				var generalSettingsService = UserSettingsService.GeneralSettingsService;
 
 				Func<Task> action = sectionType switch
 				{
-					SectionType.CloudDrives when preferencesSettingsService.ShowCloudDrivesSection => App.CloudDrivesManager.UpdateDrivesAsync,
-					SectionType.Drives => App.DrivesManager.UpdateDrivesAsync,
-					SectionType.Network when preferencesSettingsService.ShowNetworkDrivesSection => App.NetworkDrivesManager.UpdateDrivesAsync,
-					SectionType.WSL when preferencesSettingsService.ShowWslSection => App.WSLDistroManager.UpdateDrivesAsync,
-					SectionType.FileTag when preferencesSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
+					SectionType.CloudDrives when generalSettingsService.ShowCloudDrivesSection => App.CloudDrivesManager.UpdateDrivesAsync,
+					SectionType.Drives => drivesViewModel.UpdateDrivesAsync,
+					SectionType.Network when generalSettingsService.ShowNetworkDrivesSection => networkDrivesViewModel.UpdateDrivesAsync,
+					SectionType.WSL when generalSettingsService.ShowWslSection => App.WSLDistroManager.UpdateDrivesAsync,
+					SectionType.FileTag when generalSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
 					SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
 					SectionType.Favorites => App.QuickAccessManager.Model.AddAllItemsToSidebar,
 					_ => () => Task.CompletedTask
@@ -547,11 +543,6 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public async void EmptyRecycleBin(RoutedEventArgs e)
-		{
-			await RecycleBinHelpers.EmptyRecycleBin();
-		}
-
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -562,31 +553,31 @@ namespace Files.App.ViewModels
 						OnPropertyChanged(nameof(IsSidebarOpen));
 					}
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowFavoritesSection):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowFavoritesSection):
 					UpdateSectionVisibility(SectionType.Favorites, ShowFavoritesSection);
 					OnPropertyChanged(nameof(ShowFavoritesSection));
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowLibrarySection):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowLibrarySection):
 					UpdateSectionVisibility(SectionType.Library, ShowLibrarySection);
 					OnPropertyChanged(nameof(ShowLibrarySection));
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowCloudDrivesSection):
 					UpdateSectionVisibility(SectionType.CloudDrives, ShowCloudDrivesSection);
 					OnPropertyChanged(nameof(ShowCloudDrivesSection));
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowDrivesSection):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowDrivesSection):
 					UpdateSectionVisibility(SectionType.Drives, ShowDrivesSection);
 					OnPropertyChanged(nameof(ShowDrivesSection));
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowNetworkDrivesSection):
 					UpdateSectionVisibility(SectionType.Network, ShowNetworkDrivesSection);
 					OnPropertyChanged(nameof(ShowNetworkDrivesSection));
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowWslSection):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowWslSection):
 					UpdateSectionVisibility(SectionType.WSL, ShowWslSection);
 					OnPropertyChanged(nameof(ShowWslSection));
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowFileTagsSection):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowFileTagsSection):
 					UpdateSectionVisibility(SectionType.FileTag, ShowFileTagsSection);
 					OnPropertyChanged(nameof(ShowFileTagsSection));
 					break;
@@ -599,9 +590,9 @@ namespace Files.App.ViewModels
 
 			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
-			App.DrivesManager.DataChanged -= Manager_DataChanged;
+			drivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			App.CloudDrivesManager.DataChanged -= Manager_DataChanged;
-			App.NetworkDrivesManager.DataChanged -= Manager_DataChanged;
+			networkDrivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
 			App.WSLDistroManager.DataChanged -= Manager_DataChanged;
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
 		}

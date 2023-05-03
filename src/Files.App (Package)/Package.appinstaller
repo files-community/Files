@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <AppInstaller Uri="{AppInstallerUri}"
               Version="{Version}"
               xmlns="http://schemas.microsoft.com/appx/appinstaller/2018">

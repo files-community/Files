@@ -1,7 +1,8 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
-using Microsoft.UI.Xaml.Controls;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,28 +51,6 @@ namespace Files.App.Helpers
 			return tabItemArguments is not null
 				? NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize())
 				: NavigationHelpers.OpenPathInNewWindowAsync("Home");
-		}
-
-		public static async Task AddNewTab(Type type, object tabViewItemArgs, int atIndex = -1)
-		{
-			FontIconSource fontIconSource = new FontIconSource();
-			fontIconSource.FontFamily = App.AppModel.SymbolFontFamily;
-
-			TabItem tabItem = new TabItem()
-			{
-				Header = null,
-				IconSource = fontIconSource,
-				Description = null,
-				ToolTipText = null
-			};
-			tabItem.Control.NavigationArguments = new TabItemArguments()
-			{
-				InitialPageType = type,
-				NavigationArg = tabViewItemArgs
-			};
-			tabItem.Control.ContentChanged += MainPageViewModel.Control_ContentChanged;
-			await MainPageViewModel.UpdateTabInfo(tabItem, tabViewItemArgs);
-			MainPageViewModel.AppInstances.Insert(atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex, tabItem);
 		}
 	}
 }

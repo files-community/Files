@@ -1,3 +1,7 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Data.Items;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Shell;
@@ -5,6 +9,7 @@ using Files.App.ViewModels.Dialogs;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -96,7 +101,7 @@ namespace Files.App.Filesystem
 				try
 				{
 					var libraryItems = new List<ShellLibraryItem>();
-					// https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
+					// https://learn.microsoft.com/windows/win32/search/-search-win7-development-scenarios#library-descriptions
 					var libFiles = Directory.EnumerateFiles(ShellLibraryItem.LibrariesPath, "*" + ShellLibraryItem.EXTENSION);
 					foreach (var libFile in libFiles)
 					{
@@ -110,7 +115,7 @@ namespace Files.App.Filesystem
 				}
 				catch (Exception e)
 				{
-					App.Logger.Warn(e);
+					App.Logger.LogWarning(e, null);
 				}
 
 				return new();
@@ -170,7 +175,7 @@ namespace Files.App.Filesystem
 				}
 				catch (Exception e)
 				{
-					App.Logger.Warn(e);
+					App.Logger.LogWarning(e, null);
 				}
 
 				return Task.FromResult<ShellLibraryItem>(null);
@@ -251,7 +256,7 @@ namespace Files.App.Filesystem
 				}
 				catch (Exception e)
 				{
-					App.Logger.Warn(e);
+					App.Logger.LogWarning(e, null);
 				}
 
 				return Task.FromResult<ShellLibraryItem>(null);
@@ -296,13 +301,13 @@ namespace Files.App.Filesystem
 			return (true, string.Empty);
 		}
 
-		public static async void ShowRestoreDefaultLibrariesDialog()
+		public static async Task ShowRestoreDefaultLibrariesDialog()
 		{
 			var dialog = new DynamicDialog(new DynamicDialogViewModel
 			{
 				TitleText = "DialogRestoreLibrariesTitleText".GetLocalizedResource(),
 				SubtitleText = "DialogRestoreLibrariesSubtitleText".GetLocalizedResource(),
-				PrimaryButtonText = "DialogRestoreLibrariesButtonText".GetLocalizedResource(),
+				PrimaryButtonText = "Restore".GetLocalizedResource(),
 				CloseButtonText = "Cancel".GetLocalizedResource(),
 				PrimaryButtonAction = async (vm, e) =>
 				{
@@ -322,7 +327,7 @@ namespace Files.App.Filesystem
 			await dialog.ShowAsync();
 		}
 
-		public static async void ShowCreateNewLibraryDialog()
+		public static async Task ShowCreateNewLibraryDialog()
 		{
 			var inputText = new TextBox
 			{
@@ -353,7 +358,7 @@ namespace Files.App.Filesystem
 				},
 				TitleText = "FolderWidgetCreateNewLibraryDialogTitleText".GetLocalizedResource(),
 				SubtitleText = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
-				PrimaryButtonText = "DialogCreateLibraryButtonText".GetLocalizedResource(),
+				PrimaryButtonText = "Create".GetLocalizedResource(),
 				CloseButtonText = "Cancel".GetLocalizedResource(),
 				PrimaryButtonAction = async (vm, e) =>
 				{
@@ -387,7 +392,7 @@ namespace Files.App.Filesystem
 			await dialog.ShowAsync();
 		}
 
-		private async void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
+		private void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
 		{
 			if (newPath is not null && (!newPath.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal) || !File.Exists(newPath)))
 			{
@@ -402,7 +407,7 @@ namespace Files.App.Filesystem
 				var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(newPath), true));
 				if (library is null)
 				{
-					App.Logger.Warn($"Failed to open library after {changeType}: {newPath}");
+					App.Logger.LogWarning($"Failed to open library after {changeType}: {newPath}");
 					return;
 				}
 

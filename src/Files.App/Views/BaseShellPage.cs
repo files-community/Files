@@ -1,22 +1,17 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
-using Files.App.DataModels;
-using Files.App.EventArguments;
-using Files.App.Extensions;
-using Files.App.Filesystem;
+using Files.App.Commands;
+using Files.App.Data.EventArguments;
+using Files.App.Data.Models;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.Search;
-using Files.App.Helpers;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.App.Views.LayoutModes;
 using Files.Backend.Enums;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
-using Files.Shared;
-using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -24,15 +19,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Shared.Enums.SortDirection;
@@ -44,15 +31,19 @@ namespace Files.App.Views
 		public static readonly DependencyProperty NavParamsProperty =
 			DependencyProperty.Register("NavParams", typeof(NavigationParams), typeof(ModernShellPage), new PropertyMetadata(null));
 
-		protected readonly StorageHistoryHelpers storageHistoryHelpers;
+		public StorageHistoryHelpers StorageHistoryHelpers { get; }
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
+
+		protected readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		protected readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		protected readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		protected readonly IUpdateService updateSettingsService = Ioc.Default.GetRequiredService<IUpdateService>();
+
+		protected readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		public ToolbarViewModel ToolbarViewModel { get; } = new ToolbarViewModel();
 
@@ -87,22 +78,9 @@ namespace Files.App.Views
 				if (value != contentPage)
 				{
 					contentPage = value;
+
 					NotifyPropertyChanged(nameof(ContentPage));
 					NotifyPropertyChanged(nameof(SlimContentPage));
-				}
-			}
-		}
-
-		protected bool isPageMainPane;
-		public bool IsPageMainPane
-		{
-			get => isPageMainPane;
-			set
-			{
-				if (value != isPageMainPane)
-				{
-					isPageMainPane = value;
-					NotifyPropertyChanged(nameof(IsPageMainPane));
 				}
 			}
 		}
@@ -116,6 +94,7 @@ namespace Files.App.Views
 				if (value != paneHolder)
 				{
 					paneHolder = value;
+
 					NotifyPropertyChanged(nameof(PaneHolder));
 				}
 			}
@@ -144,10 +123,12 @@ namespace Files.App.Views
 				if (isCurrentInstance != value)
 				{
 					isCurrentInstance = value;
+
 					if (isCurrentInstance)
 						ContentPage?.ItemManipulationModel.FocusFileList();
 					else if (SlimContentPage is not ColumnViewBrowser)
 						ToolbarViewModel.IsEditModeEnabled = false;
+
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
 				}
 			}
@@ -155,8 +136,8 @@ namespace Files.App.Views
 
 		public SolidColorBrush CurrentInstanceBorderBrush
 		{
-			get { return (SolidColorBrush)GetValue(CurrentInstanceBorderBrushProperty); }
-			set { SetValue(CurrentInstanceBorderBrushProperty, value); }
+			get => (SolidColorBrush)GetValue(CurrentInstanceBorderBrushProperty);
+			set => SetValue(CurrentInstanceBorderBrushProperty, value);
 		}
 
 		public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
@@ -172,7 +153,7 @@ namespace Files.App.Views
 			InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
 			cancellationTokenSource = new CancellationTokenSource();
 			FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
-			storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
+			StorageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
 			ToolbarViewModel.InstanceViewModel = InstanceViewModel;
 
@@ -180,14 +161,7 @@ namespace Files.App.Views
 
 			DisplayFilesystemConsentDialog();
 
-			/*TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
-			  Use your ResourceManager instance to create a ResourceContext as below.If you already have a ResourceManager instance,
-			  replace the new instance created below with correct instance.
-			  Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
-			*/
-			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
-
-			if (flowDirectionSetting == "RTL")
+			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;
 
 			ToolbarViewModel.ToolbarPathItemInvoked += ShellPage_NavigationRequested;
@@ -196,10 +170,7 @@ namespace Files.App.Views
 			ToolbarViewModel.AddressBarTextEntered += ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped += ShellPage_PathBoxItemDropped;
 
-			ToolbarViewModel.BackRequested += ShellPage_BackNavRequested;
-			ToolbarViewModel.UpRequested += ShellPage_UpNavRequested;
 			ToolbarViewModel.RefreshRequested += ShellPage_RefreshRequested;
-			ToolbarViewModel.ForwardRequested += ShellPage_ForwardNavRequested;
 			ToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem += ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
@@ -210,16 +181,9 @@ namespace Files.App.Views
 			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
-			this.PointerPressed += CoreWindow_PointerPressed;
+			PointerPressed += CoreWindow_PointerPressed;
 
-			/*
-			TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
-			The tool has generated a custom back button in the MainWindow.xaml.cs file.
-			Feel free to edit its position, behavior and use the custom back button instead.
-			Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
-			*/
-
-			App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+			drivesViewModel.PropertyChanged += DrivesManager_PropertyChanged;
 
 			PreviewKeyDown += ShellPage_PreviewKeyDown;
 		}
@@ -236,7 +200,7 @@ namespace Files.App.Views
 
 		protected void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
 		{
-			// set focus since selection might occur before the UI finishes updating
+			// Set focus since selection might occur before the UI finishes updating
 			ContentPage.ItemManipulationModel.FocusFileList();
 			ContentPage.ItemManipulationModel.SetSelectedItems(e);
 		}
@@ -250,8 +214,22 @@ namespace Files.App.Views
 				? "ItemCount/Text".GetLocalizedResource()
 				: "ItemsCount/Text".GetLocalizedResource();
 
+			InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
+
+			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
+					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
+					: null;
+
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();
+		}
+
+		protected void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
+		{
+			InstanceViewModel.UpdateCurrentBranchName();
+			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
+					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
+					: null;
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)
@@ -260,52 +238,28 @@ namespace Files.App.Views
 			this.Loaded -= Page_Loaded;
 		}
 
-		/**
-		 * Some keys are overriden by control built-in defaults (e.g. 'Space').
-		 * They must be handled here since they're not propagated to KeyboardAccelerator.
-		 */
+		// Some keys are overridden by control built-in defaults(e.g. 'Space').
+		// They must be handled here since they're not propagated to KeyboardAccelerator.
 		protected void ShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
 		{
 			var ctrl = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shift = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var alt = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
-			var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
-							  CurrentPageType == typeof(GridViewBrowser) ||
-							  CurrentPageType == typeof(ColumnViewBrowser) ||
-							  CurrentPageType == typeof(ColumnViewBase);
+			var tabInstance =
+				CurrentPageType == typeof(DetailsLayoutBrowser) ||
+				CurrentPageType == typeof(GridViewBrowser) ||
+				CurrentPageType == typeof(ColumnViewBrowser) ||
+				CurrentPageType == typeof(ColumnViewBase);
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
-				// Ctrl + ` (accent key), open terminal
-				case (true, false, false, true, (VirtualKey)192):
-
-					// Check if there is a folder selected, if not use the current directory.
-					string path = FilesystemViewModel.WorkingDirectory;
-					if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
-						path = SlimContentPage.SelectedItem.ItemPath;
-
-					var terminalStartInfo = new ProcessStartInfo()
-					{
-						FileName = "wt.exe",
-						Arguments = $"-d {path}",
-						Verb = shift ? "runas" : "",
-						UseShellExecute = true
-					};
-					DispatcherQueue.TryEnqueue(() => Process.Start(terminalStartInfo));
-
-					args.Handled = true;
-
-					break;
-
-				// Ctrl + space, toggle media playback
+				// Ctrl + Space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
-
-					if (App.PreviewPaneViewModel.PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
+					if (Ioc.Default.GetRequiredService<PreviewPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
 					{
 						mediaPreviewContent.ViewModel.TogglePlayback();
 						args.Handled = true;
 					}
-
 					break;
 			}
 		}
@@ -315,13 +269,14 @@ namespace Files.App.Views
 			if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
 				await NavigationHelpers.OpenPath(item.ItemPath, this);
 			else if (e.ChosenSuggestion is null && !string.IsNullOrWhiteSpace(sender.Query))
-				SubmitSearch(sender.Query, userSettingsService.PreferencesSettingsService.SearchUnindexedItems);
+				SubmitSearch(sender.Query, userSettingsService.GeneralSettingsService.SearchUnindexedItems);
 		}
 
 		protected async void ShellPage_TextChanged(ISearchBox sender, SearchBoxTextChangedEventArgs e)
 		{
 			if (e.Reason != SearchBoxTextChangeReason.UserInput)
 				return;
+
 			if (!string.IsNullOrWhiteSpace(sender.Query))
 			{
 				var search = new FolderSearch
@@ -329,8 +284,9 @@ namespace Files.App.Views
 					Query = sender.Query,
 					Folder = FilesystemViewModel.WorkingDirectory,
 					MaxItemCount = 10,
-					SearchUnindexedItems = userSettingsService.PreferencesSettingsService.SearchUnindexedItems
+					SearchUnindexedItems = userSettingsService.GeneralSettingsService.SearchUnindexedItems
 				};
+
 				sender.SetSuggestions((await search.SearchAsync()).Select(suggestion => new SuggestionModel(suggestion)));
 			}
 			else
@@ -342,21 +298,6 @@ namespace Files.App.Views
 		protected void ShellPage_RefreshRequested(object sender, EventArgs e)
 		{
 			Refresh_Click();
-		}
-
-		protected void ShellPage_UpNavRequested(object sender, EventArgs e)
-		{
-			Up_Click();
-		}
-
-		protected void ShellPage_ForwardNavRequested(object sender, EventArgs e)
-		{
-			Forward_Click();
-		}
-
-		protected void ShellPage_BackNavRequested(object sender, EventArgs e)
-		{
-			Back_Click();
 		}
 
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -378,6 +319,7 @@ namespace Files.App.Views
 		{
 			if (!IsCurrentInstance)
 				return;
+
 			if (args.GetCurrentPoint(this).Properties.IsXButton1Pressed)
 				Back_Click();
 			else if (args.GetCurrentPoint(this).Properties.IsXButton2Pressed)
@@ -425,11 +367,9 @@ namespace Files.App.Views
 				DisplayFilesystemConsentDialog();
 		}
 
-		/*
-		 * Ensure that the path bar gets updated for user interaction
-		 * whenever the path changes. We will get the individual directories from
-		 * the updated, most-current path and add them to the UI.
-		 */
+		// Ensure that the path bar gets updated for user interaction
+		// whenever the path changes.We will get the individual directories from
+		// the updated, most-current path and add them to the UI.
 		public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
 		{
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
@@ -459,14 +399,20 @@ namespace Files.App.Views
 			FilesystemViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
 			InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
-			ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
+
+			var args = new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,
 				SearchPathParam = FilesystemViewModel.WorkingDirectory,
 				SearchQuery = query,
 				SearchUnindexedItems = searchUnindexedItems,
-			});
+			};
+
+			if (this is ColumnShellPage)
+				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutBrowser), args);
+			else
+				ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), args);
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
@@ -476,7 +422,11 @@ namespace Files.App.Views
 
 		public void NavigateToPath(string navigationPath, NavigationArguments? navArgs = null)
 		{
-			NavigateToPath(navigationPath, FolderSettings.GetLayoutType(navigationPath), navArgs);
+			var layout = navigationPath.StartsWith("tag:")
+				? typeof(DetailsLayoutBrowser)
+				: FolderSettings.GetLayoutType(navigationPath);
+
+			NavigateToPath(navigationPath, layout, navArgs);
 		}
 
 		public Task TabItemDragOver(object sender, DragEventArgs e)
@@ -489,7 +439,7 @@ namespace Files.App.Views
 			return SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);
 		}
 
-		public async void Refresh_Click()
+		public async Task Refresh_Click()
 		{
 			if (InstanceViewModel.IsPageTypeSearchResults)
 			{
@@ -501,9 +451,10 @@ namespace Files.App.Views
 					ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
 					SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
 				};
+
 				await FilesystemViewModel.SearchAsync(searchInstance);
 			}
-			else if (CurrentPageType != typeof(WidgetsPage))
+			else if (CurrentPageType != typeof(HomePage))
 			{
 				ToolbarViewModel.CanRefresh = false;
 				FilesystemViewModel?.RefreshItems(null);
@@ -515,7 +466,7 @@ namespace Files.App.Views
 			var previousPageContent = ItemDisplay.BackStack[ItemDisplay.BackStack.Count - 1];
 			HandleBackForwardRequest(previousPageContent);
 
-			if (previousPageContent.SourcePageType == typeof(WidgetsPage))
+			if (previousPageContent.SourcePageType == typeof(HomePage))
 				ItemDisplay.GoBack(new EntranceNavigationTransitionInfo());
 			else
 				ItemDisplay.GoBack();
@@ -525,7 +476,43 @@ namespace Files.App.Views
 		{
 			var incomingPageContent = ItemDisplay.ForwardStack[ItemDisplay.ForwardStack.Count - 1];
 			HandleBackForwardRequest(incomingPageContent);
+
 			ItemDisplay.GoForward();
+		}
+
+		public void ResetNavigationStackLayoutMode()
+		{
+			foreach (PageStackEntry entry in ItemDisplay.BackStack.ToList())
+			{
+				if (entry.Parameter is NavigationArguments args &&
+					args.NavPathParam is not null and not "Home")
+				{
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
+					if (!entry.SourcePageType.Equals(correctPageType))
+					{
+						int index = ItemDisplay.BackStack.IndexOf(entry);
+						var newEntry = new PageStackEntry(correctPageType, entry.Parameter, entry.NavigationTransitionInfo);
+						ItemDisplay.BackStack.RemoveAt(index);
+						ItemDisplay.BackStack.Insert(index, newEntry);
+					}
+				}
+			}
+
+			foreach (PageStackEntry entry in ItemDisplay.ForwardStack.ToList())
+			{
+				if (entry.Parameter is NavigationArguments args &&
+					args.NavPathParam is not null and not "Home")
+				{
+					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
+					if (!entry.SourcePageType.Equals(correctPageType))
+					{
+						int index = ItemDisplay.ForwardStack.IndexOf(entry);
+						var newEntry = new PageStackEntry(correctPageType, entry.Parameter, entry.NavigationTransitionInfo);
+						ItemDisplay.ForwardStack.RemoveAt(index);
+						ItemDisplay.ForwardStack.Insert(index, newEntry);
+					}
+				}
+			}
 		}
 
 		public void RemoveLastPageFromBackStack()
@@ -546,7 +533,6 @@ namespace Files.App.Views
 					ToolbarViewModel.CanRefresh = false;
 					SetLoadingIndicatorForTabs(true);
 					break;
-
 				case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
 					var columnCanNavigateBackward = false;
 					var columnCanNavigateForward = false;
@@ -559,13 +545,13 @@ namespace Files.App.Views
 					ToolbarViewModel.CanGoForward = ItemDisplay.CanGoForward || columnCanNavigateForward;
 					SetLoadingIndicatorForTabs(true);
 					break;
-
 				case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
 					SetLoadingIndicatorForTabs(false);
 					ToolbarViewModel.CanRefresh = true;
 					// Select previous directory
 					if (!string.IsNullOrWhiteSpace(e.PreviousDirectory) &&
-						e.PreviousDirectory.Contains(e.Path, StringComparison.Ordinal) && !e.PreviousDirectory.Contains(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+						e.PreviousDirectory.Contains(e.Path, StringComparison.Ordinal) &&
+						!e.PreviousDirectory.Contains(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						// Remove the WorkingDir from previous dir
 						e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty, StringComparison.Ordinal);
@@ -615,57 +601,30 @@ namespace Files.App.Views
 
 		protected void InitToolbarCommands()
 		{
-			ToolbarViewModel.SelectAllContentPageItemsCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.SelectAllItems());
-			ToolbarViewModel.InvertContentPageSelctionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.InvertSelection());
-			ToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
-			ToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
-			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
-			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
-			ToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, this));
-			ToolbarViewModel.CreateNewShortcutCommand = new RelayCommand(() => CreateNewShortcutFromDialog());
-			ToolbarViewModel.CopyCommand = new RelayCommand(async () => await UIFilesystemHelpers.CopyItem(this));
-			ToolbarViewModel.Rename = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RenameItemCommand.Execute(null));
-			ToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
-			ToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
-			ToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
-			ToolbarViewModel.EmptyRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyRecycleBinCommand.Execute(null));
-			ToolbarViewModel.RestoreRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreRecycleBinCommand.Execute(null));
-			ToolbarViewModel.RestoreSelectionRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreSelectionRecycleBinCommand.Execute(null));
-			ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
 			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
-			ToolbarViewModel.SetAsBackgroundCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsDesktopBackgroundItemCommand.Execute(null));
-			ToolbarViewModel.SetAsLockscreenBackgroundCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsLockscreenBackgroundItemCommand.Execute(null));
-			ToolbarViewModel.SetAsSlideshowCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsSlideshowItemCommand.Execute(null));
-			ToolbarViewModel.ExtractCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveCommand.Execute(null));
-			ToolbarViewModel.ExtractHereCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveHereCommand.Execute(null));
-			ToolbarViewModel.ExtractToCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveToChildFolderCommand.Execute(null));
-			ToolbarViewModel.InstallInfCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallInfDriver.Execute(null));
-			ToolbarViewModel.RotateImageLeftCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.CanExecute(null) == true);
-			ToolbarViewModel.RotateImageRightCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.CanExecute(null) == true);
-			ToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
-			ToolbarViewModel.PlayAllCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.PlayAllCommand.Execute(null));
 		}
 
 		protected async Task<BaseLayout> GetContentOrNullAsync()
 		{
-			// WINUI3: make sure not to run this synchronously, do not use EnqueueAsync
+			// WINUI3: Make sure not to run this synchronously, do not use EnqueueAsync
 			var tcs = new TaskCompletionSource<object?>();
 			DispatcherQueue.TryEnqueue(() =>
 			{
 				tcs.SetResult(ItemDisplay.Content);
 			});
+
 			return await tcs.Task as BaseLayout;
 		}
 
-		protected async void DisplayFilesystemConsentDialog()
+		protected async Task DisplayFilesystemConsentDialog()
 		{
-			if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
+			if (drivesViewModel?.ShowUserConsentOnInit ?? false)
 			{
-				App.DrivesManager.ShowUserConsentOnInit = false;
-				await DispatcherQueue.EnqueueAsync(async () =>
+				drivesViewModel.ShowUserConsentOnInit = false;
+				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
 					await SetContentDialogRoot(dialog).ShowAsync(ContentDialogPlacement.Popup);
@@ -675,7 +634,7 @@ namespace Files.App.Views
 
 		protected void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
 		{
-			if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType is not null)
+			if (incomingSourcePageType == typeof(HomePage) && incomingSourcePageType is not null)
 				ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
 		}
 
@@ -685,11 +644,6 @@ namespace Files.App.Views
 
 			foreach (var x in multitaskingControls)
 				x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control.TabItemContent == PaneHolder), isLoading);
-		}
-
-		protected async void CreateNewShortcutFromDialog()
-		{
-			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 		}
 
 		// WINUI3
@@ -704,8 +658,11 @@ namespace Files.App.Views
 		{
 			var incomingPageNavPath = pageContent.Parameter as NavigationArguments;
 			incomingPageNavPath.IsLayoutSwitch = false;
-			if (pageContent.SourcePageType != typeof(WidgetsPage)) // Update layout type
+
+			// Update layout type
+			if (pageContent.SourcePageType != typeof(HomePage))
 				InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
+
 			SelectSidebarItemFromPath(pageContent.SourcePageType);
 		}
 
@@ -719,17 +676,14 @@ namespace Files.App.Views
 		{
 			PreviewKeyDown -= ShellPage_PreviewKeyDown;
 			PointerPressed -= CoreWindow_PointerPressed;
-			App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
+			drivesViewModel.PropertyChanged -= DrivesManager_PropertyChanged;
 
 			ToolbarViewModel.ToolbarPathItemInvoked -= ShellPage_NavigationRequested;
 			ToolbarViewModel.ToolbarFlyoutOpened -= ShellPage_ToolbarFlyoutOpened;
 			ToolbarViewModel.ToolbarPathItemLoaded -= ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered -= ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;
-			ToolbarViewModel.BackRequested -= ShellPage_BackNavRequested;
-			ToolbarViewModel.UpRequested -= ShellPage_UpNavRequested;
 			ToolbarViewModel.RefreshRequested -= ShellPage_RefreshRequested;
-			ToolbarViewModel.ForwardRequested -= ShellPage_ForwardNavRequested;
 			ToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
@@ -740,13 +694,15 @@ namespace Files.App.Views
 			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
-			if (FilesystemViewModel is not null) // Prevent weird case of this being null when many tabs are opened/closed quickly
+			// Prevent weird case of this being null when many tabs are opened/closed quickly
+			if (FilesystemViewModel is not null)
 			{
 				FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
 				FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
 				FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
 				FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 				FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
+				FilesystemViewModel.GitDirectoryUpdated -= FilesystemViewModel_GitDirectoryUpdated;
 				FilesystemViewModel.Dispose();
 			}
 

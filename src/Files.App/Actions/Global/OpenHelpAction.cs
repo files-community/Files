@@ -1,4 +1,7 @@
-﻿using Files.App.Commands;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Commands;
 using Files.App.Extensions;
 using System;
 using System.Threading.Tasks;
@@ -10,7 +13,9 @@ namespace Files.App.Actions
 	{
 		public string Label { get; } = "Help".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(VirtualKey.F1);
+		public string Description => "OpenHelpDescription".GetLocalizedResource();
+
+		public HotKey HotKey { get; } = new(Keys.F1);
 
 		public async Task ExecuteAsync()
 		{

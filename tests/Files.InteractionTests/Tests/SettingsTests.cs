@@ -1,4 +1,7 @@
-﻿using OpenQA.Selenium.Interactions;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using OpenQA.Selenium.Interactions;
 using System;
 using System.Threading;
 
@@ -23,8 +26,8 @@ namespace Files.InteractionTests.Tests
 
 			var settingsItems = new string[]
 			{
+				"SettingsItemGeneral",
 				"SettingsItemAppearance",
-				"SettingsItemPreferences",
 				"SettingsItemFolders",
 				"SettingsItemTags",
 				"SettingsItemAdvanced",
@@ -38,7 +41,7 @@ namespace Files.InteractionTests.Tests
 					try
 					{
 						Console.WriteLine("Invoking button:" + item);
-						Thread.Sleep(1000);
+						Thread.Sleep(3000);
 						TestHelper.InvokeButtonById(item);
 						i = 1000;
 					}

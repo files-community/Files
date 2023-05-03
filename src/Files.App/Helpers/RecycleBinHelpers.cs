@@ -1,7 +1,11 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Shell;
+using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Enums;
@@ -19,6 +23,8 @@ namespace Files.App.Helpers
 	public static class RecycleBinHelpers
 	{
 		#region Private Members
+
+		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
 		private static readonly Regex recycleBinPathRegex = new(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
@@ -65,36 +71,36 @@ namespace Files.App.Helpers
 			};
 
 			if (userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy is DeleteConfirmationPolicies.Never
-				|| await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync() == ContentDialogResult.Primary)
+				|| await ConfirmEmptyBinDialog.TryShowAsync() == ContentDialogResult.Primary)
 			{
 				string bannerTitle = "EmptyRecycleBin".GetLocalizedResource();
-				var banner = App.OngoingTasksViewModel.PostBanner(
+				var banner = ongoingTasksViewModel.PostBanner(
 					bannerTitle,
 					"EmptyingRecycleBin".GetLocalizedResource(),
-					0.0f,
+					0,
 					ReturnResult.InProgress,
 					FileOperationType.Delete);
 
 				bool opSucceded = Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded;
 				banner.Remove();
 				if (opSucceded)
-					App.OngoingTasksViewModel.PostBanner(
+					ongoingTasksViewModel.PostBanner(
 						bannerTitle,
 						"BinEmptyingSucceded".GetLocalizedResource(),
-						100.0f,
+						100,
 						ReturnResult.Success,
 						FileOperationType.Delete);
 				else
-					App.OngoingTasksViewModel.PostBanner(
+					ongoingTasksViewModel.PostBanner(
 						bannerTitle,
 						"BinEmptyingFailed".GetLocalizedResource(),
-						100.0f,
+						100,
 						ReturnResult.Failed,
 						FileOperationType.Delete);
 			}
 		}
 
-		public static async Task RestoreRecycleBin(IShellPage associatedInstance)
+		public static async Task RestoreRecycleBin()
 		{
 			var ConfirmEmptyBinDialog = new ContentDialog()
 			{
@@ -105,12 +111,11 @@ namespace Files.App.Helpers
 				DefaultButton = ContentDialogButton.Primary
 			};
 
-			ContentDialogResult result = await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
+			ContentDialogResult result = await ConfirmEmptyBinDialog.TryShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 			{
-				associatedInstance.SlimContentPage.ItemManipulationModel.SelectAllItems();
-				await RestoreItem(associatedInstance);
+				Vanara.Windows.Shell.RecycleBin.RestoreAll();
 			}
 		}
 
@@ -125,20 +130,10 @@ namespace Files.App.Helpers
 				DefaultButton = ContentDialogButton.Primary
 			};
 
-			ContentDialogResult result = await SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
+			ContentDialogResult result = await ConfirmEmptyBinDialog.TryShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 				await RestoreItem(associatedInstance);
-		}
-
-		//WINUI3
-		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
-			return contentDialog;
 		}
 
 		public static async Task<bool> HasRecycleBin(string? path)

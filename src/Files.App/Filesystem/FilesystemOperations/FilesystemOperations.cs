@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
@@ -166,7 +169,7 @@ namespace Files.App.Filesystem
 						CloseButtonText = "Cancel".GetLocalizedResource()
 					};
 
-					ContentDialogResult result = await SetContentDialogRoot(dialog).ShowAsync();
+					ContentDialogResult result = await dialog.TryShowAsync();
 
 					if (result == ContentDialogResult.Primary)
 					{
@@ -289,16 +292,6 @@ namespace Files.App.Filesystem
 			return new StorageHistory(FileOperationType.Copy, source, pathWithType);
 		}
 
-		// WINUI3
-		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
-			return contentDialog;
-		}
-
 		public Task<IStorageHistory> MoveAsync(IStorageItem source,
 													 string destination,
 													 NameCollisionOption collision,
@@ -358,7 +351,7 @@ namespace Files.App.Filesystem
 						CloseButtonText = "Cancel".GetLocalizedResource()
 					};
 
-					ContentDialogResult result = await SetContentDialogRoot(dialog).ShowAsync();
+					ContentDialogResult result = await dialog.TryShowAsync();
 
 					if (result == ContentDialogResult.Primary)
 					{
