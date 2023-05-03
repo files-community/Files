@@ -4,19 +4,12 @@
 using Files.App.CommandLine;
 using Files.App.Shell;
 using Files.Backend.Helpers;
-using Files.Shared.Extensions;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
-using System;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using static Files.App.Helpers.InteropHelpers;
 
 namespace Files.App
 {
@@ -141,9 +134,9 @@ namespace Files.App
 
 			Application.Start((p) =>
 			{
-				var context = new DispatcherQueueSynchronizationContext(
-					DispatcherQueue.GetForCurrentThread());
+				var context = new DispatcherQueueSynchronizationContext(DispatcherQueue.GetForCurrentThread());
 				SynchronizationContext.SetSynchronizationContext(context);
+
 				new App();
 			});
 		}
@@ -160,23 +153,27 @@ namespace Files.App
 		private const uint CWMO_DEFAULT = 0;
 		private const uint INFINITE = 0xFFFFFFFF;
 
-		// Do the redirection on another thread, and use a non-blocking wait method to wait for the redirection to complete
+		/// <summary>
+		/// Do the redirection on another thread, and use a non-blocking wait method to wait for the redirection to complete
+		/// </summary>
+		/// <param name="keyInstance">App instance where redirect to</param>
+		/// <param name="args">Activation arguments</param>
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
-			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+			IntPtr eventHandle = InteropHelpers.CreateEvent(IntPtr.Zero, true, false, null);
 
 			Task.Run(() =>
 			{
 				keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
-				SetEvent(eventHandle);
+				InteropHelpers.SetEvent(eventHandle);
 			});
 
-			_ = CoWaitForMultipleObjects(
-			   CWMO_DEFAULT,
-			   INFINITE,
-			   1,
-			   new IntPtr[] { eventHandle },
-			   out uint handleIndex);
+			_ = InteropHelpers.CoWaitForMultipleObjects(
+				CWMO_DEFAULT,
+				INFINITE,
+				1,
+				new IntPtr[] { eventHandle },
+				out uint handleIndex);
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
@@ -184,20 +181,20 @@ namespace Files.App
 
 		public static void OpenFileFromTile(string filePath)
 		{
-			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+			IntPtr eventHandle = InteropHelpers.CreateEvent(IntPtr.Zero, true, false, null);
 
 			Task.Run(() =>
 			{
 				LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();
-				SetEvent(eventHandle);
+				InteropHelpers.SetEvent(eventHandle);
 			});
 
-			_ = CoWaitForMultipleObjects(
-			   CWMO_DEFAULT,
-			   INFINITE,
-			   1,
-			   new IntPtr[] { eventHandle },
-			   out uint handleIndex);
+			_ = InteropHelpers.CoWaitForMultipleObjects(
+				CWMO_DEFAULT,
+				INFINITE,
+				1,
+				new IntPtr[] { eventHandle },
+				out uint handleIndex);
 		}
 	}
 }

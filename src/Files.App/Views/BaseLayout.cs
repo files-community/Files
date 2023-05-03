@@ -6,7 +6,6 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls;
 using Files.App.UserControls.Menus;
-using Files.App.Views;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -28,7 +27,7 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;
 
-namespace Files.App
+namespace Files.App.Views
 {
 	/// <summary>
 	/// The base class which every layout page must derive from

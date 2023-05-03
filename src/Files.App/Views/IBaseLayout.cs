@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App
+namespace Files.App.Views
 {
 	public interface IBaseLayout : IDisposable
 	{
