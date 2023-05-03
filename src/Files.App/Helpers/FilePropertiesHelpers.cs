@@ -6,6 +6,7 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.Windows.ApplicationModel.Resources;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -18,6 +19,12 @@ namespace Files.App.Helpers
 {
 	public static class FilePropertiesHelpers
 	{
+		/// <summary>
+		/// Whether LayoutDirection (FlowDirection) is set to right-to-left (RTL)
+		/// </summary>
+		public static readonly bool FlowDirectionSettingIsRightToLeft =
+			new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"] == "RTL";
+
 		private static readonly bool isUniversal =
 			ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", majorVersion: 8);
 
