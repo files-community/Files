@@ -478,7 +478,7 @@
     <value>Eri tyypit</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Kaikki kohteessa {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Käytetty tila:</value>
@@ -3206,6 +3206,6 @@
     <value>Tee viimeisin tiedostotoiminto uudestaan</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Location:</value>
+    <value>Sijainti:</value>
   </data>
 </root>
