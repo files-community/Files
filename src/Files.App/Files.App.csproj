@@ -25,8 +25,6 @@
         <Configurations>Debug;Release;Sideload;Stable;Preview;Store</Configurations>
         <TieredCompilation>true</TieredCompilation>
         <TieredPgo>true</TieredPgo>
-        <!--<ImplicitUsings>disable</ImplicitUsings>
-        <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>-->
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <DefineConstants>TRACE;DEBUG;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
@@ -82,7 +80,6 @@
         <Content Remove="Assets\FilesHome.png" />
     </ItemGroup>
     <ItemGroup>
-      <None Remove="ResourceDictionaries\TabViewItemStyles.xaml" />
       <None Remove="UserControls\OpacityIcon.xaml" />
     </ItemGroup>
     <ItemGroup>
@@ -141,11 +138,6 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Markdown" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
-    </ItemGroup>
-    <ItemGroup>
-      <Page Update="ResourceDictionaries\TabViewItemStyles.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
     </ItemGroup>
     <ItemGroup>
       <Page Update="UserControls\OpacityIcon.xaml">
