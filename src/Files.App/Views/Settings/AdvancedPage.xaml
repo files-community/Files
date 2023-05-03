@@ -7,8 +7,8 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
-	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:settingsuc="using:Files.App.UserControls.Settings"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
 
@@ -23,62 +23,62 @@
 				<RepositionThemeTransition IsStaggeringEnabled="False" />
 			</StackPanel.ChildrenTransitions>
 
-			<!--  Title  -->
+			<!--  Title (Advanced)  -->
 			<TextBlock
 				Margin="2,0,2,12"
 				Style="{StaticResource SubtitleTextBlockStyle}"
 				Text="{helpers:ResourceString Name=Advanced}" />
 
 			<!--  Export  -->
-			<local:SettingsCard
+			<settingsuc:SettingsCard
 				Command="{x:Bind ViewModel.ExportSettingsCommand}"
 				Header="{helpers:ResourceString Name=ExportSettings}"
 				IsClickEnabled="True">
-				<local:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEDE1;" />
-				</local:SettingsCard.HeaderIcon>
-				<local:SettingsCard.ActionIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.ActionIcon>
 					<FontIcon Glyph="&#xE8A7;" />
-				</local:SettingsCard.ActionIcon>
-			</local:SettingsCard>
+				</settingsuc:SettingsCard.ActionIcon>
+			</settingsuc:SettingsCard>
 
 			<!--  Import  -->
-			<local:SettingsCard
+			<settingsuc:SettingsCard
 				Command="{x:Bind ViewModel.ImportSettingsCommand}"
 				Header="{helpers:ResourceString Name=ImportSettings}"
 				IsClickEnabled="True">
-				<local:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEDE2;" />
-				</local:SettingsCard.HeaderIcon>
-				<local:SettingsCard.ActionIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.ActionIcon>
 					<FontIcon Glyph="&#xE8A7;" />
-				</local:SettingsCard.ActionIcon>
-			</local:SettingsCard>
+				</settingsuc:SettingsCard.ActionIcon>
+			</settingsuc:SettingsCard>
 
 			<!--  Edit Settings File  -->
-			<local:SettingsCard
+			<settingsuc:SettingsCard
 				Command="{x:Bind ViewModel.OpenSettingsJsonCommand}"
 				Header="{helpers:ResourceString Name=EditSettingsFile}"
 				IsClickEnabled="True">
-				<local:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8DA;" />
-				</local:SettingsCard.HeaderIcon>
-				<local:SettingsCard.ActionIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.ActionIcon>
 					<FontIcon Glyph="&#xE8A7;" />
-				</local:SettingsCard.ActionIcon>
-			</local:SettingsCard>
+				</settingsuc:SettingsCard.ActionIcon>
+			</settingsuc:SettingsCard>
 
-			<!--  Default file manager  -->
+			<!--  Header (Default File Manager)  -->
 			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=ExperimentalFeatureFlags}" />
 
 			<!--  Replace File Explorer  -->
-			<local:SettingsCard
+			<settingsuc:SettingsCard
 				x:Name="SetAsDefaultSettingsBlockControl"
 				Description="{helpers:ResourceString Name=SettingsSetAsDefaultFileManagerDescription}"
 				Header="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}">
-				<local:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEC50;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
 					IsOn="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=TwoWay}"
@@ -89,16 +89,16 @@
 						</icore:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
 				</ToggleSwitch>
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 			<!--  Replace Open File Dialog (Invisible)  -->
-			<local:SettingsCard
+			<settingsuc:SettingsCard
 				x:Name="ReplaceOpenFileDialogSetting"
 				x:Load="False"
 				Header="{helpers:ResourceString Name=SettingsSetAsOpenDialog}">
-				<local:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE1A5;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					IsEnabled="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=OneWay}"
 					IsOn="{x:Bind ViewModel.IsSetAsOpenFileDialog, Mode=TwoWay}"
@@ -109,7 +109,7 @@
 						</icore:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
 				</ToggleSwitch>
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 		</StackPanel>
 	</Grid>

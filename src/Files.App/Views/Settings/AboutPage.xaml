@@ -5,8 +5,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:settingsuc="using:Files.App.UserControls.Settings"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	xmlns:wct="using:CommunityToolkit.WinUI.UI.Controls"
 	mc:Ignorable="d">
@@ -22,17 +22,17 @@
 				<RepositionThemeTransition IsStaggeringEnabled="False" />
 			</StackPanel.ChildrenTransitions>
 
-			<!--  Title  -->
+			<!--  Title (About)  -->
 			<TextBlock
 				Margin="2,0,2,12"
 				Style="{StaticResource SubtitleTextBlockStyle}"
 				Text="{helpers:ResourceString Name=About}" />
 
 			<!--  App Info  -->
-			<local:SettingsCard Description="{x:Bind ViewModel.Version}" Header="{x:Bind ViewModel.AppName}">
-				<local:SettingsCard.HeaderIcon>
+			<settingsuc:SettingsCard Description="{x:Bind ViewModel.Version}" Header="{x:Bind ViewModel.AppName}">
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE946;" />
-				</local:SettingsCard.HeaderIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
 				<Button x:Name="CopyVersionInfo" Content="{helpers:ResourceString Name=Copy}">
 					<Button.Flyout>
 						<MenuFlyout>
@@ -41,90 +41,90 @@
 						</MenuFlyout>
 					</Button.Flyout>
 				</Button>
-			</local:SettingsCard>
+			</settingsuc:SettingsCard>
 
 			<!--  GitHub Sponsor  -->
-			<local:SettingsCard
+			<settingsuc:SettingsCard
 				Command="{x:Bind ViewModel.SupportUsCommand}"
 				Header="{helpers:ResourceString Name=SponsorUsOnGitHub}"
 				IsClickEnabled="True">
-				<local:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEB51;" />
-				</local:SettingsCard.HeaderIcon>
-				<local:SettingsCard.ActionIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.ActionIcon>
 					<FontIcon Glyph="&#xE8A7;" />
-				</local:SettingsCard.ActionIcon>
-			</local:SettingsCard>
+				</settingsuc:SettingsCard.ActionIcon>
+			</settingsuc:SettingsCard>
 
 			<!--  Help and support  -->
 			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=HelpAndSupport}" />
 
 			<!--  Documentation  -->
-			<local:SettingsCard
+			<settingsuc:SettingsCard
 				Command="{x:Bind ViewModel.OpenDocumentationCommand}"
 				Header="{helpers:ResourceString Name=Documentation}"
 				IsClickEnabled="True">
-				<local:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE736;" />
-				</local:SettingsCard.HeaderIcon>
-				<local:SettingsCard.ActionIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.ActionIcon>
 					<FontIcon Glyph="&#xE8A7;" />
-				</local:SettingsCard.ActionIcon>
-			</local:SettingsCard>
+				</settingsuc:SettingsCard.ActionIcon>
+			</settingsuc:SettingsCard>
 
 			<!--  Feedback  -->
-			<local:SettingsExpander Header="{helpers:ResourceString Name=Feedback}">
-				<local:SettingsExpander.HeaderIcon>
+			<settingsuc:SettingsExpander Header="{helpers:ResourceString Name=Feedback}">
+				<settingsuc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xED15;" />
-				</local:SettingsExpander.HeaderIcon>
-				<local:SettingsExpander.Items>
+				</settingsuc:SettingsExpander.HeaderIcon>
+				<settingsuc:SettingsExpander.Items>
 					<!--  Submit feature request  -->
-					<local:SettingsCard
+					<settingsuc:SettingsCard
 						Command="{x:Bind ViewModel.SubmitFeatureRequestCommand}"
 						Header="{helpers:ResourceString Name=SubmitFeatureRequest}"
 						IsClickEnabled="True">
-						<local:SettingsCard.ActionIcon>
+						<settingsuc:SettingsCard.ActionIcon>
 							<FontIcon Glyph="&#xE8A7;" />
-						</local:SettingsCard.ActionIcon>
-					</local:SettingsCard>
+						</settingsuc:SettingsCard.ActionIcon>
+					</settingsuc:SettingsCard>
 					<!--  Submit bug report  -->
-					<local:SettingsCard
+					<settingsuc:SettingsCard
 						Command="{x:Bind ViewModel.SubmitBugReportCommand}"
 						Header="{helpers:ResourceString Name=SubmitBugReport}"
 						IsClickEnabled="True">
-						<local:SettingsCard.ActionIcon>
+						<settingsuc:SettingsCard.ActionIcon>
 							<FontIcon Glyph="&#xE8A7;" />
-						</local:SettingsCard.ActionIcon>
-					</local:SettingsCard>
-				</local:SettingsExpander.Items>
-			</local:SettingsExpander>
+						</settingsuc:SettingsCard.ActionIcon>
+					</settingsuc:SettingsCard>
+				</settingsuc:SettingsExpander.Items>
+			</settingsuc:SettingsExpander>
 
 			<!--  Open Log File Location  -->
-			<local:SettingsCard
+			<settingsuc:SettingsCard
 				Command="{x:Bind ViewModel.OpenLogLocationCommand}"
 				Header="{helpers:ResourceString Name=OpenLogLocation}"
 				IsClickEnabled="True">
-				<local:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE838;" />
-				</local:SettingsCard.HeaderIcon>
-				<local:SettingsCard.ActionIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.ActionIcon>
 					<FontIcon Glyph="&#xE8A7;" />
-				</local:SettingsCard.ActionIcon>
-			</local:SettingsCard>
+				</settingsuc:SettingsCard.ActionIcon>
+			</settingsuc:SettingsCard>
 
 			<!--  Open Source  -->
 			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=OpenSource}" />
 
 			<!--  Third Party Licenses  -->
-			<local:SettingsExpander
+			<settingsuc:SettingsExpander
 				x:Name="ThirdPartyLicensesSettingsExpander"
 				Expanded="ThirdPartyLicensesSettingsExpander_Expanded"
 				Header="{helpers:ResourceString Name=ThirdPartyLicenses}">
-				<local:SettingsExpander.HeaderIcon>
+				<settingsuc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE15E;" />
-				</local:SettingsExpander.HeaderIcon>
-				<local:SettingsExpander.Items>
-					<local:SettingsCard Padding="0" HorizontalAlignment="Left">
+				</settingsuc:SettingsExpander.HeaderIcon>
+				<settingsuc:SettingsExpander.Items>
+					<settingsuc:SettingsCard Padding="0" HorizontalAlignment="Left">
 						<ScrollViewer
 							Height="400"
 							Padding="16"
@@ -135,35 +135,35 @@
 								LinkClicked="MarkdownTextBlock_LinkClicked"
 								Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 						</ScrollViewer>
-					</local:SettingsCard>
-				</local:SettingsExpander.Items>
-			</local:SettingsExpander>
+					</settingsuc:SettingsCard>
+				</settingsuc:SettingsExpander.Items>
+			</settingsuc:SettingsExpander>
 
 			<!--  Open GitHub repo  -->
-			<local:SettingsCard
+			<settingsuc:SettingsCard
 				Command="{x:Bind ViewModel.OpenGitHubRepoCommand}"
 				Header="{helpers:ResourceString Name=OpenGitHubRepo}"
 				IsClickEnabled="True">
-				<local:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE12B;" />
-				</local:SettingsCard.HeaderIcon>
-				<local:SettingsCard.ActionIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.ActionIcon>
 					<FontIcon Glyph="&#xE8A7;" />
-				</local:SettingsCard.ActionIcon>
-			</local:SettingsCard>
+				</settingsuc:SettingsCard.ActionIcon>
+			</settingsuc:SettingsCard>
 
 			<!--  Privacy  -->
-			<local:SettingsCard
+			<settingsuc:SettingsCard
 				Command="{x:Bind ViewModel.OpenPrivacyPolicyCommand}"
 				Header="{helpers:ResourceString Name=Privacy}"
 				IsClickEnabled="True">
-				<local:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE72E;" />
-				</local:SettingsCard.HeaderIcon>
-				<local:SettingsCard.ActionIcon>
+				</settingsuc:SettingsCard.HeaderIcon>
+				<settingsuc:SettingsCard.ActionIcon>
 					<FontIcon Glyph="&#xE8A7;" />
-				</local:SettingsCard.ActionIcon>
-			</local:SettingsCard>
+				</settingsuc:SettingsCard.ActionIcon>
+			</settingsuc:SettingsCard>
 
 		</StackPanel>
 	</Grid>

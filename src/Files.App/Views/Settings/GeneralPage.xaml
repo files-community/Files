@@ -24,13 +24,13 @@
 				<RepositionThemeTransition IsStaggeringEnabled="False" />
 			</StackPanel.ChildrenTransitions>
 
-			<!--  Title  -->
+			<!--  Title (General)  -->
 			<TextBlock
 				Margin="2,0,2,12"
 				Style="{StaticResource SubtitleTextBlockStyle}"
 				Text="{helpers:ResourceString Name=General}" />
 
-			<!--  Language  -->
+			<!--  Language Preference  -->
 			<settingsuc:SettingsCard Header="{helpers:ResourceString Name=Language}">
 				<settingsuc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xF2B7;" />
@@ -207,7 +207,7 @@
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 			</settingsuc:SettingsCard>
 
-			<!--  Widgets  -->
+			<!--  Widgets Display Toggles  -->
 			<settingsuc:SettingsExpander Header="{helpers:ResourceString Name=Widgets}">
 				<settingsuc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xF246;" />
@@ -246,10 +246,10 @@
 				</settingsuc:SettingsExpander.Items>
 			</settingsuc:SettingsExpander>
 
-			<!--  Right Click Menu  -->
+			<!--  Header (Right Click Menu)  -->
 			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=SettingsContextMenu/Text}" />
 
-			<!--  Context menu options  -->
+			<!--  Context Menu Options  -->
 			<settingsuc:SettingsExpander Header="{helpers:ResourceString Name=ContextMenuOptions}">
 				<settingsuc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE74C;" />

@@ -39,7 +39,7 @@
 				<RepositionThemeTransition IsStaggeringEnabled="False" />
 			</StackPanel.ChildrenTransitions>
 
-			<!--  Title  -->
+			<!--  Title (Tags)  -->
 			<TextBlock
 				Margin="2,0,2,12"
 				Style="{StaticResource SubtitleTextBlockStyle}"
@@ -50,11 +50,9 @@
 				<local:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE8EC;" />
 				</local:SettingsExpander.HeaderIcon>
-
 				<local:SettingsExpander.Content>
 					<Button Command="{x:Bind ViewModel.AddTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=NewTag}" />
 				</local:SettingsExpander.Content>
-
 				<local:SettingsExpander.Items>
 					<local:SettingsCard Padding="0" HorizontalAlignment="Left">
 						<Grid>

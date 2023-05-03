@@ -90,13 +90,13 @@
 				<RepositionThemeTransition IsStaggeringEnabled="False" />
 			</StackPanel.ChildrenTransitions>
 
-			<!--  Title  -->
+			<!--  Title (Appearance)  -->
 			<TextBlock
 				Margin="2,0,2,12"
 				Style="{StaticResource SubtitleTextBlockStyle}"
 				Text="{helpers:ResourceString Name=Appearance}" />
 
-			<!--  Theme  -->
+			<!--  App Theme Mode  -->
 			<local:SettingsCard Header="{helpers:ResourceString Name=SettingsAppearanceTheme}">
 				<local:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE790;" />
@@ -108,7 +108,7 @@
 					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
 			</local:SettingsCard>
 
-			<!--  App Background  -->
+			<!--  App Background Color  -->
 			<local:SettingsExpander Header="{helpers:ResourceString Name=Background}" IsExpanded="True">
 				<local:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE771;" />

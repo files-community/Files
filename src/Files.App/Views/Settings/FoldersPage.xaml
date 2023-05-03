@@ -21,7 +21,7 @@
 				<RepositionThemeTransition IsStaggeringEnabled="False" />
 			</StackPanel.ChildrenTransitions>
 
-			<!--  Title  -->
+			<!--  Title (Fodler)  -->
 			<TextBlock
 				Margin="2,0,2,12"
 				Style="{StaticResource SubtitleTextBlockStyle}"
@@ -145,7 +145,7 @@
 				</ComboBox>
 			</local:SettingsCard>
 
-			<!--  Display  -->
+			<!--  Header (Display)  -->
 			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Display}" />
 
 			<!--  Hidden Items  -->
@@ -218,7 +218,7 @@
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 			</local:SettingsCard>
 
-			<!--  Behaviors  -->
+			<!--  Header (Behaviors)  -->
 			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Behaviors}" />
 
 			<!--  Opening items  -->
