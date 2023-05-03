@@ -2,10 +2,10 @@
 <!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
   <assemblyIdentity version="1.0.0.0" name="Files.App.app"/>
+
   <application xmlns="urn:schemas-microsoft-com:asm.v3">
     <windowsSettings>
-      <!--
-        The combination of below two tags have the following effect:
+      <!-- The combination of below two tags have the following effect:
            1) Per-Monitor for >= Windows 10 Anniversary Update
            2) System < Windows 10 Anniversary Update
       -->

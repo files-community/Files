@@ -9,10 +9,12 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
+using System.IO;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using WinUIEx;
+using IO = System.IO;
 
 namespace Files.App
 {
@@ -35,7 +37,7 @@ namespace Files.App
 			AppWindow.Title = "Files";
 
 			// Set logo
-			AppWindow.SetIcon(SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath));
+			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath));
 
 			// Extend title bar
 			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
@@ -170,6 +172,11 @@ namespace Files.App
 			return rootFrame;
 		}
 
+		/// <summary>
+		/// Invoked when Navigation to a certain page fails
+		/// </summary>
+		/// <param name="sender">The Frame which failed navigation</param>
+		/// <param name="e">Details about the navigation failure</param>
 		private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
 			=> throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
 
@@ -208,8 +215,8 @@ namespace Files.App
 						break;
 
 					case ParsedCommandType.SelectItem:
-						if (SystemIO.Path.IsPathRooted(command.Payload))
-							await PerformNavigation(SystemIO.Path.GetDirectoryName(command.Payload), SystemIO.Path.GetFileName(command.Payload));
+						if (IO.Path.IsPathRooted(command.Payload))
+							await PerformNavigation(IO.Path.GetDirectoryName(command.Payload), IO.Path.GetFileName(command.Payload));
 						break;
 
 					case ParsedCommandType.TagFiles:
@@ -238,7 +245,7 @@ namespace Files.App
 						{
 							if (!string.IsNullOrEmpty(command.Payload))
 							{
-								var target = SystemIO.Path.GetFullPath(SystemIO.Path.Combine(activationPath, command.Payload));
+								var target = IO.Path.GetFullPath(IO.Path.Combine(activationPath, command.Payload));
 								await PerformNavigation(target);
 							}
 							else

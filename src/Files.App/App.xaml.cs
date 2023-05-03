@@ -1,6 +1,3 @@
-// Copyright (c) 2023 Files Community
-// Licensed under the MIT License. See the LICENSE.
-
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
@@ -76,9 +73,10 @@ namespace Files.App
 		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
 		public static string LogoPath;
 
-		public static MainWindow Window { get; set; } = null!;
-		public static IntPtr WindowHandle { get; private set; }
-
+		/// <summary>
+		/// Initializes the singleton application object.  This is the first line of authored code
+		/// executed, and as such is the logical equivalent of main() or WinMain().
+		/// </summary>
 		public App()
 		{
 			UnhandledException += OnUnhandledException;
@@ -288,7 +286,6 @@ namespace Files.App
 				args.Handled = true;
 				LastOpenedFlyout.Closed += (sender, e) => App.Current.Exit();
 				LastOpenedFlyout.Hide();
-
 				return;
 			}
 
@@ -348,12 +345,7 @@ namespace Files.App
 				}
 				else
 				{
-					var defaultArg = new TabItemArguments()
-					{
-						InitialPageType = typeof(PaneHolderPage),
-						NavigationArg = "Home"
-					};
-
+					var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
 					return defaultArg.Serialize();
 				}
 			})
@@ -484,10 +476,8 @@ namespace Files.App
 				Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
-				})
-				.Wait(1000);
+				}).Wait(1000);
 			}
-
 			Process.GetCurrentProcess().Kill();
 		}
 
@@ -497,9 +487,16 @@ namespace Files.App
 		public static AppWindow GetAppWindow(Window w)
 		{
 			var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(w);
-			Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
 
-			return AppWindow.GetFromWindowId(windowId);
+			Microsoft.UI.WindowId windowId =
+				Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
+
+			return
+				AppWindow.GetFromWindowId(windowId);
 		}
+
+		public static MainWindow Window { get; set; } = null!;
+
+		public static IntPtr WindowHandle { get; private set; }
 	}
 }

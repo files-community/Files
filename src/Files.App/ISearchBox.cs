@@ -3,7 +3,7 @@
 
 using Windows.Foundation;
 
-namespace Files.App.UserControls
+namespace Files.App
 {
 	public interface ISearchBox
 	{
