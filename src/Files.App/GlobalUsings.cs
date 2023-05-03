@@ -33,8 +33,6 @@ global using global::Files.App.UserControls;
 global using global::Files.App.ViewModels;
 global using global::Files.App.Views;
 global using global::Files.App.Views.LayoutModes;
-global using global::Files.App.Views.Properties;
-global using global::Files.App.Views.Settings;
 global using global::Files.App.Views.Shells;
 global using global::Files.Backend.Enums;
 global using global::Files.Backend.Services.Settings;
