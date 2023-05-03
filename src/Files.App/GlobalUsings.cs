@@ -35,6 +35,7 @@ global using global::Files.App.Views;
 global using global::Files.App.Views.LayoutModes;
 global using global::Files.App.Views.Shells;
 global using global::Files.Backend.Enums;
+global using global::Files.Backend.CommandLine;
 global using global::Files.Backend.Services.Settings;
 global using global::Files.Shared;
 global using global::Files.Shared.Enums;
