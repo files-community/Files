@@ -1,29 +1,15 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.EventArguments;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.App.UserControls;
-using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
-using Files.App.Views.LayoutModes;
-using Files.Backend.Enums;
-using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Windows.Storage;
 using Windows.System;
 
-namespace Files.App.Views
+namespace Files.App.Views.Shells
 {
 	public sealed partial class ModernShellPage : BaseShellPage
 	{
@@ -41,9 +27,12 @@ namespace Files.App.Views
 			set => SetValue(CurrentInstanceBorderThicknessProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for CurrentInstanceBorderThickness.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty CurrentInstanceBorderThicknessProperty =
-			DependencyProperty.Register("CurrentInstanceBorderThickness", typeof(Thickness), typeof(ModernShellPage), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(CurrentInstanceBorderThickness),
+				typeof(Thickness),
+				typeof(ModernShellPage),
+				new PropertyMetadata(null));
 
 		public ModernShellPage() : base(new CurrentInstanceViewModel())
 		{
@@ -99,15 +88,15 @@ namespace Files.App.Views
 			});
 		}
 
-		private NavigationParams navParams;
+		private NavigationParams _NavParams;
 		public NavigationParams NavParams
 		{
-			get => navParams;
+			get => _NavParams;
 			set
 			{
-				if (value != navParams)
+				if (value != _NavParams)
 				{
-					navParams = value;
+					_NavParams = value;
 
 					if (IsLoaded)
 						OnNavigationParamsChanged();
@@ -258,7 +247,8 @@ namespace Files.App.Views
 					{
 						NavPathParam = "Home",
 						AssociatedTabInstance = this
-					}, new SuppressNavigationTransitionInfo());
+					},
+					new SuppressNavigationTransitionInfo());
 			}
 			else
 			{
@@ -279,7 +269,8 @@ namespace Files.App.Views
 					{
 						NavPathParam = parentDirectoryOfPath,
 						AssociatedTabInstance = this
-					}, new SuppressNavigationTransitionInfo());
+					},
+					new SuppressNavigationTransitionInfo());
 			}
 		}
 
@@ -300,7 +291,8 @@ namespace Files.App.Views
 				{
 					NavPathParam = "Home",
 					AssociatedTabInstance = this
-				}, new SuppressNavigationTransitionInfo());
+				},
+				new SuppressNavigationTransitionInfo());
 		}
 
 		public override void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null)

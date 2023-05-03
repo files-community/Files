@@ -28,7 +28,7 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;
 
-namespace Files.App
+namespace Files.App.Views.LayoutModes
 {
 	/// <summary>
 	/// The base class which every layout page must derive from

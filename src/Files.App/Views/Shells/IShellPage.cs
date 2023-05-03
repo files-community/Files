@@ -3,9 +3,8 @@
 
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.Views;
 
-namespace Files.App
+namespace Files.App.Views.Shells
 {
 	public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
 	{
