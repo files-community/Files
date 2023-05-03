@@ -5,7 +5,6 @@ using Files.App.Commands;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.Search;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.Views.LayoutModes;
 using Files.Backend.Services;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;

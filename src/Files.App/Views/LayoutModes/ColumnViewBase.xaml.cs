@@ -21,6 +21,9 @@ using Files.App.Data.EventArguments;
 
 namespace Files.App.Views.LayoutModes
 {
+	/// <summary>
+	/// Represents the base page of Column View
+	/// </summary>
 	public sealed partial class ColumnViewBase : StandardViewBase
 	{
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;

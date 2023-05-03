@@ -52,6 +52,14 @@
       <Optimize>true</Optimize>
     </PropertyGroup>
     <ItemGroup>
+      <Compile Remove="Views\Shell\**" />
+      <Content Remove="Views\Shell\**" />
+      <EmbeddedResource Remove="Views\Shell\**" />
+      <None Remove="Views\Shell\**" />
+      <Page Remove="Views\Shell\**" />
+      <PRIResource Remove="Views\Shell\**" />
+    </ItemGroup>
+    <ItemGroup>
         <Manifest Include="$(ApplicationManifest)" />
         <Content Include="7z.dll">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -145,8 +153,5 @@
       <Page Update="UserControls\OpacityIcon.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Views\Shell\" />
     </ItemGroup>
 </Project>

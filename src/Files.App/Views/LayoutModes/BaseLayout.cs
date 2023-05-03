@@ -31,7 +31,7 @@ using VanaraWindowsShell = Vanara.Windows.Shell;
 namespace Files.App.Views.LayoutModes
 {
 	/// <summary>
-	/// The base class which every layout page must derive from
+	/// Represents the base class which every layout page must derive from
 	/// </summary>
 	public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
 	{
@@ -81,7 +81,6 @@ namespace Files.App.Views.LayoutModes
 		public string? OldItemName { get; set; } = null;
 
 		private bool isMiddleClickToScrollEnabled = true;
-
 		public bool IsMiddleClickToScrollEnabled
 		{
 			get => isMiddleClickToScrollEnabled;
@@ -103,7 +102,6 @@ namespace Files.App.Views.LayoutModes
 		{
 			IsSourceGrouped = true,
 		};
-
 		public CollectionViewSource CollectionViewSource
 		{
 			get => collectionViewSource;
@@ -191,7 +189,6 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		private List<ListedItem>? selectedItems = new List<ListedItem>();
-
 		public List<ListedItem>? SelectedItems
 		{
 			get => selectedItems;

@@ -3,7 +3,6 @@
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.Helpers.XamlHelpers;
-using Files.App.UserControls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

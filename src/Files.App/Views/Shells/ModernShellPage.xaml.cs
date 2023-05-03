@@ -13,13 +13,32 @@ namespace Files.App.Views.Shells
 {
 	public sealed partial class ModernShellPage : BaseShellPage
 	{
-		public override bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
+		public override bool CanNavigateBackward
+			=> ItemDisplayFrame.CanGoBack;
 
-		public override bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
+		public override bool CanNavigateForward
+			=> ItemDisplayFrame.CanGoForward;
 
-		protected override Frame ItemDisplay => ItemDisplayFrame;
+		protected override Frame ItemDisplay
+			=> ItemDisplayFrame;
 
 		private NavigationInteractionTracker _navigationInteractionTracker;
+
+		private NavigationParams _NavParams;
+		public NavigationParams NavParams
+		{
+			get => _NavParams;
+			set
+			{
+				if (value != _NavParams)
+				{
+					_NavParams = value;
+
+					if (IsLoaded)
+						OnNavigationParamsChanged();
+				}
+			}
+		}
 
 		public Thickness CurrentInstanceBorderThickness
 		{
@@ -88,22 +107,6 @@ namespace Files.App.Views.Shells
 			});
 		}
 
-		private NavigationParams _NavParams;
-		public NavigationParams NavParams
-		{
-			get => _NavParams;
-			set
-			{
-				if (value != _NavParams)
-				{
-					_NavParams = value;
-
-					if (IsLoaded)
-						OnNavigationParamsChanged();
-				}
-			}
-		}
-
 		protected override void OnNavigationParamsChanged()
 		{
 			if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home")
@@ -128,7 +131,7 @@ namespace Files.App.Views.Shells
 						SelectItems = !string.IsNullOrWhiteSpace(NavParams?.SelectItem) ? new[] { NavParams.SelectItem } : null,
 						IsSearchResultPage = isTagSearch,
 						SearchPathParam = isTagSearch ? "Home" : null,
-						SearchQuery = isTagSearch ? navParams.NavPath : null,
+						SearchQuery = isTagSearch ? NavParams.NavPath : null,
 						AssociatedTabInstance = this
 					});
 			}
@@ -348,30 +351,5 @@ namespace Files.App.Views.Shells
 
 			ToolbarViewModel.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
 		}
-	}
-
-	public class PathBoxItem
-	{
-		public string? Title { get; set; }
-		public string? Path { get; set; }
-	}
-
-	public class NavigationParams
-	{
-		public string? NavPath { get; set; }
-		public string? SelectItem { get; set; }
-	}
-
-	public class NavigationArguments
-	{
-		public bool FocusOnNavigation { get; set; } = false;
-		public string? NavPathParam { get; set; } = null;
-		public IShellPage? AssociatedTabInstance { get; set; }
-		public bool IsSearchResultPage { get; set; } = false;
-		public string? SearchPathParam { get; set; } = null;
-		public string? SearchQuery { get; set; } = null;
-		public bool SearchUnindexedItems { get; set; } = false;
-		public bool IsLayoutSwitch { get; set; } = false;
-		public IEnumerable<string>? SelectItems { get; set; }
 	}
 }

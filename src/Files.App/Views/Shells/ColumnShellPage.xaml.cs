@@ -13,11 +13,30 @@ namespace Files.App.Views.Shells
 {
 	public sealed partial class ColumnShellPage : BaseShellPage
 	{
-		public override bool CanNavigateBackward => false;
+		public override bool CanNavigateBackward
+			=> false;
 
-		public override bool CanNavigateForward => false;
+		public override bool CanNavigateForward
+			=> false;
 
-		protected override Frame ItemDisplay => ItemDisplayFrame;
+		protected override Frame ItemDisplay
+			=> ItemDisplayFrame;
+
+		private ColumnParam _ColumnParams;
+		public ColumnParam ColumnParams
+		{
+			get => _ColumnParams;
+			set
+			{
+				if (value != _ColumnParams)
+				{
+					_ColumnParams = value;
+
+					if (IsLoaded)
+						OnNavigationParamsChanged();
+				}
+			}
+		}
 
 		public ColumnShellPage() : base(new CurrentInstanceViewModel(FolderLayoutModes.ColumnView))
 		{
@@ -35,21 +54,6 @@ namespace Files.App.Views.Shells
 
 		protected override void ShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
 			=> this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(e);
-
-		private ColumnParam columnParams;
-		public ColumnParam ColumnParams
-		{
-			get => columnParams;
-			set
-			{
-				if (value != columnParams)
-				{
-					columnParams = value;
-					if (IsLoaded)
-						OnNavigationParamsChanged();
-				}
-			}
-		}
 
 		protected override void OnNavigationParamsChanged()
 		{
