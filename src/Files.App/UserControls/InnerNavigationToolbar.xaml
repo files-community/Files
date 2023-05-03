@@ -204,8 +204,8 @@
 					IsEnabled="{x:Bind Commands.OpenProperties.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.OpenProperties.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.ShowProperties.LabelWithHotKey}">
-					<local:OpacityIcon Style="{x:Bind Commands.ShowProperties.OpacityStyle}" />
+					ToolTipService.ToolTip="{x:Bind Commands.OpenProperties.LabelWithHotKey}">
+					<local:OpacityIcon Style="{x:Bind Commands.OpenProperties.OpacityStyle}" />
 				</AppBarButton>
 
 				<!--  (Divider)  -->
