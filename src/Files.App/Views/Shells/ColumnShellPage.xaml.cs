@@ -61,11 +61,11 @@ namespace Files.App.Views.Shells
 				typeof(ColumnViewBase),
 				new NavigationArguments()
 				{
-					IsSearchResultPage = columnParams.IsSearchResultPage,
-					SearchQuery = columnParams.SearchQuery,
-					NavPathParam = columnParams.NavPathParam,
-					SearchUnindexedItems = columnParams.SearchUnindexedItems,
-					SearchPathParam = columnParams.SearchPathParam,
+					IsSearchResultPage = ColumnParams.IsSearchResultPage,
+					SearchQuery = ColumnParams.SearchQuery,
+					NavPathParam = ColumnParams.NavPathParam,
+					SearchUnindexedItems = ColumnParams.SearchUnindexedItems,
+					SearchPathParam = ColumnParams.SearchPathParam,
 					AssociatedTabInstance = this
 				});
 		}

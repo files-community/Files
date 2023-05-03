@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App
+namespace Files.App.Views.LayoutModes
 {
 	public abstract class StandardViewBase : BaseLayout
 	{
