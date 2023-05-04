@@ -1,15 +1,14 @@
-﻿<ContentDialog
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ContentDialog
 	x:Class="Files.App.Dialogs.FilesystemOperationDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:ts="using:Files.App.TemplateSelectors"
 	xmlns:tvc="using:CommunityToolkit.WinUI.UI.Converters"
-	xmlns:vc="using:Files.App.ValueConverters"
-	xmlns:vc2="using:Files.App.ValueConverters.EnumConverters"
-	xmlns:vc3="using:Files.App.Converters"
 	xmlns:vm="using:Files.Backend.ViewModels.Dialogs.FileSystemDialog"
 	x:Name="RootDialog"
 	Title="{x:Bind ViewModel.Title, Mode=OneWay}"
@@ -28,10 +27,10 @@
 	<ContentDialog.Resources>
 		<x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
 
-		<vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
-		<vc:GenericEnumConverter x:Key="GenericEnumConverter" />
-		<vc2:ConflictResolveOptionToIndexConverter x:Key="ConflictResolveOptionToIndexConverter" />
-		<vc3:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
+		<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
+		<converters:GenericEnumConverter x:Key="GenericEnumConverter" />
+		<converters:ConflictResolveOptionToIndexConverter x:Key="ConflictResolveOptionToIndexConverter" />
+		<converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
 		<tvc:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 		<DataTemplate x:Key="ConflictItemDataTemplate" x:DataType="vm:FileSystemDialogConflictItemViewModel">

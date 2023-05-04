@@ -1,29 +1,30 @@
-﻿<Page
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<Page
 	x:Class="Files.App.Views.Settings.TagsPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
-	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vc="using:Files.App.ValueConverters"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	mc:Ignorable="d">
 
 	<Page.Resources>
 		<ResourceDictionary>
-			<converters1:BoolToVisibilityConverter
+			<wctconverters:BoolToVisibilityConverter
 				x:Key="BoolVisibilityConverter"
 				FalseValue="Collapsed"
 				TrueValue="Visible" />
-			<converters1:BoolToVisibilityConverter
+			<wctconverters:BoolToVisibilityConverter
 				x:Key="InvertedBoolVisibilityConverter"
 				FalseValue="Visible"
 				TrueValue="Collapsed" />
-			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
-			<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
+			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -38,9 +39,16 @@
 			Spacing="4">
 			<StackPanel.ChildrenTransitions>
 				<TransitionCollection>
-					<EntranceThemeTransition />
+					<RepositionThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
+
+			<!--  Title  -->
+			<TextBlock
+				Padding="0,0,0,12"
+				FontSize="24"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=FileTags}" />
 
 			<!--  Edit Tags  -->
 			<local:SettingsBlockControl
@@ -151,7 +159,7 @@
 								<Button
 									Command="{x:Bind ViewModel.SaveNewTagCommand, Mode=OneWay}"
 									Content="{helpers:ResourceString Name=Create}"
-									IsEnabled="{x:Bind ViewModel.NewTag.IsNameValid, Mode=OneWay}"
+									IsEnabled="{x:Bind ViewModel.NewTag.CanCommit, Mode=OneWay}"
 									Style="{StaticResource AccentButtonStyle}" />
 							</StackPanel>
 						</Grid>

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 namespace Files.App
 {
 	public static class Constants
@@ -39,6 +42,7 @@ namespace Files.App
 			public const int OneDrive = 1043;
 			public const int Libraries = 1023;
 			public const int Folder = 3;
+			public const int ShieldIcon = 78;
 		}
 
 		public static class Shell32

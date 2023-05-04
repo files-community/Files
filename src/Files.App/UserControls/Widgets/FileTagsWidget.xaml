@@ -1,21 +1,22 @@
-﻿<local:HomePageWidget
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<local:HomePageWidget
 	x:Class="Files.App.UserControls.Widgets.FileTagsWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vc="using:Files.App.ValueConverters"
 	xmlns:vm="using:Files.App.ViewModels.Widgets"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
-		<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
-		<vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
+		<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+		<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
 	</UserControl.Resources>
 
 	<!--  Collection of containers  -->
@@ -47,27 +48,45 @@
 						<RowDefinition Height="Auto" />
 						<!--  Contents  -->
 						<RowDefinition Height="*" />
-						<!--  View More  -->
-						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
 					<!--  Title  -->
-					<StackPanel
-						Grid.Row="0"
-						Padding="12,8"
-						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-						BorderThickness="0,0,0,1"
-						Orientation="Horizontal"
-						Spacing="8">
-						<Ellipse
-							Width="12"
-							Height="12"
-							Fill="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
-						<TextBlock
-							Margin="0,-2,0,0"
-							FontWeight="SemiBold"
-							Text="{x:Bind Name, Mode=OneWay}" />
-					</StackPanel>
+					<Grid BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,0,0,1">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+
+						<StackPanel
+							Padding="12,8,12,8"
+							Orientation="Horizontal"
+							Spacing="8">
+							<Ellipse
+								Width="12"
+								Height="12"
+								Fill="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+							<TextBlock
+								Margin="0,-2,0,0"
+								FontWeight="SemiBold"
+								Text="{x:Bind Name, Mode=OneWay}" />
+						</StackPanel>
+
+						<!--  View More  -->
+						<HyperlinkButton
+							Grid.Column="2"
+							Margin="4"
+							AutomationProperties.Name="{helpers:ResourceString Name=ViewMore}"
+							Command="{x:Bind ViewMoreCommand}"
+							ToolTipService.ToolTip="{helpers:ResourceString Name=ViewMore}">
+							<HyperlinkButton.Content>
+								<FontIcon
+									FontSize="12"
+									FontWeight="SemiBold"
+									Glyph="&#xE76C;" />
+							</HyperlinkButton.Content>
+						</HyperlinkButton>
+					</Grid>
 
 					<!--  Contents  -->
 					<controls:AdaptiveGridView
@@ -110,14 +129,6 @@
 							</DataTemplate>
 						</controls:AdaptiveGridView.ItemTemplate>
 					</controls:AdaptiveGridView>
-
-					<!--  View More  -->
-					<HyperlinkButton
-						Grid.Row="2"
-						Margin="8"
-						HorizontalAlignment="Center"
-						Command="{x:Bind ViewMoreCommand}"
-						Content="{helpers:ResourceString Name=ViewMore}" />
 				</Grid>
 			</DataTemplate>
 		</ItemsRepeater.ItemTemplate>

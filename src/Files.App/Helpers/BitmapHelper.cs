@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -62,6 +65,12 @@ namespace Files.App.Helpers
 			BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
 			using var memStream = new InMemoryRandomAccessStream();
 			BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(memStream, decoder);
+
+			for (int i = 0; i < decoder.FrameCount - 1; i++) 
+			{
+				encoder.BitmapTransform.Rotation = rotation;
+				await encoder.GoToNextFrameAsync();
+			}
 
 			encoder.BitmapTransform.Rotation = rotation;
 

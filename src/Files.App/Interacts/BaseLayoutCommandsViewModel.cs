@@ -1,5 +1,7 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.Input;
-using Files.App.Filesystem;
 using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -28,18 +30,16 @@ namespace Files.App.Interacts
 		private void InitializeCommands()
 		{
 			ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowProperties);
-			OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenFileLocation);
-			OpenDirectoryInNewTabCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewTab);
+			OpenDirectoryInNewTabCommand = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewTab);
 			OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewPane);
-			OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenInNewWindowItem);
+			OpenInNewWindowItemCommand = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.OpenInNewWindowItem);
 			CreateNewFileCommand = new RelayCommand<ShellNewEntry>(CommandsModel.CreateNewFile);
-			ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.ItemPointerPressed);
+			ItemPointerPressedCommand = new AsyncRelayCommand<PointerRoutedEventArgs>(CommandsModel.ItemPointerPressed);
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.PointerWheelChanged);
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.DragOver);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.Drop);
 			SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
 			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
-			PlayAllCommand = new AsyncRelayCommand(CommandsModel.PlayAll);
 		}
 
 		#endregion Command Initialization
@@ -47,8 +47,6 @@ namespace Files.App.Interacts
 		#region Commands
 
 		public ICommand ShowPropertiesCommand { get; private set; }
-
-		public ICommand OpenFileLocationCommand { get; private set; }
 
 		public ICommand OpenDirectoryInNewTabCommand { get; private set; }
 
@@ -69,8 +67,6 @@ namespace Files.App.Interacts
 		public ICommand SearchUnindexedItems { get; private set; }
 
 		public ICommand CreateFolderWithSelection { get; private set; }
-
-		public ICommand PlayAllCommand { get; private set; }
 
 		#endregion Commands
 

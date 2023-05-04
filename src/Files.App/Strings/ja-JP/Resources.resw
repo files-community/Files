@@ -216,9 +216,6 @@
   <data name="Advanced" xml:space="preserve">
     <value>高度な設定</value>
   </data>
-  <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>個人用設定</value>
-  </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>最後の操作を続行</value>
   </data>
@@ -313,13 +310,13 @@
     <value>このフォルダーは空です。</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>戻る (Alt+左矢印)</value>
+    <value>戻る</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>進む (Alt+右矢印)</value>
+    <value>進む</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>上の階層へ (Alt+上矢印)</value>
+    <value>上の階層へ</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>最新の情報に更新</value>
@@ -480,7 +477,7 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>他の種類</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>{0} のすべて</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
@@ -541,7 +538,7 @@
     <value>Web リンク</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value>概要</value>
+    <value>全般</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
     <value>ショートカット</value>
@@ -566,9 +563,6 @@
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>無効なファイル</value>
-  </data>
-  <data name="Version" xml:space="preserve">
-    <value>バージョン</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>バージョン:</value>
@@ -615,12 +609,6 @@
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>GitHub で支援</value>
   </data>
-  <data name="Personalization" xml:space="preserve">
-    <value>個人設定</value>
-  </data>
-  <data name="LayoutAndSorting" xml:space="preserve">
-    <value>レイアウトと並べ替え</value>
-  </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>このファイルを作成できませんでした</value>
   </data>
@@ -654,17 +642,8 @@
   <data name="LayoutMode" xml:space="preserve">
     <value>レイアウト モード</value>
   </data>
-  <data name="NavigateBack" xml:space="preserve">
-    <value>前に戻る</value>
-  </data>
-  <data name="NavigateForward" xml:space="preserve">
-    <value>次に進む</value>
-  </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>フォルダーを更新</value>
-  </data>
-  <data name="NavigateUp" xml:space="preserve">
-    <value>1 つ上の階層へ移動</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>言語</value>
@@ -1336,7 +1315,7 @@
     <value>{0} 個の競合するファイル名と、{1} 個の競合しないファイルがあります</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>削除</value>
+    <value>ファイル名が競合しています</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>1 個の競合するファイル名と、{0} 個の競合しないファイルがあります</value>
@@ -1611,11 +1590,11 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>フォルダーの内容を一覧表示</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
+  <data name="Modify" xml:space="preserve">
     <value>変更</value>
   </data>
-  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>権限:</value>
+  <data name="SecurityPermissionsHeaderText" xml:space="preserve">
+    <value>アクセス許可: {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>読み取りと実行</value>
@@ -1664,9 +1643,6 @@
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>所有者</value>
-  </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>{0} のセキュリティの詳細設定</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>特別</value>
@@ -1845,12 +1821,6 @@
   <data name="Home" xml:space="preserve">
     <value>ホーム</value>
   </data>
-  <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Alt+Shift++</value>
-  </data>
-  <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+W</value>
-  </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
   </data>
@@ -1880,9 +1850,6 @@
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>展開が完了しました</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>親フォルダーを開く</value>
@@ -2000,9 +1967,6 @@
   </data>
   <data name="ImportSettings" xml:space="preserve">
     <value>設定をインポート</value>
-  </data>
-  <data name="ManageSettings" xml:space="preserve">
-    <value>設定を管理</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>設定をインポートすることができませんでした。設定ファイルが壊れています。</value>
@@ -2302,7 +2266,7 @@
     <value>ロック画面</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>列レイアウトでシングル クリックでフォルダーを開く</value>
+    <value>カラム レイアウトでシングル クリックでフォルダーを開く</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>ファイルを開くとき</value>
@@ -2637,6 +2601,36 @@
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを切り替える</value>
   </data>
+  <data name="OpenHelpDescription" xml:space="preserve">
+    <value>ブラウザーでオンライン上のヘルプを開く</value>
+  </data>
+  <data name="ToggleFullScreenDescription" xml:space="preserve">
+    <value>全画面表示に切り替える</value>
+  </data>
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>コンパクト オーバーレイを開始</value>
+  </data>
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>コンパクト オーバーレイを終了</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>コンパクト オーバーレイを切り替える</value>
+  </data>
+  <data name="SearchDescription" xml:space="preserve">
+    <value>検索ボックスへ移動</value>
+  </data>
+  <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
+    <value>隠しファイルを表示するかどうかを切り替える</value>
+  </data>
+  <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
+    <value>ファイル名拡張子を表示するかどうかを切り替える</value>
+  </data>
+  <data name="TogglePreviewPaneDescription" xml:space="preserve">
+    <value>プレビューペインを表示するかどうかを切り替える</value>
+  </data>
+  <data name="ToggleSidebarDescription" xml:space="preserve">
+    <value>サイドバーを表示するかどうかを切り替える</value>
+  </data>
   <data name="CopyItemDescription" xml:space="preserve">
     <value>ファイルをクリップボードにコピーする</value>
   </data>
@@ -2647,28 +2641,304 @@
     <value>ファイルをクリップボードに切り取る</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>ファイルをクリップボードから現在のフォルダに貼り付ける</value>
+    <value>ファイルをクリップボードから現在のフォルダーに貼り付ける</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>ファイルをクリップボードから選択したフォルダに貼り付ける</value>
+    <value>ファイルをクリップボードから選択したフォルダーに貼り付ける</value>
   </data>
-  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>コンパクト オーバーレイを切り替える</value>
+  <data name="DeleteItemDescription" xml:space="preserve">
+    <value>ファイルを削除する</value>
   </data>
-  <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>コンパクト オーバーレイを開始</value>
+  <data name="CreateFolderDescription" xml:space="preserve">
+    <value>新しいフォルダーを作成</value>
   </data>
-  <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>コンパクト オーバーレイを終了</value>
+  <data name="CreateShortcutDescription" xml:space="preserve">
+    <value>選択したアイテムへのショートカットを作成</value>
+  </data>
+  <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
+    <value>ショートカットを作成</value>
+  </data>
+  <data name="EmptyRecycleBinDescription" xml:space="preserve">
+    <value>ごみ箱を空にする</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>選択した項目の「ドライブのフォーマット」メニューを開く</value>
+    <value>選択したアイテムの「フォーマット」メニューを開く</value>
+  </data>
+  <data name="RestoreRecycleBinDescription" xml:space="preserve">
+    <value>ごみ箱から選択したアイテムを復元</value>
+  </data>
+  <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
+    <value>ごみ箱からすべてのアイテムを復元</value>
+  </data>
+  <data name="OpenItemDescription" xml:space="preserve">
+    <value>アイテムを開く</value>
+  </data>
+  <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
+    <value>選択したアプリケーションでファイルを開く</value>
+  </data>
+  <data name="OpenParentFolderDescription" xml:space="preserve">
+    <value>検索したファイルの親フォルダーを開く</value>
+  </data>
+  <data name="RefreshItemsDescription" xml:space="preserve">
+    <value>ページ内容を更新</value>
+  </data>
+  <data name="RenameDescription" xml:space="preserve">
+    <value>選択したファイルの名前を変更</value>
+  </data>
+  <data name="SelectAllDescription" xml:space="preserve">
+    <value>すべてのファイルを選択</value>
+  </data>
+  <data name="InvertSelectionDescription" xml:space="preserve">
+    <value>選択状態を反転</value>
+  </data>
+  <data name="ClearSelectionDescription" xml:space="preserve">
+    <value>選択をクリア</value>
+  </data>
+  <data name="ToggleSelectDescription" xml:space="preserve">
+    <value>アイテムの選択を切り替える</value>
+  </data>
+  <data name="ShareItemDescription" xml:space="preserve">
+    <value>選択したファイルを他の人と共有する</value>
+  </data>
+  <data name="PinToStartDescription" xml:space="preserve">
+    <value>スタートメニューにアイテムをピン留めする</value>
+  </data>
+  <data name="UnpinFromStartDescription" xml:space="preserve">
+    <value>スタートメニューからアイテムのピン留めを外す</value>
+  </data>
+  <data name="PinItemToFavoritesDescription" xml:space="preserve">
+    <value>お気に入りにフォルダーをピン留めする</value>
+  </data>
+  <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
+    <value>お気に入りからフォルダーのピン留めを外す</value>
+  </data>
+  <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
+    <value>選択した画像をデスクトップの背景に設定する</value>
+  </data>
+  <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
+    <value>選択した画像をデスクトップのスライドショーに設定する</value>
+  </data>
+  <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
+    <value>選択した画像をロック画面の背景に設定する</value>
+  </data>
+  <data name="InstallFontDescription" xml:space="preserve">
+    <value>選択したフォントをインストールする</value>
+  </data>
+  <data name="InstallInfDriverDescription" xml:space="preserve">
+    <value>選択した inf ファイルを使用してドライバーをインストールする</value>
+  </data>
+  <data name="RunAsAdminDescription" xml:space="preserve">
+    <value>選択したアプリケーションを管理者として実行する</value>
+  </data>
+  <data name="RunAsAnotherUserDescription" xml:space="preserve">
+    <value>選択したアプリケーションを別のユーザーとして実行する</value>
+  </data>
+  <data name="RunWithPowershellDescription" xml:space="preserve">
+    <value>選択した PowerShell スクリプトを実行する</value>
+  </data>
+  <data name="LaunchQuickLookDescription" xml:space="preserve">
+    <value>選択したアイテムで QuickLook を起動する</value>
+  </data>
+  <data name="CompressIntoArchiveDescription" xml:space="preserve">
+    <value>選択したアイテムでアーカイブを作成する</value>
+  </data>
+  <data name="CompressIntoSevenZipDescription" xml:space="preserve">
+    <value>選択したアイテムで即座に 7z アーカイブを作成する</value>
+  </data>
+  <data name="CompressIntoZipDescription" xml:space="preserve">
+    <value>選択したアイテムで即座に zip アーカイブを作成する</value>
+  </data>
+  <data name="DecompressArchiveDescription" xml:space="preserve">
+    <value>選択したアーカイブから任意のフォルダーにアイテムを抽出する</value>
+  </data>
+  <data name="DecompressArchiveHereDescription" xml:space="preserve">
+    <value>選択したアーカイブから現在のフォルダーにアイテムを抽出する</value>
+  </data>
+  <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
+    <value>選択したアーカイブから新しいフォルダーにアイテムを抽出する</value>
+  </data>
+  <data name="RotateLeftDescription" xml:space="preserve">
+    <value>選択した画像を左に回転する</value>
+  </data>
+  <data name="RotateRightDescription" xml:space="preserve">
+    <value>選択した画像を右に回転する</value>
+  </data>
+  <data name="OpenSettingsDescription" xml:space="preserve">
+    <value>設定画面を開く</value>
+  </data>
+  <data name="OpenTerminalDescription" xml:space="preserve">
+    <value>ターミナルでフォルダーを開く</value>
+  </data>
+  <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
+    <value>ターミナルでフォルダーを管理者として開く</value>
+  </data>
+  <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
+    <value>グリッドビューのアイコンのサイズを小さくする</value>
+  </data>
+  <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
+    <value>グリッドビューのアイコンのサイズを大きくする</value>
+  </data>
+  <data name="LayoutDetailsDescription" xml:space="preserve">
+    <value>詳細ビューに切り替える</value>
+  </data>
+  <data name="LayoutTilesDescription" xml:space="preserve">
+    <value>タイル ビューに切り替える</value>
+  </data>
+  <data name="LayoutGridSmallDescription" xml:space="preserve">
+    <value>小アイコンのグリッド ビューに切り替える</value>
+  </data>
+  <data name="LayoutGridMediumDescription" xml:space="preserve">
+    <value>中アイコンのグリッド ビューに切り替える</value>
+  </data>
+  <data name="LayoutGridLargeDescription" xml:space="preserve">
+    <value>大アイコンのグリッド ビューに切り替える</value>
+  </data>
+  <data name="LayoutColumnsDescription" xml:space="preserve">
+    <value>カラム ビューに切り替える</value>
+  </data>
+  <data name="LayoutAdaptiveDescription" xml:space="preserve">
+    <value>適切なビューに切り替える</value>
+  </data>
+  <data name="SortByNameDescription" xml:space="preserve">
+    <value>アイテムを名前で並べ替える</value>
+  </data>
+  <data name="SortByDateModifiedDescription" xml:space="preserve">
+    <value>アイテムを変更日で並べ替える</value>
+  </data>
+  <data name="SortByDateCreatedDescription" xml:space="preserve">
+    <value>アイテムを作成日時で並べ替える</value>
+  </data>
+  <data name="SortBySizeDescription" xml:space="preserve">
+    <value>アイテムをサイズで並べ替える</value>
+  </data>
+  <data name="SortByTypeDescription" xml:space="preserve">
+    <value>アイテムを種類で並べ替える</value>
+  </data>
+  <data name="SortBySyncStatusDescription" xml:space="preserve">
+    <value>アイテムを同期状況で並べ替える</value>
+  </data>
+  <data name="SortByTagDescription" xml:space="preserve">
+    <value>アイテムをタグで並べ替える</value>
+  </data>
+  <data name="SortByOriginalFolderDescription" xml:space="preserve">
+    <value>アイテムを元のフォルダーで並べ替える</value>
+  </data>
+  <data name="SortByDateDeletedDescription" xml:space="preserve">
+    <value>アイテムを削除した日時で並べ替える</value>
+  </data>
+  <data name="SortAscendingDescription" xml:space="preserve">
+    <value>アイテムを昇順で並べ替える</value>
+  </data>
+  <data name="SortDescendingDescription" xml:space="preserve">
+    <value>アイテムを降順で並べ替える</value>
+  </data>
+  <data name="ToggleSortDirectionDescription" xml:space="preserve">
+    <value>アイテムの並べ替え順を切り替える</value>
+  </data>
+  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
+    <value>ファイルとフォルダーを分けずに並べ替える</value>
+  </data>
+  <data name="GroupByNoneDescription" xml:space="preserve">
+    <value>アイテムをグループ化せずに表示する</value>
+  </data>
+  <data name="GroupByNameDescription" xml:space="preserve">
+    <value>アイテムを名前でグループ化する</value>
+  </data>
+  <data name="GroupByDateModifiedDescription" xml:space="preserve">
+    <value>アイテムを変更日でグループ化する</value>
+  </data>
+  <data name="GroupByDateCreatedDescription" xml:space="preserve">
+    <value>アイテムを作成日時でグループ化する</value>
+  </data>
+  <data name="GroupBySizeDescription" xml:space="preserve">
+    <value>アイテムをサイズでグループ化する</value>
+  </data>
+  <data name="GroupByTypeDescription" xml:space="preserve">
+    <value>アイテムを種類でグループ化する</value>
+  </data>
+  <data name="GroupBySyncStatusDescription" xml:space="preserve">
+    <value>アイテムを同期状況でグループ化する</value>
+  </data>
+  <data name="GroupByTagDescription" xml:space="preserve">
+    <value>アイテムをタグでグループ化する</value>
+  </data>
+  <data name="GroupByOriginalFolderDescription" xml:space="preserve">
+    <value>アイテムを元のフォルダーでグループ化する</value>
+  </data>
+  <data name="GroupByDateDeletedDescription" xml:space="preserve">
+    <value>アイテムを削除した日時でグループ化する</value>
+  </data>
+  <data name="GroupByFolderPathDescription" xml:space="preserve">
+    <value>アイテムをフォルダー パスでグループ化する</value>
+  </data>
+  <data name="GroupAscendingDescription" xml:space="preserve">
+    <value>アイテムを昇順でグループ化する</value>
+  </data>
+  <data name="GroupDescendingDescription" xml:space="preserve">
+    <value>アイテムを降順でグループ化する</value>
+  </data>
+  <data name="ToggleGroupDirectionDescription" xml:space="preserve">
+    <value>アイテムのグループ化順を切り替える</value>
+  </data>
+  <data name="NewTabDescription" xml:space="preserve">
+    <value>新しいタブを開く</value>
+  </data>
+  <data name="NavigateBackDescription" xml:space="preserve">
+    <value>ナビゲーション履歴を戻る</value>
+  </data>
+  <data name="NavigateForwardDescription" xml:space="preserve">
+    <value>ナビゲーション履歴を進む</value>
+  </data>
+  <data name="NavigateUpDescription" xml:space="preserve">
+    <value>1つ上のフォルダーに移動</value>
+  </data>
+  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
+    <value>現在のタブを複製する</value>
+  </data>
+  <data name="DuplicateSelectedTabDescription" xml:space="preserve">
+    <value>選択したタブを複製する</value>
+  </data>
+  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
+    <value>現在のタブの左側のタブを閉じる</value>
+  </data>
+  <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
+    <value>選択したタブの左側のタブを閉じる</value>
+  </data>
+  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
+    <value>現在のタブの右側のタブを閉じる</value>
+  </data>
+  <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
+    <value>選択したタブの右側のタブを閉じる</value>
+  </data>
+  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
+    <value>現在のタブ以外のタブを閉じる</value>
+  </data>
+  <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
+    <value>選択したタブ以外のタブを閉じる</value>
+  </data>
+  <data name="ReopenClosedTabDescription" xml:space="preserve">
+    <value>最後に閉じたタブを再度開く</value>
+  </data>
+  <data name="PreviousTabDescription" xml:space="preserve">
+    <value>前のタブに移動する</value>
+  </data>
+  <data name="NextTabDescription" xml:space="preserve">
+    <value>次のタブに移動する</value>
+  </data>
+  <data name="CloseSelectedTabDescription" xml:space="preserve">
+    <value>現在のタブを閉じる</value>
+  </data>
+  <data name="OpenNewPaneDescription" xml:space="preserve">
+    <value>新しいペインを開く</value>
+  </data>
+  <data name="ClosePaneDescription" xml:space="preserve">
+    <value>右ペインを閉じる</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>サイドバーの表示を切り替える</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
-    <value>メニュー</value>
+    <value>Alt</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Control" xml:space="preserve">
@@ -2692,11 +2962,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Escape" xml:space="preserve">
-    <value>Escape</value>
+    <value>Esc</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Back" xml:space="preserve">
-    <value>Back</value>
+    <value>バックスペース</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Tab" xml:space="preserve">
@@ -2877,5 +3147,65 @@
   </data>
   <data name="CloseTab" xml:space="preserve">
     <value>現在のタブを閉じる</value>
+  </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>パスを編集</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>ブランチ: {0}</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>やり直す</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
+  <data name="InvalidLocation" xml:space="preserve">
+    <value>無効な場所です</value>
+  </data>
+  <data name="CopyFileWithoutProperties" xml:space="preserve">
+    <value>これらのファイルをプロパティなしでコピーしますか?</value>
+  </data>
+  <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
+    <value>これらのファイルには新しい場所にコピーできないプロパティがあります</value>
+  </data>
+  <data name="FilePropertiesCannotBeMoved" xml:space="preserve">
+    <value>これらのファイルには新しい場所に移動できないプロパティがあります</value>
+  </data>
+  <data name="MoveFileWithoutProperties" xml:space="preserve">
+    <value>これらのファイルをプロパティなしで移動しますか?</value>
+  </data>
+  <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
+    <value>アイテム選択時にチェックボックスを表示する</value>
+  </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>パス バーに移動する</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>新しいファイルを作成する</value>
+  </data>
+  <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
+    <value>このオブジェクトにアクセスする権限を持つグループまたはユーザーがありません。ただし、このオブジェクトの所有者は権限を割り当てることができます。</value>
+  </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>ファイルの場所を開く</value>
+  </data>
+  <data name="DeletePermanently" xml:space="preserve">
+    <value>完全に削除</value>
+  </data>
+  <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
+    <value>ファイルを完全に削除する</value>
+  </data>
+  <data name="PlayAllDescription" xml:space="preserve">
+    <value>選択したメディア ファイルを再生</value>
+  </data>
+  <data name="UndoDescription" xml:space="preserve">
+    <value>最後の操作を元に戻す</value>
+  </data>
+  <data name="RedoDescription" xml:space="preserve">
+    <value>最後の操作をやり直す</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>場所:</value>
   </data>
 </root>

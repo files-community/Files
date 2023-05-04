@@ -1,3 +1,4 @@
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <local:StandardViewBase
 	x:Class="Files.App.Views.LayoutModes.DetailsLayoutBrowser"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -14,7 +15,6 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:valueconverters="using:Files.App.ValueConverters"
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
@@ -45,8 +45,8 @@
 				x:Key="EmptyObjectToObjectConverter"
 				EmptyValue="Collapsed"
 				NotEmptyValue="Visible" />
-			<valueconverters:StringToBrushConverter x:Key="StringToBrushConverter" />
-			<converters:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+			<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
 			<Style
@@ -180,21 +180,6 @@
 			VerticalAlignment="Top"
 			Canvas.ZIndex="0"
 			EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
-
-		<!--  Search Unindexed Items  -->
-		<StackPanel
-			x:Name="SearchUnindexedItemsPanel"
-			HorizontalAlignment="Center"
-			VerticalAlignment="Bottom"
-			x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
-			Orientation="Vertical">
-			<TextBlock Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
-			<HyperlinkButton
-				x:Name="SearchUnindexedItemsButton"
-				HorizontalAlignment="Center"
-				Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
-				Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
-		</StackPanel>
 
 		<!--  Invalid Item Name Tip  -->
 		<TeachingTip
@@ -371,7 +356,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}" />
 
@@ -390,7 +375,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
@@ -410,7 +395,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
@@ -430,7 +415,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
@@ -450,7 +435,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
@@ -470,7 +455,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
@@ -490,7 +475,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
@@ -510,7 +495,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
@@ -532,7 +517,7 @@
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
 								ManipulationDelta="GridSplitter_ManipulationDelta"
-								ManipulationStarting="GridSplitter_ManipulationStarting"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
@@ -553,16 +538,6 @@
 										Width="24"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Stretch">
-										<CheckBox
-											x:Name="SelectionCheckbox"
-											Width="20"
-											MinWidth="0"
-											HorizontalAlignment="Center"
-											AutomationProperties.AccessibilityView="Raw"
-											Checked="ItemSelected_Checked"
-											DoubleTapped="SelectionCheckbox_DoubleTapped"
-											Unchecked="ItemSelected_Unchecked"
-											Visibility="Collapsed" />
 										<Grid
 											x:Name="IconBox"
 											Width="20"
@@ -624,7 +599,26 @@
 												x:Load="{x:Bind IsShortcut}">
 												<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
 											</Border>
+											<Image
+												x:Name="ShieldOverlay"
+												Width="8"
+												Height="8"
+												HorizontalAlignment="Right"
+												VerticalAlignment="Bottom"
+												x:Load="{x:Bind IsElevated}"
+												Source="{x:Bind ShieldIcon, Mode=OneWay}"
+												Stretch="Uniform" />
 										</Grid>
+										<CheckBox
+											x:Name="SelectionCheckbox"
+											Width="20"
+											MinWidth="0"
+											HorizontalAlignment="Center"
+											AutomationProperties.AccessibilityView="Raw"
+											Checked="ItemSelected_Checked"
+											DoubleTapped="SelectionCheckbox_DoubleTapped"
+											Opacity="0"
+											Unchecked="ItemSelected_Unchecked" />
 									</Grid>
 
 									<Grid
@@ -640,6 +634,7 @@
 										<TextBlock
 											x:Name="ItemName"
 											VerticalAlignment="Center"
+											Opacity="{x:Bind Opacity, Mode=OneWay}"
 											Text="{x:Bind Name, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis" />
 										<TextBox
@@ -796,7 +791,7 @@
 											<VisualState x:Name="HideCheckbox" />
 											<VisualState x:Name="ShowCheckbox">
 												<VisualState.Setters>
-													<Setter Target="SelectionCheckbox.Visibility" Value="Visible" />
+													<Setter Target="SelectionCheckbox.Opacity" Value="1" />
 													<Setter Target="IconBox.Visibility" Value="Collapsed" />
 												</VisualState.Setters>
 											</VisualState>
@@ -1032,6 +1027,21 @@
 			</SemanticZoom.ZoomedOutView>
 
 		</SemanticZoom>
+
+		<!--  Search Unindexed Items  -->
+		<StackPanel
+			x:Name="SearchUnindexedItemsPanel"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Bottom"
+			x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
+			Orientation="Vertical">
+			<TextBlock Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
+			<HyperlinkButton
+				x:Name="SearchUnindexedItemsButton"
+				HorizontalAlignment="Center"
+				Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
+				Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
+		</StackPanel>
 
 		<!--  Selector  -->
 		<Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

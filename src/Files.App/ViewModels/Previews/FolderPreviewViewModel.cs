@@ -1,21 +1,17 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
-using Files.Backend.Services.Settings;
 using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.ViewModels.Previews
 {
 	public class FolderPreviewViewModel
 	{
-		private readonly IPreferencesSettingsService preferencesSettingsService = Ioc.Default.GetService<IPreferencesSettingsService>();
+		private readonly IGeneralSettingsService generalSettingsService = Ioc.Default.GetService<IGeneralSettingsService>();
 
 		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
 
@@ -33,7 +29,7 @@ namespace Files.App.ViewModels.Previews
 
 		private async Task LoadPreviewAndDetailsAsync()
 		{
-			var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Item.ItemPath));
+			var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Item.ItemPath));
 			Folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath, rootItem);
 			var items = await Folder.GetItemsAsync();
 

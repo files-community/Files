@@ -1,24 +1,20 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Helpers;
 using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal abstract class BaseUIAction : ObservableObject, IAction
+	internal abstract class BaseUIAction : ObservableObject
 	{
-		public abstract string Label { get; }
-
-		public abstract string Description { get; }
-
 		public virtual bool IsExecutable => UIHelpers.CanShowDialog;
 
 		public BaseUIAction()
 		{
 			UIHelpers.PropertyChanged += UIHelpers_PropertyChanged;
 		}
-
-		public abstract Task ExecuteAsync();
 
 		private void UIHelpers_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{

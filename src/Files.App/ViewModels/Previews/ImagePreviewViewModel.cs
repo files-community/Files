@@ -1,11 +1,10 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
-using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -33,7 +32,7 @@ namespace Files.App.ViewModels.Previews
 		{
 			using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
 
-			await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+			await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				BitmapImage bitmap = new();
 				await bitmap.SetSourceAsync(stream);

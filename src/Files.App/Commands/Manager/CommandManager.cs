@@ -1,5 +1,11 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Actions;
+using Files.Backend.Services.Settings;
+using Microsoft.AppCenter.Analytics;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -16,8 +22,10 @@ namespace Files.App.Commands
 {
 	internal class CommandManager : ICommandManager
 	{
+		private readonly IGeneralSettingsService settings = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
 		private readonly IImmutableDictionary<CommandCodes, IRichCommand> commands;
-		private readonly IImmutableDictionary<HotKey, IRichCommand> hotKeys;
+		private IImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
 
 		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
 		public IRichCommand this[HotKey hotKey] => hotKeys.TryGetValue(hotKey, out var command) ? command : None;
@@ -29,6 +37,9 @@ namespace Files.App.Commands
 		public IRichCommand ExitCompactOverlay => commands[CommandCodes.ExitCompactOverlay];
 		public IRichCommand ToggleCompactOverlay => commands[CommandCodes.ToggleCompactOverlay];
 		public IRichCommand Search => commands[CommandCodes.Search];
+		public IRichCommand EditPath => commands[CommandCodes.EditPath];
+		public IRichCommand Redo => commands[CommandCodes.Redo];
+		public IRichCommand Undo => commands[CommandCodes.Undo];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand TogglePreviewPane => commands[CommandCodes.TogglePreviewPane];
@@ -46,6 +57,7 @@ namespace Files.App.Commands
 		public IRichCommand CreateShortcut => commands[CommandCodes.CreateShortcut];
 		public IRichCommand CreateShortcutFromDialog => commands[CommandCodes.CreateShortcutFromDialog];
 		public IRichCommand CreateFolder => commands[CommandCodes.CreateFolder];
+		public IRichCommand AddItem => commands[CommandCodes.AddItem];
 		public IRichCommand PinToStart => commands[CommandCodes.PinToStart];
 		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
 		public IRichCommand PinItemToFavorites => commands[CommandCodes.PinItemToFavorites];
@@ -59,6 +71,7 @@ namespace Files.App.Commands
 		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
 		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
+		public IRichCommand DeleteItemPermanently => commands[CommandCodes.DeleteItemPermanently];
 		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
 		public IRichCommand InstallInfDriver => commands[CommandCodes.InstallInfDriver];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
@@ -132,28 +145,21 @@ namespace Files.App.Commands
 		public IRichCommand PreviousTab => commands[CommandCodes.PreviousTab];
 		public IRichCommand NextTab => commands[CommandCodes.NextTab];
 		public IRichCommand CloseSelectedTab => commands[CommandCodes.CloseSelectedTab];
+		public IRichCommand OpenNewPane => commands[CommandCodes.OpenNewPane];
+		public IRichCommand ClosePane => commands[CommandCodes.ClosePane];
+		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
+		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
 
 		public CommandManager()
 		{
 			commands = CreateActions()
-				.Select(action => new ActionCommand(action.Key, action.Value))
+				.Select(action => new ActionCommand(this, action.Key, action.Value))
 				.Cast<IRichCommand>()
 				.Append(new NoneCommand())
 				.ToImmutableDictionary(command => command.Code);
 
-			var hotKeys = new Dictionary<HotKey, IRichCommand>();
-			foreach (var command in commands.Values)
-			{
-				if (!command.HotKey.IsNone)
-					hotKeys.Add(command.HotKey, command);
-				if (!command.SecondHotKey.IsNone)
-					hotKeys.Add(command.SecondHotKey, command);
-				if (!command.ThirdHotKey.IsNone)
-					hotKeys.Add(command.ThirdHotKey, command);
-				if (!command.MediaHotKey.IsNone)
-					hotKeys.Add(command.MediaHotKey, command);
-			}
-			this.hotKeys = hotKeys.ToImmutableDictionary();
+			settings.PropertyChanged += Settings_PropertyChanged;
+			UpdateHotKeys();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -167,6 +173,9 @@ namespace Files.App.Commands
 			[CommandCodes.ExitCompactOverlay] = new ExitCompactOverlayAction(),
 			[CommandCodes.ToggleCompactOverlay] = new ToggleCompactOverlayAction(),
 			[CommandCodes.Search] = new SearchAction(),
+			[CommandCodes.EditPath] = new EditPathAction(),
+			[CommandCodes.Redo] = new RedoAction(),
+			[CommandCodes.Undo] = new UndoAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
 			[CommandCodes.TogglePreviewPane] = new TogglePreviewPaneAction(),
@@ -184,6 +193,7 @@ namespace Files.App.Commands
 			[CommandCodes.CreateShortcut] = new CreateShortcutAction(),
 			[CommandCodes.CreateShortcutFromDialog] = new CreateShortcutFromDialogAction(),
 			[CommandCodes.CreateFolder] = new CreateFolderAction(),
+			[CommandCodes.AddItem] = new AddItemAction(),
 			[CommandCodes.PinToStart] = new PinToStartAction(),
 			[CommandCodes.UnpinFromStart] = new UnpinFromStartAction(),
 			[CommandCodes.PinItemToFavorites] = new PinItemAction(),
@@ -197,6 +207,7 @@ namespace Files.App.Commands
 			[CommandCodes.PasteItem] = new PasteItemAction(),
 			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
+			[CommandCodes.DeleteItemPermanently] = new DeleteItemPermanentlyAction(),
 			[CommandCodes.InstallFont] = new InstallFontAction(),
 			[CommandCodes.InstallInfDriver] = new InstallInfDriverAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
@@ -270,7 +281,59 @@ namespace Files.App.Commands
 			[CommandCodes.PreviousTab] = new PreviousTabAction(),
 			[CommandCodes.NextTab] = new NextTabAction(),
 			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
+			[CommandCodes.OpenNewPane] = new OpenNewPaneAction(),
+			[CommandCodes.ClosePane] = new ClosePaneAction(),
+			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
+			[CommandCodes.PlayAll] = new PlayAllAction(),
 		};
+
+		private void UpdateHotKeys()
+		{
+			ISet<HotKey> useds = new HashSet<HotKey>();
+
+			var customs = new Dictionary<CommandCodes, HotKeyCollection>();
+			foreach (var custom in settings.Actions)
+			{
+				if (Enum.TryParse(custom.Key, true, out CommandCodes code))
+				{
+					if (code is CommandCodes.None)
+						continue;
+
+					var hotKeys = new HotKeyCollection(HotKeyCollection.Parse(custom.Value).Except(useds));
+					customs.Add(code, new(hotKeys));
+
+					foreach (var hotKey in hotKeys)
+					{
+						useds.Add(hotKey with { IsVisible = true });
+						useds.Add(hotKey with { IsVisible = false });
+					}
+				}
+			}
+
+			foreach (var command in commands.Values.OfType<ActionCommand>())
+			{
+				bool isCustom = customs.ContainsKey(command.Code);
+
+				var hotkeys = isCustom
+					? customs[command.Code]
+					: new HotKeyCollection(GetHotKeys(command.Action).Except(useds));
+
+				command.UpdateHotKeys(isCustom, hotkeys);
+			}
+
+			hotKeys = commands.Values
+				.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
+				.ToImmutableDictionary(item => item.HotKey, item => item.Command);
+		}
+
+		private static HotKeyCollection GetHotKeys(IAction action)
+			=> new(action.HotKey, action.SecondHotKey, action.ThirdHotKey, action.MediaHotKey);
+
+		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(IGeneralSettingsService.Actions))
+				UpdateHotKeys();
+		}
 
 		[DebuggerDisplay("Command None")]
 		private class NoneCommand : IRichCommand
@@ -292,11 +355,13 @@ namespace Files.App.Commands
 			public FontIcon? FontIcon => null;
 			public Style? OpacityStyle => null;
 
+			public bool IsCustomHotKeys => false;
 			public string? HotKeyText => null;
-			public HotKey HotKey => HotKey.None;
-			public HotKey SecondHotKey => HotKey.None;
-			public HotKey ThirdHotKey => HotKey.None;
-			public HotKey MediaHotKey => HotKey.None;
+			public HotKeyCollection HotKeys
+			{
+				get => HotKeyCollection.Empty;
+				set => throw new InvalidOperationException("This command is readonly.");
+			}
 
 			public bool IsToggle => false;
 			public bool IsOn { get => false; set {} }
@@ -306,6 +371,8 @@ namespace Files.App.Commands
 			public void Execute(object? parameter) {}
 			public Task ExecuteAsync() => Task.CompletedTask;
 			public void ExecuteTapped(object sender, TappedRoutedEventArgs e) {}
+
+			public void ResetHotKeys() {}
 		}
 
 		[DebuggerDisplay("Command {Code}")]
@@ -313,50 +380,82 @@ namespace Files.App.Commands
 		{
 			public event EventHandler? CanExecuteChanged;
 
-			private readonly IAction action;
+			private readonly CommandManager manager;
 
+			public IAction Action { get; }
 			public CommandCodes Code { get; }
 
-			public string Label => action.Label;
-			public string LabelWithHotKey { get; }
+			public string Label => Action.Label;
+			public string LabelWithHotKey => HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
 			public string AutomationName => Label;
 
-			public string Description => action.Description;
+			public string Description => Action.Description;
 
-			public RichGlyph Glyph => action.Glyph;
+			public RichGlyph Glyph => Action.Glyph;
 			public object? Icon { get; }
 			public FontIcon? FontIcon { get; }
 			public Style? OpacityStyle { get; }
 
-			public string? HotKeyText { get; }
-			public HotKey HotKey => action.HotKey;
-			public HotKey SecondHotKey => action.SecondHotKey;
-			public HotKey ThirdHotKey => action.ThirdHotKey;
-			public HotKey MediaHotKey => action.MediaHotKey;
+			private bool isCustomHotKeys = false;
+			public bool IsCustomHotKeys => isCustomHotKeys;
 
-			public bool IsToggle => action is IToggleAction;
+			public string? HotKeyText
+			{
+				get
+				{
+					string text = HotKeys.Label;
+					if (string.IsNullOrEmpty(text))
+						return null;
+					return text;
+				}
+			}
+
+			private HotKeyCollection hotKeys;
+			public HotKeyCollection HotKeys
+			{
+				get => hotKeys;
+				set
+				{
+					if (hotKeys == value)
+						return;
+
+					string code = Code.ToString();
+					var customs = new Dictionary<string, string>(manager.settings.Actions);
+
+					if (!customs.ContainsKey(code))
+						customs.Add(code, value.Code);
+					else if (value != GetHotKeys(Action))
+						customs[code] = value.Code;
+					else
+						customs.Remove(code);
+
+					manager.settings.Actions = customs;
+				}
+			}
+
+			public bool IsToggle => Action is IToggleAction;
 
 			public bool IsOn
 			{
-				get => action is IToggleAction toggleAction && toggleAction.IsOn;
+				get => Action is IToggleAction toggleAction && toggleAction.IsOn;
 				set
 				{
-					if (action is IToggleAction toggleAction && toggleAction.IsOn != value)
+					if (Action is IToggleAction toggleAction && toggleAction.IsOn != value)
 						Execute(null);
 				}
 			}
 
-			public bool IsExecutable => action.IsExecutable;
+			public bool IsExecutable => Action.IsExecutable;
 
-			public ActionCommand(CommandCodes code, IAction action)
+			public ActionCommand(CommandManager manager, CommandCodes code, IAction action)
 			{
+				this.manager = manager;
 				Code = code;
-				this.action = action;
+				Action = action;
 				Icon = action.Glyph.ToIcon();
 				FontIcon = action.Glyph.ToFontIcon();
 				OpacityStyle = action.Glyph.ToOpacityStyle();
-				HotKeyText = GetHotKeyText();
-				LabelWithHotKey = HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
+				hotKeys = GetHotKeys(action);
 
 				if (action is INotifyPropertyChanging notifyPropertyChanging)
 					notifyPropertyChanging.PropertyChanging += Action_PropertyChanging;
@@ -364,16 +463,40 @@ namespace Files.App.Commands
 					notifyPropertyChanged.PropertyChanged += Action_PropertyChanged;
 			}
 
-			public bool CanExecute(object? parameter) => action.IsExecutable;
+			public bool CanExecute(object? parameter) => Action.IsExecutable;
 			public async void Execute(object? parameter) => await ExecuteAsync();
 
 			public async Task ExecuteAsync()
 			{
 				if (IsExecutable)
-					await action.ExecuteAsync();
+				{
+					Analytics.TrackEvent($"Triggered {Action.Label} action");
+					await Action.ExecuteAsync();
+				}
 			}
 
 			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
+
+			public void ResetHotKeys()
+			{
+				if (!IsCustomHotKeys)
+					return;
+
+				var customs = new Dictionary<string, string>(manager.settings.Actions);
+				customs.Remove(Code.ToString());
+				manager.settings.Actions = customs;
+			}
+
+			internal void UpdateHotKeys(bool isCustom, HotKeyCollection hotKeys)
+			{
+				SetProperty(ref isCustomHotKeys, isCustom, nameof(IsCustomHotKeys));
+
+				if (SetProperty(ref this.hotKeys, hotKeys, nameof(HotKeys)))
+				{
+					OnPropertyChanged(nameof(HotKeyText));
+					OnPropertyChanged(nameof(LabelWithHotKey));
+				}
+			}
 
 			private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
 			{
@@ -409,16 +532,6 @@ namespace Files.App.Commands
 						CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 						break;
 				}
-			}
-
-			private string? GetHotKeyText()
-			{
-				string text = string.Join(',',
-					new List<HotKey> { HotKey, SecondHotKey, ThirdHotKey }
-					.Where(hotKey => !hotKey.IsNone)
-					.Select(HotKey => HotKey.ToString())
-				);
-				return text.Length > 0 ? text : null;
 			}
 		}
 	}

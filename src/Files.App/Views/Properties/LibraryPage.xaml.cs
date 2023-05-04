@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Filesystem;
@@ -26,7 +29,7 @@ namespace Files.App.Views.Properties
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public ObservableCollection<LibraryFolder> Folders { get; } = new ObservableCollection<LibraryFolder>();
+		public ObservableCollection<LibraryFolder> Folders { get; } = new();
 
 		public bool IsLibraryEmpty => Folders.Count == 0;
 
@@ -48,7 +51,6 @@ namespace Files.App.Views.Properties
 		public bool IsNotDefaultFolderSelected => selectedFolderIndex >= 0 && !Folders[selectedFolderIndex].IsDefault;
 
 		private bool isPinned;
-
 		public bool IsPinned
 		{
 			get => isPinned;
@@ -230,6 +232,7 @@ namespace Files.App.Views.Properties
 		}
 
 	}
+
 	public class LibraryFolder : ObservableObject
 	{
 		public string Path { get; set; }

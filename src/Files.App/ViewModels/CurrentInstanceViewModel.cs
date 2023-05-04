@@ -1,14 +1,16 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using Files.Shared.Enums;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using LibGit2Sharp;
 
 namespace Files.App.ViewModels
 {
 	public class CurrentInstanceViewModel : ObservableObject
 	{
-		 // TODO:
-		 //  In the future, we should consolidate these public variables into
-		 //  a single enum property providing simplified customization of the
-		 //  values being manipulated inside the setter blocks
+		// TODO:
+		//  In the future, we should consolidate these public variables into
+		//  a single enum property providing simplified customization of the
+		//  values being manipulated inside the setter blocks
 
 		public FolderSettingsViewModel FolderSettings { get; }
 
@@ -29,11 +31,9 @@ namespace Files.App.ViewModels
 			set
 			{
 				SetProperty(ref isPageTypeSearchResults, value);
-				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
 
@@ -69,11 +69,8 @@ namespace Files.App.ViewModels
 			set
 			{
 				SetProperty(ref isPageTypeNotHome, value);
-				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
-				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
 
@@ -84,11 +81,8 @@ namespace Files.App.ViewModels
 			set
 			{
 				SetProperty(ref isPageTypeMtpDevice, value);
-				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
-				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
 
@@ -99,10 +93,8 @@ namespace Files.App.ViewModels
 			set
 			{
 				SetProperty(ref isPageTypeRecycleBin, value);
-				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
-				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -114,10 +106,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				SetProperty(ref isPageTypeFtp, value);
-				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
-				OnPropertyChanged(nameof(CanCopyPathInPage));
-				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -129,11 +118,6 @@ namespace Files.App.ViewModels
 			set
 			{
 				SetProperty(ref isPageTypeCloudDrive, value);
-				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
-				OnPropertyChanged(nameof(CanCreateFileInPage));
-				OnPropertyChanged(nameof(CanCopyPathInPage));
-				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
 
@@ -144,10 +128,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				SetProperty(ref isPageTypeZipFolder, value);
-				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
-				OnPropertyChanged(nameof(CanCopyPathInPage));
-				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
@@ -159,17 +140,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				SetProperty(ref isPageTypeLibrary, value);
-				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
-				OnPropertyChanged(nameof(CanCreateFileInPage));
-				OnPropertyChanged(nameof(CanCopyPathInPage));
-				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
-		}
-
-		public bool IsCreateButtonEnabledInPage
-		{
-			get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
 		}
 
 		public bool CanCopyPathInPage
@@ -185,6 +156,42 @@ namespace Files.App.ViewModels
 		public bool CanTagFilesInPage
 		{
 			get => !isPageTypeRecycleBin && !isPageTypeFtp && !isPageTypeZipFolder;
+		}
+
+		public bool IsGitRepository => !string.IsNullOrWhiteSpace(gitRepositoryPath);
+
+		private string? gitRepositoryPath;
+		public string? GitRepositoryPath
+		{
+			get => gitRepositoryPath;
+			set
+			{
+				if (SetProperty(ref gitRepositoryPath, value))
+				{
+					OnPropertyChanged(nameof(IsGitRepository));
+					OnPropertyChanged(nameof(GitBranchName));
+				}
+			}
+		}
+
+		public string GitBranchName
+		{
+			get
+			{
+				if (IsGitRepository)
+				{
+					using var repository = new Repository(gitRepositoryPath);
+					return repository.Branches.First(branch =>
+						branch.IsCurrentRepositoryHead).FriendlyName;
+				}
+
+				return string.Empty;
+			}
+		}
+
+		public void UpdateCurrentBranchName()
+		{
+			OnPropertyChanged(nameof(GitBranchName));
 		}
 	}
 }

@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -8,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class EmptyRecycleBinAction : BaseUIAction
+	internal class EmptyRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public override string Label { get; } = "EmptyRecycleBin".GetLocalizedResource();
+		public string Label { get; } = "EmptyRecycleBin".GetLocalizedResource();
 
-		public override string Description => "TODO: Need to be described.";
+		public string Description => "EmptyRecycleBinDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconDelete");
 
@@ -28,7 +31,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public override async Task ExecuteAsync()
+		public async Task ExecuteAsync()
 		{
 			await RecycleBinHelpers.EmptyRecycleBin();
 		}

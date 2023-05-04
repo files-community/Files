@@ -1,4 +1,7 @@
-﻿using Files.App.Extensions;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using System;
@@ -19,8 +22,8 @@ namespace Files.App.Helpers
 
 		public static void ShareItems(IEnumerable<ListedItem> itemsToShare)
 		{
-			var interop = DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>();
-			IntPtr result = interop.GetForWindow(App.WindowHandle, UWPToWinAppSDKUpgradeHelpers.InteropHelpers.DataTransferManagerInteropIID);
+			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
+			IntPtr result = interop.GetForWindow(App.WindowHandle, InteropHelpers.DataTransferManagerInteropIID);
 
 			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
 			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);

@@ -1,12 +1,18 @@
-﻿using Files.App.Helpers;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Filesystem.StorageItems;
+using Files.App.Helpers;
 using Files.App.Shell;
 using Files.App.UserControls.Widgets;
 using Files.Shared;
 using Files.Shared.Extensions;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI.Input;
 
 namespace Files.App.ServicesImplementation
 {
@@ -53,8 +59,22 @@ namespace Files.App.ServicesImplementation
 
 			foreach (dynamic? fi in f2.Items())
 			{
-				if (folderPaths.Contains((string)fi.Path)
-					|| (string.Equals(fi.Path, "::{645FF040-5081-101B-9F08-00AA002F954E}") && folderPaths.Contains(CommonPaths.RecycleBinPath)))
+				if (ShellStorageFolder.IsShellPath((string)fi.Path))
+				{
+					var folder = await ShellStorageFolder.FromPathAsync((string)fi.Path);
+					var path = folder.Path;
+
+					if (folderPaths.Contains(path) || (path.StartsWith(@"\\SHELL\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\")))) // Fix for the Linux header
+					{
+						await SafetyExtensions.IgnoreExceptions(async () =>
+						{
+							await fi.InvokeVerb("unpinfromhome");
+						});
+						continue;
+					}
+				}
+
+				if (folderPaths.Contains((string)fi.Path))
 				{
 					await SafetyExtensions.IgnoreExceptions(async () =>
 					{

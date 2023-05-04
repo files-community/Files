@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
@@ -160,6 +163,23 @@ namespace Files.App.Filesystem
 				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
 				{
 					await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
+				}
+				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.PropertyLoss))
+				{
+					var failedSources = copyResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.PropertyLoss);
+					var filePath = failedSources.Select(x => x.Source);
+					switch (await GetFileListDialog(filePath, "FilePropertiesCannotBeCopied".GetLocalizedResource(), "CopyFileWithoutProperties".GetLocalizedResource(), "OK".GetLocalizedResource(), "Cancel".GetLocalizedResource()))
+					{
+						case DialogResult.Primary:
+							var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
+							var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
+							return await CopyItemsAsync(
+								await sourceMatch.Select(x => x.src).ToListAsync(),
+								await sourceMatch.Select(x => x.dest).ToListAsync(),
+								// Force collision option to "replace" to accept copying with property loss
+								// Ok since property loss error is raised after checking if the destination already exists
+								await sourceMatch.Select(x => FileNameConflictResolveOptionType.ReplaceExisting).ToListAsync(), progress, cancellationToken);
+					}
 				}
 				else if (copyResult.Items.All(x => x.HResult == -1)) // ADS
 				{
@@ -535,6 +555,23 @@ namespace Files.App.Filesystem
 				{
 					await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
 				}
+				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.PropertyLoss))
+				{
+					var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.PropertyLoss);
+					var filePath = failedSources.Select(x => x.Source);
+					switch (await GetFileListDialog(filePath, "FilePropertiesCannotBeMoved".GetLocalizedResource(), "MoveFileWithoutProperties".GetLocalizedResource(), "OK".GetLocalizedResource(), "Cancel".GetLocalizedResource()))
+					{
+						case DialogResult.Primary:
+							var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
+							var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
+							return await CopyItemsAsync(
+								await sourceMatch.Select(x => x.src).ToListAsync(),
+								await sourceMatch.Select(x => x.dest).ToListAsync(),
+								// Force collision option to "replace" to accept moving with property loss
+								// Ok since property loss error is raised after checking if the destination already exists
+								await sourceMatch.Select(x => FileNameConflictResolveOptionType.ReplaceExisting).ToListAsync(), progress, cancellationToken);
+					}
+				}
 				else if (moveResult.Items.All(x => x.HResult == -1)) // ADS
 				{
 					// Retry with StorageFile API
@@ -738,7 +775,7 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		private async void CancelOperation(object operationID)
+		private void CancelOperation(object operationID)
 			=> FileOperationsHelpers.TryCancelOperation((string)operationID);
 
 		private async Task<bool> RequestAdminOperation()

@@ -216,9 +216,6 @@
   <data name="Advanced" xml:space="preserve">
     <value>Продвинутый</value>
   </data>
-  <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>Предпочтения</value>
-  </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Продолжить, где Вы остановились</value>
   </data>
@@ -480,8 +477,8 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Разные типы</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>Все в папке {0}</value>
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
+    <value>All in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Занято:</value>
@@ -567,9 +564,6 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Неверный элемент</value>
   </data>
-  <data name="Version" xml:space="preserve">
-    <value>Версия</value>
-  </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Версия:</value>
   </data>
@@ -615,12 +609,6 @@
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Поддержите нас на GitHub</value>
   </data>
-  <data name="Personalization" xml:space="preserve">
-    <value>Персонализация</value>
-  </data>
-  <data name="LayoutAndSorting" xml:space="preserve">
-    <value>Макет и сортировка</value>
-  </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Элемент не может быть создан</value>
   </data>
@@ -654,17 +642,8 @@
   <data name="LayoutMode" xml:space="preserve">
     <value>Режим разметки</value>
   </data>
-  <data name="NavigateBack" xml:space="preserve">
-    <value>Перейти назад</value>
-  </data>
-  <data name="NavigateForward" xml:space="preserve">
-    <value>Перейти вперед</value>
-  </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Обновить каталог</value>
-  </data>
-  <data name="NavigateUp" xml:space="preserve">
-    <value>Перейти на один каталог вверх</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Язык</value>
@@ -1611,11 +1590,11 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>Чтение</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
-    <value>Запись</value>
+  <data name="Modify" xml:space="preserve">
+    <value>Modify</value>
   </data>
-  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Разрешения для</value>
+  <data name="SecurityPermissionsHeaderText" xml:space="preserve">
+    <value>Permissions for {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Чтение и выполнение</value>
@@ -1664,9 +1643,6 @@
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Владелец</value>
-  </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Расширенные разрешения для {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Особые</value>
@@ -1845,12 +1821,6 @@
   <data name="Home" xml:space="preserve">
     <value>Главная</value>
   </data>
-  <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Alt+Shift++</value>
-  </data>
-  <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+W</value>
-  </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
   </data>
@@ -1880,9 +1850,6 @@
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Распаковка завершена!</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Открыть родительскую папку</value>
@@ -2000,9 +1967,6 @@
   </data>
   <data name="ImportSettings" xml:space="preserve">
     <value>Импорт Настроек</value>
-  </data>
-  <data name="ManageSettings" xml:space="preserve">
-    <value>Управление настройками</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Невозможно импортировать настройки. Файлы настроек некорректны</value>
@@ -2637,6 +2601,36 @@
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Включить компактный режим</value>
   </data>
+  <data name="OpenHelpDescription" xml:space="preserve">
+    <value>Открыть страницу онлайн справки в браузере</value>
+  </data>
+  <data name="ToggleFullScreenDescription" xml:space="preserve">
+    <value>Включить полноэкранный режим</value>
+  </data>
+  <data name="EnterCompactOverlayDescription" xml:space="preserve">
+    <value>Войти в компактный режим</value>
+  </data>
+  <data name="ExitCompactOverlayDescription" xml:space="preserve">
+    <value>Выйти из компактного режима</value>
+  </data>
+  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
+    <value>Включить компактный режим</value>
+  </data>
+  <data name="SearchDescription" xml:space="preserve">
+    <value>Перейти в окно поиска</value>
+  </data>
+  <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
+    <value>Вкл/Выкл отображение скрытых элементов</value>
+  </data>
+  <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
+    <value>Вкл/Выкл отображение скрытых элементов</value>
+  </data>
+  <data name="TogglePreviewPaneDescription" xml:space="preserve">
+    <value>Показать панель предпросмотра</value>
+  </data>
+  <data name="ToggleSidebarDescription" xml:space="preserve">
+    <value>Toggle whether to show sidebar</value>
+  </data>
   <data name="CopyItemDescription" xml:space="preserve">
     <value>Копировать элемент(ы) в буфер обмена</value>
   </data>
@@ -2647,28 +2641,304 @@
     <value>Вырезать элемент(ы) в буфер обмена</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Вставить элемент(ы) из буфера обмена в текущую папку</value>
+    <value>Вставить элемент(ы) из буфера в текущую папку</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Вставить элемент(ы) из буфера обмена в выбранную папку</value>
   </data>
-  <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Включить компактный режим</value>
+  <data name="DeleteItemDescription" xml:space="preserve">
+    <value>Удалить элемент(ы)</value>
   </data>
-  <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Войти в компактный режим</value>
+  <data name="CreateFolderDescription" xml:space="preserve">
+    <value>Создать папку</value>
   </data>
-  <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Выйти из компактного режима</value>
+  <data name="CreateShortcutDescription" xml:space="preserve">
+    <value>Создать ярлык для выбранных элемент(-ов)</value>
+  </data>
+  <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
+    <value>Создать ярлык для любого элемента</value>
+  </data>
+  <data name="EmptyRecycleBinDescription" xml:space="preserve">
+    <value>Очистить корзину</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Opens the "Format Drive" menu for the selected item</value>
+    <value>Открыть меню "форматирование диска"</value>
+  </data>
+  <data name="RestoreRecycleBinDescription" xml:space="preserve">
+    <value>Восстановить элемент(ы) из корзины</value>
+  </data>
+  <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
+    <value>Восстановить все элементы из корзины</value>
+  </data>
+  <data name="OpenItemDescription" xml:space="preserve">
+    <value>Открыть элемент(ы)</value>
+  </data>
+  <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
+    <value>Открыть элемент(ы) в выбранном приложении</value>
+  </data>
+  <data name="OpenParentFolderDescription" xml:space="preserve">
+    <value>Открыть родительскую папку искомого элемента</value>
+  </data>
+  <data name="RefreshItemsDescription" xml:space="preserve">
+    <value>Обновить содержимое страницы</value>
+  </data>
+  <data name="RenameDescription" xml:space="preserve">
+    <value>Переименовать выбранный объект</value>
+  </data>
+  <data name="SelectAllDescription" xml:space="preserve">
+    <value>Выбрать все</value>
+  </data>
+  <data name="InvertSelectionDescription" xml:space="preserve">
+    <value>Инвертировать выделение</value>
+  </data>
+  <data name="ClearSelectionDescription" xml:space="preserve">
+    <value>Очистить выделение</value>
+  </data>
+  <data name="ToggleSelectDescription" xml:space="preserve">
+    <value>Переключить выбор элемента</value>
+  </data>
+  <data name="ShareItemDescription" xml:space="preserve">
+    <value>Отправить выбранные файл(ы) другим</value>
+  </data>
+  <data name="PinToStartDescription" xml:space="preserve">
+    <value>Закрепить элемент(ы) в меню Пуск</value>
+  </data>
+  <data name="UnpinFromStartDescription" xml:space="preserve">
+    <value>Открепить элемент(ы) из меню Пуск</value>
+  </data>
+  <data name="PinItemToFavoritesDescription" xml:space="preserve">
+    <value>Закрепить папку(и) в Избранное</value>
+  </data>
+  <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
+    <value>Открепить папку(и) из Избранного</value>
+  </data>
+  <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
+    <value>Установить как фон рабочего стола</value>
+  </data>
+  <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
+    <value>Установить как слайд-шоу рабочего стола</value>
+  </data>
+  <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
+    <value>Установить как обои экрана блокировки</value>
+  </data>
+  <data name="InstallFontDescription" xml:space="preserve">
+    <value>Установить выбранные шрифт(ы)</value>
+  </data>
+  <data name="InstallInfDriverDescription" xml:space="preserve">
+    <value>Установить драйвер(ы) с помощью выбранного inf файла(ов)</value>
+  </data>
+  <data name="RunAsAdminDescription" xml:space="preserve">
+    <value>Запустить от имени администратора</value>
+  </data>
+  <data name="RunAsAnotherUserDescription" xml:space="preserve">
+    <value>Запустить от имени другого пользователя</value>
+  </data>
+  <data name="RunWithPowershellDescription" xml:space="preserve">
+    <value>Запустить выбранный скрипт PowerShell</value>
+  </data>
+  <data name="LaunchQuickLookDescription" xml:space="preserve">
+    <value>Запустить QuickLook с выбранным элементом</value>
+  </data>
+  <data name="CompressIntoArchiveDescription" xml:space="preserve">
+    <value>Создать архив с выбранными элементами</value>
+  </data>
+  <data name="CompressIntoSevenZipDescription" xml:space="preserve">
+    <value>Создать 7-zip архив с выбранными элементами</value>
+  </data>
+  <data name="CompressIntoZipDescription" xml:space="preserve">
+    <value>Создать zip архив с выбранными элементами</value>
+  </data>
+  <data name="DecompressArchiveDescription" xml:space="preserve">
+    <value>Extract items from selected archive(s) to any folder</value>
+  </data>
+  <data name="DecompressArchiveHereDescription" xml:space="preserve">
+    <value>Extract items from selected archive(s) to current folder</value>
+  </data>
+  <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
+    <value>Extract items from selected archive(s) to new folder</value>
+  </data>
+  <data name="RotateLeftDescription" xml:space="preserve">
+    <value>Rotate selected image(s) to the left</value>
+  </data>
+  <data name="RotateRightDescription" xml:space="preserve">
+    <value>Rotate selected image(s) to the right</value>
+  </data>
+  <data name="OpenSettingsDescription" xml:space="preserve">
+    <value>Open settings page</value>
+  </data>
+  <data name="OpenTerminalDescription" xml:space="preserve">
+    <value>Open folder in terminal</value>
+  </data>
+  <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
+    <value>Open folder in terminal as administrator</value>
+  </data>
+  <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
+    <value>Decrease icon size in grid view</value>
+  </data>
+  <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
+    <value>Increase icon size in grid view</value>
+  </data>
+  <data name="LayoutDetailsDescription" xml:space="preserve">
+    <value>Switch to details view</value>
+  </data>
+  <data name="LayoutTilesDescription" xml:space="preserve">
+    <value>Switch to tiles view</value>
+  </data>
+  <data name="LayoutGridSmallDescription" xml:space="preserve">
+    <value>Switch to grid view with small icons</value>
+  </data>
+  <data name="LayoutGridMediumDescription" xml:space="preserve">
+    <value>Switch to grid view with medium icons</value>
+  </data>
+  <data name="LayoutGridLargeDescription" xml:space="preserve">
+    <value>Switch to grid view with large icons</value>
+  </data>
+  <data name="LayoutColumnsDescription" xml:space="preserve">
+    <value>Switch to columns view</value>
+  </data>
+  <data name="LayoutAdaptiveDescription" xml:space="preserve">
+    <value>Switch views adaptively</value>
+  </data>
+  <data name="SortByNameDescription" xml:space="preserve">
+    <value>Sort items by name</value>
+  </data>
+  <data name="SortByDateModifiedDescription" xml:space="preserve">
+    <value>Sort items by date modified</value>
+  </data>
+  <data name="SortByDateCreatedDescription" xml:space="preserve">
+    <value>Sort items by date created</value>
+  </data>
+  <data name="SortBySizeDescription" xml:space="preserve">
+    <value>Sort items by size</value>
+  </data>
+  <data name="SortByTypeDescription" xml:space="preserve">
+    <value>Sort items by type</value>
+  </data>
+  <data name="SortBySyncStatusDescription" xml:space="preserve">
+    <value>Sort items by sync status</value>
+  </data>
+  <data name="SortByTagDescription" xml:space="preserve">
+    <value>Sort items by tags</value>
+  </data>
+  <data name="SortByOriginalFolderDescription" xml:space="preserve">
+    <value>Sort items by original folder</value>
+  </data>
+  <data name="SortByDateDeletedDescription" xml:space="preserve">
+    <value>Sort items by date deleted</value>
+  </data>
+  <data name="SortAscendingDescription" xml:space="preserve">
+    <value>Sort items in ascending order</value>
+  </data>
+  <data name="SortDescendingDescription" xml:space="preserve">
+    <value>Sort items in descending order</value>
+  </data>
+  <data name="ToggleSortDirectionDescription" xml:space="preserve">
+    <value>Toggle item sort direction</value>
+  </data>
+  <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
+    <value>Сортировать файлы и папки вместе</value>
+  </data>
+  <data name="GroupByNoneDescription" xml:space="preserve">
+    <value>List items without grouping</value>
+  </data>
+  <data name="GroupByNameDescription" xml:space="preserve">
+    <value>Group items by name</value>
+  </data>
+  <data name="GroupByDateModifiedDescription" xml:space="preserve">
+    <value>Group items by date modified</value>
+  </data>
+  <data name="GroupByDateCreatedDescription" xml:space="preserve">
+    <value>Group items by date created</value>
+  </data>
+  <data name="GroupBySizeDescription" xml:space="preserve">
+    <value>Group items by size</value>
+  </data>
+  <data name="GroupByTypeDescription" xml:space="preserve">
+    <value>Group items by type</value>
+  </data>
+  <data name="GroupBySyncStatusDescription" xml:space="preserve">
+    <value>Group items by sync status</value>
+  </data>
+  <data name="GroupByTagDescription" xml:space="preserve">
+    <value>Group items by tags</value>
+  </data>
+  <data name="GroupByOriginalFolderDescription" xml:space="preserve">
+    <value>Group items by original folder</value>
+  </data>
+  <data name="GroupByDateDeletedDescription" xml:space="preserve">
+    <value>Group items by date deleted</value>
+  </data>
+  <data name="GroupByFolderPathDescription" xml:space="preserve">
+    <value>Group items by folder path</value>
+  </data>
+  <data name="GroupAscendingDescription" xml:space="preserve">
+    <value>Sort groups in ascending order</value>
+  </data>
+  <data name="GroupDescendingDescription" xml:space="preserve">
+    <value>Sort groups in descending order</value>
+  </data>
+  <data name="ToggleGroupDirectionDescription" xml:space="preserve">
+    <value>Toggle group sort direction</value>
+  </data>
+  <data name="NewTabDescription" xml:space="preserve">
+    <value>Open new tab</value>
+  </data>
+  <data name="NavigateBackDescription" xml:space="preserve">
+    <value>Navigate backward in navigation history</value>
+  </data>
+  <data name="NavigateForwardDescription" xml:space="preserve">
+    <value>Navigate forward in navigation history</value>
+  </data>
+  <data name="NavigateUpDescription" xml:space="preserve">
+    <value>Navigate up one directory</value>
+  </data>
+  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
+    <value>Duplicate current tab</value>
+  </data>
+  <data name="DuplicateSelectedTabDescription" xml:space="preserve">
+    <value>Duplicate selected tab</value>
+  </data>
+  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
+    <value>Close tabs to the left of current tab</value>
+  </data>
+  <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
+    <value>Close tabs to the left of selected tab</value>
+  </data>
+  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
+    <value>Close tabs to the right of current tab</value>
+  </data>
+  <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
+    <value>Close tabs to the right of selected tab</value>
+  </data>
+  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
+    <value>Close tabs other than current tab</value>
+  </data>
+  <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
+    <value>Close tabs other than selected tab</value>
+  </data>
+  <data name="ReopenClosedTabDescription" xml:space="preserve">
+    <value>Reopen last closed tab</value>
+  </data>
+  <data name="PreviousTabDescription" xml:space="preserve">
+    <value>Move to the previous tab</value>
+  </data>
+  <data name="NextTabDescription" xml:space="preserve">
+    <value>Move to the next tab</value>
+  </data>
+  <data name="CloseSelectedTabDescription" xml:space="preserve">
+    <value>Close current tab</value>
+  </data>
+  <data name="OpenNewPaneDescription" xml:space="preserve">
+    <value>Open new pane</value>
+  </data>
+  <data name="ClosePaneDescription" xml:space="preserve">
+    <value>Close right pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Toggle the sidebar</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
-    <value>Menu</value>
+    <value>Alt</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Control" xml:space="preserve">
@@ -2692,11 +2962,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Escape" xml:space="preserve">
-    <value>Escape</value>
+    <value>Esc</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Back" xml:space="preserve">
-    <value>Назад (Alt+Стрелка влево)</value>
+    <value>Backspace</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Tab" xml:space="preserve">
@@ -2877,5 +3147,65 @@
   </data>
   <data name="CloseTab" xml:space="preserve">
     <value>Закрывает текущую вкладку</value>
+  </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Edit path</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Branch: {0}</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="InvalidLocation" xml:space="preserve">
+    <value>Invalid location</value>
+  </data>
+  <data name="CopyFileWithoutProperties" xml:space="preserve">
+    <value>Are you sure you want to copy these files without their properties?</value>
+  </data>
+  <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
+    <value>These files have properties that can't be copied to the new location</value>
+  </data>
+  <data name="FilePropertiesCannotBeMoved" xml:space="preserve">
+    <value>These files have properties that can't be moved to the new location</value>
+  </data>
+  <data name="MoveFileWithoutProperties" xml:space="preserve">
+    <value>Are you sure you want to move these files without their properties?</value>
+  </data>
+  <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
+    <value>Отображать чекбоксы при выборе элементов</value>
+  </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Focus path bar</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Create new item</value>
+  </data>
+  <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
+    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+  </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Open the item's location</value>
+  </data>
+  <data name="DeletePermanently" xml:space="preserve">
+    <value>Delete permanently</value>
+  </data>
+  <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
+    <value>Delete item(s) permanently</value>
+  </data>
+  <data name="PlayAllDescription" xml:space="preserve">
+    <value>Play the selected media files</value>
+  </data>
+  <data name="UndoDescription" xml:space="preserve">
+    <value>Undo the last file operation</value>
+  </data>
+  <data name="RedoDescription" xml:space="preserve">
+    <value>Redo the last file operation</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location:</value>
   </data>
 </root>

@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -19,7 +22,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "UnpinFromFavorites".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "UnpinItemFromFavoritesDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconUnpinFromFavorites");
 

@@ -1,21 +1,23 @@
-using Files.Shared.Enums;
-using System;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Data.Exceptions;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Filesystem
 {
 	public static class FilesystemTasks
 	{
-		public static FileSystemStatusCode GetErrorCode(Exception ex, Type T = null) => (ex, (uint)ex.HResult) switch
+		public static FileSystemStatusCode GetErrorCode(Exception ex, Type? T = null) => (ex, (uint)ex.HResult) switch
 		{
 			(UnauthorizedAccessException, _) => FileSystemStatusCode.Unauthorized,
 			(FileNotFoundException, _) => FileSystemStatusCode.NotFound, // Item was deleted
 			(COMException, _) => FileSystemStatusCode.NotFound, // Item's drive was ejected
 			(_, 0x8007000F) => FileSystemStatusCode.NotFound, // The system cannot find the drive specified
 			(PathTooLongException, _) => FileSystemStatusCode.NameTooLong,
+			(FileAlreadyExistsException, _) => FileSystemStatusCode.AlreadyExists,
 			(IOException, _) => FileSystemStatusCode.InUse,
 			(ArgumentException, _) => ToStatusCode(T), // Item was invalid
 			(_, 0x800700B7) => FileSystemStatusCode.AlreadyExists,

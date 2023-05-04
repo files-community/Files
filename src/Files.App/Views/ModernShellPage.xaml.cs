@@ -1,4 +1,7 @@
-using Files.App.EventArguments;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Data.EventArguments;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -30,6 +33,8 @@ namespace Files.App.Views
 
 		protected override Frame ItemDisplay => ItemDisplayFrame;
 
+		private NavigationInteractionTracker _navigationInteractionTracker;
+
 		public Thickness CurrentInstanceBorderThickness
 		{
 			get => (Thickness)GetValue(CurrentInstanceBorderThicknessProperty);
@@ -50,10 +55,13 @@ namespace Files.App.Views
 			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
 			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
 			ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
-
 			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
+
+			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
+			_navigationInteractionTracker.NavigationRequested += OverscrollNavigationRequested;
 		}
 
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -175,6 +183,8 @@ namespace Files.App.Views
 
 			if (parameters.IsLayoutSwitch)
 				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
+			_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
+			_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
 		}
 
 		private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -190,65 +200,24 @@ namespace Files.App.Views
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
 			{
-				// Ctrl + Z, Undo
-				case (true, false, false, true, VirtualKey.Z):
-					if (!InstanceViewModel.IsPageTypeSearchResults)
-						await storageHistoryHelpers.TryUndo();
-					break;
-				// Ctrl + Y, Redo
-				case (true, false, false, true, VirtualKey.Y):
-					if (!InstanceViewModel.IsPageTypeSearchResults)
-						await storageHistoryHelpers.TryRedo();
-					break;
-				// Ctrl + Shift + N, New item
-				case (true, true, false, true, VirtualKey.N):
-					if (InstanceViewModel.CanCreateFileInPage)
-					{
-						var addItemDialogViewModel = new AddItemDialogViewModel();
-						await dialogService.ShowDialogAsync(addItemDialogViewModel);
-
-						if (addItemDialogViewModel.ResultType.ItemType == AddItemDialogItemType.Shortcut)
-							CreateNewShortcutFromDialog();
-						else if (addItemDialogViewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
-							UIFilesystemHelpers.CreateFileFromDialogResultType(
-								addItemDialogViewModel.ResultType.ItemType,
-								addItemDialogViewModel.ResultType.ItemInfo,
-								this);
-					}
-					break;
-				// Shift + Del, Permanent delete
-				case (false, true, false, true, VirtualKey.Delete):
-					if (ContentPage.IsItemSelected && !ToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
-					{
-						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
-							item.ItemPath,
-							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-
-						await FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, true, true);
-					}
-					break;
 				// Ctrl + V, Paste
 				case (true, false, false, true, VirtualKey.V):
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
 						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
 					break;
-				// Ctrl + D, Delete item
-				case (true, false, false, true, VirtualKey.D):
-					if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
-					{
-						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
-							item.ItemPath,
-							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+			}
+		}
 
-						await FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
-					}
+		private void OverscrollNavigationRequested(object? sender, OverscrollNavigationEventArgs e)
+		{
+			switch (e)
+			{
+				case OverscrollNavigationEventArgs.Forward:
+					Forward_Click();
 					break;
-				// Alt + D, Select address bar (English)
-				case (false, false, true, _, VirtualKey.D):
-				// Ctrl + L, Select address bar
-				case (true, false, false, _, VirtualKey.L):
-					if (tabInstance || CurrentPageType == typeof(HomePage))
-						ToolbarViewModel.IsEditModeEnabled = true;
+
+				case OverscrollNavigationEventArgs.Back:
+					Back_Click();
 					break;
 			}
 		}
@@ -317,6 +286,8 @@ namespace Files.App.Views
 		public override void Dispose()
 		{
 			ToolbarViewModel.RefreshWidgetsRequested -= ModernShellPage_RefreshWidgetsRequested;
+			_navigationInteractionTracker.NavigationRequested -= OverscrollNavigationRequested;
+			_navigationInteractionTracker.Dispose();
 
 			base.Dispose();
 		}
@@ -351,7 +322,7 @@ namespace Files.App.Views
 					navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
 						FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
 						StringComparison.OrdinalIgnoreCase)) &&
-					(TabItemArguments.NavigationArg is not string navArg ||
+					(TabItemArguments?.NavigationArg is not string navArg ||
 					string.IsNullOrEmpty(navArg) ||
 					!navArg.StartsWith("tag:"))) // Return if already selected
 				{

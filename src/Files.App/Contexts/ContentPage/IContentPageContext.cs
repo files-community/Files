@@ -1,4 +1,7 @@
-﻿using Files.App.Filesystem;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Filesystem;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,5 +29,10 @@ namespace Files.App.Contexts
 		bool CanNavigateToParent { get; }
 
 		bool IsSearchBoxVisible { get; }
+
+		bool CanCreateItem { get; }
+
+		bool IsMultiPaneEnabled { get; }
+		bool IsMultiPaneActive { get; }
 	}
 }

@@ -1,4 +1,5 @@
-﻿<Page
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<Page
 	x:Class="Files.App.Views.Settings.AdvancedPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -26,16 +27,16 @@
 			Spacing="4">
 			<StackPanel.ChildrenTransitions>
 				<TransitionCollection>
-					<EntranceThemeTransition />
+					<RepositionThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
-			<!--  Manage Settings  -->
+			<!--  Title  -->
 			<TextBlock
-				Padding="0,0,0,4"
-				FontSize="14"
+				Padding="0,0,0,12"
+				FontSize="24"
 				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=ManageSettings}" />
+				Text="{helpers:ResourceString Name=Advanced}" />
 
 			<!--  Export  -->
 			<local:SettingsBlockControl
@@ -82,8 +83,8 @@
 
 			<!--  Default file manager  -->
 			<TextBlock
-				Padding="0,12,0,4"
-				FontSize="14"
+				Padding="0,16,0,4"
+				FontSize="16"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=ExperimentalFeatureFlags}" />
 

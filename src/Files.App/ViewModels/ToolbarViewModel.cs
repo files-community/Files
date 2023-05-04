@@ -1,34 +1,24 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Filesystem;
+using Files.App.Data.Items;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Shell;
 using Files.App.UserControls;
 using Files.App.Views;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
-using Files.Shared.Extensions;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Text;
@@ -41,7 +31,8 @@ namespace Files.App.ViewModels
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
+		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
 
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
@@ -244,11 +235,11 @@ namespace Files.App.ViewModels
 			switch (e.SettingName)
 			{
 				// TODO: Move this to the widget page, it doesn't belong here.
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowQuickAccessWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowDrivesWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowBundlesWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowFileTagsWidget):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowDrivesWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowBundlesWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowFileTagsWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget):
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 					OnPropertyChanged(e.SettingName);
 					break;
@@ -287,7 +278,7 @@ namespace Files.App.ViewModels
 
 		private bool lockFlag = false;
 
-		public async void PathBoxItem_Drop(object sender, DragEventArgs e)
+		public async Task PathBoxItem_Drop(object sender, DragEventArgs e)
 		{
 			if (lockFlag)
 				return;
@@ -323,7 +314,7 @@ namespace Files.App.ViewModels
 			lockFlag = false;
 		}
 
-		public async void PathBoxItem_DragOver(object sender, DragEventArgs e)
+		public async Task PathBoxItem_DragOver(object sender, DragEventArgs e)
 		{
 			if (IsSingleItemOverride ||
 				((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
@@ -478,7 +469,7 @@ namespace Files.App.ViewModels
 			pointerRoutedEventArgs = ptrPt.Properties.IsMiddleButtonPressed ? e : null;
 		}
 
-		public async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
+		public async Task PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var itemTappedPath = ((sender as TextBlock)?.DataContext as PathBoxItem)?.Path;
 			if (itemTappedPath is null)
@@ -486,9 +477,9 @@ namespace Files.App.ViewModels
 
 			if (pointerRoutedEventArgs is not null)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
+					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);
 				e.Handled = true;
 				pointerRoutedEventArgs = null;
@@ -567,10 +558,6 @@ namespace Files.App.ViewModels
 
 		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
 
-		public ICommand? OpenNewPaneCommand { get; set; }
-
-		public ICommand? ClosePaneCommand { get; set; }
-
 		public ICommand? CreateNewFileCommand { get; set; }
 
 		public ICommand? Share { get; set; }
@@ -578,8 +565,6 @@ namespace Files.App.ViewModels
 		public ICommand PropertiesCommand { get; set; }
 
 		public ICommand? UpdateCommand { get; set; }
-
-		public ICommand? PlayAllCommand { get; set; }
 
 		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
 		{
@@ -670,13 +655,13 @@ namespace Files.App.ViewModels
 					if (currentSelectedPath == currentInput)
 						return;
 
-					var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentInput));
+					var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(currentInput));
 
 					var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
 					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
 					{
-						var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
-						if (matchingDrive is not null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
+						if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
 							if (ejectButton)
@@ -746,7 +731,7 @@ namespace Files.App.ViewModels
 			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
 		}
 
-		public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
+		public async Task SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
 		{
 			if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel is not null)
 			{
@@ -862,7 +847,6 @@ namespace Files.App.ViewModels
 					OnPropertyChanged(nameof(IsImage));
 					OnPropertyChanged(nameof(IsMultipleImageSelected));
 					OnPropertyChanged(nameof(IsFont));
-					OnPropertyChanged(nameof(IsMultipleMediaFilesSelected));
 					OnPropertyChanged(nameof(HasAdditionalAction));
 				}
 			}
@@ -880,7 +864,6 @@ namespace Files.App.ViewModels
 		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsMultipleMediaFilesSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsMediaFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
 		public string ExtractToText
 			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();

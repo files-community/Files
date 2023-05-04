@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.LocatableStorage;
 using FluentFTP;
@@ -8,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
 {
-	public sealed class FtpStorageService : IStorageService
+	public sealed class FtpStorageService : IFtpStorageService
 	{
 		public Task<bool> IsAccessibleAsync(CancellationToken cancellationToken = default)
 		{

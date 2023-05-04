@@ -1,16 +1,14 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views.LayoutModes;
-using Files.Backend.Services.Settings;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Windows.System;
 
 namespace Files.App.Views
@@ -29,7 +27,7 @@ namespace Files.App.Views
 
 		public event EventHandler<TabItemArguments> ContentChanged;
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public IFilesystemHelpers FilesystemHelpers
 			=> ActivePane?.FilesystemHelpers;
@@ -191,14 +189,12 @@ namespace Files.App.Views
 			}
 		}
 
-		public const VirtualKey PlusKey = (VirtualKey)187;
-
 		public PaneHolderPage()
 		{
 			InitializeComponent();
 			App.Window.SizeChanged += Current_SizeChanged;
 			ActivePane = PaneLeft;
-			IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;
+			IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.GeneralSettingsService.AlwaysOpenDualPaneInNewTab;
 
 			// TODO?: Fallback or an error can occur when failing to get NavigationViewCompactPaneLength value
 		}
@@ -250,6 +246,8 @@ namespace Files.App.Views
 		{
 			if (PaneRight is not null && PaneRight.ActualWidth <= 300)
 				IsRightPaneVisible = false;
+
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
 		private void Pane_ContentChanged(object sender, TabItemArguments e)
@@ -297,19 +295,6 @@ namespace Files.App.Views
 					IsRightPaneVisible = true;
 					ActivePane = PaneRight;
 					break;
-
-				case (true, true, false, VirtualKey.W): // ctrl + shift + "W" close right pane
-					IsRightPaneVisible = false;
-					break;
-
-				case (false, true, true, VirtualKey.Add): // alt + shift + "+" open pane
-				case (false, true, true, PlusKey):
-					if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
-					{
-						NavParamsRight = new NavigationParams { NavPath = "Home" };
-					}
-					IsRightPaneVisible = true;
-					break;
 			}
 		}
 
@@ -322,6 +307,7 @@ namespace Files.App.Views
 		{
 			// NOTE: Can only close right pane at the moment
 			IsRightPaneVisible = false;
+			PaneLeft.Focus(FocusState.Programmatic);
 		}
 
 		private void Pane_Loaded(object sender, RoutedEventArgs e)
@@ -353,13 +339,23 @@ namespace Files.App.Views
 			LeftColumn.Width = new GridLength(1, GridUnitType.Star);
 			RightColumn.Width = new GridLength(1, GridUnitType.Star);
 		}
+
+		private void PaneResizer_Loaded(object sender, RoutedEventArgs e)
+		{
+			PaneResizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+		}
+
+		private void PaneResizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+		{
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+		}
 	}
 
 	public class PaneNavigationArguments
 	{
-		public string LeftPaneNavPathParam { get; set; } = null;
-		public string LeftPaneSelectItemParam { get; set; } = null;
-		public string RightPaneNavPathParam { get; set; } = null;
-		public string RightPaneSelectItemParam { get; set; } = null;
+		public string? LeftPaneNavPathParam { get; set; } = null;
+		public string? LeftPaneSelectItemParam { get; set; } = null;
+		public string? RightPaneNavPathParam { get; set; } = null;
+		public string? RightPaneSelectItemParam { get; set; } = null;
 	}
 }

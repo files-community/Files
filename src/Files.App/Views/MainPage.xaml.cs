@@ -1,35 +1,30 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.DataModels;
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
+using Files.App.Data.Items;
+using Files.App.Data.Models;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.Backend.Extensions;
-using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Windows.ApplicationModel.Resources;
-using System;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.Storage;
 using Windows.System;
+using WinRT.Interop;
 
 namespace Files.App.Views
 {
@@ -50,11 +45,6 @@ namespace Files.App.Views
 		public static AppModel AppModel
 			=> App.AppModel;
 
-		/// <summary>
-		/// True if the user is currently resizing the preview pane
-		/// </summary>
-		private bool draggingPreviewPane;
-
 		private bool keyReleased = true;
 
 		public MainPage()
@@ -69,8 +59,7 @@ namespace Files.App.Views
 			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
-			var flowDirectionSetting = new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
-			if (flowDirectionSetting == "RTL")
+			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -93,7 +82,10 @@ namespace Files.App.Views
 				try
 				{
 					var storeContext = StoreContext.GetDefault();
-					await storeContext.RequestRateAndReviewAppAsync();
+					InitializeWithWindow.Initialize(storeContext, App.WindowHandle);
+					var storeRateAndReviewResult = await storeContext.RequestRateAndReviewAppAsync();
+
+					App.Logger.LogInformation($"STORE: review request status: {storeRateAndReviewResult.Status}");
 
 					UserSettingsService.ApplicationSettingsService.ClickedToReviewApp = true;
 				}
@@ -196,11 +188,7 @@ namespace Files.App.Views
 				NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
 
 			if (InnerNavigationToolbar is not null)
-			{
 				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
-				InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
-				InnerNavigationToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-			}
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -286,9 +274,9 @@ namespace Files.App.Views
 		private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
 		{
 			if (e.InvokedItemDataContext is DriveItem)
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
+				FilePropertiesHelpers.OpenPropertiesWindow(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			else if (e.InvokedItemDataContext is LibraryLocationItem library)
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
+				FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			else if (e.InvokedItemDataContext is LocationItem locationItem)
 			{
 				ListedItem listedItem = new ListedItem(null!)
@@ -299,7 +287,7 @@ namespace Files.App.Views
 					ItemType = "Folder".GetLocalizedResource(),
 				};
 
-				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
+				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			}
 		}
 
@@ -450,6 +438,7 @@ namespace Files.App.Views
 						PaneSplitter.Width = 2;
 						PaneSplitter.Height = RootGrid.ActualHeight;
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
+						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 						PaneColumn.MinWidth = PreviewPane.MinWidth;
 						PaneColumn.MaxWidth = PreviewPane.MaxWidth;
 						PaneColumn.Width = new GridLength(UserSettingsService.PreviewPaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
@@ -465,6 +454,7 @@ namespace Files.App.Views
 						PaneSplitter.Height = 2;
 						PaneSplitter.Width = RootGrid.ActualWidth;
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeNorthSouth;
+						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth));
 						PaneColumn.MinWidth = 0;
 						PaneColumn.MaxWidth = double.MaxValue;
 						PaneColumn.Width = new GridLength(0);
@@ -474,11 +464,6 @@ namespace Files.App.Views
 						break;
 				}
 			}
-		}
-
-		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-		{
-			draggingPreviewPane = true;
 		}
 
 		private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
@@ -493,22 +478,7 @@ namespace Files.App.Views
 					break;
 			}
 
-			draggingPreviewPane = false;
-		}
-
-		private void PaneSplitter_PointerExited(object sender, PointerRoutedEventArgs e)
-		{
-			if (draggingPreviewPane)
-				return;
-
-			var paneSplitter = (GridSplitter)sender;
-			paneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-		}
-
-		private void PaneSplitter_PointerEntered(object sender, PointerRoutedEventArgs e)
-		{
-			var paneSplitter = (GridSplitter)sender;
-			paneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
 		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
@@ -562,5 +532,11 @@ namespace Files.App.Views
 		}
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
+
+		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+		{
+			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ? 
+				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
+		}
 	}
 }

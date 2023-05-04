@@ -1,4 +1,5 @@
-﻿<vm:BasePropertiesPage
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<vm:BasePropertiesPage
 	x:Class="Files.App.Views.Properties.HashesPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,6 +10,7 @@
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	DataContext="{x:Bind HashesViewModel, Mode=OneWay}"
+	Tag="Hashes"
 	mc:Ignorable="d">
 
 	<vm:BasePropertiesPage.Resources>
@@ -49,21 +51,29 @@
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
+
+						<!--  Algorithm  -->
 						<TextBlock
 							VerticalAlignment="Center"
 							Style="{StaticResource BodyTextBlockStyle}"
 							Text="{helpers:ResourceString Name=Algorithm}" />
+
+						<!--  (Divider)  -->
 						<Border
 							Grid.Column="1"
 							Width="1"
 							Height="36"
 							VerticalAlignment="Bottom"
 							Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+						<!--  Hash  -->
 						<TextBlock
 							Grid.Column="2"
 							VerticalAlignment="Center"
 							Style="{StaticResource BodyTextBlockStyle}"
 							Text="{helpers:ResourceString Name=HashValue}" />
+
+						<!--  Toggle Hashes  -->
 						<Button
 							x:Name="SelectAlgorithmsButton"
 							Grid.Column="3"
@@ -75,36 +85,42 @@
 							<FontIcon FontSize="14" Glyph="&#xE7B3;" />
 							<Button.Flyout>
 								<MenuFlyout x:Name="SelectAlgorithmsMenuFlyout" Closing="MenuFlyout_Closing">
-									<ToggleMenuFlyoutItem Text="CRC32"
-														  IsChecked="{x:Bind HashesViewModel.ShowHashes['CRC32']}"
-														  Click="ToggleMenuFlyoutItem_Click"
-														  Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
-														  CommandParameter="CRC32" />
-									<ToggleMenuFlyoutItem Text="MD5"
-														  IsChecked="{x:Bind HashesViewModel.ShowHashes['MD5']}"
-														  Click="ToggleMenuFlyoutItem_Click"
-														  Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
-														  CommandParameter="MD5" />
-									<ToggleMenuFlyoutItem Text="SHA1"
-														  IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA1']}"
-														  Click="ToggleMenuFlyoutItem_Click"
-														  Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
-														  CommandParameter="SHA1" />
-									<ToggleMenuFlyoutItem Text="SHA256"
-														  IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA256']}"
-														  Click="ToggleMenuFlyoutItem_Click"
-														  Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
-														  CommandParameter="SHA256" />
-									<ToggleMenuFlyoutItem Text="SHA384"
-														  IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA384']}"
-														  Click="ToggleMenuFlyoutItem_Click"
-														  Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
-														  CommandParameter="SHA384" />
-									<ToggleMenuFlyoutItem Text="SHA512"
-														  IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA512']}"
-														  Click="ToggleMenuFlyoutItem_Click"
-														  Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
-														  CommandParameter="SHA512" />
+									<ToggleMenuFlyoutItem
+										Click="ToggleMenuFlyoutItem_Click"
+										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+										CommandParameter="CRC32"
+										IsChecked="{x:Bind HashesViewModel.ShowHashes['CRC32']}"
+										Text="CRC32" />
+									<ToggleMenuFlyoutItem
+										Click="ToggleMenuFlyoutItem_Click"
+										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+										CommandParameter="MD5"
+										IsChecked="{x:Bind HashesViewModel.ShowHashes['MD5']}"
+										Text="MD5" />
+									<ToggleMenuFlyoutItem
+										Click="ToggleMenuFlyoutItem_Click"
+										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+										CommandParameter="SHA1"
+										IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA1']}"
+										Text="SHA1" />
+									<ToggleMenuFlyoutItem
+										Click="ToggleMenuFlyoutItem_Click"
+										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+										CommandParameter="SHA256"
+										IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA256']}"
+										Text="SHA256" />
+									<ToggleMenuFlyoutItem
+										Click="ToggleMenuFlyoutItem_Click"
+										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+										CommandParameter="SHA384"
+										IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA384']}"
+										Text="SHA384" />
+									<ToggleMenuFlyoutItem
+										Click="ToggleMenuFlyoutItem_Click"
+										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
+										CommandParameter="SHA512"
+										IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA512']}"
+										Text="SHA512" />
 								</MenuFlyout>
 							</Button.Flyout>
 						</Button>
@@ -142,9 +158,9 @@
 								<!--  Copy button  -->
 								<Button
 									x:Name="CopyHashButton"
-									x:Load="{x:Bind IsCalculated, Mode=OneWay}"
 									Grid.Column="3"
 									Padding="6"
+									x:Load="{x:Bind IsCalculated, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Copy}"
 									Background="Transparent"
 									BorderBrush="Transparent"

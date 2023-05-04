@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.ViewModels.Widgets;
@@ -27,7 +30,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "Bundles".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowBundlesWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowBundlesWidget;
 		
 		public bool ShowMenuFlyout => false;
 

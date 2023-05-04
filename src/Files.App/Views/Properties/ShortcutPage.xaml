@@ -1,4 +1,5 @@
-﻿<vm:BasePropertiesPage
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<vm:BasePropertiesPage
 	x:Class="Files.App.Views.Properties.ShortcutPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,6 +9,7 @@
 	xmlns:settingsuc="using:Files.App.UserControls.Settings"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Loaded="Properties_Loaded"
+	Tag="Shortcut"
 	mc:Ignorable="d">
 
 	<vm:BasePropertiesPage.Resources>
@@ -19,7 +21,7 @@
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
 
-	<ScrollViewer>
+	<ScrollViewer x:Name="RootScrollViewer">
 		<StackPanel Padding="12" Spacing="4">
 
 			<Grid

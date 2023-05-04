@@ -1,5 +1,7 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.CommandLine;
-using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Backend.Helpers;
 using Files.Shared.Extensions;
@@ -14,7 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using static UWPToWinAppSDKUpgradeHelpers.InteropHelpers;
+using static Files.App.Helpers.InteropHelpers;
 
 namespace Files.App
 {

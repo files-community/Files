@@ -1,8 +1,11 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Data.Items;
 using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.Shell;
 using Files.App.ViewModels;
@@ -63,7 +66,7 @@ namespace Files.App.Helpers
 			}
 
 			var contextMenu = await ContextMenu.GetContextMenuForFiles(filePaths,
-				(shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(showOpenMenu));
+				shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL, FilterMenuItems(showOpenMenu));
 
 			if (contextMenu is not null)
 				LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items, cancellationToken, true);
@@ -178,7 +181,7 @@ namespace Files.App.Helpers
 				}
 			}
 
-			async void InvokeShellMenuItem(ContextMenu contextMenu, object? tag)
+			async Task InvokeShellMenuItem(ContextMenu contextMenu, object? tag)
 			{
 				if (tag is not Win32ContextMenuItem menuItem)
 					return;
@@ -265,7 +268,7 @@ namespace Files.App.Helpers
 				if (sendToItem is not null)
 					shellMenuItems.Remove(sendToItem);
 
-				if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+				if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 				{
 					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
 					if (secondaryElements.Any())
@@ -309,9 +312,9 @@ namespace Files.App.Helpers
 				}
 
 				// Add items to openwith dropdown
-				if (openWithItem is not null)
+				if (openWithItem?.LoadSubMenuAction is not null)
 				{
-					await openWithItem.LoadSubMenuAction.Invoke();
+					await openWithItem.LoadSubMenuAction();
 
 					openWithItem.OpacityIcon = new OpacityIconModel()
 					{
@@ -325,9 +328,9 @@ namespace Files.App.Helpers
 				}
 
 				// Add items to sendto dropdown
-				if (sendToItem is not null)
+				if (sendToItem?.LoadSubMenuAction is not null)
 				{
-					await sendToItem.LoadSubMenuAction.Invoke();
+					await sendToItem.LoadSubMenuAction();
 
 					var (_, sendToItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { sendToItem });
 					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")).FirstOrDefault() as AppBarButton;
@@ -338,9 +341,9 @@ namespace Files.App.Helpers
 
 				// Add items to shell submenu
 				shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
-					await x.LoadSubMenuAction.Invoke();
+					await x.LoadSubMenuAction();
 
-					if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 					{
 						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, x);
 					}

@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Files.Backend.Extensions;
@@ -114,14 +117,14 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 			}
 		}
 
-		public FileNameConflictResolveOptionType LoadConflictResolveOption() => UserSettingsService.PreferencesSettingsService.ConflictsResolveOption;
+		public FileNameConflictResolveOptionType LoadConflictResolveOption() => UserSettingsService.GeneralSettingsService.ConflictsResolveOption;
 
 		public void SaveConflictResolveOption()
 		{
 			if (AggregatedResolveOption != FileNameConflictResolveOptionType.None
-				&& AggregatedResolveOption != UserSettingsService.PreferencesSettingsService.ConflictsResolveOption)
+				&& AggregatedResolveOption != UserSettingsService.GeneralSettingsService.ConflictsResolveOption)
 			{
-				UserSettingsService.PreferencesSettingsService.ConflictsResolveOption = AggregatedResolveOption;
+				UserSettingsService.GeneralSettingsService.ConflictsResolveOption = AggregatedResolveOption;
 			}
 		}
 

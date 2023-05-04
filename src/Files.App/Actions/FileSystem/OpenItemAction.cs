@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -19,7 +22,7 @@ namespace Files.App.Actions
 
 		public string Label => "Open".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "OpenItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph => new(opacityStyle: "ColorIconOpenFile");
 
@@ -53,7 +56,7 @@ namespace Files.App.Actions
 
 		public string Label => "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "OpenItemWithApplicationPickerDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph => new(opacityStyle: "ColorIconOpenWith");
 
@@ -83,7 +86,7 @@ namespace Files.App.Actions
 
 		public string Label => "BaseLayoutItemContextFlyoutOpenParentFolder/Text".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "OpenParentFolderDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph => new(baseGlyph: "\uE197");
 

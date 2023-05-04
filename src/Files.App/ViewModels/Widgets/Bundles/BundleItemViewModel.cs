@@ -1,17 +1,10 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Filesystem;
-using Files.App.Helpers;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Views;
 using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage.FileProperties;
 
@@ -34,6 +27,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private readonly IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
+		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 		/// <summary>
 		/// The name of a bundle this item is contained within
@@ -68,7 +62,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public bool OpenInNewPaneLoad
 		{
-			get => UserSettingsService.PreferencesSettingsService.ShowOpenInNewPane && TargetType == FilesystemItemType.Directory;
+			get => UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && TargetType == FilesystemItemType.Directory;
 		}
 
 		#endregion Properties
@@ -94,7 +88,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			TargetType = targetType;
 
 			// Create commands
-			OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
+			OpenInNewTabCommand = new AsyncRelayCommand(OpenInNewTab);
 			OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
 			OpenItemLocationCommand = new RelayCommand(OpenItemLocation);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
@@ -104,9 +98,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		#region Command Implementation
 
-		private async void OpenInNewTab()
+		private async Task OpenInNewTab()
 		{
-			await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
+			await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
 		}
 
 		private void OpenInNewPane()

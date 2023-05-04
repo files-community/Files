@@ -1,20 +1,15 @@
-﻿using CommunityToolkit.WinUI.UI;
-using Files.App.Filesystem;
-using Files.App.Helpers;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.WinUI.UI;
 using Files.App.Helpers.XamlHelpers;
-using Files.App.Interacts;
 using Files.App.UserControls;
-using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -86,7 +81,7 @@ namespace Files.App
 			ReloadSelectedItemIcon();
 		}
 
-		protected virtual async void ReloadSelectedItemIcon()
+		protected virtual async Task ReloadSelectedItemIcon()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
@@ -94,7 +89,7 @@ namespace Files.App
 			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, IconSize);
 		}
 
-		protected virtual async void ReloadSelectedItemsIcon()
+		protected virtual async Task ReloadSelectedItemsIcon()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 
@@ -160,7 +155,7 @@ namespace Files.App
 				RootZoom.IsZoomedInViewActive = true;
 		}
 
-		protected virtual async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected virtual void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 		}

@@ -1,4 +1,5 @@
-﻿<local:HomePageWidget
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<local:HomePageWidget
 	x:Class="Files.App.UserControls.Widgets.RecentFilesWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -42,6 +43,7 @@
 			ItemClick="RecentsView_ItemClick"
 			ItemContainerTransitions="{x:Null}"
 			ItemsSource="{x:Bind recentItemsCollection}"
+			RightTapped="ListView_RightTapped"
 			SelectionMode="None">
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
@@ -57,8 +59,6 @@
 						VerticalAlignment="Stretch"
 						AutomationProperties.Name="{x:Bind Name}"
 						ColumnSpacing="14"
-						DataContext="{x:Bind}"
-						RightTapped="Grid_RightTapped"
 						ToolTipService.ToolTip="{x:Bind RecentPath}">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />

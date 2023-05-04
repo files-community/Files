@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;

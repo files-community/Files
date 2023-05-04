@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Helpers;
@@ -7,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal class DecompressArchiveHere : BaseUIAction
+	internal class DecompressArchiveHere : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public override string Label => "ExtractHere".GetLocalizedResource();
+		public string Label => "ExtractHere".GetLocalizedResource();
 
-		public override string Description => "TODO: Need to be described.";
+		public string Description => "DecompressArchiveHereDescription".GetLocalizedResource();
 
 		public override bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
@@ -25,7 +28,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public override async Task ExecuteAsync()
+		public async Task ExecuteAsync()
 		{
 			await ArchiveHelpers.DecompressArchiveHere(context.ShellPage);
 		}

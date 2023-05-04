@@ -1,6 +1,12 @@
-﻿using Files.App.Extensions;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Data.Items;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
+using Files.App.ViewModels;
 using Files.Shared.Extensions;
 using Files.Shared.Services;
 using System;
@@ -109,15 +115,21 @@ namespace Files.App.ServicesImplementation
 		{
 			if (instance is not null)
 			{
-				string displayName = null;
-				if (path.EndsWith("\\"))
+				string? displayName = null;
+
+				if (path.StartsWith("\\\\SHELL", StringComparison.OrdinalIgnoreCase))
+					displayName = "ThisPC".GetLocalizedResource();
+				
+				if (path.EndsWith('\\'))
 				{
+					var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
 					// Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
-					var drive = App.DrivesManager.Drives.Where(drive => drive.Path == path).FirstOrDefault();
+					var drive = drivesViewModel.Drives.Where(drive => drive.Path == path).FirstOrDefault();
 					if (drive is null)
 						return;
 
-					displayName = drive.Text;
+					displayName = (drive as DriveItem)?.Text;
 					path += '?';
 				}
 
@@ -128,6 +140,8 @@ namespace Files.App.ServicesImplementation
 						displayName = "ms-resource:///Resources/Desktop";
 					else if (path.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "ms-resource:///Resources/Downloads";
+					else if (path.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+						displayName = "Network".GetLocalizedResource();
 					else if (path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "RecycleBin".GetLocalizedResource();
 					else if (path.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
@@ -137,28 +151,18 @@ namespace Files.App.ServicesImplementation
 					else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
 					{
 						var libName = Path.GetFileNameWithoutExtension(library.Path);
-						switch (libName)
+						displayName = libName switch
 						{
-							case "Documents":
-							case "Pictures":
-							case "Music":
-							case "Videos":
-								// Use localized name
-								displayName = $"ms-resource:///Resources/{libName}";
-								break;
-
-							default:
-								// Use original name
-								displayName = library.Text;
-								break;
-						}
+							"Documents" or "Pictures" or "Music" or "Videos" => $"ms-resource:///Resources/{libName}",// Use localized name
+							_ => library.Text,// Use original name
+						};
 					}
 					else
 						displayName = Path.GetFileName(path);
 				}
 
 				var jumplistItem = JumpListItem.CreateWithArguments(path, displayName);
-				jumplistItem.Description = jumplistItem.Arguments;
+				jumplistItem.Description = jumplistItem.Arguments ?? string.Empty;
 				jumplistItem.GroupName = group;
 				jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
 

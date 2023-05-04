@@ -1,4 +1,5 @@
-﻿<UserControl
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<UserControl
 	x:Class="Files.App.UserControls.AddressToolbar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -108,7 +109,7 @@
 					Command="{x:Bind Commands.RefreshItems, Mode=OneWay}"
 					IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey}">
+					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
 				</Button>
 			</StackPanel>
@@ -193,7 +194,7 @@
 					Command="{x:Bind ViewModel.Commands.Search, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.Commands.Search.IsExecutable}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.Search.LabelWithHotKey}"
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.Search.LabelWithHotKey, Mode=OneWay}"
 					Visibility="Collapsed">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
 				</Button>
@@ -294,6 +295,7 @@
 					AutomationProperties.Name="{x:Bind ViewModel.Commands.OpenSettings.Label, Mode=OneWay}"
 					Command="{x:Bind ViewModel.Commands.OpenSettings, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
+					ToolTipService.Placement="Bottom"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}"
 					Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
 					<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">

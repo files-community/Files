@@ -1,12 +1,10 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.DataModels;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Data.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using Windows.Foundation;
 using Windows.System;
 

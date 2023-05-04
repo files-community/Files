@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Extensions;
 using Files.App.Shell;
@@ -138,22 +141,30 @@ namespace Files.App.Helpers
 			}
 		}
 
-		private static IEnumerable<IconFileInfo> IconResources = UIHelpers.LoadSidebarIconResources();
+		private static IEnumerable<IconFileInfo> SidebarIconResources = LoadSidebarIconResources();
 
-		public static IconFileInfo GetIconResourceInfo(int index)
+		private static IconFileInfo ShieldIconResource = LoadShieldIconResource();
+
+		public static IconFileInfo GetSidebarIconResourceInfo(int index)
 		{
-			var icons = UIHelpers.IconResources;
+			var icons = UIHelpers.SidebarIconResources;
 			return icons is not null ? icons.FirstOrDefault(x => x.Index == index) : null;
 		}
 
-		public static async Task<BitmapImage> GetIconResource(int index)
+		public static async Task<BitmapImage?> GetSidebarIconResource(int index)
 		{
-			var iconInfo = GetIconResourceInfo(index);
-			if (iconInfo is not null)
-			{
-				return await iconInfo.IconData.ToBitmapAsync();
-			}
-			return null;
+			var iconInfo = GetSidebarIconResourceInfo(index);
+
+			return iconInfo is not null
+				? await iconInfo.IconData.ToBitmapAsync()
+				: null;
+		}
+
+		public static async Task<BitmapImage?> GetShieldIconResource()
+		{
+			return ShieldIconResource is not null
+				? await ShieldIconResource.IconData.ToBitmapAsync()
+				: null;
 		}
 
 		private static IEnumerable<IconFileInfo> LoadSidebarIconResources()
@@ -169,6 +180,16 @@ namespace Files.App.Helpers
 				}, 32);
 
 			return imageResList;
+		}
+
+		private static IconFileInfo LoadShieldIconResource()
+		{
+			string imageres = Path.Combine(CommonPaths.SystemRootPath, "System32", "imageres.dll");
+			var imageResList = Win32API.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
+					Constants.ImageRes.ShieldIcon
+				}, 16);
+
+			return imageResList.First();
 		}
 	}
 }

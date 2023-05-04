@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
@@ -15,7 +18,7 @@ namespace Files.App.Actions
 		public bool IsExecutable => context.SelectedItem is not null &&
 			FileExtensionHelpers.IsExecutableFile(context.SelectedItem.FileExtension);
 		public string Label => "RunAsAdministrator".GetLocalizedResource();
-		public string Description => "TODO: Need to be described.";
+		public string Description => "RunAsAdminDescription".GetLocalizedResource();
 		public RichGlyph Glyph => new("\uE7EF");
 
 		public RunAsAdminAction()

@@ -1,4 +1,5 @@
-﻿<ContentDialog
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ContentDialog
 	x:Class="Files.App.Dialogs.SettingsDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -19,6 +20,8 @@
 
 			<x:Double x:Key="ContentDialogMaxWidth">1100</x:Double>
 			<Thickness x:Key="ContentDialogPadding">0</Thickness>
+			<SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
+			<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
 		</ResourceDictionary>
 	</ContentDialog.Resources>
 
@@ -30,6 +33,14 @@
 			<RowDefinition Height="44" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
+
+		<!--  Smokescreen for displaying a semi transparent background  -->
+		<Border
+			Grid.RowSpan="2"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Background="{ThemeResource App.Theme.BackgroundBrush}"
+			Opacity=".4" />
 
 		<!--  Titlebar  -->
 		<Grid Grid.Row="0" Padding="8,0">
@@ -50,6 +61,7 @@
 				Background="Transparent"
 				BorderBrush="Transparent"
 				Click="CloseSettingsDialogButton_Click"
+				ToolTipService.Placement="Bottom"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
 				<FontIcon FontSize="12" Glyph="&#xE8BB;" />
 			</Button>
@@ -71,22 +83,22 @@
 			<!--  Menu Items  -->
 			<NavigationView.MenuItems>
 				<NavigationViewItem
-					AccessKey="A"
-					AutomationProperties.AutomationId="SettingsItemAppearance"
-					Content="{helpers:ResourceString Name=Appearance}"
+					AccessKey="P"
+					AutomationProperties.AutomationId="SettingsItemGeneral"
+					Content="{helpers:ResourceString Name=General}"
 					IsSelected="True"
 					Tag="0">
 					<NavigationViewItem.Icon>
-						<FontIcon HorizontalAlignment="Left" Glyph="&#xE790;" />
+						<FontIcon Glyph="&#xE9E9;" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem
-					AccessKey="P"
-					AutomationProperties.AutomationId="SettingsItemPreferences"
-					Content="{helpers:ResourceString Name=SettingsNavPreferences/Content}"
+					AccessKey="A"
+					AutomationProperties.AutomationId="SettingsItemAppearance"
+					Content="{helpers:ResourceString Name=Appearance}"
 					Tag="1">
 					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE9E9;" />
+						<FontIcon HorizontalAlignment="Left" Glyph="&#xE790;" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem
@@ -129,10 +141,7 @@
 
 			<!--  Content Frame  -->
 			<ScrollViewer x:Name="SettingsContentScrollViewer">
-				<Frame
-					x:Name="SettingsContentFrame"
-					Padding="12"
-					Background="{ThemeResource SolidBackgroundFillColorTertiary}" />
+				<Frame x:Name="SettingsContentFrame" Padding="4,0,24,24" />
 			</ScrollViewer>
 
 		</NavigationView>

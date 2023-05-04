@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.Collections.Generic;
 
 namespace Files.App.Commands
@@ -15,6 +18,9 @@ namespace Files.App.Commands
 		IRichCommand ExitCompactOverlay { get; }
 		IRichCommand ToggleCompactOverlay { get; }
 		IRichCommand Search { get; }
+		IRichCommand EditPath { get; }
+		IRichCommand Redo { get; }
+		IRichCommand Undo { get; }
 
 		IRichCommand ToggleShowHiddenItems { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
@@ -27,12 +33,14 @@ namespace Files.App.Commands
 		IRichCommand PasteItem { get; }
 		IRichCommand PasteItemToSelection { get; }
 		IRichCommand DeleteItem { get; }
+		IRichCommand DeleteItemPermanently { get; }
 		IRichCommand SelectAll { get; }
 		IRichCommand InvertSelection { get; }
 		IRichCommand ClearSelection { get; }
 		IRichCommand ToggleSelect { get; }
 		IRichCommand ShareItem { get; }
 		IRichCommand CreateFolder { get; }
+		IRichCommand AddItem { get; }
 		IRichCommand CreateShortcut { get; }
 		IRichCommand CreateShortcutFromDialog { get; }
 		IRichCommand EmptyRecycleBin { get; }
@@ -42,6 +50,7 @@ namespace Files.App.Commands
 		IRichCommand OpenItem { get; }
 		IRichCommand OpenItemWithApplicationPicker { get; }
 		IRichCommand OpenParentFolder { get; }
+		IRichCommand OpenFileLocation { get; }
 		IRichCommand RefreshItems { get; }
 		IRichCommand Rename { get; }
 
@@ -133,5 +142,9 @@ namespace Files.App.Commands
 		IRichCommand PreviousTab { get; }
 		IRichCommand NextTab { get; }
 		IRichCommand CloseSelectedTab { get; }
+		IRichCommand OpenNewPane { get; }
+		IRichCommand ClosePane { get; }
+    
+		IRichCommand PlayAll { get; }
 	}
 }

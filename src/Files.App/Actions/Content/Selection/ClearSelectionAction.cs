@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
@@ -12,7 +15,7 @@ namespace Files.App.Actions
 
 		public string Label { get; } = "ClearSelection".GetLocalizedResource();
 
-		public string Description => "TODO: Need to be described.";
+		public string Description => "ClearSelectionDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new("\uE8E6");
 

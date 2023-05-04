@@ -1,38 +1,21 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.UI;
-using Files.App.DataModels;
-using Files.App.EventArguments;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.Interacts;
 using Files.App.UserControls;
 using Files.App.UserControls.Menus;
-using Files.App.ViewModels;
 using Files.App.Views;
-using Files.Backend.Services.Settings;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.ComTypes;
-using System.Threading;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
@@ -41,9 +24,9 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
-using VA = Vanara.Windows.Shell;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Shared.Enums.SortDirection;
+using VanaraWindowsShell = Vanara.Windows.Shell;
 
 namespace Files.App
 {
@@ -257,7 +240,7 @@ namespace Files.App
 						if (selectedItems.Count == 1)
 						{
 							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems.Count} {"ItemSelected/Text".GetLocalizedResource()}";
-							DispatcherQueue.EnqueueAsync(async () =>
+							DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								// Tapped event must be executed first
 								await Task.Delay(50);
@@ -526,7 +509,7 @@ namespace Files.App
 		private void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
 			=> GroupPreferenceUpdated();
 
-		private async void GroupPreferenceUpdated()
+		private async Task GroupPreferenceUpdated()
 		{
 			// Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
 			groupingCancellationToken?.Cancel();
@@ -705,7 +688,7 @@ namespace Files.App
 			index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
 
 			// Only show the edit tags flyout if settings is enabled
-			if (!UserSettingsService.PreferencesSettingsService.ShowEditTagsMenu)
+			if (!UserSettingsService.GeneralSettingsService.ShowEditTagsMenu)
 				return;
 
 			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
@@ -725,7 +708,7 @@ namespace Files.App
 			var openWithMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
 			var sendToMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
 			var shellMenuItemsFiltered = shellMenuItems.Where(x => x != openWithMenuItem && x != sendToMenuItem).ToList();
-			var mainShellMenuItems = shellMenuItemsFiltered.RemoveFrom(!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
+			var mainShellMenuItems = shellMenuItemsFiltered.RemoveFrom(!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
 			var overflowShellMenuItemsUnfiltered = shellMenuItemsFiltered.Except(mainShellMenuItems).ToList();
 			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
 				(x, i) => (x.ItemType == ItemType.Separator &&
@@ -780,12 +763,12 @@ namespace Files.App
 						index++;
 					}
 
-					if (overflowItemFlyout.Items.Count > 0 && UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+					if (overflowItemFlyout.Items.Count > 0 && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 					{
 						overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
 						overflowItem.IsEnabled = true;
 					}
-					else if (!UserSettingsService.PreferencesSettingsService.MoveShellExtensionsToSubMenu)
+					else if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 						overflowItem.Visibility = Visibility.Collapsed;
 				}
 			}
@@ -800,7 +783,7 @@ namespace Files.App
 			var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
 			if (openWithMenuItem?.LoadSubMenuAction is not null && openWithOverflow is not null && openWith is not null)
 			{
-				await openWithMenuItem.LoadSubMenuAction.Invoke();
+				await openWithMenuItem.LoadSubMenuAction();
 				var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
 
 				if (openWithSubItems is not null)
@@ -824,7 +807,7 @@ namespace Files.App
 			var sendTo = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendTo") as AppBarButton;
 			if (sendToMenuItem?.LoadSubMenuAction is not null && sendToOverflow is not null && sendTo is not null)
 			{
-				await sendToMenuItem.LoadSubMenuAction.Invoke();
+				await sendToMenuItem.LoadSubMenuAction();
 				var sendToSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetSendToItems(shellMenuItems));
 
 				if (sendToSubItems is not null)
@@ -844,14 +827,14 @@ namespace Files.App
 
 			// Add items to main shell submenu
 			mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
-				await x.LoadSubMenuAction.Invoke();
+				await x.LoadSubMenuAction();
 
 				ShellContextmenuHelper.AddItemsToMainMenu(mainItems, x);
 			});
 
 			// Add items to overflow shell submenu
 			overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
-				await x.LoadSubMenuAction.Invoke();
+				await x.LoadSubMenuAction();
 
 				ShellContextmenuHelper.AddItemsToOverflowMenu(overflowItem, x);
 			});
@@ -907,7 +890,7 @@ namespace Files.App
 		{
 			try
 			{
-				var shellItemList = e.Items.OfType<ListedItem>().Select(x => new VA.ShellItem(x.ItemPath)).ToArray();
+				var shellItemList = e.Items.OfType<ListedItem>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray();
 				if (shellItemList[0].FileSystemPath is not null)
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
@@ -1349,13 +1332,13 @@ namespace Files.App
 			tapDebounceTimer.Stop();
 		}
 
-		protected async void ValidateItemNameInputText(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
+		protected async Task ValidateItemNameInputText(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
 		{
 			if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
 			{
 				args.Cancel = true;
 
-				await DispatcherQueue.EnqueueAsync(() =>
+				await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
 					var oldText = textBox.Text;
@@ -1369,21 +1352,21 @@ namespace Files.App
 				showError?.Invoke(false);
 			}
 		}
-	}
 
-	public class ContextMenuExtensions : DependencyObject
-	{
-		public static ItemsControl GetItemsControl(DependencyObject obj)
+		public class ContextMenuExtensions : DependencyObject
 		{
-			return (ItemsControl)obj.GetValue(ItemsControlProperty);
-		}
+			public static ItemsControl GetItemsControl(DependencyObject obj)
+			{
+				return (ItemsControl)obj.GetValue(ItemsControlProperty);
+			}
 
-		public static void SetItemsControl(DependencyObject obj, ItemsControl value)
-		{
-			obj.SetValue(ItemsControlProperty, value);
-		}
+			public static void SetItemsControl(DependencyObject obj, ItemsControl value)
+			{
+				obj.SetValue(ItemsControlProperty, value);
+			}
 
-		public static readonly DependencyProperty ItemsControlProperty =
-			DependencyProperty.RegisterAttached("ItemsControl", typeof(ItemsControl), typeof(ContextMenuExtensions), new PropertyMetadata(null));
+			public static readonly DependencyProperty ItemsControlProperty =
+				DependencyProperty.RegisterAttached("ItemsControl", typeof(ItemsControl), typeof(ContextMenuExtensions), new PropertyMetadata(null));
+		}
 	}
 }

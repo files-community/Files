@@ -1,13 +1,10 @@
-﻿using Files.Shared;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
-using System.Threading.Tasks;
 using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -52,6 +49,11 @@ namespace Files.App.Shell
 			if (string.IsNullOrEmpty(verb))
 				return false;
 
+			var item = Items.Where(x => x.CommandString == verb).FirstOrDefault();
+			if (item is not null && item.ID >= 0)
+				// Prefer invocation by ID
+				return await InvokeItem(item.ID);
+
 			try
 			{
 				var currentWindows = Win32API.GetDesktopWindows();
@@ -76,10 +78,10 @@ namespace Files.App.Shell
 			return false;
 		}
 
-		public async Task InvokeItem(int itemID)
+		public async Task<bool> InvokeItem(int itemID)
 		{
 			if (itemID < 0)
-				return;
+				return false;
 
 			try
 			{
@@ -93,13 +95,16 @@ namespace Files.App.Shell
 				pici.cbSize = (uint)Marshal.SizeOf(pici);
 
 				await owningThread.PostMethod(() => cMenu.InvokeCommand(pici));
-
 				Win32API.BringToForeground(currentWindows);
+
+				return true;
 			}
 			catch (Exception ex) when (ex is COMException or UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
 			}
+
+			return false;
 		}
 
 		#region FactoryMethods
@@ -165,15 +170,7 @@ namespace Files.App.Shell
 
 		public static async Task WarmUpQueryContextMenuAsync()
 		{
-			var thread = new ThreadWithMessageQueue();
-			await thread.PostMethod(() =>
-			{
-				// Create a dummy context menu for warming up
-				var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl("C:\\");
-				Shell32.IContextMenu menu = shellItem.Parent.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItem);
-				menu.QueryContextMenu(User32.CreatePopupMenu(), 0, 1, 0x7FFF, Shell32.CMF.CMF_NORMAL);
-			});
-			thread.Dispose();
+			using var cMenu = await GetContextMenuForFiles(new string[] { "C:\\" }, Shell32.CMF.CMF_NORMAL);
 		}
 
 		#endregion FactoryMethods
@@ -223,6 +220,15 @@ namespace Files.App.Shell
 				{
 					Debug.WriteLine("Item {0} ({1}): {2}", ii, mii.wID, mii.dwTypeData);
 
+					// Hackish workaround to avoid an AccessViolationException on some items,
+					// notably the "Run with graphic processor" menu item of NVidia cards
+					if (mii.wID - 1 > 5000)
+					{
+						container.Dispose();
+
+						continue;
+					}
+
 					menuItem.Label = mii.dwTypeData;
 					menuItem.CommandString = GetCommandString(cMenu, mii.wID - 1);
 
@@ -253,18 +259,18 @@ namespace Files.App.Shell
 
 						if (loadSubenus)
 						{
-							LoadSubMenu(hSubMenu);
+							LoadSubMenu();
 						}
 						else
 						{
-							loadSubMenuActions.Add(subItems, () => LoadSubMenu(hSubMenu));
+							loadSubMenuActions.Add(subItems, LoadSubMenu);
 						}
 
 						menuItem.SubItems = subItems;
 
 						Debug.WriteLine("Item {0}: done submenu", ii);
 
-						void LoadSubMenu(HMENU hSubMenu)
+						void LoadSubMenu()
 						{
 							try
 							{
@@ -291,33 +297,29 @@ namespace Files.App.Shell
 
 		public async Task<bool> LoadSubMenu(List<Win32ContextMenuItem> subItems)
 		{
-			return await owningThread.PostMethod<bool>(() =>
+			if (loadSubMenuActions.Remove(subItems, out var loadSubMenuAction))
 			{
-				var result = loadSubMenuActions.Remove(subItems, out var loadSubMenuAction);
-
-				if (result)
+				return await owningThread.PostMethod<bool>(() =>
 				{
 					try
 					{
-						loadSubMenuAction!.Invoke();
+						loadSubMenuAction!();
+						return true;
 					}
 					catch (COMException)
 					{
-						result = false;
+						return false;
 					}
-				}
-
-				return result;
-			});
+				});
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		private static string? GetCommandString(Shell32.IContextMenu cMenu, uint offset, Shell32.GCS flags = Shell32.GCS.GCS_VERBW)
 		{
-			// Hackish workaround to avoid an AccessViolationException on some items,
-			// notably the "Run with graphic processor" menu item of NVidia cards
-			if (offset > 5000)
-				return null;
-
 			SafeCoTaskMemString? commandString = null;
 
 			try

@@ -1,21 +1,15 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.CommandLine;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.App.Views;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
@@ -26,6 +20,8 @@ namespace Files.App
 {
 	public sealed partial class MainWindow : WindowEx
 	{
+		private MainPageViewModel mainPageViewModel;
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -57,6 +53,8 @@ namespace Files.App
 
 		public async Task InitializeApplication(object activatedEventArgs)
 		{
+			mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
 			var rootFrame = EnsureWindowIsInitialized();
 			Activate();
 
@@ -82,7 +80,7 @@ namespace Files.App
 					{
 						if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 						{
-							await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+							await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
 						}
 					}
 					break;
@@ -135,16 +133,6 @@ namespace Files.App
 					}
 					break;
 
-				case IToastNotificationActivatedEventArgs eventArgsForNotification:
-					if (eventArgsForNotification.Argument == "report")
-					{
-						await Windows.System.Launcher.LaunchUriAsync(new Uri(Constants.GitHub.BugReportUrl));
-					}
-					break;
-
-				case IStartupTaskActivatedEventArgs:
-					break;
-
 				case IFileActivatedEventArgs fileArgs:
 					var index = 0;
 					if (rootFrame.Content is null)
@@ -156,7 +144,7 @@ namespace Files.App
 					}
 					for (; index < fileArgs.Files.Count; index++)
 					{
-						await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
+						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
 					}
 					break;
 			}
@@ -211,7 +199,7 @@ namespace Files.App
 				};
 
 				if (rootFrame.Content is not null)
-					await MainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
+					await mainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 			}

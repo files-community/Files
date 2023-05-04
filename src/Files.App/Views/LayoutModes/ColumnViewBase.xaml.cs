@@ -1,26 +1,23 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
-using Files.App.EventArguments;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.App.Interacts;
 using Files.App.UserControls.Selection;
-using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using System;
 using System.IO;
-using System.Linq;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using static Files.App.Constants;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
+using static Files.App.Constants;
+using Microsoft.UI.Dispatching;
+using Files.App.Data.EventArguments;
 
 namespace Files.App.Views.LayoutModes
 {
@@ -32,6 +29,8 @@ namespace Files.App.Views.LayoutModes
 
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
+		private readonly DispatcherQueueTimer doubleClickTimer;
+
 		private ColumnViewBrowser? columnsOwner;
 
 		private ListViewItem? openedFolderPresenter;
@@ -41,9 +40,10 @@ namespace Files.App.Views.LayoutModes
 			InitializeComponent();
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
-			tapDebounceTimer = DispatcherQueue.CreateTimer();
 			ItemInvoked += ColumnViewBase_ItemInvoked;
 			GotFocus += ColumnViewBase_GotFocus;
+
+			doubleClickTimer = DispatcherQueue.CreateTimer();
 		}
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
@@ -144,7 +144,7 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatingFrom(e);
 		}
 
-		private async void ReloadItemIcons()
+		private async Task ReloadItemIcons()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
@@ -205,7 +205,7 @@ namespace Files.App.Views.LayoutModes
 			columnsOwner = null;
 		}
 
-		protected override async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			base.FileList_SelectionChanged(sender, e);
 			if (e is null)
@@ -232,27 +232,16 @@ namespace Files.App.Views.LayoutModes
 			HandleRightClick(e.OriginalSource);
 		}
 
-		private readonly DispatcherQueueTimer tapDebounceTimer;
-
 		private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
 		{
 			// Open selected directory
-			tapDebounceTimer.Stop();
-			if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-			{
-				var currItem = SelectedItem;
-				tapDebounceTimer.Debounce(() =>
-				{
-					if (currItem == SelectedItem)
-						ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-					tapDebounceTimer.Stop();
-				}, TimeSpan.FromMilliseconds(200));
-			}
+			if (IsItemSelected && SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 		}
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (ParentShellPageInstance is null)
+			if (ParentShellPageInstance is null || IsRenamingItem)
 				return;
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -266,28 +255,22 @@ namespace Files.App.Views.LayoutModes
 				var hotKey = new HotKey(Keys.A, KeyModifiers.Ctrl);
 
 				await commands[hotKey].ExecuteAsync();
-
-				return;
 			}
-
-			if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
+			else if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
 			{
-				if (IsRenamingItem)
-					return;
-
 				e.Handled = true;
 
 				if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
-				FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
+				FilePropertiesHelpers.OpenPropertiesWindow(ParentShellPageInstance);
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Space)
 			{
-				if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
+				if (!ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 					e.Handled = true;
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -313,7 +296,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
 			{
-				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled))
+				if (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
@@ -324,7 +307,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
 			{
-				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled))
+				if (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
@@ -335,6 +318,8 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
+			doubleClickTimer.Stop();
+
 			var clickedItem = e.OriginalSource as FrameworkElement;
 
 			if (clickedItem?.DataContext is ListedItem item)
@@ -347,7 +332,7 @@ namespace Files.App.Views.LayoutModes
 						break;
 					case StorageItemTypes.Folder:
 						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-							ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
+							ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						break;
 					default:
 						if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
@@ -424,6 +409,7 @@ namespace Files.App.Views.LayoutModes
 					ItemInvoked?.Invoke(
 						new ColumnParam
 						{
+							Source = this,
 							NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item!.ItemPath),
 							ListView = FileList
 						},
@@ -431,15 +417,26 @@ namespace Files.App.Views.LayoutModes
 				}
 				else if (!IsRenamingItem && (isItemFile || isItemFolder))
 				{
-					ClearOpenedFolderSelectionIndicator();
-
-					var itemPath = item!.ItemPath.EndsWith('\\')
-						? item.ItemPath.Substring(0, item.ItemPath.Length - 1)
-						: item.ItemPath;
-
-					ItemTapped?.Invoke(new ColumnParam { NavPathParam = Path.GetDirectoryName(itemPath), ListView = FileList }, EventArgs.Empty);
+					CheckDoubleClick(item!);
 				}
 			}
+		}
+
+		private void CheckDoubleClick(ListedItem item)
+		{
+			doubleClickTimer.Debounce(() =>
+			{
+				ClearOpenedFolderSelectionIndicator();
+
+				var itemPath = item!.ItemPath.EndsWith('\\')
+					? item.ItemPath.Substring(0, item.ItemPath.Length - 1)
+					: item.ItemPath;
+
+				ItemTapped?.Invoke(new ColumnParam { Source = this, NavPathParam = Path.GetDirectoryName(itemPath), ListView = FileList }, EventArgs.Empty);
+
+				doubleClickTimer.Stop();
+			},
+			TimeSpan.FromMilliseconds(200));
 		}
 
 		private void Grid_Loaded(object sender, RoutedEventArgs e)
