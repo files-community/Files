@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Data.Items;
 using Files.Backend.Services.Settings;
 using Microsoft.Extensions.Logging;
 using System;

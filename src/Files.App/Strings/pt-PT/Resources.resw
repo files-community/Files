@@ -477,7 +477,7 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Tipos diferentes</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>Tudo em {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
@@ -1851,9 +1851,6 @@
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Extração terminada!</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+N</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Abrir pasta</value>
   </data>
@@ -3151,6 +3148,9 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Fechar separador atual</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Editar caminho</value>
+  </data>
   <data name="Branch" xml:space="preserve">
     <value>Ramo: {0}</value>
   </data>
@@ -3178,6 +3178,12 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostrar caixas de seleção ao selecionar itens</value>
   </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Focar barra de caminho</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Criar novo item</value>
+  </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>Não existem utilizadores ou grupos com acesso a este objeto. Contudo, o proprietário do objeto pode atribuir permissões.</value>
   </data>
@@ -3198,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Refazer a última operação</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Localização:</value>
   </data>
 </root>

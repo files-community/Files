@@ -59,19 +59,11 @@
 					x:Name="NewEmptySpaceAppBarButton"
 					AccessKey="W"
 					AutomationProperties.AutomationId="InnerNavigationToolbarNewButton"
-					IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay, FallbackValue=False}"
-					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=BaseLayoutContextFlyoutNew/KeyboardAcceleratorTextOverride}"
-					Label="{helpers:ResourceString Name=BaseLayoutContextFlyoutNew/Label}"
+					IsEnabled="{x:Bind Commands.AddItem.IsExecutable, Mode=OneWay, FallbackValue=False}"
+					KeyboardAcceleratorTextOverride="{x:Bind Commands.AddItem.HotKeyText, Mode=OneWay}"
+					Label="{x:Bind Commands.AddItem.Label}"
 					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}">
-
-					<local:OpacityIcon Style="{StaticResource ColorIconNew}" />
-
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator
-							Key="N"
-							IsEnabled="False"
-							Modifiers="Control,Shift" />
-					</AppBarButton.KeyboardAccelerators>
+					<local:OpacityIcon Style="{x:Bind Commands.AddItem.OpacityStyle}" />
 
 					<AppBarButton.Flyout>
 						<MenuFlyout x:Name="NewEmptySpace" Opening="NewEmptySpace_Opening">
@@ -80,6 +72,7 @@
 								AccessKey="D"
 								AutomationProperties.AutomationId="InnerNavigationToolbarNewFolderButton"
 								Command="{x:Bind Commands.CreateFolder, Mode=OneWay}"
+								KeyboardAcceleratorTextOverride="{x:Bind Commands.CreateFolder.HotKeyText, Mode=OneWay}"
 								Text="{x:Bind Commands.CreateFolder.Label}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE8B7;" />
@@ -102,6 +95,7 @@
 								AccessKey="S"
 								AutomationProperties.AutomationId="InnerNavigationToolbarNewShortcutButton"
 								Command="{x:Bind Commands.CreateShortcutFromDialog, Mode=OneWay}"
+								KeyboardAcceleratorTextOverride="{x:Bind Commands.CreateShortcutFromDialog.HotKeyText, Mode=OneWay}"
 								Text="{x:Bind Commands.CreateShortcutFromDialog.Label}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE71B;" />

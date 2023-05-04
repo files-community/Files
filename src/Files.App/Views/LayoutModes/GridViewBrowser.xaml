@@ -15,7 +15,6 @@
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:vc="using:Files.App.ValueConverters"
 	xmlns:wctanimations="using:CommunityToolkit.WinUI.UI.Animations"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
@@ -33,7 +32,7 @@
 
 	<root:StandardViewBase.Resources>
 
-		<vc:StringToBrushConverter x:Key="StringToBrushConverter" />
+		<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 		<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		<wctconverters:BoolToVisibilityConverter
 			x:Key="NegatedBoolToVisibilityConverter"
@@ -52,7 +51,7 @@
 			x:Key="BoolToVisibilityConverter"
 			FalseValue="Collapsed"
 			TrueValue="Visible" />
-		<converters:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+		<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 
 		<DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="filesystem:ListedItem">
 			<UserControl>
@@ -219,10 +218,11 @@
 						Padding="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Top"
+						AutomationProperties.AccessibilityView="Raw"
 						Checked="ItemSelected_Checked"
 						DoubleTapped="SelectionCheckbox_DoubleTapped"
-						Unchecked="ItemSelected_Unchecked"
-						Visibility="Collapsed" />
+						Opacity="0"
+						Unchecked="ItemSelected_Unchecked" />
 
 					<Popup x:Name="EditPopup" Grid.Row="1">
 						<TextBox
@@ -243,7 +243,7 @@
 							<VisualState x:Name="HideCheckbox" />
 							<VisualState x:Name="ShowCheckbox">
 								<VisualState.Setters>
-									<Setter Target="SelectionCheckbox.Visibility" Value="Visible" />
+									<Setter Target="SelectionCheckbox.Opacity" Value="1" />
 								</VisualState.Setters>
 							</VisualState>
 						</VisualStateGroup>
@@ -302,10 +302,11 @@
 						Padding="0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Top"
+						AutomationProperties.AccessibilityView="Raw"
 						Checked="ItemSelected_Checked"
 						DoubleTapped="SelectionCheckbox_DoubleTapped"
-						Unchecked="ItemSelected_Unchecked"
-						Visibility="Collapsed" />
+						Opacity="0"
+						Unchecked="ItemSelected_Unchecked" />
 
 					<Grid
 						Grid.Column="1"
@@ -446,7 +447,7 @@
 							<VisualState x:Name="HideCheckbox" />
 							<VisualState x:Name="ShowCheckbox">
 								<VisualState.Setters>
-									<Setter Target="SelectionCheckbox.Visibility" Value="Visible" />
+									<Setter Target="SelectionCheckbox.Opacity" Value="1" />
 								</VisualState.Setters>
 							</VisualState>
 						</VisualStateGroup>
