@@ -3,7 +3,7 @@
 
 using Files.App.Commands;
 
-namespace Files.App.ViewModels
+namespace Files.App.Helpers
 {
 	/// <summary>
 	/// Represents a builder class that create a <see cref="ContextMenuFlyoutItem"/> instance.

@@ -12,32 +12,32 @@ namespace Files.App.ViewModels
 	[Obsolete("Do not use this class as Settings store anymore, settings have been merged to IUserSettingsService.")]
 	public class SettingsViewModel : ObservableObject
 	{
-		private ApplicationDataContainer localSettings
+		private ApplicationDataContainer LocalSettings
 			=> ApplicationData.Current.LocalSettings;
+
+		public event EventHandler? ThemeModeChanged;
+
+		public ICommand UpdateThemeElements { get; }
 
 		public SettingsViewModel()
 		{
 			UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
 		}
 
-		public event EventHandler? ThemeModeChanged;
-
-		public ICommand UpdateThemeElements { get; }
-
-		public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
+		public bool Set<TValue>(TValue value, [CallerMemberName] string? propertyName = null)
 		{
 			propertyName = 
-				propertyName is not null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase) ?
-				propertyName.Substring(4) :
-				propertyName;
+				propertyName is not null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase)
+					? propertyName.Substring(4)
+					: propertyName;
 
 			TValue originalValue = default;
 
-			if (localSettings.Values.ContainsKey(propertyName))
+			if (LocalSettings.Values.ContainsKey(propertyName))
 			{
 				originalValue = Get(originalValue, propertyName);
 
-				localSettings.Values[propertyName] = value;
+				LocalSettings.Values[propertyName] = value;
 				if (!SetProperty(ref originalValue, value, propertyName))
 				{
 					return false;
@@ -45,7 +45,7 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				localSettings.Values[propertyName] = value;
+				LocalSettings.Values[propertyName] = value;
 			}
 
 			return true;
@@ -60,9 +60,9 @@ namespace Files.App.ViewModels
 				propertyName.Substring(4) :
 				propertyName;
 
-			if (localSettings.Values.ContainsKey(name))
+			if (LocalSettings.Values.ContainsKey(name))
 			{
-				var value = localSettings.Values[name];
+				var value = LocalSettings.Values[name];
 
 				if (value is not TValue tValue)
 				{
@@ -97,7 +97,7 @@ namespace Files.App.ViewModels
 				return tValue;
 			}
 
-			localSettings.Values[propertyName] = defaultValue;
+			LocalSettings.Values[propertyName] = defaultValue;
 
 			return defaultValue;
 		}
