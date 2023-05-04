@@ -52,6 +52,11 @@ namespace Files.App.Shell
 			if (string.IsNullOrEmpty(verb))
 				return false;
 
+			var item = Items.Where(x => x.CommandString == verb).FirstOrDefault();
+			if (item is not null && item.ID >= 0)
+				// Prefer invocation by ID
+				return await InvokeItem(item.ID);
+
 			try
 			{
 				var currentWindows = Win32API.GetDesktopWindows();
@@ -76,10 +81,10 @@ namespace Files.App.Shell
 			return false;
 		}
 
-		public async Task InvokeItem(int itemID)
+		public async Task<bool> InvokeItem(int itemID)
 		{
 			if (itemID < 0)
-				return;
+				return false;
 
 			try
 			{
@@ -93,13 +98,16 @@ namespace Files.App.Shell
 				pici.cbSize = (uint)Marshal.SizeOf(pici);
 
 				await owningThread.PostMethod(() => cMenu.InvokeCommand(pici));
-
 				Win32API.BringToForeground(currentWindows);
+
+				return true;
 			}
 			catch (Exception ex) when (ex is COMException or UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
 			}
+
+			return false;
 		}
 
 		#region FactoryMethods
