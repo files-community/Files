@@ -477,8 +477,8 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Rozdílné typy</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>Vše v {0}</value>
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
+    <value>All in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Použité místo:</value>
@@ -1851,9 +1851,6 @@
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Extrahování dokončeno!</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+N</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Otevřít nadřazenou složku</value>
   </data>
@@ -2632,22 +2629,22 @@
     <value>Zvolte, zda zobrazit panel náhledu</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Toggle whether to show sidebar</value>
+    <value>Přepněte, zda se zobrazí postranní panel</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy item(s) to clipboard</value>
+    <value>Kopírovat do schránky</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of item to clipboard</value>
+    <value>Zkopírovat umístění položky do schránky</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut item(s) to clipboard</value>
+    <value>Vyjmout do schránky</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to current folder</value>
+    <value>Vložte položku/ky že schránky do aktuální složky</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to selected folder</value>
+    <value>Vložte položku/ky ze schránky do vybrané složky</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Smazat položku(y)</value>
@@ -2659,34 +2656,34 @@
     <value>Vytvořit nové zástupce pro vybrané položky</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>Vytvořit nového zástupce pro libovolnou položku</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Vyprázdnit koš</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Open "Format Drive" menu for selected item</value>
+    <value>Otevře menu "Formátovat disk" pro vybranou položku</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected item(s) from recycle bin</value>
+    <value>Obnovit vybrané položky z koše</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>Obnoví veškeré položky umístěné v koši</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open item(s)</value>
+    <value>Otevře položky</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open item(s) with selected application</value>
+    <value>Otevřít vybrané položku (ky) pomocí vybrané aplikace</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Open parent folder of searched item</value>
+    <value>Otevřít nadřazenou složku vyhledané položky</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>Aktualizovat obsah stránky</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>Rename selected item</value>
+    <value>Přejmenovat vybranou položku</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
     <value>Vybrat všechny položky</value>
@@ -2701,13 +2698,13 @@
     <value>Přepnout výběr položek</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected file(s) with others</value>
+    <value>Sdílet vybraný soubor(y) s ostatníma</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin item(s) to the Start Menu</value>
+    <value>Připnout položku (ky) na Hlavní panel</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin item(s) from the Start Menu</value>
+    <value>Odepnout položku (ky) z Hlavního panelu</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
     <value>Připnout k oblíbeným</value>
@@ -2716,10 +2713,10 @@
     <value>Odepnout z oblíbených</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as desktop background</value>
+    <value>Použiť vybraný obrázek jako pozadí</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Set selected pictures as desktop slideshow</value>
+    <value>Nastavení vybraných obrázků jako prezentace na ploše</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Set selected picture as lockscreen background</value>
@@ -2731,22 +2728,22 @@
     <value>Install driver(s) using selected inf file(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Run selected application as administrator</value>
+    <value>Spustit vybranou aplikaci jako administrátor</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>Spustit vybranou aplikaci jako jiný uživatel</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Run selected PowerShell script</value>
+    <value>Spustit vybraný skript PowerShell</value>
   </data>
   <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Launch QuickLook with selected item</value>
+    <value>Spustit QuickLook s vybranou položkou</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected item(s)</value>
+    <value>Vytvořit archiv s vybranými položkami</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive instantly with selected item(s)</value>
+    <value>Vytvořit okamžitě 7z archiv s vybranými položkami</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
     <value>Create zip archive instantly with selected item(s)</value>
@@ -3151,6 +3148,9 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Edit path</value>
+  </data>
   <data name="Branch" xml:space="preserve">
     <value>Branch: {0}</value>
   </data>
@@ -3178,6 +3178,12 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
   </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Focus path bar</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Create new item</value>
+  </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
   </data>
@@ -3198,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Redo the last file operation</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location:</value>
   </data>
 </root>

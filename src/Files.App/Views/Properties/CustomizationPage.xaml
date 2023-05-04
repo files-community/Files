@@ -1,4 +1,5 @@
-﻿<vm:BasePropertiesPage
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<vm:BasePropertiesPage
 	x:Class="Files.App.Views.Properties.CustomizationPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -59,8 +60,7 @@
 					Grid.Column="1"
 					x:Load="{x:Bind CustomizationViewModel.IsShortcut, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					Command="{x:Bind CustomizationViewModel.RestoreDefaultIconCommand, Mode=OneWay}"
-					Content="{helpers:ResourceString Name=RestoreDefault}"
-					IsEnabled="{x:Bind CustomizationViewModel.RestoreButtonIsEnabled, Mode=OneWay}" />
+					Content="{helpers:ResourceString Name=RestoreDefault}" />
 
 			</Grid>
 
@@ -89,13 +89,13 @@
 				<Button
 					x:Name="PickDllFileButton"
 					Grid.Column="1"
-					Command="{x:Bind CustomizationViewModel.PickDllFileCommand, Mode=OneWay}"
+					Command="{x:Bind CustomizationViewModel.OpenFilePickerCommand, Mode=OneWay}"
 					CommandParameter="{x:Bind XamlRoot, Mode=OneWay}"
 					Content="{helpers:ResourceString Name=Browse}" />
 
 			</Grid>
 
-			<!--  Icon List  -->
+			<!--  Dll Icon List  -->
 			<GridView
 				x:Name="IconSelectionGrid"
 				Grid.Row="3"

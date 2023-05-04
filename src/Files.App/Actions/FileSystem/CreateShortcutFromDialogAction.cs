@@ -21,7 +21,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
 
-		public override bool IsExecutable => context.ShellPage is not null && UIHelpers.CanShowDialog;
+		public override bool IsExecutable => context.CanCreateItem && UIHelpers.CanShowDialog;
 
 		public CreateShortcutFromDialogAction()
 		{
@@ -30,12 +30,12 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage);
+			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage!);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.ShellPage))
+			if (e.PropertyName is nameof(IContentPageContext.CanCreateItem))
 				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}

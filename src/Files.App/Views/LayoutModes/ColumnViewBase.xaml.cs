@@ -17,6 +17,7 @@ using Windows.UI.Core;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using static Files.App.Constants;
 using Microsoft.UI.Dispatching;
+using Files.App.Data.EventArguments;
 
 namespace Files.App.Views.LayoutModes
 {

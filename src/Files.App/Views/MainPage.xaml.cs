@@ -6,7 +6,8 @@ using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.DataModels.NavigationControlItems;
+using Files.App.Data.Items;
+using Files.App.Data.Models;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
 using Files.Backend.Extensions;
@@ -19,7 +20,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Runtime.CompilerServices;
-using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.Storage;
@@ -59,8 +59,7 @@ namespace Files.App.Views
 			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
-			var flowDirectionSetting = new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
-			if (flowDirectionSetting == "RTL")
+			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;

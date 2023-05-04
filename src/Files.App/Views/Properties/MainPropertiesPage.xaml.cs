@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
-using Files.App.DataModels;
+using Files.App.Data.Parameters;
 using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Properties;

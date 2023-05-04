@@ -131,7 +131,7 @@ namespace Files.App.Views
 			ReloadWidgets();
 		}
 
-		private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
+		private async void RecentFilesWidget_RecentFileInvoked(object sender, PathNavigationEventArgs e)
 		{
 			try
 			{
@@ -159,7 +159,7 @@ namespace Files.App.Views
 			catch (ArgumentException) { }
 		}
 
-		private void WidgetOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
+		private void WidgetOpenLocationInvoked(object sender, PathNavigationEventArgs e)
 		{
 			AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
 			{

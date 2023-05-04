@@ -1,3 +1,4 @@
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <local:StandardViewBase
 	x:Class="Files.App.Views.LayoutModes.DetailsLayoutBrowser"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -14,7 +15,6 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:valueconverters="using:Files.App.ValueConverters"
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
@@ -45,8 +45,8 @@
 				x:Key="EmptyObjectToObjectConverter"
 				EmptyValue="Collapsed"
 				NotEmptyValue="Visible" />
-			<valueconverters:StringToBrushConverter x:Key="StringToBrushConverter" />
-			<converters:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+			<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
 			<Style
@@ -180,21 +180,6 @@
 			VerticalAlignment="Top"
 			Canvas.ZIndex="0"
 			EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
-
-		<!--  Search Unindexed Items  -->
-		<StackPanel
-			x:Name="SearchUnindexedItemsPanel"
-			HorizontalAlignment="Center"
-			VerticalAlignment="Bottom"
-			x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
-			Orientation="Vertical">
-			<TextBlock Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
-			<HyperlinkButton
-				x:Name="SearchUnindexedItemsButton"
-				HorizontalAlignment="Center"
-				Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
-				Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
-		</StackPanel>
 
 		<!--  Invalid Item Name Tip  -->
 		<TeachingTip
@@ -1042,6 +1027,21 @@
 			</SemanticZoom.ZoomedOutView>
 
 		</SemanticZoom>
+
+		<!--  Search Unindexed Items  -->
+		<StackPanel
+			x:Name="SearchUnindexedItemsPanel"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Bottom"
+			x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
+			Orientation="Vertical">
+			<TextBlock Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
+			<HyperlinkButton
+				x:Name="SearchUnindexedItemsButton"
+				HorizontalAlignment="Center"
+				Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
+				Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
+		</StackPanel>
 
 		<!--  Selector  -->
 		<Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
