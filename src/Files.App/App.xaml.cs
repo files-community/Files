@@ -88,24 +88,7 @@ namespace Files.App
 			TaskScheduler.UnobservedTaskException += OnUnobservedException;
 			InitializeComponent();
 
-			AppEnv = Package.Current.DisplayName switch
-			{
-				"Files - Dev" => AppEnv = AppEnvironment.WindowsDev,
-				"Files (Preview)" => AppEnv = AppEnvironment.WindowsSideloadPreview,
-				_ =>
-#if SIDELOAD
-					AppEnv = AppEnvironment.WindowsSideload,
-#else
-					AppEnv = AppEnvironment.WindowsStore,
-#endif
-			};
-
-			LogoPath = AppEnv switch
-			{
-				AppEnvironment.WindowsDev => Constants.AssetPaths.DevLogo,
-				AppEnvironment.WindowsSideloadPreview => Constants.AssetPaths.PreviewLogo,
-				_ => Constants.AssetPaths.StableLogo,
-			};
+			(AppEnv, LogoPath) = EnvHelpers.GetAppEnvironmentAndLogo();
 		}
 
 		private static void EnsureSettingsAndConfigurationAreBootstrapped()
