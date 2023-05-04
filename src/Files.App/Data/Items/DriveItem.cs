@@ -251,6 +251,8 @@ namespace Files.App.Data.Items
 
 				using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
 				IconData ??= await thumbnail.ToByteArrayAsync();
+
+				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			}
 
 			Icon ??= await IconData.ToBitmapAsync();
