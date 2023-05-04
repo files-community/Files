@@ -477,7 +477,7 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Tipi differenti</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>Tutti in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
@@ -3158,7 +3158,7 @@
     <value>Ripeti</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>Annulla</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Destinazione non valida</value>
@@ -3176,10 +3176,10 @@
     <value>Sei sicuro di voler spostare questi file senza le loro proprietà?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>Show checkboxes when selecting items</value>
+    <value>Mostra le checkbox quando si selezionano gli elementi</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Apri la barra del percorso</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Crea un nuovo elemento</value>
@@ -3204,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Ripeti l'ultima operazione dei file</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Posizione:</value>
   </data>
 </root>
