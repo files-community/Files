@@ -19,7 +19,6 @@ namespace Files.App.Data.Models
 		}
 
 		private bool isProgressing = false;
-
 		public bool IsProgressing
 		{
 			get => isProgressing;
