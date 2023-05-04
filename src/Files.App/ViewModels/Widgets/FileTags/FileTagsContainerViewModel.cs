@@ -9,6 +9,7 @@ namespace Files.App.ViewModels.Widgets
 	public sealed partial class FileTagsContainerViewModel : ObservableObject, IAsyncInitialize
 	{
 		private readonly string _tagUid;
+
 		private readonly Func<string, Task> _openAction;
 
 		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();

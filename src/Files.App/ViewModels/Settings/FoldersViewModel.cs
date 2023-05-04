@@ -5,7 +5,7 @@ namespace Files.App.ViewModels.Settings
 {
 	public class FoldersViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IUserSettingsService UserSettingsService { get; }
 
 		// FileTag combobox indexes (required to hide SyncStatus)
 		private readonly int FileTagSortingIndex = 5;
@@ -13,13 +13,13 @@ namespace Files.App.ViewModels.Settings
 
 		public FoldersViewModel()
 		{
+			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
 			SelectedDefaultSortingIndex = UserSettingsService.FoldersSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultSortOption;
 			SelectedDefaultGroupingIndex = UserSettingsService.FoldersSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultGroupOption;
 			SelectedDeleteConfirmationPolicyIndex = (int)DeleteConfirmationPolicy;
 		}
-
-		// Properties
 
 		private int selectedDefaultLayoutModeIndex;
 		public int SelectedDefaultLayoutModeIndex
@@ -45,6 +45,38 @@ namespace Files.App.ViewModels.Settings
 				{
 					OnPropertyChanged(nameof(SelectedDeleteConfirmationPolicyIndex));
 					DeleteConfirmationPolicy = (DeleteConfirmationPolicies)value;
+				}
+			}
+		}
+
+		private int selectedDefaultSortingIndex;
+		public int SelectedDefaultSortingIndex
+		{
+			get => selectedDefaultSortingIndex;
+			set
+			{
+				if (SetProperty(ref selectedDefaultSortingIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
+
+					UserSettingsService.FoldersSettingsService.DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
+				}
+			}
+		}
+
+		private int selectedDefaultGroupingIndex;
+		public int SelectedDefaultGroupingIndex
+		{
+			get => selectedDefaultGroupingIndex;
+			set
+			{
+				if (SetProperty(ref selectedDefaultGroupingIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
+
+					UserSettingsService.FoldersSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
+					// Raise an event for the 'Group in descending order' toggle switch availability
+					OnPropertyChanged(nameof(IsDefaultGrouped));
 				}
 			}
 		}
@@ -272,7 +304,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool isDefaultGrouped
+		public bool IsDefaultGrouped
 			=> UserSettingsService.FoldersSettingsService.DefaultGroupOption != GroupOption.None;
 
 		public bool ListAndSortDirectoriesAlongsideFiles
@@ -299,38 +331,6 @@ namespace Files.App.ViewModels.Settings
 					UserSettingsService.FoldersSettingsService.CalculateFolderSizes = value;
 
 					OnPropertyChanged();
-				}
-			}
-		}
-
-		private int selectedDefaultSortingIndex;
-		public int SelectedDefaultSortingIndex
-		{
-			get => selectedDefaultSortingIndex;
-			set
-			{
-				if (SetProperty(ref selectedDefaultSortingIndex, value))
-				{
-					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
-
-					UserSettingsService.FoldersSettingsService.DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
-				}
-			}
-		}
-
-		private int selectedDefaultGroupingIndex;
-		public int SelectedDefaultGroupingIndex
-		{
-			get => selectedDefaultGroupingIndex;
-			set
-			{
-				if (SetProperty(ref selectedDefaultGroupingIndex, value))
-				{
-					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
-
-					UserSettingsService.FoldersSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
-					// Raise an event for the 'Group in descending order' toggle switch availability
-					OnPropertyChanged(nameof(isDefaultGrouped));
 				}
 			}
 		}

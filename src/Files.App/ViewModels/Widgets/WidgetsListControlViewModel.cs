@@ -7,7 +7,7 @@ namespace Files.App.ViewModels.Widgets
 	{
 		public event EventHandler WidgetListRefreshRequestedInvoked;
 
-		public ObservableCollection<WidgetsListControlItemViewModel> Widgets { get; private set; } = new ObservableCollection<WidgetsListControlItemViewModel>();
+		public ObservableCollection<WidgetsListControlItemViewModel> Widgets { get; private set; } = new();
 
 		public void RefreshWidgetList()
 		{

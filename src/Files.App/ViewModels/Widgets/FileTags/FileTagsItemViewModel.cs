@@ -12,8 +12,10 @@ namespace Files.App.ViewModels.Widgets
 	public sealed partial class FileTagsItemViewModel : WidgetCardItem
 	{
 		private readonly ILocatableStorable _associatedStorable;
-		private readonly Func<string, Task> _openAction;	// A workaround for lack of MVVM-compliant navigation support.
-															// This workaround must be kept until further refactor of navigation code is completed
+
+		// A workaround for lack of MVVM-compliant navigation support.
+		// This workaround must be kept until further refactor of navigation code is completed
+		private readonly Func<string, Task> _openAction;
 
 		[ObservableProperty]
 		private IImageModel? _Icon;
@@ -21,14 +23,15 @@ namespace Files.App.ViewModels.Widgets
 		[ObservableProperty]
 		private string _Name;
 
-		private string path;
+		private string _Path;
 		public override string Path
 		{
-			get => path;
-			set => SetProperty(ref path, value); 
+			get => _Path;
+			set => SetProperty(ref _Path, value); 
 		}
 
-		public bool IsFolder => _associatedStorable is ILocatableFolder;
+		public bool IsFolder
+			=> _associatedStorable is ILocatableFolder;
 
 		public FileTagsItemViewModel(ILocatableStorable associatedStorable, Func<string, Task> openAction, IImageModel? icon)
 		{

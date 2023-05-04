@@ -9,17 +9,89 @@ namespace Files.App.ViewModels.Settings
 {
 	public class AppearanceViewModel : ObservableObject
 	{
-		private readonly IUserSettingsService UserSettingsService;
-		private readonly IResourcesService ResourcesService;
+		private IUserSettingsService UserSettingsService { get; }
+
+		private IResourcesService ResourcesService { get; }
+
+		private AppThemeResourceItem? _SelectedAppThemeResources;
+		public AppThemeResourceItem? SelectedAppThemeResources
+		{
+			get => _SelectedAppThemeResources;
+			set
+			{
+				if (value is not null && SetProperty(ref _SelectedAppThemeResources, value))
+				{
+					AppThemeBackgroundColor = value.BackgroundColor;
+
+					OnPropertyChanged(nameof(_SelectedAppThemeResources));
+				}
+			}
+		}
+
+		private int _SelectedThemeIndex;
+		public int SelectedThemeIndex
+		{
+			get => _SelectedThemeIndex;
+			set
+			{
+				if (SetProperty(ref _SelectedThemeIndex, value))
+				{
+					ThemeHelper.RootTheme = (ElementTheme)value;
+
+					OnPropertyChanged(nameof(SelectedElementTheme));
+				}
+			}
+		}
 
 		public List<string> Themes { get; private set; }
 
 		public ObservableCollection<AppThemeResourceItem> AppThemeResources { get; }
 
+		public ElementTheme SelectedElementTheme
+			=> (ElementTheme)SelectedThemeIndex;
+
+		public bool UseCompactStyles
+		{
+			get => UserSettingsService.AppearanceSettingsService.UseCompactStyles;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.UseCompactStyles)
+				{
+					UserSettingsService.AppearanceSettingsService.UseCompactStyles = value;
+
+					// Apply the updated compact spacing resource
+					ResourcesService.SetCompactSpacing(UseCompactStyles);
+					ResourcesService.ApplyResources();
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public string AppThemeBackgroundColor
+		{
+			get => UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor)
+				{
+					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor = value;
+
+					// Apply the updated background resource
+					ResourcesService.SetAppThemeBackgroundColor(ColorHelper.ToColor(value).FromWindowsColor());
+					ResourcesService.ApplyResources();
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public AppearanceViewModel(IUserSettingsService userSettingsService, IResourcesService resourcesService)
 		{
 			UserSettingsService = userSettingsService;
 			ResourcesService = resourcesService;
+
+			SelectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
 
 			Themes = new List<string>()
 			{
@@ -59,75 +131,6 @@ namespace Files.App.ViewModels.Settings
 			SelectedAppThemeResources = AppThemeResources
 				.Where(p => p.BackgroundColor == themeBackgroundColor)
 				.FirstOrDefault() ?? AppThemeResources[0];
-		}
-
-		private AppThemeResourceItem selectedAppThemeResources;
-		public AppThemeResourceItem SelectedAppThemeResources
-		{
-			get => selectedAppThemeResources;
-			set
-			{
-				if (value is not null && SetProperty(ref selectedAppThemeResources, value))
-				{
-					AppThemeBackgroundColor = SelectedAppThemeResources.BackgroundColor;
-					OnPropertyChanged(nameof(selectedAppThemeResources));
-				}
-			}
-		}
-
-		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
-		public int SelectedThemeIndex
-		{
-			get => selectedThemeIndex;
-			set
-			{
-				if (SetProperty(ref selectedThemeIndex, value))
-				{
-					ThemeHelper.RootTheme = (ElementTheme)value;
-					OnPropertyChanged(nameof(SelectedElementTheme));
-				}
-			}
-		}
-
-		public ElementTheme SelectedElementTheme
-		{
-			get => (ElementTheme)selectedThemeIndex;
-		}
-
-		public bool UseCompactStyles
-		{
-			get => UserSettingsService.AppearanceSettingsService.UseCompactStyles;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.UseCompactStyles)
-				{
-					UserSettingsService.AppearanceSettingsService.UseCompactStyles = value;
-
-					// Apply the updated compact spacing resource
-					ResourcesService.SetCompactSpacing(UseCompactStyles);
-					ResourcesService.ApplyResources();
-
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public string AppThemeBackgroundColor
-		{
-			get => UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor)
-				{
-					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor = value;
-
-					// Apply the updated background resource
-					ResourcesService.SetAppThemeBackgroundColor(ColorHelper.ToColor(value).FromWindowsColor());
-					ResourcesService.ApplyResources();
-
-					OnPropertyChanged();
-				}
-			}
 		}
 	}
 }
