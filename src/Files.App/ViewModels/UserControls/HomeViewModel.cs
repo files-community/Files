@@ -6,7 +6,7 @@ using Files.App.ViewModels.Widgets.Bundles;
 using Microsoft.UI.Xaml;
 using System.Windows.Input;
 
-namespace Files.App.ViewModels
+namespace Files.App.ViewModels.UserControls
 {
 	public class HomeViewModel : ObservableObject, IDisposable
 	{

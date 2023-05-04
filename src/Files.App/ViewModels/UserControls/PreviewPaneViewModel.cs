@@ -11,7 +11,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
 using Windows.Storage;
 
-namespace Files.App.ViewModels
+namespace Files.App.ViewModels.UserControls
 {
 	public class PreviewPaneViewModel : ObservableObject, IDisposable
 	{

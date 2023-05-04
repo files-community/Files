@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 using Windows.System;
 
-namespace Files.App.ViewModels
+namespace Files.App.ViewModels.UserControls
 {
 	public class SearchBoxViewModel : ObservableObject, ISearchBox
 	{

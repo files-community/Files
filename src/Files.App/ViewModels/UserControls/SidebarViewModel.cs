@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
 
-namespace Files.App.ViewModels
+namespace Files.App.ViewModels.UserControls
 {
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{
