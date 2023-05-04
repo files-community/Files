@@ -4,10 +4,19 @@
 	{
 		public enum ItemLoadStatus
 		{
+			/// <summary>
+			/// Load is starting.
+			/// </summary>
 			Starting,
 
+			/// <summary>
+			/// Load is in progress.
+			/// </summary>
 			InProgress,
 
+			/// <summary>
+			/// Load is competed.
+			/// </summary>
 			Complete
 		}
 

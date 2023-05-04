@@ -3,48 +3,61 @@ using System.Windows.Input;
 
 namespace Files.App.Data.Models
 {
+	/// <summary>
+	/// Represents a model class that post an error message banner following a failed operation
+	/// </summary>
 	public class StatusBanner : ObservableObject
 	{
-		private readonly float initialProgress = 0.0f;
+		private readonly float _initialProgress = 0.0f;
 
-		private string fullTitle;
-
-		private bool isCancelled;
-
-		private int progress = 0;
-		public int Progress
+		private string? _FullTitle;
+		public string? FullTitle
 		{
-			get => progress;
-			set => SetProperty(ref progress, value);
+			get => _FullTitle;
+			set => SetProperty(ref _FullTitle, value ?? string.Empty);
 		}
 
-		private bool isProgressing = false;
+		private bool _IsCancelled;
+		public bool IsCancelled
+		{
+			get => _IsCancelled;
+			set => SetProperty(ref _IsCancelled, value);
+		}
+
+		private int _Progress = 0;
+		public int Progress
+		{
+			get => _Progress;
+			set => SetProperty(ref _Progress, value);
+		}
+
+		private bool _IsProgressing;
 		public bool IsProgressing
 		{
-			get => isProgressing;
-			set => SetProperty(ref isProgressing, value);
+			get => _IsProgressing;
+			set => SetProperty(ref _IsProgressing, value);
+		}
+
+		private ReturnResult _Status;
+		public ReturnResult Status
+		{
+			get => _Status;
+			set => SetProperty(ref _Status, value);
 		}
 
 		public string Title { get; private set; }
-
-		private ReturnResult status = ReturnResult.InProgress;
-		public ReturnResult Status
-		{
-			get => status;
-			set => SetProperty(ref status, value);
-		}
 
 		public FileOperationType Operation { get; private set; }
 
 		public string Message { get; private set; }
 
-		public InfoBarSeverity InfoBarSeverity { get; private set; } = InfoBarSeverity.Informational;
+		public InfoBarSeverity InfoBarSeverity { get; private set; }
 
-		public string PrimaryButtonText { get; set; }
+		public string? PrimaryButtonText { get; set; }
 
-		public string SecondaryButtonText { get; set; } = "Cancel";
+		public string SecondaryButtonText { get; set; } = "Cancel".GetLocalizedResource();
 
-		public Action PrimaryButtonClick { get; }
+		public Action? PrimaryButtonClick { get; }
 
 		public ICommand CancelCommand { get; }
 
@@ -53,26 +66,14 @@ namespace Files.App.Data.Models
 		public bool CancelButtonVisible
 			=> CancellationTokenSource is not null;
 
-		public CancellationTokenSource CancellationTokenSource { get; set; }
-
-		public string FullTitle
-		{
-			get => fullTitle;
-			set => SetProperty(ref fullTitle, value ?? string.Empty);
-		}
-
-		public bool IsCancelled
-		{
-			get => isCancelled;
-			set => SetProperty(ref isCancelled, value);
-		}
+		public CancellationTokenSource? CancellationTokenSource { get; set; }
 
 		public StatusBanner(string message, string title, float progress, ReturnResult status, FileOperationType operation)
 		{
+			_initialProgress = progress;
 			Message = message;
 			Title = title;
 			FullTitle = title;
-			initialProgress = progress;
 			Status = status;
 			Operation = operation;
 
@@ -81,79 +82,52 @@ namespace Files.App.Data.Models
 			switch (Status)
 			{
 				case ReturnResult.InProgress:
+				{
 					IsProgressing = true;
+
 					if (string.IsNullOrWhiteSpace(Title))
 					{
-						switch (Operation)
+						Title = Operation switch
 						{
-							case FileOperationType.Extract:
-								Title = "ExtractInProgress/Title".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Copy:
-								Title = "CopyInProgress/Title".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Move:
-								Title = "MoveInProgress".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Delete:
-								Title = "DeleteInProgress/Title".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Recycle:
-								Title = "RecycleInProgress/Title".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Prepare:
-								Title = "PrepareInProgress".GetLocalizedResource();
-								break;
-						}
+							FileOperationType.Extract => Title = "ExtractInProgress/Title".GetLocalizedResource(),
+							FileOperationType.Copy    => Title = "CopyInProgress/Title".GetLocalizedResource(),
+							FileOperationType.Move    => Title = "MoveInProgress".GetLocalizedResource(),
+							FileOperationType.Delete  => Title = "DeleteInProgress/Title".GetLocalizedResource(),
+							FileOperationType.Recycle => Title = "RecycleInProgress/Title".GetLocalizedResource(),
+							FileOperationType.Prepare => Title = "PrepareInProgress".GetLocalizedResource(),
+						};
 					}
 
-					FullTitle = $"{Title} ({initialProgress}%)";
+					FullTitle = $"{Title} ({_initialProgress}%)";
 
 					break;
-
+				}
 				case ReturnResult.Success:
+				{
 					IsProgressing = false;
-					if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
-					{
-						throw new NotImplementedException();
-					}
-					else
-					{
-						FullTitle = Title;
-						InfoBarSeverity = InfoBarSeverity.Success;
-					}
-					break;
 
+					if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
+						throw new NotImplementedException();
+
+					InfoBarSeverity = InfoBarSeverity.Success;
+
+					break;
+				}
 				case ReturnResult.Failed:
 				case ReturnResult.Cancelled:
+				{
 					IsProgressing = false;
+
 					if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
-					{
 						throw new NotImplementedException();
-					}
-					else
-					{
-						// Expanded banner
-						FullTitle = Title;
-						InfoBarSeverity = InfoBarSeverity.Error;
-					}
+
+					InfoBarSeverity = InfoBarSeverity.Error;
 
 					break;
+				}
 			}
 		}
 
-		/// <summary>
-		/// Post an error message banner following a failed operation
-		/// </summary>
-		/// <param name="message"></param>
-		/// <param name="title"></param>
-		/// <param name="primaryButtonText">Solution buttons are not visible if this property is an empty string</param>
-		/// <param name="secondaryButtonText">Set to "Cancel" by default</param>
 		public StatusBanner(string message, string title, string primaryButtonText, string secondaryButtonText, Action primaryButtonClicked)
 		{
 			Message = message;
@@ -166,27 +140,20 @@ namespace Files.App.Data.Models
 			CancelCommand = new RelayCommand(CancelOperation);
 
 			if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
-			{
 				throw new NotImplementedException();
-			}
-			else
-			{
-				if (!string.IsNullOrWhiteSpace(PrimaryButtonText))
-				{
-					SolutionButtonsVisible = true;
-				}
 
-				// Expanded banner
-				FullTitle = Title;
-				InfoBarSeverity = InfoBarSeverity.Error;
-			}
+			if (!string.IsNullOrWhiteSpace(PrimaryButtonText))
+				SolutionButtonsVisible = true;
+
+			FullTitle = Title;
+			InfoBarSeverity = InfoBarSeverity.Error;
 		}
 
 		public void CancelOperation()
 		{
 			if (CancelButtonVisible)
 			{
-				CancellationTokenSource.Cancel();
+				CancellationTokenSource?.Cancel();
 				IsCancelled = true;
 				FullTitle = $"{Title} ({"canceling".GetLocalizedResource()})";
 			}

@@ -2,32 +2,33 @@
 {
 	public class PostedStatusBanner
 	{
-		private readonly IOngoingTasksActions OngoingTasksActions;
-
-		private readonly StatusBanner Banner;
-
-		private readonly CancellationTokenSource cancellationTokenSource;
-
 		public readonly FileSystemProgress Progress;
 
 		public readonly Progress<FileSystemProgress> ProgressEventSource;
 
-		public CancellationToken CancellationToken => cancellationTokenSource?.Token ?? default;
+		private readonly IOngoingTasksActions _ongoingTasksActions;
 
-		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions)
+		private readonly StatusBanner _banner;
+
+		private readonly CancellationTokenSource? _cancellationTokenSource;
+
+		public CancellationToken CancellationToken
+			=> _cancellationTokenSource?.Token ?? default;
+
+		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions ongoingTasksActions)
 		{
-			Banner = banner;
-			this.OngoingTasksActions = OngoingTasksActions;
+			_banner = banner;
+			_ongoingTasksActions = ongoingTasksActions;
 
 			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
 
-		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions, CancellationTokenSource cancellationTokenSource)
+		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions ongoingTasksActions, CancellationTokenSource cancellationTokenSource)
 		{
-			Banner = banner;
-			this.OngoingTasksActions = OngoingTasksActions;
-			this.cancellationTokenSource = cancellationTokenSource;
+			_banner = banner;
+			_ongoingTasksActions = ongoingTasksActions;
+			_cancellationTokenSource = cancellationTokenSource;
 
 			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
@@ -40,14 +41,14 @@
 				return;
 
 			if (value.Status is FileSystemStatusCode status)
-				Banner.Status = status.ToStatus();
+				_banner.Status = status.ToStatus();
 
-			Banner.IsProgressing = (value.Status & FileSystemStatusCode.InProgress) != 0;
+			_banner.IsProgressing = (value.Status & FileSystemStatusCode.InProgress) != 0;
 
 			if (value.Percentage is int p)
 			{
-				Banner.Progress = p;
-				Banner.FullTitle = $"{Banner.Title} ({Banner.Progress}%)";
+				_banner.Progress = p;
+				_banner.FullTitle = $"{_banner.Title} ({_banner.Progress}%)";
 
 				// TODO: Show detailed progress if Size/Count information available
 			}
@@ -56,48 +57,48 @@
 				switch (value.TotalSize, value.ItemsCount)
 				{
 					case (not 0, not 0):
-						Banner.Progress = (int)(value.ProcessedSize * 100f / value.TotalSize);
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {Banner.Progress}%)";
+						_banner.Progress = (int)(value.ProcessedSize * 100f / value.TotalSize);
+						_banner.FullTitle = $"{_banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {_banner.Progress}%)";
 						break;
 
 					case (not 0, _):
-						Banner.Progress = (int)(value.ProcessedSize * 100 / value.TotalSize);
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {Banner.Progress}%)";
+						_banner.Progress = (int)(value.ProcessedSize * 100 / value.TotalSize);
+						_banner.FullTitle = $"{_banner.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {_banner.Progress}%)";
 						break;
 
 					case (_, not 0):
-						Banner.Progress = (int)(value.ProcessedItemsCount * 100 / value.ItemsCount);
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {Banner.Progress}%)";
+						_banner.Progress = (int)(value.ProcessedItemsCount * 100 / value.ItemsCount);
+						_banner.FullTitle = $"{_banner.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {_banner.Progress}%)";
 						break;
 
 					default:
-						Banner.FullTitle = $"{Banner.Title} (...)";
+						_banner.FullTitle = $"{_banner.Title} (...)";
 						break;
 				}
 			}
 			else
 			{
-				Banner.FullTitle = (value.ProcessedSize, value.ProcessedItemsCount) switch
+				_banner.FullTitle = (value.ProcessedSize, value.ProcessedItemsCount) switch
 				{
-					(not 0, not 0) => $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)",
-					(not 0, _) => $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / ...)",
-					(_, not 0) => $"{Banner.Title} ({value.ProcessedItemsCount} / ...)",
-					_ => $"{Banner.Title} (...)",
+					(not 0, not 0) => $"{_banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)",
+					(not 0, _) => $"{_banner.Title} ({value.ProcessedSize.ToSizeString()} / ...)",
+					(_, not 0) => $"{_banner.Title} ({value.ProcessedItemsCount} / ...)",
+					_ => $"{_banner.Title} (...)",
 				};
 			}
 
-			OngoingTasksActions.UpdateBanner(Banner);
-			OngoingTasksActions.UpdateMedianProgress();
+			_ongoingTasksActions.UpdateBanner(_banner);
+			_ongoingTasksActions.UpdateMedianProgress();
 		}
 
 		public void Remove()
 		{
-			OngoingTasksActions.CloseBanner(Banner);
+			_ongoingTasksActions.CloseBanner(_banner);
 		}
 
 		public void RequestCancellation()
 		{
-			cancellationTokenSource?.Cancel();
+			_cancellationTokenSource?.Cancel();
 		}
 	}
 }
