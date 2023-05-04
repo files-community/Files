@@ -14,43 +14,21 @@ namespace Files.App.ViewModels
 {
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
-
-		private NetworkDrivesViewModel networkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
-
-		private IPaneHolder paneHolder;
-		public IPaneHolder PaneHolder
-		{
-			get => paneHolder;
-			set => SetProperty(ref paneHolder, value);
-		}
-
-		public IFilesystemHelpers FilesystemHelpers
-			=> PaneHolder?.FilesystemHelpers;
-
-		private DispatcherQueue dispatcherQueue;
+		public readonly GridLength CompactSidebarWidth;
 
 		public BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems { get; init; }
 
-		public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
+		private IUserSettingsService UserSettingsService { get; }
 
-		private NavigationViewDisplayMode sidebarDisplayMode;
-		public NavigationViewDisplayMode SidebarDisplayMode
-		{
-			get => sidebarDisplayMode;
-			set
+		private DrivesViewModel DrivesViewModel { get; }
+
+		private NetworkDrivesViewModel NetworkDrivesViewModel { get; }
+
+		private readonly DispatcherQueue dispatcherQueue;
+
+		private readonly SectionType[] SectionOrder =
+			new SectionType[]
 			{
-				if (SetProperty(ref sidebarDisplayMode, value))
-				{
-					OnPropertyChanged(nameof(IsSidebarCompactSize));
-					UpdateTabControlMargin();
-				}
-			}
-		}
-
-		private readonly SectionType[] SectionOrder = new SectionType[] {
 				SectionType.Home,
 				SectionType.Favorites,
 				SectionType.Library,
@@ -59,46 +37,48 @@ namespace Files.App.ViewModels
 				SectionType.Network,
 				SectionType.WSL,
 				SectionType.FileTag
-		};
+			};
+
+		private IPaneHolder _PaneHolder;
+		public IPaneHolder PaneHolder
+		{
+			get => _PaneHolder;
+			set => SetProperty(ref _PaneHolder, value);
+		}
+
+		private NavigationViewDisplayMode _SidebarDisplayMode;
+		public NavigationViewDisplayMode SidebarDisplayMode
+		{
+			get => _SidebarDisplayMode;
+			set
+			{
+				if (SetProperty(ref _SidebarDisplayMode, value))
+				{
+					OnPropertyChanged(nameof(IsSidebarCompactSize));
+					UpdateTabControlMargin();
+				}
+			}
+		}
+
+		public IFilesystemHelpers FilesystemHelpers
+			=> PaneHolder?.FilesystemHelpers;
+
+		private INavigationControlItem _SidebarSelectedItem;
+		public INavigationControlItem SidebarSelectedItem
+		{
+			get => _SidebarSelectedItem;
+			set => SetProperty(ref _SidebarSelectedItem, value);
+		}
+
+		private GridLength _TabControlMargin;
+		public GridLength TabControlMargin
+		{
+			get => _TabControlMargin;
+			set => SetProperty(ref _TabControlMargin, value);
+		}
 
 		public bool IsSidebarCompactSize
 			=> SidebarDisplayMode == NavigationViewDisplayMode.Compact || SidebarDisplayMode == NavigationViewDisplayMode.Minimal;
-
-		public void NotifyInstanceRelatedPropertiesChanged(string arg)
-		{
-			UpdateSidebarSelectedItemFromArgs(arg);
-
-			OnPropertyChanged(nameof(SidebarSelectedItem));
-		}
-
-		public void UpdateSidebarSelectedItemFromArgs(string arg)
-		{
-			var value = arg;
-
-			INavigationControlItem? item = null;
-			var sidebarItems = SideBarItems
-				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
-				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
-				.ToList();
-
-			if (string.IsNullOrEmpty(value))
-			{
-				//SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
-				return;
-			}
-
-			item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
-			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
-			item ??= sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
-			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
-
-			if (item is null && value == "Home")
-				item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
-
-			if (SidebarSelectedItem != item)
-				SidebarSelectedItem = item;
-
-		}
 
 		public bool IsSidebarOpen
 		{
@@ -197,23 +177,14 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private INavigationControlItem selectedSidebarItem;
-
-		public INavigationControlItem SidebarSelectedItem
-		{
-			get => selectedSidebarItem;
-			set => SetProperty(ref selectedSidebarItem, value);
-		}
-
-		private GridLength tabControlMargin;
-		public GridLength TabControlMargin
-		{
-			get => tabControlMargin;
-			set => SetProperty(ref tabControlMargin, value);
-		}
-
 		public SidebarViewModel()
 		{
+			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			DrivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+			NetworkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+
+			CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
+
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
@@ -230,11 +201,47 @@ namespace Files.App.ViewModels
 
 			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
 			App.LibraryManager.DataChanged += Manager_DataChanged;
-			drivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
+			DrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			App.CloudDrivesManager.DataChanged += Manager_DataChanged;
-			networkDrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
+			NetworkDrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
 			App.WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
+		}
+
+		public void NotifyInstanceRelatedPropertiesChanged(string arg)
+		{
+			UpdateSidebarSelectedItemFromArgs(arg);
+
+			OnPropertyChanged(nameof(SidebarSelectedItem));
+		}
+
+		public void UpdateSidebarSelectedItemFromArgs(string arg)
+		{
+			var value = arg;
+
+			INavigationControlItem? item = null;
+			var sidebarItems = SideBarItems
+				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
+				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+				.ToList();
+
+			if (string.IsNullOrEmpty(value))
+			{
+				//SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+				return;
+			}
+
+			item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
+			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
+			item ??= sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
+			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+
+			if (item is null && value == "Home")
+				item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+
+			if (SidebarSelectedItem != item)
+				SidebarSelectedItem = item;
+
 		}
 
 		private Task CreateItemHomeAsync()
@@ -252,8 +259,8 @@ namespace Files.App.ViewModels
 				{
 					SectionType.Favorites => App.QuickAccessManager.Model.Favorites,
 					SectionType.CloudDrives => App.CloudDrivesManager.Drives,
-					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
-					SectionType.Network => networkDrivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
+					SectionType.Drives => DrivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
+					SectionType.Network => NetworkDrivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.WSL => App.WSLDistroManager.Distros,
 					SectionType.Library => App.LibraryManager.Libraries,
 					SectionType.FileTag => App.FileTagsManager.FileTags,
@@ -530,8 +537,8 @@ namespace Files.App.ViewModels
 				Func<Task> action = sectionType switch
 				{
 					SectionType.CloudDrives when generalSettingsService.ShowCloudDrivesSection => App.CloudDrivesManager.UpdateDrivesAsync,
-					SectionType.Drives => drivesViewModel.UpdateDrivesAsync,
-					SectionType.Network when generalSettingsService.ShowNetworkDrivesSection => networkDrivesViewModel.UpdateDrivesAsync,
+					SectionType.Drives => DrivesViewModel.UpdateDrivesAsync,
+					SectionType.Network when generalSettingsService.ShowNetworkDrivesSection => NetworkDrivesViewModel.UpdateDrivesAsync,
 					SectionType.WSL when generalSettingsService.ShowWslSection => App.WSLDistroManager.UpdateDrivesAsync,
 					SectionType.FileTag when generalSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
 					SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
@@ -596,9 +603,9 @@ namespace Files.App.ViewModels
 
 			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
-			drivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
+			DrivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			App.CloudDrivesManager.DataChanged -= Manager_DataChanged;
-			networkDrivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
+			NetworkDrivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
 			App.WSLDistroManager.DataChanged -= Manager_DataChanged;
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
 		}

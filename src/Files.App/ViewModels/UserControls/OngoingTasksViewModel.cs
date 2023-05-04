@@ -5,13 +5,13 @@ namespace Files.App.ViewModels
 {
 	public class OngoingTasksViewModel : ObservableObject, IOngoingTasksActions
 	{
-		public ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
+		public ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new();
 
-		private int medianOperationProgressValue = 0;
+		private int _MedianOperationProgressValue = 0;
 		public int MedianOperationProgressValue
 		{
-			get => medianOperationProgressValue;
-			private set => SetProperty(ref medianOperationProgressValue, value);
+			get => _MedianOperationProgressValue;
+			private set => SetProperty(ref _MedianOperationProgressValue, value);
 		}
 
 		public int OngoingOperationsCount
@@ -33,14 +33,10 @@ namespace Files.App.ViewModels
 		}
 
 		public bool AnyOperationsOngoing
-		{
-			get => OngoingOperationsCount > 0;
-		}
+			=> OngoingOperationsCount > 0;
 
 		public bool AnyBannersPresent
-		{
-			get => StatusBannersSource.Any();
-		}
+			=> StatusBannersSource.Any();
 
 		public int InfoBadgeState
 		{
@@ -59,11 +55,9 @@ namespace Files.App.ViewModels
 		}
 
 		public int InfoBadgeValue
-		{
-			get => OngoingOperationsCount > 0 ? OngoingOperationsCount : -1;
-		}
+			=> OngoingOperationsCount > 0 ? OngoingOperationsCount : -1;
 
-		public event EventHandler<PostedStatusBanner> ProgressBannerPosted;
+		public event EventHandler<PostedStatusBanner>? ProgressBannerPosted;
 
 		public OngoingTasksViewModel()
 		{

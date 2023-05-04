@@ -342,5 +342,4 @@ namespace Files.App.ViewModels
 			previewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 		}
 	}
-
 }
