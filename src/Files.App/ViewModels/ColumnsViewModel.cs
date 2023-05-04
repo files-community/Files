@@ -7,97 +7,90 @@ namespace Files.App.ViewModels
 {
 	public class ColumnsViewModel : ObservableObject
 	{
-		private ColumnViewModel iconColumn = new()
-		{
-			UserLength = new GridLength(24, GridUnitType.Pixel),
-			IsResizeable = false,
-		};
+		private ColumnViewModel _IconColumn = new() { UserLength = new(24), IsResizeable = false };
+
 		[LiteDB.BsonIgnore]
 		public ColumnViewModel IconColumn
 		{
-			get => iconColumn;
-			set => SetProperty(ref iconColumn, value);
+			get => _IconColumn;
+			set => SetProperty(ref _IconColumn, value);
 		}
 
-		private ColumnViewModel tagColumn = new();
+		private ColumnViewModel _TagColumn = new();
 		public ColumnViewModel TagColumn
 		{
-			get => tagColumn;
-			set => SetProperty(ref tagColumn, value);
+			get => _TagColumn;
+			set => SetProperty(ref _TagColumn, value);
 		}
 
-		private ColumnViewModel nameColumn = new()
-		{
-			NormalMaxLength = 1000d
-		};
+		private ColumnViewModel _NameColumn = new() { NormalMaxLength = 1000d };
 		public ColumnViewModel NameColumn
 		{
-			get => nameColumn;
-			set => SetProperty(ref nameColumn, value);
+			get => _NameColumn;
+			set => SetProperty(ref _NameColumn, value);
 		}
 
-		private ColumnViewModel statusColumn = new()
-		{
-			UserLength = new GridLength(50),
-			NormalMaxLength = 80,
-		};
+		private ColumnViewModel _StatusColumn = new() { UserLength = new(50), NormalMaxLength = 80 };
 		public ColumnViewModel StatusColumn
 		{
-			get => statusColumn;
-			set => SetProperty(ref statusColumn, value);
+			get => _StatusColumn;
+			set => SetProperty(ref _StatusColumn, value);
 		}
 
-		private ColumnViewModel dateModifiedColumn = new();
+		private ColumnViewModel _DateModifiedColumn = new();
 		public ColumnViewModel DateModifiedColumn
 		{
-			get => dateModifiedColumn;
-			set => SetProperty(ref dateModifiedColumn, value);
+			get => _DateModifiedColumn;
+			set => SetProperty(ref _DateModifiedColumn, value);
 		}
 
-		private ColumnViewModel originalPathColumn = new()
-		{
-			NormalMaxLength = 500,
-		};
+		private ColumnViewModel _OriginalPathColumn = new() { NormalMaxLength = 500 };
 		public ColumnViewModel OriginalPathColumn
 		{
-			get => originalPathColumn;
-			set => SetProperty(ref originalPathColumn, value);
+			get => _OriginalPathColumn;
+			set => SetProperty(ref _OriginalPathColumn, value);
 		}
 
-		private ColumnViewModel itemTypeColumn = new();
+		private ColumnViewModel _ItemTypeColumn = new();
 		public ColumnViewModel ItemTypeColumn
 		{
-			get => itemTypeColumn;
-			set => SetProperty(ref itemTypeColumn, value);
+			get => _ItemTypeColumn;
+			set => SetProperty(ref _ItemTypeColumn, value);
 		}
 
-		private ColumnViewModel dateDeletedColumn = new();
+		private ColumnViewModel _DateDeletedColumn = new();
 		public ColumnViewModel DateDeletedColumn
 		{
-			get => dateDeletedColumn;
-			set => SetProperty(ref dateDeletedColumn, value);
+			get => _DateDeletedColumn;
+			set => SetProperty(ref _DateDeletedColumn, value);
 		}
 
-		private ColumnViewModel dateCreatedColumn = new()
-		{
-			UserCollapsed = true
-		};
+		private ColumnViewModel _DateCreatedColumn = new() { UserCollapsed = true };
 		public ColumnViewModel DateCreatedColumn
 		{
-			get => dateCreatedColumn;
-			set => SetProperty(ref dateCreatedColumn, value);
+			get => _DateCreatedColumn;
+			set => SetProperty(ref _DateCreatedColumn, value);
 		}
 
-		private ColumnViewModel sizeColumn = new();
+		private ColumnViewModel _SizeColumn = new();
 		public ColumnViewModel SizeColumn
 		{
-			get => sizeColumn;
-			set => SetProperty(ref sizeColumn, value);
+			get => _SizeColumn;
+			set => SetProperty(ref _SizeColumn, value);
 		}
 
 		[LiteDB.BsonIgnore]
-		public double TotalWidth => IconColumn.Length.Value + TagColumn.Length.Value + NameColumn.Length.Value + DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value
-			+ ItemTypeColumn.Length.Value + DateDeletedColumn.Length.Value + DateCreatedColumn.Length.Value + SizeColumn.Length.Value + StatusColumn.Length.Value;
+		public double TotalWidth =>
+			IconColumn.Length.Value +
+			TagColumn.Length.Value +
+			NameColumn.Length.Value +
+			DateModifiedColumn.Length.Value +
+			OriginalPathColumn.Length.Value +
+			ItemTypeColumn.Length.Value +
+			DateDeletedColumn.Length.Value +
+			DateCreatedColumn.Length.Value +
+			SizeColumn.Length.Value +
+			StatusColumn.Length.Value;
 
 		public void SetDesiredSize(double width)
 		{
@@ -136,7 +129,7 @@ namespace Files.App.ViewModels
 
 			if (obj is ColumnsViewModel model)
 			{
-				return (
+				return
 					model.DateCreatedColumn.Equals(DateCreatedColumn) &&
 					model.DateDeletedColumn.Equals(DateDeletedColumn) &&
 					model.DateModifiedColumn.Equals(DateModifiedColumn) &&
@@ -145,7 +138,7 @@ namespace Files.App.ViewModels
 					model.OriginalPathColumn.Equals(OriginalPathColumn) &&
 					model.SizeColumn.Equals(SizeColumn) &&
 					model.StatusColumn.Equals(StatusColumn) &&
-					model.TagColumn.Equals(TagColumn));
+					model.TagColumn.Equals(TagColumn);
 			}
 
 			return base.Equals(obj);
@@ -169,13 +162,62 @@ namespace Files.App.ViewModels
 
 	public class ColumnViewModel : ObservableObject
 	{
-		private bool isHidden;
+		private bool _IsHidden;
 
 		[LiteDB.BsonIgnore]
 		public bool IsHidden
 		{
-			get => isHidden;
-			set => SetProperty(ref isHidden, value);
+			get => _IsHidden;
+			set => SetProperty(ref _IsHidden, value);
+		}
+
+		private double _NormalMinLength = 50;
+
+		[LiteDB.BsonIgnore]
+		public double NormalMinLength
+		{
+			get => _NormalMinLength;
+			set
+			{
+				if (SetProperty(ref _NormalMinLength, value))
+				{
+					OnPropertyChanged(nameof(MinLength));
+				}
+			}
+		}
+
+		private GridLength _UserLength = new(200);
+
+		[LiteDB.BsonIgnore]
+		public GridLength UserLength
+		{
+			get => _UserLength;
+			set
+			{
+				if (SetProperty(ref _UserLength, value))
+				{
+					OnPropertyChanged(nameof(Length));
+					OnPropertyChanged(nameof(LengthIncludingGridSplitter));
+				}
+			}
+		}
+
+		private double _NormalMaxLength = 800;
+		public double NormalMaxLength
+		{
+			get => _NormalMaxLength;
+			set => SetProperty(ref _NormalMaxLength, value);
+		}
+
+		private bool _UserCollapsed;
+		public bool UserCollapsed
+		{
+			get => _UserCollapsed;
+			set
+			{
+				if (SetProperty(ref _UserCollapsed, value))
+					UpdateVisibility();
+			}
 		}
 
 		[LiteDB.BsonIgnore]
@@ -184,46 +226,13 @@ namespace Files.App.ViewModels
 			get => UserCollapsed ? 0 : NormalMaxLength;
 		}
 
-		private double normalMaxLength = 800;
-
-		public double NormalMaxLength
-		{
-			get => normalMaxLength;
-			set => SetProperty(ref normalMaxLength, value);
-		}
-
-		private double normalMinLength = 50;
+		[LiteDB.BsonIgnore]
+		public double MinLength
+			=> UserCollapsed ? 0 : NormalMinLength;
 
 		[LiteDB.BsonIgnore]
-		public double NormalMinLength
-		{
-			get => normalMinLength;
-			set
-			{
-				if (SetProperty(ref normalMinLength, value))
-				{
-					OnPropertyChanged(nameof(MinLength));
-				}
-			}
-		}
-
-		[LiteDB.BsonIgnore]
-		public double MinLength => UserCollapsed ? 0 : NormalMinLength;
-
-		[LiteDB.BsonIgnore]
-		public Visibility Visibility => UserCollapsed ? Visibility.Collapsed : Visibility.Visible;
-
-		private bool userCollapsed;
-
-		public bool UserCollapsed
-		{
-			get => userCollapsed;
-			set
-			{
-				if (SetProperty(ref userCollapsed, value))
-					UpdateVisibility();
-			}
-		}
+		public Visibility Visibility
+			=> UserCollapsed ? Visibility.Collapsed : Visibility.Visible;
 
 		[LiteDB.BsonIgnore]
 		public GridLength Length
@@ -235,39 +244,22 @@ namespace Files.App.ViewModels
 
 		[LiteDB.BsonIgnore]
 		public GridLength LengthIncludingGridSplitter
-		{
-			get => UserCollapsed ? new GridLength(0) : new GridLength(UserLength.Value + (IsResizeable ? gridSplitterWidth : 0));
-		}
+			=> UserCollapsed ? new(0) : new(UserLength.Value + (IsResizeable ? gridSplitterWidth : 0));
 
 		[LiteDB.BsonIgnore]
 		public bool IsResizeable { get; set; } = true;
 
-		private GridLength userLength = new GridLength(200, GridUnitType.Pixel);
-
-		[LiteDB.BsonIgnore]
-		public GridLength UserLength
-		{
-			get => userLength;
-			set
-			{
-				if (SetProperty(ref userLength, value))
-				{
-					OnPropertyChanged(nameof(Length));
-					OnPropertyChanged(nameof(LengthIncludingGridSplitter));
-				}
-			}
-		}
-
 		public double UserLengthPixels
 		{
 			get => UserLength.Value;
-			set => UserLength = new GridLength(value, GridUnitType.Pixel);
+			set => UserLength = new(value);
 		}
 
 		public void Hide()
 		{
 			UserCollapsed = true;
 			IsHidden = true;
+
 			UpdateVisibility();
 		}
 
@@ -275,6 +267,7 @@ namespace Files.App.ViewModels
 		{
 			UserCollapsed = false;
 			IsHidden = false;
+
 			UpdateVisibility();
 		}
 
@@ -294,12 +287,13 @@ namespace Files.App.ViewModels
 				return;
 
 			double setLength = newSize;
+
 			if (newSize < MinLength)
 				setLength = MinLength;
 			else if (newSize >= MaxLength)
 				setLength = MaxLength;
 
-			UserLength = new GridLength(setLength);
+			UserLength = new(setLength);
 		}
 
 		public override bool Equals(object? obj)
@@ -312,11 +306,11 @@ namespace Files.App.ViewModels
 
 			if (obj is ColumnViewModel model)
 			{
-				return (
+				return
 					model.UserCollapsed == UserCollapsed &&
 					model.Length.Value == Length.Value &&
 					model.LengthIncludingGridSplitter.Value == LengthIncludingGridSplitter.Value &&
-					model.UserLength.Value == UserLength.Value);
+					model.UserLength.Value == UserLength.Value;
 			}
 
 			return base.Equals(obj);

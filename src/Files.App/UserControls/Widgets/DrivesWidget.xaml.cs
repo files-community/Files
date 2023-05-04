@@ -157,14 +157,14 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public override List<ContextMenuFlyoutItem> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			var drive = ItemsAdded.Where(x => string.Equals(PathNormalization.NormalizePath(x.Path), PathNormalization.NormalizePath(item.Path), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
 			var options = drive?.Item.MenuOptions;
 
-			return new List<ContextMenuFlyoutItemViewModel>()
+			return new List<ContextMenuFlyoutItem>()
 			{
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -175,7 +175,7 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -186,14 +186,14 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewWindow
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
 					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "PinToFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -204,7 +204,7 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = !isPinned
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -215,21 +215,21 @@ namespace Files.App.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = isPinned
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
 					Command = EjectDeviceCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowEjectDevice ?? false
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "FormatDriveText".GetLocalizedResource(),
 					Command = FormatDriveCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowFormatDrive ?? false
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "Properties".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -239,16 +239,16 @@ namespace Files.App.UserControls.Widgets
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
-					ItemType = ItemType.Separator,
+					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					Items = new List<ContextMenuFlyoutItem>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,

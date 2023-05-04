@@ -37,7 +37,7 @@ namespace Files.App.UserControls.Widgets
 
 		protected CommandBarFlyout ItemContextMenuFlyout;
 
-		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
+		public abstract List<ContextMenuFlyoutItem> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
 		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{

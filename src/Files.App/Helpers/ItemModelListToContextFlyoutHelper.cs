@@ -17,11 +17,11 @@ namespace Files.App.Helpers.ContextFlyouts
 	/// <summary>
 	/// This helper class is used to convert ContextMenuFlyoutItemViewModels into a control that can be displayed to the user.
 	/// This is for use in scenarios where XAML templates and data binding will not suffice.
-	/// <see cref="Files.App.ViewModels.ContextMenuFlyoutItemViewModel"/>
+	/// <see cref="Files.App.ViewModels.ContextMenuFlyoutItem"/>
 	/// </summary>
 	public static class ItemModelListToContextFlyoutHelper
 	{
-		public static List<MenuFlyoutItemBase>? GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItemViewModel>? items)
+		public static List<MenuFlyoutItemBase>? GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItem>? items)
 		{
 			if (items is null)
 				return null;
@@ -48,12 +48,12 @@ namespace Files.App.Helpers.ContextFlyouts
 			return flyout;
 		}
 
-		public static (List<ICommandBarElement> primaryElements, List<ICommandBarElement> secondaryElements) GetAppBarItemsFromModel(List<ContextMenuFlyoutItemViewModel> items)
+		public static (List<ICommandBarElement> primaryElements, List<ICommandBarElement> secondaryElements) GetAppBarItemsFromModel(List<ContextMenuFlyoutItem> items)
 		{
 			var primaryModels = items.Where(i => i.IsPrimary).ToList();
 			var secondaryModels = items.Except(primaryModels).ToList();
 
-			if (!secondaryModels.IsEmpty() && secondaryModels.Last().ItemType is ItemType.Separator)
+			if (!secondaryModels.IsEmpty() && secondaryModels.Last().ItemType is ContextMenuFlyoutItemType.Separator)
 				secondaryModels.RemoveAt(secondaryModels.Count - 1);
 
 			var primary = new List<ICommandBarElement>();
@@ -69,23 +69,23 @@ namespace Files.App.Helpers.ContextFlyouts
 		/// </summary>
 		/// <param name="items"></param>
 		/// <returns></returns>
-		public static List<ICommandBarElement> GetAppBarButtonsFromModelIgnorePrimary(List<ContextMenuFlyoutItemViewModel> items)
+		public static List<ICommandBarElement> GetAppBarButtonsFromModelIgnorePrimary(List<ContextMenuFlyoutItem> items)
 		{
 			var elements = new List<ICommandBarElement>();
 			items.ForEach(i => elements.Add(GetCommandBarItem(i)));
 			return elements;
 		}
 
-		public static MenuFlyoutItemBase GetMenuItem(ContextMenuFlyoutItemViewModel item)
+		public static MenuFlyoutItemBase GetMenuItem(ContextMenuFlyoutItem item)
 		{
 			return item.ItemType switch
 			{
-				ItemType.Separator => new MenuFlyoutSeparator(),
+				ContextMenuFlyoutItemType.Separator => new MenuFlyoutSeparator(),
 				_ => GetMenuFlyoutItem(item),
 			};
 		}
 
-		private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextMenuFlyoutItemViewModel item)
+		private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextMenuFlyoutItem item)
 		{
 			if (item.Items is not null)
 			{
@@ -103,7 +103,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			return GetItem(item);
 		}
 
-		private static MenuFlyoutItemBase GetItem(ContextMenuFlyoutItemViewModel i)
+		private static MenuFlyoutItemBase GetItem(ContextMenuFlyoutItem i)
 		{
 			if (i.BitmapIcon is not null)
 			{
@@ -126,7 +126,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			}
 			MenuFlyoutItem flyoutItem;
 
-			if (i.ItemType is ItemType.Toggle)
+			if (i.ItemType is ContextMenuFlyoutItemType.Toggle)
 			{
 				flyoutItem = new ToggleMenuFlyoutItem()
 				{
@@ -174,11 +174,11 @@ namespace Files.App.Helpers.ContextFlyouts
 			return flyoutItem;
 		}
 
-		public static ICommandBarElement GetCommandBarItem(ContextMenuFlyoutItemViewModel item)
+		public static ICommandBarElement GetCommandBarItem(ContextMenuFlyoutItem item)
 		{
 			return item.ItemType switch
 			{
-				ItemType.Separator => new AppBarSeparator()
+				ContextMenuFlyoutItemType.Separator => new AppBarSeparator()
 				{
 					Tag = item.Tag,
 					Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
@@ -187,7 +187,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			};
 		}
 
-		private static ICommandBarElement GetCommandBarButton(ContextMenuFlyoutItemViewModel item)
+		private static ICommandBarElement GetCommandBarButton(ContextMenuFlyoutItem item)
 		{
 			ICommandBarElement element;
 			FontIcon? icon = null;
@@ -227,7 +227,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					IsActive = true,
 				};
 
-			if (item.ItemType is ItemType.Toggle)
+			if (item.ItemType is ContextMenuFlyoutItemType.Toggle)
 			{
 				element = new AppBarToggleButton()
 				{
