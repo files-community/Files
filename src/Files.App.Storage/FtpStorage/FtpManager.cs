@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Files.App.Storage.FtpStorage
 {
-	internal static class FtpManager
+	public static class FtpManager
 	{
 		public static readonly Dictionary<string, NetworkCredential> Credentials = new();
 
