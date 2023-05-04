@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.UserControls;
 using Microsoft.UI.Input;
