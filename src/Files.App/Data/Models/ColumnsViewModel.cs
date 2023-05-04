@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public class ColumnsViewModel : ObservableObject
 	{

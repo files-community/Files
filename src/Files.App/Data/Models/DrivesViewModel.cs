@@ -8,7 +8,7 @@ using Files.Sdk.Storage.LocatableStorage;
 using Microsoft.Extensions.Logging;
 using System.IO;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public class DrivesViewModel : ObservableObject, IDisposable
 	{

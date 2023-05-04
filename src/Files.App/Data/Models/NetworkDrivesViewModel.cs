@@ -4,7 +4,7 @@
 using Files.Backend.Services;
 using Files.Sdk.Storage.LocatableStorage;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public class NetworkDrivesViewModel : ObservableObject
 	{

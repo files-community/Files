@@ -3,7 +3,7 @@
 
 using LibGit2Sharp;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public class CurrentInstanceViewModel : ObservableObject
 	{

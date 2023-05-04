@@ -7,7 +7,7 @@ using System.Text.Json;
 using Windows.Storage;
 using IO = System.IO;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public class FolderSettingsViewModel : ObservableObject
 	{

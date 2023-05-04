@@ -4,7 +4,7 @@
 using Files.App.ViewModels.Properties;
 using Files.Backend.Helpers;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public class SelectedItemsPropertiesViewModel : ObservableObject
 	{
