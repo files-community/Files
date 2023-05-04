@@ -14,6 +14,7 @@ using Files.App.ServicesImplementation;
 using Files.App.ServicesImplementation.DateTimeFormatter;
 using Files.App.ServicesImplementation.Settings;
 using Files.App.Shell;
+using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
@@ -206,6 +207,7 @@ namespace Files.App
 #else
 						.AddSingleton<IStorageService, NativeStorageService>()
 #endif
+						.AddSingleton<IFtpStorageService, FtpStorageService>()
 						.AddSingleton<IAddItemService, AddItemService>()
 #if STABLE || PREVIEW
 						.AddSingleton<IUpdateService, SideloadUpdateService>()

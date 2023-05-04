@@ -73,7 +73,6 @@ namespace Files.App.Helpers
 			if (hostIndex == -1)
 				hostIndex = path.Length;
 
-
 			return path.Substring(schemaIndex, hostIndex - schemaIndex);
 		}
 

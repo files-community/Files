@@ -7,6 +7,7 @@ using Files.App.Filesystem.StorageEnumerators;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers.FileListCache;
 using Files.App.Shell;
+using Files.App.Storage.FtpStorage;
 using Files.App.UserControls;
 using Files.App.ViewModels.Previews;
 using Files.Backend.Services;
@@ -39,7 +40,7 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.ViewModels
 {
-	public class ItemViewModel : ObservableObject, IDisposable
+	public sealed class ItemViewModel : ObservableObject, IDisposable
 	{
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
@@ -139,9 +140,19 @@ namespace Files.App.ViewModels
 
 			WorkingDirectory = value;
 
-			var pathRoot = FtpHelpers.IsFtpPath(WorkingDirectory) 
-				? WorkingDirectory.Substring(0, FtpHelpers.GetRootIndex(WorkingDirectory)) 
-				: Path.GetPathRoot(WorkingDirectory);
+			string? pathRoot;
+			if (FtpHelpers.IsFtpPath(WorkingDirectory))
+			{
+				var rootIndex = FtpHelpers.GetRootIndex(WorkingDirectory);
+				pathRoot = rootIndex is -1
+					? WorkingDirectory
+					: WorkingDirectory.Substring(0, rootIndex);
+			}
+			else
+			{
+				pathRoot = Path.GetPathRoot(WorkingDirectory);
+			}
+
 			GitDirectory = pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
