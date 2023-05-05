@@ -139,7 +139,7 @@
     <value>Taille :</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Taille non compressé :</value>
+    <value>Taille décompressée :</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Cette action ne peut pas être effectuée</value>
@@ -1000,7 +1000,7 @@
     <value>Inclure les éléments non indexés dans les résultats de recherche</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Synchroniser les préférences de mise en page et de tri entre les répertoires</value>
+    <value>Synchroniser les préférences d'affichage et de tri entre les répertoires</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personnaliser le menu contextuel du clic droit</value>
