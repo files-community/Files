@@ -20,8 +20,7 @@
 	<Grid x:Name="RootGrid">
 		<StackPanel Spacing="{StaticResource SettingsCardSpacing}">
 			<StackPanel.ChildrenTransitions>
-				<EntranceThemeTransition FromVerticalOffset="50" />
-				<RepositionThemeTransition IsStaggeringEnabled="False" />
+				<RepositionThemeTransition />
 			</StackPanel.ChildrenTransitions>
 
 			<!--  Title (General)  -->
