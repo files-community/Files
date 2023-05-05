@@ -271,7 +271,7 @@
     <value>Pin to Favorites</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>환영합니다!</value>
+    <value>Files에 오신 걸 환영합니다!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>권한 부여</value>
@@ -3206,6 +3206,6 @@
     <value>Redo the last file operation</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Location:</value>
+    <value>위치:</value>
   </data>
 </root>
