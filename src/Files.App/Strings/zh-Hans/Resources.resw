@@ -477,7 +477,7 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>不同类型</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>{0} 中全部</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
@@ -3149,7 +3149,7 @@
     <value>关闭当前标签页</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>编辑路径</value>
   </data>
   <data name="Branch" xml:space="preserve">
     <value>分支: {0}</value>
@@ -3179,10 +3179,10 @@
     <value>选择项目时显示复选框</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>移动焦点到路径栏</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>创建新项目</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>没有组或用户有权访问此对象。然而，此对象的所有者可以分配权限。</value>
@@ -3204,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>重做上一次文件操作</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>位置:</value>
   </data>
 </root>
