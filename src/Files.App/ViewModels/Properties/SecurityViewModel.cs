@@ -97,8 +97,8 @@ namespace Files.App.ViewModels.Properties
 			{
 				DisplayElements = false;
 				ErrorMessage = error == Win32Error.ERROR_ACCESS_DENIED
-					? "You must have Read permissions to view the properties of this object. Click 'Advanced permissions' to continue."
-					: "Unable to display permissions for one or more errors";
+					? "SecurityRequireReadPermissions".GetLocalizedResource() + "\r\n" + "SecurityClickAdvancedPermissions".GetLocalizedResource()
+					: "SecurityUnableToDisplayPermissions".GetLocalizedResource();
 			}
 			else
 			{

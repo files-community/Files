@@ -15,9 +15,9 @@ namespace Files.App.Helpers
 	public static class FileSecurityHelpers
 	{
 		/// <summary>
-		/// Get file owner.
+		/// Get the owner of the object specified by the path.
 		/// </summary>
-		/// <param name="path"></param>
+		/// <param name="path">The file full path</param>
 		/// <returns></returns>
 		public static string GetOwner(string path)
 		{
@@ -37,10 +37,10 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Set file owner
+		/// Set the owner of the object specified by the path.
 		/// </summary>
-		/// <param name="path"></param>
-		/// <param name="sid"></param>
+		/// <param name="path">The file full path</param>
+		/// <param name="sid">The owner security identifier (SID)</param>
 		/// <returns></returns>
 		public static bool SetOwner(string path, string sid)
 		{
@@ -80,7 +80,11 @@ namespace Files.App.Helpers
 				path,
 				SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
-				out _, out _, out var pDacl, out _, out _);
+				out _,
+				out _,
+				out var pDacl,
+				out _,
+				out _);
 
 			if (win32Error.Failed || pDacl == PACL.NULL)
 				return win32Error;
@@ -177,7 +181,7 @@ namespace Files.App.Helpers
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
-				out PACL pDACL,
+				out var pDACL,
 				out _,
 				out _);
 
@@ -251,12 +255,6 @@ namespace Files.App.Helpers
 				return result;
 
 			return result;
-		}
-
-		public static Win32Error CheckIfCurrentUserHasReadPermisions(string szPath)
-		{
-
-			return Kernel32.GetLastError();
 		}
 	}
 }

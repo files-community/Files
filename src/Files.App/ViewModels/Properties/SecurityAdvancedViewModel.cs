@@ -175,12 +175,14 @@ namespace Files.App.ViewModels.Properties
 
 				if (error == Win32Error.ERROR_ACCESS_DENIED)
 				{
-					ErrorMessage = "You must have Read permissions to view the properties of this object.";
-					ErrorMessage += "\r\n\r\n" + "To try taking ownership of the object, which includes permission to view its properties, click Change above.";
+					ErrorMessage = 
+						"SecurityRequireReadPermissions".GetLocalizedResource() +
+						"\r\n\r\n" +
+						"SecuritySuggestToTakeOwnership".GetLocalizedResource();
 				}
 				else
 				{
-					ErrorMessage = "Unable to display permissions for one or more errors";
+					ErrorMessage = "SecurityUnableToDisplayPermissions".GetLocalizedResource();
 				}
 			}
 			else

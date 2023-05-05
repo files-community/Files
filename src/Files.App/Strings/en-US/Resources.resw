@@ -3208,4 +3208,13 @@
   <data name="Location" xml:space="preserve">
     <value>Location:</value>
   </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Click 'Advanced permissions' to continue.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>You must have Read permissions to view the properties of this object.</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>Unable to display permissions for one or more errors</value>
+  </data>
 </root>
