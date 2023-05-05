@@ -222,9 +222,7 @@ namespace Files.App.Data.Models
 
 		[LiteDB.BsonIgnore]
 		public double MaxLength
-		{
-			get => UserCollapsed ? 0 : NormalMaxLength;
-		}
+			=> UserCollapsed ? 0 : NormalMaxLength;
 
 		[LiteDB.BsonIgnore]
 		public double MinLength
@@ -236,9 +234,7 @@ namespace Files.App.Data.Models
 
 		[LiteDB.BsonIgnore]
 		public GridLength Length
-		{
-			get => UserCollapsed ? new GridLength(0) : UserLength;
-		}
+			=> UserCollapsed ? new GridLength(0) : UserLength;
 
 		private const int gridSplitterWidth = 12;
 

@@ -1,11 +1,13 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Globalization;
+
 namespace Files.App.Data.Items
 {
 	public class AppLanguageItem
 	{
-		public string LanguagID { get; set; }
+		public string LanguageID { get; set; }
 
 		public string LanguageName { get; set; }
 
@@ -14,12 +16,12 @@ namespace Files.App.Data.Items
 			if (!string.IsNullOrEmpty(languagID))
 			{
 				var info = new CultureInfo(languagID);
-				LanguagID = info.Name;
+				LanguageID = info.Name;
 				LanguageName = info.NativeName;
 			}
 			else
 			{
-				LanguagID = string.Empty;
+				LanguageID = string.Empty;
 				var systemDefaultLanguageOptionStr = "SettingsPreferencesSystemDefaultLanguageOption".GetLocalizedResource();
 
 				LanguageName = string.IsNullOrEmpty(systemDefaultLanguageOptionStr) ? "System Default" : systemDefaultLanguageOptionStr;
@@ -27,8 +29,6 @@ namespace Files.App.Data.Items
 		}
 
 		public override string ToString()
-		{
-			return LanguageName;
-		}
+			=> LanguageName;
 	}
 }

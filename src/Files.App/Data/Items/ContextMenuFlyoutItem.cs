@@ -114,7 +114,7 @@ namespace Files.App.Data.Items
 		public bool IsChecked { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether the user can interact with the the menu flyout item.
+		/// Gets or sets a value indicating whether the user can interact with the menu flyout item.
 		/// </summary>
 		public bool IsEnabled { get; set; } = true;
 

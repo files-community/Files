@@ -74,10 +74,10 @@ namespace Files.App.ViewModels.Settings
 				{
 					OnPropertyChanged(nameof(SelectedAppLanguageIndex));
 
-					if (ApplicationLanguages.PrimaryLanguageOverride != AppLanguages[value].LanguagID)
+					if (ApplicationLanguages.PrimaryLanguageOverride != AppLanguages[value].LanguageID)
 						ShowRestartControl = true;
 
-					ApplicationLanguages.PrimaryLanguageOverride = AppLanguages[value].LanguagID;
+					ApplicationLanguages.PrimaryLanguageOverride = AppLanguages[value].LanguageID;
 				}
 			}
 		}
@@ -383,13 +383,13 @@ namespace Files.App.ViewModels.Settings
 			var appLanguages = ApplicationLanguages.ManifestLanguages
 				.Append(string.Empty) // Add default language id
 				.Select(language => new AppLanguageItem(language))
-				.OrderBy(language => language.LanguagID is not "") // Default language on top
+				.OrderBy(language => language.LanguageID is not "") // Default language on top
 				.ThenBy(language => language.LanguageName);
 			AppLanguages = new ObservableCollection<AppLanguageItem>(appLanguages);
 
 			string languageID = ApplicationLanguages.PrimaryLanguageOverride;
 			SelectedAppLanguageIndex = AppLanguages
-				.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == languageID) ?? AppLanguages.First());
+				.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguageID == languageID) ?? AppLanguages.First());
 		}
 
 		private async Task InitStartupSettingsRecentFoldersFlyout()
