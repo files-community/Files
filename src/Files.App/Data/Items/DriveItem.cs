@@ -248,11 +248,13 @@ namespace Files.App.Data.Items
 			{
 				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
 					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
+				else
+				{
+					using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
+					IconData ??= await thumbnail.ToByteArrayAsync();
 
-				using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
-				IconData ??= await thumbnail.ToByteArrayAsync();
-
-				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
+					IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
+				}
 			}
 
 			Icon ??= await IconData.ToBitmapAsync();
