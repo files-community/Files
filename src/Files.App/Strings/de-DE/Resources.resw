@@ -477,7 +477,7 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Unterschiedliche Typen</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>Alle in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
@@ -3149,7 +3149,7 @@
     <value>Schließt den aktuellen Tab</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Pfad bearbeiten</value>
   </data>
   <data name="Branch" xml:space="preserve">
     <value>Branch: {0}</value>
@@ -3179,10 +3179,10 @@
     <value>Auswahlkästchen beim Auswählen von Elementen anzeigen</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Pfadleiste fokussieren</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>Neues Element erstellen</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>Keine Gruppen oder Benutzer haben die Berechtigung, auf dieses Objekt zuzugreifen. Jedoch kann der Besitzer des Objekts Berechtigungen erteilen.</value>
@@ -3204,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Letzte Dateioperation wiederherstellen</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Ort:</value>
   </data>
 </root>

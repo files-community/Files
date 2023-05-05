@@ -477,8 +477,8 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Tipos múltiples</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>Todos en {0}</value>
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
+    <value>Todo(s) en {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Espacio usado:</value>
@@ -3149,7 +3149,7 @@
     <value>Cierra la pestaña actual</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Editar ruta</value>
   </data>
   <data name="Branch" xml:space="preserve">
     <value>Rama: {0}</value>
@@ -3182,7 +3182,7 @@
     <value>Focus path bar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>Crear nuevo elemento</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>Ningún grupo o usuario tiene permiso para acceder a este objeto. Sin embargo, el propietario de este objeto puede asignar permisos.</value>
@@ -3204,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Rehacer la última operación del archivo</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Ubicación:</value>
   </data>
 </root>

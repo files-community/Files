@@ -1,27 +1,14 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
-using Files.App.Helpers;
-using Files.App.Interacts;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
+using Files.Sdk.Storage;
 using Files.Shared.Services;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Graphics.Imaging;
@@ -31,7 +18,7 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem
 {
-	public class FilesystemHelpers : IFilesystemHelpers
+	public sealed class FilesystemHelpers : IFilesystemHelpers
 	{
 		#region Private Members
 
@@ -680,7 +667,10 @@ namespace Files.App.Filesystem
 				// Assume GenerateNewName when source and destination are the same
 				if (string.IsNullOrEmpty(item.src.Path) || item.src.Path != item.dest)
 				{
-					if (StorageHelpers.Exists(item.dest)) // Same item names in both directories
+					// Same item names in both directories
+					if (StorageHelpers.Exists(item.dest) || 
+						(FtpHelpers.IsFtpPath(item.dest) && 
+						await Ioc.Default.GetRequiredService<IFtpStorageService>().FileExistsAsync(item.dest)))
 					{
 						(incomingItems[item.index] as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
 						conflictingItems.Add(incomingItems.ElementAt(item.index));

@@ -122,22 +122,22 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref driveFileSystemVisibility, value);
 		}
 
-		private string itemPath;
-		public string ItemPath
+		private string itemLocation;
+		public string ItemLocation
 		{
-			get => itemPath;
+			get => itemLocation;
 			set
 			{
-				ItemPathVisibility = true;
-				SetProperty(ref itemPath, value);
+				ItemLocationVisibility = true;
+				SetProperty(ref itemLocation, value);
 			}
 		}
 
-		private bool itemPathVisibility = false;
-		public bool ItemPathVisibility
+		private bool itemLocationVisibility = false;
+		public bool ItemLocationVisibility
 		{
-			get => itemPathVisibility;
-			set => SetProperty(ref itemPathVisibility, value);
+			get => itemLocationVisibility;
+			set => SetProperty(ref itemLocationVisibility, value);
 		}
 
 		private string itemSize;
