@@ -18,15 +18,15 @@ namespace Files.App.Helpers
 
 			var env =
 #if STORE
-				AppEnvironment.WindowsStore;
+				AppEnvironment.Store;
 #elif PREVIEW
-				AppEnvironment.WindowsSideloadPreview;
+				AppEnvironment.Preview;
 #elif STABLE
-				AppEnvironment.WindowsSideload;
+				AppEnvironment.Stable;
 #elif DEBUG
 				AppEnvironment.Debug;
-#else 
-				AppEnvironment.WindowsDev;
+#else
+				AppEnvironment.Release;
 #endif
 
 			var path = env switch
