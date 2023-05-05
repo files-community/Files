@@ -4,6 +4,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
@@ -50,7 +51,7 @@
 					ItemsSource="{x:Bind ViewModel.AppLanguages}"
 					SelectedIndex="{x:Bind ViewModel.SelectedAppLanguageIndex, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
-						<DataTemplate x:DataType="vm:AppLanguageItem">
+						<DataTemplate x:DataType="dataitems:AppLanguageItem">
 							<TextBlock Text="{x:Bind LanguageName}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
@@ -73,7 +74,7 @@
 					ItemsSource="{x:Bind ViewModel.DateFormats}"
 					SelectedIndex="{x:Bind ViewModel.SelectedDateTimeFormatIndex, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
-						<DataTemplate x:DataType="vm:DateTimeFormatItem">
+						<DataTemplate x:DataType="dataitems:DateTimeFormatItem">
 							<StackPanel Orientation="Vertical">
 								<TextBlock Text="{x:Bind Label}" />
 								<TextBlock
@@ -170,7 +171,7 @@
 									SelectedIndex="{x:Bind ViewModel.SelectedPageIndex, Mode=TwoWay}"
 									SelectionMode="Single">
 									<ListView.ItemTemplate>
-										<DataTemplate xmlns:vm="using:Files.App.ViewModels.Settings" x:DataType="vm:PageOnStartupViewModel">
+										<DataTemplate x:DataType="dataitems:PageOnStartupItem">
 											<TextBlock
 												Text="{x:Bind Text}"
 												TextTrimming="CharacterEllipsis"
