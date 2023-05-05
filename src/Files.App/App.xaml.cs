@@ -175,6 +175,7 @@ namespace Files.App
 			// Initialize MainWindow here
 			EnsureWindowIsInitialized();
 			host = Host.CreateDefaultBuilder()
+				.UseEnvironment(AppEnv.ToString())
 				.ConfigureLogging(builder => 
 					builder
 					.AddProvider(new FileLoggerProvider(logPath))

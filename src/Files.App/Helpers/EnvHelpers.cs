@@ -1,4 +1,5 @@
 ﻿using Files.Backend.Enums;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,22 +14,25 @@ namespace Files.App.Helpers
 	
 		public static (AppEnvironment, string) GetAppEnvironmentAndLogo()
 		{
-			var env = Package.Current.DisplayName switch
-			{
-				"Files - Dev" => AppEnvironment.WindowsDev,
-				"Files (Preview)" => AppEnvironment.WindowsSideloadPreview,
-				_ =>
-#if SIDELOAD
-					AppEnvironment.WindowsSideload,
-#else
-					AppEnvironment.WindowsStore,
+
+
+			var env =
+#if STORE
+				AppEnvironment.WindowsStore;
+#elif PREVIEW
+				AppEnvironment.WindowsSideloadPreview;
+#elif STABLE
+				AppEnvironment.WindowsSideload;
+#elif DEBUG
+				AppEnvironment.Debug;
+#else 
+				AppEnvironment.WindowsDev;
 #endif
-			};
 
 			var path = env switch
 			{
-				AppEnvironment.WindowsDev => Constants.AssetPaths.DevLogo,
-				AppEnvironment.WindowsSideloadPreview => Constants.AssetPaths.PreviewLogo,
+				AppEnvironment.Release => Constants.AssetPaths.DevLogo,
+				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
 				_ => Constants.AssetPaths.StableLogo,
 			};
 
