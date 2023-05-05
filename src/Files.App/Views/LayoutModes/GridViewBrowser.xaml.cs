@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
+using Files.App.Data.EventArguments;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -433,16 +434,18 @@ namespace Files.App.Views.LayoutModes
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			args.ItemContainer.PointerEntered -= ItemRow_PointerEntered;
-			args.ItemContainer.PointerExited -= ItemRow_PointerExited;
-			args.ItemContainer.PointerCanceled -= ItemRow_PointerCanceled;
+			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
+
+			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
+			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
+			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
 
 			base.FileList_ContainerContentChanging(sender, args);
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as GridViewItem);
 
-			args.ItemContainer.PointerEntered += ItemRow_PointerEntered;
-			args.ItemContainer.PointerExited += ItemRow_PointerExited;
-			args.ItemContainer.PointerCanceled += ItemRow_PointerCanceled;
+			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
+			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
+			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
 		}
 
 		private void SetCheckboxSelectionState(object item, GridViewItem? lviContainer = null)
@@ -463,7 +466,7 @@ namespace Files.App.Views.LayoutModes
 					checkbox.Unchecked += ItemSelected_Unchecked;
 				}
 
-				UpdateCheckboxVisibility(container);
+				UpdateCheckboxVisibility(container, checkbox?.IsPointerOver ?? false);
 			}
 		}
 
@@ -480,37 +483,35 @@ namespace Files.App.Views.LayoutModes
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
 		}
 
-		private void ItemRow_PointerEntered(object sender, PointerRoutedEventArgs e)
+		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			UpdateCheckboxVisibility(sender, true);
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, true);
 		}
 
-		private void ItemRow_PointerExited(object sender, PointerRoutedEventArgs e)
+		private void SelectionCheckbox_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
-			UpdateCheckboxVisibility(sender, false);
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, false);
 		}
 
-		private void ItemRow_PointerCanceled(object sender, PointerRoutedEventArgs e)
+		private void SelectionCheckbox_PointerCanceled(object sender, PointerRoutedEventArgs e)
 		{
-			UpdateCheckboxVisibility(sender, false);
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, false);
 		}
 
-		private void UpdateCheckboxVisibility(object sender, bool? isPointerOver = null)
+		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
 		{
 			if (sender is GridViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
 			{
-				// Save pointer over state accordingly
-				if (isPointerOver.HasValue)
-					control.SetValue(IsPointerOverProperty, isPointerOver);
 				// Handle visual states
 				// Show checkboxes when items are selected (as long as the setting is enabled)
-				// Show checkboxes when hovering of the item (regardless of the setting to hide them)
+				// Show checkboxes when hovering over the checkbox area (regardless of the setting to hide them)
 				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
-					|| control.GetValue(IsPointerOverProperty) is not false)
+					|| isPointerOver)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
 			}
 		}
+
 	}
 }

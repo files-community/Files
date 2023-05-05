@@ -477,8 +477,8 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Различни типове</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>Всички в {0}</value>
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
+    <value>All in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Използвано място:</value>
@@ -1851,9 +1851,6 @@
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Извличането завършено!</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+N</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Отвори родителската папка</value>
   </data>
@@ -3151,6 +3148,9 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Затваря текущия раздел</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Edit path</value>
+  </data>
   <data name="Branch" xml:space="preserve">
     <value>Клон: {0}</value>
   </data>
@@ -3178,6 +3178,12 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Показване на поле за отметки при избор на елементи</value>
   </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Focus path bar</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Create new item</value>
+  </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>Няма групи или потребители, които да имат достъп до този обект. Въпреки това собственикът на този обект може да дава разрешения.</value>
   </data>
@@ -3198,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Повтаряне на последната операция с файла</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location:</value>
   </data>
 </root>

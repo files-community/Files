@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
+using Files.App.Data.EventArguments;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.UserControls;
 using Files.App.UserControls.Selection;
@@ -12,7 +13,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using UWPToWinAppSDKUpgradeHelpers;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;

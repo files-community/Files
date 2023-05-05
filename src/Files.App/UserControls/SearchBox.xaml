@@ -6,7 +6,7 @@
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:dm="using:Files.App.DataModels"
+	xmlns:datamodels="using:Files.App.Data.Models"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DesignHeight="300"
@@ -42,7 +42,7 @@
 			<Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
 		</Style>
 
-		<DataTemplate x:Key="SuggestionTemplate" x:DataType="dm:SuggestionModel">
+		<DataTemplate x:Key="SuggestionTemplate" x:DataType="datamodels:SuggestionModel">
 			<StackPanel
 				Orientation="Horizontal"
 				Spacing="8"
