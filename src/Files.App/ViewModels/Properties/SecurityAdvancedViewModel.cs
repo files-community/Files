@@ -90,32 +90,32 @@ namespace Files.App.ViewModels.Properties
 			set => SetProperty(ref _ErrorMessage, value);
 		}
 
-		private GridLength _ColumnType = new(64d);
+		private GridLength _ColumnTypeGridLength = new(64d);
 		public GridLength ColumnTypeGridLength
 		{
-			get => _ColumnType;
-			set => SetProperty(ref _ColumnType, value);
+			get => _ColumnTypeGridLength;
+			set => SetProperty(ref _ColumnTypeGridLength, value);
 		}
 
-		private GridLength _ColumnPrincipal = new(200d);
+		private GridLength _ColumnPrincipalGridLength = new(200d);
 		public GridLength ColumnPrincipalGridLength
 		{
-			get => _ColumnPrincipal;
-			set => SetProperty(ref _ColumnPrincipal, value);
+			get => _ColumnPrincipalGridLength;
+			set => SetProperty(ref _ColumnPrincipalGridLength, value);
 		}
 
-		private GridLength _ColumnAccess = new(160d);
+		private GridLength _ColumnAccessGridLength = new(160d);
 		public GridLength ColumnAccessGridLength
 		{
-			get => _ColumnAccess;
-			set => SetProperty(ref _ColumnAccess, value);
+			get => _ColumnAccessGridLength;
+			set => SetProperty(ref _ColumnAccessGridLength, value);
 		}
 
-		private GridLength _ColumnInherited = new(70d);
+		private GridLength _ColumnInheritedGridLength = new(70d);
 		public GridLength ColumnInheritedGridLength
 		{
-			get => _ColumnInherited;
-			set => SetProperty(ref _ColumnInherited, value);
+			get => _ColumnInheritedGridLength;
+			set => SetProperty(ref _ColumnInheritedGridLength, value);
 		}
 
 		public IAsyncRelayCommand ChangeOwnerCommand { get; set; }
@@ -182,7 +182,10 @@ namespace Files.App.ViewModels.Properties
 				}
 				else
 				{
-					ErrorMessage = "SecurityUnableToDisplayPermissions".GetLocalizedResource();
+					ErrorMessage =
+						"SecurityUnableToDisplayPermissions".GetLocalizedResource() +
+						"\r\n\r\n" +
+						error.FormatMessage();
 				}
 			}
 			else

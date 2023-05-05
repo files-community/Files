@@ -82,7 +82,6 @@
         <Content Remove="Assets\FilesHome.png" />
     </ItemGroup>
     <ItemGroup>
-      <None Remove="Filesystem\Security\Principal.cs~RF5d03d9f.TMP" />
       <None Remove="UserControls\OpacityIcon.xaml" />
     </ItemGroup>
     <ItemGroup>

@@ -3218,6 +3218,6 @@
     <value>To try taking ownership of the object, which includes permission to view its properties, click Change above.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
-    <value>Unable to display permissions for one or more errors</value>
+    <value>Unable to display permissions.</value>
   </data>
 </root>
