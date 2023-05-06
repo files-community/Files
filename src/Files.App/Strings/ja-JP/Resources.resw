@@ -1447,7 +1447,7 @@
     <value>昨年</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>{0} 年</value>
+    <value>{0}年</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} ファイル</value>
