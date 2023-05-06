@@ -3,8 +3,7 @@ namespace Files.Backend.Enums
 {
 	public enum AppEnvironment
 	{
-		Release,
-		Debug,
+		Dev,
 		Stable,
 		Store,
 		Preview

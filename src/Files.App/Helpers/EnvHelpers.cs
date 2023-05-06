@@ -23,15 +23,13 @@ namespace Files.App.Helpers
 				AppEnvironment.Preview;
 #elif STABLE
 				AppEnvironment.Stable;
-#elif DEBUG
-				AppEnvironment.Debug;
 #else
-				AppEnvironment.Release;
+				AppEnvironment.Dev;
 #endif
 
 			var path = env switch
 			{
-				AppEnvironment.Dev=> Constants.AssetPaths.DevLogo,
+				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
 				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
 				_ => Constants.AssetPaths.StableLogo,
 			};
