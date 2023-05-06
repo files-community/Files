@@ -66,8 +66,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public PostedStatusBanner PostBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation)
 		{
-			StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation);
-			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+			StatusBanner banner = new(message, title, initialProgress, status, operation);
+			PostedStatusBanner postedBanner = new(banner, this);
 
 			StatusBannersSource.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);
@@ -79,12 +79,12 @@ namespace Files.App.ViewModels.UserControls
 
 		public PostedStatusBanner PostOperationBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource)
 		{
-			StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation)
+			StatusBanner banner = new(message, title, initialProgress, status, operation)
 			{
 				CancellationTokenSource = cancellationTokenSource,
 			};
 
-			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this, cancellationTokenSource);
+			PostedStatusBanner postedBanner = new(banner, this, cancellationTokenSource);
 
 			StatusBannersSource.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);
@@ -96,8 +96,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public PostedStatusBanner PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction)
 		{
-			StatusBanner banner = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
-			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+			StatusBanner banner = new(message, title, primaryButtonText, cancelButtonText, primaryAction);
+			PostedStatusBanner postedBanner = new(banner, this);
 
 			StatusBannersSource.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);

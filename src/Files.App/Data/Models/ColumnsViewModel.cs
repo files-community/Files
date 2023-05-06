@@ -234,7 +234,7 @@ namespace Files.App.Data.Models
 
 		[LiteDB.BsonIgnore]
 		public GridLength Length
-			=> UserCollapsed ? new GridLength(0) : UserLength;
+			=> UserCollapsed ? new(0) : UserLength;
 
 		private const int gridSplitterWidth = 12;
 

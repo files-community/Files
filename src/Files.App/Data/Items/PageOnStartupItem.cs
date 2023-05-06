@@ -11,6 +11,8 @@ namespace Files.App.Data.Items
 		public string Path { get; }
 
 		internal PageOnStartupItem(string path)
-			=> Path = path;
+		{
+			Path = path;
+		}
 	}
 }

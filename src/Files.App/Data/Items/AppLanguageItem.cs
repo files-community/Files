@@ -11,11 +11,11 @@ namespace Files.App.Data.Items
 
 		public string LanguageName { get; set; }
 
-		public AppLanguageItem(string languagID)
+		public AppLanguageItem(string languageID)
 		{
-			if (!string.IsNullOrEmpty(languagID))
+			if (!string.IsNullOrEmpty(languageID))
 			{
-				var info = new CultureInfo(languagID);
+				var info = new CultureInfo(languageID);
 				LanguageID = info.Name;
 				LanguageName = info.NativeName;
 			}
