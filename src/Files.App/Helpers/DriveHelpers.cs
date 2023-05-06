@@ -138,7 +138,7 @@ namespace Files.App.Helpers
 
 		public static async Task<StorageItemThumbnail> GetThumbnailAsync(StorageFolder folder)
 			=> (StorageItemThumbnail)await FilesystemTasks.Wrap(()
-					=> folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask()
+				=> folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask()
 			);
 	}
 }
