@@ -48,7 +48,7 @@ namespace Files.App.Helpers
 
 		private void QuickAccessJumpList_Changed(object sender, FileSystemEventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine($"{nameof(QuickAccessJumpList_Changed)}: {e.ChangeType}, {e.FullPath}");
+			Debug.WriteLine($"{nameof(QuickAccessJumpList_Changed)}: {e.ChangeType}, {e.FullPath}");
 
 			// Skip if multiple events occurred for singular change
 			var lastWriteTime = File.GetLastWriteTime(e.FullPath);

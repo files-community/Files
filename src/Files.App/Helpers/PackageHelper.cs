@@ -7,7 +7,7 @@ namespace Files.App.Helpers
 {
 	public static class PackageHelper
 	{
-		private static readonly Uri dummyUri = new Uri("mailto:dummy@dummy.com");
+		private static readonly Uri dummyUri = new("mailto:dummy@dummy.com");
 
 		/// <summary>
 		/// Check if target <paramref name="packageName"/> is installed on this device.
