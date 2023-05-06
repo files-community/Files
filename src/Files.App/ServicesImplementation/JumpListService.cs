@@ -136,17 +136,17 @@ namespace Files.App.ServicesImplementation
 				if (displayName is null)
 				{
 					var localSettings = ApplicationData.Current.LocalSettings;
-					if (path.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
+					if (path.Equals(Constants.UserEnvironmentPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "ms-resource:///Resources/Desktop";
-					else if (path.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+					else if (path.Equals(Constants.UserEnvironmentPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "ms-resource:///Resources/Downloads";
-					else if (path.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+					else if (path.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "Network".GetLocalizedResource();
-					else if (path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+					else if (path.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "RecycleBin".GetLocalizedResource();
-					else if (path.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+					else if (path.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "ThisPC".GetLocalizedResource();
-					else if (path.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+					else if (path.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "SidebarNetworkDrives".GetLocalizedResource();
 					else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
 					{

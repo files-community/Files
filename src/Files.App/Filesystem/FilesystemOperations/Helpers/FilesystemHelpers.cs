@@ -263,7 +263,7 @@ namespace Files.App.Filesystem
 				{
 					return default;
 				}
-				if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+				if (destination.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 				{
 					return await RecycleItemsFromClipboard(packageView, destination, UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, registerHistory);
 				}

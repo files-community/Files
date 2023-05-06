@@ -202,7 +202,7 @@ namespace Files.App.Interacts
 				else
 				{
 					e.DragUIOverride.IsCaptionVisible = true;
-					if (pwd.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+					if (pwd.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
 						e.AcceptedOperation = DataPackageOperation.Move;
