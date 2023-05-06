@@ -319,7 +319,7 @@
     <value>Haut</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Actualiser</value>
+    <value>Rafraîchir</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Un élément avec ce nom existe déjà dans ce dossier.</value>
@@ -343,19 +343,19 @@
     <value>Disque déconnecté</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>Le fichier auquel vous tentez d'accéder a peut-être été déplacé ou supprimé.</value>
+    <value>Le fichier auquel vous tentez d'accéder peut avoir été déplacé ou supprimé.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Fichier introuvable</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Le dossier auquel vous tentez d'accéder a peut-être été déplacé ou supprimé.</value>
+    <value>Le dossier auquel vous tentez d'accéder peut avoir été déplacé ou supprimé.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Avez-vous supprimé ce dossier ?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>Le fichier auquel vous tentez d'accéder est actuellement utilisé par {0}.</value>
+    <value>Le fichier auquel vous tentez d'accéder est actuellement utilisé par {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
     <value>Le fichier auquel vous tentez d'accéder est actuellement utilisé par une autre application</value>
