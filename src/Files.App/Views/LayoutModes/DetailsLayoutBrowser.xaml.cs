@@ -621,6 +621,7 @@ namespace Files.App.Views.LayoutModes
 			var mesuredSize = stackPanels.Select(x =>
 			{
 				x.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+
 				return x.DesiredSize.Width;
 			}).Sum();
 
@@ -646,6 +647,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					var sampleTb = new TextBlock { Text = tb.Text, FontSize = tb.FontSize, FontFamily = tb.FontFamily };
 					sampleTb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+
 					return sampleTb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
 				});
 
