@@ -3,14 +3,9 @@
 
 using Files.App.Shell;
 using Files.Shared.Cloud;
-using Files.Shared.Extensions;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Versioning;
-using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {

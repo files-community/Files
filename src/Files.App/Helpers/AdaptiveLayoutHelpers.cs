@@ -1,15 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Previews;
-using Files.Backend.Services.Settings;
 using IniParser.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.Storage;
 using static Files.App.Constants.AdaptiveLayout;
 using IO = System.IO;

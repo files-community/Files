@@ -1,13 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.Shared.Enums;
 using Files.Shared.Services.DateTimeFormatter;
-using System;
-using System.Linq;
 using Windows.Storage;
 
 namespace Files.App.Helpers

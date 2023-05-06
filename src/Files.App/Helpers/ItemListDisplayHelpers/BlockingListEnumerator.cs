@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections;
-using System.Collections.Generic;
-
 namespace Files.App.Helpers
 {
 	public class BlockingListEnumerator<T> : IEnumerator<T>

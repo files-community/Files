@@ -1,15 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.ViewModels;
-using Files.Shared.Enums;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-
 namespace Files.App.Helpers
 {
 	public static class PostBannerHelpers

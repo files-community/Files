@@ -1,10 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Enums;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;
 using Windows.System.UserProfile;

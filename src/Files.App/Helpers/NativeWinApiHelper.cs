@@ -3,10 +3,8 @@
 
 using Files.App.Shell;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.System;
 

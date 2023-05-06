@@ -2,13 +2,10 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Win32.SafeHandles;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
-using System.Threading;
 using Vanara.PInvoke;
 
 namespace Files.App.Helpers
