@@ -12,10 +12,10 @@ namespace Files.App.Contexts
 
 		public bool IsLayoutAdaptiveEnabled => !settings.SyncFolderPreferencesAcrossDirectories;
 
-		private LayoutTypes layoutType = LayoutTypes.None;
+		private LayoutTypes _LayoutType = LayoutTypes.None;
 		public LayoutTypes LayoutType
 		{
-			get => layoutType;
+			get => _LayoutType;
 			set
 			{
 				var viewModel = FolderSettings;
@@ -49,10 +49,10 @@ namespace Files.App.Contexts
 			}
 		}
 
-		private SortOption sortOption = SortOption.Name;
+		private SortOption _SortOption = SortOption.Name;
 		public SortOption SortOption
 		{
-			get => sortOption;
+			get => _SortOption;
 			set
 			{
 				if (FolderSettings is FolderSettingsViewModel viewModel)
@@ -60,10 +60,10 @@ namespace Files.App.Contexts
 			}
 		}
 
-		private SortDirection sortDirection = SortDirection.Ascending;
+		private SortDirection _SortDirection = SortDirection.Ascending;
 		public SortDirection SortDirection
 		{
-			get => sortDirection;
+			get => _SortDirection;
 			set
 			{
 				if (FolderSettings is FolderSettingsViewModel viewModel)
@@ -71,10 +71,10 @@ namespace Files.App.Contexts
 			}
 		}
 
-		private GroupOption groupOption = GroupOption.None;
+		private GroupOption _GroupOption = GroupOption.None;
 		public GroupOption GroupOption
 		{
-			get => groupOption;
+			get => _GroupOption;
 			set
 			{
 				if (FolderSettings is FolderSettingsViewModel viewModel)
@@ -82,10 +82,10 @@ namespace Files.App.Contexts
 			}
 		}
 
-		private SortDirection groupDirection = SortDirection.Ascending;
+		private SortDirection _GroupDirection = SortDirection.Ascending;
 		public SortDirection GroupDirection
 		{
-			get => groupDirection;
+			get => _GroupDirection;
 			set
 			{
 				if (FolderSettings is FolderSettingsViewModel viewModel)
@@ -93,10 +93,10 @@ namespace Files.App.Contexts
 			}
 		}
 
-		private GroupByDateUnit groupByDateUnit = GroupByDateUnit.Year;
+		private GroupByDateUnit _GroupByDateUnit = GroupByDateUnit.Year;
 		public GroupByDateUnit GroupByDateUnit
 		{
-			get => groupByDateUnit;
+			get => _GroupByDateUnit;
 			set
 			{
 				if (FolderSettings is FolderSettingsViewModel viewModel)
@@ -104,10 +104,10 @@ namespace Files.App.Contexts
 			}
 		}
 
-		private bool sortDirectoriesAlongsideFiles = false;
+		private bool _SortDirectoriesAlongsideFiles = false;
 		public bool SortDirectoriesAlongsideFiles
 		{
-			get => sortDirectoriesAlongsideFiles;
+			get => _SortDirectoriesAlongsideFiles;
 			set
 			{
 				if (FolderSettings is FolderSettingsViewModel viewModel)
@@ -160,25 +160,25 @@ namespace Files.App.Contexts
 			{
 				case nameof(FolderSettingsViewModel.LayoutMode):
 				case nameof(FolderSettingsViewModel.GridViewSize):
-					SetProperty(ref layoutType, GetLayoutType(), nameof(LayoutType));
+					SetProperty(ref _LayoutType, GetLayoutType(), nameof(LayoutType));
 					break;
 				case nameof(FolderSettingsViewModel.DirectorySortOption):
-					SetProperty(ref sortOption, viewModel.DirectorySortOption, nameof(SortOption));
+					SetProperty(ref _SortOption, viewModel.DirectorySortOption, nameof(SortOption));
 					break;
 				case nameof(FolderSettingsViewModel.DirectorySortDirection):
-					SetProperty(ref sortDirection, viewModel.DirectorySortDirection, nameof(SortDirection));
+					SetProperty(ref _SortDirection, viewModel.DirectorySortDirection, nameof(SortDirection));
 					break;
 				case nameof(FolderSettingsViewModel.DirectoryGroupOption):
-					SetProperty(ref groupOption, viewModel.DirectoryGroupOption, nameof(GroupOption));
+					SetProperty(ref _GroupOption, viewModel.DirectoryGroupOption, nameof(GroupOption));
 					break;
 				case nameof(FolderSettingsViewModel.DirectoryGroupDirection):
-					SetProperty(ref groupDirection, viewModel.DirectoryGroupDirection, nameof(GroupDirection));
+					SetProperty(ref _GroupDirection, viewModel.DirectoryGroupDirection, nameof(GroupDirection));
 					break;
 				case nameof(FolderSettingsViewModel.DirectoryGroupByDateUnit):
-					SetProperty(ref groupByDateUnit, viewModel.DirectoryGroupByDateUnit, nameof(GroupByDateUnit));
+					SetProperty(ref _GroupByDateUnit, viewModel.DirectoryGroupByDateUnit, nameof(GroupByDateUnit));
 					break;
 				case nameof(FolderSettingsViewModel.SortDirectoriesAlongsideFiles):
-					SetProperty(ref sortDirectoriesAlongsideFiles, viewModel.SortDirectoriesAlongsideFiles, nameof(SortDirectoriesAlongsideFiles));
+					SetProperty(ref _SortDirectoriesAlongsideFiles, viewModel.SortDirectoriesAlongsideFiles, nameof(SortDirectoriesAlongsideFiles));
 					break;
 			}
 		}
@@ -188,7 +188,7 @@ namespace Files.App.Contexts
 			if (e.PropertyName is nameof(IFoldersSettingsService.SyncFolderPreferencesAcrossDirectories))
 			{
 				OnPropertyChanged(nameof(IsLayoutAdaptiveEnabled));
-				SetProperty(ref layoutType, GetLayoutType(), nameof(LayoutType));
+				SetProperty(ref _LayoutType, GetLayoutType(), nameof(LayoutType));
 			}
 		}
 
@@ -197,22 +197,22 @@ namespace Files.App.Contexts
 			var viewModel = FolderSettings;
 			if (viewModel is null)
 			{
-				SetProperty(ref layoutType, LayoutTypes.None, nameof(LayoutType));
-				SetProperty(ref sortOption, SortOption.Name, nameof(SortOption));
-				SetProperty(ref sortDirection, SortDirection.Ascending, nameof(SortDirection));
-				SetProperty(ref groupOption, GroupOption.None, nameof(GroupOption));
-				SetProperty(ref groupDirection, SortDirection.Ascending, nameof(GroupDirection));
-				SetProperty(ref groupByDateUnit, GroupByDateUnit.Year, nameof(GroupByDateUnit));
+				SetProperty(ref _LayoutType, LayoutTypes.None, nameof(LayoutType));
+				SetProperty(ref _SortOption, SortOption.Name, nameof(SortOption));
+				SetProperty(ref _SortDirection, SortDirection.Ascending, nameof(SortDirection));
+				SetProperty(ref _GroupOption, GroupOption.None, nameof(GroupOption));
+				SetProperty(ref _GroupDirection, SortDirection.Ascending, nameof(GroupDirection));
+				SetProperty(ref _GroupByDateUnit, GroupByDateUnit.Year, nameof(GroupByDateUnit));
 			}
 			else
 			{
-				SetProperty(ref layoutType, GetLayoutType(), nameof(LayoutType));
-				SetProperty(ref sortOption, viewModel.DirectorySortOption, nameof(SortOption));
-				SetProperty(ref sortDirection, viewModel.DirectorySortDirection, nameof(SortDirection));
-				SetProperty(ref groupOption, viewModel.DirectoryGroupOption, nameof(GroupOption));
-				SetProperty(ref groupDirection, viewModel.DirectoryGroupDirection, nameof(GroupDirection));
-				SetProperty(ref groupByDateUnit, viewModel.DirectoryGroupByDateUnit, nameof(GroupByDateUnit));
-				SetProperty(ref sortDirectoriesAlongsideFiles, viewModel.SortDirectoriesAlongsideFiles, nameof(SortDirectoriesAlongsideFiles));
+				SetProperty(ref _LayoutType, GetLayoutType(), nameof(LayoutType));
+				SetProperty(ref _SortOption, viewModel.DirectorySortOption, nameof(SortOption));
+				SetProperty(ref _SortDirection, viewModel.DirectorySortDirection, nameof(SortDirection));
+				SetProperty(ref _GroupOption, viewModel.DirectoryGroupOption, nameof(GroupOption));
+				SetProperty(ref _GroupDirection, viewModel.DirectoryGroupDirection, nameof(GroupDirection));
+				SetProperty(ref _GroupByDateUnit, viewModel.DirectoryGroupByDateUnit, nameof(GroupByDateUnit));
+				SetProperty(ref _SortDirectoriesAlongsideFiles, viewModel.SortDirectoriesAlongsideFiles, nameof(SortDirectoriesAlongsideFiles));
 			}
 		}
 

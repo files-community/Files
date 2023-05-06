@@ -176,8 +176,16 @@ namespace Files.App.Helpers
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
 						},
-						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupAscending){IsToggle = true, IsVisible = true}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupDescending){IsToggle = true, IsVisible = true}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupAscending)
+						{
+							IsToggle = true,
+							IsVisible = true
+						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupDescending)
+						{
+							IsToggle = true,
+							IsVisible = true
+						}.Build(),
 						new ContextMenuFlyoutItemViewModel
 						{
 							ItemType = ItemType.Separator,
@@ -186,8 +194,16 @@ namespace Files.App.Helpers
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
 						},
-						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByYear){IsToggle = true, IsVisible = true}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByMonth){IsToggle = true, IsVisible = true}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByYear)
+						{
+							IsToggle = true,
+							IsVisible = true
+						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByMonth)
+						{
+							IsToggle = true,
+							IsVisible = true
+						}.Build(),
 					},
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RefreshItems)

@@ -8,8 +8,6 @@ namespace Files.Shared.Extensions
 	public static class GroupOptionExtensions
 	{
 		public static bool IsGroupByDate(this GroupOption groupOption)
-		{
-			return groupOption is GroupOption.DateModified or GroupOption.DateCreated or GroupOption.DateDeleted;
-		}
+			=> groupOption is GroupOption.DateModified or GroupOption.DateCreated or GroupOption.DateDeleted;
 	}
 }

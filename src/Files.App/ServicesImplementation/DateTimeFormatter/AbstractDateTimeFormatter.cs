@@ -28,17 +28,32 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 
 			return 0 switch
 			{
-				_ when now.Date < time.Date => new Label("Future".GetLocalizedResource(), "\uED28", 1000006),
-				_ when now.Date == time.Date => new Label("Today".GetLocalizedResource(), "\uE8D1", 1000005),
-				_ when now.AddDays(-1).Date == time.Date => new Label("Yesterday".GetLocalizedResource(), "\uE8BF", 1000004),
-				_ when diff.Days <= 7 && GetWeekOfYear(now) == GetWeekOfYear(time) => new Label("EarlierThisWeek".GetLocalizedResource(), "\uE8C0", 1000003),
-				_ when diff.Days <= 14 && GetWeekOfYear(now.AddDays(-7)) == GetWeekOfYear(time) => new Label("LastWeek".GetLocalizedResource(), "\uE8C0", 1000002),
-				_ when now.Year == time.Year && now.Month == time.Month => new Label("EarlierThisMonth".GetLocalizedResource(), "\uE787", 1000001),
-				_ when now.AddMonths(-1).Year == time.Year && now.AddMonths(-1).Month == time.Month => new Label("LastMonth".GetLocalizedResource(), "\uE787", 1000000),
-				_ when unit == GroupByDateUnit.Month => new Label(ToString(time, "Y"), "\uE787", time.Year * 100 + time.Month),
-				_ when now.Year == time.Year => new Label("EarlierThisYear".GetLocalizedResource(), "\uEC92", 10001),
-				_ when now.AddYears(-1).Year == time.Year => new Label("LastYear".GetLocalizedResource(), "\uEC92", 10000),
-				_ => new Label(string.Format("YearN".GetLocalizedResource(), time.Year), "\uEC92", time.Year),
+				_ when now.Date < time.Date
+					=> new Label("Future".GetLocalizedResource(), "\uED28", 1000006),
+				_ when now.Date == time.Date
+					=> new Label("Today".GetLocalizedResource(), "\uE8D1", 1000005),
+				_ when now.AddDays(-1).Date == time.Date
+					=> new Label("Yesterday".GetLocalizedResource(), "\uE8BF", 1000004),
+				_ when diff.Days <= 7 && GetWeekOfYear(now) == GetWeekOfYear(time)
+					=> new Label("EarlierThisWeek".GetLocalizedResource(), "\uE8C0", 1000003),
+				_ when diff.Days <= 14 && GetWeekOfYear(now.AddDays(-7)) == GetWeekOfYear(time)
+					=> new Label("LastWeek".GetLocalizedResource(), "\uE8C0", 1000002),
+				_ when now.Year == time.Year && now.Month == time.Month
+					=> new Label("EarlierThisMonth".GetLocalizedResource(), "\uE787", 1000001),
+				_ when now.AddMonths(-1).Year == time.Year && now.AddMonths(-1).Month == time.Month
+					=> new Label("LastMonth".GetLocalizedResource(), "\uE787", 1000000),
+
+				// Group by month
+				_ when unit == GroupByDateUnit.Month
+					=> new Label(ToString(time, "Y"), "\uE787", time.Year * 100 + time.Month),
+
+				// Group by year
+				_ when now.Year == time.Year
+					=> new Label("EarlierThisYear".GetLocalizedResource(), "\uEC92", 10001),
+				_ when now.AddYears(-1).Year == time.Year
+					=> new Label("LastYear".GetLocalizedResource(), "\uEC92", 10000),
+				_
+					=> new Label(string.Format("YearN".GetLocalizedResource(), time.Year), "\uEC92", time.Year),
 			};
 		}
 

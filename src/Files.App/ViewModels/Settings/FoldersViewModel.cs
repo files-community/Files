@@ -345,6 +345,7 @@ namespace Files.App.ViewModels.Settings
 					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
 
 					UserSettingsService.FoldersSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
+
 					// Raise an event for the grouping option toggle switches availability
 					OnPropertyChanged(nameof(IsDefaultGrouped));
 					OnPropertyChanged(nameof(IsGroupByDate));
