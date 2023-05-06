@@ -1,22 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Actions;
-using Files.Backend.Services.Settings;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Commands
 {
@@ -128,6 +118,9 @@ namespace Files.App.Commands
 		public IRichCommand GroupAscending => commands[CommandCodes.GroupAscending];
 		public IRichCommand GroupDescending => commands[CommandCodes.GroupDescending];
 		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
+		public IRichCommand GroupByYear => commands[CommandCodes.GroupByYear];
+		public IRichCommand GroupByMonth => commands[CommandCodes.GroupByMonth];
+		public IRichCommand ToggleGroupByDateUnit => commands[CommandCodes.ToggleGroupByDateUnit];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 		public IRichCommand FormatDrive => commands[CommandCodes.FormatDrive];
 		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
@@ -264,6 +257,9 @@ namespace Files.App.Commands
 			[CommandCodes.GroupAscending] = new GroupAscendingAction(),
 			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
 			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),
+			[CommandCodes.GroupByYear] = new GroupByYearAction(),
+			[CommandCodes.GroupByMonth] = new GroupByMonthAction(),
+			[CommandCodes.ToggleGroupByDateUnit] = new ToggleGroupByDateUnitAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.FormatDrive] = new FormatDriveAction(),
 			[CommandCodes.NavigateBack] = new NavigateBackAction(),

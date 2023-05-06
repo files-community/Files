@@ -139,6 +139,9 @@ namespace Files.App.Commands
 		GroupAscending,
 		GroupDescending,
 		ToggleGroupDirection,
+		GroupByYear,
+		GroupByMonth,
+		ToggleGroupByDateUnit,
 
 		// Navigation
 		NewTab,

@@ -559,6 +559,17 @@
 								IsChecked="{x:Bind Commands.GroupDescending.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupDescending.IsExecutable, Mode=OneWay}"
 								Text="{x:Bind Commands.GroupDescending.Label}" />
+							<MenuFlyoutSeparator />
+							<ToggleMenuFlyoutItem
+								AccessKey="Y"
+								IsChecked="{x:Bind Commands.GroupByYear.IsOn, Mode=TwoWay}"
+								IsEnabled="{x:Bind Commands.GroupByYear.IsExecutable, Mode=OneWay}"
+								Text="{x:Bind Commands.GroupByYear.Label}" />
+							<ToggleMenuFlyoutItem
+								AccessKey="M"
+								IsChecked="{x:Bind Commands.GroupByMonth.IsOn, Mode=TwoWay}"
+								IsEnabled="{x:Bind Commands.GroupByMonth.IsExecutable, Mode=OneWay}"
+								Text="{x:Bind Commands.GroupByMonth.Label}" />
 						</MenuFlyoutSubItem>
 						<MenuFlyoutSeparator />
 						<ToggleMenuFlyoutItem

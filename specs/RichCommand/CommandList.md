@@ -104,6 +104,9 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | GroupAscending                      | Ascending                                 | Sort groups in ascending order                           |                     |
 |                    | GroupDescending                     | Descending                                | Sort groups in descending order                          |                     |
 |                    | ToggleGroupDirection                | Toggle sort direction                     | Toggle group sort direction                              |                     |
+|                    | GroupByYear                         | Year                                      | Group items by year                                      |                     |
+|                    | GroupByMonth                        | Month                                     | Group items by month                                     |                     |
+|                    | ToggleGroupByDateUnit               | Toggle grouping unit                      | Toggle unit for grouping by date                         |                     |
 | Navigation         | NewTab                              | New tab                                   | Open new tab                                             | Ctrl+T              |
 |                    | NavigateBack                        | Back                                      | Navigate backward in navigation history                  | Alt+Left, Backspace |
 |                    | NavigateForward                     | Forward                                   | Navigate forward in navigation history                   | Alt+Right           |

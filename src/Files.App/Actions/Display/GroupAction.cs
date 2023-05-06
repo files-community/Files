@@ -1,13 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.Shared.Enums;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
@@ -248,6 +242,93 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			context.GroupDirection = context.SortDirection is SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
+			return Task.CompletedTask;
+		}
+	}
+
+	internal class GroupByYearAction : ObservableObject, IToggleAction
+	{
+		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
+		public string Label { get; } = "Year".GetLocalizedResource();
+
+		public string Description => "GroupByYearDescription".GetLocalizedResource();
+
+		public bool IsOn => context.GroupByDateUnit is GroupByDateUnit.Year;
+		public bool IsExecutable => context.GroupOption.IsGroupByDate();
+
+		public GroupByYearAction()
+		{
+			context.PropertyChanged += Context_PropertyChanged;
+		}
+
+		public Task ExecuteAsync()
+		{
+			context.GroupByDateUnit = GroupByDateUnit.Year;
+			return Task.CompletedTask;
+		}
+
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IDisplayPageContext.GroupOption):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+				case nameof(IDisplayPageContext.GroupByDateUnit):
+					OnPropertyChanged(nameof(IsOn));
+					break;
+			}
+		}
+	}
+
+	internal class GroupByMonthAction : ObservableObject, IToggleAction
+	{
+		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
+		public string Label { get; } = "Month".GetLocalizedResource();
+
+		public string Description => "GroupByMonthDescription".GetLocalizedResource();
+
+		public bool IsOn => context.GroupByDateUnit is GroupByDateUnit.Month;
+		public bool IsExecutable => context.GroupOption.IsGroupByDate();
+
+		public GroupByMonthAction()
+		{
+			context.PropertyChanged += Context_PropertyChanged;
+		}
+
+		public Task ExecuteAsync()
+		{
+			context.GroupByDateUnit = GroupByDateUnit.Month;
+			return Task.CompletedTask;
+		}
+
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IDisplayPageContext.GroupOption):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+				case nameof(IDisplayPageContext.GroupByDateUnit):
+					OnPropertyChanged(nameof(IsOn));
+					break;
+			}
+		}
+	}
+
+	internal class ToggleGroupByDateUnitAction : IAction
+	{
+		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
+		public string Label { get; } = "ToggleGroupingUnit".GetLocalizedResource();
+
+		public string Description => "ToggleGroupByDateUnitDescription".GetLocalizedResource();
+
+		public Task ExecuteAsync()
+		{
+			context.GroupByDateUnit = context.GroupByDateUnit is GroupByDateUnit.Month ? GroupByDateUnit.Year : GroupByDateUnit.Month;
 			return Task.CompletedTask;
 		}
 	}

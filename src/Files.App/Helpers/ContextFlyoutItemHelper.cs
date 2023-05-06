@@ -1,25 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Interacts;
-using Files.App.ViewModels;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.System;
 
 namespace Files.App.Helpers
 {
@@ -189,8 +176,18 @@ namespace Files.App.Helpers
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
 						},
-						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupAscending){IsVisible = true}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupDescending){IsVisible = true}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupAscending){IsToggle = true, IsVisible = true}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupDescending){IsToggle = true, IsVisible = true}.Build(),
+						new ContextMenuFlyoutItemViewModel
+						{
+							ItemType = ItemType.Separator,
+							ShowInRecycleBin = true,
+							ShowInSearchPage = true,
+							ShowInFtpPage = true,
+							ShowInZipPage = true,
+						},
+						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByYear){IsToggle = true, IsVisible = true}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByMonth){IsToggle = true, IsVisible = true}.Build(),
 					},
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RefreshItems)

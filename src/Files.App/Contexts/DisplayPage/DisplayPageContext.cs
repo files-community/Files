@@ -1,13 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.ViewModels;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
-using System;
-using System.ComponentModel;
 using static Files.App.Constants.Browser.GridViewBrowser;
 
 namespace Files.App.Contexts
@@ -100,6 +93,17 @@ namespace Files.App.Contexts
 			}
 		}
 
+		private GroupByDateUnit groupByDateUnit = GroupByDateUnit.Year;
+		public GroupByDateUnit GroupByDateUnit
+		{
+			get => groupByDateUnit;
+			set
+			{
+				if (FolderSettings is FolderSettingsViewModel viewModel)
+					viewModel.DirectoryGroupByDateUnit = value;
+			}
+		}
+
 		private bool sortDirectoriesAlongsideFiles = false;
 		public bool SortDirectoriesAlongsideFiles
 		{
@@ -170,6 +174,9 @@ namespace Files.App.Contexts
 				case nameof(FolderSettingsViewModel.DirectoryGroupDirection):
 					SetProperty(ref groupDirection, viewModel.DirectoryGroupDirection, nameof(GroupDirection));
 					break;
+				case nameof(FolderSettingsViewModel.DirectoryGroupByDateUnit):
+					SetProperty(ref groupByDateUnit, viewModel.DirectoryGroupByDateUnit, nameof(GroupByDateUnit));
+					break;
 				case nameof(FolderSettingsViewModel.SortDirectoriesAlongsideFiles):
 					SetProperty(ref sortDirectoriesAlongsideFiles, viewModel.SortDirectoriesAlongsideFiles, nameof(SortDirectoriesAlongsideFiles));
 					break;
@@ -195,6 +202,7 @@ namespace Files.App.Contexts
 				SetProperty(ref sortDirection, SortDirection.Ascending, nameof(SortDirection));
 				SetProperty(ref groupOption, GroupOption.None, nameof(GroupOption));
 				SetProperty(ref groupDirection, SortDirection.Ascending, nameof(GroupDirection));
+				SetProperty(ref groupByDateUnit, GroupByDateUnit.Year, nameof(GroupByDateUnit));
 			}
 			else
 			{
@@ -203,6 +211,7 @@ namespace Files.App.Contexts
 				SetProperty(ref sortDirection, viewModel.DirectorySortDirection, nameof(SortDirection));
 				SetProperty(ref groupOption, viewModel.DirectoryGroupOption, nameof(GroupOption));
 				SetProperty(ref groupDirection, viewModel.DirectoryGroupDirection, nameof(GroupDirection));
+				SetProperty(ref groupByDateUnit, viewModel.DirectoryGroupByDateUnit, nameof(GroupByDateUnit));
 				SetProperty(ref sortDirectoriesAlongsideFiles, viewModel.SortDirectoriesAlongsideFiles, nameof(SortDirectoriesAlongsideFiles));
 			}
 		}

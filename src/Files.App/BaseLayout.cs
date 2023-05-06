@@ -397,6 +397,7 @@ namespace Files.App
 			FolderSettings!.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
 			FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
+			FolderSettings.GroupByDateUnitPreferenceUpdated += FolderSettings_GroupByDateUnitPreferenceUpdated;
 
 			ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
 			ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
@@ -509,6 +510,9 @@ namespace Files.App
 		private void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
 			=> GroupPreferenceUpdated();
 
+		private void FolderSettings_GroupByDateUnitPreferenceUpdated(object? sender, GroupByDateUnit e)
+			=> GroupPreferenceUpdated();
+
 		private async Task GroupPreferenceUpdated()
 		{
 			// Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
@@ -532,6 +536,7 @@ namespace Files.App
 			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
 			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
+			FolderSettings.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdated;
 			ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
 
