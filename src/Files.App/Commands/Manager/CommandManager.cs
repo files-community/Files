@@ -470,7 +470,7 @@ namespace Files.App.Commands
 			{
 				if (IsExecutable)
 				{
-					Analytics.TrackEvent($"Triggered {Action.Label} action");
+					Analytics.TrackEvent($"Triggered {Code.ToString()} action");
 					await Action.ExecuteAsync();
 				}
 			}
