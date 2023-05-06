@@ -85,7 +85,7 @@ namespace Files.App.Helpers
 				else if (typeof(IStorageItem).IsAssignableFrom(typeof(TRequested)))
 				{
 					// Possibly a file
-					if (Path.HasExtension(path))
+					if (SystemIO.Path.HasExtension(path))
 					{
 						await GetFile();
 					}

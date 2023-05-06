@@ -18,21 +18,16 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				bool appInstalled;
 				LaunchQuerySupportStatus result = await Launcher.QueryUriSupportAsync(dummyUri, LaunchQuerySupportType.Uri, packageName);
-				switch (result)
+
+				var appInstalled = result switch
 				{
-					case LaunchQuerySupportStatus.Available:
-					case LaunchQuerySupportStatus.NotSupported:
-						appInstalled = true;
-						break;
+					LaunchQuerySupportStatus.Available or LaunchQuerySupportStatus.NotSupported => true,
 					//case LaunchQuerySupportStatus.AppNotInstalled:
 					//case LaunchQuerySupportStatus.AppUnavailable:
 					//case LaunchQuerySupportStatus.Unknown:
-					default:
-						appInstalled = false;
-						break;
-				}
+					_ => false,
+				};
 
 				Debug.WriteLine($"App {packageName}, query status: {result}, installed: {appInstalled}");
 

@@ -11,9 +11,12 @@ namespace Files.App.Helpers;
 public static class QuickLookHelpers
 {
 	private const int TIMEOUT = 500;
-	private static string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
-	private static string pipeMessageSwitch = "QuickLook.App.PipeMessages.Switch";
-	private static string pipeMessageToggle = "QuickLook.App.PipeMessages.Toggle";
+
+	private static readonly string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
+
+	private static readonly string pipeMessageSwitch = "QuickLook.App.PipeMessages.Switch";
+
+	private static readonly string pipeMessageToggle = "QuickLook.App.PipeMessages.Toggle";
 
 	public static async Task ToggleQuickLook(string path, bool switchPreview = false)
 	{

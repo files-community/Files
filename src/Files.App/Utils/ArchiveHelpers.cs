@@ -15,7 +15,7 @@ namespace Files.App.Helpers
 {
 	public static class ArchiveHelpers
 	{
-		private static OngoingTasksViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+		private static OngoingTasksViewModel OngoingTasksViewModel { get; } = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
 		public static bool CanDecompress(IReadOnlyList<ListedItem> selectedItems)
 		{
@@ -28,9 +28,7 @@ namespace Files.App.Helpers
 		}
 
 		public static bool CanCompress(IReadOnlyList<ListedItem> selectedItems)
-		{
-			return !CanDecompress(selectedItems) || selectedItems.Count > 1;
-		}
+			=> !CanDecompress(selectedItems) || selectedItems.Count > 1;
 
 		public static string DetermineArchiveNameFromSelection(IReadOnlyList<ListedItem> selectedItems)
 		{

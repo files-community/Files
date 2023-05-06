@@ -5,9 +5,8 @@ using Files.App.Shell;
 using Files.Shared.Cloud;
 using Microsoft.Win32;
 using System.IO;
-using System.Runtime.Versioning;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public class CloudDrivesDetector
 	{

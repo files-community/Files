@@ -38,25 +38,27 @@ namespace Files.App.Helpers
 	public class NaturalstringComparer
 	{
 		public static IComparer<object> GetForProcessor()
-			=> NativeWinApiHelper.IsRunningOnArm ? new stringComparerArm64() : new stringComparerDefault();
+			=> NativeWinApiHelper.IsRunningOnArm
+				? new StringComparerArm64()
+				: new StringComparerDefault();
 
-		private class stringComparerArm64 : IComparer<object>
+		private class StringComparerArm64 : IComparer<object>
 		{
 			public int Compare(object a, object b)
-				=> stringComparer.CurrentCulture.Compare(a, b);
+				=> StringComparer.CurrentCulture.Compare(a, b);
 		}
 
-		private class stringComparerDefault : IComparer<object>
+		private class StringComparerDefault : IComparer<object>
 		{
 			public int Compare(object a, object b)
 			{
 				return SafeNativeMethods.ComparestringEx(
 					SafeNativeMethods.LOCALE_NAME_USER_DEFAULT,
 					SafeNativeMethods.SORT_DIGITSASNUMBERS, // Add other flags if required.
-					a?.Tostring(),
-					a?.Tostring().Length ?? 0,
-					b?.Tostring(),
-					b?.Tostring().Length ?? 0,
+					a?.ToString(),
+					a?.ToString().Length ?? 0,
+					b?.ToString(),
+					b?.ToString().Length ?? 0,
 					IntPtr.Zero,
 					IntPtr.Zero,
 					0) - 2;

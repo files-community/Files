@@ -17,7 +17,7 @@ namespace Files.App.Helpers
 {
 	public static class UIFilesystemHelpers
 	{
-		private static OngoingTasksViewModel ongoingTasksViewModel { get; } = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+		private static OngoingTasksViewModel OngoingTasksViewModel { get; } = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
 		public static async Task CutItem(IShellPage associatedInstance)
 		{
@@ -36,7 +36,7 @@ namespace Files.App.Helpers
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
 
 				var banner = itemsCount > 50
-					? ongoingTasksViewModel.PostOperationBanner(
+					? OngoingTasksViewModel.PostOperationBanner(
 						string.Empty,
 						string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 						0,
@@ -153,7 +153,7 @@ namespace Files.App.Helpers
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
 				var banner = itemsCount > 50
-					? ongoingTasksViewModel.PostOperationBanner(
+					? OngoingTasksViewModel.PostOperationBanner(
 						string.Empty,
 						string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 						0,
@@ -246,6 +246,7 @@ namespace Files.App.Helpers
 		public static async Task PasteItemAsync(string destinationPath, IShellPage associatedInstance)
 		{
 			FilesystemResult<DataPackageView> packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
+
 			if (packageView && packageView.Result is not null)
 			{
 				await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);

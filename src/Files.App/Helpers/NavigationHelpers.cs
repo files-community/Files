@@ -14,12 +14,12 @@ namespace Files.App.Helpers
 {
 	public static class NavigationHelpers
 	{
-		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private static readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+		private static MainPageViewModel MainPageViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 		public static Task OpenPathInNewTab(string? path)
-			=> mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+			=> MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 
 		public static Task<bool> OpenPathInNewWindowAsync(string? path)
 		{

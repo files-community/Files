@@ -19,6 +19,7 @@ namespace Files.App.Helpers
 	public static class ShellContextmenuHelper
 	{
 		public static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
 		{
 			bool IsItemSelected = selectedItems?.Count > 0;
@@ -70,13 +71,7 @@ namespace Files.App.Helpers
 			return menuItemsList;
 		}
 
-		private static void LoadMenuFlyoutItem(
-			IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
-			ContextMenu contextMenu,
-			IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
-			CancellationToken cancellationToken,
-			bool showIcons = true,
-			int itemsBeforeOverflow = int.MaxValue)
+		private static void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal, ContextMenu contextMenu, IEnumerable<Win32ContextMenuItem> menuFlyoutItems, CancellationToken cancellationToken, bool showIcons = true, int itemsBeforeOverflow = int.MaxValue)
 		{
 			if (cancellationToken.IsCancellationRequested)
 				return;
@@ -248,12 +243,7 @@ namespace Files.App.Helpers
 			return item?.Items;
 		}
 
-		public static async Task LoadShellMenuItems(
-			string path,
-			CommandBarFlyout itemContextMenuFlyout,
-			ContextMenuOptions options = null,
-			bool showOpenWithMenu = false,
-			bool showSendToMenu = false)
+		public static async Task LoadShellMenuItems(string path, CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options = null, bool showOpenWithMenu = false, bool showSendToMenu = false)
 		{
 			try
 			{

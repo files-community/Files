@@ -4,18 +4,19 @@
 using Files.App.ViewModels.Previews;
 using IniParser.Model;
 using Windows.Storage;
-using static Files.App.Constants.AdaptiveLayout;
-using IO = System.IO;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Provides static helper to handle content page layout.
+	/// </summary>
 	public static class AdaptiveLayoutHelpers
 	{
-		private static readonly IFoldersSettingsService foldersSettingsService = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+		private static IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
 		public static void ApplyAdaptativeLayout(FolderSettingsViewModel folderSettings, string path, IList<ListedItem> filesAndFolders)
 		{
-			if (foldersSettingsService.SyncFolderPreferencesAcrossDirectories)
+			if (FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 				return;
 			if (string.IsNullOrWhiteSpace(path))
 				return;
@@ -25,51 +26,51 @@ namespace Files.App.Helpers
 			var layout = GetAdaptiveLayout(path, filesAndFolders);
 			switch (layout)
 			{
-				case Layouts.Detail:
+				case PageLayoutType.Detail:
 					folderSettings.ToggleLayoutModeDetailsView(false);
 					break;
-				case Layouts.Grid:
+				case PageLayoutType.Grid:
 					folderSettings.ToggleLayoutModeGridView(folderSettings.GridViewSize);
 					break;
 			}
 		}
 
-		private static Layouts GetAdaptiveLayout(string path, IList<ListedItem> filesAndFolders)
+		private static PageLayoutType GetAdaptiveLayout(string path, IList<ListedItem> filesAndFolders)
 		{
 			var pathLayout = GetPathLayout(path);
-			if (pathLayout is not Layouts.None)
+			if (pathLayout is not PageLayoutType.None)
 				return pathLayout;
 
 			return GetContentLayout(filesAndFolders);
 		}
 
-		private static Layouts GetPathLayout(string path)
+		private static PageLayoutType GetPathLayout(string path)
 		{
-			var iniPath = IO.Path.Combine(path, "desktop.ini");
+			var iniPath = SystemIO.Path.Combine(path, "desktop.ini");
 
 			var iniContents = NativeFileOperationsHelper.ReadStringFromFile(iniPath)?.Trim();
 			if (string.IsNullOrEmpty(iniContents))
-				return Layouts.None;
+				return PageLayoutType.None;
 
 			var parser = new IniParser.Parser.IniDataParser();
 			parser.Configuration.ThrowExceptionsOnError = false;
 			var data = parser.Parse(iniContents);
 			if (data is null)
-				return Layouts.None;
+				return PageLayoutType.None;
 
 			var viewModeSection = data.Sections.FirstOrDefault(IsViewState);
 			if (viewModeSection is null)
-				return Layouts.None;
+				return PageLayoutType.None;
 
 			var folderTypeKey = viewModeSection.Keys.FirstOrDefault(IsFolderType);
 			if (folderTypeKey is null)
-				return Layouts.None;
+				return PageLayoutType.None;
 
 			return folderTypeKey.Value switch
 			{
-				"Pictures" => Layouts.Grid,
-				"Videos" => Layouts.Grid,
-				_ => Layouts.Detail,
+				"Pictures" => PageLayoutType.Grid,
+				"Videos" => PageLayoutType.Grid,
+				_ => PageLayoutType.Detail,
 			};
 
 			static bool IsViewState(SectionData data)
@@ -79,46 +80,40 @@ namespace Files.App.Helpers
 				=> "FolderType".Equals(data.KeyName, StringComparison.OrdinalIgnoreCase);
 		}
 
-		private static Layouts GetContentLayout(IList<ListedItem> filesAndFolders)
+		private static PageLayoutType GetContentLayout(IList<ListedItem> filesAndFolders)
 		{
 			int itemCount = filesAndFolders.Count;
 			if (filesAndFolders.Count is 0)
-				return Layouts.None;
+				return PageLayoutType.None;
 
 			float folderPercentage = 100f * filesAndFolders.Count(IsFolder) / itemCount;
 			float imagePercentage = 100f * filesAndFolders.Count(IsImage) / itemCount;
 			float mediaPercentage = 100f * filesAndFolders.Count(IsMedia) / itemCount;
 			float miscPercentage = 100f - (folderPercentage + imagePercentage + mediaPercentage);
 
-			if (folderPercentage + miscPercentage > LargeThreshold)
-				return Layouts.Detail;
-			if (imagePercentage > ExtraLargeThreshold)
-				return Layouts.Grid;
-			if (imagePercentage <= MediumThreshold)
-				return Layouts.Detail;
-			if (100f - imagePercentage <= SmallThreshold)
-				return Layouts.Detail;
-			if (folderPercentage + miscPercentage <= ExtraSmallThreshold)
-				return Layouts.Detail;
-			return Layouts.Grid;
+			if (folderPercentage + miscPercentage > Constants.AdaptiveLayout.LargeThreshold)
+				return PageLayoutType.Detail;
+			if (imagePercentage > Constants.AdaptiveLayout.ExtraLargeThreshold)
+				return PageLayoutType.Grid;
+			if (imagePercentage <= Constants.AdaptiveLayout.MediumThreshold)
+				return PageLayoutType.Detail;
+			if (100f - imagePercentage <= Constants.AdaptiveLayout.SmallThreshold)
+				return PageLayoutType.Detail;
+			if (folderPercentage + miscPercentage <= Constants.AdaptiveLayout.ExtraSmallThreshold)
+				return PageLayoutType.Detail;
 
-			static bool IsFolder(ListedItem item)
-				=> item.PrimaryItemAttribute is StorageItemTypes.Folder;
+			return PageLayoutType.Grid;
 
-			static bool IsImage(ListedItem item)
-				=> !string.IsNullOrEmpty(item.FileExtension)
-				&& ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
+			static bool IsFolder(ListedItem item) =>
+				item.PrimaryItemAttribute is StorageItemTypes.Folder;
 
-			static bool IsMedia(ListedItem item)
-				=> !string.IsNullOrEmpty(item.FileExtension)
-				&& MediaPreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
-		}
+			static bool IsImage(ListedItem item) =>
+				!string.IsNullOrEmpty(item.FileExtension) &&
+				ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
 
-		private enum Layouts
-		{
-			None, // Don't decide. Another function to decide can be called afterwards if available.
-			Detail, // Apply the layout Detail.
-			Grid, // Apply the layout Grid.
+			static bool IsMedia(ListedItem item) =>
+				!string.IsNullOrEmpty(item.FileExtension) &&
+				MediaPreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
 		}
 	}
 }

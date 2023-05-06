@@ -6,7 +6,7 @@ using System.Globalization;
 using Windows.UI;
 using SystemDrawing = System.Drawing;
 
-namespace Files.App.Helpers
+namespace Files.App.Extensions
 {
 	internal static class ColorHelpers
 	{
