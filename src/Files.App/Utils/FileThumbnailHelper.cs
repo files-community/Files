@@ -6,7 +6,7 @@ using Files.Backend.Helpers;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public static class FileThumbnailHelper
 	{

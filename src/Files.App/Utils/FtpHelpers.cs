@@ -3,7 +3,7 @@
 
 using FluentFTP;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	/// <summary>
 	/// Provides static helper to connect and handle file transfer protocol (FTP) storage.

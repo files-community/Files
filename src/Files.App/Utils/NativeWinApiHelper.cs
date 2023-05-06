@@ -8,7 +8,7 @@ using System.Text;
 using Windows.Foundation.Metadata;
 using Windows.System;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public class NativeWinApiHelper
 	{

@@ -3,7 +3,7 @@
 
 using System.Collections.Concurrent;
 
-namespace Files.App.Helpers.FileListCache
+namespace Files.App.Utils
 {
 	internal class FileListCacheController : IFileListCache
 	{

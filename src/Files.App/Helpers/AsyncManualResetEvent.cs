@@ -12,8 +12,9 @@ namespace Files.App.Helpers
 			var tcs = m_tcs;
 			var cancelTcs = new TaskCompletionSource<bool>();
 
-			cancellationToken.Register(
-				s => ((TaskCompletionSource<bool>)s!).TrySetCanceled(), cancelTcs);
+			cancellationToken.Register(s =>
+				((TaskCompletionSource<bool>)s!).TrySetCanceled(),
+				cancelTcs);
 
 			await await Task.WhenAny(tcs.Task, cancelTcs.Task);
 		}
@@ -21,6 +22,7 @@ namespace Files.App.Helpers
 		private async Task<bool> Delay(int milliseconds)
 		{
 			await Task.Delay(milliseconds);
+
 			return false;
 		}
 
@@ -29,8 +31,9 @@ namespace Files.App.Helpers
 			var tcs = m_tcs;
 			var cancelTcs = new TaskCompletionSource<bool>();
 
-			cancellationToken.Register(
-				s => ((TaskCompletionSource<bool>)s!).TrySetCanceled(), cancelTcs);
+			cancellationToken.Register(s =>
+				((TaskCompletionSource<bool>)s!).TrySetCanceled(),
+				cancelTcs);
 
 			return await await Task.WhenAny(tcs.Task, cancelTcs.Task, Delay(milliseconds));
 		}
@@ -38,19 +41,25 @@ namespace Files.App.Helpers
 		public void Set()
 		{
 			var tcs = m_tcs;
-			Task.Factory.StartNew(s => ((TaskCompletionSource<bool>)s!).TrySetResult(true),
-				tcs, CancellationToken.None, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
+
+			Task.Factory.StartNew(s =>
+				((TaskCompletionSource<bool>)s!).TrySetResult(true),
+				tcs,
+				CancellationToken.None,
+				TaskCreationOptions.PreferFairness,
+				TaskScheduler.Default);
+
 			tcs.Task.Wait();
 		}
 
 		public void Reset()
 		{
 			var newTcs = new TaskCompletionSource<bool>();
+
 			while (true)
 			{
 				var tcs = m_tcs;
-				if (!tcs.Task.IsCompleted ||
-					Interlocked.CompareExchange(ref m_tcs, newTcs, tcs) == tcs)
+				if (!tcs.Task.IsCompleted || Interlocked.CompareExchange(ref m_tcs, newTcs, tcs) == tcs)
 					return;
 			}
 		}

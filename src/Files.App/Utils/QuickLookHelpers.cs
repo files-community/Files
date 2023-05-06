@@ -6,7 +6,7 @@ using System.IO;
 using System.IO.Pipes;
 using System.Security.Principal;
 
-namespace Files.App.Helpers;
+namespace Files.App.Utils;
 
 public static class QuickLookHelpers
 {

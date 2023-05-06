@@ -3,7 +3,7 @@
 
 using Windows.Storage;
 
-namespace Files.App.Helpers
+namespace Files.App.Data.Collections
 {
 	public static class SortingHelper
 	{

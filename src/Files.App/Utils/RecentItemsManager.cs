@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public sealed class RecentItemsManager
 	{

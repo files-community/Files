@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using Vanara.PInvoke;
 using Windows.Storage;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public static class RecycleBinHelpers
 	{

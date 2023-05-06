@@ -17,7 +17,7 @@ using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
 using SystemForms = System.Windows.Forms;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public class FileOperationsHelpers
 	{

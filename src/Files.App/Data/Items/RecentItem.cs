@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.Filesystem
+namespace Files.App.Data.Items
 {
 	public class RecentItem : WidgetCardItem, IEquatable<RecentItem>
 	{

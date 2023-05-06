@@ -4,7 +4,7 @@
 using Microsoft.Extensions.Logging;
 using System.IO;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public static class PathNormalization
 	{

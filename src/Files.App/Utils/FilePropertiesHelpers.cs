@@ -11,7 +11,7 @@ using System.IO;
 using Windows.ApplicationModel;
 using Windows.Graphics;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	/// <summary>
 	/// Provides static helper to open and handle item properties window.

@@ -4,7 +4,7 @@
 using CommunityToolkit.WinUI.Helpers;
 using Files.Backend.Services;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public static class AppThemeResourcesHelper
 	{

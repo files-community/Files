@@ -9,7 +9,7 @@ using Vanara.PInvoke;
 using static Vanara.PInvoke.AdvApi32;
 using FilesSecurity = Files.App.Filesystem.Security;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	/// <summary>
 	/// Provides static helper to get and set file security information.

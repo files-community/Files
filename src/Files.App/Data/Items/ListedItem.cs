@@ -26,7 +26,7 @@ using Windows.Storage;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
-namespace Files.App.Filesystem
+namespace Files.App.Data.Items
 {
 	public class ListedItem : ObservableObject, IGroupableItem
 	{

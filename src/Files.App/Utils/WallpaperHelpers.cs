@@ -5,7 +5,7 @@ using Vanara.PInvoke;
 using Windows.Storage;
 using Windows.System.UserProfile;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public static class WallpaperHelpers
 	{

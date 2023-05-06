@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Media;
 using System.Runtime.CompilerServices;
 
-namespace Files.App.Helpers
+namespace Files.App.Data.Collections
 {
 	public class GroupedCollection<T> : BulkConcurrentObservableCollection<T>, IGroupedCollectionHeader
 	{

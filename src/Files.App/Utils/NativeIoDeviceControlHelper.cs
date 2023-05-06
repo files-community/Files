@@ -3,7 +3,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public class NativeIoDeviceControlHelper
 	{

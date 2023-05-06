@@ -4,7 +4,7 @@
 using Files.App.UserControls.Widgets;
 using Files.App.ViewModels.Widgets;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public static class WidgetsHelpers
 	{

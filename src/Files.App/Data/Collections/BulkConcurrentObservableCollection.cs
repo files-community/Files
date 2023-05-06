@@ -3,7 +3,7 @@
 
 using System.Collections.Specialized;
 
-namespace Files.App.Helpers
+namespace Files.App.Data.Collections
 {
 	[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
 	[DebuggerDisplay("Count = {Count}")]
@@ -15,6 +15,7 @@ namespace Files.App.Helpers
 
 		// When 'GroupOption' is set to 'None' or when a folder is opened, 'GroupedCollection' is assigned 'null' by 'ItemGroupKeySelector'
 		public BulkConcurrentObservableCollection<GroupedCollection<T>>? GroupedCollection { get; private set; }
+
 		public bool IsSorted { get; set; }
 
 		public int Count

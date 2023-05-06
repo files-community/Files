@@ -3,7 +3,7 @@
 
 using Files.App.Shell;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public static class Win32Helpers
 	{

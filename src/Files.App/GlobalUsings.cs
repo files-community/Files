@@ -23,6 +23,7 @@ global using global::CommunityToolkit.Mvvm.Messaging;
 global using global::Files.App.Helpers;
 global using global::Files.App.Extensions;
 global using global::Files.App.Filesystem;
+global using global::Files.App.Data.Collections;
 global using global::Files.App.Data.EventArguments;
 global using global::Files.App.Data.Factories;
 global using global::Files.App.Data.Items;

@@ -3,7 +3,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	internal static class SafeNativeMethods
 	{
@@ -35,7 +35,7 @@ namespace Files.App.Helpers
 		  int param);
 	}
 
-	public class NaturalstringComparer
+	public class NaturalStringComparer
 	{
 		public static IComparer<object> GetForProcessor()
 			=> NativeWinApiHelper.IsRunningOnArm

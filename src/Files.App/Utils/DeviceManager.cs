@@ -5,7 +5,7 @@ using Files.App.Helpers.MMI;
 using Files.App.MMI;
 using Microsoft.Management.Infrastructure;
 
-namespace Files.App
+namespace Files.App.Utils
 {
 	public sealed class DeviceManager
 	{

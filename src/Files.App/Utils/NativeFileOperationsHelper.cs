@@ -8,7 +8,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using Vanara.PInvoke;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public class NativeFileOperationsHelper
 	{

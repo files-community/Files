@@ -8,7 +8,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	/// <summary>
 	/// Represents a helper that handle <see cref="BitmapImage"/>.

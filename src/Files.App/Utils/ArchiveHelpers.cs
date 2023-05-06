@@ -11,7 +11,7 @@ using System.IO;
 using System.Text;
 using Windows.Storage;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils
 {
 	public static class ArchiveHelpers
 	{

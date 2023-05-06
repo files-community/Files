@@ -1,25 +1,33 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Helpers.LayoutPreferences
+namespace Files.App.Data.Models
 {
 	public class LayoutPreferences
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public SortOption DirectorySortOption;
+
 		public SortDirection DirectorySortDirection;
+
 		public bool SortDirectoriesAlongsideFiles;
+
 		public GroupOption DirectoryGroupOption;
+
 		public SortDirection DirectoryGroupDirection;
+
 		public FolderLayoutModes LayoutMode;
+
 		public int GridViewSize;
+
 		public bool IsAdaptiveLayoutOverridden;
 
 		public ColumnsViewModel ColumnsViewModel;
 
 		[LiteDB.BsonIgnore]
-		public static LayoutPreferences DefaultLayoutPreferences => new LayoutPreferences();
+		public static LayoutPreferences DefaultLayoutPreferences
+			=> new();
 
 		public LayoutPreferences()
 		{
