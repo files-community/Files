@@ -226,13 +226,14 @@ namespace Files.App
 
 			public static readonly string LocalAppDataPath = Windows.Storage.UserDataPaths.GetDefault().LocalAppData;
 
-			public static readonly string RecycleBinPath = @"Shell:RecycleBinFolder";
+			// Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
+			public const string RecycleBinPath = @"Shell:RecycleBinFolder";
 
-			public static readonly string NetworkFolderPath = @"Shell:NetworkPlacesFolder";
+			public const string NetworkFolderPath = @"Shell:NetworkPlacesFolder";
 
-			public static readonly string MyComputerPath = @"Shell:MyComputerFolder";
+			public const string MyComputerPath = @"Shell:MyComputerFolder";
 
-			public static readonly string TempPath = Windows.Storage.ApplicationData.Current.LocalSettings.Values.Get("TEMP", "") ?? string.Empty;
+			public static readonly string TempPath = Windows.Storage.ApplicationData.Current.LocalSettings.Values.Get("TEMP", "");
 
 			public static readonly string HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
@@ -240,7 +241,7 @@ namespace Files.App
 
 			public static readonly string RecentItemsPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
 
-			public static readonly Dictionary<string, string> ShellPlaces =
+			public static Dictionary<string, string> ShellPlaces =
 				new()
 				{
 					{ "::{645FF040-5081-101B-9F08-00AA002F954E}", RecycleBinPath },
