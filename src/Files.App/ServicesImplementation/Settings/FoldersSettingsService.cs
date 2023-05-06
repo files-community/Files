@@ -283,12 +283,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ShowCheckboxes
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)

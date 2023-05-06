@@ -424,41 +424,9 @@ namespace Files.App.ViewModels.Settings
 			get => UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems;
 			set
 			{
-
 				if (value != UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems)
 				{
-
 					UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems = value;
-
-					// If the value of ShowCheckboxesWhenSelectingItems is set to true
-					// and ShowCheckboxes is currently false, then also set ShowCheckboxes to true 
-					if (value && !UserSettingsService.FoldersSettingsService.ShowCheckboxes)
-					{
-						UserSettingsService.FoldersSettingsService.ShowCheckboxes = true;
-						OnPropertyChanged(nameof(ShowCheckboxes));
-					}
-
-					OnPropertyChanged();
-
-				}
-			}
-		}
-
-		public bool ShowCheckboxes
-		{
-			get => UserSettingsService.FoldersSettingsService.ShowCheckboxes;
-			set
-			{
-				if (value != UserSettingsService.FoldersSettingsService.ShowCheckboxes)
-				{
-					UserSettingsService.FoldersSettingsService.ShowCheckboxes = value;
-
-					// If the value of ShowCheckboxes is false, then set the value of ShowCheckboxesWhenSelectingItems to false.
-					if (!value)
-					{
-						UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems = false;
-						OnPropertyChanged(nameof(ShowCheckboxesWhenSelectingItems));
-					}
 
 					OnPropertyChanged();
 				}

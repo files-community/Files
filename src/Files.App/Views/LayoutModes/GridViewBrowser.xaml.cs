@@ -504,10 +504,9 @@ namespace Files.App.Views.LayoutModes
 			{
 				// Handle visual states
 				// Show checkboxes when items are selected (as long as the setting is enabled)
-				// Show checkboxes when hovering of the thumbnail (regardless of the setting to hide them)
-				// Only apply previous lines if ShowCheckboxes settings is enabled
+				// Show checkboxes when hovering over the checkbox area (regardless of the setting to hide them)
 				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
-					|| isPointerOver && UserSettingsService.FoldersSettingsService.ShowCheckboxes == true)
+					|| isPointerOver)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);

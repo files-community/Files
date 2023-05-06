@@ -6,6 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UserControls.FilePreviews"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:vms="using:Files.App.ViewModels.Previews"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
@@ -28,17 +29,128 @@
 				</Viewbox>
 			</Border>
 		</DataTemplate>
+
+
+
+		<Style TargetType="Button">
+			<Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
+			<Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+			<Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
+			<Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
+			<Setter Property="Padding" Value="2,10" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+			<Setter Property="FontWeight" Value="SemiBold" />
+			<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+			<Setter Property="UseSystemFocusVisuals" Value="True" />
+			<Setter Property="FocusVisualMargin" Value="-3" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Grid
+							x:Name="RootGrid"
+							Background="{TemplateBinding Background}"
+							CornerRadius="8">
+							<Border
+								x:Name="Border"
+								Background="Transparent"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								CornerRadius="8">
+								<ContentPresenter
+									x:Name="ContentPresenter"
+									Margin="{TemplateBinding Padding}"
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									AutomationProperties.AccessibilityView="Raw"
+									Content="{TemplateBinding Content}"
+									ContentTemplate="{TemplateBinding ContentTemplate}"
+									ContentTransitions="{TemplateBinding ContentTransitions}" />
+							</Border>
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal" />
+									<VisualState x:Name="PointerOver">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Pressed">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Disabled">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+												<DiscreteObjectKeyFrame KeyTime="1" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" />
+												<DiscreteObjectKeyFrame KeyTime="1" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="BorderBrush">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<FlipView
-			x:Name="PageList"
-			Background="Transparent"
-			ItemTemplate="{StaticResource PageTemplate}"
-			ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}" />
+
+		<Grid Grid.Row="0">
+
+			<FlipView
+				x:Name="PageList"
+				Background="Transparent"
+				ItemTemplate="{StaticResource PageTemplate}"
+				ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}" />
+
+
+			<StackPanel
+				Grid.Column="0"
+				HorizontalAlignment="Left"
+				Orientation="Horizontal">
+				<Button
+					x:Name="LeftArrow"
+					Click="PreviousButton_Click"
+					Content="◄" />
+			</StackPanel>
+
+			<StackPanel
+				Grid.Column="2"
+				HorizontalAlignment="Right"
+				Orientation="Horizontal">
+				<Button
+					x:Name="RightArrow"
+					Click="NextButton_Click"
+					Content="►" />
+
+			</StackPanel>
+
+		</Grid>
+
 		<PipsPager
 			x:Name="FlipViewPipsPager"
 			Grid.Row="1"
@@ -46,4 +158,5 @@
 			NumberOfPages="{x:Bind ViewModel.PageCount, Mode=OneWay}"
 			SelectedPageIndex="{x:Bind Path=PageList.SelectedIndex, Mode=TwoWay}" />
 	</Grid>
+
 </UserControl>

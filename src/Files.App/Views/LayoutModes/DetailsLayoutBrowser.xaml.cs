@@ -622,7 +622,6 @@ namespace Files.App.Views.LayoutModes
 			var mesuredSize = stackPanels.Select(x =>
 			{
 				x.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-
 				return x.DesiredSize.Width;
 			}).Sum();
 
@@ -648,7 +647,6 @@ namespace Files.App.Views.LayoutModes
 				{
 					var sampleTb = new TextBlock { Text = tb.Text, FontSize = tb.FontSize, FontFamily = tb.FontFamily };
 					sampleTb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-
 					return sampleTb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
 				});
 
@@ -796,9 +794,8 @@ namespace Files.App.Views.LayoutModes
 				// Handle visual states
 				// Show checkboxes when items are selected (as long as the setting is enabled)
 				// Show checkboxes when hovering of the thumbnail (regardless of the setting to hide them)
-				// Only apply previous lines if ShowCheckboxes settings is enabled
 				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
-					|| isPointerOver && UserSettingsService.FoldersSettingsService.ShowCheckboxes == true)
+					|| isPointerOver)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);

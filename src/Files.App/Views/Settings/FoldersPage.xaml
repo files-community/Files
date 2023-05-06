@@ -239,17 +239,6 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
-			<!--  Show Checkboxes  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowCheckboxes}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE73A;" />
-				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=ShowCheckboxes}"
-					IsOn="{x:Bind ViewModel.ShowCheckboxes, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</local:SettingsBlockControl>
-
 			<!--  Show Checkboxes When Selecting Items  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowCheckboxesWhenSelectingItems}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
