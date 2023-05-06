@@ -31,7 +31,7 @@ namespace Files.App.Helpers
 
 			var path = env switch
 			{
-				AppEnvironment.Release => Constants.AssetPaths.DevLogo,
+				AppEnvironment.Dev=> Constants.AssetPaths.DevLogo,
 				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
 				_ => Constants.AssetPaths.StableLogo,
 			};
