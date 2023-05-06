@@ -53,6 +53,7 @@
     value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
+
     mimetype: application/x-microsoft.net.object.bytearray.base64
     value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
@@ -476,11 +477,7 @@
 	<data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Verskillende soorte</value>
   </data>
-<<<<<<< HEAD
 	<data name="PropertiesCombinedItemLocation" xml:space="preserve">
-=======
-  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
->>>>>>> d79a72c379a0ebebd3c5b9fc172a1acbc96fe95b
     <value>All in {0}</value>
   </data>
 	<data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
@@ -3209,11 +3206,7 @@
 	<data name="RedoDescription" xml:space="preserve">
     <value>Redo the last file operation</value>
   </data>
-<<<<<<< HEAD
 	<data name="Location" xml:space="preserve">
-=======
-  <data name="Location" xml:space="preserve">
->>>>>>> d79a72c379a0ebebd3c5b9fc172a1acbc96fe95b
     <value>Location:</value>
   </data>
 </root>
