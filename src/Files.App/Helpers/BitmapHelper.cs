@@ -10,23 +10,27 @@ using Windows.Storage.Streams;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Represents a helper that handle <see cref="BitmapImage"/>.
+	/// </summary>
 	internal static class BitmapHelper
 	{
 		public static async Task<BitmapImage> ToBitmapAsync(this byte[]? data, int decodeSize = -1)
 		{
 			if (data is null)
-			{
 				return null;
-			}
 
 			using var ms = new MemoryStream(data);
 			var image = new BitmapImage();
+
 			if (decodeSize > 0)
 			{
 				image.DecodePixelWidth = decodeSize;
 				image.DecodePixelHeight = decodeSize;
 			}
+
 			await image.SetSourceAsync(ms.AsRandomAccessStream());
+
 			return image;
 		}
 
@@ -42,22 +46,16 @@ namespace Files.App.Helpers
 		public static async Task Rotate(string filePath, BitmapRotation rotation)
 		{
 			if (string.IsNullOrEmpty(filePath))
-			{
 				return;
-			}
 
 			var file = await StorageHelpers.ToStorageItem<IStorageFile>(filePath);
 			if (file is null)
-			{
 				return;
-			}
 
 			var fileStreamRes = await FilesystemTasks.Wrap(() => file.OpenAsync(FileAccessMode.ReadWrite).AsTask());
 			using IRandomAccessStream fileStream = fileStreamRes.Result;
 			if (fileStream is null)
-			{
 				return;
-			}
 
 			BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
 			using var memStream = new InMemoryRandomAccessStream();
@@ -66,6 +64,7 @@ namespace Files.App.Helpers
 			for (int i = 0; i < decoder.FrameCount - 1; i++) 
 			{
 				encoder.BitmapTransform.Rotation = rotation;
+
 				await encoder.GoToNextFrameAsync();
 			}
 
@@ -90,6 +89,7 @@ namespace Files.App.Helpers
 		public static async Task SaveSoftwareBitmapToFile(SoftwareBitmap softwareBitmap, BaseStorageFile outputFile, Guid encoderId)
 		{
 			using IRandomAccessStream stream = await outputFile.OpenAsync(FileAccessMode.ReadWrite);
+
 			// Create an encoder with the desired format
 			BitmapEncoder encoder = await BitmapEncoder.CreateAsync(encoderId, stream);
 
@@ -103,6 +103,7 @@ namespace Files.App.Helpers
 			catch (Exception err)
 			{
 				const int WINCODEC_ERR_UNSUPPORTEDOPERATION = unchecked((int)0x88982F81);
+
 				switch (err.HResult)
 				{
 					case WINCODEC_ERR_UNSUPPORTEDOPERATION:
@@ -117,9 +118,7 @@ namespace Files.App.Helpers
 			}
 
 			if (encoder.IsThumbnailGenerated == false)
-			{
 				await encoder.FlushAsync();
-			}
 		}
 	}
 }

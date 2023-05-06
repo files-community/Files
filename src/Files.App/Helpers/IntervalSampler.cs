@@ -6,6 +6,7 @@ namespace Files.App.Helpers
 	internal class IntervalSampler
 	{
 		private DateTime recordPoint;
+
 		private TimeSpan sampleInterval;
 
 		public IntervalSampler(int millisecondsInterval)
@@ -31,8 +32,10 @@ namespace Files.App.Helpers
 			if (now - sampleInterval >= recordPoint)
 			{
 				recordPoint = now;
+
 				return true;
 			}
+
 			return false;
 		}
 	}

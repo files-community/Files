@@ -15,8 +15,7 @@ namespace Files.App.Helpers
 			IntPtr SecurityAttributes,
 			uint dwCreationDisposition,
 			uint dwFlagsAndAttributes,
-			IntPtr hTemplateFile
-		);
+			IntPtr hTemplateFile);
 
 		[DllImport("api-ms-win-core-io-l1-1-0.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Auto)]
 		public static extern bool DeviceIoControl(
@@ -27,8 +26,7 @@ namespace Files.App.Helpers
 			IntPtr lpOutBuffer,
 			uint nOutBufferSize,
 			out uint lpBytesReturned,
-			IntPtr lpOverlapped
-		);
+			IntPtr lpOverlapped);
 
 		[DllImport("api-ms-win-core-io-l1-1-0.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Auto)]
 		public static extern bool DeviceIoControl(
@@ -39,8 +37,7 @@ namespace Files.App.Helpers
 			IntPtr lpOutBuffer,
 			uint nOutBufferSize,
 			out uint lpBytesReturned,
-			IntPtr lpOverlapped
-		);
+			IntPtr lpOverlapped);
 
 		[DllImport("api-ms-win-core-handle-l1-1-0.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]

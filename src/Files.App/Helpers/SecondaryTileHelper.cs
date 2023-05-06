@@ -22,11 +22,11 @@ namespace Files.App.Helpers
 		{
 			// Remove symbols because windows doesn't like them in the ID, and will blow up
 			var str = $"folder-{new string(path.Where(c => char.IsLetterOrDigit(c)).ToArray())}";
+
+			// If the id string is too long, Windows will throw an error, so remove every other character
 			if (str.Length > 64)
-			{
-				// if the id string is too long, Windows will throw an error, so remove every other character
 				str = new string(str.Where((x, i) => i % 2 == 0).ToArray());
-			}
+
 			return str;
 		}
 
@@ -38,15 +38,17 @@ namespace Files.App.Helpers
 				Uri Path150x150 = new Uri("ms-appx:///Assets/tile-0-300x300.png");
 				Uri Path71x71 = new Uri("ms-appx:///Assets/tile-0-250x250.png");
 
-				SecondaryTile tile = InitializeWithWindow(new SecondaryTile(
-					GetTileID(path),
-					name,
-					path,
-					Path150x150,
-					TileSize.Square150x150));
+				SecondaryTile tile = InitializeWithWindow(
+					new SecondaryTile(
+						GetTileID(path),
+						name,
+						path,
+						Path150x150,
+						TileSize.Square150x150));
 
 				tile.VisualElements.Square71x71Logo = Path71x71;
 				tile.VisualElements.ShowNameOnSquare150x150Logo = true;
+
 				result = await tile.RequestCreateAsync();
 			}
 			catch (Exception e)
@@ -60,12 +62,11 @@ namespace Files.App.Helpers
 		private SecondaryTile InitializeWithWindow(SecondaryTile obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 
 		public async Task<bool> UnpinFromStartAsync(string path)
-		{
-			return await StartScreenManager.GetDefault().TryRemoveSecondaryTileAsync(GetTileID(path));
-		}
+			=> await StartScreenManager.GetDefault().TryRemoveSecondaryTileAsync(GetTileID(path));
 	}
 }

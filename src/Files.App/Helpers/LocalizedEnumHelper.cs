@@ -12,9 +12,7 @@ namespace Files.App.Helpers
 				var localized = $"{typeof(T).Name}_{Enum.GetName(typeof(T), Value)}".GetLocalizedResource();
 
 				if (string.IsNullOrEmpty(localized))
-				{
 					localized = $"{Enum.GetName(typeof(T), Value)}".GetLocalizedResource();
-				}
 
 				return localized;
 			}

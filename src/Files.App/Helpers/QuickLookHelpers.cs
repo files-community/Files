@@ -48,7 +48,7 @@ public static class QuickLookHelpers
 	private static async Task<bool> DetectQuickLookAvailability()
 	{
 		static async Task<int> QuickLookServerAvailable()
-		{			
+		{
 			await using var client = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
 			try
 			{

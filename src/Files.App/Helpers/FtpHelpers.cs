@@ -5,6 +5,9 @@ using FluentFTP;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Provides static helper to connect and handle file transfer protocol (FTP) storage.
+	/// </summary>
 	public static class FtpHelpers
 	{
 		public static async Task<bool> EnsureConnectedAsync(this AsyncFtpClient ftpClient)
@@ -28,10 +31,12 @@ namespace Files.App.Helpers
 		{
 			if (!string.IsNullOrEmpty(path))
 			{
-				return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase)
-					|| path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase)
-					|| path.StartsWith("ftpes://", StringComparison.OrdinalIgnoreCase);
+				return
+					path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase) ||
+					path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase) ||
+					path.StartsWith("ftpes://", StringComparison.OrdinalIgnoreCase);
 			}
+
 			return false;
 		}
 
@@ -79,6 +84,7 @@ namespace Files.App.Helpers
 			path = path.Replace("\\", "/", StringComparison.Ordinal);
 			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
 			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
+
 			return hostIndex == -1 ? "/" : path.Substring(hostIndex);
 		}
 
@@ -86,6 +92,7 @@ namespace Files.App.Helpers
 		{
 			path = path.Replace("\\", "/", StringComparison.Ordinal);
 			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
+
 			return path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
 		}
 	}

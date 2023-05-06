@@ -16,11 +16,13 @@ namespace Files.App.Helpers
 	public static class ThemeHelper
 	{
 		private const string selectedAppThemeKey = "theme";
+
 		private static Window? currentApplicationWindow;
+
 		private static AppWindowTitleBar? titleBar;
 
-		// Keep reference so it does not get optimized/garbage collected
-		public static UISettings UiSettings;
+		// Keep reference so that it does not get optimized/garbage collected
+		public static UISettings UISettings;
 
 		/// <summary>
 		/// Gets or sets (with LocalSettings persistence) the RequestedTheme of the root element.
@@ -55,8 +57,8 @@ namespace Files.App.Helpers
 			ApplyTheme();
 
 			// Registering to color changes, thus we notice when user changes theme system wide
-			UiSettings = new UISettings();
-			UiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
+			UISettings = new UISettings();
+			UISettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
 		}
 
 		private static async void UiSettings_ColorValuesChanged(UISettings sender, object args)
@@ -107,6 +109,7 @@ namespace Files.App.Helpers
 						break;
 				}
 			}
+
 			Ioc.Default.GetRequiredService<SettingsViewModel>().UpdateThemeElements.Execute(null);
 		}
 	}

@@ -12,7 +12,7 @@ using FilesSecurity = Files.App.Filesystem.Security;
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Represents a helper for file security information.
+	/// Provides static helper to get and set file security information.
 	/// </summary>
 	public static class FileSecurityHelpers
 	{
@@ -31,9 +31,7 @@ namespace Files.App.Helpers
 			// Run PowerShell as Admin
 			if (result.Failed)
 			{
-				return Win32API.RunPowershellCommand(
-					$"-command \"try {{ $path = '{path}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{sid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"",
-					true);
+				return Win32API.RunPowershellCommand($"-command \"try {{ $path = '{path}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{sid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"", true);
 			}
 
 			return true;

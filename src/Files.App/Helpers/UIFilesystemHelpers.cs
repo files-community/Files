@@ -17,7 +17,7 @@ namespace Files.App.Helpers
 {
 	public static class UIFilesystemHelpers
 	{
-		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+		private static OngoingTasksViewModel ongoingTasksViewModel { get; } = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
 		public static async Task CutItem(IShellPage associatedInstance)
 		{
@@ -25,6 +25,7 @@ namespace Files.App.Helpers
 			{
 				RequestedOperation = DataPackageOperation.Move
 			};
+
 			ConcurrentBag<IStorageItem> items = new();
 
 			if (associatedInstance.SlimContentPage.IsItemSelected)
@@ -33,12 +34,15 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
-				var banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
-					string.Empty,
-					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
-					0,
-					ReturnResult.InProgress,
-					FileOperationType.Prepare, new CancellationTokenSource()) : null;
+
+				var banner = itemsCount > 50
+					? ongoingTasksViewModel.PostOperationBanner(
+						string.Empty,
+						string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
+						0,
+						ReturnResult.InProgress,
+						FileOperationType.Prepare, new CancellationTokenSource())
+					: null;
 
 				try
 				{
@@ -88,7 +92,9 @@ namespace Files.App.Helpers
 							if (!result)
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
 						}
-					}, 10, banner?.CancellationToken ?? default);
+					},
+					10,
+					banner?.CancellationToken ?? default);
 				}
 				catch (Exception ex)
 				{
@@ -99,10 +105,14 @@ namespace Files.App.Helpers
 						await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Move);
 
 						banner?.Remove();
+
 						return;
 					}
+
 					associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
+
 					banner?.Remove();
+
 					return;
 				}
 
@@ -134,6 +144,7 @@ namespace Files.App.Helpers
 			{
 				RequestedOperation = DataPackageOperation.Copy
 			};
+
 			ConcurrentBag<IStorageItem> items = new();
 
 			if (associatedInstance.SlimContentPage.IsItemSelected)
@@ -141,12 +152,14 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
-				var banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
-					string.Empty,
-					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
-					0,
-					ReturnResult.InProgress,
-					FileOperationType.Prepare, new CancellationTokenSource()) : null;
+				var banner = itemsCount > 50
+					? ongoingTasksViewModel.PostOperationBanner(
+						string.Empty,
+						string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
+						0,
+						ReturnResult.InProgress,
+						FileOperationType.Prepare, new CancellationTokenSource())
+					: null;
 
 				try
 				{
@@ -185,7 +198,9 @@ namespace Files.App.Helpers
 							if (!result)
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
 						}
-					}, 10, banner?.CancellationToken ?? default);
+					},
+					10,
+					banner?.CancellationToken ?? default);
 				}
 				catch (Exception ex)
 				{
@@ -196,9 +211,12 @@ namespace Files.App.Helpers
 						await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Copy);
 
 						banner?.Remove();
+
 						return;
 					}
+
 					banner?.Remove();
+
 					return;
 				}
 
@@ -239,10 +257,12 @@ namespace Files.App.Helpers
 		{
 			if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
 			{
-				newName = item.ItemNameRaw.Replace(
-					item.Name.Substring(item.Name.LastIndexOf(':') + 1),
-					newName.Substring(newName.LastIndexOf(':') + 1),
-					StringComparison.Ordinal);
+				newName =
+					item.ItemNameRaw.Replace(
+						item.Name.Substring(item.Name.LastIndexOf(':') + 1),
+						newName.Substring(newName.LastIndexOf(':') + 1),
+						StringComparison.Ordinal);
+
 				newName = $"{ads.MainStreamName}:{newName}";
 			}
 			else if (string.IsNullOrEmpty(item.Name))
@@ -259,11 +279,19 @@ namespace Files.App.Helpers
 
 			FilesystemItemType itemType = (item.PrimaryItemAttribute == StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File;
 
-			ReturnResult renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, itemType), newName, NameCollisionOption.FailIfExists, true, showExtensionDialog);
+			ReturnResult renamed =
+				await associatedInstance.FilesystemHelpers.RenameAsync(
+					StorageHelpers.FromPathAndType(item.ItemPath,
+					itemType),
+					newName,
+					NameCollisionOption.FailIfExists,
+					true,
+					showExtensionDialog);
 
 			if (renamed == ReturnResult.Success)
 			{
 				associatedInstance.ToolbarViewModel.CanGoForward = false;
+
 				return true;
 			}
 
@@ -284,7 +312,7 @@ namespace Files.App.Helpers
 				currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
 				if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
 					!library.IsEmpty &&
-					library.Folders.Count == 1) // TODO: handle libraries with multiple folders
+					library.Folders.Count == 1) // TODO: Handle libraries with multiple folders
 				{
 					currentPath = library.Folders.First();
 				}
@@ -309,26 +337,30 @@ namespace Files.App.Helpers
 			{
 				case AddItemDialogItemType.Folder:
 					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalizedResource();
-					created = await associatedInstance.FilesystemHelpers.CreateAsync(
-						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput), FilesystemItemType.Directory),
-						true);
+					created =
+						await associatedInstance.FilesystemHelpers.CreateAsync(
+							StorageHelpers.FromPathAndType(
+								PathNormalization.Combine(currentPath, userInput),
+								FilesystemItemType.Directory),
+							true);
 					break;
 
 				case AddItemDialogItemType.File:
 					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalizedResource();
-					created = await associatedInstance.FilesystemHelpers.CreateAsync(
-						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput + itemInfo?.Extension), FilesystemItemType.File),
-						true);
+					created =
+						await associatedInstance.FilesystemHelpers.CreateAsync(
+							StorageHelpers.FromPathAndType(
+								PathNormalization.Combine(currentPath, userInput + itemInfo?.Extension),
+								FilesystemItemType.File),
+							true);
 					break;
 			}
 
 			if (created.Status == ReturnResult.AccessUnauthorized)
 			{
-				await DialogDisplayHelper.ShowDialogAsync
-				(
+				await DialogDisplayHelper.ShowDialogAsync(
 					"AccessDenied".GetLocalizedResource(),
-					"AccessDeniedCreateDialog/Text".GetLocalizedResource()
-				);
+					"AccessDeniedCreateDialog/Text".GetLocalizedResource());
 			}
 
 			return created.Item;
@@ -338,9 +370,13 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
-					item.ItemPath,
-					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+				var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) =>
+					StorageHelpers.FromPathAndType(
+						item.ItemPath,
+						item.PrimaryItemAttribute == StorageItemTypes.File
+							? FilesystemItemType.File
+							: FilesystemItemType.Directory));
+
 				var folder = await CreateFileFromDialogResultTypeForResult(AddItemDialogItemType.Folder, null, associatedInstance);
 				if (folder is null)
 					return;
@@ -386,13 +422,12 @@ namespace Files.App.Helpers
 
 		public static async Task<bool> HandleShortcutCannotBeCreated(string shortcutName, string destinationPath)
 		{
-			var result = await DialogDisplayHelper.ShowDialogAsync
-			(
+			var result = await DialogDisplayHelper.ShowDialogAsync(
 				"CannotCreateShortcutDialogTitle".ToLocalized(),
 				"CannotCreateShortcutDialogMessage".ToLocalized(),
 				"Create".ToLocalized(),
-				"Cancel".ToLocalized()
-			);
+				"Cancel".ToLocalized());
+
 			if (!result)
 				return false;
 

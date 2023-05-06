@@ -11,21 +11,22 @@ using Windows.Storage;
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Used to create lists of ContextMenuFlyoutItemViewModels that can be used by ItemModelListToContextFlyoutHelper to create context
-	/// menus and toolbars for the user.
-	/// <see cref="ContextMenuFlyoutItemViewModel"/>
-	/// <see cref="Files.App.Helpers.ContextFlyouts.ItemModelListToContextFlyoutHelper"/>
+	/// Represents a helper that is used to create lists of <see cref="ContextMenuFlyoutItemViewModel"/> that can be used
+	/// by <see cref="ContextFlyouts.ItemModelListToContextFlyoutHelper"/> to create context menus and toolbars for the user.
 	/// </summary>
 	public static class ContextFlyoutItemHelper
 	{
-		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private static readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
-		private static readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+		private static IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		private static ICommandManager commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
+		private static IAddItemService addItemService { get; } = Ioc.Default.GetRequiredService<IAddItemService>();
 
 		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
 		{
 			var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel, currentInstanceViewModel: currentInstanceViewModel, itemViewModel: itemViewModel);
-			menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, removeOverflowMenu: false);
+			menuItemsList = Filter(menuItemsList, selectedItems, shiftPressed, currentInstanceViewModel, false);
+
 			return menuItemsList;
 		}
 
@@ -40,7 +41,8 @@ namespace Files.App.Helpers
 			var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
 			if (overflow is not null)
 			{
-				if (!shiftPressed && userSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu) // items with ShowOnShift to overflow menu
+				// Items with ShowOnShift to overflow menu
+				if (!shiftPressed && userSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 				{
 					var overflowItems = items.Where(x => x.ShowOnShift).ToList();
 
@@ -52,7 +54,7 @@ namespace Files.App.Helpers
 					overflow.Items.AddRange(overflowItems);
 				}
 
-				// remove the overflow if it has no child items
+				// Remove the overflow if it has no child items
 				if (overflow.Items.Count == 0 && removeOverflowMenu)
 					items.Remove(overflow);
 			}
@@ -62,31 +64,44 @@ namespace Files.App.Helpers
 
 		private static bool Check(ContextMenuFlyoutItemViewModel item, CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems)
 		{
-			return (item.ShowInRecycleBin || !currentInstanceViewModel.IsPageTypeRecycleBin)
-				&& (item.ShowInSearchPage || !currentInstanceViewModel.IsPageTypeSearchResults)
-				&& (item.ShowInFtpPage || !currentInstanceViewModel.IsPageTypeFtp)
-				&& (item.ShowInZipPage || !currentInstanceViewModel.IsPageTypeZipFolder)
-				&& (!item.SingleItemOnly || selectedItems.Count == 1)
-				&& item.ShowItem;
+			return
+				(item.ShowInRecycleBin || !currentInstanceViewModel.IsPageTypeRecycleBin) &&
+				(item.ShowInSearchPage || !currentInstanceViewModel.IsPageTypeSearchResults) &&
+				(item.ShowInFtpPage || !currentInstanceViewModel.IsPageTypeFtp) &&
+				(item.ShowInZipPage || !currentInstanceViewModel.IsPageTypeZipFolder) &&
+				(!item.SingleItemOnly || selectedItems.Count == 1) &&
+				item.ShowItem;
 		}
 
-		public static List<ContextMenuFlyoutItemViewModel> GetBaseItemMenuItems(
-			BaseLayoutCommandsViewModel commandsViewModel,
-			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
-			List<ListedItem> selectedItems,
-			CurrentInstanceViewModel currentInstanceViewModel,
-			ItemViewModel itemViewModel = null)
+		public static List<ContextMenuFlyoutItemViewModel> GetBaseItemMenuItems(BaseLayoutCommandsViewModel commandsViewModel, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, List<ListedItem> selectedItems, CurrentInstanceViewModel currentInstanceViewModel, ItemViewModel itemViewModel = null)
 		{
 			bool itemsSelected = itemViewModel is null;
-			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
-				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
+
+			bool canDecompress =
+				selectedItems.Any() &&
+				selectedItems.All(x => x.IsArchive) ||
+				selectedItems.All(x =>
+					x.PrimaryItemAttribute == StorageItemTypes.File &&
+					FileExtensionHelpers.IsZipFile(x.FileExtension)
+				);
+
 			bool canCompress = !canDecompress || selectedItems.Count > 1;
-			bool showOpenItemWith = selectedItems.All(
-				i => (i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
+
+			bool showOpenItemWith =
+				selectedItems.All(i =>
+					(i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) ||
+					(i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive)
+				);
+
 			bool areAllItemsFolders = selectedItems.All(i => i.PrimaryItemAttribute == StorageItemTypes.Folder);
+
 			bool isFirstFileExecutable = FileExtensionHelpers.IsExecutableFile(selectedItems.FirstOrDefault()?.FileExtension);
+
 			string newArchiveName =
-				Path.GetFileName(selectedItems.Count is 1 ? selectedItems[0].ItemPath : Path.GetDirectoryName(selectedItems[0].ItemPath))
+				Path.GetFileName(
+					selectedItems.Count is 1
+						? selectedItems[0].ItemPath
+						: Path.GetDirectoryName(selectedItems[0].ItemPath))
 				?? string.Empty;
 
 			return new List<ContextMenuFlyoutItemViewModel>()
@@ -499,11 +514,13 @@ namespace Files.App.Helpers
 				{
 					if (!string.IsNullOrEmpty(i.IconBase64))
 					{
-						// loading the bitmaps takes a while, so this caches them
+						// Loading the bitmaps takes a while, so this caches them
 						byte[] bitmapData = Convert.FromBase64String(i.IconBase64);
 						using var ms = new MemoryStream(bitmapData);
+
 						var bitmap = new BitmapImage();
 						_ = bitmap.SetSourceAsync(ms.AsRandomAccessStream());
+
 						list.Add(new ContextMenuFlyoutItemViewModel()
 						{
 							Text = i.Name,

@@ -10,7 +10,7 @@ using Windows.Storage.FileProperties;
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// <see cref="IStorageItem"/> related Helpers
+	/// Provides static helper to handle <see cref="IStorageItem"/>.
 	/// </summary>
 	public static class StorageHelpers
 	{
@@ -26,15 +26,18 @@ namespace Files.App.Helpers
 
 			if (FileExtensionHelpers.IsShortcutOrUrlFile(path))
 			{
-				// TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
-				// we could implement this code here for getting .lnk files
-				// for now, we can't
+				// TODO:
+				//  In the future, when IStorageItemWithPath will inherit from IStorageItem,
+				//  we could implement this code here for getting .lnk files.
+				//  For now, we can't.
 				return default;
 			}
 
 			// Fast get attributes
 			bool exists = NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out NativeFileOperationsHelper.WIN32_FILE_ATTRIBUTE_DATA itemAttributes);
-			if (exists) // Exists on local storage
+
+			// Exists on local storage
+			if (exists)
 			{
 				// Directory
 				if (itemAttributes.dwFileAttributes.HasFlag(System.IO.FileAttributes.Directory))
@@ -44,25 +47,30 @@ namespace Files.App.Helpers
 						// NotAFile
 						return default;
 					}
-					else // Just get the directory
+					// Just get the directory
+					else
 					{
 						await GetFolder();
 					}
 				}
-				else // File
+				// File
+				else
 				{
-					if (typeof(IStorageFolder).IsAssignableFrom(typeof(TRequested))) // Wanted directory
+					// Wanted directory
+					if (typeof(IStorageFolder).IsAssignableFrom(typeof(TRequested)))
 					{
 						// NotAFile
 						return default;
 					}
-					else // Just get the file
+					// Just get the file
+					else
 					{
 						await GetFile();
 					}
 				}
 			}
-			else // Does not exist or is not present on local storage
+			// Does not exist or is not present on local storage
+			else
 			{
 				Debug.WriteLine($"Path does not exist. Trying to find storage item manually (HRESULT: {Marshal.GetLastWin32Error()})");
 
@@ -76,12 +84,14 @@ namespace Files.App.Helpers
 				}
 				else if (typeof(IStorageItem).IsAssignableFrom(typeof(TRequested)))
 				{
-					if (System.IO.Path.HasExtension(path)) // Possibly a file
+					// Possibly a file
+					if (Path.HasExtension(path))
 					{
 						await GetFile();
 					}
 
-					if (!file || file.Result is null) // Possibly a folder
+					// Possibly a folder
+					if (!file || file.Result is null)
 					{
 						await GetFolder();
 
@@ -95,13 +105,9 @@ namespace Files.App.Helpers
 			}
 
 			if (file is not null && file)
-			{
 				return (TRequested)(IStorageItem)file.Result;
-			}
 			else if (folder is not null && folder)
-			{
 				return (TRequested)(IStorageItem)folder.Result;
-			}
 
 			return default;
 
@@ -132,24 +138,26 @@ namespace Files.App.Helpers
 			var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(item.Path));
 			if (!string.IsNullOrEmpty(item.Path))
 			{
-				returnedItem = (item.ItemType == FilesystemItemType.File) ?
-					ToType<IStorageItem, BaseStorageFile>(
-						await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path, rootItem))) :
-					ToType<IStorageItem, BaseStorageFolder>(
-						await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path, rootItem)));
+				returnedItem =
+					(item.ItemType == FilesystemItemType.File)
+						? ToType<IStorageItem, BaseStorageFile>(
+							await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path, rootItem)))
+						: ToType<IStorageItem, BaseStorageFolder>(
+							await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path, rootItem)));
 			}
+
 			if (returnedItem.Result is null && item.Item is not null)
-			{
 				returnedItem = new FilesystemResult<IStorageItem>(item.Item, FileSystemStatusCode.Success);
-			}
+
 			return returnedItem;
 		}
 
 		public static IStorageItemWithPath FromPathAndType(string customPath, FilesystemItemType? itemType)
 		{
-			return (itemType == FilesystemItemType.File) ?
-					new StorageFileWithPath(null, customPath) :
-					new StorageFolderWithPath(null, customPath);
+			return
+				(itemType == FilesystemItemType.File)
+					? new StorageFileWithPath(null, customPath)
+					: new StorageFolderWithPath(null, customPath);
 		}
 
 		public static async Task<FilesystemItemType> GetTypeFromPath(string path)
@@ -160,30 +168,21 @@ namespace Files.App.Helpers
 		}
 
 		public static bool Exists(string path)
-		{
-			return NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out _);
-		}
+			=> NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out _);
 
 		public static IStorageItemWithPath FromStorageItem(this IStorageItem item, string customPath = null, FilesystemItemType? itemType = null)
 		{
 			if (item is null)
-			{
 				return FromPathAndType(customPath, itemType);
-			}
 			else if (item.IsOfType(StorageItemTypes.File))
-			{
 				return new StorageFileWithPath(item.AsBaseStorageFile(), string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
-			}
 			else if (item.IsOfType(StorageItemTypes.Folder))
-			{
 				return new StorageFolderWithPath(item.AsBaseStorageFolder(), string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
-			}
+
 			return null;
 		}
 
 		public static FilesystemResult<T> ToType<T, V>(FilesystemResult<V> result) where T : class
-		{
-			return new FilesystemResult<T>(result.Result as T, result.ErrorCode);
-		}
+			=> new FilesystemResult<T>(result.Result as T, result.ErrorCode);
 	}
 }

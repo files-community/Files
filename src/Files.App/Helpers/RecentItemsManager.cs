@@ -18,12 +18,7 @@ namespace Files.App.Helpers
 		public event EventHandler? RecentItemsChanged;
 
 		public static RecentItemsManager Default
-		{
-			get
-			{
-				return lazy.Value;
-			}
-		}
+			=> lazy.Value;
 
 		private RecentItemsManager()
 		{
@@ -38,9 +33,7 @@ namespace Files.App.Helpers
 		private void StartQuickAccessJumpListWatcher()
 		{
 			if (quickAccessJumpListWatcher is not null)
-			{
 				return;
-			}
 
 			quickAccessJumpListWatcher = new FileSystemWatcher
 			{
@@ -57,16 +50,12 @@ namespace Files.App.Helpers
 		{
 			System.Diagnostics.Debug.WriteLine($"{nameof(QuickAccessJumpList_Changed)}: {e.ChangeType}, {e.FullPath}");
 
-			// skip if multiple events occurred for singular change
+			// Skip if multiple events occurred for singular change
 			var lastWriteTime = File.GetLastWriteTime(e.FullPath);
 			if (quickAccessLastReadTime >= lastWriteTime)
-			{
 				return;
-			}
 			else
-			{
 				quickAccessLastReadTime = lastWriteTime;
-			}
 
 			RecentItemsChanged?.Invoke(this, e);
 		}

@@ -9,10 +9,11 @@ namespace Files.App.Helpers
 	public static class AppThemeResourcesHelper
 	{
 		/// <summary>
-		/// Loads the resource styles from settings
+		/// Loads the app theme resource styles from settings with <see cref="IResourcesService"/> and <see cref="IAppearanceSettingsService"/>.
 		/// </summary>
 		public static void LoadAppResources(this IResourcesService service, IAppearanceSettingsService appearance)
 		{
+			// Get required information
 			var useCompactStyles = appearance.UseCompactStyles;
 			var appThemeBackgroundColor = ColorHelper.ToColor(appearance.AppThemeBackgroundColor);
 			var appThemeAddressBarBackgroundColor = appearance.AppThemeAddressBarBackgroundColor;
@@ -20,25 +21,30 @@ namespace Files.App.Helpers
 			var appThemeFileAreaBackgroundColor = appearance.AppThemeFileAreaBackgroundColor;
 			var appThemeFontFamily = appearance.AppThemeFontFamily;
 
+			// Set settings
 			service.SetCompactSpacing(useCompactStyles);
 			service.SetAppThemeBackgroundColor(appThemeBackgroundColor.FromWindowsColor());
 
-			if (!String.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+			// Address bar background
+			if (!string.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
 				service.SetAppThemeAddressBarBackgroundColor(ColorHelper.ToColor(appThemeAddressBarBackgroundColor).FromWindowsColor());
 			else
-				appearance.AppThemeAddressBarBackgroundColor = ""; //migrate to new default
+				appearance.AppThemeAddressBarBackgroundColor = ""; // Migrate to new default
 
-			if (!String.IsNullOrWhiteSpace(appThemeSidebarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+			// Sidebar background
+			if (!string.IsNullOrWhiteSpace(appThemeSidebarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
 				service.SetAppThemeSidebarBackgroundColor(ColorHelper.ToColor(appThemeSidebarBackgroundColor).FromWindowsColor());
 			else
-				appearance.AppThemeSidebarBackgroundColor = ""; //migrate to new default
+				appearance.AppThemeSidebarBackgroundColor = ""; // Migrate to new default
 
-			if (!String.IsNullOrWhiteSpace(appThemeFileAreaBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+			// File area background
+			if (!string.IsNullOrWhiteSpace(appThemeFileAreaBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
 				service.SetAppThemeFileAreaBackgroundColor(ColorHelper.ToColor(appThemeFileAreaBackgroundColor).FromWindowsColor());
 			else
-				appearance.AppThemeFileAreaBackgroundColor = ""; //migrate to new default
+				appearance.AppThemeFileAreaBackgroundColor = ""; // Migrate to new default
 
-			if (appThemeFontFamily != "Segoe UI Variable")
+			// App font family
+			if (appThemeFontFamily != Constants.Common.SegoeUIVariable)
 				service.SetAppThemeFontFamily(appThemeFontFamily);
 
 			service.ApplyResources();

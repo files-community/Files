@@ -13,6 +13,7 @@ namespace Files.App.Helpers
 
 		public string Name { get; set; } = string.Empty;
 
-		protected override object ProvideValue() => resourceLoader.GetString(Name);
+		protected override object ProvideValue()
+			=> resourceLoader.GetString(Name);
 	}
 }

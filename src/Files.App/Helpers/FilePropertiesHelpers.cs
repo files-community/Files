@@ -14,7 +14,7 @@ using Windows.Graphics;
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Represents a helper class that helps users open and handle item properties window
+	/// Provides static helper to open and handle item properties window.
 	/// </summary>
 	public static class FilePropertiesHelpers
 	{

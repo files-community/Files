@@ -46,14 +46,20 @@ namespace Files.App.Helpers
 					Win32API.ExtractStringFromDLL("shell32.dll", 5387), // Unpin from taskbar
 				};
 
-				bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem)
-					&& (knownItems.Contains(menuItem) || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase)));
+				bool filterMenuItemsImpl(string menuItem) =>
+					!string.IsNullOrEmpty(menuItem) &&
+					(knownItems.Contains(menuItem) ||
+					(!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase)));
 
 				return filterMenuItemsImpl;
 			}
 
-			var contextMenu = await ContextMenu.GetContextMenuForFiles(filePaths,
-				shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL, FilterMenuItems(showOpenMenu));
+			var contextMenu =
+				await ContextMenu.GetContextMenuForFiles(
+					filePaths,
+					shiftPressed
+						? Shell32.CMF.CMF_EXTENDEDVERBS
+						: Shell32.CMF.CMF_NORMAL, FilterMenuItems(showOpenMenu));
 
 			if (contextMenu is not null)
 				LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items, cancellationToken, true);
@@ -64,17 +70,20 @@ namespace Files.App.Helpers
 			return menuItemsList;
 		}
 
-		private static void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
-								ContextMenu contextMenu,
-								IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
-								CancellationToken cancellationToken,
-								bool showIcons = true,
-								int itemsBeforeOverflow = int.MaxValue)
+		private static void LoadMenuFlyoutItem(
+			IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
+			ContextMenu contextMenu,
+			IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
+			CancellationToken cancellationToken,
+			bool showIcons = true,
+			int itemsBeforeOverflow = int.MaxValue)
 		{
 			if (cancellationToken.IsCancellationRequested)
 				return;
 
-			var itemsCount = 0; // Separators do not count for reaching the overflow threshold
+			// Separators do not count for reaching the overflow threshold
+			var itemsCount = 0;
+
 			var menuItems = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++itemsCount <= itemsBeforeOverflow).ToList();
 			var overflowItems = menuFlyoutItems.Except(menuItems).ToList();
 
@@ -88,6 +97,7 @@ namespace Files.App.Helpers
 						Text = "ShowMoreOptions".GetLocalizedResource(),
 						Glyph = "\xE712",
 					};
+
 					LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);
 					menuItemsListLocal.Insert(0, menuLayoutSubItem);
 				}
@@ -148,7 +158,14 @@ namespace Files.App.Helpers
 						menuLayoutSubItem.LoadSubMenuAction = async () =>
 						{
 							if (await contextMenu.LoadSubMenu(menuFlyoutItem.SubItems))
-								LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
+							{
+								LoadMenuFlyoutItem(
+									menuLayoutSubItem.Items,
+									contextMenu,
+									menuFlyoutItem.SubItems,
+									cancellationToken,
+									showIcons);
+							}
 						};
 					}
 
@@ -164,6 +181,7 @@ namespace Files.App.Helpers
 						Command = new RelayCommand<object>(x => InvokeShellMenuItem(contextMenu, x)),
 						CommandParameter = menuFlyoutItem
 					};
+
 					menuItemsListLocal.Insert(0, menuLayoutItem);
 				}
 			}
@@ -207,7 +225,8 @@ namespace Files.App.Helpers
 						break;
 				}
 
-				//contextMenu.Dispose(); // Prevents some menu items from working (TBC)
+				// Prevents some menu items from working (TBC)
+				//contextMenu.Dispose();
 			}
 		}
 
@@ -216,6 +235,7 @@ namespace Files.App.Helpers
 			var item = flyout.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
 			if (item is not null)
 				flyout.Remove(item);
+
 			return item?.Items;
 		}
 
@@ -224,6 +244,7 @@ namespace Files.App.Helpers
 			var item = flyout.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
 			if (item is not null)
 				flyout.Remove(item);
+
 			return item?.Items;
 		}
 
@@ -267,8 +288,11 @@ namespace Files.App.Helpers
 						if (itemsControl is not null)
 						{
 							var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
-							secondaryElements.OfType<FrameworkElement>()
-											 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
+
+							secondaryElements
+								.OfType<FrameworkElement>()
+								// Set items max width to current menu width (#5555)
+								.ForEach(x => x.MaxWidth = maxWidth);
 						}
 
 						secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
@@ -284,13 +308,14 @@ namespace Files.App.Helpers
 				else
 				{
 					var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
-					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem
-						|| itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarSeparator appBarSeparator && (appBarSeparator.Tag as string) == "OverflowSeparator") is not AppBarSeparator overflowSeparator)
+					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem ||
+						itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarSeparator appBarSeparator && (appBarSeparator.Tag as string) == "OverflowSeparator") is not AppBarSeparator overflowSeparator)
 						return;
 
 					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
 					if (flyoutItems is not null)
 						overflowItems.ForEach(i => flyoutItems.Add(i));
+
 					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
 					overflowSeparator.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
 
@@ -307,10 +332,18 @@ namespace Files.App.Helpers
 					{
 						OpacityIconStyle = "ColorIconOpenWith",
 					};
-					var (_, openWithItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
+
+					var (_, openWithItems) =
+						ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(
+							new List<ContextMenuFlyoutItemViewModel>()
+							{
+								openWithItem
+							});
+
 					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")).FirstOrDefault() as AppBarButton;
 					if (placeholder is not null)
 						placeholder.Visibility = Visibility.Collapsed;
+
 					itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
 				}
 
@@ -320,14 +353,17 @@ namespace Files.App.Helpers
 					await sendToItem.LoadSubMenuAction();
 
 					var (_, sendToItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { sendToItem });
+
 					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")).FirstOrDefault() as AppBarButton;
 					if (placeholder is not null)
 						placeholder.Visibility = Visibility.Collapsed;
+
 					itemContextMenuFlyout.SecondaryCommands.Insert(1, sendToItems.FirstOrDefault());
 				}
 
-				// Add items to shell submenu
-				shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
+				// Add items to shell sub menu
+				shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+				{
 					await x.LoadSubMenuAction();
 
 					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
@@ -350,7 +386,8 @@ namespace Files.App.Helpers
 			if (appBarButton is not null)
 			{
 				var ctxFlyout = new MenuFlyout();
-				ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(viewModel.Items)?.ForEach(i => ctxFlyout.Items.Add(i));
+				ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(viewModel.Items)?.ForEach(ctxFlyout.Items.Add);
+
 				appBarButton.Flyout = ctxFlyout;
 				appBarButton.Visibility = Visibility.Collapsed;
 				appBarButton.Visibility = Visibility.Visible;
@@ -365,6 +402,7 @@ namespace Files.App.Helpers
 				if (flyoutSubItem is not null)
 				{
 					viewModel.Items.ForEach(i => flyoutSubItem.Items.Add(ItemModelListToContextFlyoutHelper.GetMenuItem(i)));
+
 					flyout.Items[flyout.Items.IndexOf(flyoutSubItem) + 1].Visibility = Visibility.Collapsed;
 					flyoutSubItem.Visibility = Visibility.Visible;
 				}

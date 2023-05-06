@@ -9,7 +9,6 @@ using System.Runtime.Versioning;
 
 namespace Files.App.Helpers
 {
-	[SupportedOSPlatform("Windows10.0.10240")]
 	public class CloudDrivesDetector
 	{
 		private readonly static string programFilesFolder = Environment.GetEnvironmentVariable("ProgramFiles");
@@ -68,18 +67,16 @@ namespace Files.App.Helpers
 				if (clsidSubKey is not null && (int?)clsidSubKey.GetValue("System.IsPinnedToNameSpaceTree") is 1)
 				{
 					using var namespaceSubKey = namespaceKey.OpenSubKey(subKeyName);
+
 					var driveType = (string)namespaceSubKey?.GetValue(string.Empty);
 					if (driveType is null)
-					{
 						continue;
-					}
 
 					//Nextcloud specific
 					var appName = (string)namespaceSubKey?.GetValue("ApplicationName");
+
 					if (!string.IsNullOrEmpty(appName) && appName == "Nextcloud")
-					{
 						driveType = appName;
-					}
 
 					// iCloud specific
 					if (driveType.StartsWith("iCloudDrive"))
@@ -88,11 +85,10 @@ namespace Files.App.Helpers
 						driveType = "iCloudPhotos";
 
 					using var bagKey = clsidSubKey.OpenSubKey(@"Instance\InitPropertyBag");
+
 					var syncedFolder = (string)bagKey?.GetValue("TargetFolderPath");
 					if (syncedFolder is null)
-					{
 						continue;
-					}
 
 					// Also works for OneDrive, Box, Dropbox
 					CloudProviders? driveID = driveType switch
@@ -106,12 +102,12 @@ namespace Files.App.Helpers
 						"Creative Cloud Files" => CloudProviders.AdobeCreativeCloud,
 						_ => null,
 					};
+
 					if (driveID is null)
-					{
 						continue;
-					}
 
 					string nextCloudValue = (string)namespaceSubKey?.GetValue(string.Empty);
+
 					results.Add(new CloudProvider(driveID.Value)
 					{
 						Name = driveID switch
@@ -137,11 +133,10 @@ namespace Files.App.Helpers
 		{
 			using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
 			if (oneDriveAccountsKey is null)
-			{
 				return Task.FromResult<IEnumerable<ICloudProvider>>(null);
-			}
 
 			var oneDriveAccounts = new List<ICloudProvider>();
+
 			foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
 			{
 				var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
@@ -166,9 +161,7 @@ namespace Files.App.Helpers
 		{
 			using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
 			if (oneDriveAccountsKey is null)
-			{
 				return Task.FromResult<IEnumerable<ICloudProvider>>(null);
-			}
 
 			var sharepointAccounts = new List<ICloudProvider>();
 			foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
@@ -179,22 +172,20 @@ namespace Files.App.Helpers
 				var accountName = string.IsNullOrWhiteSpace(displayName) ? "SharePoint" : $"SharePoint - {displayName}";
 
 				var sharePointSyncFolders = new List<string>();
+
 				var mountPointKeyName = @$"SOFTWARE\Microsoft\OneDrive\Accounts\{account}\ScopeIdToMountPointPathCache";
 				using (var mountPointsKey = Registry.CurrentUser.OpenSubKey(mountPointKeyName))
 				{
 					if (mountPointsKey is null)
-					{
 						continue;
-					}
 
 					var valueNames = mountPointsKey.GetValueNames();
 					foreach (var valueName in valueNames)
 					{
 						var value = (string)Registry.GetValue(@$"HKEY_CURRENT_USER\{mountPointKeyName}", valueName, null);
+
 						if (!string.Equals(value, userFolderToExcludeFromResults, StringComparison.OrdinalIgnoreCase))
-						{
 							sharePointSyncFolders.Add(value);
-						}
 					}
 				}
 
@@ -202,8 +193,13 @@ namespace Files.App.Helpers
 				foreach (var sharePointSyncFolder in sharePointSyncFolders)
 				{
 					var parentFolder = Directory.GetParent(sharePointSyncFolder)?.FullName ?? string.Empty;
+
 					if (!sharepointAccounts.Any(acc =>
-						string.Equals(acc.Name, accountName, StringComparison.OrdinalIgnoreCase)) && !string.IsNullOrWhiteSpace(parentFolder))
+							string.Equals(
+								acc.Name,
+								accountName,
+								StringComparison.OrdinalIgnoreCase)) &&
+						!string.IsNullOrWhiteSpace(parentFolder))
 					{
 						sharepointAccounts.Add(new CloudProvider(CloudProviders.OneDriveCommercial)
 						{
@@ -308,12 +304,14 @@ namespace Files.App.Helpers
 				{
 					var folderName = Path.GetFileName(autodeskFolder);
 					if (folderName is not null)
+					{
 						results.Add(new CloudProvider(CloudProviders.Autodesk)
 						{
 							Name = $"Autodesk - {Path.GetFileName(autodeskFolder)}",
 							SyncFolder = autodeskFolder,
 							IconData = iconFile?.IconData
 						});
+					}
 				}
 			}
 

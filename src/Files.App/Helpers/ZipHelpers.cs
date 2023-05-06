@@ -15,7 +15,9 @@ namespace Files.App.Helpers
 			return await Filesystem.FilesystemTasks.Wrap(async () =>
 			{
 				var arch = new SevenZipExtractor(await archive.OpenStreamForReadAsync(), password);
-				return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
+
+				// Force load archive (1665013614u)
+				return arch?.ArchiveFileData is null ? null : arch;
 			});
 		}
 
@@ -25,17 +27,26 @@ namespace Files.App.Helpers
 			if (zipFile is null)
 				return true;
 
-			return zipFile.ArchiveFileData.Any(file => file.Encrypted || file.Method.Contains("Crypto") || file.Method.Contains("AES"));
+			return
+				zipFile.ArchiveFileData.Any(file =>
+					file.Encrypted ||
+					file.Method.Contains("Crypto") ||
+					file.Method.Contains("AES")
+				);
 		}
 
 		public static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder, string password, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
 			using SevenZipExtractor? zipFile = await GetZipFile(archive, password);
+
 			if (zipFile is null)
 				return;
+
 			//zipFile.IsStreamOwner = true;
+
 			var directoryEntries = new List<ArchiveFileInfo>();
 			var fileEntries = new List<ArchiveFileInfo>();
+
 			foreach (ArchiveFileInfo entry in zipFile.ArchiveFileData)
 			{
 				if (!entry.IsDirectory)
@@ -44,10 +55,12 @@ namespace Files.App.Helpers
 					directoryEntries.Add(entry);
 			}
 
-			if (cancellationToken.IsCancellationRequested) // Check if cancelled
+			// Check if cancelled
+			if (cancellationToken.IsCancellationRequested)
 				return;
 
 			var directories = new List<string>();
+
 			try
 			{
 				directories.AddRange(directoryEntries.Select((entry) => entry.FileName));
@@ -58,6 +71,7 @@ namespace Files.App.Helpers
 				App.Logger.LogWarning(ex, $"Error transforming zip names into: {destinationFolder.Path}\n" +
 					$"Directories: {string.Join(", ", directoryEntries.Select(x => x.FileName))}\n" +
 					$"Files: {string.Join(", ", fileEntries.Select(x => x.FileName))}");
+
 				return;
 			}
 
@@ -73,11 +87,13 @@ namespace Files.App.Helpers
 					}
 				}
 
-				if (cancellationToken.IsCancellationRequested) // Check if canceled
+				// Check if canceled
+				if (cancellationToken.IsCancellationRequested)
 					return;
 			}
 
-			if (cancellationToken.IsCancellationRequested) // Check if canceled
+			// Check if canceled
+			if (cancellationToken.IsCancellationRequested)
 				return;
 
 			// Fill files
@@ -91,14 +107,17 @@ namespace Files.App.Helpers
 
 			foreach (var entry in fileEntries)
 			{
-				if (cancellationToken.IsCancellationRequested) // Check if canceled
+				// Check if canceled
+				if (cancellationToken.IsCancellationRequested)
 					return;
 
 				string filePath = Path.Combine(destinationFolder.Path, entry.FileName);
 
 				var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
+
+				// TODO: Handle error
 				if (hFile.IsInvalid)
-					return; // TODO: handle error
+					return;
 
 				// We don't close hFile because FileStream.Dispose() already does that
 				using (FileStream destinationStream = new FileStream(hFile, FileAccess.Write))
@@ -110,7 +129,9 @@ namespace Files.App.Helpers
 					catch (Exception ex)
 					{
 						App.Logger.LogWarning(ex, $"Error extracting file: {filePath}");
-						return; // TODO: handle error
+
+						// TODO: Handle error
+						return;
 					}
 				}
 				

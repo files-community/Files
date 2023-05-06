@@ -16,7 +16,8 @@ namespace Files.App.Helpers
 		/// </summary>
 		/// <param name="window"></param>
 		/// <returns>scale factor percent</returns>
-		public static double GetScaleAdjustment(Window window) => window.Content.XamlRoot.RasterizationScale;
+		public static double GetScaleAdjustment(Window window)
+			=> window.Content.XamlRoot.RasterizationScale;
 
 		/// <summary>
 		/// Calculate dragging-zones of title bar<br/>
@@ -38,66 +39,85 @@ namespace Files.App.Helpers
 				{
 					var x = draggingZonesX[i];
 					var y = draggingZonesY[i].ToArray();
+
 					var xSubtrahend = new Range(nonDraggingZone.X, nonDraggingZone.X + nonDraggingZone.Width);
 					var ySubtrahend = new Range(nonDraggingZone.Y, nonDraggingZone.Y + nonDraggingZone.Height);
+
 					var xResult = (x - xSubtrahend).ToArray();
 					if (xResult.Length is 1 && xResult[0] == x)
 						continue;
+
 					var yResult = (y - ySubtrahend).ToArray();
+
 					switch (xResult.Length)
 					{
 						case 0:
-							draggingZonesY[i] = yResult;
-							break;
-						case 1:
-							draggingZonesX.RemoveAt(i);
-							draggingZonesY.RemoveAt(i);
-							if (xResult[0].Lower == x.Lower)
 							{
-								draggingZonesY.InsertRange(i, new[] { y, yResult });
+								draggingZonesY[i] = yResult;
+
+								break;
+							}
+						case 1:
+							{
+								draggingZonesX.RemoveAt(i);
+								draggingZonesY.RemoveAt(i);
+
+								if (xResult[0].Lower == x.Lower)
+								{
+									draggingZonesY.InsertRange(i, new[] { y, yResult });
+									draggingZonesX.InsertRange(i, new[]
+									{
+										x with { Upper = xResult[0].Upper },
+										x with { Lower = xSubtrahend.Lower }
+									});
+								}
+								// xResult[0].Upper == x.Upper
+								else
+								{
+									draggingZonesY.InsertRange(i, new[] { yResult, y });
+									draggingZonesX.InsertRange(i, new[]
+									{
+										x with { Upper = xSubtrahend.Upper },
+										x with { Lower = xResult[0].Lower }
+									});
+								}
+
+								++i;
+								
+								break;
+							}
+						case 2:
+							{
+								draggingZonesX.RemoveAt(i);
+								draggingZonesY.RemoveAt(i);
+								draggingZonesY.InsertRange(i, new[] { y, yResult, y });
 								draggingZonesX.InsertRange(i, new[]
 								{
 									x with { Upper = xResult[0].Upper },
-									x with { Lower = xSubtrahend.Lower }
+									xSubtrahend,
+									x with { Lower = xResult[1].Lower }
 								});
+
+								++i;
+								++i;
+
+								break;
 							}
-							else // xResult[0].Upper == x.Upper
-							{
-								draggingZonesY.InsertRange(i, new[] { yResult, y });
-								draggingZonesX.InsertRange(i, new[]
-								{
-									x with { Upper = xSubtrahend.Upper },
-									x with { Lower = xResult[0].Lower }
-								});
-							}
-							++i;
-							break;
-						case 2:
-							draggingZonesX.RemoveAt(i);
-							draggingZonesY.RemoveAt(i);
-							draggingZonesY.InsertRange(i, new[] { y, yResult, y });
-							draggingZonesX.InsertRange(i, new[]
-							{
-								x with { Upper = xResult[0].Upper },
-								xSubtrahend,
-								x with { Lower = xResult[1].Lower }
-							});
-							++i;
-							++i;
-							break;
 					}
 				}
 			}
 
 			var rects = draggingZonesX
-				.SelectMany((rangeX, i) => draggingZonesY[i]
-					.Select(rangeY => new RectInt32(rangeX.Lower, rangeY.Lower, rangeX.Distance, rangeY.Distance)))
+				.SelectMany((rangeX, i) =>
+					draggingZonesY[i].Select(rangeY => new RectInt32(rangeX.Lower, rangeY.Lower, rangeX.Distance, rangeY.Distance)))
 				.OrderBy(t => t.Y)
 				.ThenBy(t => t.X).ToList();
+
 			for (var i = 0; i < rects.Count - 1; ++i)
 			{
 				var now = rects[i];
 				var next = rects[i + 1];
+
 				if (now.Height == next.Height && now.X + now.Width == next.X)
 				{
 					rects.RemoveRange(i, 2);
@@ -120,32 +140,45 @@ namespace Files.App.Helpers
 			var hWnd = WindowNative.GetWindowHandle(window);
 			var windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
 			var appWindow = AppWindow.GetFromWindowId(windowId);
+
 			var scaleAdjustment = GetScaleAdjustment(window);
 			var windowWidth = (int)(appWindow.Size.Width / scaleAdjustment);
+
 			nonDraggingZones ??= Array.Empty<RectInt32>();
+
 #if DEBUG
 			// Subtract the toolbar area (center-top in window), only in DEBUG mode.
-			nonDraggingZones = nonDraggingZones.Concat(new RectInt32[] { new((windowWidth - DebugToolbarWidth) / 2, 0, DebugToolbarWidth, DebugToolbarHeight) });
+			nonDraggingZones = nonDraggingZones.Concat(
+				new RectInt32[]
+				{
+					new((windowWidth - DebugToolbarWidth) / 2, 0, DebugToolbarWidth, DebugToolbarHeight)
+				});
 #endif
+
 			appWindow.TitleBar.SetDragRectangles(
 				GetDragZones(windowWidth, dragZoneHeight, dragZoneLeftIndent, nonDraggingZones)
-					.Select(rect => new RectInt32(
-						(int)(rect.X * scaleAdjustment),
-						(int)(rect.Y * scaleAdjustment),
-						(int)(rect.Width * scaleAdjustment),
-						(int)(rect.Height * scaleAdjustment)))
+					.Select(rect =>
+						new RectInt32(
+							(int)(rect.X * scaleAdjustment),
+							(int)(rect.Y * scaleAdjustment),
+							(int)(rect.Width * scaleAdjustment),
+							(int)(rect.Height * scaleAdjustment))
+						)
 					.ToArray());
 		}
 
 		private const int DebugToolbarWidth = 217;
+
 		private const int DebugToolbarHeight = 25;
 	}
 
 	file record Range(int Lower, int Upper)
 	{
-		public int Distance => Upper - Lower;
+		public int Distance
+			=> Upper - Lower;
 
-		private bool Intersects(Range other) => other.Lower <= Upper && other.Upper >= Lower;
+		private bool Intersects(Range other)
+			=> other.Lower <= Upper && other.Upper >= Lower;
 
 		public static IEnumerable<Range> operator -(Range minuend, Range subtrahend)
 		{

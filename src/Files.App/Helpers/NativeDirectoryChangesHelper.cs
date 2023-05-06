@@ -31,10 +31,10 @@ namespace Files.App.Helpers
 		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
 		public static extern UInt32 WaitForSingleObjectEx(IntPtr hHandle, UInt32 dwMilliseconds, bool bAlertable);
 
-		public delegate void LpoverlappedCompletionRoutine(uint dwErrorCode,
+		public delegate void LpoverlappedCompletionRoutine(
+			uint dwErrorCode,
 			uint dwNumberOfBytesTransfered,
-			OVERLAPPED lpOverlapped
-		);
+			OVERLAPPED lpOverlapped);
 
 		public unsafe struct OVERLAPPED
 		{
@@ -71,9 +71,14 @@ namespace Files.App.Helpers
 		}
 
 		[DllImport("api-ms-win-core-file-l2-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public unsafe static extern bool ReadDirectoryChangesW(IntPtr hDirectory, byte* lpBuffer,
-			int nBufferLength, bool bWatchSubtree, int dwNotifyFilter, int*
-			lpBytesReturned, ref OVERLAPPED lpOverlapped,
+		public unsafe static extern bool ReadDirectoryChangesW(
+			IntPtr hDirectory,
+			byte* lpBuffer,
+			int nBufferLength,
+			bool bWatchSubtree,
+			int dwNotifyFilter,
+			int* lpBytesReturned,
+			ref OVERLAPPED lpOverlapped,
 			LpoverlappedCompletionRoutine lpCompletionRoutine);
 	}
 }

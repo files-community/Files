@@ -6,6 +6,9 @@ using Files.App.Filesystem.StorageItems;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Provides static helper to handle git repository in a local storage.
+	/// </summary>
 	public static class GitHelpers
 	{
 		public static string? GetGitRepositoryPath(string? path, string root)
@@ -13,17 +16,18 @@ namespace Files.App.Helpers
 			if (root.EndsWith('\\'))
 				root = root.Substring(0, root.Length - 1);
 
-			if (
-				string.IsNullOrWhiteSpace(path) ||
+			if (string.IsNullOrWhiteSpace(path) ||
 				path.Equals(root, StringComparison.OrdinalIgnoreCase) ||
 				path.Equals("Home", StringComparison.OrdinalIgnoreCase) ||
-				ShellStorageFolder.IsShellPath(path)
-				)
+				ShellStorageFolder.IsShellPath(path))
+			{
 				return null;
+			}
 
-			return Repository.IsValid(path)
-				? path
-				: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
+			return
+				Repository.IsValid(path)
+					? path
+					: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
 		}
 	}
 }

@@ -5,6 +5,11 @@ namespace Files.App
 {
 	public static class Constants
 	{
+		public static class Common
+		{
+			public static readonly string SegoeUIVariable = "Segoe UI Variable";
+		}
+
 		public static class AdaptiveLayout
 		{
 			public const float ExtraLargeThreshold = 85.0f;

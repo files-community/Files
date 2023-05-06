@@ -93,7 +93,8 @@ namespace Files.App.Helpers
 				CanShowDialog = false;
 				return await SetContentDialogRoot(dialog).ShowAsync();
 			}
-			catch // A content dialog is already open
+			// A content dialog is already open
+			catch
 			{
 				return ContentDialogResult.None;
 			}
@@ -113,9 +114,8 @@ namespace Files.App.Helpers
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
+
 			return contentDialog;
 		}
 
@@ -126,9 +126,7 @@ namespace Files.App.Helpers
 			foreach (var item in openedDialogs)
 			{
 				if (item.Child is ContentDialog dialog)
-				{
 					dialog.Hide();
-				}
 			}
 		}
 
@@ -146,29 +144,37 @@ namespace Files.App.Helpers
 		{
 			var iconInfo = GetSidebarIconResourceInfo(index);
 
-			return iconInfo is not null
-				? await iconInfo.IconData.ToBitmapAsync()
-				: null;
+			return
+				iconInfo is not null
+					? await iconInfo.IconData.ToBitmapAsync()
+					: null;
 		}
 
 		public static async Task<BitmapImage?> GetShieldIconResource()
 		{
-			return ShieldIconResource is not null
-				? await ShieldIconResource.IconData.ToBitmapAsync()
-				: null;
+			return
+				ShieldIconResource is not null
+					? await ShieldIconResource.IconData.ToBitmapAsync()
+					: null;
 		}
 
 		private static IEnumerable<IconFileInfo> LoadSidebarIconResources()
 		{
 			string imageres = Path.Combine(CommonPaths.SystemRootPath, "System32", "imageres.dll");
-			var imageResList = Win32API.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
-					Constants.ImageRes.RecycleBin,
-					Constants.ImageRes.NetworkDrives,
-					Constants.ImageRes.Libraries,
-					Constants.ImageRes.ThisPC,
-					Constants.ImageRes.CloudDrives,
-					Constants.ImageRes.Folder
-				}, 32);
+
+			var imageResList =
+				Win32API.ExtractSelectedIconsFromDLL(
+					imageres,
+					new List<int>()
+					{
+						Constants.ImageRes.RecycleBin,
+						Constants.ImageRes.NetworkDrives,
+						Constants.ImageRes.Libraries,
+						Constants.ImageRes.ThisPC,
+						Constants.ImageRes.CloudDrives,
+						Constants.ImageRes.Folder
+					},
+					32);
 
 			return imageResList;
 		}
@@ -176,9 +182,15 @@ namespace Files.App.Helpers
 		private static IconFileInfo LoadShieldIconResource()
 		{
 			string imageres = Path.Combine(CommonPaths.SystemRootPath, "System32", "imageres.dll");
-			var imageResList = Win32API.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
-					Constants.ImageRes.ShieldIcon
-				}, 16);
+
+			var imageResList =
+				Win32API.ExtractSelectedIconsFromDLL(
+					imageres,
+					new List<int>()
+					{
+						Constants.ImageRes.ShieldIcon
+					},
+					16);
 
 			return imageResList.First();
 		}

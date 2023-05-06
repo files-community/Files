@@ -19,8 +19,12 @@ namespace Files.App.Helpers
 
 		public static bool CanDecompress(IReadOnlyList<ListedItem> selectedItems)
 		{
-			return selectedItems.Any() && selectedItems.All(x => x.IsArchive)
-				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
+			return
+				selectedItems.Any() && selectedItems.All(x => x.IsArchive) ||
+				selectedItems.All(x =>
+					x.PrimaryItemAttribute == StorageItemTypes.File &&
+					FileExtensionHelpers.IsZipFile(x.FileExtension)
+				);
 		}
 
 		public static bool CanCompress(IReadOnlyList<ListedItem> selectedItems)
@@ -33,18 +37,21 @@ namespace Files.App.Helpers
 			if (!selectedItems.Any())
 				return string.Empty;
 
-			return Path.GetFileName(
+			return
+				Path.GetFileName(
 					selectedItems.Count is 1
 					? selectedItems[0].ItemPath
 					: Path.GetDirectoryName(selectedItems[0].ItemPath
-				)) ?? string.Empty;
+				))
+				?? string.Empty;
 		}
 
 		public static (string[] Sources, string directory, string fileName) GetCompressDestination(IShellPage associatedInstance)
 		{
-			string[] sources = associatedInstance.SlimContentPage.SelectedItems
-				.Select(item => item.ItemPath)
-				.ToArray();
+			string[] sources =
+				associatedInstance.SlimContentPage.SelectedItems
+					.Select(item => item.ItemPath)
+					.ToArray();
 
 			if (sources.Length is 0)
 				return (sources, string.Empty, string.Empty);
@@ -65,20 +72,23 @@ namespace Files.App.Helpers
 			var archivePath = creator.GetArchivePath();
 
 			int index = 1;
-			while (File.Exists(archivePath) || System.IO.Directory.Exists(archivePath))
+
+			while (File.Exists(archivePath) || Directory.Exists(archivePath))
 				archivePath = creator.GetArchivePath($" ({++index})");
+
 			creator.ArchivePath = archivePath;
 
 			CancellationTokenSource compressionToken = new();
-			PostedStatusBanner banner = OngoingTasksViewModel.PostOperationBanner
-			(
-				"CompressionInProgress".GetLocalizedResource(),
-				archivePath,
-				0,
-				ReturnResult.InProgress,
-				FileOperationType.Compressed,
-				compressionToken
-			);
+
+			PostedStatusBanner banner =
+				OngoingTasksViewModel.PostOperationBanner(
+					"CompressionInProgress".GetLocalizedResource(),
+					archivePath,
+					0,
+					ReturnResult.InProgress,
+					FileOperationType.Compressed,
+					compressionToken
+				);
 
 			creator.Progress = banner.ProgressEventSource;
 			bool isSuccess = await creator.RunCreationAsync();
@@ -87,8 +97,7 @@ namespace Files.App.Helpers
 
 			if (isSuccess)
 			{
-				OngoingTasksViewModel.PostBanner
-				(
+				OngoingTasksViewModel.PostBanner(
 					"CompressionCompleted".GetLocalizedResource(),
 					string.Format("CompressionSucceded".GetLocalizedResource(), archivePath),
 					0,
@@ -100,8 +109,7 @@ namespace Files.App.Helpers
 			{
 				NativeFileOperationsHelper.DeleteFileFromApp(archivePath);
 
-				OngoingTasksViewModel.PostBanner
-				(
+				OngoingTasksViewModel.PostBanner(
 					"CompressionCompleted".GetLocalizedResource(),
 					string.Format("CompressionFailed".GetLocalizedResource(), archivePath),
 					0,
@@ -118,18 +126,25 @@ namespace Files.App.Helpers
 
 			CancellationTokenSource extractCancellation = new();
 
-			PostedStatusBanner banner = OngoingTasksViewModel.PostOperationBanner(
-				archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
-				"ExtractingArchiveText".GetLocalizedResource(),
-				0,
-				ReturnResult.InProgress,
-				FileOperationType.Extract,
-				extractCancellation);
+			PostedStatusBanner banner =
+				OngoingTasksViewModel.PostOperationBanner(
+					archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
+					"ExtractingArchiveText".GetLocalizedResource(),
+					0,
+					ReturnResult.InProgress,
+					FileOperationType.Extract,
+					extractCancellation);
 
 			Stopwatch sw = new();
 			sw.Start();
 
-			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, extractCancellation.Token));
+			await FilesystemTasks.Wrap(() =>
+				ZipHelpers.ExtractArchive(
+					archive,
+					destinationFolder,
+					password,
+					banner.ProgressEventSource,
+					extractCancellation.Token));
 
 			sw.Stop();
 			banner.Remove();
@@ -150,9 +165,12 @@ namespace Files.App.Helpers
 			if (associatedInstance == null)
 				return;
 
-			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItems.Count != 0
-				? associatedInstance.SlimContentPage.SelectedItem.ItemPath
-				: associatedInstance.FilesystemViewModel.WorkingDirectory);
+			BaseStorageFile archive =
+				await StorageHelpers.ToStorageItem<BaseStorageFile>(
+					associatedInstance.SlimContentPage.SelectedItems.Count != 0
+						? associatedInstance.SlimContentPage.SelectedItem.ItemPath
+						: associatedInstance.FilesystemViewModel.WorkingDirectory
+				);
 
 			if (archive is null)
 				return;
@@ -160,13 +178,16 @@ namespace Files.App.Helpers
 			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive));
 			var password = string.Empty;
 
-			DecompressArchiveDialog decompressArchiveDialog = new();
 			DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
 			{
 				IsArchiveEncrypted = isArchiveEncrypted,
 				ShowPathSelection = true
 			};
-			decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+
+			DecompressArchiveDialog decompressArchiveDialog = new()
+			{
+				ViewModel = decompressArchiveViewModel,
+			};
 
 			ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 			if (option != ContentDialogResult.Primary)
@@ -207,14 +228,16 @@ namespace Files.App.Helpers
 
 				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
 				{
-					DecompressArchiveDialog decompressArchiveDialog = new();
 					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
 					{
 						IsArchiveEncrypted = true,
 						ShowPathSelection = false
 					};
 
-					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+					DecompressArchiveDialog decompressArchiveDialog = new()
+					{
+						ViewModel = decompressArchiveViewModel
+					};
 
 					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 					if (option != ContentDialogResult.Primary)
@@ -242,13 +265,16 @@ namespace Files.App.Helpers
 
 				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
 				{
-					DecompressArchiveDialog decompressArchiveDialog = new();
 					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
 					{
 						IsArchiveEncrypted = true,
 						ShowPathSelection = false
 					};
-					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+
+					DecompressArchiveDialog decompressArchiveDialog = new()
+					{
+						ViewModel = decompressArchiveViewModel
+					};
 
 					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 					if (option != ContentDialogResult.Primary)
@@ -258,7 +284,14 @@ namespace Files.App.Helpers
 				}
 
 				if (currentFolder is not null)
-					destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
+				{
+					destinationFolder = await FilesystemTasks.Wrap(() =>
+						currentFolder.CreateFolderAsync(
+							Path.GetFileNameWithoutExtension(archive.Path),
+							CreationCollisionOption.GenerateUniqueName
+						).AsTask()
+					);
+				}
 
 				await ExtractArchive(archive, destinationFolder, password);
 			}

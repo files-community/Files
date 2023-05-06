@@ -17,13 +17,16 @@ namespace Files.App.Helpers
 			try
 			{
 				var pathAsUri = new Uri(path.Replace("\\", "/", StringComparison.Ordinal));
+
 				rootPath = pathAsUri.GetLeftPart(UriPartial.Authority);
+
 				if (pathAsUri.IsFile && !string.IsNullOrEmpty(rootPath))
 					rootPath = new Uri(rootPath).LocalPath;
 			}
 			catch (UriFormatException)
 			{
 			}
+
 			if (string.IsNullOrEmpty(rootPath))
 				rootPath = Path.GetPathRoot(path) ?? string.Empty;
 
@@ -43,21 +46,21 @@ namespace Files.App.Helpers
 
 			try
 			{
-				return Path.GetFullPath(new Uri(path).LocalPath)
-					.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
-					.ToUpperInvariant();
+				return
+					Path.GetFullPath(new Uri(path).LocalPath)
+						.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+						.ToUpperInvariant();
 			}
 			catch (UriFormatException ex)
 			{
 				App.Logger.LogWarning(ex, path);
+
 				return path;
 			}
 		}
 
 		public static string? TrimPath(this string path)
-		{
-			return path?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-		}
+			=> path?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
 		public static string GetParentDir(string path)
 		{
@@ -65,6 +68,7 @@ namespace Files.App.Helpers
 				return string.Empty;
 
 			var index = path.Contains('/', StringComparison.Ordinal) ? path.LastIndexOf("/", StringComparison.Ordinal) : path.LastIndexOf("\\", StringComparison.Ordinal);
+
 			return path.Substring(0, index != -1 ? index : path.Length);
 		}
 

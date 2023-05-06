@@ -8,53 +8,60 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Windows.System;
 
-namespace Files.App.Helpers
+namespace Files.App.Data.Factories
 {
 	public static class DynamicDialogFactory
 	{
 		public static DynamicDialog GetFor_PropertySaveErrorDialog()
 		{
-			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
-			{
-				TitleText = "PropertySaveErrorDialog/Title".GetLocalizedResource(),
-				SubtitleText = "PropertySaveErrorMessage/Text".GetLocalizedResource(), // We can use subtitle here as our content
-				PrimaryButtonText = "Retry".GetLocalizedResource(),
-				SecondaryButtonText = "PropertySaveErrorDialog/SecondaryButtonText".GetLocalizedResource(),
-				CloseButtonText = "Cancel".GetLocalizedResource(),
-				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
-			});
+			DynamicDialog dialog = new(
+				new DynamicDialogViewModel()
+				{
+					TitleText = "PropertySaveErrorDialog/Title".GetLocalizedResource(),
+					SubtitleText = "PropertySaveErrorMessage/Text".GetLocalizedResource(), // We can use subtitle here as our content
+					PrimaryButtonText = "Retry".GetLocalizedResource(),
+					SecondaryButtonText = "PropertySaveErrorDialog/SecondaryButtonText".GetLocalizedResource(),
+					CloseButtonText = "Cancel".GetLocalizedResource(),
+					DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
+				});
+
 			return dialog;
 		}
 
 		public static DynamicDialog GetFor_ConsentDialog()
 		{
-			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
-			{
-				TitleText = "WelcomeDialog/Title".GetLocalizedResource(),
-				SubtitleText = "WelcomeDialogTextBlock/Text".GetLocalizedResource(), // We can use subtitle here as our content
-				PrimaryButtonText = "WelcomeDialog/PrimaryButtonText".GetLocalizedResource(),
-				PrimaryButtonAction = async (vm, e) => await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess")),
-				DynamicButtons = DynamicDialogButtons.Primary
-			});
+			DynamicDialog dialog = new(
+				new DynamicDialogViewModel()
+				{
+					TitleText = "WelcomeDialog/Title".GetLocalizedResource(),
+					SubtitleText = "WelcomeDialogTextBlock/Text".GetLocalizedResource(), // We can use subtitle here as our content
+					PrimaryButtonText = "WelcomeDialog/PrimaryButtonText".GetLocalizedResource(),
+					PrimaryButtonAction = async (vm, e) => await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess")),
+					DynamicButtons = DynamicDialogButtons.Primary
+				});
+
 			return dialog;
 		}
 
 		public static DynamicDialog GetFor_ShortcutNotFound(string targetPath)
 		{
-			DynamicDialog dialog = new(new DynamicDialogViewModel
-			{
-				TitleText = "ShortcutCannotBeOpened".GetLocalizedResource(),
-				SubtitleText = string.Format("DeleteShortcutDescription".GetLocalizedResource(), targetPath),
-				PrimaryButtonText = "Delete".GetLocalizedResource(),
-				SecondaryButtonText = "No".GetLocalizedResource(),
-				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
-			});
+			DynamicDialog dialog = new(
+				new DynamicDialogViewModel
+				{
+					TitleText = "ShortcutCannotBeOpened".GetLocalizedResource(),
+					SubtitleText = string.Format("DeleteShortcutDescription".GetLocalizedResource(), targetPath),
+					PrimaryButtonText = "Delete".GetLocalizedResource(),
+					SecondaryButtonText = "No".GetLocalizedResource(),
+					DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
+				});
+
 			return dialog;
 		}
 
 		public static DynamicDialog GetFor_RenameDialog()
 		{
 			DynamicDialog? dialog = null;
+
 			TextBox inputText = new()
 			{
 				PlaceholderText = "EnterAnItemName".GetLocalizedResource()
@@ -71,6 +78,7 @@ namespace Files.App.Helpers
 			{
 				Source = inputText
 			});
+
 			warning.SetBinding(TeachingTip.IsOpenProperty, new Binding()
 			{
 				Mode = BindingMode.OneWay,
@@ -82,17 +90,21 @@ namespace Files.App.Helpers
 			inputText.TextChanged += (textBox, args) =>
 			{
 				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
+
 				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = !string.IsNullOrEmpty(inputText.Text) && !isInputValid;
-				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
-														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
-														: DynamicDialogButtons.Cancel;
+
+				dialog!.ViewModel.DynamicButtonsEnabled =
+					isInputValid
+						? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+						: DynamicDialogButtons.Cancel;
+
 				if (isInputValid)
 					dialog.ViewModel.AdditionalData = inputText.Text;
 			};
 
 			inputText.Loaded += (s, e) =>
 			{
-				// dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
+				// Dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
 				_ = inputText.DispatcherQueue.EnqueueOrInvokeAsync(() => inputText.Focus(FocusState.Programmatic));
 			};
 
@@ -128,14 +140,16 @@ namespace Files.App.Helpers
 
 		public static DynamicDialog GetFor_FileInUseDialog(List<Shared.Win32Process> lockingProcess = null)
 		{
-			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
-			{
-				TitleText = "FileInUseDialog/Title".GetLocalizedResource(),
-				SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalizedResource() :
-					string.Format("FileInUseByDialog/Text".GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
-				PrimaryButtonText = "OK",
-				DynamicButtons = DynamicDialogButtons.Primary
-			});
+			DynamicDialog dialog = new(
+				new DynamicDialogViewModel()
+				{
+					TitleText = "FileInUseDialog/Title".GetLocalizedResource(),
+					SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalizedResource() :
+						string.Format("FileInUseByDialog/Text".GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
+					PrimaryButtonText = "OK",
+					DynamicButtons = DynamicDialogButtons.Primary
+				});
+
 			return dialog;
 		}
 

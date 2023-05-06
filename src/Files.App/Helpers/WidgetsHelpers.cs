@@ -16,18 +16,22 @@ namespace Files.App.Helpers
 			if (canAddWidget && isWidgetSettingEnabled)
 			{
 				shouldReload = true;
+
 				return new TWidget();
 			}
-			else if (!canAddWidget && !isWidgetSettingEnabled) // The widgets exists but the setting has been disabled for it
+			// The widgets exists but the setting has been disabled for it
+			else if (!canAddWidget && !isWidgetSettingEnabled)
 			{
 				// Remove the widget
 				widgetsViewModel.RemoveWidget<TWidget>();
 				shouldReload = false;
+
 				return default;
 			}
 			else if (!isWidgetSettingEnabled)
 			{
 				shouldReload = false;
+
 				return default;
 			}
 
@@ -39,28 +43,19 @@ namespace Files.App.Helpers
 		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IGeneralSettingsService generalSettingsService) where TWidget : IWidgetItemModel
 		{
 			if (typeof(TWidget) == typeof(QuickAccessWidget))
-			{
 				return generalSettingsService.ShowQuickAccessWidget;
-			}
 			if (typeof(TWidget) == typeof(DrivesWidget))
-			{
 				return generalSettingsService.ShowDrivesWidget;
-			}
 			if (typeof(TWidget) == typeof(FileTagsWidget))
-			{
 				return generalSettingsService.ShowFileTagsWidget;
-			}
 			if (typeof(TWidget) == typeof(BundlesWidget))
-			{
 				return generalSettingsService.ShowBundlesWidget;
-			}
 			if (typeof(TWidget) == typeof(RecentFilesWidget))
-			{
 				return generalSettingsService.ShowRecentFilesWidget;
-			}
 
-			// A custom widget it is - TWidget implements ICustomWidgetItemModel
-			return typeof(ICustomWidgetItemModel).IsAssignableFrom(typeof(TWidget)); // Return true for custom widgets - they're always enabled
+			// A custom widget which is TWidget implements ICustomWidgetItemModel
+			// Return true for custom widgets, which are always enabled
+			return typeof(ICustomWidgetItemModel).IsAssignableFrom(typeof(TWidget));
 		}
 	}
 }
