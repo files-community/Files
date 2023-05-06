@@ -1,17 +1,9 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.App.Views.LayoutModes;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel;
-using System.Linq;
 
 namespace Files.App.Contexts
 {

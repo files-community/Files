@@ -1,10 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
-using System.Collections.Generic;
-
 namespace Files.App.Filesystem.FilesystemHistory
 {
 	public class StorageHistory : IStorageHistory

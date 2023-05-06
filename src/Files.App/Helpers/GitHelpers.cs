@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using LibGit2Sharp;
-using System;
 using Files.App.Filesystem.StorageItems;
 
 namespace Files.App.Helpers

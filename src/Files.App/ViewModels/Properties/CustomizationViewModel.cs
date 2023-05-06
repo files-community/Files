@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.WinUI;
-using Files.App.Shell;
+﻿using Files.App.Shell;
 using System.IO;
 using Windows.Storage.Pickers;
 using Microsoft.UI.Windowing;

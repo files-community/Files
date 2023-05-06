@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
-using Files.App.Data.Items;
 using Files.App.UserControls;
 using Files.Shared.EventArguments;
 using Microsoft.UI.Dispatching;
@@ -11,7 +9,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
-using static Files.App.Constants.Widgets;
 
 namespace Files.App.ViewModels
 {

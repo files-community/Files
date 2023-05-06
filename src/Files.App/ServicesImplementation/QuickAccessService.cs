@@ -2,17 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Shell;
 using Files.App.UserControls.Widgets;
-using Files.Shared;
-using Files.Shared.Extensions;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Windows.UI.Input;
 
 namespace Files.App.ServicesImplementation
 {

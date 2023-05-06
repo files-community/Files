@@ -1,15 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.Helpers;
-using Files.App.Data.Models;
-using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.UserControls.Widgets;
-using System;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Files.App.Filesystem
 {

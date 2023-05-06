@@ -1,10 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Files.App.Serialization.Implementation
 {
 	internal sealed class CachingJsonSettingsDatabase : DefaultJsonSettingsDatabase

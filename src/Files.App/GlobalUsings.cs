@@ -17,7 +17,6 @@ global using SystemIO = global::System.IO;
 global using global::CommunityToolkit.Mvvm.ComponentModel;
 global using global::CommunityToolkit.Mvvm.DependencyInjection;
 global using global::CommunityToolkit.Mvvm.Input;
-global using global::CommunityToolkit.Mvvm.Messaging;
 
 // Files Front-end
 global using global::Files.App.Helpers;

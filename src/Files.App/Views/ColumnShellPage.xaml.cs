@@ -2,16 +2,12 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views.LayoutModes;
-using Files.Backend.Enums;
-using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using Windows.Storage;
 using Windows.System;
 
 namespace Files.App.Views

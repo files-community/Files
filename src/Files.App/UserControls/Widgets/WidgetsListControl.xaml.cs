@@ -3,7 +3,6 @@
 
 using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml.Controls;
-using System;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 

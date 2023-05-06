@@ -1,11 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI;
-using Files.App.Data.Parameters;
-using Files.App.Helpers;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -13,8 +8,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI;
 

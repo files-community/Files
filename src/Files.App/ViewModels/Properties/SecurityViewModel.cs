@@ -1,13 +1,5 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Data.Items;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
-using Files.App.Helpers;
 using Microsoft.UI.Xaml;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties

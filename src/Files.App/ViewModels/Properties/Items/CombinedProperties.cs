@@ -1,14 +1,6 @@
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties

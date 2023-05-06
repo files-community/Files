@@ -2,9 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using Files.App.Extensions;
-using System;
-using System.Threading.Tasks;
 using Windows.System;
 
 namespace Files.App.Actions

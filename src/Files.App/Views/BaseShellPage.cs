@@ -1,16 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
 using Files.App.Commands;
-using Files.App.Data.EventArguments;
-using Files.App.Data.Models;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.Search;
-using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views.LayoutModes;
-using Files.Backend.Enums;
 using Files.Backend.Services;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;

@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
-using System;
 using System.Globalization;
 using Windows.UI;
 

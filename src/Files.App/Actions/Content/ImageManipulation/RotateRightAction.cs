@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using Files.App.Extensions;
 using Windows.Graphics.Imaging;
 
 namespace Files.App.Actions

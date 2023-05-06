@@ -1,12 +1,6 @@
-using Files.App.Data.Items;
-using Files.App.Data.Parameters;
-using Files.App.Filesystem;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties

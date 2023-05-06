@@ -1,11 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Enums;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace Files.App.Filesystem.FilesystemHistory
 {
 	public class StorageHistoryHelpers : IDisposable

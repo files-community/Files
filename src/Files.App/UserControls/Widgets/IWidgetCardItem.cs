@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Media.Imaging;
-using System.Threading.Tasks;
 
 namespace Files.App.UserControls.Widgets
 {

@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Input;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using Windows.System;
 using Windows.UI.Core;

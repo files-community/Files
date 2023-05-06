@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.Enums;
 using Files.Backend.Helpers;
 using Microsoft.UI.Xaml;
 

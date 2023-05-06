@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Cloud;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using Windows.Storage;

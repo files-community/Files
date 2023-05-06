@@ -1,16 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Views.Properties;
-using Files.Backend.Enums;
+﻿using Files.App.Views.Properties;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Threading;
 using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Files.App.ViewModels.Properties

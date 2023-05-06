@@ -1,14 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Parameters;
-using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
-using System.Threading.Tasks;
 
 namespace Files.App.Views.Properties
 {

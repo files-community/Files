@@ -2,10 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Filesystem.FilesystemHistory;
-using Files.Shared.Enums;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 

@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Extensions
 {

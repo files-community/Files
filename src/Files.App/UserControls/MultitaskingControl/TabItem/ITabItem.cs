@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.UserControls.MultitaskingControl
 {

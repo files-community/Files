@@ -1,11 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Data.Items;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Shell;
 using Files.App.UserControls;

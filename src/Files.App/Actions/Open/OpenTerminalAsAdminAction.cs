@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using Files.App.Extensions;
-using System.Diagnostics;
 
 namespace Files.App.Actions
 {

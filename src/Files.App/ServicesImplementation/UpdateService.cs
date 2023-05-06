@@ -1,20 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.Helpers;
-using Files.App.Extensions;
-using Files.App.Helpers;
 using Files.Backend.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Services.Store;
 using Windows.Storage;
 using WinRT.Interop;

@@ -2,16 +2,11 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Items;
-using Files.App.Extensions;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Dialogs

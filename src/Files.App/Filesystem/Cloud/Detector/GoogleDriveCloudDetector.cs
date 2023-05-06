@@ -1,12 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
 using Files.Shared.Cloud;
-using Files.Shared.Extensions;
 using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
 

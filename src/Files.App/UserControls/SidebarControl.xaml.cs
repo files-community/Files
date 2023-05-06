@@ -1,33 +1,20 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
-using Files.App.Data.Items;
-using Files.App.Data.Models;
-using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
 using Files.App.Shell;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;

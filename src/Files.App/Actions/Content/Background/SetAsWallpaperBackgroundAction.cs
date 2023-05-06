@@ -2,10 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using Files.Shared.Enums;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {

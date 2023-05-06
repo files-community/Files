@@ -3,12 +3,7 @@
 
 using Common;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Shell;
-using Files.Shared.Extensions;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using IO = System.IO;

@@ -1,28 +1,15 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Items;
-using Files.App.Extensions;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.Shell;
-using Files.App.ViewModels;
 using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
-using Files.Shared;
-using Files.Shared.Extensions;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.System;
 using Windows.UI.Core;

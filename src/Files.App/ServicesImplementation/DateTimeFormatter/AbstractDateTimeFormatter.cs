@@ -1,9 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
-using System;
 using System.Globalization;
 using Windows.Globalization;
 

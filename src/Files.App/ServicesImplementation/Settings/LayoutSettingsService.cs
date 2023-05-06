@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Serialization;
-using Files.Backend.Services.Settings;
 
 namespace Files.App.ServicesImplementation.Settings
 {

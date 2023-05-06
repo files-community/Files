@@ -1,13 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
-using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
-using Files.Shared.Extensions;
-using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
 

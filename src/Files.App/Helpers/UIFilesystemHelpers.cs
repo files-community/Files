@@ -4,7 +4,6 @@
 using Files.App.Dialogs;
 using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels.Dialogs;
-using Files.Backend.Enums;
 using Files.Backend.Extensions;
 using Files.Backend.Services;
 using Microsoft.Extensions.Logging;

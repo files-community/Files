@@ -3,12 +3,8 @@
 
 using Files.App.Filesystem.Security;
 using Files.App.Shell;
-using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Security.AccessControl;
-using System.Security.Principal;
-using System.Text;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.AdvApi32;
 using FilesSecurity = Files.App.Filesystem.Security;

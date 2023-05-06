@@ -1,26 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.EventArguments;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.App.UserControls;
-using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.App.Views.LayoutModes;
-using Files.Backend.Enums;
-using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Windows.Storage;
 using Windows.System;
 
 namespace Files.App.Views

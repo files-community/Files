@@ -2,9 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Cloud;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Filesystem.Cloud
 {

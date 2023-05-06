@@ -1,19 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Data.Items;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.App.ViewModels;
-using Files.Shared.Extensions;
 using Files.Shared.Services;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.StartScreen;
 

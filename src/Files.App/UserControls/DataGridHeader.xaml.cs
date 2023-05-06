@@ -1,10 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 

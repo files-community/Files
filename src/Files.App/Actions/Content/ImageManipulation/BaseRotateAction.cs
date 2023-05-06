@@ -1,15 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Helpers;
-using Files.App.ViewModels;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 
 namespace Files.App.Actions

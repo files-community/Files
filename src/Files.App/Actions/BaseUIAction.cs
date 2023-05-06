@@ -1,10 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.Helpers;
-using System.ComponentModel;
-
 namespace Files.App.Actions
 {
 	internal abstract class BaseUIAction : ObservableObject

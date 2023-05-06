@@ -2,21 +2,12 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Notifications;
-using Files.App.Extensions;
 using Files.App.Shell;
 using Files.Backend.ViewModels.Dialogs;
-using Files.Shared;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.UI.Notifications;
 
 namespace Files.App.Helpers

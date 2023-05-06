@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
-using System;
-
 namespace Files.App.ServicesImplementation.DateTimeFormatter
 {
 	internal class UniversalDateTimeFormatter : AbstractDateTimeFormatter

@@ -1,22 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.Backend.Helpers;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 using FileAttributes = System.IO.FileAttributes;
 

@@ -1,14 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.ViewModels.Widgets;
 using Files.App.ViewModels.Widgets.Bundles;
-using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 

@@ -2,20 +2,13 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Helpers;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-using Files.Shared.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 
 namespace Files.App.ServicesImplementation

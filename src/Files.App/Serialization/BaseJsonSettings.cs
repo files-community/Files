@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.EventArguments;
-using System;
 using System.Runtime.CompilerServices;
 
 namespace Files.App.Serialization

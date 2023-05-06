@@ -1,10 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Extensions;
 using LiteDB;
-using System;
-using System.Linq;
 using System.Text;
 using IO = System.IO;
 

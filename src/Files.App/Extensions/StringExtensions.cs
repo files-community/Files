@@ -2,11 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using ByteSizeLib;
-using Files.Shared.Extensions;
 using Microsoft.Windows.ApplicationModel.Resources;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Files.App.Extensions

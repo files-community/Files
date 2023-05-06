@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Windows.System;
 
 namespace Files.App.Helpers

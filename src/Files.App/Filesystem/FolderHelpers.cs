@@ -2,10 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Filesystem.StorageItems;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.App.Filesystem

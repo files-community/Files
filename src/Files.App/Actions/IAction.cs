@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {

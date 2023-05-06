@@ -3,8 +3,6 @@
 
 using Files.Shared.Cloud;
 using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
 

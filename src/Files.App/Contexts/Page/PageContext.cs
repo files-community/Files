@@ -3,8 +3,6 @@
 
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views;
-using System;
-using System.ComponentModel;
 
 namespace Files.App.Contexts
 {

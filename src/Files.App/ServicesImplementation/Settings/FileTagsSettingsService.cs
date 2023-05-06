@@ -1,18 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
-using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Windows.Storage;
 
 namespace Files.App.ServicesImplementation.Settings

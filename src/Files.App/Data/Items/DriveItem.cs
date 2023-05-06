@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using ByteSizeLib;
-using CommunityToolkit.WinUI;
 using Files.App.Storage.WindowsStorage;
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.Enums;
