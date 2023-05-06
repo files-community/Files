@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Files.App.Converters
 {
-	internal class DoubleArrayToString : IValueConverter
+	internal sealed class DoubleArrayToStringConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{

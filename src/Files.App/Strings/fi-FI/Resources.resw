@@ -477,7 +477,7 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Eri tyypit</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>Kaikki kohteessa {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
@@ -3204,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Tee viimeisin tiedostotoiminto uudestaan</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Sijainti:</value>
   </data>
 </root>

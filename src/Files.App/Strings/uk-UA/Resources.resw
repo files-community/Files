@@ -477,8 +477,8 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Різні типи</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>Всі в папці {0}</value>
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
+    <value>Усе в {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Зайнято:</value>
@@ -3149,7 +3149,7 @@
     <value>Закриває поточну вкладку</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Редагувати шлях</value>
   </data>
   <data name="Branch" xml:space="preserve">
     <value>Гілка: {0}</value>
@@ -3179,13 +3179,13 @@
     <value>Показувати прапорці під час вибору елементів</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Фокус на панелі шляху</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>Створити новий елемент</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>Жодна група чи користувач не має дозволів на даний обєкт. Проте, власник даного обєкту може надавати дозволи.</value>
+    <value>Жодна група чи користувач не має дозволів на даний об'єкт. Проте, власник даного об'єкту може надавати дозволи.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
     <value>Відкрити розташування елемента</value>
@@ -3204,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Повторити останню операцію з файлом</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Розташування:</value>
   </data>
 </root>

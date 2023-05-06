@@ -1,21 +1,27 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Converters
 {
-	internal class BoolToSelectionMode : IValueConverter
+	internal sealed class UInt32ToStringConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			return (value as bool?) ?? false ? ListViewSelectionMode.Multiple : ListViewSelectionMode.Extended;
+			return value is not null ? value.ToString() : string.Empty;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			return ((value as ListViewSelectionMode?) ?? ListViewSelectionMode.Extended) == ListViewSelectionMode.Multiple;
+			try
+			{
+				return uint.Parse(value as string);
+			}
+			catch (FormatException)
+			{
+				return null;
+			}
 		}
 	}
 }

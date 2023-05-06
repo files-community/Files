@@ -1,18 +1,20 @@
-// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media;
 
-namespace Files.App.ValueConverters
+namespace Files.App.Converters
 {
-	internal sealed class ImageModelToImageConverter : IValueConverter
+	internal sealed class StringToBrushConverter : IValueConverter
 	{
 		public object? Convert(object value, Type targetType, object parameter, string language)
 		{
-			if (value is BitmapImageModel bitmapImageModel)
-				return bitmapImageModel.Image;
+			if (value is not string strValue)
+				return null;
 
-			return null;
+			return new SolidColorBrush(strValue.ToColor());
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
