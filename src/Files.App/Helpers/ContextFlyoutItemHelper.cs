@@ -142,8 +142,8 @@ namespace Files.App.Helpers
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
 						},
-						new ContextMenuFlyoutItemViewModelBuilder(commands.SortAscending).Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.SortDescending).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.SortAscending){IsToggle = true}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.SortDescending){IsToggle = true}.Build(),
 					},
 				},
 				new ContextMenuFlyoutItemViewModel()
