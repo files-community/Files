@@ -34,5 +34,7 @@ namespace Files.App.Contexts
 
 		bool IsMultiPaneEnabled { get; }
 		bool IsMultiPaneActive { get; }
+
+		bool ShowSearchUnindexedItemsMessage { get; }
 	}
 }
