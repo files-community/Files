@@ -343,7 +343,7 @@
     <value>Disque déconnecté</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>Le fichier auquel vous tentez d'accéder peut avoir été déplacé ou supprimé.</value>
+    <value>Le fichier auquel vous tentez d’accéder a peut-être été déplacé ou supprimé.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Fichier introuvable</value>
@@ -3177,6 +3177,9 @@
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Afficher les cases à cocher lors de la sélection des éléments</value>
+  </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Recherchez des éléments non indexés</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Mettre en évidence la barre de chemin d'accès</value>
