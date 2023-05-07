@@ -332,6 +332,7 @@
 		"SectionResource": "Document",
 		"Property": "System.Document.TotalEditingTime",
 		"IsReadOnly": true,
+		"DisplayFunctionName": "FormatDuration",
 		"ID": null
 	},
 	{
