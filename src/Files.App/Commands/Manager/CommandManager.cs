@@ -472,8 +472,8 @@ namespace Files.App.Commands
 			{
 				if (IsExecutable)
 				{
-                    Analytics.TrackEvent($"Triggered {Code.ToString()} action");
-                    return action.ExecuteAsync();
+                    Analytics.TrackEvent($"Triggered {Code} action");
+                    return Action.ExecuteAsync();
                 }
 
                 return Task.CompletedTask;

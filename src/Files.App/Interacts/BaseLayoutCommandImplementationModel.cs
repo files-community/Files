@@ -259,7 +259,7 @@ namespace Files.App.Interacts
 			deferral.Complete();
 		}
 
-		public async Task CreateFolderWithSelection(RoutedEventArgs e)
+		public Task CreateFolderWithSelection(RoutedEventArgs e)
 		{
 			return UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
 		}
