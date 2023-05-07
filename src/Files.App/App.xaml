@@ -36,10 +36,6 @@
 				</LinearGradientBrush.GradientStops>
 			</LinearGradientBrush>
 
-			<Style BasedOn="{StaticResource DefaultMenuFlyoutItemStyle}" TargetType="MenuFlyoutItem">
-				<Setter Property="FontFamily" Value="Calibri" />
-			</Style>
-
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 				<ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />

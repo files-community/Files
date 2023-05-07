@@ -14,7 +14,6 @@
 		<Style TargetType="local:MenuFlyoutItemWithImage">
 			<Setter Property="Padding" Value="{ThemeResource MenuFlyoutItemThemePadding}" />
 			<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-			<Setter Property="FontFamily" Value="Calibri" />
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="local:MenuFlyoutItemWithImage">
