@@ -259,11 +259,6 @@ namespace Files.App.Interacts
 			deferral.Complete();
 		}
 
-		public void SearchUnindexedItems(RoutedEventArgs e)
-		{
-			associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
-		}
-
 		public async Task CreateFolderWithSelection(RoutedEventArgs e)
 		{
 			await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
