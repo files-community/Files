@@ -163,7 +163,7 @@
     <value>Limpar seleção</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Modificado:</value>
+    <value>Alterado:</value>
   </data>
   <data name="Accessed" xml:space="preserve">
     <value>Acedido:</value>
@@ -477,7 +477,7 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Tipos diferentes</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>Tudo em {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
@@ -685,7 +685,7 @@
     <value>Copyright</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
-    <value>Data de modificação</value>
+    <value>Data de alteração</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
     <value>Profundidade de bits</value>
@@ -1363,7 +1363,7 @@
     <value>Tipo:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
-    <value>Data de modificação:</value>
+    <value>Data de alteração:</value>
   </data>
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
     <value>Abrir com</value>
@@ -1378,7 +1378,7 @@
     <value>Coluna Tipo de item</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
-    <value>Coluna Data de modificação</value>
+    <value>Coluna Data de alteração</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
     <value>Coluna Data de eliminação</value>
@@ -1390,7 +1390,7 @@
     <value>Agrupar por</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
-    <value>Data de modificação</value>
+    <value>Data de alteração</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
     <value>Pasta original</value>
@@ -1590,11 +1590,11 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>Listar conteúdo da pasta</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
-    <value>Modificar</value>
+  <data name="Modify" xml:space="preserve">
+    <value>Alterar</value>
   </data>
-  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Permissões para</value>
+  <data name="SecurityPermissionsHeaderText" xml:space="preserve">
+    <value>Permissões para {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Ler e executar</value>
@@ -1643,9 +1643,6 @@
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Proprietário</value>
-  </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Permissões avançadas para {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Especial</value>
@@ -1853,9 +1850,6 @@
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Extração terminada!</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Abrir pasta</value>
@@ -2626,16 +2620,16 @@
     <value>Ir para a caixa de pesquisa</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle whether to show hidden items</value>
+    <value>Alternar exibição de itens ocultos</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>Alternar exibição das extensões dos ficheiros</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle whether to show preview pane</value>
+    <value>Alternar exibição do painel de pré-visualização</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Toggle whether to show sidebar</value>
+    <value>Alternar exibição da barra lateral</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
     <value>Copiar itens para a área de transferência</value>
@@ -2647,10 +2641,10 @@
     <value>Cortar itens para a área de transferência</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to current folder</value>
+    <value>Colar itens na pasta atual (da área de transferência)</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to selected folder</value>
+    <value>Colar itens na pasta selecionada (da área de transferência)</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Eliminar itens</value>
@@ -2659,37 +2653,37 @@
     <value>Criar nova pasta</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new shortcut(s) to selected item(s)</value>
+    <value>Criar atalho(s) para os itens selecionados</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>Criar atalho para qualquer item</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Esvaziar reciclagem</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Open "Format Drive" menu for selected item</value>
+    <value>Abrir menu "Formatar unidade" para o item selecionado</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected item(s) from recycle bin</value>
+    <value>Restaurar, da reciclagem, os itens selecionados</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>Restaurar todos os itens da reciclagem</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open item(s)</value>
+    <value>Abrir itens</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open item(s) with selected application</value>
+    <value>Abrir itens com a aplicação selecionada</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Open parent folder of searched item</value>
+    <value>Abrir pasta superior do item pesquisado</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>Recarregar conteúdo da pasta</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>Rename selected item</value>
+    <value>Mudar nome do item selecionado</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
     <value>Selecionar todos os itens</value>
@@ -2704,70 +2698,70 @@
     <value>Alternar seleção de itens</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected file(s) with others</value>
+    <value>Partilhar ficheiros selecionados</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin item(s) to the Start Menu</value>
+    <value>Afixar itens no menu Iniciar</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin item(s) from the Start Menu</value>
+    <value>Desafixar itens do menu Iniciar</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Pin folder(s) to Favorites</value>
+    <value>Fixar pastas nos favoritos</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Unpin folder(s) from Favorites</value>
+    <value>Desafixar pastas dos favoritos</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as desktop background</value>
+    <value>Definir imagem selecionada como fundo do ambiente de trabalho</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Set selected pictures as desktop slideshow</value>
+    <value>Definir imagens selecionadas como apresentação do ambiente de trabalho</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as lockscreen background</value>
+    <value>Definir imagem selecionada como fundo do ecrã de bloqueio</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected font(s)</value>
+    <value>Instalar tipos de letra selecionados</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install driver(s) using selected inf file(s)</value>
+    <value>Instalar controladores através do ficheiro .inf selecionado</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Run selected application as administrator</value>
+    <value>Exceutar aplicação selecionada como administrador</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>Exceutar aplicação selecionada como outro utilizador</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Run selected PowerShell script</value>
+    <value>Executar script PowerShell selecionado</value>
   </data>
   <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Launch QuickLook with selected item</value>
+    <value>Iniciar QuickLook no item selecionado</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected item(s)</value>
+    <value>Criar arquivo com os itens selecionados</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive instantly with selected item(s)</value>
+    <value>Criar arquivo 7z com os itens selecionados</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive instantly with selected item(s)</value>
+    <value>Criar arquivo zip com os itens selecionados</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to any folder</value>
+    <value>Extrair itens do arquivo selecionado para uma pasta</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder</value>
+    <value>Extrair itens do arquivo selecionado para a pasta atual</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to new folder</value>
+    <value>Extrair itens do arquivo selecionado para uma nova pasta</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the left</value>
+    <value>Rodar imagens selecionadas para a esquerda</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>Rodar imagens selecionadas para a direita</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Abrir página de definições</value>
@@ -2779,40 +2773,40 @@
     <value>Abrir pasta no terminal como administrador</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease icon size in grid view</value>
+    <value>Diminuir tamanho dos ícones na vista em grelha</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase icon size in grid view</value>
+    <value>Aumentar tamanho dos ícones na vista em grelha</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Switch to details view</value>
+    <value>Trocar para a vista de detalhes</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+    <value>Trocar para a vista de mosaicos</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Switch to grid view with small icons</value>
+    <value>Trocar para vista em grelha com ícones pequenos</value>
   </data>
   <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Switch to grid view with medium icons</value>
+    <value>Trocar para vista em grelha com ícones médios</value>
   </data>
   <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Switch to grid view with large icons</value>
+    <value>Trocar para vista em grelha com ícones grandes</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>Trocar para a vista de colunas</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>Troca de vistas adaptável</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>Sort items by name</value>
+    <value>Ordenar itens por nome</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>Ordenar itens por data de alteração</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>Ordenar itens por data de criação</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
     <value>Ordenar itens por tamanho</value>
@@ -2851,7 +2845,7 @@
     <value>Agrupar itens por nome</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>Agrupar itens por data de modificação</value>
+    <value>Agrupar itens por data de alteração</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
     <value>Agrupar itens por data de criação</value>
@@ -3154,11 +3148,17 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Fechar separador atual</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Editar caminho</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Ramo: {0}</value>
+  </data>
   <data name="Redo" xml:space="preserve">
-    <value>Redo</value>
+    <value>Refazer</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>Desfazer</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Caminho inválido</value>
@@ -3178,19 +3178,34 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostrar caixas de seleção ao selecionar itens</value>
   </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Focar barra de caminho</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Criar novo item</value>
+  </data>
+  <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
+    <value>Não existem utilizadores ou grupos com acesso a este objeto. Contudo, o proprietário do objeto pode atribuir permissões.</value>
+  </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Abrir localização do item</value>
+  </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Delete permanently</value>
+    <value>Eliminar permanentemente</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete item(s) permanently</value>
+    <value>Eliminar itens permanentemente</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
-    <value>Play the selected media files</value>
+    <value>Reproduzir ficheiros selecionados</value>
   </data>
   <data name="UndoDescription" xml:space="preserve">
-    <value>Undo the last file operation</value>
+    <value>Desfazer a última operação</value>
   </data>
   <data name="RedoDescription" xml:space="preserve">
-    <value>Redo the last file operation</value>
+    <value>Refazer a última operação</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Localização:</value>
   </data>
 </root>

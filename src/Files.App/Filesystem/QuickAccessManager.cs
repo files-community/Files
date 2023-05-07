@@ -1,6 +1,9 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.Helpers;
-using Files.App.DataModels;
+using Files.App.Data.Models;
 using Files.App.Helpers;
 using Files.App.ServicesImplementation;
 using Files.App.UserControls.Widgets;
@@ -47,8 +50,8 @@ namespace Files.App.Filesystem
 		{
 			PinnedItemsModified += Model.LoadAsync;
 
-			if (!Model.FavoriteItems.Contains(CommonPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
-				await QuickAccessService.PinToSidebar(CommonPaths.RecycleBinPath);
+			if (!Model.FavoriteItems.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
+				await QuickAccessService.PinToSidebar(Constants.UserEnvironmentPaths.RecycleBinPath);
 
 			await Model.LoadAsync();
 		}

@@ -1,6 +1,8 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
-using System;
 
 namespace Files.App.Converters
 {
@@ -9,7 +11,7 @@ namespace Files.App.Converters
 	/// </summary>
 	/// <typeparam name="TSource">The source type.</typeparam>
 	/// <typeparam name="TTarget">The target type.</typeparam>
-	public abstract class ValueConverter<TSource, TTarget> : IValueConverter
+	internal abstract class ValueConverter<TSource, TTarget> : IValueConverter
 	{
 		/// <summary>
 		/// Converts a source value to the target type.
@@ -87,7 +89,7 @@ namespace Files.App.Converters
 	/// <summary>
 	/// The base class for converting instances of type T to object and vice versa.
 	/// </summary>
-	public abstract class ToObjectConverter<T> : ValueConverter<T?, object?>
+	internal abstract class ToObjectConverter<T> : ValueConverter<T?, object?>
 	{
 		/// <summary>
 		/// Converts a source value to the target type.
@@ -117,7 +119,7 @@ namespace Files.App.Converters
 	/// <summary>
 	/// Converts a boolean to and from a visibility value.
 	/// </summary>
-	public class InverseBooleanConverter : ValueConverter<bool, bool>
+	internal sealed class InverseBooleanConverter : ValueConverter<bool, bool>
 	{
 		/// <summary>
 		/// Converts a source value to the target type.
@@ -144,7 +146,7 @@ namespace Files.App.Converters
 		}
 	}
 
-	public class NullToTrueConverter : ValueConverter<object?, bool>
+	internal sealed class NullToTrueConverter : ValueConverter<object?, bool>
 	{
 		/// <summary>
 		/// Determines whether an inverse conversion should take place.
@@ -177,7 +179,7 @@ namespace Files.App.Converters
 		}
 	}
 
-	public class StringNullOrWhiteSpaceToTrueConverter : ValueConverter<string, bool>
+	internal sealed class StringNullOrWhiteSpaceToTrueConverter : ValueConverter<string, bool>
 	{
 		/// <summary>
 		/// Determines whether an inverse conversion should take place.

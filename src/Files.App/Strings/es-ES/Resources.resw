@@ -477,8 +477,8 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Diferentes tipos</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>Todos en {0}</value>
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
+    <value>Todo(s) en {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Espacio usado:</value>
@@ -1590,11 +1590,11 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>Listar el contenido del directorio</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
+  <data name="Modify" xml:space="preserve">
     <value>Modificar</value>
   </data>
-  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Permisos para</value>
+  <data name="SecurityPermissionsHeaderText" xml:space="preserve">
+    <value>Permisos para {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Lectura y ejecución</value>
@@ -1643,9 +1643,6 @@
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Propietario</value>
-  </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Permisos avanzados para {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Especial</value>
@@ -1854,9 +1851,6 @@
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>¡Extracción completada!</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+N</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Abrir la carpeta principal</value>
   </data>
@@ -1864,7 +1858,7 @@
     <value>Desconocido</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Editar etiquetas de archivo</value>
+    <value>Editar etiquetas</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>Parte del conjunto</value>
@@ -2455,7 +2449,7 @@
     <value>Ver más</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>Pero no se preocupe, hemos creado un fantástico sustituto que es más fiable y tiene más funciones. Puede activar el widget de Etiquetas de archivos desde Configuración &gt; Preferencias &gt; Widgets. Al activar el widget de etiquetas se desactivará automáticamente el widget de contenedores.</value>
+    <value>Pero no se preocupe, hemos creado un fantástico sustituto que es más fiable y tiene más funciones. Puede activar el widget de Etiquetas de archivos desde Configuración &gt; General &gt; Widgets. Al activar el widget de etiquetas se desactivará automáticamente el widget de contenedores.</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>Los contenedores se retirarán en una futura actualización 📎</value>
@@ -3154,6 +3148,12 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Cierra la pestaña actual</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Editar ruta</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Rama: {0}</value>
+  </data>
   <data name="Redo" xml:space="preserve">
     <value>Rehacer</value>
   </data>
@@ -3178,11 +3178,23 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostrar casillas de verificación al seleccionar elementos</value>
   </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Focus path bar</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Crear nuevo elemento</value>
+  </data>
+  <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
+    <value>Ningún grupo o usuario tiene permiso para acceder a este objeto. Sin embargo, el propietario de este objeto puede asignar permisos.</value>
+  </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Abrir ubicación del elemento</value>
+  </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Delete permanently</value>
+    <value>Eliminar permanentemente</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete item(s) permanently</value>
+    <value>Eliminar elemento(s) permanentemente</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Reproducir los archivos multimedia seleccionados</value>
@@ -3192,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Rehacer la última operación del archivo</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Ubicación:</value>
   </data>
 </root>

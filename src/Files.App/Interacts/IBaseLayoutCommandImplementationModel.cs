@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -25,8 +28,6 @@ namespace Files.App.Interacts
 		Task DragOver(DragEventArgs e);
 
 		Task Drop(DragEventArgs e);
-
-		void SearchUnindexedItems(RoutedEventArgs e);
 
 		Task CreateFolderWithSelection(RoutedEventArgs e);
 	}

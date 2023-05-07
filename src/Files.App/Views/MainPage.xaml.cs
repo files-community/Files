@@ -1,19 +1,16 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.DataModels;
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
+using Files.App.Data.Items;
+using Files.App.Data.Models;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.Backend.Extensions;
-using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
@@ -22,11 +19,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Windows.ApplicationModel.Resources;
-using System;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.Storage;
@@ -66,8 +59,7 @@ namespace Files.App.Views
 			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
-			var flowDirectionSetting = new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
-			if (flowDirectionSetting == "RTL")
+			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;

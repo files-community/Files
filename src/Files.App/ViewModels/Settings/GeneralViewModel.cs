@@ -1,19 +1,10 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;

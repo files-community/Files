@@ -1,18 +1,12 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Dialogs;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.UserControls.Widgets;
-using Files.App.ViewModels;
-using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using System;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Views
@@ -137,7 +131,7 @@ namespace Files.App.Views
 			ReloadWidgets();
 		}
 
-		private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
+		private async void RecentFilesWidget_RecentFileInvoked(object sender, PathNavigationEventArgs e)
 		{
 			try
 			{
@@ -165,7 +159,7 @@ namespace Files.App.Views
 			catch (ArgumentException) { }
 		}
 
-		private void WidgetOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
+		private void WidgetOpenLocationInvoked(object sender, PathNavigationEventArgs e)
 		{
 			AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
 			{

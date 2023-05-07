@@ -406,7 +406,7 @@
     <value>Відкрити за допомогою</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Надіслати</value>
+    <value>Надіслати до</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Ім'я елемента не повинно містити таких знаків: \ / : * ? " &lt; &gt; |</value>
@@ -477,8 +477,8 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Різні типи</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>Всі в папці {0}</value>
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
+    <value>Усе в {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Зайнято:</value>
@@ -1288,7 +1288,7 @@
     <value>Копіювати</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Буде скопійовано елементів: {0}</value>
+    <value>Буде скопійовано {0} елемент(ів)</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
     <value>Копіювати елемент(и)</value>
@@ -1590,11 +1590,11 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>Показати вміст директорії</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
+  <data name="Modify" xml:space="preserve">
     <value>Змінити</value>
   </data>
-  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Дозволи для</value>
+  <data name="SecurityPermissionsHeaderText" xml:space="preserve">
+    <value>Дозволи для {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Читати і виконати</value>
@@ -1643,9 +1643,6 @@
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Власник</value>
-  </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Розширені дозволи для {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Особливі</value>
@@ -1853,9 +1850,6 @@
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Видобування завершено!</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Відкрити батьківську папку</value>
@@ -3154,6 +3148,12 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Закриває поточну вкладку</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Редагувати шлях</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Гілка: {0}</value>
+  </data>
   <data name="Redo" xml:space="preserve">
     <value>Повторити</value>
   </data>
@@ -3178,6 +3178,18 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Показувати прапорці під час вибору елементів</value>
   </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Фокус на панелі шляху</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Створити новий елемент</value>
+  </data>
+  <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
+    <value>Жодна група чи користувач не має дозволів на даний об'єкт. Проте, власник даного об'єкту може надавати дозволи.</value>
+  </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Відкрити розташування елемента</value>
+  </data>
   <data name="DeletePermanently" xml:space="preserve">
     <value>Видалити безповоротно</value>
   </data>
@@ -3192,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Повторити останню операцію з файлом</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Розташування:</value>
   </data>
 </root>

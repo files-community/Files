@@ -1,4 +1,7 @@
-﻿using Files.App.Commands;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Commands;
 
 namespace Files.App.ViewModels
 {
@@ -26,6 +29,8 @@ namespace Files.App.ViewModels
 
 		public bool ShowOnShift { get; init; } = false;
 
+		public List<ContextMenuFlyoutItemViewModel>? Items { get; init; } = null;
+
 		public ContextMenuFlyoutItemViewModelBuilder(IRichCommand command)
 		{
 			this.command = command;
@@ -51,6 +56,7 @@ namespace Files.App.ViewModels
 				IsEnabled = isExecutable,
 				IsChecked = command.IsOn,
 				IsPrimary = IsPrimary,
+				Items = Items,
 				ItemType = type,
 				ShowItem = true,
 				ShowOnShift = ShowOnShift,

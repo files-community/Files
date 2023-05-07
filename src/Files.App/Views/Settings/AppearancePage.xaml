@@ -1,16 +1,17 @@
-﻿<Page
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<Page
 	x:Class="Files.App.Views.Settings.AppearancePage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:appearance="using:Files.App.Views.Settings.Appearance"
-	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
-	xmlns:converters1="using:Files.App.ValueConverters"
+	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitem="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -19,10 +20,10 @@
 				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
-			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-			<converters1:StringToBrushConverter x:Key="StringToBrushConverter" />
+			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 
-			<DataTemplate x:Key="AppThemeResourcesItemTemplate" x:DataType="appearance:AppThemeResource">
+			<DataTemplate x:Key="AppThemeResourcesItemTemplate" x:DataType="dataitem:AppThemeResourceItem">
 				<Grid
 					Width="120"
 					AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
@@ -91,7 +92,7 @@
 			Spacing="4">
 			<StackPanel.ChildrenTransitions>
 				<TransitionCollection>
-					<EntranceThemeTransition />
+					<RepositionThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 

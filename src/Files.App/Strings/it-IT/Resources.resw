@@ -477,7 +477,7 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Tipi differenti</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>Tutti in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
@@ -1590,11 +1590,11 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>Visualizza contenuto cartella</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
+  <data name="Modify" xml:space="preserve">
     <value>Modifica</value>
   </data>
-  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Permessi per</value>
+  <data name="SecurityPermissionsHeaderText" xml:space="preserve">
+    <value>Permessi per {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Lettura ed esecuzione</value>
@@ -1643,9 +1643,6 @@
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Proprietario</value>
-  </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Autorizzazioni avanzate per {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Speciali</value>
@@ -1853,9 +1850,6 @@
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Archivio estratto!</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maiusc+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Apri cartella superiore</value>
@@ -3154,11 +3148,17 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Chiudi scheda corrente</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Modifica percorso</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Branch: {0}</value>
+  </data>
   <data name="Redo" xml:space="preserve">
     <value>Ripeti</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>Annulla</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Destinazione non valida</value>
@@ -3176,7 +3176,19 @@
     <value>Sei sicuro di voler spostare questi file senza le loro proprietà?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>Show checkboxes when selecting items</value>
+    <value>Mostra le checkbox quando si selezionano gli elementi</value>
+  </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Apri la barra del percorso</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Crea un nuovo elemento</value>
+  </data>
+  <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
+    <value>Nessun gruppo o utente ha il permesso di accedere a questo oggetto. Tuttavia, il suo proprietario può assegnarne i permessi.</value>
+  </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Apri il percorso dell'elemento</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
     <value>Elimina permanentemente</value>
@@ -3192,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Ripeti l'ultima operazione dei file</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Posizione:</value>
   </data>
 </root>

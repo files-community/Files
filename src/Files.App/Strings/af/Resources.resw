@@ -139,7 +139,7 @@
     <value>Grootte:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Ongekomprimeerde grootte:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Hierdie aksie kan nie gedoen word nie</value>
@@ -154,13 +154,13 @@
     <value>Slaan oor</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>Selekteer Alles</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>Keer Seleksie Om</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>Vee Seleksie uit</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Gemodifiseer:</value>
@@ -175,7 +175,7 @@
     <value>Tik 'n pad in</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Soek</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Lêers wat jy voorheen verkry het sal hier verskyn</value>
@@ -184,19 +184,19 @@
     <value>Verwyder hierdie item</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>GitHub-bewaarplek</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>Oor</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>Oopbron</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Datumformaat</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Wys uitbreidings vir bekende lêersoorte</value>
@@ -205,16 +205,16 @@
     <value>Wys versteekte lêers en omslae</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Wys punt lêers</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Voorkoms</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>Agtergrond</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Gevorderde</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Gaan voort waar jy opgehou het</value>
@@ -241,34 +241,34 @@
     <value>Stygende</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Plak</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nuwe</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Eienskappe</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Maak oop</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Maak oop in nuwe oortjie</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Maak oop in nuwe venster</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>Deel</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>Knip</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Skrap</value>
   </data>
   <data name="PinToFavorites" xml:space="preserve">
-    <value>Pin to Favorites</value>
+    <value>Speld vas aan gunstelinge</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Welkom by Files!</value>
@@ -280,10 +280,10 @@
     <value>Om te begin, moet jy ons toestemming gee om jou lêers te vertoon. Dit sal 'n Instellingsbladsy oopmaak waar jy ons hierdie toestemming kan gee. Jy sal die program moet heropen sodra jy hierdie stap voltooi het.</value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>Vertoon</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Voer 'n itemnaam in</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Stel Naam Op</value>
@@ -319,7 +319,7 @@
     <value>Op (Alt+Oppyltjie)</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Verfris</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>'n Item met hierdie naam bestaan reeds in hierdie gids.</value>
@@ -331,7 +331,7 @@
     <value>Item bestaan reeds</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>Stel as sluitskerm agtergrond</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Ons kon nie hierdie item skrap nie</value>
@@ -477,8 +477,8 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Verskillende soorte</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>Alles in {0}</value>
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
+    <value>All in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Gebruikte spasie:</value>
@@ -1591,11 +1591,11 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>Lys gidsinhoud</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
-    <value>Modifiseer</value>
+  <data name="Modify" xml:space="preserve">
+    <value>Modify</value>
   </data>
-  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Toestemmings vir</value>
+  <data name="SecurityPermissionsHeaderText" xml:space="preserve">
+    <value>Permissions for {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Lees en voer uit</value>
@@ -1644,9 +1644,6 @@
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Eienaar</value>
-  </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Gevorderde toestemmings vir {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Spesiale</value>
@@ -1854,9 +1851,6 @@
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Onttrek voltooi!</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Maak oueromslag oop</value>
@@ -3089,7 +3083,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>Search</value>
+    <value>Soek</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
@@ -3155,6 +3149,12 @@
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Edit path</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Branch: {0}</value>
+  </data>
   <data name="Redo" xml:space="preserve">
     <value>Redo</value>
   </data>
@@ -3179,6 +3179,18 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
   </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Focus path bar</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Create new item</value>
+  </data>
+  <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
+    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+  </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Open the item's location</value>
+  </data>
   <data name="DeletePermanently" xml:space="preserve">
     <value>Delete permanently</value>
   </data>
@@ -3193,5 +3205,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Redo the last file operation</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location:</value>
   </data>
 </root>

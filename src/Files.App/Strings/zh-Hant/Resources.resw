@@ -477,7 +477,7 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>多種類型</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>全都在 {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
@@ -1000,7 +1000,7 @@
     <value>搜尋結果裡包括未編製索引的項目</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
+    <value>在不同路徑之間使用相同的布局和排序設定</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>自訂右鍵選單</value>
@@ -1129,13 +1129,13 @@
     <value>預覽已選取的檔案</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Feedback</value>
+    <value>意見回饋</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>網路連線時可用</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>使用說明</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>可離線存取</value>
@@ -1444,7 +1444,7 @@
     <value>Earlier this year</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>去年</value>
   </data>
   <data name="YearN" xml:space="preserve">
     <value>Year {0}</value>
@@ -1462,7 +1462,7 @@
     <value>重新命名</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>隱私權</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>已取消移動</value>
@@ -1582,7 +1582,7 @@
     <value>允許</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Deny</value>
+    <value>拒絕</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>完全控制</value>
@@ -1590,11 +1590,11 @@
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>列出目錄內容</value>
   </data>
-  <data name="SecurityModifyLabel.Text" xml:space="preserve">
-    <value>修改</value>
+  <data name="Modify" xml:space="preserve">
+    <value>變更</value>
   </data>
-  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>主體權限 - </value>
+  <data name="SecurityPermissionsHeaderText" xml:space="preserve">
+    <value>Permissions for {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>讀取和執行</value>
@@ -1643,9 +1643,6 @@
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>擁有者</value>
-  </data>
-  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>{0} 的進階安全性設定</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>特殊存取權限</value>
@@ -1853,9 +1850,6 @@
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>解壓縮完畢！</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl + Shift + N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>開啟父資料夾</value>
@@ -2431,19 +2425,19 @@
     <value>“最近使用的檔案”已在 Windows 檔案總管中停用。</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit Settings File</value>
+    <value>編輯設定檔案</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>版本資訊</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>Creating a shortcut in this location requires administrator privileges</value>
+    <value>在此位置建立捷徑需要系統管理員權限</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Would you like to create the shortcut on the desktop instead?</value>
+    <value>要改為在桌面上建立捷徑嗎？</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>The specified item name is invalid</value>
+    <value>指定的項目名稱無效</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>設定</value>
@@ -2515,7 +2509,7 @@
     <value>載入中...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>Context menu options</value>
+    <value>右鍵選單功能</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
     <value>顯示檔案副檔名</value>
@@ -2530,40 +2524,40 @@
     <value>幫助</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>切換全螢幕</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>您確定要刪除這個標籤？</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play all</value>
+    <value>全部播放</value>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Height</value>
+    <value>高度</value>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>Width</value>
+    <value>寬度</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
     <value>Apply this action to all conflicting items</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in terminal</value>
+    <value>使用終端機開啟</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in terminal as administrator</value>
+    <value>以系統管理員身分在終端機中開啟</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>儲存</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>多重選取</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>重新排列側邊欄項目</value>
   </data>
   <data name="Hashes" xml:space="preserve">
-    <value>Hashes</value>
+    <value>哈希值</value>
   </data>
   <data name="CalculationError" xml:space="preserve">
     <value>An error occurred during the calculation</value>
@@ -2572,7 +2566,7 @@
     <value>Algorithm</value>
   </data>
   <data name="HashValue" xml:space="preserve">
-    <value>Hash value</value>
+    <value>哈希值</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
     <value>Select hashes to show</value>
@@ -2611,7 +2605,7 @@
     <value>Open online help page in browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>切換全螢幕</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>進入完整檢視</value>
@@ -3154,6 +3148,12 @@
   <data name="CloseTab" xml:space="preserve">
     <value>關閉目前標籤</value>
   </data>
+  <data name="EditPath" xml:space="preserve">
+    <value>Edit path</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Branch: {0}</value>
+  </data>
   <data name="Redo" xml:space="preserve">
     <value>重做</value>
   </data>
@@ -3178,6 +3178,18 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
   </data>
+  <data name="EditPathDescription" xml:space="preserve">
+    <value>Focus path bar</value>
+  </data>
+  <data name="AddItemDescription" xml:space="preserve">
+    <value>Create new item</value>
+  </data>
+  <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
+    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+  </data>
+  <data name="OpenFileLocationDescription" xml:space="preserve">
+    <value>Open the item's location</value>
+  </data>
   <data name="DeletePermanently" xml:space="preserve">
     <value>Delete permanently</value>
   </data>
@@ -3192,5 +3204,8 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>重做上次檔案的動作</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location:</value>
   </data>
 </root>

@@ -1,11 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Data.Items;
 using Files.App.ServicesImplementation;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Dialogs
@@ -18,7 +15,7 @@ namespace Files.App.ViewModels.Dialogs
 		public ICommand PrimaryButtonCommand { get; private set; }
 
 		public ObservableCollection<LocationItem> SidebarFavoriteItems = new(App.QuickAccessManager.Model.favoriteList
-			.Where(x => x is LocationItem loc && loc.Section is Filesystem.SectionType.Favorites && !loc.IsHeader)
+			.Where(x => x is LocationItem loc && loc.Section is SectionType.Favorites && !loc.IsHeader)
 			.Cast<LocationItem>());
 
 		public ReorderSidebarItemsDialogViewModel() 

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -58,7 +61,7 @@ namespace Files.App.Helpers
 		public static async Task OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
 		{
 			// Don't open files and folders inside recycle bin
-			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal) ||
+			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
 				associatedInstance.SlimContentPage?.SelectedItems is null)
 			{
 				return;
@@ -95,7 +98,7 @@ namespace Files.App.Helpers
 		public static async Task OpenItemsWithExecutable(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executable)
 		{
 			// Don't open files and folders inside  recycle bin
-			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal) ||
+			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
 				associatedInstance.SlimContentPage is null)
 			{
 				return;

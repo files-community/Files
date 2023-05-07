@@ -1,18 +1,11 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
-using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.ViewModels.Previews
@@ -98,11 +91,11 @@ namespace Files.App.ViewModels.Previews
 			iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 256);
 			if (iconData is not null)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(async () => FileImage = await iconData.ToBitmapAsync());
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () => FileImage = await iconData.ToBitmapAsync());
 			}
 			else
 			{
-				FileImage ??= await App.Window.DispatcherQueue.EnqueueAsync(() => new BitmapImage());
+				FileImage ??= await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => new BitmapImage());
 			}
 
 			return new List<FileProperty>();

@@ -1,38 +1,21 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.UI;
-using Files.App.DataModels;
-using Files.App.EventArguments;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.Interacts;
 using Files.App.UserControls;
 using Files.App.UserControls.Menus;
-using Files.App.ViewModels;
 using Files.App.Views;
-using Files.Backend.Services.Settings;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.ComTypes;
-using System.Threading;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
@@ -41,9 +24,9 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
-using VA = Vanara.Windows.Shell;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Shared.Enums.SortDirection;
+using VanaraWindowsShell = Vanara.Windows.Shell;
 
 namespace Files.App
 {
@@ -218,7 +201,7 @@ namespace Files.App
 				//if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems))
 				if (value != selectedItems)
 				{
-					if (value?.FirstOrDefault() != selectedItems?.FirstOrDefault())
+					if (value?.FirstOrDefault() != PreviewPaneViewModel.SelectedItem)
 					{
 						// Update preview pane properties
 						PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
@@ -257,7 +240,7 @@ namespace Files.App
 						if (selectedItems.Count == 1)
 						{
 							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems.Count} {"ItemSelected/Text".GetLocalizedResource()}";
-							DispatcherQueue.EnqueueAsync(async () =>
+							DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								// Tapped event must be executed first
 								await Task.Delay(50);
@@ -427,7 +410,7 @@ namespace Files.App
 				var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
 				var pathRoot = GetPathRoot(workingDir);
 
-				var isRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+				var isRecycleBin = workingDir.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = isRecycleBin;
 
 				// Can't go up from recycle bin
@@ -458,7 +441,7 @@ namespace Files.App
 
 				var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
 
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
@@ -907,8 +890,8 @@ namespace Files.App
 		{
 			try
 			{
-				var shellItemList = e.Items.OfType<ListedItem>().Select(x => new VA.ShellItem(x.ItemPath)).ToArray();
-				if (shellItemList[0].FileSystemPath is not null)
+				var shellItemList = e.Items.OfType<ListedItem>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray();
+				if (shellItemList[0].FileSystemPath is not null && !InstanceViewModel.IsPageTypeSearchResults)
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
 					shellItemList.ForEach(x => x.Dispose());
@@ -1355,7 +1338,7 @@ namespace Files.App
 			{
 				args.Cancel = true;
 
-				await DispatcherQueue.EnqueueAsync(() =>
+				await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
 					var oldText = textBox.Text;
@@ -1369,21 +1352,21 @@ namespace Files.App
 				showError?.Invoke(false);
 			}
 		}
-	}
 
-	public class ContextMenuExtensions : DependencyObject
-	{
-		public static ItemsControl GetItemsControl(DependencyObject obj)
+		public class ContextMenuExtensions : DependencyObject
 		{
-			return (ItemsControl)obj.GetValue(ItemsControlProperty);
-		}
+			public static ItemsControl GetItemsControl(DependencyObject obj)
+			{
+				return (ItemsControl)obj.GetValue(ItemsControlProperty);
+			}
 
-		public static void SetItemsControl(DependencyObject obj, ItemsControl value)
-		{
-			obj.SetValue(ItemsControlProperty, value);
-		}
+			public static void SetItemsControl(DependencyObject obj, ItemsControl value)
+			{
+				obj.SetValue(ItemsControlProperty, value);
+			}
 
-		public static readonly DependencyProperty ItemsControlProperty =
-			DependencyProperty.RegisterAttached("ItemsControl", typeof(ItemsControl), typeof(ContextMenuExtensions), new PropertyMetadata(null));
+			public static readonly DependencyProperty ItemsControlProperty =
+				DependencyProperty.RegisterAttached("ItemsControl", typeof(ItemsControl), typeof(ContextMenuExtensions), new PropertyMetadata(null));
+		}
 	}
 }

@@ -1,23 +1,12 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Dialogs;
-using Files.App.EventArguments.Bundles;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.ViewModels.Dialogs;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Pickers;

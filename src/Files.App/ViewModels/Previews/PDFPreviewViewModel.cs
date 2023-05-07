@@ -1,13 +1,10 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
-using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Windows.Data.Pdf;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
@@ -91,7 +88,7 @@ namespace Files.App.ViewModels.Previews
 				BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
 				using SoftwareBitmap sw = await decoder.GetSoftwareBitmapAsync();
 
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					BitmapImage src = new();
 					PageViewModel pageData = new()

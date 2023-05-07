@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Extensions;
 using Files.App.Shell;
@@ -166,7 +169,7 @@ namespace Files.App.Helpers
 
 		private static IEnumerable<IconFileInfo> LoadSidebarIconResources()
 		{
-			string imageres = Path.Combine(CommonPaths.SystemRootPath, "System32", "imageres.dll");
+			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 			var imageResList = Win32API.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
 					Constants.ImageRes.RecycleBin,
 					Constants.ImageRes.NetworkDrives,
@@ -181,7 +184,7 @@ namespace Files.App.Helpers
 
 		private static IconFileInfo LoadShieldIconResource()
 		{
-			string imageres = Path.Combine(CommonPaths.SystemRootPath, "System32", "imageres.dll");
+			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 			var imageResList = Win32API.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
 					Constants.ImageRes.ShieldIcon
 				}, 16);

@@ -168,29 +168,29 @@ namespace Files.App.ViewModels.Properties
 		{
 			if (Value is uint)
 			{
-				return new UInt32ToString();
+				return new UInt32ToStringConverter();
 			}
 
 			if (Value is double)
 			{
-				return new DoubleToString();
+				return new DoubleToStringConverter();
 			}
 
 			if (Value is DateTimeOffset)
 			{
-				return new DateTimeOffsetToString();
+				return new DateTimeOffsetToStringConverter();
 			}
 
 			if (Value is not null && Value.GetType().IsArray)
 			{
 				if (Value.GetType().GetElementType().Equals(typeof(string)))
 				{
-					return new StringArrayToString();
+					return new StringArrayToStringConverter();
 				}
 
 				if (Value.GetType().GetElementType().Equals(typeof(double)))
 				{
-					return new DoubleArrayToString();
+					return new DoubleArrayToStringConverter();
 				}
 			}
 			return null;

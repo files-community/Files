@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Shared.Extensions;
@@ -119,7 +122,7 @@ namespace Files.App.Filesystem
 		{
 			var recentItems = new List<RecentItem>();
 			var excludeMask = FileAttributes.Hidden;
-			var linkFilePaths = Directory.EnumerateFiles(CommonPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
+			var linkFilePaths = Directory.EnumerateFiles(Constants.UserEnvironmentPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
 
 			Task<RecentItem?> GetRecentItemFromLink(string linkPath)
 			{

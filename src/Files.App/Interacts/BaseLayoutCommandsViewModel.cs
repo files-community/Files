@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.Input;
 using Files.Shared;
 using Microsoft.UI.Xaml;
@@ -35,7 +38,6 @@ namespace Files.App.Interacts
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.PointerWheelChanged);
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.DragOver);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.Drop);
-			SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
 			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
 		}
 
@@ -60,8 +62,6 @@ namespace Files.App.Interacts
 		public ICommand DragOverCommand { get; private set; }
 
 		public ICommand DropCommand { get; private set; }
-
-		public ICommand SearchUnindexedItems { get; private set; }
 
 		public ICommand CreateFolderWithSelection { get; private set; }
 

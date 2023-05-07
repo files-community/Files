@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
@@ -137,7 +140,7 @@ namespace Files.App.Filesystem
 			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 
-			if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+			if (destination.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 			{
 				fsProgress.ReportStatus(FileSystemStatusCode.Unauthorized);
 
@@ -319,7 +322,7 @@ namespace Files.App.Filesystem
 				return await CopyAsync(source, destination, collision, progress, cancellationToken);
 			}
 
-			if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+			if (destination.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 			{
 				fsProgress.ReportStatus(FileSystemStatusCode.Unauthorized);
 

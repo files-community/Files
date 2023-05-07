@@ -1,4 +1,7 @@
-﻿using Files.App.Extensions;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Extensions;
 using Files.Shared;
 using System;
 using System.IO;
@@ -9,14 +12,14 @@ namespace Files.App.Helpers
 	{
 		public static string ResolveShellPath(string shPath)
 		{
-			if (shPath.StartsWith(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-				return CommonPaths.RecycleBinPath;
+			if (shPath.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+				return Constants.UserEnvironmentPaths.RecycleBinPath;
 
-			if (shPath.StartsWith(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
-				return CommonPaths.MyComputerPath;
+			if (shPath.StartsWith(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+				return Constants.UserEnvironmentPaths.MyComputerPath;
 
-			if (shPath.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
-				return CommonPaths.NetworkFolderPath;
+			if (shPath.StartsWith(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+				return Constants.UserEnvironmentPaths.NetworkFolderPath;
 
 			return shPath;
 		}
@@ -26,9 +29,9 @@ namespace Files.App.Helpers
 			return shPath switch
 			{
 				"Home" => "Home".GetLocalizedResource(),
-				CommonPaths.RecycleBinPath => "RecycleBin".GetLocalizedResource(),
-				CommonPaths.NetworkFolderPath => "SidebarNetworkDrives".GetLocalizedResource(),
-				CommonPaths.MyComputerPath => "ThisPC".GetLocalizedResource(),
+				Constants.UserEnvironmentPaths.RecycleBinPath => "RecycleBin".GetLocalizedResource(),
+				Constants.UserEnvironmentPaths.NetworkFolderPath => "SidebarNetworkDrives".GetLocalizedResource(),
+				Constants.UserEnvironmentPaths.MyComputerPath => "ThisPC".GetLocalizedResource(),
 				_ => shPath
 			};
 		}

@@ -1,11 +1,12 @@
-﻿<ContentDialog
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ContentDialog
 	x:Class="Files.App.Dialogs.AddItemDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vc="using:Files.App.ValueConverters"
 	xmlns:vm="using:Files.Backend.ViewModels.Dialogs.AddItemDialog"
 	x:Name="AddDialog"
 	Title="{helpers:ResourceString Name=AddDialog/Title}"
@@ -19,7 +20,7 @@
 	mc:Ignorable="d">
 
 	<ContentDialog.Resources>
-		<vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
+		<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
 	</ContentDialog.Resources>
 
 	<Grid RowSpacing="25">

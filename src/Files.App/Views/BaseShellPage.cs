@@ -1,23 +1,17 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.WinUI;
 using Files.App.Commands;
-using Files.App.DataModels;
-using Files.App.EventArguments;
-using Files.App.Extensions;
-using Files.App.Filesystem;
+using Files.App.Data.EventArguments;
+using Files.App.Data.Models;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.Search;
-using Files.App.Helpers;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.App.Views.LayoutModes;
 using Files.Backend.Enums;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
-using Files.Shared;
-using Files.Shared.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -25,13 +19,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Shared.Enums.SortDirection;
@@ -173,13 +161,7 @@ namespace Files.App.Views
 
 			DisplayFilesystemConsentDialog();
 
-			// TODO:
-			//  ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
-			//  Use your ResourceManager instance to create a ResourceContext as below.If you already have a ResourceManager instance,
-			//  replace the new instance created below with correct instance.
-			//  Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
-			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
-			if (flowDirectionSetting == "RTL")
+			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;
 
 			ToolbarViewModel.ToolbarPathItemInvoked += ShellPage_NavigationRequested;
@@ -375,7 +357,7 @@ namespace Files.App.Views
 			ToolbarViewModel.ManualEntryBoxLoaded = true;
 			ToolbarViewModel.ClickablePathLoaded = false;
 			ToolbarViewModel.PathText = string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory)
-				? CommonPaths.HomePath
+				? Constants.UserEnvironmentPaths.HomePath
 				: FilesystemViewModel.WorkingDirectory;
 		}
 
@@ -569,7 +551,7 @@ namespace Files.App.Views
 					// Select previous directory
 					if (!string.IsNullOrWhiteSpace(e.PreviousDirectory) &&
 						e.PreviousDirectory.Contains(e.Path, StringComparison.Ordinal) &&
-						!e.PreviousDirectory.Contains(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+						!e.PreviousDirectory.Contains(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						// Remove the WorkingDir from previous dir
 						e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty, StringComparison.Ordinal);
@@ -642,7 +624,7 @@ namespace Files.App.Views
 			if (drivesViewModel?.ShowUserConsentOnInit ?? false)
 			{
 				drivesViewModel.ShowUserConsentOnInit = false;
-				await DispatcherQueue.EnqueueAsync(async () =>
+				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
 					await SetContentDialogRoot(dialog).ShowAsync(ContentDialogPlacement.Popup);
@@ -662,11 +644,6 @@ namespace Files.App.Views
 
 			foreach (var x in multitaskingControls)
 				x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control.TabItemContent == PaneHolder), isLoading);
-		}
-
-		protected async Task CreateNewShortcutFromDialog()
-		{
-			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 		}
 
 		// WINUI3

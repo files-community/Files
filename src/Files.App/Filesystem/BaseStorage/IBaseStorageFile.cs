@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;

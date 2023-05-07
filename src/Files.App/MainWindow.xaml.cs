@@ -1,21 +1,15 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.CommandLine;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Files.App.Views;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
@@ -192,7 +186,7 @@ namespace Files.App
 			{
 				if (!string.IsNullOrEmpty(payload))
 				{
-					payload = CommonPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
+					payload = Constants.UserEnvironmentPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
 					var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
 					if (folder is not null && !string.IsNullOrEmpty(folder.Path))
 						payload = folder.Path; // Convert short name to long name (#6190)

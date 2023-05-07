@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 #nullable disable warnings
 
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -100,7 +103,7 @@ namespace Files.App.Interacts
 		{
 			foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 				},
@@ -199,7 +202,7 @@ namespace Files.App.Interacts
 				else
 				{
 					e.DragUIOverride.IsCaptionVisible = true;
-					if (pwd.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+					if (pwd.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
 						e.AcceptedOperation = DataPackageOperation.Move;
@@ -256,12 +259,7 @@ namespace Files.App.Interacts
 			deferral.Complete();
 		}
 
-		public void SearchUnindexedItems(RoutedEventArgs e)
-		{
-			associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
-		}
-
-		public Task CreateFolderWithSelection(RoutedEventArgs e)
+		public async Task CreateFolderWithSelection(RoutedEventArgs e)
 		{
 			return UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
 		}

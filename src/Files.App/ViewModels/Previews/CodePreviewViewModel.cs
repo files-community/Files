@@ -1,13 +1,8 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using ColorCode;
-using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
-using Files.Shared.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.ViewModels.Previews
 {

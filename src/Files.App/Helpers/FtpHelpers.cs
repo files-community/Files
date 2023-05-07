@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using FluentFTP;
 using System;
 using System.Threading.Tasks;
@@ -69,7 +72,6 @@ namespace Files.App.Helpers
 
 			if (hostIndex == -1)
 				hostIndex = path.Length;
-
 
 			return path.Substring(schemaIndex, hostIndex - schemaIndex);
 		}

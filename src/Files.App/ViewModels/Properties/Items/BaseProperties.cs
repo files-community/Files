@@ -1,14 +1,7 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI;
-using Files.App.Extensions;
 using Files.Backend.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.UI.Dispatching;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
@@ -72,27 +65,28 @@ namespace Files.App.ViewModels.Properties
 			{
 				do
 				{
+					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint)
+						// Skip symbolic links and junctions
+						continue;
+
 					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
 					{
 						size += findData.GetSize();
 						++count;
 						ViewModel.FilesCount++;
 					}
-					else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+					else if (findData.cFileName != "." && findData.cFileName != "..")
 					{
-						if (findData.cFileName != "." && findData.cFileName != "..")
-						{
-							var itemPath = Path.Combine(path, findData.cFileName);
+						var itemPath = Path.Combine(path, findData.cFileName);
 
-							size += await CalculateFolderSizeAsync(itemPath, token);
-							++count;
-							ViewModel.FoldersCount++;
-						}
+						size += await CalculateFolderSizeAsync(itemPath, token);
+						++count;
+						ViewModel.FoldersCount++;
 					}
 
 					if (size > ViewModel.ItemSizeBytes)
 					{
-						await Dispatcher.EnqueueAsync(() =>
+						await Dispatcher.EnqueueOrInvokeAsync(() =>
 						{
 							ViewModel.ItemSizeBytes = size;
 							ViewModel.ItemSize = size.ToSizeString();

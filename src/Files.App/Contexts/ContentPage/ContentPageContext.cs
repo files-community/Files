@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Filesystem;
 using Files.App.UserControls.MultitaskingControl;
@@ -47,9 +50,13 @@ namespace Files.App.Contexts
 
 		public bool IsSearchBoxVisible => ShellPage is not null && ShellPage.ToolbarViewModel.IsSearchBoxVisible;
 
+		public bool CanCreateItem => GetCanCreateItem();
+
 		public bool IsMultiPaneEnabled => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneEnabled;
 
 		public bool IsMultiPaneActive => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneActive;
+
+		public bool ShowSearchUnindexedItemsMessage => ShellPage is not null && ShellPage.InstanceViewModel.ShowSearchUnindexedItemsMessage;
 
 		public ContentPageContext()
 		{
@@ -139,6 +146,9 @@ namespace Files.App.Contexts
 				case nameof(CurrentInstanceViewModel.IsPageTypeSearchResults):
 					UpdatePageType();
 					break;
+				case nameof(CurrentInstanceViewModel.ShowSearchUnindexedItemsMessage):
+					OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+					break;
 			}
 		}
 
@@ -177,8 +187,10 @@ namespace Files.App.Contexts
 			OnPropertyChanged(nameof(CanGoForward));
 			OnPropertyChanged(nameof(CanNavigateToParent));
 			OnPropertyChanged(nameof(CanRefresh));
+			OnPropertyChanged(nameof(CanCreateItem));
 			OnPropertyChanged(nameof(IsMultiPaneEnabled));
 			OnPropertyChanged(nameof(IsMultiPaneActive));
+			OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 		}
 
 		private void UpdatePageType()
@@ -197,6 +209,7 @@ namespace Files.App.Contexts
 				_ => ContentPageTypes.Folder,
 			};
 			SetProperty(ref pageType, type, nameof(PageType));
+			OnPropertyChanged(nameof(CanCreateItem));
 		}
 
 		private void UpdateSelectedItems()
@@ -212,6 +225,17 @@ namespace Files.App.Contexts
 				if (SelectedItem != oldSelectedItem)
 					OnPropertyChanged(nameof(SelectedItem));
 			}
+		}
+
+		private bool GetCanCreateItem()
+		{
+			return ShellPage is not null &&
+				pageType is not ContentPageTypes.None
+				and not ContentPageTypes.Home
+				and not ContentPageTypes.RecycleBin
+				and not ContentPageTypes.ZipFolder
+				and not ContentPageTypes.SearchResults
+				and not ContentPageTypes.MtpDevice;
 		}
 	}
 }
