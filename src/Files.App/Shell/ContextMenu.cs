@@ -47,10 +47,10 @@ namespace Files.App.Shell
 			return cMenu is not null && await cMenu.InvokeVerb(verb);
 		}
 
-		public Task<bool> InvokeVerb(string? verb)
+		public async Task<bool> InvokeVerb(string? verb)
 		{
 			if (string.IsNullOrEmpty(verb))
-				return Task.FromResult(false);
+				return false;
 
 			try
 			{
@@ -64,24 +64,23 @@ namespace Files.App.Shell
 
 				pici.cbSize = (uint)Marshal.SizeOf(pici);
 
-				return owningThread.PostMethod(() => cMenu.InvokeCommand(pici)).ContinueWith(_ =>
-				{
-					Win32API.BringToForeground(currentWindows);
-					return true;
-				});
+				await owningThread.PostMethod(() => cMenu.InvokeCommand(pici));
+				Win32API.BringToForeground(currentWindows);
+
+				return true;
 			}
 			catch (Exception ex) when (ex is COMException or UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
 			}
 
-			return Task.FromResult(false);
+			return false;
 		}
 
-		public Task InvokeItem(int itemID)
+		public async Task InvokeItem(int itemID)
 		{
 			if (itemID < 0)
-				return Task.CompletedTask;
+				return;
 
 			try
 			{
@@ -94,14 +93,14 @@ namespace Files.App.Shell
 
 				pici.cbSize = (uint)Marshal.SizeOf(pici);
 
-				return owningThread.PostMethod(() => cMenu.InvokeCommand(pici)).ContinueWith(_ => Win32API.BringToForeground(currentWindows));
+				await owningThread.PostMethod(() => cMenu.InvokeCommand(pici));
+
+				Win32API.BringToForeground(currentWindows);
 			}
 			catch (Exception ex) when (ex is COMException or UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
 			}
-
-			return Task.CompletedTask;
 		}
 
 		#region FactoryMethods

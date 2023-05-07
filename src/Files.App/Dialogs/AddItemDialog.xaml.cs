@@ -27,7 +27,7 @@ namespace Files.App.Dialogs
 			InitializeComponent();
 		}
 
-		public new Task<DialogResult> ShowAsync() => base.ShowAsync().AsTask().ContinueWith(t => (DialogResult)t.Result);
+		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
 
 		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
 		{

@@ -28,7 +28,7 @@ namespace Files.App.Helpers
 		/// The (optional) secondary button text.
 		/// If not set, it won't be presented to the user at all.
 		/// </param>
-		public static Task<bool> ShowDialogAsync(string title, string message, string primaryText = "OK", string secondaryText = null)
+		public static async Task<bool> ShowDialogAsync(string title, string message, string primaryText = "OK", string secondaryText = null)
 		{
 			var dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
@@ -39,23 +39,24 @@ namespace Files.App.Helpers
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
 			});
 
-			return ShowDialogAsync(dialog).ContinueWith(t => t.Result == DynamicDialogResult.Primary);
+			return await ShowDialogAsync(dialog) == DynamicDialogResult.Primary;
 		}
 
-		public static Task<DynamicDialogResult> ShowDialogAsync(DynamicDialog dialog)
+		public static async Task<DynamicDialogResult> ShowDialogAsync(DynamicDialog dialog)
 		{
 			try
 			{
 				if (App.Window.Content is Frame rootFrame)
 				{
-					return dialog.ShowAsync().ContinueWith(_ => dialog.DynamicResult);
+					await dialog.ShowAsync();
+					return dialog.DynamicResult;
 				}
 			}
 			catch (Exception)
 			{
 			}
 
-			return Task.FromResult(DynamicDialogResult.Cancel);
+			return DynamicDialogResult.Cancel;
 		}
 	}
 }

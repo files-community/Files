@@ -33,6 +33,6 @@ namespace Files.App.Dialogs
 			InvalidPathWarning.IsOpen = false;
 		}
 
-		public new Task<DialogResult> ShowAsync() => base.ShowAsync().AsTask().ContinueWith(t => (DialogResult)t.Result);
+		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
 	}
 }

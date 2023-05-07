@@ -494,7 +494,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		#region Public Helpers
 
-		public Task<bool> AddBundleItem(BundleItemViewModel bundleItem)
+		public async Task<bool> AddBundleItem(BundleItemViewModel bundleItem)
 		{
 			// Make sure we don't exceed maximum amount && make sure we don't make duplicates
 			if (bundleItem is not null && Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle && !Contents.Any((item) => item.Path == bundleItem.Path))
@@ -504,13 +504,16 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				itemAddedInternally = false;
 				NoBundleContentsTextLoad = false;
 				IsAddItemOptionEnabled = Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle;
-				return bundleItem.UpdateIcon().ContinueWith(_ => true);
+
+				await bundleItem.UpdateIcon();
+
+				return true;
 			}
 
-			return Task.FromResult(false);
+			return false;
 		}
 
-		public Task<bool> AddBundleItems(IEnumerable<BundleItemViewModel> bundleItems)
+		public async Task<bool> AddBundleItems(IEnumerable<BundleItemViewModel> bundleItems)
 		{
 			var taskDelegates = new List<Task<bool>>();
 
@@ -519,13 +522,18 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				taskDelegates.Add(AddBundleItem(item));
 			}
 
-			return Task.WhenAll(taskDelegates).ContinueWith(t => t.Result.Any(item => item));
+			IEnumerable<bool> result = await Task.WhenAll(taskDelegates);
+
+			return result.Any((item) => item);
 		}
 
-		public Task<BundleContainerViewModel> SetBundleItems(IEnumerable<BundleItemViewModel> items)
+		public async Task<BundleContainerViewModel> SetBundleItems(IEnumerable<BundleItemViewModel> items)
 		{
 			Contents.Clear();
-			return AddBundleItems(items).ContinueWith(_ => this);
+
+			await AddBundleItems(items);
+
+			return this;
 		}
 
 		public (bool result, string reason) CanRenameBundle(string name)

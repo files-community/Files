@@ -99,7 +99,7 @@ namespace Files.App.ViewModels.Dialogs
 			return obj;
 		}
 
-		private Task CreateShortcut()
+		private async Task CreateShortcut()
 		{
 			string? destinationName;
 			var extension = DestinationPathExists ? ".lnk" : ".url";
@@ -134,7 +134,7 @@ namespace Files.App.ViewModels.Dialogs
 				filePath = Path.Combine(WorkingDirectory, ShortcutCompleteName);
 			}
 
-			return FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, DestinationItemPath).ContinueWith(t => ShortcutCreatedSuccessfully = t.Result);
+			ShortcutCreatedSuccessfully = await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, DestinationItemPath);
 		}
 	}
 }

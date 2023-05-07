@@ -2378,12 +2378,13 @@ namespace Files.App.ViewModels
 			return null;
 		}
 
-		public Task AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
+		public async Task AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
 		{
 			filesAndFolders.Clear();
 			filesAndFolders.AddRange(searchItems);
 
-			return OrderFilesAndFoldersAsync().ContinueWith(t => ApplyFilesAndFoldersChangesAsync());
+			await OrderFilesAndFoldersAsync();
+			await ApplyFilesAndFoldersChangesAsync();
 		}
 
 		public async Task SearchAsync(FolderSearch search)
