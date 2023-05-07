@@ -3178,6 +3178,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Показувати прапорці під час вибору елементів</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Пошук не індексованих елементів</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Фокус на панелі шляху</value>
   </data>
