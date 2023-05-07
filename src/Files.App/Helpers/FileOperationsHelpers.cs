@@ -525,7 +525,7 @@ namespace Files.App.Helpers
 				{
 					Name = x.ProcessName,
 					Pid = x.Id,
-					FileName = x.MainModule?.FileName,
+					FileName = SafetyExtensions.IgnoreExceptions(() => x.MainModule?.FileName),
 					AppName = SafetyExtensions.IgnoreExceptions(() => x.MainModule?.FileVersionInfo?.FileDescription)
 				}).ToList();
 				processes.ForEach(x => x.Dispose());
