@@ -37,6 +37,7 @@ namespace Files.App.Commands
 		public IRichCommand ExitCompactOverlay => commands[CommandCodes.ExitCompactOverlay];
 		public IRichCommand ToggleCompactOverlay => commands[CommandCodes.ToggleCompactOverlay];
 		public IRichCommand Search => commands[CommandCodes.Search];
+		public IRichCommand SearchUnindexedItems => commands[CommandCodes.SearchUnindexedItems];
 		public IRichCommand EditPath => commands[CommandCodes.EditPath];
 		public IRichCommand Redo => commands[CommandCodes.Redo];
 		public IRichCommand Undo => commands[CommandCodes.Undo];
@@ -173,6 +174,7 @@ namespace Files.App.Commands
 			[CommandCodes.ExitCompactOverlay] = new ExitCompactOverlayAction(),
 			[CommandCodes.ToggleCompactOverlay] = new ToggleCompactOverlayAction(),
 			[CommandCodes.Search] = new SearchAction(),
+			[CommandCodes.SearchUnindexedItems] = new SearchUnindexedItemsAction(),
 			[CommandCodes.EditPath] = new EditPathAction(),
 			[CommandCodes.Redo] = new RedoAction(),
 			[CommandCodes.Undo] = new UndoAction(),
@@ -470,7 +472,7 @@ namespace Files.App.Commands
 			{
 				if (IsExecutable)
 				{
-					Analytics.TrackEvent($"Triggered {Action.Label} action");
+					Analytics.TrackEvent($"Triggered {Code.ToString()} action");
 					await Action.ExecuteAsync();
 				}
 			}

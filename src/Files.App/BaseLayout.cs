@@ -201,7 +201,7 @@ namespace Files.App
 				//if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems))
 				if (value != selectedItems)
 				{
-					if (value?.FirstOrDefault() != selectedItems?.FirstOrDefault())
+					if (value?.FirstOrDefault() != PreviewPaneViewModel.SelectedItem)
 					{
 						// Update preview pane properties
 						PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
@@ -410,7 +410,7 @@ namespace Files.App
 				var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
 				var pathRoot = GetPathRoot(workingDir);
 
-				var isRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+				var isRecycleBin = workingDir.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = isRecycleBin;
 
 				// Can't go up from recycle bin
@@ -441,7 +441,7 @@ namespace Files.App
 
 				var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
 
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
@@ -891,7 +891,7 @@ namespace Files.App
 			try
 			{
 				var shellItemList = e.Items.OfType<ListedItem>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray();
-				if (shellItemList[0].FileSystemPath is not null)
+				if (shellItemList[0].FileSystemPath is not null && !InstanceViewModel.IsPageTypeSearchResults)
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
 					shellItemList.ForEach(x => x.Dispose());
