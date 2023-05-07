@@ -1,9 +1,7 @@
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
 using System.IO;
-using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -19,15 +17,22 @@ namespace Files.App.Helpers
 				return null;
 			}
 
-			using var ms = new MemoryStream(data);
-			var image = new BitmapImage();
-			if (decodeSize > 0)
+			try
 			{
-				image.DecodePixelWidth = decodeSize;
-				image.DecodePixelHeight = decodeSize;
+				using var ms = new MemoryStream(data);
+				var image = new BitmapImage();
+				if (decodeSize > 0)
+				{
+					image.DecodePixelWidth = decodeSize;
+					image.DecodePixelHeight = decodeSize;
+				}
+				await image.SetSourceAsync(ms.AsRandomAccessStream());
+				return image;
 			}
-			await image.SetSourceAsync(ms.AsRandomAccessStream());
-			return image;
+			catch (Exception)
+			{
+				return null;
+			}
 		}
 
 		/// <summary>
