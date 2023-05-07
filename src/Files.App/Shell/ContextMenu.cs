@@ -169,16 +169,9 @@ namespace Files.App.Shell
 			}
 		}
 
-		public static Task WarmUpQueryContextMenuAsync()
+		public static async Task WarmUpQueryContextMenuAsync()
 		{
-			using var thread = new ThreadWithMessageQueue();
-			return thread.PostMethod(() =>
-			{
-				// Create a dummy context menu for warming up
-				var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl("C:\\");
-				Shell32.IContextMenu menu = shellItem.Parent.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItem);
-				menu.QueryContextMenu(User32.CreatePopupMenu(), 0, 1, 0x7FFF, Shell32.CMF.CMF_NORMAL);
-			});
+			using var cMenu = await GetContextMenuForFiles(new string[] { "C:\\" }, Shell32.CMF.CMF_NORMAL);
 		}
 
 		#endregion FactoryMethods
