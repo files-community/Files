@@ -3178,6 +3178,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Auswahlkästchen beim Auswählen von Elementen anzeigen</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Nach nicht indizierten Elementen suchen</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Pfadleiste fokussieren</value>
   </data>
