@@ -504,14 +504,20 @@ namespace Files.App
 
 		private CancellationTokenSource? groupingCancellationToken;
 
-		private void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
-			=> GroupPreferenceUpdated();
+		private async void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
+		{
+			await GroupPreferenceUpdated();
+		}
 
-		private void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
-			=> GroupPreferenceUpdated();
+		private async void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
+		{
+			await GroupPreferenceUpdated();
+		}
 
-		private void FolderSettings_GroupByDateUnitPreferenceUpdated(object? sender, GroupByDateUnit e)
-			=> GroupPreferenceUpdated();
+		private async void FolderSettings_GroupByDateUnitPreferenceUpdated(object? sender, GroupByDateUnit e)
+		{
+			await GroupPreferenceUpdated();
+		}
 
 		private async Task GroupPreferenceUpdated()
 		{
