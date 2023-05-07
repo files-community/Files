@@ -3178,6 +3178,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Näytä valintaruudut kohteita valittaessa</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Hae indeksoimattomia kohteita</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Kohdista polkupalkkiin</value>
   </data>
