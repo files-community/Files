@@ -357,7 +357,7 @@ namespace Files.App.Views
 			ToolbarViewModel.ManualEntryBoxLoaded = true;
 			ToolbarViewModel.ClickablePathLoaded = false;
 			ToolbarViewModel.PathText = string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory)
-				? CommonPaths.HomePath
+				? Constants.UserEnvironmentPaths.HomePath
 				: FilesystemViewModel.WorkingDirectory;
 		}
 
@@ -551,7 +551,7 @@ namespace Files.App.Views
 					// Select previous directory
 					if (!string.IsNullOrWhiteSpace(e.PreviousDirectory) &&
 						e.PreviousDirectory.Contains(e.Path, StringComparison.Ordinal) &&
-						!e.PreviousDirectory.Contains(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+						!e.PreviousDirectory.Contains(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						// Remove the WorkingDir from previous dir
 						e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty, StringComparison.Ordinal);
