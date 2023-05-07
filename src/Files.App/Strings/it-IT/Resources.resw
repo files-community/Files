@@ -3178,6 +3178,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostra le checkbox quando si selezionano gli elementi</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Cerca fra gli elementi non indicizzati</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Apri la barra del percorso</value>
   </data>
