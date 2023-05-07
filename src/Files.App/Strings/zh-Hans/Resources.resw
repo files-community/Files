@@ -3178,6 +3178,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>选择项目时显示复选框</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>搜索未编入索引的项</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>移动焦点到路径栏</value>
   </data>
