@@ -3178,6 +3178,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Отображать чекбоксы при выборе элементов</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Search for unindexed items</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Focus path bar</value>
   </data>
