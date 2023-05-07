@@ -184,7 +184,7 @@ namespace Files.App
 			{
 				if (!string.IsNullOrEmpty(payload))
 				{
-					payload = CommonPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
+					payload = Constants.UserEnvironmentPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
 					var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
 					if (folder is not null && !string.IsNullOrEmpty(folder.Path))
 						payload = folder.Path; // Convert short name to long name (#6190)

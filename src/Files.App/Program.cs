@@ -42,7 +42,7 @@ namespace Files.App
 						switch (command.Type)
 						{
 							case ParsedCommandType.ExplorerShellCommand:
-								if (!CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
+								if (!Constants.UserEnvironmentPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
 								{
 									OpenShellCommandInExplorer(command.Payload, proc.Id);
 
