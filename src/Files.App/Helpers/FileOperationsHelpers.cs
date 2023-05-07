@@ -2,22 +2,12 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.Security;
 using Files.App.Shell;
 using Files.Backend.Helpers;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
-using System.Threading;
-using System.Threading.Tasks;
 using Tulpep.ActiveDirectoryObjectPicker;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -522,7 +512,7 @@ namespace Files.App.Helpers
 				{
 					Name = x.ProcessName,
 					Pid = x.Id,
-					FileName = x.MainModule?.FileName,
+					FileName = SafetyExtensions.IgnoreExceptions(() => x.MainModule?.FileName),
 					AppName = SafetyExtensions.IgnoreExceptions(() => x.MainModule?.FileVersionInfo?.FileDescription)
 				}).ToList();
 				processes.ForEach(x => x.Dispose());
