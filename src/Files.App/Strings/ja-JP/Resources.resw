@@ -3178,6 +3178,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>アイテム選択時にチェックボックスを表示する</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>インデックスされていないファイルを検索する</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>パス バーに移動する</value>
   </data>
