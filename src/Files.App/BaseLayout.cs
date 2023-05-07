@@ -1292,7 +1292,7 @@ namespace Files.App
 				ParentShellPageInstance.ToolbarViewModel.HasItem = CollectionViewSource.View.Any();
 		}
 
-		virtual public void StartRenameItem()
+		virtual protected void StartRenameItem()
 		{
 		}
 

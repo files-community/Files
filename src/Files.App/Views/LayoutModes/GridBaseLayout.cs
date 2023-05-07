@@ -10,10 +10,22 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.App
 {
-	public abstract class GridBaseLayout : StandardViewBase
+	public abstract class GridBaseLayout<T> : StandardViewBase where T : SelectorItem
 	{
 		protected uint currentIconSize;
 		protected override uint IconSize => currentIconSize;
+
+		// QMK - Test this one out heavily, might not be linked automatically.
+		protected virtual TeachingTip FileNameTeachingTip { get; set; }
+
+		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
+		{
+			if (SelectedItems.Any())
+			{
+				ListViewBase.ScrollIntoView(SelectedItems.Last());
+				(ListViewBase.ContainerFromItem(SelectedItems.Last()) as T)?.Focus(FocusState.Keyboard);
+			}
+		}
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
@@ -104,7 +116,7 @@ namespace Files.App
 				ListViewBase.SelectedItems.Remove(item);
 		}
 
-		protected void FileList_ContainerContentChanging<T>(ListViewBase sender, ContainerContentChangingEventArgs args, FrameworkElement itemContainer) where T : SelectorItem
+		protected void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args, FrameworkElement itemContainer)
 		{
 			itemContainer.PointerEntered -= Container_PointerEntered;
 			itemContainer.PointerExited -= Container_PointerExited;
@@ -135,7 +147,7 @@ namespace Files.App
 
 		protected abstract void UpdateCheckboxVisibility(object sender, bool? isPointerOver = null);
 
-		protected virtual void SetCheckboxSelectionState<T>(object item, T? lviContainer = null) where T : SelectorItem
+		protected virtual void SetCheckboxSelectionState(object item, T? lviContainer = null)
 		{
 			var container = lviContainer ?? ListViewBase.ContainerFromItem(item) as T;
 			if (container is not null)
@@ -154,6 +166,32 @@ namespace Files.App
 				}
 				UpdateCheckboxVisibility(container, checkbox?.IsPointerOver ?? false);
 			}
+		}
+
+		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			base.FileList_SelectionChanged(sender, e);
+
+			if (e != null)
+			{
+				foreach (var item in e.AddedItems)
+					SetCheckboxSelectionState(item);
+
+				foreach (var item in e.RemovedItems)
+					SetCheckboxSelectionState(item);
+			}
+		}
+
+		protected virtual void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+		{
+			if (!IsRenamingItem)
+				return;
+
+			ValidateItemNameInputText(textBox, args, (showError) =>
+			{
+				FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+				FileNameTeachingTip.IsOpen = showError;
+			});
 		}
 	}
 }

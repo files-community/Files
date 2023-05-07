@@ -22,7 +22,7 @@ using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.App.Views.LayoutModes
 {
-	public sealed partial class DetailsLayoutBrowser : GridBaseLayout
+	public sealed partial class DetailsLayoutBrowser : GridBaseLayout<ListViewItem>
 	{
 		private const int TAG_TEXT_BLOCK = 1;
 
@@ -57,6 +57,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			InitializeComponent();
 			DataContext = this;
+
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
@@ -65,15 +66,6 @@ namespace Files.App.Views.LayoutModes
 		{
 			base.ItemManipulationModel_ScrollIntoViewInvoked(sender, e);
 			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, true); // Scroll to index * item height
-		}
-
-		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
-		{
-			if (SelectedItems.Any())
-			{
-				FileList.ScrollIntoView(SelectedItems.Last());
-				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
-			}
 		}
 
 		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
@@ -203,46 +195,6 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.StatusColumn.Show();
 
 			UpdateSortIndicator();
-		}
-
-		private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
-
-			if (e != null)
-			{
-				foreach (var item in e.AddedItems)
-					SetCheckboxSelectionState<ListViewItem>(item);
-
-				foreach (var item in e.RemovedItems)
-					SetCheckboxSelectionState<ListViewItem>(item);
-			}
-		}
-
-		override public void StartRenameItem()
-		{
-			StartRenameItem("ItemNameTextBox");
-
-			if (FileList.ContainerFromItem(RenamingItem) is not ListViewItem listViewItem)
-				return;
-
-			var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-			if (textBox is null)
-				return;
-
-			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
-		}
-
-		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
-		{
-			if (IsRenamingItem)
-			{
-				ValidateItemNameInputText(textBox, args, (showError) =>
-				{
-					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
-					FileNameTeachingTip.IsOpen = showError;
-				});
-			}
 		}
 
 		protected override void EndRename(TextBox textBox)

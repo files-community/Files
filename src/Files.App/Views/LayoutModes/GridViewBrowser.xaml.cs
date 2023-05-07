@@ -18,7 +18,7 @@ using Windows.UI.Core;
 
 namespace Files.App.Views.LayoutModes
 {
-	public sealed partial class GridViewBrowser : GridBaseLayout
+	public sealed partial class GridViewBrowser : GridBaseLayout<GridViewItem>
 	{
 		protected override ListViewBase ListViewBase => FileList;
 
@@ -43,17 +43,8 @@ namespace Files.App.Views.LayoutModes
 			InitializeComponent();
 			DataContext = this;
 
-			var selectionRectangle = RectangleSelection.Create(ListViewBase, SelectionRectangle, FileList_SelectionChanged);
+			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
-		}
-
-		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
-		{
-			if (SelectedItems.Any())
-			{
-				FileList.ScrollIntoView(SelectedItems.Last());
-				(FileList.ContainerFromItem(SelectedItems.Last()) as GridViewItem)?.Focus(FocusState.Keyboard);
-			}
 		}
 
 		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
@@ -124,21 +115,7 @@ namespace Files.App.Views.LayoutModes
 			NotifyPropertyChanged(nameof(GridViewItemMinWidth));
 		}
 
-		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			base.FileList_SelectionChanged(sender, e);
-
-			if (e != null)
-			{
-				foreach (var item in e.AddedItems)
-					SetCheckboxSelectionState<GridViewItem>(item);
-
-				foreach (var item in e.RemovedItems)
-					SetCheckboxSelectionState<GridViewItem>(item);
-			}
-		}
-
-		override public void StartRenameItem()
+		protected override void StartRenameItem()
 		{
 			RenamingItem = SelectedItem;
 			if (RenamingItem is null)
@@ -183,18 +160,6 @@ namespace Files.App.Views.LayoutModes
 
 			textBox.Select(0, selectedTextLength);
 			IsRenamingItem = true;
-		}
-
-		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
-		{
-			if (!IsRenamingItem)
-				return;
-
-			ValidateItemNameInputText(textBox, args, (showError) =>
-			{
-				FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
-				FileNameTeachingTip.IsOpen = showError;
-			});
 		}
 
 		protected override void EndRename(TextBox textBox)
