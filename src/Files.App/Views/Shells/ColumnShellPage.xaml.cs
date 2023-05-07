@@ -92,7 +92,7 @@ namespace Files.App.Views.Shells
 				UpdatePathUIToWorkingDirectory(value);
 		}
 
-		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e) 
+		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
 
