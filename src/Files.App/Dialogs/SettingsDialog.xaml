@@ -4,6 +4,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dialogs="using:Files.Backend.ViewModels.Dialogs"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Closing="ContentDialog_Closing"
@@ -76,68 +77,19 @@
 			IsPaneToggleButtonVisible="False"
 			IsSettingsVisible="False"
 			IsTitleBarAutoPaddingEnabled="False"
+			MenuItemsSource="{x:Bind ViewModel.SettingsNavItems, Mode=OneWay}"
 			OpenPaneLength="260"
 			PaneDisplayMode="Left"
 			SelectionChanged="MainSettingsNavigationView_SelectionChanged">
-
-			<!--  Menu Items  -->
-			<NavigationView.MenuItems>
-				<NavigationViewItem
-					AccessKey="P"
-					AutomationProperties.AutomationId="SettingsItemGeneral"
-					Content="{helpers:ResourceString Name=General}"
-					IsSelected="True"
-					Tag="0">
-					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE9E9;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-				<NavigationViewItem
-					AccessKey="A"
-					AutomationProperties.AutomationId="SettingsItemAppearance"
-					Content="{helpers:ResourceString Name=Appearance}"
-					Tag="1">
-					<NavigationViewItem.Icon>
-						<FontIcon HorizontalAlignment="Left" Glyph="&#xE790;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-				<NavigationViewItem
-					AccessKey="F"
-					AutomationProperties.AutomationId="SettingsItemFolders"
-					Content="{helpers:ResourceString Name=Folders}"
-					Tag="2">
-					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE8B7;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-				<NavigationViewItem
-					AccessKey="T"
-					AutomationProperties.AutomationId="SettingsItemTags"
-					Content="{helpers:ResourceString Name=FileTags}"
-					Tag="3">
-					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE8EC;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-				<NavigationViewItem
-					AccessKey="E"
-					AutomationProperties.AutomationId="SettingsItemAdvanced"
-					Content="{helpers:ResourceString Name=Advanced}"
-					Tag="4">
-					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xF1AD;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-				<NavigationViewItem
-					AccessKey="B"
-					AutomationProperties.AutomationId="SettingsItemAbout"
-					Content="{helpers:ResourceString Name=About}"
-					Tag="5">
-					<NavigationViewItem.Icon>
-						<FontIcon FontSize="16" Glyph="&#xE946;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-			</NavigationView.MenuItems>
+			<!--  Item Template  -->
+			<NavigationView.MenuItemTemplate>
+				<DataTemplate x:DataType="dialogs:SettingsNavItem">
+					<NavigationViewItem
+						AutomationProperties.AutomationId="{x:Bind AutomationId}"
+						Content="{x:Bind Name}"
+						Tag="{x:Bind Tag}" />
+				</DataTemplate>
+			</NavigationView.MenuItemTemplate>
 
 			<!--  Content Frame  -->
 			<ScrollViewer x:Name="SettingsContentScrollViewer">

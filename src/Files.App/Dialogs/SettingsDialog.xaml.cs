@@ -43,7 +43,7 @@ namespace Files.App.Dialogs
 
 		private void MainSettingsNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
-			var selectedItem = (NavigationViewItem)args.SelectedItem;
+			var selectedItem = (SettingsNavItem)args.SelectedItem;
 			int selectedItemTag = Convert.ToInt32(selectedItem.Tag);
 
 			_ = selectedItemTag switch
