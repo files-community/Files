@@ -391,7 +391,7 @@ namespace Files.App.Data.Models
 			if (string.IsNullOrEmpty(folderPath))
 				return LayoutPreferences.DefaultLayoutPreferences;
 
-			if (folderPath == CommonPaths.DownloadsPath)
+			if (folderPath == Constants.UserEnvironmentPaths.DownloadsPath)
 				// Default for downloads folder is to group by date created
 				return new LayoutPreferences() {
 					DirectoryGroupOption = GroupOption.DateCreated,

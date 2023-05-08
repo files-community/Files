@@ -203,23 +203,23 @@ namespace Files.App.ViewModels
 				tabLocationHeader = "Home".GetLocalizedResource();
 				iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			}
-			else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
+			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
 			{
 				tabLocationHeader = "Desktop".GetLocalizedResource();
 			}
-			else if (currentPath.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
 			{
 				tabLocationHeader = "Downloads".GetLocalizedResource();
 			}
-			else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+			else if (currentPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
 				tabLocationHeader = "RecycleBin".GetLocalizedResource();
 			}
-			else if (currentPath.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+			else if (currentPath.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 			{
 				tabLocationHeader = "ThisPC".GetLocalizedResource();
 			}
-			else if (currentPath.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+			else if (currentPath.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 			{
 				tabLocationHeader = "SidebarNetworkDrives".GetLocalizedResource();
 			}

@@ -407,7 +407,7 @@ namespace Files.App.Data.Models
 
 		private async void RecycleBinRefreshRequested(object sender, FileSystemEventArgs e)
 		{
-			if (!CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
+			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 
 			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
@@ -418,7 +418,7 @@ namespace Files.App.Data.Models
 
 		private async void RecycleBinItemDeleted(object sender, FileSystemEventArgs e)
 		{
-			if (!CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
+			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 
 			// Get the item that immediately follows matching item to be removed
@@ -437,7 +437,7 @@ namespace Files.App.Data.Models
 
 		private async void RecycleBinItemCreated(object sender, FileSystemEventArgs e)
 		{
-			if (!CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
+			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 
 			using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
@@ -1349,7 +1349,7 @@ namespace Files.App.Data.Models
 			}
 			else
 			{
-				var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+				var isRecycleBin = path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
 				var enumerated = await EnumerateItemsFromStandardFolderAsync(path, addFilesCTS.Token, library);
 
 				// Hide progressbar after enumeration
@@ -1417,9 +1417,9 @@ namespace Files.App.Data.Models
 				PrimaryItemAttribute = StorageItemTypes.Folder,
 				ItemPropertiesInitialized = true,
 				ItemNameRaw =
-							path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ? "RecycleBin".GetLocalizedResource() :
-							path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ? "Network".GetLocalizedResource() :
-							path.StartsWith(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase) ? "ThisPC".GetLocalizedResource() :
+							path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ? "RecycleBin".GetLocalizedResource() :
+							path.StartsWith(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ? "Network".GetLocalizedResource() :
+							path.StartsWith(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase) ? "ThisPC".GetLocalizedResource() :
 							isFtp ? "FTP" : "Unknown",
 				ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
 				ItemDateCreatedReal = DateTimeOffset.Now,  // Fake for now

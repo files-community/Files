@@ -28,7 +28,7 @@ namespace Files.App.Data.Models
 			{
 				DeviceID = "network-folder",
 				Text = "Network".GetLocalizedResource(),
-				Path = CommonPaths.NetworkFolderPath,
+				Path = Constants.UserEnvironmentPaths.NetworkFolderPath,
 				Type = DriveType.Network,
 				ItemType = NavigationControlItemType.Drive,
 			};

@@ -691,7 +691,7 @@ namespace Files.App.ViewModels.UserControls
 							var workingDir =
 								string.IsNullOrEmpty(shellPage.FilesystemViewModel.WorkingDirectory) ||
 								shellPage.CurrentPageType == typeof(HomePage) ?
-									CommonPaths.HomePath :
+									Constants.UserEnvironmentPaths.HomePath :
 									shellPage.FilesystemViewModel.WorkingDirectory;
 
 							if (await LaunchApplicationFromPath(currentInput, workingDir))

@@ -56,10 +56,10 @@ namespace Files.App.Shell
 			{
 				parsingPath = parsingPath switch
 				{
-					"::{645FF040-5081-101B-9F08-00AA002F954E}" => CommonPaths.RecycleBinPath,
-					"::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" => CommonPaths.NetworkFolderPath,
-					"::{208D2C60-3AEA-1069-A2D7-08002B30309D}" => CommonPaths.NetworkFolderPath,
-					"::{20D04FE0-3AEA-1069-A2D8-08002B30309D}" => CommonPaths.MyComputerPath,
+					"::{645FF040-5081-101B-9F08-00AA002F954E}" => Constants.UserEnvironmentPaths.RecycleBinPath,
+					"::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" => Constants.UserEnvironmentPaths.NetworkFolderPath,
+					"::{208D2C60-3AEA-1069-A2D7-08002B30309D}" => Constants.UserEnvironmentPaths.NetworkFolderPath,
+					"::{20D04FE0-3AEA-1069-A2D8-08002B30309D}" => Constants.UserEnvironmentPaths.MyComputerPath,
 					"::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\Documents.library-ms" => ShellHelpers.GetLibraryFullPathFromShell(parsingPath),
 					"::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\Pictures.library-ms" => ShellHelpers.GetLibraryFullPathFromShell(parsingPath),
 					"::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\Music.library-ms" => ShellHelpers.GetLibraryFullPathFromShell(parsingPath),
