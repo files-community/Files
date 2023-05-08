@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
-
+using System.Linq;
 
 namespace Files.Backend.ViewModels.Dialogs
 {
@@ -20,6 +20,7 @@ namespace Files.Backend.ViewModels.Dialogs
 					Name = "General",
 					AutomationId = "SettingsItemGeneral",
 					Tag = "0",
+					IsSelected = true,
 				},
 				new SettingsNavItem
 				{
@@ -52,6 +53,15 @@ namespace Files.Backend.ViewModels.Dialogs
 					Tag = "5",
 				},
 			};
+
+			SelectedItem = SettingsNavItems.First();
+		}
+
+		private SettingsNavItem selectedItem;
+		public SettingsNavItem SelectedItem
+		{
+			get => selectedItem;
+			set => SetProperty(ref selectedItem, value);
 		}
 	}
 
@@ -62,5 +72,7 @@ namespace Files.Backend.ViewModels.Dialogs
 		public string? AutomationId;
 
 		public string? Tag;
+
+		public bool IsSelected;
 	}
 }

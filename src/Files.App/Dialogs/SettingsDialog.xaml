@@ -80,6 +80,7 @@
 			MenuItemsSource="{x:Bind ViewModel.SettingsNavItems, Mode=OneWay}"
 			OpenPaneLength="260"
 			PaneDisplayMode="Left"
+			SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}"
 			SelectionChanged="MainSettingsNavigationView_SelectionChanged">
 			<!--  Item Template  -->
 			<NavigationView.MenuItemTemplate>
