@@ -1,15 +1,16 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Backend.Enums;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace Files.App.CommandLine
+namespace Files.Backend.CommandLine
 {
-	internal class CommandLineParser
+	public class CommandLineParser
 	{
 		public static ParsedCommands ParseUntrustedCommands(string cmdLineString)
 		{

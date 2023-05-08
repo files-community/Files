@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
 using Files.App.Helpers.XamlHelpers;
-using Files.App.UserControls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -14,7 +13,7 @@ using System.Runtime.InteropServices;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App
+namespace Files.App.Views.LayoutModes
 {
 	public abstract class StandardViewBase : BaseLayout
 	{

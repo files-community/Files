@@ -1,12 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Backend.Enums;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Files.App.CommandLine
+namespace Files.Backend.CommandLine
 {
-	internal class ParsedCommand
+	public class ParsedCommand
 	{
 		public ParsedCommandType Type { get; set; }
 
