@@ -10,8 +10,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:security="using:Files.App.Filesystem.Security"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
-	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	DataContext="{x:Bind SecurityAdvancedViewModel, Mode=OneWay}"
 	Tag="Security"
 	mc:Ignorable="d">
@@ -40,15 +41,23 @@
 
 			</ResourceDictionary.MergedDictionaries>
 
-			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
-			<toolkitconverters:BoolToObjectConverter
+			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolToObjectConverter
 				x:Key="BoolToMinWidthConverter"
 				FalseValue="0"
 				TrueValue="200" />
-			<toolkitconverters:BoolToObjectConverter
+			<wctconverters:BoolToObjectConverter
 				x:Key="BoolToWidthConverter"
 				FalseValue="0"
 				TrueValue="*" />
+			<wctconverters:EmptyCollectionToObjectConverter
+				x:Key="EmptyCollectionToBoolConverter"
+				EmptyValue="True"
+				NotEmptyValue="False" />
+			<wctconverters:EmptyCollectionToObjectConverter
+				x:Key="EmptyCollectionToBoolNegationConverter"
+				EmptyValue="False"
+				NotEmptyValue="True" />
 
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
@@ -64,8 +73,9 @@
 
 		<!--  Owner  -->
 		<Grid
-			Padding="12"
-			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			x:Name="OwnerLayerGrid"
+			Padding="16,12"
+			Background="{ThemeResource LayerFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
 			ColumnSpacing="8"
@@ -75,9 +85,9 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 
+			<!--  Header  -->
 			<TextBlock
 				Grid.Column="0"
-				Margin="4"
 				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=SecurityOwnerLabel/Text}" />
 
@@ -86,33 +96,41 @@
 				Orientation="Horizontal"
 				Spacing="8">
 
+				<!--  User/Group Icon  -->
 				<FontIcon
 					x:Name="FontIcon"
 					VerticalAlignment="Center"
-					FontFamily="{StaticResource SymbolThemeFontFamily}"
 					FontSize="16"
 					Glyph="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.Glyph, Mode=OneWay}" />
 
+				<!--  Owner Name  -->
 				<TextBlock
 					x:Name="OwnerText"
 					VerticalAlignment="Center"
-					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsValid, Mode=OneWay}"
+					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.IsValid, Mode=OneWay}"
 					IsTextSelectionEnabled="True"
 					Style="{StaticResource BodyTextBlockStyle}"
-					ToolTipService.ToolTip="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameOrSid, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameHumanized, Mode=OneWay}">
 					<Run Text="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.DisplayName, Mode=OneWay}" />
-					<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameHumanized, Mode=OneWay}" />
+					<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameHumanizedWithBrackes, Mode=OneWay}" />
 				</TextBlock>
 
+				<!--  Owner name is unknown  -->
 				<TextBlock
-					x:Name="UnknownOwnerText"
+					x:Name="OwnerAccountIsUnknwonMessageTextBlock"
 					VerticalAlignment="Center"
-					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-					Text="{helpers:ResourceString Name=SecurityUnknownOwnerText/Text}" />
+					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.IsValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+					IsTextSelectionEnabled="True"
+					Style="{StaticResource BodyTextBlockStyle}"
+					Text="Unable to display current owner." />
 
-				<HyperlinkButton VerticalAlignment="Center" Command="{x:Bind SecurityAdvancedViewModel.ChangeOwnerCommand}">
+				<!--  Change Owner  -->
+				<HyperlinkButton VerticalAlignment="Center" Command="{x:Bind SecurityAdvancedViewModel.ChangeOwnerCommand, Mode=OneWay}">
 					<StackPanel Orientation="Horizontal" Spacing="6">
-						<FontIcon FontSize="14" Glyph="&#xE70F;" />
+						<Image
+							Width="16"
+							Height="16"
+							uc:ImageFromBytes.SourceBytes="{x:Bind SecurityAdvancedViewModel.ShieldIconFileInfo.IconData, Mode=OneWay}" />
 						<TextBlock Text="{helpers:ResourceString Name=Change}" />
 					</StackPanel>
 				</HyperlinkButton>
@@ -121,11 +139,25 @@
 
 		</Grid>
 
+		<!--  No Read Access Control InfoBar  -->
+		<InfoBar
+			x:Name="UnableToDisplayInformationInfoBar"
+			Grid.Row="1"
+			VerticalAlignment="Top"
+			x:Load="{x:Bind SecurityAdvancedViewModel.DisplayElements, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+			Background="{ThemeResource LayerFillColorDefaultBrush}"
+			IsClosable="False"
+			IsOpen="True"
+			Message="{x:Bind SecurityAdvancedViewModel.ErrorMessage, Mode=OneWay}"
+			Severity="Informational" />
+
 		<!--  Access Control List  -->
 		<Grid
+			x:Name="AccessControlEntriesListLayerGrid"
 			Grid.Row="1"
 			Padding="12,8,12,12"
-			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			x:Load="{x:Bind SecurityAdvancedViewModel.DisplayElements, Mode=OneWay}"
+			Background="{ThemeResource LayerFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
 			CornerRadius="4">
@@ -137,6 +169,7 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
+			<!--  Header  -->
 			<Grid Grid.Row="0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
@@ -158,7 +191,8 @@
 						Padding="8"
 						Background="Transparent"
 						BorderBrush="Transparent"
-						Command="{x:Bind SecurityAdvancedViewModel.AddAccessControlEntryCommand, Mode=OneWay}">
+						Command="{x:Bind SecurityAdvancedViewModel.AddAccessControlEntryCommand, Mode=OneWay}"
+						IsEnabled="{x:Bind SecurityAdvancedViewModel.IsAddAccessControlEntryButtonEnabled, Mode=OneWay}">
 						<FontIcon FontSize="16" Glyph="&#xE710;" />
 					</Button>
 
@@ -166,7 +200,8 @@
 						Padding="8"
 						Background="Transparent"
 						BorderBrush="Transparent"
-						Command="{x:Bind SecurityAdvancedViewModel.RemoveAccessControlEntryCommand, Mode=OneWay}">
+						Command="{x:Bind SecurityAdvancedViewModel.RemoveAccessControlEntryCommand, Mode=OneWay}"
+						IsEnabled="{x:Bind SecurityAdvancedViewModel.IsDeleteAccessControlEntryButtonEnabled, Mode=OneWay}">
 						<FontIcon FontSize="16" Glyph="&#xE738;" />
 					</Button>
 
@@ -174,19 +209,21 @@
 
 			</Grid>
 
+			<!--  (Divider)  -->
 			<Border
 				Grid.Row="1"
 				Height="1"
 				Margin="-12,8,-12,4"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
+			<!--  Access Control Entries List  -->
 			<ListView
 				x:Name="AdvancedPermissionListView"
 				Grid.Row="2"
 				Margin="-12,0"
 				Padding="0,0,0,8"
 				HorizontalAlignment="Stretch"
-				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsValid, Mode=OneWay}"
+				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.AccessControlEntries, Converter={StaticResource EmptyCollectionToBoolNegationConverter}, Mode=OneWay}"
 				DataContext="{x:Bind SecurityAdvancedViewModel, Mode=OneWay}"
 				ItemsSource="{x:Bind SecurityAdvancedViewModel.AccessControlList.AccessControlEntries, Mode=OneWay}"
 				ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -217,26 +254,26 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="16" />
 							<ColumnDefinition
-								x:Name="ColumnType"
-								Width="{x:Bind SecurityAdvancedViewModel.ColumnType, Mode=TwoWay}"
+								x:Name="ColumnTypeGridLength"
+								Width="{x:Bind SecurityAdvancedViewModel.ColumnTypeGridLength, Mode=TwoWay}"
 								MinWidth="36" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition
-								x:Name="ColumnPrincipal"
-								Width="{x:Bind SecurityAdvancedViewModel.ColumnPrincipal, Mode=TwoWay}"
+								x:Name="ColumnPrincipalGridLength"
+								Width="{x:Bind SecurityAdvancedViewModel.ColumnPrincipalGridLength, Mode=TwoWay}"
 								MinWidth="36" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition
-								x:Name="ColumnAccess"
-								Width="{x:Bind SecurityAdvancedViewModel.ColumnAccess, Mode=TwoWay}"
+								x:Name="ColumnAccessGridLength"
+								Width="{x:Bind SecurityAdvancedViewModel.ColumnAccessGridLength, Mode=TwoWay}"
 								MinWidth="36" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition
-								x:Name="ColumnInherited"
-								Width="{x:Bind SecurityAdvancedViewModel.ColumnInherited, Mode=TwoWay}"
+								x:Name="ColumnInheritedGridLength"
+								Width="{x:Bind SecurityAdvancedViewModel.ColumnInheritedGridLength, Mode=TwoWay}"
 								MinWidth="36" />
 							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="{x:Bind SecurityAdvancedViewModel.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind SecurityAdvancedViewModel.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
+							<ColumnDefinition Width="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
 						</Grid.ColumnDefinitions>
 
 						<TextBlock
@@ -321,36 +358,39 @@
 						<Grid ColumnSpacing="13">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="20" />
-								<ColumnDefinition x:Name="ColumnType" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnType, Mode=OneWay}" />
-								<ColumnDefinition x:Name="ColumnPrincipal" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnPrincipal, Mode=OneWay}" />
-								<ColumnDefinition x:Name="ColumnAccess" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnAccess, Mode=OneWay}" />
-								<ColumnDefinition x:Name="ColumnInherited" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnInherited, Mode=OneWay}" />
+								<ColumnDefinition x:Name="ColumnTypeGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnTypeGridLength, Mode=OneWay}" />
+								<ColumnDefinition x:Name="ColumnPrincipalGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnPrincipalGridLength, Mode=OneWay}" />
+								<ColumnDefinition x:Name="ColumnAccessGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnAccessGridLength, Mode=OneWay}" />
+								<ColumnDefinition x:Name="ColumnInheritedGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnInheritedGridLength, Mode=OneWay}" />
 								<ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
 							</Grid.ColumnDefinitions>
 
+							<!--  Principal Type Glyph  -->
 							<FontIcon
 								x:Name="FontIcon"
 								VerticalAlignment="Center"
 								FontFamily="{StaticResource SymbolThemeFontFamily}"
 								FontSize="16"
-								Glyph="{x:Bind Principal.Glyph}" />
+								Glyph="{x:Bind Principal.Glyph, Mode=OneWay}" />
 
+							<!--  Principal Type Text  -->
 							<TextBlock
 								x:Name="AccessControlTypeHumanizedTextBlock"
 								Grid.Column="1"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
-								x:Load="{x:Bind IsEditEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+								x:Load="{x:Bind IsEditable, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 								Text="{x:Bind AccessControlTypeHumanized, Mode=OneWay}"
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
 
+							<!--  Principal Type Changer DropDown  -->
 							<DropDownButton
 								x:Name="TypeDropdown"
 								Grid.Column="1"
 								Padding="0,6"
 								VerticalAlignment="Center"
-								x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
+								x:Load="{x:Bind IsEditable, Mode=OneWay}"
 								Background="Transparent"
 								BorderThickness="0">
 
@@ -395,6 +435,7 @@
 
 							</DropDownButton>
 
+							<!--  Principal Name Text  -->
 							<TextBlock
 								Grid.Column="2"
 								HorizontalAlignment="Left"
@@ -402,18 +443,20 @@
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap">
 								<Run Text="{x:Bind Principal.DisplayName, Mode=OneWay}" />
-								<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanized, Mode=OneWay}" />
+								<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanizedWithBrackes, Mode=OneWay}" />
 							</TextBlock>
 
+							<!--  Access Flags Text  -->
 							<TextBlock
 								x:Name="AccessFlagsHumanizedTextBlock"
 								Grid.Column="3"
 								VerticalAlignment="Center"
-								x:Load="{x:Bind IsEditEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+								x:Load="{x:Bind IsEditable, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 								Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}"
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
 
+							<!--  Access Flags Changer DropDown  -->
 							<DropDownButton
 								x:Name="AccessFlagsEditDropDownButton"
 								Grid.Column="3"
@@ -421,7 +464,7 @@
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
 								HorizontalContentAlignment="Left"
-								x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
+								x:Load="{x:Bind IsEditable, Mode=OneWay}"
 								Background="Transparent"
 								BorderThickness="0">
 
@@ -456,7 +499,7 @@
 												<RowDefinition Height="Auto" />
 											</Grid.RowDefinitions>
 
-											<GridView ItemsSource="{x:Bind AccessMaskItemList, Mode=OneWay}" SelectionMode="None">
+											<GridView ItemsSource="{x:Bind AccessMaskItems, Mode=OneWay}" SelectionMode="None">
 
 												<GridView.ItemContainerStyle>
 													<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
@@ -497,6 +540,7 @@
 
 							</DropDownButton>
 
+							<!--  Is Inherited Or Not Text  -->
 							<TextBlock
 								x:Name="IsInheritedHumanizedTextBlock"
 								Grid.Column="4"
@@ -505,16 +549,18 @@
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
 
+							<!--  Applies To Text  -->
 							<TextBlock
 								x:Name="InheritanceFlagsHumanizedTextBlock"
 								Grid.Column="5"
 								VerticalAlignment="Center"
-								x:Load="{x:Bind IsEditEnabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+								x:Load="{x:Bind IsEditable, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}"
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap"
 								Visibility="{x:Bind IsFolder, Mode=OneWay}" />
 
+							<!--  Applies To Changer DropDown  -->
 							<DropDownButton
 								x:Name="InheritanceFlagsEditDropDownButton"
 								Grid.Column="5"
@@ -522,7 +568,7 @@
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
 								HorizontalContentAlignment="Left"
-								x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
+								x:Load="{x:Bind IsEditable, Mode=OneWay}"
 								Background="Transparent"
 								BorderThickness="0"
 								Visibility="{x:Bind IsFolder, Mode=OneWay}">
@@ -580,21 +626,23 @@
 
 			</ListView>
 
+			<!--  No Access Control Entries Message  -->
 			<TextBlock
-				x:Name="CannotReadPropsText"
+				x:Name="NoAccessControlEntriesTextBlock"
 				Grid.Row="2"
-				Padding="8"
-				HorizontalAlignment="Left"
-				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-				Text="{helpers:ResourceString Name=SecurityAdvancedCannotReadProperties}"
-				TextWrapping="WrapWholeWords" />
+				Margin="4,4,4,4"
+				x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.AccessControlEntries, Converter={StaticResource EmptyCollectionToBoolConverter}, Mode=OneWay}"
+				Text="{helpers:ResourceString Name=SecurityNoAccessControlEntriesText}"
+				TextWrapping="Wrap" />
 
+			<!--  (Divider)  -->
 			<Border
 				Grid.Row="3"
 				Height="1"
 				Margin="-12,0,-12,8"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
+			<!--  Inheritance Actions  -->
 			<Grid
 				Grid.Row="4"
 				Margin="0,4,0,0"
@@ -604,7 +652,7 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 
-				<SplitButton
+				<!--<SplitButton
 					x:Name="SplitButton"
 					MaxWidth="196"
 					Command="{x:Bind SecurityAdvancedViewModel.DisableInheritanceCommand, Mode=OneWay}"
@@ -639,12 +687,12 @@
 				<Button
 					x:Name="ReplaceChildPermissionsButton"
 					Grid.Column="1"
-					x:Load="{x:Bind SecurityAdvancedViewModel.IsFolder, Mode=OneWay}"
+					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.IsFolder, Mode=OneWay}"
 					Command="{x:Bind SecurityAdvancedViewModel.ReplaceChildPermissionsCommand, Mode=OneWay}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions2/ToolTipService/ToolTip}"
 					Visibility="Collapsed">
 					<TextBlock Text="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions/Text}" TextTrimming="CharacterEllipsis" />
-				</Button>
+				</Button>-->
 
 			</Grid>
 
