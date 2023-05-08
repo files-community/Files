@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Filesystem.Security;
 using Files.App.Shell;
 using Files.Backend.Helpers;
 using Microsoft.Extensions.Logging;
@@ -513,7 +514,7 @@ namespace Files.App.Helpers
 				{
 					Name = x.ProcessName,
 					Pid = x.Id,
-					FileName = x.MainModule?.FileName,
+					FileName = SafetyExtensions.IgnoreExceptions(() => x.MainModule?.FileName),
 					AppName = SafetyExtensions.IgnoreExceptions(() => x.MainModule?.FileVersionInfo?.FileDescription)
 				}).ToList();
 				processes.ForEach(x => x.Dispose());
