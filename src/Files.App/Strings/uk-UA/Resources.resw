@@ -3211,4 +3211,16 @@
   <data name="Location" xml:space="preserve">
     <value>Розташування:</value>
   </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Натисніть "Додаткові дозволи" для продовження.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>Ви повинні мати дозвіл на читання для перегляду властивостей цього елемента.</value>
+  </data>
+  <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
+    <value>Щоб підтвердити право власності на об'єкт, що включає в себе дозвіл на перегляд його властивостей, натисніть кнопку "Змінити" вище.</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>Не вдалося відобразити дозволи.</value>
+  </data>
 </root>
