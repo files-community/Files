@@ -1441,7 +1441,7 @@
     <value>上個月</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>今年稍早</value>
   </data>
   <data name="LastYear" xml:space="preserve">
     <value>去年</value>
@@ -1594,7 +1594,7 @@
     <value>變更</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>{0} 的權限</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>讀取和執行</value>
@@ -1615,7 +1615,7 @@
     <value>您沒有權限查看此項目的安全性設定。點擊「進階」以繼續。</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>擁有者：</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>擁有者不詳</value>
@@ -1651,7 +1651,7 @@
     <value>存取</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>套用至</value>
   </data>
   <data name="Principal" xml:space="preserve">
     <value>Principal</value>
@@ -1666,10 +1666,10 @@
     <value>子資料夾</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Inherited</value>
+    <value>已繼承</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>權限</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>您沒有權限查看此項目的安全性設定。您可以嘗試獲取此物件的所有權。</value>
@@ -1924,7 +1924,7 @@
     <value>磁磚（並排）</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>在新索引標籤開啟資料夾</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>檔案操作狀態</value>
@@ -1939,13 +1939,13 @@
     <value>Experimental feature flags</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>說明與支援</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
     <value>Submit feature request</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>Submit bug report</value>
+    <value>提交錯誤報告</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>將 Files 設為預設的檔案總管</value>
@@ -1960,7 +1960,7 @@
     <value>透過點擊打開檔案</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>Folder path</value>
+    <value>資料夾路徑</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>匯出設定</value>
@@ -2080,7 +2080,7 @@
     <value>計算資料夾大小</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recent files</value>
+    <value>最近使用的檔案</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Windows 啟動時開啟 Files</value>
@@ -2185,7 +2185,7 @@
     <value>標籤</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Use compact spacing in the details layout</value>
+    <value>在詳細檢視中使用緊湊模式</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>通用</value>
@@ -2227,7 +2227,7 @@
     <value>Show alternate data streams</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
-    <value>Behaviors</value>
+    <value>行為</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>評論本軟體</value>
@@ -2266,34 +2266,34 @@
     <value>鎖定畫面</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>在格狀檢視模式下，點一下即可開啟資料夾</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>開啟項目</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
+    <value>壓縮完成</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
+    <value>{0} 已被壓縮</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} couldn't be compressed</value>
+    <value>{0} 無法被壓縮</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+    <value>壓縮檔案</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>當游標停留於檔案與資料夾上時，選取它們</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>確定要將所有項目從資源回收筒還原嗎？</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>還原​​所有項目​​</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>確定要將 {0} 個項目還原嗎？</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>還原選取項目</value>
@@ -2302,25 +2302,25 @@
     <value>還原​​所有項目​​</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>還原</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>無法打開捷徑</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>找不到捷徑指向的目標 {0} ，您要刪除此捷徑嗎？</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
+    <value>您沒有權限存取此資料夾。</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
     <value>清理資源回收筒</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>成功清空資源回收筒</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>無法清空資源回收筒</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>封存檔案密碼</value>
@@ -2329,7 +2329,7 @@
     <value>路徑</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>排序與分組</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>封存檔案</value>
@@ -2395,7 +2395,7 @@
     <value>格式</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>同步狀態</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
     <value>群組依據</value>
@@ -2404,22 +2404,22 @@
     <value>排序</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
-    <value>Group in descending order</value>
+    <value>依遞減排序分組</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
-    <value>Sort in descending order</value>
+    <value>遞減排序</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
-    <value>Create a new shortcut</value>
+    <value>建立新捷徑</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+    <value>建立本地或網路上之程式、檔案、資料夾、電腦或網際網路位址的捷徑。</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Enter the location of the item:</value>
+    <value>輸入項目的位置：</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>建立捷徑</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>“最近使用的檔案”已在 Windows 檔案總管中停用。</value>
@@ -2671,40 +2671,40 @@
     <value>Restore all items from recycle bin</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open item(s)</value>
+    <value>開啟項目</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open item(s) with selected application</value>
+    <value>以應用程式開啟</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Open parent folder of searched item</value>
+    <value>開啟所選項目的資料夾</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
     <value>Refresh page contents</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>Rename selected item</value>
+    <value>將選定的項目重新命名</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>Select all items</value>
+    <value>選擇所有項目</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert item selection</value>
+    <value>反向選擇</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear item selection</value>
+    <value>清除選取</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Toggle item selection</value>
+    <value>切換選取</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected file(s) with others</value>
+    <value>分享選取的項目</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin item(s) to the Start Menu</value>
+    <value>釘選至開始功能表</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin item(s) from the Start Menu</value>
+    <value>從開始功能表取消釘選</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
     <value>Pin folder(s) to Favorites</value>
@@ -2713,28 +2713,28 @@
     <value>Unpin folder(s) from Favorites</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as desktop background</value>
+    <value>設成桌面背景</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
     <value>Set selected pictures as desktop slideshow</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as lockscreen background</value>
+    <value>設成鎖定畫面背景</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected font(s)</value>
+    <value>安裝選取的字型</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Install driver(s) using selected inf file(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Run selected application as administrator</value>
+    <value>以系統管理員身分執行</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>以其他使用者身分執行</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Run selected PowerShell script</value>
+    <value>執行PowerShell腳本</value>
   </data>
   <data name="LaunchQuickLookDescription" xml:space="preserve">
     <value>Launch QuickLook with selected item</value>
@@ -3210,5 +3210,17 @@
   </data>
   <data name="Location" xml:space="preserve">
     <value>Location:</value>
+  </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Click 'Advanced permissions' to continue.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>You must have Read permissions to view the properties of this item.</value>
+  </data>
+  <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
+    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>Unable to display permissions.</value>
   </data>
 </root>
