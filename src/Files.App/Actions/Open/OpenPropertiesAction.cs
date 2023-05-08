@@ -17,9 +17,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconProperties");
 
 		public bool IsExecutable =>
-			!context.ShellPage.InstanceViewModel.IsPageTypeSearchResults;
+			!context.ShellPage.InstanceViewModel.IsPageTypeNotHome;
 
-		public HotKey HotKey { get; } = new(Keys.P, KeyModifiers.Ctrl);
+		public HotKey HotKey { get; }
 
 		public OpenPropertiesAction()
 		{
