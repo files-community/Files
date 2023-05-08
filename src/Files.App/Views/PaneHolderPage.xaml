@@ -9,6 +9,7 @@
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:shellpages="using:Files.App.Views.Shells"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	mc:Ignorable="d">
@@ -62,7 +63,7 @@
 		</Grid.ColumnDefinitions>
 
 		<!--  Pane Left  -->
-		<local:ModernShellPage
+		<shellpages:ModernShellPage
 			x:Name="PaneLeft"
 			ContentChanged="Pane_ContentChanged"
 			Loaded="Pane_Loaded"
@@ -74,7 +75,7 @@
 			x:Name="PaneRightBorder"
 			Grid.Column="1"
 			x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}">
-			<local:ModernShellPage
+			<shellpages:ModernShellPage
 				x:Name="PaneRight"
 				ContentChanged="Pane_ContentChanged"
 				Loaded="Pane_Loaded"

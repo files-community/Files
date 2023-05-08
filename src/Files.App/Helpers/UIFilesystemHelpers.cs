@@ -397,7 +397,7 @@ namespace Files.App.Helpers
 			if (!result)
 				return false;
 
-			var shortcutPath = Path.Combine(CommonPaths.DesktopPath, shortcutName);
+			var shortcutPath = Path.Combine(Constants.UserEnvironmentPaths.DesktopPath, shortcutName);
 
 			return await FileOperationsHelpers.CreateOrUpdateLinkAsync(shortcutPath, destinationPath);
 		}
