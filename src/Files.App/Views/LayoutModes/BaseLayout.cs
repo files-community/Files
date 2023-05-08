@@ -198,7 +198,7 @@ namespace Files.App.Views.LayoutModes
 				//if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems))
 				if (value != selectedItems)
 				{
-					if (value?.FirstOrDefault() != selectedItems?.FirstOrDefault())
+					if (value?.FirstOrDefault() != PreviewPaneViewModel.SelectedItem)
 					{
 						// Update preview pane properties
 						PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
