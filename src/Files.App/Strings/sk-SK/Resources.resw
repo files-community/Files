@@ -3213,4 +3213,16 @@
   <data name="Location" xml:space="preserve">
     <value>Location:</value>
   </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Click 'Advanced permissions' to continue.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>You must have Read permissions to view the properties of this item.</value>
+  </data>
+  <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
+    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>Unable to display permissions.</value>
+  </data>
 </root>
