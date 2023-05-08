@@ -27,8 +27,6 @@ namespace Files.App.Interacts
 
 		Task Drop(DragEventArgs e);
 
-		void SearchUnindexedItems(RoutedEventArgs e);
-
 		Task CreateFolderWithSelection(RoutedEventArgs e);
 	}
 }

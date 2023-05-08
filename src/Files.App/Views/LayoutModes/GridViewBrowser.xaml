@@ -1,5 +1,5 @@
 <!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
-<root:StandardViewBase
+<local:StandardViewBase
 	x:Class="Files.App.Views.LayoutModes.GridViewBrowser"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,8 +10,8 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+	xmlns:local="using:Files.App.Views.LayoutModes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:root="using:Files.App"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
@@ -30,7 +30,7 @@
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
-	<root:StandardViewBase.Resources>
+	<local:StandardViewBase.Resources>
 
 		<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 		<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -543,7 +543,7 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
-	</root:StandardViewBase.Resources>
+	</local:StandardViewBase.Resources>
 
 	<Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
 
@@ -663,14 +663,14 @@
 						<StackPanel
 							x:Name="SearchUnindexedItemsPanel"
 							HorizontalAlignment="Stretch"
-							x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
+							x:Load="{x:Bind Commands.SearchUnindexedItems.IsExecutable, Mode=OneWay}"
 							Orientation="Vertical">
 							<TextBlock HorizontalTextAlignment="Center" Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
 							<HyperlinkButton
 								x:Name="SearchUnindexedItemsButton"
 								HorizontalAlignment="Center"
-								Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
-								Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
+								Command="{x:Bind Commands.SearchUnindexedItems}"
+								Content="{x:Bind Commands.SearchUnindexedItems.Label}" />
 						</StackPanel>
 					</toolkit:AdaptiveGridView.Footer>
 
@@ -789,4 +789,4 @@
 		</Canvas>
 
 	</Grid>
-</root:StandardViewBase>
+</local:StandardViewBase>

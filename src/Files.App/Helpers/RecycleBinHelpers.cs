@@ -34,7 +34,7 @@ namespace Files.App.Helpers
 
 		public static async Task<List<ShellFileItem>> EnumerateRecycleBin()
 		{
-			return (await Win32Shell.GetShellFolderAsync(CommonPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
+			return (await Win32Shell.GetShellFolderAsync(Constants.UserEnvironmentPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
 		}
 
 		public static ulong GetSize()

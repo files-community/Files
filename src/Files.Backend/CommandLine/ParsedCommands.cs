@@ -3,9 +3,9 @@
 
 using System.Collections.Generic;
 
-namespace Files.App.CommandLine
+namespace Files.Backend.CommandLine
 {
-	internal class ParsedCommands : List<ParsedCommand>
+	public class ParsedCommands : List<ParsedCommand>
 	{
 	}
 }

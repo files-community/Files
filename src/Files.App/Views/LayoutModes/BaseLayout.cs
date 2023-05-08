@@ -28,10 +28,10 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;
 
-namespace Files.App
+namespace Files.App.Views.LayoutModes
 {
 	/// <summary>
-	/// The base class which every layout page must derive from
+	/// Represents the base class which every layout page must derive from
 	/// </summary>
 	public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
 	{
@@ -81,7 +81,6 @@ namespace Files.App
 		public string? OldItemName { get; set; } = null;
 
 		private bool isMiddleClickToScrollEnabled = true;
-
 		public bool IsMiddleClickToScrollEnabled
 		{
 			get => isMiddleClickToScrollEnabled;
@@ -103,7 +102,6 @@ namespace Files.App
 		{
 			IsSourceGrouped = true,
 		};
-
 		public CollectionViewSource CollectionViewSource
 		{
 			get => collectionViewSource;
@@ -191,7 +189,6 @@ namespace Files.App
 		}
 
 		private List<ListedItem>? selectedItems = new List<ListedItem>();
-
 		public List<ListedItem>? SelectedItems
 		{
 			get => selectedItems;
@@ -201,7 +198,7 @@ namespace Files.App
 				//if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems))
 				if (value != selectedItems)
 				{
-					if (value?.FirstOrDefault() != selectedItems?.FirstOrDefault())
+					if (value?.FirstOrDefault() != PreviewPaneViewModel.SelectedItem)
 					{
 						// Update preview pane properties
 						PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
@@ -410,7 +407,7 @@ namespace Files.App
 				var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
 				var pathRoot = GetPathRoot(workingDir);
 
-				var isRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+				var isRecycleBin = workingDir.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = isRecycleBin;
 
 				// Can't go up from recycle bin
@@ -441,7 +438,7 @@ namespace Files.App
 
 				var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
 
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
@@ -891,7 +888,7 @@ namespace Files.App
 			try
 			{
 				var shellItemList = e.Items.OfType<ListedItem>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray();
-				if (shellItemList[0].FileSystemPath is not null)
+				if (shellItemList[0].FileSystemPath is not null && !InstanceViewModel.IsPageTypeSearchResults)
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
 					shellItemList.ForEach(x => x.Dispose());

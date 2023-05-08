@@ -180,7 +180,7 @@ namespace Files.App.Interacts
 				else
 				{
 					e.DragUIOverride.IsCaptionVisible = true;
-					if (pwd.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+					if (pwd.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
 						e.AcceptedOperation = DataPackageOperation.Move;
@@ -235,11 +235,6 @@ namespace Files.App.Interacts
 			}
 
 			deferral.Complete();
-		}
-
-		public void SearchUnindexedItems(RoutedEventArgs e)
-		{
-			associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
 		}
 
 		public async Task CreateFolderWithSelection(RoutedEventArgs e)
