@@ -119,6 +119,12 @@ namespace Files.App.Commands
 		IRichCommand GroupByOriginalFolder { get; }
 		IRichCommand GroupByDateDeleted { get; }
 		IRichCommand GroupByFolderPath { get; }
+		IRichCommand GroupByDateModifiedYear { get; }
+		IRichCommand GroupByDateModifiedMonth { get; }
+		IRichCommand GroupByDateCreatedYear { get; }
+		IRichCommand GroupByDateCreatedMonth { get; }
+		IRichCommand GroupByDateDeletedYear { get; }
+		IRichCommand GroupByDateDeletedMonth { get; }
 		IRichCommand GroupAscending { get; }
 		IRichCommand GroupDescending { get; }
 		IRichCommand ToggleGroupDirection { get; }

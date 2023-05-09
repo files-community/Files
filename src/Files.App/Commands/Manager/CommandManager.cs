@@ -115,6 +115,12 @@ namespace Files.App.Commands
 		public IRichCommand GroupByOriginalFolder => commands[CommandCodes.GroupByOriginalFolder];
 		public IRichCommand GroupByDateDeleted => commands[CommandCodes.GroupByDateDeleted];
 		public IRichCommand GroupByFolderPath => commands[CommandCodes.GroupByFolderPath];
+		public IRichCommand GroupByDateModifiedYear => commands[CommandCodes.GroupByDateModifiedYear];
+		public IRichCommand GroupByDateModifiedMonth => commands[CommandCodes.GroupByDateModifiedMonth];
+		public IRichCommand GroupByDateCreatedYear => commands[CommandCodes.GroupByDateCreatedYear];
+		public IRichCommand GroupByDateCreatedMonth => commands[CommandCodes.GroupByDateCreatedMonth];
+		public IRichCommand GroupByDateDeletedYear => commands[CommandCodes.GroupByDateDeletedYear];
+		public IRichCommand GroupByDateDeletedMonth => commands[CommandCodes.GroupByDateDeletedMonth];
 		public IRichCommand GroupAscending => commands[CommandCodes.GroupAscending];
 		public IRichCommand GroupDescending => commands[CommandCodes.GroupDescending];
 		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
@@ -254,6 +260,12 @@ namespace Files.App.Commands
 			[CommandCodes.GroupByOriginalFolder] = new GroupByOriginalFolderAction(),
 			[CommandCodes.GroupByDateDeleted] = new GroupByDateDeletedAction(),
 			[CommandCodes.GroupByFolderPath] = new GroupByFolderPathAction(),
+			[CommandCodes.GroupByDateModifiedYear] = new GroupByDateModifiedYearAction(),
+			[CommandCodes.GroupByDateModifiedMonth] = new GroupByDateModifiedMonthAction(),
+			[CommandCodes.GroupByDateCreatedYear] = new GroupByDateCreatedYearAction(),
+			[CommandCodes.GroupByDateCreatedMonth] = new GroupByDateCreatedMonthAction(),
+			[CommandCodes.GroupByDateDeletedYear] = new GroupByDateDeletedYearAction(),
+			[CommandCodes.GroupByDateDeletedMonth] = new GroupByDateDeletedMonthAction(),
 			[CommandCodes.GroupAscending] = new GroupAscendingAction(),
 			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
 			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),

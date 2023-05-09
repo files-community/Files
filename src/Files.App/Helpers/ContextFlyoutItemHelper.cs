@@ -219,14 +219,44 @@ namespace Files.App.Helpers
 						{
 							IsToggle = true
 						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateModified)
+						new ContextMenuFlyoutItemViewModel()
 						{
-							IsToggle = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateCreated)
+							Text = "DateModifiedLowerCase".GetLocalizedResource(),
+							ShowInRecycleBin = true,
+							ShowInSearchPage = true,
+							ShowInFtpPage = true,
+							ShowInZipPage = true,
+							Items = new List<ContextMenuFlyoutItemViewModel>
+							{
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateModifiedYear)
+								{
+									IsToggle = true
+								}.Build(),
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateModifiedMonth)
+								{
+									IsToggle = true
+								}.Build(),
+							},
+						},
+						new ContextMenuFlyoutItemViewModel()
 						{
-							IsToggle = true
-						}.Build(),
+							Text = "DateCreated".GetLocalizedResource(),
+							ShowInRecycleBin = true,
+							ShowInSearchPage = true,
+							ShowInFtpPage = true,
+							ShowInZipPage = true,
+							Items = new List<ContextMenuFlyoutItemViewModel>
+							{
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateCreatedYear)
+								{
+									IsToggle = true
+								}.Build(),
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateCreatedMonth)
+								{
+									IsToggle = true
+								}.Build(),
+							},
+						},
 						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByType)
 						{
 							IsToggle = true
@@ -247,10 +277,23 @@ namespace Files.App.Helpers
 						{
 							IsToggle = true
 						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateDeleted)
+						new ContextMenuFlyoutItemViewModel()
 						{
-							IsToggle = true
-						}.Build(),
+							Text = "DateDeleted".GetLocalizedResource(),
+							ShowInRecycleBin = true,
+							IsHidden = !currentInstanceViewModel.IsPageTypeRecycleBin,
+							Items = new List<ContextMenuFlyoutItemViewModel>
+							{
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateDeletedYear)
+								{
+									IsToggle = true
+								}.Build(),
+								new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByDateDeletedMonth)
+								{
+									IsToggle = true
+								}.Build(),
+							},
+						},
 						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByFolderPath)
 						{
 							IsToggle = true
@@ -269,24 +312,6 @@ namespace Files.App.Helpers
 							IsVisible = true
 						}.Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupDescending)
-						{
-							IsToggle = true,
-							IsVisible = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModel
-						{
-							ItemType = ItemType.Separator,
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
-						},
-						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByYear)
-						{
-							IsToggle = true,
-							IsVisible = true
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.GroupByMonth)
 						{
 							IsToggle = true,
 							IsVisible = true

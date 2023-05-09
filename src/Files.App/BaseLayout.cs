@@ -682,13 +682,21 @@ namespace Files.App
 				.OfType<AppBarButton>()
 				.ForEach(button => button.Click += closeHandler);
 
-			secondaryElements
+			var menuFlyoutItems = secondaryElements
 				.OfType<AppBarButton>()
 				.Select(item => item.Flyout)
 				.OfType<MenuFlyout>()
-				.SelectMany(menu => menu.Items)
-				.OfType<MenuFlyoutItem>()
-				.ForEach(button => button.Click += closeHandler);
+				.SelectMany(menu => menu.Items);
+
+			addCloseHandler(menuFlyoutItems);
+
+			void addCloseHandler(IEnumerable<MenuFlyoutItemBase> menuFlyoutItems)
+			{
+				menuFlyoutItems.OfType<MenuFlyoutItem>()
+					.ForEach(button => button.Click += closeHandler);
+				menuFlyoutItems.OfType<MenuFlyoutSubItem>()
+					.ForEach(menu => addCloseHandler(menu.Items));
+			}
 		}
 
 		private void AddNewFileTagsToMenu(CommandBarFlyout contextMenu)

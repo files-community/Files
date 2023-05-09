@@ -3229,4 +3229,22 @@
   <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
     <value>Group by month instead of year</value>
   </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Group items by month of date created</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Group items by year of date created</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Group items by month of date deleted</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Group items by year of date deleted</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Group items by month of date modified</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Group items by year of date modified</value>
+  </data>
 </root>

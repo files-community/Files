@@ -101,6 +101,12 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | GroupByOriginalFolder               | Original folder                           | Group items by original folder                           |                     |
 |                    | GroupByDateDeleted                  | Date deleted                              | Group items by date deleted                              |                     |
 |                    | GroupByFolderPath                   | Folder path                               | Group items by folder path                               |                     |
+|                    | GroupByDateModifiedYear             | Year                                      | Group items by year of date modified                     |                     |
+|                    | GroupByDateModifiedMonth            | Month                                     | Group items by month of date modified                    |                     |
+|                    | GroupByDateCreatedYear              | Year                                      | Group items by year of date created                      |                     |
+|                    | GroupByDateCreatedMonth             | Month                                     | Group items by month of date created                     |                     |
+|                    | GroupByDateDeletedYear              | Year                                      | Group items by year of date deleted                      |                     |
+|                    | GroupByDateDeletedMonth             | Month                                     | Group items by month of date deleted                     |                     |
 |                    | GroupAscending                      | Ascending                                 | Sort groups in ascending order                           |                     |
 |                    | GroupDescending                     | Descending                                | Sort groups in descending order                          |                     |
 |                    | ToggleGroupDirection                | Toggle sort direction                     | Toggle group sort direction                              |                     |
