@@ -48,7 +48,7 @@ namespace Files.App.Filesystem.Security
 				_ace.AccessMaskFlags &= ~accessMask;
 		}
 
-		private void AccessControlEntry_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		private void AccessControlEntry_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(AccessControlEntry.AccessMaskFlags))
 				OnPropertyChanged(nameof(IsEnabled));

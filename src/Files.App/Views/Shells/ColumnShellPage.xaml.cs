@@ -2,27 +2,41 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.Views.LayoutModes;
-using Files.Backend.Enums;
-using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using Windows.Storage;
 using Windows.System;
 
-namespace Files.App.Views
+namespace Files.App.Views.Shells
 {
 	public sealed partial class ColumnShellPage : BaseShellPage
 	{
-		public override bool CanNavigateBackward => false;
+		public override bool CanNavigateBackward
+			=> false;
 
-		public override bool CanNavigateForward => false;
+		public override bool CanNavigateForward
+			=> false;
 
-		protected override Frame ItemDisplay => ItemDisplayFrame;
+		protected override Frame ItemDisplay
+			=> ItemDisplayFrame;
+
+		private ColumnParam _ColumnParams;
+		public ColumnParam ColumnParams
+		{
+			get => _ColumnParams;
+			set
+			{
+				if (value != _ColumnParams)
+				{
+					_ColumnParams = value;
+
+					if (IsLoaded)
+						OnNavigationParamsChanged();
+				}
+			}
+		}
 
 		public ColumnShellPage() : base(new CurrentInstanceViewModel(FolderLayoutModes.ColumnView))
 		{
@@ -41,32 +55,17 @@ namespace Files.App.Views
 		protected override void ShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
 			=> this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(e);
 
-		private ColumnParam columnParams;
-		public ColumnParam ColumnParams
-		{
-			get => columnParams;
-			set
-			{
-				if (value != columnParams)
-				{
-					columnParams = value;
-					if (IsLoaded)
-						OnNavigationParamsChanged();
-				}
-			}
-		}
-
 		protected override void OnNavigationParamsChanged()
 		{
 			ItemDisplayFrame.Navigate(
 				typeof(ColumnViewBase),
 				new NavigationArguments()
 				{
-					IsSearchResultPage = columnParams.IsSearchResultPage,
-					SearchQuery = columnParams.SearchQuery,
-					NavPathParam = columnParams.NavPathParam,
-					SearchUnindexedItems = columnParams.SearchUnindexedItems,
-					SearchPathParam = columnParams.SearchPathParam,
+					IsSearchResultPage = ColumnParams.IsSearchResultPage,
+					SearchQuery = ColumnParams.SearchQuery,
+					NavPathParam = ColumnParams.NavPathParam,
+					SearchUnindexedItems = ColumnParams.SearchUnindexedItems,
+					SearchPathParam = ColumnParams.SearchPathParam,
 					AssociatedTabInstance = this
 				});
 		}
@@ -93,7 +92,7 @@ namespace Files.App.Views
 				UpdatePathUIToWorkingDirectory(value);
 		}
 
-		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e) 
+		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
 

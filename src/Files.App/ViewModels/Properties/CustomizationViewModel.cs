@@ -9,7 +9,7 @@ namespace Files.App.ViewModels.Properties
 	public class CustomizationViewModel : ObservableObject
 	{
 		private static string DefaultIconDllFilePath
-			=> Path.Combine(CommonPaths.SystemRootPath, "System32", "SHELL32.dll");
+			=> Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "SHELL32.dll");
 
 		private readonly AppWindow _appWindow;
 

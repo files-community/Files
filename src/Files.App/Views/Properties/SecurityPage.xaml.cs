@@ -7,7 +7,6 @@ using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Navigation;
-using System.Threading.Tasks;
 
 namespace Files.App.Views.Properties
 {
@@ -24,13 +23,10 @@ namespace Files.App.Views.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = (PropertiesPageNavigationParameter)e.Parameter;
-			if (np.Parameter is ListedItem listedItem)
-				SecurityViewModel = new(listedItem, np.Window);
-			else if (np.Parameter is DriveItem driveItem)
-				SecurityViewModel = new(driveItem, np.Window);
+			var parameter = (PropertiesPageNavigationParameter)e.Parameter;
+			SecurityViewModel = new(parameter);
 
-			_parameter = e.Parameter;
+			_parameter = parameter;
 
 			base.OnNavigatedTo(e);
 		}
@@ -41,7 +37,7 @@ namespace Files.App.Views.Properties
 		}
 
 		public async override Task<bool> SaveChangesAsync()
-			=> await Task.FromResult(SecurityViewModel is null || SecurityViewModel.SaveChangedAccessControlList());
+			=> await Task.FromResult(true);
 
 		public override void Dispose()
 		{

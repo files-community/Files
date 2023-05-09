@@ -139,7 +139,7 @@
     <value>Taille :</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Taille non compressé :</value>
+    <value>Taille décompressée :</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Cette action ne peut pas être effectuée</value>
@@ -190,7 +190,7 @@
     <value>À propos</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>Libre de droits</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Format de date</value>
@@ -217,7 +217,7 @@
     <value>Options avancées</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Continuer où vous en étiez</value>
+    <value>Continuez là où vous vous êtes arrêté</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Ouvrir un nouvel onglet</value>
@@ -277,7 +277,7 @@
     <value>Accorder l'autorisation</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Pour commencer, vous devez nous permettre d'afficher vos fichiers. Une fenêtre de configuration va s'ouvrir où vous pourrez nous donner la permission. Vous devrez relancer l'application une fois cette étape terminée. </value>
+    <value>Pour commencer, vous devez nous permettre d'afficher vos fichiers. Une fenêtre de configuration va s'ouvrir où vous pourrez nous donner la permission. Vous devrez relancer l'application une fois cette étape terminée.</value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Affichage</value>
@@ -319,7 +319,7 @@
     <value>Haut</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Actualiser</value>
+    <value>Rafraîchir</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Un élément avec ce nom existe déjà dans ce dossier.</value>
@@ -349,13 +349,13 @@
     <value>Fichier introuvable</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Le dossier auquel vous tentez d'accéder a peut-être été déplacé ou supprimé.</value>
+    <value>Le dossier auquel vous tentez d'accéder peut avoir été déplacé ou supprimé.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Avez-vous supprimé ce dossier ?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>Le fichier auquel vous tentez d'accéder est actuellement utilisé par {0}.</value>
+    <value>Le fichier auquel vous tentez d'accéder est actuellement utilisé par {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
     <value>Le fichier auquel vous tentez d'accéder est actuellement utilisé par une autre application</value>
@@ -601,7 +601,7 @@
     <value>Le nom de l'élément est trop long</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Afficher plus d’options</value>
+    <value>Afficher plus d'options</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>L'application a besoin d'être redémarrée pour appliquer les nouveaux paramètres, voulez-vous redémarrer l'application ?</value>
@@ -1000,7 +1000,7 @@
     <value>Inclure les éléments non indexés dans les résultats de recherche</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Synchroniser les préférences de mise en page et de tri entre les répertoires</value>
+    <value>Synchroniser les préférences d'affichage et de tri entre les répertoires</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personnaliser le menu contextuel du clic droit</value>
@@ -1273,7 +1273,7 @@
     <value>Le champ ne peut pas être vide !</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
-    <value>Le nom ne peut pas contenir les caractères suivants : \ / : * ? " &lt; &gt; |</value>
+    <value>Le nom ne doit pas contenir les caractères suivants : \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
     <value>Ce nom n'est pas autorisé !</value>
@@ -1303,7 +1303,7 @@
     <value>{0} éléments seront déplacés</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Déplacer le(s élément(s)</value>
+    <value>Déplacer le(s) élément(s)</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} éléments seront supprimés</value>
@@ -2893,7 +2893,7 @@
     <value>Revenir au dossier précédent</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Dupliquer l’onglet actuel</value>
+    <value>Dupliquer l'onglet actuel</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>Dupliquer l'onglet sélectionné</value>
@@ -3178,6 +3178,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Afficher les cases à cocher lors de la sélection des éléments</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Recherchez des éléments non indexés</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Mettre en évidence la barre de chemin d'accès</value>
   </data>
@@ -3207,5 +3210,17 @@
   </data>
   <data name="Location" xml:space="preserve">
     <value>Emplacement :</value>
+  </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Click 'Advanced permissions' to continue.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>You must have Read permissions to view the properties of this item.</value>
+  </data>
+  <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
+    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>Unable to display permissions.</value>
   </data>
 </root>

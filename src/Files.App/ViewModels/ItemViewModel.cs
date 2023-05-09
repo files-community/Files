@@ -407,7 +407,7 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinRefreshRequested(object sender, FileSystemEventArgs e)
 		{
-			if (!CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
+			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 
 			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
@@ -418,7 +418,7 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinItemDeleted(object sender, FileSystemEventArgs e)
 		{
-			if (!CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
+			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 
 			// Get the item that immediately follows matching item to be removed
@@ -437,7 +437,7 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinItemCreated(object sender, FileSystemEventArgs e)
 		{
-			if (!CommonPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
+			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 
 			using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
@@ -1350,7 +1350,7 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+				var isRecycleBin = path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
 				var enumerated = await EnumerateItemsFromStandardFolderAsync(path, addFilesCTS.Token, library);
 
 				// Hide progressbar after enumeration
@@ -1418,9 +1418,9 @@ namespace Files.App.ViewModels
 				PrimaryItemAttribute = StorageItemTypes.Folder,
 				ItemPropertiesInitialized = true,
 				ItemNameRaw =
-							path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ? "RecycleBin".GetLocalizedResource() :
-							path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ? "Network".GetLocalizedResource() :
-							path.StartsWith(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase) ? "ThisPC".GetLocalizedResource() :
+							path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ? "RecycleBin".GetLocalizedResource() :
+							path.StartsWith(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ? "Network".GetLocalizedResource() :
+							path.StartsWith(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase) ? "ThisPC".GetLocalizedResource() :
 							isFtp ? "FTP" : "Unknown",
 				ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
 				ItemDateCreatedReal = DateTimeOffset.Now,  // Fake for now
@@ -1442,15 +1442,15 @@ namespace Files.App.ViewModels
 			client.Port = FtpHelpers.GetFtpPort(path);
 			client.Credentials = FtpManager.Credentials.Get(client.Host, FtpManager.Anonymous);
 
-			static async Task<FtpProfile?> WrappedAutoConnectFtpAsync(AsyncFtpClient client)
+			static Task<FtpProfile?> WrappedAutoConnectFtpAsync(AsyncFtpClient client)
 			{
 				try
 				{
-					return await client.AutoConnect();
+					return client.AutoConnect();
 				}
 				catch (FtpAuthenticationException)
 				{
-					return null;
+					return Task.FromResult<FtpProfile?>(null);
 				}
 
 				throw new InvalidOperationException();
@@ -1704,15 +1704,12 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private async Task EnumFromStorageFolderAsync(string path, BaseStorageFolder? rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
+		private Task EnumFromStorageFolderAsync(string path, BaseStorageFolder? rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
 			if (rootFolder is null)
-				return;
+				return Task.CompletedTask;
 
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
-
-			await Task.Run(async () =>
+			return Task.Run(async () =>
 			{
 				List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
 					rootFolder,
@@ -1732,12 +1729,7 @@ namespace Files.App.ViewModels
 
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
-			});
-
-			stopwatch.Stop();
-
-
-			Debug.WriteLine($"Enumerating items in {path} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+			}, cancellationToken);
 		}
 
 		private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
